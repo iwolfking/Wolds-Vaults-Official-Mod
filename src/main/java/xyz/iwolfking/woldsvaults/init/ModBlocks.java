@@ -126,6 +126,7 @@ public class ModBlocks {
         registerBlock(event, INFUSED_DRIFTWOOD_PLANKS, WoldsVaults.id("infused_driftwood_planks"));
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
+        registerBlock(event, CORRUPTED_CHEST, VaultMod.id("corrupted_chest"));
 
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
@@ -158,6 +159,7 @@ public class ModBlocks {
         registerBlockItem(event, GATEWAY_CHANNELING_BLOCK);
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
+        registerBlockItem(event, CORRUPTED_CHEST, CORRUPTED_CHEST_ITEM);
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
