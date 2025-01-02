@@ -24,10 +24,12 @@ import java.util.Optional;
 
 public class CorruptedCrystalObjective extends CrystalObjective {
     protected IntRoll target;
+    protected IntRoll secondTarget;
     protected float objectiveProbability;
 
-    public CorruptedCrystalObjective(IntRoll target, float objectiveProbability) {
+    public CorruptedCrystalObjective(IntRoll target, IntRoll secondTarget, float objectiveProbability) {
         this.target = target;
+        this.secondTarget = secondTarget;
         this.objectiveProbability = objectiveProbability;
     }
 
@@ -36,14 +38,14 @@ public class CorruptedCrystalObjective extends CrystalObjective {
 
     @Override
     public Optional<Integer> getColor(float v) {
-        return Optional.of(16777215); // TODO change color
+        return Optional.of(1710361); // Black/gray-ish tone
     }
 
     @Override
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
         MutableComponent cmp1 = ComponentUtils.corruptComponent(new TextComponent("Objective: "));
         tooltip.add((cmp1)
-                .append(new TextComponent("IncomprehensibleCorruption")
+                .append(new TextComponent("Corrupted")
                         .withStyle(
                                 Style.EMPTY.withColor(7995392).withObfuscated(true)
                         )
@@ -61,7 +63,7 @@ public class CorruptedCrystalObjective extends CrystalObjective {
                             .add(FindExitObjective.create(ClassicPortalLogic.EXIT)
                                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.MONOLITH, "monolith", level, true)))); //TODO change to custom crate
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
-            objectives.add(DeathObjective.create(true));
+            objectives.add(DeathObjective.create(true)); // TODO: see what dis does if its gone :3
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
         });
     }
@@ -74,6 +76,9 @@ public class CorruptedCrystalObjective extends CrystalObjective {
         Adapters.INT_ROLL.writeNbt(this.target).ifPresent((target) -> {
             nbt.put("target", target);
         });
+        Adapters.INT_ROLL.writeNbt(this.target).ifPresent((target) -> {
+            nbt.put("secondTarget", target);
+        });
         Adapters.FLOAT.writeNbt(this.objectiveProbability).ifPresent((tag) -> {
             nbt.put("objective_probability", tag);
         });
@@ -83,6 +88,7 @@ public class CorruptedCrystalObjective extends CrystalObjective {
     @Override
     public void readNbt(CompoundTag nbt) {
         this.target = Adapters.INT_ROLL.readNbt(nbt.getCompound("target")).orElse(null);
+        this.secondTarget = Adapters.INT_ROLL.readNbt(nbt.getCompound("secondTarget")).orElse(null);
         this.objectiveProbability = Adapters.FLOAT.readNbt(nbt.get("objective_probability")).orElse(0.0F);
     }
 
@@ -92,6 +98,9 @@ public class CorruptedCrystalObjective extends CrystalObjective {
         Adapters.INT_ROLL.writeJson(this.target).ifPresent((target) -> {
             json.add("target", target);
         });
+        Adapters.INT_ROLL.writeJson(this.secondTarget).ifPresent((target) -> {
+            json.add("secondTarget", target);
+        });
         Adapters.FLOAT.writeJson(this.objectiveProbability).ifPresent((tag) -> {
             json.add("objective_probability", tag);
         });
@@ -100,6 +109,7 @@ public class CorruptedCrystalObjective extends CrystalObjective {
     @Override
     public void readJson(JsonObject json) {
         this.target = Adapters.INT_ROLL.readJson(json.getAsJsonObject("target")).orElse(null);
+        this.secondTarget = Adapters.INT_ROLL.readJson(json.getAsJsonObject("secondTarget")).orElse(null);
         this.objectiveProbability = Adapters.FLOAT.readJson(json.get("objective_probability")).orElse(0.0F);
     }
 }
