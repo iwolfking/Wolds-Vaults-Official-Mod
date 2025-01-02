@@ -188,6 +188,7 @@
     "vaulthunters.accessors.VaultChestRendererAccessor",
     "vaulthunters.custom.MixinAugmentItem",
     "vaulthunters.custom.MixinCrystalTheme",
+    "vaulthunters.custom.MixinVaultChestRenderer",
     "vaulthunters.fixes.MixinCatalystItemRenderer",
     "vaulthunters.fixes.MixinOfferingItemRenderer",
     "vaulthunters.fixes.MixinToolItemRenderer"
