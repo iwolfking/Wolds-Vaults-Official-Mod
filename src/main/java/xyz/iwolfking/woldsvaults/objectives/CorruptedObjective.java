@@ -81,7 +81,7 @@ import static iskallia.vault.core.vault.Vault.LISTENERS;
 
 public class CorruptedObjective extends Objective {
     public static final SupplierKey<Objective> E_KEY = SupplierKey.of("corrupted", Objective.class).with(Version.v1_31, CorruptedObjective::new);
-    public static final ResourceLocation CORRUPTED_HUD = VaultMod.id("textures/gui/corrupted/corrupted_hud.png");
+    public static final ResourceLocation CORRUPTED_HUD = VaultMod.id("textures/gui/corrupted/hud.png");
 
     public static final FieldRegistry FIELDS = Objective.FIELDS.merge(new FieldRegistry());
 
