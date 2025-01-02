@@ -14,6 +14,8 @@ public class MixinVaultChestTypeEnum {
     @Mutable @SuppressWarnings("target")
     private static VaultChestType[] $VALUES;
 
+    private static final VaultChestType CORRUPTED = enumExpansion$addVariant("CORRUPTED");
+
     @Invoker("<init>")
     public static VaultChestType enumExpansion$invokeInit(String internalName, int internalId) {
         throw new AssertionError();
@@ -22,7 +24,7 @@ public class MixinVaultChestTypeEnum {
     @Unique
     private static VaultChestType enumExpansion$addVariant(String internalName) {
         ArrayList<VaultChestType > variants = new ArrayList<VaultChestType >(Arrays.asList(MixinVaultChestTypeEnum.$VALUES));
-        VaultChestType  type = enumExpansion$invokeInit(internalName, variants.get(variants.size() - 1).ordinal() + 1);
+        VaultChestType type = enumExpansion$invokeInit(internalName, variants.get(variants.size() - 1).ordinal() + 1);
         variants.add(type);
         MixinVaultChestTypeEnum.$VALUES = variants.toArray(new VaultChestType[0]);
         return type;
