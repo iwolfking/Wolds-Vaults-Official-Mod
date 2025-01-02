@@ -2,9 +2,12 @@ package xyz.iwolfking.woldsvaults.init;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.CoinPileDecorBlock;
+import iskallia.vault.block.VaultChestBlock;
 import iskallia.vault.block.render.ScavengerAltarRenderer;
+import iskallia.vault.core.vault.stat.VaultChestType;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.CoinBlockItem;
+import iskallia.vault.item.VaultChestBlockItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DoubleHighBlockItem;
@@ -12,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -46,6 +50,9 @@ public class ModBlocks {
     public static BlockItem VAULT_PALLADIUM;
     public static BlockItem VAULT_IRIDIUM;
 
+    public static final Block CORRUPTED_CHEST;
+    public static final BlockItem CORRUPTED_CHEST_ITEM;
+
     public static final BlockEntityType<VaultSalvagerTileEntity> VAULT_SALVAGER_ENTITY;
     public static final BlockEntityType<IskallianLeavesTileEntity> ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<HellishSandTileEntity> HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE;
@@ -73,6 +80,8 @@ public class ModBlocks {
         VAULT_IRIDIUM_PILE = new CoinPileDecorBlock();
         VAULT_PALLADIUM  = new CoinBlockItem(VAULT_PALLADIUM_PILE, new Item.Properties().tab(ModItems.VAULT_MOD_GROUP));
         VAULT_IRIDIUM  = new CoinBlockItem(VAULT_IRIDIUM_PILE, new Item.Properties().tab(ModItems.VAULT_MOD_GROUP));
+        CORRUPTED_CHEST = new VaultChestBlock(Enum.valueOf(VaultChestType.class, "CORRUPTED"), BlockBehaviour.Properties.copy(Blocks.CHEST).strength(0.6F, 5.0F).sound(SoundType.STONE));
+        CORRUPTED_CHEST_ITEM = new VaultChestBlockItem(CORRUPTED_CHEST, new Item.Properties().tab(ModItems.VAULT_MOD_GROUP));
         VAULT_SALVAGER_BLOCK = new VaultSalvagerBlock();
         ISKALLIAN_LEAVES_BLOCK = new IskallianLeavesBlock();
         HELLISH_SAND_BLOCK = new HellishSandBlock();
