@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "vaultadditions:item/crystal_seal_corrupt"
+  }
+}
