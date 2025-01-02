@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-public class ComponentUtil {
+
+public class ComponentUtils {
 
     /**
      * Method to corrupt a component, making it randomly obfuscate letters.
