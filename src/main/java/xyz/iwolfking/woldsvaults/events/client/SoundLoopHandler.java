@@ -5,9 +5,11 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.init.ModSounds;
 import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SoundLoopHandler {
     private static boolean isPlaying = false;
     private static SimpleSoundInstance activeSound = null;
