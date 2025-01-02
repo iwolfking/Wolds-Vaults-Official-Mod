@@ -1,9 +1,8 @@
-package xyz.iwolfking.woldsvaults.client.init;
+package xyz.iwolfking.woldsvaults.init.client;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import shadows.gateways.gate.Gateway;
 import xyz.iwolfking.woldsvaults.blocks.containers.AugmentCraftingTableScreen;
 import xyz.iwolfking.woldsvaults.blocks.containers.VaultInfuserScreen;
 import xyz.iwolfking.woldsvaults.blocks.containers.VaultSalvagerScreen;
