@@ -22,5 +22,14 @@
       "woldsvaults:wold/death1",
       "woldsvaults:wold/death2"
     ]
+  },
+  "dark": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "woldsvaults:dark",
+        "stream": true
+      }
+    ]
   }
 }

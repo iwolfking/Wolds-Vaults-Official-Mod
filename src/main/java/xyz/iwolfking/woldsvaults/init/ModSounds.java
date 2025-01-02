@@ -10,6 +10,7 @@ public class ModSounds {
     public static SoundEvent WOLD_AMBIENT;
     public static SoundEvent WOLD_HURT;
     public static SoundEvent WOLD_DEATH;
+    public static SoundEvent DARK;
 
 
 
@@ -17,6 +18,7 @@ public class ModSounds {
         WOLD_DEATH = registerSound(event, "wold_death");
         WOLD_HURT = registerSound(event, "wold_hurt");
         WOLD_AMBIENT = registerSound(event, "wold_ambient");
+        DARK = registerSound(event, "dark");
     }
 
     private static SoundEvent registerSound(RegistryEvent.Register<SoundEvent> event, String soundName) {
