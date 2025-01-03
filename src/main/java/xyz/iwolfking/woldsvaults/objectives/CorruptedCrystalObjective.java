@@ -58,7 +58,7 @@ public class CorruptedCrystalObjective extends CrystalObjective {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
             objectives.add(
-                    CorruptedObjective.of(this.target.get(random), this.objectiveProbability,
+                    CorruptedObjective.of(this.target.get(random), this.secondTarget.get(random), this.objectiveProbability,
                                     ModConfigs.MONOLITH.getStackModifierPool(level))
                             .add(FindExitObjective.create(ClassicPortalLogic.EXIT)
                                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.MONOLITH, "monolith", level, true)))); //TODO change to custom crate
