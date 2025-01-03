@@ -62,10 +62,6 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.LoadingModList;
@@ -89,6 +85,7 @@ public class CorruptedObjective extends Objective {
             .with(Version.v1_0, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
             .register(FIELDS);
 
+
     public static final FieldKey<Integer> TARGET = FieldKey.of("target", Integer.class)
             .with(Version.v1_0, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
             .register(FIELDS);
@@ -96,6 +93,16 @@ public class CorruptedObjective extends Objective {
     public static final FieldKey<Integer> BASE_TARGET = FieldKey.of("base_target", Integer.class)
             .with(Version.v1_25, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
             .register(FIELDS);
+
+
+    public static final FieldKey<Integer> SECOND_TARGET = FieldKey.of("second_target", Integer.class)
+            .with(Version.v1_0, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
+            .register(FIELDS);
+
+    public static final FieldKey<Integer> BASE_SECOND_TARGET = FieldKey.of("base_second_target", Integer.class)
+            .with(Version.v1_25, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
+            .register(FIELDS);
+
 
     public static final FieldKey<Float> OBJECTIVE_PROBABILITY = FieldKey.of("objective_probability", Float.class)
             .with(Version.v1_2, Adapters.FLOAT, DISK.all())
@@ -105,21 +112,28 @@ public class CorruptedObjective extends Objective {
             .with(Version.v1_22, Adapters.IDENTIFIER, DISK.all())
             .register(FIELDS);
 
+    public static final FieldKey<Boolean> COMPLETED_FIRST_TARGET = FieldKey.of("completed_first_target", Boolean.class)
+            .with(Version.v1_25, Adapters.BOOLEAN, DISK.all().or(CLIENT.all()))
+            .register(FIELDS);
+
 
 
     public CorruptedObjective() {
     }
 
-    public CorruptedObjective(int target, float objectiveProbability, ResourceLocation stackModifierPool) {
+    public CorruptedObjective(int target, int secondTarget, float objectiveProbability, ResourceLocation stackModifierPool) {
         this.set(COUNT, 0);
-        this.set(TARGET, target);
-        this.set(BASE_TARGET, target);
+        this.set(TARGET, target); // Actual target is double of this, it loops around
+        this.set(BASE_TARGET, target); // Actual target is double of this, it loops around
+        this.set(SECOND_TARGET, secondTarget);
+        this.set(BASE_SECOND_TARGET, secondTarget);
         this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
         this.set(STACK_MODIFIER_POOL, stackModifierPool);
+        this.set(COMPLETED_FIRST_TARGET, false);
     }
 
-    public static CorruptedObjective of(int target, float objectiveProbability, ResourceLocation stackModifierPool) {
-        return new CorruptedObjective(target, objectiveProbability, stackModifierPool);
+    public static CorruptedObjective of(int target, int secondTarget, float objectiveProbability, ResourceLocation stackModifierPool) {
+        return new CorruptedObjective(target, secondTarget, objectiveProbability, stackModifierPool);
     }
 
     @Override
@@ -154,7 +168,14 @@ public class CorruptedObjective extends Objective {
 
             world.setBlock(pos, world.getBlockState(pos).setValue(MonolithBlock.STATE, MonolithBlock.State.DESTROYED), 3);
             this.playActivationEffects(world, pos);
-            this.set(COUNT, this.get(COUNT) + 1);
+
+            if(!this.get(COMPLETED_FIRST_TARGET)) {
+                this.set(COUNT, this.get(COUNT) + 1);  // Maybe summon mobs like ObeliskObjective
+            } else {
+                this.set(COUNT, this.get(COUNT) -1);
+
+            }
+
 
             for (Objective objective : this.get(CHILDREN)) {
                 if (objective instanceof KillBossObjective killBoss) {
@@ -177,12 +198,11 @@ public class CorruptedObjective extends Objective {
                 }
                 TextComponent text = new TextComponent("");
                 if (!tile.getModifiers().isEmpty()) {
-                    // TODO more readable, fix obf applying to everything
-                    text.append(((MutableComponent)data.getPlayer().getDisplayName())
-                            .withStyle(style -> style.withColor(ChatFormatting.DARK_RED).withObfuscated(true))
-                            .append((new TextComponent(" added ")).withStyle(ChatFormatting.GRAY))
-                            .append(ComponentUtils.corruptComponent(suffix))
-                            .append((new TextComponent(".")).withStyle(ChatFormatting.GRAY)));
+                    text.append(new TextComponent("???").withStyle(ChatFormatting.RED))
+                            .append(new TextComponent(" added ").withStyle(ChatFormatting.GRAY))
+                            .append(ComponentUtils.partiallyObfuscate(suffix, 0.4))
+                            .append(new TextComponent(".").withStyle(ChatFormatting.GRAY));
+
                 }
 
                 ChunkRandom random = ChunkRandom.any();
@@ -205,27 +225,25 @@ public class CorruptedObjective extends Objective {
         // VaultFaster Objective placement fix or something
         if(LoadingModList.get().getModFileById("vaultfaster") != null) {
             ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(this, vault);
+        } else {
+            CommonEvents.BLOCK_SET.at(BlockSetEvent.Type.RETURN).in(world).register(this, (data) -> {
+                PartialTile target = PartialTile.of(PartialBlockState.of(ModBlocks.PLACEHOLDER), PartialCompoundNbt.empty());
+                target.getState().set(PlaceholderBlock.TYPE, PlaceholderBlock.Type.OBJECTIVE);
+
+                if (target.isSubsetOf(PartialTile.of(data.getState()))) {
+                    data.getWorld().setBlock(data.getPos(), ModBlocks.MONOLITH.defaultBlockState(), 3);
+                }
+            });
         }
 
-        //else {
-        CommonEvents.BLOCK_SET.at(BlockSetEvent.Type.RETURN).in(world).register(this, (data) -> {
-            PartialTile target = PartialTile.of(PartialBlockState.of(ModBlocks.PLACEHOLDER), PartialCompoundNbt.empty());
-            target.getState().set(PlaceholderBlock.TYPE, PlaceholderBlock.Type.OBJECTIVE);
 
-            if (target.isSubsetOf(PartialTile.of(data.getState()))) {
-                data.getWorld().setBlock(data.getPos(), ModBlocks.MONOLITH.defaultBlockState(), 3);
-            }
-        });
-
-
-        CommonEvents.MONOLITH_UPDATE.register(this, (data) -> {
+        CommonEvents.MONOLITH_UPDATE.register(this, (data) -> { // Ran every tick pretty much.
             if(data.getWorld() != world) return;
 
             if(data.getEntity().isGenerated() && (data.getEntity().isOverStacking() == this.get(COUNT) >= this.get(TARGET) || data.getState().getValue(MonolithBlock.STATE) != MonolithBlock.State.EXTINGUISHED)) {
                 return;
             }
 
-            data.getEntity().setOverStacking(this.get(COUNT) >= this.get(TARGET));
             ResourceLocation pool = this.get(STACK_MODIFIER_POOL);
 
             if (pool != null) {
@@ -261,6 +279,12 @@ public class CorruptedObjective extends Objective {
         this.set(TARGET, (int)Math.round((double)this.get(BASE_TARGET) * (1.0 + increase)));
 
         if (this.get(COUNT) >= this.get(TARGET)) {
+            this.set(COMPLETED_FIRST_TARGET, true);
+            this.set(COUNT, this.get(COUNT) - 1);
+        }
+
+        // If it looped around, tick super.
+        if(this.get(COUNT) >= this.get(TARGET) && this.get(COMPLETED_FIRST_TARGET)) {
             super.tickServer(world, vault);
         }
     }
@@ -298,14 +322,17 @@ public class CorruptedObjective extends Objective {
             return true;
         }
 
+
         int current = this.get(COUNT);
-        int total = this.get(TARGET);
+        int total = this.get(TARGET) - 1;
+
 
         Component txt = new TextComponent(String.valueOf(current)).withStyle(ChatFormatting.RED)
                 .append(new TextComponent(" / ").withStyle(ChatFormatting.RED))
                 .append(new TextComponent(String.valueOf(total)).withStyle(style -> style.withColor(ChatFormatting.DARK_RED).withObfuscated(true)));
 
         int midX = window.getGuiScaledWidth() / 2;
+
 
         matrixStack.pushPose();
 
