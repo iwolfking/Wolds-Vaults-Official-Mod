@@ -136,7 +136,7 @@ public class ModBlocks {
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
         registerBlock(event, CORRUPTED_MONOLITH, WoldsVaults.id("corrupted_monolith"));
         registerBlock(event, CORRUPTED_CHEST, VaultMod.id("corrupted_chest"));
-        registerBlock(event, VAULT_CRATE_CORRUPTED, WoldsVaults.id("vault_crate_corrupted"));
+        registerBlock(event, VAULT_CRATE_CORRUPTED, WoldsVaults.id("vault_crate_corrupt"));
     }
 
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
