@@ -26,7 +26,7 @@ public abstract class MixinOfferingBossTileEntity extends BlockEntity {
      */
     @Overwrite()
     public static void tick(Level world, BlockPos pos, BlockState state, OfferingPillarTileEntity entity) {
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> {
             if(world.isClientSide()) {
                 return () -> OfferingPillarHelper.safelyCallClientTick(entity, world, pos, state);
             }
