@@ -61,7 +61,7 @@ public class CorruptedCrystalObjective extends CrystalObjective {
                     CorruptedObjective.of(this.target.get(random), this.secondTarget.get(random), this.objectiveProbability,
                                     ModConfigs.MONOLITH.getStackModifierPool(level))
                             .add(FindExitObjective.create(ClassicPortalLogic.EXIT)
-                                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.MONOLITH, "monolith", level, true)))); //TODO change to custom crate
+                                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("CORRUPTED"), "monolith", level, true))));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true)); // TODO: see what dis does if its gone :3
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
