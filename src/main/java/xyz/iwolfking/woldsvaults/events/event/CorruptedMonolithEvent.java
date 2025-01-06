@@ -1,10 +1,10 @@
 package xyz.iwolfking.woldsvaults.events.event;
 
-import iskallia.vault.block.entity.MonolithTileEntity;
 import iskallia.vault.core.event.Event;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import xyz.iwolfking.woldsvaults.blocks.tiles.CorruptedMonolithTileEntity;
 
 public class CorruptedMonolithEvent extends Event<CorruptedMonolithEvent, CorruptedMonolithEvent.Data> {
     public CorruptedMonolithEvent() {
@@ -18,7 +18,7 @@ public class CorruptedMonolithEvent extends Event<CorruptedMonolithEvent, Corrup
         return new CorruptedMonolithEvent(this);
     }
 
-    public CorruptedMonolithEvent.Data invoke(Level world, BlockState state, BlockPos pos, MonolithTileEntity entity) {
+    public CorruptedMonolithEvent.Data invoke(Level world, BlockState state, BlockPos pos, CorruptedMonolithTileEntity entity) {
         return this.invoke(new CorruptedMonolithEvent.Data(world, state, pos, entity));
     }
 
@@ -26,9 +26,9 @@ public class CorruptedMonolithEvent extends Event<CorruptedMonolithEvent, Corrup
         private final Level world;
         private final BlockState state;
         private final BlockPos pos;
-        private final MonolithTileEntity entity;
+        private final CorruptedMonolithTileEntity entity;
 
-        public Data(Level world, BlockState state, BlockPos pos, MonolithTileEntity entity) {
+        public Data(Level world, BlockState state, BlockPos pos, CorruptedMonolithTileEntity entity) {
             this.world = world;
             this.state = state;
             this.pos = pos;
@@ -47,7 +47,7 @@ public class CorruptedMonolithEvent extends Event<CorruptedMonolithEvent, Corrup
             return this.pos;
         }
 
-        public MonolithTileEntity getEntity() {
+        public CorruptedMonolithTileEntity getEntity() {
             return this.entity;
         }
     }
