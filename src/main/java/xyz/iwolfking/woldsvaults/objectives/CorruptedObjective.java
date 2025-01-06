@@ -4,17 +4,15 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.datafixers.util.Pair;
 import implementslegend.mod.vaultfaster.event.ObjectiveTemplateEvent;
 import iskallia.vault.VaultMod;
-import iskallia.vault.block.MonolithBlock;
+import iskallia.vault.block.ObeliskBlock;
 import iskallia.vault.block.PlaceholderBlock;
-import iskallia.vault.block.entity.MonolithTileEntity;
 import iskallia.vault.client.gui.helper.LightmapHelper;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.data.adapter.Adapters;
-import iskallia.vault.core.data.key.FieldKey;
-import iskallia.vault.core.data.key.LootTableKey;
-import iskallia.vault.core.data.key.SupplierKey;
+import iskallia.vault.core.data.key.*;
 import iskallia.vault.core.data.key.registry.FieldRegistry;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.BlockSetEvent;
@@ -22,26 +20,20 @@ import iskallia.vault.core.event.common.BlockUseEvent;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultLevel;
-import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.KillBossObjective;
-import iskallia.vault.core.vault.objective.MonolithObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.data.entity.PartialCompoundNbt;
 import iskallia.vault.core.world.data.tile.PartialBlockState;
 import iskallia.vault.core.world.data.tile.PartialTile;
-import iskallia.vault.core.world.loot.generator.LootTableGenerator;
 import iskallia.vault.core.world.storage.VirtualWorld;
-import iskallia.vault.gear.attribute.VaultGearAttribute;
+import iskallia.vault.core.world.template.DynamicTemplate;
+import iskallia.vault.entity.entity.FloatingItemEntity;
 import iskallia.vault.init.*;
-import iskallia.vault.item.gear.DataInitializationItem;
-import iskallia.vault.item.gear.DataTransferItem;
-import iskallia.vault.item.gear.VaultLevelItem;
 import iskallia.vault.network.message.MonolithIgniteMessage;
-import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -49,33 +41,65 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.LoadingModList;
 import net.minecraftforge.network.PacketDistributor;
+import xyz.iwolfking.woldsvaults.blocks.CorruptedMonolith;
+import xyz.iwolfking.woldsvaults.blocks.tiles.CorruptedMonolithTileEntity;
+import xyz.iwolfking.woldsvaults.events.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
+import xyz.iwolfking.woldsvaults.util.TemplateUtils;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static iskallia.vault.block.MonolithBlock.State.EXTINGUISHED;
 import static iskallia.vault.core.vault.Vault.LISTENERS;
 
 public class CorruptedObjective extends Objective {
+
+    /* TODO Ideas:
+     * Vault starts off with 5min
+     * Players have to kill entities to gain time
+     * Starts off with 5 seconds, diminishing rewards -> 25mins -> 1 tick added per kill
+     * Max of 30 minutes -> Indicate this through making the timer White when it reaches 29.5m
+     * Show on hud that you gain time
+     * Each 5min play an ominous "Tick" sound effect
+     * Mob killed spreads "Corruption" similar to sculk
+     * Center Room houses The Monolith.
+     * The Monolith needs to be charged with Corrupted Essence
+     * Corruption essence decays over time, turning into "Vault Soot" if it fully decays, doesnt decay in the overworld, useful for something
+     * Each Addition to the Monolith makes the Vault harder, but higher rewards (?)
+     * Each Addition to the Monolith obstructs more of the tunnels
+     * Monolith indicates Charge Level in some way.
+     * The longer the player is in the vault, the higher "corruption"
+     *   Makes the Player weaker
+     *   Mining Fatigue, less mana regen, VERY minimal slowness
+     *   Slowly start passively spawning mobs around the player
+     * Corruption is lowered by "depositing" corruption pieces into the monolith
+     * Player cannot exit the vault
+     *
+     * Once Monolith is fully charged then
+     * ...
+     *
+     *
+     *
+     * Custom theme with this
+     */
+
     public static final SupplierKey<Objective> E_KEY = SupplierKey.of("corrupted", Objective.class).with(Version.v1_31, CorruptedObjective::new);
     public static final ResourceLocation CORRUPTED_HUD = VaultMod.id("textures/gui/corrupted/hud.png");
 
@@ -154,26 +178,31 @@ public class CorruptedObjective extends Objective {
             });
         });
 
-        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.MONOLITH).register(this, (data) -> {
+        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(xyz.iwolfking.woldsvaults.init.ModBlocks.CORRUPTED_MONOLITH).register(this, (data) -> {
             if(data.getHand() != InteractionHand.MAIN_HAND) {
                 data.setResult(InteractionResult.SUCCESS);
                 return;
             }
 
-            if(data.getState().getValue(MonolithBlock.STATE) != EXTINGUISHED) return;
-
             BlockPos pos = data.getPos();
+
+            if (data.getState().getValue(ObeliskBlock.HALF) == DoubleBlockHalf.UPPER && world.getBlockState(pos = pos.below()).getBlock() != ModBlocks.OBELISK) {
+                data.setResult(InteractionResult.SUCCESS);
+            }
+
+            if(data.getState().getValue(CorruptedMonolith.FILLED)) return;
+
+
 
             if(vault.get(Vault.LISTENERS).getObjectivePriority(data.getPlayer().getUUID(), this) != 0) return;
 
-            world.setBlock(pos, world.getBlockState(pos).setValue(MonolithBlock.STATE, MonolithBlock.State.DESTROYED), 3);
+            world.setBlock(pos, world.getBlockState(pos).setValue(CorruptedMonolith.FILLED, true), 3);
             this.playActivationEffects(world, pos);
 
             if(!this.get(COMPLETED_FIRST_TARGET)) {
                 this.set(COUNT, this.get(COUNT) + 1);  // Maybe summon mobs like ObeliskObjective
             } else {
                 this.set(COUNT, this.get(COUNT) -1);
-
             }
 
 
@@ -183,7 +212,7 @@ public class CorruptedObjective extends Objective {
                 }
             }
 
-            if(data.getWorld().getBlockEntity(pos) instanceof MonolithTileEntity tile && !tile.getModifiers().isEmpty()) {
+            if(data.getWorld().getBlockEntity(pos) instanceof CorruptedMonolithTileEntity tile && !tile.getModifiers().isEmpty()) {
                 Iterator<Map.Entry<ResourceLocation, Integer>> it = tile.getModifiers().entrySet().iterator();
                 TextComponent suffix = new TextComponent("");
 
@@ -218,34 +247,47 @@ public class CorruptedObjective extends Objective {
                     });
                 }
 
+                world.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+                spreadErrorBlocks(world, pos);
+
+                FloatingItemEntity floatingItem = FloatingItemEntity.create(world, pos.above(), new ItemStack(ModItems.MEMORY_POWDER));
+                world.addFreshEntity(floatingItem); // TODO item that progressively decays -> 5min and its useless besides soul value
+
                 data.setResult(InteractionResult.SUCCESS);
             }
         });
 
+
+
         // VaultFaster Objective placement fix or something
         if(LoadingModList.get().getModFileById("vaultfaster") != null) {
             ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(this, vault);
+
+            DynamicTemplate template = TemplateUtils.createTemplateFromPairs(
+                    new Pair<>(new BlockPos(0, 0, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.CORRUPTED_MONOLITH.defaultBlockState().setValue(CorruptedMonolith.HALF, DoubleBlockHalf.LOWER)),
+                    new Pair<>(new BlockPos(0, 1, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.CORRUPTED_MONOLITH.defaultBlockState().setValue(CorruptedMonolith.HALF, DoubleBlockHalf.UPPER))
+            );
+
+            ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(this, vault, template);
         } else {
             CommonEvents.BLOCK_SET.at(BlockSetEvent.Type.RETURN).in(world).register(this, (data) -> {
                 PartialTile target = PartialTile.of(PartialBlockState.of(ModBlocks.PLACEHOLDER), PartialCompoundNbt.empty());
                 target.getState().set(PlaceholderBlock.TYPE, PlaceholderBlock.Type.OBJECTIVE);
 
                 if (target.isSubsetOf(PartialTile.of(data.getState()))) {
-                    data.getWorld().setBlock(data.getPos(), ModBlocks.MONOLITH.defaultBlockState(), 3);
+                    data.getWorld().setBlock(data.getPos(), xyz.iwolfking.woldsvaults.init.ModBlocks.CORRUPTED_MONOLITH.defaultBlockState(), 3); // Might fuck up due to the double size
                 }
             });
         }
 
-
-        CommonEvents.MONOLITH_UPDATE.register(this, (data) -> { // Ran every tick pretty much.
+        WoldCommonEvents.CORRUPTED_MONOLITH_UPDATE.register(this, (data) -> {
             if(data.getWorld() != world) return;
 
-            if(data.getEntity().isGenerated() && (data.getEntity().isOverStacking() == this.get(COUNT) >= this.get(TARGET) || data.getState().getValue(MonolithBlock.STATE) != MonolithBlock.State.EXTINGUISHED)) {
-                return;
+            if(data.getEntity().isGenerated() /*&& data.getState().getValue(CorruptedMonolith.FILLED)*/) {
+                return; // If its generated
             }
 
             ResourceLocation pool = this.get(STACK_MODIFIER_POOL);
-
             if (pool != null) {
                 int level = vault.get(Vault.LEVEL).getOr(VaultLevel.VALUE, 0);
                 ChunkRandom random = ChunkRandom.any();
@@ -258,17 +300,28 @@ public class CorruptedObjective extends Objective {
             data.getEntity().setGenerated(true);
         });
 
-        List<Listener> listeners = vault.get(Vault.LISTENERS).getAll().stream().toList();
-        for(VaultGearAttribute<?> attribute : List.of(ModGearAttributes.ABILITY_POWER, ModGearAttributes.ATTACK_DAMAGE, ModGearAttributes.MANA_ADDITIVE, ModGearAttributes.HEALTH, ModGearAttributes.COOLDOWN_REDUCTION, ModGearAttributes.ARMOR)) {
-            for(Listener listener : listeners) {
-                ServerPlayer player = listener.getPlayer().orElse(null);
-                if(player == null) break;
-                List<?> values = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValueList(attribute);
-                for(Object value : values) {
-                    if(true); // TODO: Supposed to randomize attributes, idk.
-                }
-            }
-        }
+        // Generating a specific room as the start room.
+//        CommonEvents.LAYOUT_TEMPLATE_GENERATION.register(this, (data) -> {
+//            if (data.getVault() == vault && data.getPieceType() == VaultLayout.PieceType.ROOM) {
+//                Direction facing = (Direction)((WorldManager)data.getVault().get(Vault.WORLD)).get(WorldManager.FACING);
+//                RegionPos back = data.getRegion().add(facing, -((Integer)data.getLayout().get(ClassicInfiniteLayout.TUNNEL_SPAN) + 1));
+//                if (back.getX() == 0 && back.getZ() == 0 || data.getRandom().nextFloat() < (Float)this.getOr(OBJECTIVE_PROBABILITY, 0.0F)) {
+//                    TemplatePoolKey key = (TemplatePoolKey) VaultRegistry.TEMPLATE_POOL.getKey(VaultMod.id("vault/rooms/special/boss"));
+//                    if (key == null) {
+//                        return;
+//                    }
+//
+//                    data.setTemplate(data.getLayout().getRoom((TemplatePool)key.get((Version)vault.get(Vault.VERSION)), (Version)vault.get(Vault.VERSION), data.getRegion(), data.getRandom(), data.getSettings()));
+//                    ResourceLocation theme = (ResourceLocation)((WorldManager)vault.get(Vault.WORLD)).get(WorldManager.THEME);
+//                    ResourceLocation id = new ResourceLocation(theme.toString().replace("classic_vault_", "universal_"));
+//                    PaletteKey palette = (PaletteKey)VaultRegistry.PALETTE.getKey(id);
+//                    if (palette != null) {
+//                        data.getSettings().addProcessor((Palette)palette.get(Version.latest()));
+//                    }
+//                }
+//
+//            }
+//        });
 
         super.initServer(world, vault);
     }
@@ -280,7 +333,6 @@ public class CorruptedObjective extends Objective {
 
         if (this.get(COUNT) >= this.get(TARGET)) {
             this.set(COMPLETED_FIRST_TARGET, true);
-            this.set(COUNT, this.get(COUNT) - 1);
         }
 
         // If it looped around, tick super.
@@ -327,9 +379,9 @@ public class CorruptedObjective extends Objective {
         int total = this.get(TARGET) - 1;
 
 
-        Component txt = new TextComponent(String.valueOf(current)).withStyle(ChatFormatting.RED)
-                .append(new TextComponent(" / ").withStyle(ChatFormatting.RED))
-                .append(new TextComponent(String.valueOf(total)).withStyle(style -> style.withColor(ChatFormatting.DARK_RED).withObfuscated(true)));
+        Component txt = new TextComponent(String.valueOf(current)).withStyle(style -> style.withColor(ChatFormatting.RED).withBold(true))
+                .append(new TextComponent(" / ").withStyle(style -> style.withColor(ChatFormatting.RED).withBold(true)))
+                .append(new TextComponent(String.valueOf(total)).withStyle(style -> style.withColor(ChatFormatting.DARK_RED).withObfuscated(true).withBold(true)));
 
         int midX = window.getGuiScaledWidth() / 2;
 
@@ -384,4 +436,32 @@ public class CorruptedObjective extends Objective {
         world.playSound(null, pos, ModSounds.ARTIFACT_BOSS_CATALYST_HIT, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
+    private void spreadErrorBlocks(Level world, BlockPos startPos) {
+        // Define the radius of the circular area
+        int radius = 7; // Half of the 7x7 area
+        Random random = new Random();
+
+        // Center coordinates
+        int centerX = startPos.getX();
+        int centerZ = startPos.getZ();
+
+        // Loop through a square bounding box that contains the circle
+        for (int x = centerX - radius; x <= centerX + radius; x++) {
+            for (int z = centerZ - radius; z <= centerZ + radius; z++) {
+                // Check if the current position is within the circular area
+                if (Math.pow(x - centerX, 2) + Math.pow(z - centerZ, 2) <= Math.pow(radius, 2)) {
+                    BlockPos currentPos = new BlockPos(x, startPos.getY() - 1, z); // Target the block directly below
+
+                    // Check if the block is a full block
+                    if (world.getBlockState(currentPos).isSolidRender(world, currentPos)) {
+                        // Apply randomness (50% chance) before replacing
+                        if (random.nextFloat() >= 0.5F) {
+                            // Replace the block with the ERROR_BLOCK
+                            world.setBlock(currentPos, ModBlocks.ERROR_BLOCK.defaultBlockState(), Block.UPDATE_ALL);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
