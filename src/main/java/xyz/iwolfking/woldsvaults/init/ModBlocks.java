@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.init;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.CoinPileDecorBlock;
 import iskallia.vault.block.VaultChestBlock;
+import iskallia.vault.block.VaultCrateBlock;
 import iskallia.vault.block.render.ScavengerAltarRenderer;
 import iskallia.vault.core.vault.stat.VaultChestType;
 import iskallia.vault.init.ModItems;
@@ -46,6 +47,7 @@ public class ModBlocks {
     public static final VaultInfuserBlock VAULT_INFUSER_BLOCK;
     public static final GatewayChannelingBlock GATEWAY_CHANNELING_BLOCK;
     public static final CorruptedMonolith CORRUPTED_MONOLITH;
+    public static final VaultCrateBlock VAULT_CRATE_CORRUPTED;
 
     public static final CoinPileDecorBlock VAULT_PALLADIUM_PILE;
     public static final CoinPileDecorBlock VAULT_IRIDIUM_PILE;
@@ -99,6 +101,7 @@ public class ModBlocks {
         AUGMENT_CRAFTING_TABLE = new AugmentCraftingTableBlock();
         GATEWAY_CHANNELING_BLOCK = new GatewayChannelingBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
         CORRUPTED_MONOLITH = new CorruptedMonolith();
+        VAULT_CRATE_CORRUPTED = new VaultCrateBlock();
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
         HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(HellishSandTileEntity::new, HELLISH_SAND_BLOCK).build(null);
@@ -133,6 +136,7 @@ public class ModBlocks {
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
         registerBlock(event, CORRUPTED_MONOLITH, WoldsVaults.id("corrupted_monolith"));
         registerBlock(event, CORRUPTED_CHEST, VaultMod.id("corrupted_chest"));
+        registerBlock(event, VAULT_CRATE_CORRUPTED, WoldsVaults.id("vault_crate_corrupted"));
     }
 
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
@@ -168,6 +172,7 @@ public class ModBlocks {
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
         registerBlockItem(event, CORRUPTED_CHEST, CORRUPTED_CHEST_ITEM);
         registerBlockItem(event, CORRUPTED_MONOLITH);
+        registerBlockItem(event, VAULT_CRATE_CORRUPTED, 1, Item.Properties::fireResistant);
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
