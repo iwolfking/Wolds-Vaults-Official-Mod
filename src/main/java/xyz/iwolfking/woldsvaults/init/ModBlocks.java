@@ -26,6 +26,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlockEntity;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
 import xyz.iwolfking.woldsvaults.blocks.tiles.*;
+import xyz.iwolfking.woldsvaults.client.renderers.CorruptedMonolithRenderer;
 import xyz.iwolfking.woldsvaults.client.renderers.DungeonPedestalRenderer;
 import xyz.iwolfking.woldsvaults.client.renderers.SurvivalMobBarrierRenderer;
 
@@ -44,6 +45,7 @@ public class ModBlocks {
     public static final SurvivalMobBarrier SURVIVAL_MOB_BARRIER;
     public static final VaultInfuserBlock VAULT_INFUSER_BLOCK;
     public static final GatewayChannelingBlock GATEWAY_CHANNELING_BLOCK;
+    public static final CorruptedMonolith CORRUPTED_MONOLITH;
 
     public static final CoinPileDecorBlock VAULT_PALLADIUM_PILE;
     public static final CoinPileDecorBlock VAULT_IRIDIUM_PILE;
@@ -64,6 +66,7 @@ public class ModBlocks {
     public static final BlockEntityType<SurvivalMobBarrierTileEntity> SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<BackpackBlockEntity> SOPHISTICATED_BACKPACK;
     public static final BlockEntityType<VaultInfuserTileEntity> VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<CorruptedMonolithTileEntity> CORRUPTED_MONOLITH_TILE_ENTITY_BLOCK_ENTITY_TYPE;
 
     //Workstations
     public static final AugmentCraftingTableBlock AUGMENT_CRAFTING_TABLE;
@@ -95,6 +98,7 @@ public class ModBlocks {
         VAULT_INFUSER_BLOCK = new VaultInfuserBlock(1);
         AUGMENT_CRAFTING_TABLE = new AugmentCraftingTableBlock();
         GATEWAY_CHANNELING_BLOCK = new GatewayChannelingBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
+        CORRUPTED_MONOLITH = new CorruptedMonolith();
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
         HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(HellishSandTileEntity::new, HELLISH_SAND_BLOCK).build(null);
@@ -107,6 +111,7 @@ public class ModBlocks {
         VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(VaultInfuserTileEntity::new, new Block[]{VAULT_INFUSER_BLOCK}).build(null);
         SOPHISTICATED_BACKPACK = BlockEntityType.Builder.of(BackpackBlockEntity::new, new Block[]{XL_BACKPACK}).build(null);
         AUGMENT_CRAFTING_TABLE_ENTITY = BlockEntityType.Builder.of(AugmentCraftingTableTileEntity::new, new Block[]{AUGMENT_CRAFTING_TABLE}).build(null);
+        CORRUPTED_MONOLITH_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(CorruptedMonolithTileEntity::new, CORRUPTED_MONOLITH).build(null);
     }
 
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -126,9 +131,10 @@ public class ModBlocks {
         registerBlock(event, INFUSED_DRIFTWOOD_PLANKS, WoldsVaults.id("infused_driftwood_planks"));
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
+        registerBlock(event, CORRUPTED_MONOLITH, WoldsVaults.id("corrupted_monolith"));
         registerBlock(event, CORRUPTED_CHEST, VaultMod.id("corrupted_chest"));
-
     }
+
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
         registerTileEntity(event, VAULT_SALVAGER_ENTITY, VaultMod.id("vault_salvager_tile_entity"));
         registerTileEntity(event, ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("iskallian_leaves_tile_entity"));
@@ -141,6 +147,7 @@ public class ModBlocks {
         registerTileEntity(event, SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("mob_barrier_entity"));
         registerTileEntity(event, AUGMENT_CRAFTING_TABLE_ENTITY, WoldsVaults.id("augment_table_entity"));
         registerTileEntity(event, VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("vault_infuser_entity"));
+        registerTileEntity(event, CORRUPTED_MONOLITH_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("corrupted_monolith_tile_entity"));
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
@@ -160,12 +167,14 @@ public class ModBlocks {
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
         registerBlockItem(event, CORRUPTED_CHEST, CORRUPTED_CHEST_ITEM);
+        registerBlockItem(event, CORRUPTED_MONOLITH);
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(DECO_SCAVENGER_ALTAR_ENTITY_BLOCK_ENTITY_TYPE, ScavengerAltarRenderer::new);
         event.registerBlockEntityRenderer(SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE, SurvivalMobBarrierRenderer::new);
         event.registerBlockEntityRenderer(DUNGEON_PEDESTAL_TILE_ENTITY_BLOCK_ENTITY_TYPE, DungeonPedestalRenderer::new);
+        event.registerBlockEntityRenderer(CORRUPTED_MONOLITH_TILE_ENTITY_BLOCK_ENTITY_TYPE, CorruptedMonolithRenderer::new);
         //event.registerBlockEntityRenderer(DECO_LODESTONE_TILE_ENTITY_BLOCK_ENTITY_TYPE, DecoLodestoneRenderer::new);
     }
 

@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"half=upper": {
+			"model": "the_vault:block/empty"
+		},
+		"half=lower": {
+			"model": "woldsvaults:block/corrupted_monolith"
+		}
+	}
+}
