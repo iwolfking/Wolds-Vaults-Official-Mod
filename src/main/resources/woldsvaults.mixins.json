@@ -119,6 +119,7 @@
     "vaulthunters.custom.MixinVaultGearHelper",
     "vaulthunters.custom.MixinVaultGearTierConfig",
     "vaulthunters.custom.MixinVaultModifierStack",
+    "vaulthunters.custom.MixinVaultRegistry",
     "vaulthunters.custom.MixinWildSpawnerTileEntity",
     "vaulthunters.custom.artisan.MixinArtisanStationContainer",
     "vaulthunters.custom.artisan.MixinArtisanStationTileEntity",
