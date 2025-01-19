@@ -162,6 +162,9 @@ public class ModItems {
     public static BasicItem SPARK_OF_INSPIRATION;
     public static BasicItem VAULT_DIAMOND_NUGGET;
 
+    // Corrupted Items
+    public static DecayingItem RUINED_ESSENCE;
+
 
 
     @SubscribeEvent
@@ -268,6 +271,7 @@ public class ModItems {
         registry.register(SPARK_OF_INSPIRATION);
         registry.register(VAULT_DIAMOND_NUGGET);
         registry.register(EXQUISITE_BOX);
+        registry.register(RUINED_ESSENCE);
     }
 
     static {
@@ -369,5 +373,7 @@ public class ModItems {
         RANG = new VaultRangItem(VaultMod.id("rang"), new Item.Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
         MAP = new VaultMapItem(VaultMod.id("map"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         LAYOUT_MANIPULATOR = new LayoutModificationItem(VAULT_MOD_GROUP, WoldsVaults.id("layout_manipulator"));
+
+        RUINED_ESSENCE = new DecayingItem(WoldsVaults.id("ruined_essence"), 300);
     }
 }

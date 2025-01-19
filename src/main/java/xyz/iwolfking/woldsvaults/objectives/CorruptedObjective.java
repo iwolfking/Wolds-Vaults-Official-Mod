@@ -72,12 +72,12 @@ import static iskallia.vault.core.vault.Vault.LISTENERS;
 public class CorruptedObjective extends Objective {
 
     /* TODO Ideas:
-     * Vault starts off with 5min
+     * Vault starts off with 5min TODO
      * Players have to kill entities to gain time
-     * Starts off with 5 seconds, diminishing rewards -> 25mins -> 1 tick added per kill
-     * Max of 30 minutes -> Indicate this through making the timer White when it reaches 29.5m
-     * Show on hud that you gain time
-     * Each 5min play an ominous "Tick" sound effect
+     * Starts off with 5 seconds, diminishing rewards -> 25mins -> 1 tick added per kill TODO
+     * Max of 30 minutes -> Indicate this through making the timer White when it reaches 29.5m TODO
+     * Show on hud that you gain time TODO
+     * Each 5min play an ominous "Tick" sound effect TODO
      * Mob killed spreads "Corruption" similar to sculk
      * Center Room houses The Monolith.
      * The Monolith needs to be charged with Corrupted Essence
@@ -90,10 +90,15 @@ public class CorruptedObjective extends Objective {
      *   Mining Fatigue, less mana regen, VERY minimal slowness
      *   Slowly start passively spawning mobs around the player
      * Corruption is lowered by "depositing" corruption pieces into the monolith
-     * Player cannot exit the vault
+     * Player cannot exit the vault -> Break the portal once the timer starts. Or custom room that doesnt even have a portal, might fuck some stuff tho.
+     * More corruption -> more tint around the screen, (pls apply after render) (cake tint)
      *
+     *  Ensure the essence cannot be put in external inventories in the vault.
      * Once Monolith is fully charged then
-     * ...
+     * - teleport player to the roof of the vault
+     * - ...
+     * steal shader from uhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+     * you know the mod a1
      *
      *
      *
@@ -250,7 +255,7 @@ public class CorruptedObjective extends Objective {
                 world.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
                 spreadErrorBlocks(world, pos);
 
-                FloatingItemEntity floatingItem = FloatingItemEntity.create(world, pos.above(), new ItemStack(ModItems.MEMORY_POWDER));
+                FloatingItemEntity floatingItem = FloatingItemEntity.create(world, pos.above(), new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.RUINED_ESSENCE));
                 world.addFreshEntity(floatingItem); // TODO item that progressively decays -> 5min and its useless besides soul value
 
                 data.setResult(InteractionResult.SUCCESS);
