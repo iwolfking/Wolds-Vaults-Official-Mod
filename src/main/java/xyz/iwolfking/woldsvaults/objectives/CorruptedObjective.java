@@ -26,6 +26,7 @@ import iskallia.vault.core.vault.objective.KillBossObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
+import iskallia.vault.core.vault.time.TickTimer;
 import iskallia.vault.core.world.data.entity.PartialCompoundNbt;
 import iskallia.vault.core.world.data.tile.PartialBlockState;
 import iskallia.vault.core.world.data.tile.PartialTile;
@@ -62,25 +63,29 @@ import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.blocks.CorruptedMonolith;
 import xyz.iwolfking.woldsvaults.blocks.tiles.CorruptedMonolithTileEntity;
 import xyz.iwolfking.woldsvaults.events.WoldCommonEvents;
+import xyz.iwolfking.woldsvaults.modifiers.clock.KillMobTimeExtension;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
 import xyz.iwolfking.woldsvaults.util.TemplateUtils;
 
 import java.util.*;
 
 import static iskallia.vault.core.vault.Vault.LISTENERS;
+import static iskallia.vault.core.vault.time.TickClock.DISPLAY_TIME;
 
 public class CorruptedObjective extends Objective {
 
+    //TODO: fix on death not being restored to non-shader
+
     /* TODO Ideas:
-     * Vault starts off with 5min TODO
-     * Players have to kill entities to gain time
-     * Starts off with 5 seconds, diminishing rewards -> 25mins -> 1 tick added per kill TODO
-     * Max of 30 minutes -> Indicate this through making the timer White when it reaches 29.5m TODO
+     * == DONE: ==   Vault starts off with 5min
+     * == DONE: ==   Players have to kill entities to gain time
+     * == DONE: ==   Starts off with 5 mins, diminishing rewards -> 25mins -> 1 tick added per kill
+     * == DONE: ==   Max of 30 minutes -> Indicate this through making the timer White when it reaches 29.5m TODO
      * Show on hud that you gain time TODO
      * Each 5min play an ominous "Tick" sound effect TODO
      * Mob killed spreads "Corruption" similar to sculk
      * Center Room houses The Monolith.
-     * The Monolith needs to be charged with Corrupted Essence
+     * The Monolith needs to be charged with Ruined Essence
      * Corruption essence decays over time, turning into "Vault Soot" if it fully decays, doesnt decay in the overworld, useful for something
      * Each Addition to the Monolith makes the Vault harder, but higher rewards (?)
      * Each Addition to the Monolith obstructs more of the tunnels
@@ -89,7 +94,7 @@ public class CorruptedObjective extends Objective {
      *   Makes the Player weaker
      *   Mining Fatigue, less mana regen, VERY minimal slowness
      *   Slowly start passively spawning mobs around the player
-     * Corruption is lowered by "depositing" corruption pieces into the monolith
+     * Corruption is lowered by "depositing" Ruined essebce into the monolith
      * Player cannot exit the vault -> Break the portal once the timer starts. Or custom room that doesnt even have a portal, might fuck some stuff tho.
      * More corruption -> more tint around the screen, (pls apply after render) (cake tint)
      *
@@ -177,6 +182,16 @@ public class CorruptedObjective extends Objective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
+        vault.ifPresent(Vault.CLOCK, clock -> {
+            if(clock instanceof TickTimer) {
+                clock.set(TickTimer.DISPLAY_TIME, 6000);
+            }
+        });
+
+
+
+
+
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, (data) -> {
             this.ifPresent(OBJECTIVE_PROBABILITY, (probability) -> {
                 data.setProbability((double)probability);
@@ -303,6 +318,15 @@ public class CorruptedObjective extends Objective {
                 }
             }
             data.getEntity().setGenerated(true);
+        });
+
+        CommonEvents.ENTITY_DEATH.register(this, event -> {
+            if(event.getEntity().level != world) return;
+            if(event.getSource().getEntity() instanceof Player) {
+                int timeLeft = vault.get(Vault.CLOCK).get(DISPLAY_TIME);
+
+                vault.get(Vault.CLOCK).addModifier(new KillMobTimeExtension(calculateGradualTimeIncrease(timeLeft)));
+            }
         });
 
         // Generating a specific room as the start room.
@@ -468,5 +492,14 @@ public class CorruptedObjective extends Objective {
                 }
             }
         }
+    }
+
+    private int calculateGradualTimeIncrease(int timeLeftInTicks) {
+        int timeLeftInSeconds = timeLeftInTicks / 20; // Convert ticks to seconds
+        int maxTimeInSeconds = 1800; // 30 minutes
+        int maxAddTimeInTicks = 150; // 7.5s
+
+        float fraction = 1 - ((float) timeLeftInSeconds / maxTimeInSeconds);
+        return Math.round(maxAddTimeInTicks * fraction);
     }
 }
