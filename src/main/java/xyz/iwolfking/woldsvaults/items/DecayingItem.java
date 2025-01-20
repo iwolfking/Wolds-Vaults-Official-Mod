@@ -1,30 +1,21 @@
 package xyz.iwolfking.woldsvaults.items;
 
-import com.google.common.collect.Multimap;
 import iskallia.vault.core.vault.ClientVaults;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.init.ModSounds;
 import iskallia.vault.item.BasicItem;
-import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
-import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.util.VaultUtil;
 
-import java.rmi.ServerError;
 import java.util.List;
 
 public class DecayingItem extends BasicItem {
@@ -81,7 +72,7 @@ public class DecayingItem extends BasicItem {
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
-        if(ClientVaults.getActive().isPresent() && VaultModifierUtils.isVaultCorrupted) {
+        if(ClientVaults.getActive().isPresent() && VaultUtil.isVaultCorrupted) {
             MutableComponent cmp0 = new TextComponent("Powers the Monolith.").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#701233")).withItalic(true));
             MutableComponent cmp1 = new TextComponent("Slowly decays as you hold it.").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#701233")).withItalic(true));
 

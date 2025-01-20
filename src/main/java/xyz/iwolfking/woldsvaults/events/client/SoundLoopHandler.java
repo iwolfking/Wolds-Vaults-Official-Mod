@@ -7,7 +7,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.init.ModSounds;
-import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.util.VaultUtil;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SoundLoopHandler {
@@ -21,7 +21,7 @@ public class SoundLoopHandler {
             return;
         }
 
-        if (VaultModifierUtils.isVaultCorrupted) {
+        if (VaultUtil.isVaultCorrupted) {
             startAmbientSound();
         } else {
             stopAmbientSound();

@@ -10,7 +10,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.util.VaultUtil;
 
 @Mod.EventBusSubscriber
 public class ShaderManager {
@@ -24,7 +24,7 @@ public class ShaderManager {
         Minecraft mc = Minecraft.getInstance();
         GameRenderer render = mc.gameRenderer;
 
-        if (VaultModifierUtils.isVaultCorrupted) {
+        if (VaultUtil.isVaultCorrupted) {
             if (queuedRefresh || render.currentEffect() == null) {
                 render.loadEffect(SHADER);
                 queuedRefresh = false;

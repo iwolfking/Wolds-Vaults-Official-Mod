@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class VaultModifierUtils {
-    public static boolean isVaultCorrupted = false;
 
     private static final TextComponent MODIFIER_ADDED_SUFFIX = new TextComponent(" was added to the vault.");
     public static void sendModifierAddedMessage(ServerPlayer player, VaultModifier<?> modifier, Integer stackSize) {

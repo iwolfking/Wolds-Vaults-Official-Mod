@@ -80,8 +80,8 @@ public class CorruptedObjective extends Objective {
      * == DONE: ==   Vault starts off with 5min
      * == DONE: ==   Players have to kill entities to gain time
      * == DONE: ==   Starts off with 5 mins, diminishing rewards -> 25mins -> 1 tick added per kill
-     * == DONE: ==   Max of 30 minutes -> Indicate this through making the timer White when it reaches 29.5m TODO
-     * Show on hud that you gain time TODO
+     * == DONE: ==   Max of 30 minutes -> Indicate this through making the timer White when it reaches 29.5m
+     * Show on hud that you gain time TODO ?
      * Each 5min play an ominous "Tick" sound effect TODO
      * Mob killed spreads "Corruption" similar to sculk
      * Center Room houses The Monolith.
