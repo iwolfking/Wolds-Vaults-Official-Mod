@@ -11,7 +11,7 @@ import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SoundLoopHandler {
-    private static boolean isPlaying = false;
+    public static boolean isPlaying = false;
     private static SimpleSoundInstance activeSound = null;
     private static final Minecraft mc = Minecraft.getInstance();
 
