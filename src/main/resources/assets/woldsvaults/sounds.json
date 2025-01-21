@@ -31,5 +31,13 @@
         "stream": true
       }
     ]
+  },
+  "ominous_ambience": {
+    "category": "ambient",
+    "sounds": [
+      "woldsvaults:ominous_ambience_1",
+      "woldsvaults:ominous_ambience_2",
+      "woldsvaults:ominous_ambience_3"
+    ]
   }
 }
