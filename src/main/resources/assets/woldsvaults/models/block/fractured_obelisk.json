@@ -7,7 +7,7 @@
 		"1": "the_vault:block/obelisk_bottom",
 		"2": "the_vault:block/obelisk_sides",
 		"4": "the_vault:block/obelisk_lower_inactive",
-		"6": "woldsvaults:block/corrupted_monolith_destroyed",
+		"6": "woldsvaults:block/fractured_obelisk_destroyed",
 		"particle": "the_vault:block/obelisk_base"
 	},
 	"elements": [

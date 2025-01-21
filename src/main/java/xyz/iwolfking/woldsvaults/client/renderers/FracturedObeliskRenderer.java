@@ -4,8 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.math.Vector3f;
-import iskallia.vault.block.MonolithBlock;
-import iskallia.vault.block.entity.MonolithTileEntity;
 import iskallia.vault.core.vault.modifier.VaultModifierStack;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.overlay.ModifiersRenderer;
@@ -20,22 +18,22 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
-import xyz.iwolfking.woldsvaults.blocks.tiles.CorruptedMonolithTileEntity;
+import xyz.iwolfking.woldsvaults.blocks.tiles.FracturedObeliskTileEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CorruptedMonolithRenderer implements BlockEntityRenderer<CorruptedMonolithTileEntity> {
+public class FracturedObeliskRenderer implements BlockEntityRenderer<FracturedObeliskTileEntity> {
     private final Font font;
 
-    public CorruptedMonolithRenderer(BlockEntityRendererProvider.Context context) {
+    public FracturedObeliskRenderer(BlockEntityRendererProvider.Context context) {
         font = context.getFont();
     }
 
 
     @Override
-    public void render(CorruptedMonolithTileEntity tileEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlayIn) {
+    public void render(FracturedObeliskTileEntity tileEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlayIn) {
         RenderSystem.enableDepthTest();
         matrixStack.pushPose();
         float scale = 0.02F;

@@ -60,9 +60,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.LoadingModList;
 import net.minecraftforge.network.PacketDistributor;
-import xyz.iwolfking.woldsvaults.blocks.CorruptedMonolith;
-import xyz.iwolfking.woldsvaults.blocks.tiles.CorruptedMonolithTileEntity;
-import xyz.iwolfking.woldsvaults.events.WoldCommonEvents;
+import xyz.iwolfking.woldsvaults.blocks.FracturedObelisk;
+import xyz.iwolfking.woldsvaults.blocks.tiles.FracturedObeliskTileEntity;
+import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.modifiers.clock.KillMobTimeExtension;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
 import xyz.iwolfking.woldsvaults.util.TemplateUtils;
@@ -198,7 +198,7 @@ public class CorruptedObjective extends Objective {
             });
         });
 
-        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(xyz.iwolfking.woldsvaults.init.ModBlocks.CORRUPTED_MONOLITH).register(this, (data) -> {
+        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK).register(this, (data) -> {
             if(data.getHand() != InteractionHand.MAIN_HAND) {
                 data.setResult(InteractionResult.SUCCESS);
                 return;
@@ -210,13 +210,13 @@ public class CorruptedObjective extends Objective {
                 data.setResult(InteractionResult.SUCCESS);
             }
 
-            if(data.getState().getValue(CorruptedMonolith.FILLED)) return;
+            if(data.getState().getValue(FracturedObelisk.FILLED)) return;
 
 
 
             if(vault.get(Vault.LISTENERS).getObjectivePriority(data.getPlayer().getUUID(), this) != 0) return;
 
-            world.setBlock(pos, world.getBlockState(pos).setValue(CorruptedMonolith.FILLED, true), 3);
+            world.setBlock(pos, world.getBlockState(pos).setValue(FracturedObelisk.FILLED, true), 3);
             this.playActivationEffects(world, pos);
 
             if(!this.get(COMPLETED_FIRST_TARGET)) {
@@ -232,7 +232,7 @@ public class CorruptedObjective extends Objective {
                 }
             }
 
-            if(data.getWorld().getBlockEntity(pos) instanceof CorruptedMonolithTileEntity tile && !tile.getModifiers().isEmpty()) {
+            if(data.getWorld().getBlockEntity(pos) instanceof FracturedObeliskTileEntity tile && !tile.getModifiers().isEmpty()) {
                 Iterator<Map.Entry<ResourceLocation, Integer>> it = tile.getModifiers().entrySet().iterator();
                 TextComponent suffix = new TextComponent("");
 
@@ -284,8 +284,8 @@ public class CorruptedObjective extends Objective {
             ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(this, vault);
 
             DynamicTemplate template = TemplateUtils.createTemplateFromPairs(
-                    new Pair<>(new BlockPos(0, 0, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.CORRUPTED_MONOLITH.defaultBlockState().setValue(CorruptedMonolith.HALF, DoubleBlockHalf.LOWER)),
-                    new Pair<>(new BlockPos(0, 1, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.CORRUPTED_MONOLITH.defaultBlockState().setValue(CorruptedMonolith.HALF, DoubleBlockHalf.UPPER))
+                    new Pair<>(new BlockPos(0, 0, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.LOWER)),
+                    new Pair<>(new BlockPos(0, 1, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.UPPER))
             );
 
             ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(this, vault, template);
@@ -295,12 +295,12 @@ public class CorruptedObjective extends Objective {
                 target.getState().set(PlaceholderBlock.TYPE, PlaceholderBlock.Type.OBJECTIVE);
 
                 if (target.isSubsetOf(PartialTile.of(data.getState()))) {
-                    data.getWorld().setBlock(data.getPos(), xyz.iwolfking.woldsvaults.init.ModBlocks.CORRUPTED_MONOLITH.defaultBlockState(), 3); // Might fuck up due to the double size
+                    data.getWorld().setBlock(data.getPos(), xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState(), 3); // Might fuck up due to the double size
                 }
             });
         }
 
-        WoldCommonEvents.CORRUPTED_MONOLITH_UPDATE.register(this, (data) -> {
+        WoldCommonEvents.FRACTURED_OBELISK_UPDATE.register(this, (data) -> {
             if(data.getWorld() != world) return;
 
             if(data.getEntity().isGenerated() /*&& data.getState().getValue(CorruptedMonolith.FILLED)*/) {

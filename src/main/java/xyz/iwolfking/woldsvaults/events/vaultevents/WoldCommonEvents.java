@@ -1,11 +1,10 @@
-package xyz.iwolfking.woldsvaults.events;
+package xyz.iwolfking.woldsvaults.events.vaultevents;
 
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.Event;
-import xyz.iwolfking.woldsvaults.events.event.CorruptedMonolithEvent;
 
 public class WoldCommonEvents {
-    public static final CorruptedMonolithEvent CORRUPTED_MONOLITH_UPDATE = register(new CorruptedMonolithEvent());
+    public static final FracturedObeliskEvent FRACTURED_OBELISK_UPDATE = register(new FracturedObeliskEvent());
 
 
     private static <T extends Event<?, ?>> T register(T event) {

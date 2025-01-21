@@ -1,11 +1,7 @@
 package xyz.iwolfking.woldsvaults.blocks.tiles;
 
-import iskallia.vault.block.MonolithBlock;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
@@ -16,24 +12,23 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
-import xyz.iwolfking.woldsvaults.events.WoldCommonEvents;
+import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class CorruptedMonolithTileEntity extends BlockEntity {
+public class FracturedObeliskTileEntity extends BlockEntity {
     private boolean generated;
     private Map<ResourceLocation, Integer> modifiers = new HashMap<>();
 
 
-    public CorruptedMonolithTileEntity(BlockPos pos, BlockState state) {
-        super(ModBlocks.CORRUPTED_MONOLITH_TILE_ENTITY_BLOCK_ENTITY_TYPE, pos, state);
+    public FracturedObeliskTileEntity(BlockPos pos, BlockState state) {
+        super(ModBlocks.FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE, pos, state);
     }
 
     public boolean isGenerated() {
@@ -117,8 +112,8 @@ public class CorruptedMonolithTileEntity extends BlockEntity {
         nbt.put("Modifiers", modifiersNBT);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, CorruptedMonolithTileEntity tile) {
-        WoldCommonEvents.CORRUPTED_MONOLITH_UPDATE.invoke(level, state, pos, tile);
+    public static void tick(Level level, BlockPos pos, BlockState state, FracturedObeliskTileEntity tile) {
+        WoldCommonEvents.FRACTURED_OBELISK_UPDATE.invoke(level, state, pos, tile);
 
         if(level.isClientSide()) {
             tile.playEffects();
