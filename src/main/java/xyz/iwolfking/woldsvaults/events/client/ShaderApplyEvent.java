@@ -33,7 +33,7 @@ public class ShaderApplyEvent {
     public static void onPlayerDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
         if(VaultUtil.isVaultCorrupted) {
             VaultUtil.isVaultCorrupted = false;
-            SoundLoopHandler.isPlaying = false;
+            SoundHandler.isLoopPlaying = false;
         }
     }
 
@@ -45,7 +45,7 @@ public class ShaderApplyEvent {
                     .stream()
                     .anyMatch(obj -> obj instanceof CorruptedObjective);
             ShaderManager.queuedRefresh = true;
-            SoundLoopHandler.isPlaying = false;
+            SoundHandler.isLoopPlaying = false;
         } else {
             VaultUtil.isVaultCorrupted = false;
         }
@@ -56,7 +56,7 @@ public class ShaderApplyEvent {
         if(event.isWasDeath()) {
             VaultUtil.isVaultCorrupted = false;
             ShaderManager.queuedRefresh = true;
-            SoundLoopHandler.isPlaying = false;
+            SoundHandler.isLoopPlaying = false;
         }
     }
 }
