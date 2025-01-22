@@ -74,20 +74,27 @@ import static iskallia.vault.core.vault.time.TickClock.DISPLAY_TIME;
 
 public class CorruptedObjective extends Objective {
 
-    //TODO: fix on death not being restored to non-shader
+
+
+    /* TODO:
+     * Rework Objective to make Monolith Charge Level be shown in the HUD
+     * Remove Modifier Pools from Fractured Obelisks
+     *
+     */
+
 
     /* TODO Ideas:
      * == DONE: ==   Vault starts off with 5min
      * == DONE: ==   Players have to kill entities to gain time
      * == DONE: ==   Starts off with 5 mins, diminishing rewards -> 25mins -> 1 tick added per kill
      * == DONE: ==   Max of 30 minutes -> Indicate this through making the timer White when it reaches 29.5m
-     * Show on hud that you gain time TODO ?
-     * == DONE: == Each 5min play an ominous "Tick" sound effect
-     * Mob killed spreads "Corruption" similar to sculk
+     * == DONE: ==   Show on hud that you gain time
+     * == DONE: ==   Each 5min play an ominous "Tick" sound effect
+     * Mob killed spreads "Corruption" similar to sculk TODO
      * Center Room houses The Monolith.
-     * The Monolith needs to be charged with Ruined Essence
-     * Corruption essence decays over time, turning into "Vault Soot" if it fully decays, doesnt decay in the overworld, useful for something
-     * Each Addition to the Monolith makes the Vault harder, but higher rewards (?)
+     * The Monolith needs to be charged with Ruined Essence TODO
+     * == DONE: ==   Corruption essence decays over time, turning into "Vault Soot" if it fully decays, doesnt decay in the overworld, useful for something
+     * Each Addition to the Monolith makes the Vault harder, but higher rewards TODO
      * Each Addition to the Monolith obstructs more of the tunnels
      * Monolith indicates Charge Level in some way.
      * The longer the player is in the vault, the higher "corruption"
@@ -131,16 +138,6 @@ public class CorruptedObjective extends Objective {
             .with(Version.v1_25, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
             .register(FIELDS);
 
-
-    public static final FieldKey<Integer> SECOND_TARGET = FieldKey.of("second_target", Integer.class)
-            .with(Version.v1_0, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
-            .register(FIELDS);
-
-    public static final FieldKey<Integer> BASE_SECOND_TARGET = FieldKey.of("base_second_target", Integer.class)
-            .with(Version.v1_25, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
-            .register(FIELDS);
-
-
     public static final FieldKey<Float> OBJECTIVE_PROBABILITY = FieldKey.of("objective_probability", Float.class)
             .with(Version.v1_2, Adapters.FLOAT, DISK.all())
             .register(FIELDS);
@@ -154,8 +151,7 @@ public class CorruptedObjective extends Objective {
             .register(FIELDS);
 
 
-    //Display overlay handles the overlay that is displayed
-    //If its 40, itll tick down with each tick, until 0, where the overlay is no longer displayed
+
     public static final FieldKey<Integer> DISPLAY_OVERLAY_TICK = FieldKey.of("display_overlay_tick", Integer.class)
             .with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all()))
             .register(FIELDS);
@@ -173,8 +169,6 @@ public class CorruptedObjective extends Objective {
         this.set(COUNT, 0);
         this.set(TARGET, target); // Actual target is double of this, it loops around
         this.set(BASE_TARGET, target); // Actual target is double of this, it loops around
-        this.set(SECOND_TARGET, secondTarget);
-        this.set(BASE_SECOND_TARGET, secondTarget);
         this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
         this.set(STACK_MODIFIER_POOL, stackModifierPool);
         this.set(COMPLETED_FIRST_TARGET, false);
