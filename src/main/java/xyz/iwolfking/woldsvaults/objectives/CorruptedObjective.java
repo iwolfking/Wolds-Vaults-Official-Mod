@@ -82,7 +82,7 @@ public class CorruptedObjective extends Objective {
      * == DONE: ==   Starts off with 5 mins, diminishing rewards -> 25mins -> 1 tick added per kill
      * == DONE: ==   Max of 30 minutes -> Indicate this through making the timer White when it reaches 29.5m
      * Show on hud that you gain time TODO ?
-     * Each 5min play an ominous "Tick" sound effect TODO
+     * == DONE: == Each 5min play an ominous "Tick" sound effect
      * Mob killed spreads "Corruption" similar to sculk
      * Center Room houses The Monolith.
      * The Monolith needs to be charged with Ruined Essence
@@ -96,7 +96,8 @@ public class CorruptedObjective extends Objective {
      *   Slowly start passively spawning mobs around the player
      * Corruption is lowered by "depositing" Ruined essebce into the monolith
      * Player cannot exit the vault -> Break the portal once the timer starts. Or custom room that doesnt even have a portal, might fuck some stuff tho.
-     * More corruption -> more tint around the screen, (pls apply after render) (cake tint)
+     * Notify players with this -> "You feel your exit disappear" yadda
+     *  More corruption -> more tint around the screen
      *
      *  Ensure the essence cannot be put in external inventories in the vault.
      * Once Monolith is fully charged then
@@ -109,6 +110,8 @@ public class CorruptedObjective extends Objective {
      *
      * Custom theme with this
      */
+
+    //TODO See how this works in a multiplayer scenario
 
     public static final SupplierKey<Objective> E_KEY = SupplierKey.of("corrupted", Objective.class).with(Version.v1_31, CorruptedObjective::new);
     public static final ResourceLocation CORRUPTED_HUD = VaultMod.id("textures/gui/corrupted/hud.png");
@@ -151,6 +154,17 @@ public class CorruptedObjective extends Objective {
             .register(FIELDS);
 
 
+    //Display overlay handles the overlay that is displayed
+    //If its 40, itll tick down with each tick, until 0, where the overlay is no longer displayed
+    public static final FieldKey<Integer> DISPLAY_OVERLAY_TICK = FieldKey.of("display_overlay_tick", Integer.class)
+            .with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all()))
+            .register(FIELDS);
+
+    public static final FieldKey<Integer> TIME_ADDEND_TICKS = FieldKey.of("time_addend_ticks", Integer.class)
+            .with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all()))
+            .register(FIELDS);
+
+
 
     public CorruptedObjective() {
     }
@@ -164,6 +178,9 @@ public class CorruptedObjective extends Objective {
         this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
         this.set(STACK_MODIFIER_POOL, stackModifierPool);
         this.set(COMPLETED_FIRST_TARGET, false);
+
+        this.set(DISPLAY_OVERLAY_TICK, 0);
+        this.set(TIME_ADDEND_TICKS, 0);
     }
 
     public static CorruptedObjective of(int target, int secondTarget, float objectiveProbability, ResourceLocation stackModifierPool) {
@@ -324,8 +341,15 @@ public class CorruptedObjective extends Objective {
             if(event.getEntity().level != world) return;
             if(event.getSource().getEntity() instanceof Player) {
                 int timeLeft = vault.get(Vault.CLOCK).get(DISPLAY_TIME);
+                int increase = calculateGradualTimeIncrease(timeLeft);
 
-                vault.get(Vault.CLOCK).addModifier(new KillMobTimeExtension(calculateGradualTimeIncrease(timeLeft)));
+                vault.get(Vault.CLOCK).addModifier(new KillMobTimeExtension(increase));
+
+
+                if(increase != 0) {
+                    this.set(TIME_ADDEND_TICKS, this.get(TIME_ADDEND_TICKS) + increase);
+                    this.set(DISPLAY_OVERLAY_TICK, 40); // display the overlay for 2s
+                }
             }
         });
 
@@ -368,6 +392,14 @@ public class CorruptedObjective extends Objective {
         if(this.get(COUNT) >= this.get(TARGET) && this.get(COMPLETED_FIRST_TARGET)) {
             super.tickServer(world, vault);
         }
+
+        if(this.get(DISPLAY_OVERLAY_TICK) != 0) {
+            this.set(DISPLAY_OVERLAY_TICK, this.get(DISPLAY_OVERLAY_TICK) - 1);
+
+            if(this.get(DISPLAY_OVERLAY_TICK) == 0) {
+                this.set(TIME_ADDEND_TICKS, 0);
+            }
+        }
     }
 
     @Override
@@ -387,9 +419,31 @@ public class CorruptedObjective extends Objective {
     @OnlyIn(Dist.CLIENT)
     @Override
     public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
+
+        Minecraft mc = Minecraft.getInstance();
+        Font font = mc.font;
+
+
+
+
+
+        if (this.get(DISPLAY_OVERLAY_TICK) > 0) {
+            if (player != null) {
+                float alpha = Math.min(1.0f, this.get(DISPLAY_OVERLAY_TICK) / (float) 40); // 2s base
+
+                // Render the combo timer text
+                MutableComponent cmp = ComponentUtils.corruptComponent(new TextComponent("Harvested  " + (this.get(TIME_ADDEND_TICKS) / 20.0) + "s"));
+                int screenWidth = window.getGuiScaledWidth();
+                int screenHeight = window.getGuiScaledHeight();
+                int textColor = (int) (255 * alpha) << 24 | 0xFFFFFF; // Apply alpha to the color (ARGB format)
+
+                // Render the message at the top center of the screen
+                font.drawShadow(matrixStack, cmp, screenWidth / 2f - font.width(cmp) / 2f, screenHeight / 4f, textColor);
+            }
+        }
+
         if (this.get(COUNT) >= this.get(TARGET)) {
             int midX = window.getGuiScaledWidth() / 2;
-            Font font = Minecraft.getInstance().font;
             MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
             MutableComponent txt = new TextComponent("")
                     .append(new TextComponent("Pillage").withStyle(style -> style.withColor(ChatFormatting.DARK_RED).withObfuscated(true)))
@@ -406,7 +460,6 @@ public class CorruptedObjective extends Objective {
 
         int current = this.get(COUNT);
         int total = this.get(TARGET) - 1;
-
 
         Component txt = new TextComponent(String.valueOf(current)).withStyle(style -> style.withColor(ChatFormatting.RED).withBold(true))
                 .append(new TextComponent(" / ").withStyle(style -> style.withColor(ChatFormatting.RED).withBold(true)))
@@ -432,7 +485,7 @@ public class CorruptedObjective extends Objective {
 
         matrixStack.popPose();
 
-        Font font = Minecraft.getInstance().font;
+
         MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
 
         matrixStack.pushPose();
@@ -500,6 +553,6 @@ public class CorruptedObjective extends Objective {
         int maxAddTimeInTicks = 150; // 7.5s
 
         float fraction = 1 - ((float) timeLeftInSeconds / maxTimeInSeconds);
-        return Math.round(maxAddTimeInTicks * fraction);
+        return Math.max(0, Math.round(maxAddTimeInTicks * fraction));
     }
 }
