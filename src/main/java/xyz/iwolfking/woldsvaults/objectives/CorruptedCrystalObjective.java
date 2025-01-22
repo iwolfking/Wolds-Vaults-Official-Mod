@@ -58,7 +58,7 @@ public class CorruptedCrystalObjective extends CrystalObjective {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
             objectives.add(
-                    CorruptedObjective.of(this.target.get(random), this.secondTarget.get(random), this.objectiveProbability,
+                    CorruptedObjective.of(this.target.get(random), this.objectiveProbability,
                                     ModConfigs.MONOLITH.getStackModifierPool(level))
                             .add(FindExitObjective.create(ClassicPortalLogic.EXIT)
                                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("CORRUPTED"), "monolith", level, true))));
@@ -76,9 +76,6 @@ public class CorruptedCrystalObjective extends CrystalObjective {
         Adapters.INT_ROLL.writeNbt(this.target).ifPresent((target) -> {
             nbt.put("target", target);
         });
-        Adapters.INT_ROLL.writeNbt(this.target).ifPresent((target) -> {
-            nbt.put("secondTarget", target);
-        });
         Adapters.FLOAT.writeNbt(this.objectiveProbability).ifPresent((tag) -> {
             nbt.put("objective_probability", tag);
         });
@@ -88,7 +85,6 @@ public class CorruptedCrystalObjective extends CrystalObjective {
     @Override
     public void readNbt(CompoundTag nbt) {
         this.target = Adapters.INT_ROLL.readNbt(nbt.getCompound("target")).orElse(null);
-        this.secondTarget = Adapters.INT_ROLL.readNbt(nbt.getCompound("secondTarget")).orElse(null);
         this.objectiveProbability = Adapters.FLOAT.readNbt(nbt.get("objective_probability")).orElse(0.0F);
     }
 
@@ -98,9 +94,6 @@ public class CorruptedCrystalObjective extends CrystalObjective {
         Adapters.INT_ROLL.writeJson(this.target).ifPresent((target) -> {
             json.add("target", target);
         });
-        Adapters.INT_ROLL.writeJson(this.secondTarget).ifPresent((target) -> {
-            json.add("secondTarget", target);
-        });
         Adapters.FLOAT.writeJson(this.objectiveProbability).ifPresent((tag) -> {
             json.add("objective_probability", tag);
         });
@@ -109,7 +102,6 @@ public class CorruptedCrystalObjective extends CrystalObjective {
     @Override
     public void readJson(JsonObject json) {
         this.target = Adapters.INT_ROLL.readJson(json.getAsJsonObject("target")).orElse(null);
-        this.secondTarget = Adapters.INT_ROLL.readJson(json.getAsJsonObject("secondTarget")).orElse(null);
         this.objectiveProbability = Adapters.FLOAT.readJson(json.get("objective_probability")).orElse(0.0F);
     }
 }

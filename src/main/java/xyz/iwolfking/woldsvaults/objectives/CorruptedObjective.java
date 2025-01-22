@@ -165,7 +165,7 @@ public class CorruptedObjective extends Objective {
     public CorruptedObjective() {
     }
 
-    public CorruptedObjective(int target, int secondTarget, float objectiveProbability, ResourceLocation stackModifierPool) {
+    public CorruptedObjective(int target, float objectiveProbability, ResourceLocation stackModifierPool) {
         this.set(COUNT, 0);
         this.set(TARGET, target); // Actual target is double of this, it loops around
         this.set(BASE_TARGET, target); // Actual target is double of this, it loops around
@@ -177,8 +177,8 @@ public class CorruptedObjective extends Objective {
         this.set(TIME_ADDEND_TICKS, 0);
     }
 
-    public static CorruptedObjective of(int target, int secondTarget, float objectiveProbability, ResourceLocation stackModifierPool) {
-        return new CorruptedObjective(target, secondTarget, objectiveProbability, stackModifierPool);
+    public static CorruptedObjective of(int target, float objectiveProbability, ResourceLocation stackModifierPool) {
+        return new CorruptedObjective(target, objectiveProbability, stackModifierPool);
     }
 
     @Override
