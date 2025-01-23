@@ -77,7 +77,7 @@ public class CorruptedObjective extends Objective {
     /* TODO:
      * Rework Objective to make Monolith Charge Level be shown in the HUD
      * Remove Modifier Pools from Fractured Obelisks
-     *
+     * Spread error blocks as well as void liquid
      */
 
 
@@ -285,7 +285,7 @@ public class CorruptedObjective extends Objective {
 
                 FloatingItemEntity floatingItem = FloatingItemEntity.create(world, pos.above(), new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.RUINED_ESSENCE));
                 world.addFreshEntity(floatingItem); // TODO item that progressively decays -> 5min and its useless besides soul value
-                world.setBlock(pos.below(), ModBlocks.VOID_LIQUID_BLOCK.defaultBlockState(), 1); // set block below obelisk as void liquid :3
+
 
                 data.setResult(InteractionResult.SUCCESS);
             }
@@ -534,8 +534,8 @@ public class CorruptedObjective extends Objective {
      * Utility method that gets called upon interacting with a Fractured Obelisk<br>
      * Spreads {@code the_vault:error_block}s in a set radius of 7 blocks around itself
      *
-     * @param world
-     * @param startPos
+     * @param world ServerLevel to modify the blocks in
+     * @param startPos Position of the obelisk
      */
     private void spreadErrorBlocks(Level world, BlockPos startPos) {
         int radius = 7;
@@ -557,7 +557,11 @@ public class CorruptedObjective extends Objective {
                         // Apply randomness (50% chance) before replacing
                         if (random.nextFloat() >= 0.5F) {
                             // Replace the block with the ERROR_BLOCK
-                            world.setBlock(currentPos, ModBlocks.ERROR_BLOCK.defaultBlockState(), Block.UPDATE_ALL);
+                            if(random.nextFloat() >= 0.2F) {
+                                world.setBlock(currentPos, ModBlocks.ERROR_BLOCK.defaultBlockState(), Block.UPDATE_ALL);
+                            } else {
+                                world.setBlock(currentPos, ModBlocks.VOID_LIQUID_BLOCK.defaultBlockState(), Block.UPDATE_ALL);
+                            }
                         }
                     }
                 }
