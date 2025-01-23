@@ -28,17 +28,6 @@ public abstract class MixinTickTimer extends TickClock {
     @Shadow protected abstract float getRotationTime(int time);
     @Shadow protected abstract int getTextColor(int time);
 
-    @Inject(method = "getTextColor", at = @At("HEAD"), cancellable = true)
-    protected void modifyTextColor(int time, CallbackInfoReturnable<Integer> cir) {
-        if(VaultUtil.isVaultCorrupted) {
-            if(time >= 35400) {//29m30s
-                cir.setReturnValue(0xFF_EBDBDA);
-                return;
-            }
-            cir.setReturnValue(0xFF_FF0000); // Replace color of timer with red if the Vault is Corrupted.
-        }
-    }
-
     @Inject(method = "getRotationTime", at = @At("HEAD"), cancellable = true)
     protected void modifyRotation(int time, CallbackInfoReturnable<Float> cir) {
         if(VaultUtil.isVaultCorrupted) {
