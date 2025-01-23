@@ -57,13 +57,12 @@ public class CorruptedCrystalObjective extends CrystalObjective {
     public void configure(Vault vault, RandomSource random) {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
-            objectives.add(
-                    CorruptedObjective.of(this.target.get(random), this.objectiveProbability,
-                                    ModConfigs.MONOLITH.getStackModifierPool(level))
-                            .add(FindExitObjective.create(ClassicPortalLogic.EXIT)
-                                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("CORRUPTED"), "monolith", level, true))));
+            objectives.add(CorruptedObjective.of(this.target.get(random), this.objectiveProbability, ModConfigs.MONOLITH.getStackModifierPool(level))
+                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("CORRUPTED"), "monolith", level, true))
+                    .add(VictoryObjective.of(20*15)));
+
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
-            objectives.add(DeathObjective.create(true)); // TODO: see what dis does if its gone :3
+            objectives.add(DeathObjective.create(false)); // changedrue false
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
         });
     }
