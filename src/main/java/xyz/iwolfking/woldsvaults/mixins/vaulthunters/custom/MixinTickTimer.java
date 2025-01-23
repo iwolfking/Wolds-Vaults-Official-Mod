@@ -56,7 +56,7 @@ public abstract class MixinTickTimer extends TickClock {
             int hourglassWidth = 12;
             int hourglassHeight = 16;
             int color = getTextColor(timer.get(DISPLAY_TIME));
-            MutableComponent cmp = ComponentUtils.corruptComponent(new TextComponent(UIHelper.formatTimeString(Math.abs(timer.get(DISPLAY_TIME)))));
+            MutableComponent cmp = ComponentUtils.corruptComponent(new TextComponent(UIHelper.formatTimeString(timer.get(DISPLAY_TIME))));
             FontHelper.drawStringWithBorder(matrixStack, cmp, -12, 13, color, 0xFF000000);
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, VaultOverlay.VAULT_HUD);
