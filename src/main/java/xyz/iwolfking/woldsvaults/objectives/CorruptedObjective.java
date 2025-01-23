@@ -9,6 +9,7 @@ import implementslegend.mod.vaultfaster.event.ObjectiveTemplateEvent;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.ObeliskBlock;
 import iskallia.vault.block.PlaceholderBlock;
+import iskallia.vault.client.gui.helper.FontHelper;
 import iskallia.vault.client.gui.helper.LightmapHelper;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.data.adapter.Adapters;
@@ -73,9 +74,6 @@ import static iskallia.vault.core.vault.Vault.LISTENERS;
 import static iskallia.vault.core.vault.time.TickClock.DISPLAY_TIME;
 
 public class CorruptedObjective extends Objective {
-
-
-
     /* TODO:
      * Rework Objective to make Monolith Charge Level be shown in the HUD
      * Remove Modifier Pools from Fractured Obelisks
@@ -129,7 +127,6 @@ public class CorruptedObjective extends Objective {
             .with(Version.v1_0, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
             .register(FIELDS);
 
-
     public static final FieldKey<Integer> TARGET = FieldKey.of("target", Integer.class)
             .with(Version.v1_0, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
             .register(FIELDS);
@@ -146,17 +143,24 @@ public class CorruptedObjective extends Objective {
             .with(Version.v1_22, Adapters.IDENTIFIER, DISK.all())
             .register(FIELDS);
 
-    public static final FieldKey<Boolean> COMPLETED_FIRST_TARGET = FieldKey.of("completed_first_target", Boolean.class)
-            .with(Version.v1_25, Adapters.BOOLEAN, DISK.all().or(CLIENT.all()))
-            .register(FIELDS);
-
-
 
     public static final FieldKey<Integer> DISPLAY_OVERLAY_TICK = FieldKey.of("display_overlay_tick", Integer.class)
             .with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all()))
             .register(FIELDS);
 
     public static final FieldKey<Integer> TIME_ADDEND_TICKS = FieldKey.of("time_addend_ticks", Integer.class)
+            .with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all()))
+            .register(FIELDS);
+
+    public static final FieldKey<Boolean> INITIAL_COMPLETION = FieldKey.of("initial_completion", Boolean.class)
+            .with(Version.v1_31, Adapters.BOOLEAN, DISK.all())
+            .register(FIELDS);
+
+    public static final FieldKey<Boolean> TRUE_COMPLETION = FieldKey.of("true_completion", Boolean.class)
+            .with(Version.v1_31, Adapters.BOOLEAN, DISK.all())
+            .register(FIELDS);
+
+    public static final FieldKey<Integer> TIME_TICKED_FAKE = FieldKey.of("time_ticked_fake", Integer.class)
             .with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all()))
             .register(FIELDS);
 
@@ -167,14 +171,16 @@ public class CorruptedObjective extends Objective {
 
     public CorruptedObjective(int target, float objectiveProbability, ResourceLocation stackModifierPool) {
         this.set(COUNT, 0);
-        this.set(TARGET, target); // Actual target is double of this, it loops around
-        this.set(BASE_TARGET, target); // Actual target is double of this, it loops around
+        this.set(TARGET, target);
+        this.set(BASE_TARGET, target);
         this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
         this.set(STACK_MODIFIER_POOL, stackModifierPool);
-        this.set(COMPLETED_FIRST_TARGET, false);
 
-        this.set(DISPLAY_OVERLAY_TICK, 0);
-        this.set(TIME_ADDEND_TICKS, 0);
+        this.set(DISPLAY_OVERLAY_TICK, 0); // Duration for which the additional time is displayed on hud
+        this.set(TIME_ADDEND_TICKS, 0); // Time added to display on hud
+        this.set(INITIAL_COMPLETION, false); // Whether the primary objective was Completed
+        this.set(TRUE_COMPLETION, false); // Whether the true Objective was completed
+        this.set(TIME_TICKED_FAKE, 0); // The time ticked by the fake completion -> stops at 15s ticked
     }
 
     public static CorruptedObjective of(int target, float objectiveProbability, ResourceLocation stackModifierPool) {
@@ -198,8 +204,6 @@ public class CorruptedObjective extends Objective {
                 clock.set(TickTimer.DISPLAY_TIME, 6000);
             }
         });
-
-
 
 
 
@@ -230,11 +234,9 @@ public class CorruptedObjective extends Objective {
             world.setBlock(pos, world.getBlockState(pos).setValue(FracturedObelisk.FILLED, true), 3);
             this.playActivationEffects(world, pos);
 
-            if(!this.get(COMPLETED_FIRST_TARGET)) {
-                this.set(COUNT, this.get(COUNT) + 1);  // Maybe summon mobs like ObeliskObjective
-            } else {
-                this.set(COUNT, this.get(COUNT) -1);
-            }
+
+            this.set(COUNT, this.get(COUNT) + 1);  // Maybe summon mobs like ObeliskObjective
+
 
 
             for (Objective objective : this.get(CHILDREN)) {
@@ -283,6 +285,7 @@ public class CorruptedObjective extends Objective {
 
                 FloatingItemEntity floatingItem = FloatingItemEntity.create(world, pos.above(), new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.RUINED_ESSENCE));
                 world.addFreshEntity(floatingItem); // TODO item that progressively decays -> 5min and its useless besides soul value
+                world.setBlock(pos.below(), ModBlocks.VOID_LIQUID_BLOCK.defaultBlockState(), 1); // set block below obelisk as void liquid :3
 
                 data.setResult(InteractionResult.SUCCESS);
             }
@@ -333,7 +336,7 @@ public class CorruptedObjective extends Objective {
 
         CommonEvents.ENTITY_DEATH.register(this, event -> {
             if(event.getEntity().level != world) return;
-            if(event.getSource().getEntity() instanceof Player) {
+            if(event.getSource().getEntity() instanceof Player && this.eligibleForExtraTime(vault)) {
                 int timeLeft = vault.get(Vault.CLOCK).get(DISPLAY_TIME);
                 int increase = calculateGradualTimeIncrease(timeLeft);
 
@@ -344,6 +347,9 @@ public class CorruptedObjective extends Objective {
                     this.set(TIME_ADDEND_TICKS, this.get(TIME_ADDEND_TICKS) + increase);
                     this.set(DISPLAY_OVERLAY_TICK, 40); // display the overlay for 2s
                 }
+            } else {
+                Random random = new Random();
+                event.getEntity().level.playSound(null, event.getEntity().blockPosition(), ModSounds.BLOODHORDE_DEATH, SoundSource.HOSTILE, 1.2F, 0.75F * random.nextFloat() + 0.65F);
             }
         });
 
@@ -378,14 +384,8 @@ public class CorruptedObjective extends Objective {
         double increase = CommonEvents.OBJECTIVE_TARGET.invoke(world, vault, 0.0).getIncrease();
         this.set(TARGET, (int)Math.round((double)this.get(BASE_TARGET) * (1.0 + increase)));
 
-        if (this.get(COUNT) >= this.get(TARGET)) {
-            this.set(COMPLETED_FIRST_TARGET, true);
-        }
 
-        // If it looped around, tick super.
-        if(this.get(COUNT) >= this.get(TARGET) && this.get(COMPLETED_FIRST_TARGET)) {
-            super.tickServer(world, vault);
-        }
+
 
         if(this.get(DISPLAY_OVERLAY_TICK) != 0) {
             this.set(DISPLAY_OVERLAY_TICK, this.get(DISPLAY_OVERLAY_TICK) - 1);
@@ -394,6 +394,12 @@ public class CorruptedObjective extends Objective {
                 this.set(TIME_ADDEND_TICKS, 0);
             }
         }
+
+        if(this.isCompleted()) {
+            super.tickServer(world, vault);
+        }
+
+        //TODO: sound when timer goes negative OOOOOOOOOOO scary 1!!
     }
 
     @Override
@@ -402,7 +408,7 @@ public class CorruptedObjective extends Objective {
             listener.addObjective(vault, this);
         }
 
-        if(listener instanceof Runner && this.get(COUNT) >= this.get(TARGET)) {
+        if(listener instanceof Runner && this.isCompleted()) {
             super.tickListener(world, vault, listener);
         }
     }
@@ -413,26 +419,27 @@ public class CorruptedObjective extends Objective {
     @OnlyIn(Dist.CLIENT)
     @Override
     public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
-
         Minecraft mc = Minecraft.getInstance();
         Font font = mc.font;
 
 
 
 
+//                TickTimer timer = ((TickTimer) (Object)this);
+//                if(!timer.has(VISIBLE)) return;
+//                int color = getTextColor(timer.get(DISPLAY_TIME));
+//                MutableComponent cmp = ComponentUtils.corruptComponent(new TextComponent(UIHelper.formatTimeString(timer.get(DISPLAY_TIME))));
+//                FontHelper.drawStringWithBorder(matrixStack, cmp, -12, 13, color, 0xFF000000);
+//
+//        }
 
         if (this.get(DISPLAY_OVERLAY_TICK) > 0) {
             if (player != null) {
                 float alpha = Math.min(1.0f, this.get(DISPLAY_OVERLAY_TICK) / (float) 40); // 2s base
-
-                // Render the combo timer text
-                MutableComponent cmp = ComponentUtils.corruptComponent(new TextComponent("Harvested  " + (this.get(TIME_ADDEND_TICKS) / 20.0) + "s"));
-                int screenWidth = window.getGuiScaledWidth();
-                int screenHeight = window.getGuiScaledHeight();
                 int textColor = (int) (255 * alpha) << 24 | 0xFFFFFF; // Apply alpha to the color (ARGB format)
 
-                // Render the message at the top center of the screen
-                font.drawShadow(matrixStack, cmp, screenWidth / 2f - font.width(cmp) / 2f, screenHeight / 4f, textColor);
+                MutableComponent cmp = new TextComponent("+" + (this.get(TIME_ADDEND_TICKS) / 20.0) + "s");
+                FontHelper.drawStringWithBorder(matrixStack, cmp, 76, window.getGuiScaledHeight() - 44, textColor, 0xFF000000);
             }
         }
 
@@ -453,7 +460,7 @@ public class CorruptedObjective extends Objective {
 
 
         int current = this.get(COUNT);
-        int total = this.get(TARGET) - 1;
+        int total = this.get(TARGET);
 
         Component txt = new TextComponent(String.valueOf(current)).withStyle(style -> style.withColor(ChatFormatting.RED).withBold(true))
                 .append(new TextComponent(" / ").withStyle(style -> style.withColor(ChatFormatting.RED).withBold(true)))
@@ -496,7 +503,7 @@ public class CorruptedObjective extends Objective {
 
     @Override
     public boolean isActive(VirtualWorld world, Vault vault, Objective objective) {
-        if(this.get(COUNT) < this.get(TARGET)) {
+        if(!isCompleted()) {
             return objective == this;
         }
 
@@ -507,15 +514,32 @@ public class CorruptedObjective extends Objective {
         return false;
     }
 
+
+
+
+    /* Vault Objective Methods */
+
+    /**
+     * Utility method that gets called upon interacting with a Fractured Obelisk
+     *
+     * @param world ServerLevel to play the effects in
+     * @param pos Position to play the effects at
+     */
     private void playActivationEffects(VirtualWorld world, BlockPos pos) {
         ModNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new MonolithIgniteMessage(pos)); // TODO
         world.playSound(null, pos, ModSounds.ARTIFACT_BOSS_CATALYST_HIT, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
+    /**
+     * Utility method that gets called upon interacting with a Fractured Obelisk<br>
+     * Spreads {@code the_vault:error_block}s in a set radius of 7 blocks around itself
+     *
+     * @param world
+     * @param startPos
+     */
     private void spreadErrorBlocks(Level world, BlockPos startPos) {
-        // Define the radius of the circular area
-        int radius = 7; // Half of the 7x7 area
-        Random random = new Random();
+        int radius = 7;
+        Random random = new Random(); // Replace with the Vaults random?
 
         // Center coordinates
         int centerX = startPos.getX();
@@ -548,5 +572,13 @@ public class CorruptedObjective extends Objective {
 
         float fraction = 1 - ((float) timeLeftInSeconds / maxTimeInSeconds);
         return Math.max(0, Math.round(maxAddTimeInTicks * fraction));
+    }
+
+    private boolean isCompleted() {
+        return this.get(COUNT) >= this.get(TARGET) && this.get(INITIAL_COMPLETION) && this.get(TRUE_COMPLETION);
+    }
+
+    private boolean eligibleForExtraTime(Vault vault) {
+        return vault.get(Vault.CLOCK).get(DISPLAY_TIME) > 0;
     }
 }
