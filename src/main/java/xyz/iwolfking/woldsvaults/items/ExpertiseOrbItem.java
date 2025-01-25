@@ -44,7 +44,7 @@ public class ExpertiseOrbItem extends BasicItem {
             if(server != null) {
                 PlayerVaultStatsData stats = PlayerVaultStatsData.get(server);
                 PlayerVaultStats playerStats = stats.getVaultStats(player);
-                if((playerStats.getTotalSpentExpertisePoints() + playerStats.getUnspentExpertisePoints()) <= 42 && playerStats.getVaultLevel() >= 100) {
+                if((playerStats.getTotalSpentExpertisePoints() + playerStats.getUnspentExpertisePoints()) <= 500 && playerStats.getVaultLevel() >= 100) {
                     playerStats.addExpertisePoints(1).sync(server);
                     heldStack.shrink(1);
                     level.playSound(player, player.getOnPos(), getSuccessSound(), SoundSource.PLAYERS, 1.0F, 1.0F);

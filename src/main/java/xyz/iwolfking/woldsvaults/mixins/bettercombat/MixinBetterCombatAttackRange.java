@@ -1,9 +1,14 @@
 package xyz.iwolfking.woldsvaults.mixins.bettercombat;
 
+import iskallia.vault.core.event.CommonEvents;
+import iskallia.vault.core.event.common.PlayerStatEvent;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.snapshot.AttributeSnapshot;
+import iskallia.vault.snapshot.AttributeSnapshotHelper;
+import iskallia.vault.util.calc.PlayerStat;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.bettercombat.api.WeaponAttributes;
@@ -37,19 +42,9 @@ public abstract class MixinBetterCombatAttackRange {
      */
     @Overwrite
     public static TargetFinder.TargetResult findAttackTargetResult(Player player, Entity cursorTarget, WeaponAttributes.Attack attack, double attackRange) {
-        ItemStack mainHand = player.getItemInHand(InteractionHand.MAIN_HAND);
-        ItemStack offHand = player.getItemInHand(InteractionHand.OFF_HAND);
-        if(mainHand.getItem() instanceof VaultGearItem) {
-            VaultGearData data = VaultGearData.read(mainHand);
-            double reach = data.get(ModGearAttributes.ATTACK_RANGE, VaultGearAttributeTypeMerger.doubleSum());
-            attackRange += reach;
-        }
-        if(offHand.getItem() instanceof VaultGearItem){
-            VaultGearData data = VaultGearData.read(offHand);
-            double reach = data.get(ModGearAttributes.ATTACK_RANGE, VaultGearAttributeTypeMerger.doubleSum());
-            attackRange += reach;
-        }
-
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
+        double range = snapshot.getAttributeValue(ModGearAttributes.ATTACK_RANGE, VaultGearAttributeTypeMerger.doubleSum());
+        attackRange += range;
         Vec3 origin = getInitialTracingPoint(player);
         List<Entity> entities = getInitialTargets(player, cursorTarget, attackRange);
         if (CompatibilityFlags.usePehkui) {

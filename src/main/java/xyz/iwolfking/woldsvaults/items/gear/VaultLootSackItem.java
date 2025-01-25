@@ -28,11 +28,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
 
 import java.util.List;
 import java.util.Random;
@@ -105,6 +107,15 @@ public class VaultLootSackItem extends BasicItem implements VaultGearItem {
     @Override
     public int getMaxDamage(ItemStack stack) {
         return VaultGearData.read(stack).get(ModGearAttributes.DURABILITY, VaultGearAttributeTypeMerger.intSum());
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        if(AllowedEnchantmentsData.isAllowedUtilityEnchantment(enchantment)) {
+            return true;
+        }
+
+        return super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
     @Override

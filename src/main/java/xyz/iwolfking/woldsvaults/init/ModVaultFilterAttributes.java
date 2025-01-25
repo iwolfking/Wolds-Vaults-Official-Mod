@@ -16,6 +16,7 @@ public class ModVaultFilterAttributes {
         new EtchedLayoutTypeAttribute("Infinite").register(EtchedLayoutTypeAttribute::new);
         new EtchedLayoutTunnelAttribute(1).register(EtchedLayoutTunnelAttribute::new);
         new EtchedLayoutValueAttribute(1).register(EtchedLayoutValueAttribute::new);
+        new AntiqueAttribute("Acquired taste").register(AntiqueAttribute::new);
         new EtchingSetAttribute("").register(EtchingSetAttribute::new);
         new GatePearlSizeAttribute("").register(GatePearlSizeAttribute::new);
         new GatePearlRewardsAttribute("").register(GatePearlRewardsAttribute::new);

@@ -6,6 +6,7 @@ import iskallia.vault.dynamodel.model.item.HandHeldModel;
 import iskallia.vault.dynamodel.model.item.PlainItemModel;
 import iskallia.vault.init.ModDynamicModels;
 
+
 public class AdditionalModels {
 
     public static final HandHeldModel LEVIATHAN_AXE;
@@ -16,6 +17,10 @@ public class AdditionalModels {
     public static final HandHeldModel EVERFROST;
     public static final HandHeldModel EVERFLAME;
     public static final HandHeldModel HEXBLADE;
+    public static final HandHeldModel HORSE_AXE;
+    public static final HandHeldModel YOUNG_KITSUNE;
+    public static final HandHeldModel MINERAL_GREATSWORD;
+    public static final HandHeldModel GRASS_BLADE;
 
     static {
        LEVIATHAN_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/leviathan"), "Leviathan")).properties(new DynamicModelProperties());
@@ -26,5 +31,10 @@ public class AdditionalModels {
        EVERFROST = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/everfrost"), "Everfrost")).properties(new DynamicModelProperties());
        EVERFLAME = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/everflame"), "Everflame")).properties(new DynamicModelProperties());
        HEXBLADE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/hexblade"), "Hexblade")).properties(new DynamicModelProperties());
+       HORSE_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/zombie_horse"), "Zombie-Horse")).properties(new DynamicModelProperties());
+       YOUNG_KITSUNE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/young_kitsune"), "Young Kitsune")).properties(new DynamicModelProperties());
+       MINERAL_GREATSWORD = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/mineral_greatsword"), "Mineral Greatsword")).properties(new DynamicModelProperties());
+       GRASS_BLADE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/grass_blade"), "Leaf Sword")).properties(new DynamicModelProperties());
     }
+
 }

@@ -34,6 +34,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.loading.LoadingModList;
 import xyz.iwolfking.woldsvaults.config.UnhingedScavengerConfig;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
 import java.util.List;
@@ -73,7 +74,7 @@ public class UnhingedScavengerObjective extends ScavengerObjective {
             }
         }
 
-        if(!hasGeneratedModifiers) {
+        if(!hasGeneratedModifiers && WoldsVaultsConfig.COMMON.normalizedModifierEnabled.get()) {
             VaultModifierUtils.addModifier(vault, VaultMod.id("normalized"), 1);
         }
 

@@ -16,6 +16,7 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
@@ -52,7 +53,7 @@ public class EnchantedElixirObjective extends ElixirObjective {
             }
         }
 
-        if(!hasGeneratedModifiers) {
+        if(!hasGeneratedModifiers && WoldsVaultsConfig.COMMON.normalizedModifierEnabled.get()) {
             VaultModifierUtils.addModifier(vault, VaultMod.id("normalized"), 1);
         }
 

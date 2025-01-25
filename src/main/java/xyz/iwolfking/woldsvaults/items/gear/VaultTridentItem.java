@@ -47,7 +47,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.LoadingModList;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.woldsvaults.compat.bettertridents.BetterThrownTrident;
+import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
 import xyz.iwolfking.woldsvaults.models.Tridents;
 
 import javax.annotation.Nonnull;
@@ -118,7 +121,7 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         if (enchantment.equals(Enchantments.LOYALTY) || enchantment.equals(Enchantments.RIPTIDE) ||
             enchantment.equals(Enchantments.CHANNELING)) {
             return false;
-        } else if (enchantment.equals(Enchantments.MOB_LOOTING)) {
+        } else if (enchantment.equals(Enchantments.MOB_LOOTING) || AllowedEnchantmentsData.isAllowedUtilityEnchantment(enchantment)) {
             return true;
         } else {
             return super.canApplyAtEnchantingTable(stack, enchantment);
@@ -195,7 +198,11 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
                             p_43388_.broadcastBreakEvent(entity.getUsedItemHand());
                         });
                         if (j == 0) {
-                            ThrownTrident throwntrident = new ThrownTrident(level, player, stack);
+                            ThrownTrident throwntrident;
+                            if(LoadingModList.get().getModFileById("bettertridents") != null)
+                                throwntrident = new BetterThrownTrident(level, player, stack);
+                            else
+                                throwntrident = new ThrownTrident(level, player, stack);
                             throwntrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F + j * 0.5F, 1.0F);
                             if (player.getAbilities().instabuild) {
                                 throwntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;

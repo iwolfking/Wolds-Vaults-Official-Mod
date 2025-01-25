@@ -27,10 +27,13 @@ public abstract class MixinArtisanStationTileEntity extends BlockEntity {
     }
 
     @Inject(method = "canInsertInput", at = @At("HEAD"),cancellable = true)
-    private void addEccentricFocus(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private void addNewFoci(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if(slot == 16) {
             cir.setReturnValue(stack.is(ModItems.ECCENTRIC_FOCUS));
         }
+//        if(slot == 17) {
+//            cir.setReturnValue(stack.is(ModItems.WEAPON_TYPE_FOCUS));
+//        }
     }
 
     @Shadow public abstract boolean canInsertInput(int slot, @NotNull ItemStack stack);

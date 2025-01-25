@@ -35,10 +35,13 @@ public class WoldsVaultsConfig
         //public final ForgeConfigSpec.ConfigValue<Boolean> disableVanillaUnsupportedElixirEvents;
 
         public final ForgeConfigSpec.ConfigValue<Boolean> disableFlightInVaults;
+        public final ForgeConfigSpec.ConfigValue<Boolean> normalizedModifierEnabled;
         public final ForgeConfigSpec.ConfigValue<Boolean> enableMoteRecipes;
         public final ForgeConfigSpec.ConfigValue<Boolean> displayItemBordersInTerminals;
         public final ForgeConfigSpec.ConfigValue<Boolean> enableDebugMode;
         public final ForgeConfigSpec.ConfigValue<Integer> crystalReinforcementMaxCapacityAdded;
+        public final ForgeConfigSpec.ConfigValue<Boolean> disableWanderingWispSpawning;
+        public final ForgeConfigSpec.ConfigValue<Boolean> weaponsShouldntBeBetter;
         public Common(ForgeConfigSpec.Builder builder)
         {
             builder.push("Features");
@@ -54,11 +57,15 @@ public class WoldsVaultsConfig
             builder.push("Vault Settings");
             this.disableFlightInVaults= builder.comment("Controls whether Creative flight should be blocked while inside a vault. (default: true)")
                     .define("disableFlightInVaults", true);
+            this.normalizedModifierEnabled = builder.comment("Whether the \"Normalized\" Modifier should be enabled and functional (default: true)")
+                    .define("normalizedModifierEnabled", true);
             builder.pop();
             builder.push("Gameplay Settings");
             this.enableMoteRecipes= builder.comment("Controls whether Mote of Purity, Sanctity, and Clarity should work in the Crystal Workbench. (default: false)")
                     .define("enableMoteRecipes", false);
             this.crystalReinforcementMaxCapacityAdded = builder.comment("The max capacity that can be added to a tool with Crystal Reinforcements. (default: 20)").define("crystalReinforcementMaxCapacityAdded", 20);
+            this.disableWanderingWispSpawning = builder.comment("Controls whether or not wandering wisps should spawn (default: true)").define("disableWanderingWispSpawning", true);
+            this.weaponsShouldntBeBetter = builder.comment("Whether Better Combat should be disabled for weapons or not (default: false)").define("weaponsShouldntBeBetter", false);
             builder.pop();
             builder.push("Compatability Settings");
             builder.push("Item Borders");

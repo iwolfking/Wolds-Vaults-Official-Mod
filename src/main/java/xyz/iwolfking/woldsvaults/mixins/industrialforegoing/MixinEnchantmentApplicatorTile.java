@@ -15,7 +15,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.iwolfking.woldsvaults.data.BannedEnchantmentsData;
+import xyz.iwolfking.woldsvaults.data.enchantments.BannedEnchantmentsData;
 @Restriction(
         require = {
                 @Condition(type = Condition.Type.MOD, value = "industrialforegoing")

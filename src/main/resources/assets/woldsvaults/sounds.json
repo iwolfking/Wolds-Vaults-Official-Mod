@@ -22,5 +22,14 @@
       "woldsvaults:wold/death1",
       "woldsvaults:wold/death2"
     ]
+  },
+  "saferspaces_proc": {
+    "category": "player",
+    "subtitle": "woldsvaults.subtitle.saferspaces_proc",
+    "sounds": [
+      "woldsvaults:saferspaces/bear_01",
+      "woldsvaults:saferspaces/bear_02",
+      "woldsvaults:saferspaces/bear_03"
+    ]
   }
 }

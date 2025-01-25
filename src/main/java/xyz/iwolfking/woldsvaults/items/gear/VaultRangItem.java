@@ -47,6 +47,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.quark.base.handler.QuarkSounds;
+import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
 import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangEntity;
 import xyz.iwolfking.woldsvaults.models.Rangs;
 
@@ -192,6 +193,9 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         if(enchantment.equals(Enchantments.UNBREAKING) || enchantment.equals(Enchantments.MOB_LOOTING) || enchantment.equals(EnsorcEnchantments.SOULBOUND.get())) {
+            return true;
+        }
+        if(AllowedEnchantmentsData.isAllowedUtilityEnchantment(enchantment)) {
             return true;
         }
         else {

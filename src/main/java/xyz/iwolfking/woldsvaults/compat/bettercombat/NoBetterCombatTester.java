@@ -8,4 +8,5 @@ public class NoBetterCombatTester implements ConditionTester {
     public boolean isSatisfied(String s) {
         return LoadingModList.get().getModFileById("bettercombat") == null;
     }
+
 }

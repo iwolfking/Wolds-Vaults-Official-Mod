@@ -8,7 +8,8 @@
       "vhapi:gear/axe/iskallianchor"
     ],
     "UNIQUE": [
-      "the_vault:gear/axe/leviathan"
+      "the_vault:gear/axe/leviathan",
+      "the_vault:gear/axe/zombie_horse"
     ]
   },
   "WAND_MODEL_ROLLS": {
@@ -35,7 +36,9 @@
     ],
     "UNIQUE": [
       "the_vault:gear/sword/everfrost",
-      "the_vault:gear/sword/everflame"
+      "the_vault:gear/sword/everflame",
+      "the_vault:gear/sword/mineral_greatsword",
+      "the_vault:gear/sword/leaf_blade"
     ]
   }
 }

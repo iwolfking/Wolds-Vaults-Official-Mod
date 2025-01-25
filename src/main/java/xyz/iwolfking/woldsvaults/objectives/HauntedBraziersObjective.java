@@ -67,6 +67,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.LoadingModList;
 import net.minecraftforge.network.PacketDistributor;
 import vazkii.quark.content.mobs.entity.Wraith;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class HauntedBraziersObjective extends MonolithObjective {
             }
         }
 
-        if(!hasGeneratedModifiers) {
+        if(!hasGeneratedModifiers && WoldsVaultsConfig.COMMON.normalizedModifierEnabled.get()) {
             VaultModifierUtils.addModifier(vault, VaultMod.id("normalized"), 1);
         }
 

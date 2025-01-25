@@ -12,6 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import org.spongepowered.asm.mixin.Mixin;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
+
 @Restriction(
         require = {
                 @Condition(type = Condition.Type.MOD, value = "cofh_core"),
@@ -27,7 +29,7 @@ public abstract class MixinVaultMagnet extends Item implements VaultGearItem, Cu
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        if(enchantment.equals(EnsorcEnchantments.SOULBOUND.get())) {
+        if(AllowedEnchantmentsData.isAllowedUtilityEnchantment(enchantment)) {
             return true;
         }
         else {

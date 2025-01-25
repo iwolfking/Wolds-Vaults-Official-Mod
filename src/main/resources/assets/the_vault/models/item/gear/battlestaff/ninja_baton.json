@@ -1,0 +1,61 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0":  "the_vault:item/gear/battlestaff/ninja_baton",
+		"particle":  "the_vault:item/gear/battlestaff/ninja_baton"
+	},
+	"elements": [
+		{
+			"from": [6.65, 2, 9.175],
+			"to": [8.15, 10, 10.675],
+			"rotation": {"angle": 0, "axis": "y", "origin": [4, 7.5, 7]},
+			"faces": {
+				"north": {"uv": [14, 0, 16, 12], "texture": "#0"},
+				"east": {"uv": [14, 0, 16, 12], "texture": "#0"},
+				"south": {"uv": [14, 0, 16, 12], "texture": "#0"},
+				"west": {"uv": [14, 0, 16, 12], "texture": "#0"},
+				"up": {"uv": [14, 0, 16, 2], "texture": "#0"},
+				"down": {"uv": [14, 0, 16, 2], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.4, -16, 8.925],
+			"to": [8.4, 2, 10.925],
+			"rotation": {"angle": 0, "axis": "y", "origin": [4, 7.5, 7]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 14], "texture": "#0"},
+				"east": {"uv": [0, 0, 1, 14], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 14], "texture": "#0"},
+				"west": {"uv": [0, 0, 1, 14], "texture": "#0"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.4, 10, 8.925],
+			"to": [8.4, 28, 10.925],
+			"rotation": {"angle": 0, "axis": "y", "origin": [4, 7.5, 7]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 15], "texture": "#0"},
+				"east": {"uv": [0, 0, 2, 15], "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 15], "texture": "#0"},
+				"west": {"uv": [0, 0, 2, 15], "texture": "#0"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"ground": {
+			"translation": [0, 4.5, 0]
+		},
+		"gui": {
+			"rotation": [-180, 47.5, -180],
+			"translation": [0.75, -3, -1.5]
+		},
+		"fixed": {
+			"rotation": [0, 64.5, 0],
+			"translation": [1, -1.5, -1.5]
+		}
+	}
+}

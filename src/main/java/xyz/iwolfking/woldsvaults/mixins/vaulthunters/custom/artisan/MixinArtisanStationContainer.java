@@ -19,7 +19,8 @@ public abstract class MixinArtisanStationContainer {
 
     @Inject(method = "initSlots", at = @At(value = "INVOKE", target = "Liskallia/vault/container/VaultArtisanStationContainer;addModSlot(Liskallia/vault/container/oversized/OverSizedTabSlot;Liskallia/vault/container/VaultArtisanStationContainer$Tab;Liskallia/vault/gear/modification/GearModification;Liskallia/vault/container/VaultArtisanStationContainer$ButtonSide;)V", ordinal = 13))
     private void addUnusualSlot(Inventory playerInventory, CallbackInfo ci) {
-        this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 16, 150, 96), VaultArtisanStationContainer.Tab.EXOTIC, ModGearModifications.UNUSUAL_GEAR_MODIFICATION, VaultArtisanStationContainer.ButtonSide.LEFT);
+        this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 16, 150, 92), VaultArtisanStationContainer.Tab.EXOTIC, ModGearModifications.UNUSUAL_GEAR_MODIFICATION, VaultArtisanStationContainer.ButtonSide.LEFT);
+        //this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 17, 8, 92), VaultArtisanStationContainer.Tab.EXOTIC, ModGearModifications.WEAPON_TYPE_MODIFICATION, VaultArtisanStationContainer.ButtonSide.RIGHT);
     }
 
     @Shadow protected abstract void addModSlot(OverSizedTabSlot slot, VaultArtisanStationContainer.Tab tab, GearModification modification, VaultArtisanStationContainer.ButtonSide side);
