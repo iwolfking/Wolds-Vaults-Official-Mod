@@ -15,4 +15,9 @@ public class SetupEvents {
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         ModEntities.registerAttributes(event);
     }
+
+    public static void cacheRecipeIngredientTypes() {
+
+    }
+
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "woldsvaults:block/chromatic_iron_vault_infuser_top",
+    "front": "woldsvaults:block/chromatic_iron_vault_infuser_front_on",
+    "side": "woldsvaults:block/chromatic_iron_vault_infuser_side"
+  }
+}

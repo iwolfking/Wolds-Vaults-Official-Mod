@@ -14,20 +14,27 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import xyz.iwolfking.woldsvaults.init.ModEffects;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class AirMobilityItem extends BasicItem implements ICurioItem {
     public AirMobilityItem(ResourceLocation id) {
         super(id);
     }
 
+    Set<UUID> disabledVaultUUIDs = new HashSet<>();
+
     // modify base player attributes :3
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
-        if(slotContext.entity().hasEffect(MobEffects.SLOW_FALLING)) {
+        if(slotContext.entity().hasEffect(MobEffects.SLOW_FALLING) || slotContext.entity().hasEffect(ModEffects.GROUNDED)) {
             return;
         }
+
         slotContext.entity().setSpeed(0.2F);
         slotContext.entity().flyingSpeed = slotContext.entity().getSpeed() * 0.5F;
     }

@@ -97,13 +97,13 @@ public class BallisticBingoObjective extends BingoObjective {
                 hasGeneratedModifiers = true;
             }
         }
-
+      
         if(!hasGeneratedModifiers && WoldsVaultsConfig.COMMON.normalizedModifierEnabled.get()) {
             VaultModifierUtils.addModifier(vault, VaultMod.id("normalized"), 1);
         }
-
-
+      
         CommonEvents.LISTENER_JOIN.register(this, data -> {
+
             if (data.getVault() == vault) {
                 if (data.getListener() instanceof Runner runner) {
                     if (this.get(TASK_SOURCE) instanceof EntityTaskSource entitySource) {
