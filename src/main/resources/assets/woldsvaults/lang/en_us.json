@@ -206,7 +206,8 @@
   "entity.the_vault.boogieman_boss": "Boogieman Boss",
   "entity.the_vault.golem_boss": "Golem Boss",
   "key.the_vault.quickselect.colossus": "Select and use ability: Colossus",
-  "woldsvaults.subtitle.saferspaces_proc": "Safer Spaces activated!"
+  "woldsvaults.subtitle.saferspaces_proc": "Safer Spaces activated!",
+  "the_vault.gear_modification.tab.mythical": "Mythical",
   "item.woldsvaults.pogominium_ingot": "POG-ominium Ingot",
   "item.woldsvaults.infused_driftwood": "Infused Driftwood",
   "item.woldsvaults.spark_of_inspiration": "Spark of Inspiration",
