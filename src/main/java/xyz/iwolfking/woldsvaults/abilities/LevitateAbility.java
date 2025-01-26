@@ -53,7 +53,7 @@ public class LevitateAbility extends HoldManaAbility {
 
             Ability.TickResult result = super.doActiveTick(context);
             if (result != Ability.TickResult.COOLDOWN) {
-                MobEffectInstance newEffect = new MobEffectInstance(MobEffects.LEVITATION, 2, levitateStrength, false, false, true);
+                MobEffectInstance newEffect = new MobEffectInstance(MobEffects.LEVITATION, 100, levitateStrength, false, false, true);
                 player.addEffect(newEffect);
                 doParticles(context);
             }
@@ -61,6 +61,15 @@ public class LevitateAbility extends HoldManaAbility {
             return result;
 
         }).orElse(Ability.TickResult.PASS);
+    }
+
+    @Override
+    public boolean onKeyUp(SkillContext context) {
+            context.getSource().as(ServerPlayer.class).map(player -> {
+                player.removeEffect(MobEffects.LEVITATION);
+                return true;
+            });
+        return super.onKeyUp(context);
     }
 
     @Override

@@ -28,4 +28,8 @@ public class ModGearAttributeReaders {
     public static InscriptionModifierReader inscriptionReader(String modifierName, int rgbColor, String format) {
         return new InscriptionModifierReader(modifierName, rgbColor, format);
     }
+  
+   public static WeaponTypeReader weaponTypeReader(String modifierName, int rgbColor, String format) {
+        return new WeaponTypeReader(modifierName, rgbColor, format);
+    }
 }

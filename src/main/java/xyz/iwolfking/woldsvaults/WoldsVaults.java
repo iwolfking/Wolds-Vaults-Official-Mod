@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.LoadingModList;
 import org.slf4j.Logger;
 import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
@@ -38,6 +39,7 @@ public class WoldsVaults {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final String MOD_ID = "woldsvaults";
+    public static boolean BETTER_COMBAT_PRESENT = true;
     public WoldsVaults() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WoldsVaultsConfig.COMMON_SPEC, "woldsvaults-common.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, WoldsVaultsConfig.CLIENT_SPEC, "woldsvaults-client.toml");
@@ -73,6 +75,7 @@ public class WoldsVaults {
         ModVaultFilterAttributes.initAttributes();
         NetworkHandler.onCommonSetup();
         CrystalData.OBJECTIVE.register("brb_speedrun", SpeedrunCrystalObjective.class, SpeedrunCrystalObjective::new);
+        BETTER_COMBAT_PRESENT = LoadingModList.get().getModFileById("bettercombat") != null;
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

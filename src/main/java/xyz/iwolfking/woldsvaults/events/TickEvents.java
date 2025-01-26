@@ -23,11 +23,15 @@ import java.util.Random;
 public class TickEvents {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if(!WoldsVaultsConfig.COMMON.disableFlightInVaults.get()) {
+
+        if((event.player.tickCount % 20) != 0) {
             return;
         }
 
-        if((event.player.tickCount % 20) != 0) {
+        if(event.side.isClient())
+            WoldActiveFlags.IS_USING_SAFER_SPACE.trySet(event.player.hasEffect(ModEffects.SAFER_SPACE));
+
+        if(!WoldsVaultsConfig.COMMON.disableFlightInVaults.get()) {
             return;
         }
 

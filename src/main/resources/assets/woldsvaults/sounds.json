@@ -23,6 +23,15 @@
       "woldsvaults:wold/death2"
     ]
   },
+  "saferspaces_proc": {
+    "category": "player",
+    "subtitle": "woldsvaults.subtitle.saferspaces_proc",
+    "sounds": [
+      "woldsvaults:saferspaces/bear_01",
+      "woldsvaults:saferspaces/bear_02",
+      "woldsvaults:saferspaces/bear_03"
+    ]
+  },
   "dark": {
     "category": "ambient",
     "sounds": [

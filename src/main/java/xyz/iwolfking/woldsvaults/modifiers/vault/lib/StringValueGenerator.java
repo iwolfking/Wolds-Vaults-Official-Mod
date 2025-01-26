@@ -18,11 +18,11 @@ public class StringValueGenerator extends ConstantObjectGenerator<String, String
     }
 
     @Nullable
-    public MutableComponent getConfigDisplay(VaultGearModifierReader<Boolean> reader, BooleanFlagGenerator.BooleanFlag object) {
-        return (new TextComponent(reader.getModifierName())).withStyle(reader.getColoredTextStyle());
+    public MutableComponent getConfigDisplay(VaultGearModifierReader<String> reader, StringValueGenerator.StringValue object) {
+        return (new TextComponent(reader.getModifierName()).append(": ").append(object.get())).withStyle(reader.getColoredTextStyle());
     }
 
-    public Optional<Float> getRollPercentage(String value, List<StringValueGenerator.StringValue> configurations) {
+    public Optional<Float> getRollPercentage(String value, List<StringValue> configurations) {
         return !value.isEmpty() ? Optional.of(1.0F) : Optional.of(0.0F);
     }
 

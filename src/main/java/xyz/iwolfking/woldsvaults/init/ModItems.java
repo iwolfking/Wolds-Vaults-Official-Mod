@@ -93,6 +93,8 @@ public class ModItems {
     public static final SkillOrbItem SKILL_ORB_ITEM;
 
     public static final BasicItem ECCENTRIC_FOCUS;
+    public static final BasicItem WEAPON_TYPE_FOCUS;
+    public static final BasicItem WEAPON_TYPE_SETTER;
 
     public static BasicItem FRENZY_CAPSTONE;
     public static BasicItem PROSPEROUS_CAPSTONE;
@@ -198,7 +200,6 @@ public class ModItems {
         registry.register(ENDER_ARTIFACT);
         registry.register(ENDER_CRYSTAL);
         registry.register(ALTAR_DECATALYZER);
-        //registry.register(VAULT_AMULET);
         registry.register(CHROMATIC_IRON_ANGEL_RING);
         registry.register(CHROMATIC_GOLD_ANGEL_RING);
         registry.register(CHROMATIC_STEEL_ANGEL_RING);
@@ -265,6 +266,8 @@ public class ModItems {
         registry.register(RANG);
         registry.register(MAP);
         registry.register(LAYOUT_MANIPULATOR);
+        registry.register(WEAPON_TYPE_FOCUS);
+        registry.register(WEAPON_TYPE_SETTER);
         registry.register(GREEDY_VAULT_ROCK);
         registry.register(POGOMINIUM_INGOT);
         registry.register(INFUSED_DRIFTWOOD);
@@ -373,7 +376,8 @@ public class ModItems {
         RANG = new VaultRangItem(VaultMod.id("rang"), new Item.Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
         MAP = new VaultMapItem(VaultMod.id("map"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         LAYOUT_MANIPULATOR = new LayoutModificationItem(VAULT_MOD_GROUP, WoldsVaults.id("layout_manipulator"));
-
+        WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"));
+        WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
         RUINED_ESSENCE = new DecayingItem(WoldsVaults.id("ruined_essence"), 300);
     }
 }

@@ -9,6 +9,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.enchantment.Enchantment;
 import org.spongepowered.asm.mixin.Mixin;
+import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
+
 @Restriction(
         require = {
                 @Condition(type = Condition.Type.MOD, value = "cofh_core"),
@@ -24,7 +26,7 @@ public abstract class MixinVaultShieldItem   extends ShieldItem implements Vault
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        if(enchantment.equals(EnsorcEnchantments.SOULBOUND.get())) {
+        if(AllowedEnchantmentsData.isAllowedUtilityEnchantment(enchantment)) {
             return true;
         }
         else {

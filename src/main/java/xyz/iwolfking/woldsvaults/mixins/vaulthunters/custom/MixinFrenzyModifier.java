@@ -44,16 +44,8 @@ public class MixinFrenzyModifier extends VaultModifier<MobFrenzyModifier.Propert
                         long lowerBits = context.getUUID().getLeastSignificantBits();
                         this.attackDamageAttributeModifier.applyToEntity(entity, new UUID(upperBits++, lowerBits), context);
                         this.movementSpeedAttributeModifier.applyToEntity(entity, new UUID(upperBits, lowerBits), context);
-                    }
-                }
-            }
-        });
-        CommonEvents.ENTITY_TICK.register(context.getUUID(), event -> {
-            LivingEntity entity = event.getEntityLiving();
-            if (entity.level == world && !(entity instanceof Player)) {
-                if (!IModifierImmunity.of(entity).test((MobFrenzyModifier)(Object)this)) {
-                    boolean isBoss = vault.map(Vault.OBJECTIVES, objectives -> {
-                        return objectives.forEach(KillBossObjective.class, objective -> {
+
+                        boolean isBoss = vault.map(Vault.OBJECTIVES, objectives -> objectives.forEach(KillBossObjective.class, objective -> {
                             UUID bossId = objective.get(KillBossObjective.BOSS_ID);
                             return event.getEntity().getUUID().equals(bossId);
                         }) || objectives.forEach(ObeliskObjective.class, objective -> {
@@ -66,12 +58,12 @@ public class MixinFrenzyModifier extends VaultModifier<MobFrenzyModifier.Propert
                             }
 
                             return false;
-                        });
-                    }, false);
-                    if (!isBoss && entity.getHealth() > this.properties.getMaxHealth()) {
-                        entity.setHealth(entity.getMaxHealth() * this.properties.getMaxHealth());
-                    }
+                        }), false);
 
+                        if (!isBoss && entity.getHealth() > this.properties.getMaxHealth()) {
+                            entity.setHealth(entity.getMaxHealth() * this.properties.getMaxHealth());
+                        }
+                    }
                 }
             }
         });

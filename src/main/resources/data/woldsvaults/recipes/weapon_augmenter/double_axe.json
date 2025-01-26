@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "the_vault:amplifying_focus"
+    },
+    {
+      "item": "the_vault:vault_diamond"
+    },
+    {
+      "item": "the_vault:wutodic_silver_ingot"
+    },
+    {
+      "item": "minecraft:stone_axe"
+    },
+    {
+      "item": "minecraft:stone_axe"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:weapon_augmenter",
+    "nbt": "{modifier:\"Double-Axe\"}",
+    "count": 1
+  }
+}

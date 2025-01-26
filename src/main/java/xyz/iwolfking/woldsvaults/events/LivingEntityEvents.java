@@ -6,6 +6,8 @@ import iskallia.vault.block.CoinPileBlock;
 import iskallia.vault.block.VaultChestBlock;
 import iskallia.vault.block.VaultOreBlock;
 import iskallia.vault.core.event.CommonEvents;
+import iskallia.vault.core.event.common.PlayerStatEvent;
+import iskallia.vault.core.vault.time.TickClock;
 import iskallia.vault.entity.VaultBoss;
 import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.entity.champion.ChampionLogic;
@@ -17,12 +19,17 @@ import iskallia.vault.entity.entity.elite.EliteStrayEntity;
 import iskallia.vault.entity.entity.elite.EliteWitchEntity;
 import iskallia.vault.entity.entity.elite.EliteWitherSkeleton;
 import iskallia.vault.entity.entity.elite.EliteZombieEntity;
+import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.gear.trinket.effects.MultiJumpTrinket;
+import iskallia.vault.snapshot.AttributeSnapshot;
+import iskallia.vault.snapshot.AttributeSnapshotHelper;
+import iskallia.vault.util.calc.EffectDurationHelper;
 import iskallia.vault.util.calc.PlayerStat;
+import iskallia.vault.util.calc.ThornsHelper;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -34,9 +41,11 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -44,8 +53,10 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.helper.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.data.HexEffects;
+import xyz.iwolfking.woldsvaults.effect.mobeffects.EchoingPotionEffect;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
@@ -53,6 +64,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.util.WoldEventHelper;
 
 import java.util.Random;
+import java.util.function.BiConsumer;
 
 @Mod.EventBusSubscriber(
         modid = WoldsVaults.MOD_ID
@@ -114,6 +126,83 @@ public class LivingEntityEvents {
     }
 
     @SubscribeEvent
+    public static void executionDamage(LivingHurtEvent event) {
+        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
+        if(!WoldEventHelper.isNormalAttack()) {
+            return;
+        }
+
+        if(event.getSource().isProjectile()) {
+            return;
+        }
+
+        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
+            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
+            if(data != null && data.hasAttribute(ModGearAttributes.EXECUTION_DAMAGE)) {
+                if(WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
+                    WoldsVaults.LOGGER.debug("[WOLD'S VAULTS] Added " + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * data.get(ModGearAttributes.EXECUTION_DAMAGE, VaultGearAttributeTypeMerger.floatSum())) + " bonus execution damage to attack.");
+                }
+
+                event.setAmount(event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * data.get(ModGearAttributes.EXECUTION_DAMAGE, VaultGearAttributeTypeMerger.floatSum())));
+
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void thornsScalingDamage(LivingHurtEvent event) {
+        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
+        if(!WoldEventHelper.isNormalAttack()) {
+            return;
+        }
+
+        if(event.getSource().isProjectile()) {
+            return;
+        }
+
+        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
+            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
+            if(data != null) {
+                float thornsScalingPercent = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.THORNS_SCALING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
+                if(thornsScalingPercent <= 0F) {
+                    return;
+                }
+
+                float thornsDamage = ThornsHelper.getAdditionalThornsFlatDamage(player);
+                event.setAmount(event.getAmount() + (thornsDamage * thornsScalingPercent));
+
+            }
+        }
+    }
+
+
+    @SubscribeEvent
+    public static void apScalingDamage(LivingHurtEvent event) {
+        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
+        if(!WoldEventHelper.isNormalAttack()) {
+            return;
+        }
+
+        if(event.getSource().isProjectile()) {
+            return;
+        }
+
+        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
+            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
+            if(data != null) {
+                float apScalingPercent = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.AP_SCALING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
+                if(apScalingPercent <= 0F) {
+                    return;
+                }
+
+                float abilityPower = WoldAttributeHelper.getAdditionalAbilityPower(player);
+                event.setAmount(event.getAmount() + (abilityPower * apScalingPercent));
+
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void hexingHit(LivingHurtEvent event) {
         //Prevent an entity from being reaved more than once or applying to non-melee strikes.
         if(!WoldEventHelper.isNormalAttack()) {
@@ -134,6 +223,76 @@ public class LivingEntityEvents {
                     }
 
                     event.getEntityLiving().addEffect(new MobEffectInstance(instance));
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void echoingHit(LivingHurtEvent event) {
+
+        if(event.getSource().isProjectile()) {
+            return;
+        }
+
+        if(WoldActiveFlags.IS_ECHOING_ATTACKING.isSet() && (ActiveFlags.IS_AOE_ATTACKING.isSet() || ActiveFlags.IS_CHAINING_ATTACKING.isSet())){
+            return;
+        }
+
+
+        if(ActiveFlags.IS_DOT_ATTACKING.isSet()
+        || ActiveFlags.IS_LEECHING.isSet()
+//        || ActiveFlags.IS_AOE_ATTACKING.isSet()
+        || ActiveFlags.IS_REFLECT_ATTACKING.isSet()
+//        || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
+        || ActiveFlags.IS_CHARMED_ATTACKING.isSet()
+        || ActiveFlags.IS_EFFECT_ATTACKING.isSet()
+//        || ActiveFlags.IS_JAVELIN_ATTACKING.isSet()
+        || ActiveFlags.IS_SMITE_ATTACKING.isSet()
+//        || ActiveFlags.IS_SMITE_BASE_ATTACKING.isSet()
+//        || ActiveFlags.IS_CHAINING_ATTACKING.isSet()
+//        || ActiveFlags.IS_THORNS_REFLECTING.isSet()
+//        || ActiveFlags.IS_FIRESHOT_ATTACKING.isSet()
+//        || ActiveFlags.IS_GLACIAL_SHATTER_ATTACKING.isSet()
+//        || ActiveFlags.IS_AP_ATTACKING.isSet()
+        ){
+            return;
+        }
+
+        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
+            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
+            if(data.hasAttribute(ModGearAttributes.ECHOING_CHANCE)) {
+                float chance = data.get(ModGearAttributes.ECHOING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+                if (WoldActiveFlags.IS_ECHOING_ATTACKING.isSet())
+                    chance = (float) Math.sqrt(chance);
+
+                if(player.level.random.nextFloat() <= chance) {
+                    EchoingPotionEffect newEffect = (EchoingPotionEffect) ModEffects.ECHOING;
+
+                    if (WoldActiveFlags.IS_ECHOING_ATTACKING.isSet() && event.getEntityLiving().hasEffect(ModEffects.ECHOING)) {
+                        newEffect = (EchoingPotionEffect) event.getEntityLiving().getEffect(ModEffects.ECHOING).getEffect();
+                        ////[[DEBUG]]
+                        //WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Added a {} damage echo to attack from a previous echo.", newEffect.getDamage());
+                    }
+                    else {
+                        newEffect.setDamage(event.getAmount());
+                        newEffect.setAttacker(player);
+                        newEffect.setSource(event.getSource());
+                    }
+
+                    float damage = newEffect.getDamage() * 0.667f;
+
+                    if(data.hasAttribute(ModGearAttributes.ECHOING_DAMAGE))
+                        damage *= 1 + data.get(ModGearAttributes.ECHOING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
+
+                    if(damage > 1.0f) {
+                        newEffect.setDamage(damage);
+                        int duration = EffectDurationHelper.adjustEffectDurationFloor(player, 1) * 10;
+                        event.getEntityLiving().addEffect(new MobEffectInstance(newEffect, duration, 0));
+
+                        ////[[DEBUG]]
+                        //WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Added a {} damage echo to attack.", damage);
+                    }
                 }
             }
         }
@@ -212,6 +371,18 @@ public class LivingEntityEvents {
                 } else {
                     event.setDistance(event.getDistance() - 2.0F);
                 }
+            }
+        }
+    }
+
+    private static void withSnapshot(LivingEvent event, boolean serverOnly, BiConsumer<LivingEntity, AttributeSnapshot> fn) {
+        withSnapshot(event.getEntityLiving(), serverOnly, fn);
+    }
+
+    private static void withSnapshot(LivingEntity entity, boolean serverOnly, BiConsumer<LivingEntity, AttributeSnapshot> fn) {
+        if (AttributeSnapshotHelper.canHaveSnapshot(entity)) {
+            if (!serverOnly || !entity.getCommandSenderWorld().isClientSide()) {
+                fn.accept(entity, AttributeSnapshotHelper.getInstance().getSnapshot(entity));
             }
         }
     }

@@ -27,10 +27,6 @@ public abstract class MixinCrystalData extends CrystalEntry implements ISerializ
     @Shadow private CrystalTheme theme;
 
     static {
-//        for(CustomVaultObjectiveEntry entry : CustomVaultObjectiveRegistry.getCustomVaultObjectiveEntries()) {
-//            OBJECTIVE.register(entry.id(), entry.crystalObjective(), entry.crystalObjectiveSupplier());
-//        }
-
         MODEL.register("unhinged", UnhingedCrystalModel.class, UnhingedCrystalModel::new);
     }
 

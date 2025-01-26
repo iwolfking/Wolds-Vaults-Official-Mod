@@ -38,7 +38,7 @@ public class FireballModification extends FloatRangeModification {
     }
 
     private static MutableComponent getPercentageValue(SpecialAbilityGearAttribute<?, FloatValue> instance) {
-        return new TextComponent(String.valueOf(instance.getValue().getValue() * 100));
+        return new TextComponent(String.format("%.2f", instance.getValue().getValue() * 100));
     }
 
 }

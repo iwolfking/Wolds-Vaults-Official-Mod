@@ -7,8 +7,15 @@
     "OMEGA": [
       "vhapi:gear/axe/iskallianchor"
     ],
+    "MYTHIC": [
+
+    ],
+    "SACRED": [
+      "the_vault:gear/axe/old_world_axe"
+    ],
     "UNIQUE": [
-      "the_vault:gear/axe/leviathan"
+      "the_vault:gear/axe/leviathan",
+      "the_vault:gear/axe/zombie_horse"
     ]
   },
   "WAND_MODEL_ROLLS": {
@@ -35,7 +42,10 @@
     ],
     "UNIQUE": [
       "the_vault:gear/sword/everfrost",
-      "the_vault:gear/sword/everflame"
+      "the_vault:gear/sword/everflame",
+      "the_vault:gear/sword/mineral_greatsword",
+      "the_vault:gear/sword/leaf_blade",
+      "the_vault:gear/sword/aurora_scissors"
     ]
   }
 }

@@ -239,6 +239,14 @@ dependencies {
     implementation fg.deobf("curse.maven:daves-potioneering-639653:4788622")
     implementation fg.deobf("curse.maven:grimoire-of-gaia-228948:5678608")
     implementation fg.deobf("curse.maven:tropicraft-254794:4616839")
+    implementation fg.deobf("curse.maven:better-tridents-666941:4707885")
+    implementation fg.deobf("curse.maven:puzzles-lib-495476:5114509")
+    implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6036598")
+    compileOnly fg.deobf("curse.maven:hexal-824725:5099219")
+    implementation fg.deobf("curse.maven:occultism-361026:4729072")
+    implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
+    implementation fg.deobf("curse.maven:custom-starter-gear-253735:4683370")
+    implementation fg.deobf("curse.maven:qol-hunters-1093452:5943142")
     implementation fg.deobf("curse.maven:cucumber-272335:4831151")
     implementation fg.deobf("curse.maven:qol-hunters-1093452:5943142")
     implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6036598")
@@ -300,8 +308,6 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5322305")
 
 }
-
-
 
 tasks.jar.archiveClassifier.set('slim')
 tasks.jarJar.archiveClassifier.set('')

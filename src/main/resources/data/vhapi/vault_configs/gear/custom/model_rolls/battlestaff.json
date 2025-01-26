@@ -22,6 +22,9 @@
     "OMEGA": [
       "the_vault:gear/battlestaff/battlestaff_light_blue"
     ],
-    "UNIQUE": []
+    "UNIQUE": [
+      "the_vault:gear/battlestaff/bamboo_fightstick",
+      "the_vault:gear/battlestaff/ninja_baton"
+    ]
   }
 }

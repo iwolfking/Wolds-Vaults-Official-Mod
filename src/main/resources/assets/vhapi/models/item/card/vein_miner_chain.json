@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "vhapi:item/card/icon/vein_miner_chain"
+  }
+}
