@@ -7,7 +7,9 @@ import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.block.entity.VaultChestTileEntity;
 import iskallia.vault.block.VaultChestBlock;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
@@ -52,6 +54,9 @@ public class MixinVaultChestBlock extends ChestBlock {
             player.awardStat(Stats.BLOCK_MINED.get(thisInstance));
             player.causeFoodExhaustion(0.005F);
             if (te instanceof VaultChestTileEntity chest) {
+                if(!(stack.getItem() instanceof VaultGearItem)) {
+                    return;
+                }
                 VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
                 if(data == null) return;
                 boolean hasBreach = data.hasAttribute(ModGearAttributes.BREACHING);

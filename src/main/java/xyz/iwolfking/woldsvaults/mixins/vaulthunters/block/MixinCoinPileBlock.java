@@ -3,7 +3,9 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.block;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import iskallia.vault.block.CoinPileBlock;
+import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.VaultGearItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -40,6 +42,9 @@ public abstract class MixinCoinPileBlock extends Block implements EntityBlock {
             thisInstance.playerWillDestroy(level, pos, state, player);
 
             VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
+            if(data == null) {
+                return true;
+            }
             boolean hasBreach = data.hasAttribute(ModGearAttributes.BREACHING);
 
             if(hasBreach) {
