@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "used=false": {
+      "model": "woldsvaults:block/gateway_channeling_block"
+    },
+    "used=true": {
+      "model": "woldsvaults:block/gateway_channeling_block"
+    }
+  }
+}

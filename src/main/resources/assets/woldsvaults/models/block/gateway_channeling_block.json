@@ -1,0 +1,52 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"2": "woldsvaults:block/gateway_channeling_block_base",
+		"particle": "woldsvaults:block/gateway_channeling_block",
+		"beacon": "woldsvaults:block/gateway_channeling_block",
+		"glass": "woldsvaults:block/gateway_channeling_block_glass"
+	},
+	"elements": [
+		{
+			"name": "Inner beacon texture",
+			"from": [3, 4, 3],
+			"to": [13, 14, 13],
+			"faces": {
+				"north": {"uv": [0, 0, 10, 10], "texture": "#beacon"},
+				"east": {"uv": [0, 0, 10, 10], "texture": "#beacon"},
+				"south": {"uv": [0, 0, 10, 10], "texture": "#beacon"},
+				"west": {"uv": [0, 0, 10, 10], "texture": "#beacon"},
+				"up": {"uv": [0, 0, 10, 10], "rotation": 270, "texture": "#beacon"},
+				"down": {"uv": [0, 0, 10, 10], "rotation": 90, "texture": "#beacon"}
+			}
+		},
+		{
+			"name": "Obsidian base",
+			"from": [2, 0.1, 2],
+			"to": [14, 4, 14],
+			"faces": {
+				"north": {"uv": [0, 12, 12, 16], "texture": "#2"},
+				"east": {"uv": [0, 12, 12, 16], "texture": "#2"},
+				"south": {"uv": [0, 12, 12, 16], "texture": "#2"},
+				"west": {"uv": [0, 12, 12, 16], "texture": "#2"},
+				"up": {"uv": [0, 0, 12, 12], "texture": "#2"},
+				"down": {"uv": [0, 0, 12, 12], "texture": "#2"}
+			}
+		},
+		{
+			"name": "Glass shell",
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#glass"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#glass"}
+			}
+		}
+	]
+}

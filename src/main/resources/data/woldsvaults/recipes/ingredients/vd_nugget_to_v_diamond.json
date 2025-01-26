@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:vault_diamond_nugget"
+    },
+    {
+      "item": "woldsvaults:vault_diamond_nugget"
+    },
+    {
+      "item": "woldsvaults:vault_diamond_nugget"
+    },
+    {
+      "item": "woldsvaults:vault_diamond_nugget"
+    },
+    {
+      "item": "woldsvaults:vault_diamond_nugget"
+    },
+    {
+      "item": "woldsvaults:vault_diamond_nugget"
+    },
+    {
+      "item": "woldsvaults:vault_diamond_nugget"
+    },
+    {
+      "item": "woldsvaults:vault_diamond_nugget"
+    },
+    {
+      "item": "woldsvaults:vault_diamond_nugget"
+    }
+  ],
+  "result": {
+    "item": "the_vault:vault_diamond",
+    "count": 1
+  }
+}

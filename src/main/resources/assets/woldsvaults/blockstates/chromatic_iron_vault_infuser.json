@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "woldsvaults:block/vault_infuser" },
+    "facing=south": { "model": "woldsvaults:block/vault_infuser", "y": 180},
+    "facing=west":  { "model": "woldsvaults:block/vault_infuser", "y": 270 },
+    "facing=east":  { "model": "woldsvaults:block/vault_infuser", "y": 90 }
+  }
+}

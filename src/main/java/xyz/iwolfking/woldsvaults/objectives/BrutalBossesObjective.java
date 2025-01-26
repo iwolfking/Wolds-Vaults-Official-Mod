@@ -84,6 +84,7 @@ public class BrutalBossesObjective extends ObeliskObjective {
 
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability)));
         CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.OBELISK).register(this, data -> {
+
             if (data.getHand() != InteractionHand.MAIN_HAND) {
                 data.setResult(InteractionResult.SUCCESS);
             } else if (this.hasObelisksLeft()) {
