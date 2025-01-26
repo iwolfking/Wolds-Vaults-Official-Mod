@@ -53,6 +53,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.helper.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.data.HexEffects;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.EchoingPotionEffect;
@@ -169,6 +170,33 @@ public class LivingEntityEvents {
 
                 float thornsDamage = ThornsHelper.getAdditionalThornsFlatDamage(player);
                 event.setAmount(event.getAmount() + (thornsDamage * thornsScalingPercent));
+
+            }
+        }
+    }
+
+
+    @SubscribeEvent
+    public static void apScalingDamage(LivingHurtEvent event) {
+        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
+        if(!WoldEventHelper.isNormalAttack()) {
+            return;
+        }
+
+        if(event.getSource().isProjectile()) {
+            return;
+        }
+
+        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
+            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
+            if(data != null) {
+                float apScalingPercent = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.AP_SCALING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
+                if(apScalingPercent <= 0F) {
+                    return;
+                }
+
+                float abilityPower = WoldAttributeHelper.getAdditionalAbilityPower(player);
+                event.setAmount(event.getAmount() + (abilityPower * apScalingPercent));
 
             }
         }
