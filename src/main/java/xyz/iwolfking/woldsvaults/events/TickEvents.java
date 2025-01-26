@@ -15,7 +15,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.data.FlightCancellationStrings;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
-import xyz.iwolfking.woldsvaults.lib.network.PacketHandler;
+import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.lib.network.packets.StopFlightMessage;
 
 import java.util.Random;
 
@@ -58,7 +59,7 @@ public class TickEvents {
         player.getAbilities().flying = false;
         //punish(player);
         if (player instanceof ServerPlayer serverPlayer) {
-            PacketHandler.sendStopFlightToPlayer(serverPlayer);
+            ModNetwork.sendToClient(new StopFlightMessage(serverPlayer.getUUID()), serverPlayer);
         }
         sendFlightNotice(player);
     }
