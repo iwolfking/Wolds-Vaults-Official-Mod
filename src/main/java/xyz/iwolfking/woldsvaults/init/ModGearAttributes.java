@@ -129,4 +129,8 @@ public class ModGearAttributes {
     private static <T> VaultGearAttribute<T> attr(String name, VaultGearAttributeType<T> type,ConfigurableAttributeGenerator<T, ?> generator,VaultGearModifierReader<T> reader,@Nullable VaultGearAttributeComparator<T> comparator) {
         return new VaultGearAttribute<>(VaultMod.id(name), type, generator, reader, comparator);
     }
+
+    private static <T> VaultGearAttribute<T> attr(String name, VaultGearAttributeType<T> type,ConfigurableAttributeGenerator<T, ?> generator,VaultGearModifierReader<T> reader) {
+        return attr(name, type, generator, reader, null);
+    }
 }
