@@ -128,6 +128,7 @@
     "vaulthunters.custom.MixinRunner",
     "vaulthunters.custom.MixinSpecialAbilityModificationRegistry",
     "vaulthunters.custom.MixinToolItem",
+    "vaulthunters.custom.MixinVault",
     "vaulthunters.custom.MixinVaultChestBlock",
     "vaulthunters.custom.MixinVaultGearHelper",
     "vaulthunters.custom.MixinVaultGearTierConfig",

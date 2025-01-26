@@ -7,6 +7,12 @@
     "OMEGA": [
       "vhapi:gear/axe/iskallianchor"
     ],
+    "MYTHIC": [
+
+    ],
+    "SACRED": [
+      "the_vault:gear/axe/old_world_axe"
+    ],
     "UNIQUE": [
       "the_vault:gear/axe/leviathan",
       "the_vault:gear/axe/zombie_horse"

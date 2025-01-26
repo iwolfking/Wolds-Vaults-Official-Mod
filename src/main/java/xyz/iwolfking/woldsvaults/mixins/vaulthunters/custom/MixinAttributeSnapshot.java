@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import iskallia.vault.core.vault.Vault;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.type.EffectAttributeMerger;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
