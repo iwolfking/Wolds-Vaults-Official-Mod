@@ -1,22 +1,26 @@
 package xyz.iwolfking.woldsvaults.events.client;
 
+import iskallia.vault.core.event.common.ListenerLeaveEvent;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.Objectives;
 import iskallia.vault.event.event.VaultJoinEvent;
 import iskallia.vault.world.data.ServerVaults;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.client.shader.ShaderManager;
+
 import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
 import xyz.iwolfking.woldsvaults.util.VaultUtil;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ShaderApplyEvent {
+public class CorruptedVaultEvents {
 
-    //TODO Change this to check for objective instead of modifier
+
+    //TODO
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void onPlayerVaultEnter(VaultJoinEvent event) {
@@ -25,7 +29,9 @@ public class ShaderApplyEvent {
                 .anyMatch(obj -> obj instanceof CorruptedObjective);
 
         VaultUtil.isVaultCorrupted = corruptedModifiers;
-        ShaderManager.queuedRefresh = corruptedModifiers;
+        CorruptedObjective.queuedRefresh = corruptedModifiers;
+
+
     }
 
 
@@ -33,7 +39,7 @@ public class ShaderApplyEvent {
     public static void onPlayerDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
         if(VaultUtil.isVaultCorrupted) {
             VaultUtil.isVaultCorrupted = false;
-            SoundHandler.isLoopPlaying = false;
+            CorruptedObjective.queuedRefresh = true;
         }
     }
 
@@ -44,8 +50,7 @@ public class ShaderApplyEvent {
             VaultUtil.isVaultCorrupted = ServerVaults.get(event.getPlayer().level).get().get(Vault.OBJECTIVES).get(Objectives.LIST)
                     .stream()
                     .anyMatch(obj -> obj instanceof CorruptedObjective);
-            ShaderManager.queuedRefresh = true;
-            SoundHandler.isLoopPlaying = false;
+            CorruptedObjective.queuedRefresh = true;
         } else {
             VaultUtil.isVaultCorrupted = false;
         }
@@ -55,8 +60,7 @@ public class ShaderApplyEvent {
     public static void playerDeath(PlayerEvent.Clone event) {
         if(event.isWasDeath()) {
             VaultUtil.isVaultCorrupted = false;
-            ShaderManager.queuedRefresh = true;
-            SoundHandler.isLoopPlaying = false;
+            CorruptedObjective.queuedRefresh = true;
         }
     }
 }
