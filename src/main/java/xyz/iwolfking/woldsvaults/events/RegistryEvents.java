@@ -34,6 +34,8 @@ public class RegistryEvents {
         ModBlocks.registerTileEntities(event);
     }
 
+
+
     @SubscribeEvent
     public static void onContainerRegister(RegistryEvent.Register<MenuType<?>> event) {
         ModContainers.register(event);

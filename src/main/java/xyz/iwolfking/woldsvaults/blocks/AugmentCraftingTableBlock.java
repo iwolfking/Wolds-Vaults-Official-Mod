@@ -1,11 +1,15 @@
 package xyz.iwolfking.woldsvaults.blocks;
 
+import iskallia.vault.block.base.InventoryRetainerBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -30,13 +34,19 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
-public class AugmentCraftingTableBlock extends Block implements EntityBlock {
+public class AugmentCraftingTableBlock extends Block implements EntityBlock, InventoryRetainerBlock<AugmentCraftingTableTileEntity> {
     public static final DirectionProperty FACING;
 
     public AugmentCraftingTableBlock() {
         super(Properties.of(Material.STONE).strength(1.5F, 6.0F).noOcclusion());
     }
+
+    @Override
+    public void appendHoverText(ItemStack stack, BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+        this.addInventoryTooltip(stack, tooltip, AugmentCraftingTableTileEntity::addInventoryTooltip);
+     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -92,19 +102,13 @@ public class AugmentCraftingTableBlock extends Block implements EntityBlock {
 
     @Override
     public void onRemove(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
-            if (world.getBlockEntity(pos) instanceof AugmentCraftingTableTileEntity entity) {
-                entity.getInventory().getOverSizedContents().forEach(stack -> {
-                    stack.splitByStackSize().forEach(split -> Containers.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), split));
-                });
-                Containers.dropContents(world, pos, entity.getResultContainer());
-                entity.getInventory().clearContent();
-                entity.getResultContainer().clearContent();
-                world.updateNeighbourForOutputSignal(pos, this);
-            }
-        }
-
+        this.onInventoryBlockDestroy(world, pos);
         super.onRemove(state, world, pos, newState, isMoving);
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        this.onInventoryBlockPlace(level, pos, stack);
     }
 
     @Override

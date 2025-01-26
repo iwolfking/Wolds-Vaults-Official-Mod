@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ZealotCrystalObjective extends CrystalObjective {
-    protected IntRoll target;
+    public IntRoll target;
 
     public ZealotCrystalObjective() {
     }
