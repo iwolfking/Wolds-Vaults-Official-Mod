@@ -2,17 +2,28 @@
   "itemRegistryName": "the_vault:map",
   "MODEL_ROLLS": {
     "SCRAPPY": [
-      "the_vault:gear/rang/wooden"
+      "the_vault:gear/map/scrappy_map"
     ],
     "COMMON": [
+      "the_vault:gear/map/common_map"
     ],
     "RARE": [
+      "the_vault:gear/map/rare_map"
     ],
     "EPIC": [
+      "the_vault:gear/map/epic_map"
     ],
     "OMEGA": [
+      "the_vault:gear/map/omega_map"
+    ],
+    "MYTHIC": [
+      "the_vault:gear/map/mythic_map"
+    ],
+    "SACRED": [
+      "the_vault:gear/map/sacred_map"
     ],
     "UNIQUE": [
+      "the_vault:gear/map/corrupted_map"
     ]
   }
 }
