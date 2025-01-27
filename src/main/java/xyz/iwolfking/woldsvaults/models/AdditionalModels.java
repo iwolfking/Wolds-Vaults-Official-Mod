@@ -27,6 +27,8 @@ public class AdditionalModels {
     public static final HandHeldModel PRETTY_SCISSORS;
     public static final HandHeldModel OLD_WORLD_AXE;
     public static final HandHeldModel FOUL_BLADE_AXE;
+    public static final HandHeldModel KLK_SCISSOR_1;
+    public static final HandHeldModel KLK_SCISSOR_2;
 
     static {
        LEVIATHAN_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/leviathan"), "Leviathan")).properties(new DynamicModelProperties());
@@ -46,6 +48,8 @@ public class AdditionalModels {
        MYTHIC_ZEKE_SWORD = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/mythic_zeke_sword"), "Mythical Blade")).properties(new DynamicModelProperties());
        SACRED_ZEKE_SWORD = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/sacred_zeke_sword"), "Sacred Blade")).properties(new DynamicModelProperties());
        PRETTY_SCISSORS = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/aurora_scissors"), "Aurora Scissors")).properties(new DynamicModelProperties());
+       KLK_SCISSOR_1 = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/klk_scissor_1"), "Red Scissor Half")).properties(new DynamicModelProperties());
+       KLK_SCISSOR_2 = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/klk_scissor_2"), "Purple Scissor Half")).properties(new DynamicModelProperties());
     }
 
 }

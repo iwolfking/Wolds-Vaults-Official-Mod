@@ -29,6 +29,18 @@
     ],
     "UNIQUE": []
   },
+  "SHIELD_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "MYTHIC": [
+      "the_vault:gear/shield/cardboard_shield"
+    ],
+    "OMEGA": [
+    ],
+    "UNIQUE": []
+  },
   "SWORD_MODEL_ROLLS": {
     "SCRAPPY": [],
     "COMMON": [],
@@ -39,6 +51,14 @@
       "vhapi:gear/sword/crystal",
       "vhapi:gear/sword/cheese",
       "vhapi:gear/sword/lute"
+    ],
+    "MYTHIC": [
+      "the_vault:gear/sword/mythic_zeke_sword",
+      "the_vault:gear/sword/klk_scissors_2"
+    ],
+    "SACRED": [
+      "the_vault:gear/sword/sacred_zeke_sword",
+      "the_vault:gear/sword/klk_scissors_1"
     ],
     "UNIQUE": [
       "the_vault:gear/sword/everfrost",
