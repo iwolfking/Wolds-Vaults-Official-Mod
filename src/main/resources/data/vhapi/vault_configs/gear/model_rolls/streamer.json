@@ -27,6 +27,12 @@
       "vhapi:gear/wand/cat",
       "vhapi:gear/wand/mustard"
     ],
+    "MYTHIC": [
+      "the_vault:gear/wand/purple_lightning"
+    ],
+    "SACRED": [
+      "the_vault:gear/wand/purple_soul_wand"
+    ],
     "UNIQUE": []
   },
   "SHIELD_MODEL_ROLLS": {
