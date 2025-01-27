@@ -33,6 +33,8 @@ public class AdditionalModels {
     public static final ShieldModel END_CRYSTAL_SHIELD;
     public static final PlainItemModel PURPLE_LIGHTNING;
     public static final PlainItemModel PURPLE_SOUL_WAND;
+    public static final PlainItemModel HAUNTED_GRIMOIRE;
+    public static final PlainItemModel WOLDS_TOME;
 
     static {
        LEVIATHAN_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/leviathan"), "Leviathan")).properties(new DynamicModelProperties());
@@ -54,9 +56,11 @@ public class AdditionalModels {
        PRETTY_SCISSORS = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/aurora_scissors"), "Aurora Scissors")).properties(new DynamicModelProperties());
        KLK_SCISSOR_1 = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/klk_scissor_1"), "Red Scissor Half")).properties(new DynamicModelProperties());
        KLK_SCISSOR_2 = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/klk_scissor_2"), "Purple Scissor Half")).properties(new DynamicModelProperties());
-       PURPLE_LIGHTNING = ModDynamicModels.Wands.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/sword/purple_lightning"), "Arcane Lightning Wand")).properties(new DynamicModelProperties());
-       PURPLE_SOUL_WAND = ModDynamicModels.Wands.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/sword/purple_soul_wand"), "Arcane Soul Wand")).properties(new DynamicModelProperties());
-       END_CRYSTAL_SHIELD = ModDynamicModels.Shields.REGISTRY.register(new ShieldModel(VaultMod.id("gear/sword/end_crystal_shield"), "End Crystal Shield")).properties(new DynamicModelProperties());
+       PURPLE_LIGHTNING = ModDynamicModels.Wands.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/wand/purple_lightning"), "Arcane Lightning Wand")).properties(new DynamicModelProperties());
+       PURPLE_SOUL_WAND = ModDynamicModels.Wands.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/wand/purple_soul_wand"), "Arcane Soul Wand")).properties(new DynamicModelProperties());
+       HAUNTED_GRIMOIRE = ModDynamicModels.Focus.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/focus/haunted_grimoire"), "Haunted Grimoire")).properties(new DynamicModelProperties());
+       WOLDS_TOME = ModDynamicModels.Focus.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/focus/wolds_tome"), "Wold's Tome")).properties(new DynamicModelProperties());
+       END_CRYSTAL_SHIELD = ModDynamicModels.Shields.REGISTRY.register(new ShieldModel(VaultMod.id("gear/shield/end_crystal_shield"), "End Crystal Shield")).properties(new DynamicModelProperties());
     }
 
 }
