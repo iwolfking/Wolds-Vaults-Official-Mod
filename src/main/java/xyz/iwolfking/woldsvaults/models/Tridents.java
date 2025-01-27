@@ -31,6 +31,9 @@ public class Tridents {
     public static final HandHeldModel SCRAPPY_3;
     public static final HandHeldModel SCRAPPY_4;
 
+    public static final HandHeldModel DIVINEGUARD;
+    public static final HandHeldModel PRISMATIC;
+
 
     public Tridents() {
     }
@@ -55,5 +58,7 @@ public class Tridents {
         ORANGE = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/trident/orange"), "Orange Trident")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         PINK = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/trident/pink"), "Pink Trident")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         PHANTOMGUARD = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/trident/phantomguard"), "Phantomguard Lance")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+        DIVINEGUARD = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/trident/divineguard"), "Divine Lance")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+        PRISMATIC = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/trident/prismatic"), "Prismatic Lance")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
     }
 }
