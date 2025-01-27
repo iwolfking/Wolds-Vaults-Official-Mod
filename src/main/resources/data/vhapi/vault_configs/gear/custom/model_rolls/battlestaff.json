@@ -22,6 +22,12 @@
     "OMEGA": [
       "the_vault:gear/battlestaff/battlestaff_light_blue"
     ],
+    "MYTHIC": [
+      "the_vault:gear/battlestaff/midnight"
+    ],
+    "SACRED": [
+      "the_vault:gear/battlestaff/prismatic"
+    ],
     "UNIQUE": [
       "the_vault:gear/battlestaff/bamboo_fightstick",
       "the_vault:gear/battlestaff/ninja_baton"
