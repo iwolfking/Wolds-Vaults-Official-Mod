@@ -37,6 +37,9 @@
     "MYTHIC": [
       "the_vault:gear/shield/cardboard_shield"
     ],
+    "SACRED": [
+      "the_vault:gear/shield/end_crystal_shield"
+    ],
     "OMEGA": [
     ],
     "UNIQUE": []
