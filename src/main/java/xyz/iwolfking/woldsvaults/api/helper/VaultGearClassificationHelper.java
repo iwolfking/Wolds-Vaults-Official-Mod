@@ -4,6 +4,12 @@ import iskallia.vault.gear.VaultGearRarity;
 
 public class VaultGearClassificationHelper {
     public static int getMapModifierCount(VaultGearRarity rarity) {
+        if(rarity.equals(VaultGearRarity.valueOf("SACRED"))) {
+            return 14;
+        }
+        else if(rarity.equals(VaultGearRarity.valueOf("MYTHIC"))) {
+            return 12;
+        }
         return switch (rarity) {
             case OMEGA -> 10;
             case EPIC -> 8;

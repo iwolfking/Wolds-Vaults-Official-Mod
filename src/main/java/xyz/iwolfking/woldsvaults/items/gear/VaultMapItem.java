@@ -62,14 +62,14 @@ public class VaultMapItem extends BasicItem implements VaultGearItem {
     @NotNull
     @Override
     public VaultGearType getGearType(ItemStack itemStack) {
-        return VaultGearType.BOOTS;
+        return VaultGearType.IDOL;
     }
 
     @Nullable
     @Override
     public ResourceLocation getRandomModel(ItemStack stack, Random random) {
         VaultGearData gearData = VaultGearData.read(stack);
-        EquipmentSlot intendedSlot = this.getGearType(stack).getEquipmentSlot();
+        EquipmentSlot intendedSlot = EquipmentSlot.OFFHAND;
         return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random);
     }
 
@@ -144,6 +144,10 @@ public class VaultMapItem extends BasicItem implements VaultGearItem {
     @Override
     public void addRepairTooltip(List<Component> tooltip, int usedRepairs, int totalRepairs) {
 
+    }
+
+    @Override
+    public void addSlotTooltip(List<Component> tooltip, EquipmentSlot slot) {
     }
 
     @Override
