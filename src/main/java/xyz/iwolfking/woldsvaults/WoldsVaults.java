@@ -25,7 +25,7 @@ import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.events.LivingEntityEvents;
 import xyz.iwolfking.woldsvaults.events.RegisterCommandEventHandler;
 import xyz.iwolfking.woldsvaults.init.*;
-import xyz.iwolfking.woldsvaults.lib.network.PacketHandler;
+import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.models.AdditionalModels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
@@ -68,7 +68,7 @@ public class WoldsVaults {
             LOGGER.warn("Debug mode is enabled! Please disable this in woldsvaults-common.toml to prevent unnecessary log spam!");
             LOGGER.debug("Initializing FMLCommonSetup events!");
         }
-        PacketHandler.init();
+        ModNetwork.init();
 
         LivingEntityEvents.init();
         new AdditionalModels();
