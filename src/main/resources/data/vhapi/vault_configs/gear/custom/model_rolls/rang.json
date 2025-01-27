@@ -19,6 +19,12 @@
       "the_vault:gear/rang/emerald",
       "the_vault:gear/rang/ourorangos"
     ],
+    "MYTHIC": [
+      "the_vault:gear/rang/midnight"
+    ],
+    "SACRED": [
+      "the_vault:gear/rang/prismatic"
+    ],
     "UNIQUE": [
       "the_vault:gear/rang/trirang"
     ]
