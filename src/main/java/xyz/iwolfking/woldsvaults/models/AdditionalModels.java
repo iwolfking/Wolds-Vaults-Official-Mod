@@ -5,6 +5,7 @@ import iskallia.vault.dynamodel.DynamicModelProperties;
 import iskallia.vault.dynamodel.model.item.HandHeldModel;
 import iskallia.vault.dynamodel.model.item.PlainItemModel;
 import iskallia.vault.init.ModDynamicModels;
+import org.lwjgl.system.CallbackI;
 
 
 public class AdditionalModels {
@@ -25,6 +26,7 @@ public class AdditionalModels {
     public static final HandHeldModel SACRED_ZEKE_SWORD;
     public static final HandHeldModel PRETTY_SCISSORS;
     public static final HandHeldModel OLD_WORLD_AXE;
+    public static final HandHeldModel FOUL_BLADE_AXE;
 
     static {
        LEVIATHAN_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/leviathan"), "Leviathan")).properties(new DynamicModelProperties());
@@ -37,6 +39,7 @@ public class AdditionalModels {
        HEXBLADE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/hexblade"), "Hexblade")).properties(new DynamicModelProperties());
        HORSE_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/zombie_horse"), "Zombie-Horse")).properties(new DynamicModelProperties());
        OLD_WORLD_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/old_world_axe"), "Old World Axe")).properties(new DynamicModelProperties());
+       FOUL_BLADE_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/foul_blade_axe"), "Foul Blade Axe")).properties(new DynamicModelProperties());
        YOUNG_KITSUNE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/young_kitsune"), "Young Kitsune")).properties(new DynamicModelProperties());
        MINERAL_GREATSWORD = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/mineral_greatsword"), "Mineral Greatsword")).properties(new DynamicModelProperties());
        GRASS_BLADE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/grass_blade"), "Leaf Sword")).properties(new DynamicModelProperties());
