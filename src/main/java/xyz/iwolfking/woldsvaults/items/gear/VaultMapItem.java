@@ -11,6 +11,7 @@ import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.BasicItem;
+import iskallia.vault.item.tool.JewelItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -61,7 +62,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem {
     @NotNull
     @Override
     public VaultGearType getGearType(ItemStack itemStack) {
-        return VaultGearType.JEWEL;
+        return VaultGearType.BOOTS;
     }
 
     @Nullable
