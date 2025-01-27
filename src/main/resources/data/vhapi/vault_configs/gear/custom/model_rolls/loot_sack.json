@@ -19,6 +19,12 @@
     "OMEGA": [
       "the_vault:gear/loot_sack/green"
     ],
+    "MYTHIC": [
+      "the_vault:gear/loot_sack/midnight"
+    ],
+    "SACRED": [
+      "the_vault:gear/loot_sack/prismatic"
+    ],
     "UNIQUE": []
   }
 }
