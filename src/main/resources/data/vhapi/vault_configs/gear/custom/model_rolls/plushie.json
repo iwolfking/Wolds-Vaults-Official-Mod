@@ -37,6 +37,12 @@
       "the_vault:gear/plushie/dweller",
       "the_vault:gear/plushie/blahaj"
     ],
+    "MYTHIC": [
+      "the_vault:gear/plushie/isaac_plushie_sitting"
+    ],
+    "SACRED": [
+      "the_vault:gear/plushie/madeline_plushie_sitting"
+    ],
     "UNIQUE": [
       "the_vault:gear/plushie/witch",
       "the_vault:gear/plushie/safer_spaces"
