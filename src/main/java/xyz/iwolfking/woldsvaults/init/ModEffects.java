@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.init;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraftforge.common.extensions.IForgeMobEffect;
 import net.minecraftforge.event.RegistryEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.ColossusAbility;
@@ -18,8 +19,17 @@ public class ModEffects {
     public static final MobEffect SNEAKY_GETAWAY = new SneakyGetawayAbility.SneakyGetawayEffect(MobEffectCategory.BENEFICIAL,0xcca468,CustomScaleTypes.SIZE_NO_MOVEMENT, new ResourceLocation(WoldsVaults.MOD_ID,"sneaky_getaway"));
     public static final MobEffect ECHOING = new EchoingPotionEffect(MobEffectCategory.HARMFUL, 0x691997, new ResourceLocation(WoldsVaults.MOD_ID, "echoing"));
     public static final MobEffect SAFER_SPACE = new SaferSpacePotionEffect(MobEffectCategory.BENEFICIAL,0xae6bd1, new ResourceLocation(WoldsVaults.MOD_ID,"safer_space"));
+    public static final MobEffect LEVITATEII = new LevitateIIPotionEffect(MobEffectCategory.BENEFICIAL,0xceffff, new ResourceLocation(WoldsVaults.MOD_ID,"levitateii"));
 
     public static void register(RegistryEvent.Register<MobEffect> event) {
-        event.getRegistry().registerAll(SHRINKING, GROWING, REAVING, COLOSSUS, SNEAKY_GETAWAY, ECHOING, SAFER_SPACE);
+        event.getRegistry().registerAll(  SHRINKING
+                                        , GROWING
+                                        , REAVING
+                                        , COLOSSUS
+                                        , SNEAKY_GETAWAY
+                                        , ECHOING
+                                        , SAFER_SPACE
+                                        , LEVITATEII
+                                        );
     }
 }

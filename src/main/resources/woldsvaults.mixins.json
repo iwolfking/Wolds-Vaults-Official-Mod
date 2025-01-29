@@ -12,6 +12,7 @@
     "MixinFortuneOreDropFormula",
     "MixinItemEntity",
     "MixinLightningBolt",
+    "MixinLivingEntity",
     "MixinThrownTrident",
     "ThrownTridentAccessor",
     "advanced_peripherals.MixinVillagerTrades",

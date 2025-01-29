@@ -14,7 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
+import xyz.iwolfking.woldsvaults.init.ModEffects;
 
 public class LevitateAbility extends HoldManaAbility {
     private int levitateStrength;
@@ -53,7 +53,7 @@ public class LevitateAbility extends HoldManaAbility {
 
             Ability.TickResult result = super.doActiveTick(context);
             if (result != Ability.TickResult.COOLDOWN) {
-                MobEffectInstance newEffect = new MobEffectInstance(MobEffects.LEVITATION, 100, levitateStrength, false, false, true);
+                MobEffectInstance newEffect = new MobEffectInstance(ModEffects.LEVITATEII, 100, levitateStrength, false, false, true);
                 player.addEffect(newEffect);
                 doParticles(context);
             }
@@ -66,7 +66,7 @@ public class LevitateAbility extends HoldManaAbility {
     @Override
     public boolean onKeyUp(SkillContext context) {
             context.getSource().as(ServerPlayer.class).map(player -> {
-                player.removeEffect(MobEffects.LEVITATION);
+                player.removeEffect(ModEffects.LEVITATEII);
                 return true;
             });
         return super.onKeyUp(context);
@@ -88,7 +88,7 @@ public class LevitateAbility extends HoldManaAbility {
     public Optional<CompoundTag> writeNbt() {
         return super.writeNbt().map(nbt -> {
             Adapters.INT.writeNbt(Integer.valueOf(this.levitateStrength)).ifPresent(tag -> nbt.put("levitateStrength", tag));
-            return (CompoundTag)nbt;
+            return nbt;
         });
     }
 
@@ -102,7 +102,7 @@ public class LevitateAbility extends HoldManaAbility {
     public Optional<JsonObject> writeJson() {
         return super.writeJson().map(json -> {
             Adapters.INT.writeJson(Integer.valueOf(this.levitateStrength)).ifPresent(element -> json.add("levitateStrength", element));
-            return (JsonObject)json;
+            return json;
         });
     }
 
