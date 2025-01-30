@@ -1,10 +1,12 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
+import iskallia.vault.block.PlaceholderBlock;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.gear.VaultGearModifierHelper;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
+import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
 import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.modification.GearModification;
