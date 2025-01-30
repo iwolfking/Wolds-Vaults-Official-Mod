@@ -2,7 +2,9 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.gear.VaultGearTierConfig;
+import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.VaultGearItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,6 +39,13 @@ public abstract class MixinVaultGearTierConfig {
                 else {
                     cir.setReturnValue(getConfig(VaultMod.id("map")));
                 }
+            }
+        }
+        else if(stack.getItem() instanceof VaultGearItem) {
+            VaultGearData data = VaultGearData.read(stack);
+            VaultGearRarity rarity = data.getRarity();
+            if(rarity.equals(VaultGearRarity.valueOf("MYTHIC")) || rarity.equals(VaultGearRarity.valueOf("SACRED"))) {
+                cir.setReturnValue(getConfig(VaultMod.id(stack.getItem().getRegistryName().getPath() + "_mythic")));
             }
         }
     }
