@@ -184,6 +184,7 @@
     "vaulthunters.custom.MixinCrystalTheme",
     "vaulthunters.fixes.MixinCatalystItemRenderer",
     "vaulthunters.fixes.MixinOfferingItemRenderer",
+    "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer"
   ],
   "injectors": {
