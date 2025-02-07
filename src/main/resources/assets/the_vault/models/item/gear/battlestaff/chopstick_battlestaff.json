@@ -1,0 +1,49 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [8, 27],
+	"textures": {
+		"0": "the_vault:item/gear/battlestaff/chopstick_battlestaff",
+		"particle": "the_vault:item/gear/battlestaff/chopstick_battlestaff"
+	},
+	"elements": [
+		{
+			"from": [6.5, 20, 6.5],
+			"to": [8.15, 32, 8.175],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 7]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 7.11111], "texture": "#0"},
+				"east": {"uv": [4, 0, 8, 7.11111], "texture": "#0"},
+				"south": {"uv": [8, 0, 12, 7.11111], "texture": "#0"},
+				"west": {"uv": [12, 0, 16, 7.11111], "texture": "#0"},
+				"up": {"uv": [12, 12.44444, 8, 11.25926], "texture": "#0"},
+				"down": {"uv": [12, 12.44444, 8, 13.62963], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.8, 6, 6.8],
+			"to": [7.85, 21, 7.875],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 7]},
+			"faces": {
+				"north": {"uv": [0, 7.11111, 2, 16], "texture": "#0"},
+				"east": {"uv": [2, 7.11111, 4, 16], "texture": "#0"},
+				"south": {"uv": [4, 7.11111, 6, 16], "texture": "#0"},
+				"west": {"uv": [6, 7.11111, 8, 16], "texture": "#0"},
+				"up": {"uv": [10, 13.03704, 8, 12.44444], "texture": "#0"},
+				"down": {"uv": [10, 12.44444, 8, 13.03704], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, 0, 7],
+			"to": [7.65, 7, 7.675],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 7]},
+			"faces": {
+				"north": {"uv": [8, 7.11111, 10, 11.25926], "texture": "#0"},
+				"east": {"uv": [10, 7.11111, 12, 11.25926], "texture": "#0"},
+				"south": {"uv": [12, 7.11111, 14, 11.25926], "texture": "#0"},
+				"west": {"uv": [14, 7.11111, 16, 11.25926], "texture": "#0"},
+				"up": {"uv": [10, 13.03704, 8, 12.44444], "texture": "#0"},
+				"down": {"uv": [10, 12.44444, 8, 13.03704], "texture": "#0"}
+			}
+		}
+	]
+}
