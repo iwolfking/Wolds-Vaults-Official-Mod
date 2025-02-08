@@ -138,6 +138,7 @@
     "vaulthunters.custom.enum_extension.MixinPlayerStatEnum",
     "vaulthunters.custom.recycler.MixinVaultCatalystItem",
     "vaulthunters.custom.recycler.MixinVaultGearItem",
+    "vaulthunters.fixes.MixinAscensionObjective",
     "vaulthunters.fixes.MixinDynamicModelRegistry",
     "vaulthunters.fixes.MixinEliteZombie",
     "vaulthunters.fixes.MixinEntityGroupsConfig",

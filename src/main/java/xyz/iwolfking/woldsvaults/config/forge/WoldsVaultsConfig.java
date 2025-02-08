@@ -42,6 +42,7 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.ConfigValue<Integer> crystalReinforcementMaxCapacityAdded;
         public final ForgeConfigSpec.ConfigValue<Boolean> disableWanderingWispSpawning;
         public final ForgeConfigSpec.ConfigValue<Boolean> weaponsShouldntBeBetter;
+        public final ForgeConfigSpec.ConfigValue<Integer> soulFlameLevelAllowance;
         public Common(ForgeConfigSpec.Builder builder)
         {
             builder.push("Features");
@@ -66,6 +67,7 @@ public class WoldsVaultsConfig
             this.crystalReinforcementMaxCapacityAdded = builder.comment("The max capacity that can be added to a tool with Crystal Reinforcements. (default: 20)").define("crystalReinforcementMaxCapacityAdded", 20);
             this.disableWanderingWispSpawning = builder.comment("Controls whether or not wandering wisps should spawn (default: true)").define("disableWanderingWispSpawning", true);
             this.weaponsShouldntBeBetter = builder.comment("Whether Better Combat should be disabled for weapons or not (default: false)").define("weaponsShouldntBeBetter", false);
+            this.soulFlameLevelAllowance = builder.comment("How much a difference in levels should be allowed for Soul Flames before not raising stacks (default: 3)").define("soulFlameLevelAllowance", 3);
             builder.pop();
             builder.push("Compatability Settings");
             builder.push("Item Borders");
