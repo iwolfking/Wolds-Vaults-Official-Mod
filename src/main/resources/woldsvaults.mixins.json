@@ -162,6 +162,7 @@
     "vaulthunters.gear.MixinModDynamicModels",
     "vaulthunters.modifiers.MixinVaultModifierTypeRegistry",
     "vaulthunters.objectives.MixinCrystalData",
+    "vaulthunters.objectives.MixinScavengerObjective",
     "vaulthunters.performance.MixinGearStackingTalent",
     "vaulthunters.recipes.MixinAnvilRecipes",
     "vaulthunters.skills.MixinAbilityLabelFactory",
