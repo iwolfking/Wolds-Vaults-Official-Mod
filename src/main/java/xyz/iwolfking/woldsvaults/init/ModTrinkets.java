@@ -1,6 +1,6 @@
 package xyz.iwolfking.woldsvaults.init;
 
-import com.alrex.parcool.common.potion.Effects;
+import com.alrex.parcool.api.Effects;
 import iskallia.vault.VaultMod;
 import iskallia.vault.gear.trinket.TrinketEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -32,6 +32,6 @@ public class ModTrinkets {
 
     static {
         MINERS_LAMP =  new HeadlampTrinketEffect(VaultMod.id("miners_headlamp"), MobEffects.NIGHT_VISION, 1);
-        RUNNING_SHOES =  new RunningShoesTrinketEffect(VaultMod.id("running_shoes"), Effects.INEXHAUSTIBLE, 1);
+        RUNNING_SHOES =  new RunningShoesTrinketEffect(VaultMod.id("running_shoes"), Effects.INEXHAUSTIBLE.get(), 1);
     }
 }
