@@ -48,7 +48,8 @@ public class AirMobilityItem extends BasicItem implements ICurioItem {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, worldIn, tooltip, flag);
-        MutableComponent text = new TextComponent("Allows you to freely move in the air").withStyle(ChatFormatting.YELLOW);
-        tooltip.add(text);
+
+        tooltip.add(new TextComponent("Doubles the wearer's base speed").withStyle(ChatFormatting.YELLOW));
+        tooltip.add(new TextComponent("Multiplies their air speed by 5x").withStyle(ChatFormatting.YELLOW));
     }
 }
