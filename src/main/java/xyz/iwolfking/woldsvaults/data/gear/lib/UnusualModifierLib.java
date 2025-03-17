@@ -176,7 +176,7 @@ public class UnusualModifierLib {
         COOLDOWN_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(40, 10, new FloatAttributeGenerator.Range(0.11F, 0.14F, 0.01F)));
         COOLDOWN_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(60, 10, new FloatAttributeGenerator.Range(0.15F, 0.17F, 0.01F)));
         COOLDOWN_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(85, 10, new FloatAttributeGenerator.Range(0.18F, 0.2F, 0.01F)));
-        KINETIC_IMMUNITY.add(new VaultGearTierConfig.ModifierTier<>(0, 2, new BooleanFlagGenerator.BooleanFlag(true)));
+        KINETIC_IMMUNITY.add(new VaultGearTierConfig.ModifierTier<>(0, 1, new BooleanFlagGenerator.BooleanFlag(true)));
         AXE_BLEED_CLOUD.add(new VaultGearTierConfig.ModifierTier<>(0, 10, BLEED_0));
         AXE_BLEED_CLOUD.add(new VaultGearTierConfig.ModifierTier<>(32, 10, BLEED_1));
         AXE_BLEED_CLOUD.add(new VaultGearTierConfig.ModifierTier<>(64, 10, BLEED_2));
