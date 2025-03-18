@@ -1,28 +1,4 @@
 {
   "MODELS": [
-    {
-      "id": "vhapi:gear/sword/hotdog",
-      "displayName": "Hotdog Bat",
-      "discoverOnRoll": true,
-      "allowTransmogrification": true
-    },
-    {
-      "id": "vhapi:gear/sword/crystal",
-      "displayName": "Hyper Crystal Sword",
-      "discoverOnRoll": true,
-      "allowTransmogrification": true
-    },
-    {
-      "id": "vhapi:gear/sword/lute",
-      "displayName": "Brry's Lute",
-      "discoverOnRoll": true,
-      "allowTransmogrification": true
-    },
-    {
-      "id": "vhapi:gear/sword/cheese",
-      "displayName": "Cheeseblade",
-      "discoverOnRoll": true,
-      "allowTransmogrification": true
-    }
   ]
 }
