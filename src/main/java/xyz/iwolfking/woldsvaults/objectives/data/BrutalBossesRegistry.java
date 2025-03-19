@@ -121,9 +121,12 @@ public class BrutalBossesRegistry {
     public static String getRandomMobModifiers(int count, boolean randomlyFail) {
         StringBuilder modifierList = new StringBuilder();
         Random random = new Random();
+        int failCount = 0;
+        int maxFails = 4;
 
-        for(int i =0; i < count; i++) {
-            if(random.nextBoolean() && randomlyFail) {
+        for(int i = 0; i < count; i++) {
+            if(randomlyFail && random.nextBoolean() && failCount < maxFails) {
+                failCount++;
                 continue;
             }
             modifierList.append(BOSS_MODS_LIST.getRandom().get()).append(" ");
