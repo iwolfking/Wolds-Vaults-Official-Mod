@@ -21,6 +21,7 @@
     "ae2.terminal.MixinWirelessTerminalItem",
     "alexsmobs.MixinEntityTiger",
     "angelrings.MixinAbstractRingCurio",
+    "ars_nouveau.MixinISpellHotkeyListener",
     "ars_nouveau.MixinReactiveEnchantment",
     "bettercombat.MixinBetterCombatAttackRange",
     "bettercombat.MixinWeaponAttributesHelper",
