@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.integration.vaultfilters;
 import iskallia.vault.antique.Antique;
 import iskallia.vault.config.AntiquesConfig;
 import iskallia.vault.item.AntiqueItem;
-import iskallia.vault.item.OfferingItem;
 import net.joseph.vaultfilters.attributes.abstracts.StringAttribute;
 import net.minecraft.world.item.ItemStack;
 

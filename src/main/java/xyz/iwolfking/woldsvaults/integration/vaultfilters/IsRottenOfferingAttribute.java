@@ -1,6 +1,6 @@
 package xyz.iwolfking.woldsvaults.integration.vaultfilters;
 
-import iskallia.vault.item.OfferingItem;
+import iskallia.vault.item.BossRuneItem;
 import net.joseph.vaultfilters.attributes.abstracts.BooleanAttribute;
 import net.minecraft.world.item.ItemStack;
 
@@ -10,7 +10,7 @@ public class IsRottenOfferingAttribute extends BooleanAttribute {
     }
 
     public Boolean getValue(ItemStack itemStack) {
-        if (!(itemStack.getItem() instanceof OfferingItem)) {
+        if (!(itemStack.getItem() instanceof BossRuneItem)) {
             return null;
         }
         return itemStack.getOrCreateTag().contains("rotten");

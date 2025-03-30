@@ -1,6 +1,6 @@
 package xyz.iwolfking.woldsvaults.integration.vaultfilters;
 
-import iskallia.vault.item.OfferingItem;
+import iskallia.vault.item.BossRuneItem;
 import net.joseph.vaultfilters.attributes.abstracts.StringAttribute;
 import net.minecraft.world.item.ItemStack;
 
@@ -11,9 +11,9 @@ public class OfferingModifierAttribute extends StringAttribute {
 
     @Override
     public String getValue(ItemStack itemStack) {
-        if(itemStack.getItem() instanceof OfferingItem) {
+        if(itemStack.getItem() instanceof BossRuneItem) {
             if(itemStack.getOrCreateTag().contains("Modifier")) {
-               return OfferingItem.getModifierName(itemStack.getOrCreateTag().getString("Modifier")).getString();
+               return BossRuneItem.getModifierName(itemStack.getOrCreateTag().getString("Modifier")).getString();
             }
         }
         return null;
