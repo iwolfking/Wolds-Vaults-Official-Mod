@@ -179,6 +179,7 @@
     "itemborders.ae2.MixinAEStackRendering",
     "itemborders.cyclopscore.MixinRenderItemExtendedSlotCount",
     "itemborders.tomsstorage.MixinGuiStorageTerminalBase",
+    "qolhunters.MixinAbilityDialog",
     "qolhunters.MixinTreasureDoorRenderer",
     "sophisticatedbackpacks.MixinBackpackModel",
     "vaulthunters.accessors.VaultChestRendererAccessor",

@@ -21,6 +21,9 @@ public class WoldMixinCanceller implements MixinCanceller {
             else if(s.equals("io.iridium.qolhunters.mixin.paradox.MixinGateLockRenderer")) {
                 return true;
             }
+            else if(s.equals("io.iridium.qolhunters.mixin.abilities.MixinAbilityDialog")) {
+                return true;
+            }
             else if(s.contains("io.iridium.qolhunters.mixin.rarityhighlighter")) {
                 return true;
             }
