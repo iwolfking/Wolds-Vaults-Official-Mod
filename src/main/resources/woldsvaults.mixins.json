@@ -141,6 +141,7 @@
     "vaulthunters.custom.recycler.MixinVaultGearItem",
     "vaulthunters.fixes.MixinAscensionObjective",
     "vaulthunters.fixes.MixinAttributeGearData",
+    "vaulthunters.fixes.MixinClientEvents",
     "vaulthunters.fixes.MixinDynamicModelRegistry",
     "vaulthunters.fixes.MixinEliteZombie",
     "vaulthunters.fixes.MixinEntityGroupsConfig",
