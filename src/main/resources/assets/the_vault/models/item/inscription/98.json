@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "the_vault:item/inscription/16"
+    "layer0": "the_vault:item/inscription/98"
   }
 }

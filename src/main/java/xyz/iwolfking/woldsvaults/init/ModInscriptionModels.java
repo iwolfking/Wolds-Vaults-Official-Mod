@@ -4,11 +4,11 @@ import xyz.iwolfking.vhapi.api.registry.CustomInscriptionModelRegistry;
 
 public class ModInscriptionModels {
     public static void registerModels() {
-        CustomInscriptionModelRegistry.addModel(16, "iskallian_garden");
-        CustomInscriptionModelRegistry.addModel(17, "pirate_caves");
-        CustomInscriptionModelRegistry.addModel(18, "arcade");
-        CustomInscriptionModelRegistry.addModel(19, "hellish_digsite");
-        CustomInscriptionModelRegistry.addModel(20, "playzone");
+        CustomInscriptionModelRegistry.addModel(98, "iskallian_garden");
+        CustomInscriptionModelRegistry.addModel(97, "pirate_caves");
+        CustomInscriptionModelRegistry.addModel(95, "arcade");
+        CustomInscriptionModelRegistry.addModel(96, "hellish_digsite");
+        CustomInscriptionModelRegistry.addModel(94, "playzone");
         CustomInscriptionModelRegistry.addModel(99, "raid");
         CustomInscriptionModelRegistry.addModel(100, "lab");
     }
