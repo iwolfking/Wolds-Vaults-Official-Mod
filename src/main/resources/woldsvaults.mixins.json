@@ -150,6 +150,7 @@
     "vaulthunters.fixes.MixinGearScoreHelper",
     "vaulthunters.fixes.MixinJewelCraftingRecipe",
     "vaulthunters.fixes.MixinMixinWorldChunk",
+    "vaulthunters.fixes.MixinModGearAttribute",
     "vaulthunters.fixes.MixinMonolithRenderer",
     "vaulthunters.fixes.MixinMultiJumpTrinket",
     "vaulthunters.fixes.MixinStatisticsElementContainerScreenData",

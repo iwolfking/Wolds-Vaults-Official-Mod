@@ -16,6 +16,7 @@ public class Rangs {
     public static final PlainItemModel OURORANGOS;
     public static final PlainItemModel STONE;
     public static final PlainItemModel TRIRANG;
+    public static final PlainItemModel GETA;
 
     static {
         WOODEN_RANG = REGISTRY.register(new PlainItemModel(VaultMod.id("gear/rang/wooden"), "Wooden Rang")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
@@ -26,6 +27,7 @@ public class Rangs {
         GOLD = REGISTRY.register(new PlainItemModel(VaultMod.id("gear/rang/gold"), "Golden Rang")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         OURORANGOS = REGISTRY.register(new PlainItemModel(VaultMod.id("gear/rang/ourorangos"), "Ourorangos")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         STONE = REGISTRY.register(new PlainItemModel(VaultMod.id("gear/rang/stone"), "Stone Rang")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+        GETA = REGISTRY.register(new PlainItemModel(VaultMod.id("gear/rang/geta"), "Geta Rang")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         TRIRANG = REGISTRY.register(new PlainItemModel(VaultMod.id("gear/rang/trirang"), "Tri-Rang")).properties(new DynamicModelProperties());
     }
 }
