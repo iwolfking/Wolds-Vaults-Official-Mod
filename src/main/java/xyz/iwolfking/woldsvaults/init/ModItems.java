@@ -91,7 +91,7 @@ public class ModItems {
 
     public static final BasicItem ECCENTRIC_FOCUS;
     public static final BasicItem WEAPON_TYPE_FOCUS;
-    public static final BasicItem WEAPON_TYPE_SETTER;
+   // public static final BasicItem WEAPON_TYPE_SETTER;
 
     public static BasicItem FRENZY_CAPSTONE;
     public static BasicItem PROSPEROUS_CAPSTONE;
@@ -251,7 +251,6 @@ public class ModItems {
         registry.register(RANG);
         registry.register(LAYOUT_MANIPULATOR);
         registry.register(WEAPON_TYPE_FOCUS);
-        registry.register(WEAPON_TYPE_SETTER);
     }
 
     static {
@@ -344,6 +343,6 @@ public class ModItems {
         RANG = new VaultRangItem(VaultMod.id("rang"), new Item.Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
         LAYOUT_MANIPULATOR = new LayoutModificationItem(VAULT_MOD_GROUP, WoldsVaults.id("layout_manipulator"));
         WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"));
-        WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
+        //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }

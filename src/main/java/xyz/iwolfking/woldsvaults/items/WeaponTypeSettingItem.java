@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.items;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.UniqueCodexConfig;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
@@ -51,9 +52,10 @@ public class WeaponTypeSettingItem extends BasicItem{
     }
 
     public static ItemStack create(String tag) {
-        ItemStack stack = new ItemStack(ModItems.WEAPON_TYPE_SETTER);
-        stack.getOrCreateTag().putString("modifier", tag);
-        return stack;
+        //ItemStack stack = new ItemStack(ModItems.WEAPON_TYPE_SETTER);
+        //stack.getOrCreateTag().putString("modifier", tag);
+       // return stack;
+        return ItemStack.EMPTY;
     }
 
     @Override

@@ -22,6 +22,8 @@ public class MixinDynamicModelRegistry {
         }
         else if(this.displayName.equals("Iskallium Tech Wand")) {
             return "Woldium Tech Wand";
+        } else if (this.displayName.equals("Iskallibur")) {
+            return "Woldibur";
         }
         return this.displayName;
     }

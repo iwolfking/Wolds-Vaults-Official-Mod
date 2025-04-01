@@ -178,7 +178,38 @@
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [0, 90, 0],
-			"translation": [0.25, -8.75, -1]
+			"translation": [0.25, -8.75, -1.5],
+			"scale": [1, 1.5, 1]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -90, 0],
+			"translation": [0.25, -8.75, -1.5],
+			"scale": [1, 1.5, 1]
+		},
+		"firstperson_righthand": {
+			"rotation": [-30, 90, 0],
+			"translation": [6, -12, 0],
+			"scale": [1, 1.6, 1]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-30, 90, 0],
+			"translation": [6, -12, 0],
+			"scale": [1, 1.6, 1]
+		},
+		"ground": {
+			"rotation": [45, 90, 0],
+			"translation": [0, 2, 0],
+			"scale": [1, 1.5, 1]
+		},
+		"gui": {
+			"rotation": [0, 0, -45],
+			"translation": [-3.25, -4, 0],
+			"scale": [0.4, 0.9, 0.4]
+		},
+		"fixed": {
+			"rotation": [0, 0, 45],
+			"translation": [6, -3.75, 0],
+			"scale": [0.7, 1.2, 0.7]
 		}
 	},
 	"groups": [

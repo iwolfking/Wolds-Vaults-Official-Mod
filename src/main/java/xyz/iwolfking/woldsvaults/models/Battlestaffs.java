@@ -24,6 +24,7 @@ public class Battlestaffs {
     public static final HandHeldModel SUN_WUKONG;
     public static final HandHeldModel CHOPSTICK;
     public static final HandHeldModel MURAKOMAGIRI;
+    public static final HandHeldModel QUACKHAMMER;
 
 
     public Battlestaffs() {
@@ -45,6 +46,7 @@ public class Battlestaffs {
         CHOPSTICK = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/chopstick_battlestaff"), "Chopstick")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         SUN_WUKONG = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/sun_wukong_staff"), "Sun Wukong Staff")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         MURAKOMAGIRI = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/murakumogiri"), "Murakumogiri Staff")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+        QUACKHAMMER = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/quackhammer"), "Quackhammer")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         BAMBOO_FIGHTSTICK = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/bamboo_fightstick"), "Bamboo Fightstick")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         NINJA_BATON = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/ninja_baton"), "Ninja Baton")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
     }

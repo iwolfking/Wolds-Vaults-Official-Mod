@@ -33,6 +33,7 @@ public class AdditionalModels {
     public static final HandHeldModel CHEESEBLADE;
     public static final PlainItemModel CAT_WAND;
     public static final PlainItemModel MUSTARD;
+    public static final PlainItemModel TINKERS_TANKARD;
 
     static {
        LEVIATHAN_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/leviathan"), "Leviathan Axe")).properties(new DynamicModelProperties());
@@ -58,6 +59,7 @@ public class AdditionalModels {
        CHEESEBLADE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VHAPI.of("gear/sword/cheese"), "Cheeseblade")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
        CAT_WAND = ModDynamicModels.Wands.REGISTRY.register(new PlainItemModel(VHAPI.of("gear/wand/cat"), "Cat Wand")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
        MUSTARD = ModDynamicModels.Wands.REGISTRY.register(new PlainItemModel(VHAPI.of("gear/wand/mustard"), "Mustard Bottle")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+       TINKERS_TANKARD = ModDynamicModels.Focus.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/focus/tinkers_tankard"), "Tinker's Tankard")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
     }
 
 }
