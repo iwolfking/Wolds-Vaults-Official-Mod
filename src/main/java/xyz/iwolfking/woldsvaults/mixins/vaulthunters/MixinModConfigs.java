@@ -14,6 +14,11 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearTierConf
 @Mixin(value = ModConfigs.class, remap = false)
 public class MixinModConfigs {
 
+    @Inject(method = "register", at = @At("HEAD"), remap = false)
+    private static void onReloadConfigsPre(CallbackInfo ci) {
+        xyz.iwolfking.woldsvaults.init.ModConfigs.preregister();
+    }
+
     @Inject(method = "register", at = @At("TAIL"), remap = false)
     private static void onReloadConfigs(CallbackInfo ci) {
         xyz.iwolfking.woldsvaults.init.ModConfigs.register();
