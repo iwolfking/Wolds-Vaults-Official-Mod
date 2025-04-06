@@ -248,7 +248,7 @@ dependencies {
     implementation fg.deobf("curse.maven:occultism-361026:4729072")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
     implementation fg.deobf("curse.maven:custom-starter-gear-253735:4683370")
-    implementation fg.deobf("curse.maven:qol-hunters-1093452:6139466")
+    compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6139466")
     compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061
     runtimeOnly "curse.maven:citadel4-331936:3683009"
     // compile against the JEI API but do not include it at runtime
@@ -265,7 +265,7 @@ dependencies {
     }
     implementation 'me.fallenbreath:conditional-mixin-forge:0.6.2'
     implementation fg.deobf('local:forgified-sgui:1.0.2')
-    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6367278")
+    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6391342")
     jarJar(group: 'me.fallenbreath', name: 'conditional-mixin-forge', version: '[0.6.2,)') {
         jarJar.pin(it, '0.6.2')
     }
