@@ -2,7 +2,9 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.data.GearDataCache;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,7 +25,8 @@ public abstract class MixinGearDataCache {
     @Inject(method = "getGearColorComponents", at = @At("HEAD"), cancellable = true)
     private void useCustomColorConfigInsteadOfCache(CallbackInfoReturnable<List<Integer>> cir) {
         if(ModConfigs.VAULT_GEAR_RARITY_COLOR_CONFIG.GEAR_RARITY_COLOR_MAP.containsKey(getRarity())) {
-            cir.setReturnValue(List.of(ModConfigs.VAULT_GEAR_RARITY_COLOR_CONFIG.getColorSafe(getRarity()).getValue()));
+            TextColor color = ModConfigs.VAULT_GEAR_RARITY_COLOR_CONFIG.GEAR_RARITY_COLOR_MAP.get(this);
+            cir.setReturnValue(color != null ? List.of(color.getValue()) : List.of(TextColor.fromLegacyFormat(ChatFormatting.WHITE).getValue()));
         }
     }
 }

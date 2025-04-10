@@ -6,7 +6,6 @@ import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.init.ModGearAttributes;
-import iskallia.vault.item.OfferingItem;
 import iskallia.vault.item.gear.EtchingItem;
 import iskallia.vault.util.StringUtils;
 import net.joseph.vaultfilters.attributes.abstracts.StringAttribute;

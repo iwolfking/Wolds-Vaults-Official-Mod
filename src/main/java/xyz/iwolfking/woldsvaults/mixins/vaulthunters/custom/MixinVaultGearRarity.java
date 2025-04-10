@@ -20,10 +20,9 @@ public class MixinVaultGearRarity {
     @Overwrite
     public TextColor getColor() {
         if(ModConfigs.VAULT_GEAR_RARITY_COLOR_CONFIG.GEAR_RARITY_COLOR_MAP.containsKey(this)) {
-            TextColor color = ModConfigs.VAULT_GEAR_RARITY_COLOR_CONFIG.GEAR_RARITY_COLOR_MAP.get(this);
-            return color != null ? color : TextColor.fromLegacyFormat(ChatFormatting.WHITE);
+                TextColor color = ModConfigs.VAULT_GEAR_RARITY_COLOR_CONFIG.GEAR_RARITY_COLOR_MAP.get(this);
+                return color != null ? color : TextColor.fromLegacyFormat(ChatFormatting.WHITE);
         }
-
         return this.color;
     }
 }

@@ -57,10 +57,9 @@ public class AdditionalModels {
        HORSE_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/zombie_horse"), "Zombie-Horse")).properties(new DynamicModelProperties());
        OLD_WORLD_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/old_world_axe"), "Old World Axe")).properties(new DynamicModelProperties());
        FOUL_BLADE_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/foul_blade_axe"), "Foul Blade Axe")).properties(new DynamicModelProperties());
-       YOUNG_KITSUNE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/young_kitsune"), "Young Kitsune")).properties(new DynamicModelProperties());
+       YOUNG_KITSUNE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/young_kitsune"), "Young Kitsune Blade")).properties(new DynamicModelProperties());
        ARROGANTE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/arrogante"), "Arrogante Axe")).properties(new DynamicModelProperties());
        WOLDIANCHOR = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VHAPI.of("gear/axe/iskallianchor"), "Woldianchor")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
-       YOUNG_KITSUNE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/young_kitsune"), "Young Kitsune Blade")).properties(new DynamicModelProperties());
        MINERAL_GREATSWORD = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/mineral_greatsword"), "Mineral Greatsword")).properties(new DynamicModelProperties());
        GRASS_BLADE = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/grass_blade"), "Leaf Sword")).properties(new DynamicModelProperties());
        MYTHIC_ZEKE_SWORD = ModDynamicModels.Swords.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/sword/mythic_zeke_sword"), "Mythical Blade")).properties(new DynamicModelProperties());

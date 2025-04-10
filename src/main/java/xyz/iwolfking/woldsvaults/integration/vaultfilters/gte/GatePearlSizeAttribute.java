@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.integration.vaultfilters.gte;
 
-import iskallia.vault.item.OfferingItem;
 import net.joseph.vaultfilters.attributes.abstracts.StringAttribute;
 import net.minecraft.world.item.ItemStack;
 import shadows.gateways.gate.Gateway;
