@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "infuseDuration": 40,
+  "inputCount": 4,
+  "ingredient": {
+    "item": "the_vault:vault_essence"
+  },
+  "catalyst": {
+    "item": "the_vault:driftwood"
+  },
+  "result": {
+    "item": "woldsvaults:infused_driftwood"
+  }
+}

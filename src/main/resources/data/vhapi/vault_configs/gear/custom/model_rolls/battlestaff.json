@@ -27,6 +27,12 @@
       "the_vault:gear/battlestaff/murakumogiri",
       "the_vault:gear/battlestaff/quackhammer"
     ],
+    "MYTHIC": [
+      "the_vault:gear/battlestaff/midnight"
+    ],
+    "SACRED": [
+      "the_vault:gear/battlestaff/prismatic"
+    ],
     "UNIQUE": [
       "the_vault:gear/battlestaff/bamboo_fightstick",
       "the_vault:gear/battlestaff/ninja_baton"

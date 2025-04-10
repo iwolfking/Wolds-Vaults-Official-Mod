@@ -1,0 +1,39 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "the_vault:item/gear/sword/klk_scissor_1",
+		"particle": "the_vault:item/gear/sword/klk_scissor_1"
+	},
+	"elements": [
+		{
+			"from": [7, 0, 3],
+			"to": [7, 32, 12],
+			"faces": {
+				"north": {"uv": [0, 0, 0, 16], "texture": "#0"},
+				"east": {"uv": [14.8125, 0, 9.8125, 16], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 16], "texture": "#0"},
+				"west": {"uv": [9.75, 0, 14.8125, 16], "texture": "#0"},
+				"up": {"uv": [0, 0, 0, 9], "texture": "#0"},
+				"down": {"uv": [0, 0, 0, 9], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 1.5, 0]
+		},
+		"ground": {
+			"translation": [0, 5.5, 0]
+		},
+		"gui": {
+			"rotation": [-90, 47.75, 90],
+			"translation": [3.25, -2.75, -2.25],
+			"scale": [0.66211, 0.66211, 0.66211]
+		},
+		"fixed": {
+			"rotation": [-90, 47.75, 90],
+			"translation": [3.25, -2.75, -2.25],
+			"scale": [0.66211, 0.66211, 0.66211]
+		}
+	}
+}

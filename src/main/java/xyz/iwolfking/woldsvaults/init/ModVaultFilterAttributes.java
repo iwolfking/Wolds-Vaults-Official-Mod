@@ -1,6 +1,9 @@
 package xyz.iwolfking.woldsvaults.init;
 
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.*;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.gte.GatePearlRewardsAttribute;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.gte.GatePearlSizeAttribute;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.gte.GatePearlWavesAttribute;
 
 public class ModVaultFilterAttributes {
     public static void initAttributes() {
@@ -14,5 +17,9 @@ public class ModVaultFilterAttributes {
         new EtchedLayoutTunnelAttribute(1).register(EtchedLayoutTunnelAttribute::new);
         new EtchedLayoutValueAttribute(1).register(EtchedLayoutValueAttribute::new);
         new AntiqueAttribute("Acquired taste").register(AntiqueAttribute::new);
+        new EtchingSetAttribute("").register(EtchingSetAttribute::new);
+        new GatePearlSizeAttribute("").register(GatePearlSizeAttribute::new);
+        new GatePearlRewardsAttribute("").register(GatePearlRewardsAttribute::new);
+        new GatePearlWavesAttribute(1).register(GatePearlWavesAttribute::new);
     }
 }

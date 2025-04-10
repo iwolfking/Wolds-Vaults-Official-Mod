@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "all": "woldsvaults:block/infused_driftwood_planks"
+  }
+}

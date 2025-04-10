@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.lib.item.MultiLootableItem;
 import xyz.iwolfking.woldsvaults.items.*;
 import xyz.iwolfking.woldsvaults.items.fruits.HastyPomegranteItem;
 import xyz.iwolfking.woldsvaults.items.fruits.PoltergeistPlum;
@@ -60,6 +61,7 @@ public class ModItems {
     public static LootableItem CATALYST_BOX;
     public static LootableItem ENIGMA_EGG;
     public static LootableItem VAULTAR_BOX;
+    public static MultiLootableItem EXQUISITE_BOX;
 
     public static BasicScavengerItem BENITOITE_GEMSTONE;
     public static BasicScavengerItem WUTODIC_GEMSTONE;
@@ -152,6 +154,14 @@ public class ModItems {
     public static BackpackItem XL_BACKPACK;
 
     public static VaultRangItem RANG;
+    public static VaultMapItem MAP;
+
+
+    public static BasicItem GREEDY_VAULT_ROCK;
+    public static BasicItem POGOMINIUM_INGOT;
+    public static BasicItem INFUSED_DRIFTWOOD;
+    public static BasicItem SPARK_OF_INSPIRATION;
+    public static BasicItem VAULT_DIAMOND_NUGGET;
 
 
 
@@ -249,8 +259,15 @@ public class ModItems {
         registry.register(RESEARCH_TOKEN);
         registry.register(ECCENTRIC_FOCUS);
         registry.register(RANG);
+        registry.register(MAP);
         registry.register(LAYOUT_MANIPULATOR);
         registry.register(WEAPON_TYPE_FOCUS);
+        registry.register(GREEDY_VAULT_ROCK);
+        registry.register(POGOMINIUM_INGOT);
+        registry.register(INFUSED_DRIFTWOOD);
+        registry.register(SPARK_OF_INSPIRATION);
+        registry.register(VAULT_DIAMOND_NUGGET);
+        registry.register(EXQUISITE_BOX);
     }
 
     static {
@@ -274,6 +291,7 @@ public class ModItems {
         CATALYST_BOX = new LootableItem(WoldsVaults.id("catalyst_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.CATALYST_BOX.POOL.getRandom(rand).generateItemStack()));
         ENIGMA_EGG = new LootableItem(WoldsVaults.id("enigma_egg"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.ENIGMA_EGG.POOL.getRandom(rand).generateItemStack()));
         VAULTAR_BOX = new LootableItem(WoldsVaults.id("vaultar_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.VAULTAR_BOX.POOL.getRandom(rand).generateItemStack()));
+        EXQUISITE_BOX = new MultiLootableItem(WoldsVaults.id("exquisite_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.EXQUISITE_BOX.POOL.getRandom(rand).generateItemStack()), 3);
         BENITOITE_GEMSTONE = new BasicScavengerItem("benitoite_gemstone");
         WUTODIC_GEMSTONE = new BasicScavengerItem("wutodic_gemstone");
         ECHOING_GEMSTONE = new BasicScavengerItem("echoing_gemstone");
@@ -336,11 +354,19 @@ public class ModItems {
         WENDARR_GEM = new BasicItem(WoldsVaults.id("wendarr_gem"));
         ECCENTRIC_FOCUS = new BasicItem(WoldsVaults.id("eccentric_focus"));
         COMMUNITY_TOKEN = new BasicItem(WoldsVaults.id("community_token"));
+
+        GREEDY_VAULT_ROCK = new BasicItem(WoldsVaults.id("greedy_vault_rock"));
+        POGOMINIUM_INGOT = new BasicItem(WoldsVaults.id("pogominium_ingot"));
+        INFUSED_DRIFTWOOD = new BasicItem(WoldsVaults.id("infused_driftwood"));
+        SPARK_OF_INSPIRATION = new BasicItem(WoldsVaults.id("spark_of_inspiration"));
+        VAULT_DIAMOND_NUGGET = new BasicItem(WoldsVaults.id("vault_diamond_nugget"));
+
         RESEARCH_TOKEN = new ResearchTokenItem(WoldsVaults.id("research_token"), new Item.Properties().stacksTo(1));
         POLTERGEIST_PLUM = new PoltergeistPlum(WoldsVaults.id("poltergeist_plum"));
         XL_BACKPACK = new BackpackItem(() -> 180, () -> 8, () -> ModBlocks.XL_BACKPACK, Item.Properties::fireResistant);
         XL_BACKPACK.setRegistryName(WoldsVaults.MOD_ID, "xl_backpack");
         RANG = new VaultRangItem(VaultMod.id("rang"), new Item.Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
+        MAP = new VaultMapItem(VaultMod.id("map"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         LAYOUT_MANIPULATOR = new LayoutModificationItem(VAULT_MOD_GROUP, WoldsVaults.id("layout_manipulator"));
         WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"));
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));

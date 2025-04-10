@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "the_vault:item/gear/map/unidentified",
+        "layer1": "the_vault:item/gear/map/unidentified_overlay"
+    }
+}

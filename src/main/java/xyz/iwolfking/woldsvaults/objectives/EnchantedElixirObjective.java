@@ -57,6 +57,11 @@ public class EnchantedElixirObjective extends ElixirObjective {
             VaultModifierUtils.addModifier(vault, VaultMod.id("normalized"), 1);
         }
 
+
+        if(!hasGeneratedModifiers) {
+            VaultModifierUtils.addModifier(vault, VaultMod.id("normalized"), 1);
+        }
+
         super.initServer(world, vault);
     }
 

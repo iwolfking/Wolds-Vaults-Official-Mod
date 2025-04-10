@@ -21,6 +21,8 @@ public class Battlestaffs {
     public static final HandHeldModel BATTLESTAFF_LIGHTSABER;
     public static final HandHeldModel BAMBOO_FIGHTSTICK;
     public static final HandHeldModel NINJA_BATON;
+    public static final HandHeldModel MIDNIGHT;
+    public static final HandHeldModel PRISMATIC;
     public static final HandHeldModel SUN_WUKONG;
     public static final HandHeldModel CHOPSTICK;
     public static final HandHeldModel MURAKOMAGIRI;
@@ -43,6 +45,8 @@ public class Battlestaffs {
         BATTLESTAFF_TERROR = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/battlestaff_terror"), "Terror Battlestaff")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         BATTLESTAFF_LIGHT_BLUE = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/battlestaff_light_blue"), "Arcane Battlestaff")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         BATTLESTAFF_LIGHTSABER = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/lightsaber"), "Cosmonite's Battlesaber")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+        MIDNIGHT = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/midnight"), "Midnight Battlestaff")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+        PRISMATIC = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/prismatic"), "Prismatic Battlestaff")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         CHOPSTICK = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/chopstick_battlestaff"), "Chopstick")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         SUN_WUKONG = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/sun_wukong_staff"), "Sun Wukong Staff")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         MURAKOMAGIRI = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/battlestaff/murakumogiri"), "Murakumogiri Staff")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());

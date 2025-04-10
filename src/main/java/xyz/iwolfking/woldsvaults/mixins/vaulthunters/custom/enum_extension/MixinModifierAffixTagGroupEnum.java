@@ -27,6 +27,7 @@ public abstract class MixinModifierAffixTagGroupEnum {
     @SerializedName("UNUSUAL_PREFIX")
     private static final VaultGearTierConfig.ModifierAffixTagGroup UNUSUAL_PREFIX = enumExpansion$addVariant("UNUSUAL_PREFIX", VaultGearModifier.AffixType.PREFIX, withTarget(VaultGearModifier.AffixType.PREFIX));
     private static final VaultGearTierConfig.ModifierAffixTagGroup UNUSUAL_SUFFIX = enumExpansion$addVariant("UNUSUAL_SUFFIX", VaultGearModifier.AffixType.SUFFIX, withTarget(VaultGearModifier.AffixType.SUFFIX));
+    private static final VaultGearTierConfig.ModifierAffixTagGroup TRAIT = enumExpansion$addVariant("TRAIT", VaultGearModifier.AffixType.IMPLICIT, withTarget(VaultGearModifier.AffixType.IMPLICIT));
 
 
     @Invoker("<init>")
