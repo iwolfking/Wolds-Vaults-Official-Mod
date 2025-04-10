@@ -180,7 +180,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     //implementation fg.deobf('curse.maven:vault-hunters-official-mod-458203:5621637')
-    implementation fg.deobf("curse.maven:vaultfaster-988487:5923993")
+    implementation fg.deobf("curse.maven:vaultfaster-988487:6372465")
     implementation fg.deobf('curse.maven:hostile-neural-networks-552574:3717871')
     implementation fg.deobf('curse.maven:placebo-283644:4500363')
     implementation fg.deobf('curse.maven:lightmans-currency-472521:4977514')
@@ -190,7 +190,8 @@ dependencies {
     implementation fg.deobf('curse.maven:better-combat-by-daedelus-639842:4428885')
     implementation fg.deobf('curse.maven:cooking-for-blockheads-231484:4065856')
     implementation fg.deobf('curse.maven:scannable-266784:3738448')
-    implementation fg.deobf('curse.maven:parcool-482378:4944977')
+    implementation fg.deobf("curse.maven:parcool-482378:6189392")
+    //implementation fg.deobf('curse.maven:parcool-482378:4944977')
     implementation fg.deobf('curse.maven:ecologics-570463:4171283')
     implementation fg.deobf('curse.maven:alexs-mobs-426558:3853078')
     implementation fg.deobf('curse.maven:the-wild-backport-537901:3988035')
@@ -248,13 +249,10 @@ dependencies {
     implementation fg.deobf("curse.maven:custom-starter-gear-253735:4683370")
     implementation fg.deobf("curse.maven:qol-hunters-1093452:5943142")
     implementation fg.deobf("curse.maven:cucumber-272335:4831151")
-    implementation fg.deobf("curse.maven:qol-hunters-1093452:5943142")
     implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6036598")
-    implementation fg.deobf("curse.maven:occultism-361026:4729072")
-    implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
-    implementation fg.deobf("curse.maven:custom-starter-gear-253735:4683370")
     implementation fg.deobf("curse.maven:second-chance-forge-509239:3832230")
     implementation fg.deobf("curse.maven:gateways-to-eternity-417802:4548643")
+    compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6139466")
     compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061
     runtimeOnly "curse.maven:citadel4-331936:3683009"
     // compile against the JEI API but do not include it at runtime
@@ -271,7 +269,7 @@ dependencies {
     }
     implementation 'me.fallenbreath:conditional-mixin-forge:0.6.2'
     implementation fg.deobf('local:forgified-sgui:1.0.2')
-    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:5925633")
+    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6391342")
     jarJar(group: 'me.fallenbreath', name: 'conditional-mixin-forge', version: '[0.6.2,)') {
         jarJar.pin(it, '0.6.2')
     }
@@ -306,6 +304,10 @@ dependencies {
     // perf in dev
     runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5322305")
+
+    runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:3820503")
+    runtimeOnly fg.deobf("curse.maven:architectury-api-419699:4521465")
+    runtimeOnly fg.deobf("curse.maven:ftb-library-forge-404465:4396792")
 
 }
 

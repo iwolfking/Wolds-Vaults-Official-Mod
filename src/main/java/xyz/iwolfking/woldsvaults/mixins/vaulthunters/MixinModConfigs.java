@@ -24,7 +24,13 @@ import java.util.Map;
 public class MixinModConfigs {
 
     @Shadow public static Map<ResourceLocation, VaultGearTierConfig> VAULT_GEAR_CONFIG;
+  
     private static final int TOTAL_MAP_TIERS = 10;
+  
+    @Inject(method = "register", at = @At("HEAD"), remap = false)
+    private static void onReloadConfigsPre(CallbackInfo ci) {
+        xyz.iwolfking.woldsvaults.init.ModConfigs.preregister();
+    }
 
     @Inject(method = "register", at = @At("TAIL"), remap = false)
     private static void onReloadConfigs(CallbackInfo ci) {

@@ -17,7 +17,8 @@
       "the_vault:gear/loot_sack/pink"
     ],
     "OMEGA": [
-      "the_vault:gear/loot_sack/green"
+      "the_vault:gear/loot_sack/green",
+      "the_vault:gear/loot_sack/tinkers_tankard"
     ],
     "MYTHIC": [
       "the_vault:gear/loot_sack/midnight"

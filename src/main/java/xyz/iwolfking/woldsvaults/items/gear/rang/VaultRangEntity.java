@@ -246,7 +246,10 @@ public class VaultRangEntity extends Projectile {
                         VaultRangLogic.setActiveRang(null);
 
                         owner.attackStrengthTicker = ticksSinceLastSwing;
-                        getStack().hurt(1, level.random, null);
+                        if(this.getLevel().dimension().location().getNamespace().equals("the_vault")) {
+                            getStack().hurt(1, level.random, null);
+                        }
+
                         setStack(owner.getMainHandItem());
                         owner.setItemInHand(InteractionHand.MAIN_HAND, prev);
                         owner.getAttributes().addTransientAttributeModifiers(modifiers);

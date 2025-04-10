@@ -6,6 +6,8 @@ import io.iridium.qolhunters.config.QOLHuntersClientConfigs;
 import io.iridium.qolhunters.features.treasuredoors.TreasureDoorTileEntityRenderer;
 import iskallia.vault.block.TreasureDoorBlock;
 import iskallia.vault.block.entity.TreasureDoorTileEntity;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Direction;
@@ -14,6 +16,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "qolhunters")
+        }
+)
 @Mixin(value = TreasureDoorTileEntityRenderer.class, remap = false)
 public class MixinTreasureDoorRenderer {
     @Shadow private String playerName;

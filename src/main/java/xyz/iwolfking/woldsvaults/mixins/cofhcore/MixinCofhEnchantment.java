@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.cofhcore;
 
+import cofh.core.init.CoreEnchantments;
+import cofh.ensorcellation.init.EnsorcEnchantments;
 import cofh.lib.enchantment.EnchantmentCoFH;
 import iskallia.vault.util.EnchantmentUtil;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
@@ -32,6 +34,9 @@ public class MixinCofhEnchantment extends Enchantment{
             remap = false
     )
     private void canGetAtEnchantingTable(ItemStack stack, CallbackInfoReturnable<Boolean> ci) {
+        if(((EnchantmentCoFH)(Object)this).equals(EnsorcEnchantments.SOULBOUND.get())) {
+            ci.setReturnValue(false);
+        }
         if (EnchantmentUtil.isEnchantmentBlocked(this, stack)) {
             ci.setReturnValue(false);
         }

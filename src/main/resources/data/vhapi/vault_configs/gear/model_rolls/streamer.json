@@ -15,7 +15,8 @@
     ],
     "UNIQUE": [
       "the_vault:gear/axe/leviathan",
-      "the_vault:gear/axe/zombie_horse"
+      "the_vault:gear/axe/zombie_horse",
+      "the_vault:gear/axe/arrogante"
     ]
   },
   "WAND_MODEL_ROLLS": {

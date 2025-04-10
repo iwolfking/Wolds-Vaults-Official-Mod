@@ -93,7 +93,7 @@ public class ModItems {
 
     public static final BasicItem ECCENTRIC_FOCUS;
     public static final BasicItem WEAPON_TYPE_FOCUS;
-    public static final BasicItem WEAPON_TYPE_SETTER;
+   // public static final BasicItem WEAPON_TYPE_SETTER;
 
     public static BasicItem FRENZY_CAPSTONE;
     public static BasicItem PROSPEROUS_CAPSTONE;
@@ -262,7 +262,6 @@ public class ModItems {
         registry.register(MAP);
         registry.register(LAYOUT_MANIPULATOR);
         registry.register(WEAPON_TYPE_FOCUS);
-        registry.register(WEAPON_TYPE_SETTER);
         registry.register(GREEDY_VAULT_ROCK);
         registry.register(POGOMINIUM_INGOT);
         registry.register(INFUSED_DRIFTWOOD);
@@ -370,6 +369,6 @@ public class ModItems {
         MAP = new VaultMapItem(VaultMod.id("map"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         LAYOUT_MANIPULATOR = new LayoutModificationItem(VAULT_MOD_GROUP, WoldsVaults.id("layout_manipulator"));
         WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"));
-        WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
+        //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }

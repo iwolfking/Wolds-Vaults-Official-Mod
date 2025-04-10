@@ -1,16 +1,4 @@
 {
   "MODELS": [
-    {
-      "id": "vhapi:gear/wand/cat",
-      "displayName": "Cat Wand",
-      "discoverOnRoll": true,
-      "allowTransmogrification": true
-    },
-    {
-      "id": "vhapi:gear/wand/mustard",
-      "displayName": "Mustard Bottle",
-      "discoverOnRoll": true,
-      "allowTransmogrification": true
-    }
   ]
 }

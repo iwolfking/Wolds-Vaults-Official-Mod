@@ -1,6 +1,6 @@
 package xyz.iwolfking.woldsvaults.integration.vaultfilters;
 
-import iskallia.vault.item.OfferingItem;
+import iskallia.vault.item.BossRuneItem;
 import net.joseph.vaultfilters.attributes.abstracts.StringListAttribute;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -31,7 +31,7 @@ public class OfferingItemAttribute extends StringListAttribute {
 
     public static List<String> getOfferingItems(ItemStack stack) {
         List<String> itemNamesList = new ArrayList<>();
-        if (stack.getItem() instanceof OfferingItem) {
+        if (stack.getItem() instanceof BossRuneItem) {
             if(!stack.getOrCreateTag().contains("Items")) {
                 return List.of();
             }

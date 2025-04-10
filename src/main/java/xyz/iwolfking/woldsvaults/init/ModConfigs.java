@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.init;
 
+import iskallia.vault.gear.data.GearDataCache;
 import xyz.iwolfking.vhapi.api.data.api.CustomRecyclerOutputs;
 import xyz.iwolfking.vhapi.api.loaders.workstation.lib.CustomVaultRecyclerConfig;
 import xyz.iwolfking.woldsvaults.config.*;
@@ -32,6 +33,11 @@ public class ModConfigs {
 
     public static GreedVaultAltarIngredientsConfig GREED_VAULT_ALTAR_INGREDIENTS;
     public static WeaponTypesConfig WEAPON_TYPES;
+    public static VaultGearRarityColorConfig VAULT_GEAR_RARITY_COLOR_CONFIG = new VaultGearRarityColorConfig();
+
+    public static void preregister() {
+        VAULT_GEAR_RARITY_COLOR_CONFIG = new VaultGearRarityColorConfig().readConfig();
+    }
 
     public static void register() {
         GEM_BOX = new GenericLootableConfig("gem_box").readConfig();

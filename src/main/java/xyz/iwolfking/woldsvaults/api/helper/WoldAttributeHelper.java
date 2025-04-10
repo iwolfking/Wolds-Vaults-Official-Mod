@@ -12,8 +12,10 @@ import net.minecraft.world.entity.LivingEntity;
 public class WoldAttributeHelper {
     public static float getAdditionalAbilityPower(LivingEntity entity) {
         float additionalMultiplier = 0.0F;
+        float apMulti = 1.0F;
         AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(entity);
         additionalMultiplier += (Float)snapshot.getAttributeValue(ModGearAttributes.ABILITY_POWER, VaultGearAttributeTypeMerger.floatSum());
-        return additionalMultiplier;
+        apMulti += snapshot.getAttributeValue(ModGearAttributes.ABILITY_POWER_PERCENT, VaultGearAttributeTypeMerger.floatSum());
+        return additionalMultiplier * apMulti;
     }
 }

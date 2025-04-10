@@ -37,6 +37,7 @@ public class Plushies {
     public static final HandHeldModel SAFER_SPACES;
     public static final HandHeldModel ISAAC;
     public static final HandHeldModel MADELINE;
+    public static final HandHeldModel LUNS_DUCKIE;
 
     public Plushies() {
     }
@@ -69,6 +70,7 @@ public class Plushies {
         BLAHAJ = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/blahaj"), "Blåhaj the Shark")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         ISAAC = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/isaac_plushie_sitting"), "Isaac (Binding of Isaac) ")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         MADELINE = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/madeline_plushie_sitting"), "Madeline (Celeste)")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+        LUNS_DUCKIE = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/luns_duckie"), "Lun's Duckie")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         WITCH = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/witch"), "Walda the Witch")).properties(new DynamicModelProperties());
         SAFER_SPACES = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/safer_spaces"), "Terry the Tardigrade")).properties(new DynamicModelProperties());
     }
