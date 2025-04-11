@@ -31,6 +31,8 @@ public class ModConfigs {
 
     public static EternalAttributesConfig ETERNAL_ATTRIBUTES;
 
+    public static TestPedestalConfig TEST_PEDESTAL_CONFIG;
+
     public static GreedVaultAltarIngredientsConfig GREED_VAULT_ALTAR_INGREDIENTS;
     public static WeaponTypesConfig WEAPON_TYPES;
     public static VaultGearRarityColorConfig VAULT_GEAR_RARITY_COLOR_CONFIG = new VaultGearRarityColorConfig();
@@ -60,5 +62,6 @@ public class ModConfigs {
         ETERNAL_ATTRIBUTES = new EternalAttributesConfig().readConfig();
         GREED_VAULT_ALTAR_INGREDIENTS = new GreedVaultAltarIngredientsConfig().readConfig();
         WEAPON_TYPES = new WeaponTypesConfig().readConfig();
+        TEST_PEDESTAL_CONFIG = new TestPedestalConfig().readConfig();
     }
 }

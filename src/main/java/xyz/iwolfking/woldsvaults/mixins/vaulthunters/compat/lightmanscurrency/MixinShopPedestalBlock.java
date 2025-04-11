@@ -10,6 +10,10 @@ import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.objective.Objectives;
 import iskallia.vault.core.vault.objective.ParadoxObjective;
 import iskallia.vault.event.event.ShopPedestalPriceEvent;
+import iskallia.vault.init.ModBlocks;
+import iskallia.vault.init.ModItems;
+import iskallia.vault.item.CoinBlockItem;
+import iskallia.vault.util.CoinDefinition;
 import iskallia.vault.util.InventoryUtil;
 import iskallia.vault.world.data.ServerVaults;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
@@ -32,6 +36,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -87,11 +92,21 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
                     ShopPedestalPriceEvent event = new ShopPedestalPriceEvent(player, c, tile.getCurrencyStack());
                     MinecraftForge.EVENT_BUS.post(event);
                     ItemStack currency = event.getCost();
+
                     return player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).map(itemHandler -> {
                         List<InventoryUtil.ItemAccess> allItems = List.of();
                         if (!player.isCreative()) {
                             allItems = InventoryUtil.findAllItems(player);
-                            if(!woldsVaults$lightmansCurrencyExtract(player, currency)) {
+                            if(!(currency.getItem() instanceof CoinBlockItem)) {
+                                if(!hasEnoughCurrency(allItems, currency)) {
+                                    if (worldIn.isClientSide) {
+                                        player.displayClientMessage(new TranslatableComponent("message.the_vault.shop_pedestal.fail", currency.getHoverName()), true);
+                                    }
+
+                                    return InteractionResult.sidedSuccess(worldIn.isClientSide);
+                                }
+                            }
+                            else if(!woldsVaults$lightmansCurrencyExtract(player, currency)) {
                                 if (worldIn.isClientSide) {
                                     player.displayClientMessage(new TranslatableComponent("message.the_vault.shop_pedestal.fail", currency.getHoverName()), true);
                                 }
@@ -103,12 +118,15 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
 
                         if (!worldIn.isClientSide) {
                             if (!player.isCreative()) {
+                                if(!(currency.getItem() instanceof CoinBlockItem)) {
+                                    deductItems(allItems, currency.getCount(), currency);
+                                }
                                 BlockState inactiveState = state.setValue(ACTIVE, false);
                                 tile.setRemoved();
                                 worldIn.setBlockAndUpdate(pos, inactiveState);
                             }
                             //ItemHandlerHelper.giveItemToPlayer(player, c.copy());
-                            popResource(worldIn, pos, c.copy());
+                            popResource(worldIn, player.getOnPos(), c.copy());
                             worldIn.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_STEP, SoundSource.BLOCKS, 1.0F, 1.0F);
                         } else {
                             if (!player.getAbilities().instabuild) {
@@ -151,5 +169,39 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
     private boolean woldsVaults$lightmansCurrencyExtract(Player player, ItemStack costStack) {
         CoinValue cValue = CoinValue.fromItemOrValue(costStack.getItem(), costStack.getCount(), 81L);
         return (MoneyUtil.ProcessPayment(player.getInventory(), player, cValue));
+    }
+
+    private static boolean hasEnoughCurrency(List<InventoryUtil.ItemAccess> allItems, ItemStack currency) {
+            int priceValue = currency.getCount();
+
+            for(InventoryUtil.ItemAccess itemAccess : allItems) {
+                if(itemAccess.getStack().getItem().equals(currency.getItem())) {
+                    priceValue -= itemAccess.getStack().getCount();
+                }
+
+                if (priceValue <= 0) {
+                    return true;
+                }
+            }
+
+            return false;
+    }
+
+    private static int deductItems(List<InventoryUtil.ItemAccess> allItems, int priceValue, ItemStack currencyStack) {
+        for(InventoryUtil.ItemAccess itemAccess : allItems) {
+            ItemStack stack = itemAccess.getStack();
+            if (stack.getItem() ==  currencyStack.getItem()) {
+                int countToRemove = Math.min(priceValue, stack.getCount());
+                if (countToRemove > 0) {
+                    itemAccess.setStack(ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - countToRemove));
+                    priceValue -= countToRemove;
+                    if (priceValue <= 0) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return priceValue;
     }
 }
