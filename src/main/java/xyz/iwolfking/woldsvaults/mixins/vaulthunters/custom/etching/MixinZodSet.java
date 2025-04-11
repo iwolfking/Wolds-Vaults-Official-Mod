@@ -14,5 +14,6 @@ public class MixinZodSet {
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/registries/IForgeRegistry;register(Lnet/minecraftforge/registries/IForgeRegistryEntry;)V", ordinal = 11))
     private static void replaceZodSet(IForgeRegistry<EtchingSet<?>> instance, IForgeRegistryEntry<EtchingSet<?>> v){
         instance.register(xyz.iwolfking.woldsvaults.init.ModEtchings.ZOD);
+        instance.register(xyz.iwolfking.woldsvaults.init.ModEtchings.INGENIUM);
     }
 }

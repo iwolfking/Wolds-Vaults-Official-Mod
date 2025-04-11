@@ -4,6 +4,7 @@ import iskallia.vault.config.VaultRecyclerConfig;
 import iskallia.vault.config.entry.ChanceItemStackEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.dynamodel.DynamicModelItem;
+import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.IdentifiableItem;
@@ -21,6 +22,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.common.extensions.IForgeItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom.MixinVaultGearRarity;
 
 @Mixin(value = VaultGearItem.class, remap = false)
 public interface MixinVaultGearItem extends IForgeItem, VaultGearTooltipItem, DataTransferItem, VaultLevelItem, RecyclableItem, DynamicModelItem, IConditionalDamageable, IAnvilPreventCombination, IdentifiableItem {
@@ -44,16 +46,26 @@ public interface MixinVaultGearItem extends IForgeItem, VaultGearTooltipItem, Da
             }
         }
 
+        boolean isUniqueOrHighRarity = data.getRarity().equals(VaultGearRarity.UNIQUE) || data.getRarity().equals(VaultGearRarity.valueOf("Sacred")) || data.getRarity().equals(VaultGearRarity.valueOf("Mythic"));
 
 
         if(legMod != null) {
             if(VaultGearTierConfig.getConfig(input).isPresent()) {
                 VaultGearTierConfig tierConfig = VaultGearTierConfig.getConfig(input).get();
                 VaultGearTierConfig.ModifierTierGroup group = tierConfig.getTierGroup(legMod.getModifierIdentifier());
+                if(isUniqueOrHighRarity) {
+                    return new VaultRecyclerConfig.RecyclerOutput(new ChanceItemStackEntry(new ItemStack(ModItems.VAULT_SCRAP), 8, 16, 1.0F), new ChanceItemStackEntry(new ItemStack(ModItems.FACETED_FOCUS), 1, 1, 1.0F), new ChanceItemStackEntry(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.CHUNK_OF_POWER), 1, 1, 0.5F));
+                }
+
                 return new VaultRecyclerConfig.RecyclerOutput(new ChanceItemStackEntry(new ItemStack(ModItems.VAULT_SCRAP), 4, 8, 1.0F), new ChanceItemStackEntry(new ItemStack(Items.NETHERITE_SCRAP), 1, 3, 0.2F), new ChanceItemStackEntry(new ItemStack(ModItems.FACETED_FOCUS), 1, 1, 1.0F));
             }
-
         }
+
+        if(isUniqueOrHighRarity) {
+            return new VaultRecyclerConfig.RecyclerOutput(new ChanceItemStackEntry(new ItemStack(ModItems.VAULT_SCRAP), 8, 16, 1.0F), new ChanceItemStackEntry(new ItemStack(Items.NETHERITE_SCRAP), 2, 6, 0.4F), new ChanceItemStackEntry(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.CHUNK_OF_POWER), 1, 1, 0.25F));
+        }
+
+
         return ModConfigs.VAULT_RECYCLER.getGearRecyclingOutput();
     }
 }
