@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.List;
 import java.util.Random;
 
-@Mixin(value = VaultGearModifierHelper.class, remap = false)
+@Mixin(value = VaultGearModifierHelper.class, remap = false, priority = 1500)
 public abstract class MixinVaultGearModifierHelper {
 
     /**
