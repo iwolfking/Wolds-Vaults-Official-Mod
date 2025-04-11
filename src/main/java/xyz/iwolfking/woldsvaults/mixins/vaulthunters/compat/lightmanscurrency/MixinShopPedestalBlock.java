@@ -125,8 +125,8 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
                                 tile.setRemoved();
                                 worldIn.setBlockAndUpdate(pos, inactiveState);
                             }
-                            //ItemHandlerHelper.giveItemToPlayer(player, c.copy());
-                            popResource(worldIn, player.getOnPos(), c.copy());
+
+                            popResource(worldIn, player.getOnPos().above(), c.copy());
                             worldIn.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_STEP, SoundSource.BLOCKS, 1.0F, 1.0F);
                         } else {
                             if (!player.getAbilities().instabuild) {

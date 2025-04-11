@@ -218,5 +218,6 @@
   "jei.category.woldsvaults.infuser": "Vault Infuser",
   "item.woldsvaults.vault_diamond_nugget": "Vault Diamond Nugget",
   "item.woldsvaults.chunk_of_power": "Chunk of Power",
+  "block.woldsvaults.etching_shop_pedestal": "Etching Vendor Pedestal",
   "block.woldsvaults.gateway_channeling_block": "Gateway Channeling Beacon"
 }

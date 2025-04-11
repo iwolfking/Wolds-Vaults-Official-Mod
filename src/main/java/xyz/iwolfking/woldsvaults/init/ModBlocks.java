@@ -64,7 +64,7 @@ public class ModBlocks {
     public static final BlockEntityType<AugmentCraftingTableTileEntity> AUGMENT_CRAFTING_TABLE_ENTITY;
 
     //Shop Pedestals
-    public static final ShopPedestalBlock TEST_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock ETCHING_PEDESTAL = new ShopPedestalBlock();
 
     public static final BackpackBlock XL_BACKPACK;
 
@@ -120,7 +120,7 @@ public class ModBlocks {
         registerBlock(event, INFUSED_DRIFTWOOD_PLANKS, WoldsVaults.id("infused_driftwood_planks"));
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
-        registerBlock(event, TEST_PEDESTAL, WoldsVaults.id("test_shop_pedestal"));
+        registerBlock(event, ETCHING_PEDESTAL, WoldsVaults.id("etching_shop_pedestal"));
 
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
@@ -151,7 +151,7 @@ public class ModBlocks {
         registerBlockItem(event, INFUSED_DRIFTWOOD_PLANKS);
         registerBlockItem(event, VAULT_INFUSER_BLOCK);
         registerBlockItem(event, GATEWAY_CHANNELING_BLOCK);
-        registerBlockItem(event, TEST_PEDESTAL);
+        registerBlockItem(event, ETCHING_PEDESTAL);
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
     }

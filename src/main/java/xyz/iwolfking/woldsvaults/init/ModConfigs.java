@@ -1,10 +1,10 @@
 package xyz.iwolfking.woldsvaults.init;
 
-import iskallia.vault.gear.data.GearDataCache;
 import xyz.iwolfking.vhapi.api.data.api.CustomRecyclerOutputs;
 import xyz.iwolfking.vhapi.api.loaders.workstation.lib.CustomVaultRecyclerConfig;
 import xyz.iwolfking.woldsvaults.config.*;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
+import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 
 public class ModConfigs {
@@ -31,7 +31,7 @@ public class ModConfigs {
 
     public static EternalAttributesConfig ETERNAL_ATTRIBUTES;
 
-    public static TestPedestalConfig TEST_PEDESTAL_CONFIG;
+    public static GenericShopPedestalConfig ETCHING_SHOP_PEDESTAL;
 
     public static GreedVaultAltarIngredientsConfig GREED_VAULT_ALTAR_INGREDIENTS;
     public static WeaponTypesConfig WEAPON_TYPES;
@@ -62,6 +62,6 @@ public class ModConfigs {
         ETERNAL_ATTRIBUTES = new EternalAttributesConfig().readConfig();
         GREED_VAULT_ALTAR_INGREDIENTS = new GreedVaultAltarIngredientsConfig().readConfig();
         WEAPON_TYPES = new WeaponTypesConfig().readConfig();
-        TEST_PEDESTAL_CONFIG = new TestPedestalConfig().readConfig();
+        ETCHING_SHOP_PEDESTAL = new GenericShopPedestalConfig("etching_shop_pedestal").readConfig();
     }
 }

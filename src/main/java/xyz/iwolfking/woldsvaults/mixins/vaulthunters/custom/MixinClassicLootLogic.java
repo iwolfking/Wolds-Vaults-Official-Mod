@@ -9,6 +9,7 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultLevel;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.item.gear.EtchingItem;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -24,8 +25,8 @@ public abstract class MixinClassicLootLogic extends LootLogic {
     protected void onShopPedestalGenerate(VirtualWorld world, Vault vault, ShopPedestalGenerationEvent.Data data) {
         int level = (Integer) vault.getOptional(Vault.LEVEL).map(VaultLevel::get).orElse(0);
         ShopPedestalConfig.ShopOffer offer;
-        if(data.getState().getBlock().equals(ModBlocks.TEST_PEDESTAL)) {
-            offer = xyz.iwolfking.woldsvaults.init.ModConfigs.TEST_PEDESTAL_CONFIG.getForLevel(level, data.getRandom());
+        if(data.getState().getBlock().equals(ModBlocks.ETCHING_PEDESTAL)) {
+            offer = xyz.iwolfking.woldsvaults.init.ModConfigs.ETCHING_SHOP_PEDESTAL.getForLevel(level, data.getRandom());
         }
         else {
             offer = ModConfigs.SHOP_PEDESTAL.getForLevel(level, data.getRandom());

@@ -131,6 +131,7 @@
     "vaulthunters.custom.MixinPlayerVaultStatsData",
     "vaulthunters.custom.MixinRewardConfig",
     "vaulthunters.custom.MixinRunner",
+    "vaulthunters.custom.MixinShopPedestalBlockTileRenderer",
     "vaulthunters.custom.MixinSpecialAbilityModificationRegistry",
     "vaulthunters.custom.MixinToolItem",
     "vaulthunters.custom.MixinVault",
