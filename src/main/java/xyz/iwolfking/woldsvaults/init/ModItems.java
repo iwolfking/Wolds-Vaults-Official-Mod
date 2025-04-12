@@ -163,6 +163,7 @@ public class ModItems {
     public static BasicItem SPARK_OF_INSPIRATION;
     public static BasicItem VAULT_DIAMOND_NUGGET;
     public static BasicItem CHUNK_OF_POWER;
+    public static BasicItem SOUL_ICHOR;
 
 
 
@@ -270,6 +271,7 @@ public class ModItems {
         registry.register(VAULT_DIAMOND_NUGGET);
         registry.register(EXQUISITE_BOX);
         registry.register(CHUNK_OF_POWER);
+        registry.register(SOUL_ICHOR);
     }
 
     static {
@@ -363,6 +365,7 @@ public class ModItems {
         SPARK_OF_INSPIRATION = new BasicItem(WoldsVaults.id("spark_of_inspiration"));
         VAULT_DIAMOND_NUGGET = new BasicItem(WoldsVaults.id("vault_diamond_nugget"));
         CHUNK_OF_POWER = new BasicItem(WoldsVaults.id("chunk_of_power"));
+        SOUL_ICHOR = new BasicItem(WoldsVaults.id("soul_ichor"));
 
         RESEARCH_TOKEN = new ResearchTokenItem(WoldsVaults.id("research_token"), new Item.Properties().stacksTo(1));
         POLTERGEIST_PLUM = new PoltergeistPlum(WoldsVaults.id("poltergeist_plum"));
