@@ -118,6 +118,8 @@ public class CorruptedObjective extends Objective {
 
     //TODO See how this works in a multiplayer scenario
 
+    public static boolean queuedRefresh = true;
+
     public static final SupplierKey<Objective> E_KEY = SupplierKey.of("corrupted", Objective.class).with(Version.v1_31, CorruptedObjective::new);
     public static final ResourceLocation CORRUPTED_HUD = VaultMod.id("textures/gui/corrupted/hud.png");
 
