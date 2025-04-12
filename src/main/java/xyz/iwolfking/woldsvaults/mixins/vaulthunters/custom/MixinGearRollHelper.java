@@ -67,15 +67,6 @@ public class MixinGearRollHelper {
             if(player == null) {
                 return;
             }
-            ExpertiseTree expertises = PlayerExpertisesData.get((ServerLevel) player.getLevel()).getExpertises(player);
-            int jewelerLevel = 0;
-
-            for (JewelExpertise jewelExpertise : expertises.getAll(JewelExpertise.class, Skill::isUnlocked)) {
-                jewelerLevel = jewelExpertise.getSpentLearnPoints();
-            }
-            if(!(jewelerLevel > 0)) {
-                return;
-            }
         }
 
         //Randomly add a corrupted implicit
