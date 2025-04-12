@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.recipes;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.client.ClientExpertiseData;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.VaultGearState;
@@ -10,6 +11,7 @@ import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.item.tool.JewelItem;
 import iskallia.vault.skill.base.Skill;
+import iskallia.vault.skill.base.TieredSkill;
 import iskallia.vault.skill.expertise.type.JewelExpertise;
 import iskallia.vault.skill.tree.ExpertiseTree;
 import iskallia.vault.world.data.PlayerExpertisesData;
@@ -41,14 +43,8 @@ public abstract class MixinJewelCraftingRecipe extends VaultForgeRecipe {
     @Override
     public boolean canCraft(Player player) {
         if(this.getId().equals(VaultMod.id("true_random"))) {
-            ExpertiseTree expertises = PlayerExpertisesData.get((ServerLevel) player.getLevel()).getExpertises(player);
-            int jewelerLevel = 0;
-
-            for (JewelExpertise jewelExpertise : expertises.getAll(JewelExpertise.class, Skill::isUnlocked)) {
-                jewelerLevel = jewelExpertise.getSpentLearnPoints();
-            }
-
-            return !(jewelerLevel > 0);
+            TieredSkill expertise = ClientExpertiseData.getLearnedTalentNode("Jeweler");
+            return expertise != null && expertise.isUnlocked();
         }
 
         return true;
