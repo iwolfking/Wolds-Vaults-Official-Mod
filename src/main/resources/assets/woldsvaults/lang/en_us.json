@@ -175,6 +175,10 @@
   "the_vault.gear_modification.add_unusual_modifier.description": "Add unusual modifier",
   "the_vault.gear_modification.add_unusual_modifier.no_modifiers": "No additional modifiers available",
   "the_vault.gear_modification.add_unusual_modifier.full": "You cannot add more unusual modifiers to this gear piece",
+  "the_vault.gear_modification.unfreeze_all.description": "Unfreeze all Frozen modifiers",
+  "the_vault.gear_modification.unfreeze_all.no_modifiers": "There are no frozen modifiers to unfreeze",
+  "the_vault.gear_modification.freeze_all.description": "Freezes all modifiers",
+  "the_vault.gear_modification.freeze_all.no_modifiers": "There are no modifiers to freeze",
   "create.item_attributes.has_unusual": "has an unusual modifier",
   "create.item_attributes.has_unusual.inverted": "doesn't have an unusual modifier",
   "create.item_attributes.unusual_prefix": "has an unusual \"%1$s\" prefix",
@@ -219,6 +223,8 @@
   "item.woldsvaults.vault_diamond_nugget": "Vault Diamond Nugget",
   "item.woldsvaults.chunk_of_power": "Chunk of Power",
   "item.woldsvaults.soul_ichor": "Soul Ichor",
+  "item.woldsvaults.blazing_focus": "Blazing Focus",
+  "item.woldsvaults.suspension_focus": "Suspension Focus",
   "block.woldsvaults.etching_shop_pedestal": "Etching Vendor Pedestal",
   "block.woldsvaults.gateway_channeling_block": "Gateway Channeling Beacon"
 }

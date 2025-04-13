@@ -93,6 +93,8 @@ public class ModItems {
 
     public static final BasicItem ECCENTRIC_FOCUS;
     public static final BasicItem WEAPON_TYPE_FOCUS;
+    public static final BasicItem BLAZING_FOCUS;
+    public static final BasicItem SUSPENSION_FOCUS;
    // public static final BasicItem WEAPON_TYPE_SETTER;
 
     public static BasicItem FRENZY_CAPSTONE;
@@ -272,6 +274,8 @@ public class ModItems {
         registry.register(EXQUISITE_BOX);
         registry.register(CHUNK_OF_POWER);
         registry.register(SOUL_ICHOR);
+        registry.register(BLAZING_FOCUS);
+        registry.register(SUSPENSION_FOCUS);
     }
 
     static {
@@ -375,6 +379,8 @@ public class ModItems {
         MAP = new VaultMapItem(VaultMod.id("map"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         LAYOUT_MANIPULATOR = new LayoutModificationItem(VAULT_MOD_GROUP, WoldsVaults.id("layout_manipulator"));
         WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"));
+        BLAZING_FOCUS = new BasicItem(WoldsVaults.id("blazing_focus"));
+        SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"));
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }

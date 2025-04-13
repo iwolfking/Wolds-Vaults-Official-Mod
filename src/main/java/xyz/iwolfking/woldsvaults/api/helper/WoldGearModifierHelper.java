@@ -5,6 +5,7 @@ import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.modification.GearModification;
+import iskallia.vault.gear.modification.operation.LockModifierModification;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.MiscUtils;
 import net.minecraft.world.item.ItemStack;
@@ -115,5 +116,39 @@ public class WoldGearModifierHelper {
                 data.write(stack);
                 return GearModification.Result.makeSuccess();
             }
+    }
+
+    public static GearModification.Result unfreezeAll(ItemStack stack) {
+        VaultGearData data = VaultGearData.read(stack);
+        List<VaultGearModifier<?>> affixes = new ArrayList<>();
+        affixes.addAll(data.getModifiers(VaultGearModifier.AffixType.PREFIX));
+        affixes.addAll(data.getModifiers(VaultGearModifier.AffixType.SUFFIX));
+        affixes.removeIf(modifier -> !modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN));
+        if (affixes.isEmpty()) {
+            return GearModification.Result.makeActionError("no_modifiers");
+        } else {
+            for(VaultGearModifier<?> mod : affixes) {
+                mod.removeCategory(VaultGearModifier.AffixCategory.FROZEN);
+            }
+            data.write(stack);
+            return GearModification.Result.makeSuccess();
+        }
+    }
+
+    public static GearModification.Result freezeAll(ItemStack stack) {
+        VaultGearData data = VaultGearData.read(stack);
+        List<VaultGearModifier<?>> affixes = new ArrayList<>();
+        affixes.addAll(data.getModifiers(VaultGearModifier.AffixType.PREFIX));
+        affixes.addAll(data.getModifiers(VaultGearModifier.AffixType.SUFFIX));
+        affixes.removeIf(modifier -> modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN));
+        if (affixes.isEmpty()) {
+            return GearModification.Result.makeActionError("no_modifiers");
+        } else {
+            for(VaultGearModifier<?> mod : affixes) {
+                mod.addCategory(VaultGearModifier.AffixCategory.FROZEN);
+            }
+            data.write(stack);
+            return GearModification.Result.makeSuccess();
+        }
     }
 }

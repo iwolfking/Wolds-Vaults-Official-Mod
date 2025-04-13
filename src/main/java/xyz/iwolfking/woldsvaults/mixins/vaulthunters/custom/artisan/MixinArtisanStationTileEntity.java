@@ -20,7 +20,7 @@ import xyz.iwolfking.woldsvaults.init.ModItems;
 @Mixin(value = VaultArtisanStationTileEntity.class, remap = false)
 public abstract class MixinArtisanStationTileEntity extends BlockEntity {
     @Shadow @Final @Mutable
-    private OverSizedInventory inventory = new OverSizedInventory.FilteredInsert(17, this, this::canInsertInput);
+    private OverSizedInventory inventory = new OverSizedInventory.FilteredInsert(19, this, this::canInsertInput);
 
     public MixinArtisanStationTileEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
@@ -31,9 +31,12 @@ public abstract class MixinArtisanStationTileEntity extends BlockEntity {
         if(slot == 16) {
             cir.setReturnValue(stack.is(ModItems.ECCENTRIC_FOCUS));
         }
-//        if(slot == 17) {
-//            cir.setReturnValue(stack.is(ModItems.WEAPON_TYPE_FOCUS));
-//        }
+        if(slot == 17) {
+            cir.setReturnValue(stack.is(ModItems.BLAZING_FOCUS));
+        }
+        if(slot == 18) {
+            cir.setReturnValue(stack.is(ModItems.SUSPENSION_FOCUS));
+        }
     }
 
     @Shadow public abstract boolean canInsertInput(int slot, @NotNull ItemStack stack);

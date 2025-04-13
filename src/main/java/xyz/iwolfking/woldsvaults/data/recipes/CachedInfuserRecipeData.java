@@ -15,7 +15,6 @@ public class CachedInfuserRecipeData {
     private static final Set<Item> INGREDIENT_ITEMS = new HashSet<>();
 
     public static void cacheCatalysts(Level level) {
-        System.out.println("CACHED CATALYSTS");
         for(InfuserRecipe infuserRecipe : level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.INFUSER)) {
             for(ItemStack catalystStack : infuserRecipe.getCatalyst().getItems()) {
                 CATALYST_ITEMS.add(catalystStack.getItem());
@@ -24,7 +23,6 @@ public class CachedInfuserRecipeData {
     }
 
     public static void cacheIngredients(Level level) {
-        System.out.println("CACHED INGREDIENTS");
         for(InfuserRecipe infuserRecipe : level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.INFUSER)) {
             for(Ingredient ingredient : infuserRecipe.getIngredients()) {
                 for(ItemStack stack : ingredient.getItems()) {
