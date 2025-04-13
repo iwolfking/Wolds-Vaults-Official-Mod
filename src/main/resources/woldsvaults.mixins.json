@@ -198,7 +198,8 @@
     "vaulthunters.skills.MixinSkill",
     "vaulthunters.skills.modifications.MixinAbstractVeinMinerAbility",
     "vaulthunters.skills.modifications.MixinFireballAbility",
-    "vaulthunters.skills.modifications.MixinIceBoltChunkAbility"
+    "vaulthunters.skills.modifications.MixinIceBoltChunkAbility",
+    "vhatcaniroll.MixinItems"
   ],
   "client": [
     "MixinThrownTridentRenderer",
@@ -214,7 +215,8 @@
     "vaulthunters.fixes.MixinCatalystItemRenderer",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
-    "vaulthunters.fixes.MixinUniqueCodexScreen"
+    "vaulthunters.fixes.MixinUniqueCodexScreen",
+    "vhatcaniroll.MixinGearModifierScreen"
   ],
   "injectors": {
     "defaultRequire": 1
