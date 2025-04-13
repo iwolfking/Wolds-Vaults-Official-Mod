@@ -11,5 +11,6 @@ public class ModInscriptionModels {
         CustomInscriptionModelRegistry.addModel(94, "playzone");
         CustomInscriptionModelRegistry.addModel(99, "raid");
         CustomInscriptionModelRegistry.addModel(100, "lab");
+        CustomInscriptionModelRegistry.addModel(101, "gateway");
     }
 }

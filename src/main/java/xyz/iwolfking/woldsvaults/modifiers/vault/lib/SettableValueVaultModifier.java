@@ -4,6 +4,7 @@ import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class SettableValueVaultModifier<P extends SettableValueVaultModifier.Properties> extends VaultModifier<P> {
@@ -32,7 +33,8 @@ public abstract class SettableValueVaultModifier<P extends SettableValueVaultMod
         }
 
         public float getValue() {
-            return this.value.getValue();
+            return Objects.requireNonNullElseGet(this.value, () -> new ValueProperty(0F)).getValue();
+
         }
 
         //TODO: Fix issues with getting value from context.
@@ -41,7 +43,13 @@ public abstract class SettableValueVaultModifier<P extends SettableValueVaultMod
                 return this.value != null ? this.value.apply(this.value.getValue(), context) : 0F;
             }
             else {
-                return this.getValue();
+                if(this.value != null) {
+                    return this.getValue();
+                }
+                else {
+                    return new ValueProperty(0F).getValue();
+                }
+
             }
         }
 
