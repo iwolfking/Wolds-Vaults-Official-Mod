@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class TargetedModBox extends BasicItem {
             List<String> unlocked = new ArrayList(researches.getResearchesDone());
 
             if(!unlocked.contains(researchName)) {
-                player.displayClientMessage(new TextComponent("You don't have the ").append(new TextComponent(researchName).withStyle(ChatFormatting.GOLD).append(" research unlocked!")), true);
+                player.displayClientMessage(new TextComponent("You don't have the ").append((new TextComponent(researchName).withStyle(ChatFormatting.GOLD)).append(" research unlocked!")), true);
                 return InteractionResultHolder.fail(heldStack);
             }
 
@@ -83,14 +84,10 @@ public class TargetedModBox extends BasicItem {
         }
     }
 
-    @Nullable
-    public static Research getResearch(ItemStack stack) {
-        if (!stack.isEmpty() && stack.getItem() instanceof ResearchTokenItem) {
-            String tagStr = stack.getOrCreateTag().getString("research");
-            return ModConfigs.RESEARCHES.getByName(tagStr);
-        } else {
-            return null;
-        }
+    public static @NotNull ItemStack create(String research) {
+        ItemStack stack = new ItemStack(ModItems.TARGETED_MOD_BOX);
+        stack.getOrCreateTag().putString("research", research);
+        return stack;
     }
 
     @Override

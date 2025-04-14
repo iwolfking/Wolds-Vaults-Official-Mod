@@ -6,6 +6,8 @@ import xyz.iwolfking.woldsvaults.config.*;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
+import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxForgeRecipe;
+import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 
 public class ModConfigs {
     public static GenericLootableConfig GEM_BOX;
@@ -24,6 +26,7 @@ public class ModConfigs {
     public static EnchantedElixirConfig ENCHANTED_ELIXIR;
 
     public static AugmentRecipesConfig AUGMENT_RECIPES;
+    public static ModBoxRecipesConfig MOD_BOX_RECIPES_CONFIG;
 
     public static ThemeTooltipsConfig THEME_TOOLTIPS;
 
@@ -56,6 +59,7 @@ public class ModConfigs {
         HAUNTED_BRAZIERS = new HauntedBraziersConfig().readConfig();
         ENCHANTED_ELIXIR = new EnchantedElixirConfig().readConfig();
         AUGMENT_RECIPES = new AugmentRecipesConfig().readConfig();
+        MOD_BOX_RECIPES_CONFIG = new ModBoxRecipesConfig().readConfig();
         THEME_TOOLTIPS = new ThemeTooltipsConfig().readConfig();
         CUSTOM_RECYCLER_CONFIG = new CustomVaultRecyclerConfig().readConfig();
         CustomRecyclerOutputs.CUSTOM_OUTPUTS.putAll(CUSTOM_RECYCLER_CONFIG.getOutputs());

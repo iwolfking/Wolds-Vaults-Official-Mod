@@ -4,6 +4,7 @@ import iskallia.vault.config.recipe.ForgeRecipeType;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentForgeRecipe;
+import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxForgeRecipe;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import java.util.ArrayList;
@@ -21,6 +22,10 @@ public class MixinForgeRecipeTypeEnum {
 
     private static final ForgeRecipeType AUGMENT = enumExpansion$addVariant("AUGMENT", AugmentForgeRecipe::new, () -> {
         return ModConfigs.AUGMENT_RECIPES;
+    });
+
+    private static final ForgeRecipeType MOD_BOX = enumExpansion$addVariant("MOD_BOX", ModBoxForgeRecipe::new, () -> {
+        return ModConfigs.MOD_BOX_RECIPES_CONFIG;
     });
 
 
