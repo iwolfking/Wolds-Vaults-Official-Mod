@@ -21,5 +21,6 @@ public class ModVaultFilterAttributes {
         new GatePearlSizeAttribute("").register(GatePearlSizeAttribute::new);
         new GatePearlRewardsAttribute("").register(GatePearlRewardsAttribute::new);
         new GatePearlWavesAttribute(1).register(GatePearlWavesAttribute::new);
+        new TargetedModBoxResearchAttribute("Create").register(TargetedModBoxResearchAttribute::new);
     }
 }

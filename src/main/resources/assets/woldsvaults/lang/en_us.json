@@ -189,6 +189,8 @@
   "create.item_attributes.offering_items.inverted": "isn't an Boss Rune with a Guaranteed \"%1$s\"",
   "create.item_attributes.offering_modifier": "has a \"%1$s\" Boss Rune modifier",
   "create.item_attributes.offering_modifier.inverted": "doesn't have a \"%1$s\" Boss Rune modifier",
+  "create.item_attributes.targeted_mod_box_research": "is a Targeted Mod Box for the \"%1$s\" research",
+  "create.item_attributes.targeted_mod_box_research.inverted":  "isn't a Targeted Mod Box for the \"%1$s\" research",
   "create.item_attributes.antique_name": "is a \"%1$s\" Antique",
   "create.item_attributes.antique_name.inverted": "isn't a \"%1$s\" Antique",
   "create.item_attributes.rotten_offering": "is a rotten Boss Rune",
@@ -226,5 +228,7 @@
   "item.woldsvaults.blazing_focus": "Blazing Focus",
   "item.woldsvaults.suspension_focus": "Suspension Focus",
   "block.woldsvaults.etching_shop_pedestal": "Etching Vendor Pedestal",
-  "block.woldsvaults.gateway_channeling_block": "Gateway Channeling Beacon"
+  "block.woldsvaults.gateway_channeling_block": "Gateway Channeling Beacon",
+  "item.woldsvaults.targeted_mod_box": "Targeted Mod Box",
+  "vhatcaniroll.screen.title.etching": "Etchings"
 }

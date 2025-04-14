@@ -2,25 +2,16 @@ package xyz.iwolfking.woldsvaults.mixins.vhatcaniroll;
 
 import com.radimous.vhatcaniroll.logic.ModifierCategory;
 import com.radimous.vhatcaniroll.ui.*;
-import iskallia.vault.client.gui.framework.ScreenTextures;
 import iskallia.vault.client.gui.framework.element.*;
-import iskallia.vault.client.gui.framework.element.spi.ILayoutElement;
 import iskallia.vault.client.gui.framework.element.spi.ILayoutStrategy;
-import iskallia.vault.client.gui.framework.element.spi.IRenderedElement;
-import iskallia.vault.client.gui.framework.render.TooltipDirection;
-import iskallia.vault.client.gui.framework.render.Tooltips;
 import iskallia.vault.client.gui.framework.render.spi.IElementRenderer;
 import iskallia.vault.client.gui.framework.render.spi.ITooltipRendererFactory;
 import iskallia.vault.client.gui.framework.screen.AbstractElementScreen;
 import iskallia.vault.client.gui.framework.screen.layout.ScreenLayout;
 import iskallia.vault.client.gui.framework.spatial.Spatials;
 import iskallia.vault.client.gui.framework.spatial.spi.ISpatial;
-import iskallia.vault.gear.VaultGearState;
-import iskallia.vault.gear.data.AttributeGearData;
-import iskallia.vault.gear.data.VaultGearData;
-import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.init.ModItems;
-import iskallia.vault.item.gear.EtchingItem;
+import iskallia.vault.item.BossRuneItemRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -47,49 +38,42 @@ public abstract class MixinGearModifierScreen extends AbstractElementScreen {
 
     @Shadow protected abstract void enableLvlButtons();
 
+    @Shadow protected abstract void switchToModifiers();
+
+    @Shadow protected abstract void enableCategoryButtons();
+
+    @Unique
+    private static final Component ETCHING_COMPONENT = new TranslatableComponent("vhatcaniroll.screen.title.etching").withStyle(ChatFormatting.BLACK);
+
     public MixinGearModifierScreen(Component title, IElementRenderer elementRenderer, ITooltipRendererFactory<AbstractElementScreen> tooltipRendererFactory) {
         super(title, elementRenderer, tooltipRendererFactory);
     }
 
-//    @Unique
-//    private void woldsVaults$switchToEtching() {
-//        this.removeElement(this.innerScreen);
-//        this.modifierCategory = ModifierCategory.NORMAL;
-//        this.updateModifierCategoryButtonLabel();
-//        ISpatial modListSpatial = Spatials.positionXY(7, 50).size(this.getGuiSpatial().width() - 14, this.getGuiSpatial().height() - 57);
-//        this.innerScreen = (InnerGearScreen)(new EtchingListContainer(modListSpatial)).layout(this.translateWorldSpatial());
-//        this.disableLvlButtons();
-//        this.disableCategoryButtons();
-//        this.windowNameLabel.set((new TranslatableComponent("vhatcaniroll.screen.title.etching")).withStyle(ChatFormatting.BLACK));
-//        this.addElement(this.innerScreen);
-//        ScreenLayout.requestLayout();
-//    }
-
-    /**
-     * @author iwolfking
-     * @reason Change handling when Etching is the selected item.
-     */
-    @Inject(method = "updateModifierList", at = @At(value = "INVOKE", target = "Liskallia/vault/client/gui/framework/spatial/Spatials;positionXY(II)Liskallia/vault/client/gui/framework/spatial/spi/IMutableSpatial;"), cancellable = true)
-    private void updateModifierList(boolean keepScroll, CallbackInfo ci) {
-        if(this.getCurrGear().getItem().equals(ModItems.ETCHING)) {
-            this.innerScreen = new EtchingListContainer(Spatials.positionXY(7, 50).size(this.getGuiSpatial().width() - 14, this.getGuiSpatial().height() - 57));
-            this.disableCategoryButtons();
-            this.disableLvlButtons();
-            this.windowNameLabel.set((new TranslatableComponent("vhatcaniroll.screen.title.etching")).withStyle(ChatFormatting.BLACK));
-        }
-        float oldScroll = this.innerScreen.getScroll();
-        InnerGearScreen var5 = this.innerScreen;
-        if (var5 instanceof ILayoutElement<?> layoutElement) {
-            layoutElement.layout(this.translateWorldSpatial());
-        }
-
-        if (keepScroll) {
-            this.innerScreen.setScroll(oldScroll);
-        }
-
+    @Unique
+    private void woldsVaults$switchToEtching() {
+        this.removeElement(this.innerScreen);
+        this.modifierCategory = ModifierCategory.NORMAL;
+        this.updateModifierCategoryButtonLabel();
+        ISpatial modListSpatial = Spatials.positionXY(7, 50).size(this.getGuiSpatial().width() - 14, this.getGuiSpatial().height() - 57);
+        this.innerScreen = (InnerGearScreen)(new EtchingListContainer(modListSpatial, this.lvlInput.getValue(), modifierCategory, this.getCurrGear())).layout(this.translateWorldSpatial());
+        this.disableLvlButtons();
+        this.disableCategoryButtons();
+        this.windowNameLabel.set(ETCHING_COMPONENT);
         this.addElement(this.innerScreen);
         ScreenLayout.requestLayout();
-        ci.cancel();
+    }
+
+    @Inject(method = "updateModifierList", at = @At(value = "HEAD"), cancellable = true)
+    private void createEtchingScreen(boolean keepScroll, CallbackInfo ci) {
+        if(this.windowNameLabel.getComponent().equals(ETCHING_COMPONENT) && !this.getCurrGear().is(ModItems.ETCHING)) {
+            this.enableLvlButtons();
+            this.enableCategoryButtons();
+            this.windowNameLabel.set((new TranslatableComponent("vhatcaniroll.screen.title.random")).withStyle(ChatFormatting.BLACK));
+        }
+        if(this.getCurrGear().is(ModItems.ETCHING) && !(this.innerScreen instanceof EtchingListContainer)) {
+            woldsVaults$switchToEtching();
+            ci.cancel();
+        }
     }
 
     @Inject(method = "switchToTransmog", at = @At("HEAD"), cancellable = true)

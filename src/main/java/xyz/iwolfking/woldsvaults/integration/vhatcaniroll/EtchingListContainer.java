@@ -39,14 +39,14 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 import java.util.Map;
 
-public class EtchingListContainer extends VerticalScrollClipContainer<UniqueGearListContainer> implements InnerGearScreen {
+public class EtchingListContainer extends VerticalScrollClipContainer<EtchingListContainer> implements InnerGearScreen {
 
-    public EtchingListContainer(ISpatial spatial) {
+    public EtchingListContainer(ISpatial spatial, int i, ModifierCategory modifierCategory, ItemStack itemStack) {
         super(spatial, Padding.ZERO, ScreenTextures.INSET_BLACK_BACKGROUND);
         int labelX = 9;
         int labelY = 9;
         EtchingConfig.EtchingMap etchingMap = ModConfigs.ETCHING.ETCHINGS;
-        for(ResourceLocation etchingLoc : etchingMap.keySet()) {
+        for (ResourceLocation etchingLoc : etchingMap.keySet()) {
             int iconHeight = labelY;
             labelY += 5;
             LabelElement<?> nameLabel = new LabelElement(Spatials.positionXY(labelX + 20, labelY).width(this.innerWidth() - labelX).height(15), new TextComponent(etchingMap.get(etchingLoc).getName()), LabelTextStyle.defaultStyle());
@@ -55,7 +55,7 @@ public class EtchingListContainer extends VerticalScrollClipContainer<UniqueGear
             ItemStack displayStack = new ItemStack(ModItems.ETCHING);
             AttributeGearData data = AttributeGearData.read(displayStack);
             EtchingSet<?> set = EtchingRegistry.getEtchingSet(etchingLoc);
-            if(set != null) {
+            if (set != null) {
                 data.createOrReplaceAttributeValue(ModGearAttributes.ETCHING, set);
             }
             data.write(displayStack);
@@ -79,10 +79,12 @@ public class EtchingListContainer extends VerticalScrollClipContainer<UniqueGear
 
     @Override
     public InnerGearScreen create(ISpatial iSpatial, int i, ModifierCategory modifierCategory, ItemStack itemStack) {
-        return new ModifierListContainer(iSpatial, i, modifierCategory, itemStack);
-    }
+        if(itemStack.is(ModItems.ETCHING)) {
+            return new EtchingListContainer(iSpatial, i, modifierCategory, itemStack);
+        }
+        else {
+            return new ModifierListContainer(iSpatial, i, modifierCategory, itemStack);
+        }
 
-    public InnerGearScreen create(ISpatial spatial) {
-        return new EtchingListContainer(spatial);
     }
 }

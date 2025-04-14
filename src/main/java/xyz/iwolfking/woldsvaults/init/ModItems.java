@@ -24,7 +24,6 @@ import xyz.iwolfking.woldsvaults.items.fruits.PoltergeistPlum;
 import xyz.iwolfking.woldsvaults.items.fruits.WisdomFruitItem;
 import xyz.iwolfking.woldsvaults.items.gear.*;
 import xyz.iwolfking.woldsvaults.items.rings.*;
-
 import java.util.Random;
 
 import static iskallia.vault.init.ModItems.GEAR_GROUP;
@@ -62,6 +61,7 @@ public class ModItems {
     public static LootableItem ENIGMA_EGG;
     public static LootableItem VAULTAR_BOX;
     public static MultiLootableItem EXQUISITE_BOX;
+    public static TargetedModBox TARGETED_MOD_BOX;
 
     public static BasicScavengerItem BENITOITE_GEMSTONE;
     public static BasicScavengerItem WUTODIC_GEMSTONE;
@@ -276,6 +276,7 @@ public class ModItems {
         registry.register(SOUL_ICHOR);
         registry.register(BLAZING_FOCUS);
         registry.register(SUSPENSION_FOCUS);
+        registry.register(TARGETED_MOD_BOX);
     }
 
     static {
@@ -381,6 +382,7 @@ public class ModItems {
         WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"));
         BLAZING_FOCUS = new BasicItem(WoldsVaults.id("blazing_focus"));
         SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"));
+        TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }
