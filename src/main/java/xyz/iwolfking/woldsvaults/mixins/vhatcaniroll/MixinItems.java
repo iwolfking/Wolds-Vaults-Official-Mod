@@ -5,6 +5,8 @@ import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.init.ModItems;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +19,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "vhatcaniroll")
+        }
+)
 @Mixin(value = Items.class, remap = false)
 public abstract class MixinItems {
     @Shadow

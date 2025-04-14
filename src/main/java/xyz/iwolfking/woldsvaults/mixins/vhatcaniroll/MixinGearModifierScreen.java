@@ -12,6 +12,8 @@ import iskallia.vault.client.gui.framework.spatial.Spatials;
 import iskallia.vault.client.gui.framework.spatial.spi.ISpatial;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.BossRuneItemRenderer;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -22,6 +24,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.integration.vhatcaniroll.EtchingListContainer;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "vhatcaniroll")
+        }
+)
 @Mixin(value = GearModifierScreen.class, remap = false)
 public abstract class MixinGearModifierScreen extends AbstractElementScreen {
 

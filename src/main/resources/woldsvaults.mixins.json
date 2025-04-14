@@ -49,6 +49,7 @@
     "infernalmobs.MixinMobModsPacket",
     "integrateddynamics.MixinClientProxy",
     "itemborders.MixinItemBorders",
+    "itemborders.MixinItemBordersConfig",
     "itemborders.integratedterminals.MixinIngredientComponentTerminalStorageHandlerItemStack",
     "itemborders.refinedstorage.MixinItemGridStack",
     "itemborders.sophisticatedcore.MixinStorageScreenBase",
