@@ -60,6 +60,7 @@ public class ModItems {
     public static LootableItem CATALYST_BOX;
     public static LootableItem ENIGMA_EGG;
     public static LootableItem VAULTAR_BOX;
+    public static LootableItem UNIDENTIFIED_GATEWAY_PEARL;
     public static MultiLootableItem EXQUISITE_BOX;
     public static TargetedModBox TARGETED_MOD_BOX;
 
@@ -277,6 +278,7 @@ public class ModItems {
         registry.register(BLAZING_FOCUS);
         registry.register(SUSPENSION_FOCUS);
         registry.register(TARGETED_MOD_BOX);
+        registry.register(UNIDENTIFIED_GATEWAY_PEARL);
     }
 
     static {
@@ -300,6 +302,7 @@ public class ModItems {
         CATALYST_BOX = new LootableItem(WoldsVaults.id("catalyst_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.CATALYST_BOX.POOL.getRandom(rand).generateItemStack()));
         ENIGMA_EGG = new LootableItem(WoldsVaults.id("enigma_egg"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.ENIGMA_EGG.POOL.getRandom(rand).generateItemStack()));
         VAULTAR_BOX = new LootableItem(WoldsVaults.id("vaultar_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.VAULTAR_BOX.POOL.getRandom(rand).generateItemStack()));
+        UNIDENTIFIED_GATEWAY_PEARL = new LootableItem(WoldsVaults.id("unidentified_gateway_pearl"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.GATEWAY_PEARL.POOL.getRandom(rand).generateItemStack()));
         EXQUISITE_BOX = new MultiLootableItem(WoldsVaults.id("exquisite_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.EXQUISITE_BOX.POOL.getRandom(rand).generateItemStack()), 3);
         BENITOITE_GEMSTONE = new BasicScavengerItem("benitoite_gemstone");
         WUTODIC_GEMSTONE = new BasicScavengerItem("wutodic_gemstone");
