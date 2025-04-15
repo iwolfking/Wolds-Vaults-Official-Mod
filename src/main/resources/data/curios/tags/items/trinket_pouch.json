@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "woldsvaults:standard_trinket_pouch",
+    "woldsvaults:heavy_trinket_pouch",
+    "woldsvaults:light_trinket_pouch",
+    "woldsvaults:explorer_trinket_pouch"
+  ]
+}
