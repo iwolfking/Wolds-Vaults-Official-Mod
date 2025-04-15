@@ -25,6 +25,7 @@ public class MixinAffixCategoryEnum {
     private static VaultGearModifier.AffixCategory[] $VALUES;
 
     private static final VaultGearModifier.AffixCategory UNUSUAL = enumExpansion$addVariant("UNUSUAL", "Unusual", CustomModifierCategoryTooltip::modifyUnusualTooltip, VaultMod.id("textures/item/gear/unusual_overlay.png"));
+    private static final VaultGearModifier.AffixCategory ETCHING = enumExpansion$addVariant("ETCHING", "Etching", CustomModifierCategoryTooltip::modifyUnusualTooltip, VaultMod.id("textures/item/gear/etching_overlay.png"));
 
 
     @Invoker("<init>")

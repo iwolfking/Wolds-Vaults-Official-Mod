@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.plugins;
 
 import com.bawnorton.mixinsquared.api.MixinCanceller;
+import iskallia.vault.mixin.MixinWorldChunk;
 import net.minecraftforge.fml.loading.LoadingModList;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class WoldMixinCanceller implements MixinCanceller {
         }
 
         if(LoadingModList.get().getModFileById("the_vault") != null) {
-            if(s.equals("iskallia.vault.mixin.MixinWorldChunk")) {
+            if(s.equals("iskallia.vault.mixin.MixinItemRenderer")) {
                 return true;
             }
         }

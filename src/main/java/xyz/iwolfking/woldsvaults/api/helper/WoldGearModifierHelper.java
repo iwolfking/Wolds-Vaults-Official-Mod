@@ -2,10 +2,13 @@ package xyz.iwolfking.woldsvaults.api.helper;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.gear.VaultGearTierConfig;
+import iskallia.vault.etching.EtchingSet;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.modification.GearModification;
 import iskallia.vault.gear.modification.operation.LockModifierModification;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.MiscUtils;
 import net.minecraft.world.item.ItemStack;
@@ -150,5 +153,18 @@ public class WoldGearModifierHelper {
             data.write(stack);
             return GearModification.Result.makeSuccess();
         }
+    }
+
+    public static void addRandomEtching(ItemStack stack) {
+        if(stack.getItem() instanceof VaultGearItem) {
+            VaultGearData data = VaultGearData.read(stack);
+            EtchingSet<?> etching = ModConfigs.ETCHING.getRandomEtchingSet();
+            if(etching != null) {
+                data.createOrReplaceAttributeValue(ModGearAttributes.ETCHING, etching);
+                data.write(stack);
+            }
+
+        }
+
     }
 }

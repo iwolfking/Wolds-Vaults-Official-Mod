@@ -203,6 +203,7 @@
     "vhatcaniroll.MixinItems"
   ],
   "client": [
+    "MixinItemRenderer",
     "MixinThrownTridentRenderer",
     "itemborders.ae2.MixinAEStackRendering",
     "itemborders.cyclopscore.MixinRenderItemExtendedSlotCount",

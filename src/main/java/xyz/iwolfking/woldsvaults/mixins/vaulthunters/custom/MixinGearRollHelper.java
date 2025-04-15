@@ -5,6 +5,7 @@ import iskallia.vault.gear.GearRollHelper;
 import iskallia.vault.gear.VaultGearLegendaryHelper;
 import iskallia.vault.gear.VaultGearModifierHelper;
 import iskallia.vault.gear.attribute.VaultGearModifier;
+import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.modification.GearModification;
 import iskallia.vault.init.ModConfigs;
@@ -13,16 +14,17 @@ import iskallia.vault.item.gear.CharmItem;
 import iskallia.vault.item.gear.VaultArmorItem;
 import iskallia.vault.item.tool.JewelItem;
 import iskallia.vault.skill.base.Skill;
-import iskallia.vault.skill.expertise.type.JewelExpertise;
 import iskallia.vault.skill.tree.ExpertiseTree;
 import iskallia.vault.world.data.PlayerExpertisesData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -69,6 +71,12 @@ public class MixinGearRollHelper {
             }
         }
 
+        //Generate an etching for the item if it has the Is Etched modifier and is armor.
+        if(woldsVaults$canGenerateEtching(player, data, stack)) {
+            WoldGearModifierHelper.addRandomEtching(stack);
+        }
+
+
         //Randomly add a corrupted implicit
         if(data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false) && rand.nextFloat() < 0.02F) {
             GearModification.Result result;
@@ -107,5 +115,15 @@ public class MixinGearRollHelper {
                 VaultGearModifierHelper.createOrReplaceAbilityEnhancementModifier(stack, rand);
             }
         }
+    }
+
+    @Unique
+    private static boolean woldsVaults$canGenerateEtching(@Nullable Player player, VaultGearData data, ItemStack stack) {
+        if(stack.getEquipmentSlot() != null && stack.getEquipmentSlot().equals(EquipmentSlot.CHEST) || stack.getEquipmentSlot().equals(EquipmentSlot.FEET) || stack.getEquipmentSlot().equals(EquipmentSlot.HEAD) || stack.getEquipmentSlot().equals(EquipmentSlot.LEGS)) {
+            return data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.IS_ETCHED, VaultGearAttributeTypeMerger.anyTrue());
+        }
+
+        return false;
+
     }
 }
