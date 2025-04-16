@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.config;
 import com.google.gson.annotations.Expose;
 import iskallia.vault.altar.RequiredItems;
 import iskallia.vault.config.Config;
+import iskallia.vault.config.altar.VaultAltarIngredientsConfig;
 import iskallia.vault.config.altar.entry.AltarIngredientEntry;
 import iskallia.vault.config.entry.LevelEntryMap;
 import iskallia.vault.init.ModGameRules;
@@ -91,7 +92,7 @@ public class GreedVaultAltarIngredientsConfig extends Config {
             isLucky = true;
         }
 
-        List<RequiredItems> requiredItems = new ArrayList();
+        List<RequiredItems> requiredItems = new ArrayList<>();
         Map<String, AltarIngredientEntry> entries = this.getEntries(altarLevel);
 
         String poolId;
@@ -104,11 +105,12 @@ public class GreedVaultAltarIngredientsConfig extends Config {
             if (isLucky) {
                 amount = 0;
             } else if (ingredientEntry.getScale() != 0.0) {
-                double scale = this.getScale(poolId, crystalsCrafted);
+                double scale = this.getScale(poolId, (int) (crystalsCrafted * 0.25));
                 amount = Math.max((int)(Math.round(amount * scale * amtMultiplier) * ingredientEntry.getScale()), mode.getMinCost());
             } else {
                 amount = Math.max(Math.round(amount * amtMultiplier), mode.getMinCost());
             }
+            requiredItems.add(new RequiredItems(poolId, items, amount));
         }
 
         return requiredItems;
