@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.blocks;
 
+import com.google.common.collect.ImmutableList;
 import iskallia.vault.block.base.InventoryRetainerBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 import xyz.iwolfking.woldsvaults.blocks.tiles.AugmentCraftingTableTileEntity;
@@ -34,6 +36,7 @@ import java.util.List;
 
 public class ModBoxWorkstationBlock extends Block implements EntityBlock, InventoryRetainerBlock<ModBoxWorkstationTileEntity> {
     public static final DirectionProperty FACING;
+    public static final VoxelShape shape;
 
     public ModBoxWorkstationBlock() {
         super(Properties.of(Material.STONE).strength(1.5F, 6.0F).noOcclusion());
@@ -49,31 +52,37 @@ public class ModBoxWorkstationBlock extends Block implements EntityBlock, Invent
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
+    static {
+        VoxelShape[] shapes = new VoxelShape[5];
+
+        shapes[0] = Block.box(0, 12, 0, 16, 16, 16);
+        shapes[1] = Block.box(0, 0, 0, 4, 12, 4);
+        shapes[2] = Block.box(12, 0, 0, 16, 12, 4);
+        shapes[3] = Block.box(0, 0, 12, 4, 12, 16);
+        shapes[4] = Block.box(12, 0, 12, 16, 12, 16);
+
+        shape = Shapes.or(shapes[0], shapes[1], shapes[2], shapes[3], shapes[4]);
+    }
+
     @Nonnull
     @Override
     @ParametersAreNonnullByDefault
     public VoxelShape getOcclusionShape(BlockState state, BlockGetter world, BlockPos pos) {
-        return LecternBlock.SHAPE_COMMON;
+        return shape;
     }
 
     @Nonnull
     @Override
     @ParametersAreNonnullByDefault
     public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-        return LecternBlock.SHAPE_COLLISION;
+        return shape;
     }
 
     @Nonnull
     @Override
     @ParametersAreNonnullByDefault
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return switch (state.getValue(FACING)) {
-            case NORTH -> LecternBlock.SHAPE_NORTH;
-            case SOUTH -> LecternBlock.SHAPE_SOUTH;
-            case EAST -> LecternBlock.SHAPE_EAST;
-            case WEST -> LecternBlock.SHAPE_WEST;
-            default -> LecternBlock.SHAPE_COMMON;
-        };
+        return shape;
     }
 
     @Nonnull

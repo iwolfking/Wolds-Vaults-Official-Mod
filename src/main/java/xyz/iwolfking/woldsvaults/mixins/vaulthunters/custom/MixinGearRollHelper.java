@@ -119,7 +119,7 @@ public class MixinGearRollHelper {
 
     @Unique
     private static boolean woldsVaults$canGenerateEtching(@Nullable Player player, VaultGearData data, ItemStack stack) {
-        if(stack.getEquipmentSlot() != null && stack.getEquipmentSlot().equals(EquipmentSlot.CHEST) || stack.getEquipmentSlot().equals(EquipmentSlot.FEET) || stack.getEquipmentSlot().equals(EquipmentSlot.HEAD) || stack.getEquipmentSlot().equals(EquipmentSlot.LEGS)) {
+        if(stack.getEquipmentSlot() != null && (stack.getEquipmentSlot().equals(EquipmentSlot.CHEST) || stack.getEquipmentSlot().equals(EquipmentSlot.FEET) || stack.getEquipmentSlot().equals(EquipmentSlot.HEAD) || stack.getEquipmentSlot().equals(EquipmentSlot.LEGS))) {
             return data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.IS_ETCHED, VaultGearAttributeTypeMerger.anyTrue());
         }
 

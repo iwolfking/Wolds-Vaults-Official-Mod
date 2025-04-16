@@ -17,7 +17,10 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearRollType
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearRollTypeConfigRollTypeAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearTierConfigAccessor;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 @Mixin(value = ModConfigs.class, remap = false)
@@ -44,11 +47,21 @@ public class MixinModConfigs {
                 ((VaultGearTierConfigAccessor)ModConfigs.VAULT_GEAR_CONFIG.get(config)).getModifierGroup().put(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), UnusualModifiers.UNUSUAL_MODIFIERS_MAP_PREFIX.get(config));
             }
         }
+
+
         for(ResourceLocation config : ModConfigs.VAULT_GEAR_CONFIG.keySet()) {
             if(UnusualModifiers.UNUSUAL_MODIFIERS_MAP_SUFFIX.containsKey(config)) {
                 ((VaultGearTierConfigAccessor)ModConfigs.VAULT_GEAR_CONFIG.get(config)).getModifierGroup().put(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), UnusualModifiers.UNUSUAL_MODIFIERS_MAP_SUFFIX.get(config));
             }
         }
+
+        Set<ResourceLocation> CURRENT_GEAR_CONFIGS =new HashSet<>(ModConfigs.VAULT_GEAR_CONFIG.keySet());
+
+
+        for(ResourceLocation loc : CURRENT_GEAR_CONFIGS) {
+            VAULT_GEAR_CONFIG.put(VaultMod.id(loc.getPath() + "_mythic"), new VaultGearTierConfig(VaultMod.id(loc.getPath() + "_mythic")).readConfig());
+        }
+
 
         //Initialize gear configs for map tiers
         for(int i = 1; i < TOTAL_MAP_TIERS; i++) {
