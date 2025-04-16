@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.recipes.crystal;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.VaultCrystalConfig;
 import iskallia.vault.core.vault.modifier.VaultModifierStack;
+import iskallia.vault.core.vault.modifier.modifier.GroupedModifier;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.gear.attribute.VaultGearModifier;
@@ -46,8 +47,17 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
             }
 
             for(VaultModifierStack modifierStack : data.getModifiers()) {
-                if(modifierStack.getModifier() instanceof GreedyVaultModifier) {
+                if(modifierStack.getModifier() instanceof GroupedModifier groupedModifier) {
+                    for(VaultModifier<?> childMod : groupedModifier.properties().getChildren()) {
+                        if (childMod instanceof GreedyVaultModifier) {
+                            hasGreedy = true;
+                            break;
+                        }
+                    }
+                }
+                else if(modifierStack.getModifier() instanceof GreedyVaultModifier) {
                     hasGreedy = true;
+                    break;
                 }
             }
 
