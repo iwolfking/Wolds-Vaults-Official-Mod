@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.altar;
 
 import iskallia.vault.altar.AltarInfusionRecipe;
 import iskallia.vault.block.entity.VaultAltarTileEntity;
+import iskallia.vault.command.ResetCommand;
 import iskallia.vault.world.data.PlayerVaultAltarData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

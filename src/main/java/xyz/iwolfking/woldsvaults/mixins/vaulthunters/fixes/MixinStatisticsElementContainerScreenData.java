@@ -28,7 +28,6 @@ public class MixinStatisticsElementContainerScreenData {
         result.add( GearAttributeStatLabel.ofFloat(this.player, ModGearAttributes.DAMAGE_ASSASSIN));
         result.add( GearAttributeStatLabel.ofFloat(this.player, ModGearAttributes.DAMAGE_DWELLER));
         result.add( GearAttributeStatLabel.ofFloat(this.player, ModGearAttributes.DAMAGE_CHAMPION));
-        result.add( GearAttributeStatLabel.ofFloat(this.player, ModGearAttributes.DAMAGE_DUNGEON));
-
+        //result.add( GearAttributeStatLabel.ofFloat(this.player, ModGearAttributes.DAMAGE_DUNGEON));
     }
 }

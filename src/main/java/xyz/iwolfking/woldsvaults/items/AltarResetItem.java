@@ -57,7 +57,7 @@ public class AltarResetItem extends BasicItem {
             .map(te -> (VaultAltarTileEntity)te)
             .filter(altar -> altar.getAltarState() == VaultAltarTileEntity.AltarState.ACCEPTING)
             .forEach(altar -> {
-            // ((VaultAltarTileEntityInterface)altar).invokeResetAltar(level);
+            ((VaultAltarTileEntityInterface)altar).invokeResetAltar(level);
         });
         data.removeRecipe(player.getUUID());
         regenerateAltars(altars, player);

@@ -20,6 +20,8 @@ import iskallia.vault.entity.entity.elite.EliteWitchEntity;
 import iskallia.vault.entity.entity.elite.EliteWitherSkeleton;
 import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
+import iskallia.vault.gear.GearRollHelper;
+import iskallia.vault.gear.VaultGearModifierHelper;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -32,6 +34,8 @@ import iskallia.vault.util.calc.PlayerStat;
 import iskallia.vault.util.calc.ThornsHelper;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -52,6 +56,9 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.helper.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
@@ -59,10 +66,12 @@ import xyz.iwolfking.woldsvaults.data.HexEffects;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.EchoingPotionEffect;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.util.WoldEventHelper;
 
+import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
@@ -77,6 +86,62 @@ public class LivingEntityEvents {
 
     public static void init() {
          ANCHOR_SLAM_SOUND  = Registry.SOUND_EVENT.get(new ResourceLocation("bettercombat:anchor_slam"));
+    }
+
+
+    @SubscribeEvent
+    public static void curioChange(CurioChangeEvent event) {
+        ItemStack fromStack = event.getFrom();
+        if (!(fromStack.getItem() instanceof TrinketPouchItem)) return;
+        if(event.getFrom().getItem().equals(event.getTo().getItem()) && !event.getTo().getOrCreateTag().contains("StoredCurios")) return;
+        if (event.getEntityLiving().level.isClientSide) return;
+
+        LivingEntity entity = event.getEntityLiving();
+        ListTag storedList = new ListTag();
+
+        CuriosApi.getCuriosHelper().getCuriosHandler(entity).ifPresent(handler -> {
+            for (String slotId : List.of("red_trinket", "blue_trinket", "green_trinket")) {
+                handler.getStacksHandler(slotId).ifPresent(slotHandler -> {
+                    IItemHandlerModifiable slots = slotHandler.getStacks();
+                    for (int i = 0; i < slots.getSlots(); i++) {
+                        ItemStack trinket = slots.getStackInSlot(i);
+                        if (!trinket.isEmpty()) {
+                            CompoundTag tag = new CompoundTag();
+                            tag.putString("Slot", slotId);
+                            tag.putInt("Index", i);
+                            trinket.save(tag);
+                            storedList.add(tag);
+                            slots.setStackInSlot(i, ItemStack.EMPTY);
+                        }
+                    }
+                });
+            }
+
+            if (!storedList.isEmpty()) {
+                ItemStack updatedStack = fromStack.copy();
+                updatedStack.getOrCreateTag().put("StoredCurios", storedList);
+                Player player = (Player) entity;
+                // Try replacing the carried item (player's cursor)
+                ItemStack carried = player.containerMenu.getCarried();
+                if (ItemStack.isSameItemSameTags(carried, fromStack)) {
+                    player.containerMenu.setCarried(updatedStack);
+                } else {
+                    // Fallback: try replacing in inventory
+                    for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                        ItemStack invStack = player.getInventory().getItem(i);
+                        if (ItemStack.isSameItemSameTags(invStack, fromStack)) {
+                            player.getInventory().setItem(i, updatedStack);
+                            break;
+                        }
+                    }
+
+                    // If we still can't find it, drop it
+                    if (!player.addItem(updatedStack)) {
+                        entity.spawnAtLocation(updatedStack);
+                    }
+                }
+            }
+        });
     }
 
     @SubscribeEvent
