@@ -11,17 +11,21 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.ISlotType;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -77,15 +81,10 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
             }
 
             handler.getStacksHandler(slotId).ifPresent(slotHandler -> {
-                System.out.println("Using " + slotId + " slot handler");
                 IItemHandlerModifiable slotStacks = slotHandler.getStacks();
-                System.out.println("Number of slots" + slotStacks.getSlots());
-                System.out.println("Slot index " + slotIndex);
-                System.out.println("Slot is empty " + slotStacks.getStackInSlot(slotIndex).isEmpty());
                 if (slotIndex < slotStacks.getSlots() && slotStacks.getStackInSlot(slotIndex).isEmpty()) {
                     slotStacks.setStackInSlot(slotIndex, restored);
                 } else {
-                    System.out.println("Using fallback");
                     // fallback: try to insert into any available slot
                     for (int j = 0; j < slotStacks.getSlots(); j++) {
                         if (slotStacks.getStackInSlot(j).isEmpty()) {
@@ -99,6 +98,13 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
 
         // Clean up NBT after successful restore
         tag.remove("StoredCurios");
+    }
+
+    @Override
+    public boolean canEquip(SlotContext slotContext, ItemStack stack) {
+        Optional<SlotResult> slot = CuriosApi.getCuriosHelper().findCurio(slotContext.entity(), "trinket_pouch", 0);
+        return slot.map(slotResult -> slotResult.stack().is(Items.AIR)).orElse(true);
+
     }
 
     @Override
@@ -132,5 +138,6 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
             }
         }
     }
+
 
 }

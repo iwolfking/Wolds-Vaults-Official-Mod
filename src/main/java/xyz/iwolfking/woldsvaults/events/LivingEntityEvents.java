@@ -48,6 +48,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -94,6 +95,9 @@ public class LivingEntityEvents {
         ItemStack fromStack = event.getFrom();
         if (!(fromStack.getItem() instanceof TrinketPouchItem)) return;
         if(event.getFrom().getItem().equals(event.getTo().getItem()) && !event.getTo().getOrCreateTag().contains("StoredCurios")) return;
+        if(event.getFrom().getItem() instanceof TrinketPouchItem && !event.getTo().is(Items.AIR)) {
+            return;
+        }
         if (event.getEntityLiving().level.isClientSide) return;
 
         LivingEntity entity = event.getEntityLiving();
