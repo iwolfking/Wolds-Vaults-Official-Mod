@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.items;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
+import iskallia.vault.client.gui.screen.player.legacy.tab.split.dialog.TalentDialog;
+import iskallia.vault.client.gui.screen.player.legacy.widget.TalentWidget;
 import iskallia.vault.item.BasicItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;

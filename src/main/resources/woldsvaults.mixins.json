@@ -217,6 +217,7 @@
     "vaulthunters.custom.MixinAugmentItem",
     "vaulthunters.custom.MixinCrystalTheme",
     "vaulthunters.fixes.MixinCatalystItemRenderer",
+    "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
