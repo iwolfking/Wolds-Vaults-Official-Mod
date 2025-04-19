@@ -4,7 +4,7 @@
     "1": "woldsvaults:block/mod_box_workstation_leg",
     "2": "woldsvaults:block/mod_box_workstation_top_side",
     "3": "woldsvaults:block/mod_box_workstation_top",
-    "4": "blocks/blue_wool",
+    "4": "woldsvaults:block/mod_box_workstation_top",
     "particle": "woldsvaults:mod_box_workstation_leg"
   },
   "elements": [
