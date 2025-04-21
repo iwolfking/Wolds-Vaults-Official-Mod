@@ -14,8 +14,8 @@ public class PlayerVaultAltarDataHelper {
     public static AltarInfusionRecipe generateGreedRecipe(ServerPlayer player, BlockPos pos, boolean isPogInfused) {
         PlayerVaultAltarData data = PlayerVaultAltarData.get();
         List<RequiredItems> items = ModConfigs.GREED_VAULT_ALTAR_INGREDIENTS.getIngredients(player, pos);
-        System.out.println(items.size());
         AltarInfusionRecipe recipe = ((PlayerVaultAltarDataAccessor)data).getPlayerMap().computeIfAbsent(player.getUUID(), (k) -> new AltarInfusionRecipe(player.getUUID(), items, items, isPogInfused));
+        data.addRecipe(player.getUUID(), recipe);
         data.setDirty();
         return recipe;
     }

@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.woldsvaults.api.helper.PlayerVaultAltarDataHelper;
 import xyz.iwolfking.woldsvaults.lib.VaultAltarTileEntityInterface;
 
 import java.util.List;
@@ -57,9 +58,7 @@ public class AltarResetItem extends BasicItem {
             .map(te -> (VaultAltarTileEntity)te)
             .filter(altar -> altar.getAltarState() == VaultAltarTileEntity.AltarState.ACCEPTING)
             .forEach(altar -> {
-            ((VaultAltarTileEntityInterface)altar).invokeResetAltar(level);
         });
-        data.removeRecipe(player.getUUID());
         regenerateAltars(altars, player);
         return true;
     }
@@ -83,8 +82,20 @@ public class AltarResetItem extends BasicItem {
             if(player.getLevel().isLoaded(blockPos) && player.getLevel().getBlockEntity(blockPos) instanceof VaultAltarTileEntity altar) {
                 if(altar.getOwner().equals(player.getUUID())) {
                     if(altar.getAltarState().equals(VaultAltarTileEntity.AltarState.ACCEPTING)) {
-                        ((VaultAltarTileEntityInterface)altar).invokeResetAltar(player.getLevel());
-                        AltarInfusionRecipe recipe = altarData.getRecipe(player, blockPos);
+                        AltarInfusionRecipe recipe;
+
+                        if(altarData.getRecipe(player).isPogInfused()) {
+                            ((VaultAltarTileEntityInterface)altar).invokeResetAltar(player.getLevel());
+                            altar.setRecipe(null);
+                            altar.setAltarState(VaultAltarTileEntity.AltarState.IDLE);
+                            altar.sendUpdates();
+                            return;
+                        }
+                        else {
+                            ((VaultAltarTileEntityInterface)altar).invokeResetAltar(player.getLevel());
+                            recipe = altarData.getRecipe(player, blockPos);
+                        }
+
                         altar.setRecipe(recipe);
                         ((VaultAltarTileEntityInterface)altar).invokeUpdateDisplayedIndex(recipe);
                         altar.setAltarState(VaultAltarTileEntity.AltarState.ACCEPTING);
