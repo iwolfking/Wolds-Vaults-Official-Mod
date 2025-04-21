@@ -72,19 +72,12 @@ public class MixinModConfigs {
         VaultGearTypeConfig.RollType mythicRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.valueOf("MYTHIC"), 1)));
         ((VaultGearRollTypeConfigRollTypeAccessor)mythicRoll).setColor(15597727);
 
-        VaultGearTypeConfig.RollType sacredRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.valueOf("SACRED"), 1)));
-        ((VaultGearRollTypeConfigRollTypeAccessor)sacredRoll).setColor(13631559);
-
-        VaultGearTypeConfig.RollType omegaPlusRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.OMEGA, 95, VaultGearRarity.valueOf("MYTHIC"), 4, VaultGearRarity.valueOf("SACRED"), 1)));
+        VaultGearTypeConfig.RollType omegaPlusRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.OMEGA, 96, VaultGearRarity.valueOf("MYTHIC"), 4)));
         ((VaultGearRollTypeConfigRollTypeAccessor)omegaPlusRoll).setColor(3125022);
 
-        VaultGearTypeConfig.RollType mythicPlusRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.valueOf("MYTHIC"), 9, VaultGearRarity.valueOf("SACRED"), 1)));
-        ((VaultGearRollTypeConfigRollTypeAccessor)mythicPlusRoll).setColor(15597727);
 
         ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Mythic", mythicRoll);
-        ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Sacred", sacredRoll);
         ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Omega+", omegaPlusRoll);
-        ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Mythic+", mythicPlusRoll);
 
 
 

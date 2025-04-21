@@ -46,7 +46,7 @@ public interface MixinVaultGearItem extends IForgeItem, VaultGearTooltipItem, Da
             }
         }
 
-        boolean isUniqueOrHighRarity = data.getRarity().equals(VaultGearRarity.UNIQUE) || data.getRarity().equals(VaultGearRarity.valueOf("Sacred")) || data.getRarity().equals(VaultGearRarity.valueOf("Mythic"));
+        boolean isUniqueOrHighRarity = data.getRarity().equals(VaultGearRarity.UNIQUE) || data.getRarity().equals(VaultGearRarity.valueOf("Mythic"));
 
 
         if(legMod != null) {

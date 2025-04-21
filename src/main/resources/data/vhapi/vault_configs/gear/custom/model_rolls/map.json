@@ -17,9 +17,7 @@
       "the_vault:gear/map/omega_map"
     ],
     "MYTHIC": [
-      "the_vault:gear/map/mythic_map"
-    ],
-    "SACRED": [
+      "the_vault:gear/map/mythic_map",
       "the_vault:gear/map/sacred_map"
     ],
     "UNIQUE": [

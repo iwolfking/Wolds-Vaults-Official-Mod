@@ -44,7 +44,7 @@ public abstract class MixinVaultGearTierConfig {
         else if(stack.getItem() instanceof VaultGearItem) {
             VaultGearData data = VaultGearData.read(stack);
             VaultGearRarity rarity = data.getRarity();
-            if(rarity.equals(VaultGearRarity.valueOf("MYTHIC")) || rarity.equals(VaultGearRarity.valueOf("SACRED"))) {
+            if(rarity.equals(VaultGearRarity.valueOf("MYTHIC"))) {
                 cir.setReturnValue(getConfig(VaultMod.id(stack.getItem().getRegistryName().getPath() + "_mythic")));
             }
         }

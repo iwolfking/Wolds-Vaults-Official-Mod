@@ -31,9 +31,7 @@
       "the_vault:gear/trident/crystal"
     ],
     "MYTHIC": [
-      "the_vault:gear/trident/divineguard"
-    ],
-    "SACRED": [
+      "the_vault:gear/trident/divineguard",
       "the_vault:gear/trident/prismatic"
     ],
     "UNIQUE": []

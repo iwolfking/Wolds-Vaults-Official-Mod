@@ -38,9 +38,5 @@ public abstract class MixinVaultGearRarity {
         if(this.equals(VaultGearRarity.valueOf("MYTHIC"))) {
             cir.setReturnValue(null);
         }
-
-        if(this.equals(VaultGearRarity.valueOf("SACRED"))) {
-            cir.setReturnValue(null);
-        }
     }
 }

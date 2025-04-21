@@ -21,9 +21,7 @@
       "the_vault:gear/loot_sack/tinkers_tankard"
     ],
     "MYTHIC": [
-      "the_vault:gear/loot_sack/midnight"
-    ],
-    "SACRED": [
+      "the_vault:gear/loot_sack/midnight",
       "the_vault:gear/loot_sack/prismatic"
     ],
     "UNIQUE": []

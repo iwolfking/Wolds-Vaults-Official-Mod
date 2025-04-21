@@ -28,9 +28,7 @@
       "the_vault:gear/battlestaff/quackhammer"
     ],
     "MYTHIC": [
-      "the_vault:gear/battlestaff/midnight"
-    ],
-    "SACRED": [
+      "the_vault:gear/battlestaff/midnight",
       "the_vault:gear/battlestaff/prismatic"
     ],
     "UNIQUE": [
