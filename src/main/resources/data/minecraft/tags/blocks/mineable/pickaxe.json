@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "woldsvaults:augment_crafting_table",
-    "the_vault:vault_salvager"
+    "the_vault:vault_salvager",
+    "woldsvaults:chromatic_iron_vault_infuser"
   ]
 }
