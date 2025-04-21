@@ -38,6 +38,7 @@ public interface MixinVaultGearTooltipItem{
                     .filter(Objects::nonNull)
                     .forEach(attr -> attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).ifPresent(tooltip::add));
         }
+        data.getAttributes(xyz.iwolfking.woldsvaults.init.ModGearAttributes.DIVINE).filter(VaultGearAttributeInstance::getValue).forEach(booleanVaultGearAttributeInstance -> booleanVaultGearAttributeInstance.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack,displayDetail).ifPresent(tooltip::add));
         if (tooltip.size() > txtLength && displayDetail) {
             tooltip.add(TextComponent.EMPTY);
         }
