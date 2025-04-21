@@ -5,13 +5,12 @@ import com.google.common.collect.Multimap;
 import iskallia.vault.client.gui.screen.player.legacy.tab.split.dialog.TalentDialog;
 import iskallia.vault.client.gui.screen.player.legacy.widget.TalentWidget;
 import iskallia.vault.item.BasicItem;
+import iskallia.vault.item.CardDeckItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -31,17 +30,17 @@ import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.ISlotType;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import xyz.iwolfking.woldsvaults.config.TrinketPouchConfig;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 public class TrinketPouchItem extends BasicItem implements ICurioItem {
-    private final Map<String, Integer> curioSlotsToAdd;
-
-    public TrinketPouchItem(ResourceLocation id, Map<String, Integer> curioSlotsToAdd) {
+    public TrinketPouchItem(ResourceLocation id) {
         super(id, new Properties().stacksTo(1));
-        this.curioSlotsToAdd = curioSlotsToAdd;
     }
+
 
     @Override
     public void curioTick(SlotContext slotContext, ItemStack stack) {
@@ -50,14 +49,18 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
 
         CompoundTag tag = stack.getOrCreateTag();
 
-        if (!tag.contains("StoredCurios")) return;
+
+
+        if (!tag.contains("StoredCurios") || !tag.contains("id")) return;
 
         LazyOptional<ICuriosItemHandler> optHandler = CuriosApi.getCuriosHelper().getCuriosHandler(entity);
         if (!optHandler.isPresent()) return;
 
         ICuriosItemHandler handler = optHandler.resolve().get();
 
-        List<String> requiredSlots = new ArrayList<>(curioSlotsToAdd.keySet());
+        TrinketPouchConfig.TrinketPouchConfigEntry pouchConfig = getPouchConfigFor(stack);
+
+        List<String> requiredSlots = new ArrayList<>(pouchConfig.SLOT_ENTRIES.keySet());
 
         // Check if all required slots exist and have capacity
         for (String slotId : requiredSlots) {
@@ -120,8 +123,9 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> map = LinkedHashMultimap.create();
-        for (String slotType : curioSlotsToAdd.keySet()) {
-            CuriosApi.getCuriosHelper().addSlotModifier(map, slotType, uuid, curioSlotsToAdd.get(slotType), AttributeModifier.Operation.ADDITION);
+        TrinketPouchConfig.TrinketPouchConfigEntry pouchConfigEntry = getPouchConfigFor(stack);
+        for (String slotType : pouchConfigEntry.SLOT_ENTRIES.keySet()) {
+            CuriosApi.getCuriosHelper().addSlotModifier(map, slotType, uuid, pouchConfigEntry.SLOT_ENTRIES.get(slotType), AttributeModifier.Operation.ADDITION);
         }
         return map;
     }
@@ -147,6 +151,22 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
                 }
             }
         }
+    }
+
+    @Override
+    public Component getName(ItemStack stack) {
+        TrinketPouchConfig.TrinketPouchConfigEntry pouchConfigEntry = getPouchConfigFor(stack);
+        return new TextComponent(pouchConfigEntry.NAME).withStyle(Style.EMPTY.withColor(pouchConfigEntry.COLOR));
+    }
+
+    public static TrinketPouchConfig.TrinketPouchConfigEntry getPouchConfigFor(ItemStack pouchStack) {
+        CompoundTag tag = pouchStack.getOrCreateTag();
+        if(!tag.contains("id")) {
+            return new TrinketPouchConfig.TrinketPouchConfigEntry("Trinket Pouch", Map.of(), TextColor.fromLegacyFormat(ChatFormatting.WHITE));
+        }
+        ResourceLocation pouchId = ResourceLocation.tryParse(tag.getString("id"));
+
+        return ModConfigs.TRINKET_POUCH.TRINKET_POUCH_CONFIGS.getOrDefault(pouchId, new TrinketPouchConfig.TrinketPouchConfigEntry("Trinket Pouch", Map.of(), TextColor.fromLegacyFormat(ChatFormatting.WHITE)));
     }
 
 

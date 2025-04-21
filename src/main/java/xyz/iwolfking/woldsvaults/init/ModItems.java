@@ -170,10 +170,7 @@ public class ModItems {
     public static BasicItem CHUNK_OF_POWER;
     public static BasicItem SOUL_ICHOR;
 
-    public static TrinketPouchItem STANDARD_TRINKET_POUCH;
-    public static TrinketPouchItem HEAVY_TRINKET_POUCH;
-    public static TrinketPouchItem LIGHT_TRINKET_POUCH;
-    public static TrinketPouchItem EXPLORER_TRINKET_POUCH;
+    public static TrinketPouchItem TRINKET_POUCH;
 
 
     @SubscribeEvent
@@ -285,10 +282,7 @@ public class ModItems {
         registry.register(SUSPENSION_FOCUS);
         registry.register(TARGETED_MOD_BOX);
         registry.register(UNIDENTIFIED_GATEWAY_PEARL);
-        registry.register(STANDARD_TRINKET_POUCH);
-        registry.register(LIGHT_TRINKET_POUCH);
-        registry.register(HEAVY_TRINKET_POUCH);
-        registry.register(EXPLORER_TRINKET_POUCH);
+        registry.register(TRINKET_POUCH);
     }
 
     static {
@@ -396,10 +390,7 @@ public class ModItems {
         BLAZING_FOCUS = new BasicItem(WoldsVaults.id("blazing_focus"));
         SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"));
         TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
-        STANDARD_TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("standard_trinket_pouch"), Map.of("red_trinket", 1, "blue_trinket", 1, "green_trinket", 1));
-        HEAVY_TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("heavy_trinket_pouch"), Map.of("red_trinket", 2, "green_trinket", 1));
-        LIGHT_TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("light_trinket_pouch"), Map.of("blue_trinket", 2, "green_trinket", 1));
-        EXPLORER_TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("explorer_trinket_pouch"), Map.of("green_trinket", 2, "blue_trinket", 1));
+        TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }

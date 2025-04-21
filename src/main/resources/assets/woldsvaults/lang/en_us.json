@@ -235,9 +235,6 @@
   "item.woldsvaults.targeted_mod_box": "Targeted Mod Box",
   "block.woldsvaults.mod_box_workstation": "Mod Box Workstation",
   "item.woldsvaults.unidentified_gateway_pearl": "Unidentified Gateway Pearl",
-  "item.woldsvaults.standard_trinket_pouch": "Standard Trinket Pouch",
-  "item.woldsvaults.heavy_trinket_pouch": "Heavy Trinket Pouch",
-  "item.woldsvaults.light_trinket_pouch": "Light Trinket Pouch",
-  "item.woldsvaults.explorer_trinket_pouch": "Explorer's Trinket Pouch",
+  "item.woldsvaults.trinket_pouch": "Trinket Pouch",
   "vhatcaniroll.screen.title.etching": "Etchings"
 }

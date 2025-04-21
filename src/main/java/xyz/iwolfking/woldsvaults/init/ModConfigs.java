@@ -40,6 +40,7 @@ public class ModConfigs {
     public static GreedVaultAltarIngredientsConfig GREED_VAULT_ALTAR_INGREDIENTS;
     public static WeaponTypesConfig WEAPON_TYPES;
     public static VaultGearRarityColorConfig VAULT_GEAR_RARITY_COLOR_CONFIG = new VaultGearRarityColorConfig();
+    public static TrinketPouchConfig TRINKET_POUCH = new TrinketPouchConfig();
 
     public static void preregister() {
         VAULT_GEAR_RARITY_COLOR_CONFIG = new VaultGearRarityColorConfig().readConfig();
@@ -69,5 +70,6 @@ public class ModConfigs {
         GREED_VAULT_ALTAR_INGREDIENTS = new GreedVaultAltarIngredientsConfig().readConfig();
         WEAPON_TYPES = new WeaponTypesConfig().readConfig();
         ETCHING_SHOP_PEDESTAL = new GenericShopPedestalConfig("etching_shop_pedestal").readConfig();
+        TRINKET_POUCH = new TrinketPouchConfig().readConfig();
     }
 }
