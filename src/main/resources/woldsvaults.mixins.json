@@ -111,6 +111,7 @@
     "vaulthunters.custom.MixinAttributeSnapshot",
     "vaulthunters.custom.MixinBingoTask",
     "vaulthunters.custom.MixinBleedEffect",
+    "vaulthunters.custom.MixinCatalystForgeRecipe",
     "vaulthunters.custom.MixinClassicLootLogic",
     "vaulthunters.custom.MixinCorruptGearModification",
     "vaulthunters.custom.MixinCustomSpawnerTileEntity",
