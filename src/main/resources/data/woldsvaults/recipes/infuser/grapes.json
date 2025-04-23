@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "infuseDuration": 40,
+  "inputCount": 9,
+  "ingredient": {
+    "item": "the_vault:sweet_kiwi"
+  },
+  "catalyst": {
+    "item": "the_vault:vault_apple"
+  },
+  "result": {
+    "item": "the_vault:grapes"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "infuseDuration": 120,
+  "inputCount": 16,
+  "ingredient": {
+    "item": "the_vault:gem_pog"
+  },
+  "catalyst": {
+    "item": "the_vault:eternal_soul"
+  },
+  "result": {
+    "item": "the_vault:infused_eternal_soul"
+  }
+}

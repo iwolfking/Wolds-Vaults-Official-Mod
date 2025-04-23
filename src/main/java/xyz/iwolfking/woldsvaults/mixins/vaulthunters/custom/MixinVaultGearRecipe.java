@@ -20,7 +20,9 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
 
     @Unique
     private static final ResourceLocation ETCHING_LOCATION = new ResourceLocation("the_vault", "etching");
+    @Unique
     private static final ResourceLocation MAP_LOCATION = new ResourceLocation("the_vault", "map");
+    private static final ResourceLocation ZEPHYR_LOCATION = new ResourceLocation("woldsvaults", "zephyr_charm");
 
     protected MixinVaultGearRecipe(ForgeRecipeType type, ResourceLocation id, ItemStack output) {
         super(type, id, output);
@@ -32,7 +34,7 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
      */
     @Override
     public boolean canCraft(Player player) {
-        if(!this.getId().equals(ETCHING_LOCATION) && !this.getId().equals(MAP_LOCATION)) {
+        if(!this.getId().equals(ETCHING_LOCATION) && !this.getId().equals(MAP_LOCATION) && !this.getId().equals(ZEPHYR_LOCATION)) {
             return true;
         }
         else {

@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "infuseDuration": 80,
+  "inputCount": 16,
+  "ingredient": {
+    "item": "the_vault:gem_pog"
+  },
+  "catalyst": {
+    "item": "the_vault:black_chromatic_steel_ingot"
+  },
+  "result": {
+    "item": "woldsvaults:pogominium_ingot"
+  }
+}

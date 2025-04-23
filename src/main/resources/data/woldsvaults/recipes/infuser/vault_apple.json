@@ -1,14 +1,14 @@
 {
   "type": "woldsvaults:infuser",
-  "infuseDuration": 80,
-  "inputCount": 4,
+  "infuseDuration": 20,
+  "inputCount": 16,
   "ingredient": {
     "item": "the_vault:vault_essence"
   },
   "catalyst": {
-    "item": "the_vault:driftwood"
+    "item": "minecraft:apple"
   },
   "result": {
-    "item": "woldsvaults:infused_driftwood"
+    "item": "the_vault:vault_apple"
   }
 }
