@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.events;
 
 import atomicstryker.infernalmobs.common.InfernalMobsCore;
 import cofh.core.init.CoreMobEffects;
+import com.github.klikli_dev.occultism.common.advancement.FamiliarTrigger;
+import com.github.klikli_dev.occultism.registry.OccultismAdvancements;
 import com.github.klikli_dev.occultism.registry.OccultismEffects;
 import iskallia.vault.block.CoinPileBlock;
 import iskallia.vault.block.VaultChestBlock;
@@ -44,6 +46,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -90,6 +93,24 @@ public class LivingEntityEvents {
 
     public static void init() {
          ANCHOR_SLAM_SOUND  = Registry.SOUND_EVENT.get(new ResourceLocation("bettercombat:anchor_slam"));
+    }
+
+    @SubscribeEvent
+    public static void dodge(LivingHurtEvent event) {
+        LivingEntity entity = event.getEntityLiving();
+
+        if (!(entity instanceof Player))
+            return;
+
+        DamageSource source = event.getSource();
+
+        if (!(source instanceof EntityDamageSource) || source.isExplosion() || source.isBypassInvul())
+            return;
+
+        float dodgeChance = AttributeSnapshotHelper.getInstance().getSnapshot(entity).getAttributeValue(ModGearAttributes.DODGE_PERCENT, VaultGearAttributeTypeMerger.floatSum());
+        boolean dodge = entity.getRandom().nextDouble() < dodgeChance;
+
+        event.setCanceled(dodge);
     }
 
     @SubscribeEvent
