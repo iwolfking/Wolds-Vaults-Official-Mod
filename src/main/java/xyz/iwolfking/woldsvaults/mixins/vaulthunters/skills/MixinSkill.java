@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
 import xyz.iwolfking.woldsvaults.expertises.CraftsmanExpertise;
+import xyz.iwolfking.woldsvaults.expertises.SurpriseModifiersExpertise;
 
 @Mixin(value = Skill.Adapter.class, remap = false)
 public class MixinSkill extends TypeSupplierAdapter<Skill> {
@@ -20,6 +21,7 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
     @Inject(method = "<init>()V", at = @At("RETURN"))
     private void addSkills(CallbackInfo ci) {
         this.register("craftsman", CraftsmanExpertise.class, CraftsmanExpertise::new);
+        this.register("surprise_favors", SurpriseModifiersExpertise.class, SurpriseModifiersExpertise::new);
         this.register("colossus", ColossusAbility.class,ColossusAbility::new);
         this.register("sneaky_getaway", SneakyGetawayAbility.class,SneakyGetawayAbility::new);
         this.register("vein_miner_chain", VeinMinerChainAbility.class, VeinMinerChainAbility::new);
