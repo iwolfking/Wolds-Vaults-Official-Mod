@@ -2,9 +2,7 @@ package xyz.iwolfking.woldsvaults.items;
 
 import iskallia.vault.item.BasicItem;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
@@ -25,8 +23,6 @@ public class AirMobilityItem extends BasicItem implements ICurioItem {
     public AirMobilityItem(ResourceLocation id) {
         super(id);
     }
-
-    Set<UUID> disabledVaultUUIDs = new HashSet<>();
 
     // modify base player attributes :3
     @Override
@@ -58,5 +54,10 @@ public class AirMobilityItem extends BasicItem implements ICurioItem {
 
         tooltip.add(new TextComponent("Doubles the wearer's base speed").withStyle(ChatFormatting.YELLOW));
         tooltip.add(new TextComponent("Multiplies their air speed by 5x").withStyle(ChatFormatting.YELLOW));
+    }
+
+    @Override
+    public Component getName(ItemStack pStack) {
+        return new TranslatableComponent(this.getDescriptionId(pStack)).withStyle(Style.EMPTY.withColor(3304444));
     }
 }
