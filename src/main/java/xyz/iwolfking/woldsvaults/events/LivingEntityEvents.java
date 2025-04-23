@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.events;
 
 import atomicstryker.infernalmobs.common.InfernalMobsCore;
 import cofh.core.init.CoreMobEffects;
+import com.github.klikli_dev.occultism.registry.OccultismEffects;
 import iskallia.vault.block.CoinPileBlock;
 import iskallia.vault.block.VaultChestBlock;
 import iskallia.vault.block.VaultOreBlock;
@@ -22,6 +23,7 @@ import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.gear.GearRollHelper;
 import iskallia.vault.gear.VaultGearModifierHelper;
+import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -50,6 +52,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -89,7 +92,25 @@ public class LivingEntityEvents {
          ANCHOR_SLAM_SOUND  = Registry.SOUND_EVENT.get(new ResourceLocation("bettercombat:anchor_slam"));
     }
 
+    @SubscribeEvent
+    public static void soulLeech(LivingDeathEvent event) {
+        if(event.getSource().isProjectile()) {
+            return;
+        }
 
+        if(!WoldEventHelper.isNormalAttack()) {
+            return;
+        }
+
+        if (!(event.getSource().getEntity() instanceof Player attacker))
+            return;
+
+        int soulLeechValue = AttributeSnapshotHelper.getInstance().getSnapshot(attacker).getAttributeValue(ModGearAttributes.SOUL_LEECH_FLAT, VaultGearAttributeTypeMerger.intSum());
+
+        attacker.heal(soulLeechValue);
+    }
+
+    //Handles Trinket Pouch saving all equipped trinkets.
     @SubscribeEvent
     public static void curioChange(CurioChangeEvent event) {
         ItemStack fromStack = event.getFrom();

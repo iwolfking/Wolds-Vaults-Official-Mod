@@ -81,7 +81,8 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<EffectGearAttribute> UNIQUE_EFFECT = attr("unique_effect", EffectGearAttribute.type(), EffectGearAttribute.generator(), UniqueEffectGearAttribute.reader());
     public static final VaultGearAttribute<Float> ECHOING_CHANCE = attr("echoing_chance", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Echoing Chance", 6886199), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> ECHOING_DAMAGE = attr("echoing_damage", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Increased Echoing Damage", 6886199), VaultGearAttributeComparator.floatComparator());
-
+    public static final VaultGearAttribute<Integer> SOUL_LEECH_FLAT = attr("soul_leech_flat",
+            VaultGearAttributeType.intType(), (ConfigurableAttributeGenerator<Integer, ?>)ModGearAttributeGenerators.intRange(), (VaultGearModifierReader<Integer>)ModGearAttributeReaders.addedIntReader("Soul Leech", 10952853), (VaultGearAttributeComparator<Integer>)VaultGearAttributeComparator.intComparator());
 
 
     @SubscribeEvent
@@ -125,6 +126,7 @@ public class ModGearAttributes {
                       registry.register(UNIQUE_EFFECT);
                       registry.register(AP_SCALING_DAMAGE);
                       registry.register(IS_ETCHED);
+                      registry.register(SOUL_LEECH_FLAT);
        }
   
     public static void registerVanillaAssociations() {
