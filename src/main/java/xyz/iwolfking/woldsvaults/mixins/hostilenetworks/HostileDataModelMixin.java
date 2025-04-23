@@ -14,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import shadows.hostilenetworks.data.CachedModel;
 import shadows.hostilenetworks.data.DataModel;
 import shadows.hostilenetworks.data.ModelTier;
 import shadows.hostilenetworks.item.DataModelItem;
@@ -46,23 +47,22 @@ public class HostileDataModelMixin {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> list, TooltipFlag pFlag) {
         if (Screen.hasShiftDown()) {
-            DataModel model = getStoredModel(pStack);
-            if (model == null) {
+            CachedModel cModel = new CachedModel(pStack, 0);
+            if (cModel == null) {
                 list.add(new TranslatableComponent("Error: %s", new TextComponent("Broke_AF")).withStyle(ChatFormatting.OBFUSCATED, ChatFormatting.GRAY));
                 return;
             }
 
             int data = getData(pStack);
-            ModelTier tier = ModelTier.getByData(data);
+            ModelTier tier = ModelTier.getByData(cModel.getModel(), data);
             list.add(new TranslatableComponent("hostilenetworks.info.tier", tier.getComponent()));
-            int dProg = data - tier.data;
-            int dMax = tier.next().data - tier.data;
+            int dProg = data - cModel.getTierData();
+            int dMax = cModel.getNextTierData() - cModel.getTierData();
             if (tier != ModelTier.SELF_AWARE) {
                 list.add(new TranslatableComponent("hostilenetworks.info.data", new TranslatableComponent("hostilenetworks.info.dprog", dProg, dMax).withStyle(ChatFormatting.GRAY)));
-                list.add(new TranslatableComponent("hostilenetworks.info.dpk", new TextComponent("" + 0).withStyle(ChatFormatting.GRAY)));
             }
 
-            list.add(new TranslatableComponent("hostilenetworks.info.sim_cost", new TranslatableComponent("hostilenetworks.info.rft", model.getSimCost()).withStyle(ChatFormatting.GRAY)));
+            list.add(new TranslatableComponent("hostilenetworks.info.sim_cost", new Object[]{(new TranslatableComponent("hostilenetworks.info.rft", new Object[]{cModel.getModel().getSimCost()})).withStyle(ChatFormatting.GRAY)}));
         } else {
             list.add(new TranslatableComponent("hostilenetworks.info.hold_shift", Color.withColor("hostilenetworks.color_text.shift", ChatFormatting.WHITE.getColor())).withStyle(ChatFormatting.GRAY));
         }

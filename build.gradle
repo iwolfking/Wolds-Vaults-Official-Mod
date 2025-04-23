@@ -180,7 +180,7 @@ dependencies {
 
     //implementation fg.deobf('curse.maven:vault-hunters-official-mod-458203:5621637')
     implementation fg.deobf("curse.maven:vaultfaster-988487:6372465")
-    implementation fg.deobf('curse.maven:hostile-neural-networks-552574:3717871')
+    implementation fg.deobf("curse.maven:hostile-neural-networks-552574:4593797")
     implementation fg.deobf('curse.maven:placebo-283644:4500363')
     implementation fg.deobf('curse.maven:lightmans-currency-472521:4977514')
     implementation fg.deobf('curse.maven:curios-309927:4985315')

@@ -6,6 +6,7 @@ import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.objective.VictoryObjective;
 import iskallia.vault.item.crystal.objective.ElixirCrystalObjective;
 import iskallia.vault.item.crystal.objective.HeraldCrystalObjective;
+import net.minecraft.world.level.block.AnvilBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
