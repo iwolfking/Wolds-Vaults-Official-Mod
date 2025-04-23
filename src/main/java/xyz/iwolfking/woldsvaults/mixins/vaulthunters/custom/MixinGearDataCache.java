@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import javax.annotation.Nullable;
@@ -24,9 +25,6 @@ public abstract class MixinGearDataCache {
 
     @Inject(method = "getGearColorComponents", at = @At("HEAD"), cancellable = true)
     private void useCustomColorConfigInsteadOfCache(CallbackInfoReturnable<List<Integer>> cir) {
-        if(ModConfigs.VAULT_GEAR_RARITY_COLOR_CONFIG.GEAR_RARITY_COLOR_MAP.containsKey(getRarity())) {
-            TextColor color = ModConfigs.VAULT_GEAR_RARITY_COLOR_CONFIG.GEAR_RARITY_COLOR_MAP.get(this);
-            cir.setReturnValue(color != null ? List.of(color.getValue()) : List.of(TextColor.fromLegacyFormat(ChatFormatting.WHITE).getValue()));
-        }
+
     }
 }

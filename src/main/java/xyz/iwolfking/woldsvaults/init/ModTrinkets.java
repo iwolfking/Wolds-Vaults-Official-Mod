@@ -24,13 +24,9 @@ public class ModTrinkets {
 
     public static void init(RegistryEvent.Register<TrinketEffect<?>> event) {
         IForgeRegistry<TrinketEffect<?>> registry = event.getRegistry();
-        if(WoldsVaultsConfig.COMMON.enableMinersHeadlampTrinket.get()) {
-            registry.register(MINERS_LAMP);
-        }
+        registry.register(MINERS_LAMP);
+        registry.register(RUNNING_SHOES);
 
-        if(WoldsVaultsConfig.COMMON.enableRunningShoesTrinket.get()) {
-            registry.register(RUNNING_SHOES);
-        }
     }
 
     static {

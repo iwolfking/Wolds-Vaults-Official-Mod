@@ -119,7 +119,6 @@
     "vaulthunters.custom.MixinExperiencedExpertise",
     "vaulthunters.custom.MixinFrenzyModifier",
     "vaulthunters.custom.MixinGearAttributeEvents",
-    "vaulthunters.custom.MixinGearDataCache",
     "vaulthunters.custom.MixinGearRollHelper",
     "vaulthunters.custom.MixinGrantedEffectHelper",
     "vaulthunters.custom.MixinHeraldCrystalObjective",
@@ -223,6 +222,8 @@
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
+    "vaulthunters.custom.MixinVaultGearRarityColor",
+    "vaulthunters.custom.MixinGearDataCache",
     "vhatcaniroll.MixinGearModifierScreen"
   ],
   "injectors": {

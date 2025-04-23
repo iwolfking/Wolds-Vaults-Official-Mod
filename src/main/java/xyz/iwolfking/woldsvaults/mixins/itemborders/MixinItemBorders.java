@@ -24,7 +24,7 @@ public abstract class MixinItemBorders {
 
     @Inject(method = "renderBorder(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/item/ItemStack;II)V", at = @At("HEAD"))
     private static void renderBorder(PoseStack poseStack, ItemStack item, int x, int y, CallbackInfo ci) {
-        if ((Boolean) WoldsVaultsConfig.COMMON.displayItemBordersInTerminals.get()) {
+        if ((Boolean) WoldsVaultsConfig.CLIENT.displayItemBordersInTerminals.get()) {
             render(new PoseStack(), item, x, y);
             return;
         }
