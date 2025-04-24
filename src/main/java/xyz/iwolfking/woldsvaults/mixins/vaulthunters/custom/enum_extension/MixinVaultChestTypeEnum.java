@@ -14,6 +14,8 @@ public class MixinVaultChestTypeEnum {
     @Mutable @SuppressWarnings("target")
     private static VaultChestType[] $VALUES;
 
+    private static final VaultChestType CORRUPTED = enumExpansion$addVariant("CORRUPTED");
+
     @Invoker("<init>")
     public static VaultChestType enumExpansion$invokeInit(String internalName, int internalId) {
         throw new AssertionError();

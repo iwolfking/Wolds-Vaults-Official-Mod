@@ -3,9 +3,13 @@ package xyz.iwolfking.woldsvaults.init;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.CoinPileDecorBlock;
 import iskallia.vault.block.ShopPedestalBlock;
+import iskallia.vault.block.VaultChestBlock;
+import iskallia.vault.block.VaultCrateBlock;
 import iskallia.vault.block.render.ScavengerAltarRenderer;
+import iskallia.vault.core.vault.stat.VaultChestType;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.CoinBlockItem;
+import iskallia.vault.item.VaultChestBlockItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DoubleHighBlockItem;
@@ -13,6 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -24,6 +29,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
 import xyz.iwolfking.woldsvaults.blocks.tiles.*;
 import xyz.iwolfking.woldsvaults.client.renderers.DungeonPedestalRenderer;
+import xyz.iwolfking.woldsvaults.client.renderers.FracturedObeliskRenderer;
+import xyz.iwolfking.woldsvaults.client.renderers.MonolithControllerRenderer;
 import xyz.iwolfking.woldsvaults.client.renderers.SurvivalMobBarrierRenderer;
 
 import java.util.function.Consumer;
@@ -41,11 +48,17 @@ public class ModBlocks {
     public static final SurvivalMobBarrier SURVIVAL_MOB_BARRIER;
     public static final VaultInfuserBlock VAULT_INFUSER_BLOCK;
     public static final GatewayChannelingBlock GATEWAY_CHANNELING_BLOCK;
+    public static final FracturedObelisk FRACTURED_OBELISK;
+    public static final MonolithControllerBlock MONOLITH_CONTROLLER;
+    public static final VaultCrateBlock VAULT_CRATE_CORRUPTED;
 
     public static final CoinPileDecorBlock VAULT_PALLADIUM_PILE;
     public static final CoinPileDecorBlock VAULT_IRIDIUM_PILE;
     public static BlockItem VAULT_PALLADIUM;
     public static BlockItem VAULT_IRIDIUM;
+
+    public static final Block CORRUPTED_CHEST;
+    public static final BlockItem CORRUPTED_CHEST_ITEM;
 
     public static final BlockEntityType<VaultSalvagerTileEntity> VAULT_SALVAGER_ENTITY;
     public static final BlockEntityType<IskallianLeavesTileEntity> ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE;
@@ -64,6 +77,8 @@ public class ModBlocks {
     public static final ModBoxWorkstationBlock MOD_BOX_WORKSTATION;
     public static final BlockEntityType<AugmentCraftingTableTileEntity> AUGMENT_CRAFTING_TABLE_ENTITY;
     public static final BlockEntityType<ModBoxWorkstationTileEntity> MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<FracturedObeliskTileEntity> FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<MonolithControllerTileEntity> MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE;
 
     //Shop Pedestals
     public static final ShopPedestalBlock ETCHING_PEDESTAL = new ShopPedestalBlock();
@@ -78,6 +93,8 @@ public class ModBlocks {
         VAULT_IRIDIUM_PILE = new CoinPileDecorBlock();
         VAULT_PALLADIUM  = new CoinBlockItem(VAULT_PALLADIUM_PILE, new Item.Properties().tab(ModItems.VAULT_MOD_GROUP));
         VAULT_IRIDIUM  = new CoinBlockItem(VAULT_IRIDIUM_PILE, new Item.Properties().tab(ModItems.VAULT_MOD_GROUP));
+        CORRUPTED_CHEST = new VaultChestBlock(Enum.valueOf(VaultChestType.class, "CORRUPTED"), BlockBehaviour.Properties.copy(Blocks.CHEST).strength(0.6F, 5.0F).sound(SoundType.STONE));
+        CORRUPTED_CHEST_ITEM = new VaultChestBlockItem(CORRUPTED_CHEST, new Item.Properties().tab(ModItems.VAULT_MOD_GROUP));
         VAULT_SALVAGER_BLOCK = new VaultSalvagerBlock();
         ISKALLIAN_LEAVES_BLOCK = new IskallianLeavesBlock();
         HELLISH_SAND_BLOCK = new HellishSandBlock();
@@ -92,6 +109,9 @@ public class ModBlocks {
         AUGMENT_CRAFTING_TABLE = new AugmentCraftingTableBlock();
         MOD_BOX_WORKSTATION = new ModBoxWorkstationBlock();
         GATEWAY_CHANNELING_BLOCK = new GatewayChannelingBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
+        FRACTURED_OBELISK = new FracturedObelisk();
+        VAULT_CRATE_CORRUPTED = new VaultCrateBlock();
+        MONOLITH_CONTROLLER = new MonolithControllerBlock();
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
         HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(HellishSandTileEntity::new, HELLISH_SAND_BLOCK).build(null);
@@ -105,6 +125,8 @@ public class ModBlocks {
         SOPHISTICATED_BACKPACK = BlockEntityType.Builder.of(BackpackBlockEntity::new, new Block[]{XL_BACKPACK}).build(null);
         AUGMENT_CRAFTING_TABLE_ENTITY = BlockEntityType.Builder.of(AugmentCraftingTableTileEntity::new, new Block[]{AUGMENT_CRAFTING_TABLE}).build(null);
         MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(ModBoxWorkstationTileEntity::new, new Block[]{MOD_BOX_WORKSTATION}).build(null);
+        FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(FracturedObeliskTileEntity::new, FRACTURED_OBELISK).build(null);
+        MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(MonolithControllerTileEntity::new, MONOLITH_CONTROLLER).build(null);
     }
 
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -126,7 +148,10 @@ public class ModBlocks {
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
         registerBlock(event, ETCHING_PEDESTAL, WoldsVaults.id("etching_shop_pedestal"));
-
+        registerBlock(event, FRACTURED_OBELISK, WoldsVaults.id("fractured_obelisk"));
+        registerBlock(event, CORRUPTED_CHEST, VaultMod.id("corrupted_chest"));
+        registerBlock(event, VAULT_CRATE_CORRUPTED, WoldsVaults.id("vault_crate_corrupt"));
+        registerBlock(event, MONOLITH_CONTROLLER, WoldsVaults.id("monolith_controller"));
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
         registerTileEntity(event, VAULT_SALVAGER_ENTITY, VaultMod.id("vault_salvager_tile_entity"));
@@ -141,6 +166,8 @@ public class ModBlocks {
         registerTileEntity(event, AUGMENT_CRAFTING_TABLE_ENTITY, WoldsVaults.id("augment_table_entity"));
         registerTileEntity(event, MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("mod_box_workstation_entity"));
         registerTileEntity(event, VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("vault_infuser_entity"));
+        registerTileEntity(event, FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("fractured_obelisk_tile_entity"));
+        registerTileEntity(event, MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, WoldsVaults.id("monolith_controller_tile_entity"));
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
@@ -161,12 +188,18 @@ public class ModBlocks {
         registerBlockItem(event, ETCHING_PEDESTAL);
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
+        registerBlockItem(event, CORRUPTED_CHEST, CORRUPTED_CHEST_ITEM);
+        registerBlockItem(event, FRACTURED_OBELISK);
+        registerBlockItem(event, VAULT_CRATE_CORRUPTED, 1, Item.Properties::fireResistant);
+        registerBlockItem(event, MONOLITH_CONTROLLER);
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(DECO_SCAVENGER_ALTAR_ENTITY_BLOCK_ENTITY_TYPE, ScavengerAltarRenderer::new);
         event.registerBlockEntityRenderer(SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE, SurvivalMobBarrierRenderer::new);
         event.registerBlockEntityRenderer(DUNGEON_PEDESTAL_TILE_ENTITY_BLOCK_ENTITY_TYPE, DungeonPedestalRenderer::new);
+        event.registerBlockEntityRenderer(FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE, FracturedObeliskRenderer::new);
+        event.registerBlockEntityRenderer(MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, MonolithControllerRenderer::new);
         //event.registerBlockEntityRenderer(DECO_LODESTONE_TILE_ENTITY_BLOCK_ENTITY_TYPE, DecoLodestoneRenderer::new);
     }
 
