@@ -172,6 +172,7 @@
     "vaulthunters.fixes.MixinDynamicModelRegistry",
     "vaulthunters.fixes.MixinEliteZombie",
     "vaulthunters.fixes.MixinEntityGroupsConfig",
+    "vaulthunters.fixes.MixinFloatingItem",
     "vaulthunters.fixes.MixinGateRenderer",
     "vaulthunters.fixes.MixinGearModelRollRarities",
     "vaulthunters.fixes.MixinGearScoreHelper",
@@ -217,13 +218,13 @@
     "vaulthunters.accessors.VaultChestRendererAccessor",
     "vaulthunters.custom.MixinAugmentItem",
     "vaulthunters.custom.MixinCrystalTheme",
+    "vaulthunters.custom.MixinGearDataCache",
+    "vaulthunters.custom.MixinVaultGearRarityColor",
     "vaulthunters.fixes.MixinCatalystItemRenderer",
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
-    "vaulthunters.custom.MixinVaultGearRarityColor",
-    "vaulthunters.custom.MixinGearDataCache",
     "vhatcaniroll.MixinGearModifierScreen"
   ],
   "injectors": {

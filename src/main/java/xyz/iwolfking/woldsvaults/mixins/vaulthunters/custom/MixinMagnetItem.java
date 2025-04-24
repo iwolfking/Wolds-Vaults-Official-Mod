@@ -7,10 +7,13 @@ import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.CuriosGearItem;
 import iskallia.vault.gear.item.VaultGearItem;
+import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.gear.trinket.effects.EnderAnchorTrinket;
 import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.init.ModParticles;
 import iskallia.vault.item.MagnetItem;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -20,11 +23,13 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.List;
@@ -75,12 +80,14 @@ public abstract class MixinMagnetItem extends Item implements VaultGearItem, Cur
                         List<ExperienceOrb> orbs = world.getEntitiesOfClass(ExperienceOrb.class, player.getBoundingBox().inflate(range), (entity) -> {
                             return entity.distanceToSqr(player) <= range * range  && !entity.getTags().contains("PreventMagnetMovement");
                         });
-                        TrinketHelper.getTrinkets(player, EnderAnchorTrinket.class).forEach((enderTrinket) -> {
-                            if (enderTrinket.isUsable(player)) {
-                                teleportToPlayer(player, items);
-                                teleportToPlayer(player, orbs);
+                        List<TrinketHelper.TrinketStack<EnderAnchorTrinket>> enderAnchors = TrinketHelper.getTrinkets(player, EnderAnchorTrinket.class);
+                        for(TrinketHelper.TrinketStack<EnderAnchorTrinket> enderAnchor : enderAnchors) {
+                            if(enderAnchor.isUsable(player)) {
+                                woldsVaults$teleportToPlayerEnhanced(player, items);
+                                woldsVaults$teleportToPlayerEnhanced(player, orbs);
+                                return;
                             }
-                        });
+                        }
                         if(AttributeGearData.read(stack).get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.MAGNET_ENDERGIZED, VaultGearAttributeTypeMerger.anyTrue())) {
                             teleportToPlayer(player, items);
                             teleportToPlayer(player, orbs);
@@ -93,4 +100,33 @@ public abstract class MixinMagnetItem extends Item implements VaultGearItem, Cur
         }
     }
 
+    @Unique
+    private static void woldsVaults$teleportToPlayerEnhanced(Player player, List<? extends Entity> entities) {
+        for(Entity entity : entities) {
+            if (entity instanceof ItemEntity item) {
+                if (allowsNoPickupDelay(item, player)) {
+                    item.setNoPickUpDelay();
+                }
+            }
+
+            Level var5 = player.level;
+            if (var5 instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles((SimpleParticleType) ModParticles.ENDER_ANCHOR.get(), entity.position().x, entity.position().y + (double)0.25F, entity.position().z, 1, (double)0.0F, (double)0.0F, (double)0.0F, (double)0.0F);
+            }
+
+            entity.teleportTo(player.position().x, player.position().y, player.position().z);
+            entity.hurtMarked = true;
+
+            if(random.nextBoolean()) {
+                entity.getTags().add("MagnetPulled");
+                return;
+            }
+        }
+
+    }
+
+    @Shadow
+    private static boolean allowsNoPickupDelay(ItemEntity itemEntity, Player player) {
+        return false;
+    }
 }
