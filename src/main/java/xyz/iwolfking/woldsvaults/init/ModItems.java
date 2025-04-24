@@ -45,6 +45,7 @@ public class ModItems {
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_DOOMSAYER;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_ZEALOT;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_WARRIOR;
+    public static ItemVaultCrystalSeal CRYSTAL_SEAL_CORRUPT;
     public static VaultBattleStaffItem BATTLESTAFF;
     //public static VaultBowItem BOW;
 
@@ -170,6 +171,8 @@ public class ModItems {
     public static BasicItem CHUNK_OF_POWER;
     public static BasicItem SOUL_ICHOR;
 
+    public static DecayingItem RUINED_ESSENCE;
+
     public static TrinketPouchItem TRINKET_POUCH;
 
 
@@ -183,6 +186,7 @@ public class ModItems {
         registry.register(CRYSTAL_SEAL_TITAN);
         registry.register(CRYSTAL_SEAL_DOOMSAYER);
         registry.register(CRYSTAL_SEAL_WARRIOR);
+        registry.register(CRYSTAL_SEAL_CORRUPT);
         registry.register(BATTLESTAFF);
         registry.register(TRIDENT);
         registry.register(PLUSHIE);
@@ -283,6 +287,7 @@ public class ModItems {
         registry.register(TARGETED_MOD_BOX);
         registry.register(UNIDENTIFIED_GATEWAY_PEARL);
         registry.register(TRINKET_POUCH);
+        registry.register(RUINED_ESSENCE);
     }
 
     static {
@@ -294,6 +299,7 @@ public class ModItems {
         CRYSTAL_SEAL_DOOMSAYER = new ItemVaultCrystalSeal(VaultMod.id("crystal_seal_doomsayer"));
         CRYSTAL_SEAL_ZEALOT = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_zealot"));
         CRYSTAL_SEAL_WARRIOR = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_warrior"));
+        CRYSTAL_SEAL_CORRUPT = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_corrupt"));
         BATTLESTAFF =  new VaultBattleStaffItem(VaultMod.id("battlestaff"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         TRIDENT = new VaultTridentItem(VaultMod.id("trident"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         PLUSHIE = new VaultPlushieItem(VaultMod.id("plushie"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
@@ -391,6 +397,7 @@ public class ModItems {
         SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"));
         TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
+        RUINED_ESSENCE = new DecayingItem(WoldsVaults.id("ruined_essence"), 300);
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }
