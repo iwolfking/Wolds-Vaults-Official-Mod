@@ -31,5 +31,22 @@
       "woldsvaults:saferspaces/bear_02",
       "woldsvaults:saferspaces/bear_03"
     ]
+  },
+  "dark": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "woldsvaults:dark",
+        "stream": true
+      }
+    ]
+  },
+  "ominous_ambience": {
+    "category": "ambient",
+    "sounds": [
+      "woldsvaults:ominous_ambience_1",
+      "woldsvaults:ominous_ambience_2",
+      "woldsvaults:ominous_ambience_3"
+    ]
   }
 }
