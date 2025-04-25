@@ -27,24 +27,4 @@ public abstract class MixinFloatingItem extends ItemEntity {
         this.removeTag("PreventMagnetMovement");
     }
 
-    @Inject(method = "tick", at = @At("HEAD"), remap = true, cancellable = true)
-    private void allowMovement(CallbackInfo ci) {
-        if(woldsvaults$timer >= 100) {
-            this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.04D, 0.0D));
-            super.tick();
-            ci.cancel();
-        }
-    }
-
-    @Inject(method = "tick", at = @At("TAIL"), remap = true)
-    private void incrementTimer(CallbackInfo ci) {
-        this.woldsvaults$timer++;
-    }
-
-    @Inject(method = "isNoGravity", at = @At("HEAD"), cancellable = true, remap = true)
-    private void enableGravity(CallbackInfoReturnable<Boolean> cir) {
-        if(woldsvaults$timer >= 100) {
-            cir.setReturnValue(false);
-        }
-    }
 }
