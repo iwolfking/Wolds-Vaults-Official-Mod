@@ -6,6 +6,7 @@ import iskallia.vault.block.CoinPileBlock;
 import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
+import iskallia.vault.item.tool.ToolItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -38,7 +39,7 @@ public abstract class MixinCoinPileBlock extends Block implements EntityBlock {
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         CoinPileBlock thisInstance = ((CoinPileBlock) (Object) this);
         int size = state.getValue(CoinPileBlock.SIZE);
-        if (!player.isCreative()) {
+        if (!player.isCreative() && player.getMainHandItem().getItem() instanceof ToolItem) {
             thisInstance.playerWillDestroy(level, pos, state, player);
 
             VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());

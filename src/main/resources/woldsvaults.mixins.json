@@ -94,6 +94,7 @@
     "vaulthunters.altar.MixinVaultAltarIngredientsConfig",
     "vaulthunters.altar.MixinVaultAltarTileEntity",
     "vaulthunters.altar.VaultAltarTileEntityAccessor",
+    "vaulthunters.block.MixinCoinPileBlock",
     "vaulthunters.block.MixinVaultChestBlock",
     "vaulthunters.compat.angelring.MixinAngelBlock",
     "vaulthunters.compat.ensorcellation.MixinEnchanterEnchantSelectorModel",
