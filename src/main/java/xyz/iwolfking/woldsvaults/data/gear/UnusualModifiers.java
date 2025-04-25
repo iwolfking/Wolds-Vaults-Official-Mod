@@ -27,6 +27,9 @@ public class UnusualModifiers {
     private static VaultGearTierConfig.AttributeGroup SACK_PREFIX = new VaultGearTierConfig.AttributeGroup();
     private static VaultGearTierConfig.AttributeGroup JEWEL_SUFFIX = new VaultGearTierConfig.AttributeGroup();
 
+    private static VaultGearTierConfig.AttributeGroup MAP_PREFIX = new VaultGearTierConfig.AttributeGroup();
+    private static VaultGearTierConfig.AttributeGroup MAP_SUFFIX = new VaultGearTierConfig.AttributeGroup();
+
     static {
         JEWEL_SUFFIX.add(UnusualModifierLib.HEALING_EFFECTIVENESS_JEWEL);
         JEWEL_SUFFIX.add(UnusualModifierLib.MANA_REGEN_JEWEL);
@@ -172,5 +175,24 @@ public class UnusualModifiers {
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("loot_sack"), SACK_SUFFIX);
         UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("magnet"), SACK_PREFIX);
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("magnet"), SACK_SUFFIX);
+
+        MAP_PREFIX.add(UnusualModifierLib.CORROSIVE);
+        MAP_PREFIX.add(UnusualModifierLib.EXTRA_REINFORCED);
+        MAP_PREFIX.add(UnusualModifierLib.TIRED);
+        MAP_PREFIX.add(UnusualModifierLib.LEECHING);
+        MAP_PREFIX.add(UnusualModifierLib.BLESSED);
+        MAP_PREFIX.add(UnusualModifierLib.FRENZY);
+        MAP_PREFIX.add(UnusualModifierLib.JUMPY);
+        MAP_PREFIX.add(UnusualModifierLib.KILL_NOVA);
+        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map"), MAP_PREFIX);
+
+        MAP_SUFFIX.add(UnusualModifierLib.NON_LETHAL);
+        MAP_SUFFIX.add(UnusualModifierLib.DOOR_HUNTER);
+        MAP_SUFFIX.add(UnusualModifierLib.SWEET_RETRO);
+        MAP_SUFFIX.add(UnusualModifierLib.HUNGER);
+        MAP_PREFIX.add(UnusualModifierLib.HAUNTED_MANSION);
+        MAP_PREFIX.add(UnusualModifierLib.KILL_FROST_NOVA);
+        MAP_PREFIX.add(UnusualModifierLib.BACKWARDS);
+        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map"), MAP_SUFFIX);
     }
 }
