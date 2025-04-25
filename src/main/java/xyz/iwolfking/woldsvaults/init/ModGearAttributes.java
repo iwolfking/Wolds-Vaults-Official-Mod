@@ -54,6 +54,28 @@ public class ModGearAttributes {
             VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Mob Critical Strike Chance", 8833629), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> MOB_KBR = attr("mob_kbr",
             VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Mob Knockback Resistance", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> CRATE_QUANTITY = attr("crate_quantity",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Crate Quantity", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> CATALYST_CHANCE = attr("catalyst_chance",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Catalyst Chance", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> TRAP_CHANCE = attr("trap_chance",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Trap Chance", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> CHAMPION_CHANCE = attr("champion_chance",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Champion Chance", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> MORE_MOBS = attr("more_mobs",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("More Mobs", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> MORE_ORES = attr("more_ores",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("More Ores", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> MORE_GILDED = attr("more_gilded",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("More Gilded Chests", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> MORE_WOODEN = attr("more_wooden",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("More Wooden Chests", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> MORE_ORNATE = attr("more_ornate",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("More Ornate Chests", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> MORE_LIVING = attr("more_living",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("More Living Chests", 8833629), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> MORE_COIN_PILES = attr("more_coins",
+            VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("More Coin Piles", 8833629), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> MOB_HEALTH_AND_DAMAGE = attr("mob_health_and_damage",
             VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Mob Health and Damage", 8833629), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> GROUPED_QUANTITY = attr("grouped_quantity",
@@ -129,6 +151,17 @@ public class ModGearAttributes {
                       registry.register(IS_ETCHED);
                       registry.register(SOUL_LEECH_FLAT);
                       registry.register(DODGE_PERCENT);
+                      registry.register(CRATE_QUANTITY);
+                      registry.register(CATALYST_CHANCE);
+                      registry.register(TRAP_CHANCE);
+                      registry.register(MORE_MOBS);
+                      registry.register(CHAMPION_CHANCE);
+                      registry.register(MORE_ORES);
+                      registry.register(MORE_GILDED);
+                      registry.register(MORE_ORNATE);
+                      registry.register(MORE_LIVING);
+                      registry.register(MORE_WOODEN);
+                      registry.register(MORE_COIN_PILES);
        }
   
     public static void registerVanillaAssociations() {

@@ -36,8 +36,9 @@ public class MixinVaultModifierTypeRegistry {
         MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/chance_chest_trap_settable"), VaultModifierType.of(TrapChanceModifierSettable.class, TrapChanceModifierSettable.Properties.class, TrapChanceModifierSettable::new));
         MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/crate_item_quantity_settable"), VaultModifierType.of(CrateItemQuantityModifierSettable.class, CrateItemQuantityModifierSettable.Properties.class, CrateItemQuantityModifierSettable::new));
         MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/spawner_mobs_settable"), VaultModifierType.of(MobSpawnModifierSettable.class, MobSpawnModifierSettable.Properties.class, MobSpawnModifierSettable::new));
-        MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/vault_lootable_weight"), VaultModifierType.of(VaultLootableWeightModifierSettable.class, VaultLootableWeightModifierSettable.Properties.class, VaultLootableWeightModifierSettable::new));
+        MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/vault_lootable_weight_settable"), VaultModifierType.of(VaultLootableWeightModifierSettable.class, VaultLootableWeightModifierSettable.Properties.class, VaultLootableWeightModifierSettable::new));
         MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/champion_chance_settable"), VaultModifierType.of(ChampionChanceModifierSettable.class, ChampionChanceModifierSettable.Properties.class, ChampionChanceModifierSettable::new));
+        MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/decorator_add_settable"), VaultModifierType.of(DecoratorAddModifierSettable.class, DecoratorAddModifierSettable.Properties.class, DecoratorAddModifierSettable::new));
         MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/greedy"), VaultModifierType.of(GreedyVaultModifier.class, GreedyVaultModifier.Properties.class, GreedyVaultModifier::new));
     }
 }

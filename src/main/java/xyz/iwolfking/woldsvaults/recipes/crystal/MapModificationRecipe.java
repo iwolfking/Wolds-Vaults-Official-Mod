@@ -108,16 +108,17 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
                 return false;
             }
 
-            if(difficultyId != null) {
-                VaultModifier<?> mod = VaultModifierRegistry.get(VaultMod.id(difficultyId.toLowerCase()));
-                if(mod != null) {
-                    VaultModifierStack stack = new VaultModifierStack(mod, 1);
-                    data.getModifiers().add(stack);
-                }
-            }
+//            if(difficultyId != null) {
+//                VaultModifier<?> mod = VaultModifierRegistry.get(VaultMod.id(difficultyId.toLowerCase()));
+//                if(mod != null) {
+//                    VaultModifierStack stack = new VaultModifierStack(mod, 1);
+//                    data.getModifiers().add(stack);
+//                }
+//            }
 
             applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.PREFIX, context, output);
             applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.SUFFIX, context, output);
+            applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output);
 
 
 
