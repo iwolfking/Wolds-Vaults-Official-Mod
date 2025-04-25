@@ -55,6 +55,11 @@ public class CorruptedCrystalObjective extends CrystalObjective {
 
     @Override
     public void configure(Vault vault, RandomSource random) {
+        if(this.target == null) this.target = IntRoll.ofConstant(3);
+        if(this.secondTarget == null) this.secondTarget = IntRoll.ofConstant(3);
+
+
+
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
             objectives.add(CorruptedObjective.of(this.target.get(random), this.objectiveProbability, ModConfigs.MONOLITH.getStackModifierPool(level))
