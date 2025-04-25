@@ -55,8 +55,10 @@ public class CorruptedCrystalObjective extends CrystalObjective {
 
     @Override
     public void configure(Vault vault, RandomSource random) {
-        if(this.target == null) this.target = IntRoll.ofConstant(3);
-        if(this.secondTarget == null) this.secondTarget = IntRoll.ofConstant(3);
+        if (this.target == null) this.target = IntRoll.ofConstant(3);
+        if (this.secondTarget == null) this.secondTarget = IntRoll.ofConstant(3);
+        if (this.objectiveProbability == 0.0) this.objectiveProbability = 1.0F;
+
 
 
 
