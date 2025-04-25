@@ -9,6 +9,7 @@ import iskallia.vault.gear.attribute.config.IntegerAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.effect.EffectCloudAttribute;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.data.gear.util.GearModifierRegistryHelper;
+import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
 
 public class UnusualModifierLib {
     //Prefixes
@@ -55,6 +56,25 @@ public class UnusualModifierLib {
     public static VaultGearTierConfig.ModifierTierGroup EFFECT_DURATION = GearModifierRegistryHelper.create(VaultMod.id("effect_duration"), "ModCooldownReduction", VaultMod.id("mod_effect_duration_unusual"));
     public static VaultGearTierConfig.ModifierTierGroup HEALING_EFFECTIVENESS = GearModifierRegistryHelper.create(VaultMod.id("healing_effectiveness"), "ModHealthEff", VaultMod.id("mod_health_eff_unusual"));
     public static VaultGearTierConfig.ModifierTierGroup HEXING_HIT = GearModifierRegistryHelper.create(VaultMod.id("hexing_chance"), "ModOnHitType", VaultMod.id("mod_hexing_chance_unusual"));
+
+    //Map
+    public static VaultGearTierConfig.ModifierTierGroup NON_LETHAL = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModMobCrit", VaultMod.id("no_crit_mobs"));
+    public static VaultGearTierConfig.ModifierTierGroup CORROSIVE = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModDurability", VaultMod.id("corrosive"));
+    public static VaultGearTierConfig.ModifierTierGroup EXTRA_REINFORCED = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModDurability", VaultMod.id("extra_reinforced"));
+    public static VaultGearTierConfig.ModifierTierGroup TIRED = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModMiningSpeed", VaultMod.id("tired"));
+    public static VaultGearTierConfig.ModifierTierGroup LEECHING = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModLeech", VaultMod.id("leeching"));
+    public static VaultGearTierConfig.ModifierTierGroup BACKWARDS = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModUnique", VaultMod.id("backwards"));
+    public static VaultGearTierConfig.ModifierTierGroup BLESSED = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModGods", VaultMod.id("blessed"));
+    public static VaultGearTierConfig.ModifierTierGroup DOOR_HUNTER = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModHunters", VaultMod.id("door_hunter"));
+    public static VaultGearTierConfig.ModifierTierGroup SWEET_RETRO = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModRetro", VaultMod.id("sweet_retro"));
+    public static VaultGearTierConfig.ModifierTierGroup HAUNTED_MANSION = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModUnique", VaultMod.id("haunted_mansion"));
+    public static VaultGearTierConfig.ModifierTierGroup KILL_NOVA = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModMobDeath", VaultMod.id("kill_nova"));
+    public static VaultGearTierConfig.ModifierTierGroup KILL_FROST_NOVA = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModMobDeath", VaultMod.id("kill_frostnova"));
+    public static VaultGearTierConfig.ModifierTierGroup FRENZY = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModFrenzy", VaultMod.id("frenzy"));
+    public static VaultGearTierConfig.ModifierTierGroup HUNGER = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModUnique", VaultMod.id("hunger"));
+    public static VaultGearTierConfig.ModifierTierGroup JUMPY = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModJump", VaultMod.id("jumpy_deluxe"));
+
+
     static {
         //Effect Clouds
         EffectCloudAttribute.CloudConfig BLEED_0 = new EffectCloudAttribute.CloudConfig("Bleed", new ResourceLocation("minecraft:empty"), 80, 4.0F, 3080192, false, 0.02F);
@@ -206,5 +226,23 @@ public class UnusualModifierLib {
 
         DURABILITY_WEAR_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.01F, 0.03F, 0.001F)));
         DURABILITY_WEAR_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.03F, 0.05F, 0.001F)));
+
+
+
+        NON_LETHAL.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:no_crit_mobs")));
+        CORROSIVE.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:corrosive")));
+        EXTRA_REINFORCED.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:extra_reinforced")));
+        TIRED.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:tired")));
+        LEECHING.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:leeching")));
+        BACKWARDS.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:backwards")));
+        BLESSED.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:blessed")));
+        DOOR_HUNTER.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:door_hunter")));
+        SWEET_RETRO.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:sweet_retro")));
+        HAUNTED_MANSION.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:haunted_mansion")));
+        KILL_NOVA.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:kill_nova")));
+        KILL_FROST_NOVA.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:kill_frostnova")));
+        FRENZY.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:kill_frostnova")));
+        HUNGER.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:kill_frostnova")));
+        JUMPY.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:jumpy_deluxe")));
     }
 }
