@@ -1,7 +1,7 @@
 package xyz.iwolfking.woldsvaults.items;
 
 import iskallia.vault.core.vault.ClientVaults;
-import iskallia.vault.init.ModItems;
+import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModSounds;
 import iskallia.vault.item.BasicItem;
 import net.minecraft.network.chat.*;
@@ -47,6 +47,15 @@ public class DecayingItem extends BasicItem {
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         if (!pLevel.isClientSide && pEntity instanceof ServerPlayer player) {
+            if(!VaultUtil.isVaultCorrupted) {
+                if (pStack.getTag() != null) {
+                    if(pStack.getTag().contains("RemainingSeconds")) {
+                        pStack.setTag(null);
+                    }
+                }
+                return;
+            }
+
             if (!pStack.getOrCreateTag().contains("RemainingSeconds")) {
                 setRemainingSeconds(pStack, secondsUntilExpired);
             }
@@ -59,8 +68,7 @@ public class DecayingItem extends BasicItem {
                         setRemainingSeconds(pStack, remainingSeconds - 1);
                     } else {
                         pStack.setCount(0);
-                        player.getInventory().setItem(pSlotId, new ItemStack(ModItems.MEMORY_POWDER)); // TODO:
-
+                        player.getInventory().setItem(pSlotId, new ItemStack(ModBlocks.SOOT));
                         pLevel.playSound(null, pEntity.blockPosition(), ModSounds.ABILITY_ON_COOLDOWN, SoundSource.PLAYERS, 1.0F, 0.4F);
                     }
                 }
@@ -100,6 +108,6 @@ public class DecayingItem extends BasicItem {
 
     @Override
     public int getItemStackLimit(ItemStack stack) {
-        return 1;
+        return 55; // We do a minor bit of tomfoolery
     }
 }
