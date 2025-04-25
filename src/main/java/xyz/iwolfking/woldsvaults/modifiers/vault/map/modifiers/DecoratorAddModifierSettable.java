@@ -27,6 +27,9 @@ import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 public class DecoratorAddModifierSettable extends SettableValueVaultModifier<DecoratorAddModifierSettable.Properties>{
     public DecoratorAddModifierSettable(ResourceLocation id, Properties properties, Display display) {
         super(id, properties, display);
+        this.setDescriptionFormatter((t, p, s) -> {
+            return t.formatted((int)Math.abs(p.getValue() * (float)s));
+        });
     }
 
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
@@ -34,16 +37,16 @@ public class DecoratorAddModifierSettable extends SettableValueVaultModifier<Dec
             if (!(data.getTemplate().getParent() instanceof EmptyTemplate)) {
                 ProcessorContext processorContext = new ProcessorContext(vault, data.getRandom());
 
-                for(int i = 0; i < ((DecoratorAddModifierSettable.Properties)this.properties).getAttemptsPerChunk(context); ++i) {
+                for(int i = 0; i < (this.properties).getAttemptsPerChunk(context); ++i) {
                     int x = data.getRandom().nextInt(16) + data.getChunkPos().x * 16;
                     int z = data.getRandom().nextInt(16) + data.getChunkPos().z * 16;
                     int y = data.getRandom().nextInt(64);
                     BlockPos pos = new BlockPos(x, y, z);
                     ServerLevelAccessor serverLevelAccessor = data.getWorld();
                     BlockState state = serverLevelAccessor.getBlockState(pos);
-                    if (state.getBlock() == Blocks.AIR && (!((DecoratorAddModifierSettable.Properties)this.properties).isRequiresConditions() || serverLevelAccessor.getBlockState(pos.above()).isAir() && serverLevelAccessor.getBlockState(pos.below()).isFaceSturdy(serverLevelAccessor, pos, Direction.UP))) {
+                    if (state.getBlock() == Blocks.AIR && (!(this.properties).isRequiresConditions() || serverLevelAccessor.getBlockState(pos.above()).isAir() && serverLevelAccessor.getBlockState(pos.below()).isFaceSturdy(serverLevelAccessor, pos, Direction.UP))) {
                         IZonedWorld.runWithBypass(world, true, () -> {
-                            PartialTile tile = ((DecoratorAddModifierSettable.Properties)this.properties).output.copy().setPos(pos);
+                            PartialTile tile = (this.properties).output.copy().setPos(pos);
                             PlacementSettings settings = data.getTemplate().getSettings().copy();
                             Template patt3358$temp = data.getTemplate().getParent();
                             if (patt3358$temp instanceof JigsawTemplate jigsaw) {
@@ -51,7 +54,7 @@ public class DecoratorAddModifierSettable extends SettableValueVaultModifier<Dec
                             }
 
                             for(TileProcessor processor : settings.getTileProcessors()) {
-                                tile = (PartialTile)processor.process(tile, processorContext);
+                                tile = processor.process(tile, processorContext);
                                 if (tile == null) {
                                     break;
                                 }
@@ -73,15 +76,11 @@ public class DecoratorAddModifierSettable extends SettableValueVaultModifier<Dec
         private final PartialTile output;
 
         @Expose
-        private final boolean requiresConditions;
-
-        public Properties(PartialTile output) {
-            this(output, true);
-        }
+        private final boolean requireConditions;
 
         public Properties(PartialTile output, boolean requiresConditions) {
             this.output = output;
-            this.requiresConditions = requiresConditions;
+            this.requireConditions = requiresConditions;
         }
 
         public PartialTile getOutput() {
@@ -93,7 +92,7 @@ public class DecoratorAddModifierSettable extends SettableValueVaultModifier<Dec
         }
 
         public boolean isRequiresConditions() {
-            return requiresConditions;
+            return requireConditions;
         }
     }
 }

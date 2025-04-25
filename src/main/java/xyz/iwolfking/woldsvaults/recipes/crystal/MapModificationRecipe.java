@@ -121,7 +121,7 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
             applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output);
 
 
-
+            data.getProperties().setUnmodifiable(true);
             data.write(output);
             context.setOutput(output);
 

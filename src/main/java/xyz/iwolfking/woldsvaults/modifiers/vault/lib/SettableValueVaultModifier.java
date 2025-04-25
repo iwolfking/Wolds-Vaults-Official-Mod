@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public abstract class SettableValueVaultModifier<P extends SettableValueVaultModifier.Properties> extends VaultModifier<P> {
     public SettableValueVaultModifier(ResourceLocation id, P properties, VaultModifier.Display display) {
-
         super(id, properties, display);
         this.setDescriptionFormatter((t, p, s) -> {
             return t.formatted((int)Math.abs(p.getValue() * (float)s * 100.0F));
