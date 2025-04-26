@@ -30,36 +30,36 @@ public class LoopSoundHandler {
             return;
         }
 
-        SoundManager manager = Minecraft.getInstance().getSoundManager();
-
-        if(!ticked) {
-            if(manager.isActive(track)) {
-                manager.stop(track);
-            }
-            return;
-        }
-
-        if(!manager.isActive(track) && shouldPlay) {
-            track = new SimpleSoundInstance(
-                    ModSounds.DARK.getLocation(),
-                    SoundSource.MASTER,
-                    0.3F, 1.0F,
-                    false, 0,
-                    SoundInstance.Attenuation.LINEAR,
-                    0.0D, 0.0D, 0.0D,
-                    true
-            );
-
-            manager.play(track);
-        }
-
-        ticked = false;
-
-
-        // Plays an ambient sound
         if (Minecraft.getInstance().level != null) {
-            ambientSoundTimer++;
+            SoundManager manager = Minecraft.getInstance().getSoundManager();
 
+            if(!ticked) {
+                if(manager.isActive(track)) {
+                    manager.stop(track);
+                }
+                return;
+            }
+
+            if(!manager.isActive(track) && shouldPlay) {
+                track = new SimpleSoundInstance(
+                        ModSounds.DARK.getLocation(),
+                        SoundSource.MASTER,
+                        0.3F, 1.0F,
+                        false, 0,
+                        SoundInstance.Attenuation.LINEAR,
+                        0.0D, 0.0D, 0.0D,
+                        true
+                );
+
+                manager.play(track);
+            }
+
+            ticked = false;
+
+
+
+            // Plays an ambient sound
+            ambientSoundTimer++;
             if (ambientSoundTimer >= ambientSoundInterval) {
                 // Play ambient sound
 
