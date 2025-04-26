@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.util;
 
 import iskallia.vault.util.TextComponentUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.*;
 
@@ -70,6 +71,36 @@ public class ComponentUtils {
                 TextComponentUtils.applyStyle(charComponent, charComponent.getStyle().withObfuscated(true));
             }
             result.append(charComponent); // Append the character to the result.
+        }
+
+        return result;
+    }
+
+    /**
+     * Creates a waving effect with the passed in component
+     *
+     * @param base base Component
+     * @param baseColor base color to be used
+     * @param frequency how fast the wave moves across the text
+     * @param amplitude how much brighter it gets at peak
+     * @return a MutableComponent with waving colors
+     */
+    public static MutableComponent wavingComponent(MutableComponent base, TextColor baseColor, float frequency, float amplitude) {
+        String text = base.getString();
+
+        MutableComponent result = new TextComponent("");
+
+        float time = (float) Minecraft.getInstance().level.getGameTime();
+        int baseRGB = baseColor.getValue();
+
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+
+            // Compute brightness factor in a wave pattern
+            float wave = (float) Math.sin((time - i) * frequency) * amplitude + 1f;
+
+            result.append(new TextComponent(String.valueOf(c))
+                    .withStyle(base.getStyle().withColor(ColorUtil.brightenColor(baseRGB, wave))));
         }
 
         return result;
