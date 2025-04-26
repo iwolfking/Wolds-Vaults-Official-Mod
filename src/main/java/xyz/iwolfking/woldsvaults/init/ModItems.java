@@ -172,6 +172,7 @@ public class ModItems {
     public static BasicItem SOUL_ICHOR;
 
     public static DecayingItem RUINED_ESSENCE;
+    public static LocatorItem OBELISK_RESONATOR;
 
     public static TrinketPouchItem TRINKET_POUCH;
 
@@ -288,6 +289,7 @@ public class ModItems {
         registry.register(UNIDENTIFIED_GATEWAY_PEARL);
         registry.register(TRINKET_POUCH);
         registry.register(RUINED_ESSENCE);
+        registry.register(OBELISK_RESONATOR);
     }
 
     static {
@@ -398,6 +400,7 @@ public class ModItems {
         TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
         RUINED_ESSENCE = new DecayingItem(WoldsVaults.id("ruined_essence"), 300);
+        OBELISK_RESONATOR = new LocatorItem(WoldsVaults.id("obelisk_resonator"), ModBlocks.FRACTURED_OBELISK, 64);
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }
