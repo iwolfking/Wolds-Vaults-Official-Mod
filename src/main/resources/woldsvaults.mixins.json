@@ -88,6 +88,7 @@
     "vaulthunters.accessors.PlayerVaultAltarDataAccessor",
     "vaulthunters.accessors.TemplateProcessorModifierPropertiesAccessor",
     "vaulthunters.accessors.VaultDifficultyAccessor",
+    "vaulthunters.accessors.VaultGearCommonConfigAccessor",
     "vaulthunters.accessors.VaultGearRollTypeConfigAccessor",
     "vaulthunters.accessors.VaultGearRollTypeConfigRollTypeAccessor",
     "vaulthunters.accessors.VaultGearTierConfigAccessor",
