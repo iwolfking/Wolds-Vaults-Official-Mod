@@ -11,7 +11,7 @@ import xyz.iwolfking.woldsvaults.util.VaultUtil;
 
 @Mixin(value = Vault.class, remap = false)
 public class MixinVault {
-    @Inject(method = "releaseClient", at = @At("HEAD"))
+    @Inject(method = "releaseClient", at = @At("TAIL"))
     private void releaseCorrupted(CallbackInfo ci) {
         if (VaultUtil.isVaultCorrupted) {
             Minecraft mc = Minecraft.getInstance();
