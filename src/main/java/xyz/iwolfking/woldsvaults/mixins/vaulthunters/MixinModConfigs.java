@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.entry.IntRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.config.gear.VaultGearTypeConfig;
 import iskallia.vault.gear.VaultGearRarity;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.data.gear.UnusualModifiers;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearCommonConfigAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearRollTypeConfigAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearRollTypeConfigRollTypeAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearTierConfigAccessor;
@@ -61,6 +63,8 @@ public class MixinModConfigs {
         for(ResourceLocation loc : CURRENT_GEAR_CONFIGS) {
             VAULT_GEAR_CONFIG.put(VaultMod.id(loc.getPath() + "_mythic"), new VaultGearTierConfig(VaultMod.id(loc.getPath() + "_mythic")).readConfig());
         }
+
+        ((VaultGearCommonConfigAccessor)ModConfigs.VAULT_GEAR_COMMON).getCraftingPotentialRanges().put(VaultGearRarity.valueOf("MYTHIC"), new IntRangeEntry(250, 650));
 
 
         //Initialize gear configs for map tiers
