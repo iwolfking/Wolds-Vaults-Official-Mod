@@ -8,6 +8,7 @@ import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.VaultCrystalItem;
@@ -27,6 +28,8 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.GreedyVaultModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.InscriptionCrystalModifierSettable;
+
+import java.util.Optional;
 
 public class MapModificationRecipe extends VanillaAnvilRecipe {
     @Override
@@ -71,10 +74,25 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
 
             VaultGearData mapData = VaultGearData.read(secondary);
 
+            Optional<Integer> prefixSlots = mapData.getFirstValue(iskallia.vault.init.ModGearAttributes.PREFIXES);
+            Optional<Integer> suffixSlots = mapData.getFirstValue(iskallia.vault.init.ModGearAttributes.SUFFIXES);
+
+            if(prefixSlots.isEmpty() || suffixSlots.isEmpty()) {
+                return false;
+            }
+
+            int numberOfPrefixes = mapData.getModifiers(VaultGearModifier.AffixType.PREFIX).size();
+            int numberOfSuffixes = mapData.getModifiers(VaultGearModifier.AffixType.SUFFIX).size();
+            boolean unfinishedMap = false;
+
+            if(prefixSlots.get() != numberOfPrefixes || suffixSlots.get() != numberOfSuffixes) {
+                unfinishedMap = true;
+            }
+
             String themeId = mapData.getFirstValue(ModGearAttributes.THEME).orElse(null);
             String themePoolId = mapData.getFirstValue(ModGearAttributes.THEME_POOL).orElse(null);
             String objectiveId = mapData.getFirstValue(ModGearAttributes.OBJECTIVE).orElse(null);
-            String difficultyId = mapData.getFirstValue(ModGearAttributes.VAULT_DIFFICULTY).orElse(null);
+            //String difficultyId = mapData.getFirstValue(ModGearAttributes.VAULT_DIFFICULTY).orElse(null);
 
             if(themeId != null) {
                 CrystalTheme theme = new ValueCrystalTheme(new ResourceLocation(themeId));
@@ -116,9 +134,9 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
 //                }
 //            }
 
-            applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.PREFIX, context, output);
-            applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.SUFFIX, context, output);
-            applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output);
+            applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.PREFIX, context, output, unfinishedMap);
+            applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.SUFFIX, context, output, unfinishedMap);
+            applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output, unfinishedMap);
 
 
             data.getProperties().setUnmodifiable(true);
@@ -140,11 +158,15 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
 
     }
 
-    public static boolean applySpecialModifiers(CrystalData data, VaultGearData mapData, VaultGearModifier.AffixType affixType, AnvilContext context, ItemStack output) {
+    public static boolean applySpecialModifiers(CrystalData data, VaultGearData mapData, VaultGearModifier.AffixType affixType, AnvilContext context, ItemStack output, boolean shouldReduceValues) {
         for(VaultGearModifier<?> mod : mapData.getModifiers(affixType)) {
             VaultModifier<?> vaultMod = VaultModifierRegistry.get(mod.getModifierIdentifier());
             if(vaultMod instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
-                settableValueVaultModifier.properties().setValue((Float) mod.getValue());
+                float value = (float) mod.getValue();
+                if(shouldReduceValues) {
+                    value *= 0.75F;
+                }
+                settableValueVaultModifier.properties().setValue(value);
 
                 if(vaultMod instanceof InscriptionCrystalModifierSettable inscriptionCrystalModifierSettable) {
                     InscriptionData inscriptionData = inscriptionCrystalModifierSettable.properties().getData();

@@ -54,7 +54,7 @@ public interface MixinVaultGearItem extends IForgeItem, VaultGearTooltipItem, Da
                 VaultGearTierConfig tierConfig = VaultGearTierConfig.getConfig(input).get();
                 VaultGearTierConfig.ModifierTierGroup group = tierConfig.getTierGroup(legMod.getModifierIdentifier());
                 if(isUniqueOrHighRarity) {
-                    return new VaultRecyclerConfig.RecyclerOutput(new ChanceItemStackEntry(new ItemStack(ModItems.VAULT_SCRAP), 8, 16, 1.0F), new ChanceItemStackEntry(new ItemStack(ModItems.FACETED_FOCUS), 1, 1, 1.0F), new ChanceItemStackEntry(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.CHUNK_OF_POWER), 1, 1, 0.5F));
+                    return new VaultRecyclerConfig.RecyclerOutput(new ChanceItemStackEntry(new ItemStack(ModItems.VAULT_SCRAP), 8, 16, 1.0F), new ChanceItemStackEntry(new ItemStack(ModItems.FACETED_FOCUS), 1, 1, 1.0F), new ChanceItemStackEntry(new ItemStack(ModItems.FACETED_FOCUS), 1, 1, 1.0F));
                 }
 
                 return new VaultRecyclerConfig.RecyclerOutput(new ChanceItemStackEntry(new ItemStack(ModItems.VAULT_SCRAP), 4, 8, 1.0F), new ChanceItemStackEntry(new ItemStack(Items.NETHERITE_SCRAP), 1, 3, 0.2F), new ChanceItemStackEntry(new ItemStack(ModItems.FACETED_FOCUS), 1, 1, 1.0F));
