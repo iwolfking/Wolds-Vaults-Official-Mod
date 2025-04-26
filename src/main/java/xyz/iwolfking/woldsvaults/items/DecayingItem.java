@@ -82,7 +82,7 @@ public class DecayingItem extends BasicItem {
 
         if(ClientVaults.getActive().isPresent() && VaultUtil.isVaultCorrupted) {
             MutableComponent cmp0 = new TextComponent("Powers the Monolith.").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#701233")).withItalic(true));
-            MutableComponent cmp1 = new TextComponent("Slowly decays as you hold it.").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#701233")).withItalic(true));
+            MutableComponent cmp1 = new TextComponent("Slowly decays in your inventory.").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#701233")).withItalic(true));
 
             tooltip.add(ComponentUtils.corruptComponent(cmp0));
             tooltip.add(ComponentUtils.corruptComponent(cmp1));
