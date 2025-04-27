@@ -48,7 +48,7 @@ public class MixinVaultChestBlock extends ChestBlock {
     @Overwrite
     public void playerDestroy(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
         VaultChestBlock thisInstance = ((VaultChestBlock) (Object) this);
-        if (!thisInstance.hasStepBreaking() || (te instanceof VaultChestTileEntity chest && !chest.isVaultChest())) {
+        if ((te instanceof VaultChestTileEntity chest && !chest.isVaultChest() && !thisInstance.hasStepBreaking(chest))) {
             super.playerDestroy(world, player, pos, state, te, stack);
         } else {
             player.awardStat(Stats.BLOCK_MINED.get(thisInstance));
@@ -93,11 +93,11 @@ public class MixinVaultChestBlock extends ChestBlock {
 
     @Redirect(method = "onDestroyedByPlayer",
             at = @At(value = "INVOKE",
-                    target = "Liskallia/vault/block/VaultChestBlock;hasStepBreaking()Z"),
+                    target = "Liskallia/vault/block/VaultChestBlock;hasStepBreaking(Liskallia/vault/block/entity/VaultChestTileEntity;)Z"),
             remap = false)
-    private boolean fixOnDestroyedByPlayer(VaultChestBlock instance, @Local BlockEntity te)
+    private boolean fixOnDestroyedByPlayer(VaultChestBlock instance, VaultChestTileEntity tileEntity, @Local BlockEntity te)
     {
         // Only Vault Chests (with loot data) should have step breaking
-        return instance.hasStepBreaking() && te instanceof VaultChestTileEntity chest && chest.isVaultChest();
+        return instance.hasStepBreaking(tileEntity) && te instanceof VaultChestTileEntity chest && chest.isVaultChest();
     }
 }

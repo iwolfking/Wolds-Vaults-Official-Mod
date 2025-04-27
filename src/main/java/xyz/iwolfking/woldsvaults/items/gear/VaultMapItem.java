@@ -12,6 +12,7 @@ import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.BasicItem;
 import iskallia.vault.item.tool.JewelItem;
+import iskallia.vault.world.data.DiscoveredModelsData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -53,7 +54,6 @@ public class VaultMapItem extends BasicItem implements VaultGearItem {
     }
 
     @NotNull
-    @Override
     @SuppressWarnings({"removal", "deprecation"})
     public ProficiencyType getCraftingProficiencyType(ItemStack itemStack) {
         return ProficiencyType.UNKNOWN;
@@ -65,14 +65,12 @@ public class VaultMapItem extends BasicItem implements VaultGearItem {
         return VaultGearType.IDOL;
     }
 
-    @Nullable
-    @Override
-    public ResourceLocation getRandomModel(ItemStack stack, Random random) {
+    @javax.annotation.Nullable
+    public ResourceLocation getRandomModel(ItemStack stack, Random random, @javax.annotation.Nullable Player player, @javax.annotation.Nullable DiscoveredModelsData discoveredModelsData) {
         VaultGearData gearData = VaultGearData.read(stack);
-        EquipmentSlot intendedSlot = EquipmentSlot.OFFHAND;
-        return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random);
+        EquipmentSlot intendedSlot = this.getGearType(stack).getEquipmentSlot();
+        return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random, player, discoveredModelsData);
     }
-
     @Override
     public void tickRoll(ItemStack stack, @Nullable Player player) {
         VaultGearData data = VaultGearData.read(stack);

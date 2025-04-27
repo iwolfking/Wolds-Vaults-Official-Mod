@@ -17,6 +17,7 @@ import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.item.BasicItem;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
+import iskallia.vault.world.data.DiscoveredModelsData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -45,13 +46,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import vazkii.quark.base.handler.QuarkSounds;
 import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
 import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangEntity;
 import xyz.iwolfking.woldsvaults.models.Rangs;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -125,7 +126,6 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
     }
 
     @NotNull
-    @Override
     @SuppressWarnings({"deprecation","removal"})
     public ProficiencyType getCraftingProficiencyType(ItemStack itemStack) {
         return ProficiencyType.SWORD;
@@ -137,12 +137,11 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
         return VaultGearType.SWORD;
     }
 
-    @Nullable
-    @Override
-    public ResourceLocation getRandomModel(ItemStack stack, Random random) {
+    @javax.annotation.Nullable
+    public ResourceLocation getRandomModel(ItemStack stack, Random random, @javax.annotation.Nullable Player player, @Nullable DiscoveredModelsData discoveredModelsData) {
         VaultGearData gearData = VaultGearData.read(stack);
         EquipmentSlot intendedSlot = this.getGearType(stack).getEquipmentSlot();
-        return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random);
+        return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random, player, discoveredModelsData);
     }
 
 

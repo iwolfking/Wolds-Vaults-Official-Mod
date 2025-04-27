@@ -8,6 +8,7 @@ import com.github.klikli_dev.occultism.registry.OccultismEffects;
 import iskallia.vault.block.CoinPileBlock;
 import iskallia.vault.block.VaultChestBlock;
 import iskallia.vault.block.VaultOreBlock;
+import iskallia.vault.block.entity.VaultChestTileEntity;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.PlayerStatEvent;
 import iskallia.vault.core.vault.time.TickClock;
@@ -444,8 +445,8 @@ public class LivingEntityEvents {
                 ItemStack offHand = event.getPlayer().getOffhandItem();
                 if (!ServerVaults.get(world).isEmpty() || !(offHand.getItem() instanceof VaultGearItem)) {
                     if (offHand.getItem() instanceof VaultLootSackItem) {
-                        if(event.getState().getBlock() instanceof VaultChestBlock chestBlock) {
-                            if(chestBlock.hasStepBreaking()) {
+                        if(event.getState().getBlock() instanceof VaultChestBlock chestBlock && world.getBlockEntity(event.getPos()) instanceof VaultChestTileEntity chest) {
+                            if(chestBlock.hasStepBreaking(chest)) {
                                 if(random.nextFloat() < 0.75F) {
                                     return;
                                 }

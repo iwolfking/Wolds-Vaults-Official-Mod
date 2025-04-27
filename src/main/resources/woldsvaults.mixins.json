@@ -159,7 +159,6 @@
     "vaulthunters.custom.enum_extension.MixinForgeRecipeTypeEnum",
     "vaulthunters.custom.enum_extension.MixinModifierAffixTagGroupEnum",
     "vaulthunters.custom.enum_extension.MixinPlayerStatEnum",
-    "vaulthunters.custom.enum_extension.MixinVaultChestTypeEnum",
     "vaulthunters.custom.enum_extension.MixinVaultGearClassificationEnum",
     "vaulthunters.custom.enum_extension.MixinVaultRarityEnum",
     "vaulthunters.custom.etching.MixinAssassinSet",

@@ -14,6 +14,7 @@ import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.item.BasicItem;
+import iskallia.vault.world.data.DiscoveredModelsData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -33,9 +34,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
@@ -51,7 +52,6 @@ public class VaultLootSackItem extends BasicItem implements VaultGearItem {
     }
 
     @NotNull
-    @Override
     @SuppressWarnings({"deprecation","removal"})
     public ProficiencyType getCraftingProficiencyType(ItemStack itemStack) {
         return ProficiencyType.FOCUS;
@@ -63,12 +63,11 @@ public class VaultLootSackItem extends BasicItem implements VaultGearItem {
         return VaultGearType.FOCUS;
     }
 
-    @Nullable
-    @Override
-    public ResourceLocation getRandomModel(ItemStack stack, Random random) {
+    @javax.annotation.Nullable
+    public ResourceLocation getRandomModel(ItemStack stack, Random random, @javax.annotation.Nullable Player player, @Nullable DiscoveredModelsData discoveredModelsData) {
         VaultGearData gearData = VaultGearData.read(stack);
         EquipmentSlot intendedSlot = this.getGearType(stack).getEquipmentSlot();
-        return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random);
+        return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random, player, discoveredModelsData);
     }
 
     @Override

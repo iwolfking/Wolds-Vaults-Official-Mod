@@ -267,7 +267,7 @@ dependencies {
     }
     implementation 'me.fallenbreath:conditional-mixin-forge:0.6.2'
     implementation fg.deobf('local:forgified-sgui:1.0.2')
-    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6391342")
+    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6470304")
     jarJar(group: 'me.fallenbreath', name: 'conditional-mixin-forge', version: '[0.6.2,)') {
         jarJar.pin(it, '0.6.2')
     }

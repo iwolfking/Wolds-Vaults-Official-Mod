@@ -15,7 +15,9 @@ import iskallia.vault.gear.item.VaultGearToolTier;
 import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.item.gear.VaultSwordItem;
 import iskallia.vault.util.MiscUtils;
+import iskallia.vault.world.data.DiscoveredModelsData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -56,15 +58,12 @@ public class VaultBattleStaffItem extends SwordItem implements VaultGearItem, Dy
     }
 
 
-    @Nullable
-    public ResourceLocation getRandomModel(ItemStack stack, Random random) {
-        VaultGearData gearData = VaultGearData.read(stack);
-        VaultGearRarity rarity = gearData.getRarity();
-        EquipmentSlot intendedSlot = getIntendedSlot(stack);
-        ResourceLocation possibleIds =
-            ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(this.defaultItem(), gearData, intendedSlot, random);
 
-        return (ResourceLocation) MiscUtils.getRandomEntry(possibleIds);
+    @Nullable
+    public ResourceLocation getRandomModel(ItemStack stack, Random random, @Nullable Player player, @Nullable DiscoveredModelsData discoveredModelsData) {
+        VaultGearData gearData = VaultGearData.read(stack);
+        EquipmentSlot intendedSlot = this.getGearType(stack).getEquipmentSlot();
+        return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random, player, discoveredModelsData);
     }
 
 
@@ -96,6 +95,8 @@ public class VaultBattleStaffItem extends SwordItem implements VaultGearItem, Dy
     public VaultGearType getGearType(ItemStack itemStack) {
         return VaultGearType.SWORD;
     }
+
+
 
 
     @Override
