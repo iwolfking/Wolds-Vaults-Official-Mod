@@ -23,7 +23,7 @@ public class FlexibleSmite extends SmiteAbility {
         }
 
         ActiveFlags.IS_AP_ATTACKING.runIfNotSet(() -> ability.getFlag().runIfNotSet(() -> {
-            double damage = (double)(AbilityPowerHelper.getAbilityPower(player) * ability.getAbilityPowerPercent());
+            double damage = (double)(AbilityPowerHelper.getAbilityPower(player));
             target.hurt(srcPlayerAttack, (float)damage);
             Log.info("Smite Damage: " + damage);
         }));

@@ -36,7 +36,7 @@ public class ChestOpenBombModifier extends VaultModifier<ChestOpenBombModifier.P
             if(event.getState().getBlock() instanceof VaultChestBlock chestBlock) {
                 BlockEntity chestEntity = world.getBlockEntity(event.getPos());
                 if(chestEntity instanceof VaultChestTileEntity chest) {
-                    if(chestBlock.hasStepBreaking() && !chest.isEmpty()) {
+                    if(chestBlock.hasStepBreaking(chest) && !chest.isEmpty()) {
                         return;
                     }
                 }

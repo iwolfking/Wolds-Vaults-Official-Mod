@@ -15,6 +15,7 @@ import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.MiscUtils;
+import iskallia.vault.world.data.DiscoveredModelsData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -45,9 +46,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.models.Bows;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -146,7 +147,6 @@ public class VaultBowItem extends BowItem implements VaultGearItem, DyeableLeath
     }
 
     @NotNull
-    @Override
     @SuppressWarnings({"deprecation","removal"})
     public ProficiencyType getCraftingProficiencyType(ItemStack itemStack) {
         return ProficiencyType.AXE;
@@ -178,15 +178,11 @@ public class VaultBowItem extends BowItem implements VaultGearItem, DyeableLeath
         tooltip.addAll(createTooltip(stack, GearTooltip.itemTooltip()));
     }
 
-    @Nullable
-    @Override
-    public ResourceLocation getRandomModel(ItemStack itemStack, Random random) {
-        VaultGearData gearData = VaultGearData.read(itemStack);
-             VaultGearRarity rarity = gearData.getRarity();
-             EquipmentSlot intendedSlot = getEquipmentSlot(itemStack);
-             ResourceLocation possibleIds = ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(this.defaultItem(), gearData, intendedSlot, random);
-
-             return (ResourceLocation) MiscUtils.getRandomEntry(possibleIds, random);
+    @javax.annotation.Nullable
+    public ResourceLocation getRandomModel(ItemStack stack, Random random, @javax.annotation.Nullable Player player, @Nullable DiscoveredModelsData discoveredModelsData) {
+        VaultGearData gearData = VaultGearData.read(stack);
+        EquipmentSlot intendedSlot = this.getGearType(stack).getEquipmentSlot();
+        return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random, player, discoveredModelsData);
     }
 
     @Override
