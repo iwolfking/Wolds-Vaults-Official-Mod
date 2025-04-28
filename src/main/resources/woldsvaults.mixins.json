@@ -132,6 +132,7 @@
     "vaulthunters.custom.MixinModBlocks",
     "vaulthunters.custom.MixinModGearAttributes",
     "vaulthunters.custom.MixinModModelDiscoveryGoals",
+    "vaulthunters.custom.MixinPlayerReputationData",
     "vaulthunters.custom.MixinPlayerVaultStats",
     "vaulthunters.custom.MixinPlayerVaultStatsData",
     "vaulthunters.custom.MixinRewardConfig",
