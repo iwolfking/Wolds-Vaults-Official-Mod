@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
+package xyz.iwolfking.woldsvaults.mixins.vaulthunters.compat.lightmanscurrency;
 
 import iskallia.vault.integration.IntegrationSB;
 import iskallia.vault.util.InventoryUtil;
