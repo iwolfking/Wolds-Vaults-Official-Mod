@@ -124,6 +124,7 @@
     "vaulthunters.custom.MixinGearRollHelper",
     "vaulthunters.custom.MixinGrantedEffectHelper",
     "vaulthunters.custom.MixinHeraldCrystalObjective",
+    "vaulthunters.custom.MixinInventoryUtil",
     "vaulthunters.custom.MixinItemVaultCrystal",
     "vaulthunters.custom.MixinJewelItem",
     "vaulthunters.custom.MixinLootInfoGroupDefinitionRegistry",
