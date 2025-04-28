@@ -11,6 +11,7 @@ import iskallia.vault.gear.modification.operation.LockModifierModification;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.MiscUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -149,6 +150,27 @@ public class WoldGearModifierHelper {
         } else {
             for(VaultGearModifier<?> mod : affixes) {
                 mod.addCategory(VaultGearModifier.AffixCategory.FROZEN);
+            }
+            data.write(stack);
+            return GearModification.Result.makeSuccess();
+        }
+    }
+
+    public static GearModification.Result freezeGoodModifier(ItemStack stack) {
+        VaultGearData data = VaultGearData.read(stack);
+        List<VaultGearModifier<?>> affixes = new ArrayList<>();
+        affixes.addAll(data.getModifiers(VaultGearModifier.AffixType.PREFIX));
+        affixes.addAll(data.getModifiers(VaultGearModifier.AffixType.SUFFIX));
+        if (affixes.stream().anyMatch((modifier) -> modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN))) {
+            return GearModification.Result.makeActionError("frozen", new Component[0]);
+        }
+        affixes.removeIf(modifier -> modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN) || (!modifier.hasCategory(VaultGearModifier.AffixCategory.CORRUPTED) || !modifier.hasCategory(VaultGearModifier.AffixCategory.LEGENDARY) || !modifier.hasCategory(VaultGearModifier.AffixCategory.GREATER) || !modifier.hasCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"))));
+        if (affixes.isEmpty()) {
+            return GearModification.Result.makeActionError("no_modifiers");
+        } else {
+            for(VaultGearModifier<?> mod : affixes) {
+                mod.addCategory(VaultGearModifier.AffixCategory.FROZEN);
+                break;
             }
             data.write(stack);
             return GearModification.Result.makeSuccess();

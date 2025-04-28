@@ -6,6 +6,7 @@ import iskallia.vault.core.vault.modifier.VaultModifierStack;
 import iskallia.vault.core.vault.modifier.modifier.GroupedModifier;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
+import iskallia.vault.gear.VaultGearModifierHelper;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -83,6 +84,7 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
 
             int numberOfPrefixes = mapData.getModifiers(VaultGearModifier.AffixType.PREFIX).size();
             int numberOfSuffixes = mapData.getModifiers(VaultGearModifier.AffixType.SUFFIX).size();
+
             boolean unfinishedMap = false;
 
             if(prefixSlots.get() != numberOfPrefixes || suffixSlots.get() != numberOfSuffixes) {
@@ -164,7 +166,7 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
             if(vaultMod instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
                 float value = (float) mod.getValue();
                 if(shouldReduceValues) {
-                    value *= 0.75F;
+                    value *= 0.25F;
                 }
                 settableValueVaultModifier.properties().setValue(value);
 
