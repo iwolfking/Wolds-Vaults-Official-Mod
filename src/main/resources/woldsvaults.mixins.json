@@ -128,6 +128,8 @@
     "vaulthunters.custom.MixinFrenzyModifier",
     "vaulthunters.custom.MixinGearAttributeEvents",
     "vaulthunters.custom.MixinGearRollHelper",
+    "vaulthunters.custom.MixinGodCharmItem",
+    "vaulthunters.custom.MixinGodCharmRollHelper",
     "vaulthunters.custom.MixinGrantedEffectHelper",
     "vaulthunters.custom.MixinHeraldCrystalObjective",
     "vaulthunters.custom.MixinInscriptionData",
