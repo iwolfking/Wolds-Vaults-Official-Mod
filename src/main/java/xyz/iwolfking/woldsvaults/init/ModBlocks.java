@@ -67,6 +67,7 @@ public class ModBlocks {
 
     //Shop Pedestals
     public static final ShopPedestalBlock ETCHING_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock GOD_VENDOR_PEDESTAL = new ShopPedestalBlock();
 
     public static final BackpackBlock XL_BACKPACK;
 
