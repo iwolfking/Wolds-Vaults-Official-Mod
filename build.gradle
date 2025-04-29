@@ -241,7 +241,7 @@ dependencies {
     implementation fg.deobf("curse.maven:tropicraft-254794:4616839")
     implementation fg.deobf("curse.maven:better-tridents-666941:4707885")
     implementation fg.deobf("curse.maven:puzzles-lib-495476:5114509")
-    implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6036598")
+    implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6471174")
     compileOnly fg.deobf("curse.maven:hexal-824725:5099219")
     implementation fg.deobf("curse.maven:occultism-361026:4729072")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
@@ -294,7 +294,6 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4418152")
     runtimeOnly fg.deobf("curse.maven:modonomicon-538392:4641770")
     runtimeOnly fg.deobf("curse.maven:iceberg-520110:4035917")
-    runtimeOnly fg.deobf("curse.maven:storage-drawers-223852:3807626") // qolhunters mixin
     runtimeOnly fg.deobf("curse.maven:kotlin-for-forge-351264:4513187") // vaultfaster
     runtimeOnly fg.deobf("curse.maven:jei-238222:4351311")
     runtimeOnly fg.deobf("curse.maven:auxblocks-711533:4358959")

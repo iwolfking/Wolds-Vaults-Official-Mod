@@ -18,6 +18,10 @@ public abstract class MixinAssassinSet  extends EtchingSet<AssassinSet.Config> i
         super(name);
     }
 
+    /**
+     * @author iwolfking
+     * @reason Use the lucky hit chance instead of the fatal strike chance for the assassin etching
+     */
     @Overwrite
     public List<VaultGearAttributeInstance<?>> getAttributes() {
         return Lists.newArrayList(new VaultGearAttributeInstance[]{new VaultGearAttributeInstance(ModGearAttributes.LUCKY_HIT_CHANCE_PERCENTILE, ((AssassinSet.Config)this.getConfig()).getIncreasedFatalStrikeChance())});
