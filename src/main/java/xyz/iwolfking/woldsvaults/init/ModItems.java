@@ -170,6 +170,8 @@ public class ModItems {
     public static BasicItem CHUNK_OF_POWER;
     public static BasicItem SOUL_ICHOR;
 
+    public static GodReputationItem GOD_OFFERING;
+
     public static TrinketPouchItem TRINKET_POUCH;
 
 
@@ -283,6 +285,7 @@ public class ModItems {
         registry.register(TARGETED_MOD_BOX);
         registry.register(UNIDENTIFIED_GATEWAY_PEARL);
         registry.register(TRINKET_POUCH);
+        registry.register(GOD_OFFERING);
     }
 
     static {
@@ -391,6 +394,7 @@ public class ModItems {
         SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"));
         TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
+        GOD_OFFERING = new GodReputationItem(WoldsVaults.id("god_offering"));
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }
