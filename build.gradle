@@ -297,6 +297,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:kotlin-for-forge-351264:4513187") // vaultfaster
     runtimeOnly fg.deobf("curse.maven:jei-238222:4351311")
     runtimeOnly fg.deobf("curse.maven:auxblocks-711533:4358959")
+    runtimeOnly fg.deobf("curse.maven:modded-item-borders-1170138:6044948")
 
     // perf in dev
     runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")

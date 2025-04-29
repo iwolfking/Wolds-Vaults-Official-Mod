@@ -11,19 +11,12 @@ public class WoldsVaultsConfig
 {
     public static class Client {
         public final ForgeConfigSpec.ConfigValue<Boolean> hideEmojisOnCrystalModifiers;
-        public final ForgeConfigSpec.ConfigValue<Boolean> displayItemBordersInTerminals;
 
         public Client(ForgeConfigSpec.Builder builder)
         {
             builder.push("Display Settings");
             builder.push("Emojiful");
             this.hideEmojisOnCrystalModifiers = builder.comment("Whether Emojis should be hidden next to Vault Crystal Modifiers. (default: false)").define("hideEmojisOnVaultModifiers", false);
-            builder.pop();
-            builder.pop();
-            builder.push("Compatability Settings");
-            builder.push("Item Borders");
-            this.displayItemBordersInTerminals= builder.comment("Whether Item Borders from the Item Borders mod should show in terminals like Refined Storage, AE2, etc., this will also cause them to show on the hot-bar. (default: true)")
-                    .define("displayItemBordersInTerminals", true);
             builder.pop();
             builder.pop();
         }
