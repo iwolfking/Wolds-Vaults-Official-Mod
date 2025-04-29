@@ -28,6 +28,18 @@ public abstract class MixinClassicLootLogic extends LootLogic {
         if(data.getState().getBlock().equals(ModBlocks.ETCHING_PEDESTAL)) {
             offer = xyz.iwolfking.woldsvaults.init.ModConfigs.ETCHING_SHOP_PEDESTAL.getForLevel(level, data.getRandom());
         }
+        else if(data.getState().getBlock().equals(ModBlocks.GOD_VENDOR_PEDESTAL)) {
+            offer = xyz.iwolfking.woldsvaults.init.ModConfigs.GOD_SHOP_PEDESTAL.getForLevel(level, data.getRandom());
+        }
+        else if(data.getState().getBlock().equals(ModBlocks.BLACKSMITH_VENDOR_PEDESTAL)) {
+            offer = xyz.iwolfking.woldsvaults.init.ModConfigs.BLACKSMITH_SHOP_PEDESTAL.getForLevel(level, data.getRandom());
+        }
+        else if(data.getState().getBlock().equals(ModBlocks.RARE_VENDOR_PEDESTAL)) {
+            offer = xyz.iwolfking.woldsvaults.init.ModConfigs.RARE_SHOP_PEDESTAL.getForLevel(level, data.getRandom());
+        }
+        else if(data.getState().getBlock().equals(ModBlocks.OMEGA_VENDOR_PEDESTAL)) {
+            offer = xyz.iwolfking.woldsvaults.init.ModConfigs.OMEGA_SHOP_PEDESTAL.getForLevel(level, data.getRandom());
+        }
         else {
             offer = ModConfigs.SHOP_PEDESTAL.getForLevel(level, data.getRandom());
         }

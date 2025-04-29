@@ -68,6 +68,9 @@ public class ModBlocks {
     //Shop Pedestals
     public static final ShopPedestalBlock ETCHING_PEDESTAL = new ShopPedestalBlock();
     public static final ShopPedestalBlock GOD_VENDOR_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock BLACKSMITH_VENDOR_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock RARE_VENDOR_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock OMEGA_VENDOR_PEDESTAL = new ShopPedestalBlock();
 
     public static final BackpackBlock XL_BACKPACK;
 
@@ -127,6 +130,10 @@ public class ModBlocks {
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
         registerBlock(event, ETCHING_PEDESTAL, WoldsVaults.id("etching_shop_pedestal"));
+        registerBlock(event, BLACKSMITH_VENDOR_PEDESTAL, WoldsVaults.id("blacksmith_shop_pedestal"));
+        registerBlock(event, RARE_VENDOR_PEDESTAL, WoldsVaults.id("rare_shop_pedestal"));
+        registerBlock(event, OMEGA_VENDOR_PEDESTAL, WoldsVaults.id("omega_shop_pedestal"));
+        registerBlock(event, GOD_VENDOR_PEDESTAL, WoldsVaults.id("god_shop_pedestal"));
 
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
@@ -160,6 +167,10 @@ public class ModBlocks {
         registerBlockItem(event, VAULT_INFUSER_BLOCK);
         registerBlockItem(event, GATEWAY_CHANNELING_BLOCK);
         registerBlockItem(event, ETCHING_PEDESTAL);
+        registerBlockItem(event, GOD_VENDOR_PEDESTAL);
+        registerBlockItem(event, BLACKSMITH_VENDOR_PEDESTAL);
+        registerBlockItem(event, RARE_VENDOR_PEDESTAL);
+        registerBlockItem(event, OMEGA_VENDOR_PEDESTAL);
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
     }
