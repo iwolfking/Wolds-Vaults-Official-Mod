@@ -6,6 +6,7 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.ObeliskObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.world.storage.VirtualWorld;
+import iskallia.vault.item.gear.CharmItem;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = ObeliskObjective.class, remap = false)
 public abstract class MixinObeliskObjective extends Objective {
     @Shadow @Final public static FieldKey<ObeliskObjective.Wave[]> WAVES;
-
 //    @Unique
 //    private boolean woldsVaults$hasScaledObjective = false;
 //
