@@ -49,7 +49,6 @@ import java.util.function.IntSupplier;
 
 public class BrutalBossesObjective extends ObeliskObjective {
 
-    private final Random random = new Random();
     public static final SupplierKey<Objective> E_KEY = (SupplierKey)SupplierKey.of("brutal_bosses", Objective.class).with(Version.v1_12, BrutalBossesObjective::new);
 
     public BrutalBossesObjective(int target, IntSupplier wave, float objectiveProbability) {
