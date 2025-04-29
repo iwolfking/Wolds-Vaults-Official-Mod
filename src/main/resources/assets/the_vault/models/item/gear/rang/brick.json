@@ -1,0 +1,24 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "brick",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "the_vault:item/gear/rang/brick",
+		"particle": "the_vault:item/gear/rang/brick"
+	},
+	"elements": [
+		{
+			"name": "Brick",
+			"from": [-1, 0, -4],
+			"to": [3, 2, 6],
+			"faces": {
+				"north": {"uv": [4, 2, 6, 3], "texture": "#0"},
+				"east": {"uv": [4, 0, 9, 1], "texture": "#0"},
+				"south": {"uv": [4, 3, 6, 4], "texture": "#0"},
+				"west": {"uv": [4, 1, 9, 2], "texture": "#0"},
+				"up": {"uv": [2, 5, 0, 0], "texture": "#0"},
+				"down": {"uv": [4, 0, 2, 5], "texture": "#0"}
+			}
+		}
+	]
+}
