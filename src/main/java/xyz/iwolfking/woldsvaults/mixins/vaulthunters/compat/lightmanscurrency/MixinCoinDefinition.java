@@ -1,6 +1,8 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.compat.lightmanscurrency;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.util.CoinDefinition;
+import iskallia.vault.util.InventoryUtil;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -18,15 +20,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Mixin(value = CoinDefinition.class, remap = false)
-public class MixinCoinDefinition {
+public abstract class MixinCoinDefinition {
     @Shadow public static Map<Item, CoinDefinition> COIN_DEFINITIONS;
 
     @Shadow @Final public int coinValue;
     @Shadow @Final public Item coinItem;
+
+    @Shadow
+    public static Optional<CoinDefinition> getCoinDefinition(Item coin) {
+        return null;
+    }
 
     //Add new coin definitions
     @Inject(method = "getCoinDefinition", at = @At(value = "INVOKE", target = "Ljava/util/Map;put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", ordinal = 3))
@@ -58,5 +66,31 @@ public class MixinCoinDefinition {
                 }
             }
         }
+    }
+
+    /**
+     * @author iwolfking
+     * @reason Port old way of determining if you have enough currency.
+     */
+    @Overwrite
+    public static boolean hasEnoughCurrency(List<InventoryUtil.ItemAccess> allItems, ItemStack currency) {
+        return getCoinDefinition(currency.getItem())
+                .map(
+                        priceCoinDefinition -> {
+                            int priceValue = priceCoinDefinition.coinValue * currency.getCount();
+
+                            for (InventoryUtil.ItemAccess itemAccess : allItems) {
+                                priceValue -= getCoinDefinition(itemAccess.getStack().getItem())
+                                        .map(coinDefinition -> coinDefinition.coinValue * itemAccess.getStack().getCount())
+                                        .orElse(0);
+                                if (priceValue <= 0) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        }
+                )
+                .orElse(false);
     }
 }

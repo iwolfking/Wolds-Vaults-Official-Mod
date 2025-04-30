@@ -179,6 +179,7 @@
     "vaulthunters.fixes.MixinAscensionObjective",
     "vaulthunters.fixes.MixinAttributeGearData",
     "vaulthunters.fixes.MixinClientEvents",
+    "vaulthunters.fixes.MixinCoinPouchItem",
     "vaulthunters.fixes.MixinDynamicModelRegistry",
     "vaulthunters.fixes.MixinEliteZombie",
     "vaulthunters.fixes.MixinEntityGroupsConfig",
