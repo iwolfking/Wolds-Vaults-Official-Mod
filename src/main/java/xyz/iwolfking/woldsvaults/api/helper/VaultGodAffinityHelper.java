@@ -16,6 +16,7 @@ import iskallia.vault.util.calc.PlayerStat;
 import iskallia.vault.world.data.PlayerExpertisesData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import xyz.iwolfking.woldsvaults.expertises.BlessedExpertise;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class VaultGodAffinityHelper {
             ExpertiseTree expertises = PlayerExpertisesData.get(serverPlayer.getLevel()).getExpertises(serverPlayer);
             float affinityIncrease = 0.0F;
 
-            for (DivineExpertise expertise : expertises.getAll(DivineExpertise.class, Skill::isUnlocked)) {
+            for (BlessedExpertise expertise : expertises.getAll(BlessedExpertise.class, Skill::isUnlocked)) {
                 affinityIncrease += expertise.getAffinityIncrease();
             }
 
