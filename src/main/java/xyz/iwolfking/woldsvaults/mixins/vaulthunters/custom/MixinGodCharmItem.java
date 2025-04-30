@@ -22,7 +22,7 @@ import java.util.List;
 public abstract class MixinGodCharmItem {
     @Shadow public abstract void addTooltipAffixGroupWithBaseValue(VaultGearData data, VaultGearModifier.AffixType type, ItemStack stack, List<Component> tooltip, boolean displayDetails, boolean showBaseValue);
 
-    @Inject(method = "appendHoverText", remap = true, at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/VaultGearData;getModifiers(Liskallia/vault/gear/attribute/VaultGearModifier$AffixType;)Ljava/util/List;", ordinal = 0))
+    @Inject(method = "appendHoverText", remap = true, at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/VaultGearData;getModifiers(Liskallia/vault/gear/attribute/VaultGearModifier$AffixType;)Ljava/util/List;", ordinal = 0, remap = false))
     private void addImplicits(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn, CallbackInfo ci, @Local VaultGearData data) {
         List<VaultGearModifier<?>> implicits = data.getModifiers(VaultGearModifier.AffixType.IMPLICIT);
         for(VaultGearModifier<?> mod : implicits) {

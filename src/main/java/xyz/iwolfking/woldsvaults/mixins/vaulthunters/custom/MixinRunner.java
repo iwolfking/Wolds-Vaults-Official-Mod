@@ -32,7 +32,7 @@ import java.util.function.Consumer;
 
 @Mixin(value = Runner.class, remap = false)
 public abstract class MixinRunner extends Listener {
-    @Inject(method = "lambda$initServer$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isCreative()Z", shift = At.Shift.AFTER), cancellable = true, remap = true)
+    @Inject(method = "lambda$initServer$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isCreative()Z", shift = At.Shift.AFTER, remap = true), cancellable = true)
     private void preventCancelingInteraction(VirtualWorld world, PlayerInteractEvent event, CallbackInfo ci) {
         if(ServerVaults.get(world).isPresent()) {
             Vault vault = ServerVaults.get(world).get();
