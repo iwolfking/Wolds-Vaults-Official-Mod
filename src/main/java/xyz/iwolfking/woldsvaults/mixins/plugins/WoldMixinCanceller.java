@@ -22,18 +22,6 @@ public class WoldMixinCanceller implements MixinCanceller {
             else if(s.equals("io.iridium.qolhunters.mixin.paradox.MixinGateLockRenderer")) {
                 return true;
             }
-            else if(s.equals("io.iridium.qolhunters.mixin.transmogtable.MixinDiscoveredModelSelectorModel")) {
-                return true;
-            }
-            else if(s.equals("io.iridium.qolhunters.mixin.transmogtable.MixinDiscoveredModelSelectElement")) {
-                return true;
-            }
-            else if(s.equals("io.iridium.qolhunters.mixin.ascenscionforge.MixinAscensionForgeSelectElement")) {
-                return true;
-            }
-            else if(s.equals("io.iridium.qolhunters.mixin.ascenscionforge.MixinDiscoveredModelSelectorModel")) {
-                return true;
-            }
         }
 
         if(LoadingModList.get().getModFileById("unobtainium") != null) {
