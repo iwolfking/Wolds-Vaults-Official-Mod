@@ -26,7 +26,6 @@ abstract class MixinLivingEntity extends Entity {
         super(pEntityType, pLevel);
     }
 
-    @Shadow public abstract boolean hasEffect(MobEffect pEffect);
     @Shadow @Nullable public abstract MobEffectInstance getEffect(MobEffect pEffect);
     @Shadow public abstract boolean shouldDiscardFriction();
 
@@ -53,4 +52,6 @@ abstract class MixinLivingEntity extends Entity {
             ci.cancel();
         }
     }
+
+    @Shadow public abstract boolean hasEffect(MobEffect pEffect);
 }

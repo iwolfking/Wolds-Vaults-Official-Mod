@@ -165,10 +165,13 @@ public class ModItems {
     public static BasicItem GREEDY_VAULT_ROCK;
     public static BasicItem POGOMINIUM_INGOT;
     public static BasicItem INFUSED_DRIFTWOOD;
+    public static BasicItem PRISMATIC_FIBER;
     public static BasicItem SPARK_OF_INSPIRATION;
     public static BasicItem VAULT_DIAMOND_NUGGET;
     public static BasicItem CHUNK_OF_POWER;
     public static BasicItem SOUL_ICHOR;
+
+    public static RecipeBlueprintItem RECIPE_BLUEPRINT;
 
     public static GodReputationItem GOD_OFFERING;
 
@@ -286,6 +289,8 @@ public class ModItems {
         registry.register(UNIDENTIFIED_GATEWAY_PEARL);
         registry.register(TRINKET_POUCH);
         registry.register(GOD_OFFERING);
+        registry.register(PRISMATIC_FIBER);
+        registry.register(RECIPE_BLUEPRINT);
     }
 
     static {
@@ -381,7 +386,8 @@ public class ModItems {
         VAULT_DIAMOND_NUGGET = new BasicItem(WoldsVaults.id("vault_diamond_nugget"));
         CHUNK_OF_POWER = new BasicItem(WoldsVaults.id("chunk_of_power"));
         SOUL_ICHOR = new BasicItem(WoldsVaults.id("soul_ichor"));
-
+        PRISMATIC_FIBER = new BasicItem(WoldsVaults.id("prismatic_fiber"));
+        RECIPE_BLUEPRINT = new RecipeBlueprintItem(WoldsVaults.id("recipe_blueprint"), new Item.Properties().tab(VAULT_MOD_GROUP));
         RESEARCH_TOKEN = new ResearchTokenItem(WoldsVaults.id("research_token"), new Item.Properties().stacksTo(1));
         POLTERGEIST_PLUM = new PoltergeistPlum(WoldsVaults.id("poltergeist_plum"));
         XL_BACKPACK = new BackpackItem(() -> 180, () -> 8, () -> ModBlocks.XL_BACKPACK, Item.Properties::fireResistant);

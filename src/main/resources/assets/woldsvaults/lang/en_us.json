@@ -241,6 +241,9 @@
   "item.woldsvaults.targeted_mod_box": "Targeted Mod Box",
   "block.woldsvaults.mod_box_workstation": "Mod Box Workstation",
   "item.woldsvaults.unidentified_gateway_pearl": "Unidentified Gateway Pearl",
+  "item.woldsvaults.prismatic_fiber": "Prismatic Fiber",
+  "block.woldsvaults.prismatic_fiber_block": "Block of Prismatic Fiber",
+  "item.woldsvaults.recipe_blueprint": "Recipe Blueprint",
   "item.woldsvaults.trinket_pouch": "Trinket Pouch",
   "vhatcaniroll.screen.title.etching": "Etchings"
 }

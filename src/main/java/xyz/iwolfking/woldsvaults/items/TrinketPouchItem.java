@@ -2,18 +2,13 @@ package xyz.iwolfking.woldsvaults.items;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
-import iskallia.vault.client.gui.screen.player.legacy.tab.split.dialog.TalentDialog;
-import iskallia.vault.client.gui.screen.player.legacy.widget.TalentWidget;
 import iskallia.vault.item.BasicItem;
-import iskallia.vault.item.CardDeckItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -27,18 +22,19 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.SlotResult;
-import top.theillusivec4.curios.api.type.ISlotType;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import xyz.iwolfking.woldsvaults.config.TrinketPouchConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import static iskallia.vault.init.ModItems.VAULT_MOD_GROUP;
 
 public class TrinketPouchItem extends BasicItem implements ICurioItem {
     public TrinketPouchItem(ResourceLocation id) {
-        super(id, new Properties().stacksTo(1));
+        super(id, new Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
     }
 
 
