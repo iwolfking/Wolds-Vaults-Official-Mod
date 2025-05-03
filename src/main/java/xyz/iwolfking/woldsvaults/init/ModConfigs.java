@@ -8,6 +8,7 @@ import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxForgeRecipe;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
+import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
 
 public class ModConfigs {
     public static GenericLootableConfig GEM_BOX;
@@ -28,6 +29,7 @@ public class ModConfigs {
 
     public static AugmentRecipesConfig AUGMENT_RECIPES;
     public static ModBoxRecipesConfig MOD_BOX_RECIPES_CONFIG;
+    public static WeavingRecipesConfig WEAVING_RECIPES_CONFIG;
 
     public static ThemeTooltipsConfig THEME_TOOLTIPS;
 
@@ -81,5 +83,6 @@ public class ModConfigs {
         OMEGA_SHOP_PEDESTAL = new GenericShopPedestalConfig("omega_shop_pedestal").readConfig();
         TRINKET_POUCH = new TrinketPouchConfig().readConfig();
         RECIPE_UNLOCKS = new RecipeUnlocksConfig().readConfig();
+        WEAVING_RECIPES_CONFIG = new WeavingRecipesConfig().readConfig();
     }
 }

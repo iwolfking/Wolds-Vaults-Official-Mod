@@ -126,6 +126,14 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
         return map;
     }
 
+    public static ItemStack create(ResourceLocation id) {
+        CompoundTag tag = new CompoundTag();
+        tag.putString("id", id.toString());
+        ItemStack stack = new ItemStack(ModItems.TRINKET_POUCH);
+        stack.setTag(tag);
+        return stack;
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
