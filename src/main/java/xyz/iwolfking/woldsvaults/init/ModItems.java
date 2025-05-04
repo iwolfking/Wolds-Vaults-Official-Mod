@@ -170,6 +170,7 @@ public class ModItems {
     public static BasicItem VAULT_DIAMOND_NUGGET;
     public static BasicItem CHUNK_OF_POWER;
     public static BasicItem SOUL_ICHOR;
+    public static BasicItem CHROMA_CORE;
 
     public static RecipeBlueprintItem RECIPE_BLUEPRINT;
 
@@ -291,6 +292,7 @@ public class ModItems {
         registry.register(GOD_OFFERING);
         registry.register(PRISMATIC_FIBER);
         registry.register(RECIPE_BLUEPRINT);
+        registry.register(CHROMA_CORE);
     }
 
     static {
@@ -378,7 +380,6 @@ public class ModItems {
         WENDARR_GEM = new BasicItem(WoldsVaults.id("wendarr_gem"));
         ECCENTRIC_FOCUS = new BasicItem(WoldsVaults.id("eccentric_focus"));
         COMMUNITY_TOKEN = new BasicItem(WoldsVaults.id("community_token"));
-
         GREEDY_VAULT_ROCK = new BasicItem(WoldsVaults.id("greedy_vault_rock"));
         POGOMINIUM_INGOT = new BasicItem(WoldsVaults.id("pogominium_ingot"));
         INFUSED_DRIFTWOOD = new BasicItem(WoldsVaults.id("infused_driftwood"));
@@ -398,6 +399,7 @@ public class ModItems {
         WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"));
         BLAZING_FOCUS = new BasicItem(WoldsVaults.id("blazing_focus"));
         SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"));
+        CHROMA_CORE = new BasicItem(WoldsVaults.id("chroma_core"));
         TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
         GOD_OFFERING = new GodReputationItem(WoldsVaults.id("god_offering"));
