@@ -15,6 +15,9 @@ import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.ISlotType;
 import xyz.iwolfking.woldsvaults.config.TrinketPouchConfig;
+import xyz.iwolfking.woldsvaults.data.discovery.ClientRecipeDiscoveryData;
+import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.items.TargetedModBox;
 import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 
@@ -40,7 +43,7 @@ public class WeavingForgeRecipe extends VaultForgeRecipe {
         if(result.getItem() instanceof TrinketPouchItem) {
             TrinketPouchConfig.TrinketPouchConfigEntry entry = TrinketPouchItem.getPouchConfigFor(result);
             for(String key : entry.SLOT_ENTRIES.keySet()) {
-                out.add(new TextComponent("+" + entry.SLOT_ENTRIES.get(key) + " " + getTranslatedTrinketName(key) + " slots").withStyle(ChatFormatting.BLUE));
+                out.add(new TextComponent("+" + entry.SLOT_ENTRIES.get(key) + " " + getTranslatedTrinketName(key) + " Slots").withStyle(ChatFormatting.BLUE));
             }
         }
     }
@@ -61,6 +64,10 @@ public class WeavingForgeRecipe extends VaultForgeRecipe {
 
     @Override
     public boolean canCraft(Player player) {
+        if(ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.containsKey(this.getId())) {
+            return player.isCreative() || ClientRecipeDiscoveryData.getDiscoveredRecipes().contains(this.getId());
+        }
+
         return true;
     }
 }
