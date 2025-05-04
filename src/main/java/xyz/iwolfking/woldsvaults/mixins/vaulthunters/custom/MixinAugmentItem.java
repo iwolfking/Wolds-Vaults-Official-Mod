@@ -32,20 +32,4 @@ public abstract class MixinAugmentItem extends Item implements VaultLevelItem, D
     public static Optional<ThemeKey> getTheme(ItemStack stack) {
         return null;
     }
-
-    /**
-     * @author iwolfking
-     * @reason Add Theme tooltips
-     */
-    @Inject(method = "appendHoverText", at = @At("TAIL"), remap = true)
-    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag advanced, CallbackInfo ci) {
-        Optional<ThemeKey> theme = getTheme(stack);
-        if(theme == null)
-            return;
-        theme.ifPresent(key -> {
-            if(ModConfigs.THEME_TOOLTIPS.tooltips.containsKey(key.getId()) && Screen.hasShiftDown()) {
-                tooltip.add(new TextComponent(ModConfigs.THEME_TOOLTIPS.tooltips.get(key.getId())));
-            }
-        });
-    }
 }

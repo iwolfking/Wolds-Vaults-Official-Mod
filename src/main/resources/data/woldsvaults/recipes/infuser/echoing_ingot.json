@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "infuseDuration": 160,
+  "inputCount": 16,
+  "ingredient": {
+    "item": "the_vault:gem_echo"
+  },
+  "catalyst": {
+    "item": "woldsvaults:pogominium_ingot"
+  },
+  "result": {
+    "item": "the_vault:echoing_ingot"
+  }
+}

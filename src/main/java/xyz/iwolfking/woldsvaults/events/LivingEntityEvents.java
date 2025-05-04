@@ -32,6 +32,7 @@ import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.gear.trinket.effects.MultiJumpTrinket;
+import iskallia.vault.item.gear.TrinketItem;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.calc.EffectDurationHelper;
@@ -158,6 +159,9 @@ public class LivingEntityEvents {
                             tag.putInt("Index", i);
                             trinket.save(tag);
                             storedList.add(tag);
+                            if(trinket.getItem() instanceof TrinketItem) {
+                                TrinketItem.getTrinket(trinket).ifPresent((trinketEffect) -> trinketEffect.onUnEquip(entity, trinket));
+                            }
                             slots.setStackInSlot(i, ItemStack.EMPTY);
                         }
                     }

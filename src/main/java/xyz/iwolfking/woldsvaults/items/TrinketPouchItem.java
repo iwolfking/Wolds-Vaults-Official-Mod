@@ -2,43 +2,43 @@ package xyz.iwolfking.woldsvaults.items;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
-import iskallia.vault.client.gui.screen.player.legacy.tab.split.dialog.TalentDialog;
-import iskallia.vault.client.gui.screen.player.legacy.widget.TalentWidget;
 import iskallia.vault.item.BasicItem;
-import iskallia.vault.item.CardDeckItem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.SlotResult;
-import top.theillusivec4.curios.api.type.ISlotType;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.TrinketPouchConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import static iskallia.vault.init.ModItems.VAULT_MOD_GROUP;
 
 public class TrinketPouchItem extends BasicItem implements ICurioItem {
     public TrinketPouchItem(ResourceLocation id) {
-        super(id, new Properties().stacksTo(1));
+        super(id, new Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
     }
 
 
@@ -130,6 +130,14 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
         return map;
     }
 
+    public static ItemStack create(ResourceLocation id) {
+        CompoundTag tag = new CompoundTag();
+        tag.putString("id", id.toString());
+        ItemStack stack = new ItemStack(ModItems.TRINKET_POUCH);
+        stack.setTag(tag);
+        return stack;
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
@@ -157,6 +165,19 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
     public Component getName(ItemStack stack) {
         TrinketPouchConfig.TrinketPouchConfigEntry pouchConfigEntry = getPouchConfigFor(stack);
         return new TextComponent(pouchConfigEntry.NAME).withStyle(Style.EMPTY.withColor(pouchConfigEntry.COLOR));
+    }
+
+    @Override
+    public void fillItemCategory(CreativeModeTab category, @NotNull NonNullList<ItemStack> items) {
+        if (category.equals(iskallia.vault.init.ModItems.VAULT_MOD_GROUP)) {
+            items.add(create(WoldsVaults.id("basic_vanilla")));
+            items.add(create(WoldsVaults.id("basic_alt_r")));
+            items.add(create(WoldsVaults.id("basic_alt_g")));
+            items.add(create(WoldsVaults.id("explorer")));
+            items.add(create(WoldsVaults.id("light")));
+            items.add(create(WoldsVaults.id("heavy")));
+            items.add(create(WoldsVaults.id("standard")));
+        }
     }
 
     public static TrinketPouchConfig.TrinketPouchConfigEntry getPouchConfigFor(ItemStack pouchStack) {

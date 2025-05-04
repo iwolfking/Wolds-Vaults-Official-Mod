@@ -4,26 +4,38 @@ import io.github.lightman314.lightmanscurrency.common.money.CoinValue;
 import io.github.lightman314.lightmanscurrency.common.money.MoneyUtil;
 import iskallia.vault.block.ShopPedestalBlock;
 import iskallia.vault.block.entity.ShopPedestalBlockTile;
+import iskallia.vault.config.ShopPedestalConfig;
 import iskallia.vault.container.oversized.OverSizedItemStack;
+import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.random.JavaRandom;
+import iskallia.vault.core.random.RandomSource;
+import iskallia.vault.core.vault.ClassicLootLogic;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultLevel;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.objective.Objectives;
 import iskallia.vault.core.vault.objective.ParadoxObjective;
 import iskallia.vault.event.event.ShopPedestalPriceEvent;
-import iskallia.vault.init.ModBlocks;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.CoinBlockItem;
+import iskallia.vault.skill.base.Skill;
+import iskallia.vault.skill.tree.ExpertiseTree;
 import iskallia.vault.util.CoinDefinition;
 import iskallia.vault.util.InventoryUtil;
+import iskallia.vault.util.LootInitialization;
+import iskallia.vault.world.data.PlayerExpertisesData;
 import iskallia.vault.world.data.ServerVaults;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -32,7 +44,9 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.GameMasterBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -42,6 +56,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.api.helper.ShopPedestalHelper;
+import xyz.iwolfking.woldsvaults.expertises.BlessedExpertise;
+import xyz.iwolfking.woldsvaults.expertises.ShopRerollExpertise;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
+import xyz.iwolfking.woldsvaults.init.ModEffects;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +75,8 @@ import java.util.Optional;
 )
 @Mixin(value = ShopPedestalBlock.class, remap = false)
 public abstract class MixinShopPedestalBlock extends Block implements EntityBlock, GameMasterBlock {
-
+    @Unique
+    private static final BooleanProperty REROLLED = BooleanProperty.create("rerolled");
 
     @Shadow @Final public static BooleanProperty ACTIVE;
 
@@ -61,6 +84,10 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
         super(pProperties);
     }
 
+    @Inject(method = "<init>", at = @At("TAIL"), remap = true)
+    private void overrideDefaultBlockstate(CallbackInfo ci) {
+        this.registerDefaultState((BlockState)this.defaultBlockState().setValue(ACTIVE, true).setValue(REROLLED, false));
+    }
 
     /**
      * @author iwolfking
@@ -86,7 +113,55 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
                     }
                 }
             }
-            if (tile.isInitialized() && handIn == InteractionHand.MAIN_HAND) {
+
+            if(tile.isInitialized() && handIn == InteractionHand.MAIN_HAND && player.isShiftKeyDown()) {
+                if(state.getValue(REROLLED) || player.hasEffect(ModEffects.REROLLED_TIMEOUT)) {
+                    return InteractionResult.FAIL;
+                }
+
+                if(!worldIn.isClientSide && player instanceof ServerPlayer serverPlayer) {
+                    ExpertiseTree expertises = PlayerExpertisesData.get(serverPlayer.getLevel()).getExpertises(player);
+                    boolean hasExpertise = false;
+                    for (ShopRerollExpertise expertise : expertises.getAll(ShopRerollExpertise.class, Skill::isUnlocked)) {
+                        hasExpertise = true;
+                        break;
+                    }
+                    if(!hasExpertise) {
+                        System.out.println("Didn't have expertise");
+                        return InteractionResult.FAIL;
+                    }
+                }
+
+                Vault vault = ServerVaults.get(worldIn).orElse(null);
+                if(vault == null) {
+                    return InteractionResult.FAIL;
+                }
+
+                ShopPedestalConfig.ShopOffer offer = ShopPedestalHelper.generatePedestalOffer(state, worldIn, JavaRandom.ofNanoTime());
+
+                if (offer != null && !offer.isEmpty()) {
+                    ItemStack stack = LootInitialization.initializeVaultLoot(offer.offer(), vault, pos, JavaRandom.ofNanoTime());
+                    tile.setOffer(stack, OverSizedItemStack.of(offer.currency().overSizedStack()));
+                }
+
+                if(!worldIn.isClientSide) {
+                    worldIn.setBlock(pos, state.setValue(REROLLED, true), 3);
+                }
+
+                tile.setInitialized(true);
+                tile.setChanged();
+                worldIn.sendBlockUpdated(pos, state, state.setValue(REROLLED, true), 3);
+                if(!worldIn.isClientSide && player instanceof ServerPlayer serverPlayer) {
+                    ExpertiseTree expertises = PlayerExpertisesData.get(serverPlayer.getLevel()).getExpertises(player);
+                    int rerollTimeout = 0;
+                    for (ShopRerollExpertise expertise : expertises.getAll(ShopRerollExpertise.class, Skill::isUnlocked)) {
+                        rerollTimeout += expertise.getRerollTimeout();
+                    }
+                    player.addEffect(new MobEffectInstance(ModEffects.REROLLED_TIMEOUT, rerollTimeout));
+                }
+
+            }
+            else if (tile.isInitialized() && handIn == InteractionHand.MAIN_HAND) {
                 c = tile.getOfferStack();
                 if (!c.isEmpty()) {
                     ShopPedestalPriceEvent event = new ShopPedestalPriceEvent(player, c, tile.getCurrencyStack());
@@ -203,5 +278,10 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
         }
 
         return priceValue;
+    }
+
+    @Inject(method = "createBlockStateDefinition", at = @At("TAIL"), remap = true)
+    protected void addRerolledState(StateDefinition.Builder<Block, BlockState> pBuilder, CallbackInfo ci) {
+        pBuilder.add(new Property[]{REROLLED});
     }
 }

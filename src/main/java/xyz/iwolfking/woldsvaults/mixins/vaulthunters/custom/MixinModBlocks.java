@@ -23,6 +23,10 @@ public class MixinModBlocks {
     private static Block[] injectNewBackpack(Block[] pValidBlocks) {
         ArrayList<Block> pedestalList = new java.util.ArrayList<>(Arrays.stream(pValidBlocks).toList());
         pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.ETCHING_PEDESTAL);
+        pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.GOD_VENDOR_PEDESTAL);
+        pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.BLACKSMITH_VENDOR_PEDESTAL);
+        pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.RARE_VENDOR_PEDESTAL);
+        pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.OMEGA_VENDOR_PEDESTAL);
         return pedestalList.toArray(new Block[]{});
     }
 

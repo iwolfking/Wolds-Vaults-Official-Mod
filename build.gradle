@@ -179,6 +179,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     //implementation fg.deobf('curse.maven:vault-hunters-official-mod-458203:5621637')
+    implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     implementation fg.deobf("curse.maven:vaultfaster-988487:6372465")
     implementation fg.deobf("curse.maven:hostile-neural-networks-552574:4593797")
     implementation fg.deobf('curse.maven:placebo-283644:4500363')
@@ -241,7 +242,7 @@ dependencies {
     implementation fg.deobf("curse.maven:tropicraft-254794:4616839")
     implementation fg.deobf("curse.maven:better-tridents-666941:4707885")
     implementation fg.deobf("curse.maven:puzzles-lib-495476:5114509")
-    implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6036598")
+    implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6471174")
     compileOnly fg.deobf("curse.maven:hexal-824725:5099219")
     implementation fg.deobf("curse.maven:occultism-361026:4729072")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
@@ -250,13 +251,10 @@ dependencies {
     implementation fg.deobf("curse.maven:second-chance-forge-509239:3832230")
     implementation fg.deobf("curse.maven:gateways-to-eternity-417802:4548643")
     implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:6377103")
+    implementation fg.deobf("curse.maven:mekanism-268560:3875976")
     compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6139466")
     compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061
     runtimeOnly "curse.maven:citadel4-331936:3683009"
-    // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
-    // at runtime, use the full JEI jar for Forge
-    //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.3")
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.3.3")) {
         jarJar.ranged(it, "[0.3.3,)")
@@ -267,7 +265,7 @@ dependencies {
     }
     implementation 'me.fallenbreath:conditional-mixin-forge:0.6.2'
     implementation fg.deobf('local:forgified-sgui:1.0.2')
-    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6470304")
+    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6477559")
     jarJar(group: 'me.fallenbreath', name: 'conditional-mixin-forge', version: '[0.6.2,)') {
         jarJar.pin(it, '0.6.2')
     }
@@ -294,10 +292,10 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4418152")
     runtimeOnly fg.deobf("curse.maven:modonomicon-538392:4641770")
     runtimeOnly fg.deobf("curse.maven:iceberg-520110:4035917")
-    runtimeOnly fg.deobf("curse.maven:storage-drawers-223852:3807626") // qolhunters mixin
     runtimeOnly fg.deobf("curse.maven:kotlin-for-forge-351264:4513187") // vaultfaster
     runtimeOnly fg.deobf("curse.maven:jei-238222:4351311")
     runtimeOnly fg.deobf("curse.maven:auxblocks-711533:4358959")
+    runtimeOnly fg.deobf("curse.maven:modded-item-borders-1170138:6044948")
 
     // perf in dev
     runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")

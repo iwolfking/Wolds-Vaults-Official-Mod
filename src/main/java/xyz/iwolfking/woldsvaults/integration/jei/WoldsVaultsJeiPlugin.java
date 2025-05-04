@@ -41,7 +41,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         return WoldsVaults.id("wolds_jei_integration");
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(ModItems.ENIGMA_EGG), ENIGMA_EGG);
         registration.addRecipeCatalyst(new ItemStack(ModItems.OMEGA_BOX), OMEGA_BOX);
@@ -67,7 +67,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new InfuserCraftingCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public void registerRecipes(IRecipeRegistration registration) {
         var world = Minecraft.getInstance().level;
 

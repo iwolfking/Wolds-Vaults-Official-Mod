@@ -5,10 +5,10 @@
     "PBP",
     "SMS"],
   "key": {
-    "I": {"item": "the_vault:memory_crystal"},
-    "P": {"item": "the_vault:pog_prism"},
+    "I": {"item": "woldsvaults:prismatic_fiber"},
+    "P": {"item": "woldsvaults:chroma_core"},
     "L": {"item": "the_vault:wold_star_chunk"},
-    "S": {"item": "the_vault:vault_ingot_1"},
+    "S": {"item": "the_vault:black_chromatic_steel_block"},
     "M": {"item": "the_vault:omega_pog"},
     "B": {"item": "sophisticatedbackpacks:netherite_backpack"}},
   "result": {"item": "woldsvaults:xl_backpack"}

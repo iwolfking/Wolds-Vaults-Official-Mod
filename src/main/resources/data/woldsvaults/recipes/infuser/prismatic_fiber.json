@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "infuseDuration": 40,
+  "inputCount": 9,
+  "ingredient": {
+    "item": "the_vault:gem_pog"
+  },
+  "catalyst": {
+    "item": "the_vault:magic_silk_block"
+  },
+  "result": {
+    "item": "woldsvaults:prismatic_fiber"
+  }
+}

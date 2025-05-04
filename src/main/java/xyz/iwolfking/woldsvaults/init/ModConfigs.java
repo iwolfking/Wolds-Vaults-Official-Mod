@@ -8,6 +8,7 @@ import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxForgeRecipe;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
+import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
 
 public class ModConfigs {
     public static GenericLootableConfig GEM_BOX;
@@ -28,6 +29,7 @@ public class ModConfigs {
 
     public static AugmentRecipesConfig AUGMENT_RECIPES;
     public static ModBoxRecipesConfig MOD_BOX_RECIPES_CONFIG;
+    public static WeavingRecipesConfig WEAVING_RECIPES_CONFIG;
 
     public static ThemeTooltipsConfig THEME_TOOLTIPS;
 
@@ -36,11 +38,16 @@ public class ModConfigs {
     public static EternalAttributesConfig ETERNAL_ATTRIBUTES;
 
     public static GenericShopPedestalConfig ETCHING_SHOP_PEDESTAL;
+    public static GenericShopPedestalConfig GOD_SHOP_PEDESTAL;
+    public static GenericShopPedestalConfig BLACKSMITH_SHOP_PEDESTAL;
+    public static GenericShopPedestalConfig RARE_SHOP_PEDESTAL;
+    public static GenericShopPedestalConfig OMEGA_SHOP_PEDESTAL;
 
     public static GreedVaultAltarIngredientsConfig GREED_VAULT_ALTAR_INGREDIENTS;
     public static WeaponTypesConfig WEAPON_TYPES;
     public static VaultGearRarityColorConfig VAULT_GEAR_RARITY_COLOR_CONFIG = new VaultGearRarityColorConfig();
     public static TrinketPouchConfig TRINKET_POUCH = new TrinketPouchConfig();
+    public static RecipeUnlocksConfig RECIPE_UNLOCKS = new RecipeUnlocksConfig();
 
     public static void preregister() {
         VAULT_GEAR_RARITY_COLOR_CONFIG = new VaultGearRarityColorConfig().readConfig();
@@ -70,6 +77,12 @@ public class ModConfigs {
         GREED_VAULT_ALTAR_INGREDIENTS = new GreedVaultAltarIngredientsConfig().readConfig();
         WEAPON_TYPES = new WeaponTypesConfig().readConfig();
         ETCHING_SHOP_PEDESTAL = new GenericShopPedestalConfig("etching_shop_pedestal").readConfig();
+        GOD_SHOP_PEDESTAL = new GenericShopPedestalConfig("god_shop_pedestal").readConfig();
+        BLACKSMITH_SHOP_PEDESTAL = new GenericShopPedestalConfig("blacksmith_shop_pedestal").readConfig();
+        RARE_SHOP_PEDESTAL = new GenericShopPedestalConfig("rare_shop_pedestal").readConfig();
+        OMEGA_SHOP_PEDESTAL = new GenericShopPedestalConfig("omega_shop_pedestal").readConfig();
         TRINKET_POUCH = new TrinketPouchConfig().readConfig();
+        RECIPE_UNLOCKS = new RecipeUnlocksConfig().readConfig();
+        WEAVING_RECIPES_CONFIG = new WeavingRecipesConfig().readConfig();
     }
 }

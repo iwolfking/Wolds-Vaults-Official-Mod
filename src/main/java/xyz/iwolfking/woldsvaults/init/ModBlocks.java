@@ -52,6 +52,7 @@ public class ModBlocks {
     public static final MonolithControllerBlock MONOLITH_CONTROLLER;
     public static final VaultCrateBlock VAULT_CRATE_CORRUPTED;
 
+    public static final Block PRISMATIC_FIBER_BLOCK;
     public static final CoinPileDecorBlock VAULT_PALLADIUM_PILE;
     public static final CoinPileDecorBlock VAULT_IRIDIUM_PILE;
     public static BlockItem VAULT_PALLADIUM;
@@ -75,13 +76,19 @@ public class ModBlocks {
     //Workstations
     public static final AugmentCraftingTableBlock AUGMENT_CRAFTING_TABLE;
     public static final ModBoxWorkstationBlock MOD_BOX_WORKSTATION;
+    public static final WeavingStationBlock WEAVING_STATION;
     public static final BlockEntityType<AugmentCraftingTableTileEntity> AUGMENT_CRAFTING_TABLE_ENTITY;
     public static final BlockEntityType<ModBoxWorkstationTileEntity> MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<FracturedObeliskTileEntity> FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<MonolithControllerTileEntity> MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<WeavingStationTileEntity> WEAVING_STATION_TILE_ENTITY_BLOCK_ENTITY_TYPE;
 
     //Shop Pedestals
     public static final ShopPedestalBlock ETCHING_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock GOD_VENDOR_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock BLACKSMITH_VENDOR_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock RARE_VENDOR_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock OMEGA_VENDOR_PEDESTAL = new ShopPedestalBlock();
 
     public static final BackpackBlock XL_BACKPACK;
 
@@ -108,6 +115,8 @@ public class ModBlocks {
         VAULT_INFUSER_BLOCK = new VaultInfuserBlock(1);
         AUGMENT_CRAFTING_TABLE = new AugmentCraftingTableBlock();
         MOD_BOX_WORKSTATION = new ModBoxWorkstationBlock();
+        WEAVING_STATION = new WeavingStationBlock();
+        PRISMATIC_FIBER_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.GREEN_WOOL).lightLevel((state) -> 8));
         GATEWAY_CHANNELING_BLOCK = new GatewayChannelingBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
         FRACTURED_OBELISK = new FracturedObelisk();
         VAULT_CRATE_CORRUPTED = new VaultCrateBlock();
@@ -127,6 +136,7 @@ public class ModBlocks {
         MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(ModBoxWorkstationTileEntity::new, new Block[]{MOD_BOX_WORKSTATION}).build(null);
         FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(FracturedObeliskTileEntity::new, FRACTURED_OBELISK).build(null);
         MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(MonolithControllerTileEntity::new, MONOLITH_CONTROLLER).build(null);
+        WEAVING_STATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(WeavingStationTileEntity::new, new Block[]{WEAVING_STATION}).build(null);
     }
 
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -142,8 +152,10 @@ public class ModBlocks {
         registerBlock(event, VAULT_PALLADIUM_PILE, VaultMod.id("vault_palladium"));
         registerBlock(event, VAULT_IRIDIUM_PILE, VaultMod.id("vault_iridium"));
         registerBlock(event, XL_BACKPACK, WoldsVaults.id("xl_backpack"));
+        registerBlock(event, PRISMATIC_FIBER_BLOCK, WoldsVaults.id("prismatic_fiber_block"));
         registerBlock(event, AUGMENT_CRAFTING_TABLE, WoldsVaults.id("augment_crafting_table"));
         registerBlock(event, MOD_BOX_WORKSTATION, WoldsVaults.id("mod_box_workstation"));
+        registerBlock(event, WEAVING_STATION, WoldsVaults.id("weaving_station"));
         registerBlock(event, INFUSED_DRIFTWOOD_PLANKS, WoldsVaults.id("infused_driftwood_planks"));
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
@@ -152,6 +164,11 @@ public class ModBlocks {
         registerBlock(event, CORRUPTED_CHEST, VaultMod.id("corrupted_chest"));
         registerBlock(event, VAULT_CRATE_CORRUPTED, WoldsVaults.id("vault_crate_corrupt"));
         registerBlock(event, MONOLITH_CONTROLLER, WoldsVaults.id("monolith_controller"));
+        registerBlock(event, BLACKSMITH_VENDOR_PEDESTAL, WoldsVaults.id("blacksmith_shop_pedestal"));
+        registerBlock(event, RARE_VENDOR_PEDESTAL, WoldsVaults.id("rare_shop_pedestal"));
+        registerBlock(event, OMEGA_VENDOR_PEDESTAL, WoldsVaults.id("omega_shop_pedestal"));
+        registerBlock(event, GOD_VENDOR_PEDESTAL, WoldsVaults.id("god_shop_pedestal"));
+
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
         registerTileEntity(event, VAULT_SALVAGER_ENTITY, VaultMod.id("vault_salvager_tile_entity"));
@@ -165,6 +182,7 @@ public class ModBlocks {
         registerTileEntity(event, SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("mob_barrier_entity"));
         registerTileEntity(event, AUGMENT_CRAFTING_TABLE_ENTITY, WoldsVaults.id("augment_table_entity"));
         registerTileEntity(event, MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("mod_box_workstation_entity"));
+        registerTileEntity(event, WEAVING_STATION_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("weaving_station_entity"));
         registerTileEntity(event, VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("vault_infuser_entity"));
         registerTileEntity(event, FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("fractured_obelisk_tile_entity"));
         registerTileEntity(event, MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, WoldsVaults.id("monolith_controller_tile_entity"));
@@ -182,10 +200,16 @@ public class ModBlocks {
         registerBlockItem(event, SURVIVAL_MOB_BARRIER);
         registerBlockItem(event, AUGMENT_CRAFTING_TABLE);
         registerBlockItem(event, MOD_BOX_WORKSTATION);
+        registerBlockItem(event, WEAVING_STATION);
         registerBlockItem(event, INFUSED_DRIFTWOOD_PLANKS);
         registerBlockItem(event, VAULT_INFUSER_BLOCK);
         registerBlockItem(event, GATEWAY_CHANNELING_BLOCK);
         registerBlockItem(event, ETCHING_PEDESTAL);
+        registerBlockItem(event, GOD_VENDOR_PEDESTAL);
+        registerBlockItem(event, BLACKSMITH_VENDOR_PEDESTAL);
+        registerBlockItem(event, RARE_VENDOR_PEDESTAL);
+        registerBlockItem(event, OMEGA_VENDOR_PEDESTAL);
+        registerBlockItem(event, PRISMATIC_FIBER_BLOCK);
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
         registerBlockItem(event, CORRUPTED_CHEST, CORRUPTED_CHEST_ITEM);

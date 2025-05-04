@@ -21,6 +21,6 @@ public class FreezeAllGearModification extends GearModification {
 
     @Override
     public Result doModification(ItemStack itemStack, ItemStack itemStack1, Player player, Random random) {
-        return WoldGearModifierHelper.freezeAll(itemStack);
+        return WoldGearModifierHelper.freezeGoodModifier(itemStack);
     }
 }

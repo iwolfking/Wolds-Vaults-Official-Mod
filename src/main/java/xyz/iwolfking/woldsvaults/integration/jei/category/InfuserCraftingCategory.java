@@ -27,17 +27,18 @@ public class InfuserCraftingCategory implements IRecipeCategory<InfuserRecipe> {
     private final IDrawable background;
     private final IDrawable icon;
 
+    @SuppressWarnings("removal")
     public InfuserCraftingCategory(IGuiHelper helper) {
         this.background = helper.createDrawable(TEXTURE, 0, 0, 149, 78);
         this.icon = helper.createDrawableIngredient(new ItemStack(ModBlocks.VAULT_INFUSER_BLOCK));
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public ResourceLocation getUid() {
         return UID;
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public Class<? extends InfuserRecipe> getRecipeClass() {
         return InfuserRecipe.class;
     }
@@ -57,7 +58,7 @@ public class InfuserCraftingCategory implements IRecipeCategory<InfuserRecipe> {
         return this.icon;
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public List<Component> getTooltipStrings(InfuserRecipe recipe, double mouseX, double mouseY) {
 
         if (mouseX > 54 && mouseX < 78 && mouseY > 58 && mouseY < 68) {
@@ -67,7 +68,7 @@ public class InfuserCraftingCategory implements IRecipeCategory<InfuserRecipe> {
         return Collections.emptyList();
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public void setIngredients(InfuserRecipe recipe, IIngredients ingredients) {
         ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
 
@@ -79,7 +80,7 @@ public class InfuserCraftingCategory implements IRecipeCategory<InfuserRecipe> {
         ingredients.setInputIngredients(inputs);
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public void setRecipe(IRecipeLayout layout, InfuserRecipe recipe, IIngredients ingredients) {
         var stacks = layout.getItemStacks();
         var inputs = ingredients.getInputs(VanillaTypes.ITEM);

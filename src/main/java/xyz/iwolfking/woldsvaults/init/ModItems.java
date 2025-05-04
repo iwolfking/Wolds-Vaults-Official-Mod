@@ -166,10 +166,16 @@ public class ModItems {
     public static BasicItem GREEDY_VAULT_ROCK;
     public static BasicItem POGOMINIUM_INGOT;
     public static BasicItem INFUSED_DRIFTWOOD;
+    public static BasicItem PRISMATIC_FIBER;
     public static BasicItem SPARK_OF_INSPIRATION;
     public static BasicItem VAULT_DIAMOND_NUGGET;
     public static BasicItem CHUNK_OF_POWER;
     public static BasicItem SOUL_ICHOR;
+    public static BasicItem CHROMA_CORE;
+
+    public static RecipeBlueprintItem RECIPE_BLUEPRINT;
+
+    public static GodReputationItem GOD_OFFERING;
 
     public static DecayingItem RUINED_ESSENCE;
     public static LocatorItem OBELISK_RESONATOR;
@@ -290,6 +296,10 @@ public class ModItems {
         registry.register(TRINKET_POUCH);
         registry.register(RUINED_ESSENCE);
         registry.register(OBELISK_RESONATOR);
+        registry.register(GOD_OFFERING);
+        registry.register(PRISMATIC_FIBER);
+        registry.register(RECIPE_BLUEPRINT);
+        registry.register(CHROMA_CORE);
     }
 
     static {
@@ -378,7 +388,6 @@ public class ModItems {
         WENDARR_GEM = new BasicItem(WoldsVaults.id("wendarr_gem"));
         ECCENTRIC_FOCUS = new BasicItem(WoldsVaults.id("eccentric_focus"));
         COMMUNITY_TOKEN = new BasicItem(WoldsVaults.id("community_token"));
-
         GREEDY_VAULT_ROCK = new BasicItem(WoldsVaults.id("greedy_vault_rock"));
         POGOMINIUM_INGOT = new BasicItem(WoldsVaults.id("pogominium_ingot"));
         INFUSED_DRIFTWOOD = new BasicItem(WoldsVaults.id("infused_driftwood"));
@@ -386,7 +395,8 @@ public class ModItems {
         VAULT_DIAMOND_NUGGET = new BasicItem(WoldsVaults.id("vault_diamond_nugget"));
         CHUNK_OF_POWER = new BasicItem(WoldsVaults.id("chunk_of_power"));
         SOUL_ICHOR = new BasicItem(WoldsVaults.id("soul_ichor"));
-
+        PRISMATIC_FIBER = new BasicItem(WoldsVaults.id("prismatic_fiber"));
+        RECIPE_BLUEPRINT = new RecipeBlueprintItem(WoldsVaults.id("recipe_blueprint"), new Item.Properties().tab(VAULT_MOD_GROUP));
         RESEARCH_TOKEN = new ResearchTokenItem(WoldsVaults.id("research_token"), new Item.Properties().stacksTo(1));
         POLTERGEIST_PLUM = new PoltergeistPlum(WoldsVaults.id("poltergeist_plum"));
         XL_BACKPACK = new BackpackItem(() -> 180, () -> 8, () -> ModBlocks.XL_BACKPACK, Item.Properties::fireResistant);
@@ -397,10 +407,12 @@ public class ModItems {
         WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"));
         BLAZING_FOCUS = new BasicItem(WoldsVaults.id("blazing_focus"));
         SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"));
+        CHROMA_CORE = new BasicItem(WoldsVaults.id("chroma_core"));
         TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
         RUINED_ESSENCE = new DecayingItem(WoldsVaults.id("ruined_essence"), 300);
         OBELISK_RESONATOR = new LocatorItem(WoldsVaults.id("obelisk_resonator"), ModBlocks.FRACTURED_OBELISK, 64);
+        GOD_OFFERING = new GodReputationItem(WoldsVaults.id("god_offering"));
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }

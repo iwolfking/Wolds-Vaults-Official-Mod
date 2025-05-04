@@ -45,9 +45,9 @@ public abstract class MixinGearModifierScreen extends AbstractElementScreen {
 
     @Shadow protected abstract void enableLvlButtons();
 
-    @Shadow protected abstract void switchToModifiers();
-
     @Shadow protected abstract void enableCategoryButtons();
+
+    @Shadow protected abstract void switchTab(int tabIndex);
 
     @Unique
     private static final Component ETCHING_COMPONENT = new TranslatableComponent("vhatcaniroll.screen.title.etching").withStyle(ChatFormatting.BLACK);
@@ -62,7 +62,7 @@ public abstract class MixinGearModifierScreen extends AbstractElementScreen {
         this.modifierCategory = ModifierCategory.NORMAL;
         this.updateModifierCategoryButtonLabel();
         ISpatial modListSpatial = Spatials.positionXY(7, 50).size(this.getGuiSpatial().width() - 14, this.getGuiSpatial().height() - 57);
-        this.innerScreen = (InnerGearScreen)(new EtchingListContainer(modListSpatial, this.lvlInput.getValue(), modifierCategory, this.getCurrGear())).layout(this.translateWorldSpatial());
+        this.innerScreen = new EtchingListContainer(modListSpatial, this.lvlInput.getValue(), modifierCategory, this.getCurrGear()).layout(this.translateWorldSpatial());
         this.disableLvlButtons();
         this.disableCategoryButtons();
         this.windowNameLabel.set(ETCHING_COMPONENT);
@@ -83,24 +83,30 @@ public abstract class MixinGearModifierScreen extends AbstractElementScreen {
         }
     }
 
-    @Inject(method = "switchToTransmog", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "switchToTransmog", at = @At("HEAD"))
     private void switchToTransmog(CallbackInfo ci) {
         if(this.getCurrGear().is(ModItems.ETCHING)) {
-            ci.cancel();
+            this.switchTab(0);
         }
     }
 
-    @Inject(method = "switchToCrafted", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "switchToCrafted", at = @At("HEAD"))
     private void switchToCrafted(CallbackInfo ci) {
         if(this.getCurrGear().is(ModItems.ETCHING)) {
-            ci.cancel();
+            this.switchTab(0);
         }
     }
 
-    @Inject(method = "switchToUnique", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "switchToUnique", at = @At("HEAD"))
     private void switchToUnique(CallbackInfo ci) {
         if(this.getCurrGear().is(ModItems.ETCHING)) {
-            ci.cancel();
+            this.switchTab(0);
+        }
+    }
+    @Inject(method = "switchToModifiers", at = @At("HEAD"))
+    private void switchToModifiers(CallbackInfo ci) {
+        if(this.getCurrGear().is(ModItems.ETCHING)) {
+            this.switchTab(0);
         }
     }
 }

@@ -58,13 +58,6 @@ public class DiscoveredThemesData extends SavedData
         MutableComponent playerCt = player.getDisplayName().copy();
         playerCt.setStyle(Style.EMPTY.withColor(TextColor.fromRgb(9974168)));
         MutableComponent themeCmp = new TextComponent(theme.getName());
-        String tooltipHover = ModConfigs.THEME_TOOLTIPS.tooltips.getOrDefault(theme.getId(), "");
-        HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(tooltipHover));
-        themeCmp.setStyle(
-                Style.EMPTY
-                        .withColor(theme.getColor())
-                        .withHoverEvent(hoverEvent)
-        );
         MiscUtils.broadcast(ct.append(playerCt).append(" has discovered theme: ").append(themeCmp));
     }
 

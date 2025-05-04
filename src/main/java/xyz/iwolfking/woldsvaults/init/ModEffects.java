@@ -21,6 +21,7 @@ public class ModEffects {
     public static final MobEffect ECHOING = new EchoingPotionEffect(MobEffectCategory.HARMFUL, 0x691997, new ResourceLocation(WoldsVaults.MOD_ID, "echoing"));
     public static final MobEffect SAFER_SPACE = new SaferSpacePotionEffect(MobEffectCategory.BENEFICIAL,0xae6bd1, new ResourceLocation(WoldsVaults.MOD_ID,"safer_space"));
     public static final MobEffect LEVITATEII = new LevitateIIPotionEffect(MobEffectCategory.BENEFICIAL,0xceffff, new ResourceLocation(WoldsVaults.MOD_ID,"levitateii"));
+    public static final MobEffect REROLLED_TIMEOUT = new RerolledPotionEffect(MobEffectCategory.BENEFICIAL,0xceffff, new ResourceLocation(WoldsVaults.MOD_ID,"rerolled"));
 
     public static void register(RegistryEvent.Register<MobEffect> event) {
         event.getRegistry().registerAll(  SHRINKING
@@ -31,6 +32,7 @@ public class ModEffects {
                                         , ECHOING
                                         , SAFER_SPACE
                                         , LEVITATEII
+                                        , REROLLED_TIMEOUT
                                         );
     }
 }
