@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "woldsvaults:item/accoutre_focus"
+    "layer0": "woldsvaults:item/recipe_blueprint"
   }
 }

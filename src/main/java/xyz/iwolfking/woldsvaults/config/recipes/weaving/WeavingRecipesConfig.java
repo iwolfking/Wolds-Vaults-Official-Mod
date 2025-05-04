@@ -72,9 +72,9 @@ public class WeavingRecipesConfig extends ForgeRecipesConfig<ConfigWeavingRecipe
         ConfigWeavingRecipe heavy = new ConfigWeavingRecipe(TrinketPouchItem.create(WoldsVaults.id("light")));
         heavy.addInput(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.PRISMATIC_FIBER, 4));
         heavy.addInput(new ItemStack(ModItems.VAULT_DIAMOND, 32));
-        heavy.addInput(new ItemStack(ModItems.BENITOITE_GEM, 96));
+        heavy.addInput(new ItemStack(ModItems.PAINITE_GEM, 96));
         heavy.addInput(new ItemStack(ModItems.ALEXANDRITE_GEM, 48));
-        weavingRecipes.add(light);
+        weavingRecipes.add(heavy);
 
     }
 
