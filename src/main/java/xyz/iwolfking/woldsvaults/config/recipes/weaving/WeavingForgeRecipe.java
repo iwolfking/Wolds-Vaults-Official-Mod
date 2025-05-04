@@ -12,7 +12,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.ISlotType;
+import xyz.iwolfking.woldsvaults.config.TrinketPouchConfig;
 import xyz.iwolfking.woldsvaults.items.TargetedModBox;
+import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 
 import java.util.List;
 
@@ -33,7 +37,26 @@ public class WeavingForgeRecipe extends VaultForgeRecipe {
 
     @Override
     public void addCraftingDisplayTooltip(ItemStack result, List<Component> out) {
+        if(result.getItem() instanceof TrinketPouchItem) {
+            TrinketPouchConfig.TrinketPouchConfigEntry entry = TrinketPouchItem.getPouchConfigFor(result);
+            for(String key : entry.SLOT_ENTRIES.keySet()) {
+                out.add(new TextComponent("+" + entry.SLOT_ENTRIES.get(key) + " " + getTranslatedTrinketName(key) + " slots").withStyle(ChatFormatting.BLUE));
+            }
+        }
+    }
 
+    private static String getTranslatedTrinketName(String key) {
+        if (key.equals("red_trinket")) {
+            return "Red Trinket";
+        }
+        else if(key.equals("blue_trinket")) {
+            return "Blue Trinket";
+        }
+        else if(key.equals("green_trinket")) {
+            return "Green Trinket";
+        }
+
+        return key;
     }
 
     @Override
