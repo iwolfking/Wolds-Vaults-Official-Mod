@@ -23,7 +23,6 @@ public class ModTrinkets {
         registry.register(MINERS_LAMP);
         registry.register(RUNNING_SHOES);
         registry.register(CHROMATIC_DIFFUSER);
-
     }
 
     static {
