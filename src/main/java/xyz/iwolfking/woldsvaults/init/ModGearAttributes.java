@@ -48,6 +48,7 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Float> AP_SCALING_DAMAGE = attr("ap_scaling_damage", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Ability Power Scaling", 11422101), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> EXECUTION_DAMAGE = attr("execution_damage", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Execution Damage", 10302464), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> CHAINING_DAMAGE = attr("chaining_damage", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Reduced Chaining Falloff", 6119096), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> INCREASED_EFFECT_CLOUD_CHANCE = attr("effect_cloud_chance_additive", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Effect Cloud Chance", 3109217), VaultGearAttributeComparator.floatComparator());
 
     //Extended Vanilla Modifiers
     public static final VaultGearAttribute<EffectGearAttribute> UNIQUE_EFFECT = attr("unique_effect", EffectGearAttribute.type(), EffectGearAttribute.generator(), UniqueEffectGearAttribute.reader());
@@ -178,6 +179,7 @@ public class ModGearAttributes {
                       registry.register(BONUS_VOID_POOLS);
                       registry.register(BONUS_BEDROCK);
                       registry.register(BONUS_COIN_PILES);
+                      registry.register(INCREASED_EFFECT_CLOUD_CHANCE);
        }
   
     public static void registerVanillaAssociations() {
