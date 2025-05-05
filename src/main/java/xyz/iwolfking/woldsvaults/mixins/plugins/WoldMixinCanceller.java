@@ -36,12 +36,6 @@ public class WoldMixinCanceller implements MixinCanceller {
             }
         }
 
-        if(LoadingModList.get().getModFileById("the_vault") != null) {
-            if(s.equals("iskallia.vault.mixin.MixinItemRenderer")) {
-                return true;
-            }
-        }
-
         if(LoadingModList.get().getModFileById("vaultfaster") != null) {
             if(s.equals("implementslegend.mod.vaultfaster.mixin.MixinTemplateProcessorModifier")) {
                 return true;
