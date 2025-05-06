@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.effect;
+package xyz.iwolfking.woldsvaults.effect.trinkets;
 
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.Expose;

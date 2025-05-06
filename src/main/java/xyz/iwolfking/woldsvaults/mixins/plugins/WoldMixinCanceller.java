@@ -24,31 +24,11 @@ public class WoldMixinCanceller implements MixinCanceller {
             }
         }
 
-        if(LoadingModList.get().getModFileById("unobtainium") != null) {
-            if(s.equals("xyz.iwolfking.unobtainium.mixin.the_vault.fixes.FixVaultChestStepBreaking")) {
-                return true;
-            }
-        }
-
         if(LoadingModList.get().getModFileById("ars_nouveau") != null) {
             if(s.equals("com.hollingsworth.arsnouveau.common.mixin.elytra.ClientElytraMixin")) {
                 return true;
             }
         }
-
-        if(LoadingModList.get().getModFileById("the_vault") != null) {
-            if(s.equals("iskallia.vault.mixin.MixinItemRenderer")) {
-                return true;
-            }
-        }
-
-        if(LoadingModList.get().getModFileById("vaultfaster") != null) {
-            if(s.equals("implementslegend.mod.vaultfaster.mixin.MixinTemplateProcessorModifier")) {
-                return true;
-            }
-        }
-
-
 
         return false;
     }

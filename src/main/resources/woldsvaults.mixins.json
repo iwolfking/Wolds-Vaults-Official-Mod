@@ -69,7 +69,6 @@
     "tropicraft.MixinEIHEntity",
     "vaultarhud.MixinInventoryHudRender",
     "vaultarhud.MixinScreenValidator",
-    "vaultfaster.fixes.MixinTemplateProcessorModifier",
     "vaulthunters.MixinModConfigs",
     "vaulthunters.accessors.AttributeSnapshotValueAccessor",
     "vaulthunters.accessors.ClassicCircleCrystalLayoutAccessor",

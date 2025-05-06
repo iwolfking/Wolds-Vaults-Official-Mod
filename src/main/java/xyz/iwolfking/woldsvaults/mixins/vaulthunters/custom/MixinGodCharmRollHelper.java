@@ -27,11 +27,11 @@ public class MixinGodCharmRollHelper {
             float affinityValue = 0.01F;
 
             switch (rarity) {
-                case SCRAPPY -> affinityValue = player.getRandom().nextFloat(0.03F, 0.1F);
-                case COMMON -> affinityValue = player.getRandom().nextFloat(0.05F, 0.14F);
-                case RARE -> affinityValue = player.getRandom().nextFloat(0.08F, 0.18F);
-                case EPIC -> affinityValue = player.getRandom().nextFloat(0.1F, 0.25F);
-                case OMEGA -> affinityValue = player.getRandom().nextFloat(0.15F, 0.3F);
+                case SCRAPPY -> affinityValue = player.getRandom().nextFloat(0.06F, 0.15F);
+                case COMMON -> affinityValue = player.getRandom().nextFloat(0.15F, 0.2F);
+                case RARE -> affinityValue = player.getRandom().nextFloat(0.21F, 0.25F);
+                case EPIC -> affinityValue = player.getRandom().nextFloat(0.25F, 0.3F);
+                case OMEGA -> affinityValue = player.getRandom().nextFloat(0.3F, 0.4F);
             }
 
             switch (god) {
