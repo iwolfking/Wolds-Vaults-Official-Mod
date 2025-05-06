@@ -17,17 +17,20 @@ public class ModTrinkets {
     private static final RunningShoesTrinketEffect RUNNING_SHOES;
 
     private static final AttributeTrinket<Float> CHROMATIC_DIFFUSER;
+    private static final AttributeTrinket<Float> SWIFT_AMULET;
 
     public static void init(RegistryEvent.Register<TrinketEffect<?>> event) {
         IForgeRegistry<TrinketEffect<?>> registry = event.getRegistry();
         registry.register(MINERS_LAMP);
         registry.register(RUNNING_SHOES);
         registry.register(CHROMATIC_DIFFUSER);
+        registry.register(SWIFT_AMULET);
     }
 
     static {
         MINERS_LAMP =  new HeadlampTrinketEffect(VaultMod.id("miners_headlamp"), MobEffects.NIGHT_VISION, 1);
         RUNNING_SHOES =  new RunningShoesTrinketEffect(VaultMod.id("running_shoes"), Effects.INEXHAUSTIBLE.get(), 1);
         CHROMATIC_DIFFUSER =  new AttributeTrinket<>(VaultMod.id("chromatic_diffuser"), ModGearAttributes.INCREASED_EFFECT_CLOUD_CHANCE, 0.1F);
+        SWIFT_AMULET =  new AttributeTrinket<>(VaultMod.id("swift_amulet"), ModGearAttributes.DODGE_PERCENT, 0.15F);
     }
 }
