@@ -142,6 +142,7 @@
     "vaulthunters.custom.MixinPlayerReputationData",
     "vaulthunters.custom.MixinPlayerVaultStats",
     "vaulthunters.custom.MixinPlayerVaultStatsData",
+    "vaulthunters.custom.MixinPylonBlock",
     "vaulthunters.custom.MixinRewardConfig",
     "vaulthunters.custom.MixinRunner",
     "vaulthunters.custom.MixinShopPedestalBlockTileRenderer",
