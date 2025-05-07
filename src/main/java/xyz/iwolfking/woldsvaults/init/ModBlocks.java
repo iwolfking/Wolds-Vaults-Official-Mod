@@ -73,6 +73,7 @@ public class ModBlocks {
     public static final ShopPedestalBlock BLACKSMITH_VENDOR_PEDESTAL = new ShopPedestalBlock();
     public static final ShopPedestalBlock RARE_VENDOR_PEDESTAL = new ShopPedestalBlock();
     public static final ShopPedestalBlock OMEGA_VENDOR_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock SPOOKY_VENDOR_PEDESTAL = new ShopPedestalBlock();
 
     public static final BackpackBlock XL_BACKPACK;
 
@@ -141,6 +142,7 @@ public class ModBlocks {
         registerBlock(event, RARE_VENDOR_PEDESTAL, WoldsVaults.id("rare_shop_pedestal"));
         registerBlock(event, OMEGA_VENDOR_PEDESTAL, WoldsVaults.id("omega_shop_pedestal"));
         registerBlock(event, GOD_VENDOR_PEDESTAL, WoldsVaults.id("god_shop_pedestal"));
+        registerBlock(event, SPOOKY_VENDOR_PEDESTAL, WoldsVaults.id("spooky_vendor_pedestal"));
 
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
@@ -180,6 +182,7 @@ public class ModBlocks {
         registerBlockItem(event, BLACKSMITH_VENDOR_PEDESTAL);
         registerBlockItem(event, RARE_VENDOR_PEDESTAL);
         registerBlockItem(event, OMEGA_VENDOR_PEDESTAL);
+        registerBlockItem(event, SPOOKY_VENDOR_PEDESTAL);
         registerBlockItem(event, PRISMATIC_FIBER_BLOCK);
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
