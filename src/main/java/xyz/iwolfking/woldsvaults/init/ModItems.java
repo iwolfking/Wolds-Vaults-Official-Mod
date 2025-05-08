@@ -178,6 +178,8 @@ public class ModItems {
 
     public static TrinketPouchItem TRINKET_POUCH;
 
+    public static FilterNecklaceItem FILTER_NECKLACE;
+
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -293,6 +295,7 @@ public class ModItems {
         registry.register(PRISMATIC_FIBER);
         registry.register(RECIPE_BLUEPRINT);
         registry.register(CHROMA_CORE);
+        registry.register(FILTER_NECKLACE);
     }
 
     static {
@@ -403,6 +406,7 @@ public class ModItems {
         TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
         GOD_OFFERING = new GodReputationItem(WoldsVaults.id("god_offering"));
+        FILTER_NECKLACE = new FilterNecklaceItem(WoldsVaults.id("filter_necklace"), 9);
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }
