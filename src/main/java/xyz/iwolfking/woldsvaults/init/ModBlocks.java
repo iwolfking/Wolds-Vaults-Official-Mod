@@ -142,7 +142,7 @@ public class ModBlocks {
         registerBlock(event, RARE_VENDOR_PEDESTAL, WoldsVaults.id("rare_shop_pedestal"));
         registerBlock(event, OMEGA_VENDOR_PEDESTAL, WoldsVaults.id("omega_shop_pedestal"));
         registerBlock(event, GOD_VENDOR_PEDESTAL, WoldsVaults.id("god_shop_pedestal"));
-        registerBlock(event, SPOOKY_VENDOR_PEDESTAL, WoldsVaults.id("spooky_vendor_pedestal"));
+        registerBlock(event, SPOOKY_VENDOR_PEDESTAL, WoldsVaults.id("spooky_shop_pedestal"));
 
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
