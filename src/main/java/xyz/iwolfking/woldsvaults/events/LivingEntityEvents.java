@@ -216,20 +216,20 @@ public class LivingEntityEvents {
             return;
         }
 
-        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
-            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
-            if(data != null && data.hasAttribute(ModGearAttributes.REAVING_DAMAGE)) {
+        if(event.getSource().getEntity() instanceof Player player) {
+            float reavingDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.REAVING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
+            if(reavingDamage != 0) {
                 if(WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
-                    WoldsVaults.LOGGER.debug("[WOLD'S VAULTS] Added " + (event.getEntityLiving().getMaxHealth() * data.get(ModGearAttributes.REAVING_DAMAGE, VaultGearAttributeTypeMerger.floatSum())) + " bonus reaving damage to attack.");
+                    WoldsVaults.LOGGER.debug("[WOLD'S VAULTS] Added " + (event.getEntityLiving().getMaxHealth() * reavingDamage) + " bonus reaving damage to attack.");
                 }
                 event.getEntityLiving().addEffect(new MobEffectInstance(ModEffects.REAVING, Integer.MAX_VALUE, 0));
                 event.getEntityLiving().addEffect(new MobEffectInstance(iskallia.vault.init.ModEffects.NO_AI, 20, 0));
 
                 if(ChampionLogic.isChampion(event.getEntityLiving()) || InfernalMobsCore.getMobModifiers(event.getEntityLiving()) != null || event.getEntityLiving() instanceof VaultBoss || event.getEntityLiving() instanceof VaultBossEntity || event.getEntityLiving() instanceof EliteDrownedEntity || event.getEntityLiving() instanceof EliteWitherSkeleton || event.getEntityLiving() instanceof EliteEndermanEntity || event.getEntityLiving() instanceof EliteHuskEntity || event.getEntityLiving() instanceof EliteSpiderEntity || event.getEntityLiving() instanceof  EliteStrayEntity || event.getEntityLiving() instanceof  EliteZombieEntity || event.getEntityLiving() instanceof EliteWitchEntity) {
-                    event.setAmount(event.getAmount() + (event.getEntityLiving().getMaxHealth() * (data.get(ModGearAttributes.REAVING_DAMAGE, VaultGearAttributeTypeMerger.floatSum()) * 0.5F)));
+                    event.setAmount(event.getAmount() + (event.getEntityLiving().getMaxHealth() * reavingDamage * 0.5F));
                 }
                 else {
-                    event.setAmount(event.getAmount() + (event.getEntityLiving().getMaxHealth() * data.get(ModGearAttributes.REAVING_DAMAGE, VaultGearAttributeTypeMerger.floatSum())));
+                    event.setAmount(event.getAmount() + (event.getEntityLiving().getMaxHealth() * reavingDamage));
                 }
 
                 if(ANCHOR_SLAM_SOUND == null) {
@@ -252,14 +252,15 @@ public class LivingEntityEvents {
             return;
         }
 
-        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
-            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
-            if(data != null && data.hasAttribute(ModGearAttributes.EXECUTION_DAMAGE)) {
+
+        if(event.getSource().getEntity() instanceof Player player) {
+            float executionDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.EXECUTION_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
+            if(executionDamage != 0) {
                 if(WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
-                    WoldsVaults.LOGGER.debug("[WOLD'S VAULTS] Added " + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * data.get(ModGearAttributes.EXECUTION_DAMAGE, VaultGearAttributeTypeMerger.floatSum())) + " bonus execution damage to attack.");
+                    WoldsVaults.LOGGER.debug("[WOLD'S VAULTS] Added " + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage) + " bonus execution damage to attack.");
                 }
 
-                event.setAmount(event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * data.get(ModGearAttributes.EXECUTION_DAMAGE, VaultGearAttributeTypeMerger.floatSum())));
+                event.setAmount(event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage));
 
             }
         }
@@ -329,10 +330,10 @@ public class LivingEntityEvents {
             return;
         }
 
-        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
-            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
-            if(data.hasAttribute(ModGearAttributes.HEXING_CHANCE)) {
-                if(player.level.random.nextFloat() <= data.get(ModGearAttributes.HEXING_CHANCE, VaultGearAttributeTypeMerger.floatSum())) {
+        if(event.getSource().getEntity() instanceof Player player) {
+            float hexingChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.HEXING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+            if(hexingChance != 0) {
+                if(player.level.random.nextFloat() <= hexingChance) {
                     MobEffectInstance instance = HexEffects.HEX_EFFECTS.getRandom(player.getRandom());
                     if(instance == null){
                         return;
@@ -375,14 +376,14 @@ public class LivingEntityEvents {
             return;
         }
 
-        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
-            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
-            if(data.hasAttribute(ModGearAttributes.ECHOING_CHANCE)) {
-                float chance = data.get(ModGearAttributes.ECHOING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+        if(event.getSource().getEntity() instanceof Player player) {
+            float echoingChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+            float echoingDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
+            if(echoingChance != 0) {
                 if (WoldActiveFlags.IS_ECHOING_ATTACKING.isSet())
-                    chance = (float) Math.sqrt(chance);
+                    echoingChance = (float) Math.sqrt(echoingChance);
 
-                if(player.level.random.nextFloat() <= chance) {
+                if(player.level.random.nextFloat() <= echoingChance) {
                     EchoingPotionEffect newEffect = (EchoingPotionEffect) ModEffects.ECHOING;
 
                     if (WoldActiveFlags.IS_ECHOING_ATTACKING.isSet() && event.getEntityLiving().hasEffect(ModEffects.ECHOING)) {
@@ -398,8 +399,8 @@ public class LivingEntityEvents {
 
                     float damage = newEffect.getDamage() * 0.667f;
 
-                    if(data.hasAttribute(ModGearAttributes.ECHOING_DAMAGE))
-                        damage *= 1 + data.get(ModGearAttributes.ECHOING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
+                    if(echoingDamage != 0)
+                        damage *= 1 + echoingDamage;
 
                     if(damage > 1.0f) {
                         newEffect.setDamage(damage);
