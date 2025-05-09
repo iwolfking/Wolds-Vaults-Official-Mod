@@ -29,6 +29,7 @@
     "cloudstorage.MixinBalloonBuddyEntity",
     "cofhcore.MixinCofhEnchantment",
     "cookingforblockheads.MixinKitchenBlock",
+    "create.accessors.FilterItemAccessor",
     "customstartinggear.MixinDataManager",
     "dimensional_worldborder.MixinDimensionalWorldborder",
     "dyenamicsandfriends.MixinComputerCraftCompatModule",
