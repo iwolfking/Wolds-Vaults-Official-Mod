@@ -112,7 +112,7 @@ public class FilterNecklaceItem extends BasicItem implements ICurioItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if(!level.isClientSide) {
             NetworkHooks.openGui((ServerPlayer) player, new SimpleMenuProvider((id, inv, ply) -> new FilterNecklaceMenu(id, inv, player.getItemInHand(hand)),
-            new TextComponent("Filter Container")));
+            new TextComponent("Filter Necklace")));
         }
         return InteractionResultHolder.success(player.getItemInHand(hand));
     }
@@ -145,7 +145,7 @@ public class FilterNecklaceItem extends BasicItem implements ICurioItem {
 
         if (Screen.hasShiftDown()) {
             IItemHandler inventory = getInventory(stack);
-
+            tooltip.add(new TextComponent("Hold down [").withStyle(ChatFormatting.GRAY).append(new TextComponent("Ctrl").withStyle(ChatFormatting.YELLOW)).append(new TextComponent("] to show nested filters.").withStyle(ChatFormatting.GRAY)));
             for(int i = 0; i < inventory.getSlots(); i++) {
                 ItemStack slotStack = inventory.getStackInSlot(i);
                 if(inventory.getStackInSlot(i).getItem() instanceof FilterItem filterItem) {
