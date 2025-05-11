@@ -179,6 +179,8 @@ public class ModItems {
 
     public static DecayingItem RUINED_ESSENCE;
     public static LocatorItem OBELISK_RESONATOR;
+    public static BasicItem NULLITE_FRAGMENT;
+    public static BasicItem NULLITE_CRYSTAL;
 
     public static TrinketPouchItem TRINKET_POUCH;
 
@@ -296,6 +298,8 @@ public class ModItems {
         registry.register(TRINKET_POUCH);
         registry.register(RUINED_ESSENCE);
         registry.register(OBELISK_RESONATOR);
+        registry.register(NULLITE_FRAGMENT);
+        registry.register(NULLITE_CRYSTAL);
         registry.register(GOD_OFFERING);
         registry.register(PRISMATIC_FIBER);
         registry.register(RECIPE_BLUEPRINT);
@@ -412,6 +416,8 @@ public class ModItems {
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
         RUINED_ESSENCE = new DecayingItem(WoldsVaults.id("ruined_essence"), 300);
         OBELISK_RESONATOR = new LocatorItem(WoldsVaults.id("obelisk_resonator"), ModBlocks.FRACTURED_OBELISK, 64);
+        NULLITE_FRAGMENT = new BasicItem(WoldsVaults.id("nullite_fragment"));
+        NULLITE_CRYSTAL = new BasicItem(WoldsVaults.id("nullite_crystal"));
         GOD_OFFERING = new GodReputationItem(WoldsVaults.id("god_offering"));
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }

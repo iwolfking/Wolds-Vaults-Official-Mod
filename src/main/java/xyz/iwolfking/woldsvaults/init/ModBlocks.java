@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock;
@@ -58,9 +59,6 @@ public class ModBlocks {
     public static BlockItem VAULT_PALLADIUM;
     public static BlockItem VAULT_IRIDIUM;
 
-    public static final Block CORRUPTED_CHEST;
-    public static final BlockItem CORRUPTED_CHEST_ITEM;
-
     public static final BlockEntityType<VaultSalvagerTileEntity> VAULT_SALVAGER_ENTITY;
     public static final BlockEntityType<IskallianLeavesTileEntity> ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<HellishSandTileEntity> HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE;
@@ -93,15 +91,15 @@ public class ModBlocks {
     public static final BackpackBlock XL_BACKPACK;
 
     public static final Block INFUSED_DRIFTWOOD_PLANKS;
+    public static final Block NULLITE_ORE;
 
     static {
         INFUSED_DRIFTWOOD_PLANKS = new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS));
+        NULLITE_ORE = new Block(BlockBehaviour.Properties.of(Material.STONE).strength(250F, 1500F));
         VAULT_PALLADIUM_PILE = new CoinPileDecorBlock();
         VAULT_IRIDIUM_PILE = new CoinPileDecorBlock();
         VAULT_PALLADIUM  = new CoinBlockItem(VAULT_PALLADIUM_PILE, new Item.Properties().tab(ModItems.VAULT_MOD_GROUP));
         VAULT_IRIDIUM  = new CoinBlockItem(VAULT_IRIDIUM_PILE, new Item.Properties().tab(ModItems.VAULT_MOD_GROUP));
-        CORRUPTED_CHEST = new VaultChestBlock(Enum.valueOf(VaultChestType.class, "CORRUPTED"), BlockBehaviour.Properties.copy(Blocks.CHEST).strength(0.6F, 5.0F).sound(SoundType.STONE));
-        CORRUPTED_CHEST_ITEM = new VaultChestBlockItem(CORRUPTED_CHEST, new Item.Properties().tab(ModItems.VAULT_MOD_GROUP));
         VAULT_SALVAGER_BLOCK = new VaultSalvagerBlock();
         ISKALLIAN_LEAVES_BLOCK = new IskallianLeavesBlock();
         HELLISH_SAND_BLOCK = new HellishSandBlock();
@@ -157,11 +155,11 @@ public class ModBlocks {
         registerBlock(event, MOD_BOX_WORKSTATION, WoldsVaults.id("mod_box_workstation"));
         registerBlock(event, WEAVING_STATION, WoldsVaults.id("weaving_station"));
         registerBlock(event, INFUSED_DRIFTWOOD_PLANKS, WoldsVaults.id("infused_driftwood_planks"));
+        registerBlock(event, NULLITE_ORE, WoldsVaults.id("nullite_ore"));
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
         registerBlock(event, ETCHING_PEDESTAL, WoldsVaults.id("etching_shop_pedestal"));
         registerBlock(event, FRACTURED_OBELISK, WoldsVaults.id("fractured_obelisk"));
-        registerBlock(event, CORRUPTED_CHEST, VaultMod.id("corrupted_chest"));
         registerBlock(event, VAULT_CRATE_CORRUPTED, WoldsVaults.id("vault_crate_corrupt"));
         registerBlock(event, MONOLITH_CONTROLLER, WoldsVaults.id("monolith_controller"));
         registerBlock(event, BLACKSMITH_VENDOR_PEDESTAL, WoldsVaults.id("blacksmith_shop_pedestal"));
@@ -202,6 +200,7 @@ public class ModBlocks {
         registerBlockItem(event, MOD_BOX_WORKSTATION);
         registerBlockItem(event, WEAVING_STATION);
         registerBlockItem(event, INFUSED_DRIFTWOOD_PLANKS);
+        registerBlockItem(event, NULLITE_ORE);
         registerBlockItem(event, VAULT_INFUSER_BLOCK);
         registerBlockItem(event, GATEWAY_CHANNELING_BLOCK);
         registerBlockItem(event, ETCHING_PEDESTAL);
@@ -212,7 +211,6 @@ public class ModBlocks {
         registerBlockItem(event, PRISMATIC_FIBER_BLOCK);
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
-        registerBlockItem(event, CORRUPTED_CHEST, CORRUPTED_CHEST_ITEM);
         registerBlockItem(event, FRACTURED_OBELISK);
         registerBlockItem(event, VAULT_CRATE_CORRUPTED, 1, Item.Properties::fireResistant);
         registerBlockItem(event, MONOLITH_CONTROLLER);

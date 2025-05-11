@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ANA",
+    "NEN",
+    "ANA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:air"
+    },
+    "N": {
+      "item": "woldsvaults:nullite_fragment"
+    },
+    "E": {
+      "item": "woldsvaults:ruined_essence"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:nullite_crystal",
+    "count": 1
+  }
+}

@@ -3,6 +3,7 @@
   "values": [
     "woldsvaults:augment_crafting_table",
     "the_vault:vault_salvager",
-    "woldsvaults:chromatic_iron_vault_infuser"
+    "woldsvaults:chromatic_iron_vault_infuser",
+    "woldsvaults:nullite_ore"
   ]
 }
