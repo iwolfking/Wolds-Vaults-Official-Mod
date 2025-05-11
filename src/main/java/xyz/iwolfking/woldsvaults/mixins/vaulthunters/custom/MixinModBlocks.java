@@ -27,6 +27,7 @@ public class MixinModBlocks {
         pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.BLACKSMITH_VENDOR_PEDESTAL);
         pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.RARE_VENDOR_PEDESTAL);
         pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.OMEGA_VENDOR_PEDESTAL);
+        pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.SPOOKY_VENDOR_PEDESTAL);
         return pedestalList.toArray(new Block[]{});
     }
 

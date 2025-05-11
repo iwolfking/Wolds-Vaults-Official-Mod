@@ -48,6 +48,9 @@ public class ShopPedestalHelper {
         else if(state.getBlock().equals(ModBlocks.OMEGA_VENDOR_PEDESTAL)) {
             return xyz.iwolfking.woldsvaults.init.ModConfigs.OMEGA_SHOP_PEDESTAL.getForLevel(level, random);
         }
+        else if(state.getBlock().equals(ModBlocks.SPOOKY_VENDOR_PEDESTAL)) {
+            return xyz.iwolfking.woldsvaults.init.ModConfigs.SPOOKY_SHOP_PEDESTAL.getForLevel(level, random);
+        }
         else {
             return ModConfigs.SHOP_PEDESTAL.getForLevel(level, random);
         }

@@ -43,6 +43,7 @@ public class ModConfigs {
     public static GenericShopPedestalConfig BLACKSMITH_SHOP_PEDESTAL;
     public static GenericShopPedestalConfig RARE_SHOP_PEDESTAL;
     public static GenericShopPedestalConfig OMEGA_SHOP_PEDESTAL;
+    public static GenericShopPedestalConfig SPOOKY_SHOP_PEDESTAL;
 
     public static GreedVaultAltarIngredientsConfig GREED_VAULT_ALTAR_INGREDIENTS;
     public static WeaponTypesConfig WEAPON_TYPES;
@@ -83,6 +84,7 @@ public class ModConfigs {
         BLACKSMITH_SHOP_PEDESTAL = new GenericShopPedestalConfig("blacksmith_shop_pedestal").readConfig();
         RARE_SHOP_PEDESTAL = new GenericShopPedestalConfig("rare_shop_pedestal").readConfig();
         OMEGA_SHOP_PEDESTAL = new GenericShopPedestalConfig("omega_shop_pedestal").readConfig();
+        SPOOKY_SHOP_PEDESTAL = new GenericShopPedestalConfig("spooky_shop_pedestal").readConfig();
         TRINKET_POUCH = new TrinketPouchConfig().readConfig();
         RECIPE_UNLOCKS = new RecipeUnlocksConfig().readConfig();
         WEAVING_RECIPES_CONFIG = new WeavingRecipesConfig().readConfig();

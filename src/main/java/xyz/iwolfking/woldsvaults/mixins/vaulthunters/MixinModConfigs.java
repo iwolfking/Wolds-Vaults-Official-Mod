@@ -30,7 +30,7 @@ public class MixinModConfigs {
 
     @Shadow public static Map<ResourceLocation, VaultGearTierConfig> VAULT_GEAR_CONFIG;
   
-    private static final int TOTAL_MAP_TIERS = 10;
+    private static final int TOTAL_MAP_TIERS = 6;
   
     @Inject(method = "register", at = @At("HEAD"), remap = false)
     private static void onReloadConfigsPre(CallbackInfo ci) {
@@ -79,9 +79,13 @@ public class MixinModConfigs {
         VaultGearTypeConfig.RollType omegaPlusRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.OMEGA, 96, VaultGearRarity.valueOf("MYTHIC"), 4)));
         ((VaultGearRollTypeConfigRollTypeAccessor)omegaPlusRoll).setColor(3125022);
 
+        VaultGearTypeConfig.RollType mapLoot = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.SCRAPPY, 20, VaultGearRarity.COMMON, 25, VaultGearRarity.RARE, 30, VaultGearRarity.EPIC, 14, VaultGearRarity.OMEGA, 10, VaultGearRarity.valueOf("MYTHIC"), 1)));
+        ((VaultGearRollTypeConfigRollTypeAccessor)mapLoot).setColor(13818334);
+
 
         ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Mythic", mythicRoll);
         ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Omega+", omegaPlusRoll);
+        ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Scrappy++", mapLoot);
 
 
 
