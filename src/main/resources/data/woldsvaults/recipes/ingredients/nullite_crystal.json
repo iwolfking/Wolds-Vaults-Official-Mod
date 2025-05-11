@@ -1,14 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ANA",
+    " N ",
     "NEN",
-    "ANA"
+    " N "
   ],
   "key": {
-    "A": {
-      "item": "minecraft:air"
-    },
     "N": {
       "item": "woldsvaults:nullite_fragment"
     },
