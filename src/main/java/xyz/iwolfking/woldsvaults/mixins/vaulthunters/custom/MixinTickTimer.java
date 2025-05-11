@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
-import xyz.iwolfking.woldsvaults.util.VaultUtil;
+import xyz.iwolfking.woldsvaults.util.CorruptedVaultHelper;
 
 import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
 
@@ -30,7 +30,7 @@ public abstract class MixinTickTimer extends TickClock {
 
     @Inject(method = "getRotationTime", at = @At("HEAD"), cancellable = true)
     protected void modifyRotation(int time, CallbackInfoReturnable<Float> cir) {
-        if(VaultUtil.isVaultCorrupted) {
+        if(CorruptedVaultHelper.isVaultCorrupted) {
             float value = super.getRotationTime(time);
             value /= 6;
             cir.setReturnValue(value); // Speed up rotation of the Vault Clock if the vault is Corrupted
@@ -39,7 +39,7 @@ public abstract class MixinTickTimer extends TickClock {
 
     @Override
     public void render(PoseStack matrixStack) {
-        if(VaultUtil.isVaultCorrupted) {
+        if(CorruptedVaultHelper.isVaultCorrupted) {
             TickTimer timer = ((TickTimer) (Object)this);
             if(!timer.has(VISIBLE)) return;
             int hourglassWidth = 12;
