@@ -85,6 +85,10 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.LoadingModList;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
@@ -104,6 +108,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * This class is a mess, its here because otherwise the corrupted objective class would be a mess<br>
  * So instead, this class becomes the mess, while the main objective class stays (relatively) clean
  */
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = {Dist.CLIENT})
 public class CorruptedVaultHelper {
     private static final ResourceLocation VIGNETTE = VaultMod.id("textures/gui/vignette.png");
     private static final ResourceLocation CORRUPTED_HUD = VaultMod.id("textures/gui/corrupted/hud.png");
@@ -1163,4 +1168,23 @@ public class CorruptedVaultHelper {
             }
         });
     }
+
+
+
+    /* == Events == */
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void corruptTooltips(ItemTooltipEvent event) {
+        if(!CorruptedVaultHelper.isVaultCorrupted) return;
+
+        List<Component> toolTip = event.getToolTip();
+
+        for (int i = 0; i < toolTip.size(); i++) {
+            if(toolTip.get(i) instanceof MutableComponent cmp) {
+                toolTip.set(i, ComponentUtils.corruptComponent(cmp));
+            }
+        }
+    }
+
 }
