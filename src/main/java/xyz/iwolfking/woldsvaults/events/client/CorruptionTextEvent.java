@@ -9,7 +9,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
-import xyz.iwolfking.woldsvaults.util.VaultUtil;
+import xyz.iwolfking.woldsvaults.util.CorruptedVaultHelper;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class CorruptionTextEvent {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void corruptTooltips(ItemTooltipEvent event) {
-        if(!VaultUtil.isVaultCorrupted) return;
+        if(!CorruptedVaultHelper.isVaultCorrupted) return;
 
         List<Component> toolTip = event.getToolTip();
 
