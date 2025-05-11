@@ -40,6 +40,7 @@ public class ModBlocks {
     public static final DecoMonolithBlock DECO_MONOLITH_BLOCK;
     public static final SurvivalMobBarrier SURVIVAL_MOB_BARRIER;
     public static final VaultInfuserBlock VAULT_INFUSER_BLOCK;
+    public static final VaultInfuserBlock CHROMATIC_STEEL_INFUSER_BLOCK;
     public static final GatewayChannelingBlock GATEWAY_CHANNELING_BLOCK;
     public static final Block PRISMATIC_FIBER_BLOCK;
     public static final CoinPileDecorBlock VAULT_PALLADIUM_PILE;
@@ -97,6 +98,7 @@ public class ModBlocks {
         SURVIVAL_MOB_BARRIER = new SurvivalMobBarrier();
         XL_BACKPACK = new BackpackBlock(12000);
         VAULT_INFUSER_BLOCK = new VaultInfuserBlock(1);
+        CHROMATIC_STEEL_INFUSER_BLOCK = new VaultInfuserBlock(4);
         AUGMENT_CRAFTING_TABLE = new AugmentCraftingTableBlock();
         MOD_BOX_WORKSTATION = new ModBoxWorkstationBlock();
         WEAVING_STATION = new WeavingStationBlock();
@@ -111,7 +113,7 @@ public class ModBlocks {
         DECO_LODESTONE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoLodestoneTileEntity::new, DECO_LODESTONE_BLOCK).build(null);
         DECO_MONOLITH_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoMonolithTileEntity::new, DECO_MONOLITH_BLOCK).build(null);
         SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(SurvivalMobBarrierTileEntity::new, SURVIVAL_MOB_BARRIER).build(null);
-        VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(VaultInfuserTileEntity::new, new Block[]{VAULT_INFUSER_BLOCK}).build(null);
+        VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(VaultInfuserTileEntity::new, new Block[]{VAULT_INFUSER_BLOCK, CHROMATIC_STEEL_INFUSER_BLOCK}).build(null);
         SOPHISTICATED_BACKPACK = BlockEntityType.Builder.of(BackpackBlockEntity::new, new Block[]{XL_BACKPACK}).build(null);
         AUGMENT_CRAFTING_TABLE_ENTITY = BlockEntityType.Builder.of(AugmentCraftingTableTileEntity::new, new Block[]{AUGMENT_CRAFTING_TABLE}).build(null);
         MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(ModBoxWorkstationTileEntity::new, new Block[]{MOD_BOX_WORKSTATION}).build(null);
@@ -137,6 +139,7 @@ public class ModBlocks {
         registerBlock(event, WEAVING_STATION, WoldsVaults.id("weaving_station"));
         registerBlock(event, INFUSED_DRIFTWOOD_PLANKS, WoldsVaults.id("infused_driftwood_planks"));
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
+        registerBlock(event, CHROMATIC_STEEL_INFUSER_BLOCK, WoldsVaults.id("chromatic_steel_vault_infuser"));
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
         registerBlock(event, ETCHING_PEDESTAL, WoldsVaults.id("etching_shop_pedestal"));
         registerBlock(event, BLACKSMITH_VENDOR_PEDESTAL, WoldsVaults.id("blacksmith_shop_pedestal"));
@@ -178,6 +181,7 @@ public class ModBlocks {
         registerBlockItem(event, WEAVING_STATION);
         registerBlockItem(event, INFUSED_DRIFTWOOD_PLANKS);
         registerBlockItem(event, VAULT_INFUSER_BLOCK);
+        registerBlockItem(event, CHROMATIC_STEEL_INFUSER_BLOCK);
         registerBlockItem(event, GATEWAY_CHANNELING_BLOCK);
         registerBlockItem(event, ETCHING_PEDESTAL);
         registerBlockItem(event, GOD_VENDOR_PEDESTAL);
