@@ -7,6 +7,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -18,11 +21,9 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -35,19 +36,32 @@ import java.util.Random;
 
 public class FracturedObelisk extends Block implements EntityBlock {
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
-    public static final BooleanProperty FILLED = BooleanProperty.create("filled");
-
-    private static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 32, 14); // temp
-    private static final VoxelShape SHAPE_TOP = SHAPE.move(0, -1, 0);
+    private static final VoxelShape SHAPE = Block.box(2.0, 0.0, 2.0, 14.0, 32.0, 14.0);
+    private static final VoxelShape SHAPE_TOP = SHAPE.move(0.0, -1.0, 0.0);
 
     public FracturedObelisk() {
         super(Properties.of(Material.STONE).sound(SoundType.METAL).strength(-1.0F, 3600000.0F).noDrops());
-        this.registerDefaultState(this.stateDefinition.any().setValue(HALF, DoubleBlockHalf.LOWER).setValue(FILLED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HALF, DoubleBlockHalf.LOWER));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(HALF).add(FILLED);
+        builder.add(HALF);
+    }
+
+    // Why do i need to do this, wtf, why do the other double blocks work fine??
+    @Override
+    public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
+        super.onPlace(pState, pLevel, pPos, pOldState, pIsMoving);
+        System.out.println();
+        if(pLevel.getBlockState(pPos.above()) != pLevel.getBlockState(pPos).setValue(HALF, DoubleBlockHalf.UPPER) && pState.getValue(HALF) != DoubleBlockHalf.UPPER) {
+            pLevel.setBlock(pPos.above(), pLevel.getBlockState(pPos).setValue(HALF, DoubleBlockHalf.UPPER), Block.UPDATE_ALL);
+        }
+    }
+
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -62,10 +76,8 @@ public class FracturedObelisk extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos blockPos, BlockState blockState) {
-        if(blockState.getValue(HALF) == DoubleBlockHalf.LOWER) {
-            return ModBlocks.FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE.create(blockPos, blockState);
-        }
-        return null;
+        return blockState.getValue(HALF) == DoubleBlockHalf.LOWER ? ModBlocks.FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE.create(blockPos, blockState) : null;
+
     }
 
     @Nullable
@@ -76,11 +88,13 @@ public class FracturedObelisk extends Block implements EntityBlock {
 
     @Override
     public void animateTick(@NotNull BlockState pState, Level pLevel, BlockPos pPos, @NotNull Random pRandom) {
+        if(pState.getValue(HALF) == DoubleBlockHalf.UPPER) return;
+
         double centerX = pPos.getX() + 0.5;
         double centerY = pPos.getY() + 0.5;
         double centerZ = pPos.getZ() + 0.5;
 
-        double[] radii = {1.0, 1.5}; // might add more rings
+        double[] radii = {1.0, 1.5, 3.5}; // might add more rings
         int particlesPerTick = 8;
 
         long gameTime = pLevel.getGameTime();
