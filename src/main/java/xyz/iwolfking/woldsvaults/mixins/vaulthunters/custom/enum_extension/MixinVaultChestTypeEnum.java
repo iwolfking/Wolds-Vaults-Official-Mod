@@ -14,17 +14,17 @@ public class MixinVaultChestTypeEnum {
     @Mutable @SuppressWarnings("target")
     private static VaultChestType[] $VALUES;
 
-    private static final VaultChestType CORRUPTED = enumExpansion$addVariant("CORRUPTED");
+    //private static final VaultChestType CORRUPTED = enumExpansion$addVariant("CORRUPTED", "Corrupted");
 
     @Invoker("<init>")
-    public static VaultChestType enumExpansion$invokeInit(String internalName, int internalId) {
+    public static VaultChestType enumExpansion$invokeInit(String internalName, int internalId, String name) {
         throw new AssertionError();
     }
 
     @Unique
-    private static VaultChestType enumExpansion$addVariant(String internalName) {
+    private static VaultChestType enumExpansion$addVariant(String internalName, String name) {
         ArrayList<VaultChestType > variants = new ArrayList<VaultChestType >(Arrays.asList(MixinVaultChestTypeEnum.$VALUES));
-        VaultChestType  type = enumExpansion$invokeInit(internalName, variants.get(variants.size() - 1).ordinal() + 1);
+        VaultChestType  type = enumExpansion$invokeInit(internalName, variants.get(variants.size() - 1).ordinal() + 1, name);
         variants.add(type);
         MixinVaultChestTypeEnum.$VALUES = variants.toArray(new VaultChestType[0]);
         return type;
