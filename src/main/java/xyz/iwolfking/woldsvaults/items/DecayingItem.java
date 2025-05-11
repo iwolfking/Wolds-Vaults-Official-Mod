@@ -14,7 +14,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
-import xyz.iwolfking.woldsvaults.util.VaultUtil;
+import xyz.iwolfking.woldsvaults.util.CorruptedVaultHelper;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class DecayingItem extends BasicItem {
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         if (!pLevel.isClientSide && pEntity instanceof ServerPlayer player) {
-            if(!VaultUtil.isVaultCorrupted) {
+            if(!CorruptedVaultHelper.isVaultCorrupted) {
                 if (pStack.getTag() != null) {
                     if(pStack.getTag().contains("RemainingSeconds")) {
                         pStack.setTag(null);
@@ -80,14 +80,14 @@ public class DecayingItem extends BasicItem {
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
-        if(ClientVaults.getActive().isPresent() && VaultUtil.isVaultCorrupted) {
+        if(ClientVaults.getActive().isPresent() && CorruptedVaultHelper.isVaultCorrupted) {
             MutableComponent cmp0 = new TextComponent("Powers the Monolith.").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#701233")).withItalic(true));
             MutableComponent cmp1 = new TextComponent("Slowly decays in your inventory.").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#701233")).withItalic(true));
 
             tooltip.add(ComponentUtils.corruptComponent(cmp0));
             tooltip.add(ComponentUtils.corruptComponent(cmp1));
         } else {
-            MutableComponent cmp0 = new TextComponent("Used as a fusion catalyst").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#701233")).withItalic(true));
+            MutableComponent cmp0 = new TextComponent("Crafting Ingredient").withStyle(Style.EMPTY.withColor(TextColor.parseColor("#701233")).withItalic(true));
 
             tooltip.add(ComponentUtils.corruptComponent(cmp0));
         }
