@@ -26,6 +26,7 @@ public class ModConfigs {
     public static BallisticBingoConfig BALLISTIC_BINGO_CONFIG;
     public static HauntedBraziersConfig HAUNTED_BRAZIERS;
     public static EnchantedElixirConfig ENCHANTED_ELIXIR;
+    public static CorruptedObjectiveConfig CORRUPTED_OBJECTIVE;
 
     public static AugmentRecipesConfig AUGMENT_RECIPES;
     public static ModBoxRecipesConfig MOD_BOX_RECIPES_CONFIG;
@@ -68,6 +69,7 @@ public class ModConfigs {
         BALLISTIC_BINGO_CONFIG = new BallisticBingoConfig().readConfig();
         HAUNTED_BRAZIERS = new HauntedBraziersConfig().readConfig();
         ENCHANTED_ELIXIR = new EnchantedElixirConfig().readConfig();
+        CORRUPTED_OBJECTIVE = new CorruptedObjectiveConfig().readConfig();
         AUGMENT_RECIPES = new AugmentRecipesConfig().readConfig();
         MOD_BOX_RECIPES_CONFIG = new ModBoxRecipesConfig().readConfig();
         THEME_TOOLTIPS = new ThemeTooltipsConfig().readConfig();
