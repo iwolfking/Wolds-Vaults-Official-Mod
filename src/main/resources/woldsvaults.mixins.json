@@ -140,6 +140,7 @@
     "vaulthunters.custom.MixinModGearAttributes",
     "vaulthunters.custom.MixinModModelDiscoveryGoals",
     "vaulthunters.custom.MixinObeliskObjective",
+    "vaulthunters.custom.MixinPlayerGreedData",
     "vaulthunters.custom.MixinPlayerReputationData",
     "vaulthunters.custom.MixinPlayerVaultStats",
     "vaulthunters.custom.MixinPlayerVaultStatsData",

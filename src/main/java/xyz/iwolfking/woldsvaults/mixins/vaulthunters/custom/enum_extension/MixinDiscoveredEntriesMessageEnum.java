@@ -21,6 +21,7 @@ public class MixinDiscoveredEntriesMessageEnum {
 
     private static final DiscoveredEntriesMessage.Type THEME = enumExpansion$addVariant("THEME");
     private static final DiscoveredEntriesMessage.Type WOLD_RECIPE = enumExpansion$addVariant("WOLD_RECIPE");
+    private static final DiscoveredEntriesMessage.Type PLAYER_GREED = enumExpansion$addVariant("PLAYER_GREED");
 
     @Invoker("<init>")
     public static DiscoveredEntriesMessage.Type enumExpansion$invokeInit(String internalName, int internalId) {
