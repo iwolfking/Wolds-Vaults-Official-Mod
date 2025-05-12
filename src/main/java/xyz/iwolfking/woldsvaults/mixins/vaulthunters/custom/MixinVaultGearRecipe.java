@@ -11,9 +11,13 @@ import iskallia.vault.world.data.PlayerStatsData;
 import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
+import xyz.iwolfking.woldsvaults.data.discovery.ClientPlayerGreedData;
+import xyz.iwolfking.woldsvaults.data.discovery.ClientRecipeDiscoveryData;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 @Mixin(value = GearForgeRecipe.class, remap = false)
 public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
@@ -37,8 +41,19 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
         if(!this.getId().equals(ETCHING_LOCATION) && !this.getId().equals(MAP_LOCATION) && !this.getId().equals(ZEPHYR_LOCATION)) {
             return true;
         }
+
+        if (this.getId().equals(ZEPHYR_LOCATION)) {
+            if (ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.containsKey(this.getId())) {
+                return player.isCreative() || ClientRecipeDiscoveryData.getDiscoveredRecipes().contains(this.getId());
+            }
+        }
+
+        if (player instanceof ServerPlayer sPlayer) {
+                PlayerGreedData greedData = PlayerGreedData.get(sPlayer.server);
+                return greedData.get(player).hasCompletedHerald();
+        }
         else {
-           return PlayerGreedData.get().get(player).hasCompletedHerald() || player.isCreative();
+            return !ClientPlayerGreedData.getArtifactData().isEmpty();
         }
     }
 

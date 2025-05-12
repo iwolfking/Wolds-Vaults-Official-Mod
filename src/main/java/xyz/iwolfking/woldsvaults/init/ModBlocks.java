@@ -48,6 +48,7 @@ public class ModBlocks {
     public static final DecoMonolithBlock DECO_MONOLITH_BLOCK;
     public static final SurvivalMobBarrier SURVIVAL_MOB_BARRIER;
     public static final VaultInfuserBlock VAULT_INFUSER_BLOCK;
+    public static final VaultInfuserBlock CHROMATIC_STEEL_INFUSER_BLOCK;
     public static final GatewayChannelingBlock GATEWAY_CHANNELING_BLOCK;
     public static final FracturedObelisk FRACTURED_OBELISK;
     public static final MonolithControllerBlock MONOLITH_CONTROLLER;
@@ -88,6 +89,7 @@ public class ModBlocks {
     public static final ShopPedestalBlock RARE_VENDOR_PEDESTAL = new ShopPedestalBlock();
     public static final ShopPedestalBlock OMEGA_VENDOR_PEDESTAL = new ShopPedestalBlock();
     public static final ShopPedestalBlock SPOOKY_VENDOR_PEDESTAL = new ShopPedestalBlock();
+    public static final ShopPedestalBlock CARD_VENDOR_PEDESTAL = new ShopPedestalBlock();
 
     public static final BackpackBlock XL_BACKPACK;
 
@@ -112,6 +114,7 @@ public class ModBlocks {
         SURVIVAL_MOB_BARRIER = new SurvivalMobBarrier();
         XL_BACKPACK = new BackpackBlock(12000);
         VAULT_INFUSER_BLOCK = new VaultInfuserBlock(1);
+        CHROMATIC_STEEL_INFUSER_BLOCK = new VaultInfuserBlock(4);
         AUGMENT_CRAFTING_TABLE = new AugmentCraftingTableBlock();
         MOD_BOX_WORKSTATION = new ModBoxWorkstationBlock();
         WEAVING_STATION = new WeavingStationBlock();
@@ -129,7 +132,7 @@ public class ModBlocks {
         DECO_LODESTONE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoLodestoneTileEntity::new, DECO_LODESTONE_BLOCK).build(null);
         DECO_MONOLITH_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoMonolithTileEntity::new, DECO_MONOLITH_BLOCK).build(null);
         SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(SurvivalMobBarrierTileEntity::new, SURVIVAL_MOB_BARRIER).build(null);
-        VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(VaultInfuserTileEntity::new, new Block[]{VAULT_INFUSER_BLOCK}).build(null);
+        VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(VaultInfuserTileEntity::new, new Block[]{VAULT_INFUSER_BLOCK, CHROMATIC_STEEL_INFUSER_BLOCK}).build(null);
         SOPHISTICATED_BACKPACK = BlockEntityType.Builder.of(BackpackBlockEntity::new, new Block[]{XL_BACKPACK}).build(null);
         AUGMENT_CRAFTING_TABLE_ENTITY = BlockEntityType.Builder.of(AugmentCraftingTableTileEntity::new, new Block[]{AUGMENT_CRAFTING_TABLE}).build(null);
         MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(ModBoxWorkstationTileEntity::new, new Block[]{MOD_BOX_WORKSTATION}).build(null);
@@ -158,6 +161,7 @@ public class ModBlocks {
         registerBlock(event, INFUSED_DRIFTWOOD_PLANKS, WoldsVaults.id("infused_driftwood_planks"));
         registerBlock(event, NULLITE_ORE, WoldsVaults.id("nullite_ore"));
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
+        registerBlock(event, CHROMATIC_STEEL_INFUSER_BLOCK, WoldsVaults.id("chromatic_steel_vault_infuser"));
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
         registerBlock(event, ETCHING_PEDESTAL, WoldsVaults.id("etching_shop_pedestal"));
         registerBlock(event, FRACTURED_OBELISK, WoldsVaults.id("fractured_obelisk"));
@@ -168,6 +172,7 @@ public class ModBlocks {
         registerBlock(event, OMEGA_VENDOR_PEDESTAL, WoldsVaults.id("omega_shop_pedestal"));
         registerBlock(event, GOD_VENDOR_PEDESTAL, WoldsVaults.id("god_shop_pedestal"));
         registerBlock(event, SPOOKY_VENDOR_PEDESTAL, WoldsVaults.id("spooky_shop_pedestal"));
+        registerBlock(event, CARD_VENDOR_PEDESTAL, WoldsVaults.id("card_shop_pedestal"));
 
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
@@ -204,6 +209,7 @@ public class ModBlocks {
         registerBlockItem(event, INFUSED_DRIFTWOOD_PLANKS);
         registerBlockItem(event, NULLITE_ORE);
         registerBlockItem(event, VAULT_INFUSER_BLOCK);
+        registerBlockItem(event, CHROMATIC_STEEL_INFUSER_BLOCK);
         registerBlockItem(event, GATEWAY_CHANNELING_BLOCK);
         registerBlockItem(event, ETCHING_PEDESTAL);
         registerBlockItem(event, GOD_VENDOR_PEDESTAL);
@@ -211,6 +217,7 @@ public class ModBlocks {
         registerBlockItem(event, RARE_VENDOR_PEDESTAL);
         registerBlockItem(event, OMEGA_VENDOR_PEDESTAL);
         registerBlockItem(event, SPOOKY_VENDOR_PEDESTAL);
+        registerBlockItem(event, CARD_VENDOR_PEDESTAL);
         registerBlockItem(event, PRISMATIC_FIBER_BLOCK);
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);

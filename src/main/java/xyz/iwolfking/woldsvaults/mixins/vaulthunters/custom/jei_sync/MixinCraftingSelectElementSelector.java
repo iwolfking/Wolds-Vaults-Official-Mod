@@ -2,12 +2,13 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom.jei_sync;
 
 import iskallia.vault.client.gui.framework.element.CraftingSelectorElement;
 import mezz.jei.common.Internal;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,14 @@ public class MixinCraftingSelectElementSelector {
         entries.removeIf(entry -> {
             ItemStack itemStack = entry.getDisplayStack();
             String name = itemStack.getDisplayName().getString();
+            List<Component> description = itemStack.getTooltipLines(null, TooltipFlag.Default.NORMAL);
             for (String filter : filters) {
                 if (!name.toLowerCase().contains(filter)) {
+                    for(Component line : description) {
+                        if(line.getString().toLowerCase().contains(filter)) {
+                            return false;
+                        }
+                    }
                     return true;
                 }
             }

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ada",
+    "vbv",
+    "aca"
+  ],
+  "key": {
+    "a": {
+      "item": "the_vault:chromatic_steel_ingot"
+    },
+    "b": {
+      "item": "woldsvaults:chromatic_iron_vault_infuser"
+    },
+    "c": {
+      "item": "woldsvaults:chroma_core"
+    },
+    "d": {
+      "item": "the_vault:vault_diamond_block"
+    },
+    "v": {
+      "item": "the_vault:vault_essence_1"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:chromatic_steel_vault_infuser",
+    "count": 1
+  }
+}

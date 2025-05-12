@@ -51,6 +51,7 @@ public class UnusualModifiers {
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.MANA_ADDITIVE);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.MANA_REGEN);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.COOLDOWN_REDUCTION);
+        AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
         AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.ITEM_QUANTITY);
         AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.ITEM_RARITY);
         AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.COPIOUSLY);
@@ -80,6 +81,7 @@ public class UnusualModifiers {
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.AXE_BLEED_CLOUD);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.AXE_REAVING);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.AXE_CLEAVE);
+        SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
         SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.ITEM_QUANTITY);
         SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.ITEM_RARITY);
         SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.COPIOUSLY);
@@ -127,6 +129,7 @@ public class UnusualModifiers {
         NON_SACK_PREFIX.add(UnusualModifierLib.MANA_REGEN);
         NON_SACK_PREFIX.add(UnusualModifierLib.COOLDOWN_REDUCTION);
         NON_SACK_PREFIX.add(UnusualModifierLib.AXE_CLEAVE);
+        NON_SACK_PREFIX.add(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
         PLUSHIE_PREFIX.addAll(NON_SACK_PREFIX);
         NON_SACK_PREFIX.add(UnusualModifierLib.ABILITY_POWER);
         NON_SACK_PREFIX.add(UnusualModifierLib.CHAINING);
@@ -141,6 +144,7 @@ public class UnusualModifiers {
         NON_SACK_SUFFIX.add(UnusualModifierLib.KNOCKBACK_RESISTANCE);
         NON_SACK_SUFFIX.add(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
         NON_SACK_SUFFIX.add(UnusualModifierLib.HEALING_EFFECTIVENESS);
+        NON_SACK_SUFFIX.add(UnusualModifierLib.DODGE_CHANCE);
         PLUSHIE_SUFFIX.addAll(NON_SACK_SUFFIX);
 
         NON_SACK_SUFFIX.add(UnusualModifierLib.ABILITY_POWER_PERCENTILE);
@@ -164,6 +168,7 @@ public class UnusualModifiers {
         SACK_PREFIX.add(UnusualModifierLib.MANA_REGEN);
         SACK_PREFIX.add(UnusualModifierLib.COOLDOWN_REDUCTION);
         SACK_PREFIX.add(UnusualModifierLib.CHAINING);
+        SACK_PREFIX.add(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
         SACK_SUFFIX.add(UnusualModifierLib.EFFECT_DURATION);
         SACK_SUFFIX.add(UnusualModifierLib.EFFECT_RADIUS);
         SACK_SUFFIX.add(UnusualModifierLib.KINETIC_IMMUNITY);
@@ -171,6 +176,7 @@ public class UnusualModifiers {
         SACK_SUFFIX.add(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
         SACK_SUFFIX.add(UnusualModifierLib.ABILITY_POWER_PERCENTILE);
         SACK_SUFFIX.add(UnusualModifierLib.HEALING_EFFECTIVENESS);
+        SACK_SUFFIX.add(UnusualModifierLib.DODGE_CHANCE);
         UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("loot_sack"), SACK_PREFIX);
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("loot_sack"), SACK_SUFFIX);
         UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("magnet"), SACK_PREFIX);

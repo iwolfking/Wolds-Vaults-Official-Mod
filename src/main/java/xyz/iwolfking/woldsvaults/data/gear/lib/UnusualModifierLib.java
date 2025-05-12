@@ -28,6 +28,7 @@ public class UnusualModifierLib {
     public static VaultGearTierConfig.ModifierTierGroup HEALTH = GearModifierRegistryHelper.create(VaultMod.id("health"), "ModHealthMana", VaultMod.id("mod_health_unusual"));
     public static VaultGearTierConfig.ModifierTierGroup MANA_REGEN = GearModifierRegistryHelper.create(VaultMod.id("mana_regen"), "ModManaRegen", VaultMod.id("mod_mana_regen_unusual"));
     public static VaultGearTierConfig.ModifierTierGroup COOLDOWN_REDUCTION = GearModifierRegistryHelper.create(VaultMod.id("cooldown_reduction"), "ModCooldownReduction", VaultMod.id("mod_cooldown_unusual"));
+    public static VaultGearTierConfig.ModifierTierGroup EFFECT_CLOUD_CHANCE = GearModifierRegistryHelper.create(VaultMod.id("effect_cloud_chance_additive"), "ModBonus", VaultMod.id("mod_effect_cloud_chance"));
 
 
 
@@ -56,6 +57,7 @@ public class UnusualModifierLib {
     public static VaultGearTierConfig.ModifierTierGroup EFFECT_DURATION = GearModifierRegistryHelper.create(VaultMod.id("effect_duration"), "ModCooldownReduction", VaultMod.id("mod_effect_duration_unusual"));
     public static VaultGearTierConfig.ModifierTierGroup HEALING_EFFECTIVENESS = GearModifierRegistryHelper.create(VaultMod.id("healing_effectiveness"), "ModHealthEff", VaultMod.id("mod_health_eff_unusual"));
     public static VaultGearTierConfig.ModifierTierGroup HEXING_HIT = GearModifierRegistryHelper.create(VaultMod.id("hexing_chance"), "ModOnHitType", VaultMod.id("mod_hexing_chance_unusual"));
+    public static VaultGearTierConfig.ModifierTierGroup DODGE_CHANCE = GearModifierRegistryHelper.create(VaultMod.id("dodge_percent"), "ModResistance", VaultMod.id("mod_dodge_chance_unusual"));
 
     //Map
     public static VaultGearTierConfig.ModifierTierGroup NON_LETHAL = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModMobCrit", VaultMod.id("no_crit_mobs"));
@@ -149,6 +151,11 @@ public class UnusualModifierLib {
         LEECH.add(new VaultGearTierConfig.ModifierTier<>(0, 1, new FloatAttributeGenerator.Range(0.01F, 0.02F, 0.01F)));
         LEECH.add(new VaultGearTierConfig.ModifierTier<>(50, 1, new FloatAttributeGenerator.Range(0.021F, 0.03F, 0.01F)));
         LEECH.add(new VaultGearTierConfig.ModifierTier<>(90, 1, new FloatAttributeGenerator.Range(0.031F, 0.035F, 0.01F)));
+        EFFECT_CLOUD_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(25, 5, new FloatAttributeGenerator.Range(0.01F, 0.02F, 0.01F)));
+        EFFECT_CLOUD_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(50, 5, new FloatAttributeGenerator.Range(0.02F, 0.03F, 0.01F)));
+        EFFECT_CLOUD_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(90, 5, new FloatAttributeGenerator.Range(0.03F, 0.04F, 0.01F)));
+        DODGE_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(75, 1, new FloatAttributeGenerator.Range(0.01F, 0.05F, 0.01F)));
+        DODGE_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(95, 1, new FloatAttributeGenerator.Range(0.05F, 0.08F, 0.01F)));
         EFFECT_RADIUS.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.03F, 0.07F, 0.01F)));
         EFFECT_RADIUS.add(new VaultGearTierConfig.ModifierTier<>(40, 10, new FloatAttributeGenerator.Range(0.08F, 0.11F, 0.01F)));
         EFFECT_RADIUS.add(new VaultGearTierConfig.ModifierTier<>(63, 10, new FloatAttributeGenerator.Range(0.12F, 0.16F, 0.01F)));

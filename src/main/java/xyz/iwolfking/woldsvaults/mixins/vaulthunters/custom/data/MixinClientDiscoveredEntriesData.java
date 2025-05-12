@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.data.discovery.ClientPlayerGreedData;
 import xyz.iwolfking.woldsvaults.data.discovery.ClientRecipeDiscoveryData;
 import xyz.iwolfking.woldsvaults.data.discovery.ClientThemeDiscoveryData;
 
@@ -19,6 +20,10 @@ public class MixinClientDiscoveredEntriesData {
         }
         if(message.type().equals(DiscoveredEntriesMessage.Type.valueOf("WOLD_RECIPE"))) {
             ClientRecipeDiscoveryData.receiveMessage(message.discoveredEntries());
+            ci.cancel();
+        }
+        if(message.type().equals(DiscoveredEntriesMessage.Type.valueOf("PLAYER_GREED"))) {
+            ClientPlayerGreedData.receiveMessage(message.discoveredEntries());
             ci.cancel();
         }
     }

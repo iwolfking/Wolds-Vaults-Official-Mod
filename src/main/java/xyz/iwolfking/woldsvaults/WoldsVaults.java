@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults;
 
 import com.mojang.logging.LogUtils;
 import iskallia.vault.item.crystal.CrystalData;
+import iskallia.vault.world.data.PlayerGreedData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -27,6 +28,7 @@ import xyz.iwolfking.woldsvaults.events.LivingEntityEvents;
 import xyz.iwolfking.woldsvaults.events.RegisterCommandEventHandler;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
 import xyz.iwolfking.woldsvaults.models.AdditionalModels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
@@ -88,9 +90,12 @@ public class WoldsVaults {
 
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         ModConfigs.AUGMENT_RECIPES.syncTo(ModConfigs.AUGMENT_RECIPES, (ServerPlayer) event.getPlayer());
+        ModConfigs.MOD_BOX_RECIPES_CONFIG.syncTo(ModConfigs.MOD_BOX_RECIPES_CONFIG, (ServerPlayer) event.getPlayer());
+        ModConfigs.WEAVING_RECIPES_CONFIG.syncTo(ModConfigs.WEAVING_RECIPES_CONFIG, (ServerPlayer) event.getPlayer());
         DiscoveredThemesData.get(((ServerPlayer) event.getPlayer()).getLevel()).syncTo((ServerPlayer) event.getPlayer());
         DiscoveredRecipesData.get(((ServerPlayer) event.getPlayer()).getLevel()).syncTo((ServerPlayer) event.getPlayer());
-
+        PlayerGreedData greedData = PlayerGreedData.get(((ServerPlayer) event.getPlayer()).server);
+        ((PlayerGreedDataExtension)greedData).syncTo((ServerPlayer) event.getPlayer());
     }
 
 
