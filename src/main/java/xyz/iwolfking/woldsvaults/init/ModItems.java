@@ -45,6 +45,7 @@ public class ModItems {
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_DOOMSAYER;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_ZEALOT;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_WARRIOR;
+    public static ItemVaultCrystalSeal CRYSTAL_SEAL_CORRUPT;
     public static VaultBattleStaffItem BATTLESTAFF;
     //public static VaultBowItem BOW;
 
@@ -176,6 +177,11 @@ public class ModItems {
 
     public static GodReputationItem GOD_OFFERING;
 
+    public static DecayingItem RUINED_ESSENCE;
+    public static LocatorItem OBELISK_RESONATOR;
+    public static BasicItem NULLITE_FRAGMENT;
+    public static BasicItem NULLITE_CRYSTAL;
+
     public static TrinketPouchItem TRINKET_POUCH;
 
     public static FilterNecklaceItem FILTER_NECKLACE;
@@ -191,6 +197,7 @@ public class ModItems {
         registry.register(CRYSTAL_SEAL_TITAN);
         registry.register(CRYSTAL_SEAL_DOOMSAYER);
         registry.register(CRYSTAL_SEAL_WARRIOR);
+        registry.register(CRYSTAL_SEAL_CORRUPT);
         registry.register(BATTLESTAFF);
         registry.register(TRIDENT);
         registry.register(PLUSHIE);
@@ -291,6 +298,10 @@ public class ModItems {
         registry.register(TARGETED_MOD_BOX);
         registry.register(UNIDENTIFIED_GATEWAY_PEARL);
         registry.register(TRINKET_POUCH);
+        registry.register(RUINED_ESSENCE);
+        registry.register(OBELISK_RESONATOR);
+        registry.register(NULLITE_FRAGMENT);
+        registry.register(NULLITE_CRYSTAL);
         registry.register(GOD_OFFERING);
         registry.register(PRISMATIC_FIBER);
         registry.register(RECIPE_BLUEPRINT);
@@ -307,6 +318,7 @@ public class ModItems {
         CRYSTAL_SEAL_DOOMSAYER = new ItemVaultCrystalSeal(VaultMod.id("crystal_seal_doomsayer"));
         CRYSTAL_SEAL_ZEALOT = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_zealot"));
         CRYSTAL_SEAL_WARRIOR = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_warrior"));
+        CRYSTAL_SEAL_CORRUPT = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_corrupt"));
         BATTLESTAFF =  new VaultBattleStaffItem(VaultMod.id("battlestaff"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         TRIDENT = new VaultTridentItem(VaultMod.id("trident"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         PLUSHIE = new VaultPlushieItem(VaultMod.id("plushie"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
@@ -405,6 +417,10 @@ public class ModItems {
         CHROMA_CORE = new BasicItem(WoldsVaults.id("chroma_core"));
         TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
+        RUINED_ESSENCE = new DecayingItem(WoldsVaults.id("ruined_essence"), 300);
+        OBELISK_RESONATOR = new LocatorItem(WoldsVaults.id("obelisk_resonator"), ModBlocks.FRACTURED_OBELISK, 64);
+        NULLITE_FRAGMENT = new BasicItem(WoldsVaults.id("nullite_fragment"));
+        NULLITE_CRYSTAL = new BasicItem(WoldsVaults.id("nullite_crystal"));
         GOD_OFFERING = new GodReputationItem(WoldsVaults.id("god_offering"));
         FILTER_NECKLACE = new FilterNecklaceItem(WoldsVaults.id("filter_necklace"), 9);
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
