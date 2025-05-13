@@ -14,9 +14,11 @@ import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,6 +34,7 @@ public class CorruptedObjective extends Objective {
     public static final SupplierKey<Objective> S_KEY = SupplierKey.of("corrupted", Objective.class).with(Version.v1_31, CorruptedObjective::new);
     private static final ResourceLocation SHADER = new ResourceLocation("shaders/post/sobel.json");
     private static boolean queuedRefresh = true; // used for shader
+    private static boolean showedToggleShaderMessage = false;
 
     public static final FieldRegistry FIELDS = Objective.FIELDS.merge(new FieldRegistry());
 
@@ -93,6 +96,12 @@ public class CorruptedObjective extends Objective {
         ClientEvents.CLIENT_TICK.register(vault, EventPriority.HIGH, data -> LoopSoundHandler.tick());
 
         CorruptedVaultHelper.isVaultCorrupted = true;
+
+        if (Minecraft.getInstance().player != null && !showedToggleShaderMessage) {
+            Minecraft.getInstance().player.displayClientMessage(new TextComponent("Shader may be toggled by pressing [F4]").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC), false);
+            showedToggleShaderMessage = true;
+        }
+
         super.initClient(vault);
     }
 
