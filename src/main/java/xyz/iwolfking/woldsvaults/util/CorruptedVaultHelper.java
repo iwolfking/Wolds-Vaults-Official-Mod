@@ -938,10 +938,13 @@ public class CorruptedVaultHelper {
 
         for (Float threshold : obj.get(CorruptedObjective.CORRUPTION_THRESHOLDS)) {
             if (corruption >= threshold) {
+                ChunkRandom random = ChunkRandom.any();
+                random.setBlockSeed(vault.get(Vault.SEED), world.getRandomPlayer().blockPosition(), 90039737L);
+
                 List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(
                         obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.CORRUPTED_MODIFIER_POOL),
                         vault.get(Vault.LEVEL).get(),
-                        ChunkRandom.any()
+                        random
                 );
 
                 for (VaultModifier<?> mod : modifiers) {
