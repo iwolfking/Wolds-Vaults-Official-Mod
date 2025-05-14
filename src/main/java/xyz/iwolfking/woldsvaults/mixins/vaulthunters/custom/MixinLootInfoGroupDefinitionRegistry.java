@@ -19,6 +19,11 @@ public abstract class MixinLootInfoGroupDefinitionRegistry {
         register("digsite_sand", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_SAND));
         register("brazier_pillage", () -> new ItemStack(iskallia.vault.init.ModBlocks.MONOLITH));
         register("haunted_brazier_pillage", () -> new ItemStack(iskallia.vault.init.ModBlocks.MONOLITH));
+        register("enigma_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.ENIGMA_CHEST));
+        register("ornate_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.ORNATE_CHEST));
+        register("living_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.LIVING_CHEST));
+        register("gilded_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.GILDED_CHEST));
+        register("wooden_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.WOODEN_CHEST));
     }
 
     @Shadow
