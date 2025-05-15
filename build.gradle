@@ -250,7 +250,7 @@ dependencies {
     implementation fg.deobf("curse.maven:cucumber-272335:4831151")
     implementation fg.deobf("curse.maven:second-chance-forge-509239:3832230")
     implementation fg.deobf("curse.maven:gateways-to-eternity-417802:4548643")
-    implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:6377103")
+    implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:6533744")
     implementation fg.deobf("curse.maven:mekanism-268560:3875976")
     compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6139466")
     compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061
