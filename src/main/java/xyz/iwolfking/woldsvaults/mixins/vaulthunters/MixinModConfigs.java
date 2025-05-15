@@ -2,18 +2,25 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.entry.IntRangeEntry;
+import iskallia.vault.config.entry.recipe.ConfigToolRecipe;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.config.gear.VaultGearTypeConfig;
 import iskallia.vault.gear.VaultGearRarity;
+import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.item.tool.ToolItem;
+import iskallia.vault.item.tool.ToolMaterial;
+import iskallia.vault.item.tool.ToolType;
 import iskallia.vault.util.data.WeightedList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.data.gear.UnusualModifiers;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearCommonConfigAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearRollTypeConfigAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearRollTypeConfigRollTypeAccessor;
@@ -88,6 +95,27 @@ public class MixinModConfigs {
         ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Scrappy++", mapLoot);
 
 
+        // Resolve issues with ToolRecipes being missing
+        ToolType[] basicTypes = new ToolType[]{ToolType.PICK, ToolType.AXE, ToolType.SHOVEL, ToolType.HAMMER, ToolType.SICKLE};
+        ToolMaterial toolMaterial = ToolMaterial.valueOf("NULLITE");
+        List<ItemStack> ingredients = List.of(
+                new ItemStack(iskallia.vault.init.ModItems.ECHOING_INGOT, 36),
+                new ItemStack(ModBlocks.VAULT_BRONZE, 4096),
+                new ItemStack(ModItems.WOLD_STAR_CHUNK, 3),
+                new ItemStack(ModItems.NULLITE_CRYSTAL, 32)
+                );
+
+        for(ToolType toolType : basicTypes) {
+
+            ItemStack out = ToolItem.create(toolMaterial, toolType);
+            ConfigToolRecipe recipe = new ConfigToolRecipe(out, toolType, toolMaterial);
+
+
+            for (ItemStack i : ingredients) {
+                recipe.addInput(i);
+            }
+            ModConfigs.TOOL_RECIPES.getConfigRecipes().add(recipe);
+        }
 
     }
 

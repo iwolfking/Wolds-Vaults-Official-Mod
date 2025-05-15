@@ -16,7 +16,7 @@ public class MixinToolMaterial {
     @SuppressWarnings("target")
     private static ToolMaterial[] $VALUES;
 
-    private static final ToolMaterial NULLITE = enumExpansion$addVariant("NULLITE", "nullite", 100, 600, 9.0F, 4096, 7);
+    private static final ToolMaterial NULLITE = enumExpansion$addVariant("NULLITE", "nullite", 100, 600, 9.0F, 4096, 9);
 
     @Invoker("<init>")
     public static ToolMaterial enumExpansion$invokeInit(String internalName, int internalId, String id, int level, int capacity, float miningSpeed, int durability, int repairs) {
