@@ -27,6 +27,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.client.sfx.LoopSoundHandler;
 import xyz.iwolfking.woldsvaults.data.compound.FloatList;
 import xyz.iwolfking.woldsvaults.events.vaultevents.client.WoldClientEvents;
+import xyz.iwolfking.woldsvaults.util.CorruptedVaultClientHelper;
 import xyz.iwolfking.woldsvaults.util.CorruptedVaultHelper;
 
 public class CorruptedObjective extends Objective {
@@ -173,15 +174,15 @@ public class CorruptedObjective extends Objective {
         Font font = mc.font;
         int centerX = window.getGuiScaledWidth() / 2;
 
-        CorruptedVaultHelper.renderCorruptionOverlay(this, poseStack, font, window, centerX);
-        CorruptedVaultHelper.renderTimeAddendOverlay(this, poseStack, window, player);
+        CorruptedVaultClientHelper.renderCorruptionOverlay(this, poseStack, font, window, centerX);
+        CorruptedVaultClientHelper.renderTimeAddendOverlay(this, poseStack, window, player);
 
         if (CorruptedVaultHelper.shouldDisplayEscapePrompt(this)) {
-            CorruptedVaultHelper.renderEscapePrompt(poseStack, font, centerX);
+            CorruptedVaultClientHelper.renderEscapePrompt(poseStack, font, centerX);
             return true;
         }
 
-        CorruptedVaultHelper.renderObjectiveProgress(this, poseStack, font, centerX);
+        CorruptedVaultClientHelper.renderObjectiveProgress(this, poseStack, font, centerX);
         return true;
     }
 

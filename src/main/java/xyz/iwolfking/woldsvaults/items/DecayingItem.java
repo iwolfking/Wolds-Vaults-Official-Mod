@@ -1,9 +1,12 @@
 package xyz.iwolfking.woldsvaults.items;
 
 import iskallia.vault.core.vault.ClientVaults;
+import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.objective.Objectives;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModSounds;
 import iskallia.vault.item.BasicItem;
+import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -13,10 +16,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
 import xyz.iwolfking.woldsvaults.util.CorruptedVaultHelper;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DecayingItem extends BasicItem {
     private final int secondsUntilExpired;
@@ -55,6 +60,21 @@ public class DecayingItem extends BasicItem {
                 }
                 return;
             }
+
+            Vault vault = ServerVaults.get(pLevel).orElse(null);
+
+            if (vault == null) return;
+
+            Optional<CorruptedObjective> objective = vault.get(Vault.OBJECTIVES)
+                    .get(Objectives.LIST)
+                    .stream()
+                    .filter(o -> o instanceof CorruptedObjective)
+                    .map(o -> (CorruptedObjective) o)
+                    .findFirst();
+
+            if(objective.isEmpty()) return;
+
+            if(objective.get().get(CorruptedObjective.DATA).hasCompletedInitial()) return;
 
             if (!pStack.getOrCreateTag().contains("RemainingSeconds")) {
                 setRemainingSeconds(pStack, secondsUntilExpired);
