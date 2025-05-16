@@ -31,6 +31,10 @@ import xyz.iwolfking.woldsvaults.integration.vhatcaniroll.EtchingListContainer;
 )
 @Mixin(value = GearModifierScreen.class, remap = false)
 public abstract class MixinGearModifierScreen extends AbstractElementScreen {
+    @Unique
+    private InnerGearScreen woldsvaults$lastScreen;
+    @Unique
+    private Component woldsvaults$lastLabel;
 
     @Shadow private InnerGearScreen innerScreen;
     @Shadow private ModifierCategory modifierCategory;
@@ -73,11 +77,32 @@ public abstract class MixinGearModifierScreen extends AbstractElementScreen {
     @Inject(method = "updateModifierList", at = @At(value = "HEAD"), cancellable = true)
     private void createEtchingScreen(boolean keepScroll, CallbackInfo ci) {
         if(this.windowNameLabel.getComponent().equals(ETCHING_COMPONENT) && !this.getCurrGear().is(ModItems.ETCHING)) {
-            this.enableLvlButtons();
-            this.enableCategoryButtons();
-            this.windowNameLabel.set((new TranslatableComponent("vhatcaniroll.screen.title.random")).withStyle(ChatFormatting.BLACK));
+            this.removeElement(this.innerScreen);
+            if (woldsvaults$lastScreen != null){
+                if (woldsvaults$lastScreen instanceof TransmogListContainer){
+                    this.disableCategoryButtons();
+                    this.disableLvlButtons();
+                }
+                if (woldsvaults$lastScreen instanceof ModifierListContainer){
+                    this.enableCategoryButtons();
+                    this.enableLvlButtons();
+                }
+                if (woldsvaults$lastScreen instanceof CraftedModifiersListContainer ||
+                    woldsvaults$lastScreen instanceof UniqueGearListContainer){
+                    this.enableLvlButtons();
+                    this.disableCategoryButtons();
+                }
+                this.innerScreen = woldsvaults$lastScreen;
+                woldsvaults$lastScreen = null;
+            }
+            if (woldsvaults$lastLabel != null){
+                this.windowNameLabel.set(woldsvaults$lastLabel);
+                woldsvaults$lastLabel = null;
+            }
         }
         if(this.getCurrGear().is(ModItems.ETCHING) && !(this.innerScreen instanceof EtchingListContainer)) {
+            woldsvaults$lastScreen = this.innerScreen;
+            woldsvaults$lastLabel = this.windowNameLabel.getComponent();
             woldsVaults$switchToEtching();
             ci.cancel();
         }
