@@ -61,7 +61,7 @@ public class ModConfigs {
         SUPPLY_BOX = new GenericLootableConfig("supply_box").readConfig();
         AUGMENT_BOX = new GenericLootableConfig("augment_box").readConfig();
         INSCRIPTION_BOX = new GenericLootableConfig("inscription_box").readConfig();
-        OMEGA_BOX = new GenericLootableConfig("vaultar_box").readConfig();
+        OMEGA_BOX = new GenericLootableConfig("omega_box").readConfig();
         CATALYST_BOX = new GenericLootableConfig("catalyst_box").readConfig();
         ENIGMA_EGG = new GenericLootableConfig("enigma_egg").readConfig();
         VAULTAR_BOX = new GenericLootableConfig("vaultar_box").readConfig();
