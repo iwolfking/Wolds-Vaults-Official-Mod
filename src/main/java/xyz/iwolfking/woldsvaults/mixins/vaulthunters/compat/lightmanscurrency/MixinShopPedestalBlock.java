@@ -114,7 +114,7 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
                 }
             }
 
-            if(tile.isInitialized() && handIn == InteractionHand.MAIN_HAND && player.isShiftKeyDown()) {
+            if(tile.isInitialized() && player.isShiftKeyDown()) {
                 if(state.getValue(REROLLED) || player.hasEffect(ModEffects.REROLLED_TIMEOUT)) {
                     return InteractionResult.FAIL;
                 }

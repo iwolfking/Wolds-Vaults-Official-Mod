@@ -65,6 +65,19 @@ public abstract class MixinCoinPileBlock extends Block implements EntityBlock {
 
             return true;
         } else {
+            if(!player.isCreative()) {
+                if (!player.isCreative()) {
+                    this.playerWillDestroy(level, pos, state, player);
+                    this.generateLoot(level, pos, player);
+                    if (size != 1) {
+                        level.setBlock(pos, (BlockState)state.setValue(CoinPileBlock.SIZE, size - 1), level.isClientSide ? 11 : 3);
+                    } else {
+                        level.setBlock(pos, fluid.createLegacyBlock(), level.isClientSide ? 11 : 3);
+                    }
+
+                    return true;
+                }
+            }
             return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
         }
     }

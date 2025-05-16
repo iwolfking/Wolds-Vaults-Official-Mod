@@ -33,6 +33,7 @@ import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 
 public class GodReputationItem extends BasicItem {
 
@@ -64,7 +65,15 @@ public class GodReputationItem extends BasicItem {
             return InteractionResultHolder.pass(heldStack);
         }
 
-        if(!level.isClientSide()) {
+        UUID playerUuid = player.getUUID();
+        VaultGod god = getGod(heldStack);
+
+        if(!level.isClientSide() && god != null) {
+            if(PlayerReputationData.getReputation(playerUuid, god) >= 50) {
+                player.displayClientMessage(new TextComponent("You already have the max reputation with ").withStyle(ChatFormatting.RED).append(god.getName()).withStyle(god.getChatColor()), true);
+                return InteractionResultHolder.pass(heldStack);
+            }
+
             PlayerReputationData.addReputation(player.getUUID(), getGod(heldStack), 1);
             heldStack.shrink(1);
             level.playSound(player, player.getOnPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, 1.0F, 1.0F);
