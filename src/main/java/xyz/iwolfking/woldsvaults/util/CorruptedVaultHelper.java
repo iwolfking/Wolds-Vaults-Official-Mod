@@ -679,15 +679,22 @@ public class CorruptedVaultHelper {
                 data.setResult(InteractionResult.SUCCESS);
             }
 
-            CompoundTag nbt = data.getPlayer().getMainHandItem().getTag();
+            Player player = data.getPlayer();
+            ItemStack item = player.getMainHandItem();
+
+            if(!item.hasTag()) {
+                return;
+            }
+
+            CompoundTag nbt = item.getTag();
             boolean isFromThisVault = nbt != null && nbt.getUUID("VaultID").equals(vault.get(Vault.ID));
 
-            if (data.getPlayer().getMainHandItem().getItem() == xyz.iwolfking.woldsvaults.init.ModItems.RUINED_ESSENCE
+            if (item.getItem() == xyz.iwolfking.woldsvaults.init.ModItems.RUINED_ESSENCE
                     && obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.COUNT) < obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.TARGET)
                     && isFromThisVault) {
 
-                if(!data.getPlayer().getAbilities().instabuild) {
-                    data.getPlayer().getMainHandItem().shrink(1);
+                if(!player.getAbilities().instabuild) {
+                    item.shrink(1);
                 }
 
                 obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.COUNT, obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.COUNT) + 1);
