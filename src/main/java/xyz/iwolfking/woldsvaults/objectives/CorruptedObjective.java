@@ -133,6 +133,10 @@ public class CorruptedObjective extends Objective {
         CorruptedVaultHelper.tickCorruption(this, vault, corruptionMultiplier);
         CorruptedVaultHelper.checkCorruptionEvents(this, vault, world, this.get(DATA).get(CData.CORRUPTION));
 
+        if(this.get(DATA).get(CData.INITIAL_COMPLETION) && this.get(DATA).get(CData.TIME_TICKED_FAKE) <= 400) {
+            CorruptedVaultHelper.tickFakeVictory(this);
+        }
+
         // If the Objective is fully completed, we tick super to end the objective.
         if(this.get(DATA).hasFullyCompleted()) {
             super.tickServer(world, vault);

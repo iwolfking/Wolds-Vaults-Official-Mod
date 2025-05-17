@@ -253,8 +253,6 @@ public class CorruptedVaultHelper {
                 world.playSound(null, new BlockPos(0, 64, 0), SoundEvents.RESPAWN_ANCHOR_DEPLETE, SoundSource.BLOCKS, 0.5F, 0.8F);
             }
         });
-
-        objective.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TIME_TICKED_FAKE, objective.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.TIME_TICKED_FAKE) + 1);
     }
 
 
@@ -1019,5 +1017,7 @@ public class CorruptedVaultHelper {
     }
 
 
-
+    public static void tickFakeVictory(CorruptedObjective obj) {
+        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TIME_TICKED_FAKE, obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.TIME_TICKED_FAKE) + 1);
+    }
 }
