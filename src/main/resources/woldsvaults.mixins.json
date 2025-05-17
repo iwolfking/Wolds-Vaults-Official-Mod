@@ -183,8 +183,6 @@
     "vaulthunters.custom.etching.MixinDragonSet",
     "vaulthunters.custom.etching.MixinRiftSet",
     "vaulthunters.custom.etching.MixinZodSet",
-    "vaulthunters.custom.jei_sync.MixinCraftingSelectElementSelector",
-    "vaulthunters.custom.jei_sync.MixinCraftingSelectorElement",
     "vaulthunters.custom.recycler.MixinVaultCatalystItem",
     "vaulthunters.custom.recycler.MixinVaultGearItem",
     "vaulthunters.fixes.MixinAscensionObjective",
@@ -246,7 +244,9 @@
     "vaulthunters.fixes.MixinUniqueCodexScreen",
     "vhatcaniroll.MixinGearModifierScreen",
     "vaulthunters.custom.MixinVault",
-    "vaulthunters.custom.MixinTickTimer"
+    "vaulthunters.custom.MixinTickTimer",
+    "vaulthunters.custom.jei_sync.MixinCraftingSelectElementSelector",
+    "vaulthunters.custom.jei_sync.MixinCraftingSelectorElement"
   ],
   "injectors": {
     "defaultRequire": 1

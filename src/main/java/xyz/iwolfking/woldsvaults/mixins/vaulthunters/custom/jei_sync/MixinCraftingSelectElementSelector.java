@@ -9,6 +9,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
 public class MixinCraftingSelectElementSelector {
     @Inject(at = @At("RETURN"), method = "getEntries", cancellable = true, remap = false)
     public void filterSearch(CallbackInfoReturnable<List<CraftingSelectorElement.CraftingEntry>> cir) {
-        if (Internal.getRuntime().isEmpty()) {
+        if (Internal.getRuntime().isEmpty() || WoldsVaultsConfig.CLIENT.syncJEISearchForWorkstations.get()) {
             return;
         }
 
