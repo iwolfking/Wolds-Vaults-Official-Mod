@@ -124,6 +124,8 @@ public class CorruptedVaultHelper {
             pz += dz;
         }
 
+        BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
+
         for (int i = 0; i < slashPath.size(); i++) {
             Vec3 pos = slashPath.get(i);
             float taper = (float) Math.sin((Math.PI * i) / length);
@@ -135,9 +137,9 @@ public class CorruptedVaultHelper {
                     double dist = x * x + z * z;
                     if (dist <= outerWidth * outerWidth + 0.2) {
                         for (int y = 63; y >= 0; y--) {
-                            BlockPos carvePos = new BlockPos(Math.round(pos.x()) + x, y, Math.round(pos.z()) + z);
-                            if(!world.getBlockState(carvePos).is(ModBlocks.VAULT_BEDROCK) && world.isLoaded(carvePos)) {
-                                world.setBlock(carvePos, ModBlocks.VAULT_BEDROCK.defaultBlockState(), Block.UPDATE_ALL);
+                            mutable.set(Math.round(pos.x()) + x, y, Math.round(pos.z()) + z);
+                            if(!world.getBlockState(mutable).is(ModBlocks.VAULT_BEDROCK) && world.isLoaded(mutable)) {
+                                world.setBlock(mutable, ModBlocks.VAULT_BEDROCK.defaultBlockState(), Block.UPDATE_ALL);
                             }
                         }
                     }
@@ -155,9 +157,9 @@ public class CorruptedVaultHelper {
                     double dist = x * x + z * z;
                     if (dist <= taperedWidth * taperedWidth + 0.2) {
                         for (int y = 63; y >= 0; y--) {
-                            BlockPos carvePos = new BlockPos(Math.round(pos.x()) + x, y, Math.round(pos.z()) + z);
-                            if (world.getBlockState(carvePos).getMaterial().isSolid() && world.isLoaded(carvePos) ) {
-                                world.setBlock(carvePos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+                            mutable.set(Math.round(pos.x()) + x, y, Math.round(pos.z()) + z);
+                            if (world.getBlockState(mutable).getMaterial().isSolid() && world.isLoaded(mutable) ) {
+                                world.setBlock(mutable, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
                             }
                         }
                     }
@@ -438,8 +440,9 @@ public class CorruptedVaultHelper {
     // Black magic, I dont know
     public static void summonRoofSpikes(VirtualWorld world, Player player, int radius, int tickInterval, float chanceToSummon) {
         if (player.tickCount % tickInterval == 0) {
+            BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
             if (world.getRandom().nextFloat() < chanceToSummon) {
-                BlockPos base = new BlockPos(
+                mutable.set(
                         player.getX() + world.getRandom().nextInt(radius * 2) - radius,
                         64,
                         player.getZ() + world.getRandom().nextInt(radius * 2) - radius
@@ -453,9 +456,9 @@ public class CorruptedVaultHelper {
                 int length = 15 + world.getRandom().nextInt(10);
                 float maxRadius = 1.5f + world.getRandom().nextFloat();
 
-                double px = base.getX();
-                double py = base.getY();
-                double pz = base.getZ();
+                double px = mutable.getX();
+                double py = mutable.getY();
+                double pz = mutable.getZ();
 
                 BlockPos lastBlock = null;
 
