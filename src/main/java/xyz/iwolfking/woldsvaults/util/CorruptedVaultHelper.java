@@ -233,7 +233,7 @@ public class CorruptedVaultHelper {
 
             if (time >= 100 && time < 320 && time % 5 == 0) {
                 String jumbled = jumbleCharacters("Vault Completed!", world.random);
-                Component corrupted = ComponentUtils.corruptComponent(new TextComponent(jumbled).setStyle(Style.EMPTY.withColor(TextColor.parseColor("#870c03"))));
+                Component corrupted = ComponentUtils.corruptComponentServerSide(new TextComponent(jumbled).setStyle(Style.EMPTY.withColor(TextColor.parseColor("#870c03"))));
                 player.connection.send(new ClientboundSetTitleTextPacket(corrupted));
 
                 world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.NOTE_BLOCK_BIT, SoundSource.MASTER, 0.8F, 0.5F + (world.random.nextFloat() * 0.5F));
