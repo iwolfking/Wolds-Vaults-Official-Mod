@@ -410,10 +410,11 @@ public class CorruptedVaultHelper {
         data.setResult(InteractionResult.SUCCESS);
     }
 
-    public static int calculateGradualTimeIncrease(int timeLeftInTicks) {
+    public static int calculateGradualTimeIncrease(int timeLeftInTicks, int playerCount) {
         int timeLeftInSeconds = timeLeftInTicks / 20; // Convert ticks to seconds
-        int maxTimeInSeconds = 1800; // 30 minutes
-        int maxAddTimeInTicks = 150; // 7.5s
+        int maxTimeInSeconds = 900; // 15 minutes
+        int maxAddTimeInTicks = Math.max(40, 120 - ((playerCount - 1) * 10)); // 6s, with each player reduce by half a second, min 2 seconds
+
 
         float fraction = 1 - ((float) timeLeftInSeconds / maxTimeInSeconds);
         return Math.max(0, Math.round(maxAddTimeInTicks * fraction));
@@ -749,7 +750,8 @@ public class CorruptedVaultHelper {
             if(obj.get(CorruptedObjective.DATA).hasCompletedInitial()) return;
             if(event.getSource().getEntity() instanceof Player && CorruptedVaultHelper.eligibleForExtraTime(vault)) {
                 int timeLeft = vault.get(Vault.CLOCK).get(TickClock.DISPLAY_TIME);
-                int increase = CorruptedVaultHelper.calculateGradualTimeIncrease(timeLeft);
+                int playerCount = vault.get(Vault.LISTENERS).getAll().size();
+                int increase = CorruptedVaultHelper.calculateGradualTimeIncrease(timeLeft, playerCount);
 
                 vault.get(Vault.CLOCK).addModifier(new KillMobTimeExtension(increase));
 
