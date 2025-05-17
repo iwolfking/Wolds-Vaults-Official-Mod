@@ -121,6 +121,7 @@ public class CorruptedObjective extends Objective {
         CorruptedVaultHelper.handleKillTimeExtensions(this, world, vault);              // Handles the additional time per killed mob
         CorruptedVaultHelper.updateFracturedObeliskObfuscation(this);               // Handles the updating of Fractured Obelisks
 
+        CorruptedVaultHelper.isVaultCorrupted = true;
         super.initServer(world, vault);
     }
 
