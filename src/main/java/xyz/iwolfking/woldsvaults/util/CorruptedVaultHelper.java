@@ -492,13 +492,14 @@ public class CorruptedVaultHelper {
                                 }
                             }
                         }
-                        ModNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new MonolithIgniteMessage(base)); //TODO
                     }
 
                     px += dx * 0.8;
                     py += dy * 0.8;
                     pz += dz * 0.8;
                 }
+                ModNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new MonolithIgniteMessage(mutable)); //TODO
+
                 if (lastBlock != null && world.getRandom().nextFloat() > 0.5F) { // 50%
                     world.setBlock(lastBlock, xyz.iwolfking.woldsvaults.init.ModBlocks.NULLITE_ORE.defaultBlockState(), Block.UPDATE_ALL);
                 }
@@ -899,9 +900,8 @@ public class CorruptedVaultHelper {
             }
         }
 
-        for (Float f : toRemove) {
-            obj.get(CorruptedObjective.CORRUPTION_THRESHOLDS).remove(f);
-        }
+        obj.get(CorruptedObjective.CORRUPTION_THRESHOLDS).removeAll(toRemove);
+
 
         if(corruption > 25F) {
             if(obj.get(CorruptedObjective.DATA).hasCompletedInitial()) {
