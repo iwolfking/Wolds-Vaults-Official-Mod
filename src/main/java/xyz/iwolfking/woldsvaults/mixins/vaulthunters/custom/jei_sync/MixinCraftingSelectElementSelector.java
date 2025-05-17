@@ -18,7 +18,7 @@ import java.util.List;
 public class MixinCraftingSelectElementSelector {
     @Inject(at = @At("RETURN"), method = "getEntries", cancellable = true, remap = false)
     public void filterSearch(CallbackInfoReturnable<List<CraftingSelectorElement.CraftingEntry>> cir) {
-        if (Internal.getRuntime().isEmpty() || WoldsVaultsConfig.CLIENT.syncJEISearchForWorkstations.get()) {
+        if (Internal.getRuntime().isEmpty() || !WoldsVaultsConfig.CLIENT.syncJEISearchForWorkstations.get()) {
             return;
         }
 
