@@ -20,7 +20,7 @@ public abstract class MixinArtisanStationContainer {
     @Inject(method = "initSlots", at = @At(value = "INVOKE", target = "Liskallia/vault/container/VaultArtisanStationContainer;addModSlot(Liskallia/vault/container/oversized/OverSizedTabSlot;Liskallia/vault/container/VaultArtisanStationContainer$Tab;Liskallia/vault/gear/modification/GearModification;Liskallia/vault/container/VaultArtisanStationContainer$ButtonSide;)V", ordinal = 13))
     private void addUnusualSlot(Inventory playerInventory, CallbackInfo ci) {
         this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 17, 150, 92), VaultArtisanStationContainer.Tab.EXOTIC, ModGearModifications.UNUSUAL_GEAR_MODIFICATION, VaultArtisanStationContainer.ButtonSide.LEFT);
-        this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 19, 8, 20), VaultArtisanStationContainer.Tab.valueOf("MYTHICAL"), ModGearModifications.BLAZING_GEAR_MODIFICATION, VaultArtisanStationContainer.ButtonSide.RIGHT);
+        this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 18, 8, 20), VaultArtisanStationContainer.Tab.valueOf("MYTHICAL"), ModGearModifications.BLAZING_GEAR_MODIFICATION, VaultArtisanStationContainer.ButtonSide.RIGHT);
         this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 19, 150, 20), VaultArtisanStationContainer.Tab.valueOf("MYTHICAL"), ModGearModifications.FREEZE_ALL_GEAR_MODIFICATION, VaultArtisanStationContainer.ButtonSide.LEFT);
     }
 
