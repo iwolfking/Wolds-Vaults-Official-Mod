@@ -151,10 +151,9 @@
     "vaulthunters.custom.MixinRunner",
     "vaulthunters.custom.MixinShopPedestalBlockTileRenderer",
     "vaulthunters.custom.MixinSpecialAbilityModificationRegistry",
-    "vaulthunters.custom.MixinTickTimer",
+
     "vaulthunters.custom.MixinToolItem",
     "vaulthunters.custom.MixinTrinketItem",
-    "vaulthunters.custom.MixinVault",
     "vaulthunters.custom.MixinVaultChestBlock",
     "vaulthunters.custom.MixinVaultCrateBlock",
     "vaulthunters.custom.MixinVaultGearHelper",
@@ -245,7 +244,9 @@
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
-    "vhatcaniroll.MixinGearModifierScreen"
+    "vhatcaniroll.MixinGearModifierScreen",
+    "vaulthunters.custom.MixinVault",
+    "vaulthunters.custom.MixinTickTimer"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -37,8 +37,29 @@ public class MixinCorruptGearModification {
         } else {
             if(stack.getItem() instanceof VaultMapItem) {
                 if(JavaRandom.ofNanoTime().nextFloat() <= 0.1F) {
-                    data.createOrReplaceAttributeValue(ModGearAttributes.OBJECTIVE, "corrupted");
-                    data.createOrReplaceAttributeValue(ModGearAttributes.THEME_POOL, VaultMod.sId("corrupted"));
+                    VaultGearModifier<?> objModifier = null;
+                    VaultGearModifier<?> themeModifier = null;
+                    for(VaultGearModifier<?> mod : data.getModifiers(VaultGearModifier.AffixType.IMPLICIT)) {
+                        if(mod.getAttribute().equals(ModGearAttributes.OBJECTIVE)) {
+                            objModifier = mod;
+                        }
+                        else if(mod.getAttribute().equals(ModGearAttributes.THEME_POOL)) {
+                            themeModifier = mod;
+                        }
+                    }
+
+                    if(objModifier != null) {
+                        data.removeModifier(objModifier);
+                    }
+
+                    if(themeModifier != null) {
+                        data.removeModifier(themeModifier);
+                    }
+                    data.addModifier(VaultGearModifier.AffixType.IMPLICIT, new VaultGearModifier<String>(ModGearAttributes.OBJECTIVE, "corrupted"));
+                    data.addModifier(VaultGearModifier.AffixType.IMPLICIT, new VaultGearModifier<String>(ModGearAttributes.THEME_POOL, "the_vault:corrupted"));
+                    data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_CORRUPTED, true);
+                    data.write(stack);
+                    return GearModification.Result.makeSuccess();
                 }
             }
             if(data.hasAttribute(ModGearAttributes.DIVINE)) {
