@@ -371,8 +371,8 @@ public class CorruptedVaultHelper {
         world.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
         data.getPlayer().addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 1));
 
-        int numEnemies = 32;
-        int radius = 32;
+        int numEnemies = 20;
+        int radius = 24;
         Random random = world.random;
 
         for (int i = 0; i < numEnemies; i++) {
@@ -386,18 +386,18 @@ public class CorruptedVaultHelper {
                 if(world.getRandom().nextFloat() > 0.5F) {
                     Tier5BloodHordeEntity entity = new Tier5BloodHordeEntity(ModEntities.T5_BLOOD_HORDE, world);
 
-                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 5)); // Speed 6
-                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Integer.MAX_VALUE, 9)); // Strength 10
-                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1)); // Resistance 2
+                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 24000, 3)); // Speed 4 for 20 minutes
+                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 24000, 7)); // Strength 8 for 20 minutes
+                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 24000, 0)); // Resistance 1 for 20 minutes
 
                     entity.moveTo(x + 0.5, y, z + 0.5, random.nextFloat() * 360F, 0F);
                     world.addFreshEntity(entity);
                 } else {
                     Tier5BloodSkeletonEntity entity = new Tier5BloodSkeletonEntity(ModEntities.T5_BLOOD_SKELETON, world);
 
-                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 5)); // Speed 6
-                    entity.addEffect(new MobEffectInstance(ModEffects.CORRUPTION, Integer.MAX_VALUE, 9)); // Strength 10
-                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1)); // Resistance 2
+                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 24000, 3)); // Speed 4 for 20 minutes
+                    entity.addEffect(new MobEffectInstance(ModEffects.CORRUPTION, 24000, 7)); // Strength 8 for 20 minutes
+                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 24000, 0)); // Resistance 1 for 20 minutes
 
                     entity.moveTo(x + 0.5, y, z + 0.5, random.nextFloat() * 360F, 0F);
                     world.addFreshEntity(entity);
