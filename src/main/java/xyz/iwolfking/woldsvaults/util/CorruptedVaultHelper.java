@@ -918,17 +918,16 @@ public class CorruptedVaultHelper {
 
     public static float setupVaultObjectiveValues(CorruptedObjective obj, VirtualWorld world, Vault vault) {
         // Increase targets based on amount of players in the vault
-        vault.get(Vault.LISTENERS).getAll().forEach((listener) -> {
-            obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TARGET, 5);
-            obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.SECONDARY_TARGET, 5);
-        });
+        int playerCount = vault.get(Vault.LISTENERS).getAll().size();
 
-        // Increase objective difficulty based on the modifier & corruption multiplier
-        double increase = CommonEvents.OBJECTIVE_TARGET.invoke(world, vault, 0.0).getIncrease();
-        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TARGET, (int) Math.round((double) obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.BASE_TARGET) * (1.0 + increase)));
-        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.SECONDARY_TARGET, (int) Math.round((double) obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_BASE_TARGET) * (1.0 + increase)));
+        int baseTarget1 = obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.BASE_TARGET);
+        int baseTarget2 = obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_BASE_TARGET);
+        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TARGET, baseTarget1 + (playerCount * 5) - 5);
+        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.SECONDARY_TARGET, baseTarget2 + (playerCount * 5 - 5));
 
-        float corruptionMultiplier = (float) (1.0F + increase);
+
+
+        float corruptionMultiplier = 1.0F;
 
         // If the secondary target is too high, we modify it to be 10 lower than the total amount of spawned obelisks, to make it fairer
         // This is unlikely to be ever hit, especially in high level vaults, and will NEVER be hit in infinite vaults, which will be the intended type of the vault.
