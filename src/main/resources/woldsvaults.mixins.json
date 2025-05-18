@@ -151,7 +151,6 @@
     "vaulthunters.custom.MixinRunner",
     "vaulthunters.custom.MixinShopPedestalBlockTileRenderer",
     "vaulthunters.custom.MixinSpecialAbilityModificationRegistry",
-
     "vaulthunters.custom.MixinToolItem",
     "vaulthunters.custom.MixinTrinketItem",
     "vaulthunters.custom.MixinVaultChestBlock",
