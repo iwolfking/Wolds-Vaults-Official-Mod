@@ -190,5 +190,9 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
         return ModConfigs.TRINKET_POUCH.TRINKET_POUCH_CONFIGS.getOrDefault(pouchId, new TrinketPouchConfig.TrinketPouchConfigEntry("Trinket Pouch", Map.of(), TextColor.fromLegacyFormat(ChatFormatting.WHITE)));
     }
 
+    public static Set<String> getSlotTypes(ItemStack pouch) {
+        TrinketPouchConfig.TrinketPouchConfigEntry entry = getPouchConfigFor(pouch);
+        return entry.SLOT_ENTRIES.keySet();
+    }
 
 }
