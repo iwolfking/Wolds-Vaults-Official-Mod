@@ -20,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,8 +41,18 @@ public abstract class MixinJewelCraftingRecipe extends VaultForgeRecipe {
     @Override
     public boolean canCraft(Player player) {
         if(this.getId().equals(VaultMod.id("random"))) {
-            TieredSkill expertise = ClientExpertiseData.getLearnedTalentNode("Jeweler");
-            return expertise != null && expertise.isUnlocked();
+            if(player instanceof ServerPlayer serverPlayer) {
+                ExpertiseTree tree = PlayerExpertisesData.get(serverPlayer.server).getExpertises(player);
+                for(Skill skill : tree.skills) {
+                    if(skill.getId().equals("Jeweler")) {
+                        return skill.isUnlocked();
+                    }
+                }
+            }
+            else {
+                TieredSkill expertise = ClientExpertiseData.getLearnedTalentNode("Jeweler");
+                return expertise != null && expertise.isUnlocked();
+            }
         }
 
         return true;
