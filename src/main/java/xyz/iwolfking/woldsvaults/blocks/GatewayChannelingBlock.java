@@ -55,6 +55,10 @@ public class GatewayChannelingBlock extends Block {
         } else if (!world.getEntitiesOfClass(GatewayEntity.class, (new AABB(pos)).inflate(25.0, 25.0, 25.0)).isEmpty()) {
             return InteractionResult.FAIL;
         } else {
+            if(!(stack.getItem() instanceof GatePearlItem)) {
+                return InteractionResult.PASS;
+            }
+
             GatewayEntity entity = null;
 
             if(randomGateway) {
