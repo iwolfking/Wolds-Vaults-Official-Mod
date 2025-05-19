@@ -1,29 +1,27 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import iskallia.vault.block.entity.ToolStationTileEntity;
 import iskallia.vault.container.oversized.OverSizedInventory;
-import iskallia.vault.container.oversized.OverSizedItemStack;
+import iskallia.vault.gear.crafting.ToolStationHelper;
 import iskallia.vault.util.CoinDefinition;
 import iskallia.vault.util.InventoryUtil;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.InventoryUtilItemAccessAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Mixin(value = InventoryUtil.class, remap = false)
-public abstract class MixinInventoryUtil {
-    @Inject(method = "getMissingInputs(Ljava/util/List;Lnet/minecraft/world/entity/player/Inventory;Liskallia/vault/container/oversized/OverSizedInventory;)Ljava/util/List;", at = @At(value = "TAIL"), cancellable = true)
-    private static void checkCurrencyProperly(List<ItemStack> recipeInputs, Inventory playerInventory, OverSizedInventory containerInventory, CallbackInfoReturnable<List<ItemStack>> cir, @Local(ordinal = 1) List<ItemStack> missing) {
+import static iskallia.vault.util.InventoryUtil.findAllItems;
+
+@Mixin(value = ToolStationHelper.class, remap = false)
+public class MixinToolStationHelper {
+    @Inject(method = "getMissingInputs", at = @At(value = "TAIL"), cancellable = true)
+    private static void checkCurrencyProperly(List<ItemStack> recipeInputs, Inventory playerInventory, ToolStationTileEntity tile, CallbackInfoReturnable<List<ItemStack>> cir, @Local(ordinal = 1) List<ItemStack> missing) {
         if(missing.isEmpty()) {
             return;
         }
@@ -38,20 +36,10 @@ public abstract class MixinInventoryUtil {
 
             List<InventoryUtil.ItemAccess> itemAccesses = findAllItems(playerInventory.player);
 
-            if(itemAccesses == null) {
-                return;
-            }
-
             if(CoinDefinition.hasEnoughCurrency(itemAccesses, stack)) {
                 cir.setReturnValue(trueMissing);
                 return;
             }
         }
     }
-
-    @Shadow
-    public static List<InventoryUtil.ItemAccess> findAllItems(Player player) {
-        return null;
-    }
-
 }
