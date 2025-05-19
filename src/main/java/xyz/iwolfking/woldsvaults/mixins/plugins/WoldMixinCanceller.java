@@ -30,6 +30,12 @@ public class WoldMixinCanceller implements MixinCanceller {
             }
         }
 
+        if(LoadingModList.get().getModFileById("placebo") != null) {
+            if(s.equals("shadows.placebo.mixin.ItemStackMixin")) {
+                return true;
+            }
+        }
+
         return false;
     }
 }

@@ -182,7 +182,6 @@ dependencies {
     implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     implementation fg.deobf("curse.maven:vaultfaster-988487:6372465")
     implementation fg.deobf("curse.maven:hostile-neural-networks-552574:4593797")
-    implementation fg.deobf('curse.maven:placebo-283644:4500363')
     implementation fg.deobf('curse.maven:lightmans-currency-472521:4977514')
     implementation fg.deobf('curse.maven:curios-309927:4985315')
     implementation fg.deobf('curse.maven:corpse-316582:3694258')
@@ -251,6 +250,7 @@ dependencies {
     implementation fg.deobf("curse.maven:second-chance-forge-509239:3832230")
     implementation fg.deobf("curse.maven:gateways-to-eternity-417802:4548643")
     implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:6533744")
+    implementation fg.deobf("curse.maven:placebo-283644:4500363")
     implementation fg.deobf("curse.maven:mekanism-268560:3875976")
     compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6139466")
     compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061

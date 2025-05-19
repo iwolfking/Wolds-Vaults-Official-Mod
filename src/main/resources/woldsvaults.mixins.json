@@ -55,6 +55,7 @@
     "occultism.MixinFamiliarUtils",
     "occultism.MixinRemoteStorageAccessor",
     "openpac.MixinHostileEntityProtectionHelper",
+    "placebo.MixinItemUseEvent",
     "pnc.MixinDisenchantingPressureRecipe",
     "quark.MixinAncientTomesModule",
     "scannable.MixinScannableItems",
