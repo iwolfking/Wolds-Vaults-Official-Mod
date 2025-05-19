@@ -132,6 +132,7 @@
     "vaulthunters.custom.MixinGrantedEffectHelper",
     "vaulthunters.custom.MixinHeraldCrystalObjective",
     "vaulthunters.custom.MixinInscriptionData",
+    "vaulthunters.custom.MixinInventoryUtil",
     "vaulthunters.custom.MixinItemVaultCrystal",
     "vaulthunters.custom.MixinJewelItem",
     "vaulthunters.custom.MixinLootInfoGroupDefinitionRegistry",
@@ -234,18 +235,18 @@
     "vaulthunters.custom.MixinAugmentItem",
     "vaulthunters.custom.MixinCrystalTheme",
     "vaulthunters.custom.MixinGearDataCache",
+    "vaulthunters.custom.MixinTickTimer",
+    "vaulthunters.custom.MixinVault",
     "vaulthunters.custom.MixinVaultChestRenderer",
     "vaulthunters.custom.MixinVaultGearRarityColor",
+    "vaulthunters.custom.jei_sync.MixinCraftingSelectElementSelector",
+    "vaulthunters.custom.jei_sync.MixinCraftingSelectorElement",
     "vaulthunters.fixes.MixinCatalystItemRenderer",
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
-    "vhatcaniroll.MixinGearModifierScreen",
-    "vaulthunters.custom.MixinVault",
-    "vaulthunters.custom.MixinTickTimer",
-    "vaulthunters.custom.jei_sync.MixinCraftingSelectElementSelector",
-    "vaulthunters.custom.jei_sync.MixinCraftingSelectorElement"
+    "vhatcaniroll.MixinGearModifierScreen"
   ],
   "injectors": {
     "defaultRequire": 1
