@@ -54,4 +54,80 @@ public abstract class MixinInventoryUtil {
         return null;
     }
 
+    @Shadow
+    public static boolean isEqualCrafting(ItemStack thisStack, ItemStack thatStack) {
+        return false;
+    }
+
+    /**
+     * @author
+     * @reason
+     */
+    @Overwrite
+    public static boolean consumeInputs(List<ItemStack> recipeInputs, Inventory playerInventory, OverSizedInventory tileInv, boolean simulate, List<OverSizedItemStack> consumed) {
+        if (playerInventory.player.isCreative()) {
+            return true;
+        } else {
+            boolean success = true;
+
+            for (ItemStack input : recipeInputs) {
+                int neededCount = input.getCount();
+                NonNullList<OverSizedItemStack> overSizedContents = tileInv.getOverSizedContents();
+
+                for (int slot = 0; slot < overSizedContents.size(); ++slot) {
+                    OverSizedItemStack overSized = (OverSizedItemStack) overSizedContents.get(slot);
+                    if (neededCount <= 0) {
+                        break;
+                    }
+
+                    if (isEqualCrafting(input, overSized.stack())) {
+                        int deductedAmount = Math.min(neededCount, overSized.amount());
+                        if (!simulate) {
+                            tileInv.setOverSizedStack(slot, overSized.addCopy(-deductedAmount));
+                            consumed.add(overSized.copyAmount(deductedAmount));
+                        }
+
+                        neededCount -= overSized.amount();
+                    }
+                }
+
+                for (InventoryUtil.ItemAccess plStack : findAllItems(playerInventory.player)) {
+                    if (neededCount <= 0) {
+                        break;
+                    }
+
+                    if (isEqualCrafting(input, ((InventoryUtilItemAccessAccessor)plStack).getActualStack())) {
+                        int deductedAmount = Math.min(neededCount, ((InventoryUtilItemAccessAccessor)plStack).getActualStack().getCount());
+                        if (!simulate) {
+                            ((InventoryUtilItemAccessAccessor)plStack).getActualStack().shrink(deductedAmount);
+                            ((InventoryUtilItemAccessAccessor)plStack).getSetter().accept(((InventoryUtilItemAccessAccessor)plStack).getActualStack());
+                            ItemStack deducted = ((InventoryUtilItemAccessAccessor)plStack).getActualStack().copy();
+                            deducted.setCount(deductedAmount);
+                            consumed.add(OverSizedItemStack.of(deducted));
+                        }
+
+                        neededCount -= deductedAmount;
+                    }
+                }
+
+                if(neededCount > 0 && CoinDefinition.getCoinDefinition(input.getItem()).isPresent()) {
+                    ItemStack inputNeeded = input.copy();
+                    inputNeeded.setCount(neededCount);
+                    List<InventoryUtil.ItemAccess> itemAccesses = findAllItems(playerInventory.player);
+                    if(CoinDefinition.hasEnoughCurrency(itemAccesses, inputNeeded)) {
+                        if(!simulate) {
+                            CoinDefinition.extractCurrency(playerInventory.player, itemAccesses, inputNeeded);
+                        }
+                        neededCount -= neededCount;
+                    }
+                }
+
+                if (neededCount > 0) {
+                    success = false;
+                }
+            }
+
+            return success;
+        }
+    }
 }

@@ -190,6 +190,7 @@
     "vaulthunters.fixes.MixinAttributeGearData",
     "vaulthunters.fixes.MixinClientEvents",
     "vaulthunters.fixes.MixinCoinPouchItem",
+    "vaulthunters.fixes.MixinDynamicCuriosStackHandler",
     "vaulthunters.fixes.MixinDynamicModelRegistry",
     "vaulthunters.fixes.MixinEliteZombie",
     "vaulthunters.fixes.MixinEntityGroupsConfig",
