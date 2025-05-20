@@ -41,10 +41,7 @@ public abstract class MixinGodAltarTask extends Task {
         TaskSource var4 = context.getSource();
         if (var4 instanceof EntityTaskSource entitySource) {
             for (Player player : entitySource.getEntities(Player.class)) {
-                if (PlayerReputationData.getReputation(player.getUUID(), this.god) > 0) {
-                    woldsVaults$doFailureEffect(player, god);
-                    //PlayerReputationData.addReputation(player.getUUID(), this.god, -1);
-                }
+                woldsVaults$doFailureEffect(player, god);
             }
         }
 
@@ -66,6 +63,9 @@ public abstract class MixinGodAltarTask extends Task {
                 if (PlayerReputationData.getReputation(player.getUUID(), god) > 0) {
                     PlayerReputationData.addReputation(player.getUUID(), god, -1);
                     player.displayClientMessage(new TextComponent("You have lost a reputation with ").append(new TextComponent(god.getName()).withStyle(god.getChatColor())), true);
+                }
+                else {
+                    woldsVaults$doFailureEffect(player, god);
                 }
             }
             else if(rand <= 0.45)  {
