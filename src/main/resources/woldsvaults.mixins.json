@@ -203,6 +203,7 @@
     "vaulthunters.fixes.MixinModGearAttribute",
     "vaulthunters.fixes.MixinMonolithRenderer",
     "vaulthunters.fixes.MixinMultiJumpTrinket",
+    "vaulthunters.fixes.MixinScheduledModifiers",
     "vaulthunters.fixes.MixinStatisticsElementContainerScreenData",
     "vaulthunters.fixes.MixinTransmogTableBlock",
     "vaulthunters.fixes.MixinTreasureDoorTileEntityRenderer",
