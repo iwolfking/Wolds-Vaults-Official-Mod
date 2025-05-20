@@ -42,7 +42,8 @@ public abstract class MixinGodAltarTask extends Task {
         if (var4 instanceof EntityTaskSource entitySource) {
             for (Player player : entitySource.getEntities(Player.class)) {
                 if (PlayerReputationData.getReputation(player.getUUID(), this.god) > 0) {
-                    PlayerReputationData.addReputation(player.getUUID(), this.god, -1);
+                    woldsVaults$doFailureEffect(player, god);
+                    //PlayerReputationData.addReputation(player.getUUID(), this.god, -1);
                 }
             }
         }
