@@ -57,6 +57,12 @@ public class CorruptedObjective extends Objective {
                     DISK.all())
             .register(FIELDS);
 
+    public static final FieldKey<FloatList> ACTIVE_THRESHOLDS = FieldKey.of("active_thresholds", FloatList.class)
+            .with(Version.v1_31,
+                    CompoundAdapter.of(FloatList::create),
+                    DISK.all())
+            .register(FIELDS);
+
     public CorruptedObjective() {
 
     }
@@ -65,6 +71,7 @@ public class CorruptedObjective extends Objective {
         this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
         this.set(DATA, new CData(target, secondaryTarget, randomModifierPool));
         this.set(CORRUPTION_THRESHOLDS, FloatList.create());
+        this.set(ACTIVE_THRESHOLDS, FloatList.create());
     }
 
     public static CorruptedObjective of(int target, int secondaryTarget, float objectiveProbability, ResourceLocation randomModifierPool) {
@@ -121,6 +128,7 @@ public class CorruptedObjective extends Objective {
         CorruptedVaultHelper.handleKillTimeExtensions(this, world, vault);              // Handles the additional time per killed mob
         CorruptedVaultHelper.updateFracturedObeliskObfuscation(this);               // Handles the updating of Fractured Obelisks
 
+        CorruptedVaultHelper.isVaultCorrupted = true;
         super.initServer(world, vault);
     }
 
@@ -130,7 +138,15 @@ public class CorruptedObjective extends Objective {
 
         CorruptedVaultHelper.tickDisplayOverlay(this, world, vault);
         CorruptedVaultHelper.tickCorruption(this, vault, corruptionMultiplier);
-        CorruptedVaultHelper.checkCorruptionEvents(this, vault, world, this.get(DATA).get(CData.CORRUPTION));
+
+        if(world.getGameTime() % 20 == 0) {
+            CorruptedVaultHelper.checkCorruptionEvents(this, vault, world, this.get(DATA).get(CData.CORRUPTION));
+        }
+
+
+        if(this.get(DATA).get(CData.INITIAL_COMPLETION) && this.get(DATA).get(CData.TIME_TICKED_FAKE) <= 400) {
+            CorruptedVaultHelper.tickFakeVictory(this);
+        }
 
         // If the Objective is fully completed, we tick super to end the objective.
         if(this.get(DATA).hasFullyCompleted()) {
@@ -178,7 +194,7 @@ public class CorruptedObjective extends Objective {
         CorruptedVaultClientHelper.renderTimeAddendOverlay(this, poseStack, window, player);
 
         if (CorruptedVaultHelper.shouldDisplayEscapePrompt(this)) {
-            CorruptedVaultClientHelper.renderEscapePrompt(poseStack, font, centerX);
+            CorruptedVaultClientHelper.renderEscapePrompt(this, poseStack, font, centerX);
             return true;
         }
 

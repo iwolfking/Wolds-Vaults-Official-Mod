@@ -124,6 +124,8 @@ public class CorruptedVaultHelper {
             pz += dz;
         }
 
+        BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
+
         for (int i = 0; i < slashPath.size(); i++) {
             Vec3 pos = slashPath.get(i);
             float taper = (float) Math.sin((Math.PI * i) / length);
@@ -135,9 +137,9 @@ public class CorruptedVaultHelper {
                     double dist = x * x + z * z;
                     if (dist <= outerWidth * outerWidth + 0.2) {
                         for (int y = 63; y >= 0; y--) {
-                            BlockPos carvePos = new BlockPos(Math.round(pos.x()) + x, y, Math.round(pos.z()) + z);
-                            if(!world.getBlockState(carvePos).is(ModBlocks.VAULT_BEDROCK) && world.isLoaded(carvePos)) {
-                                world.setBlock(carvePos, ModBlocks.VAULT_BEDROCK.defaultBlockState(), Block.UPDATE_ALL);
+                            mutable.set(Math.round(pos.x()) + x, y, Math.round(pos.z()) + z);
+                            if(!world.getBlockState(mutable).is(ModBlocks.VAULT_BEDROCK) && world.isLoaded(mutable)) {
+                                world.setBlock(mutable, ModBlocks.VAULT_BEDROCK.defaultBlockState(), Block.UPDATE_ALL);
                             }
                         }
                     }
@@ -155,9 +157,9 @@ public class CorruptedVaultHelper {
                     double dist = x * x + z * z;
                     if (dist <= taperedWidth * taperedWidth + 0.2) {
                         for (int y = 63; y >= 0; y--) {
-                            BlockPos carvePos = new BlockPos(Math.round(pos.x()) + x, y, Math.round(pos.z()) + z);
-                            if (world.getBlockState(carvePos).getMaterial().isSolid() && world.isLoaded(carvePos) ) {
-                                world.setBlock(carvePos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+                            mutable.set(Math.round(pos.x()) + x, y, Math.round(pos.z()) + z);
+                            if (world.getBlockState(mutable).getMaterial().isSolid() && world.isLoaded(mutable) ) {
+                                world.setBlock(mutable, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
                             }
                         }
                     }
@@ -253,8 +255,6 @@ public class CorruptedVaultHelper {
                 world.playSound(null, new BlockPos(0, 64, 0), SoundEvents.RESPAWN_ANCHOR_DEPLETE, SoundSource.BLOCKS, 0.5F, 0.8F);
             }
         });
-
-        objective.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TIME_TICKED_FAKE, objective.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.TIME_TICKED_FAKE) + 1);
     }
 
 
@@ -361,7 +361,7 @@ public class CorruptedVaultHelper {
 
     public static void handleObeliskAbove(BlockUseEvent.Data data, VirtualWorld world, BlockPos pos, CorruptedObjective objective) {
         objective.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.SECONDARY_COUNT, objective.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_COUNT) + 1);
-        world.playSound(null, pos, SoundEvents.CONDUIT_ACTIVATE, SoundSource.BLOCKS, 1.0F, 0.75F * world.random.nextFloat() + 0.25F);
+        world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.NOTE_BLOCK_BELL, SoundSource.PLAYERS, 0.9F, 1.2F);
         CorruptedVaultHelper.spawnSpike(world, pos.below(), world.random, data.getPlayer());
 
         if ((int) objective.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_COUNT) == objective.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_TARGET)) {
@@ -371,8 +371,8 @@ public class CorruptedVaultHelper {
         world.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
         data.getPlayer().addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 1));
 
-        int numEnemies = 32;
-        int radius = 32;
+        int numEnemies = 20;
+        int radius = 24;
         Random random = world.random;
 
         for (int i = 0; i < numEnemies; i++) {
@@ -386,18 +386,18 @@ public class CorruptedVaultHelper {
                 if(world.getRandom().nextFloat() > 0.5F) {
                     Tier5BloodHordeEntity entity = new Tier5BloodHordeEntity(ModEntities.T5_BLOOD_HORDE, world);
 
-                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 5)); // Speed 6
-                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, Integer.MAX_VALUE, 9)); // Strength 10
-                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1)); // Resistance 2
+                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 24000, 3)); // Speed 4 for 20 minutes
+                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 24000, 7)); // Strength 8 for 20 minutes
+                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 24000, 0)); // Resistance 1 for 20 minutes
 
                     entity.moveTo(x + 0.5, y, z + 0.5, random.nextFloat() * 360F, 0F);
                     world.addFreshEntity(entity);
                 } else {
                     Tier5BloodSkeletonEntity entity = new Tier5BloodSkeletonEntity(ModEntities.T5_BLOOD_SKELETON, world);
 
-                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 5)); // Speed 6
-                    entity.addEffect(new MobEffectInstance(ModEffects.CORRUPTION, Integer.MAX_VALUE, 9)); // Strength 10
-                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1)); // Resistance 2
+                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 24000, 3)); // Speed 4 for 20 minutes
+                    entity.addEffect(new MobEffectInstance(ModEffects.CORRUPTION, 24000, 7)); // Strength 8 for 20 minutes
+                    entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 24000, 0)); // Resistance 1 for 20 minutes
 
                     entity.moveTo(x + 0.5, y, z + 0.5, random.nextFloat() * 360F, 0F);
                     world.addFreshEntity(entity);
@@ -410,10 +410,11 @@ public class CorruptedVaultHelper {
         data.setResult(InteractionResult.SUCCESS);
     }
 
-    public static int calculateGradualTimeIncrease(int timeLeftInTicks) {
+    public static int calculateGradualTimeIncrease(int timeLeftInTicks, int playerCount) {
         int timeLeftInSeconds = timeLeftInTicks / 20; // Convert ticks to seconds
-        int maxTimeInSeconds = 1800; // 30 minutes
-        int maxAddTimeInTicks = 150; // 7.5s
+        int maxTimeInSeconds = 900; // 15 minutes
+        int maxAddTimeInTicks = Math.max(40, 120 - ((playerCount - 1) * 10)); // 6s, with each player reduce by half a second, min 2 seconds
+
 
         float fraction = 1 - ((float) timeLeftInSeconds / maxTimeInSeconds);
         return Math.max(0, Math.round(maxAddTimeInTicks * fraction));
@@ -440,8 +441,9 @@ public class CorruptedVaultHelper {
     // Black magic, I dont know
     public static void summonRoofSpikes(VirtualWorld world, Player player, int radius, int tickInterval, float chanceToSummon) {
         if (player.tickCount % tickInterval == 0) {
+            BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
             if (world.getRandom().nextFloat() < chanceToSummon) {
-                BlockPos base = new BlockPos(
+                mutable.set(
                         player.getX() + world.getRandom().nextInt(radius * 2) - radius,
                         64,
                         player.getZ() + world.getRandom().nextInt(radius * 2) - radius
@@ -455,9 +457,9 @@ public class CorruptedVaultHelper {
                 int length = 15 + world.getRandom().nextInt(10);
                 float maxRadius = 1.5f + world.getRandom().nextFloat();
 
-                double px = base.getX();
-                double py = base.getY();
-                double pz = base.getZ();
+                double px = mutable.getX();
+                double py = mutable.getY();
+                double pz = mutable.getZ();
 
                 BlockPos lastBlock = null;
 
@@ -491,13 +493,14 @@ public class CorruptedVaultHelper {
                                 }
                             }
                         }
-                        ModNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new MonolithIgniteMessage(base)); //TODO
                     }
 
                     px += dx * 0.8;
                     py += dy * 0.8;
                     pz += dz * 0.8;
                 }
+                ModNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new MonolithIgniteMessage(mutable)); //TODO
+
                 if (lastBlock != null && world.getRandom().nextFloat() > 0.5F) { // 50%
                     world.setBlock(lastBlock, xyz.iwolfking.woldsvaults.init.ModBlocks.NULLITE_ORE.defaultBlockState(), Block.UPDATE_ALL);
                 }
@@ -622,8 +625,9 @@ public class CorruptedVaultHelper {
         float maxCorruption = 25F;
 
         for (int i = 0; i < maxThresholds; i++) {
+            baseStart+= (random.nextFloat() > 0.5F) ? 0.6F : 0.8F;
+
             obj.get(CorruptedObjective.CORRUPTION_THRESHOLDS).add(baseStart);
-            baseStart+= (random.nextFloat() > 0.5F) ? 0.4F : 0.6F;
 
             if(baseStart > 10F) {
                 baseStart -= (random.nextFloat() > 0.5F) ? 0.2F : 0.35F;
@@ -681,15 +685,22 @@ public class CorruptedVaultHelper {
                 data.setResult(InteractionResult.SUCCESS);
             }
 
-            CompoundTag nbt = data.getPlayer().getMainHandItem().getTag();
+            Player player = data.getPlayer();
+            ItemStack item = player.getMainHandItem();
+
+            if(!item.hasTag()) {
+                return;
+            }
+
+            CompoundTag nbt = item.getTag();
             boolean isFromThisVault = nbt != null && nbt.getUUID("VaultID").equals(vault.get(Vault.ID));
 
-            if (data.getPlayer().getMainHandItem().getItem() == xyz.iwolfking.woldsvaults.init.ModItems.RUINED_ESSENCE
+            if (item.getItem() == xyz.iwolfking.woldsvaults.init.ModItems.RUINED_ESSENCE
                     && obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.COUNT) < obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.TARGET)
                     && isFromThisVault) {
 
-                if(!data.getPlayer().getAbilities().instabuild) {
-                    data.getPlayer().getMainHandItem().shrink(1);
+                if(!player.getAbilities().instabuild) {
+                    item.shrink(1);
                 }
 
                 obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.COUNT, obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.COUNT) + 1);
@@ -740,7 +751,8 @@ public class CorruptedVaultHelper {
             if(obj.get(CorruptedObjective.DATA).hasCompletedInitial()) return;
             if(event.getSource().getEntity() instanceof Player && CorruptedVaultHelper.eligibleForExtraTime(vault)) {
                 int timeLeft = vault.get(Vault.CLOCK).get(TickClock.DISPLAY_TIME);
-                int increase = CorruptedVaultHelper.calculateGradualTimeIncrease(timeLeft);
+                int playerCount = vault.get(Vault.LISTENERS).getAll().size();
+                int increase = CorruptedVaultHelper.calculateGradualTimeIncrease(timeLeft, playerCount);
 
                 vault.get(Vault.CLOCK).addModifier(new KillMobTimeExtension(increase));
 
@@ -849,24 +861,11 @@ public class CorruptedVaultHelper {
         }
     }
 
-    public static void tickCorruption(CorruptedObjective obj, Vault vault, float currentMultiplier) {
-        if(!vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
-            int timeAliveTicks = vault.get(Vault.CLOCK).get(TickClock.GLOBAL_TIME);
-
-            float baseGrowth = 0.0002F; // Base corruption speed
-            float timeInSeconds = timeAliveTicks / 20.0F;
-            float speedMultiplier = (float) Math.pow(10, timeInSeconds / (20 * 60)) + currentMultiplier;
-
-            float corruptionIncrease = baseGrowth * speedMultiplier;
-            obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.CORRUPTION, obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.CORRUPTION) + corruptionIncrease);
-        }
-    }
-
     public static void checkCorruptionEvents(CorruptedObjective obj, Vault vault, VirtualWorld world, float corruption) {
-        List<Float> toRemove = new ArrayList<>();
-
         for (Float threshold : obj.get(CorruptedObjective.CORRUPTION_THRESHOLDS)) {
-            if (corruption >= threshold) {
+            if (corruption >= threshold && !obj.get(CorruptedObjective.ACTIVE_THRESHOLDS).contains(threshold)) {
+                if (world.getRandomPlayer() == null) return;
+
                 ChunkRandom random = ChunkRandom.any();
                 random.setBlockSeed(vault.get(Vault.SEED), world.getRandomPlayer().blockPosition(), 90039737L);
 
@@ -886,13 +885,9 @@ public class CorruptedVaultHelper {
                     );
                 }
 
-                toRemove.add(threshold); // Mark for removal
+                obj.get(CorruptedObjective.ACTIVE_THRESHOLDS).add(threshold);
                 break;
             }
-        }
-
-        for (Float f : toRemove) {
-            obj.get(CorruptedObjective.CORRUPTION_THRESHOLDS).remove(f);
         }
 
         if(corruption > 25F) {
@@ -908,19 +903,24 @@ public class CorruptedVaultHelper {
         }
     }
 
+    public static void tickCorruption(CorruptedObjective obj, Vault vault, float currentMultiplier) {
+        if(!vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
+            obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.CORRUPTION, (float) vault.get(Vault.CLOCK).get(TickClock.LOGICAL_TIME) / 2500 * currentMultiplier);
+        }
+    }
+
     public static float setupVaultObjectiveValues(CorruptedObjective obj, VirtualWorld world, Vault vault) {
         // Increase targets based on amount of players in the vault
-        vault.get(Vault.LISTENERS).getAll().forEach((listener) -> {
-            obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TARGET, 5);
-            obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.SECONDARY_TARGET, 5);
-        });
+        int playerCount = vault.get(Vault.LISTENERS).getAll().size();
 
-        // Increase objective difficulty based on the modifier & corruption multiplier
-        double increase = CommonEvents.OBJECTIVE_TARGET.invoke(world, vault, 0.0).getIncrease();
-        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TARGET, (int) Math.round((double) obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.BASE_TARGET) * (1.0 + increase)));
-        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.SECONDARY_TARGET, (int) Math.round((double) obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_BASE_TARGET) * (1.0 + increase)));
+        int baseTarget1 = obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.BASE_TARGET);
+        int baseTarget2 = obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_BASE_TARGET);
+        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TARGET, baseTarget1 + (playerCount * 5) - 5);
+        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.SECONDARY_TARGET, baseTarget2 + (playerCount * 5 - 5));
 
-        float corruptionMultiplier = (float) (1.0F + increase);
+
+
+        float corruptionMultiplier = 1.0F + (playerCount * 0.2F);
 
         // If the secondary target is too high, we modify it to be 10 lower than the total amount of spawned obelisks, to make it fairer
         // This is unlikely to be ever hit, especially in high level vaults, and will NEVER be hit in infinite vaults, which will be the intended type of the vault.
@@ -1019,5 +1019,7 @@ public class CorruptedVaultHelper {
     }
 
 
-
+    public static void tickFakeVictory(CorruptedObjective obj) {
+        obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.TIME_TICKED_FAKE, obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.TIME_TICKED_FAKE) + 1);
+    }
 }

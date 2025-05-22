@@ -60,7 +60,7 @@ public class FracturedObeliskRenderer implements BlockEntityRenderer<FracturedOb
 
         // Prepare text lines with obfuscation
         List<MutableComponent> lines = new ArrayList<>();
-        float obf = tileEntity.getPercentObfuscated();
+        float obf = Math.max(0.0F, Math.min(1.0F, tileEntity.getPercentObfuscated()));
 
         if (tileEntity.getInitialCompletion()) {
             lines.add(ComponentUtils.partiallyObfuscate(new TextComponent("Echoes surge from the wound, but find no resolve.").withStyle(ChatFormatting.DARK_RED), obf));
