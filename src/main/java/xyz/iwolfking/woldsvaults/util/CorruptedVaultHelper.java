@@ -861,24 +861,11 @@ public class CorruptedVaultHelper {
         }
     }
 
-    public static void tickCorruption(CorruptedObjective obj, Vault vault, float currentMultiplier) {
-        if(!vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
-            int timeAliveTicks = vault.get(Vault.CLOCK).get(TickClock.GLOBAL_TIME);
-
-            float baseGrowth = 0.0002F; // Base corruption speed
-            float timeInSeconds = timeAliveTicks / 20.0F;
-            float speedMultiplier = (float) Math.pow(10, timeInSeconds / (20 * 60)) + currentMultiplier;
-
-            float corruptionIncrease = baseGrowth * speedMultiplier;
-            obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.CORRUPTION, obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.CORRUPTION) + corruptionIncrease);
-        }
-    }
-
     public static void checkCorruptionEvents(CorruptedObjective obj, Vault vault, VirtualWorld world, float corruption) {
-        List<Float> toRemove = new ArrayList<>();
-
         for (Float threshold : obj.get(CorruptedObjective.CORRUPTION_THRESHOLDS)) {
-            if (corruption >= threshold) {
+            if (corruption >= threshold && !obj.get(CorruptedObjective.ACTIVE_THRESHOLDS).contains(threshold)) {
+                if (world.getRandomPlayer() == null) return;
+
                 ChunkRandom random = ChunkRandom.any();
                 random.setBlockSeed(vault.get(Vault.SEED), world.getRandomPlayer().blockPosition(), 90039737L);
 
@@ -898,13 +885,10 @@ public class CorruptedVaultHelper {
                     );
                 }
 
-                toRemove.add(threshold); // Mark for removal
+                obj.get(CorruptedObjective.ACTIVE_THRESHOLDS).add(threshold);
                 break;
             }
         }
-
-        obj.get(CorruptedObjective.CORRUPTION_THRESHOLDS).removeAll(toRemove);
-
 
         if(corruption > 25F) {
             if(obj.get(CorruptedObjective.DATA).hasCompletedInitial()) {
