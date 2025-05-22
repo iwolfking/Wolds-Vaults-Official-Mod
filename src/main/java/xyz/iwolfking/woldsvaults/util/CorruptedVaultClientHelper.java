@@ -180,11 +180,14 @@ public class CorruptedVaultClientHelper {
         }
     }
 
-    public static void renderEscapePrompt(PoseStack poseStack, Font font, int centerX) {
-        MutableComponent msg = new TextComponent("Find an escape.").withStyle(ChatFormatting.RED);
+    public static void renderEscapePrompt(CorruptedObjective obj, PoseStack poseStack, Font font, int centerX) {
+        MutableComponent msg1 = new TextComponent("Find an escape.").withStyle(ChatFormatting.RED);
+        MutableComponent msg2 = new TextComponent("?? / " + obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_TARGET)).withStyle(ChatFormatting.RED);
 
         MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-        font.drawInBatch(msg.getVisualOrderText(), centerX - font.width(msg) / 2.0f, 9.0f, -1, true, poseStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
+        font.drawInBatch(msg1.getVisualOrderText(), centerX - font.width(msg1) / 2.0f, 9.0f, -1, true, poseStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
+        font.drawInBatch(msg2.getVisualOrderText(), centerX - font.width(msg2) / 2.0f, 21.0f, -1, true, poseStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
+
         buffer.endBatch();
 
     }

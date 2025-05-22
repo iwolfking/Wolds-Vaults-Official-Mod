@@ -187,7 +187,7 @@ public class CorruptedObjective extends Objective {
         CorruptedVaultClientHelper.renderTimeAddendOverlay(this, poseStack, window, player);
 
         if (CorruptedVaultHelper.shouldDisplayEscapePrompt(this)) {
-            CorruptedVaultClientHelper.renderEscapePrompt(poseStack, font, centerX);
+            CorruptedVaultClientHelper.renderEscapePrompt(this, poseStack, font, centerX);
             return true;
         }
 
