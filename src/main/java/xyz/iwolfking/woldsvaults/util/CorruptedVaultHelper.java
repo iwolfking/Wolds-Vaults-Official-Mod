@@ -920,7 +920,7 @@ public class CorruptedVaultHelper {
 
 
 
-        float corruptionMultiplier = 1.0F;
+        float corruptionMultiplier = 1.0F + (playerCount * 0.2F);
 
         // If the secondary target is too high, we modify it to be 10 lower than the total amount of spawned obelisks, to make it fairer
         // This is unlikely to be ever hit, especially in high level vaults, and will NEVER be hit in infinite vaults, which will be the intended type of the vault.
