@@ -361,7 +361,7 @@ public class CorruptedVaultHelper {
 
     public static void handleObeliskAbove(BlockUseEvent.Data data, VirtualWorld world, BlockPos pos, CorruptedObjective objective) {
         objective.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.SECONDARY_COUNT, objective.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_COUNT) + 1);
-        world.playSound(null, pos, SoundEvents.CONDUIT_ACTIVATE, SoundSource.BLOCKS, 1.0F, 0.75F * world.random.nextFloat() + 0.25F);
+        world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.NOTE_BLOCK_BELL, SoundSource.PLAYERS, 0.9F, 1.2F);
         CorruptedVaultHelper.spawnSpike(world, pos.below(), world.random, data.getPlayer());
 
         if ((int) objective.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_COUNT) == objective.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_TARGET)) {
