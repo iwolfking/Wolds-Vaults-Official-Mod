@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 @Mixin(value = CraftingSelectorElement.class, remap = false)
 public class MixinCraftingSelectorElement<E extends CraftingSelectorElement<E>> extends ScrollableItemStackSelectorElement<E, CraftingSelectorElement.CraftingEntry> {
@@ -24,7 +25,7 @@ public class MixinCraftingSelectorElement<E extends CraftingSelectorElement<E>> 
 
     @Inject(at = @At("TAIL"), method = "render", remap = false)
     public void render(IElementRenderer renderer, PoseStack poseStack, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
-        if (Internal.getRuntime().isEmpty()) return;
+        if (Internal.getRuntime().isEmpty() || !WoldsVaultsConfig.CLIENT.syncJEISearchForWorkstations.get()) return;
         String newFilter = Internal.getRuntime().get().getIngredientFilter().getFilterText().toLowerCase();
         if (!newFilter.equals(woldsvaults$filter)) {
             woldsvaults$filter = newFilter;

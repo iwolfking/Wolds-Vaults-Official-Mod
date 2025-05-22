@@ -94,7 +94,6 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
             String themeId = mapData.getFirstValue(ModGearAttributes.THEME).orElse(null);
             String themePoolId = mapData.getFirstValue(ModGearAttributes.THEME_POOL).orElse(null);
             String objectiveId = mapData.getFirstValue(ModGearAttributes.OBJECTIVE).orElse(null);
-            //String difficultyId = mapData.getFirstValue(ModGearAttributes.VAULT_DIFFICULTY).orElse(null);
 
             if(themeId != null) {
                 CrystalTheme theme = new ValueCrystalTheme(new ResourceLocation(themeId));
@@ -128,14 +127,6 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
                 return false;
             }
 
-//            if(difficultyId != null) {
-//                VaultModifier<?> mod = VaultModifierRegistry.get(VaultMod.id(difficultyId.toLowerCase()));
-//                if(mod != null) {
-//                    VaultModifierStack stack = new VaultModifierStack(mod, 1);
-//                    data.getModifiers().add(stack);
-//                }
-//            }
-
             applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.PREFIX, context, output, unfinishedMap);
             applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.SUFFIX, context, output, unfinishedMap);
             applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output, unfinishedMap);
@@ -164,7 +155,14 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
         for(VaultGearModifier<?> mod : mapData.getModifiers(affixType)) {
             VaultModifier<?> vaultMod = VaultModifierRegistry.get(mod.getModifierIdentifier());
             if(vaultMod instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
-                float value = (float) mod.getValue();
+                float value;
+                if(mod.getValue() instanceof Integer integerValue) {
+                    value = Float.valueOf(integerValue);
+                }
+                else {
+                    value = (float) mod.getValue();
+                }
+
                 if(shouldReduceValues) {
                     value *= 0.25F;
                 }

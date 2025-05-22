@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors;
 
+import iskallia.vault.client.gui.framework.screen.AbstractElementContainerScreen;
 import iskallia.vault.util.InventoryUtil;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,4 +12,7 @@ import java.util.function.Consumer;
 public interface InventoryUtilItemAccessAccessor {
     @Accessor("setter")
     Consumer<ItemStack> getSetter();
+
+    @Accessor("stack")
+    ItemStack getActualStack();
 }

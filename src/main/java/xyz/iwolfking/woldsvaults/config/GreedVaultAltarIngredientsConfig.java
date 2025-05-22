@@ -105,7 +105,7 @@ public class GreedVaultAltarIngredientsConfig extends Config {
             if (isLucky) {
                 amount = 0;
             } else if (ingredientEntry.getScale() != 0.0) {
-                double scale = this.getScale(poolId, (int) (crystalsCrafted * 0.25));
+                double scale = this.getScale(poolId, (int) (crystalsCrafted * 0.05));
                 amount = Math.max((int)(Math.round(amount * scale * amtMultiplier) * ingredientEntry.getScale()), mode.getMinCost());
             } else {
                 amount = Math.max(Math.round(amount * amtMultiplier), mode.getMinCost());

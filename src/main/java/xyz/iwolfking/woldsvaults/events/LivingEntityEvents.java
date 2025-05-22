@@ -148,7 +148,7 @@ public class LivingEntityEvents {
         ListTag storedList = new ListTag();
 
         CuriosApi.getCuriosHelper().getCuriosHandler(entity).ifPresent(handler -> {
-            for (String slotId : List.of("red_trinket", "blue_trinket", "green_trinket")) {
+            for (String slotId : TrinketPouchItem.getSlotTypes(event.getFrom())) {
                 handler.getStacksHandler(slotId).ifPresent(slotHandler -> {
                     IItemHandlerModifiable slots = slotHandler.getStacks();
                     for (int i = 0; i < slots.getSlots(); i++) {

@@ -10,13 +10,13 @@ import java.util.Arrays;
 public class WoldsVaultsConfig
 {
     public static class Client {
-        public final ForgeConfigSpec.ConfigValue<Boolean> hideEmojisOnCrystalModifiers;
+        public final ForgeConfigSpec.ConfigValue<Boolean> syncJEISearchForWorkstations;
 
         public Client(ForgeConfigSpec.Builder builder)
         {
             builder.push("Display Settings");
-            builder.push("Emojiful");
-            this.hideEmojisOnCrystalModifiers = builder.comment("Whether Emojis should be hidden next to Vault Crystal Modifiers. (default: false)").define("hideEmojisOnVaultModifiers", false);
+            builder.push("JEI Sync");
+            this.syncJEISearchForWorkstations = builder.comment("Whether workstations should have their inventory filtered with JEI search (default: true)").define("syncJEISearchForWorkstations", true);
             builder.pop();
             builder.pop();
         }

@@ -108,7 +108,7 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
     @Override
     public boolean canEquip(SlotContext slotContext, ItemStack stack) {
         Optional<SlotResult> slot = CuriosApi.getCuriosHelper().findCurio(slotContext.entity(), "trinket_pouch", 0);
-        return slot.map(slotResult -> slotResult.stack().is(Items.AIR)).orElse(true);
+        return slot.map(slotResult -> slotResult.stack().isEmpty()).orElse(true);
     }
 
     @Override
@@ -190,5 +190,9 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
         return ModConfigs.TRINKET_POUCH.TRINKET_POUCH_CONFIGS.getOrDefault(pouchId, new TrinketPouchConfig.TrinketPouchConfigEntry("Trinket Pouch", Map.of(), TextColor.fromLegacyFormat(ChatFormatting.WHITE)));
     }
 
+    public static Set<String> getSlotTypes(ItemStack pouch) {
+        TrinketPouchConfig.TrinketPouchConfigEntry entry = getPouchConfigFor(pouch);
+        return entry.SLOT_ENTRIES.keySet();
+    }
 
 }

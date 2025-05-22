@@ -164,7 +164,7 @@ public class WoldGearModifierHelper {
         if (affixes.stream().anyMatch((modifier) -> modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN))) {
             return GearModification.Result.makeActionError("frozen", new Component[0]);
         }
-        affixes.removeIf(modifier -> modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN) || (!modifier.hasCategory(VaultGearModifier.AffixCategory.CORRUPTED) || !modifier.hasCategory(VaultGearModifier.AffixCategory.LEGENDARY) || !modifier.hasCategory(VaultGearModifier.AffixCategory.GREATER) || !modifier.hasCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"))));
+        affixes.removeIf(modifier -> modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN) || (!modifier.hasCategory(VaultGearModifier.AffixCategory.CORRUPTED) && !modifier.hasCategory(VaultGearModifier.AffixCategory.LEGENDARY) && !modifier.hasCategory(VaultGearModifier.AffixCategory.GREATER) && !modifier.hasCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"))));
         if (affixes.isEmpty()) {
             return GearModification.Result.makeActionError("no_modifiers");
         } else {
