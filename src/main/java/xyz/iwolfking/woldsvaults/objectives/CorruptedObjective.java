@@ -57,6 +57,12 @@ public class CorruptedObjective extends Objective {
                     DISK.all())
             .register(FIELDS);
 
+    public static final FieldKey<FloatList> ACTIVE_THRESHOLDS = FieldKey.of("active_thresholds", FloatList.class)
+            .with(Version.v1_31,
+                    CompoundAdapter.of(FloatList::create),
+                    DISK.all())
+            .register(FIELDS);
+
     public CorruptedObjective() {
 
     }
@@ -65,6 +71,7 @@ public class CorruptedObjective extends Objective {
         this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
         this.set(DATA, new CData(target, secondaryTarget, randomModifierPool));
         this.set(CORRUPTION_THRESHOLDS, FloatList.create());
+        this.set(ACTIVE_THRESHOLDS, FloatList.create());
     }
 
     public static CorruptedObjective of(int target, int secondaryTarget, float objectiveProbability, ResourceLocation randomModifierPool) {

@@ -625,8 +625,9 @@ public class CorruptedVaultHelper {
         float maxCorruption = 25F;
 
         for (int i = 0; i < maxThresholds; i++) {
+            baseStart+= (random.nextFloat() > 0.5F) ? 0.6F : 0.8F;
+
             obj.get(CorruptedObjective.CORRUPTION_THRESHOLDS).add(baseStart);
-            baseStart+= (random.nextFloat() > 0.5F) ? 0.4F : 0.6F;
 
             if(baseStart > 10F) {
                 baseStart -= (random.nextFloat() > 0.5F) ? 0.2F : 0.35F;
@@ -915,6 +916,12 @@ public class CorruptedVaultHelper {
             }
 
 
+        }
+    }
+
+    public static void tickCorruption(CorruptedObjective obj, Vault vault, float currentMultiplier) {
+        if(!vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
+            obj.get(CorruptedObjective.DATA).set(CorruptedObjective.CData.CORRUPTION, (float) vault.get(Vault.CLOCK).get(TickClock.LOGICAL_TIME) / 2500 * currentMultiplier);
         }
     }
 
