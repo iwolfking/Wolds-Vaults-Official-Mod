@@ -131,7 +131,11 @@ public class CorruptedObjective extends Objective {
 
         CorruptedVaultHelper.tickDisplayOverlay(this, world, vault);
         CorruptedVaultHelper.tickCorruption(this, vault, corruptionMultiplier);
-        CorruptedVaultHelper.checkCorruptionEvents(this, vault, world, this.get(DATA).get(CData.CORRUPTION));
+
+        if(world.getGameTime() % 20 == 0) {
+            CorruptedVaultHelper.checkCorruptionEvents(this, vault, world, this.get(DATA).get(CData.CORRUPTION));
+        }
+
 
         if(this.get(DATA).get(CData.INITIAL_COMPLETION) && this.get(DATA).get(CData.TIME_TICKED_FAKE) <= 400) {
             CorruptedVaultHelper.tickFakeVictory(this);
