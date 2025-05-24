@@ -241,8 +241,6 @@
     "vaulthunters.custom.MixinVault",
     "vaulthunters.custom.MixinVaultChestRenderer",
     "vaulthunters.custom.MixinVaultGearRarityColor",
-    "vaulthunters.custom.jei_sync.MixinCraftingSelectElementSelector",
-    "vaulthunters.custom.jei_sync.MixinCraftingSelectorElement",
     "vaulthunters.fixes.MixinCatalystItemRenderer",
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
