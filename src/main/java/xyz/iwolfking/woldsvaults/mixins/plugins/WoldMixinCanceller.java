@@ -14,10 +14,6 @@ public class WoldMixinCanceller implements MixinCanceller {
             if(s.equals("io.iridium.qolhunters.mixin.brazier.MixinMonolithRenderer")) {
                 return true;
             }
-            //We don't want any descriptions meddled with in Wold's.
-            else if (s.contains("io.iridium.qolhunters.mixin.betterdescriptions")) {
-                return true;
-            }
             //I mixin same class, don't need the change made here.
             else if(s.equals("io.iridium.qolhunters.mixin.paradox.MixinGateLockRenderer")) {
                 return true;

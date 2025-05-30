@@ -10,15 +10,9 @@ import java.util.Arrays;
 public class WoldsVaultsConfig
 {
     public static class Client {
-        public final ForgeConfigSpec.ConfigValue<Boolean> syncJEISearchForWorkstations;
 
         public Client(ForgeConfigSpec.Builder builder)
         {
-            builder.push("Display Settings");
-            builder.push("JEI Sync");
-            this.syncJEISearchForWorkstations = builder.comment("Whether workstations should have their inventory filtered with JEI search (default: true)").define("syncJEISearchForWorkstations", true);
-            builder.pop();
-            builder.pop();
         }
     }
     public static class Common
