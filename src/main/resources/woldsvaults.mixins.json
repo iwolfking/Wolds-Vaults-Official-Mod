@@ -248,7 +248,8 @@
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
-    "vhatcaniroll.MixinGearModifierScreen"
+    "vhatcaniroll.MixinGearModifierScreen",
+    "vaulthunters.fixes.MixinEndScreenScheduler"
   ],
   "injectors": {
     "defaultRequire": 1
