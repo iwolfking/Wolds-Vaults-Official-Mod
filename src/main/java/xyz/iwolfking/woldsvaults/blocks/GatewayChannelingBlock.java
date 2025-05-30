@@ -38,11 +38,11 @@ public class GatewayChannelingBlock extends Block {
             return InteractionResult.FAIL;
         }
 
-        if(!(pPlayer.getItemInHand(pHand).getItem() instanceof GatePearlItem)) {
-            return attemptSpawnGateway(pLevel, pPlayer.getItemInHand(pHand), pPos, pPlayer, true);
+        if((pPlayer.getItemInHand(pHand).getItem() instanceof GatePearlItem)) {
+            return attemptSpawnGateway(pLevel, pPlayer.getItemInHand(pHand), pPos, pPlayer);
         }
 
-        return attemptSpawnGateway(pLevel, pPlayer.getItemInHand(pHand), pPos, pPlayer);
+        return attemptSpawnGateway(pLevel, pPlayer.getItemInHand(pHand), pPos, pPlayer, true);
     }
 
     private InteractionResult attemptSpawnGateway(Level world, ItemStack stack, BlockPos pos, Player player) {
@@ -55,10 +55,6 @@ public class GatewayChannelingBlock extends Block {
         } else if (!world.getEntitiesOfClass(GatewayEntity.class, (new AABB(pos)).inflate(25.0, 25.0, 25.0)).isEmpty()) {
             return InteractionResult.FAIL;
         } else {
-            if(!(stack.getItem() instanceof GatePearlItem)) {
-                return InteractionResult.PASS;
-            }
-
             GatewayEntity entity = null;
 
             if(randomGateway) {
@@ -87,7 +83,7 @@ public class GatewayChannelingBlock extends Block {
             } else {
                 world.addFreshEntity(entity);
                 entity.onGateCreated();
-                if (!player.isCreative()) {
+                if (!player.isCreative() && !randomGateway) {
                     stack.shrink(1);
                 }
                 world.setBlockAndUpdate(pos, state.setValue(USED, true));
