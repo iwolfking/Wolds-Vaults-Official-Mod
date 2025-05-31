@@ -62,18 +62,15 @@ public class MixinCorruptGearModification {
                     return GearModification.Result.makeSuccess();
                 }
             }
-            if(data.hasAttribute(ModGearAttributes.DIVINE)) {
-                Random random = new Random();
-                if(random.nextBoolean()) {
-                    List<VaultGearModifier<?>> divineModList = data.getModifiersFulfilling(vaultGearModifier -> vaultGearModifier.getAttribute().equals(ModGearAttributes.DIVINE));
-                    for(VaultGearModifier<?> mod : divineModList) {
-                        data.removeModifier(mod);
-                        break;
-                    }
 
-                    data.write(stack);
+            if(data.hasAttribute(ModGearAttributes.DIVINE)) {
+                List<VaultGearModifier<?>> divineModList = data.getModifiersFulfilling(vaultGearModifier -> vaultGearModifier.getAttribute().equals(ModGearAttributes.DIVINE));
+                for(VaultGearModifier<?> mod : divineModList) {
+                    data.removeModifier(mod);
+                    break;
                 }
 
+                data.write(stack);
                 return GearModification.Result.makeSuccess();
             }
 
