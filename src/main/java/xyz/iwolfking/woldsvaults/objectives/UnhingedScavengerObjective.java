@@ -81,19 +81,7 @@ public class UnhingedScavengerObjective extends ScavengerObjective {
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
             this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability));
         });
-        if(LoadingModList.get().getModFileById("vaultfaster") != null) {
-            ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(this, vault);
-        }
-        else {
-            CommonEvents.BLOCK_SET.at(BlockSetEvent.Type.RETURN).in(world).register(this, data -> {
-                PartialTile target = PartialTile.of(PartialBlockState.of(ModBlocks.PLACEHOLDER), PartialCompoundNbt.empty());
-                target.getState().set(PlaceholderBlock.TYPE, iskallia.vault.block.PlaceholderBlock.Type.OBJECTIVE);
-                if (target.isSubsetOf(PartialTile.of(data.getState()))) {
-                    data.getWorld().setBlock(data.getPos(), ModBlocks.SCAVENGER_ALTAR.defaultBlockState(), 3);
-                }
-
-            });
-        }
+        this.registerObjectiveTemplate(world, vault);
 
         CommonEvents.SCAVENGER_ALTAR_CONSUME.register(this, data -> {
             if (data.getLevel() == world && ((ScavengerAltarTileEntity)data.getTile()).getItemPlacedBy() != null) {

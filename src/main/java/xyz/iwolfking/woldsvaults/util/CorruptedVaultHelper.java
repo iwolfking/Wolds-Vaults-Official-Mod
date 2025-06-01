@@ -722,26 +722,27 @@ public class CorruptedVaultHelper {
                 (data) -> obj.ifPresent(CorruptedObjective.OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability))
         );
 
-        // VaultFaster Objective placement fix or something
-        if(LoadingModList.get().getModFileById("vaultfaster") != null) {
-            ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(obj, vault);
-
-            DynamicTemplate template = TemplateUtils.createTemplateFromPairs(
-                    new Pair<>(new BlockPos(0, 0, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.LOWER)),
-                    new Pair<>(new BlockPos(0, 1, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.UPPER))
-            );
-
-            ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(obj, vault, template);
-        } else {
-            CommonEvents.BLOCK_SET.at(BlockSetEvent.Type.RETURN).in(world).register(obj, (data) -> {
-                PartialTile target = PartialTile.of(PartialBlockState.of(ModBlocks.PLACEHOLDER), PartialCompoundNbt.empty());
-                target.getState().set(PlaceholderBlock.TYPE, PlaceholderBlock.Type.OBJECTIVE);
-
-                if (target.isSubsetOf(PartialTile.of(data.getState()))) {
-                    data.getWorld().setBlock(data.getPos(), xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState(), 3);
-                }
-            });
-        }
+        obj.registerObjectiveTemplate(world, vault);
+//        // VaultFaster Objective placement fix or something
+//        if(LoadingModList.get().getModFileById("vaultfaster") != null) {
+//            ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(obj, vault);
+//
+//            DynamicTemplate template = TemplateUtils.createTemplateFromPairs(
+//                    new Pair<>(new BlockPos(0, 0, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.LOWER)),
+//                    new Pair<>(new BlockPos(0, 1, 0), xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.UPPER))
+//            );
+//
+//            ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(obj, vault, template);
+//        } else {
+//            CommonEvents.BLOCK_SET.at(BlockSetEvent.Type.RETURN).in(world).register(obj, (data) -> {
+//                PartialTile target = PartialTile.of(PartialBlockState.of(ModBlocks.PLACEHOLDER), PartialCompoundNbt.empty());
+//                target.getState().set(PlaceholderBlock.TYPE, PlaceholderBlock.Type.OBJECTIVE);
+//
+//                if (target.isSubsetOf(PartialTile.of(data.getState()))) {
+//                    data.getWorld().setBlock(data.getPos(), xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState(), 3);
+//                }
+//            });
+//        }
 
     }
 

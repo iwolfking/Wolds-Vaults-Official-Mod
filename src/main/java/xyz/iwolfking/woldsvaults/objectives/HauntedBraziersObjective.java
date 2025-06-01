@@ -16,6 +16,7 @@ import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.BlockSetEvent;
 import iskallia.vault.core.event.common.BlockUseEvent;
+import iskallia.vault.core.event.common.ObjectiveTemplates;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultLevel;
@@ -213,19 +214,7 @@ public class HauntedBraziersObjective extends MonolithObjective {
                 }
             }
         });
-        if(LoadingModList.get().getModFileById("vaultfaster") != null) {
-            ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(this, vault);
-        }
-        else {
-            CommonEvents.BLOCK_SET.at(BlockSetEvent.Type.RETURN).in(world).register(this, data -> {
-                PartialTile target = PartialTile.of(PartialBlockState.of(ModBlocks.PLACEHOLDER), PartialCompoundNbt.empty());
-                target.getState().set(PlaceholderBlock.TYPE, iskallia.vault.block.PlaceholderBlock.Type.OBJECTIVE);
-                if (target.isSubsetOf(PartialTile.of(data.getState()))) {
-                    data.getWorld().setBlock(data.getPos(), ModBlocks.MONOLITH.defaultBlockState(), 3);
-                }
-
-            });
-        }
+        this.registerObjectiveTemplate(world, vault);
 
         CommonEvents.MONOLITH_UPDATE.register(this, data -> {
             if (data.getWorld() == world) {

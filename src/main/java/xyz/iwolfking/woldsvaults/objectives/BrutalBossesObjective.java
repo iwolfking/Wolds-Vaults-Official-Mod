@@ -98,6 +98,7 @@ public class BrutalBossesObjective extends ObeliskObjective {
                 }
             }
         });
+        this.registerObjectiveTemplate(world, vault);
         CommonEvents.BLOCK_SET.at(BlockSetEvent.Type.RETURN).in(world).register(this, (data) -> {
             PartialTile target = PartialTile.of(PartialBlockState.of(ModBlocks.PLACEHOLDER), PartialCompoundNbt.empty());
             target.getState().set(PlaceholderBlock.TYPE, PlaceholderBlock.Type.OBJECTIVE);

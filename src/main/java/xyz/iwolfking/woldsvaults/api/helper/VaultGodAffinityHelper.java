@@ -113,9 +113,9 @@ public class VaultGodAffinityHelper {
         GOD_TO_ATTRIBUTE.put(VaultGod.TENOS, ModGearAttributes.TENOS_AFFINITY);
         GOD_TO_ATTRIBUTE.put(VaultGod.WENDARR, ModGearAttributes.WENDARR_AFFINITY);
         GOD_TO_ATTRIBUTE.put(VaultGod.IDONA, ModGearAttributes.IDONA_AFFINITY);
-        GOD_TO_STAT.put(VaultGod.VELARA, PlayerStat.VELARA_AFFINITY);
-        GOD_TO_STAT.put(VaultGod.TENOS, PlayerStat.TENOS_AFFINITY);
-        GOD_TO_STAT.put(VaultGod.WENDARR, PlayerStat.WENDARR_AFFINITY);
-        GOD_TO_STAT.put(VaultGod.IDONA, PlayerStat.IDONA_AFFINITY);
+//        GOD_TO_STAT.put(VaultGod.VELARA, PlayerStat.VELARA_AFFINITY);
+//        GOD_TO_STAT.put(VaultGod.TENOS, PlayerStat.TENOS_AFFINITY);
+//        GOD_TO_STAT.put(VaultGod.WENDARR, PlayerStat.WENDARR_AFFINITY);
+//        GOD_TO_STAT.put(VaultGod.IDONA, PlayerStat.IDONA_AFFINITY);
     }
 }

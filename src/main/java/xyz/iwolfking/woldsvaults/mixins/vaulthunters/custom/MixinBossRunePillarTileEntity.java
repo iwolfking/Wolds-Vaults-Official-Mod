@@ -17,20 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = BossRunePillarTileEntity.class, remap = false)
 public abstract class MixinBossRunePillarTileEntity extends BlockEntity {
-    @Shadow private int runeTarget;
-
     public MixinBossRunePillarTileEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
-    }
-
-    @Inject(method = "onPopulate", at = @At("TAIL"))
-    private void addObjectiveDifficultyHandling(CallbackInfo ci) {
-        Vault vault = ServerVaults.get(this.level).orElse(null);
-        if(vault == null) {
-            return;
-        }
-
-        double increase = CommonEvents.OBJECTIVE_TARGET.invoke((VirtualWorld) this.level, vault, (double)0.0F).getIncrease();
-        this.runeTarget = this.runeTarget * (int) (1.0F + increase);
     }
 }
