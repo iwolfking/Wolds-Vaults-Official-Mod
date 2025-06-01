@@ -7,6 +7,10 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.lib.network.packets.StopFlightMessage;
+import xyz.iwolfking.woldsvaults.network.message.DivinityLevelMessage;
+import xyz.iwolfking.woldsvaults.network.message.DivinityPointMessage;
+import xyz.iwolfking.woldsvaults.network.message.KnownDivinityTreeMessage;
+import xyz.iwolfking.woldsvaults.network.message.ServerboundOpenDivinityScreenMessage;
 
 public class ModNetwork {
     private static int id = 0;
@@ -21,6 +25,10 @@ public class ModNetwork {
 
     public static void init() {
         CHANNEL.registerMessage(id++, StopFlightMessage.class, StopFlightMessage::encode, StopFlightMessage::decode, StopFlightMessage::handle);
+        CHANNEL.registerMessage(id++, ServerboundOpenDivinityScreenMessage.class, ServerboundOpenDivinityScreenMessage::encode, ServerboundOpenDivinityScreenMessage::decode, ServerboundOpenDivinityScreenMessage::handle);
+        CHANNEL.registerMessage(id++, KnownDivinityTreeMessage.class, KnownDivinityTreeMessage::encode, KnownDivinityTreeMessage::decode, KnownDivinityTreeMessage::handle);
+        CHANNEL.registerMessage(id++, DivinityLevelMessage.class, DivinityLevelMessage::encode, DivinityLevelMessage::decode, DivinityLevelMessage::handle);
+        CHANNEL.registerMessage(id++, DivinityPointMessage.class, DivinityPointMessage::encode, DivinityPointMessage::decode, DivinityPointMessage::handle);
     }
 
     public static <T> void sendToServer(T message) {
