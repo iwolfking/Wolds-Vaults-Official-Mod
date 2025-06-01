@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import iskallia.vault.core.vault.Vault;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.tooltip.GearTooltip;
@@ -14,9 +15,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mixin(value = VaultCharmItem.class, remap = false)
 public abstract class MixinGodCharmItem {
@@ -31,5 +34,15 @@ public abstract class MixinGodCharmItem {
                tooltip.add(display);
            }
         }
+    }
+
+    @Redirect(method = "canUnequip", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"))
+    public boolean allowUnequip(Optional<Vault> vault, @Local(argsOnly = true) ItemStack stack) {
+        return vault.isPresent() && !VaultCharmItem.isUsableInVault(stack, vault.get().get(Vault.ID));
+    }
+
+    @Redirect(method = "canEquip", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"))
+    public boolean allowReequip(Optional<Vault> vault, @Local(argsOnly = true) ItemStack stack) {
+        return vault.isPresent() && !VaultCharmItem.isUsableInVault(stack, vault.get().get(Vault.ID));
     }
 }

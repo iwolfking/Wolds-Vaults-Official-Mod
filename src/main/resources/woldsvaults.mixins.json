@@ -164,6 +164,7 @@
     "vaulthunters.custom.MixinVaultGearTooltipItem",
     "vaulthunters.custom.MixinVaultModifierStack",
     "vaulthunters.custom.MixinVaultRegistry",
+    "vaulthunters.custom.MixinVoidStoneItem",
     "vaulthunters.custom.MixinWildSpawnerTileEntity",
     "vaulthunters.custom.artisan.MixinArtisanStationContainer",
     "vaulthunters.custom.artisan.MixinArtisanStationTileEntity",
