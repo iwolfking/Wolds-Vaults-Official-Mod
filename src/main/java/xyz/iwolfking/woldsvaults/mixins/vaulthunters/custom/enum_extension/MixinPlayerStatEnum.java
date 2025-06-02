@@ -20,9 +20,26 @@ public class MixinPlayerStatEnum {
     @Unique
     @SerializedName("thorns_scaling_damage")
     private static final PlayerStat THORNS_SCALING_DAMAGE = enumExpansion$addVariant("thorns_scaling_damage");
+
     @Unique
     @SerializedName("dismantle_chance")
     private static final PlayerStat DISMANTLE_CHANCE = enumExpansion$addVariant("dismantle_chance");
+
+    @Unique
+    @SerializedName("velara_affinity")
+    private static final PlayerStat VELARA_AFFINITY = enumExpansion$addVariant("velara_affinity");
+
+    @Unique
+    @SerializedName("idona_affinity")
+    private static final PlayerStat IDONA_AFFINITY = enumExpansion$addVariant("idona_affinity");
+
+    @Unique
+    @SerializedName("wendarr_affinity")
+    private static final PlayerStat WENDARR_AFFINITY = enumExpansion$addVariant("wendarr_affinity");
+
+    @Unique
+    @SerializedName("tenos_affinity")
+    private static final PlayerStat TENOS_AFFINITY = enumExpansion$addVariant("tenos_affinity");
 
     @Invoker("<init>")
     public static PlayerStat enumExpansion$invokeInit(String internalName, int internalId) {
