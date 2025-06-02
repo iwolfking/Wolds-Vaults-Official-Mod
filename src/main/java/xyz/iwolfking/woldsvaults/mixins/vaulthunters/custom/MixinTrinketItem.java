@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.sugar.Local;
+import iskallia.vault.core.vault.Vault;
 import iskallia.vault.gear.item.IdentifiableItem;
 import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.item.BasicItem;
@@ -17,6 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
@@ -54,5 +57,15 @@ public abstract class MixinTrinketItem extends BasicItem implements ICurioItem, 
                 }
             }
         }
+    }
+
+    @Redirect(method = "canUnequip", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"))
+    public boolean allowUnequip(Optional<Vault> vault, @Local(argsOnly = true) ItemStack stack) {
+        return vault.isPresent() && !TrinketItem.isUsableInVault(stack, vault.get().get(Vault.ID));
+    }
+
+    @Redirect(method = "canEquip", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"))
+    public boolean allowReequip(Optional<Vault> vault, @Local(argsOnly = true) ItemStack stack) {
+        return vault.isPresent() && !TrinketItem.isUsableInVault(stack, vault.get().get(Vault.ID));
     }
 }
