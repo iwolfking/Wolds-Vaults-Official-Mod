@@ -88,7 +88,9 @@ public class FilterNecklaceItem extends BasicItem implements ICurioItem {
         for(int i = 0; i < handler.getSlots(); i++) {
             ItemStack slotStack = handler.getStackInSlot(i);
             if(slotStack.getItem() instanceof FilterItem) {
-                return VFTests.checkFilter(stack, slotStack, true, null);
+                if(VFTests.checkFilter(stack, slotStack, true, null)) {
+                    return true;
+                }
             }
             else if (slotStack.getItem().equals(stack.getItem())) {
                 return true;
