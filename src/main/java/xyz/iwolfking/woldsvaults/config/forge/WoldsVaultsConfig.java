@@ -10,9 +10,10 @@ import java.util.Arrays;
 public class WoldsVaultsConfig
 {
     public static class Client {
-
+        public final ForgeConfigSpec.ConfigValue<Boolean> showVanillaVaultHud;
         public Client(ForgeConfigSpec.Builder builder)
         {
+            this.showVanillaVaultHud = builder.comment("Whether to show the built-in Vault Inventory HUD").define("showVanillaVaultHud", false);
         }
     }
     public static class Common

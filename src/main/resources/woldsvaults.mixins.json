@@ -132,6 +132,7 @@
     "vaulthunters.custom.MixinGrantedEffectHelper",
     "vaulthunters.custom.MixinHeraldCrystalObjective",
     "vaulthunters.custom.MixinInscriptionData",
+    "vaulthunters.custom.MixinInventoryHudRenderer",
     "vaulthunters.custom.MixinInventoryUtil",
     "vaulthunters.custom.MixinItemVaultCrystal",
     "vaulthunters.custom.MixinJewelItem",
