@@ -42,12 +42,6 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
             return true;
         }
 
-        if (this.getId().equals(ZEPHYR_LOCATION)) {
-            if (ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.containsKey(this.getId())) {
-                return player.isCreative() || ClientRecipeDiscoveryData.getDiscoveredRecipes().contains(this.getId());
-            }
-        }
-
         if (player instanceof ServerPlayer sPlayer) {
                 PlayerGreedData greedData = PlayerGreedData.get(sPlayer.server);
                 return greedData.get(player).hasCompletedHerald();
