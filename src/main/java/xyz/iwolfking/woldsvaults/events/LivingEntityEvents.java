@@ -122,16 +122,12 @@ public class LivingEntityEvents {
             Vault vault = ServerVaults.get(attacker.level).orElse(null);
             if(vault != null) {
                 if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100) {
-                    ItemStack stack = RecipeBlueprintItem.create("woldsvaults:light_trinket_pouch");
-                    Level level = attacker.level;
-                    if (!level.isClientSide && !stack.isEmpty()) {
-                        // Spawn at player's current position
-                        ItemEntity itemEntity = new ItemEntity(
-                                level,
-                                attacker.getX(), attacker.getY(), attacker.getZ(), // Coordinates
-                                stack.copy()
-                        );
-                        level.addFreshEntity(itemEntity); // Actually spawns the entity
+                    if(attacker instanceof ServerPlayer sPlayer) {
+                        if(DiscoveredRecipesData.get(sPlayer.server).hasDiscovered(sPlayer, WoldsVaults.id("light_trinket_pouch"))) {
+                            return;
+                        }
+
+                        DiscoveredRecipesData.get(sPlayer.server).discoverRecipe(sPlayer.getUUID(), WoldsVaults.id("light_trinket_pouch"));
                     }
                 }
             }

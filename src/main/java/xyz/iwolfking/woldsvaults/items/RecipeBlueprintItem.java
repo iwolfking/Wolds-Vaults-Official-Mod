@@ -73,7 +73,7 @@ public class RecipeBlueprintItem extends BasicItem {
     }
 
     public static ItemStack create(String tag) {
-        ItemStack stack = new ItemStack(ModItems.RESEARCH_TOKEN);
+        ItemStack stack = new ItemStack(ModItems.RECIPE_BLUEPRINT);
         stack.getOrCreateTag().putString("recipe", tag);
         return stack;
     }
