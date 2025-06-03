@@ -2,16 +2,13 @@ package xyz.iwolfking.woldsvaults.events;
 
 import atomicstryker.infernalmobs.common.InfernalMobsCore;
 import cofh.core.init.CoreMobEffects;
-import com.github.klikli_dev.occultism.common.advancement.FamiliarTrigger;
-import com.github.klikli_dev.occultism.registry.OccultismAdvancements;
-import com.github.klikli_dev.occultism.registry.OccultismEffects;
 import iskallia.vault.block.CoinPileBlock;
 import iskallia.vault.block.VaultChestBlock;
 import iskallia.vault.block.VaultOreBlock;
 import iskallia.vault.block.entity.VaultChestTileEntity;
 import iskallia.vault.core.event.CommonEvents;
-import iskallia.vault.core.event.common.PlayerStatEvent;
-import iskallia.vault.core.vault.time.TickClock;
+import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultLevel;
 import iskallia.vault.entity.VaultBoss;
 import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.entity.champion.ChampionLogic;
@@ -24,9 +21,6 @@ import iskallia.vault.entity.entity.elite.EliteWitchEntity;
 import iskallia.vault.entity.entity.elite.EliteWitherSkeleton;
 import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
-import iskallia.vault.gear.GearRollHelper;
-import iskallia.vault.gear.VaultGearModifierHelper;
-import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -52,11 +46,12 @@ import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -72,12 +67,15 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.helper.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.data.HexEffects;
+import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.EchoingPotionEffect;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.items.RecipeBlueprintItem;
 import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
+import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.util.WoldEventHelper;
 
 import java.util.List;
@@ -113,6 +111,31 @@ public class LivingEntityEvents {
         boolean dodge = entity.getRandom().nextDouble() < dodgeChance;
 
         event.setCanceled(dodge);
+    }
+
+    @SubscribeEvent
+    public static void unlockLightTrinketPouch(LivingDeathEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player attacker))
+            return;
+
+        if(event.getEntityLiving() instanceof WoldBoss) {
+            Vault vault = ServerVaults.get(attacker.level).orElse(null);
+            if(vault != null) {
+                if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100) {
+                    ItemStack stack = RecipeBlueprintItem.create("woldsvaults:light_trinket_pouch");
+                    Level level = attacker.level;
+                    if (!level.isClientSide && !stack.isEmpty()) {
+                        // Spawn at player's current position
+                        ItemEntity itemEntity = new ItemEntity(
+                                level,
+                                attacker.getX(), attacker.getY(), attacker.getZ(), // Coordinates
+                                stack.copy()
+                        );
+                        level.addFreshEntity(itemEntity); // Actually spawns the entity
+                    }
+                }
+            }
+        }
     }
 
     @SubscribeEvent

@@ -40,7 +40,7 @@ public class VaultGodAffinityHelper {
 
             affinity += affinityIncrease;
         }
-
+        System.out.println(affinity);
         return affinity;
     }
 
@@ -113,9 +113,9 @@ public class VaultGodAffinityHelper {
         GOD_TO_ATTRIBUTE.put(VaultGod.TENOS, ModGearAttributes.TENOS_AFFINITY);
         GOD_TO_ATTRIBUTE.put(VaultGod.WENDARR, ModGearAttributes.WENDARR_AFFINITY);
         GOD_TO_ATTRIBUTE.put(VaultGod.IDONA, ModGearAttributes.IDONA_AFFINITY);
-        GOD_TO_STAT.put(VaultGod.VELARA, PlayerStat.valueOf("VELARA_AFFINITY"));
-        GOD_TO_STAT.put(VaultGod.TENOS, PlayerStat.valueOf("TENOS_AFFINITY"));
-        GOD_TO_STAT.put(VaultGod.WENDARR, PlayerStat.valueOf("WENDARR_AFFINITY"));
-        GOD_TO_STAT.put(VaultGod.IDONA, PlayerStat.valueOf("IDONA_AFFINITY"));
+        GOD_TO_STAT.put(VaultGod.VELARA, PlayerStat.valueOf("velara_affinity"));
+        GOD_TO_STAT.put(VaultGod.TENOS, PlayerStat.valueOf("tenos_affinity"));
+        GOD_TO_STAT.put(VaultGod.WENDARR, PlayerStat.valueOf("wendarr_affinity"));
+        GOD_TO_STAT.put(VaultGod.IDONA, PlayerStat.valueOf("idona_affinity"));
     }
 }
