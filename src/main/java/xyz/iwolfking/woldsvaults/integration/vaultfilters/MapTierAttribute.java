@@ -20,17 +20,10 @@ public class MapTierAttribute extends IntAttribute {
             return null;
         }
 
-        if(itemStack.getItem() instanceof VaultMapItem) {
-            VaultGearData data = VaultGearData.read(itemStack);
-            for (VaultGearModifier<?> modifier : data.getAllModifierAffixes()) {
-                if(modifier.getAttribute() != null && modifier.getAttribute().equals(ModGearAttributes.MAP_TIER)) {
-                    if(modifier.getValue() instanceof Integer tier) {
-                        return tier;
-                    }
-                }
-
-            }
-        }
+        VaultGearData data = VaultGearData.read(itemStack);
+        if(data.hasAttribute(ModGearAttributes.MAP_TIER)) {{
+            return data.getFirstValue(ModGearAttributes.MAP_TIER).orElse(null);
+        }}
 
         return null;
     }
