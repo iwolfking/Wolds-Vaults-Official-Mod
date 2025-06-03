@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.objectives;
 
 import atomicstryker.infernalmobs.common.InfernalMobsCore;
 import atomicstryker.infernalmobs.common.MobModifier;
-import implementslegend.mod.vaultfaster.event.ObjectiveTemplateEvent;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.ObeliskBlock;
 import iskallia.vault.block.PlaceholderBlock;
@@ -68,16 +67,28 @@ public class BrutalBossesObjective extends ObeliskObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        if(LoadingModList.get().getModFileById("vaultfaster") != null) {
-            ObjectiveTemplateEvent.INSTANCE.registerObjectiveTemplate(this, vault);
+        boolean hasGeneratedModifiers = false;
+        for(VaultModifier<?> modifier : vault.get(Vault.MODIFIERS).getModifiers()) {
+            if(modifier.getId().equals(VaultMod.id("normalized"))) {
+                hasGeneratedModifiers = true;
+            }
         }
-        else {
-            CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, (data) -> {
+
+        if(!hasGeneratedModifiers && WoldsVaultsConfig.COMMON.normalizedModifierEnabled.get()) {
+            VaultModifierUtils.addModifier(vault, VaultMod.id("normalized"), 1);
+        }
+
+
+        if(!hasGeneratedModifiers) {
+            VaultModifierUtils.addModifier(vault, VaultMod.id("normalized"), 1);
+        }
+
+        CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, (data) -> {
                 this.ifPresent(OBJECTIVE_PROBABILITY, (probability) -> {
                     data.setProbability((double)probability);
                 });
-            });
-        }
+        });
+
 
         CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.OBELISK).register(this, (data) -> {
             if (data.getHand() != InteractionHand.MAIN_HAND) {

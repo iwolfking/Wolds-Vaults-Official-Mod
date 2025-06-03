@@ -67,8 +67,6 @@ public class ZealotObjective extends Objective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        if(LoadingModList.get().getModFileById("vaultfaster") != null) {
-        }
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
             this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability));
         });

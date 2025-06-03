@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.util;
 
 import com.mojang.datafixers.util.Pair;
-import implementslegend.mod.vaultfaster.event.ObjectiveTemplateEvent;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.ObeliskBlock;
 import iskallia.vault.block.PlaceholderBlock;

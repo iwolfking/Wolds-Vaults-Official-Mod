@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.objectives;
 
-import implementslegend.mod.vaultfaster.event.ObjectiveTemplateEvent;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.DivineAltarBlock;
 import iskallia.vault.block.PlaceholderBlock;
