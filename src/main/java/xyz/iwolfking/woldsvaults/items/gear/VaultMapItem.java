@@ -78,7 +78,25 @@ public class VaultMapItem extends BasicItem implements VaultGearItem {
         if (data.getState() != VaultGearState.IDENTIFIED) {
             tier = data.getFirstValue(ModGearAttributes.MAP_TIER).orElse(-1);
             if(tier == -1) {
-                data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, rand.nextInt(0, 6));
+                float randChance = rand.nextFloat();
+                if(randChance <= 0.05F) {
+                    data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 5);
+                }
+                else if(randChance <= 0.15F) {
+                    data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 4);
+                }
+                else if(randChance <= 0.35F) {
+                    data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 3);
+                }
+                else if(randChance <= 0.6F) {
+                    data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 2);
+                }
+                else if(randChance <= 0.75F) {
+                    data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 1);
+                }
+                else {
+                    data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 0);
+                }
             }
             data.write(stack);
         }
