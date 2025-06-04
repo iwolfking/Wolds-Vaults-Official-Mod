@@ -13,7 +13,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
+import xyz.iwolfking.woldsvaults.discovery.recipes.LootersPouchDiscoveryGoal;
+import xyz.iwolfking.woldsvaults.discovery.recipes.WizardPouchDiscoveryGoal;
 import xyz.iwolfking.woldsvaults.discovery.themes.GodThemesDiscoveryGoal;
 
 @Mixin(value = ModModelDiscoveryGoals.class, remap = false)
@@ -24,6 +27,8 @@ public abstract class MixinModModelDiscoveryGoals {
     private static GodThemesDiscoveryGoal TENOS_UNLOCK;
     private static GodThemesDiscoveryGoal VELARA_UNLOCK;
     private static GodThemesDiscoveryGoal WENDARR_UNLOCK;
+    private static WizardPouchDiscoveryGoal WIZARD_POUCH_UNLOCK;
+    private static LootersPouchDiscoveryGoal LOOTERS_POUCH_UNLOCK;
 
     static {
         IDONA_UNLOCK = registerGoal(WoldsVaults.id("complete_idona_altar"), (new GodThemesDiscoveryGoal(1.0F, VaultGod.IDONA)).setReward((player, goal) -> {
@@ -74,6 +79,28 @@ public abstract class MixinModModelDiscoveryGoals {
                 }
             }
         }));
+
+        WIZARD_POUCH_UNLOCK = registerGoal(WoldsVaults.id("cast_250_abilities"), (new WizardPouchDiscoveryGoal(250.0F)).setReward((player, goal) -> {
+            DiscoveredRecipesData data = DiscoveredRecipesData.get(player.getLevel());
+            ResourceLocation unlock = WoldsVaults.id("wizard_trinket_pouch");
+            if(!data.hasDiscovered(player, unlock)) {
+                MutableComponent info = (new TextComponent("Your arcane energy has enlightened you!")).withStyle(ChatFormatting.BLUE);
+                player.displayClientMessage(info, false);
+                data.discoverRecipeAndBroadcast(unlock, player);
+            }
+        }));
+
+        LOOTERS_POUCH_UNLOCK = registerGoal(WoldsVaults.id("open_15_treasure_rooms"), (new LootersPouchDiscoveryGoal(15.0F)).setReward((player, goal) -> {
+            DiscoveredRecipesData data = DiscoveredRecipesData.get(player.getLevel());
+            ResourceLocation unlock = WoldsVaults.id("looters_trinket_pouch");
+            if(!data.hasDiscovered(player, unlock)) {
+                MutableComponent info = (new TextComponent("You are enlightened with a beautiful dream of boundless loot!")).withStyle(ChatFormatting.GOLD);
+                player.displayClientMessage(info, false);
+                data.discoverRecipeAndBroadcast(unlock, player);
+            }
+        }));
+
+
     }
 
     @Shadow

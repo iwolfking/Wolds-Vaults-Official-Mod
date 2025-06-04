@@ -138,6 +138,30 @@ public class LivingEntityEvents {
     }
 
     @SubscribeEvent
+    public static void unlockSlayerPouch(LivingDeathEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player attacker))
+            return;
+
+        if(event.getEntityLiving() instanceof VaultBossEntity) {
+            Vault vault = ServerVaults.get(attacker.level).orElse(null);
+            if(vault != null) {
+                if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100) {
+                    if(attacker.getLevel() instanceof ServerLevel sLevel) {
+                        if(DiscoveredRecipesData.get(sLevel).hasDiscovered(attacker, WoldsVaults.id("slayer_trinket_pouch"))) {
+                            return;
+                        }
+
+                        DiscoveredRecipesData.get(sLevel).discoverRecipeAndBroadcast(WoldsVaults.id("slayer_trinket_pouch"), attacker);
+                    }
+                    else {
+                        System.out.println("Not a ServerLevel");
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void soulLeech(LivingDeathEvent event) {
         if(event.getSource().isProjectile()) {
             return;
