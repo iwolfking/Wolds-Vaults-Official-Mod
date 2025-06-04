@@ -9,15 +9,24 @@ import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.world.data.PlayerGreedData;
 import iskallia.vault.world.data.PlayerStatsData;
 import iskallia.vault.world.data.PlayerVaultStatsData;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import xyz.iwolfking.woldsvaults.data.discovery.ClientPlayerGreedData;
 import xyz.iwolfking.woldsvaults.data.discovery.ClientRecipeDiscoveryData;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.items.AirMobilityItem;
+import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
+
+import java.util.List;
 
 @Mixin(value = GearForgeRecipe.class, remap = false)
 public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
@@ -68,4 +77,21 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
         data.write(out);
         return out;
     }
+
+    @Override
+    public List<Component> getDisabledText() {
+        if(this.output.getItem() instanceof AirMobilityItem || this.output.getItem() instanceof VaultMapItem) {
+            return List.of(new TextComponent("Defeat The Herald by collecting all 25 Artifacts to unlock."));
+        }
+
+        return List.of((new TextComponent("Undiscovered")).withStyle(ChatFormatting.ITALIC));
+    }
+
+
+//    public void getDisabledText(ItemStack result, List<Component> out) {
+//        if(result.getItem() instanceof AirMobilityItem || result.getItem() instanceof VaultMapItem) {
+//            out.add(new TextComponent("Defeat The Herald by collecting all 25 Artifacts to unlock."));
+//        }
+//        super.addCraftingDisplayTooltip(result, out);
+//    }
 }

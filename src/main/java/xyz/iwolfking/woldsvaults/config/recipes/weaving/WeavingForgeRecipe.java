@@ -75,4 +75,12 @@ public class WeavingForgeRecipe extends VaultForgeRecipe {
 
         return true;
     }
+
+    @Override
+    public List<Component> getDisabledText() {
+        if(ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.containsKey(this.getId())) {
+            return List.of(new TextComponent(ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.get(this.getId()).DESCRIPTION));
+        }
+        return super.getDisabledText();
+    }
 }
