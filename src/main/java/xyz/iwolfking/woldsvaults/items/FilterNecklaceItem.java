@@ -120,20 +120,14 @@ public class FilterNecklaceItem extends BasicItem implements ICurioItem {
     }
 
     public boolean canEquip(SlotContext slotContext, ItemStack stack) {
-        LivingEntity livingEntity;
-
-        if (!slotContext.identifier().equals("necklace")) {
-            return false;
-        } else {
-            livingEntity = slotContext.entity();
-            if (livingEntity instanceof ServerPlayer player) {
-                if (!StageManager.getResearchTree(player).isResearched(ModConfigs.RESEARCHES.getByName("Junk Management"))) {
-                    return false;
-                }
+        LivingEntity livingEntity = slotContext.entity();
+        if (livingEntity instanceof ServerPlayer player) {
+            if (!StageManager.getResearchTree(player).isResearched(ModConfigs.RESEARCHES.getByName("Junk Management"))) {
+                return false;
             }
-
-            return (CuriosApi.getSlotHelper() == null || CuriosApi.getSlotHelper().getSlotType("necklace").map(ISlotType::isVisible).orElse(false)) && ICurioItem.super.canEquip(slotContext, stack);
         }
+
+        return ICurioItem.super.canEquip(slotContext, stack);
     }
 
     @Override
