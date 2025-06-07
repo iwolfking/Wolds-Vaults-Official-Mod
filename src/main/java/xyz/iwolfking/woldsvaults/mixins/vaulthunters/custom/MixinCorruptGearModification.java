@@ -7,6 +7,7 @@ import iskallia.vault.gear.VaultGearModifierHelper;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearModifier;
+import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.modification.GearModification;
@@ -34,9 +35,10 @@ public class MixinCorruptGearModification {
         VaultGearData data = VaultGearData.read(stack);
         if (!data.isModifiable()) {
             return GearModification.Result.errorUnmodifiable();
-        } else {
-            if(stack.getItem() instanceof VaultMapItem) {
-                if(JavaRandom.ofNanoTime().nextFloat() <= 0.1F) {
+        }
+
+        if(stack.getItem() instanceof VaultMapItem) {
+            if(JavaRandom.ofNanoTime().nextFloat() <= 0.1F) {
                     VaultGearModifier<?> objModifier = null;
                     VaultGearModifier<?> themeModifier = null;
                     for(VaultGearModifier<?> mod : data.getModifiers(VaultGearModifier.AffixType.IMPLICIT)) {
@@ -57,26 +59,25 @@ public class MixinCorruptGearModification {
                     }
                     data.addModifier(VaultGearModifier.AffixType.IMPLICIT, new VaultGearModifier<String>(ModGearAttributes.OBJECTIVE, "corrupted"));
                     data.addModifier(VaultGearModifier.AffixType.IMPLICIT, new VaultGearModifier<String>(ModGearAttributes.THEME_POOL, "the_vault:corrupted"));
+                    data.createOrReplaceAttributeValue(ModGearAttributes.DIVINE, false);
                     data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_CORRUPTED, true);
                     data.write(stack);
                     return GearModification.Result.makeSuccess();
-                }
             }
+        }
 
-            if(data.hasAttribute(ModGearAttributes.DIVINE)) {
-                List<VaultGearModifier<?>> divineModList = data.getModifiersFulfilling(vaultGearModifier -> vaultGearModifier.getAttribute().equals(ModGearAttributes.DIVINE));
-                for(VaultGearModifier<?> mod : divineModList) {
-                    data.removeModifier(mod);
-                    break;
-                }
-
+        if(data.hasAttribute(ModGearAttributes.DIVINE)) {
+            Random random = new Random();
+            if(random.nextFloat() <= 0.75F) {
+                data.createOrReplaceAttributeValue(ModGearAttributes.DIVINE, false);
                 data.write(stack);
-                return GearModification.Result.makeSuccess();
             }
 
-            data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_CORRUPTED, true);
-            data.write(stack);
             return GearModification.Result.makeSuccess();
         }
+
+        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_CORRUPTED, true);
+        data.write(stack);
+        return GearModification.Result.makeSuccess();
     }
 }
