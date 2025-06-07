@@ -19,15 +19,15 @@ public abstract class MixinModifierContext extends DataObject<ModifierContext> i
 
     @Shadow @Final public static FieldRegistry FIELDS;
     @Unique
-    private static FieldKey<Float> VALUE = FieldKey.of("value", Float.class).with(Version.v1_5, Adapters.FLOAT, DISK.all().or(CLIENT.all())).register(FIELDS);
+    private static FieldKey<Float> woldsVaults$VALUE = FieldKey.of("value", Float.class).with(Version.v1_5, Adapters.FLOAT, DISK.all().or(CLIENT.all())).register(FIELDS);
 
     @Override
     public Optional<Float> woldsVaults_Dev$getValue() {
-        return Optional.of(this.get(VALUE));
+        return Optional.of(this.get(woldsVaults$VALUE));
     }
 
     @Override
     public void woldsVaults_Dev$setValue(Float value) {
-        this.set(VALUE, value);
+        this.set(woldsVaults$VALUE, value);
     }
 }

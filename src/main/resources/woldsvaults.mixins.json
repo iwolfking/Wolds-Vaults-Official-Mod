@@ -142,6 +142,7 @@
     "vaulthunters.custom.MixinModBlocks",
     "vaulthunters.custom.MixinModChestModels",
     "vaulthunters.custom.MixinModGearAttributes",
+    "vaulthunters.custom.MixinModifierContext",
     "vaulthunters.custom.MixinModModelDiscoveryGoals",
     "vaulthunters.custom.MixinObeliskObjective",
     "vaulthunters.custom.MixinObjectiveTemplates",
