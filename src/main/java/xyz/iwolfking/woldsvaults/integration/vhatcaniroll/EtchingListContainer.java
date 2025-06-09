@@ -62,12 +62,12 @@ public class EtchingListContainer extends VerticalScrollClipContainer<EtchingLis
     }
 
     @Override
-    public InnerGearScreen create(ISpatial iSpatial, int i, ModifierCategory modifierCategory, ItemStack itemStack) {
+    public InnerGearScreen create(ISpatial iSpatial, int i, ModifierCategory modifierCategory, ItemStack itemStack, boolean mythic) {
         if(itemStack.is(ModItems.ETCHING)) {
             return new EtchingListContainer(iSpatial, i, modifierCategory, itemStack);
         }
         else {
-            return new ModifierListContainer(iSpatial, i, modifierCategory, itemStack);
+            return new ModifierListContainer(iSpatial, i, modifierCategory, itemStack, mythic);
         }
 
     }
