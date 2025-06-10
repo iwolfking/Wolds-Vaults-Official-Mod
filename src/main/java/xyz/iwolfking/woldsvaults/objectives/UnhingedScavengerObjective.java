@@ -32,6 +32,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.loading.LoadingModList;
+import xyz.iwolfking.woldsvaults.api.helper.NormalizedHelper;
 import xyz.iwolfking.woldsvaults.config.UnhingedScavengerConfig;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
@@ -66,16 +67,8 @@ public class UnhingedScavengerObjective extends ScavengerObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        boolean hasGeneratedModifiers = false;
-        for(VaultModifier<?> modifier : vault.get(Vault.MODIFIERS).getModifiers()) {
-            if(modifier.getId().equals(VaultMod.id("normalized"))) {
-                hasGeneratedModifiers = true;
-            }
-        }
+        NormalizedHelper.handleAddingNormalizedToVault(vault);
 
-        if(!hasGeneratedModifiers && WoldsVaultsConfig.COMMON.normalizedModifierEnabled.get()) {
-            VaultModifierUtils.addModifier(vault, VaultMod.id("normalized"), 1);
-        }
 
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
             this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability));
