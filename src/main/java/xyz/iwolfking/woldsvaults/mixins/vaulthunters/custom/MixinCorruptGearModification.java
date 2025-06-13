@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
+import xyz.iwolfking.woldsvaults.models.Maps;
 
 import java.util.List;
 import java.util.Random;
@@ -61,6 +62,7 @@ public class MixinCorruptGearModification {
                     data.addModifier(VaultGearModifier.AffixType.IMPLICIT, new VaultGearModifier<String>(ModGearAttributes.THEME_POOL, "the_vault:corrupted"));
                     data.createOrReplaceAttributeValue(ModGearAttributes.DIVINE, false);
                     data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_CORRUPTED, true);
+                    data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.GEAR_MODEL, Maps.CORRUPTED_MAP.getId());
                     data.write(stack);
                     return GearModification.Result.makeSuccess();
             }
