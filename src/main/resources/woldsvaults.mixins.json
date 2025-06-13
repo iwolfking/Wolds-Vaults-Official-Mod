@@ -211,6 +211,7 @@
     "vaulthunters.fixes.MixinStatisticsElementContainerScreenData",
     "vaulthunters.fixes.MixinTransmogTableBlock",
     "vaulthunters.fixes.MixinTreasureDoorTileEntityRenderer",
+    "vaulthunters.fixes.MixinUniqueGearCommand",
     "vaulthunters.fixes.MixinVaultChestTileEntity",
     "vaulthunters.fixes.MixinVaultGearModifierHelper",
     "vaulthunters.fixes.MixinVaultModifier",
