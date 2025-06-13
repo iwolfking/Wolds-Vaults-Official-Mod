@@ -49,6 +49,7 @@ public class EnchantedEventsRegistry {
     public static final VaultModifierEnchantedEvent CURSES_MODIFIER_EVENT;
     public static final VaultModifierEnchantedEvent I_CAN_SEE_FOREVER_EVENT;
     public static final VaultModifierEnchantedEvent HUNTERS_EVENT;
+    public static final VaultModifierEnchantedEvent BINGO_EVENT;
     public static final VaultModifierEnchantedEvent CASCADING_CHESTS_MODFIER_EVENT;
     public static final PotionEffectEnchantedEvent SLIPPERY_FLOORS_EVENT;
     public static final PotionEffectEnchantedEvent SUNBIRD_CURSE_EVENT;
@@ -111,6 +112,7 @@ public class EnchantedEventsRegistry {
         register(CURSES_MODIFIER_EVENT, 1.0, true, false);
         register(I_CAN_SEE_FOREVER_EVENT, 1.0, true, true);
         register(HUNTERS_EVENT, 12.0, true, true);
+        register(BINGO_EVENT, 3.0, true, true);
         register(CASCADING_CHESTS_MODFIER_EVENT, 10.0, true, true);
 
         //Potion Effect events
@@ -233,6 +235,7 @@ public class EnchantedEventsRegistry {
         CASCADING_CHESTS_MODFIER_EVENT = new VaultModifierEnchantedEvent("Cascading", "Adds one modifier from a pool of cascading modifiers.", "#d5ff80",  "enchanted_cascade");
         I_CAN_SEE_FOREVER_EVENT = new VaultModifierEnchantedEvent("I Can See Forever", "Adds All Hunter modifiers.", "#8585ad",  "hunters_enchanted");
         HUNTERS_EVENT = new VaultModifierEnchantedEvent("Hunter", "Adds a modifier from the pool of Hunter modifiers.", "#8585ad",  "hunters_enchanted_random");
+        BINGO_EVENT = new VaultModifierEnchantedEvent("Bingo!?", "Adds a modifier from the pool of Bingo modifiers.", "#4d4dff",  "bingos_enchanted");
         SLIPPERY_FLOORS_EVENT = new PotionEffectEnchantedEvent("Slippery Floors", "Who forgot to dry the floor!?", "#adebeb",   ModMobEffects.SLIPPERY.get(), 1800, 10);
         SUNBIRD_CURSE_EVENT = new PotionEffectEnchantedEvent("Curse of the Sunbird", "It seems gravity is higher...", "#804000", AMEffectRegistry.SUNBIRD_CURSE, 1200, 1);
         SUNBIRD_BLESSING_EVENT = new PotionEffectEnchantedEvent("Blessing of the Sunbird", "Glide to safety", "#ff9900", AMEffectRegistry.SUNBIRD_BLESSING, 1800, 0);
