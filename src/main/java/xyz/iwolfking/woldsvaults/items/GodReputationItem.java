@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.items;
 
-import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.BasicItem;
@@ -33,6 +32,7 @@ import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class GodReputationItem extends BasicItem {
@@ -45,7 +45,13 @@ public class GodReputationItem extends BasicItem {
     public static VaultGod getGod(ItemStack stack) {
         if (!stack.isEmpty() && stack.getItem() instanceof GodReputationItem) {
             if(stack.hasTag() && stack.getTag() != null && stack.getTag().contains("god")) {
-                return VaultGod.valueOf(stack.getTag().getString("god"));
+                try {
+                    return VaultGod.valueOf(stack.getTag().getString("god"));
+                }
+                catch (IllegalArgumentException exception) {
+                    return VaultGod.valueOf("IDONA");
+                }
+
             }
         }
 
