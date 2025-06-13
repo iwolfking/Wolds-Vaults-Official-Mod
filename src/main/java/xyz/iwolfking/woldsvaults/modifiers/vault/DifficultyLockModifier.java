@@ -12,6 +12,7 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.world.VaultDifficulty;
 import iskallia.vault.world.data.WorldSettings;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultDifficultyAccessor;
@@ -55,7 +56,11 @@ public class DifficultyLockModifier extends VaultModifier<DifficultyLockModifier
                     if(!properties().shouldLockHigher() && isDifficultyHigher(world, vault)) {
                         return;
                     }
-                    RETURN_DIFFICULTY_MAP.put(vault.get(Vault.OWNER), WorldSettings.get(world).getPlayerDifficulty(vault.get(Vault.OWNER)));
+
+                    if(!RETURN_DIFFICULTY_MAP.containsKey(vault.get(Vault.OWNER))) {
+                        RETURN_DIFFICULTY_MAP.put(vault.get(Vault.OWNER), WorldSettings.get(world).getPlayerDifficulty(vault.get(Vault.OWNER)));
+                    }
+
                     WorldSettings.get(world).setPlayerDifficulty(vault.get(Vault.OWNER), properties.getDifficulty());
                 }
             });
@@ -64,20 +69,13 @@ public class DifficultyLockModifier extends VaultModifier<DifficultyLockModifier
 
     @Override
     public void onListenerRemove(VirtualWorld world, Vault vault, ModifierContext context, Listener listener) {
-        if(WoldsVaultsConfig.COMMON.normalizedModifierEnabled.get()) {
-            vault.ifPresent(Vault.OWNER, owner -> {
-                if(listener.getPlayer().isPresent()) {
-                    if(listener.getPlayer().get().getUUID().equals(owner)) {
-                        if(RETURN_DIFFICULTY_MAP.containsKey(vault.get(Vault.OWNER))) {
-                            WorldSettings.get(world).setPlayerDifficulty(vault.get(Vault.OWNER), RETURN_DIFFICULTY_MAP.get(vault.get(Vault.OWNER)));
-                            return;
-                        }
-
-                        WorldSettings.get(world).setPlayerDifficulty(vault.get(Vault.OWNER), VaultDifficulty.NORMAL);
-                        RETURN_DIFFICULTY_MAP.clear();
-                    }
-                }
-            });
+        if(listener.getPlayer().isPresent()) {
+            ServerPlayer player = listener.getPlayer().get();
+            UUID playerId = player.getUUID();
+            if(RETURN_DIFFICULTY_MAP.containsKey(playerId)) {
+                WorldSettings.get(world).setPlayerDifficulty(playerId, RETURN_DIFFICULTY_MAP.get(playerId));
+                RETURN_DIFFICULTY_MAP.remove(playerId);
+            }
         }
     }
 

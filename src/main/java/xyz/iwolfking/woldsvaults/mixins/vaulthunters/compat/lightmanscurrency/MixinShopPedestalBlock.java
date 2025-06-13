@@ -115,10 +115,6 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
             }
 
             if(tile.isInitialized() && player.isShiftKeyDown()) {
-                if(handIn != InteractionHand.MAIN_HAND) {
-                    return InteractionResult.PASS;
-                }
-
                 if(state.getValue(REROLLED) || player.hasEffect(ModEffects.REROLLED_TIMEOUT)) {
                     return InteractionResult.FAIL;
                 }
@@ -165,7 +161,7 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
                 }
 
             }
-            else if (tile.isInitialized() && handIn == InteractionHand.MAIN_HAND) {
+            else if (tile.isInitialized()) {
                 c = tile.getOfferStack();
                 if (!c.isEmpty()) {
                     ShopPedestalPriceEvent event = new ShopPedestalPriceEvent(player, c, tile.getCurrencyStack());

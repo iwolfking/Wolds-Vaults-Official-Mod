@@ -1,6 +1,5 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "brick",
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "the_vault:item/gear/rang/brick",
@@ -11,6 +10,7 @@
 			"name": "Brick",
 			"from": [-1, 0, -4],
 			"to": [3, 2, 6],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8.5, 8.185, 8.825]},
 			"faces": {
 				"north": {"uv": [4, 2, 6, 3], "texture": "#0"},
 				"east": {"uv": [4, 0, 9, 1], "texture": "#0"},
@@ -20,5 +20,45 @@
 				"down": {"uv": [4, 0, 2, 5], "texture": "#0"}
 			}
 		}
-	]
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-100, 0, -100],
+			"translation": [0.75, 1.25, -1],
+			"scale": [1.4, 1.4, 1.4]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-100, 0, -100],
+			"translation": [0.75, 1.25, 0.5],
+			"scale": [1.4, 1.4, 1.4]
+		},
+		"firstperson_righthand": {
+			"rotation": [65, 180, -65],
+			"translation": [1.75, 1.75, 0],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [65, 180, -65],
+			"translation": [1.75, 1.75, 0],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"ground": {
+			"translation": [0.25, -5, 0],
+			"scale": [2, 2, 2]
+		},
+		"gui": {
+			"rotation": [90, 130, 0],
+			"translation": [0.5, -1.25, 0],
+			"scale": [2.5, 2.5, 2.5]
+		},
+		"head": {
+			"translation": [-1, 7.75, 0],
+			"scale": [2, 2, 2]
+		},
+		"fixed": {
+			"rotation": [-90, -45, 0],
+			"translation": [-0.5, -0.5, -1.5],
+			"scale": [2.5, 2.5, 2.5]
+		}
+	}
 }
