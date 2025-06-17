@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Inventory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +31,7 @@ public class MixinDataManager {
             if (!is.isEmpty()) {
                 var rl = is.getItem().getRegistryName();
                 if (rl == null || !defaultItems.contains(rl.toString())) {
+                    WoldsVaults.LOGGER.warn("CustomStartingGear: Not clearing inventory because it contains non-default item {}.", rl);
                     defaultInventory = false;
                     break;
                 }
