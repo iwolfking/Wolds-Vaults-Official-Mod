@@ -275,6 +275,8 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
+    implementation fg.deobf("curse.maven:inventory-hud-forge-357540:5639943")
+
 
 
     // dev
