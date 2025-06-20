@@ -21,14 +21,7 @@ public class HasLivingAttribute extends BooleanAttribute {
         }
 
         VaultGearData data = VaultGearData.read(itemStack);
-        for (VaultGearModifier<?> modifier : data.getAllModifierAffixes()) {
-            if(modifier.getAttribute() != null && modifier.getAttribute().equals(ModGearAttributes.LIVING)) {
-                return true;
-            }
-
-        }
-
-        return false;
+        return data.hasAttribute(ModGearAttributes.LIVING);
     }
 
     public String getTranslationKey() {

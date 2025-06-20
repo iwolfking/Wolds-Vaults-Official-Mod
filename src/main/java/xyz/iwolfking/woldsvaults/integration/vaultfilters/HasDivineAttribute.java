@@ -19,14 +19,7 @@ public class HasDivineAttribute extends BooleanAttribute {
         }
 
         VaultGearData data = VaultGearData.read(itemStack);
-        for (VaultGearModifier<?> modifier : data.getAllModifierAffixes()) {
-            if(modifier.getAttribute() != null && modifier.getAttribute().equals(ModGearAttributes.DIVINE)) {
-                return true;
-            }
-
-        }
-
-        return false;
+        return data.hasAttribute(ModGearAttributes.DIVINE);
     }
 
     public String getTranslationKey() {
