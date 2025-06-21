@@ -5,6 +5,8 @@ import iskallia.vault.config.entry.IntRangeEntry;
 import iskallia.vault.config.entry.recipe.ConfigToolRecipe;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.config.gear.VaultGearTypeConfig;
+import iskallia.vault.core.util.ThemeBlockRetriever;
+import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModConfigs;
@@ -12,10 +14,17 @@ import iskallia.vault.item.tool.ToolItem;
 import iskallia.vault.item.tool.ToolMaterial;
 import iskallia.vault.item.tool.ToolType;
 import iskallia.vault.util.data.WeightedList;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,6 +38,7 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearTierConf
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -116,8 +126,40 @@ public class MixinModConfigs {
             }
             ModConfigs.TOOL_RECIPES.getConfigRecipes().add(recipe);
         }
-
+        woldsVaults$genCrucibleTag();
     }
 
+    @Unique private static void woldsVaults$genCrucibleTag() {
+        Set<ResourceLocation> allItems = new HashSet<>(ModConfigs.VOID_CRUCIBLE_CUSTOM_ROOMS.getAllItems());
+        for (var theme : VaultRegistry.THEME.getKeys()) {
+            allItems.addAll(ThemeBlockRetriever.getBlocksForTheme(theme.getId()));
+        }
+
+        List<Holder<Item>> holders =
+            allItems.stream()
+                .filter(ThemeBlockRetriever::allowVaultBlock)
+                .map(Registry.ITEM::get)
+                .map(Registry.ITEM::getResourceKey)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(Registry.ITEM::getOrCreateHolder)
+                .toList();
+        TagKey<Item> voidedByCrucibleKey = ItemTags.create(VaultMod.id("voided_by_crucible"));
+        HolderSet.Named<Item> allTemplatesTag = Registry.ITEM.getOrCreateTag(voidedByCrucibleKey);
+        allTemplatesTag.bind(List.copyOf(holders));
+
+        List<Holder<Item>> notAllowedHolders =
+            allItems.stream()
+                .filter(x -> !ThemeBlockRetriever.allowVaultBlock(x))
+                .map(Registry.ITEM::get)
+                .map(Registry.ITEM::getResourceKey)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(Registry.ITEM::getOrCreateHolder)
+                .toList();
+        TagKey<Item> notAllowedVaultBlocksKey = ItemTags.create(VaultMod.id("void_crucible_extras"));
+        HolderSet.Named<Item> notAllowedVaultBlocksTag = Registry.ITEM.getOrCreateTag(notAllowedVaultBlocksKey);
+        notAllowedVaultBlocksTag.bind(List.copyOf(notAllowedHolders));
+    }
 
 }

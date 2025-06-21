@@ -11,12 +11,12 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = VaultGearRarity.class, remap = false)
 public class MixinVaultGearRarity {
-    @Shadow @Final public static VaultGearRarity SCRAPPY;
-    @Shadow @Final public static VaultGearRarity COMMON;
-    @Shadow @Final public static VaultGearRarity RARE;
-    @Shadow @Final public static VaultGearRarity EPIC;
-    @Shadow @Final public static VaultGearRarity OMEGA;
-    @Shadow @Final public static VaultGearRarity UNIQUE;
+    @Shadow @Final @SuppressWarnings("target") public static VaultGearRarity SCRAPPY;
+    @Shadow @Final @SuppressWarnings("target") public static VaultGearRarity COMMON;
+    @Shadow @Final @SuppressWarnings("target") public static VaultGearRarity RARE;
+    @Shadow @Final @SuppressWarnings("target") public static VaultGearRarity EPIC;
+    @Shadow @Final @SuppressWarnings("target") public static VaultGearRarity OMEGA;
+    @Shadow @Final @SuppressWarnings("target") public static VaultGearRarity UNIQUE;
     @Shadow @Final private TextColor color;
 
     /**
