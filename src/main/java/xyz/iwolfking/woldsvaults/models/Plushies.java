@@ -68,7 +68,7 @@ public class Plushies {
         SLIME = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/slime"), "Stevey the Slime")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         TURTLE = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/turtle"), "Tim the Turtle")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         WARDEN = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/warden"), "Wally the Warden")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
-        ARAEVIN = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/araevin"), "Araevin the Heathen")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+        ARAEVIN = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/araevin"), "Araevin the Acceptable")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         BLAHAJ = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/blahaj"), "Blåhaj the Shark")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         ISAAC = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/isaac_plushie_sitting"), "Isaac (Binding of Isaac) ")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
         MADELINE = REGISTRY.register(new HandHeldModel(VaultMod.id("gear/plushie/madeline_plushie_sitting"), "Madeline (Celeste)")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
