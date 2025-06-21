@@ -276,6 +276,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation fg.deobf("curse.maven:inventory-hud-forge-357540:5639943")
+    compileOnly fg.deobf("curse.maven:xaeros-minimap-263420:3778436")
 
 
 
