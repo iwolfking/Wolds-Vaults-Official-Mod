@@ -251,6 +251,7 @@
     "vaulthunters.custom.MixinVaultGearRarityColor",
     "vaulthunters.fixes.MixinCatalystItemRenderer",
     "vaulthunters.fixes.MixinEndScreenScheduler",
+    "vaulthunters.fixes.MixinIntegrationMinimap",
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
