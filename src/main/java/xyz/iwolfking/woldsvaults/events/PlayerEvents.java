@@ -28,10 +28,6 @@ public class PlayerEvents {
             ItemEntity itemEntity = event.getItem();
             ItemStack stack = itemEntity.getItem();
             if (!stack.isEmpty()) {
-                if(stack.hasTag() && stack.getTag() != null && stack.getTag().isEmpty()) {
-                    stack.setTag(null);
-                }
-
                 ItemStack filterNecklaceStack = FilterNecklaceItem.getNecklace(player);
                 if(filterNecklaceStack.getItem() instanceof FilterNecklaceItem filterNecklaceItem) {
                     ServerLevel world = player.getLevel();

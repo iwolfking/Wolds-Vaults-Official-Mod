@@ -164,6 +164,7 @@
     "vaulthunters.custom.MixinVaultGearRecipe",
     "vaulthunters.custom.MixinVaultGearTierConfig",
     "vaulthunters.custom.MixinVaultGearTooltipItem",
+    "vaulthunters.custom.MixinVaultMapOverlay",
     "vaulthunters.custom.MixinVaultModifierStack",
     "vaulthunters.custom.MixinVaultRegistry",
     "vaulthunters.custom.MixinVoidStoneItem",
