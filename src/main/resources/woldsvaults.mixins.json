@@ -32,6 +32,8 @@
     "create.accessors.FilterItemAccessor",
     "customstartinggear.MixinDataManager",
     "dimensional_worldborder.MixinDimensionalWorldborder",
+    "dungeons_library.MixinArtifactsBarRenderer",
+    "dungeons_library.MixinCuriosKeyBindings",
     "dyenamicsandfriends.MixinComputerCraftCompatModule",
     "dyenamicsandfriends.MixinIncBootstrapForge",
     "ensorcellation.MixinCommonEvents",

@@ -251,6 +251,7 @@ dependencies {
     implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:6631596")
     implementation fg.deobf("curse.maven:placebo-283644:4500363")
     implementation fg.deobf("curse.maven:mekanism-268560:3875976")
+    implementation fg.deobf("curse.maven:dungeons-libraries-550941:4363207")
     compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6139466")
     compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061
     runtimeOnly "curse.maven:citadel4-331936:3683009"
