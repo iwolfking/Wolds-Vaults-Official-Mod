@@ -159,9 +159,6 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
                 }
             }
         }
-
-        tooltip.add(new TextComponent(""));
-        tooltip.add(new TextComponent("Note: Only un-equip Trinket Pouches using your normal inventory, the Vault Menu (H key by default) and Wardrobe are *not* supported").withStyle(ChatFormatting.YELLOW));
     }
 
     @Override
