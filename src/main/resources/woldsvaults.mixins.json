@@ -197,6 +197,7 @@
     "vaulthunters.fixes.MixinClientEvents",
     "vaulthunters.fixes.MixinCoinPouchItem",
     "vaulthunters.fixes.MixinCombatStatsElementContainer",
+    "vaulthunters.fixes.MixinCooldownHelper",
     "vaulthunters.fixes.MixinCurioContainerHandler",
     "vaulthunters.fixes.MixinDynamicModelRegistry",
     "vaulthunters.fixes.MixinEliteZombie",
