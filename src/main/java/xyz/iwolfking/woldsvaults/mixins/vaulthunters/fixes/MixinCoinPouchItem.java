@@ -47,6 +47,11 @@ public abstract class MixinCoinPouchItem {
     public static int getGoldAmount(Inventory playerInventory) {
         long value = 0;
         value += MoneyUtil.getValue(playerInventory);
-        return Math.toIntExact(value / 81L);
+        ItemStack wallet = LightmansCurrency.getWalletStack(playerInventory.player);
+        if(!wallet.isEmpty()) {
+            value += MoneyUtil.getValue(WalletItem.getWalletInventory(wallet));
+        }
+        value = value / 81L;
+        return Math.toIntExact(value);
     }
 }
