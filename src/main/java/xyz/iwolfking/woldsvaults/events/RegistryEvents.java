@@ -80,10 +80,4 @@ public class RegistryEvents {
     public static void onModificationRegistry(RegistryEvent.Register<GearModification> event) {
         ModGearModifications.init(event);
     }
-
-    @SubscribeEvent
-    public static void onEnchantmentRegister(RegistryEvent.Register<Enchantment> event) {
-        ModEnchantments.register(event);
-    }
-
 }
