@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -78,6 +79,11 @@ public class RegistryEvents {
     @SubscribeEvent
     public static void onModificationRegistry(RegistryEvent.Register<GearModification> event) {
         ModGearModifications.init(event);
+    }
+
+    @SubscribeEvent
+    public static void onEnchantmentRegister(RegistryEvent.Register<Enchantment> event) {
+        ModEnchantments.register(event);
     }
 
 }

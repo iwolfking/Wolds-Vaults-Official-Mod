@@ -7,7 +7,6 @@ import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.CuriosGearItem;
 import iskallia.vault.gear.item.VaultGearItem;
-import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.gear.trinket.effects.EnderAnchorTrinket;
 import iskallia.vault.init.ModGearAttributes;
@@ -23,6 +22,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,7 +30,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import xyz.iwolfking.woldsvaults.enchantment.DecorShieldEnchantment;
+import xyz.iwolfking.woldsvaults.init.ModEnchantments;
 
 import java.util.List;
 import java.util.Optional;
@@ -128,5 +133,27 @@ public abstract class MixinMagnetItem extends Item implements VaultGearItem, Cur
     @Shadow
     private static boolean allowsNoPickupDelay(ItemEntity itemEntity, Player player) {
         return false;
+    }
+
+
+    // they're in different methods, so I need to share them somehow - let's hope that it's not run in parallel
+    @Unique private static final ThreadLocal<ItemEntity> woldsVaults$pickedUpItem = new ThreadLocal<>();
+
+    @Inject(method = "onPlayerPickup", at = @At(value = "INVOKE", target = "Liskallia/vault/item/MagnetItem;getMagnet(Lnet/minecraft/world/entity/LivingEntity;)Ljava/util/Optional;"))
+    private static void capturePickedUpItem(Player player, ItemEntity item, CallbackInfo ci) {
+        woldsVaults$pickedUpItem.set(item);
+    }
+
+    @Inject(method = "lambda$onPlayerPickup$5", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"), cancellable = true)
+    private static void decorShieldEnchantment(Player player, ItemStack stack, CallbackInfo ci) {
+        if (EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.DECOR_SHIELD, stack) > 0){
+            var itemEntity = woldsVaults$pickedUpItem.get();
+            if (itemEntity == null) {
+                return;
+            }
+            if (DecorShieldEnchantment.isDecorItem(itemEntity.getItem().getItem())) {
+                ci.cancel();
+            }
+        }
     }
 }
