@@ -1,21 +1,24 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.block.entity.DemagnetizerTileEntity;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.CuriosGearItem;
 import iskallia.vault.gear.item.VaultGearItem;
-import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.gear.trinket.effects.EnderAnchorTrinket;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.init.ModParticles;
 import iskallia.vault.item.MagnetItem;
+import iskallia.vault.world.data.PlayerResearchesData;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,7 +33,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import xyz.iwolfking.woldsvaults.util.MagnetPickupUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -128,5 +135,21 @@ public abstract class MixinMagnetItem extends Item implements VaultGearItem, Cur
     @Shadow
     private static boolean allowsNoPickupDelay(ItemEntity itemEntity, Player player) {
         return false;
+    }
+
+
+    @Unique
+    private static final TagKey<Item> woldsvaults$DECOR_ITEMS = ItemTags.create(VaultMod.id("decor"));
+
+    @SuppressWarnings("deprecation")
+    @Inject(method = "onPlayerPickup", at = @At(value = "INVOKE", target = "Liskallia/vault/item/MagnetItem;getMagnet(Lnet/minecraft/world/entity/LivingEntity;)Ljava/util/Optional;"), cancellable = true)
+    private static void removeDecorDmgIfJunkManagement(Player player, ItemEntity item, CallbackInfo ci) {
+        if (player instanceof ServerPlayer serverPlayer
+            && ( item.getItem().getItem().builtInRegistryHolder().is(woldsvaults$DECOR_ITEMS) // vanilla inv
+                  || MagnetPickupUtils.getPreviousStack(item).getItem().builtInRegistryHolder().is(woldsvaults$DECOR_ITEMS) //backpack with pickup upgrade
+                )
+            && PlayerResearchesData.get(serverPlayer.getLevel()).getResearches(serverPlayer).isResearched("Junk Management")) {
+            ci.cancel();
+        }
     }
 }
