@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 
 @Restriction(
         require = {
-                @Condition(type = Condition.Type.MOD, value = "dungeons_library")
+                @Condition(type = Condition.Type.MOD, value = "dungeons_libraries")
         }
 )
 @Mixin(value = CuriosKeyBindings.class, remap = false)

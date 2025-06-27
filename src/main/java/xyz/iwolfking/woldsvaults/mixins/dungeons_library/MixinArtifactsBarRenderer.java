@@ -14,7 +14,7 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 @Restriction(
         require = {
-                @Condition(type = Condition.Type.MOD, value = "dungeons_library")
+                @Condition(type = Condition.Type.MOD, value = "dungeons_libraries")
         }
 )
 @Mixin(value = ArtifactsBarRender.class, remap = false)
