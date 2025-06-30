@@ -15,15 +15,6 @@ import org.spongepowered.asm.mixin.Overwrite;
 )
 @Mixin(value = CuriosKeyBindings.class, remap = false)
 public abstract class MixinCuriosKeyBindings {
-
-    /**
-     * @author iwolfking
-     * @reason Disable artifact keybinds
-     */
-    @Overwrite
-    public static void setupCuriosKeybindings() {
-    }
-
     /**
      * @author iwolfking
      * @reason Disable artifact keybinds
