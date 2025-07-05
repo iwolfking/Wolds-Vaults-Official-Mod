@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -21,8 +22,12 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class BrewingAltarTileEntity extends BlockEntity {
     private final NonNullList<ItemStack> ingredients = NonNullList.withSize(3, new ItemStack(ModItems.INGREDIENT_TEMPLATE));
+    private List<MutableComponent> lines = new LinkedList<>();
 
     public BrewingAltarTileEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlocks.BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, pPos, pBlockState);
@@ -134,5 +139,13 @@ public class BrewingAltarTileEntity extends BlockEntity {
             }
         }
         return ItemStack.EMPTY;
+    }
+
+    public List<MutableComponent> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<MutableComponent> lines) {
+        this.lines = lines;
     }
 }
