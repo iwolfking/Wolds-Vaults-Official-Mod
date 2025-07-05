@@ -116,9 +116,12 @@ public class ComponentUtils {
      * @return a MutableComponent with waving colors
      */
     public static MutableComponent wavingComponent(MutableComponent base, TextColor baseColor, float frequency, float amplitude) {
+        if (Minecraft.getInstance().level == null) return base;
+
         String text = base.getString();
 
         MutableComponent result = new TextComponent("");
+
 
         float time = (float) Minecraft.getInstance().level.getGameTime();
         int baseRGB = baseColor.getValue();
