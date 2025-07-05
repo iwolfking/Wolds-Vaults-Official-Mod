@@ -302,6 +302,7 @@ dependencies {
     // perf in dev
     runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5322305")
+    runtimeOnly fg.deobf("curse.maven:fastload-630620:4706140")
 
     runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:3820503")
     runtimeOnly fg.deobf("curse.maven:architectury-api-419699:4521465")
