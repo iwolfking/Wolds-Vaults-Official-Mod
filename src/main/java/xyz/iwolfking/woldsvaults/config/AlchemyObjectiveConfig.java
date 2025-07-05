@@ -16,8 +16,6 @@ import xyz.iwolfking.woldsvaults.objectives.data.alchemy.AlchemyTasks;
 import java.util.List;
 
 public class AlchemyObjectiveConfig extends Config {
-    @Expose
-    private List<AlchemyTask> tasks;
 
     @Expose
     private LevelEntryList<AlchemyObjectiveConfig.Entry> levels;
