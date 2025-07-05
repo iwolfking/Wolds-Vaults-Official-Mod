@@ -25,7 +25,6 @@ import xyz.iwolfking.woldsvaults.items.fruits.WisdomFruitItem;
 import xyz.iwolfking.woldsvaults.items.gear.*;
 import xyz.iwolfking.woldsvaults.items.rings.*;
 
-import java.util.Map;
 import java.util.Random;
 
 import static iskallia.vault.init.ModItems.GEAR_GROUP;
@@ -83,6 +82,15 @@ public class ModItems {
     public static final BasicMobEggItem MONSTER_EYE_EGG = new BasicMobEggItem(WoldsVaults.id("monster_eye_spawn_egg"), () -> iskallia.vault.init.ModEntities.MONSTER_EYE, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
     public static final BasicMobEggItem ROBOT_EGG = new BasicMobEggItem(WoldsVaults.id("robot_spawn_egg"), () -> iskallia.vault.init.ModEntities.ROBOT, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
     public static final BasicMobEggItem BLUE_BLAZE_EGG = new BasicMobEggItem(WoldsVaults.id("blue_blaze_spawn_egg"), () -> iskallia.vault.init.ModEntities.BLUE_BLAZE, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
+
+    public static final AlchemyIngredientItem ROTTEN_HEART = new AlchemyIngredientItem(WoldsVaults.id("rotten_heart"), AlchemyIngredientItem.AlchemyIngredientType.DEADLY);
+    public static final AlchemyIngredientItem ROTTEN_APPLE = new AlchemyIngredientItem(WoldsVaults.id("rotten_apple"), AlchemyIngredientItem.AlchemyIngredientType.RUTHLESS);
+    public static final AlchemyIngredientItem VERDANT_GLOBULE = new AlchemyIngredientItem(WoldsVaults.id("verdant_globule"), AlchemyIngredientItem.AlchemyIngredientType.NEUTRAL);
+    public static final AlchemyIngredientItem ERRATIC_EMBER = new AlchemyIngredientItem(WoldsVaults.id("erratic_ember"), AlchemyIngredientItem.AlchemyIngredientType.VOLATILE);
+    public static final AlchemyIngredientItem REFINED_POWDER = new AlchemyIngredientItem(WoldsVaults.id("refined_powder"), AlchemyIngredientItem.AlchemyIngredientType.REFINED);
+    public static final AlchemyIngredientItem AURIC_CRYSTAL = new AlchemyIngredientItem(WoldsVaults.id("auric_crystal"), AlchemyIngredientItem.AlchemyIngredientType.EMPOWERED);
+    public static final BasicItem INGREDIENT_TEMPLATE = new BasicItem(WoldsVaults.id("ingredient_template"));
+
 
     public static final AltarResetItem ALTAR_DECATALYZER;
 
@@ -310,6 +318,14 @@ public class ModItems {
         registry.register(RECIPE_BLUEPRINT);
         registry.register(CHROMA_CORE);
         registry.register(FILTER_NECKLACE);
+
+        registry.register(ROTTEN_HEART);
+        registry.register(ROTTEN_APPLE);
+        registry.register(VERDANT_GLOBULE);
+        registry.register(ERRATIC_EMBER);
+        registry.register(REFINED_POWDER);
+        registry.register(AURIC_CRYSTAL);
+        registry.register(INGREDIENT_TEMPLATE);
     }
 
     static {
