@@ -236,7 +236,7 @@ dependencies {
     implementation fg.deobf("curse.maven:emojiful-284324:3732908")
     implementation fg.deobf("curse.maven:vault-autocrafting-fix-1096429:5695962")
     implementation fg.deobf("curse.maven:daves-potioneering-639653:4788622")
-    implementation fg.deobf("curse.maven:grimoire-of-gaia-228948:5678608")
+    compileOnly fg.deobf("curse.maven:grimoire-of-gaia-228948:5678608")
     implementation fg.deobf("curse.maven:tropicraft-254794:4616839")
     implementation fg.deobf("curse.maven:better-tridents-666941:4707885")
     implementation fg.deobf("curse.maven:puzzles-lib-495476:5114509")
