@@ -118,6 +118,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         itemWithTexture(ModItems.TRINKET_POUCH, "standard_trinket_pouch");
         //itemWithTexture(ModItems.GOD_OFFERING, VaultMod.MOD_ID, "god_blessing_idona"); ???????
 
+        //withExistingParent("augment_crafting_table", modLoc("block/augment_crafting_table"));
+
     }
 
 
