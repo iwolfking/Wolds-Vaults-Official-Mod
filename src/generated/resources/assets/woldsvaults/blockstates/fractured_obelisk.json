@@ -1,7 +1,7 @@
 {
   "variants": {
     "half=upper": {
-      "model": "the_vault:block/empty"
+      "model": "woldsvaults:block/base/nothing"
     },
     "half=lower": {
       "model": "woldsvaults:block/fractured_obelisk"

@@ -1,9 +1,5 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "woldsvaults:block/augment_crafting_table",
-      "y": 90
-    },
     "facing=north": {
       "model": "woldsvaults:block/augment_crafting_table"
     },
@@ -14,6 +10,10 @@
     "facing=west": {
       "model": "woldsvaults:block/augment_crafting_table",
       "y": 270
+    },
+    "facing=east": {
+      "model": "woldsvaults:block/augment_crafting_table",
+      "y": 90
     }
   }
 }
