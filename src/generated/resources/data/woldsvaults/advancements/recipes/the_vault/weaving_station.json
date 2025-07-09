@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:weaving_station"
+    ]
+  },
+  "criteria": {
+    "has_vault_diamond": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:vault_diamond"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:weaving_station"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_vault_diamond",
+      "has_the_recipe"
+    ]
+  ]
+}

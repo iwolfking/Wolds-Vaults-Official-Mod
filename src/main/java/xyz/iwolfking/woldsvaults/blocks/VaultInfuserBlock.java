@@ -24,7 +24,7 @@ import xyz.iwolfking.woldsvaults.blocks.tiles.VaultInfuserTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 public class VaultInfuserBlock extends BaseTileEntityBlock {
-    private static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
 
 

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "half=upper": {
+      "model": "woldsvaults:block/base/nothing"
+    },
+    "filled=false,half=lower": {
+      "model": "woldsvaults:block/obelisk_inactive"
+    },
+    "filled=true,half=lower": {
+      "model": "woldsvaults:block/obelisk_active"
+    }
+  }
+}

@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "woldsvaults:item/basic_pouch_g"
-  }
-}
