@@ -1,0 +1,78 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "the_vault:block/obelisk_base",
+		"1": "the_vault:block/obelisk_bottom",
+		"2": "the_vault:block/obelisk_sides",
+		"3": "the_vault:block/obelisk_top",
+		"4": "the_vault:block/obelisk_lower_active",
+		"5": "the_vault:block/obelisk_upper_active",
+		"particle": "the_vault:block/obelisk_base"
+	},
+	"ambientocclusion": false,
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 135, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 135, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 135, 0],
+			"translation": [0, -3, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"head": {
+			"rotation": [0, 180, 0]
+		},
+		"fixed": {
+			"rotation": [0, 180, 0]
+		}
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 3, 16],
+			"faces": {
+				"north": {"uv": [0, 8, 16, 11], "texture": "#2"},
+				"east": {"uv": [0, 11, 16, 14], "texture": "#2"},
+				"south": {"uv": [0, 2, 16, 5], "texture": "#2"},
+				"west": {"uv": [0, 5, 16, 8], "texture": "#2"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#0"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#1"}
+			}
+		},
+		{
+			"from": [2, 3, 2],
+			"to": [14, 17, 14],
+			"faces": {
+				"north": {"uv": [2, 0, 14, 14], "texture": "#4"},
+				"east": {"uv": [2, 0, 14, 14], "texture": "#4"},
+				"south": {"uv": [2, 0, 14, 14], "texture": "#4"},
+				"west": {"uv": [2, 0, 14, 14], "texture": "#4"},
+				"up": {"uv": [0, 7.25, 3, 10.25], "texture": "#4"},
+				"down": {"uv": [0, 7.25, 3, 10.25], "texture": "#4"}
+			}
+		},
+		{
+			"from": [2, 17, 2],
+			"to": [14, 32, 14],
+			"faces": {
+				"north": {"uv": [2, 1, 14, 16], "texture": "#5"},
+				"east": {"uv": [2, 1, 14, 16], "texture": "#5"},
+				"south": {"uv": [2, 1, 14, 16], "texture": "#5"},
+				"west": {"uv": [2, 1, 14, 16], "texture": "#5"},
+				"up": {"uv": [2, 2, 14, 14], "texture": "#3"},
+				"down": {"uv": [0, 7.25, 3, 10.25], "texture": "#5"}
+			}
+		}
+	]
+}

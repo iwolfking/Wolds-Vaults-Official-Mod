@@ -92,6 +92,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         spawnEgg(ModItems.ROBOT_EGG);
         spawnEgg(ModItems.WOLD_EGG);
 
+        charm("idona_token");
+        charm("tenos_token");
+        charm("velara_token");
+        charm("wendarr_token");
+
         simpleResource("basic_pouch_classic");
         simpleResource("basic_pouch_g");
         simpleResource("basic_pouch_r");
@@ -116,7 +121,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         itemWithTexture(ModItems.ALL_SEEING_EYE_CAPSTONE, "all_seeing_eye_capstone");
 
         itemWithTexture(ModItems.TRINKET_POUCH, "standard_trinket_pouch");
-        //itemWithTexture(ModItems.GOD_OFFERING, VaultMod.MOD_ID, "god_blessing_idona"); ???????
+        itemWithTexture(ModItems.GOD_OFFERING, "god_blessing_idona");
 
         //withExistingParent("augment_crafting_table", modLoc("block/augment_crafting_table"));
 
@@ -131,6 +136,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     private ItemModelBuilder simpleResource(String resource) {
         return withExistingParent(resource,
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + resource));
+    }
+
+    private ItemModelBuilder charm(String resource) {
+        return withExistingParent("charm/" + resource,
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(WoldsVaults.MOD_ID, "item/" + resource));
     }
@@ -151,11 +162,4 @@ public class ModItemModelProvider extends ItemModelProvider {
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(WoldsVaults.MOD_ID, "item/" + texture));
     }
-
-    private ItemModelBuilder itemWithTexture(Item item, String modId, String texture) {
-        return withExistingParent(item.getRegistryName().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(modId, "item/" + texture));
-    }
-
 }
