@@ -21,6 +21,7 @@ public class DataGenerators {
             gen.addProvider(new ModLanguageProvider(gen));
             gen.addProvider(new ModBlockStateProvider(gen, efh));
             gen.addProvider(new ModItemModelProvider(gen, efh));
+            gen.addProvider(new ModSoundDefinitionsProvider(gen, efh));
         }
 
         if (event.includeServer()) {

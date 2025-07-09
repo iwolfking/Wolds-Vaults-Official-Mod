@@ -1,6 +1,6 @@
 {
   "wold_ambient": {
-    "category": "hostile",
+    "subtitle": "woldsvaults.subtitle.wold.ambient",
     "sounds": [
       "woldsvaults:wold/ambient1",
       "woldsvaults:wold/ambient2",
@@ -9,7 +9,7 @@
     ]
   },
   "wold_hurt": {
-    "category": "hostile",
+    "subtitle": "woldsvaults.subtitle.wold.hurt",
     "sounds": [
       "woldsvaults:wold/hurt1",
       "woldsvaults:wold/hurt2",
@@ -17,14 +17,13 @@
     ]
   },
   "wold_death": {
-    "category": "hostile",
+    "subtitle": "woldsvaults.subtitle.wold.hurt",
     "sounds": [
       "woldsvaults:wold/death1",
       "woldsvaults:wold/death2"
     ]
   },
   "saferspaces_proc": {
-    "category": "player",
     "subtitle": "woldsvaults.subtitle.saferspaces_proc",
     "sounds": [
       "woldsvaults:saferspaces/bear_01",
@@ -32,21 +31,20 @@
       "woldsvaults:saferspaces/bear_03"
     ]
   },
+  "ominous_ambience": {
+    "subtitle": "woldsvaults.subtitle.ambience",
+    "sounds": [
+      "woldsvaults:ominous_ambience_1",
+      "woldsvaults:ominous_ambience_2",
+      "woldsvaults:ominous_ambience_3"
+    ]
+  },
   "dark": {
-    "category": "ambient",
     "sounds": [
       {
         "name": "woldsvaults:dark",
         "stream": true
       }
-    ]
-  },
-  "ominous_ambience": {
-    "category": "ambient",
-    "sounds": [
-      "woldsvaults:ominous_ambience_1",
-      "woldsvaults:ominous_ambience_2",
-      "woldsvaults:ominous_ambience_3"
     ]
   }
 }
