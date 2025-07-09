@@ -11,6 +11,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.AugmentCraftingTableBlock;
 import xyz.iwolfking.woldsvaults.blocks.FracturedObelisk;
+import xyz.iwolfking.woldsvaults.blocks.GatewayChannelingBlock;
 import xyz.iwolfking.woldsvaults.blocks.VaultInfuserBlock;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
@@ -28,18 +29,55 @@ public class ModBlockStateProvider extends BlockStateProvider {
         generateChromaticSteelVaultInfuser();
         generateChromaticIronVaultInfuser();
         generateAugmentTableBlock();
+        generateGatewayChannelingBlock();
         generateGenericItemModelBlockState(ModBlocks.BLACKSMITH_VENDOR_PEDESTAL);
         generateGenericItemModelBlockState(ModBlocks.CARD_VENDOR_PEDESTAL, "god_shop_pedestal");
         generateGenericItemModelBlockState(ModBlocks.DUNGEON_PEDESTAL_BLOCK);
         generateGenericItemModelBlockState(ModBlocks.ETCHING_PEDESTAL);
+        generateGenericItemModelBlockState(ModBlocks.GOD_VENDOR_PEDESTAL);
+        generateGenericItemModelBlockState(ModBlocks.DECO_LODESTONE_BLOCK);
+
         generateTwoTallItemModelBlockState(ModBlocks.FRACTURED_OBELISK);
 
+        simpleBlockWithItem(ModBlocks.HELLISH_SAND_BLOCK);
+        simpleBlockWithItem(ModBlocks.INFUSED_DRIFTWOOD_PLANKS);
+        simpleBlockWithItem(ModBlocks.ISKALLIAN_LEAVES_BLOCK);
+        simpleBlockWithItem(ModBlocks.NULLITE_ORE);
+        simpleBlockWithItem(ModBlocks.PRISMATIC_FIBER_BLOCK);
+    }
 
-        simpleBlock(ModBlocks.HELLISH_SAND_BLOCK);
-        simpleBlock(ModBlocks.INFUSED_DRIFTWOOD_PLANKS);
-        simpleBlock(ModBlocks.ISKALLIAN_LEAVES_BLOCK);
-        simpleBlock(ModBlocks.NULLITE_ORE);
-        simpleBlock(ModBlocks.PRISMATIC_FIBER_BLOCK);
+    private void simpleBlockWithItem(Block block) {
+        simpleBlock(block);
+        itemModels().withExistingParent(block.getRegistryName().getPath(), modLoc("block/" + block.getRegistryName().getPath()));
+    }
+
+    private void generateGenericItemModelBlockState(Block block) {
+        VariantBlockStateBuilder vbb = this.getVariantBuilder(block);
+        ModelFile existingModel = models().getExistingFile(modLoc("block/" + block.getRegistryName().getPath()));
+
+        vbb.setModels(vbb.partialState(), vbb.partialState().modelForState().modelFile(existingModel).build());
+        itemModels().withExistingParent(block.getRegistryName().getPath(), modLoc("block/" + block.getRegistryName().getPath()));
+    }
+
+    // are we fr
+    private void generateGenericItemModelBlockState(Block block, String extra) {
+        VariantBlockStateBuilder vbb = this.getVariantBuilder(block);
+        ModelFile existingModel = models().getExistingFile(modLoc("block/" + extra));
+
+        vbb.setModels(vbb.partialState(), vbb.partialState().modelForState().modelFile(existingModel).build());
+        itemModels().withExistingParent(block.getRegistryName().getPath(), modLoc("block/" + extra));
+    }
+
+    private void generateTwoTallItemModelBlockState(Block block) {
+        VariantBlockStateBuilder vbb = this.getVariantBuilder(block);
+        ModelFile existingModel = models().getExistingFile(modLoc("block/" + block.getRegistryName().getPath()));
+
+        vbb.setModels(vbb.partialState().with(FracturedObelisk.HALF, DoubleBlockHalf.UPPER),
+                vbb.partialState().modelForState().modelFile(EMPTY).build());
+        vbb.setModels(vbb.partialState().with(FracturedObelisk.HALF, DoubleBlockHalf.LOWER),
+                vbb.partialState().modelForState().modelFile(existingModel).build());
+
+        itemModels().withExistingParent(block.getRegistryName().getPath(), modLoc("block/" + block.getRegistryName().getPath()));
     }
 
 
@@ -111,32 +149,19 @@ public class ModBlockStateProvider extends BlockStateProvider {
         itemModels().withExistingParent("augment_crafting_table", modLoc("block/augment_crafting_table"));
     }
 
-    private void generateGenericItemModelBlockState(Block block) {
-        VariantBlockStateBuilder vbb = this.getVariantBuilder(block);
-        ModelFile existingModel = models().getExistingFile(modLoc("block/" + block.getRegistryName().getPath()));
 
-        vbb.setModels(vbb.partialState(), vbb.partialState().modelForState().modelFile(existingModel).build());
-        itemModels().withExistingParent(block.getRegistryName().getPath(), modLoc("block/" + block.getRegistryName().getPath()));
-    }
 
-    // are we fr
-    private void generateGenericItemModelBlockState(Block block, String extra) {
-        VariantBlockStateBuilder vbb = this.getVariantBuilder(block);
-        ModelFile existingModel = models().getExistingFile(modLoc("block/" + extra));
+    private void generateGatewayChannelingBlock() {
+        VariantBlockStateBuilder vbb = this.getVariantBuilder(ModBlocks.GATEWAY_CHANNELING_BLOCK);
+        ModelFile existingModel = models().getExistingFile(modLoc("block/gateway_channeling_block"));
 
-        vbb.setModels(vbb.partialState(), vbb.partialState().modelForState().modelFile(existingModel).build());
-        itemModels().withExistingParent(block.getRegistryName().getPath(), modLoc("block/" + extra));
-    }
-
-    private void generateTwoTallItemModelBlockState(Block block) {
-        VariantBlockStateBuilder vbb = this.getVariantBuilder(block);
-        ModelFile existingModel = models().getExistingFile(modLoc("block/" + block.getRegistryName().getPath()));
-
-        vbb.setModels(vbb.partialState().with(FracturedObelisk.HALF, DoubleBlockHalf.UPPER),
-                vbb.partialState().modelForState().modelFile(EMPTY).build());
-        vbb.setModels(vbb.partialState().with(FracturedObelisk.HALF, DoubleBlockHalf.LOWER),
+        vbb.setModels(vbb.partialState().with(GatewayChannelingBlock.USED, false),
                 vbb.partialState().modelForState().modelFile(existingModel).build());
 
-        itemModels().withExistingParent(block.getRegistryName().getPath(), modLoc("block/" + block.getRegistryName().getPath()));
+        vbb.setModels(vbb.partialState().with(GatewayChannelingBlock.USED, true),
+                vbb.partialState().modelForState().modelFile(existingModel).build());
+
+
+        itemModels().withExistingParent("gateway_channeling_block", modLoc("block/gateway_channeling_block"));
     }
 }
