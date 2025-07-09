@@ -25,7 +25,7 @@ public class DataGenerators {
         }
 
         if (event.includeServer()) {
-
+            gen.addProvider(new ModRecipeProvider(gen));
         }
     }
 }

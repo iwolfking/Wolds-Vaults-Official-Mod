@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "the_vault:grapes"
+    ]
+  },
+  "criteria": {
+    "has_kiwi": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:sweet_kiwi"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "the_vault:grapes"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_kiwi",
+      "has_the_recipe"
+    ]
+  ]
+}

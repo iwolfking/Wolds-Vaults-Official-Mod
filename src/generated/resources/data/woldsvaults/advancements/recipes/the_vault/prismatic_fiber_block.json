@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:prismatic_fiber_block"
+    ]
+  },
+  "criteria": {
+    "has_prismatic_fiber": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:prismatic_fiber"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:prismatic_fiber_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_prismatic_fiber",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -8,13 +8,13 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.Map;
 
-public class NbtAwareRecipe implements FinishedRecipe {
+public class UncheckedRecipe implements FinishedRecipe {
     private final FinishedRecipe base;
-    private final Map<Character, IngredientWithNBT> nbtOverrides;
+    private final Map<Character, ResourceLocation> overrides;
 
-    public NbtAwareRecipe(FinishedRecipe base, Map<Character, IngredientWithNBT> overrides) {
+    public UncheckedRecipe(FinishedRecipe base, Map<Character, ResourceLocation> overrides) {
         this.base = base;
-        this.nbtOverrides = overrides;
+        this.overrides = overrides;
     }
 
     @Override
@@ -22,8 +22,8 @@ public class NbtAwareRecipe implements FinishedRecipe {
         base.serializeRecipeData(json);
 
         JsonObject key = json.getAsJsonObject("key");
-        for (Map.Entry<Character, IngredientWithNBT> entry : nbtOverrides.entrySet()) {
-            key.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
+        for (Map.Entry<Character, ResourceLocation> entry : overrides.entrySet()) {
+            key.add(String.valueOf(entry.getKey()), toJson(entry.getValue()));
         }
     }
 
@@ -47,14 +47,9 @@ public class NbtAwareRecipe implements FinishedRecipe {
         return base.getAdvancementId();
     }
 
-    public record IngredientWithNBT(String itemId, String nbtJson) {
-
-        public JsonObject toJson() {
-            JsonObject obj = new JsonObject();
-            obj.addProperty("type", "forge:nbt");
-            obj.addProperty("item", itemId);
-            obj.add("nbt", JsonParser.parseString(nbtJson));
-            return obj;
-        }
+    private JsonObject toJson(ResourceLocation rl) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("item", rl.toString());
+        return obj;
     }
 }
