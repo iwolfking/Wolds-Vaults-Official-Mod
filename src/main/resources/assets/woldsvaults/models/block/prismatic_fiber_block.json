@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "woldsvaults:block/prismatic_fiber_block"
-  }
-}

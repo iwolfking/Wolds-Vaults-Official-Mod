@@ -1,0 +1,6 @@
+{
+  "parent": "woldsvaults:block/base/nothing",
+  "textures": {
+    "particle": "woldsvaults:block/monolith_controller"
+  }
+}

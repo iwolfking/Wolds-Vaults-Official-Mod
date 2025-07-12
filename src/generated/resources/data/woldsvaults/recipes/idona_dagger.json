@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "M#M",
+    "EAE",
+    "MSM"
+  ],
+  "key": {
+    "#": {
+      "item": "the_vault:vault_rock"
+    },
+    "E": {
+      "item": "the_vault:wutodic_mass"
+    },
+    "A": {
+      "type": "forge:nbt",
+      "item": "the_vault:augment",
+      "nbt": {
+        "theme": "the_vault:classic_vault_idona_normal"
+      }
+    },
+    "S": {
+      "type": "forge:nbt",
+      "item": "the_vault:god_token",
+      "nbt": {
+        "type": "idona"
+      }
+    },
+    "M": {
+      "item": "the_vault:memory_shard"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:idona_dagger"
+  }
+}

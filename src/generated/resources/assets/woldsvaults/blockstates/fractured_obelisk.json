@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=upper": {
+      "model": "woldsvaults:block/base/nothing"
+    },
+    "half=lower": {
+      "model": "woldsvaults:block/fractured_obelisk"
+    }
+  }
+}

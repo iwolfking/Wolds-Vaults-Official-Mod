@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:filter_necklace"
+    ]
+  },
+  "criteria": {
+    "has_attribute_filter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "create:attribute_filter"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:filter_necklace"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_attribute_filter",
+      "has_the_recipe"
+    ]
+  ]
+}

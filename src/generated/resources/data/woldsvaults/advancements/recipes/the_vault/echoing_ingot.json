@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "the_vault:echoing_ingot"
+    ]
+  },
+  "criteria": {
+    "has_echo": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:gem_echo"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "the_vault:echoing_ingot"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_echo",
+      "has_the_recipe"
+    ]
+  ]
+}
