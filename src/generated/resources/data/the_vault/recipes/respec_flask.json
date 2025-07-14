@@ -1,0 +1,29 @@
+{
+  "type": "botania:nbt_output_wrapper",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "ADA",
+      "ABA",
+      "ACA"
+    ],
+    "key": {
+      "A": {
+        "item": "the_vault:vault_essence"
+      },
+      "D": {
+        "item": "minecraft:granite"
+      },
+      "B": {
+        "item": "minecraft:glass_bottle"
+      },
+      "C": {
+        "item": "the_vault:perfect_benitoite"
+      }
+    },
+    "result": {
+      "item": "the_vault:respec_flask"
+    }
+  },
+  "nbt": "{Ability:\"Colossus\"}"
+}

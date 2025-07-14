@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "woldsvaults:block/xl_backpack"
+    },
+    "facing=south": {
+      "model": "woldsvaults:block/xl_backpack",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "woldsvaults:block/xl_backpack",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "woldsvaults:block/xl_backpack",
+      "y": 90
+    }
+  }
+}

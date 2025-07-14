@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:xl_backpack"
+    ]
+  },
+  "criteria": {
+    "has_netherite_backpack": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sophisticatedbackpacks:netherite_backpack"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:xl_backpack"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_netherite_backpack",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:chroma_core"
+    ]
+  },
+  "criteria": {
+    "has_perfect_benitoite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:perfect_benitoite"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:chroma_core"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_perfect_benitoite",
+      "has_the_recipe"
+    ]
+  ]
+}

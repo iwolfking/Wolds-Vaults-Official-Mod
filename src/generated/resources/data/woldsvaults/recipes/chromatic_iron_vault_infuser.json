@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ADA",
+    "VBV",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "the_vault:chromatic_iron_ingot"
+    },
+    "B": {
+      "item": "minecraft:furnace"
+    },
+    "C": {
+      "item": "the_vault:perfect_larimar"
+    },
+    "D": {
+      "item": "the_vault:vault_diamond"
+    },
+    "V": {
+      "item": "the_vault:vault_essence"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:chromatic_iron_vault_infuser"
+  }
+}

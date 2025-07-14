@@ -62,10 +62,7 @@ public abstract class MixinPlayerVaultStats {
             while (this.exp >= (neededExp = this.getExpNeededToNextLevel())) {
                 ++this.vaultLevel;
                 ++this.unspentSkillPoints;
-                if (this.vaultLevel % 5 == 0 && this.vaultLevel <= 100) {
-                    ++this.unspentExpertisePoints;
-                }
-                else if(this.vaultLevel > 100) {
+                if (this.vaultLevel % 5 == 0) {
                     ++this.unspentExpertisePoints;
                 }
 

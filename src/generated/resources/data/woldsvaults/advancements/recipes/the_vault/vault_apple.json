@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "the_vault:vault_apple"
+    ]
+  },
+  "criteria": {
+    "has_essence": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:vault_essence"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "the_vault:vault_apple"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_essence",
+      "has_the_recipe"
+    ]
+  ]
+}

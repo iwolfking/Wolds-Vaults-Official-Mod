@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:mod_box_workstation"
+    ]
+  },
+  "criteria": {
+    "has_modbox": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:mod_box"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:mod_box_workstation"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_modbox",
+      "has_the_recipe"
+    ]
+  ]
+}
