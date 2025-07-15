@@ -12,6 +12,12 @@ public class ModLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        add("item.woldsvaults.rotten_heart", "Rotten Heart");
+        add("item.woldsvaults.rotten_apple", "Rotten Apple");
+        add("item.woldsvaults.verdant_globule", "Verdant Globule");
+        add("item.woldsvaults.erratic_ember", "Erratic Ember");
+        add("item.woldsvaults.refined_powder", "Refined Powder");
+        add("item.woldsvaults.auric_crystal", "Auric Crystal");
         add("curios.identifier.shard_pouch", "Shard Pouch");
         add("curios.identifier.trinket_pouch", "Trinket Pouch");
         add("curios.identifier.green_trinket", "Green Trinket");

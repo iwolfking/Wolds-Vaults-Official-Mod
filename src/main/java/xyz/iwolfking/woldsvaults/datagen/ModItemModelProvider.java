@@ -69,11 +69,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.SKILL_ORB_ITEM);
         simpleItem(ModItems.SOUL_ICHOR);
         simpleItem(ModItems.SPARK_OF_INSPIRATION);
-
         simpleItem(ModItems.SUSPENSION_FOCUS);
         simpleItem(ModItems.TARGETED_MOD_BOX);
         simpleItem(ModItems.TOME_OF_TENOS);
-
         simpleItem(ModItems.UNIDENTIFIED_GATEWAY_PEARL);
         simpleItem(ModItems.VAULT_DIAMOND_NUGGET);
         simpleItem(ModItems.VAULT_ROCK_CANDY);
@@ -84,6 +82,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.WENDARR_GEM);
         simpleItem(ModItems.WISDOM_FRUIT);
         simpleItem(ModItems.ZEPHYR_CHARM);
+        simpleItem(ModItems.AURIC_CRYSTAL);
+        simpleItem(ModItems.ERRATIC_EMBER);
+        simpleItem(ModItems.INGREDIENT_TEMPLATE);
+        simpleItem(ModItems.REFINED_POWDER);
+        simpleItem(ModItems.ROTTEN_APPLE);
+        simpleItem(ModItems.ROTTEN_HEART);
+        simpleItem(ModItems.VERDANT_GLOBULE);
         //simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         spawnEgg(ModItems.BLUE_BLAZE_EGG);
