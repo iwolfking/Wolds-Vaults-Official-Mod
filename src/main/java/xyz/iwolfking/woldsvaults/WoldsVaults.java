@@ -67,6 +67,7 @@ public class WoldsVaults {
         MinecraftForge.EVENT_BUS.register(this);
         ModCatalystModels.registerModels();
         ModInscriptionModels.registerModels();
+        ModFTBQuestsTaskTypes.init();
         MinecraftForge.EVENT_BUS.addListener(WoldDataLoaders::initProcessors);
     }
 
