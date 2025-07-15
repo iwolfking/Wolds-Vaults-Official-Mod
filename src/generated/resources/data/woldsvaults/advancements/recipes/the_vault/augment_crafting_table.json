@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:augment_crafting_table"
+    ]
+  },
+  "criteria": {
+    "has_augment": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:augment"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:augment_crafting_table"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_augment",
+      "has_the_recipe"
+    ]
+  ]
+}

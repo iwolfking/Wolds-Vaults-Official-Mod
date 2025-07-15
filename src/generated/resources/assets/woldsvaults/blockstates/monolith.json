@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "state=extinguished": {
+      "model": "woldsvaults:block/monolith_extinguished"
+    },
+    "state=lit": {
+      "model": "woldsvaults:block/monolith_lit"
+    },
+    "state=destroyed": {
+      "model": "woldsvaults:block/monolith_destroyed"
+    }
+  }
+}

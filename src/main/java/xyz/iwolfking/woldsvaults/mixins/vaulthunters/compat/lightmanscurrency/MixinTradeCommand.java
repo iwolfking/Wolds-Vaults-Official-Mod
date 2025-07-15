@@ -7,6 +7,7 @@ import io.github.lightman314.lightmanscurrency.common.easy.EasyText;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.TextComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +26,7 @@ public class MixinTradeCommand {
      */
     @Inject(method = "acceptPlayerTrade", at = @At("HEAD"), cancellable = true)
     private static void acceptPlayerTrade(CommandContext<CommandSourceStack> context, CallbackInfoReturnable<Integer> cir) throws CommandSyntaxException {
-        if(context.getSource().getPlayerOrException().getLevel().dimension().getRegistryName().getNamespace().equals("the_vault")) {
+        if(context.getSource().getPlayerOrException().getLevel().dimension().getRegistryName().getNamespace().equals("the_vault") || EntityArgument.getPlayer(context, "player").getLevel().dimension().getRegistryName().getNamespace().equals("the_vault")) {
             EasyText.sendCommandFail(context.getSource(), new TextComponent("You cannot trade in the vault..."));
             cir.setReturnValue(0);
         }

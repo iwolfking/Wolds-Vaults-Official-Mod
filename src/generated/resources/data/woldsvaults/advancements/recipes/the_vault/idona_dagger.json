@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:idona_dagger"
+    ]
+  },
+  "criteria": {
+    "has_memory_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:memory_shard"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:idona_dagger"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_memory_shard",
+      "has_the_recipe"
+    ]
+  ]
+}

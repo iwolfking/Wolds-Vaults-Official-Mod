@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
 import iskallia.vault.container.CurioContainerHandler;
+import iskallia.vault.container.WardrobeContainer;
 import net.minecraftforge.common.util.LazyOptional;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

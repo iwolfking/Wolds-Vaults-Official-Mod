@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "infuseDuration": 40,
+  "inputCount": 9,
+  "ingredient": {
+    "item": "the_vault:vault_essence"
+  },
+  "catalyst": {
+    "item": "minecraft:apple"
+  },
+  "result": {
+    "item": "the_vault:vault_apple"
+  }
+}

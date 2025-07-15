@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "woldsvaults:block/chromatic_steel_vault_infuser"
+    },
+    "facing=south": {
+      "model": "woldsvaults:block/chromatic_steel_vault_infuser",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "woldsvaults:block/chromatic_steel_vault_infuser",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "woldsvaults:block/chromatic_steel_vault_infuser",
+      "y": 90
+    }
+  }
+}
