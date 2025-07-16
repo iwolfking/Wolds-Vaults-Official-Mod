@@ -1,10 +1,12 @@
 package xyz.iwolfking.woldsvaults.integration.ftbquests.tasks;
 
 import dev.ftb.mods.ftblibrary.config.ConfigGroup;
+import dev.ftb.mods.ftblibrary.ui.Button;
 import dev.ftb.mods.ftbquests.quest.Quest;
 import dev.ftb.mods.ftbquests.quest.TeamData;
 import dev.ftb.mods.ftbquests.quest.task.Task;
 import dev.ftb.mods.ftbquests.quest.task.TaskType;
+import dev.ftb.mods.ftbquests.quest.task.XPTask;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -24,6 +26,7 @@ public class VaultLevelTask extends Task implements ISingleIntValueTask {
     public VaultLevelTask(Quest quest) {
         super(quest);
     }
+
 
     @Override
     public TaskType getType() {
@@ -86,6 +89,11 @@ public class VaultLevelTask extends Task implements ISingleIntValueTask {
     @Override
     public boolean consumesResources() {
         return true;
+    }
+
+    @Override
+    public void onButtonClicked(Button button, boolean canClick) {
+
     }
 
     @Override

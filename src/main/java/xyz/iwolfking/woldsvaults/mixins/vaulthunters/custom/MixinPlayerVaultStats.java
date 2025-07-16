@@ -1,6 +1,8 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 
+import dev.ftb.mods.ftbquests.quest.ServerQuestFile;
+import dev.ftb.mods.ftbquests.quest.TeamData;
 import iskallia.vault.event.event.VaultLevelUpEvent;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.skill.PlayerVaultStats;
@@ -11,12 +13,12 @@ import iskallia.vault.util.NetcodeUtils;
 import iskallia.vault.world.data.PlayerExpertisesData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
+import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.VaultLevelTask;
 
+import java.util.List;
 import java.util.UUID;
 
 @Mixin(value = PlayerVaultStats.class, remap = false)
@@ -77,11 +79,33 @@ public abstract class MixinPlayerVaultStats {
             if (this.vaultLevel > initialLevel) {
                 NetcodeUtils.runIfPresent(server, this.uuid, this::fancyLevelUpEffects);
                 player.refreshTabListName();
-
+                woldsVaults$vaultLevelTaskProgress(player, exp, initialLevel, this.vaultLevel);
                 MinecraftForge.EVENT_BUS.post(new VaultLevelUpEvent(player, exp, initialLevel, this.vaultLevel));
             }
 
             this.sync(server);
+        }
+    }
+
+    private List<VaultLevelTask> levelTasks = null;
+
+
+    @Unique
+    public void woldsVaults$vaultLevelTaskProgress(Player player, int exp, int initialLevel, int newLevel) {
+        if (levelTasks == null) {
+            levelTasks = ServerQuestFile.INSTANCE.collect(VaultLevelTask.class);
+        }
+
+        if (levelTasks.isEmpty()) {
+            return;
+        }
+
+        TeamData data = ServerQuestFile.INSTANCE.getData(player);
+
+        for (VaultLevelTask task : levelTasks) {
+            if (data.getProgress(task) < task.getMaxProgress() && data.canStartTasks(task.quest)) {
+                data.setProgress(task, newLevel);
+            }
         }
     }
 }
