@@ -86,6 +86,8 @@
     "vaulthunters.accessors.MixinInfusedCatalystItem",
     "vaulthunters.accessors.MixinScavengerAltar",
     "vaulthunters.accessors.PlayerVaultAltarDataAccessor",
+    "vaulthunters.accessors.ShopEntryAccessor",
+    "vaulthunters.accessors.ShopTierAccessor",
     "vaulthunters.accessors.TemplateProcessorModifierPropertiesAccessor",
     "vaulthunters.accessors.VaultDifficultyAccessor",
     "vaulthunters.accessors.VaultGearCommonConfigAccessor",
