@@ -32,6 +32,13 @@ public class WoldMixinCanceller implements MixinCanceller {
             }
         }
 
+        if(LoadingModList.get().getModFileById("the_vault_jei") != null) {
+            if(s.equals("dev.attackeight.the_vault_jei.mixin.IntegrationJEIMixin")) {
+                // add back recycler recipes
+                return true;
+            }
+        }
+
         return false;
     }
 }
