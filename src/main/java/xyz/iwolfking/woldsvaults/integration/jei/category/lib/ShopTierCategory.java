@@ -23,7 +23,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ShopEntryAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ShopTierAccessor;
 
@@ -32,7 +31,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
     private static final ResourceLocation TEXTURE = VaultMod.id("textures/gui/jei/loot_info.png");
@@ -127,7 +125,7 @@ public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
     }
 
     @Override public void draw(ShopTierAccessor recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        Minecraft.getInstance().font.draw(stack, new TextComponent("Level " + recipe.getMinLevel() + "+"), 0, -14, -16777216);
+        Minecraft.getInstance().font.draw(stack, new TextComponent("Level " + recipe.getMinLevel() + "+"), 0, -12, -16777216);
     }
 
 }

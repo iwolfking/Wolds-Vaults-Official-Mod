@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.integration.jei;
 
 import dev.attackeight.the_vault_jei.jei.ForgeItem;
 import dev.attackeight.the_vault_jei.jei.category.ForgeItemRecipeCategory;
+import iskallia.vault.VaultMod;
+import iskallia.vault.config.VaultRecyclerConfig;
 import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.integration.jei.VaultRecyclerRecipeJEI;
@@ -56,10 +58,14 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<ShopTierAccessor> SPOOKY_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "spooky_shop_pedestal", ShopTierAccessor.class);
     public static final RecipeType<ShopTierAccessor> CARD_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "card_shop_pedestal", ShopTierAccessor.class);
 
+    // requires vault jei mod
     public static final RecipeType<ForgeItem> MOD_BOX_WORKSTATION = RecipeType.create(WoldsVaults.MOD_ID, "mod_box_workstation", ForgeItem.class);
     public static final RecipeType<ForgeItem> AUGMENTS_ASSEMBLY = RecipeType.create(WoldsVaults.MOD_ID, "augment_assembly", ForgeItem.class);
     public static final RecipeType<ForgeItem> WEAVING = RecipeType.create(WoldsVaults.MOD_ID, "weaving", ForgeItem.class);
 
+    // this is in newer vault jei mod, but it's currently not compatible with wv
+    public static final RecipeType<ForgeItem> TRINKETS = RecipeType.create(VaultMod.MOD_ID, "trinket", ForgeItem.class);
+    public static final RecipeType<ForgeItem> JEWEL_CRAFTING = RecipeType.create(VaultMod.MOD_ID, "jewel_crafting", ForgeItem.class);
 
     public WoldsVaultsJeiPlugin() {}
     @Override
@@ -90,9 +96,14 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.SPOOKY_VENDOR_PEDESTAL), SPOOKY_SHOP_PEDESTAL);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CARD_VENDOR_PEDESTAL), CARD_SHOP_PEDESTAL);
 
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.MOD_BOX_WORKSTATION), MOD_BOX_WORKSTATION); // depends on vault jei mod
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.AUGMENT_CRAFTING_TABLE), AUGMENTS_ASSEMBLY); // depends on vault jei mod
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.WEAVING_STATION), WEAVING); // depends on vault jei mod
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.VAULT_SALVAGER_BLOCK), VaultRecyclerRecipeJEICategory.RECIPE_TYPE);
+
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.MOD_BOX_WORKSTATION), MOD_BOX_WORKSTATION);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.AUGMENT_CRAFTING_TABLE), AUGMENTS_ASSEMBLY);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.WEAVING_STATION), WEAVING);
+
+        registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModBlocks.TRINKET_FORGE), TRINKETS);
+        registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModBlocks.JEWEL_CRAFTING_TABLE), JEWEL_CRAFTING);
     }
 
     @Override
@@ -122,6 +133,9 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, MOD_BOX_WORKSTATION, new ItemStack(ModBlocks.MOD_BOX_WORKSTATION.asItem()), new TextComponent("Mod Box Workstation")));
         registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, AUGMENTS_ASSEMBLY, new ItemStack(ModBlocks.AUGMENT_CRAFTING_TABLE.asItem()), new TextComponent("Augment Assembly")));
         registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, WEAVING, new ItemStack(ModBlocks.WEAVING_STATION.asItem()), new TextComponent("Weaving")));
+
+        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, TRINKETS, new ItemStack(iskallia.vault.init.ModBlocks.TRINKET_FORGE.asItem()), new TextComponent("Trinket Forge")));
+        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, JEWEL_CRAFTING, new ItemStack(iskallia.vault.init.ModBlocks.JEWEL_CRAFTING_TABLE.asItem()), new TextComponent("Jewel Crafting Table")));
     }
 
     @Override @SuppressWarnings("removal")
@@ -155,16 +169,10 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(MOD_BOX_WORKSTATION, getForgeRecipes(ModConfigs.MOD_BOX_RECIPES_CONFIG.getConfigRecipes()));
         registration.addRecipes(AUGMENTS_ASSEMBLY, getForgeRecipes(ModConfigs.AUGMENT_RECIPES.getConfigRecipes()));
         registration.addRecipes(WEAVING, getForgeRecipes(ModConfigs.WEAVING_RECIPES_CONFIG.getConfigRecipes()));
+        addCustomRecyclerRecipes(registration);
 
-        for (var rec : ModConfigs.CUSTOM_RECYCLER_CONFIG.getOutputs().entrySet()){
-            var rr = new VaultRecyclerRecipeJEI(
-                new ItemStack(Registry.ITEM.get(rec.getKey())),
-                rec.getValue().generateMainOutput(1),
-                rec.getValue().generateExtraOutput1(1),
-                rec.getValue().generateExtraOutput2(1)
-            );
-            registration.addRecipes(VaultRecyclerRecipeJEICategory.RECIPE_TYPE, List.of(rr));
-        }
+        registration.addRecipes(TRINKETS, getForgeRecipes(iskallia.vault.init.ModConfigs.TRINKET_RECIPES.getConfigRecipes()));
+        registration.addRecipes(JEWEL_CRAFTING, getForgeRecipes(iskallia.vault.init.ModConfigs.JEWEL_CRAFTING_RECIPES.getConfigRecipes()));
     }
 
 
@@ -181,4 +189,34 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         return recipes;
     }
 
+    private static void addCustomRecyclerRecipes(IRecipeRegistration registration) {
+
+        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.JEWEL), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getJewelRecyclingOutput());
+        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.INSCRIPTION), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getInscriptionRecyclingOutput());
+        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.MAGNET), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getMagnetRecyclingOutput());
+        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.MAJESTIC_CHARM), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getCharmRecyclingOutput());
+        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.VAULT_GOD_CHARM), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getCharmRecyclingOutput());
+        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.VOID_STONE), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getVoidStoneRecyclingOutput());
+
+        for (var rec : ModConfigs.CUSTOM_RECYCLER_CONFIG.getOutputs().entrySet()) {
+           addRecyclerRecipe(registration, new ItemStack(Registry.ITEM.get(rec.getKey())), rec.getValue());
+        }
+    }
+
+    private static void addRecyclerRecipe(IRecipeRegistration registration, ItemStack input, VaultRecyclerConfig.RecyclerOutput output) {
+        var o1 = output.getMainOutput();
+        var stack1 = o1.getMatchingStack().copy();
+        stack1.setCount(o1.getMaxCount());
+
+        var o2 = output.getExtraOutput1();
+        var stack2 = o2.getMatchingStack().copy();
+        stack2.setCount(o2.getMaxCount());
+
+        var o3 = output.getExtraOutput2();
+        var stack3 = o3.getMatchingStack().copy();
+        stack3.setCount(o3.getMaxCount());
+
+        var recJEI = new VaultRecyclerRecipeJEI(input, stack1, stack2, stack3);
+        registration.addRecipes(VaultRecyclerRecipeJEICategory.RECIPE_TYPE, List.of(recJEI));
+    }
 }
