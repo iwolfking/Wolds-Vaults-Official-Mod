@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
+import iskallia.vault.VaultMod;
 import iskallia.vault.config.Config;
 import iskallia.vault.config.entry.FloatRangeEntry;
 import iskallia.vault.config.entry.LevelEntryList;
@@ -9,6 +10,7 @@ import iskallia.vault.core.world.data.entity.EntityPredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.objectives.data.alchemy.AlchemyTasks;
@@ -32,42 +34,40 @@ public class AlchemyObjectiveConfig extends Config {
 
         levels.put(new Entry(
                 0,
-                WoldsVaults.id("empty"),
-                WoldsVaults.id("empty"),
-                WoldsVaults.id("empty"),
-                WoldsVaults.id("empty"),
+                VaultMod.id("alchemy_strong_negative"),
+                VaultMod.id("alchemy_negative"),
+                VaultMod.id("alchemy_positive"),
+                VaultMod.id("alchemy_strong_positive"),
                 0.5F,
-                0.5F,
-                0.5F,
-                0.5F,
+                0.005F,
+                0.005F,
+                new WeightedList<ItemStack>()
+                        .add(new ItemStack(ModItems.ROTTEN_HEART), 1) // DEADLY
+                        .add(new ItemStack(ModItems.ROTTEN_APPLE), 4) // RUTHLESS
+                        .add(new ItemStack(ModItems.VERDANT_GLOBULE), 8) // NEUTRAL
+                        .add(new ItemStack(ModItems.ERRATIC_EMBER), 2) // VOLATILE
+                        .add(new ItemStack(ModItems.REFINED_POWDER), 4) // REFINED
+                        .add(new ItemStack(ModItems.AURIC_CRYSTAL), 1), // EMPOWERED
                 new WeightedList<ItemStack>()
                         .add(new ItemStack(ModItems.ROTTEN_HEART), 1)
-                        .add(new ItemStack(ModItems.ROTTEN_APPLE), 2)
-                        .add(new ItemStack(ModItems.VERDANT_GLOBULE), 3)
+                        .add(new ItemStack(ModItems.ROTTEN_APPLE), 4)
+                        .add(new ItemStack(ModItems.VERDANT_GLOBULE), 8)
                         .add(new ItemStack(ModItems.ERRATIC_EMBER), 2)
-                        .add(new ItemStack(ModItems.REFINED_POWDER), 2)
+                        .add(new ItemStack(ModItems.REFINED_POWDER), 4)
                         .add(new ItemStack(ModItems.AURIC_CRYSTAL), 1),
                 new WeightedList<ItemStack>()
                         .add(new ItemStack(ModItems.ROTTEN_HEART), 1)
-                        .add(new ItemStack(ModItems.ROTTEN_APPLE), 2)
-                        .add(new ItemStack(ModItems.VERDANT_GLOBULE), 3)
+                        .add(new ItemStack(ModItems.ROTTEN_APPLE), 4)
+                        .add(new ItemStack(ModItems.VERDANT_GLOBULE), 8)
                         .add(new ItemStack(ModItems.ERRATIC_EMBER), 2)
-                        .add(new ItemStack(ModItems.REFINED_POWDER), 2)
+                        .add(new ItemStack(ModItems.REFINED_POWDER), 4)
                         .add(new ItemStack(ModItems.AURIC_CRYSTAL), 1),
-                List.of(new AlchemyTasks.MobEntry(new ItemStack(ModItems.SKILL_ORB_ITEM), EntityPredicate.TRUE)), // lol todo
-                new WeightedList<ItemStack>()
-                        .add(new ItemStack(ModItems.ROTTEN_HEART), 1)
-                        .add(new ItemStack(ModItems.ROTTEN_APPLE), 2)
-                        .add(new ItemStack(ModItems.VERDANT_GLOBULE), 3)
-                        .add(new ItemStack(ModItems.ERRATIC_EMBER), 2)
-                        .add(new ItemStack(ModItems.REFINED_POWDER), 2)
-                        .add(new ItemStack(ModItems.AURIC_CRYSTAL), 1),
-                0.1F,
-                0.075F,
+                0.30F,
+                0.10F,
                 0.05F,
-                new FloatRangeEntry(-0.1F, 0.1F),
-                -0.05F,
-                -0.1F
+                new FloatRangeEntry(-0.3F, 0.3F),
+                -0.10F,
+                -0.30F
                 )
         );
     }
@@ -79,7 +79,6 @@ public class AlchemyObjectiveConfig extends Config {
     public class Entry implements LevelEntryList.ILevelEntry {
         @Expose
         private final int level;
-
         @Expose
         private final ResourceLocation strongNegativeModifierPool;
         @Expose
@@ -94,16 +93,12 @@ public class AlchemyObjectiveConfig extends Config {
         @Expose
         private final float coinProbability;
         @Expose
-        private final float mobProbability;
-        @Expose
         private final float oreProbabiltiy;
 
         @Expose
         private final WeightedList<ItemStack> chestIngredients;
         @Expose
         private final WeightedList<ItemStack> coinIngredients;
-        @Expose
-        private final List<AlchemyTasks.MobEntry> mobIngredientEntries;
         @Expose
         private final WeightedList<ItemStack> oreIngredients;
 
@@ -131,11 +126,9 @@ public class AlchemyObjectiveConfig extends Config {
                      ResourceLocation strongPositiveModifierPool,
                      float chestProbability,
                      float coinProbability,
-                     float mobProbability,
                      float oreProbabiltiy,
                      WeightedList<ItemStack> chestIngredients,
                      WeightedList<ItemStack> coinIngredients,
-                     List<AlchemyTasks.MobEntry> mobIngredientEntries,
                      WeightedList<ItemStack> oreIngredients,
                      float percentDeadlyIngredient,
                      float percentRuthlessIngredient,
@@ -151,11 +144,9 @@ public class AlchemyObjectiveConfig extends Config {
             this.strongPositiveModifierPool = strongPositiveModifierPool;
             this.chestProbability = chestProbability;
             this.coinProbability = coinProbability;
-            this.mobProbability = mobProbability;
             this.oreProbabiltiy = oreProbabiltiy;
             this.chestIngredients = chestIngredients;
             this.coinIngredients = coinIngredients;
-            this.mobIngredientEntries = mobIngredientEntries;
             this.oreIngredients = oreIngredients;
             this.percentDeadlyIngredient = percentDeadlyIngredient;
             this.percentRuthlessIngredient = percentRuthlessIngredient;
@@ -195,10 +186,6 @@ public class AlchemyObjectiveConfig extends Config {
             return coinProbability;
         }
 
-        public float getMobProbability() {
-            return mobProbability;
-        }
-
         public float getOreProbabiltiy() {
             return oreProbabiltiy;
         }
@@ -209,10 +196,6 @@ public class AlchemyObjectiveConfig extends Config {
 
         public WeightedList<ItemStack> getCoinIngredients() {
             return coinIngredients;
-        }
-
-        public List<AlchemyTasks.MobEntry> getMobIngredientEntries() {
-            return mobIngredientEntries;
         }
 
         public WeightedList<ItemStack> getOreIngredients() {
@@ -242,6 +225,17 @@ public class AlchemyObjectiveConfig extends Config {
                 }
             }
             return "What the hell did you do";
+        }
+
+        public BrewingAltarTileEntity.PercentageResult getPercentageForType(AlchemyIngredientItem item) {
+            return switch (item.getType()) {
+                case DEADLY -> new BrewingAltarTileEntity.PercentageResult(percentDeadlyIngredient, percentDeadlyIngredient);
+                case RUTHLESS -> new BrewingAltarTileEntity.PercentageResult(percentRuthlessIngredient, percentRuthlessIngredient);
+                case NEUTRAL -> new BrewingAltarTileEntity.PercentageResult(percentNeutralIngredient, percentNeutralIngredient);
+                case EMPOWERED -> new BrewingAltarTileEntity.PercentageResult(percentEmpoweredIngredient, percentEmpoweredIngredient);
+                case REFINED -> new BrewingAltarTileEntity.PercentageResult(percentRefinedIngredient, percentRefinedIngredient);
+                case VOLATILE -> new BrewingAltarTileEntity.PercentageResult(rangedPercentVolatileIngredient.getMin(), rangedPercentVolatileIngredient.getMax());
+            };
         }
     }
 }

@@ -2,11 +2,13 @@ package xyz.iwolfking.woldsvaults.init;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.lib.network.packets.StopFlightMessage;
+import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 
 public class ModNetwork {
     private static int id = 0;
@@ -21,6 +23,7 @@ public class ModNetwork {
 
     public static void init() {
         CHANNEL.registerMessage(id++, StopFlightMessage.class, StopFlightMessage::encode, StopFlightMessage::decode, StopFlightMessage::handle);
+        CHANNEL.registerMessage(id++, BrewingAltarParticleMessage.class, BrewingAltarParticleMessage::encode, BrewingAltarParticleMessage::decode, BrewingAltarParticleMessage::handle);
     }
 
     public static <T> void sendToServer(T message) {
@@ -33,5 +36,9 @@ public class ModNetwork {
 
     public static <T> void sendToAllClients(T message) {
         CHANNEL.send(PacketDistributor.ALL.noArg(), message);
+    }
+
+    public static <T> void sendToLevel(T message, Level level) {
+        CHANNEL.send(PacketDistributor.DIMENSION.with(level::dimension), message);
     }
 }

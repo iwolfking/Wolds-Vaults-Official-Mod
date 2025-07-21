@@ -23,9 +23,11 @@ import java.util.Optional;
 
 public class AlchemyCrystalObjective extends CrystalObjective {
     protected float objectiveProbability;
+    protected float requiredProgress;
 
-    public AlchemyCrystalObjective(float objectiveProbability) {
+    public AlchemyCrystalObjective(float objectiveProbability, float requiredProgress) {
         this.objectiveProbability = objectiveProbability;
+        this.requiredProgress = requiredProgress;
     }
 
     public AlchemyCrystalObjective() {
@@ -42,7 +44,7 @@ public class AlchemyCrystalObjective extends CrystalObjective {
 
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
 
-            objectives.add(AlchemyObjective.of(this.objectiveProbability, level)
+            objectives.add(AlchemyObjective.of(this.objectiveProbability, level, requiredProgress)
                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.ELIXIR /* TODO */ , "enchanted_elixir", level, true))
                     .add(VictoryObjective.of(500)));
 
@@ -61,23 +63,27 @@ public class AlchemyCrystalObjective extends CrystalObjective {
     public Optional<CompoundTag> writeNbt() {
         CompoundTag nbt = new CompoundTag();
         Adapters.FLOAT.writeNbt(this.objectiveProbability).ifPresent(tag -> nbt.put("objective_probability", tag));
+        Adapters.FLOAT.writeNbt(this.requiredProgress).ifPresent(tag -> nbt.put("required_progress", tag));
         return Optional.of(nbt);
     }
 
     @Override
     public void readNbt(CompoundTag nbt) {
         this.objectiveProbability = Adapters.FLOAT.readNbt(nbt.get("objective_probability")).orElse(0.5F);
+        this.requiredProgress = Adapters.FLOAT.readNbt(nbt.get("required_progress")).orElse(2.5F);
     }
 
     @Override
     public Optional<JsonObject> writeJson() {
         JsonObject json = new JsonObject();
         Adapters.FLOAT.writeJson(this.objectiveProbability).ifPresent(tag -> json.add("objective_probability", tag));
+        Adapters.FLOAT.writeJson(this.requiredProgress).ifPresent(tag -> json.add("required_progress", tag));
         return Optional.of(json);
     }
 
     @Override
     public void readJson(JsonObject json) {
         this.objectiveProbability = Adapters.FLOAT.readJson(json.get("objective_probability")).orElse(0.5F);
+        this.requiredProgress = Adapters.FLOAT.readJson(json.get("required_progress")).orElse(2.5F);
     }
 }

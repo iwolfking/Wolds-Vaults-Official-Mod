@@ -1,33 +1,51 @@
 package xyz.iwolfking.woldsvaults.blocks.tiles;
 
+import iskallia.vault.block.entity.AlchemyTableTileEntity;
+import iskallia.vault.core.vault.Vault;
+import iskallia.vault.init.ModNetwork;
+import iskallia.vault.item.bottle.BottleItem;
+import iskallia.vault.network.message.ClientboundAlchemyParticleMessage;
+import iskallia.vault.network.message.ClientboundAlchemySecondParticleMessage;
+import iskallia.vault.network.message.ClientboundTESyncMessage;
+import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
+import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
+import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class BrewingAltarTileEntity extends BlockEntity {
     private final NonNullList<ItemStack> ingredients = NonNullList.withSize(3, new ItemStack(ModItems.INGREDIENT_TEMPLATE));
-    private List<MutableComponent> lines = new LinkedList<>();
+
+    private boolean brewing = false;
+    private int cookingTimer = -1;
+    private boolean hasExpired = false;
+    private PercentageResult progressIncrease = new PercentageResult(-1F, -1F); // this is to prevent desync when the client has different configs for the objective
+
 
     public BrewingAltarTileEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlocks.BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, pPos, pBlockState);
@@ -37,12 +55,26 @@ public class BrewingAltarTileEntity extends BlockEntity {
     protected void saveAdditional(@NotNull CompoundTag pTag) {
         super.saveAdditional(pTag);
         ContainerHelper.saveAllItems(pTag, ingredients);
+
+        pTag.putFloat("ProgressMin", progressIncrease.min());
+        pTag.putFloat("ProgressMax", progressIncrease.max());
+        pTag.putBoolean("Brewing", brewing);
+        pTag.putInt("CookingTimer", cookingTimer);
     }
 
     @Override
     public void load(@NotNull CompoundTag pTag) {
         super.load(pTag);
         ContainerHelper.loadAllItems(pTag, ingredients);
+
+        if (pTag.contains("ProgressMin") && pTag.contains("ProgressMax")) {
+            progressIncrease = new PercentageResult(pTag.getFloat("ProgressMin"), pTag.getFloat("ProgressMax"));
+        } else {
+            progressIncrease = new PercentageResult(-1F, -1F); // fallback
+        }
+
+        brewing = pTag.getBoolean("Brewing");
+        cookingTimer = pTag.getInt("CookingTimer");
     }
 
 
@@ -74,11 +106,32 @@ public class BrewingAltarTileEntity extends BlockEntity {
     public void sendUpdates() {
         if(this.level == null) return;
 
+        progressIncrease = calculateObjectivePercentage();
+
         this.setChanged();
         this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
         this.level.updateNeighborsAt(this.worldPosition, this.getBlockState().getBlock());
     }
 
+    public void setBrewing(boolean brewing) {
+        this.brewing = brewing;
+        this.cookingTimer = 60;
+        sendUpdates();
+    }
+
+    public boolean isBrewing() {
+        return brewing;
+    }
+
+    public void setHasExpired(boolean hasExpired) {
+        this.hasExpired = hasExpired;
+    }
+
+    public boolean hasExpired() {
+        return hasExpired;
+    }
+
+    // this also returns the filler items
     public NonNullList<ItemStack> getAllIngredients() {
         return ingredients;
     }
@@ -95,6 +148,14 @@ public class BrewingAltarTileEntity extends BlockEntity {
     public void removeIngredient(int index) {
         this.ingredients.set(index, new ItemStack(ModItems.INGREDIENT_TEMPLATE));
         sendUpdates();
+    }
+
+    public void clearIngredients() {
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (getIngredient(i).getItem() != ModItems.INGREDIENT_TEMPLATE) {
+                setIngredient(i, ModItems.INGREDIENT_TEMPLATE.getDefaultInstance());
+            }
+        }
     }
 
     /**
@@ -141,11 +202,113 @@ public class BrewingAltarTileEntity extends BlockEntity {
         return ItemStack.EMPTY;
     }
 
-    public List<MutableComponent> getLines() {
-        return lines;
+    public boolean isFilled() {
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (getIngredient(i).getItem() == ModItems.INGREDIENT_TEMPLATE) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public void setLines(List<MutableComponent> lines) {
-        this.lines = lines;
+    public void tick(Level level, BlockPos blockPos, BlockState blockState) {
+        if(this.level != null){
+            if (this.level.isClientSide()) return;
+            if (!brewing) return;
+
+
+            if (cookingTimer > 0) {
+
+                if(cookingTimer == 60) {
+                    this.level.playSound(null, this.getBlockPos(), SoundEvents.AMBIENT_UNDERWATER_EXIT, SoundSource.BLOCKS, 0.35f, 1.5f);
+                }
+                if(cookingTimer == 60 - 5) {
+                    this.level.playSound(null, this.getBlockPos(), SoundEvents.AMBIENT_UNDERWATER_ENTER, SoundSource.BLOCKS, 0.35f, 1.5f);
+                    this.level.playSound(null, this.getBlockPos(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 2f, 1f);
+                }
+                if(cookingTimer == 35) {
+                    this.level.playSound(null, this.getBlockPos(), SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 0.5f, 1.5f);
+                }
+                if(cookingTimer == 20) {
+                    this.level.playSound(null, this.getBlockPos(), SoundEvents.AMETHYST_BLOCK_STEP, SoundSource.BLOCKS, 0.5f, 1.5f);
+                }
+                if(cookingTimer == 19) {
+                    this.level.playSound(null, this.getBlockPos(), SoundEvents.AMETHYST_BLOCK_STEP, SoundSource.BLOCKS, 0.45f, 2f);
+                }
+
+                int color = AlchemyIngredientItem.getMixedColor(ingredients);
+
+                if(cookingTimer > 40 && cookingTimer < 60 - 2){
+
+                    float f = 1 - ((cookingTimer - 40) / (float)(AlchemyTableTileEntity.CRAFTING_COOLDOWN - 40));
+                    f = AlchemyTableTileEntity.ease(f);
+                    float yOffset = (float)Math.sin(f * Math.PI / 1.5f) / 8;
+
+
+
+                    ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemyParticleMessage(this.getBlockPos(), Direction.NORTH, color, yOffset));
+                }
+                if(cookingTimer == 20) {
+                    ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemySecondParticleMessage(this.getBlockPos(), color));
+                }
+
+                cookingTimer--;
+                return;
+            }
+            WoldCommonEvents.BREWING_ALTAR_BREW_EVENT.invoke(level, blockState, blockPos, this, List.copyOf(ingredients));
+            brewing = false;
+            clearIngredients();
+            ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundTESyncMessage(worldPosition, this.saveWithoutMetadata()));
+            int newUses = Math.max(0, blockState.getValue(BrewingAltar.USES) - 1);
+            BlockState newState = blockState.setValue(BrewingAltar.USES, newUses);
+            level.setBlock(blockPos, newState, Block.UPDATE_CLIENTS);
+
+
+
+            if (blockState.getValue(BrewingAltar.USES) == 0) {
+                this.level.playSound(null, this.getBlockPos(), SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 0.45f, 1f);
+            }
+        } else {
+
+            if (!brewing) {
+                return;
+            }
+
+            if (cookingTimer > 0) {
+                cookingTimer--;
+            }
+        }
+    }
+
+    private PercentageResult calculateObjectivePercentage() {
+        if (level == null) return new PercentageResult(-1F, -1F);
+        if (level.isClientSide()) return new PercentageResult(-1F, -1F);
+        if (ServerVaults.get(level).isEmpty()) return new PercentageResult(-1F, -1F);
+
+        int vaultLevel = ServerVaults.get(level).get().get(Vault.LEVEL).get();
+        AlchemyObjectiveConfig.Entry cfg = ModConfigs.ALCHEMY_OBJECTIVE.getConfig(vaultLevel);
+
+        float min = 0F;
+        float max = 0F;
+
+        for (ItemStack i : ingredients) {
+            if (i.getItem() instanceof AlchemyIngredientItem item) {
+                PercentageResult res = cfg.getPercentageForType(item);
+                min += res.min();
+                max += res.max();
+            }
+        }
+
+        return new PercentageResult(min, max);
+    }
+
+    public PercentageResult getProgressIncrease() {
+        return progressIncrease;
+    }
+
+    public record PercentageResult(float min, float max) {
+        public boolean isRange() {
+            return min != max;
+        }
     }
 }

@@ -1,9 +1,17 @@
 package xyz.iwolfking.woldsvaults.init.client;
 
+import com.google.common.base.Predicates;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,6 +24,9 @@ import net.p3pp3rf1y.sophisticatedcore.util.WorldHelper;
 import xyz.iwolfking.woldsvaults.blocks.models.MonolithControllerModel;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.items.DecoPotionItem;
+
+import java.util.Arrays;
 
 @Mod.EventBusSubscriber(value = {Dist.CLIENT}, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModModels {
@@ -40,20 +51,32 @@ public class ModModels {
     @SubscribeEvent
     public static void registerItemColorHandlers(ColorHandlerEvent.Item event) {
         event.getItemColors().register((backpack, layer) -> {
-            if(layer > 1 || !(backpack.getItem() instanceof BackpackItem)) {
+            if (layer > 1 || !(backpack.getItem() instanceof BackpackItem)) {
                 return -1;
             }
             return backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).map(backpackWrapper -> {
-                if(layer == 0) {
+                if (layer == 0) {
                     return backpackWrapper.getMainColor();
-                }
-                else if(layer == 1) {
+                } else if (layer == 1) {
                     return backpackWrapper.getAccentColor();
                 }
                 return -1;
             }).orElse(BackpackWrapper.DEFAULT_CLOTH_COLOR);
         }, ModItems.XL_BACKPACK);
+
+
+        event.getItemColors().register((stack, layer) -> {
+            if (layer == 1) {
+                CompoundTag tag = stack.getTag();
+                if (tag != null && tag.contains("PotionColor", Tag.TAG_INT)) {
+                    return tag.getInt("PotionColor");
+                }
+            }
+            return -1;
+        }, ModItems.DECO_POTION);
     }
+
+
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)

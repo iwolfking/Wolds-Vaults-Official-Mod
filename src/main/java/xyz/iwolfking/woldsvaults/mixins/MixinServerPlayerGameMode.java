@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
 
 @Mixin(value = ServerPlayerGameMode.class)
 public class MixinServerPlayerGameMode {
@@ -31,6 +32,11 @@ public class MixinServerPlayerGameMode {
     )
     public void doesSneakBypassUse(ItemStack instance, LevelReader levelReader, BlockPos blockPos, Player player, CallbackInfoReturnable<Boolean> cir) {
         BlockState state = levelReader.getBlockState(blockPos);
-        cir.setReturnValue(state.getBlock() instanceof VaultCrateBlock || state.getBlock() instanceof ShopPedestalBlock || state.getBlock() instanceof RunePillarBlock);
+        cir.setReturnValue(
+                state.getBlock() instanceof VaultCrateBlock ||
+                state.getBlock() instanceof ShopPedestalBlock ||
+                state.getBlock() instanceof RunePillarBlock ||
+                state.getBlock() instanceof BrewingAltar
+        );
     }
 }

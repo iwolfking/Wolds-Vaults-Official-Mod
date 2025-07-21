@@ -90,6 +90,7 @@ public class ModItems {
     public static final AlchemyIngredientItem REFINED_POWDER = new AlchemyIngredientItem(WoldsVaults.id("refined_powder"), AlchemyIngredientItem.AlchemyIngredientType.REFINED);
     public static final AlchemyIngredientItem AURIC_CRYSTAL = new AlchemyIngredientItem(WoldsVaults.id("auric_crystal"), AlchemyIngredientItem.AlchemyIngredientType.EMPOWERED);
     public static final BasicItem INGREDIENT_TEMPLATE = new BasicItem(WoldsVaults.id("ingredient_template"));
+    public static final DecoPotionItem DECO_POTION = new DecoPotionItem(WoldsVaults.id("deco_potion"));
 
 
     public static final AltarResetItem ALTAR_DECATALYZER;
@@ -326,6 +327,7 @@ public class ModItems {
         registry.register(REFINED_POWDER);
         registry.register(AURIC_CRYSTAL);
         registry.register(INGREDIENT_TEMPLATE);
+        registry.register(DECO_POTION);
     }
 
     static {

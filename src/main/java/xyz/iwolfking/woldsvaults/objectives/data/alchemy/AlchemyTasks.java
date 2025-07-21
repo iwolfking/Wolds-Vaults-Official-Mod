@@ -45,14 +45,6 @@ public class AlchemyTasks {
                 config.getCoinIngredients()
         );
 
-        generateMobIngredients(
-                world,
-                vault,
-                objective,
-                config.getMobProbability(),
-                config.getMobIngredientEntries()
-        );
-
         generateOreIngredients(
                 world,
                 vault,
@@ -70,7 +62,6 @@ public class AlchemyTasks {
                     entries.getRandom(data.getRandom()).ifPresent((itemStack) -> {
                         List<ItemStack> items = new ArrayList<>();
                         items.add(createStack(vault, itemStack));
-                        //CommonEvents.ITEM_SCAVENGE_TASK.invoke(vault, virtualWorld, data.getPos(), items); //TODO
                         data.getLoot().addAll(items);
                     });
                 }
@@ -84,31 +75,7 @@ public class AlchemyTasks {
                 if (!(data.getRandom().nextDouble() >= probability)) {
                     entries.getRandom(data.getRandom()).ifPresent((itemStack) -> {
                         data.getLoot().add(createStack(vault, itemStack));
-                        //CommonEvents.ITEM_SCAVENGE_TASK.invoke(vault, world, data.getPos(), data.getLoot()); TODO
                     });
-                }
-            }
-        });
-    }
-
-    private static void generateMobIngredients(VirtualWorld world, Vault vault, Objective objective, float probability, List<AlchemyTasks.MobEntry> entries) {
-        CommonEvents.ENTITY_DROPS.register(objective, (event) -> {
-            LivingEntity entity = event.getEntityLiving();
-            if (entity.level == world) {
-                if (!(world.getRandom().nextDouble() >= probability)) {
-                    List<AlchemyTasks.MobEntry> matchingEntries = entries.stream().filter((entryx) -> entryx.group.stream().anyMatch((entityPredicate) -> entityPredicate.test(entity))).toList();
-                    if (!matchingEntries.isEmpty()) {
-                        AlchemyTasks.MobEntry entry = matchingEntries.get(world.getRandom().nextInt(matchingEntries.size()));
-                        ItemStack stack = createStack(vault, entry.item);
-                        List<ItemStack> items = new ArrayList<>();
-                        items.add(stack);
-                        //CommonEvents.ITEM_SCAVENGE_TASK.invoke(vault, world, entity.blockPosition(), items); TODO
-
-                        for(ItemStack item : items) {
-                            ItemEntity itemEntity = new ItemEntity(world, entity.getX(), entity.getY(), entity.getZ(), item);
-                            event.getDrops().add(itemEntity);
-                        }
-                    }
                 }
             }
         });
@@ -126,7 +93,6 @@ public class AlchemyTasks {
                             entries.getRandom(world.getRandom()).ifPresent((itemStack) -> {
                                 List<ItemStack> items = new ArrayList<>();
                                 items.add(createStack(vault, itemStack));
-                                //CommonEvents.ITEM_SCAVENGE_TASK.invoke(vault, world, data.getPos(), items); //TODO
                                 items.forEach((item) -> Block.popResource(world, pos, item));
                             });
                         }

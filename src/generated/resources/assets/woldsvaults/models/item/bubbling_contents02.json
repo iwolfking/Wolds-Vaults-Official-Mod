@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "woldsvaults:item/alchemy_bottle",
+    "layer1": "woldsvaults:item/bubbling_contents02"
+  }
+}
