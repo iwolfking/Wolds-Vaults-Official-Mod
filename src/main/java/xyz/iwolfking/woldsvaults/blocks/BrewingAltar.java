@@ -7,7 +7,6 @@ import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -41,7 +40,6 @@ import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 import xyz.iwolfking.woldsvaults.util.VoxelShapeUtils;
 
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 @SuppressWarnings("deprecation")
@@ -164,7 +162,7 @@ public class BrewingAltar extends Block implements EntityBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Random random) {
         for (int i = 0; i < 2; i++) {
             double y = pos.getY() + 0.01; // near the bottom of the block
             double vx = 0;

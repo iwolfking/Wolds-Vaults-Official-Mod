@@ -13,7 +13,6 @@ import iskallia.vault.core.data.key.FieldKey;
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.data.key.registry.FieldRegistry;
 import iskallia.vault.core.event.CommonEvents;
-import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
@@ -24,7 +23,6 @@ import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.ChatFormatting;
-import net.minecraft.ResourceLocationException;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -50,7 +48,6 @@ import xyz.iwolfking.woldsvaults.util.MessageFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class AlchemyObjective extends Objective {
     public static final ResourceLocation HUD = VaultMod.id("textures/gui/alchemy/hud.png");

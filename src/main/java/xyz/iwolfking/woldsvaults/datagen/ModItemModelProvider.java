@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import iskallia.vault.VaultMod;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

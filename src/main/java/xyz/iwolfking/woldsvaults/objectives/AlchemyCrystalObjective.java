@@ -13,10 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
-import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
-import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import java.util.List;
 import java.util.Optional;

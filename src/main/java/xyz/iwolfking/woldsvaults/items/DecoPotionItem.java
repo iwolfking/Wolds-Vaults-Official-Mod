@@ -1,12 +1,9 @@
 package xyz.iwolfking.woldsvaults.items;
 
 import iskallia.vault.item.BasicItem;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.util.ColorUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DecoPotionItem extends BasicItem {

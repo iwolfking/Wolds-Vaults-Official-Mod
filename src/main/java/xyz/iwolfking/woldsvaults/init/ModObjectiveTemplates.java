@@ -30,7 +30,7 @@ public class ModObjectiveTemplates {
     }
 
     static {
-        CORRUPTED_OBJECTIVE_TEMPLATE = createDynamicTemplate(new BlockPos[]{new BlockPos(0, 0, 0), new BlockPos(0, 1, 0)}, new BlockState[]{ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.LOWER), (BlockState) ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.UPPER)});
+        CORRUPTED_OBJECTIVE_TEMPLATE = createDynamicTemplate(new BlockPos[]{new BlockPos(0, 0, 0), new BlockPos(0, 1, 0)}, new BlockState[]{ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.LOWER), ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.UPPER)});
         ALCHEMY_OBJECTIVE_TEMPLATE = createDynamicTemplate(new BlockPos(0, 0, 0), ModBlocks.BREWING_ALTAR.defaultBlockState());
     }
 }

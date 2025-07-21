@@ -10,8 +10,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mutable;
-import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.util.ColorUtil;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
 
@@ -146,7 +144,7 @@ public class AlchemyIngredientItem extends BasicItem {
 
             MutableComponent component = new TextComponent("");
 
-            if (filtered.size() > 0) {
+            if (!filtered.isEmpty()) {
                 component.append(new TextComponent(filtered.get(0).getWord(0)).withStyle(filtered.get(0).getStyle()));
             }
 

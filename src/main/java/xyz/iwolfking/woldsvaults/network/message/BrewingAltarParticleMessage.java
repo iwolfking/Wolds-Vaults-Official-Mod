@@ -37,13 +37,6 @@ public class BrewingAltarParticleMessage {
         this.color = color;
     }
 
-    public BrewingAltarParticleMessage(Vec3 startPos, Vec3 targetPos, int color) {
-        this.startPos = startPos;
-        this.targetEntity = -1;
-        this.targetPos = targetPos;
-        this.color = color;
-    }
-
     public static void encode(BrewingAltarParticleMessage message, FriendlyByteBuf buffer) {
         buffer.writeDouble(message.startPos.x);
         buffer.writeDouble(message.startPos.y);

@@ -6,16 +6,11 @@ import iskallia.vault.config.Config;
 import iskallia.vault.config.entry.FloatRangeEntry;
 import iskallia.vault.config.entry.LevelEntryList;
 import iskallia.vault.core.util.WeightedList;
-import iskallia.vault.core.world.data.entity.EntityPredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
-import xyz.iwolfking.woldsvaults.objectives.data.alchemy.AlchemyTasks;
-
-import java.util.List;
 
 public class AlchemyObjectiveConfig extends Config {
 
