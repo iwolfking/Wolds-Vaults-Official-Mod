@@ -210,8 +210,6 @@ public class ModLanguageProvider extends LanguageProvider {
         add("create.item_attributes.has_unusual.inverted", "doesn't have an unusual modifier");
         add("create.item_attributes.has_divine", "is Divine");
         add("create.item_attributes.has_divine.inverted", "isn't Divine");
-        add("create.item_attributes.has_living", "is Living");
-        add("create.item_attributes.has_living.inverted", "isn't Living");
         add("create.item_attributes.unusual_prefix", "has an unusual \");%1$s\" prefix");
         add("create.item_attributes.unusual_prefix.inverted", "doesn't have an unusual \");%1$s\" prefix");
         add("create.item_attributes.unusual_suffix", "has an unusual \");%1$s\" suffix");

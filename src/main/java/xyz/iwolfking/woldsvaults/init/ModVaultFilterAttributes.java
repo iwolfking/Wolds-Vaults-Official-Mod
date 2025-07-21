@@ -23,7 +23,6 @@ public class ModVaultFilterAttributes {
         new GatePearlWavesAttribute(1).register(GatePearlWavesAttribute::new);
         new TargetedModBoxResearchAttribute("Create").register(TargetedModBoxResearchAttribute::new);
         new HasDivineAttribute(true).register(HasDivineAttribute::new);
-        new HasLivingAttribute(true).register(HasLivingAttribute::new);
         new MapTierAttribute(0).register(MapTierAttribute::new);
     }
 }
