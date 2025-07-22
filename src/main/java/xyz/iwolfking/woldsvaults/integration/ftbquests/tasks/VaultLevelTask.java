@@ -93,7 +93,6 @@ public class VaultLevelTask extends Task implements ISingleIntValueTask {
 
     @Override
     public void onButtonClicked(Button button, boolean canClick) {
-
     }
 
     @Override

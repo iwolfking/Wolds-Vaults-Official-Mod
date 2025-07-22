@@ -255,6 +255,7 @@ dependencies {
     implementation fg.deobf("curse.maven:ftb-quests-forge-289412:6113498")
     implementation fg.deobf("curse.maven:ftb-library-forge-404465:4396792")
     implementation fg.deobf("curse.maven:ftb-teams-forge-404468:4579981")
+    implementation fg.deobf("curse.maven:item-filters-309674:4553322")
     compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6139466")
     compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061
     runtimeOnly "curse.maven:citadel4-331936:3683009"

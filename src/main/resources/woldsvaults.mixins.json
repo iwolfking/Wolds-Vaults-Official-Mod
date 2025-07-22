@@ -41,6 +41,8 @@
     "ensorcellation.MixinCommonEvents",
     "ensorcellation.MixinCurseMercyEnchantment",
     "ensorcellation.MixinEnsorcEnchantments",
+    "ftbteams.MixinFTBQuestsClient",
+    "ftbteams.MixinFTBTeamsClient",
     "gatewaystoeternity.MixinGatePearlItem",
     "grimoireofgaia.MixinAbstractGaiaEntity",
     "hexal.MixinBlockEntitySlipway",

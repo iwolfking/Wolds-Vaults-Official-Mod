@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.plugins;
 
 import com.bawnorton.mixinsquared.api.MixinCanceller;
+import iskallia.vault.mixin.MixinLocalPlayer;
 import iskallia.vault.mixin.MixinWorldChunk;
 import net.minecraftforge.fml.loading.LoadingModList;
 
@@ -30,6 +31,10 @@ public class WoldMixinCanceller implements MixinCanceller {
             if(s.equals("shadows.placebo.mixin.ItemStackMixin")) {
                 return true;
             }
+        }
+
+        if(s.equals("iskallia.vault.mixin.MixinLocalPlayer")) {
+            return true;
         }
 
         return false;
