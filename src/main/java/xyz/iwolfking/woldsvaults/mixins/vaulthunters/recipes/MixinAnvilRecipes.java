@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.recipes;
 
-import iskallia.vault.etching.set.GolemSet;
 import iskallia.vault.item.crystal.recipe.AnvilRecipe;
 import iskallia.vault.item.crystal.recipe.AnvilRecipes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.recipes.capstone.*;
 import xyz.iwolfking.woldsvaults.recipes.crystal.LayoutModificationRecipe;
 import xyz.iwolfking.woldsvaults.recipes.crystal.MapModificationRecipe;
-import xyz.iwolfking.woldsvaults.recipes.gear.GearEtchingRecipe;
 import xyz.iwolfking.woldsvaults.recipes.gear.GearRepairAdderRecipe;
 import xyz.iwolfking.woldsvaults.recipes.gear.MercyEnchantmentAdderRecipe;
 import xyz.iwolfking.woldsvaults.recipes.gear.SetWeaponTypeFocusRecipe;
@@ -48,7 +46,6 @@ public abstract class MixinAnvilRecipes {
         woldsVaults$register(new LayoutModificationRecipe());
         woldsVaults$register(new SetWeaponTypeFocusRecipe());
         woldsVaults$register(new MapModificationRecipe());
-        woldsVaults$register(new GearEtchingRecipe());
     }
 
     @Unique

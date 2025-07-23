@@ -5,7 +5,7 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.gear.item.IdentifiableItem;
 import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.item.BasicItem;
-import iskallia.vault.item.gear.DataTransferItem;
+import iskallia.vault.item.core.DataTransferItem;
 import iskallia.vault.item.gear.RecyclableItem;
 import iskallia.vault.item.gear.TrinketItem;
 import iskallia.vault.world.data.ServerVaults;

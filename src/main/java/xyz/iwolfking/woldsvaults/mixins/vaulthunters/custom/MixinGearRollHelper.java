@@ -71,12 +71,6 @@ public class MixinGearRollHelper {
             }
         }
 
-        //Generate an etching for the item if it has the Is Etched modifier and is armor.
-        if(woldsVaults$canGenerateEtching(player, data, stack)) {
-            WoldGearModifierHelper.addRandomEtching(stack);
-        }
-
-
         //Randomly add a corrupted implicit
         if(data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false) && rand.nextFloat() < 0.02F) {
             GearModification.Result result;

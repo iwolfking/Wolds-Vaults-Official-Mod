@@ -2,8 +2,8 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.core.data.key.ThemeKey;
 import iskallia.vault.item.AugmentItem;
-import iskallia.vault.item.gear.DataTransferItem;
-import iskallia.vault.item.gear.VaultLevelItem;
+import iskallia.vault.item.core.DataTransferItem;
+import iskallia.vault.item.core.VaultLevelItem;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
