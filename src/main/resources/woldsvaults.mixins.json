@@ -63,7 +63,6 @@
     "quark.MixinAncientTomesModule",
     "scannable.MixinScannableItems",
     "scannable.ScannerModuleItemAccessor",
-    "second_chance.MixinSecondChance",
     "secretroomsmod.MixinDelegateWorld",
     "sophisticatedbackpacks.MixinModBlocks",
     "sophisticatedbackpacks.MixinToolSwapperWrapper",
@@ -192,10 +191,6 @@
     "vaulthunters.custom.enum_extension.MixinVaultCrateType",
     "vaulthunters.custom.enum_extension.MixinVaultGearClassificationEnum",
     "vaulthunters.custom.enum_extension.MixinVaultRarityEnum",
-    "vaulthunters.custom.etching.MixinAssassinSet",
-    "vaulthunters.custom.etching.MixinDragonSet",
-    "vaulthunters.custom.etching.MixinRiftSet",
-    "vaulthunters.custom.etching.MixinZodSet",
     "vaulthunters.custom.recycler.MixinVaultCatalystItem",
     "vaulthunters.custom.recycler.MixinVaultGearItem",
     "vaulthunters.fixes.MixinAscensionObjective",
@@ -203,7 +198,6 @@
     "vaulthunters.fixes.MixinClientEvents",
     "vaulthunters.fixes.MixinCoinPouchItem",
     "vaulthunters.fixes.MixinCombatStatsElementContainer",
-    "vaulthunters.fixes.MixinCooldownHelper",
     "vaulthunters.fixes.MixinCurioContainerHandler",
     "vaulthunters.fixes.MixinDynamicModelRegistry",
     "vaulthunters.fixes.MixinEliteZombie",
@@ -268,7 +262,6 @@
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
-    "vhatcaniroll.MixinGearModifierScreen"
   ],
   "injectors": {
     "defaultRequire": 1
