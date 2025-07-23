@@ -11,8 +11,8 @@ import java.util.List;
 public class WoldInventoryUtil {
     public static List<InventoryUtil.ItemAccess> getCoinPouchItemAccess(InventoryUtil.ItemAccess access) {
         List<InventoryUtil.ItemAccess> accesses = new ArrayList<>();
-        ItemStack container = access.getStack();
-        if (container.getItem() instanceof WalletItem) {
+        if (access.getItem() instanceof WalletItem) {
+            ItemStack container = access.getStack();
             NonNullList<ItemStack> contents = WalletItem.getWalletInventory(container);
 
             for (int slot = 0; slot < contents.size(); slot++) {
