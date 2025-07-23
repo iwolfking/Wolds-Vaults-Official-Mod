@@ -154,8 +154,8 @@ public class MixinGearAttributeEvents {
      * @author aida
      * @reason chain falloff reduction stat
      */
-    @Inject(method = "lambda$triggerChainAttack$11", at = @At("HEAD"), cancellable = true)
-    private static void lambda$triggerChainAttack$10(Level world, LivingEntity attacked, float chainRange, LivingEntity attacker, LivingHurtEvent event, int chainCount, CallbackInfo ci) {
+    @Inject(method = "lambda$triggerChainAttack$13", at = @At("HEAD"), cancellable = true)
+    private static void lambda$triggerChainAttack$10(Level world, LivingEntity attacked, float chainRange, LivingEntity attacker, LivingHurtEvent event, int chainCount, float finalChainStep, CallbackInfo ci) {
 
         List<Mob> nearby = EntityHelper.getNearby(world, attacked.blockPosition(), chainRange, Mob.class);
         List<Vec3> nearbyPos = new ArrayList<>();
