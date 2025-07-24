@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 
 public class AlchemyObjectiveConfig extends Config {
 

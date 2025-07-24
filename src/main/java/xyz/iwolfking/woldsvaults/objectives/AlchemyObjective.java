@@ -42,12 +42,15 @@ import xyz.iwolfking.woldsvaults.events.vaultevents.BrewingAltarBrewEvent;
 import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.events.vaultevents.client.WoldClientEvents;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
-import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.objectives.data.alchemy.AlchemyTasks;
 import xyz.iwolfking.woldsvaults.util.MessageFunctions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AlchemyObjective extends Objective {
     public static final ResourceLocation HUD = VaultMod.id("textures/gui/alchemy/hud.png");
@@ -286,20 +289,29 @@ public class AlchemyObjective extends Objective {
             case EMPOWERED -> modifiers.add(config.getStrongPositiveModifierPool());
         }
 
+        Map<VaultModifier<?>, Integer> toAddToVault = new HashMap<>();
         RandomSource random = JavaRandom.ofNanoTime();
         for (ResourceLocation mod : modifiers) {
             for(VaultModifier<?> modifier : iskallia.vault.init.ModConfigs.VAULT_MODIFIER_POOLS.getRandom(mod, this.get(VAULT_LEVEL), random)) {
-                vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, random);
-                world.players().forEach(player ->
-                        player.sendMessage(
-                                new TextComponent("- ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
-                                        .append(modifier.getChatDisplayNameComponent(1))
-                                        .append(new TextComponent(" has been applied!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
-                                Util.NIL_UUID
-                        )
-                );
+                toAddToVault.put(modifier, 1);
             }
         }
+
+        CatalystItem.CatalystType.STABILIZING.applyEffect(this, config, data, toAddToVault, modifiers);
+        // apply catalyst effects
+
+        for (Map.Entry<VaultModifier<?>, Integer> entry : toAddToVault.entrySet()) {
+            vault.get(Vault.MODIFIERS).addModifier(entry.getKey(), entry.getValue(), true, random);
+            world.players().forEach(player ->
+                    player.sendMessage(
+                            new TextComponent("- ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
+                                    .append(entry.getKey().getChatDisplayNameComponent(1))
+                                    .append(new TextComponent(" has been applied!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
+                            Util.NIL_UUID
+                    )
+            );
+        }
+
 
         this.set(PROGRESS, this.get(PROGRESS) + percentage);
 

@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
-import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 import xyz.iwolfking.woldsvaults.util.VoxelShapeUtils;
 

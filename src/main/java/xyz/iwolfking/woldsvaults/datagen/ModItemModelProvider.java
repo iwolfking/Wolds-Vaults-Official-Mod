@@ -89,6 +89,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.ROTTEN_APPLE);
         simpleItem(ModItems.ROTTEN_HEART);
         simpleItem(ModItems.VERDANT_GLOBULE);
+        simpleItem(ModItems.CATALYST_STABILITY);
+        simpleItem(ModItems.CATALYST_AMPLIFYING);
+        simpleItem(ModItems.CATALYST_FOCUSING);
+        simpleItem(ModItems.CATALYST_TEMPORAL);
+        simpleItem(ModItems.CATALYST_UNSTABLE);
         //simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         spawnEgg(ModItems.BLUE_BLAZE_EGG);

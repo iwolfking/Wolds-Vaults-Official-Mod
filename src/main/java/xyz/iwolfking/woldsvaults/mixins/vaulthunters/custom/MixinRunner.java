@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
 import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 

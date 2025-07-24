@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.items;
+package xyz.iwolfking.woldsvaults.items.alchemy;
 
 import iskallia.vault.item.BasicItem;
 import net.minecraft.resources.ResourceLocation;

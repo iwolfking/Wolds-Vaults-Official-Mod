@@ -19,6 +19,9 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.lib.item.MultiLootableItem;
 import xyz.iwolfking.woldsvaults.items.*;
+import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.fruits.HastyPomegranteItem;
 import xyz.iwolfking.woldsvaults.items.fruits.PoltergeistPlum;
 import xyz.iwolfking.woldsvaults.items.fruits.WisdomFruitItem;
@@ -83,6 +86,7 @@ public class ModItems {
     public static final BasicMobEggItem ROBOT_EGG = new BasicMobEggItem(WoldsVaults.id("robot_spawn_egg"), () -> iskallia.vault.init.ModEntities.ROBOT, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
     public static final BasicMobEggItem BLUE_BLAZE_EGG = new BasicMobEggItem(WoldsVaults.id("blue_blaze_spawn_egg"), () -> iskallia.vault.init.ModEntities.BLUE_BLAZE, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
 
+    // Alchemy Objective things
     public static final AlchemyIngredientItem ROTTEN_HEART = new AlchemyIngredientItem(WoldsVaults.id("rotten_heart"), AlchemyIngredientItem.AlchemyIngredientType.DEADLY);
     public static final AlchemyIngredientItem ROTTEN_APPLE = new AlchemyIngredientItem(WoldsVaults.id("rotten_apple"), AlchemyIngredientItem.AlchemyIngredientType.RUTHLESS);
     public static final AlchemyIngredientItem VERDANT_GLOBULE = new AlchemyIngredientItem(WoldsVaults.id("verdant_globule"), AlchemyIngredientItem.AlchemyIngredientType.NEUTRAL);
@@ -91,6 +95,11 @@ public class ModItems {
     public static final AlchemyIngredientItem AURIC_CRYSTAL = new AlchemyIngredientItem(WoldsVaults.id("auric_crystal"), AlchemyIngredientItem.AlchemyIngredientType.EMPOWERED);
     public static final BasicItem INGREDIENT_TEMPLATE = new BasicItem(WoldsVaults.id("ingredient_template"));
     public static final DecoPotionItem DECO_POTION = new DecoPotionItem(WoldsVaults.id("deco_potion"));
+    public static final CatalystItem CATALYST_STABILITY = new CatalystItem(WoldsVaults.id("catalyst_stability"), CatalystItem.CatalystType.STABILIZING);
+    public static final CatalystItem CATALYST_AMPLIFYING = new CatalystItem(WoldsVaults.id("catalyst_amplifying"), CatalystItem.CatalystType.AMPLIFYING);
+    public static final CatalystItem CATALYST_FOCUSING = new CatalystItem(WoldsVaults.id("catalyst_focusing"), CatalystItem.CatalystType.FOCUSING);
+    public static final CatalystItem CATALYST_TEMPORAL = new CatalystItem(WoldsVaults.id("catalyst_temporal"), CatalystItem.CatalystType.TEMPORAL);
+    public static final CatalystItem CATALYST_UNSTABLE = new CatalystItem(WoldsVaults.id("catalyst_unstable"), CatalystItem.CatalystType.UNSTABLE);
 
 
     public static final AltarResetItem ALTAR_DECATALYZER;
@@ -328,6 +337,11 @@ public class ModItems {
         registry.register(AURIC_CRYSTAL);
         registry.register(INGREDIENT_TEMPLATE);
         registry.register(DECO_POTION);
+        registry.register(CATALYST_STABILITY);
+        registry.register(CATALYST_AMPLIFYING);
+        registry.register(CATALYST_FOCUSING);
+        registry.register(CATALYST_TEMPORAL);
+        registry.register(CATALYST_UNSTABLE);
     }
 
     static {

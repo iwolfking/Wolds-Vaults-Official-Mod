@@ -32,7 +32,7 @@ import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 
 import java.util.List;
 

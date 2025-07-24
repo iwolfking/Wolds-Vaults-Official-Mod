@@ -28,8 +28,8 @@ import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.items.AlchemyIngredientItem;
-import xyz.iwolfking.woldsvaults.items.DecoPotionItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
 
 import java.util.*;
 import java.util.List;
