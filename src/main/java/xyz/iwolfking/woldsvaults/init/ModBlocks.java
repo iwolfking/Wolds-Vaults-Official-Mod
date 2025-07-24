@@ -179,9 +179,9 @@ public class ModBlocks {
         registerBlock(event, GOD_VENDOR_PEDESTAL, WoldsVaults.id("god_shop_pedestal"));
         registerBlock(event, SPOOKY_VENDOR_PEDESTAL, WoldsVaults.id("spooky_shop_pedestal"));
         registerBlock(event, CARD_VENDOR_PEDESTAL, WoldsVaults.id("card_shop_pedestal"));
-        registerBlock(event, WUTODIE_SLAB, WoldsVaults.id("block_gem_wutodie_slab"));
-        registerBlock(event, WUTODIE_STAIRS, WoldsVaults.id("block_gem_wutodie_stairs"));
-        registerBlock(event, WUTODIE_WALL, WoldsVaults.id("block_gem_wutodie_wall"));
+        registerBlock(event, WUTODIE_SLAB, VaultMod.id("block_gem_wutodie_slab"));
+        registerBlock(event, WUTODIE_STAIRS, VaultMod.id("block_gem_wutodie_stairs"));
+        registerBlock(event, WUTODIE_WALL, VaultMod.id("block_gem_wutodie_wall"));
 
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
