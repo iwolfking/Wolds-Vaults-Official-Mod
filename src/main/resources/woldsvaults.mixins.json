@@ -27,6 +27,7 @@
     "bettercombat.MixinBetterCombatAttackRange",
     "bettercombat.MixinWeaponAttributesHelper",
     "bettercombat.MixinWeaponRegistry",
+    "blackmarkettweaks.MixinServerboundResetBlackMarketTradesMessageMixin",
     "cloudstorage.MixinBalloonBuddyEntity",
     "cofhcore.MixinCofhEnchantment",
     "cookingforblockheads.MixinKitchenBlock",
