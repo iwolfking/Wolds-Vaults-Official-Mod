@@ -148,7 +148,10 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
-
+        if(isTemporary(stack)) {
+            tooltip.add(new TextComponent("This is a temporary pouch to hold your temporary stuffs!").withStyle(ChatFormatting.AQUA));
+            tooltip.add(new TextComponent(""));
+        }
         if (!stack.hasTag()) return;
         CompoundTag tag = stack.getOrCreateTag();
 
