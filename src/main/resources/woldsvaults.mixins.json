@@ -158,6 +158,9 @@
     "vaulthunters.custom.MixinPlayerVaultStatsData",
     "vaulthunters.custom.MixinPylonBlock",
     "vaulthunters.custom.MixinRewardConfig",
+    "vaulthunters.custom.MixinRoyaleDraftContainer",
+    "vaulthunters.custom.MixinRoyaleDrafterControllerTileEntity",
+    "vaulthunters.custom.MixinRoyalePresetConfig",
     "vaulthunters.custom.MixinRunner",
     "vaulthunters.custom.MixinShopPedestalBlockTileRenderer",
     "vaulthunters.custom.MixinSpecialAbilityModificationRegistry",
@@ -261,7 +264,7 @@
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
-    "vaulthunters.fixes.MixinUniqueCodexScreen",
+    "vaulthunters.fixes.MixinUniqueCodexScreen"
   ],
   "injectors": {
     "defaultRequire": 1

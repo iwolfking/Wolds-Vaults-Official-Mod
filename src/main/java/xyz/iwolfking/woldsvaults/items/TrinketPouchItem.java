@@ -130,12 +130,19 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
         return map;
     }
 
-    public static ItemStack create(ResourceLocation id) {
+    public static ItemStack create(ResourceLocation id, boolean isTemporary) {
         CompoundTag tag = new CompoundTag();
         tag.putString("id", id.toString());
+        if(isTemporary) {
+            tag.putBoolean("temporary", true);
+        }
         ItemStack stack = new ItemStack(ModItems.TRINKET_POUCH);
         stack.setTag(tag);
         return stack;
+    }
+
+    public static ItemStack create(ResourceLocation id) {
+        return create(id, false);
     }
 
     @Override
@@ -193,6 +200,10 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
     public static Set<String> getSlotTypes(ItemStack pouch) {
         TrinketPouchConfig.TrinketPouchConfigEntry entry = getPouchConfigFor(pouch);
         return entry.SLOT_ENTRIES.keySet();
+    }
+
+    public static boolean isTemporary(ItemStack pouch) {
+        return pouch.hasTag() && pouch.getOrCreateTag().contains("temporary");
     }
 
 }
