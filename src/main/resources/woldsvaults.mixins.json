@@ -85,6 +85,7 @@
     "vaulthunters.accessors.InventoryUtilItemAccessAccessor",
     "vaulthunters.accessors.MixinInfusedCatalystItem",
     "vaulthunters.accessors.MixinScavengerAltar",
+    "vaulthunters.accessors.ModifierGearTierAccessor",
     "vaulthunters.accessors.PlayerVaultAltarDataAccessor",
     "vaulthunters.accessors.ProductEntryAccessor",
     "vaulthunters.accessors.ShopEntryAccessor",
