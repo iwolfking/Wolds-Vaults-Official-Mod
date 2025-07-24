@@ -1,12 +1,10 @@
 package xyz.iwolfking.woldsvaults.init;
 
 import iskallia.vault.VaultMod;
-import iskallia.vault.block.CoinPileDecorBlock;
-import iskallia.vault.block.ShopPedestalBlock;
-import iskallia.vault.block.VaultChestBlock;
-import iskallia.vault.block.VaultCrateBlock;
+import iskallia.vault.block.*;
 import iskallia.vault.block.render.ScavengerAltarRenderer;
 import iskallia.vault.core.vault.stat.VaultChestType;
+import iskallia.vault.init.ModDecorativeBlocks;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.CoinBlockItem;
 import iskallia.vault.item.VaultChestBlockItem;
@@ -96,6 +94,11 @@ public class ModBlocks {
     public static final Block INFUSED_DRIFTWOOD_PLANKS;
     public static final Block NULLITE_ORE;
 
+    //Decorative Blocks
+    public static final VaultGemStairsBlock WUTODIE_STAIRS;
+    public static final VaultGemSlabBlock WUTODIE_SLAB;
+    public static final VaultGemWallBlock WUTODIE_WALL;
+
     static {
         INFUSED_DRIFTWOOD_PLANKS = new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS));
         NULLITE_ORE = new Block(BlockBehaviour.Properties.of(Material.STONE).strength(250F, 1500F));
@@ -123,6 +126,9 @@ public class ModBlocks {
         FRACTURED_OBELISK = new FracturedObelisk();
         VAULT_CRATE_CORRUPTED = new VaultCrateBlock();
         MONOLITH_CONTROLLER = new MonolithControllerBlock();
+        WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
+        WUTODIE_WALL = new VaultGemWallBlock(ModItems.WUTODIE_GEM);
+        WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
         HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(HellishSandTileEntity::new, HELLISH_SAND_BLOCK).build(null);
@@ -173,6 +179,9 @@ public class ModBlocks {
         registerBlock(event, GOD_VENDOR_PEDESTAL, WoldsVaults.id("god_shop_pedestal"));
         registerBlock(event, SPOOKY_VENDOR_PEDESTAL, WoldsVaults.id("spooky_shop_pedestal"));
         registerBlock(event, CARD_VENDOR_PEDESTAL, WoldsVaults.id("card_shop_pedestal"));
+        registerBlock(event, WUTODIE_SLAB, WoldsVaults.id("block_gem_wutodie_slab"));
+        registerBlock(event, WUTODIE_STAIRS, WoldsVaults.id("block_gem_wutodie_stairs"));
+        registerBlock(event, WUTODIE_WALL, WoldsVaults.id("block_gem_wutodie_wall"));
 
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
@@ -224,6 +233,9 @@ public class ModBlocks {
         registerBlockItem(event, FRACTURED_OBELISK);
         registerBlockItem(event, VAULT_CRATE_CORRUPTED, 1, Item.Properties::fireResistant);
         registerBlockItem(event, MONOLITH_CONTROLLER);
+        registerBlockItem(event, WUTODIE_STAIRS);
+        registerBlockItem(event, WUTODIE_SLAB);
+        registerBlockItem(event, WUTODIE_WALL);
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

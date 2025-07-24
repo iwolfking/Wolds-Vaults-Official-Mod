@@ -280,5 +280,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.woldsvaults.crystal_seal_raid_rock_infinite_hard", "Brutal Raid Rock (Infinite)");
         add("vhatcaniroll.screen.title.etching", "Etchings");
         add("item.the_vault.tool.material.nullite", "Nullite");
+        add("block.the_vault.block_gem_wutodie_slab", "Wutodie Slab");
+        add("block.the_vault.block_gem_wutodie_wall", "Wutodie Wall");
+        add("block.the_vault.block_gem_wutodie_stairs", "Wutodie Stairs");
     }
 }
