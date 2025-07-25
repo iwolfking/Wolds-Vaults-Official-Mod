@@ -5,6 +5,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import xyz.iwolfking.woldsvaults.init.ModVaultarHudScreenRegistry;
 import xyz.iwolfking.woldsvaults.init.client.ModEntityRenderers;
 import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
 
@@ -15,5 +16,6 @@ public class ClientSetupEvents {
         xyz.iwolfking.woldsvaults.client.init.ModScreens.register();
         ModEntityRenderers.register(event);
         ModKeybinds.registerKeyBinds();
+        ModVaultarHudScreenRegistry.init();
     }
 }

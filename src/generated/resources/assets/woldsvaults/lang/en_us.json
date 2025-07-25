@@ -1,4 +1,7 @@
 {
+  "block.the_vault.block_gem_wutodie_slab": "Wutodie Slab",
+  "block.the_vault.block_gem_wutodie_stairs": "Wutodie Stairs",
+  "block.the_vault.block_gem_wutodie_wall": "Wutodie Wall",
   "block.the_vault.ore_iskallium": "\u00A75Woldium Ore",
   "block.the_vault.ore_iskallium_stone": "\u00A75Woldium Ore - Stone",
   "block.the_vault.ore_iskallium_vault_stone": "\u00A75Woldium Ore - Vault Stone",
@@ -180,7 +183,7 @@
   "item.woldsvaults.chromatic_steel_angel_ring": "Chromatic Steel Angel Ring",
   "item.woldsvaults.chunk_of_power": "Chunk of Power",
   "item.woldsvaults.community_token": "Community Token",
-  "item.woldsvaults.crystal_reinforcement": "Crystal Reinforcement",
+  "item.woldsvaults.crystal_reinforcement": "Prismatic Reinforcement",
   "item.woldsvaults.crystal_seal_corrupt": "Seal of the Unknown",
   "item.woldsvaults.crystal_seal_raid_rock_infinite_hard": "Brutal Raid Rock (Infinite)",
   "item.woldsvaults.crystal_seal_warrior": "Seal of the Warrior",

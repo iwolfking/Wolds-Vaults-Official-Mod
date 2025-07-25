@@ -137,7 +137,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.woldsvaults.waxing_augmenter", "Waxing Augmenter");
         add("item.woldsvaults.waning_augmenter", "Waning Augmenter");
         add("item.woldsvaults.repair_augmenter", "Repair Augmenter");
-        add("item.woldsvaults.crystal_reinforcement", "Crystal Reinforcement");
+        add("item.woldsvaults.crystal_reinforcement", "Prismatic Reinforcement");
         add("item.woldsvaults.resonating_reinforcement", "Resonating Reinforcement");
         add("item.woldsvaults.stylish_focus", "Stylish Focus");
         add("item.woldsvaults.chiseling_focus", "Chiseling Focus");
@@ -280,5 +280,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.woldsvaults.crystal_seal_raid_rock_infinite_hard", "Brutal Raid Rock (Infinite)");
         add("vhatcaniroll.screen.title.etching", "Etchings");
         add("item.the_vault.tool.material.nullite", "Nullite");
+        add("block.the_vault.block_gem_wutodie_slab", "Wutodie Slab");
+        add("block.the_vault.block_gem_wutodie_wall", "Wutodie Wall");
+        add("block.the_vault.block_gem_wutodie_stairs", "Wutodie Stairs");
     }
 }

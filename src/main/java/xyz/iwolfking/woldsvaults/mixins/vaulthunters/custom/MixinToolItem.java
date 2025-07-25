@@ -5,7 +5,7 @@ import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.init.ModBlocks;
-import iskallia.vault.item.tool.IManualModelLoading;
+import iskallia.vault.item.render.core.IManualModelLoading;
 import iskallia.vault.item.tool.ToolItem;
 import iskallia.vault.item.tool.ToolMaterial;
 import iskallia.vault.item.tool.ToolType;

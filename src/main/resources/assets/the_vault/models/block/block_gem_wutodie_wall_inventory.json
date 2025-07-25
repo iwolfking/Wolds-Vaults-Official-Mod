@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "the_vault:block/block_gem_wutodie"
+  }
+}

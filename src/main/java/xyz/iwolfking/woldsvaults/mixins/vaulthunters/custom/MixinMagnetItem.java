@@ -123,11 +123,6 @@ public abstract class MixinMagnetItem extends Item implements VaultGearItem, Cur
 
             entity.teleportTo(player.position().x, player.position().y, player.position().z);
             entity.hurtMarked = true;
-
-            if(random.nextBoolean()) {
-                entity.getTags().add("MagnetPulled");
-                return;
-            }
         }
 
     }

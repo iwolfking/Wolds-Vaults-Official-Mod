@@ -1,16 +1,6 @@
 package xyz.iwolfking.woldsvaults.items;
 
-import iskallia.vault.VaultMod;
-import iskallia.vault.config.UniqueCodexConfig;
-import iskallia.vault.config.gear.VaultGearTierConfig;
-import iskallia.vault.core.random.RandomSource;
-import iskallia.vault.gear.attribute.VaultGearAttribute;
-import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
-import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
-import iskallia.vault.gear.attribute.VaultGearModifier;
-import iskallia.vault.gear.reader.VaultGearModifierReader;
 import iskallia.vault.item.BasicItem;
-import iskallia.vault.item.gear.DataInitializationItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -25,13 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
-import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.modifiers.vault.readers.WeaponTypeReader;
-
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 public class WeaponTypeSettingItem extends BasicItem{
 

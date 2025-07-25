@@ -1,9 +1,8 @@
 package xyz.iwolfking.woldsvaults.mixins;
 
 import com.bawnorton.mixinsquared.TargetHandler;
-import iskallia.vault.block.RunePillarBlock;
-import iskallia.vault.block.ShopPedestalBlock;
-import iskallia.vault.block.VaultCrateBlock;
+import iskallia.vault.block.*;
+import iskallia.vault.block.entity.CompanionHomeTileEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +30,14 @@ public class MixinServerPlayerGameMode {
     )
     public void doesSneakBypassUse(ItemStack instance, LevelReader levelReader, BlockPos blockPos, Player player, CallbackInfoReturnable<Boolean> cir) {
         BlockState state = levelReader.getBlockState(blockPos);
-        cir.setReturnValue(state.getBlock() instanceof VaultCrateBlock || state.getBlock() instanceof ShopPedestalBlock || state.getBlock() instanceof RunePillarBlock);
+        if(state.getBlock() instanceof RunePillarBlock && player.isShiftKeyDown() && player.getMainHandItem().isEmpty()) {
+            cir.setReturnValue(true);
+        }
+        else if(state.getBlock() instanceof CompanionHomeBlock block && player.isShiftKeyDown() && levelReader.getBlockEntity(blockPos) instanceof CompanionHomeTileEntity entity && !entity.getCompanion().isEmpty()) {
+            cir.setReturnValue(true);
+        }
+        else {
+            cir.setReturnValue(state.getBlock() instanceof VaultCrateBlock || state.getBlock() instanceof ShopPedestalBlock || state.getBlock() instanceof RoyaleCrateBlock );
+        }
     }
 }

@@ -779,7 +779,7 @@ public class CorruptedVaultHelper {
                         return;
                     }
 
-                    data.setTemplate(data.getLayout().getRoom(key.get(vault.get(Vault.VERSION)), vault.get(Vault.VERSION), data.getRegion(), data.getRandom(), data.getSettings()));
+                    data.setTemplate(data.getLayout().getRoom(key.get(vault.get(Vault.VERSION)), vault, vault.get(Vault.VERSION), data.getRegion(), data.getRandom(), data.getSettings()));
                     ResourceLocation theme = vault.get(Vault.WORLD).get(WorldManager.THEME);
                     ResourceLocation id = new ResourceLocation(theme.toString().replace("classic_vault_", "universal_"));
                     PaletteKey palette = VaultRegistry.PALETTE.getKey(id);
