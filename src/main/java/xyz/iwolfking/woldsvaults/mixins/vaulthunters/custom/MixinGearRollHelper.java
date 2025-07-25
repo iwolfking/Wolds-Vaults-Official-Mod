@@ -158,7 +158,6 @@ public class MixinGearRollHelper {
 
         VaultGearData etchingData = VaultGearData.read(etchingStack);
 
-        data.setRarity(VaultGearRarity.UNIQUE);
         data.createOrReplaceAttributeValue(ModGearAttributes.ETCHING, etchingId);
         etchingData.getModifiers(VaultGearModifier.AffixType.IMPLICIT).forEach(modifier -> data.addModifier(VaultGearModifier.AffixType.IMPLICIT, modifier));
         data.write(gearStack);
