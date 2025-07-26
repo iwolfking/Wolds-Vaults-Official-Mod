@@ -240,7 +240,8 @@ dependencies {
     implementation fg.deobf("curse.maven:tropicraft-254794:4616839")
     implementation fg.deobf("curse.maven:better-tridents-666941:4707885")
     implementation fg.deobf("curse.maven:puzzles-lib-495476:5114509")
-    implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6471174")
+    implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6803115")
+    implementation fg.deobf("curse.maven:black-market-tweaks-1168437:6806503")
     compileOnly fg.deobf("curse.maven:hexal-824725:5099219")
     implementation fg.deobf("curse.maven:occultism-361026:4729072")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
@@ -252,7 +253,8 @@ dependencies {
     implementation fg.deobf("curse.maven:placebo-283644:4500363")
     implementation fg.deobf("curse.maven:mekanism-268560:3875976")
     implementation fg.deobf("curse.maven:dungeons-libraries-550941:4363207")
-    compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6139466")
+    compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6803436")
+    implementation fg.deobf("curse.maven:vaultmapper-1099126:6627077")
     compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061
     runtimeOnly "curse.maven:citadel4-331936:3683009"
     compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.3")
@@ -265,7 +267,7 @@ dependencies {
     }
     implementation 'me.fallenbreath:conditional-mixin-forge:0.6.2'
     implementation fg.deobf('local:forgified-sgui:1.0.2')
-    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6644290")
+    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6802790")
     jarJar(group: 'me.fallenbreath', name: 'conditional-mixin-forge', version: '[0.6.2,)') {
         jarJar.pin(it, '0.6.2')
     }

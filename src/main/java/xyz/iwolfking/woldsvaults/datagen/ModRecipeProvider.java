@@ -341,14 +341,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ).unlockedBy("has_pog", has(iskallia.vault.init.ModItems.POG)).save(pFinishedRecipeConsumer);
 
         new InfuserRecipeBuilder(
-                iskallia.vault.init.ModItems.SOUL_SHARD,
-                iskallia.vault.init.ModItems.BOUNTY_PEARL,
-                ModItems.SOUL_ICHOR,
-                80,
-                256
-        ).unlockedBy("has_soul_shard", has(iskallia.vault.init.ModItems.SOUL_SHARD)).save(pFinishedRecipeConsumer);
-
-        new InfuserRecipeBuilder(
                 iskallia.vault.init.ModItems.VAULT_ESSENCE,
                 Items.APPLE,
                 iskallia.vault.init.ModItems.VAULT_APPLE,

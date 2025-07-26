@@ -11,6 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.data.gear.util.GearModifierRegistryHelper;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
 
+import java.util.List;
+
 public class UnusualModifierLib {
     //Prefixes
     public static VaultGearTierConfig.ModifierTierGroup AXE_CLEAVE = GearModifierRegistryHelper.create(VaultMod.id("on_hit_aoe"), "ModOnHitType", VaultMod.id("mod_on_hit_aoe_unusual"));
@@ -78,6 +80,40 @@ public class UnusualModifierLib {
 
 
     static {
+        AXE_CLEAVE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 50, 90), List.of(-1, -1, -1), List.of(2, 3, 4), List.of(2, 3, 4), 1, 6));
+        CHAINING.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 50, 90), List.of(-1, -1, -1), List.of(1, 2, 3), List.of(2, 3, 4), 1, 6));
+        MANA_ADDITIVE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 30, 50, 70, 95), List.of(45, 60, 80, -1, -1), List.of(10, 21, 31, 41, 51), List.of(20, 30, 40, 50, 60), 1, 10));
+        ABILITY_POWER.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 12, 20, 34, 47, 62, 71, 80, 86, 96), List.of(25, 34, 44, 52, 60, 75, 90, -1, -1, -1), List.of(2.0F, 5.0F, 11.0F, 15.0F, 19.0F, 23.0F, 27.0F, 32.0F, 37.0F, 43.0F), List.of(4.0F, 10.0F, 14.0F, 18.0F, 22.0F, 26.0F, 31.0F, 36.0F, 42.0F, 46.0F), 1.0F, 10));
+        AXE_REAVING.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 28, 45, 75), List.of(45, 75, -1, -1), List.of(0.04F, 0.1F, 0.15F, 0.19F), List.of(0.09F, 0.14F, 0.18F, 0.23F), 0.01F, 5));
+        ITEM_QUANTITY.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 22, 45, 72), List.of(40, 70, -1, -1), List.of(0.03F, 0.07F, 0.13F, 0.19F), List.of(0.06F, 0.12F, 0.18F, 0.25F), 0.01F, 10));
+        ITEM_RARITY.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 22, 45, 72), List.of(40, 70, -1, -1), List.of(0.03F, 0.07F, 0.13F, 0.19F), List.of(0.06F, 0.12F, 0.18F, 0.25F), 0.01F, 10));
+        COPIOUSLY.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 21, 46, 72), List.of(40, 70, -1, -1), List.of(0.05F, 0.07F, 0.11F, 0.16F), List.of(0.07F, 0.09F, 0.14F, 0.20F), 0.01F, 10));
+        TRAP_DISARMING.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 21, 46, 72), List.of(40, 70, -1, -1), List.of(0.05F, 0.07F, 0.11F, 0.16F), List.of(0.07F, 0.09F, 0.14F, 0.20F), 0.01F, 10));
+        REACH.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 30, 43, 62, 78), List.of(25, 45, 65, -1, -1), List.of(0.1, 0.31, 0.66, 0.91, 1.11), List.of(0.3, 0.65, 0.9, 1.1, 1.35), 0.01, 10));
+        HEALTH.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 20, 45, 65), List.of(40, 65, -1, -1), List.of(2.0F, 4.0F, 6.0F, 8.0F), List.of(4.0F, 6.0F, 8.0F, 10.0F), 1.0F, 10));
+        MOVEMENT_SPEED.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 40, 65, 85), List.of(40, 65, -1, -1), List.of(0.02F, 0.07F, 0.11F, 0.16F), List.of(0.06F, 0.1F, 0.15F, 0.2F), 0.01F, 10));
+        RESISTANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 36, 57, 82), List.of(40, 80, -1, -1), List.of(0.02F, 0.05F, 0.07F, 0.09F), List.of(0.04F, 0.06F, 0.08F, 0.1F), 0.01F, 10));
+        DAMAGE_INCREASE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 21, 44, 73, 90), List.of(35, 60, 75, -1, -1), List.of(0.04F, 0.09F, 0.14F, 0.2F, 0.26F), List.of(0.08F, 0.13F, 0.19F, 0.25F, 0.3F), 0.01F, 10));
+        DAMAGE_BABY.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 35, 90), List.of(35, 75, -1), List.of(0.15F, 0.31F, 0.51F), List.of(0.3F, 0.5F, 0.75F), 0.01F, 1));
+        LEECH.addAll(GearModifierRegistryHelper.createTiers(List.of(50, 75, 90), List.of(-1, -1, -1), List.of(0.01F, 0.02F, 0.03F), List.of(0.02F, 0.03F, 0.035F), 0.01F, 1));
+        EFFECT_CLOUD_CHANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(25, 50, 90), List.of(65, -1, -1), List.of(0.01F, 0.02F, 0.03F), List.of(0.02F, 0.03F, 0.04F), 0.01F, 5));
+        DODGE_CHANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(75, 95), List.of(-1, -1), List.of(0.01F, 0.05F), List.of(0.05F, 0.1F), 0.01F, 2));
+        EFFECT_RADIUS.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 40, 65, 90), List.of(45, 75, -1, -1), List.of(0.03F, 0.08F, 0.12F, 0.17F), List.of(0.07F, 0.11F, 0.16F, 0.2F), 0.01F, 10));
+        CRITICAL_HIT_MITIGATION.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 35, 65), List.of(65, -1, -1), List.of(0.05F, 0.11F, 0.21F), List.of(0.1F, 0.2F, 0.25F), 0.01F, 10));
+        LUCKY_HIT_CHANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(25, 50, 75), List.of(75, -1, -1), List.of(0.01F, 0.04F, 0.07F), List.of(0.04F, 0.06F, 0.09F), 0.01F, 8));
+        KNOCKBACK_RESISTANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 15, 30, 57, 89), List.of(35, 60, 90, -1, -1), List.of(0.05F, 0.11F, 0.15F, 0.2F, 0.25F), List.of(0.1F, 0.14F, 0.19F, 0.24F, 0.3F), 0.01F, 10));
+        DURABILITY_WEAR_REDUCTION.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 25, 50, 65, 90), List.of(30, 60, 90, -1, -1), List.of(0.05F, 0.11F, 0.21F, 0.31F, 0.41F), List.of(0.1F, 0.2F, 0.3F, 0.4F, 0.5F), 0.01F, 10));
+        MANA_PERCENTILE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 45, 80), List.of(45, -1, -1), List.of(0.1F, 0.15F, 0.25F), List.of(0.15F, 0.2F, 0.3F), 0.01F, 10));
+        ABILITY_POWER_PERCENTILE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 30, 65), List.of(45, -1, -1), List.of(0.03F, 0.06F, 0.1F), List.of(0.05F, 0.09F, 0.15F), 0.01F, 10));
+        EFFECT_DURATION.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 25, 50, 75, 85, 95), List.of(25, 50, 75, -1, -1, -1), List.of(0.03F, 0.06F, 0.09F, 0.12F, 0.15F, 0.18F), List.of(0.05F, 0.08F, 0.11F, 0.14F, 0.17F, 0.2F), 0.01F, 10));
+        HEALING_EFFECTIVENESS.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 25, 45, 70), List.of(30, 60, -1, -1), List.of(0.04F, 0.09F, 0.13F, 0.17F), List.of(0.08F, 0.12F, 0.16F, 0.2F), 0.01F, 10));
+        MANA_REGEN.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 15, 35, 50, 65, 80), List.of(30, 50, 75, -1, -1, -1), List.of(0.05F, 0.11F, 0.16F, 0.21F, 0.31F, 0.4F), List.of(0.1F, 0.15F, 0.2F, 0.3F, 0.4F, 0.5F), 0.01F, 10));
+        COOLDOWN_REDUCTION.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 25, 45, 65, 85), List.of(30, 60, 90, -1, -1), List.of(0.03F, 0.07F, 0.11F, 0.15F, 0.18F), List.of(0.06F, 0.1F, 0.14F, 0.17F, 0.2F), 0.01F, 10));
+        HEXING_HIT.addAll(GearModifierRegistryHelper.createTiers(List.of(25, 40, 60, 80, 95), List.of(50, 60, 80, -1, -1), List.of(0.02F, 0.05F, 0.07F, 0.09F, 0.11F), List.of(0.04F, 0.07F, 0.08F, 0.1F, 0.12F), 0.01F, 4));
+
+        //Boolean
+        KINETIC_IMMUNITY.add(new VaultGearTierConfig.ModifierTier<>(0, 1, new BooleanFlagGenerator.BooleanFlag(true)));
+
         //Effect Clouds
         EffectCloudAttribute.CloudConfig BLEED_0 = new EffectCloudAttribute.CloudConfig("Bleed", new ResourceLocation("minecraft:empty"), 80, 4.0F, 3080192, false, 0.02F);
         EffectCloudAttribute.CloudConfig BLEED_1 = new EffectCloudAttribute.CloudConfig("Bleed", new ResourceLocation("minecraft:empty"), 120, 4.0F, 3080192, false, 0.02F);
@@ -86,133 +122,11 @@ public class UnusualModifierLib {
         BLEED_1.setAdditionalEffect(new EffectCloudAttribute.CloudEffectConfig(VaultMod.id("bleed"), 40, 1));
         BLEED_2.setAdditionalEffect(new EffectCloudAttribute.CloudEffectConfig(VaultMod.id("bleed"), 40, 2));
 
-        AXE_CLEAVE.add(new VaultGearTierConfig.ModifierTier<>(0, 7, new IntegerAttributeGenerator.Range(2, 2, 1)));
-        CHAINING.add(new VaultGearTierConfig.ModifierTier<>(0, 7, new IntegerAttributeGenerator.Range(1, 3, 1)));
-        MANA_ADDITIVE.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new IntegerAttributeGenerator.Range(1, 3, 1)));
-        MANA_ADDITIVE.add(new VaultGearTierConfig.ModifierTier<>(30, 10, new IntegerAttributeGenerator.Range(21, 30, 1)));
-        MANA_ADDITIVE.add(new VaultGearTierConfig.ModifierTier<>(50, 10, new IntegerAttributeGenerator.Range(31, 40, 1)));
-        MANA_ADDITIVE.add(new VaultGearTierConfig.ModifierTier<>(70, 10, new IntegerAttributeGenerator.Range(41, 50, 1)));
-        MANA_ADDITIVE.add(new VaultGearTierConfig.ModifierTier<>(95, 10, new IntegerAttributeGenerator.Range(51, 60, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(2.0F, 4.0F, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(12, 10, new FloatAttributeGenerator.Range(5.0F, 10.0F, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(20, 10, new FloatAttributeGenerator.Range(11.0F, 14.0F, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(34, 10, new FloatAttributeGenerator.Range(15.0F, 18.0F, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(47, 10, new FloatAttributeGenerator.Range(19.0F, 22.0F, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(62, 10, new FloatAttributeGenerator.Range(23.0F, 26.0F, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(71, 10, new FloatAttributeGenerator.Range(27.0F, 31.0F, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(80, 10, new FloatAttributeGenerator.Range(32.0F, 36.0F, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(86, 10, new FloatAttributeGenerator.Range(37.0F, 42.0F, 1)));
-        ABILITY_POWER.add(new VaultGearTierConfig.ModifierTier<>(96, 10, new FloatAttributeGenerator.Range(43.0F, 46.0F, 1)));
-        AXE_REAVING.add(new VaultGearTierConfig.ModifierTier<>(0, 8, new FloatAttributeGenerator.Range(0.04F, 0.09F, 0.01F)));
-        AXE_REAVING.add(new VaultGearTierConfig.ModifierTier<>(28, 8, new FloatAttributeGenerator.Range(0.1F, 0.14F, 0.01F)));
-        AXE_REAVING.add(new VaultGearTierConfig.ModifierTier<>(45, 8, new FloatAttributeGenerator.Range(0.15F, 0.18F, 0.01F)));
-        AXE_REAVING.add(new VaultGearTierConfig.ModifierTier<>(75, 8, new FloatAttributeGenerator.Range(0.19F, 0.23F, 0.01F)));
-        ITEM_QUANTITY.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.03F, 0.06F, 0.01F)));
-        ITEM_QUANTITY.add(new VaultGearTierConfig.ModifierTier<>(22, 10, new FloatAttributeGenerator.Range(0.07F, 0.12F, 0.01F)));
-        ITEM_QUANTITY.add(new VaultGearTierConfig.ModifierTier<>(45, 10, new FloatAttributeGenerator.Range(0.13F, 0.18F, 0.01F)));
-        ITEM_QUANTITY.add(new VaultGearTierConfig.ModifierTier<>(72, 10, new FloatAttributeGenerator.Range(0.19F, 0.25F, 0.01F)));
-        ITEM_RARITY.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.04F, 0.09F, 0.01F)));
-        ITEM_RARITY.add(new VaultGearTierConfig.ModifierTier<>(22, 10, new FloatAttributeGenerator.Range(0.1F, 0.14F, 0.01F)));
-        ITEM_RARITY.add(new VaultGearTierConfig.ModifierTier<>(45, 10, new FloatAttributeGenerator.Range(0.15F, 0.18F, 0.01F)));
-        ITEM_RARITY.add(new VaultGearTierConfig.ModifierTier<>(72, 10, new FloatAttributeGenerator.Range(0.19F, 0.23F, 0.01F)));
-        COPIOUSLY.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.02F, 0.04F, 0.01F)));
-        COPIOUSLY.add(new VaultGearTierConfig.ModifierTier<>(21, 10, new FloatAttributeGenerator.Range(0.05F, 0.08F, 0.01F)));
-        COPIOUSLY.add(new VaultGearTierConfig.ModifierTier<>(46, 10, new FloatAttributeGenerator.Range(0.09F, 0.14F, 0.01F)));
-        COPIOUSLY.add(new VaultGearTierConfig.ModifierTier<>(72, 10, new FloatAttributeGenerator.Range(0.15F, 0.18F, 0.01F)));
-        TRAP_DISARMING.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.03F, 0.06F, 0.01F)));
-        TRAP_DISARMING.add(new VaultGearTierConfig.ModifierTier<>(21, 10, new FloatAttributeGenerator.Range(0.07F, 0.1F, 0.01F)));
-        TRAP_DISARMING.add(new VaultGearTierConfig.ModifierTier<>(35, 10, new FloatAttributeGenerator.Range(0.11F, 0.14F, 0.01F)));
-        TRAP_DISARMING.add(new VaultGearTierConfig.ModifierTier<>(50, 10, new FloatAttributeGenerator.Range(0.15F, 0.18F, 0.01F)));
-        REACH.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new DoubleAttributeGenerator.Range(0.1, 0.3, 0.01F)));
-        REACH.add(new VaultGearTierConfig.ModifierTier<>(30, 10, new DoubleAttributeGenerator.Range(0.31, 0.65, 0.01F)));
-        REACH.add(new VaultGearTierConfig.ModifierTier<>(43, 10, new DoubleAttributeGenerator.Range(0.66, 0.9, 0.01F)));
-        REACH.add(new VaultGearTierConfig.ModifierTier<>(62, 10, new DoubleAttributeGenerator.Range(0.91, 1.1, 0.01F)));
-        REACH.add(new VaultGearTierConfig.ModifierTier<>(78, 10, new DoubleAttributeGenerator.Range(1.11, 1.35, 0.01F)));
-        HEALTH.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new DoubleAttributeGenerator.Range(2.0, 3.0, 1.0F)));
-        HEALTH.add(new VaultGearTierConfig.ModifierTier<>(20, 10, new FloatAttributeGenerator.Range(4.0F, 4.0F, 1.0F)));
-        HEALTH.add(new VaultGearTierConfig.ModifierTier<>(45, 10, new FloatAttributeGenerator.Range(5.0F, 5.0F, 1.0F)));
-        HEALTH.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(6.0F, 6.0F, 1.0F)));
-        MOVEMENT_SPEED.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.02F, 0.06F, 0.01F)));
-        MOVEMENT_SPEED.add(new VaultGearTierConfig.ModifierTier<>(40, 10, new FloatAttributeGenerator.Range(0.07F, 0.1F, 0.01F)));
-        MOVEMENT_SPEED.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.11F, 0.15F, 0.01F)));
-        MOVEMENT_SPEED.add(new VaultGearTierConfig.ModifierTier<>(85, 10, new FloatAttributeGenerator.Range(0.16F, 0.2F, 0.01F)));
-        RESISTANCE.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.02F, 0.04F, 0.01F)));
-        RESISTANCE.add(new VaultGearTierConfig.ModifierTier<>(36, 10, new FloatAttributeGenerator.Range(0.05F, 0.06F, 0.01F)));
-        RESISTANCE.add(new VaultGearTierConfig.ModifierTier<>(57, 10, new FloatAttributeGenerator.Range(0.07F, 0.08F, 0.01F)));
-        RESISTANCE.add(new VaultGearTierConfig.ModifierTier<>(82, 10, new FloatAttributeGenerator.Range(0.09F, 0.1F, 0.01F)));
-        DAMAGE_INCREASE.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.04F, 0.08F, 0.01F)));
-        DAMAGE_INCREASE.add(new VaultGearTierConfig.ModifierTier<>(21, 10, new FloatAttributeGenerator.Range(0.09F, 0.13F, 0.01F)));
-        DAMAGE_INCREASE.add(new VaultGearTierConfig.ModifierTier<>(44, 10, new FloatAttributeGenerator.Range(0.14F, 0.19F, 0.01F)));
-        DAMAGE_INCREASE.add(new VaultGearTierConfig.ModifierTier<>(73, 10, new FloatAttributeGenerator.Range(0.2F, 0.25F, 0.01F)));
-        DAMAGE_INCREASE.add(new VaultGearTierConfig.ModifierTier<>(90, 10, new FloatAttributeGenerator.Range(0.26F, 0.3F, 0.01F)));
-        DAMAGE_BABY.add(new VaultGearTierConfig.ModifierTier<>(0, 1, new FloatAttributeGenerator.Range(0.15F, 0.3F, 0.01F)));
-        DAMAGE_BABY.add(new VaultGearTierConfig.ModifierTier<>(35, 1, new FloatAttributeGenerator.Range(0.31F, 0.5F, 0.01F)));
-        DAMAGE_BABY.add(new VaultGearTierConfig.ModifierTier<>(90, 1, new FloatAttributeGenerator.Range(0.51F, 0.75F, 0.01F)));
-        LEECH.add(new VaultGearTierConfig.ModifierTier<>(0, 1, new FloatAttributeGenerator.Range(0.01F, 0.02F, 0.01F)));
-        LEECH.add(new VaultGearTierConfig.ModifierTier<>(50, 1, new FloatAttributeGenerator.Range(0.021F, 0.03F, 0.01F)));
-        LEECH.add(new VaultGearTierConfig.ModifierTier<>(90, 1, new FloatAttributeGenerator.Range(0.031F, 0.035F, 0.01F)));
-        EFFECT_CLOUD_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(25, 5, new FloatAttributeGenerator.Range(0.01F, 0.02F, 0.01F)));
-        EFFECT_CLOUD_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(50, 5, new FloatAttributeGenerator.Range(0.02F, 0.03F, 0.01F)));
-        EFFECT_CLOUD_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(90, 5, new FloatAttributeGenerator.Range(0.03F, 0.04F, 0.01F)));
-        DODGE_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(75, 1, new FloatAttributeGenerator.Range(0.01F, 0.05F, 0.01F)));
-        DODGE_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(95, 1, new FloatAttributeGenerator.Range(0.05F, 0.08F, 0.01F)));
-        EFFECT_RADIUS.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.03F, 0.07F, 0.01F)));
-        EFFECT_RADIUS.add(new VaultGearTierConfig.ModifierTier<>(40, 10, new FloatAttributeGenerator.Range(0.08F, 0.11F, 0.01F)));
-        EFFECT_RADIUS.add(new VaultGearTierConfig.ModifierTier<>(63, 10, new FloatAttributeGenerator.Range(0.12F, 0.16F, 0.01F)));
-        EFFECT_RADIUS.add(new VaultGearTierConfig.ModifierTier<>(89, 10, new FloatAttributeGenerator.Range(0.17F, 0.2F, 0.01F)));
-        CRITICAL_HIT_MITIGATION.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.05F, 0.1F, 0.01F)));
-        CRITICAL_HIT_MITIGATION.add(new VaultGearTierConfig.ModifierTier<>(35, 10, new FloatAttributeGenerator.Range(0.11F, 0.2F, 0.01F)));
-        CRITICAL_HIT_MITIGATION.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.21F, 0.25F, 0.01F)));
-        LUCKY_HIT_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(25, 7, new FloatAttributeGenerator.Range(0.01F, 0.02F, 0.01F)));
-        LUCKY_HIT_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(50, 7, new FloatAttributeGenerator.Range(0.03F, 0.04F, 0.01F)));
-        LUCKY_HIT_CHANCE.add(new VaultGearTierConfig.ModifierTier<>(75, 7, new FloatAttributeGenerator.Range(0.05F, 0.06F, 0.01F)));
-        KNOCKBACK_RESISTANCE.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.05F, 0.1F, 0.01F)));
-        KNOCKBACK_RESISTANCE.add(new VaultGearTierConfig.ModifierTier<>(15, 10, new FloatAttributeGenerator.Range(0.11F, 0.14F, 0.01F)));
-        KNOCKBACK_RESISTANCE.add(new VaultGearTierConfig.ModifierTier<>(30, 10, new FloatAttributeGenerator.Range(0.15F, 0.19F, 0.01F)));
-        KNOCKBACK_RESISTANCE.add(new VaultGearTierConfig.ModifierTier<>(57, 10, new FloatAttributeGenerator.Range(0.2F, 0.24F, 0.01F)));
-        KNOCKBACK_RESISTANCE.add(new VaultGearTierConfig.ModifierTier<>(89, 10, new FloatAttributeGenerator.Range(0.25F, 0.3F, 0.01F)));
-        DURABILITY_WEAR_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.05F, 0.1F, 0.01F)));
-        DURABILITY_WEAR_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(24, 10, new FloatAttributeGenerator.Range(0.11F, 0.2F, 0.01F)));
-        DURABILITY_WEAR_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(50, 10, new FloatAttributeGenerator.Range(0.21F, 0.3F, 0.01F)));
-        DURABILITY_WEAR_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.31F, 0.4F, 0.01F)));
-        DURABILITY_WEAR_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(90, 10, new FloatAttributeGenerator.Range(0.41F, 0.5F, 0.01F)));
-        MANA_PERCENTILE.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.1F, 0.15F, 0.01F)));
-        MANA_PERCENTILE.add(new VaultGearTierConfig.ModifierTier<>(45, 10, new FloatAttributeGenerator.Range(0.15F, 0.2F, 0.01F)));
-        MANA_PERCENTILE.add(new VaultGearTierConfig.ModifierTier<>(80, 10, new FloatAttributeGenerator.Range(0.25F, 0.3F, 0.01F)));
-        ABILITY_POWER_PERCENTILE.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.03F, 0.05F, 0.01F)));
-        ABILITY_POWER_PERCENTILE.add(new VaultGearTierConfig.ModifierTier<>(30, 10, new FloatAttributeGenerator.Range(0.06F, 0.09F, 0.01F)));
-        ABILITY_POWER_PERCENTILE.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.1F, 0.15F, 0.01F)));
-        EFFECT_DURATION.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.03F, 0.05F, 0.01F)));
-        EFFECT_DURATION.add(new VaultGearTierConfig.ModifierTier<>(20, 10, new FloatAttributeGenerator.Range(0.06F, 0.08F, 0.01F)));
-        EFFECT_DURATION.add(new VaultGearTierConfig.ModifierTier<>(50, 10, new FloatAttributeGenerator.Range(0.09F, 0.11F, 0.01F)));
-        EFFECT_DURATION.add(new VaultGearTierConfig.ModifierTier<>(70, 10, new FloatAttributeGenerator.Range(0.12F, 0.14F, 0.01F)));
-        EFFECT_DURATION.add(new VaultGearTierConfig.ModifierTier<>(80, 10, new FloatAttributeGenerator.Range(0.15F, 0.17F, 0.01F)));
-        EFFECT_DURATION.add(new VaultGearTierConfig.ModifierTier<>(92, 10, new FloatAttributeGenerator.Range(0.18F, 0.2F, 0.01F)));
-        HEALING_EFFECTIVENESS.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.04F, 0.08F, 0.01F)));
-        HEALING_EFFECTIVENESS.add(new VaultGearTierConfig.ModifierTier<>(24, 10, new FloatAttributeGenerator.Range(0.09F, 0.12F, 0.01F)));
-        HEALING_EFFECTIVENESS.add(new VaultGearTierConfig.ModifierTier<>(40, 10, new FloatAttributeGenerator.Range(0.13F, 0.16F, 0.01F)));
-        HEALING_EFFECTIVENESS.add(new VaultGearTierConfig.ModifierTier<>(66, 10, new FloatAttributeGenerator.Range(0.17F, 0.2F, 0.01F)));
-        MANA_REGEN.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.05F, 0.1F, 0.01F)));
-        MANA_REGEN.add(new VaultGearTierConfig.ModifierTier<>(15, 10, new FloatAttributeGenerator.Range(0.11F, 0.15F, 0.01F)));
-        MANA_REGEN.add(new VaultGearTierConfig.ModifierTier<>(30, 10, new FloatAttributeGenerator.Range(0.16F, 0.2F, 0.01F)));
-        MANA_REGEN.add(new VaultGearTierConfig.ModifierTier<>(40, 10, new FloatAttributeGenerator.Range(0.21F, 0.3F, 0.01F)));
-        MANA_REGEN.add(new VaultGearTierConfig.ModifierTier<>(50, 10, new FloatAttributeGenerator.Range(0.31F, 0.4F, 0.01F)));
-        MANA_REGEN.add(new VaultGearTierConfig.ModifierTier<>(67, 10, new FloatAttributeGenerator.Range(0.41F, 0.5F, 0.01F)));
-        COOLDOWN_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.03F, 0.06F, 0.01F)));
-        COOLDOWN_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(20, 10, new FloatAttributeGenerator.Range(0.07F, 0.1F, 0.01F)));
-        COOLDOWN_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(40, 10, new FloatAttributeGenerator.Range(0.11F, 0.14F, 0.01F)));
-        COOLDOWN_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(60, 10, new FloatAttributeGenerator.Range(0.15F, 0.17F, 0.01F)));
-        COOLDOWN_REDUCTION.add(new VaultGearTierConfig.ModifierTier<>(85, 10, new FloatAttributeGenerator.Range(0.18F, 0.2F, 0.01F)));
-        KINETIC_IMMUNITY.add(new VaultGearTierConfig.ModifierTier<>(0, 1, new BooleanFlagGenerator.BooleanFlag(true)));
         AXE_BLEED_CLOUD.add(new VaultGearTierConfig.ModifierTier<>(0, 10, BLEED_0));
         AXE_BLEED_CLOUD.add(new VaultGearTierConfig.ModifierTier<>(32, 10, BLEED_1));
         AXE_BLEED_CLOUD.add(new VaultGearTierConfig.ModifierTier<>(64, 10, BLEED_2));
-        HEXING_HIT.add(new VaultGearTierConfig.ModifierTier<>(0, 4, new FloatAttributeGenerator.Range(0.02F, 0.04F, 0.01F)));
-        HEXING_HIT.add(new VaultGearTierConfig.ModifierTier<>(20, 4, new FloatAttributeGenerator.Range(0.05F, 0.07F, 0.01F)));
-        HEXING_HIT.add(new VaultGearTierConfig.ModifierTier<>(40, 4, new FloatAttributeGenerator.Range(0.07F, 0.08F, 0.01F)));
-        HEXING_HIT.add(new VaultGearTierConfig.ModifierTier<>(60, 4, new FloatAttributeGenerator.Range(0.09F, 0.1F, 0.01F)));
-        HEXING_HIT.add(new VaultGearTierConfig.ModifierTier<>(85, 4, new FloatAttributeGenerator.Range(0.11F, 0.12F, 0.01F)));
 
+        //Jewels
         COOLDOWN_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.005F, 0.01F, 0.001F)));
         COOLDOWN_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.01F, 0.02F, 0.001F)));
 
@@ -235,7 +149,7 @@ public class UnusualModifierLib {
         DURABILITY_WEAR_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.03F, 0.05F, 0.001F)));
 
 
-
+        //Maps
         NON_LETHAL.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:no_crit_mobs")));
         CORROSIVE.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:corrosive")));
         EXTRA_REINFORCED.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new StringValueGenerator.StringValue("the_vault:extra_reinforced")));

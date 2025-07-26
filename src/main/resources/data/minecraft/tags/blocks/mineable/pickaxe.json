@@ -5,6 +5,9 @@
     "the_vault:vault_salvager",
     "woldsvaults:chromatic_iron_vault_infuser",
     "woldsvaults:chromatic_steel_vault_infuser",
-    "woldsvaults:nullite_ore"
+    "woldsvaults:nullite_ore",
+    "the_vault:block_gem_wutodie_slab",
+    "the_vault:block_gem_wutodie_stairs",
+    "the_vault:block_gem_wutodie_wall"
   ]
 }
