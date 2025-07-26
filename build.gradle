@@ -217,7 +217,7 @@ dependencies {
     implementation fg.deobf("curse.maven:vault-filters-952507:5925682")
     implementation fg.deobf("curse.maven:create-328085:4835188")
     implementation fg.deobf("curse.maven:pneumaticcraft-repressurized-281849:4922258")
-    implementation fg.deobf("curse.maven:just-enough-vh-1035310:5981145")
+    implementation fg.deobf("curse.maven:just-enough-vh-1035310:6806612")
     implementation fg.deobf("curse.maven:dimensional-worldborder-631202:3832850")
     implementation fg.deobf("curse.maven:immersive-engineering-231951:4412849")
     implementation fg.deobf("curse.maven:industrial-foregoing-266515:5334842")

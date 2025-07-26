@@ -1,7 +1,7 @@
 package xyz.iwolfking.woldsvaults.integration.jei;
 
-import dev.attackeight.the_vault_jei.jei.ForgeItem;
-import dev.attackeight.the_vault_jei.jei.category.ForgeItemRecipeCategory;
+import dev.attackeight.just_enough_vh.jei.ForgeItem;
+import dev.attackeight.just_enough_vh.jei.category.ForgeItemRecipeCategory;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.VaultRecyclerConfig;
 import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
@@ -63,10 +63,6 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<ForgeItem> AUGMENTS_ASSEMBLY = RecipeType.create(WoldsVaults.MOD_ID, "augment_assembly", ForgeItem.class);
     public static final RecipeType<ForgeItem> WEAVING = RecipeType.create(WoldsVaults.MOD_ID, "weaving", ForgeItem.class);
 
-    // this is in newer vault jei mod, but it's currently not compatible with wv
-    public static final RecipeType<ForgeItem> TRINKETS = RecipeType.create(VaultMod.MOD_ID, "trinket", ForgeItem.class);
-    public static final RecipeType<ForgeItem> JEWEL_CRAFTING = RecipeType.create(VaultMod.MOD_ID, "jewel_crafting", ForgeItem.class);
-
     public WoldsVaultsJeiPlugin() {}
     @Override
     public @NotNull ResourceLocation getPluginUid() {
@@ -101,9 +97,6 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MOD_BOX_WORKSTATION), MOD_BOX_WORKSTATION);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.AUGMENT_CRAFTING_TABLE), AUGMENTS_ASSEMBLY);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.WEAVING_STATION), WEAVING);
-
-        registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModBlocks.TRINKET_FORGE), TRINKETS);
-        registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModBlocks.JEWEL_CRAFTING_TABLE), JEWEL_CRAFTING);
     }
 
     @Override
@@ -130,12 +123,9 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("Spooky Shop Pedestal"), ModBlocks.SPOOKY_VENDOR_PEDESTAL.asItem(), SPOOKY_SHOP_PEDESTAL));
         registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("Card Shop Pedestal"), ModBlocks.CARD_VENDOR_PEDESTAL.asItem(), CARD_SHOP_PEDESTAL));
 
-        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, MOD_BOX_WORKSTATION, new ItemStack(ModBlocks.MOD_BOX_WORKSTATION.asItem()), new TextComponent("Mod Box Workstation")));
-        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, AUGMENTS_ASSEMBLY, new ItemStack(ModBlocks.AUGMENT_CRAFTING_TABLE.asItem()), new TextComponent("Augment Assembly")));
-        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, WEAVING, new ItemStack(ModBlocks.WEAVING_STATION.asItem()), new TextComponent("Weaving")));
-
-        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, TRINKETS, new ItemStack(iskallia.vault.init.ModBlocks.TRINKET_FORGE.asItem()), new TextComponent("Trinket Forge")));
-        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, JEWEL_CRAFTING, new ItemStack(iskallia.vault.init.ModBlocks.JEWEL_CRAFTING_TABLE.asItem()), new TextComponent("Jewel Crafting Table")));
+        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, MOD_BOX_WORKSTATION, new ItemStack(ModBlocks.MOD_BOX_WORKSTATION.asItem())));
+        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, AUGMENTS_ASSEMBLY, new ItemStack(ModBlocks.AUGMENT_CRAFTING_TABLE.asItem())));
+        registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, WEAVING, new ItemStack(ModBlocks.WEAVING_STATION.asItem())));
     }
 
     @Override @SuppressWarnings("removal")
@@ -170,9 +160,6 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(AUGMENTS_ASSEMBLY, getForgeRecipes(ModConfigs.AUGMENT_RECIPES.getConfigRecipes()));
         registration.addRecipes(WEAVING, getForgeRecipes(ModConfigs.WEAVING_RECIPES_CONFIG.getConfigRecipes()));
         addCustomRecyclerRecipes(registration);
-
-        registration.addRecipes(TRINKETS, getForgeRecipes(iskallia.vault.init.ModConfigs.TRINKET_RECIPES.getConfigRecipes()));
-        registration.addRecipes(JEWEL_CRAFTING, getForgeRecipes(iskallia.vault.init.ModConfigs.JEWEL_CRAFTING_RECIPES.getConfigRecipes()));
     }
 
 
