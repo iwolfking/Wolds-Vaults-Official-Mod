@@ -11,6 +11,7 @@
     "MixinEnchantmentHelper",
     "MixinFortuneOreDropFormula",
     "MixinItemEntity",
+    "MixinItemStack",
     "MixinLightningBolt",
     "MixinLivingEntity",
     "MixinServerPlayerGameMode",
