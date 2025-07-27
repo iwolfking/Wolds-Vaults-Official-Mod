@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = RoyaleObjective.class, remap = false)
 public class MixinRoyaleObjective {
-    @Inject(method = "lambda$initServer$8", at = @At(value = "INVOKE", target = "Liskallia/vault/util/MiscUtils;clearPlayerInventory(Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.BEFORE))
+    @Inject(method = "lambda$initServer$7", at = @At(value = "INVOKE", target = "Liskallia/vault/util/MiscUtils;clearPlayerInventory(Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.BEFORE))
     private void clearTrinketSlotsOnCompletion(Vault vault, ListenerLeaveEvent.Data data, CallbackInfo ci, @Local ServerPlayer player) {
             IntegrationCurios.setCurioItemStack(player, ItemStack.EMPTY, "red_trinket", 0);
             IntegrationCurios.setCurioItemStack(player, ItemStack.EMPTY, "red_trinket", 1);
