@@ -76,7 +76,7 @@ public class MixinGearRollHelper {
         }
 
         if(data.getFirstValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.IS_ETCHED).orElse(false) && stack.getItem() instanceof VaultGearItem gearItem) {
-            woldsvaults$addRandomEtchingEntry(data, gearItem, stack);
+            //woldsvaults$addRandomEtchingEntry(data, gearItem, stack);
         }
 
 

@@ -6,6 +6,7 @@
   "refmap": "woldsvaults.refmap.json",
   "plugin": "xyz.iwolfking.woldsvaults.mixins.plugins.WoldMixinPlugin",
   "mixins": [
+    "GameRulesBooleanValueAccessor",
     "LivingEntityAccessor",
     "MixinBlockStateBase",
     "MixinEnchantmentHelper",
@@ -256,6 +257,7 @@
     "MixinItemRenderer",
     "MixinThrownTridentRenderer",
     "inventoryhud.MixinCuriosRenderer",
+    "inventoryhud.MixinInventoryHudRenderer",
     "sophisticatedbackpacks.MixinBackpackModel",
     "vaulthunters.accessors.VaultChestRendererAccessor",
     "vaulthunters.custom.MixinAugmentItem",

@@ -196,6 +196,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("effect.woldsvaults.rerolled", "Reroll Cooldown");
         add("woldsvaults.key.cherish_item", "Cherish Item");
         add("key.woldsvaults.cherish_item", "Cherish Item");
+        add("key.woldsvaults.open_wolds_vaults_config", "Open Wold's Vaults Config Screen");
+        add("key.woldsvaults.is_feather_fixed", "Toggle Prismatic Feather Fix");
         add("key.woldsvaults.category", "Wold's Vaults");
         add("the_vault.gear_modification.reforge_weapon_type.description", "Reforges weapon type");
         add("the_vault.gear_modification.add_unusual_modifier.description", "Add unusual modifier");
