@@ -18,7 +18,7 @@ public class MixinPlayerReputationData {
     private static void returnOldFavourHandling(Player player, VaultGod god, CallbackInfo ci) {
         if(ModGameRules.isEnabled(ModGameRules.ENABLE_OLD_AFFINITY_HANDLING, player.getLevel())) {
             float chance = VaultGodAffinityHelper.getAffinityPercent(player, god);
-            if (!(player.getRandom().nextFloat() <= chance)) {
+            if (!(player.getRandom().nextFloat() + 0.5F <= chance)) {
                 Component msg = new TextComponent("The god was not interested enough in you!").withStyle(god.getChatColor());
                 player.displayClientMessage(msg, true);
                 ci.cancel();
