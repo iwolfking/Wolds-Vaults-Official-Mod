@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 import xaero.common.settings.ModOptions;
 import xaero.common.settings.ModSettings;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 @Restriction(
     require = {
@@ -25,7 +26,7 @@ public class MixinIntegrationMinimap { // fix not being able to disable minimap 
         )
     )
     private static Object dontDisableMinimapInVault(ModSettings instance, ModOptions par1EnumOptions) {
-        return false;
+        return WoldsVaultsConfig.CLIENT.showVanillaVaultMap.get();
     }
 
     @Redirect(method = "lambda$onClientTick$0", at = @At(value = "INVOKE", target = "Lxaero/common/settings/ModSettings;getOptionValue(Lxaero/common/settings/ModOptions;)Ljava/lang/Object;", ordinal = 1),

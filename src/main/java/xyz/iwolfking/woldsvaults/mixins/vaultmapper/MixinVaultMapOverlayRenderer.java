@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -26,6 +28,13 @@ public abstract class MixinVaultMapOverlayRenderer {
 
     @Shadow
     private static void renderPlayerName(PoseStack posestack, String name, VaultMap.MapPlayer data) {
+    }
+
+    @Inject(method = "eventHandler", at = @At("HEAD"), cancellable = true)
+    private static void cancelVaultMapperRender(RenderGameOverlayEvent.Post event, CallbackInfo ci) {
+        if(WoldsVaultsConfig.CLIENT.showVanillaVaultMap.get()) {
+            ci.cancel();
+        }
     }
 
     @Redirect( method = "eventHandler", at = @At(value = "INVOKE", target = "Ljava/util/concurrent/ConcurrentHashMap;forEach(Ljava/util/function/BiConsumer;)V", ordinal = 0))
