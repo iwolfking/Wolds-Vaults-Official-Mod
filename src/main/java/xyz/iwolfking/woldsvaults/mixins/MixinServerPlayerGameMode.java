@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = ServerPlayerGameMode.class)
+@Mixin(value = ServerPlayerGameMode.class, priority = 1500)
 public class MixinServerPlayerGameMode {
 
     @TargetHandler(
@@ -33,7 +33,7 @@ public class MixinServerPlayerGameMode {
         if(state.getBlock() instanceof RunePillarBlock && player.isShiftKeyDown() && player.getMainHandItem().isEmpty()) {
             cir.setReturnValue(true);
         }
-        else if(state.getBlock() instanceof CompanionHomeBlock block && player.isShiftKeyDown() && levelReader.getBlockEntity(blockPos) instanceof CompanionHomeTileEntity entity && !entity.getCompanion().isEmpty()) {
+        else if(state.getBlock() instanceof CompanionHomeBlock && player.isShiftKeyDown() && levelReader.getBlockEntity(blockPos) instanceof CompanionHomeTileEntity entity && !entity.getCompanion().isEmpty()) {
             cir.setReturnValue(true);
         }
         else {
