@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
+import iskallia.vault.core.vault.ClientVaults;
 import iskallia.vault.integration.IntegrationMinimap;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
@@ -26,7 +27,15 @@ public class MixinIntegrationMinimap { // fix not being able to disable minimap 
         )
     )
     private static Object dontDisableMinimapInVault(ModSettings instance, ModOptions par1EnumOptions) {
-        return WoldsVaultsConfig.CLIENT.showVanillaVaultMap.get();
+        if(WoldsVaultsConfig.CLIENT.showVanillaVaultMap.get()) {
+            return true;
+        }
+        else {
+            if(instance.getOptionValue(ModOptions.MINIMAP).equals(false)) {
+                instance.setOptionValue(ModOptions.MINIMAP, true);
+            }
+            return false;
+        }
     }
 
     @Redirect(method = "lambda$onClientTick$0", at = @At(value = "INVOKE", target = "Lxaero/common/settings/ModSettings;getOptionValue(Lxaero/common/settings/ModOptions;)Ljava/lang/Object;", ordinal = 1),
