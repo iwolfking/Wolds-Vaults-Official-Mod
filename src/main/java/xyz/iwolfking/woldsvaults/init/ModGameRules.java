@@ -10,10 +10,12 @@ public class ModGameRules {
 
     public static GameRules.Key<GameRules.BooleanValue> ALLOW_FLIGHT_IN_VAULTS;
     public static GameRules.Key<GameRules.BooleanValue> NORMALIZED_ENABLED;
+    public static GameRules.Key<GameRules.BooleanValue> ENABLE_OLD_AFFINITY_HANDLING;
 
     public static void initialize() {
         ALLOW_FLIGHT_IN_VAULTS = GameRules.register("enableFlightInVaults", GameRules.Category.PLAYER, booleanRule(false));
-        NORMALIZED_ENABLED = GameRules.register("enableDifficultyLockModifiers", GameRules.Category.MISC, booleanRule(true));
+        NORMALIZED_ENABLED = GameRules.register("enableDifficultyLockModifiers", GameRules.Category.PLAYER, booleanRule(true));
+        ENABLE_OLD_AFFINITY_HANDLING = GameRules.register("enableLegacyGodAffinityHandling", GameRules.Category.PLAYER, booleanRule(false));
     }
 
 
