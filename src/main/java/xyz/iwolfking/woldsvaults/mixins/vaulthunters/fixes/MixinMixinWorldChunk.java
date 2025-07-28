@@ -24,7 +24,7 @@ public abstract class MixinMixinWorldChunk {
     private void setBlockState(BlockPos pos, BlockState state, boolean isMoving, CallbackInfoReturnable<BlockState> ci) {
         if (!this.getLevel().isClientSide()) {
             Block block = getLevel().getBlockState(pos).getBlock();
-            if(block instanceof TotemBlock || block instanceof VaultChestBlock || block instanceof CoinPileBlock || block instanceof WildSpawnerBlock || block instanceof CustomEntitySpawnerBlock) {
+            if(block instanceof TotemBlock || block instanceof VaultChestBlock || block instanceof CoinPileBlock || block instanceof WildSpawnerBlock || block instanceof CustomEntitySpawnerBlock || block instanceof LandmineBlock) {
                 return;
             }
             IZonedWorld proxy = IZonedWorld.of(this.getLevel()).orElse(null);

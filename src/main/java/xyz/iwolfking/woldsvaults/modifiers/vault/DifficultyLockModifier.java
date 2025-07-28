@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultDifficultyAccessor;
 
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class DifficultyLockModifier extends VaultModifier<DifficultyLockModifier
 
     @Override
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
-        if(WoldsVaultsConfig.COMMON.normalizedModifierEnabled.get()) {
+        if(world.getGameRules().getBoolean(ModGameRules.NORMALIZED_ENABLED)) {
             CommonEvents.PLAYER_TICK.register(context.getUUID(), EventPriority.HIGHEST, (event) -> {
                 if(event.side.isServer()) {
                     if((event.player.tickCount % 20) != 0) {

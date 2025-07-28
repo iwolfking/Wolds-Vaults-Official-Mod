@@ -25,14 +25,14 @@ import java.util.List;
 )
 @Mixin(value = Items.class, remap = false)
 public abstract class MixinItems {
-    @Inject(method = "getWoldGearItems", at = @At("RETURN"))
-    private static void addItems(CallbackInfoReturnable<List<ItemStack>> cir, @Local(ordinal = 0) List<ItemStack> woldItems) {
-//        woldItems.add(withTransmog(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.MAP), new ResourceLocation("the_vault:gear/map/common")));
-
-        ItemStack etchingStack = new ItemStack(ModItems.ETCHING);
-        AttributeGearData data = AttributeGearData.read(etchingStack);
-        data.createOrReplaceAttributeValue(ModGearAttributes.STATE, VaultGearState.UNIDENTIFIED);
-        data.write(etchingStack);
-        woldItems.add(etchingStack);
-    }
+//    @Inject(method = "getWoldGearItems", at = @At("RETURN"))
+//    private static void addItems(CallbackInfoReturnable<List<ItemStack>> cir, @Local(ordinal = 0) List<ItemStack> woldItems) {
+////        woldItems.add(withTransmog(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.MAP), new ResourceLocation("the_vault:gear/map/common")));
+//
+//        ItemStack etchingStack = new ItemStack(ModItems.ETCHING);
+//        AttributeGearData data = AttributeGearData.read(etchingStack);
+//        data.createOrReplaceAttributeValue(ModGearAttributes.STATE, VaultGearState.UNIDENTIFIED);
+//        data.write(etchingStack);
+//        woldItems.add(etchingStack);
+//    }
 }

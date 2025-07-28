@@ -96,7 +96,7 @@ public class BallisticBingoObjective extends BingoObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault);
+        NormalizedHelper.handleAddingNormalizedToVault(vault, world);
       
         CommonEvents.LISTENER_JOIN.register(this, data -> {
 

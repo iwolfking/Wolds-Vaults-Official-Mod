@@ -105,7 +105,7 @@ public class HauntedBraziersObjective extends MonolithObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault);
+        NormalizedHelper.handleAddingNormalizedToVault(vault, world);
 
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
             this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability));
