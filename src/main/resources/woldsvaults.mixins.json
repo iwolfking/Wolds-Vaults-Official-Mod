@@ -250,8 +250,7 @@
     "vaulthunters.skills.modifications.MixinAbstractVeinMinerAbility",
     "vaulthunters.skills.modifications.MixinFireballAbility",
     "vaulthunters.skills.modifications.MixinIceBoltChunkAbility",
-    "vaultmapper.MixinVaultMapOverlayRenderer",
-    "vhatcaniroll.MixinItems"
+    "vaultmapper.MixinVaultMapOverlayRenderer"
   ],
   "client": [
     "MixinItemRenderer",
