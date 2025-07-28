@@ -257,6 +257,8 @@
   "key.the_vault.quickselect.colossus": "Select and use ability: Colossus",
   "key.woldsvaults.category": "Wold's Vaults",
   "key.woldsvaults.cherish_item": "Cherish Item",
+  "key.woldsvaults.is_feather_fixed": "Toggle Prismatic Feather Fix",
+  "key.woldsvaults.open_wolds_vaults_config": "Open Wold's Vaults Config Screen",
   "the_vault.gear_modification.add_unusual_modifier.description": "Add unusual modifier",
   "the_vault.gear_modification.add_unusual_modifier.full": "You cannot add more unusual modifiers to this gear piece",
   "the_vault.gear_modification.add_unusual_modifier.no_modifiers": "No additional modifiers available",
