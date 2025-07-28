@@ -3,13 +3,17 @@ package xyz.iwolfking.woldsvaults.expertises;
 import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.net.BitBuffer;
+import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
+import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.skill.base.LearnableSkill;
-import iskallia.vault.skill.expertise.type.DivineExpertise;
+import iskallia.vault.skill.base.SkillContext;
+import iskallia.vault.skill.talent.GearAttributeSkill;
 import net.minecraft.nbt.CompoundTag;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
-public class BlessedExpertise extends LearnableSkill {
+public class BlessedExpertise extends LearnableSkill implements GearAttributeSkill {
     private float affinityIncrease;
 
     public void writeBits(BitBuffer buffer) {
@@ -19,7 +23,7 @@ public class BlessedExpertise extends LearnableSkill {
 
     public void readBits(BitBuffer buffer) {
         super.readBits(buffer);
-        this.affinityIncrease = (Float)Adapters.FLOAT.readBits(buffer).orElseThrow();
+        this.affinityIncrease = Adapters.FLOAT.readBits(buffer).orElseThrow();
     }
 
     public Optional<CompoundTag> writeNbt() {
@@ -31,7 +35,7 @@ public class BlessedExpertise extends LearnableSkill {
 
     public void readNbt(CompoundTag nbt) {
         super.readNbt(nbt);
-        this.affinityIncrease = (Float)Adapters.FLOAT.readNbt(nbt.get("affinityIncrease")).orElseThrow();
+        this.affinityIncrease = Adapters.FLOAT.readNbt(nbt.get("affinityIncrease")).orElseThrow();
     }
 
     public Optional<JsonObject> writeJson() {
@@ -43,10 +47,16 @@ public class BlessedExpertise extends LearnableSkill {
 
     public void readJson(JsonObject json) {
         super.readJson(json);
-        this.affinityIncrease = (Float)Adapters.FLOAT.readJson(json.get("affinityIncrease")).orElseThrow();
+        this.affinityIncrease = Adapters.FLOAT.readJson(json.get("affinityIncrease")).orElseThrow();
     }
 
-    public float getAffinityIncrease() {
-        return this.affinityIncrease;
+    @Override
+    public Stream<VaultGearAttributeInstance<?>> getGearAttributes(SkillContext skillContext) {
+        return Stream.of(
+                new VaultGearAttributeInstance<>(ModGearAttributes.IDONA_AFFINITY, affinityIncrease),
+                new VaultGearAttributeInstance<>(ModGearAttributes.TENOS_AFFINITY, affinityIncrease),
+                new VaultGearAttributeInstance<>(ModGearAttributes.VELARA_AFFINITY, affinityIncrease),
+                new VaultGearAttributeInstance<>(ModGearAttributes.WENDARR_AFFINITY, affinityIncrease)
+        );
     }
 }
