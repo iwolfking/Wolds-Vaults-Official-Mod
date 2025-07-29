@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 public class ModLanguageProvider extends LanguageProvider {
 
@@ -290,5 +291,6 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.the_vault.block_gem_wutodie_slab", "Wutodie Slab");
         add("block.the_vault.block_gem_wutodie_wall", "Wutodie Wall");
         add("block.the_vault.block_gem_wutodie_stairs", "Wutodie Stairs");
+        add("item.woldsvaults.crystal_seal_alchemy", "Seal of the Alchemist");
     }
 }

@@ -48,6 +48,7 @@ public class ModItems {
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_ZEALOT;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_WARRIOR;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_CORRUPT;
+    public static ItemVaultCrystalSeal CRYSTAL_SEAL_ALCHEMY;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD;
 
 
@@ -218,6 +219,7 @@ public class ModItems {
         registry.register(CRYSTAL_SEAL_DOOMSAYER);
         registry.register(CRYSTAL_SEAL_WARRIOR);
         registry.register(CRYSTAL_SEAL_CORRUPT);
+        registry.register(CRYSTAL_SEAL_ALCHEMY);
         registry.register(CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD);
         registry.register(BATTLESTAFF);
         registry.register(TRIDENT);
@@ -354,6 +356,7 @@ public class ModItems {
         CRYSTAL_SEAL_ZEALOT = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_zealot"));
         CRYSTAL_SEAL_WARRIOR = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_warrior"));
         CRYSTAL_SEAL_CORRUPT = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_corrupt"));
+        CRYSTAL_SEAL_ALCHEMY = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_alchemy"));
         CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_raid_rock_infinite_hard"));
         BATTLESTAFF =  new VaultBattleStaffItem(VaultMod.id("battlestaff"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
         TRIDENT = new VaultTridentItem(VaultMod.id("trident"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
