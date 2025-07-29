@@ -170,7 +170,7 @@ public class BrewingAltar extends Block implements EntityBlock {
                 );
                 return InteractionResult.SUCCESS;
             }
-        } else if (heldItem.getItem() instanceof CatalystItem) {
+        } else if (heldItem.getItem() instanceof CatalystItem && isMatchingVault.get()) {
             ItemStack singleItem = heldItem.copy();
             singleItem.setCount(1);
 
