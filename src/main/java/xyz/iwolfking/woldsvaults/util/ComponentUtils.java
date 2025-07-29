@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.util;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import iskallia.vault.client.util.ClientScheduler;
 import iskallia.vault.util.TextComponentUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
@@ -134,8 +136,7 @@ public class ComponentUtils {
         String text = base.getString();
 
         MutableComponent result = new TextComponent("");
-
-        float time = (float) Minecraft.getInstance().level.getGameTime();
+        float time = ClientScheduler.INSTANCE.getTick();
 
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
