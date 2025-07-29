@@ -43,7 +43,7 @@ public class AlchemyCrystalObjective extends CrystalObjective {
 
             objectives.add(AlchemyObjective.of(this.objectiveProbability, level, requiredProgress)
                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.ELIXIR /* TODO */ , "enchanted_elixir", level, true))
-                    .add(VictoryObjective.of(500)));
+                    .add(VictoryObjective.of(300)));
 
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
