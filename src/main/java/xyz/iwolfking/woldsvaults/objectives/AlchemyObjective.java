@@ -284,9 +284,6 @@ public class AlchemyObjective extends Objective {
 
         BrewingAltarTileEntity.PercentageResult progressIncrease = data.getEntity().getProgressIncrease();
 
-
-
-
         List<AlchemyIngredientItem> effectIngredients = data.getIngredients().stream()
                 .map(ItemStack::getItem)
                 .filter(item -> item instanceof AlchemyIngredientItem)
@@ -316,7 +313,7 @@ public class AlchemyObjective extends Objective {
         }
 
 
-        AlchemyIngredientItem item = effectIngredients.get(world.random.nextInt(effectIngredients.size() - 1));
+        AlchemyIngredientItem item = effectIngredients.get(world.random.nextInt(effectIngredients.size()));
 
         List<ResourceLocation> modifiers = new ArrayList<>();
         switch (item.getType()) {
@@ -389,7 +386,4 @@ public class AlchemyObjective extends Objective {
             );
         }
     }
-
-
-    //todo -> iscompleted mehtod bnecause im supid
 }
