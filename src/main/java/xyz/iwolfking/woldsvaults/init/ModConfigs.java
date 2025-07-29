@@ -51,6 +51,7 @@ public class ModConfigs {
     public static VaultGearRarityColorConfig VAULT_GEAR_RARITY_COLOR_CONFIG = new VaultGearRarityColorConfig();
     public static TrinketPouchConfig TRINKET_POUCH = new TrinketPouchConfig();
     public static RecipeUnlocksConfig RECIPE_UNLOCKS = new RecipeUnlocksConfig();
+    public static ResearchExclusionConfig RESEARCH_EXCLUSIONS = new ResearchExclusionConfig();
 
     public static void preregister() {
         VAULT_GEAR_RARITY_COLOR_CONFIG = new VaultGearRarityColorConfig().readConfig();
@@ -90,5 +91,6 @@ public class ModConfigs {
         TRINKET_POUCH = new TrinketPouchConfig().readConfig();
         RECIPE_UNLOCKS = new RecipeUnlocksConfig().readConfig();
         WEAVING_RECIPES_CONFIG = new WeavingRecipesConfig().readConfig();
+        RESEARCH_EXCLUSIONS = new ResearchExclusionConfig().readConfig();
     }
 }

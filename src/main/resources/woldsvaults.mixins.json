@@ -162,6 +162,7 @@
     "vaulthunters.custom.MixinPlayerVaultStats",
     "vaulthunters.custom.MixinPlayerVaultStatsData",
     "vaulthunters.custom.MixinPylonBlock",
+    "vaulthunters.custom.MixinResearchTree",
     "vaulthunters.custom.MixinRewardConfig",
     "vaulthunters.custom.MixinRoyaleDraftContainer",
     "vaulthunters.custom.MixinRoyaleDrafterControllerTileEntity",
