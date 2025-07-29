@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
 import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
@@ -82,7 +83,7 @@ public abstract class MixinRunner extends Listener {
         this.getPlayer().ifPresent(player ->  {
             for(InventoryUtil.ItemAccess items : InventoryUtil.findAllItems(player)) {
                 ItemStack stack = items.getStack();
-                if (stack.getItem() instanceof AlchemyIngredientItem) {
+                if (stack.getItem() instanceof AlchemyIngredientItem || stack.getItem() instanceof CatalystItem) {
                     items.setStack(ItemStack.EMPTY);
                 }
             }
