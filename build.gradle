@@ -254,6 +254,7 @@ dependencies {
     implementation fg.deobf("curse.maven:mekanism-268560:3875976")
     implementation fg.deobf("curse.maven:dungeons-libraries-550941:4363207")
     implementation fg.deobf("curse.maven:configured-457570:4462832")
+    implementation fg.deobf("curse.maven:effortless-building-302113:4369816")
     compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6803436")
     implementation fg.deobf("curse.maven:vaultmapper-1099126:6627077")
     compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061

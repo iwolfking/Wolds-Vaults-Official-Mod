@@ -38,6 +38,12 @@ public class WoldMixinCanceller implements MixinCanceller {
             }
         }
 
+        if(LoadingModList.get().getModFileById("puzzleslib") != null){
+            if(s.equals("fuzs.puzzleslib.mixin.client.MinecraftForgeMixin")) {
+                return true;
+            }
+        }
+
         return false;
     }
 }
