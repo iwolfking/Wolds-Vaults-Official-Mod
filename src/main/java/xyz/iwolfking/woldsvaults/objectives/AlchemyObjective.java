@@ -16,6 +16,7 @@ import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.Objective;
@@ -41,6 +42,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vaultevents.BrewingAltarBrewEvent;
@@ -154,14 +158,12 @@ public class AlchemyObjective extends Objective {
         AlchemyTasks.initServer(world, vault, this, config);
 
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this,
-                (data) -> this.ifPresent(CorruptedObjective.OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability))
+                (data) -> this.ifPresent(OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability))
         );
 
         CommonEvents.ENTITY_DROPS.register(this, (data) -> {
-            Entity entity = data.getEntity();
-            if (ChampionLogic.isChampion(entity) && !entity.getTags().contains(ChampionLogic.NO_DROPS) && data.getSource().getEntity() instanceof ServerPlayer) {
-                data.getDrops().add(new ItemEntity(entity.getLevel(), entity.getX(), entity.getY(), entity.getZ(), CatalystItem.createRandomCatalyst(vault, world.getRandom())));
-            }
+            handleChampionDeath(data, vault, world);
+
         });
 
         WoldCommonEvents.BREWING_ALTAR_BREW_EVENT.register(this,
@@ -266,7 +268,20 @@ public class AlchemyObjective extends Objective {
         return FIELDS;
     }
 
+    private void handleChampionDeath(LivingDropsEvent event, Vault vault, VirtualWorld world) {
+        if (VaultUtils.getVault(event.getEntity().getLevel()).isEmpty()) return;
+        if (!VaultUtils.getVault(event.getEntity().getLevel()).get().equals(vault)) return;
+
+        Entity entity = event.getEntity();
+        if (ChampionLogic.isChampion(entity) && !entity.getTags().contains(ChampionLogic.NO_DROPS) && event.getSource().getEntity() instanceof ServerPlayer && entity.level.random.nextFloat() >= 0.5F) {
+            event.getDrops().add(new ItemEntity(entity.getLevel(), entity.getX(), entity.getY(), entity.getZ(), CatalystItem.createRandomCatalyst(vault, world.getRandom())));
+        }
+    }
+
     private void handleBrewEvent(BrewingAltarBrewEvent.Data data, Vault vault, VirtualWorld world) {
+        if (VaultUtils.getVault(data.getWorld()).isEmpty()) return;
+        if (!VaultUtils.getVault(data.getWorld()).get().equals(vault)) return;
+
         BrewingAltarTileEntity.PercentageResult progressIncrease = data.getEntity().getProgressIncrease();
 
 
