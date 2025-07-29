@@ -63,7 +63,7 @@ public class AlchemyObjective extends Objective {
     private static final FieldKey<Float> REQUIRED_PROGRESS = FieldKey.of("required_progress", Float.class).with(Version.v1_31, Adapters.FLOAT, DISK.all().or(CLIENT.all())).register(FIELDS);
 
 
-    private static final FieldKey<Integer> VAULT_LEVEL = FieldKey.of("vault_level", Integer.class)
+    public static final FieldKey<Integer> VAULT_LEVEL = FieldKey.of("vault_level", Integer.class)
             .with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all()))
             .register(FIELDS); // yeah right why would we need the VAULT LEVEL on a client, thats useless, im not upset
 
@@ -254,18 +254,9 @@ public class AlchemyObjective extends Objective {
     }
 
     private void handleBrewEvent(BrewingAltarBrewEvent.Data data, Vault vault, VirtualWorld world) {
-        float percentage = data.getEntity().getProgressIncrease().isRange() ?
-                world.getRandom().nextFloat(data.getEntity().getProgressIncrease().min(), data.getEntity().getProgressIncrease().max()) :
-                data.getEntity().getProgressIncrease().min();
 
-        String formatted = String.format("%.1f%%", percentage * 100);
 
-        MutableComponent brewName = AlchemyIngredientItem.AlchemyIngredientType.generatePotionNameComponent(AlchemyIngredientItem.AlchemyIngredientType.getTypes(data.getIngredients()));
-        MutableComponent cmp = new TextComponent("Created a ").withStyle(Style.EMPTY.withColor(0xF0E68C))
-                .append(brewName)
-                .append(new TextComponent(" and progressed the vault by ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
-                .append(new TextComponent(formatted).withStyle(Style.EMPTY.withColor(percentage >= 0 ? 0x00ff04 : 0xDC143C)));
-        MessageFunctions.broadcastMessage(world, cmp);
+
 
 
         List<AlchemyIngredientItem> effectIngredients = data.getIngredients().stream()
@@ -297,8 +288,22 @@ public class AlchemyObjective extends Objective {
             }
         }
 
-        CatalystItem.CatalystType.STABILIZING.applyEffect(this, config, data, toAddToVault, modifiers);
+        CatalystItem.CatalystType.STABILIZING.applyEffect(world, this, config, data, toAddToVault, modifiers);
         // apply catalyst effects
+
+
+        float percentage = data.getEntity().getProgressIncrease().isRange() ?
+                world.getRandom().nextFloat(data.getEntity().getProgressIncrease().min(), data.getEntity().getProgressIncrease().max()) :
+                data.getEntity().getProgressIncrease().min();
+
+        String formatted = String.format("%.1f%%", percentage * 100);
+        MutableComponent brewName = AlchemyIngredientItem.AlchemyIngredientType.generatePotionNameComponent(AlchemyIngredientItem.AlchemyIngredientType.getTypes(data.getIngredients()));
+        MutableComponent cmp = new TextComponent("Created a ").withStyle(Style.EMPTY.withColor(0xF0E68C))
+                .append(brewName)
+                .append(new TextComponent(" and progressed the vault by ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
+                .append(new TextComponent(formatted).withStyle(Style.EMPTY.withColor(percentage >= 0 ? 0x00ff04 : 0xDC143C)));
+        MessageFunctions.broadcastMessage(world, cmp);
+
 
         for (Map.Entry<VaultModifier<?>, Integer> entry : toAddToVault.entrySet()) {
             vault.get(Vault.MODIFIERS).addModifier(entry.getKey(), entry.getValue(), true, random);

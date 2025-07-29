@@ -26,6 +26,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.system.CallbackI;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
@@ -33,11 +35,14 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BrewingAltarTileEntity extends BlockEntity {
     private final NonNullList<ItemStack> ingredients = NonNullList.withSize(3, new ItemStack(ModItems.INGREDIENT_TEMPLATE));
+    private ItemStack catalyst = new ItemStack(ModItems.INGREDIENT_TEMPLATE); // If ingredient template -> then null
 
     private boolean brewing = false;
     private int cookingTimer = -1;
@@ -58,6 +63,10 @@ public class BrewingAltarTileEntity extends BlockEntity {
         pTag.putFloat("ProgressMax", progressIncrease.max());
         pTag.putBoolean("Brewing", brewing);
         pTag.putInt("CookingTimer", cookingTimer);
+
+        CompoundTag catalystTag = new CompoundTag();
+        catalyst.save(catalystTag);
+        pTag.put("Catalyst", catalystTag);
     }
 
     @Override
@@ -73,6 +82,12 @@ public class BrewingAltarTileEntity extends BlockEntity {
 
         brewing = pTag.getBoolean("Brewing");
         cookingTimer = pTag.getInt("CookingTimer");
+        if (pTag.get("Catalyst") instanceof CompoundTag t) {
+            catalyst = ItemStack.of(t);
+        } else {
+            WoldsVaults.LOGGER.error("Catalyst Tag is not of type CompoundTag in BrewingAltarTileEntity. Bad things are happening");
+        }
+
     }
 
 
@@ -127,6 +142,37 @@ public class BrewingAltarTileEntity extends BlockEntity {
 
     public boolean hasExpired() {
         return hasExpired;
+    }
+
+    public ItemStack getCatalyst() {
+        return catalyst;
+    }
+
+    public Optional<CatalystItem.CatalystType> getCatalystType() {
+        if (getCatalyst().getItem() instanceof CatalystItem item) {
+            return Optional.of(item.getType());
+        }
+        return Optional.empty();
+    }
+
+    public void setCatalyst(ItemStack catalyst) {
+            this.catalyst = catalyst;
+            sendUpdates();
+    }
+
+    public boolean addCatalyst(ItemStack catalyst) {
+        if (getCatalyst().getItem() == ModItems.INGREDIENT_TEMPLATE) {
+            setCatalyst(catalyst);
+            return true; // We updated the item.
+        }
+
+        return false; // There is already a Catalyst in the altar!
+    }
+
+    public ItemStack removeCatalyst() {
+        ItemStack catalyst = getCatalyst().copy();
+        setCatalyst(new ItemStack(ModItems.INGREDIENT_TEMPLATE));
+        return catalyst;
     }
 
     // this also returns the filler items
@@ -302,6 +348,11 @@ public class BrewingAltarTileEntity extends BlockEntity {
 
     public PercentageResult getProgressIncrease() {
         return progressIncrease;
+    }
+
+    public void setProgressIncrease(PercentageResult progressIncrease) {
+        this.progressIncrease = progressIncrease;
+        sendUpdates();
     }
 
     public record PercentageResult(float min, float max) {

@@ -36,6 +36,7 @@ import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 import xyz.iwolfking.woldsvaults.util.VoxelShapeUtils;
 
@@ -75,6 +76,36 @@ public class BrewingAltar extends Block implements EntityBlock {
         if (pState.getValue(USES) == 0) return InteractionResult.PASS;
 
         ItemStack heldItem = pPlayer.getItemInHand(pHand);
+
+        if (pPlayer.isCrouching() && pHand != InteractionHand.OFF_HAND && (heldItem.isEmpty() || tileEntity.getCatalyst().sameItem(heldItem))) {
+            ItemStack cata = tileEntity.removeCatalyst();
+            if (cata.isEmpty()) {
+                return InteractionResult.PASS;
+            }
+
+            if (cata.sameItem(heldItem) && ItemStack.tagMatches(cata, heldItem)) {
+                if ((cata.getCount() + heldItem.getCount()) > 64) {
+                    int amountToAdd = 64 - cata.getCount();
+                    int overflow = heldItem.getCount() - amountToAdd;
+
+                    cata.setCount(64);
+                    ItemStack overflowStack = heldItem.copy();
+                    overflowStack.setCount(overflow);
+                    boolean added = pPlayer.getInventory().add(overflowStack);
+
+                    if (!added) pPlayer.drop(overflowStack, false);
+
+                } else {
+                    cata.grow(heldItem.getCount());
+                }
+                pPlayer.setItemInHand(pHand, cata);
+            } else {
+                pPlayer.setItemInHand(pHand, cata);
+            }
+
+            pLevel.playSound(null, pPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+        }
 
         if (pPlayer.isCrouching() && pHand != InteractionHand.OFF_HAND && (heldItem.isEmpty() || tileEntity.getLastIngredient().sameItem(heldItem))) {
             ItemStack stack = tileEntity.removeLastIngredient();
@@ -133,6 +164,16 @@ public class BrewingAltar extends Block implements EntityBlock {
                         ),
                         pLevel
                 );
+                return InteractionResult.SUCCESS;
+            }
+        } else if (heldItem.getItem() instanceof CatalystItem) {
+            ItemStack singleItem = heldItem.copy();
+            singleItem.setCount(1);
+
+            if (tileEntity.addCatalyst(singleItem)) {
+                heldItem.shrink(1);
+
+                pLevel.playSound(null, pPos, SoundEvents.CONDUIT_ACTIVATE, SoundSource.BLOCKS, 0.8F, 1F + (pLevel.getRandom().nextFloat()));
                 return InteractionResult.SUCCESS;
             }
         }

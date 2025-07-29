@@ -66,6 +66,18 @@ public class BrewingAltarRenderer implements BlockEntityRenderer<BrewingAltarTil
         renderPotion(level, pBlockEntity, pPoseStack, pBufferSource, pPackedOverlay, AlchemyIngredientItem.filterForAlchemyIngredients(items));
         renderFloatingItems(pPoseStack, pBufferSource, pPackedOverlay, items.size(), items::get,
                 i -> ((float) i / items.size()) * 2 * Math.PI + (Math.PI * (System.currentTimeMillis() / 3000D) % (2 * Math.PI)));
+        renderCatalysts(pPoseStack, pBufferSource, pPackedOverlay, pBlockEntity.getCatalyst());
+    }
+
+    private void renderCatalysts(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBufferSource, int pPackedOverlay, ItemStack catalyst) {
+        if (catalyst.getItem() == ModItems.INGREDIENT_TEMPLATE) return;
+
+        pPoseStack.pushPose();
+        pPoseStack.translate(0.5, 3, 0.5);
+
+        BakedModel ibakedmodel = mc.getItemRenderer().getModel(catalyst, null, null, 0);
+        mc.getItemRenderer().render(catalyst, ItemTransforms.TransformType.GROUND, true, pPoseStack, pBufferSource, 0xFFFFFF, pPackedOverlay, ibakedmodel);
+        pPoseStack.popPose();
     }
 
     private void renderPotion(Level level, BrewingAltarTileEntity pBlockEntity, PoseStack poseStack, MultiBufferSource buffer, int overlay, List<ItemStack> items) {

@@ -1,12 +1,13 @@
 package xyz.iwolfking.woldsvaults.items.alchemy;
 
 import iskallia.vault.core.random.JavaRandom;
+import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
-import iskallia.vault.init.ModConfigs;
+import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.item.BasicItem;
-import iskallia.vault.util.MiscUtils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +16,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.system.CallbackI;
+import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
+import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vaultevents.BrewingAltarBrewEvent;
 import xyz.iwolfking.woldsvaults.objectives.AlchemyObjective;
@@ -92,17 +94,15 @@ public class CatalystItem extends BasicItem {
 
                 }
 
-                case TEMPORAL -> {
-                    tooltip.add(
-                            new TextComponent("- ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
-                                    .append(new TextComponent("Protects ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
-                                    .append(new TextComponent("the ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
-                                    .append(new TextComponent("Brewing Altar ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
-                                    .append(new TextComponent("from ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
-                                    .append(new TextComponent("decay").withStyle(Style.EMPTY.withColor(0xFA5F69)))
-                                    .append(new TextComponent(". ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
-                    );
-                }
+                case TEMPORAL -> tooltip.add(
+                        new TextComponent("- ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
+                                .append(new TextComponent("Protects ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
+                                .append(new TextComponent("the ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
+                                .append(new TextComponent("Brewing Altar ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
+                                .append(new TextComponent("from ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
+                                .append(new TextComponent("decay").withStyle(Style.EMPTY.withColor(0xFA5F69)))
+                                .append(new TextComponent(". ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
+                );
                 case UNSTABLE -> tooltip.add(
                         new TextComponent("- ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
                                 .append(new TextComponent("Causes ").withStyle(Style.EMPTY))
@@ -111,7 +111,7 @@ public class CatalystItem extends BasicItem {
                                 .append(new TextComponent("randomize").withStyle(Style.EMPTY.withColor(0xF0E68C)))
                                 .append(new TextComponent(".").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
                 );
-        };
+        }
 
 
 
@@ -124,53 +124,119 @@ public class CatalystItem extends BasicItem {
     public enum CatalystType {
         STABILIZING {
             @Override
-            public void applyEffect(AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
-                //if (JavaRandom.ofNanoTime().nextBoolean()) {
-                    boolean hasNegative = chosenPools.stream().anyMatch(pool ->
-                            pool.equals(cfg.getNegativeModifierPool()) || pool.equals(cfg.getStrongNegativeModifierPool()));
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+                if (JavaRandom.ofNanoTime().nextBoolean()) {
+                    ResourceLocation removedNegativePool = null;
 
-                    if (hasNegative && !modifierMap.isEmpty()) {
-                        Iterator<Map.Entry<VaultModifier<?>, Integer>> iterator = modifierMap.entrySet().iterator();
-                        if (iterator.hasNext()) {
-                            iterator.next();
-                            System.out.println("removing: " + iterator);
-                            iterator.remove();
-
+                    Iterator<ResourceLocation> poolIterator = chosenPools.iterator();
+                    while (poolIterator.hasNext()) {
+                        ResourceLocation pool = poolIterator.next();
+                        if (pool.equals(cfg.getNegativeModifierPool()) || pool.equals(cfg.getStrongNegativeModifierPool())) {
+                            removedNegativePool = pool;
+                            poolIterator.remove(); // safely remove from list during iteration
+                            break; // only remove the first matching one
                         }
                     }
-                //}
+
+                    if (removedNegativePool != null && !modifierMap.isEmpty()) {
+                        modifierMap.clear();
+                        RandomSource random = JavaRandom.ofNanoTime();
+                        for (ResourceLocation mod : chosenPools) {
+                            for(VaultModifier<?> modifier : iskallia.vault.init.ModConfigs.VAULT_MODIFIER_POOLS.getRandom(mod, obj.get(AlchemyObjective.VAULT_LEVEL), random)) {
+                                modifierMap.put(modifier, 1);
+                            }
+                        }
+                        world.players().forEach(player -> player.sendMessage(
+                                new TextComponent("The Potion has been cleansed by the Catalyst.").withStyle(Style.EMPTY.withColor(0xF0E68C)),
+                                Util.NIL_UUID
+                        ));
+                    }
+
+
+                } else {
+                    world.players().forEach(player -> player.sendMessage(
+                            new TextComponent("The Catalyst fails.").withStyle(ChatFormatting.RED),
+                            Util.NIL_UUID
+                    ));
+                }
             }
         },
         AMPLIFYING {
             @Override
-            public void applyEffect(AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+                float boostFactor = 0.25f + JavaRandom.ofNanoTime().nextFloat() * 0.5f; // 25% to 75%
 
-
+                data.getEntity().setProgressIncrease(new BrewingAltarTileEntity.PercentageResult(
+                        data.getEntity().getProgressIncrease().min() * boostFactor,
+                        data.getEntity().getProgressIncrease().max() * boostFactor
+                ));
+                String formatted = String.format("%.1f%%", boostFactor * 100);
+                world.players().forEach(player -> player.sendMessage(
+                        new TextComponent("The potion has been amplified ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
+                                .append(new TextComponent("by " + formatted + " ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
+                                .append(new TextComponent("with the Catalyst.").withStyle(Style.EMPTY.withColor(0xFFFFFF))),
+                        Util.NIL_UUID
+                ));
             }
         },
         FOCUSING {
             @Override
-            public void applyEffect(AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+                boolean allSame = data.getIngredients().stream()
+                        .map(ItemStack::getItem)
+                        .distinct()
+                        .count() == 1;
 
+                if (allSame) {
+                    modifierMap.replaceAll((mod, val) -> val * 2);
+                    world.players().forEach(player -> player.sendMessage(
+                            new TextComponent("The modifiers have been doubled by the Catalyst").withStyle(Style.EMPTY.withColor(0xFFFFFF)),
+                            Util.NIL_UUID
+                    ));
+                }
 
             }
         },
         TEMPORAL {
             @Override
-            public void applyEffect(AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
-
-
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+                data.getEntity().getBlockState().setValue(BrewingAltar.USES, data.getEntity().getBlockState().getValue(BrewingAltar.USES) + 1);
+                world.players().forEach(player -> player.sendMessage(
+                        new TextComponent("The altar remains stable.").withStyle(Style.EMPTY.withColor(0xFFFFFF)),
+                        Util.NIL_UUID
+                ));
             }
         },
         UNSTABLE {
             @Override
-            public void applyEffect(AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+                modifierMap.clear();
 
+                List<ResourceLocation> allPools = List.of(
+                        cfg.getNegativeModifierPool(),
+                        cfg.getStrongNegativeModifierPool(),
+                        cfg.getPositiveModifierPool(),
+                        cfg.getStrongPositiveModifierPool()
+                );
 
+                RandomSource random = JavaRandom.ofNanoTime();
+                for (int i = 0; i < 2 + random.nextInt(3); i++) { // Add 2–4 random modifiers
+                    ResourceLocation pool = allPools.get(random.nextInt(allPools.size()));
+                    List<VaultModifier<?>> mods = iskallia.vault.init.ModConfigs.VAULT_MODIFIER_POOLS.getRandom(pool, obj.get(AlchemyObjective.VAULT_LEVEL), random);
+                    if (!mods.isEmpty()) {
+                        VaultModifier<?> picked = mods.get(random.nextInt(mods.size()));
+                        modifierMap.put(picked, 1);
+                    }
+                }
+                world.players().forEach(player -> player.sendMessage(
+                        new TextComponent("The modifiers have been randomized by the Catalyst").withStyle(Style.EMPTY.withColor(0xFFFFFF)),
+                        Util.NIL_UUID
+                ));
             }
         };
 
         public abstract void applyEffect(
+                VirtualWorld world,
                 AlchemyObjective obj,
                 AlchemyObjectiveConfig.Entry cfg,
                 BrewingAltarBrewEvent.Data data,
