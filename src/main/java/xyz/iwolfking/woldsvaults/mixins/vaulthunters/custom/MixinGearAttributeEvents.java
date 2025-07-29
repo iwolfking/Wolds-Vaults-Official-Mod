@@ -51,7 +51,7 @@ import java.util.List;
 @Mixin (value = GearAttributeEvents.class, remap = false)
 public class MixinGearAttributeEvents {
 
-    @Redirect(method = "lambda$triggerEffectCloudsActive$16", at = @At(value = "INVOKE", target = "Liskallia/vault/util/Entropy;canExecute(Lnet/minecraft/world/entity/Entity;Liskallia/vault/util/Entropy$Stat;F)Z"))
+    @Redirect(method = "lambda$triggerEffectCloudsActive$18", at = @At(value = "INVOKE", target = "Liskallia/vault/util/Entropy;canExecute(Lnet/minecraft/world/entity/Entity;Liskallia/vault/util/Entropy$Stat;F)Z"))
     private static boolean addEffectCloudChanceFromAttributeActive(Entity entity, Entropy.Stat stat, float chance) {
         if(entity instanceof LivingEntity living && living instanceof Player) {
             float increasedEffectCloudChance = AttributeSnapshotHelper.getInstance().getSnapshot(living).getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.INCREASED_EFFECT_CLOUD_CHANCE, VaultGearAttributeTypeMerger.floatSum());
@@ -61,7 +61,7 @@ public class MixinGearAttributeEvents {
         return Entropy.canExecute(entity, stat, chance);
     }
 
-    @Redirect(method = "lambda$triggerEffectCloudsPassive$17", at = @At(value = "INVOKE", target = "Liskallia/vault/util/Entropy;canExecute(Lnet/minecraft/world/entity/Entity;Liskallia/vault/util/Entropy$Stat;F)Z"))
+    @Redirect(method = "lambda$triggerEffectCloudsPassive$19", at = @At(value = "INVOKE", target = "Liskallia/vault/util/Entropy;canExecute(Lnet/minecraft/world/entity/Entity;Liskallia/vault/util/Entropy$Stat;F)Z"))
     private static boolean addEffectCloudChanceFromAttributePassive(Entity entity, Entropy.Stat stat, float chance) {
         if(entity instanceof LivingEntity living && living instanceof Player) {
             float increasedEffectCloudChance = AttributeSnapshotHelper.getInstance().getSnapshot(living).getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.INCREASED_EFFECT_CLOUD_CHANCE, VaultGearAttributeTypeMerger.floatSum());
@@ -154,8 +154,8 @@ public class MixinGearAttributeEvents {
      * @author aida
      * @reason chain falloff reduction stat
      */
-    @Inject(method = "lambda$triggerChainAttack$11", at = @At("HEAD"), cancellable = true)
-    private static void lambda$triggerChainAttack$10(Level world, LivingEntity attacked, float chainRange, LivingEntity attacker, LivingHurtEvent event, int chainCount, CallbackInfo ci) {
+    @Inject(method = "lambda$triggerChainAttack$13", at = @At("HEAD"), cancellable = true)
+    private static void lambda$triggerChainAttack$10(Level world, LivingEntity attacked, float chainRange, LivingEntity attacker, LivingHurtEvent event, int chainCount, float finalChainStep, CallbackInfo ci) {
 
         List<Mob> nearby = EntityHelper.getNearby(world, attacked.blockPosition(), chainRange, Mob.class);
         List<Vec3> nearbyPos = new ArrayList<>();

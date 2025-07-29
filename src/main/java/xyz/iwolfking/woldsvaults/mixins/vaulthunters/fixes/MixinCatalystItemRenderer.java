@@ -1,8 +1,8 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import iskallia.vault.item.tool.CatalystItemRenderer;
-import iskallia.vault.item.tool.SpecialItemRenderer;
+import iskallia.vault.item.render.CatalystItemRenderer;
+import iskallia.vault.item.render.core.SpecialItemRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.resources.model.ModelResourceLocation;

@@ -1,21 +1,23 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import iskallia.vault.gear.GearRollHelper;
-import iskallia.vault.gear.VaultGearLegendaryHelper;
-import iskallia.vault.gear.VaultGearModifierHelper;
+import iskallia.vault.config.gear.VaultEtchingConfig;
+import iskallia.vault.gear.*;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.modification.GearModification;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.item.gear.CharmItem;
+import iskallia.vault.item.gear.EtchingItem;
 import iskallia.vault.item.gear.VaultArmorItem;
 import iskallia.vault.item.tool.JewelItem;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.ExpertiseTree;
 import iskallia.vault.world.data.PlayerExpertisesData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -32,8 +34,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.helper.WoldGearModifierHelper;
 import xyz.iwolfking.woldsvaults.expertises.CraftsmanExpertise;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Mixin(value = GearRollHelper.class, remap = false)
 public class MixinGearRollHelper {
@@ -71,10 +75,10 @@ public class MixinGearRollHelper {
             }
         }
 
-        //Generate an etching for the item if it has the Is Etched modifier and is armor.
-        if(woldsVaults$canGenerateEtching(player, data, stack)) {
-            WoldGearModifierHelper.addRandomEtching(stack);
+        if(data.getFirstValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.IS_ETCHED).orElse(false) && stack.getItem() instanceof VaultGearItem gearItem) {
+            //woldsvaults$addRandomEtchingEntry(data, gearItem, stack);
         }
+
 
 
         //Randomly add a corrupted implicit
@@ -124,6 +128,46 @@ public class MixinGearRollHelper {
         }
 
         return false;
+    }
 
+    @Unique
+    private static void woldsvaults$addRandomEtchingEntry(VaultGearData data, VaultGearItem gear, ItemStack gearStack) {
+        if(data.hasAttribute(ModGearAttributes.ETCHING) || !data.isModifiable() || data.getRarity().equals(VaultGearRarity.UNIQUE)) {
+            return;
+        }
+
+        ResourceLocation etchingId = woldsvaults$getRandomEtchingId();
+        VaultEtchingConfig.EtchingEntry etchingEntry = ModConfigs.ETCHINGS.getEtchingConfig(etchingId);
+        if(etchingEntry == null) {
+            return;
+        }
+
+        List<String> groups = etchingEntry.getTypeGroups();
+        if(!groups.isEmpty()) {
+            VaultGearType type = gear.getGearType(gearStack);
+            boolean allowed = groups.stream().anyMatch(g -> ModConfigs.ETCHINGS.getGroup(g).contains(type));
+            if(!allowed) {
+                woldsvaults$addRandomEtchingEntry(data, gear, gearStack);
+            }
+        }
+
+        ItemStack etchingStack = EtchingItem.create(etchingId, etchingEntry, new Random(), data.getItemLevel()).orElse(ItemStack.EMPTY);
+        if(etchingStack.isEmpty()) {
+            return;
+        }
+
+        VaultGearData etchingData = VaultGearData.read(etchingStack);
+
+        data.createOrReplaceAttributeValue(ModGearAttributes.ETCHING, etchingId);
+        etchingData.getModifiers(VaultGearModifier.AffixType.IMPLICIT).forEach(modifier -> data.addModifier(VaultGearModifier.AffixType.IMPLICIT, modifier));
+        data.write(gearStack);
+    }
+
+    @Unique
+    private static ResourceLocation woldsvaults$getRandomEtchingId() {
+        List<ResourceLocation> etchings = ModConfigs.ETCHINGS.getEtchingIds().stream().toList();
+        Random random = new Random();
+        int randomIndex = random.nextInt(etchings.size());
+        return etchings.get(randomIndex);
     }
 }

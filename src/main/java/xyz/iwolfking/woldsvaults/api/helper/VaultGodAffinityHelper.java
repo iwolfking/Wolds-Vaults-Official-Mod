@@ -30,16 +30,6 @@ public class VaultGodAffinityHelper {
         AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(entity);
         affinity += snapshot.getAttributeValue(GOD_TO_ATTRIBUTE.get(god), VaultGearAttributeTypeMerger.floatSum());
         affinity = CommonEvents.PLAYER_STAT.invoke(GOD_TO_STAT.get(god), entity, affinity).getValue();
-        if (entity instanceof ServerPlayer serverPlayer) {
-            ExpertiseTree expertises = PlayerExpertisesData.get(serverPlayer.getLevel()).getExpertises(serverPlayer);
-            float affinityIncrease = 0.0F;
-
-            for (BlessedExpertise expertise : expertises.getAll(BlessedExpertise.class, Skill::isUnlocked)) {
-                affinityIncrease += expertise.getAffinityIncrease();
-            }
-
-            affinity += affinityIncrease;
-        }
         System.out.println(affinity);
         return affinity;
     }

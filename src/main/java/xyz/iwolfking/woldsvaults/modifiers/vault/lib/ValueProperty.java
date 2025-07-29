@@ -15,22 +15,41 @@ public class ValueProperty {
     }
 
     public int apply(int value, ModifierContext context) {
-        return ((MixinModifierContextAccessor)context).woldsVaults_Dev$getValue().map((x) -> {
-            return (int)((double)x * this.value);
-        }).orElse(value);
+        if(((MixinModifierContextAccessor)context).woldsVaults_Dev$getValue().isPresent()) {
+            return ((MixinModifierContextAccessor)context).woldsVaults_Dev$getValue().map((x) -> {
+                return (int)((double)x * this.value);
+            }).orElse(value);
+        }
+
+        ((MixinModifierContextAccessor) context).woldsVaults_Dev$setValue((float) value);
+
+        return value;
     }
 
     public float apply(float value, ModifierContext context) {
-        return ((MixinModifierContextAccessor)context).woldsVaults_Dev$getValue().map((x) -> {
-            return (float)((double)x * this.value);
-        }).orElse(value);
+        if(((MixinModifierContextAccessor)context).woldsVaults_Dev$getValue().isPresent()) {
+            return ((MixinModifierContextAccessor)context).woldsVaults_Dev$getValue().map((x) -> {
+                return (float)((double)x * this.value);
+            }).orElse(value);
+        }
+
+        ((MixinModifierContextAccessor) context).woldsVaults_Dev$setValue(value);
+
+        return value;
     }
 
     public double apply(double value, ModifierContext context) {
-        return ((MixinModifierContextAccessor)context).woldsVaults_Dev$getValue().map((x) -> {
-            return (double)x * this.value;
-        }).orElse(value);
+        if (((MixinModifierContextAccessor) context).woldsVaults_Dev$getValue().isPresent()) {
+            return ((MixinModifierContextAccessor) context).woldsVaults_Dev$getValue().map((x) -> {
+                return (double) x * this.value;
+            }).orElse(value);
+        }
+
+        ((MixinModifierContextAccessor) context).woldsVaults_Dev$setValue((float) value);
+
+        return value;
     }
+
 
     public float getValue() {
         return value;

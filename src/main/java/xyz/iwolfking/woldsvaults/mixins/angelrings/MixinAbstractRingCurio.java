@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.theillusivec4.curios.api.SlotContext;
+import xyz.iwolfking.woldsvaults.init.ModGameRules;
+
 @Restriction(
         require = {
                 @Condition(type = Condition.Type.MOD, value = "angelring")
@@ -20,7 +22,7 @@ public abstract class MixinAbstractRingCurio {
 
     @Inject(method = "curioTick", at = @At("HEAD"), cancellable = true)
     public void curioTick(SlotContext slotContext, CallbackInfo ci) {
-        if(ClientVaults.getActive().isPresent() || ServerVaults.get(slotContext.entity().getLevel()).isPresent()) {
+        if(!slotContext.entity().getLevel().getGameRules().getBoolean(ModGameRules.ALLOW_FLIGHT_IN_VAULTS) && (ClientVaults.getActive().isPresent() || ServerVaults.get(slotContext.entity().getLevel()).isPresent())) {
             ci.cancel();
         }
     }

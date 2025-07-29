@@ -19,11 +19,7 @@ public class MixinInventoryHudRenderer {
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private static void cancelRenderWhenDisabled(PoseStack poseStack, CallbackInfo ci) {
-        if(!woldsvaults$initialized) {
-            woldsvaults$shouldShowHud = WoldsVaultsConfig.CLIENT.showVanillaVaultHud.get();
-        }
-
-        if(!woldsvaults$shouldShowHud) {
+        if(!WoldsVaultsConfig.CLIENT.showVanillaVaultHud.get()) {
             ci.cancel();
         }
     }

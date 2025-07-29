@@ -6,9 +6,11 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModKeybinds {
     public static KeyMapping isFeatherFixed;
+    public static KeyMapping openWoldsVaultsConfig;
 
     public static void registerKeyBinds() {
         isFeatherFixed = registerKeyMapping("is_feather_fixed", -1);
+        openWoldsVaultsConfig = registerKeyMapping("open_wolds_vaults_config", 127);
     }
 
     private static KeyMapping registerKeyMapping(String name, int keyCode) {

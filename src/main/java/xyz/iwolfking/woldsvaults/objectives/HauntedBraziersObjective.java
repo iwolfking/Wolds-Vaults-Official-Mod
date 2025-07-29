@@ -36,9 +36,9 @@ import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
 import iskallia.vault.init.ModNetwork;
 import iskallia.vault.init.ModSounds;
-import iskallia.vault.item.gear.DataInitializationItem;
-import iskallia.vault.item.gear.DataTransferItem;
-import iskallia.vault.item.gear.VaultLevelItem;
+import iskallia.vault.item.core.DataInitializationItem;
+import iskallia.vault.item.core.DataTransferItem;
+import iskallia.vault.item.core.VaultLevelItem;
 import iskallia.vault.network.message.MonolithIgniteMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -105,7 +105,7 @@ public class HauntedBraziersObjective extends MonolithObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault);
+        NormalizedHelper.handleAddingNormalizedToVault(vault, world);
 
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
             this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability));

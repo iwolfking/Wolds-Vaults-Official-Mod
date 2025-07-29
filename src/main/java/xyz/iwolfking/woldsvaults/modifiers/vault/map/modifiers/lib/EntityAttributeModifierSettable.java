@@ -119,7 +119,7 @@ public class EntityAttributeModifierSettable<P extends SettableValueVaultModifie
 
     public enum ModifierType {
         @SerializedName("max_health_additive")
-        MAX_HEALTH_ADDITIVE(List.of(new ResourceLocation("generic.max_health")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE),
+        MAX_HEALTH_ADDITIVE(List.of(new ResourceLocation("generic.max_health")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_INT),
         @SerializedName("max_health_additive_percentile")
         MAX_HEALTH_ADDITIVE_PERCENTILE(List.of(new ResourceLocation("generic.max_health")), AttributeModifier.Operation.MULTIPLY_BASE, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_PERCENTILE),
         @SerializedName("max_health_multiplicative_percentile")
@@ -166,6 +166,9 @@ public class EntityAttributeModifierSettable<P extends SettableValueVaultModifie
         }
 
         private static class Constants {
+            public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_ADDITIVE_INT = (t, p, s) -> {
+                return t.formatted(Mth.floor(Math.abs(p.getValue() * s)));
+            };
             public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_ADDITIVE = (t, p, s) -> {
                 return t.formatted(Mth.floor(Math.abs(p.getValue() * (double)s * 100.0)));
             };

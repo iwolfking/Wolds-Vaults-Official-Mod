@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "the_vault:block/block_gem_wutodie_slab"
+    },
+    "type=double": {
+      "model": "the_vault:block/block_gem_wutodie"
+    },
+    "type=top": {
+      "model": "the_vault:block/block_gem_wutodie_slab_top"
+    }
+  }
+}

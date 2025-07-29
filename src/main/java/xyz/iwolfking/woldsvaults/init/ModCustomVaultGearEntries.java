@@ -17,26 +17,12 @@ public class ModCustomVaultGearEntries {
     public static final CustomVaultGearRegistryEntry RANG = new CustomVaultGearRegistryEntry("rang", "Vaultarang", ModItems.RANG, Rangs.REGISTRY, CustomVaultGearModelRollRaritiesConfig.RANG_MODEL_ROLLS);
     public static final CustomVaultGearRegistryEntry MAP = new CustomVaultGearRegistryEntry("map", "Map", ModItems.MAP, Maps.REGISTRY, CustomVaultGearModelRollRaritiesConfig.MAP_MODEL_ROLLS);
     public static void registerGearEntries(RegistryEvent.Register<CustomVaultGearRegistryEntry> event) {
-        if(WoldsVaultsConfig.COMMON.enableVaultTrident.get()) {
-            event.getRegistry().register(TRIDENT);
-        }
-
-        if(WoldsVaultsConfig.COMMON.enableVaultBattlestaff.get()) {
-            event.getRegistry().register(BATTLESTAFF);
-        }
-
-        if(WoldsVaultsConfig.COMMON.enableVaultLootSack.get()) {
-            event.getRegistry().register(LOOT_SACK);
-        }
-
-        if(WoldsVaultsConfig.COMMON.enableVaultPlushie.get()) {
-            event.getRegistry().register(PLUSHIE);
-        }
-
+        event.getRegistry().register(TRIDENT);
+        event.getRegistry().register(BATTLESTAFF);
+        event.getRegistry().register(LOOT_SACK);
+        event.getRegistry().register(PLUSHIE);
         event.getRegistry().register(RANG);
         event.getRegistry().register(MAP);
-
         SortableVaultItems.addGear(ModItems.BATTLESTAFF, ModItems.TRIDENT, ModItems.PLUSHIE, ModItems.LOOT_SACK, ModItems.RANG);
-
     }
 }

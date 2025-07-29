@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ProductEntryAccessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -80,7 +81,11 @@ public class GenericLootableBoxCategory implements IRecipeCategory<GenericLootab
     @ParametersAreNonnullByDefault
     public void setRecipe(IRecipeLayoutBuilder builder, GenericLootableConfig recipe, IFocusGroup focuses) {
         List<ItemStack> itemList = new ArrayList<>();
-        recipe.POOL.forEach((productEntry, aDouble) -> itemList.add(productEntry.generateItemStack()));
+        recipe.POOL.forEach((productEntry, aDouble) -> {
+            var stack = productEntry.generateItemStack();
+            stack.setCount(((ProductEntryAccessor) productEntry).getAmountMax());
+            itemList.add(stack);
+        });
 
         int count = itemList.size();
 
@@ -96,7 +101,7 @@ public class GenericLootableBoxCategory implements IRecipeCategory<GenericLootab
 
         WeightedList<ProductEntry> entries = this.configInstance.POOL;
         for(WeightedList.Entry<ProductEntry> entry : entries) {
-            if(entry.value.getNBT().equals(stack.getTag())) {
+            if(entry.value.getItem() == stack.getItem() && (entry.value.getNBT() == null || entry.value.getNBT().isEmpty() || entry.value.getNBT().equals(stack.getTag()))) {
                 CompoundTag nbt = stack.getOrCreateTagElement("display");
                 ListTag list = nbt.getList("Lore", 8);
                 MutableComponent component = new TextComponent("Chance: ");
@@ -104,6 +109,13 @@ public class GenericLootableBoxCategory implements IRecipeCategory<GenericLootab
                 component.append(String.format("%.2f", chance));
                 component.append("%");
                 list.add(StringTag.valueOf(Component.Serializer.toJson(component.withStyle(ChatFormatting.YELLOW))));
+                var minCount = ((ProductEntryAccessor) entry.value).getAmountMin();
+                var maxCount = ((ProductEntryAccessor) entry.value).getAmountMax();
+
+                if (minCount != maxCount) {
+                    component = new TextComponent("Count: " + minCount + " - " + maxCount);
+                    list.add(StringTag.valueOf(Component.Serializer.toJson(component.withStyle(ChatFormatting.DARK_PURPLE))));
+                }
                 nbt.put("Lore", list);
             }
         }

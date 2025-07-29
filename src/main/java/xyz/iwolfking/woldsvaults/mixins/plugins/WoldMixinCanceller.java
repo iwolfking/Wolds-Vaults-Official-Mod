@@ -32,6 +32,12 @@ public class WoldMixinCanceller implements MixinCanceller {
             }
         }
 
+        if(LoadingModList.get().getModFileById("black_market_tweaks") != null) {
+            if(s.equals("dev.attackeight.black_market_tweaks.mixin.ServerboundResetBlackMarketTradesMessageMixin")) {
+                return true;
+            }
+        }
+
         return false;
     }
 }

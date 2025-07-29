@@ -15,6 +15,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.data.FlightCancellationStrings;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
+import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.lib.network.packets.StopFlightMessage;
 
@@ -32,7 +33,7 @@ public class TickEvents {
         if(event.side.isClient())
             WoldActiveFlags.IS_USING_SAFER_SPACE.trySet(event.player.hasEffect(ModEffects.SAFER_SPACE));
 
-        if(!WoldsVaultsConfig.COMMON.disableFlightInVaults.get()) {
+        if(event.player.getLevel().getGameRules().getBoolean(ModGameRules.ALLOW_FLIGHT_IN_VAULTS)) {
             return;
         }
 

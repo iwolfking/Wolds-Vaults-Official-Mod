@@ -15,19 +15,4 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = GearModelRollRaritiesConfig.class, remap = false)
 public class MixinGearModelRollRarities {
 
-    @Inject(method = "getForcedTierRarity", at = @At(value = "INVOKE", target = "Ljava/util/Optional;get()Ljava/lang/Object;", ordinal = 0), cancellable = true)
-    public void unlockGoblinAndChampionArmor(ItemStack stack, ResourceLocation modelId, CallbackInfoReturnable<VaultGearRarity> cir) {
-        cir.setReturnValue(null);
-    }
-
-    @Inject(method = "getForcedTierRarity", at = @At(value = "INVOKE", target = "Ljava/util/Optional;get()Ljava/lang/Object;", ordinal = 1), cancellable = true)
-    public void unlockGodSword(ItemStack stack, ResourceLocation modelId, CallbackInfoReturnable<VaultGearRarity> cir) {
-        cir.setReturnValue(null);
-    }
-
-    @Inject(method = "getForcedTierRarity", at = @At(value = "INVOKE", target = "Ljava/util/Optional;get()Ljava/lang/Object;", ordinal = 2), cancellable = true)
-    public void unlockGodAxe(ItemStack stack, ResourceLocation modelId, CallbackInfoReturnable<VaultGearRarity> cir) {
-        cir.setReturnValue(null);
-    }
-
 }

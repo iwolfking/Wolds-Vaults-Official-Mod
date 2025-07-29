@@ -90,7 +90,7 @@ public class MixinMonolithRenderer {
         int right = minecraft.getWindow().getGuiScaledWidth();
         int bottom = minecraft.getWindow().getGuiScaledHeight();
         matrixStack.translate(-right, -bottom, 0.0);
-        ModifiersRenderer.renderVaultModifiersWithDepth(stack, matrixStack);
+        ModifiersRenderer.renderVaultModifiersWithDepth(stack, matrixStack, false);
         matrixStack.popPose();
         matrixStack.popPose();
     }
