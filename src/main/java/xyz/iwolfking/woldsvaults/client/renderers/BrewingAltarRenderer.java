@@ -23,8 +23,11 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import vazkii.quark.content.tools.module.ColorRunesModule;
 import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModItems;
@@ -71,13 +74,34 @@ public class BrewingAltarRenderer implements BlockEntityRenderer<BrewingAltarTil
 
     private void renderCatalysts(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBufferSource, int pPackedOverlay, ItemStack catalyst) {
         if (catalyst.getItem() == ModItems.INGREDIENT_TEMPLATE) return;
+        catalyst.enchant(Enchantments.UNBREAKING, 3);
+        BakedModel model = mc.getItemRenderer().getModel(catalyst, null, null, 0);
 
-        pPoseStack.pushPose();
-        pPoseStack.translate(0.5, 3, 0.5);
+        Vec3[] positions = new Vec3[] {
+                new Vec3(0.5, 0.35, 0.0), // North
+                new Vec3(1, 0.35, 0.5), // East
+                new Vec3(0.5, 0.35, 1), // South
+                new Vec3(0, 0.35, 0.5)  // West
+        };
 
-        BakedModel ibakedmodel = mc.getItemRenderer().getModel(catalyst, null, null, 0);
-        mc.getItemRenderer().render(catalyst, ItemTransforms.TransformType.GROUND, true, pPoseStack, pBufferSource, 0xFFFFFF, pPackedOverlay, ibakedmodel);
-        pPoseStack.popPose();
+        float rot = 0F;
+        for (Vec3 pos : positions) {
+            pPoseStack.pushPose();
+            pPoseStack.translate(pos.x, pos.y, pos.z);
+            pPoseStack.scale(0.5F, 0.5F, 0.5F);
+            pPoseStack.mulPose(Vector3f.YP.rotationDegrees(rot));
+            mc.getItemRenderer().render(catalyst, ItemTransforms.TransformType.GROUND, true, pPoseStack, pBufferSource, 0xFFFFFF, pPackedOverlay, model);
+            pPoseStack.popPose();
+            rot += 90F;
+        }
+
+//        pPoseStack.pushPose();
+//        pPoseStack.translate(0.5, 0.35, 0);
+//        pPoseStack.scale(0.5F, 0.5F, 0.5F);
+//
+//        BakedModel ibakedmodel = mc.getItemRenderer().getModel(catalyst, null, null, 0);
+//        mc.getItemRenderer().render(catalyst, ItemTransforms.TransformType.GROUND, true, pPoseStack, pBufferSource, 0xFFFFFF, pPackedOverlay, ibakedmodel);
+//        pPoseStack.popPose();
     }
 
     private void renderPotion(Level level, BrewingAltarTileEntity pBlockEntity, PoseStack poseStack, MultiBufferSource buffer, int overlay, List<ItemStack> items) {

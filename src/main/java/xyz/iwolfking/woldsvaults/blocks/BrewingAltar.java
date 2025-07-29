@@ -34,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
@@ -77,67 +78,70 @@ public class BrewingAltar extends Block implements EntityBlock {
 
         ItemStack heldItem = pPlayer.getItemInHand(pHand);
 
-        if (pPlayer.isCrouching() && pHand != InteractionHand.OFF_HAND && (heldItem.isEmpty() || tileEntity.getCatalyst().sameItem(heldItem))) {
-            ItemStack cata = tileEntity.removeCatalyst();
-            if (cata.isEmpty()) {
-                return InteractionResult.PASS;
-            }
+        if (pPlayer.isCrouching() && pHand != InteractionHand.OFF_HAND) {
+            ItemStack catalyst = tileEntity.getCatalyst();
+            boolean holdingCatalyst = !heldItem.isEmpty() && catalyst.sameItem(heldItem);
 
-            if (cata.sameItem(heldItem) && ItemStack.tagMatches(cata, heldItem)) {
-                if ((cata.getCount() + heldItem.getCount()) > 64) {
-                    int amountToAdd = 64 - cata.getCount();
-                    int overflow = heldItem.getCount() - amountToAdd;
+            // Handle catalyst removal
+            if (catalyst.getItem() != ModItems.INGREDIENT_TEMPLATE && (heldItem.isEmpty() || holdingCatalyst)) {
+                ItemStack removedCatalyst = tileEntity.removeCatalyst();
 
-                    cata.setCount(64);
-                    ItemStack overflowStack = heldItem.copy();
-                    overflowStack.setCount(overflow);
-                    boolean added = pPlayer.getInventory().add(overflowStack);
-
-                    if (!added) pPlayer.drop(overflowStack, false);
-
-                } else {
-                    cata.grow(heldItem.getCount());
+                if (removedCatalyst.isEmpty()) {
+                    return InteractionResult.PASS;
                 }
-                pPlayer.setItemInHand(pHand, cata);
-            } else {
-                pPlayer.setItemInHand(pHand, cata);
-            }
 
-            pLevel.playSound(null, pPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
-        }
+                if (removedCatalyst.sameItem(heldItem) && ItemStack.tagMatches(removedCatalyst, heldItem)) {
+                    int total = removedCatalyst.getCount() + heldItem.getCount();
+                    if (total > 64) {
+                        int overflow = total - 64;
+                        removedCatalyst.setCount(64);
+                        ItemStack overflowStack = heldItem.copy();
+                        overflowStack.setCount(overflow);
 
-        if (pPlayer.isCrouching() && pHand != InteractionHand.OFF_HAND && (heldItem.isEmpty() || tileEntity.getLastIngredient().sameItem(heldItem))) {
-            ItemStack stack = tileEntity.removeLastIngredient();
-
-            if (stack.isEmpty()) {
-                return InteractionResult.PASS;
-            }
-
-            if (stack.sameItem(heldItem) && ItemStack.tagMatches(stack, heldItem)) {
-                if ((stack.getCount() + heldItem.getCount()) > 64) {
-                    int amountToAdd = 64 - stack.getCount();
-                    int overflow = heldItem.getCount() - amountToAdd;
-
-                    stack.setCount(64);
-                    ItemStack overflowStack = heldItem.copy();
-                    overflowStack.setCount(overflow);
-                    boolean added = pPlayer.getInventory().add(overflowStack);
-
-                    if (!added) pPlayer.drop(overflowStack, false);
-
-                } else {
-                    stack.grow(heldItem.getCount());
+                        if (!pPlayer.getInventory().add(overflowStack)) {
+                            pPlayer.drop(overflowStack, false);
+                        }
+                    } else {
+                        removedCatalyst.grow(heldItem.getCount());
+                    }
                 }
-                pPlayer.setItemInHand(pHand, stack);
-            } else {
-                pPlayer.setItemInHand(pHand, stack);
+
+                pPlayer.setItemInHand(pHand, removedCatalyst);
+                pLevel.playSound(null, pPos, SoundEvents.BUCKET_FILL_LAVA, SoundSource.BLOCKS, 1.0F, 0.5F);
+                return InteractionResult.SUCCESS;
             }
 
-            pLevel.playSound(null, pPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
+            // Handle ingredient removal
+            ItemStack lastIngredient = tileEntity.getLastIngredient();
+            boolean holdingIngredient = !heldItem.isEmpty() && lastIngredient.sameItem(heldItem);
 
+            if (!lastIngredient.isEmpty() && (heldItem.isEmpty() || holdingIngredient)) {
+                ItemStack removedIngredient = tileEntity.removeLastIngredient();
 
+                if (removedIngredient.isEmpty()) {
+                    return InteractionResult.PASS;
+                }
+
+                if (removedIngredient.sameItem(heldItem) && ItemStack.tagMatches(removedIngredient, heldItem)) {
+                    int total = removedIngredient.getCount() + heldItem.getCount();
+                    if (total > 64) {
+                        int overflow = total - 64;
+                        removedIngredient.setCount(64);
+                        ItemStack overflowStack = heldItem.copy();
+                        overflowStack.setCount(overflow);
+
+                        if (!pPlayer.getInventory().add(overflowStack)) {
+                            pPlayer.drop(overflowStack, false);
+                        }
+                    } else {
+                        removedIngredient.grow(heldItem.getCount());
+                    }
+                }
+
+                pPlayer.setItemInHand(pHand, removedIngredient);
+                pLevel.playSound(null, pPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+                return InteractionResult.SUCCESS;
+            }
         }
 
         AtomicReference<Boolean> isMatchingVault = new AtomicReference<>();

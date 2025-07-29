@@ -170,7 +170,7 @@ public class BrewingAltarTileEntity extends BlockEntity {
     }
 
     public ItemStack removeCatalyst() {
-        ItemStack catalyst = getCatalyst().copy();
+        ItemStack catalyst = getCatalyst().getItem() == ModItems.INGREDIENT_TEMPLATE ? null : getCatalyst().copy();
         setCatalyst(new ItemStack(ModItems.INGREDIENT_TEMPLATE));
         return catalyst;
     }
@@ -299,18 +299,19 @@ public class BrewingAltarTileEntity extends BlockEntity {
                 cookingTimer--;
                 return;
             }
-            WoldCommonEvents.BREWING_ALTAR_BREW_EVENT.invoke(level, blockState, blockPos, this, List.copyOf(ingredients));
-            brewing = false;
-            clearIngredients();
-            ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundTESyncMessage(worldPosition, this.saveWithoutMetadata()));
             int newUses = Math.max(0, blockState.getValue(BrewingAltar.USES) - 1);
             BlockState newState = blockState.setValue(BrewingAltar.USES, newUses);
             level.setBlock(blockPos, newState, Block.UPDATE_CLIENTS);
 
+            WoldCommonEvents.BREWING_ALTAR_BREW_EVENT.invoke(level, blockState, blockPos, this, List.copyOf(ingredients));
+            brewing = false;
+            clearIngredients();
+            ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundTESyncMessage(worldPosition, this.saveWithoutMetadata()));
+
 
 
             if (blockState.getValue(BrewingAltar.USES) == 0) {
-                this.level.playSound(null, this.getBlockPos(), SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 0.45f, 1f);
+                this.level.playSound(null, this.getBlockPos(), SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 0.1f, 1f);
             }
         } else {
 
@@ -350,14 +351,37 @@ public class BrewingAltarTileEntity extends BlockEntity {
         return progressIncrease;
     }
 
-    public void setProgressIncrease(PercentageResult progressIncrease) {
-        this.progressIncrease = progressIncrease;
-        sendUpdates();
-    }
+    public static class PercentageResult {
+        private float min;
+        private float max;
 
-    public record PercentageResult(float min, float max) {
+        public PercentageResult(float min, float max) {
+            this.min = min;
+            this.max = max;
+        }
+
+        public float min() {
+            return min;
+        }
+
+        public float max() {
+            return max;
+        }
+
+        public void setMin(float min) {
+            this.min = min;
+        }
+
+        public void setMax(float max) {
+            this.max = max;
+        }
+
+
+
         public boolean isRange() {
             return min != max;
         }
+
+
     }
 }

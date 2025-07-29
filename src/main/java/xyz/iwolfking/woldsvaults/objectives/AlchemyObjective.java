@@ -22,6 +22,7 @@ import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
+import iskallia.vault.entity.champion.ChampionLogic;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -34,9 +35,13 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vaultevents.BrewingAltarBrewEvent;
 import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
@@ -152,6 +157,13 @@ public class AlchemyObjective extends Objective {
                 (data) -> this.ifPresent(CorruptedObjective.OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability))
         );
 
+        CommonEvents.ENTITY_DROPS.register(this, (data) -> {
+            Entity entity = data.getEntity();
+            if (ChampionLogic.isChampion(entity) && !entity.getTags().contains(ChampionLogic.NO_DROPS) && data.getSource().getEntity() instanceof ServerPlayer) {
+                data.getDrops().add(new ItemEntity(entity.getLevel(), entity.getX(), entity.getY(), entity.getZ(), CatalystItem.createRandomCatalyst(vault, world.getRandom())));
+            }
+        });
+
         WoldCommonEvents.BREWING_ALTAR_BREW_EVENT.register(this,
                 (data -> handleBrewEvent(data, vault, world))
         );
@@ -174,7 +186,7 @@ public class AlchemyObjective extends Objective {
             listener.addObjective(vault, this);
         }
 
-        if (listener instanceof Runner && this.get(PROGRESS) > this.get(REQUIRED_PROGRESS)) {
+        if (listener instanceof Runner && this.get(PROGRESS) >= this.get(REQUIRED_PROGRESS)) {
             super.tickListener(world, vault, listener);
         }
     }
@@ -254,7 +266,7 @@ public class AlchemyObjective extends Objective {
     }
 
     private void handleBrewEvent(BrewingAltarBrewEvent.Data data, Vault vault, VirtualWorld world) {
-
+        BrewingAltarTileEntity.PercentageResult progressIncrease = data.getEntity().getProgressIncrease();
 
 
 
@@ -265,6 +277,28 @@ public class AlchemyObjective extends Objective {
                 .map(item -> (AlchemyIngredientItem) item)
                 .filter(item -> item.getType() != AlchemyIngredientItem.AlchemyIngredientType.NEUTRAL)
                 .toList();
+
+        if (effectIngredients.isEmpty()) { // If there are only Neutral Ingredients
+            if (data.getEntity().getCatalystType().isPresent()) {
+                data.getEntity().getCatalystType().get().applyEffect(world, this, config, data, null, null, progressIncrease);
+                data.getEntity().removeCatalyst();
+            }
+
+            float percentage = progressIncrease.isRange() ?
+                    world.getRandom().nextFloat(progressIncrease.min(), progressIncrease.max()) :
+                    progressIncrease.min();
+
+            String formatted = String.format("%.1f%%", percentage * 100);
+            MutableComponent brewName = AlchemyIngredientItem.AlchemyIngredientType.generatePotionNameComponent(AlchemyIngredientItem.AlchemyIngredientType.getTypes(data.getIngredients()));
+            MutableComponent cmp = new TextComponent("Created a ").withStyle(Style.EMPTY.withColor(0xF0E68C))
+                    .append(brewName)
+                    .append(new TextComponent(" and progressed the vault by ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
+                    .append(new TextComponent(formatted).withStyle(Style.EMPTY.withColor(percentage >= 0 ? 0x00ff04 : 0xDC143C)));
+            MessageFunctions.broadcastMessage(world, cmp);
+            this.set(PROGRESS, this.get(PROGRESS) + percentage);
+            return;
+        }
+
 
         AlchemyIngredientItem item = effectIngredients.get(world.random.nextInt(effectIngredients.size() - 1));
 
@@ -288,13 +322,18 @@ public class AlchemyObjective extends Objective {
             }
         }
 
-        CatalystItem.CatalystType.STABILIZING.applyEffect(world, this, config, data, toAddToVault, modifiers);
+
         // apply catalyst effects
+        if (data.getEntity().getCatalystType().isPresent()) {
+            data.getEntity().getCatalystType().get().applyEffect(world, this, config, data, toAddToVault, modifiers, progressIncrease);
+            data.getEntity().removeCatalyst();
+        }
 
 
-        float percentage = data.getEntity().getProgressIncrease().isRange() ?
-                world.getRandom().nextFloat(data.getEntity().getProgressIncrease().min(), data.getEntity().getProgressIncrease().max()) :
-                data.getEntity().getProgressIncrease().min();
+
+        float percentage = progressIncrease.isRange() ?
+                world.getRandom().nextFloat(progressIncrease.min(), progressIncrease.max()) :
+                progressIncrease.min();
 
         String formatted = String.format("%.1f%%", percentage * 100);
         MutableComponent brewName = AlchemyIngredientItem.AlchemyIngredientType.generatePotionNameComponent(AlchemyIngredientItem.AlchemyIngredientType.getTypes(data.getIngredients()));
@@ -310,7 +349,7 @@ public class AlchemyObjective extends Objective {
             world.players().forEach(player ->
                     player.sendMessage(
                             new TextComponent("- ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
-                                    .append(entry.getKey().getChatDisplayNameComponent(1))
+                                    .append(entry.getKey().getChatDisplayNameComponent(entry.getValue()))
                                     .append(new TextComponent(" has been applied!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
                             Util.NIL_UUID
                     )

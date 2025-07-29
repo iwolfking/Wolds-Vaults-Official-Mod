@@ -2,30 +2,39 @@ package xyz.iwolfking.woldsvaults.items.alchemy;
 
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
+import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.world.storage.VirtualWorld;
+import iskallia.vault.init.ModNetwork;
 import iskallia.vault.item.BasicItem;
+import iskallia.vault.network.message.ClientboundTESyncMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vaultevents.BrewingAltarBrewEvent;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.objectives.AlchemyObjective;
 import xyz.iwolfking.woldsvaults.util.ComponentUtils;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class CatalystItem extends BasicItem {
     private final CatalystType type;
@@ -121,10 +130,17 @@ public class CatalystItem extends BasicItem {
         return type;
     }
 
+    public static ItemStack createRandomCatalyst(Vault vault, Random random) {
+        List<Item> catalysts = List.of(ModItems.CATALYST_UNSTABLE, ModItems.CATALYST_AMPLIFYING, ModItems.CATALYST_FOCUSING, ModItems.CATALYST_STABILITY, ModItems.CATALYST_TEMPORAL);
+        ItemStack stack = new ItemStack(catalysts.get(random.nextInt(catalysts.size())));
+        stack.getOrCreateTag().putString("VaultId", vault.get(Vault.ID).toString());
+        return stack;
+    }
+
     public enum CatalystType {
         STABILIZING {
             @Override
-            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools, BrewingAltarTileEntity.PercentageResult result) {
                 if (JavaRandom.ofNanoTime().nextBoolean()) {
                     ResourceLocation removedNegativePool = null;
 
@@ -163,14 +179,13 @@ public class CatalystItem extends BasicItem {
         },
         AMPLIFYING {
             @Override
-            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
-                float boostFactor = 0.25f + JavaRandom.ofNanoTime().nextFloat() * 0.5f; // 25% to 75%
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools, BrewingAltarTileEntity.PercentageResult result) {
+                float boostFactor = 1 + (0.25f + JavaRandom.ofNanoTime().nextFloat() * 0.5f); // 25% to 75%
 
-                data.getEntity().setProgressIncrease(new BrewingAltarTileEntity.PercentageResult(
-                        data.getEntity().getProgressIncrease().min() * boostFactor,
-                        data.getEntity().getProgressIncrease().max() * boostFactor
-                ));
-                String formatted = String.format("%.1f%%", boostFactor * 100);
+                result.setMin(data.getEntity().getProgressIncrease().min() * boostFactor);
+                result.setMax(data.getEntity().getProgressIncrease().max() * boostFactor);
+
+                String formatted = String.format("%.1f%%", (boostFactor -1) * 100);
                 world.players().forEach(player -> player.sendMessage(
                         new TextComponent("The potion has been amplified ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
                                 .append(new TextComponent("by " + formatted + " ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
@@ -181,13 +196,16 @@ public class CatalystItem extends BasicItem {
         },
         FOCUSING {
             @Override
-            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools, BrewingAltarTileEntity.PercentageResult result) {
                 boolean allSame = data.getIngredients().stream()
                         .map(ItemStack::getItem)
                         .distinct()
                         .count() == 1;
 
                 if (allSame) {
+                    result.setMin(data.getEntity().getProgressIncrease().min() * 2);
+                    result.setMax(data.getEntity().getProgressIncrease().max() * 2);
+
                     modifierMap.replaceAll((mod, val) -> val * 2);
                     world.players().forEach(player -> player.sendMessage(
                             new TextComponent("The modifiers have been doubled by the Catalyst").withStyle(Style.EMPTY.withColor(0xFFFFFF)),
@@ -199,8 +217,10 @@ public class CatalystItem extends BasicItem {
         },
         TEMPORAL {
             @Override
-            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
-                data.getEntity().getBlockState().setValue(BrewingAltar.USES, data.getEntity().getBlockState().getValue(BrewingAltar.USES) + 1);
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools, BrewingAltarTileEntity.PercentageResult result) {
+                int newUses = Math.min(5, data.getEntity().getBlockState().getValue(BrewingAltar.USES) + 1);
+                BlockState newState = data.getEntity().getBlockState().setValue(BrewingAltar.USES, newUses);
+                world.setBlock(data.getPos(), newState, Block.UPDATE_ALL);
                 world.players().forEach(player -> player.sendMessage(
                         new TextComponent("The altar remains stable.").withStyle(Style.EMPTY.withColor(0xFFFFFF)),
                         Util.NIL_UUID
@@ -209,7 +229,7 @@ public class CatalystItem extends BasicItem {
         },
         UNSTABLE {
             @Override
-            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools) {
+            public void applyEffect(VirtualWorld world, AlchemyObjective obj, AlchemyObjectiveConfig.Entry cfg, BrewingAltarBrewEvent.Data data, Map<VaultModifier<?>, Integer> modifierMap, List<ResourceLocation> chosenPools, BrewingAltarTileEntity.PercentageResult result) {
                 modifierMap.clear();
 
                 List<ResourceLocation> allPools = List.of(
@@ -228,8 +248,17 @@ public class CatalystItem extends BasicItem {
                         modifierMap.put(picked, 1);
                     }
                 }
+                float randMin = -0.9f + random.nextFloat() * 1.8f; // Range: -0.9 to +0.9
+                float randMax = -0.9f + random.nextFloat() * 1.8f;
+
+                float finalMin = Math.min(randMin, randMax);
+                float finalMax = Math.max(randMin, randMax);
+
+                result.setMin(finalMin);
+                result.setMax(finalMax);
+
                 world.players().forEach(player -> player.sendMessage(
-                        new TextComponent("The modifiers have been randomized by the Catalyst").withStyle(Style.EMPTY.withColor(0xFFFFFF)),
+                        new TextComponent("The brew has been randomized by the Catalyst").withStyle(Style.EMPTY.withColor(0xFFFFFF)),
                         Util.NIL_UUID
                 ));
             }
@@ -241,6 +270,8 @@ public class CatalystItem extends BasicItem {
                 AlchemyObjectiveConfig.Entry cfg,
                 BrewingAltarBrewEvent.Data data,
                 Map<VaultModifier<?>, Integer> modifierMap,
-                List<ResourceLocation> chosenPools);
+                List<ResourceLocation> chosenPools,
+                BrewingAltarTileEntity.PercentageResult result
+        );
     }
 }
