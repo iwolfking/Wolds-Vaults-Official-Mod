@@ -20,15 +20,5 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 )
 @Mixin(value = CommandPlayerTrading.class, remap = false)
 public class MixinTradeCommand {
-    /**
-     * @author iwolfking
-     * @reason Disable trading in vault (?)
-     */
-    @Inject(method = "acceptPlayerTrade", at = @At("HEAD"), cancellable = true)
-    private static void acceptPlayerTrade(CommandContext<CommandSourceStack> context, CallbackInfoReturnable<Integer> cir) throws CommandSyntaxException {
-        if(context.getSource().getPlayerOrException().getLevel().dimension().getRegistryName().getNamespace().equals("the_vault") || EntityArgument.getPlayer(context, "player").getLevel().dimension().getRegistryName().getNamespace().equals("the_vault")) {
-            EasyText.sendCommandFail(context.getSource(), new TextComponent("You cannot trade in the vault..."));
-            cir.setReturnValue(0);
-        }
-    }
+
 }

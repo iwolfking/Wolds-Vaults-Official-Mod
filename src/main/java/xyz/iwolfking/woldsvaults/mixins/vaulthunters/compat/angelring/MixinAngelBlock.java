@@ -20,7 +20,7 @@ import xyz.iwolfking.woldsvaults.items.rings.AngelRingItem;
 public abstract class MixinAngelBlock {
 
 
-    @Inject(method = "isInRange", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isPlayerInRange", at = @At("HEAD"), cancellable = true)
     public void isInRange(Player player, CallbackInfoReturnable<Boolean> cir) {
         if (AngelRingItem.isRingInCurioSlot(player)) {
             cir.setReturnValue(true);

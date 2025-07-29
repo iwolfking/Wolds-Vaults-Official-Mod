@@ -32,9 +32,17 @@ public class WoldMixinCanceller implements MixinCanceller {
                 return true;
             }
         }
+      
+        if(LoadingModList.get().getModFileById("black_market_tweaks") != null) {
+            if(s.equals("dev.attackeight.black_market_tweaks.mixin.ServerboundResetBlackMarketTradesMessageMixin")) {
+                return true;
+            }
+        }
 
-        if(s.equals("iskallia.vault.mixin.MixinLocalPlayer")) {
-            return true;
+        if(LoadingModList.get().getModFileById("puzzleslib") != null){
+            if(s.equals("fuzs.puzzleslib.mixin.client.MinecraftForgeMixin")) {
+                return true;
+            }
         }
 
         return false;

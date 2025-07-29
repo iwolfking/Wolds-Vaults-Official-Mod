@@ -20,11 +20,7 @@ public class MixinVaultMapOverlay {
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void cancelRender(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height, CallbackInfo ci) {
-        if(!woldsvaults$initialized) {
-            woldsvaults$shouldShowMap = WoldsVaultsConfig.CLIENT.showVanillaVaultMap.get();
-        }
-
-        if(!woldsvaults$shouldShowMap) {
+        if(!WoldsVaultsConfig.CLIENT.showVanillaVaultMap.get()) {
             ci.cancel();
         }
     }

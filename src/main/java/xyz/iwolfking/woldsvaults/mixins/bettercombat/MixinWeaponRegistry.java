@@ -26,11 +26,5 @@ public class MixinWeaponRegistry {
         if(WoldsVaultsConfig.COMMON.weaponsShouldntBeBetter.get()) {
             cir.setReturnValue(null);
         }
-        else if(itemStack.getItem() instanceof VaultGearItem) {
-            if(GearDataCache.of(itemStack).hasAttribute(ModGearAttributes.WEAPON_TYPE)) {
-                cir.setReturnValue(null);
-            }
-        }
-
     }
 }

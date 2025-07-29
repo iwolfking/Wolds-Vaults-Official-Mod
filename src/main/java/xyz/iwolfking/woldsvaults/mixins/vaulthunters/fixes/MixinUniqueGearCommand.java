@@ -48,6 +48,9 @@ public class MixinUniqueGearCommand {
             if(modelPath.contains("jewel")) {
                 cir.setReturnValue(new ItemStack(ModItems.JEWEL));
             }
+            else if(modelPath.contains("magnet")) {
+                cir.setReturnValue(new ItemStack(ModItems.MAGNET));
+            }
             else if(modelPath.contains("battlestaff")) {
                 cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.BATTLESTAFF));
             }

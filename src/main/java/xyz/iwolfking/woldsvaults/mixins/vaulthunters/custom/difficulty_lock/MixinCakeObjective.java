@@ -16,6 +16,6 @@ import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 public class MixinCakeObjective {
     @Inject(method = "initServer", at = @At("HEAD"))
     private void addNormalizedToCakeVaults(VirtualWorld world, Vault vault, CallbackInfo ci) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault);
+        NormalizedHelper.handleAddingNormalizedToVault(vault, world.getLevel());
     }
 }

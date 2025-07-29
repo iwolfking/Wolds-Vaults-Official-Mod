@@ -2,7 +2,7 @@ package xyz.iwolfking.woldsvaults.data.compound;
 
 import iskallia.vault.core.data.DataList;
 import iskallia.vault.core.data.adapter.Adapters;
-import iskallia.vault.item.crystal.data.adapter.IBitAdapter;
+import iskallia.vault.core.data.adapter.IBitAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

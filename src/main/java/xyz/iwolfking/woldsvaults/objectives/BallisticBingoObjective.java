@@ -17,6 +17,8 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.BingoObjective;
 import iskallia.vault.core.vault.objective.Objective;
+import iskallia.vault.core.vault.objective.Objectives;
+import iskallia.vault.core.vault.objective.PvPObjective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
@@ -27,7 +29,7 @@ import iskallia.vault.task.ProgressConfiguredTask;
 import iskallia.vault.task.Task;
 import iskallia.vault.task.TaskContext;
 import iskallia.vault.task.counter.TargetTaskCounter;
-import iskallia.vault.task.renderer.context.BingoRendererContext;
+import iskallia.vault.task.renderer.context.TaskRendererContext;
 import iskallia.vault.task.source.EntityTaskSource;
 import iskallia.vault.task.source.TaskSource;
 import net.minecraft.ChatFormatting;
@@ -43,6 +45,7 @@ import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class BallisticBingoObjective extends BingoObjective {
     public static final SupplierKey<Objective> KEY;
@@ -50,6 +53,7 @@ public class BallisticBingoObjective extends BingoObjective {
     public static final FieldKey<Task> TASK;
     public static final FieldKey<TaskSource> TASK_SOURCE;
     public static final FieldKey<Integer> JOINED;
+    private boolean pvp;
 
     protected BallisticBingoObjective() {
     }
@@ -92,7 +96,7 @@ public class BallisticBingoObjective extends BingoObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault);
+        NormalizedHelper.handleAddingNormalizedToVault(vault, world);
       
         CommonEvents.LISTENER_JOIN.register(this, data -> {
 
@@ -185,34 +189,20 @@ public class BallisticBingoObjective extends BingoObjective {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void initClient(Vault vault) {
-        ClientEvents.MOUSE_SCROLL.register(vault, event -> {
-            BingoRendererContext context = new BingoRendererContext(null, 0.0F, MultiBufferSource.immediate(Tesselator.getInstance().getBuilder()), Minecraft.getInstance().font);
-            if (this.get(TASK).onMouseScrolled(event.getScrollDelta(), context)) {
-                event.setCanceled(true);
-            }
+        this.pvp = ((Objectives)vault.get(Vault.OBJECTIVES)).forEach(PvPObjective.class, (obj) -> true);
+        ClientEvents.MOUSE_SCROLL.register(vault, (event) -> {
+            if (Minecraft.getInstance().screen == null && ModKeybinds.openBingo.isDown()) {
+                TaskRendererContext context = new TaskRendererContext((PoseStack)null, 0.0F, MultiBufferSource.immediate(Tesselator.getInstance().getBuilder()), Minecraft.getInstance().font);
+                UUID uuid = Minecraft.getInstance().player != null ? Minecraft.getInstance().player.getUUID() : null;
+                context.setUuid(uuid);
+                Task task = this.pvp && uuid != null ? (Task)((TaskMap)this.get(TASKS)).get(uuid) : (Task)this.get(TASK);
+                if (task != null && task.onMouseScrolled(event.getScrollDelta(), context)) {
+                    event.setCanceled(true);
+                }
 
+            }
         });
         this.get(CHILDREN).forEach(child -> child.initClient(vault));
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean render(Vault vault, PoseStack poseStack, Window window, float partialTicks, Player player) {
-        if (this.isCompleted() && (Minecraft.getInstance().screen != null || !ModKeybinds.openBingo.isDown())) {
-            boolean rendered = false;
-
-            for (Objective objective : this.get(CHILDREN)) {
-                rendered |= objective.render(vault, poseStack, window, partialTicks, player);
-            }
-
-            if (rendered) {
-                return true;
-            }
-        }
-
-        BingoRendererContext context = new BingoRendererContext(poseStack, partialTicks, MultiBufferSource.immediate(Tesselator.getInstance().getBuilder()), Minecraft.getInstance().font);
-        this.get(TASK).onRender(context);
-        return true;
     }
 
     @Override

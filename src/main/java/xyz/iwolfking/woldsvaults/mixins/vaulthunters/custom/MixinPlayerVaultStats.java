@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import dev.ftb.mods.ftbquests.quest.ServerQuestFile;
 import dev.ftb.mods.ftbquests.quest.TeamData;
+import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.event.event.VaultLevelUpEvent;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.skill.PlayerVaultStats;
@@ -11,12 +12,18 @@ import iskallia.vault.skill.expertise.type.ExperiencedExpertise;
 import iskallia.vault.skill.tree.ExpertiseTree;
 import iskallia.vault.util.NetcodeUtils;
 import iskallia.vault.world.data.PlayerExpertisesData;
+import iskallia.vault.world.data.PlayerGreedData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.*;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.VaultLevelTask;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,52 +45,60 @@ public abstract class MixinPlayerVaultStats {
 
     @Shadow public abstract void sync(MinecraftServer server);
 
+    @Shadow private int unspentPrestigePoints;
+
     /**
      * @author iwolfking
-     * @reason Modify how expertise points are calculated after level 100, Experienced Expertise boosts XP
+     * @reason
      */
     @Overwrite
     public void addVaultExp(MinecraftServer server, int exp) {
+        this.exp = Math.max(this.exp, 0);
+        this.exp += (int) ((float) exp * ModConfigs.LEVELS_META.getExpMultiplier());
+        ServerPlayer player = server.getPlayerList().getPlayer(this.uuid);
+        if(player == null) {
+            return;
+        }
+        ExpertiseTree expertises = PlayerExpertisesData.get(player.getLevel()).getExpertises(player);
+        float increase = 0.0F;
+        for (ExperiencedExpertise expertise1 : expertises.getAll(ExperiencedExpertise.class, Skill::isUnlocked)) {
+            increase += expertise1.getIncreasedExpPercentage();
+        }
+        this.exp = (int) (this.exp + (this.exp * increase));
         int maxLevel = ModConfigs.LEVELS_META.getMaxLevel();
-        if (this.getVaultLevel() < maxLevel) {
-            ServerPlayer player = server.getPlayerList().getPlayer(this.uuid);
-            if(player == null) {
-                return;
-            }
-            this.exp = Math.max(this.exp, 0);
-            ExpertiseTree expertises = PlayerExpertisesData.get(player.getLevel()).getExpertises(player);
-            float increase = 0.0F;
-            for (ExperiencedExpertise expertise1 : expertises.getAll(ExperiencedExpertise.class, Skill::isUnlocked)) {
-                increase += expertise1.getIncreasedExpPercentage();
-            }
-            float multipler = ModConfigs.LEVELS_META.getExpMultiplier();
-            this.exp += (int) (exp * (1.0F + increase) * multipler);
+        if (this.getVaultLevel() >= 100 || this.getVaultLevel() < maxLevel) {
             int initialLevel = this.vaultLevel;
-
-            int neededExp;
-            while (this.exp >= (neededExp = this.getExpNeededToNextLevel())) {
-                ++this.vaultLevel;
-                ++this.unspentSkillPoints;
-                if (this.vaultLevel % 5 == 0) {
-                    ++this.unspentExpertisePoints;
+            if (initialLevel >= 100 && !PlayerGreedData.get(server).get(this.uuid).hasCompletedHerald() && FMLEnvironment.production) {
+                this.exp = 0;
+                this.vaultLevel = 100;
+            } else {
+                int neededExp;
+                for (; this.exp >= (neededExp = this.getExpNeededToNextLevel()); this.exp -= neededExp) {
+                    ++this.vaultLevel;
+                    if (this.vaultLevel > 100) {
+                        ++this.unspentPrestigePoints;
+                    } else {
+                        ++this.unspentSkillPoints;
+                        if (this.vaultLevel % 5 == 0) {
+                            ++this.unspentExpertisePoints;
+                        }
+                    }
                 }
 
-                this.exp -= neededExp;
-                if (this.getVaultLevel() >= maxLevel) {
-                    this.vaultLevel = maxLevel;
-                    this.exp = 0;
-                    break;
-                }
-            }
+                if (this.vaultLevel > initialLevel) {
+                    NetcodeUtils.runIfPresent(server, this.uuid, this::fancyLevelUpEffects);
+                    player.refreshTabListName();
 
             if (this.vaultLevel > initialLevel) {
                 NetcodeUtils.runIfPresent(server, this.uuid, this::fancyLevelUpEffects);
                 player.refreshTabListName();
                 woldsVaults$vaultLevelTaskProgress(player, exp, initialLevel, this.vaultLevel);
                 MinecraftForge.EVENT_BUS.post(new VaultLevelUpEvent(player, exp, initialLevel, this.vaultLevel));
-            }
+                    CommonEvents.VAULT_LEVEL_UP.invoke(player, exp, initialLevel, this.vaultLevel);
+                }
 
-            this.sync(server);
+                this.sync(server);
+            }
         }
     }
 

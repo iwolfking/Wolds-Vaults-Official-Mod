@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.type.capability.ICurio;
+import xyz.iwolfking.woldsvaults.init.ModGameRules;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,7 +57,7 @@ public abstract class MixinClassicAngelRingInteraction {
                 if (Configuration.XPCost.get() == 0) {
                     return true;
                 } else {
-                    if(ServerVaults.get(player.getUUID()).isPresent()) {
+                    if(ServerVaults.get(player.getUUID()).isPresent() && !player.getLevel().getGameRules().getBoolean(ModGameRules.ALLOW_FLIGHT_IN_VAULTS)) {
                         return false;
                     }
                     return ExperienceUtils.getPlayerXP(player) >= Configuration.XPCost.get();

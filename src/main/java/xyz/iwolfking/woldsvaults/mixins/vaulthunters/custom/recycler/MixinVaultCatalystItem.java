@@ -2,10 +2,10 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom.recycler;
 
 import iskallia.vault.config.VaultRecyclerConfig;
 import iskallia.vault.item.InfusedCatalystItem;
-import iskallia.vault.item.gear.DataInitializationItem;
+import iskallia.vault.item.core.DataInitializationItem;
+import iskallia.vault.item.core.VaultLevelItem;
 import iskallia.vault.item.gear.RecyclableItem;
-import iskallia.vault.item.gear.VaultLevelItem;
-import iskallia.vault.item.tool.IManualModelLoading;
+import iskallia.vault.item.render.core.IManualModelLoading;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

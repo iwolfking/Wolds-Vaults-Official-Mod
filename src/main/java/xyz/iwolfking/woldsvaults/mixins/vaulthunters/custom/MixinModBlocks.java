@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
-import iskallia.vault.block.entity.VaultChestTileEntity;
 import iskallia.vault.block.entity.VaultCrateTileEntity;
 import iskallia.vault.init.ModBlocks;
 import net.minecraft.world.level.block.Block;
@@ -10,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Slice;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,8 +19,13 @@ import static iskallia.vault.init.ModBlocks.*;
 @Mixin(value = ModBlocks.class, remap = false)
 public class MixinModBlocks {
 
-    @ModifyArg(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/BlockEntityType$Builder;of(Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;[Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/entity/BlockEntityType$Builder;", remap = true, ordinal = 9), index = 1)
-    private static Block[] injectNewBackpack(Block[] pValidBlocks) {
+    @ModifyArg(method = "<clinit>",
+        slice = @Slice( // after assigning LOOT_STATUE_TILE_ENTITY and before assigning SHOP_PEDESTAL_TILE_ENTITY
+            from = @At(value = "FIELD", target = "iskallia/vault/init/ModBlocks.LOOT_STATUE_TILE_ENTITY : Lnet/minecraft/world/level/block/entity/BlockEntityType;"),
+            to = @At(value = "FIELD", target = "iskallia/vault/init/ModBlocks.SHOP_PEDESTAL_TILE_ENTITY : Lnet/minecraft/world/level/block/entity/BlockEntityType;")
+        ),
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/BlockEntityType$Builder;of(Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;[Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/entity/BlockEntityType$Builder;", remap = true, ordinal = 0), index = 1)
+    private static Block[] injectNewShopPedestal(Block[] pValidBlocks) {
         ArrayList<Block> pedestalList = new java.util.ArrayList<>(Arrays.stream(pValidBlocks).toList());
         pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.ETCHING_PEDESTAL);
         pedestalList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.GOD_VENDOR_PEDESTAL);
