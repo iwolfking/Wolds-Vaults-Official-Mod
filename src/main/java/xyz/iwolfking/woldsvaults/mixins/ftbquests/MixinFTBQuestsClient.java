@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.mixins.ftbteams;
+package xyz.iwolfking.woldsvaults.mixins.ftbquests;
 
 import dev.ftb.mods.ftbquests.client.FTBQuestsClient;
 import net.minecraft.client.Minecraft;

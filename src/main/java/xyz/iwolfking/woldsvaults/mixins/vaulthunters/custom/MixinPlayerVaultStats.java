@@ -56,7 +56,7 @@ public abstract class MixinPlayerVaultStats {
         this.exp = Math.max(this.exp, 0);
         this.exp += (int) ((float) exp * ModConfigs.LEVELS_META.getExpMultiplier());
         ServerPlayer player = server.getPlayerList().getPlayer(this.uuid);
-        if(player == null) {
+        if (player == null) {
             return;
         }
         ExpertiseTree expertises = PlayerExpertisesData.get(player.getLevel()).getExpertises(player);
@@ -89,15 +89,16 @@ public abstract class MixinPlayerVaultStats {
                     NetcodeUtils.runIfPresent(server, this.uuid, this::fancyLevelUpEffects);
                     player.refreshTabListName();
 
-            if (this.vaultLevel > initialLevel) {
-                NetcodeUtils.runIfPresent(server, this.uuid, this::fancyLevelUpEffects);
-                player.refreshTabListName();
-                woldsVaults$vaultLevelTaskProgress(player, exp, initialLevel, this.vaultLevel);
-                MinecraftForge.EVENT_BUS.post(new VaultLevelUpEvent(player, exp, initialLevel, this.vaultLevel));
-                    CommonEvents.VAULT_LEVEL_UP.invoke(player, exp, initialLevel, this.vaultLevel);
-                }
+                    if (this.vaultLevel > initialLevel) {
+                        NetcodeUtils.runIfPresent(server, this.uuid, this::fancyLevelUpEffects);
+                        player.refreshTabListName();
+                        woldsVaults$vaultLevelTaskProgress(player, exp, initialLevel, this.vaultLevel);
+                        MinecraftForge.EVENT_BUS.post(new VaultLevelUpEvent(player, exp, initialLevel, this.vaultLevel));
+                        CommonEvents.VAULT_LEVEL_UP.invoke(player, exp, initialLevel, this.vaultLevel);
+                    }
 
-                this.sync(server);
+                    this.sync(server);
+                }
             }
         }
     }
