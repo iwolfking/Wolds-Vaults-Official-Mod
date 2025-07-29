@@ -69,7 +69,7 @@ public class AlchemyObjective extends Objective {
 
 
     public static final FieldKey<Integer> VAULT_LEVEL = FieldKey.of("vault_level", Integer.class)
-            .with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all()))
+            .with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
             .register(FIELDS); // yeah right why would we need the VAULT LEVEL on a client, thats useless, im not upset
 
 
@@ -192,6 +192,7 @@ public class AlchemyObjective extends Objective {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public boolean render(Vault vault, PoseStack poseStack, Window window, float v, Player player) {
         int midX = window.getGuiScaledWidth() / 2;
         Font font = Minecraft.getInstance().font;
