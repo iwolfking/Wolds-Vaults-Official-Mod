@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.plugins;
 
 import com.bawnorton.mixinsquared.api.MixinCanceller;
+import iskallia.vault.mixin.MixinLocalPlayer;
 import iskallia.vault.mixin.MixinWorldChunk;
 import net.minecraftforge.fml.loading.LoadingModList;
 
@@ -31,7 +32,7 @@ public class WoldMixinCanceller implements MixinCanceller {
                 return true;
             }
         }
-
+      
         if(LoadingModList.get().getModFileById("black_market_tweaks") != null) {
             if(s.equals("dev.attackeight.black_market_tweaks.mixin.ServerboundResetBlackMarketTradesMessageMixin")) {
                 return true;

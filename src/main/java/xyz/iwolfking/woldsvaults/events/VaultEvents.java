@@ -1,17 +1,29 @@
 package xyz.iwolfking.woldsvaults.events;
 
+import dev.ftb.mods.ftbquests.quest.ServerQuestFile;
+import dev.ftb.mods.ftbquests.quest.TeamData;
+import iskallia.vault.VaultMod;
 import iskallia.vault.core.data.key.ThemeKey;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.WorldManager;
+import iskallia.vault.event.event.BountyCompleteEvent;
 import iskallia.vault.event.event.VaultJoinEvent;
+import iskallia.vault.event.event.VaultLeaveEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.spongepowered.asm.mixin.Unique;
 import virtuoel.pehkui.api.ScaleTypes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
+import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.CompleteBountyTask;
+import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.EnterVaultTask;
+import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.VaultLevelTask;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(
         modid = WoldsVaults.MOD_ID
@@ -29,8 +41,59 @@ public class VaultEvents {
                 if(!DiscoveredThemesData.get(joinedPlayer.server).hasDiscovered(joinedPlayer, theme) && themeKey != null) {
                     DiscoveredThemesData.get(joinedPlayer.server).discoverThemeAndBroadcast(themeKey, joinedPlayer);
                 }
+                progressVaultEnterTasks(joinedPlayer);
             }
         }
 
+    }
+
+    private static List<CompleteBountyTask> completeBountyTasks = null;
+
+
+    @SubscribeEvent
+    public static void onBountyComplete(BountyCompleteEvent event) {
+        Player player = event.getPlayer();
+        if (completeBountyTasks == null) {
+            completeBountyTasks = ServerQuestFile.INSTANCE.collect(CompleteBountyTask.class);
+        }
+
+        if (completeBountyTasks.isEmpty()) {
+            return;
+        }
+
+        TeamData data = ServerQuestFile.INSTANCE.getData(player);
+
+        for (CompleteBountyTask task : completeBountyTasks) {
+            if (data.getProgress(task) < task.getMaxProgress() && data.canStartTasks(task.quest)) {
+                if(task.getTaskType().equals(VaultMod.id("any")) || task.getTaskType() == null) {
+                    data.setProgress(task, 1L);
+                }
+                else if(task.getTaskType().equals(event.getTask().getTaskType())) {
+                    data.setProgress(task, 1L);
+                }
+            }
+        }
+    }
+
+    private static List<EnterVaultTask> enterVaultTasks = null;
+
+
+    @Unique
+    public static void progressVaultEnterTasks(Player player) {
+        if (enterVaultTasks == null) {
+            enterVaultTasks = ServerQuestFile.INSTANCE.collect(EnterVaultTask.class);
+        }
+
+        if (enterVaultTasks.isEmpty()) {
+            return;
+        }
+
+        TeamData data = ServerQuestFile.INSTANCE.getData(player);
+
+        for (EnterVaultTask task : enterVaultTasks) {
+            if (data.getProgress(task) < task.getMaxProgress() && data.canStartTasks(task.quest)) {
+                data.setProgress(task, 1L);
+            }
+        }
     }
 }

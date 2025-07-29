@@ -16,6 +16,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("curios.identifier.trinket_pouch", "Trinket Pouch");
         add("curios.identifier.green_trinket", "Green Trinket");
         add("curios.modifiers.trinket_pouch", "Pouch Modifiers");
+        add("ftbquests.task.woldsvaults.vault_level", "Vault Level");
+        add("ftbquests.task.woldsvaults.enter_vault", "Enter Vault");
+        add("ftbquests.task.woldsvaults.complete_bounty", "Complete Bounty");
         add("item.scannable.vault_ores_module", "Scanner Module: Vault Ores");
         add("item.scannable.vault_chests_module", "Scanner Module: All Chests");
         add("item.scannable.vault_chests_module_living", "Scanner Module: Living Chests");
