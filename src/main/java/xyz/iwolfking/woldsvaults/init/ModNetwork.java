@@ -7,6 +7,7 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.lib.network.packets.StopFlightMessage;
+import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage;
 
 public class ModNetwork {
     private static int id = 0;
@@ -21,6 +22,7 @@ public class ModNetwork {
 
     public static void init() {
         CHANNEL.registerMessage(id++, StopFlightMessage.class, StopFlightMessage::encode, StopFlightMessage::decode, StopFlightMessage::handle);
+        CHANNEL.registerMessage(id++, ClientboundSyncGamerulesMessage.class, ClientboundSyncGamerulesMessage::encode, ClientboundSyncGamerulesMessage::decode, ClientboundSyncGamerulesMessage::handle);
     }
 
     public static <T> void sendToServer(T message) {

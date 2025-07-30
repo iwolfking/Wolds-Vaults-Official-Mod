@@ -17,6 +17,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.type.capability.ICurio;
+import xyz.iwolfking.woldsvaults.api.helper.GameruleHelper;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
@@ -44,7 +45,7 @@ public class ChromaticGoldAngelRingInteraction {
             }
 
             protected boolean checkIfAllowedToFly(Player player, ItemStack stack) {
-                if(ServerVaults.get(player.getLevel()).isPresent() && !ModGameRules.isEnabled(ModGameRules.ALLOW_FLIGHT_IN_VAULTS, player.getLevel())) {
+                if(ServerVaults.get(player.getLevel()).isPresent() && !GameruleHelper.isEnabled(ModGameRules.ALLOW_FLIGHT_IN_VAULTS, player.getLevel())) {
                     return false;
                 }
                 if (Configuration.XPCost.get() == 0) {
