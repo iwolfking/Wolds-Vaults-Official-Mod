@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.data.adapter.Adapters;
+import iskallia.vault.core.data.adapter.vault.CompoundAdapter;
 import iskallia.vault.core.data.key.FieldKey;
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.data.key.registry.FieldRegistry;
@@ -20,6 +21,7 @@ import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.objective.Objectives;
 import iskallia.vault.core.vault.objective.PvPObjective;
 import iskallia.vault.core.vault.player.Listener;
+import iskallia.vault.core.vault.player.Listeners;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.init.ModConfigs;
@@ -29,6 +31,7 @@ import iskallia.vault.task.ProgressConfiguredTask;
 import iskallia.vault.task.Task;
 import iskallia.vault.task.TaskContext;
 import iskallia.vault.task.counter.TargetTaskCounter;
+import iskallia.vault.task.counter.TaskCounter;
 import iskallia.vault.task.renderer.context.TaskRendererContext;
 import iskallia.vault.task.source.EntityTaskSource;
 import iskallia.vault.task.source.TaskSource;
@@ -41,6 +44,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.api.helper.NormalizedHelper;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BingoObjectiveAccessor;
 import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
 import java.util.Iterator;
@@ -53,7 +57,9 @@ public class BallisticBingoObjective extends BingoObjective {
     public static final FieldKey<Task> TASK;
     public static final FieldKey<TaskSource> TASK_SOURCE;
     public static final FieldKey<Integer> JOINED;
+    public static final FieldKey<TaskMap> TASKS;
     private boolean pvp;
+    private int lastScaledJoined = -1;
 
     protected BallisticBingoObjective() {
     }
@@ -73,55 +79,67 @@ public class BallisticBingoObjective extends BingoObjective {
     }
 
     @Override
-    public TaskContext getContext(VirtualWorld world, Vault vault) {
-        this.setIfAbsent(TASK_SOURCE, () -> EntityTaskSource.ofUuids(JavaRandom.ofInternal(vault.get(Vault.SEED))));
-        return TaskContext.of(this.get(TASK_SOURCE), world.getServer()).setVault(vault);
-    }
-
-    @Override
-    public boolean isCompleted() {
-        if (this.get(TASK) instanceof BingoTask bingo) {
-            return bingo.areAllCompleted();
-        }
-        return false;
-    }
-
-    @Override
-    public int getBingos() {
-        if (this.get(TASK) instanceof BingoTask bingo) {
-            return bingo.getCompletedBingos();
-        }
-        return 0;
-    }
-
-    @Override
     public void initServer(VirtualWorld world, Vault vault) {
         NormalizedHelper.handleAddingNormalizedToVault(vault, world);
-      
-        CommonEvents.LISTENER_JOIN.register(this, data -> {
 
+        this.pvp = ((Objectives)vault.get(Vault.OBJECTIVES)).forEach(PvPObjective.class, (obj) -> true);
+        CommonEvents.LISTENER_JOIN.register(this, (data) -> {
             if (data.getVault() == vault) {
-                if (data.getListener() instanceof Runner runner) {
-                    if (this.get(TASK_SOURCE) instanceof EntityTaskSource entitySource) {
-                        entitySource.add(runner.getId());
+                Listener patt4799$temp = data.getListener();
+                if (patt4799$temp instanceof Runner) {
+                    Runner runner = (Runner)patt4799$temp;
+                    if (this.pvp) {
+                        if (!((TaskMap)this.get(TASKS)).containsKey(runner.getId())) {
+                            BingoTask board = (BingoTask)((BingoTask)this.get(TASK)).copy();
+                            board.onAttach(((BingoObjectiveAccessor)this).getContext(world, vault, runner.getId()));
+                            ((TaskMap)this.get(TASKS)).put(runner.getId(), board);
+                        }
+                    } else {
+                        Object patt5225$temp = this.get(TASK_SOURCE);
+                        if (patt5225$temp instanceof EntityTaskSource) {
+                            EntityTaskSource entitySource = (EntityTaskSource)patt5225$temp;
+                            entitySource.add(new UUID[]{runner.getId()});
+                        }
+
+                        this.set(JOINED, (Integer)this.getOr(JOINED, 0) + 1);
                     }
 
-                    this.set(JOINED, this.getOr(JOINED, 0) + 1);
                 }
             }
         });
-        CommonEvents.LISTENER_LEAVE.register(this, data -> {
+        CommonEvents.LISTENER_LEAVE.register(this, (data) -> {
             if (data.getVault() == vault) {
-                if (data.getListener() instanceof Runner runner) {
-                    if (this.get(TASK_SOURCE) instanceof EntityTaskSource entitySource) {
-                        entitySource.remove(runner.getId());
+                Listener patt5575$temp = data.getListener();
+                if (patt5575$temp instanceof Runner) {
+                    Runner runner = (Runner)patt5575$temp;
+                    if (this.pvp) {
+                        BingoTask board = (BingoTask)((TaskMap)this.get(TASKS)).remove(runner.getId());
+                        if (board != null) {
+                            board.onDetach();
+                        }
+                    } else {
+                        Object patt5819$temp = this.get(TASK_SOURCE);
+                        if (patt5819$temp instanceof EntityTaskSource) {
+                            EntityTaskSource entitySource = (EntityTaskSource)patt5819$temp;
+                            entitySource.remove(new UUID[]{runner.getId()});
+                        }
                     }
 
                 }
             }
         });
-        this.get(TASK).onAttach(this.getContext(world, vault));
-        CommonEvents.GRID_GATEWAY_UPDATE.register(this, data -> {
+        ((Task)this.get(TASK)).onAttach(this.getContext(world, vault));
+        if (this.pvp) {
+            for(Runner runner : ((Listeners)vault.get(Vault.LISTENERS)).getAll(Runner.class)) {
+                BingoTask board = (BingoTask)((BingoTask)this.get(TASK)).copy();
+                board.onAttach(((BingoObjectiveAccessor)this).getContext(world, vault, runner.getId()));
+                ((TaskMap)this.get(TASKS)).put(runner.getId(), board);
+            }
+
+            ((Task)this.get(TASK)).onDetach();
+        }
+
+        CommonEvents.GRID_GATEWAY_UPDATE.register(this, (data) -> {
             if (data.getLevel() == world) {
                 data.getEntity().setCompletedBingos(this.getBingos());
             }
@@ -138,21 +156,89 @@ public class BallisticBingoObjective extends BingoObjective {
             }
         }
 
-        if (this.get(TASK) instanceof BingoTask root) {
-            for(int index = 0; index < root.getWidth() * root.getHeight(); ++index) {
-                if (!root.isCompleted(index)) {
-                    root.getChild(index).streamSelfAndDescendants(ProgressConfiguredTask.class).forEach(task -> {
-                        if (task.getCounter() instanceof TargetTaskCounter<?, ?> counter) {
-                            if (counter.isPopulated()) {
-                                counter.get("targetPlayerContribution", Adapters.DOUBLE).ifPresent(contribution -> {
-                                    if (counter.getBaseTarget() instanceof Integer base) {
-                                        int additional = Math.max(this.getOr(JOINED, 0) - 1, 0);
-                                        counter.setTarget((int)(base + additional * contribution * base));
+        if (this.pvp) {
+            ((TaskMap)this.get(TASKS)).forEach((uuid, task) -> {
+                if (task instanceof BingoTask bingo) {
+                    bingo.onTick(((BingoObjectiveAccessor)this).getContext(world, vault, uuid));
+                }
+
+            });
+        } else {
+            Object var4 = this.get(TASK);
+            if (var4 instanceof BingoTask) {
+                BingoTask bingo = (BingoTask)var4;
+                bingo.onTick(this.getContext(world, vault));
+            }
+        }
+
+        if (world.getTickCount() % 20 == 0) {
+            int joined = (Integer)this.getOr(JOINED, 0);
+            if (this.pvp) {
+                ((TaskMap)this.get(TASKS)).values().forEach((task) -> {
+                    if (task instanceof BingoTask root) {
+                        for(int index = 0; index < root.getWidth() * root.getHeight(); ++index) {
+                            if (!root.isCompleted(index)) {
+                                root.getChild(index).streamSelfAndDescendants(ProgressConfiguredTask.class).forEach((t) -> {
+                                    TaskCounter patt7787$temp = t.getCounter();
+                                    if (patt7787$temp instanceof TargetTaskCounter<?, ?> counter) {
+                                        if (counter.isPopulated()) {
+                                            counter.get("targetPlayerContribution", Adapters.DOUBLE).ifPresent((contribution) -> {
+                                                Object patt8038$temp = counter.getBaseTarget();
+                                                if (patt8038$temp instanceof Integer base) {
+                                                    counter.setTarget((int)((double)base + contribution * (double)base));
+                                                } else {
+                                                    patt8038$temp = counter.getBaseTarget();
+                                                    if (patt8038$temp instanceof Float base) {
+                                                        counter.setTarget((float)((double)base + contribution * (double)base));
+                                                    }
+                                                }
+
+                                            });
+                                            return;
+                                        }
                                     }
+
                                 });
                             }
                         }
-                    });
+
+                    }
+                });
+            } else if (joined != this.lastScaledJoined) {
+                Object var5 = this.get(TASK);
+                if (var5 instanceof BingoTask) {
+                    BingoTask root = (BingoTask)var5;
+                    this.lastScaledJoined = joined;
+
+                    for(int index = 0; index < root.getWidth() * root.getHeight(); ++index) {
+                        if (!root.isCompleted(index)) {
+                            root.getChild(index).streamSelfAndDescendants(ProgressConfiguredTask.class).forEach((task) -> {
+                                TaskCounter patt9064$temp = task.getCounter();
+                                if (patt9064$temp instanceof TargetTaskCounter<?, ?> counter) {
+                                    if (counter.isPopulated()) {
+                                        counter.get("targetPlayerContribution", Adapters.DOUBLE).ifPresent((contribution) -> {
+                                            int additional = Math.max(joined - 1, 0);
+                                            Object patt9378$temp = counter.getBaseTarget();
+                                            if (patt9378$temp instanceof Integer base) {
+                                                counter.setTarget((int)((double)base + (double)additional * contribution * (double)base));
+                                            } else {
+                                                patt9378$temp = counter.getBaseTarget();
+                                                if (!(patt9378$temp instanceof Float)) {
+                                                    throw new UnsupportedOperationException();
+                                                }
+
+                                                Float base = (Float)patt9378$temp;
+                                                counter.setTarget((float)((double)base + (double)additional * contribution * (double)base));
+                                            }
+
+                                        });
+                                        return;
+                                    }
+                                }
+
+                            });
+                        }
+                    }
                 }
             }
         }
@@ -165,25 +251,32 @@ public class BallisticBingoObjective extends BingoObjective {
             listener.addObjective(vault, this);
         }
 
-        if (listener instanceof Runner && this.getBingos() > 0) {
-            (this.get(CHILDREN)).forEach(child -> child.tickListener(world, vault, listener));
+        if (listener instanceof Runner runner) {
+            if (this.pvp) {
+                BingoTask task = (BingoTask)((TaskMap)this.get(TASKS)).get(runner.getId());
+                if (task != null && task.getCompletedBingos() > 0) {
+                    (this.get(CHILDREN)).forEach(child -> child.tickListener(world, vault, listener));
+                }
+            } else if (this.getBingos() > 0) {
+                (this.get(CHILDREN)).forEach(child -> child.tickListener(world, vault, listener));
+            }
         }
-
     }
 
     @Override
     public void releaseServer() {
-        this.get(TASK).onDetach();
-        CommonEvents.release(this);
-        this.get(CHILDREN).forEach(Objective::releaseServer);
-    }
+        if (this.pvp) {
+            ((TaskMap)this.get(TASKS)).values().forEach((task) -> {
+                if (task != null) {
+                    task.onDetach();
+                }
 
-    @Override
-    public void onScroll(Player player, double delta) {
-        if (this.get(TASK) instanceof BingoTask bingo) {
-            bingo.progressBingoLine(player.getUUID(), delta < 0.0 ? 1 : -1);
+            });
+        } else {
+            ((Task)this.get(TASK)).onDetach();
         }
 
+        this.get(CHILDREN).forEach(Objective::releaseServer);
     }
 
     @Override
@@ -205,26 +298,35 @@ public class BallisticBingoObjective extends BingoObjective {
         this.get(CHILDREN).forEach(child -> child.initClient(vault));
     }
 
-    @Override
-    public boolean isActive(VirtualWorld world, Vault vault, Objective objective) {
-        if (this.isCompleted()) {
-            for (Objective child : this.get(CHILDREN)) {
-                if (child.isActive(world, vault, objective)) {
-                    return true;
-                }
+    @OnlyIn(Dist.CLIENT)
+    public boolean render(Vault vault, PoseStack poseStack, Window window, float partialTicks, Player player) {
+        List<PvPObjective> objs = ((Objectives)vault.get(Vault.OBJECTIVES)).getAll(PvPObjective.class);
+        if (!objs.isEmpty()) {
+            PvPObjective objective = (PvPObjective)objs.get(0);
+            if (!objective.has(PvPObjective.COUNTDOWN_FINISHED)) {
+                return false;
+            }
+        }
+
+        if (this.isCompleted() && (Minecraft.getInstance().screen != null || !ModKeybinds.openBingo.isDown())) {
+            boolean rendered = false;
+
+            for(Objective objective : (Objective.ObjList)this.get(CHILDREN)) {
+                rendered |= objective.render(vault, poseStack, window, partialTicks, player);
             }
 
-            return false;
+            if (rendered) {
+                return true;
+            }
+        }
+
+        Task task = this.pvp ? (Task)((TaskMap)this.get(TASKS)).get(player.getUUID()) : (Task)this.get(TASK);
+        if (task == null) {
+            return true;
         } else {
-            if (this.getBingos() > 0) {
-                for (Objective child : this.get(CHILDREN)) {
-                    if (child.isActive(world, vault, objective)) {
-                        return true;
-                    }
-                }
-            }
-
-            return objective == this;
+            TaskRendererContext context = new TaskRendererContext(poseStack, partialTicks, MultiBufferSource.immediate(Tesselator.getInstance().getBuilder()), Minecraft.getInstance().font);
+            task.onRender(context);
+            return true;
         }
     }
 
@@ -251,11 +353,30 @@ public class BallisticBingoObjective extends BingoObjective {
         }
     }
 
+    public void onScroll(Player player, double delta) {
+        if (this.pvp) {
+            if (((TaskMap)this.get(TASKS)).containsKey(player.getUUID())) {
+                Task t = (Task)((TaskMap)this.get(TASKS)).get(player.getUUID());
+                if (t instanceof BingoTask board) {
+                    board.progressBingoLine(player.getUUID(), delta < (double)0.0F ? 1 : -1);
+                }
+            }
+        } else {
+            Object var7 = this.get(TASK);
+            if (var7 instanceof BingoTask bingo) {
+                bingo.progressBingoLine(player.getUUID(), delta < (double)0.0F ? 1 : -1);
+            }
+        }
+
+    }
+
+
     static {
         KEY = SupplierKey.of("ballistic_bingo", Objective.class).with(Version.v1_27, BallisticBingoObjective::new);
         FIELDS = Objective.FIELDS.merge(new FieldRegistry());
         TASK = FieldKey.of("task", Task.class).with(Version.v1_27, Adapters.TASK_NBT, DISK.all().or(CLIENT.all())).register(FIELDS);
         TASK_SOURCE = FieldKey.of("task_source", TaskSource.class).with(Version.v1_27, Adapters.TASK_SOURCE_NBT, DISK.all().or(CLIENT.all())).register(FIELDS);
         JOINED = FieldKey.of("joined", Integer.class).with(Version.v1_27, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
+        TASKS = FieldKey.of("tasks", TaskMap.class).with(Version.v1_38, CompoundAdapter.of(TaskMap::new), DISK.all().or(CLIENT.all())).register(FIELDS);
     }
 }
