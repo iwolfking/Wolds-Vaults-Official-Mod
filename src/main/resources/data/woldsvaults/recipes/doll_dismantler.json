@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GCG",
+    "OPO"
+  ],
+  "key": {
+    "P": {
+      "item": "the_vault:gem_pog"
+    },
+    "G": {
+      "tag": "forge:glass"
+    },
+    "C": {
+      "item": "the_vault:chromatic_steel_block"
+    },
+    "O": {
+      "item": "the_vault:gem_black_opal"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:doll_dismantler",
+    "count": 1
+  }
+}
