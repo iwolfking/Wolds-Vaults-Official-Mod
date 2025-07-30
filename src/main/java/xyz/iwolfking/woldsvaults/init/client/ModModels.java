@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.init.client;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -14,6 +15,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapper;
 import net.p3pp3rf1y.sophisticatedcore.util.WorldHelper;
 import xyz.iwolfking.woldsvaults.blocks.models.MonolithControllerModel;
+import xyz.iwolfking.woldsvaults.client.renderers.DollDismantlingRenderer;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
@@ -23,6 +25,7 @@ public class ModModels {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.SURVIVAL_MOB_BARRIER, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.ISKALLIAN_LEAVES_BLOCK, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GATEWAY_CHANNELING_BLOCK, RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.DOLL_DISMANTLING_BLOCK, RenderType.cutout());
     }
 
 

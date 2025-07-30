@@ -58,5 +58,7 @@ public class ModSoundDefinitionsProvider extends SoundDefinitionsProvider {
 
         add(ModSounds.DARK, SoundDefinition.definition().with(sound(WoldsVaults.id("dark")).stream()));
 
+        add(ModSounds.BLENDER, SoundDefinition.definition().with(sound(WoldsVaults.id("blender")).stream()));
+
     }
 }

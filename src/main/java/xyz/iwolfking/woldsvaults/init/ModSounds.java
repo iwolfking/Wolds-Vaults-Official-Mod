@@ -15,6 +15,8 @@ public class ModSounds {
     public static SoundEvent DARK;
     public static SoundEvent OMINOUS_AMBIENCE;
 
+    public static SoundEvent BLENDER;
+
 
 
     public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
@@ -24,6 +26,7 @@ public class ModSounds {
         SAFERSPACES_PROC = registerSound(event, "saferspaces_proc");
         DARK = registerSound(event, "dark");
         OMINOUS_AMBIENCE = registerSound(event, "ominous_ambience");
+        BLENDER = registerSound(event, "blender");
     }
 
     private static SoundEvent registerSound(RegistryEvent.Register<SoundEvent> event, String soundName) {
