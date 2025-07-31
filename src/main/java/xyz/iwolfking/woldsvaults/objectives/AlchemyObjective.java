@@ -21,10 +21,8 @@ import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
-import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.entity.champion.ChampionLogic;
-import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -170,6 +168,16 @@ public class AlchemyObjective extends Objective {
                 (data -> handleBrewEvent(data, vault, world))
         );
 
+        // Call super.tickListener() on listener leave, to generate a crate at the end so we can process all the crate quantity modifier at the end
+        // there is probably a better way, but i am lazy, lmao
+        CommonEvents.LISTENER_LEAVE.register(this,
+                (data -> {
+                    if (data.getVault() == vault) {
+                        super.tickListener(world, vault, data.getListener()); // dirty, dirty things
+                    }
+                })
+        );
+
         this.registerObjectiveTemplate(world, vault);
         super.initServer(world, vault);
     }
@@ -187,10 +195,6 @@ public class AlchemyObjective extends Objective {
         if (listener.getPriority(this) < 0) {
             listener.addObjective(vault, this);
         }
-
-        if (listener instanceof Runner && this.get(PROGRESS) >= this.get(REQUIRED_PROGRESS)) {
-            super.tickListener(world, vault, listener);
-        }
     }
 
     @Override
@@ -202,7 +206,14 @@ public class AlchemyObjective extends Objective {
         Component txt;
 
         if (this.get(PROGRESS) >= this.get(REQUIRED_PROGRESS)) {
-            txt = (new TextComponent("Exit to complete the Vault!")).withStyle(ChatFormatting.WHITE);
+            txt = new TextComponent("Brew more ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
+                    .append(new TextComponent("Potions ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
+                    .append(new TextComponent("for ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
+                    .append(new TextComponent("Crate Quantity").withStyle(Style.EMPTY.withColor(0x38C9C0)))
+                    .append(new TextComponent(", or Exit to complete ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
+                    .append(new TextComponent("the Vault").withStyle(Style.EMPTY.withColor(0xF0E68C)))
+                    .append(new TextComponent("!").withStyle(Style.EMPTY.withColor(0xFFFFFF)));
+
             FormattedCharSequence var21 = txt.getVisualOrderText();
             float var22 = (float)midX - (float)font.width(txt) / 2.0F;
             font.drawInBatch(var21, var22, 9.0F, -1, true, poseStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
@@ -369,21 +380,50 @@ public class AlchemyObjective extends Objective {
             );
         }
 
+        float oldProgress = this.get(PROGRESS);
+        float newProgress = oldProgress + percentage;
 
-        this.set(PROGRESS, this.get(PROGRESS) + percentage);
+        this.set(PROGRESS, newProgress);
 
-        if (this.get(PROGRESS) >= this.get(REQUIRED_PROGRESS)) {
-            int modifiersToAdd = (int) (this.get(PROGRESS) * 100 - this.get(REQUIRED_PROGRESS) * 100);
-            VaultModifier<?> crateQuantity = VaultModifierRegistry.get(VaultMod.id("crate_quantity"));
-            vault.get(Vault.MODIFIERS).addModifier(crateQuantity, modifiersToAdd, true, random);
-            world.players().forEach(player ->
-                    player.sendMessage(
-                            new TextComponent("- ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
-                                    .append(crateQuantity.getChatDisplayNameComponent(modifiersToAdd))
-                                    .append(new TextComponent(" has been applied!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
-                            Util.NIL_UUID
-                    )
-            );
+        // Check if it crossed the threshold this brew
+        if (oldProgress < this.get(REQUIRED_PROGRESS) && newProgress > this.get(REQUIRED_PROGRESS)) {
+            // Only count overflow amount above the requirement
+            float overflow = newProgress - this.get(REQUIRED_PROGRESS);
+            int crateAmount = (int) (overflow * 100);
+
+            if (crateAmount > 0) {
+                VaultModifier<?> crateQuantity = VaultModifierRegistry.get(VaultMod.id("crate_quantity"));
+                vault.get(Vault.MODIFIERS).addModifier(crateQuantity, crateAmount, true, random);
+
+                world.players().forEach(player ->
+                        player.sendMessage(
+                                new TextComponent("- Completion has overflown and ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
+                                        .append(crateQuantity.getChatDisplayNameComponent(crateAmount))
+                                        .append(new TextComponent(" has been added!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
+                                Util.NIL_UUID
+                        )
+                );
+            }
+
+        } else if (oldProgress >= this.get(REQUIRED_PROGRESS)) {
+            // Already completed before, full percentage goes to crate quantity
+            int crateAmount = (int) (percentage * 100);
+
+            if (crateAmount > 0) {
+                VaultModifier<?> crateQuantity = VaultModifierRegistry.get(VaultMod.id("crate_quantity"));
+                vault.get(Vault.MODIFIERS).addModifier(crateQuantity, crateAmount, true, random);
+
+                world.players().forEach(player ->
+                        player.sendMessage(
+                                new TextComponent("- Completion has overflown and ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
+                                        //.append(crateQuantity.getChatDisplayNameComponent(crateAmount))
+                                        .append(new TextComponent(" has been added!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
+                                Util.NIL_UUID
+                        )
+                );
+            }
         }
+
+
     }
 }
