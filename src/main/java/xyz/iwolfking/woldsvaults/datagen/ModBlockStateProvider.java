@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.client.model.generators.*;
@@ -32,6 +33,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         generateDecoObelisk();
         generateXLBackpack();
         generateGenericItemModelBlockState(ModBlocks.VAULT_CRATE_CORRUPTED);
+        generateGenericItemModelBlockState(ModBlocks.VAULT_CRATE_ALCHEMY);
         generateGenericItemModelBlockState(ModBlocks.DECO_SCAVENGER_ALTAR_BLOCK);
         generateGenericItemModelBlockState(ModBlocks.DECO_LODESTONE_BLOCK);
         generateGenericItemModelBlockState(ModBlocks.MOD_BOX_WORKSTATION);

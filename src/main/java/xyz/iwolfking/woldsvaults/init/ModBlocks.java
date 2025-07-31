@@ -48,6 +48,7 @@ public class ModBlocks {
     public static final FracturedObelisk FRACTURED_OBELISK;
     public static final MonolithControllerBlock MONOLITH_CONTROLLER;
     public static final VaultCrateBlock VAULT_CRATE_CORRUPTED;
+    public static final VaultCrateBlock VAULT_CRATE_ALCHEMY;
     public static final BrewingAltar BREWING_ALTAR;
 
     public static final Block PRISMATIC_FIBER_BLOCK;
@@ -124,6 +125,7 @@ public class ModBlocks {
         GATEWAY_CHANNELING_BLOCK = new GatewayChannelingBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
         FRACTURED_OBELISK = new FracturedObelisk();
         VAULT_CRATE_CORRUPTED = new VaultCrateBlock();
+        VAULT_CRATE_ALCHEMY = new VaultCrateBlock();
         MONOLITH_CONTROLLER = new MonolithControllerBlock();
         BREWING_ALTAR = new BrewingAltar();
         WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
@@ -173,6 +175,7 @@ public class ModBlocks {
         registerBlock(event, ETCHING_PEDESTAL, WoldsVaults.id("etching_shop_pedestal"));
         registerBlock(event, FRACTURED_OBELISK, WoldsVaults.id("fractured_obelisk"));
         registerBlock(event, VAULT_CRATE_CORRUPTED, WoldsVaults.id("vault_crate_corrupt"));
+        registerBlock(event, VAULT_CRATE_ALCHEMY, WoldsVaults.id("vault_crate_alchemy"));
         registerBlock(event, MONOLITH_CONTROLLER, WoldsVaults.id("monolith_controller"));
         registerBlock(event, BLACKSMITH_VENDOR_PEDESTAL, WoldsVaults.id("blacksmith_shop_pedestal"));
         registerBlock(event, RARE_VENDOR_PEDESTAL, WoldsVaults.id("rare_shop_pedestal"));
@@ -234,6 +237,7 @@ public class ModBlocks {
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
         registerBlockItem(event, FRACTURED_OBELISK);
         registerBlockItem(event, VAULT_CRATE_CORRUPTED, 1, Item.Properties::fireResistant);
+        registerBlockItem(event, VAULT_CRATE_ALCHEMY, 1, Item.Properties::fireResistant);
         registerBlockItem(event, MONOLITH_CONTROLLER);
         registerBlockItem(event, WUTODIE_STAIRS);
         registerBlockItem(event, WUTODIE_SLAB);

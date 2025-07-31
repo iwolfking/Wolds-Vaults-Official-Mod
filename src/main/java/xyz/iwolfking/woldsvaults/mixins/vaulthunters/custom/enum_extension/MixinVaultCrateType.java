@@ -16,6 +16,7 @@ public class MixinVaultCrateType {
     private static VaultCrateBlock.Type[] $VALUES;
 
     private static final VaultCrateBlock.Type CORRUPTED = enumExpansion$addVariant("CORRUPTED");
+    private static final VaultCrateBlock.Type ALCHEMY = enumExpansion$addVariant("ALCHEMY");
 
 
     @Invoker("<init>")

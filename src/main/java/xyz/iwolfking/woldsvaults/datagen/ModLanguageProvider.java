@@ -119,6 +119,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.woldsvaults.fractured_obelisk", "Fractured Obelisk");
         add("block.woldsvaults.monolith_controller", "Monolith Controller");
         add("block.woldsvaults.vault_crate_corrupt", "Corrupted Vault Crate");
+        add("block.woldsvaults.vault_crate_alchemy", "Alchemy Vault Crate");
         add("block.woldsvaults.nullite_ore", "Nullite Ore");
         add("entity.the_vault.wold", "Wold");
         add("entity.woldsvaults.green_ghost", "Toxic Ghost");

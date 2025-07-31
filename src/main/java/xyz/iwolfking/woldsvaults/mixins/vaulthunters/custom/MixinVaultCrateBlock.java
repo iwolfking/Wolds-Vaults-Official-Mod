@@ -14,6 +14,8 @@ public class MixinVaultCrateBlock {
     private static void handleAdditionalCrates(VaultCrateBlock.Type type, CallbackInfoReturnable<Block> cir) {
         if(type == VaultCrateBlock.Type.valueOf("CORRUPTED")) {
             cir.setReturnValue(ModBlocks.VAULT_CRATE_CORRUPTED);
+        } else if (type == VaultCrateBlock.Type.valueOf("ALCHEMY")) {
+            cir.setReturnValue(ModBlocks.VAULT_CRATE_ALCHEMY);
         }
     }
 
