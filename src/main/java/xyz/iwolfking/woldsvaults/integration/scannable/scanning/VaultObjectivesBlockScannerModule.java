@@ -39,10 +39,18 @@ public enum VaultObjectivesBlockScannerModule implements BlockScannerModule {
         c.add(ModBlocks.MODIFIER_DISCOVERY.getRegistryName());
         c.add(ModBlocks.ENHANCEMENT_ALTAR.getRegistryName());
         c.add(ModBlocks.SHOP_PEDESTAL.getRegistryName());
+        c.add(xyz.iwolfking.woldsvaults.init.ModBlocks.BLACKSMITH_VENDOR_PEDESTAL.getRegistryName());
+        c.add(xyz.iwolfking.woldsvaults.init.ModBlocks.ETCHING_PEDESTAL.getRegistryName());
+        c.add(xyz.iwolfking.woldsvaults.init.ModBlocks.CARD_VENDOR_PEDESTAL.getRegistryName());
+        c.add(xyz.iwolfking.woldsvaults.init.ModBlocks.GOD_VENDOR_PEDESTAL.getRegistryName());
+        c.add(xyz.iwolfking.woldsvaults.init.ModBlocks.RARE_VENDOR_PEDESTAL.getRegistryName());
+        c.add(xyz.iwolfking.woldsvaults.init.ModBlocks.OMEGA_VENDOR_PEDESTAL.getRegistryName());
         c.add(ModBlocks.CRAKE_PEDESTAL.getRegistryName());
         c.add(ModBlocks.SCAVENGER_ALTAR.getRegistryName());
         c.add(ModBlocks.VAULT_PORTAL.getRegistryName());
         c.add(ModBlocks.GRID_GATEWAY.getRegistryName());
+        c.add(xyz.iwolfking.woldsvaults.init.ModBlocks.BREWING_ALTAR.getRegistryName());
+        c.add(ModBlocks.RUNE_PILLAR.getRegistryName());
     });
 
     @Override
