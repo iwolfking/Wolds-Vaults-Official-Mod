@@ -2,16 +2,11 @@ package xyz.iwolfking.woldsvaults.client.screens;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.refinedmods.refinedstorage.container.FilterContainerMenu;
-import me.desht.pneumaticcraft.common.item.ClassifyFilterItem;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import vazkii.quark.base.client.handler.InventoryButtonHandler;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gui.menus.FilterNecklaceMenu;
 
 public class FilterNecklaceContainerScreen extends AbstractContainerScreen<FilterNecklaceMenu> {

@@ -108,27 +108,25 @@ public class VaultSalvagerTileEntity extends BlockEntity implements MenuProvider
                 MiscUtils.addStackToSlot(this.inventory, 1, this.getUseRelatedOutput(input, output.generateMainOutput(additionalChance)));
                 MiscUtils.addStackToSlot(this.inventory, 2, this.getUseRelatedOutput(input, output.generateExtraOutput1(additionalChance, rarity, isCrafted)));
                 if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 3, output.getExtraOutput2Matching())) {
-                    if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 3, output.getExtraOutput2Matching())) {
-                        MiscUtils.addStackToSlot(this.inventory, 3, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
-                    }
-                    else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 4, output.getExtraOutput2Matching())) {
-                        MiscUtils.addStackToSlot(this.inventory, 4, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
-                    }
-                    else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 5, output.getExtraOutput2Matching())) {
-                        MiscUtils.addStackToSlot(this.inventory, 5, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
-                    }
-                    else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 6, output.getExtraOutput2Matching())) {
-                        MiscUtils.addStackToSlot(this.inventory, 6, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
-                    }
-                    else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 7, output.getExtraOutput2Matching())) {
-                        MiscUtils.addStackToSlot(this.inventory, 7, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
-                    }
-                    else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 8, output.getExtraOutput2Matching())) {
-                        MiscUtils.addStackToSlot(this.inventory, 8, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
-                    }
-                    else {
-                        MiscUtils.addStackToSlot(this.inventory, 9, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
-                    }
+                    MiscUtils.addStackToSlot(this.inventory, 3, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
+                }
+                else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 4, output.getExtraOutput2Matching())) {
+                    MiscUtils.addStackToSlot(this.inventory, 4, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
+                }
+                else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 5, output.getExtraOutput2Matching())) {
+                    MiscUtils.addStackToSlot(this.inventory, 5, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
+                }
+                else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 6, output.getExtraOutput2Matching())) {
+                    MiscUtils.addStackToSlot(this.inventory, 6, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
+                }
+                else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 7, output.getExtraOutput2Matching())) {
+                    MiscUtils.addStackToSlot(this.inventory, 7, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
+                }
+                else if(MiscUtils.canFullyMergeIntoSlot(this.inventory, 8, output.getExtraOutput2Matching())) {
+                    MiscUtils.addStackToSlot(this.inventory, 8, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
+                }
+                else {
+                    MiscUtils.addStackToSlot(this.inventory, 9, this.getUseRelatedOutput(input, output.generateExtraOutput2(additionalChance, rarity, isCrafted)));
                 }
             }
             else {

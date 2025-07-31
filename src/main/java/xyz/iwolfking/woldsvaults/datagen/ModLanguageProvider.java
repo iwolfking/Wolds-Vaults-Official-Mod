@@ -23,6 +23,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("curios.identifier.trinket_pouch", "Trinket Pouch");
         add("curios.identifier.green_trinket", "Green Trinket");
         add("curios.modifiers.trinket_pouch", "Pouch Modifiers");
+        add("ftbquests.task.woldsvaults.vault_level", "Vault Level");
+        add("ftbquests.task.woldsvaults.enter_vault", "Enter Vault");
+        add("ftbquests.task.woldsvaults.complete_bounty", "Complete Bounty");
         add("item.scannable.vault_ores_module", "Scanner Module: Vault Ores");
         add("item.scannable.vault_chests_module", "Scanner Module: All Chests");
         add("item.scannable.vault_chests_module_living", "Scanner Module: Living Chests");
@@ -121,6 +124,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.woldsvaults.vault_crate_corrupt", "Corrupted Vault Crate");
         add("block.woldsvaults.vault_crate_alchemy", "Alchemy Vault Crate");
         add("block.woldsvaults.nullite_ore", "Nullite Ore");
+        add("block.woldsvaults.doll_dismantler", "Doll Blender");
         add("entity.the_vault.wold", "Wold");
         add("entity.woldsvaults.green_ghost", "Toxic Ghost");
         add("entity.woldsvaults.black_ghost", "Unholy Ghost");
@@ -206,7 +210,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("key.woldsvaults.cherish_item", "Cherish Item");
         add("key.woldsvaults.open_wolds_vaults_config", "Open Wold's Vaults Config Screen");
         add("key.woldsvaults.is_feather_fixed", "Toggle Prismatic Feather Fix");
-        add("key.woldsvaults.category", "Wold's Vaults");
+        add("key.category.woldsvaults", "Wold's Vaults");
         add("the_vault.gear_modification.reforge_weapon_type.description", "Reforges weapon type");
         add("the_vault.gear_modification.add_unusual_modifier.description", "Add unusual modifier");
         add("the_vault.gear_modification.add_unusual_modifier.no_modifiers", "No additional modifiers available");

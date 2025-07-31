@@ -15,6 +15,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.type.capability.ICurio;
+import xyz.iwolfking.woldsvaults.api.helper.GameruleHelper;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
@@ -59,7 +60,7 @@ public class PrismaticAngelRingInteraction {
 //                if (!hasAngelExpertise) {
 //                    return false;
 //                }
-                return ServerVaults.get(player.getLevel()).isEmpty() || ModGameRules.isEnabled(ModGameRules.ALLOW_FLIGHT_IN_VAULTS, player.getLevel());
+                return ServerVaults.get(player.getLevel()).isEmpty() || GameruleHelper.isEnabled(ModGameRules.ALLOW_FLIGHT_IN_VAULTS, player.getLevel());
             }
 
             protected TranslatableComponent getNotAbleToFlyMessage() {

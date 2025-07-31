@@ -46,8 +46,17 @@ public class WoldsVaultsConfig
 
     public static class Server {
 
+        public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerEnergyStorage;
+        public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerEnergyConsumption;
+        public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerEnergyTransfer;
+        public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerExtractionSpeed;
+
         public Server(ForgeConfigSpec.Builder builder) {
-            builder.push("Balance Settings");
+            builder.push("Doll Mixer Settings");
+            this.dollDismantlerEnergyStorage = builder.comment("Controls how much energy the Doll Dismantler can store inside the block. (default: 1000)").defineInRange("dollDismantlerEnergyStorage", 1000, 0, Integer.MAX_VALUE);
+            this.dollDismantlerEnergyConsumption = builder.comment("Controls how much energy the Doll Dismantler uses while blending. (default: 16)").defineInRange("dollDismantlerEnergyConsumption", 16, 0, Integer.MAX_VALUE);
+            this.dollDismantlerEnergyTransfer = builder.comment("Controls how much energy the Doll Dismantler can receive/extract (default: 100)").defineInRange("dollDismantlerEnergyTransfer", 100, 0, Integer.MAX_VALUE);
+            this.dollDismantlerExtractionSpeed = builder.comment("Controls how many stacks per tick the doll dismantler extracts (default: 5)").defineInRange("dollDismantlerEnergyTransfer", 5, 1, 100);
         }
     }
 

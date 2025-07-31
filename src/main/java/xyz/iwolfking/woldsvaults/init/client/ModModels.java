@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -16,6 +17,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapper;
 import net.p3pp3rf1y.sophisticatedcore.util.WorldHelper;
 import xyz.iwolfking.woldsvaults.blocks.models.MonolithControllerModel;
+import xyz.iwolfking.woldsvaults.client.renderers.DollDismantlingRenderer;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
@@ -26,6 +28,7 @@ public class ModModels {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.ISKALLIAN_LEAVES_BLOCK, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GATEWAY_CHANNELING_BLOCK, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.BREWING_ALTAR, RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.DOLL_DISMANTLING_BLOCK, RenderType.cutout());
     }
 
 
@@ -42,13 +45,14 @@ public class ModModels {
     @SubscribeEvent
     public static void registerItemColorHandlers(ColorHandlerEvent.Item event) {
         event.getItemColors().register((backpack, layer) -> {
-            if (layer > 1 || !(backpack.getItem() instanceof BackpackItem)) {
+            if(layer > 1 || !(backpack.getItem() instanceof BackpackItem)) {
                 return -1;
             }
             return backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).map(backpackWrapper -> {
-                if (layer == 0) {
+                if(layer == 0) {
                     return backpackWrapper.getMainColor();
-                } else if (layer == 1) {
+                }
+                else if(layer == 1) {
                     return backpackWrapper.getAccentColor();
                 }
                 return -1;
@@ -66,8 +70,6 @@ public class ModModels {
             return -1;
         }, ModItems.DECO_POTION);
     }
-
-
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)

@@ -50,6 +50,7 @@ public class WoldsVaults {
     public WoldsVaults() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WoldsVaultsConfig.COMMON_SPEC, "woldsvaults-common.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, WoldsVaultsConfig.CLIENT_SPEC, "woldsvaults-client.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, WoldsVaultsConfig.SERVER_SPEC, "woldsvaults-server.toml");
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
@@ -68,6 +69,7 @@ public class WoldsVaults {
         MinecraftForge.EVENT_BUS.register(this);
         ModCatalystModels.registerModels();
         ModInscriptionModels.registerModels();
+        ModFTBQuestsTaskTypes.init();
         MinecraftForge.EVENT_BUS.addListener(WoldDataLoaders::initProcessors);
     }
 

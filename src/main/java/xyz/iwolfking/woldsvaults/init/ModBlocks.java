@@ -50,6 +50,7 @@ public class ModBlocks {
     public static final VaultCrateBlock VAULT_CRATE_CORRUPTED;
     public static final VaultCrateBlock VAULT_CRATE_ALCHEMY;
     public static final BrewingAltar BREWING_ALTAR;
+    public static final Block DOLL_DISMANTLING_BLOCK;
 
     public static final Block PRISMATIC_FIBER_BLOCK;
     public static final CoinPileDecorBlock VAULT_PALLADIUM_PILE;
@@ -68,6 +69,7 @@ public class ModBlocks {
     public static final BlockEntityType<SurvivalMobBarrierTileEntity> SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<BackpackBlockEntity> SOPHISTICATED_BACKPACK;
     public static final BlockEntityType<VaultInfuserTileEntity> VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<DollDismantlingTileEntity> DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE;
 
     //Workstations
     public static final AugmentCraftingTableBlock AUGMENT_CRAFTING_TABLE;
@@ -131,6 +133,7 @@ public class ModBlocks {
         WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
         WUTODIE_WALL = new VaultGemWallBlock(ModItems.WUTODIE_GEM);
         WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
+        DOLL_DISMANTLING_BLOCK = new DollDismantlingBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.3F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), DollDismantlingBlock.DOLL_DISMANTLING_SHAPE);
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
         HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(HellishSandTileEntity::new, HELLISH_SAND_BLOCK).build(null);
@@ -148,6 +151,7 @@ public class ModBlocks {
         MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(MonolithControllerTileEntity::new, MONOLITH_CONTROLLER).build(null);
         WEAVING_STATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(WeavingStationTileEntity::new, new Block[]{WEAVING_STATION}).build(null);
         BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(BrewingAltarTileEntity::new, new Block[]{BREWING_ALTAR}).build(null);
+        DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DollDismantlingTileEntity::new, new Block[]{DOLL_DISMANTLING_BLOCK}).build(null);
     }
 
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -187,6 +191,8 @@ public class ModBlocks {
         registerBlock(event, WUTODIE_STAIRS, VaultMod.id("block_gem_wutodie_stairs"));
         registerBlock(event, WUTODIE_WALL, VaultMod.id("block_gem_wutodie_wall"));
         registerBlock(event, BREWING_ALTAR, WoldsVaults.id("brewing_altar"));
+        registerBlock(event, DOLL_DISMANTLING_BLOCK, WoldsVaults.id("doll_dismantler"));
+
     }
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
         registerTileEntity(event, VAULT_SALVAGER_ENTITY, VaultMod.id("vault_salvager_tile_entity"));
@@ -205,6 +211,7 @@ public class ModBlocks {
         registerTileEntity(event, FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("fractured_obelisk_tile_entity"));
         registerTileEntity(event, MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, WoldsVaults.id("monolith_controller_tile_entity"));
         registerTileEntity(event, BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("brewing_altar_tile_entity"));
+        registerTileEntity(event, DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("doll_dismantler_tile_entity"));
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
@@ -243,6 +250,7 @@ public class ModBlocks {
         registerBlockItem(event, WUTODIE_SLAB);
         registerBlockItem(event, WUTODIE_WALL);
         registerBlockItem(event, BREWING_ALTAR);
+        registerBlockItem(event, DOLL_DISMANTLING_BLOCK);
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -252,6 +260,7 @@ public class ModBlocks {
         event.registerBlockEntityRenderer(FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE, FracturedObeliskRenderer::new);
         event.registerBlockEntityRenderer(MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, MonolithControllerRenderer::new);
         event.registerBlockEntityRenderer(BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, BrewingAltarRenderer::new);
+        event.registerBlockEntityRenderer(DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, DollDismantlingRenderer::new);
         //event.registerBlockEntityRenderer(DECO_LODESTONE_TILE_ENTITY_BLOCK_ENTITY_TYPE, DecoLodestoneRenderer::new);
     }
 

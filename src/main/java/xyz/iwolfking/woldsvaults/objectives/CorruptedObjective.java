@@ -116,7 +116,7 @@ public class CorruptedObjective extends Objective {
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
         CorruptedVaultHelper.setBaseVaultTimer(vault);                                      // Set the timer to 5min
-        CorruptedVaultHelper.preventFruits(this);                                       // Prevent fruits from being effective
+        CorruptedVaultHelper.preventFruits(this, vault);                                       // Prevent fruits from being effective
         CorruptedVaultHelper.removeLocatorItem(this, vault);                            // Remove the locator item upon exiting the vault
         CorruptedVaultHelper.removeHealthReductionAttribute(this, vault);               // Remove the AttributeModifier from this vault on listener leave
         CorruptedVaultHelper.generateVaultModifierThresholds(this, world.getRandom());  // Generate the thresholds for applying random modifiers

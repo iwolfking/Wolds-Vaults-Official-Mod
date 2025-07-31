@@ -590,10 +590,13 @@ public class CorruptedVaultHelper {
         }
     }
 
-    public static void preventFruits(CorruptedObjective obj) {
+    public static void preventFruits(CorruptedObjective obj, Vault vault) {
         CommonEvents.FRUIT_EATEN.register(obj,  (data) -> {
-            data.setTime(0);
-            data.getPlayer().displayClientMessage(new TextComponent("Seems pointless...").withStyle(ChatFormatting.RED), true);
+            Vault playerVault = VaultUtils.getVault(data.getPlayer().getLevel()).orElse(null);
+            if(playerVault != null && playerVault.equals(vault)) {
+                data.setTime(0);
+                data.getPlayer().displayClientMessage(new TextComponent("Seems pointless...").withStyle(ChatFormatting.RED), true);
+            }
         });
     }
 
