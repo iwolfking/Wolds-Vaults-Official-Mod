@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.init.client;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -25,6 +27,7 @@ public class ModModels {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.SURVIVAL_MOB_BARRIER, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.ISKALLIAN_LEAVES_BLOCK, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GATEWAY_CHANNELING_BLOCK, RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.BREWING_ALTAR, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.DOLL_DISMANTLING_BLOCK, RenderType.cutout());
     }
 
@@ -55,6 +58,17 @@ public class ModModels {
                 return -1;
             }).orElse(BackpackWrapper.DEFAULT_CLOTH_COLOR);
         }, ModItems.XL_BACKPACK);
+
+
+        event.getItemColors().register((stack, layer) -> {
+            if (layer == 1) {
+                CompoundTag tag = stack.getTag();
+                if (tag != null && tag.contains("PotionColor", Tag.TAG_INT)) {
+                    return tag.getInt("PotionColor");
+                }
+            }
+            return -1;
+        }, ModItems.DECO_POTION);
     }
 
     @SubscribeEvent

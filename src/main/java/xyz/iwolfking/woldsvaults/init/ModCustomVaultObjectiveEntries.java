@@ -14,6 +14,8 @@ public class ModCustomVaultObjectiveEntries {
     public static final CustomObjectiveRegistryEntry BALLISTIC_BINGO = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("ballistic_bingo", "Ballistic Bingo", BallisticBingoCrystalObjective.class, BallisticBingoCrystalObjective::new, BallisticBingoObjective.KEY, BallisticBingoObjective.class).setCrateItem(ModBlocks.VAULT_CRATE_BINGO).build();
     public static final CustomObjectiveRegistryEntry ZEALOT = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("zealot", "Zealot", ZealotCrystalObjective.class, ZealotCrystalObjective::new, ZealotObjective.KEY, ZealotObjective.class).setCrateItem(ModBlocks.VAULT_CRATE_ELIXIR).build();
     public static final CustomObjectiveRegistryEntry CORRUPTED = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("corrupted", "Corrupted", CorruptedCrystalObjective.class, CorruptedCrystalObjective::new, CorruptedObjective.S_KEY, CorruptedObjective.class).setCrateItem(xyz.iwolfking.woldsvaults.init.ModBlocks.VAULT_CRATE_CORRUPTED).build();
+    public static final CustomObjectiveRegistryEntry ALCHEMY = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("alchemy", "Alchemy", AlchemyCrystalObjective.class, AlchemyCrystalObjective::new, AlchemyObjective.KEY, AlchemyObjective.class).setCrateItem(ModBlocks.VAULT_CRATE_ELIXIR).build();
+
 
     public static void registerCustomObjectives(RegistryEvent.Register<CustomObjectiveRegistryEntry> event) {
         event.getRegistry().register(BRUTAL_BOSSES);
@@ -23,5 +25,6 @@ public class ModCustomVaultObjectiveEntries {
         event.getRegistry().register(BALLISTIC_BINGO);
         event.getRegistry().register(ZEALOT);
         event.getRegistry().register(CORRUPTED);
+        event.getRegistry().register(ALCHEMY);
     }
 }

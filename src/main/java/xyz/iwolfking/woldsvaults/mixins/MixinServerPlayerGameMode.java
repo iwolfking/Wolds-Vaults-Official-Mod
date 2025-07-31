@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
 
 @Mixin(value = ServerPlayerGameMode.class, priority = 1500)
 public class MixinServerPlayerGameMode {
@@ -37,7 +38,7 @@ public class MixinServerPlayerGameMode {
             cir.setReturnValue(true);
         }
         else {
-            cir.setReturnValue(state.getBlock() instanceof VaultCrateBlock || state.getBlock() instanceof ShopPedestalBlock || state.getBlock() instanceof RoyaleCrateBlock );
+            cir.setReturnValue(state.getBlock() instanceof VaultCrateBlock || state.getBlock() instanceof ShopPedestalBlock || state.getBlock() instanceof RoyaleCrateBlock || state.getBlock() instanceof BrewingAltar);
         }
     }
 }

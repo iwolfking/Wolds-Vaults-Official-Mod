@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "woldsvaults:block/vault_crate_alchemy"
+    }
+  }
+}

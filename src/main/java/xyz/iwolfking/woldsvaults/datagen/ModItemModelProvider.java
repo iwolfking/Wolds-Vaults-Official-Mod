@@ -1,11 +1,11 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import iskallia.vault.VaultMod;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModItems;
@@ -69,11 +69,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.SKILL_ORB_ITEM);
         simpleItem(ModItems.SOUL_ICHOR);
         simpleItem(ModItems.SPARK_OF_INSPIRATION);
-
         simpleItem(ModItems.SUSPENSION_FOCUS);
         simpleItem(ModItems.TARGETED_MOD_BOX);
         simpleItem(ModItems.TOME_OF_TENOS);
-
         simpleItem(ModItems.UNIDENTIFIED_GATEWAY_PEARL);
         simpleItem(ModItems.VAULT_DIAMOND_NUGGET);
         simpleItem(ModItems.VAULT_ROCK_CANDY);
@@ -84,6 +82,19 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.WENDARR_GEM);
         simpleItem(ModItems.WISDOM_FRUIT);
         simpleItem(ModItems.ZEPHYR_CHARM);
+        simpleItem(ModItems.AURIC_CRYSTAL);
+        simpleItem(ModItems.ERRATIC_EMBER);
+        simpleItem(ModItems.INGREDIENT_TEMPLATE);
+        simpleItem(ModItems.REFINED_POWDER);
+        simpleItem(ModItems.ROTTEN_APPLE);
+        simpleItem(ModItems.ROTTEN_HEART);
+        simpleItem(ModItems.VERDANT_GLOBULE);
+        simpleItem(ModItems.CATALYST_STABILITY);
+        simpleItem(ModItems.CATALYST_AMPLIFYING);
+        simpleItem(ModItems.CATALYST_FOCUSING);
+        simpleItem(ModItems.CATALYST_TEMPORAL);
+        simpleItem(ModItems.CATALYST_UNSTABLE);
+        simpleItem(ModItems.CRYSTAL_SEAL_ALCHEMY);
         //simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         spawnEgg(ModItems.BLUE_BLAZE_EGG);
@@ -110,6 +121,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleResource("warrior_trinket_pouch");
         simpleResource("wizard_trinket_pouch");
 
+        simpleResource("alchemy_bottle");
+        simpleLayeredResource("bubbling_contents00", "alchemy_bottle", "bubbling_contents00"); // 1 ingredient
+        simpleLayeredResource("bubbling_contents01", "alchemy_bottle", "bubbling_contents01"); // 2 ingredients
+        simpleLayeredResource("bubbling_contents02", "alchemy_bottle", "bubbling_contents02"); // 3 ingredients
+        simpleLayeredResource("bubbling_contents03", "alchemy_bottle", "bubbling_contents03"); // cooking
+        generatePotionItem();
+
         // are we fr
         itemWithTexture(ModItems.UBER_CHAOS_CATALYST, "vault_catalyst_unhinged");
         itemWithTexture(ModItems.STYLISH_FOCUS, "stylish_orb");
@@ -123,7 +141,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         itemWithTexture(ModItems.TRINKET_POUCH, "standard_trinket_pouch");
         itemWithTexture(ModItems.GOD_OFFERING, "god_blessing_idona");
 
-        //withExistingParent("augment_crafting_table", modLoc("block/augment_crafting_table"));
 
     }
 
@@ -138,6 +155,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(resource,
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(WoldsVaults.MOD_ID, "item/" + resource));
+    }
+
+    private ItemModelBuilder simpleLayeredResource(String modelName, String base, String overlay) {
+        return withExistingParent(modelName, new ResourceLocation("item/generated"))
+                .texture("layer0", new ResourceLocation(WoldsVaults.MOD_ID, "item/" + base))
+                .texture("layer1", new ResourceLocation(WoldsVaults.MOD_ID, "item/" + overlay));
     }
 
     private ItemModelBuilder charm(String resource) {
@@ -161,5 +184,28 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getRegistryName().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(WoldsVaults.MOD_ID, "item/" + texture));
+    }
+
+
+    private void generatePotionItem() {
+        getBuilder(ModItems.DECO_POTION.getRegistryName().getPath())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/alchemy_bottle"))
+                .override()
+                .predicate(WoldsVaults.id("potion_variant"), 0.1f)
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/bubbling_contents00")))
+                .end()
+                .override()
+                .predicate(WoldsVaults.id("potion_variant"), 0.2f)
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/bubbling_contents01")))
+                .end()
+                .override()
+                .predicate(WoldsVaults.id("potion_variant"), 0.3f)
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/bubbling_contents02")))
+                .end()
+                .override()
+                .predicate(WoldsVaults.id("potion_variant"), 0.4f)
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/bubbling_contents03")))
+                .end();
     }
 }

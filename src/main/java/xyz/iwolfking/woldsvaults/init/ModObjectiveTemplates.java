@@ -1,20 +1,17 @@
 package xyz.iwolfking.woldsvaults.init;
 
-import iskallia.vault.block.HeraldControllerBlock;
-import iskallia.vault.block.ObeliskBlock;
 import iskallia.vault.core.world.data.entity.PartialCompoundNbt;
 import iskallia.vault.core.world.data.tile.PartialBlockState;
 import iskallia.vault.core.world.data.tile.PartialTile;
 import iskallia.vault.core.world.template.DynamicTemplate;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.FracturedObelisk;
 
 public class ModObjectiveTemplates {
     public static DynamicTemplate CORRUPTED_OBJECTIVE_TEMPLATE;
+    public static DynamicTemplate ALCHEMY_OBJECTIVE_TEMPLATE;
 
     private static DynamicTemplate createDynamicTemplate(BlockPos pos, BlockState state) {
         DynamicTemplate template = new DynamicTemplate();
@@ -33,6 +30,7 @@ public class ModObjectiveTemplates {
     }
 
     static {
-        CORRUPTED_OBJECTIVE_TEMPLATE = createDynamicTemplate(new BlockPos[]{new BlockPos(0, 0, 0), new BlockPos(0, 1, 0)}, new BlockState[]{(BlockState) xyz.iwolfking.woldsvaults.init.ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.LOWER), (BlockState) ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.UPPER)});
+        CORRUPTED_OBJECTIVE_TEMPLATE = createDynamicTemplate(new BlockPos[]{new BlockPos(0, 0, 0), new BlockPos(0, 1, 0)}, new BlockState[]{ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.LOWER), ModBlocks.FRACTURED_OBELISK.defaultBlockState().setValue(FracturedObelisk.HALF, DoubleBlockHalf.UPPER)});
+        ALCHEMY_OBJECTIVE_TEMPLATE = createDynamicTemplate(new BlockPos(0, 0, 0), ModBlocks.BREWING_ALTAR.defaultBlockState());
     }
 }

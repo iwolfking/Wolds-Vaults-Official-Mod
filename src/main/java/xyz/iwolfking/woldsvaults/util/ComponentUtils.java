@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.util;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import iskallia.vault.client.util.ClientScheduler;
 import iskallia.vault.util.TextComponentUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
@@ -116,12 +118,25 @@ public class ComponentUtils {
      * @return a MutableComponent with waving colors
      */
     public static MutableComponent wavingComponent(MutableComponent base, TextColor baseColor, float frequency, float amplitude) {
+        return wavingComponent(base, baseColor.getValue(), frequency, amplitude);
+    }
+
+    /**
+     * Creates a waving effect with the passed in component
+     *
+     * @param base base Component
+     * @param color integer based color to be used
+     * @param frequency how fast the wave moves across the text
+     * @param amplitude how much brighter it gets at peak
+     * @return a MutableComponent with waving colors
+     */
+    public static MutableComponent wavingComponent(MutableComponent base, int color, float frequency, float amplitude) {
+        if (Minecraft.getInstance().level == null) return base;
+
         String text = base.getString();
 
         MutableComponent result = new TextComponent("");
-
-        float time = (float) Minecraft.getInstance().level.getGameTime();
-        int baseRGB = baseColor.getValue();
+        float time = ClientScheduler.INSTANCE.getTick();
 
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
@@ -130,7 +145,7 @@ public class ComponentUtils {
             float wave = (float) Math.sin((time - i) * frequency) * amplitude + 1f;
 
             result.append(new TextComponent(String.valueOf(c))
-                    .withStyle(base.getStyle().withColor(ColorUtil.brightenColor(baseRGB, wave))));
+                    .withStyle(base.getStyle().withColor(ColorUtil.brightenColor(color, wave))));
         }
 
         return result;

@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.VaultMod;
-import iskallia.vault.core.event.Event;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.player.Listener;
@@ -10,26 +9,23 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.skill.base.LearnableSkill;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.ExpertiseTree;
+import iskallia.vault.util.InventoryUtil;
 import iskallia.vault.world.data.PlayerExpertisesData;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import software.bernie.ars_nouveau.shadowed.eliotlash.mclib.math.functions.classic.Exp;
-import xyz.iwolfking.woldsvaults.expertises.SurpriseModifiersExpertise;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
 import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
-
 @Mixin(value = Runner.class, remap = false)
 public abstract class MixinRunner extends Listener {
     @Inject(method = "lambda$initServer$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isCreative()Z", shift = At.Shift.AFTER, remap = true), cancellable = true)
@@ -80,5 +76,17 @@ public abstract class MixinRunner extends Listener {
                 }
             }
         }
+    }
+
+    @Inject(method = "onLeave", at = @At(value = "TAIL"))
+    private void addLeaveEvents(VirtualWorld world, Vault vault, CallbackInfo ci) {
+        this.getPlayer().ifPresent(player ->  {
+            for(InventoryUtil.ItemAccess items : InventoryUtil.findAllItems(player)) {
+                ItemStack stack = items.getStack();
+                if (stack.getItem() instanceof AlchemyIngredientItem || stack.getItem() instanceof CatalystItem) {
+                    items.setStack(ItemStack.EMPTY);
+                }
+            }
+        });
     }
 }

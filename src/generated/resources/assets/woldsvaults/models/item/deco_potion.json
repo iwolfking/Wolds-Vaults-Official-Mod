@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "woldsvaults:item/alchemy_bottle"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "woldsvaults:potion_variant": 0.1
+      },
+      "model": "woldsvaults:item/bubbling_contents00"
+    },
+    {
+      "predicate": {
+        "woldsvaults:potion_variant": 0.2
+      },
+      "model": "woldsvaults:item/bubbling_contents01"
+    },
+    {
+      "predicate": {
+        "woldsvaults:potion_variant": 0.3
+      },
+      "model": "woldsvaults:item/bubbling_contents02"
+    },
+    {
+      "predicate": {
+        "woldsvaults:potion_variant": 0.4
+      },
+      "model": "woldsvaults:item/bubbling_contents03"
+    }
+  ]
+}

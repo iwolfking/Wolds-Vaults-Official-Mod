@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 public class ModLanguageProvider extends LanguageProvider {
 
@@ -12,6 +13,12 @@ public class ModLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        add("item.woldsvaults.rotten_heart", "Rotten Heart");
+        add("item.woldsvaults.rotten_apple", "Rotten Apple");
+        add("item.woldsvaults.verdant_globule", "Verdant Globule");
+        add("item.woldsvaults.erratic_ember", "Erratic Ember");
+        add("item.woldsvaults.refined_powder", "Refined Powder");
+        add("item.woldsvaults.auric_crystal", "Auric Crystal");
         add("curios.identifier.shard_pouch", "Shard Pouch");
         add("curios.identifier.trinket_pouch", "Trinket Pouch");
         add("curios.identifier.green_trinket", "Green Trinket");
@@ -115,6 +122,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.woldsvaults.fractured_obelisk", "Fractured Obelisk");
         add("block.woldsvaults.monolith_controller", "Monolith Controller");
         add("block.woldsvaults.vault_crate_corrupt", "Corrupted Vault Crate");
+        add("block.woldsvaults.vault_crate_alchemy", "Alchemy Vault Crate");
         add("block.woldsvaults.nullite_ore", "Nullite Ore");
         add("block.woldsvaults.doll_dismantler", "Doll Blender");
         add("entity.the_vault.wold", "Wold");
@@ -288,5 +296,6 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.the_vault.block_gem_wutodie_slab", "Wutodie Slab");
         add("block.the_vault.block_gem_wutodie_wall", "Wutodie Wall");
         add("block.the_vault.block_gem_wutodie_stairs", "Wutodie Stairs");
+        add("item.woldsvaults.crystal_seal_alchemy", "Seal of the Alchemist");
     }
 }

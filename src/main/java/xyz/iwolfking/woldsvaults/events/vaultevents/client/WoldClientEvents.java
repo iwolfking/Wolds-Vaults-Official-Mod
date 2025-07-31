@@ -5,6 +5,8 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClientEventsAcces
 
 public class WoldClientEvents {
     public static final RenderTickEvent RENDER_TICK_EVENT = register(new RenderTickEvent());
+    public static final TooltipEvent TOOLTIP_EVENT = register(new TooltipEvent());
+
 
     private static <T extends Event<?, ?>> T register(T event) {
         ClientEventsAccessor.getREGISTRY().add(event);
