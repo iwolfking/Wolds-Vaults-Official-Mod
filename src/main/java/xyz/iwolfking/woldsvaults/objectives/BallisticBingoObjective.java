@@ -68,6 +68,62 @@ public class BallisticBingoObjective extends BingoObjective {
         return (BallisticBingoObjective)(new BallisticBingoObjective()).set(TASK, task);
     }
 
+    public TaskContext getContext(VirtualWorld world, Vault vault) {
+        this.setIfAbsent(TASK_SOURCE, () -> EntityTaskSource.ofUuids(JavaRandom.ofInternal((Long)vault.get(Vault.SEED)), new UUID[0]));
+        return TaskContext.of((TaskSource)this.get(TASK_SOURCE), world.getServer()).setVault(vault);
+    }
+
+    private TaskContext getContext(VirtualWorld world, Vault vault, UUID uuid) {
+        return TaskContext.of(EntityTaskSource.ofUuids(JavaRandom.ofInternal((Long)vault.get(Vault.SEED)), new UUID[]{uuid}), world.getServer()).setVault(vault);
+    }
+
+    public boolean isCompleted() {
+        if (this.pvp) {
+            return this.get(TASKS).values().stream().anyMatch((task) -> {
+                boolean var10000;
+                if (task instanceof BingoTask bingo) {
+                    if (bingo.areAllCompleted()) {
+                        var10000 = true;
+                        return var10000;
+                    }
+                }
+
+                var10000 = false;
+                return var10000;
+            });
+        } else {
+            Object var2 = this.get(TASK);
+            boolean var10000;
+            if (var2 instanceof BingoTask) {
+                BingoTask bingo = (BingoTask)var2;
+                if (bingo.areAllCompleted()) {
+                    var10000 = true;
+                    return var10000;
+                }
+            }
+
+            var10000 = false;
+            return var10000;
+        }
+    }
+
+    public int getBingos() {
+        if (this.pvp) {
+            return this.get(TASKS).values().stream().filter((task) -> task instanceof BingoTask).map((task) -> (BingoTask)task).mapToInt(BingoTask::getCompletedBingos).max().orElse(0);
+        } else {
+            Object var2 = this.get(TASK);
+            int var10000;
+            if (var2 instanceof BingoTask) {
+                BingoTask bingo = (BingoTask)var2;
+                var10000 = bingo.getCompletedBingos();
+            } else {
+                var10000 = 0;
+            }
+
+            return var10000;
+        }
+    }
+
     @Override
     public SupplierKey<Objective> getKey() {
         return KEY;
@@ -266,14 +322,14 @@ public class BallisticBingoObjective extends BingoObjective {
     @Override
     public void releaseServer() {
         if (this.pvp) {
-            ((TaskMap)this.get(TASKS)).values().forEach((task) -> {
+            this.get(TASKS).values().forEach((task) -> {
                 if (task != null) {
                     task.onDetach();
                 }
 
             });
         } else {
-            ((Task)this.get(TASK)).onDetach();
+            this.get(TASK).onDetach();
         }
 
         this.get(CHILDREN).forEach(Objective::releaseServer);
@@ -368,6 +424,28 @@ public class BallisticBingoObjective extends BingoObjective {
             }
         }
 
+    }
+
+    public boolean isActive(VirtualWorld world, Vault vault, Objective objective) {
+        if (this.isCompleted()) {
+            for(Objective child : this.get(CHILDREN)) {
+                if (child.isActive(world, vault, objective)) {
+                    return true;
+                }
+            }
+
+            return false;
+        } else {
+            if (this.getBingos() > 0) {
+                for(Objective child : this.get(CHILDREN)) {
+                    if (child.isActive(world, vault, objective)) {
+                        return true;
+                    }
+                }
+            }
+
+            return objective == this;
+        }
     }
 
 
