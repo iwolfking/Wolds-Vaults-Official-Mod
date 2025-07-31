@@ -20,7 +20,9 @@ import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.Objective;
+import iskallia.vault.core.vault.player.Completion;
 import iskallia.vault.core.vault.player.Listener;
+import iskallia.vault.core.vault.stat.StatCollector;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.entity.champion.ChampionLogic;
 import net.minecraft.Util;
@@ -173,7 +175,12 @@ public class AlchemyObjective extends Objective {
         CommonEvents.LISTENER_LEAVE.register(this,
                 (data -> {
                     if (data.getVault() == vault) {
-                        super.tickListener(world, vault, data.getListener()); // dirty, dirty things
+                        if (this.get(PROGRESS) > this.get(REQUIRED_PROGRESS)) {
+                            super.tickListener(world, vault, data.getListener()); // dirty, dirty things
+                        } else {
+                            // even more dirty things
+                            vault.get(Vault.STATS).get(data.getListener().get(Listener.ID)).set(StatCollector.COMPLETION, Completion.BAILED);
+                        }
                     }
                 })
         );
