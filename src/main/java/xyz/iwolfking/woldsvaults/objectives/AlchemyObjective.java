@@ -156,19 +156,9 @@ public class AlchemyObjective extends Objective {
         config = ModConfigs.ALCHEMY_OBJECTIVE.getConfig(this.get(VAULT_LEVEL));
 
         AlchemyTasks.initServer(world, vault, this, config);
-
-        CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this,
-                (data) -> this.ifPresent(OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability))
-        );
-
-        CommonEvents.ENTITY_DROPS.register(this, (data) -> {
-            handleChampionDeath(data, vault, world);
-
-        });
-
-        WoldCommonEvents.BREWING_ALTAR_BREW_EVENT.register(this,
-                (data -> handleBrewEvent(data, vault, world))
-        );
+        CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, (data) -> this.ifPresent(OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability)));
+        CommonEvents.ENTITY_DROPS.register(this, (data) -> {handleChampionDeath(data, vault, world);});
+        WoldCommonEvents.BREWING_ALTAR_BREW_EVENT.register(this, (data -> handleBrewEvent(data, vault, world)));
 
         // Call super.tickListener() on listener leave, to generate a crate at the end so we can process all the crate quantity modifier at the end
         // there is probably a better way, but i am lazy, lmao
@@ -325,7 +315,7 @@ public class AlchemyObjective extends Objective {
                     .append(brewName)
                     .append(new TextComponent(" and progressed the vault by ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
                     .append(new TextComponent(formatted).withStyle(Style.EMPTY.withColor(percentage >= 0 ? 0x00ff04 : 0xDC143C)));
-            MessageFunctions.broadcastMessage(world, cmp);
+            world.players().forEach(player -> player.sendMessage(cmp, Util.NIL_UUID));
             this.set(PROGRESS, this.get(PROGRESS) + percentage);
             return;
         }
@@ -372,8 +362,7 @@ public class AlchemyObjective extends Objective {
                 .append(brewName)
                 .append(new TextComponent(" and progressed the vault by ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
                 .append(new TextComponent(formatted).withStyle(Style.EMPTY.withColor(percentage >= 0 ? 0x00ff04 : 0xDC143C)));
-        MessageFunctions.broadcastMessage(world, cmp);
-
+        world.players().forEach(player -> player.sendMessage(cmp, Util.NIL_UUID));
 
         for (Map.Entry<VaultModifier<?>, Integer> entry : toAddToVault.entrySet()) {
             vault.get(Vault.MODIFIERS).addModifier(entry.getKey(), entry.getValue(), true, random);
@@ -423,7 +412,7 @@ public class AlchemyObjective extends Objective {
                 world.players().forEach(player ->
                         player.sendMessage(
                                 new TextComponent("- Completion has overflown and ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
-                                        //.append(crateQuantity.getChatDisplayNameComponent(crateAmount))
+                                        .append(crateQuantity.getChatDisplayNameComponent(crateAmount))
                                         .append(new TextComponent(" has been added!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
                                 Util.NIL_UUID
                         )
