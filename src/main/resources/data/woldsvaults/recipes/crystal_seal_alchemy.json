@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XGX",
+    "WRW",
+    "XBX"
+  ],
+  "key": {
+    "R": {
+      "item": "the_vault:crystal_seal_empty"
+    },
+    "G": {
+      "item": "minecraft:brewing_stand"
+    },
+    "B": {
+      "item": "the_vault:mystical_powder"
+    },
+    "X": {
+      "item": "the_vault:chromatic_gold_ingot"
+    },
+    "W": {
+      "item": "the_vault:extraordinary_wutodie"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:crystal_seal_alchemy",
+    "count": 1
+  }
+}

@@ -74,6 +74,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         'V', new ResourceLocation("the_vault", "vault_essence_1")
                 ))));
 
+        //TODO: Crystal Seal Alchemy recipe
+
         ShapedRecipeBuilder.shaped(ModBlocks.VAULT_INFUSER_BLOCK)
                 .define('A', iskallia.vault.init.ModItems.CHROMATIC_IRON_INGOT)
                 .define('B', Blocks.FURNACE)
