@@ -78,7 +78,7 @@ public class BrewingAltar extends Block implements EntityBlock {
 
         ItemStack heldItem = pPlayer.getItemInHand(pHand);
 
-        if (pPlayer.isCrouching() && pHand != InteractionHand.OFF_HAND) {
+        if (pPlayer.isCrouching() && pHand != InteractionHand.OFF_HAND && !tileEntity.isBrewing()) {
             ItemStack catalyst = tileEntity.getCatalyst();
             boolean holdingCatalyst = !heldItem.isEmpty() && catalyst.sameItem(heldItem);
 

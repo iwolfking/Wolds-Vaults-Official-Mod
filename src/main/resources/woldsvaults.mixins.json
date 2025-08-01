@@ -232,6 +232,7 @@
     "vaulthunters.fixes.MixinMonolithRenderer",
     "vaulthunters.fixes.MixinMultiJumpTrinket",
     "vaulthunters.fixes.MixinRoyaleObjective",
+    "vaulthunters.fixes.MixinRunePillarRenderer",
     "vaulthunters.fixes.MixinScheduledModifiers",
     "vaulthunters.fixes.MixinSpiritExtractorTileEntity",
     "vaulthunters.fixes.MixinStatisticsElementContainerScreenData",
