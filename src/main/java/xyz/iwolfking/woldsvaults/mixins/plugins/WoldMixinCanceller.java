@@ -37,9 +37,9 @@ public class WoldMixinCanceller implements MixinCanceller {
             }
         }
 
-        if(s.equals("iskallia.vault.mixin.MixinLocalPlayer")) {
-            return true;
-        }
+//        if(s.equals("iskallia.vault.mixin.MixinLocalPlayer")) {
+//            return true;
+//        }
 
         if(LoadingModList.get().getModFileById("puzzleslib") != null){
             if(s.equals("fuzs.puzzleslib.mixin.client.MinecraftForgeMixin")) {

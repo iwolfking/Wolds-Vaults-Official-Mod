@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import ram.talia.hexal.api.fakes.FakePlayer;
 
 @Mixin(value = JewelPouchItem.class, remap = false)
 public abstract class MixinJewelPouchItem {
@@ -20,6 +21,9 @@ public abstract class MixinJewelPouchItem {
         ItemStack stack = player.getItemInHand(hand);
         if (hand == InteractionHand.MAIN_HAND) {
             if (!level.isClientSide()) {
+                if(player instanceof FakePlayer) {
+                    return;
+                }
                 if (instantOpen(player, stack, true)) {
                     cir.setReturnValue(InteractionResultHolder.success(stack));
                 }

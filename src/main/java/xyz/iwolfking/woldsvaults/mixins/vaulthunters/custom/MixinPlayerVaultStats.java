@@ -18,6 +18,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.VaultLevelTask;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -52,6 +54,10 @@ public abstract class MixinPlayerVaultStats {
 
     @Inject(method = "addVaultExp", at = @At(value = "INVOKE", target = "Liskallia/vault/core/event/common/VaultLevelUpEvent;invoke(Lnet/minecraft/server/level/ServerPlayer;III)Liskallia/vault/core/event/common/VaultLevelUpEvent$Data;"))
     private void progressFTBQuestsTasks(MinecraftServer server, int exp, CallbackInfo ci, @Local ServerPlayer player) {
+        if(player.getServer() != null && this.vaultLevel >= 75 && !DiscoveredRecipesData.get(player.getServer()).hasDiscovered(player, WoldsVaults.id("standard_trinket_pouch"))) {
+            DiscoveredRecipesData.get(player.getServer()).discoverRecipeAndBroadcast(WoldsVaults.id("standard_trinket_pouch"), player);
+        }
+
         woldsVaults$vaultLevelTaskProgress(player, this.vaultLevel);
     }
 
