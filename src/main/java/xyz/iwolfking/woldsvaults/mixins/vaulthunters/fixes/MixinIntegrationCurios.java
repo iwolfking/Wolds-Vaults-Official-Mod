@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
+import io.github.lightman314.lightmanscurrency.common.items.WalletItem;
 import iskallia.vault.integration.IntegrationCurios;
 import iskallia.vault.integration.IntegrationSB;
 import net.minecraft.nbt.CompoundTag;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
+import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +49,12 @@ public class MixinIntegrationCurios {
                             }
 
                             if (!replaceExisting && !stackHandler.getStackInSlot(slot).isEmpty()) {
-                                filledItems.add(stack);
+                                if(!(stack.getItem() instanceof TrinketPouchItem) && !(stack.getItem() instanceof WalletItem)) {
+                                    filledItems.add(stack);
+                                }
+                                else {
+                                    stackHandler.setStackInSlot(slot, stack);
+                                }
                             } else {
                                 stackHandler.setStackInSlot(slot, stack);
                             }
