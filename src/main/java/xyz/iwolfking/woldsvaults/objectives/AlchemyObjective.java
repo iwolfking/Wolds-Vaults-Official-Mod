@@ -162,18 +162,18 @@ public class AlchemyObjective extends Objective {
 
         // Call super.tickListener() on listener leave, to generate a crate at the end so we can process all the crate quantity modifier at the end
         // there is probably a better way, but i am lazy, lmao
-        CommonEvents.LISTENER_LEAVE.register(this,
-                (data -> {
-                    if (data.getVault() == vault) {
-                        if (this.get(PROGRESS) > this.get(REQUIRED_PROGRESS)) {
-                            super.tickListener(world, vault, data.getListener()); // dirty, dirty things
-                        } else {
-                            // even more dirty things
-                            vault.get(Vault.STATS).get(data.getListener().get(Listener.ID)).set(StatCollector.COMPLETION, Completion.BAILED);
-                        }
-                    }
-                })
-        );
+//        CommonEvents.LISTENER_LEAVE.register(this,
+//                (data -> {
+//                    if (data.getVault() == vault) {
+//                        if (this.get(PROGRESS) > this.get(REQUIRED_PROGRESS)) {
+//                            super.tickListener(world, vault, data.getListener()); // dirty, dirty things
+//                        } else {
+//                            // even more dirty things
+//                            vault.get(Vault.STATS).get(data.getListener().get(Listener.ID)).set(StatCollector.COMPLETION, Completion.BAILED);
+//                        }
+//                    }
+//                })
+//        );
 
         this.registerObjectiveTemplate(world, vault);
         super.initServer(world, vault);
