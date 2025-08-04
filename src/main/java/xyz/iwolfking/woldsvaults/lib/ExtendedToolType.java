@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.lib;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.gear.data.GearDataCache;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.init.ModGearAttributes;
 import net.minecraft.Util;
@@ -42,7 +43,7 @@ public enum ExtendedToolType {
     }
 
     public static @Nullable ExtendedToolType of(ItemStack stack) {
-        VaultGearData data = VaultGearData.read(stack);
+        GearDataCache data = GearDataCache.of(stack);
         boolean picking = data.hasAttribute(ModGearAttributes.PICKING);
         boolean axing = data.hasAttribute(ModGearAttributes.AXING);
         boolean shoveling = data.hasAttribute(ModGearAttributes.SHOVELLING);
