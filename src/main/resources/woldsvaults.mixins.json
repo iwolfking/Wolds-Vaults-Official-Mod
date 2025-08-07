@@ -179,6 +179,7 @@
     "vaulthunters.custom.MixinSpecialAbilityModificationRegistry",
     "vaulthunters.custom.MixinToolItem",
     "vaulthunters.custom.MixinToolStationHelper",
+    "vaulthunters.custom.MixinTransmogTableBlock",
     "vaulthunters.custom.MixinTrinketItem",
     "vaulthunters.custom.MixinVaultChestBlock",
     "vaulthunters.custom.MixinVaultCrateBlock",
