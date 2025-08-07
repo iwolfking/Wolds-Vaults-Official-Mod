@@ -50,6 +50,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<GenericLootableConfig> VAULTAR_BOX = RecipeType.create(WoldsVaults.MOD_ID, "vaultar_box", GenericLootableConfig.class);
     public static final RecipeType<GenericLootableConfig> GATEWAY_PEARL = RecipeType.create(WoldsVaults.MOD_ID, "gateway_pearl", GenericLootableConfig.class);
 
+    public static final RecipeType<ShopTierAccessor> ETCHING_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "etching_shop_pedestal", ShopTierAccessor.class);
     public static final RecipeType<ShopTierAccessor> GOD_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "god_shop_pedestal", ShopTierAccessor.class);
     public static final RecipeType<ShopTierAccessor> BLACKSMITH_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "blacksmith_shop_pedestal", ShopTierAccessor.class);
     public static final RecipeType<ShopTierAccessor> RARE_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "rare_shop_pedestal", ShopTierAccessor.class);
@@ -82,6 +83,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CHROMATIC_STEEL_INFUSER_BLOCK), InfuserCraftingCategory.UID);
         registration.addRecipeCatalyst(new ItemStack(ModItems.UNIDENTIFIED_GATEWAY_PEARL), GATEWAY_PEARL);
 
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ETCHING_PEDESTAL), ETCHING_SHOP_PEDESTAL);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.GOD_VENDOR_PEDESTAL), GOD_SHOP_PEDESTAL);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BLACKSMITH_VENDOR_PEDESTAL), BLACKSMITH_SHOP_PEDESTAL);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.RARE_VENDOR_PEDESTAL), RARE_SHOP_PEDESTAL);
@@ -110,7 +112,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new InfuserCraftingCategory(guiHelper));
         registration.addRecipeCategories(new GenericLootableBoxCategory(guiHelper, ModConfigs.GATEWAY_PEARL, new TextComponent("Gateway Pearl"), ModItems.UNIDENTIFIED_GATEWAY_PEARL, GATEWAY_PEARL));
 
-
+        registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("Etching Shop Pedestal"), ModBlocks.ETCHING_PEDESTAL.asItem(), ETCHING_SHOP_PEDESTAL));
         registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("God Shop Pedestal"), ModBlocks.GOD_VENDOR_PEDESTAL.asItem(), GOD_SHOP_PEDESTAL));
         registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("Blacksmith Shop Pedestal"), ModBlocks.BLACKSMITH_VENDOR_PEDESTAL.asItem(), BLACKSMITH_SHOP_PEDESTAL));
         registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("Rare Shop Pedestal"), ModBlocks.RARE_VENDOR_PEDESTAL.asItem(), RARE_SHOP_PEDESTAL));
