@@ -1,13 +1,12 @@
 package xyz.iwolfking.woldsvaults.integration.jei;
 
 import dev.attackeight.just_enough_vh.jei.ForgeItem;
+import dev.attackeight.just_enough_vh.jei.RecyclerRecipe;
+import dev.attackeight.just_enough_vh.jei.TheVaultJEIPlugin;
 import dev.attackeight.just_enough_vh.jei.category.ForgeItemRecipeCategory;
-import iskallia.vault.VaultMod;
 import iskallia.vault.config.VaultRecyclerConfig;
 import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
-import iskallia.vault.integration.jei.VaultRecyclerRecipeJEI;
-import iskallia.vault.integration.jei.VaultRecyclerRecipeJEICategory;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
@@ -35,6 +34,8 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ShopTierAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static xyz.iwolfking.woldsvaults.mixins.just_enough_vh.JEIRecipeProviderAccessor.invokeAddLoreToRecyclerOutput;
+
 @JeiPlugin
 @SuppressWarnings("unused")
 public class WoldsVaultsJeiPlugin implements IModPlugin {
@@ -48,9 +49,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<GenericLootableConfig> ENIGMA_EGG = RecipeType.create(WoldsVaults.MOD_ID, "enigma_egg", GenericLootableConfig.class);
     public static final RecipeType<GenericLootableConfig> VAULTAR_BOX = RecipeType.create(WoldsVaults.MOD_ID, "vaultar_box", GenericLootableConfig.class);
     public static final RecipeType<GenericLootableConfig> GATEWAY_PEARL = RecipeType.create(WoldsVaults.MOD_ID, "gateway_pearl", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> EXQUISITE_BOX = RecipeType.create(WoldsVaults.MOD_ID, "exquisite_box", GenericLootableConfig.class);
 
-    public static final RecipeType<ShopTierAccessor> ETCHING_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "etching_shop_pedestal", ShopTierAccessor.class);
     public static final RecipeType<ShopTierAccessor> GOD_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "god_shop_pedestal", ShopTierAccessor.class);
     public static final RecipeType<ShopTierAccessor> BLACKSMITH_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "blacksmith_shop_pedestal", ShopTierAccessor.class);
     public static final RecipeType<ShopTierAccessor> RARE_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "rare_shop_pedestal", ShopTierAccessor.class);
@@ -82,9 +81,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.VAULT_INFUSER_BLOCK), InfuserCraftingCategory.UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CHROMATIC_STEEL_INFUSER_BLOCK), InfuserCraftingCategory.UID);
         registration.addRecipeCatalyst(new ItemStack(ModItems.UNIDENTIFIED_GATEWAY_PEARL), GATEWAY_PEARL);
-        registration.addRecipeCatalyst(new ItemStack(ModItems.EXQUISITE_BOX), EXQUISITE_BOX);
 
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ETCHING_PEDESTAL), ETCHING_SHOP_PEDESTAL);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.GOD_VENDOR_PEDESTAL), GOD_SHOP_PEDESTAL);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BLACKSMITH_VENDOR_PEDESTAL), BLACKSMITH_SHOP_PEDESTAL);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.RARE_VENDOR_PEDESTAL), RARE_SHOP_PEDESTAL);
@@ -92,7 +89,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.SPOOKY_VENDOR_PEDESTAL), SPOOKY_SHOP_PEDESTAL);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CARD_VENDOR_PEDESTAL), CARD_SHOP_PEDESTAL);
 
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.VAULT_SALVAGER_BLOCK), VaultRecyclerRecipeJEICategory.RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.VAULT_SALVAGER_BLOCK), TheVaultJEIPlugin.VAULT_RECYCLER);
 
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MOD_BOX_WORKSTATION), MOD_BOX_WORKSTATION);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.AUGMENT_CRAFTING_TABLE), AUGMENTS_ASSEMBLY);
@@ -112,10 +109,8 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new GenericLootableBoxCategory(guiHelper, ModConfigs.ENIGMA_EGG, new TextComponent("Enigma Egg"), ModItems.ENIGMA_EGG, ENIGMA_EGG));
         registration.addRecipeCategories(new InfuserCraftingCategory(guiHelper));
         registration.addRecipeCategories(new GenericLootableBoxCategory(guiHelper, ModConfigs.GATEWAY_PEARL, new TextComponent("Gateway Pearl"), ModItems.UNIDENTIFIED_GATEWAY_PEARL, GATEWAY_PEARL));
-        registration.addRecipeCategories(new GenericLootableBoxCategory(guiHelper, ModConfigs.EXQUISITE_BOX, new TextComponent("Exquisite Box"), ModItems.EXQUISITE_BOX, EXQUISITE_BOX));
 
 
-        registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("Etching Shop Pedestal"), ModBlocks.ETCHING_PEDESTAL.asItem(), ETCHING_SHOP_PEDESTAL));
         registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("God Shop Pedestal"), ModBlocks.GOD_VENDOR_PEDESTAL.asItem(), GOD_SHOP_PEDESTAL));
         registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("Blacksmith Shop Pedestal"), ModBlocks.BLACKSMITH_VENDOR_PEDESTAL.asItem(), BLACKSMITH_SHOP_PEDESTAL));
         registration.addRecipeCategories(new ShopTierCategory(guiHelper, new TextComponent("Rare Shop Pedestal"), ModBlocks.RARE_VENDOR_PEDESTAL.asItem(), RARE_SHOP_PEDESTAL));
@@ -146,9 +141,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(CATALYST_BOX, List.of(ModConfigs.CATALYST_BOX));
         registration.addRecipes(VAULTAR_BOX, List.of(ModConfigs.VAULTAR_BOX));
         registration.addRecipes(GATEWAY_PEARL, List.of(ModConfigs.GATEWAY_PEARL));
-        registration.addRecipes(EXQUISITE_BOX, List.of(ModConfigs.EXQUISITE_BOX));
 
-        registerShopPedestalRecipes(registration, ModConfigs.ETCHING_SHOP_PEDESTAL, ETCHING_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.GOD_SHOP_PEDESTAL, GOD_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.BLACKSMITH_SHOP_PEDESTAL, BLACKSMITH_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.RARE_SHOP_PEDESTAL, RARE_SHOP_PEDESTAL);
@@ -177,33 +170,17 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     }
 
     private static void addCustomRecyclerRecipes(IRecipeRegistration registration) {
-
-        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.JEWEL), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getJewelRecyclingOutput());
-        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.INSCRIPTION), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getInscriptionRecyclingOutput());
-        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.MAGNET), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getMagnetRecyclingOutput());
-        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.MAJESTIC_CHARM), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getCharmRecyclingOutput());
-        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.VAULT_GOD_CHARM), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getCharmRecyclingOutput());
-        addRecyclerRecipe(registration, new ItemStack(iskallia.vault.init.ModItems.VOID_STONE), iskallia.vault.init.ModConfigs.VAULT_RECYCLER.getVoidStoneRecyclingOutput());
-
+        List<RecyclerRecipe> recipes = new ArrayList<>();
         for (var rec : ModConfigs.CUSTOM_RECYCLER_CONFIG.getOutputs().entrySet()) {
-           addRecyclerRecipe(registration, new ItemStack(Registry.ITEM.get(rec.getKey())), rec.getValue());
+            recipes.add(getRecyclerRecipe(new ItemStack(Registry.ITEM.get(rec.getKey())), rec.getValue()));
         }
+        registration.addRecipes(TheVaultJEIPlugin.VAULT_RECYCLER, recipes);
     }
 
-    private static void addRecyclerRecipe(IRecipeRegistration registration, ItemStack input, VaultRecyclerConfig.RecyclerOutput output) {
-        var o1 = output.getMainOutput();
-        var stack1 = o1.getMatchingStack().copy();
-        stack1.setCount(o1.getMaxCount());
-
-        var o2 = output.getExtraOutput1();
-        var stack2 = o2.getMatchingStack().copy();
-        stack2.setCount(o2.getMaxCount());
-
-        var o3 = output.getExtraOutput2();
-        var stack3 = o3.getMatchingStack().copy();
-        stack3.setCount(o3.getMaxCount());
-
-        var recJEI = new VaultRecyclerRecipeJEI(input, stack1, stack2, stack3);
-        registration.addRecipes(VaultRecyclerRecipeJEICategory.RECIPE_TYPE, List.of(recJEI));
+    private static RecyclerRecipe getRecyclerRecipe(ItemStack input, VaultRecyclerConfig.RecyclerOutput output) {
+        return RecyclerRecipe.of(input, List.of(
+            invokeAddLoreToRecyclerOutput(output.getMainOutput()),
+            invokeAddLoreToRecyclerOutput(output.getExtraOutput1()),
+            invokeAddLoreToRecyclerOutput(output.getExtraOutput2())));
     }
 }
