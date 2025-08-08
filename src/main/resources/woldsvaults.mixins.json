@@ -257,6 +257,7 @@
     "vaulthunters.objectives.MixinScavengerObjective",
     "vaulthunters.performance.MixinGearStackingTalent",
     "vaulthunters.performance.MixinHighHealthGearAttributeTalent",
+    "vaulthunters.performance.MixinToolHighlight",
     "vaulthunters.recipes.MixinAnvilRecipes",
     "vaulthunters.recipes.MixinJewelCraftingRecipe",
     "vaulthunters.skills.MixinAbilityLabelFactory",
