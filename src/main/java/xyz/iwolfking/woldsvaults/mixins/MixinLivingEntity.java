@@ -79,8 +79,6 @@ abstract class MixinLivingEntity extends Entity {
                     double increase = ClientPrestigePowersData.getTree().getAll(ReachPrestigePower.class, Skill::isUnlocked).stream().mapToDouble(ReachPrestigePower::getReachIncrease).sum();
                     cir.setReturnValue(Math.min(this.getAttributes().getValue(attribute), 7.0F + increase));
                 } else if (ServerVaults.get(this.level).isPresent()) {
-                    PlayerPrestigePowersData.get((ServerLevel) this.level);
-
                     double increase =  PlayerPrestigePowersData.get((ServerLevel) this.level).getPowers(player).getAll(ReachPrestigePower.class, Skill::isUnlocked).stream().mapToDouble(ReachPrestigePower::getReachIncrease).sum();
                     cir.setReturnValue(Math.min(this.getAttributes().getValue(attribute), 7.0F + increase));
                 }
