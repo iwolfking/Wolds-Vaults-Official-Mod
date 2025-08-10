@@ -72,20 +72,18 @@ abstract class MixinLivingEntity extends Entity {
     // Prestige
     @Inject(method = "getAttributeValue", at = @At("HEAD"), cancellable = true)
     public void getAttributeValue(Attribute attribute, CallbackInfoReturnable<Double> cir) {
-        LivingEntity entity = ((LivingEntity)(Object)this);
-        if (entity instanceof Player player) {
-
-            if (this.level.isClientSide && ClientVaults.getActive().isPresent()) {
-                double increase = ClientPrestigePowersData.getTree().getAll(ReachPrestigePower.class, Skill::isUnlocked).stream().mapToDouble(ReachPrestigePower::getReachIncrease).sum();
-                cir.setReturnValue(Math.min(this.getAttributes().getValue(attribute), 7.0F + increase));
-            } else if (ServerVaults.get(this.level).isPresent()) {
-                PlayerPrestigePowersData.get((ServerLevel) this.level);
-
-                double increase =  PlayerPrestigePowersData.get((ServerLevel) this.level).getPowers(player).getAll(ReachPrestigePower.class, Skill::isUnlocked).stream().mapToDouble(ReachPrestigePower::getReachIncrease).sum();
-                cir.setReturnValue(Math.min(this.getAttributes().getValue(attribute), 7.0F + increase));
+        if (attribute == ForgeMod.REACH_DISTANCE.get()) {
+            LivingEntity entity = ((LivingEntity)(Object)this);
+            if (entity instanceof Player player) {
+                if (this.level.isClientSide && ClientVaults.getActive().isPresent()) {
+                    double increase = ClientPrestigePowersData.getTree().getAll(ReachPrestigePower.class, Skill::isUnlocked).stream().mapToDouble(ReachPrestigePower::getReachIncrease).sum();
+                    cir.setReturnValue(Math.min(this.getAttributes().getValue(attribute), 7.0F + increase));
+                } else if (ServerVaults.get(this.level).isPresent()) {
+                    double increase =  PlayerPrestigePowersData.get((ServerLevel) this.level).getPowers(player).getAll(ReachPrestigePower.class, Skill::isUnlocked).stream().mapToDouble(ReachPrestigePower::getReachIncrease).sum();
+                    cir.setReturnValue(Math.min(this.getAttributes().getValue(attribute), 7.0F + increase));
+                }
             }
         }
-
     }
 
 }
