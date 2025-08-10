@@ -48,9 +48,18 @@ public class ToolHighlightEvents {
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
         if (!shouldRefreshToolHighlightCache) return;
-
         Player player = Minecraft.getInstance().player;
         if (player == null || previousPos == null || previousFace == null) return;
+
+        if (!InputEvents.isShiftDown()
+                || ActiveFlags.IS_AOE_MINING.isSet()
+                || player.getMainHandItem().getItem() != ModItems.TOOL
+                || DehammerizerTileEntity.hasDemhammerizerAround(player)) {
+            return;
+        } // TODO ensure its a hammer
+
+
+
 
         Level level = player.getLevel();
         BlockPos pos = previousPos;
