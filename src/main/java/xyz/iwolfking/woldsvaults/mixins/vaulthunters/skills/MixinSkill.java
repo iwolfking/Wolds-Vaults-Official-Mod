@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
 import xyz.iwolfking.woldsvaults.expertises.*;
+import xyz.iwolfking.woldsvaults.prestige.ReachPrestigePower;
 
 @Mixin(value = Skill.Adapter.class, remap = false)
 public class MixinSkill extends TypeSupplierAdapter<Skill> {
@@ -28,5 +29,7 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("sneaky_getaway", SneakyGetawayAbility.class,SneakyGetawayAbility::new);
         this.register("vein_miner_chain", VeinMinerChainAbility.class, VeinMinerChainAbility::new);
         this.register("levitate", LevitateAbility.class,LevitateAbility::new);
+
+        this.register("reach_cap_power", ReachPrestigePower.class, ReachPrestigePower::new);
     }
 }

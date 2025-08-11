@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "the_vault:battlestaff",
+    "the_vault:trident",
+    "the_vault:plushie",
+    "the_vault:loot_sack",
+    "the_vault:rang"
+  ]
+}
