@@ -17,6 +17,7 @@
     "MixinLightningBolt",
     "MixinLivingEntity",
     "MixinServerPlayerGameMode",
+    "MixinTagLoader",
     "MixinThrownTrident",
     "ThrownTridentAccessor",
     "advanced_peripherals.MixinVillagerTrades",

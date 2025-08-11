@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.integration.jei.category.lib;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.VaultMod;
+import iskallia.vault.util.LootInitialization;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -89,7 +90,7 @@ public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
             var shopEntry = entry.getKey();
             var weight = entry.getValue();
             totalWeight.addAndGet(weight);
-            ItemStack offer = shopEntry.getOffer().copy();
+            ItemStack offer = shopEntry.getOffer();
 
             if (!offer.isEmpty() && weight > 0) {
                 entries.add(entry);
@@ -101,7 +102,7 @@ public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
             Map.Entry<ShopEntryAccessor, Double> entry = entries.get(i);
             ShopEntryAccessor shopEntry = entry.getKey();
             double weight = entry.getValue();
-            ItemStack offer = shopEntry.getOffer().copy();
+            ItemStack offer = LootInitialization.initializeVaultLoot(shopEntry.getOffer(), 0);
             var currency = shopEntry.getCurrency();
             var minCost = shopEntry.getMinCost();
             var maxCost = shopEntry.getMaxCost();
