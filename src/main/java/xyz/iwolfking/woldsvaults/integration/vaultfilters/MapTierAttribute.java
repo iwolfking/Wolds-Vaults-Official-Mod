@@ -28,11 +28,6 @@ public class MapTierAttribute extends IntAttribute {
         return null;
     }
 
-    public boolean appliesTo(ItemStack itemStack) {
-        Integer value = this.getValue(itemStack);
-        return value != null && value <= this.value;
-    }
-
     public String getTranslationKey() {
         return "map_tier";
     }
