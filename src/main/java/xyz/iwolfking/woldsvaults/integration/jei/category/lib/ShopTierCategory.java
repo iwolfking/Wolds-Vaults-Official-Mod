@@ -24,6 +24,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ShopEntryAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ShopTierAccessor;
 
@@ -102,7 +103,7 @@ public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
             Map.Entry<ShopEntryAccessor, Double> entry = entries.get(i);
             ShopEntryAccessor shopEntry = entry.getKey();
             double weight = entry.getValue();
-            ItemStack offer = LootInitialization.initializeVaultLoot(shopEntry.getOffer(), 0);
+            ItemStack offer = shopEntry.getOffer().copy();
             var currency = shopEntry.getCurrency();
             var minCost = shopEntry.getMinCost();
             var maxCost = shopEntry.getMaxCost();
@@ -120,7 +121,18 @@ public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
             list.add(StringTag.valueOf(Component.Serializer.toJson(component.withStyle(ChatFormatting.DARK_PURPLE))));
 
             nbt.put("Lore", list);
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 1 + 18 * (i % 9), 1 + 18 * (i / 9)).addItemStack(offer);
+
+            var initialized = LootInitialization.initializeVaultLoot(offer, 0);
+            if (initialized.equals(offer)) { // didn't change - no random data
+                builder.addSlot(RecipeIngredientRole.OUTPUT, 1 + 18 * (i % 9), 1 + 18 * (i / 9)).addIngredients(Ingredient.of(initialized));
+            } else {
+                ItemStack[] variants = new ItemStack[10]; // changed - randomly generate 10 variants to loop through
+                variants[0] = initialized;
+                for (int n = 1; n < variants.length; n++) {
+                    variants[n] = LootInitialization.initializeVaultLoot(offer, 0);
+                }
+                builder.addSlot(RecipeIngredientRole.OUTPUT, 1 + 18 * (i % 9), 1 + 18 * (i / 9)).addIngredients(Ingredient.of(variants));
+            }
         }
 
     }
