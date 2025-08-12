@@ -144,6 +144,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(VAULTAR_BOX, List.of(ModConfigs.VAULTAR_BOX));
         registration.addRecipes(GATEWAY_PEARL, List.of(ModConfigs.GATEWAY_PEARL));
 
+        registerShopPedestalRecipes(registration, ModConfigs.ETCHING_SHOP_PEDESTAL, ETCHING_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.GOD_SHOP_PEDESTAL, GOD_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.BLACKSMITH_SHOP_PEDESTAL, BLACKSMITH_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.RARE_SHOP_PEDESTAL, RARE_SHOP_PEDESTAL);
