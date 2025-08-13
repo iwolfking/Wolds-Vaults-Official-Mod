@@ -62,7 +62,6 @@
     "infernalmobs.MixinInfernalMobsCore",
     "infernalmobs.MixinMobModsPacket",
     "integrateddynamics.MixinClientProxy",
-    "just_enough_vh.JEIRecipeProviderAccessor",
     "lightmanscurrency.MixinCurioHelper",
     "occultism.MixinFamiliarEventHandler",
     "occultism.MixinFamiliarRingItemCurio",
