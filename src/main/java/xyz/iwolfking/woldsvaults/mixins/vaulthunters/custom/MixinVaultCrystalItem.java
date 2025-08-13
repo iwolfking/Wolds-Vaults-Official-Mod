@@ -1,0 +1,21 @@
+package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
+
+import iskallia.vault.item.crystal.VaultCrystalItem;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.context.UseOnContext;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.api.helper.GameruleHelper;
+import xyz.iwolfking.woldsvaults.init.ModGameRules;
+
+@Mixin(value = VaultCrystalItem.class, remap = false)
+public class MixinVaultCrystalItem {
+    @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
+    private void useOn(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
+        if(!GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULTS, context.getLevel())) {
+            cir.setReturnValue(InteractionResult.FAIL);
+        }
+    }
+}

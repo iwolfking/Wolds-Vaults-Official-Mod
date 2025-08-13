@@ -24,6 +24,7 @@ public class ModGameRules {
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_OLD_AFFINITY_HANDLING;
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_PLACING_VAULT_DOLLS;
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_VAULT_DOLLS;
+    public static GameRules.Key<GameRules.BooleanValue> ENABLE_VAULTS;
 
     public static void initialize() {
         ALLOW_FLIGHT_IN_VAULTS = GameRules.register("enableFlightInVaults", GameRules.Category.PLAYER, booleanRule(false));
@@ -31,6 +32,7 @@ public class ModGameRules {
         ENABLE_OLD_AFFINITY_HANDLING = GameRules.register("enableLegacyGodAffinityHandling", GameRules.Category.PLAYER, booleanRule(false));
         ENABLE_PLACING_VAULT_DOLLS = GameRules.register("enablePlacingVaultDolls", GameRules.Category.PLAYER, booleanRule(false));
         ENABLE_VAULT_DOLLS = GameRules.register("enableVaultDolls", GameRules.Category.PLAYER, booleanRule(true));
+        ENABLE_VAULTS = GameRules.register("enableVaults", GameRules.Category.PLAYER, booleanRule(true));
     }
 
 

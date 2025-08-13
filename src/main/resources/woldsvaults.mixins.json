@@ -183,6 +183,7 @@
     "vaulthunters.custom.MixinTrinketItem",
     "vaulthunters.custom.MixinVaultChestBlock",
     "vaulthunters.custom.MixinVaultCrateBlock",
+    "vaulthunters.custom.MixinVaultCrystalItem",
     "vaulthunters.custom.MixinVaultDollItem",
     "vaulthunters.custom.MixinVaultGearHelper",
     "vaulthunters.custom.MixinVaultGearRarity",
