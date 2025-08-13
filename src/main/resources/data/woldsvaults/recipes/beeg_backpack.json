@@ -1,0 +1,15 @@
+{
+  "type": "sophisticatedbackpacks:backpack_upgrade",
+  "pattern": [
+    "ILI",
+    "PBP",
+    "SMS"],
+  "key": {
+    "I": {"item": "the_vault:memory_crystal"},
+    "P": {"item": "the_vault:pog_prism"},
+    "L": {"item": "the_vault:wold_star_chunk"},
+    "S": {"item": "the_vault:vault_ingot_1"},
+    "M": {"item": "the_vault:omega_pog"},
+    "B": {"item": "sophisticatedbackpacks:netherite_backpack"}},
+  "result": {"item": "woldsvaults:xl_backpack"}
+}
