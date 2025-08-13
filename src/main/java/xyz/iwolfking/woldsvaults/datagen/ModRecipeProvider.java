@@ -33,18 +33,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
-        ShapedRecipeBuilder.shaped(ModItems.XL_BACKPACK)
-                .define('I', ModItems.PRISMATIC_FIBER)
-                .define('L', Registry.ITEM.get(new ResourceLocation("the_vault", "wold_star_chunk")))
-                .define('P', ModItems.CHROMA_CORE)
-                .define('B', Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack")))
-                .define('S', iskallia.vault.init.ModBlocks.BLACK_CHROMATIC_STEEL_BLOCK)
-                .define('M', iskallia.vault.init.ModItems.OMEGA_POG)
-                .pattern("ILI")
-                .pattern("PBP")
-                .pattern("SMS")
-                .unlockedBy("has_netherite_backpack", has(Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack"))))
-                .save(pFinishedRecipeConsumer);
+//        ShapedRecipeBuilder.shaped(ModItems.XL_BACKPACK)
+//                .define('I', ModItems.PRISMATIC_FIBER)
+//                .define('L', Registry.ITEM.get(new ResourceLocation("the_vault", "wold_star_chunk")))
+//                .define('P', ModItems.CHROMA_CORE)
+//                .define('B', Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack")))
+//                .define('S', iskallia.vault.init.ModBlocks.BLACK_CHROMATIC_STEEL_BLOCK)
+//                .define('M', iskallia.vault.init.ModItems.OMEGA_POG)
+//                .pattern("ILI")
+//                .pattern("PBP")
+//                .pattern("SMS")
+//                .unlockedBy("has_netherite_backpack", has(Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack"))))
+//                .save(pFinishedRecipeConsumer);
 
         CompoundTag colossus = new CompoundTag();
         colossus.putString("Ability", "Colossus");
