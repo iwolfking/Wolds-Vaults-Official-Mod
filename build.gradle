@@ -281,6 +281,7 @@ dependencies {
     }
     implementation 'me.fallenbreath:conditional-mixin-forge:0.6.2'
     implementation fg.deobf('local:forgified-sgui:1.0.2')
+    implementation fg.deobf('local:serverportals:1.18.2-1.5')
     implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6833423")
     jarJar(group: 'me.fallenbreath', name: 'conditional-mixin-forge', version: '[0.6.2,)') {
         jarJar.pin(it, '0.6.2')
@@ -288,6 +289,9 @@ dependencies {
 
     jarJar(group: 'eu.pb4', name: 'forgified-sgui', version: '[1.0.2,)') {
         jarJar.pin(it, '1.0.2')
+    }
+    jarJar(group: 'com.dog', name: 'serverportals', version: '[1.18.2-1.5,)') {
+        jarJar.pin(it, '1.18.2-1.5')
     }
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
