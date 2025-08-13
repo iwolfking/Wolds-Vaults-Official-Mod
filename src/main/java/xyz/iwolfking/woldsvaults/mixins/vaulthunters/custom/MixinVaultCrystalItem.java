@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.helper.GameruleHelper;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 
-@Mixin(value = VaultCrystalItem.class, remap = false)
+@Mixin(value = VaultCrystalItem.class)
 public class MixinVaultCrystalItem {
     @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
     private void useOn(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
