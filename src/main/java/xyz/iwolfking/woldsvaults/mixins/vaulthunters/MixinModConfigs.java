@@ -126,40 +126,6 @@ public class MixinModConfigs {
             }
             ModConfigs.TOOL_RECIPES.getConfigRecipes().add(recipe);
         }
-        woldsVaults$genCrucibleTag();
-    }
-
-    @Unique private static void woldsVaults$genCrucibleTag() {
-        Set<ResourceLocation> allItems = new HashSet<>(ModConfigs.VOID_CRUCIBLE_CUSTOM_ROOMS.getAllItems());
-        for (var theme : VaultRegistry.THEME.getKeys()) {
-            allItems.addAll(ThemeBlockRetriever.getBlocksForTheme(theme.getId()));
-        }
-
-        List<Holder<Item>> holders =
-            allItems.stream()
-                .filter(ThemeBlockRetriever::allowVaultBlock)
-                .map(Registry.ITEM::get)
-                .map(Registry.ITEM::getResourceKey)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(Registry.ITEM::getOrCreateHolder)
-                .toList();
-        TagKey<Item> voidedByCrucibleKey = ItemTags.create(VaultMod.id("voided_by_crucible"));
-        HolderSet.Named<Item> allTemplatesTag = Registry.ITEM.getOrCreateTag(voidedByCrucibleKey);
-        allTemplatesTag.bind(List.copyOf(holders));
-
-        List<Holder<Item>> notAllowedHolders =
-            allItems.stream()
-                .filter(x -> !ThemeBlockRetriever.allowVaultBlock(x))
-                .map(Registry.ITEM::get)
-                .map(Registry.ITEM::getResourceKey)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(Registry.ITEM::getOrCreateHolder)
-                .toList();
-        TagKey<Item> notAllowedVaultBlocksKey = ItemTags.create(VaultMod.id("void_crucible_extras"));
-        HolderSet.Named<Item> notAllowedVaultBlocksTag = Registry.ITEM.getOrCreateTag(notAllowedVaultBlocksKey);
-        notAllowedVaultBlocksTag.bind(List.copyOf(notAllowedHolders));
     }
 
 }

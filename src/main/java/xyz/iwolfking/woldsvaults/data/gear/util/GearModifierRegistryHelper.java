@@ -48,6 +48,8 @@ public class GearModifierRegistryHelper {
                 ((ModifierGearTierAccessor)tier).setMaxLevel(maxLevels.get(i));
             }
 
+            ((ModifierGearTierAccessor)tier).setModifierTier(i);
+
             modifierTiers.add(tier);
         }
 

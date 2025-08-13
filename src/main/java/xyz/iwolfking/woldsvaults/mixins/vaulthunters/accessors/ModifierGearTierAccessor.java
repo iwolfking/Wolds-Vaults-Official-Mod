@@ -11,4 +11,7 @@ public interface ModifierGearTierAccessor {
 
     @Accessor("maxLevel")
     void setMaxLevel(int maxLevel);
+
+    @Accessor("modifierTier")
+    void setModifierTier(int tier);
 }
