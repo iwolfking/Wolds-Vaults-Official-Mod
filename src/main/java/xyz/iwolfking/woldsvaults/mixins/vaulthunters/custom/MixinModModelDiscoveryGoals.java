@@ -16,6 +16,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.discovery.recipes.LootersPouchDiscoveryGoal;
+import xyz.iwolfking.woldsvaults.discovery.recipes.TreasuredJewelDiscoveryGoal;
 import xyz.iwolfking.woldsvaults.discovery.recipes.WizardPouchDiscoveryGoal;
 import xyz.iwolfking.woldsvaults.discovery.themes.GodThemesDiscoveryGoal;
 
@@ -29,6 +30,7 @@ public abstract class MixinModModelDiscoveryGoals {
     private static GodThemesDiscoveryGoal WENDARR_UNLOCK;
     private static WizardPouchDiscoveryGoal WIZARD_POUCH_UNLOCK;
     private static LootersPouchDiscoveryGoal LOOTERS_POUCH_UNLOCK;
+    private static TreasuredJewelDiscoveryGoal TREASURED_JEWEL;
 
     static {
         IDONA_UNLOCK = registerGoal(WoldsVaults.id("complete_idona_altar"), (new GodThemesDiscoveryGoal(1.0F, VaultGod.IDONA)).setReward((player, goal) -> {
@@ -99,6 +101,17 @@ public abstract class MixinModModelDiscoveryGoals {
                 data.discoverRecipeAndBroadcast(unlock, player);
             }
         }));
+
+        TREASURED_JEWEL = registerGoal(WoldsVaults.id("open_10_treasure_rooms"), (new TreasuredJewelDiscoveryGoal(05.0F)).setReward((player, goal) -> {
+            DiscoveredRecipesData data = DiscoveredRecipesData.get(player.getLevel());
+            ResourceLocation unlock = WoldsVaults.id("treasure_jewel");
+            if(!data.hasDiscovered(player, unlock)) {
+                MutableComponent info = (new TextComponent("You envision a better way of opening Treasure Chests!")).withStyle(ChatFormatting.GOLD);
+                player.displayClientMessage(info, false);
+                data.discoverRecipeAndBroadcast(unlock, player);
+            }
+        }));
+
 
 
     }

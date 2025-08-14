@@ -148,6 +148,7 @@
     "vaulthunters.custom.MixinGodCharmRollHelper",
     "vaulthunters.custom.MixinGrantedEffectHelper",
     "vaulthunters.custom.MixinHeraldCrystalObjective",
+    "vaulthunters.custom.MixinHeraldObjective",
     "vaulthunters.custom.MixinInscriptionData",
     "vaulthunters.custom.MixinInventoryHudRenderer",
     "vaulthunters.custom.MixinInventoryUtil",
