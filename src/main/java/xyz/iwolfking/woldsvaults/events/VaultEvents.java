@@ -6,7 +6,11 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.core.data.key.ThemeKey;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultRegistry;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.WorldManager;
+import iskallia.vault.core.vault.player.Completion;
+import iskallia.vault.core.vault.stat.StatCollector;
+import iskallia.vault.core.vault.stat.StatsCollector;
 import iskallia.vault.event.event.BountyCompleteEvent;
 import iskallia.vault.event.event.VaultJoinEvent;
 import iskallia.vault.event.event.VaultLeaveEvent;
@@ -18,10 +22,12 @@ import net.minecraftforge.fml.common.Mod;
 import org.spongepowered.asm.mixin.Unique;
 import virtuoel.pehkui.api.ScaleTypes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.CompleteBountyTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.EnterVaultTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.VaultLevelTask;
+import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
 
 import java.util.List;
 
@@ -45,6 +51,25 @@ public class VaultEvents {
             }
         }
 
+    }
+
+    @SubscribeEvent
+    public static void onVaultComplete(VaultLeaveEvent event) {
+        if(event.getPlayer() != null && event.getVault() != null) {
+            Vault vault = event.getVault();
+            ServerPlayer player = event.getPlayer();
+            if(VaultUtils.hasObjective(vault, CorruptedObjective.class)) {
+                if(vault.has(Vault.STATS)) {
+                    StatsCollector statsCollector = vault.get(Vault.STATS);
+                    StatCollector statCollector = statsCollector.get(player.getUUID());
+                    if(statCollector.getCompletion().equals(Completion.COMPLETED)) {
+                        if(!DiscoveredRecipesData.get(player.getLevel()).hasDiscovered(player, WoldsVaults.id("shattering_jewel"))) {
+                            DiscoveredRecipesData.get(player.getLevel()).discoverRecipeAndBroadcast(WoldsVaults.id("shattering_jewel"), player);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static List<CompleteBountyTask> completeBountyTasks = null;
