@@ -78,9 +78,10 @@ public abstract class MixinEnchanterEnchantSelectorModel {
                 out.forEach(enchantmentEntry -> canCraftLookup.put(enchantmentEntry, canCraft(input, enchantmentEntry)));
 
                 Map<EnchantmentEntry, Boolean> alreadyHasLookup = new HashMap<>();
+                Comparator<EnchantmentEntry> enchantmentSortComparator = Comparator.comparing((enchantmentEntry -> {return enchantmentEntry.getEnchantment().getRegistryName().toString();}), Comparator.reverseOrder());
                 out.forEach(enchantmentEntry -> alreadyHasLookup.put(enchantmentEntry,  currentEnchantments.getOrDefault(enchantmentEntry.getEnchantment(), 0) >= enchantmentEntry.getLevel()));
-
-                out.sort(Comparator.comparing(o -> o.getEnchantment().getRegistryName().toString()));
+                Comparator<EnchantmentEntry> comparator = Comparator.comparing(o -> o.getEnchantment().getRegistryName().toString());
+                out.sort(comparator.reversed());
                 out.sort((c1, c2) -> -Boolean.compare( canCraftLookup.get(c1),  canCraftLookup.get(c2)));
                 out.sort((c1, c2) -> Boolean.compare( alreadyHasLookup.get(c1), alreadyHasLookup.get(c2)));
                 return out;
