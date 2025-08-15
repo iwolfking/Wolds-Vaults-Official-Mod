@@ -21,7 +21,7 @@ public abstract class MixinFloatingItem extends ItemEntity {
     }
 
     // make floating items able to be picked up by magnet unless they are in unbreakable vault zone
-    @Inject(method = "tick", at = @At("HEAD"))
+    @Inject(method = "tick", at = @At("HEAD"), remap = true)
     public void tick(CallbackInfo ci) {
         if (this.getLevel() instanceof ServerLevel sLevel && this.getTags().contains("PreventMagnetMovement")) {
             IZonedWorld proxy = IZonedWorld.of(sLevel).orElse(null);
