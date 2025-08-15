@@ -273,6 +273,7 @@
     "vaultmapper.MixinVaultMapOverlayRenderer"
   ],
   "client": [
+    "MixinAnvilScreen",
     "MixinItemRenderer",
     "MixinThrownTridentRenderer",
     "inventoryhud.MixinCuriosRenderer",
