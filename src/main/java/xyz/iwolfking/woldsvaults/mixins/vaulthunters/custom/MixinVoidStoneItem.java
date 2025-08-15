@@ -41,6 +41,4 @@ public abstract class MixinVoidStoneItem {
     public boolean allowReequip(Optional<Vault> vault, @Local(argsOnly = true) ItemStack stack) {
         return vault.isPresent() && !VoidStoneItem.isUsableInVault(stack, vault.get().get(Vault.ID));
     }
-
-    @Overwr
 }
