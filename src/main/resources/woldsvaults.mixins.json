@@ -137,6 +137,7 @@
     "vaulthunters.custom.MixinCatalystForgeRecipe",
     "vaulthunters.custom.MixinCharmAnvilRecipe",
     "vaulthunters.custom.MixinCharmItem",
+    "vaulthunters.custom.MixinClassicListenersLogic",
     "vaulthunters.custom.MixinClassicLootLogic",
     "vaulthunters.custom.MixinCorruptGearModification",
     "vaulthunters.custom.MixinCustomSpawnerTileEntity",
