@@ -84,6 +84,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.woldsvaults.dungeon_pedestal", "Dungeon Pedestal");
         add("block.woldsvaults.iskallian_leaves", "Woldian Leaves");
         add("block.woldsvaults.hellish_sand", "Hellish Sand");
+        add("block.woldsvaults.brewing_altar", "Brewing Altar");
         add("item.the_vault.gem_box", "Gem Box");
         add("item.the_vault.supply_box", "Supply Box");
         add("item.the_vault.augment_box", "Augment Box");
