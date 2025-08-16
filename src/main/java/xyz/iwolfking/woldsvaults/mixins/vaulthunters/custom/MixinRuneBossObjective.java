@@ -18,7 +18,7 @@ import xyz.iwolfking.woldsvaults.init.ModGameRules;
 public class MixinRuneBossObjective {
     @Inject(method = "initServer", at = @At("HEAD"))
     private void addNormalized(VirtualWorld world, Vault vault, CallbackInfo ci) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault, world.getLevel());
+        //NormalizedHelper.handleAddingNormalizedToVault(vault, world.getLevel());
     }
 
     @Inject(method = "lambda$initServer$3", at = @At(value = "INVOKE", target = "Liskallia/vault/item/BossRuneItem;getModifier(Lnet/minecraft/world/item/ItemStack;)Ljava/lang/String;"), cancellable = true)

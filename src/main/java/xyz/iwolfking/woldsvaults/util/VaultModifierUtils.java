@@ -53,4 +53,9 @@ public class VaultModifierUtils {
             }
         }
     }
+
+    public static boolean hasCountOfModifiers(Vault vault, ResourceLocation modifierId, int count) {
+        List<VaultModifier<?>> modifiers = vault.get(Vault.MODIFIERS).getModifiers();
+        return modifiers.stream().filter(modifier -> modifier.getId().equals(modifierId)).count() >= count;
+    }
 }
