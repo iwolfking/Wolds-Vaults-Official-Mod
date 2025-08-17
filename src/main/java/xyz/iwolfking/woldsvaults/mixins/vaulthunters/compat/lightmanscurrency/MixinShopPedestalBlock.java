@@ -127,7 +127,6 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
                         break;
                     }
                     if(!hasExpertise) {
-                        System.out.println("Didn't have expertise");
                         return InteractionResult.FAIL;
                     }
                 }

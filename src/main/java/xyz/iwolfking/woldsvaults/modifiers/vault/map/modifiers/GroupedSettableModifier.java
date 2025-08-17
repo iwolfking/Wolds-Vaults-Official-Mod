@@ -40,7 +40,6 @@ public class GroupedSettableModifier extends SettableValueVaultModifier<GroupedS
 
             while(var2.hasNext()) {
                 Map.Entry<String, Integer> entry = (Map.Entry)var2.next();
-                System.out.println(entry.getKey());
                 VaultModifierRegistry.getOpt(new ResourceLocation((String)entry.getKey())).ifPresent((modifier) -> {
                     for(int i = 0; i < (Integer)entry.getValue(); ++i) {
                         if(modifier instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {

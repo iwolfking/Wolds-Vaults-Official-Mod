@@ -128,9 +128,6 @@ public class LivingEntityEvents {
 
                         DiscoveredRecipesData.get(sLevel).discoverRecipeAndBroadcast(WoldsVaults.id("light_trinket_pouch"), attacker);
                     }
-                    else {
-                        System.out.println("Not a ServerLevel");
-                    }
                 }
             }
         }
@@ -151,9 +148,6 @@ public class LivingEntityEvents {
                         }
 
                         DiscoveredRecipesData.get(sLevel).discoverRecipeAndBroadcast(WoldsVaults.id("slayer_trinket_pouch"), attacker);
-                    }
-                    else {
-                        System.out.println("Not a ServerLevel");
                     }
                 }
             }

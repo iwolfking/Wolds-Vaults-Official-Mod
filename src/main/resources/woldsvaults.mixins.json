@@ -140,6 +140,7 @@
     "vaulthunters.custom.MixinCharmItem",
     "vaulthunters.custom.MixinClassicListenersLogic",
     "vaulthunters.custom.MixinClassicLootLogic",
+    "vaulthunters.custom.MixinCompanionEggHunt",
     "vaulthunters.custom.MixinCorruptGearModification",
     "vaulthunters.custom.MixinCustomSpawnerTileEntity",
     "vaulthunters.custom.MixinEntityEvents",

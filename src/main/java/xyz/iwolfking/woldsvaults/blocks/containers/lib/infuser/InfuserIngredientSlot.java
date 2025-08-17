@@ -23,7 +23,6 @@ public class InfuserIngredientSlot extends SlotItemHandler {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        System.out.println(CachedInfuserRecipeData.getIngredients().contains(stack.getItem()));
         return CachedInfuserRecipeData.getIngredients().contains(stack.getItem());
     }
 

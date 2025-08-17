@@ -84,10 +84,10 @@ public class MixinGearRollHelper {
             return;
         }
 
-
+        int itemLevel = data.getItemLevel();
 
         //Randomly add a corrupted implicit
-        if(rand.nextFloat() <= 0.02F) {
+        if(itemLevel >= 65 && rand.nextFloat() <= 0.02F) {
             GearModification.Result result;
             if(stack.getItem() instanceof JewelItem) {
                 result = VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.CORRUPTED));
@@ -110,19 +110,19 @@ public class MixinGearRollHelper {
             }
         }
         //Randomly frozen (if not a jewel)
-        else if(rand.nextFloat() <= 0.02F) {
+        else if(itemLevel >= 25 && rand.nextFloat() <= 0.02F) {
             if(stack.getItem() instanceof JewelItem) {
                 return;
             }
             VaultGearModifierHelper.lockRandomAffix(stack, rand);
         }
         //Randomly add unusual
-        else if(rand.nextFloat() <= 0.03F) {
+        else if(itemLevel>= 20 && rand.nextFloat() <= 0.03F) {
             WoldGearModifierHelper.removeRandomModifierAlways(stack, rand);
             WoldGearModifierHelper.addUnusualModifier(stack, player.level.getGameTime(), rand);
         }
         //Randomly add greater modifier
-        else if(rand.nextFloat() >= 0.02F) {
+        else if(itemLevel >= 40 && rand.nextFloat() >= 0.02F) {
             VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.GREATER));
         }
         //Randomly improve gear rarity (if not a jewel)

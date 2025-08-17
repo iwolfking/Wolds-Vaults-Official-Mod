@@ -23,7 +23,6 @@ public class CatalystSlot extends SlotItemHandler {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        System.out.println(CachedInfuserRecipeData.getCatalysts().contains(stack.getItem()));
         return CachedInfuserRecipeData.getCatalysts().contains(stack.getItem());
     }
 

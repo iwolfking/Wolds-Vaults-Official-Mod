@@ -13,7 +13,6 @@ public class ModRecipeSerializers {
 
     @SubscribeEvent
     public void onRegisterSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
-        System.out.println("REGISTERING INFUSER RECIPES");
         var registry = event.getRegistry();
 
         registry.register(INFUSER.setRegistryName(new ResourceLocation(WoldsVaults.MOD_ID, "infuser")));

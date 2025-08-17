@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 @Mixin(value = EndScreenScheduler.class, remap = false)
 public abstract class MixinEndScreenScheduler {
@@ -33,7 +34,7 @@ public abstract class MixinEndScreenScheduler {
                 }
             }
         } catch (Exception e) {
-            System.out.println("There was an issue displaying the end screen for the vault.");
+            WoldsVaults.LOGGER.error("There was an issue displaying the end screen for the vault.");
             e.printStackTrace();
             if(getInstance() != null) {
                 getInstance().snapshot = null;
