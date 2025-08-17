@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.blackmarkettweaks;
 
 import dev.attackeight.black_market_tweaks.BlackMarketTweaks;
+import dev.attackeight.black_market_tweaks.extension.BlackMarketInventory;
 import iskallia.vault.block.entity.BlackMarketTileEntity;
 import iskallia.vault.block.entity.base.FilteredInputInventoryTileEntity;
 import iskallia.vault.container.oversized.OverSizedInventory;
@@ -33,7 +34,7 @@ public class MixinBlackMarketTileEntity extends BlockEntity implements FilteredI
 
         if (level.getBlockEntity(this.worldPosition) instanceof BlackMarketTileEntity be) {
             try {
-                OverSizedInventory container = (OverSizedInventory) be.getClass().getDeclaredField("inventory").get(be);
+                OverSizedInventory container = ((BlackMarketInventory)be).bmt$get();
                 return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.getFilteredInputCapability(side, new Container[]{container}) : super.getCapability(cap, side);
             } catch (Exception e) {
                 BlackMarketTweaks.LOGGER.error(e.toString());
