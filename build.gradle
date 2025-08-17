@@ -249,7 +249,7 @@ dependencies {
     implementation fg.deobf("curse.maven:better-tridents-666941:4707885")
     implementation fg.deobf("curse.maven:puzzles-lib-495476:5114509")
     implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6803115")
-    implementation fg.deobf("curse.maven:black-market-tweaks-1168437:6806503")
+    implementation fg.deobf("curse.maven:black-market-tweaks-1168437:6880977")
     compileOnly fg.deobf("curse.maven:hexal-824725:5099219")
     implementation fg.deobf("curse.maven:occultism-361026:4729072")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
