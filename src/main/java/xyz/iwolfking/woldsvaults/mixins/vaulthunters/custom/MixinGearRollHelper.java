@@ -5,6 +5,7 @@ import iskallia.vault.config.gear.VaultEtchingConfig;
 import iskallia.vault.gear.*;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.gear.data.JewelGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.modification.GearModification;
@@ -79,11 +80,25 @@ public class MixinGearRollHelper {
             //woldsvaults$addRandomEtchingEntry(data, gearItem, stack);
         }
 
+        if(!data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false)) {
+            return;
+        }
+
 
 
         //Randomly add a corrupted implicit
-        if(data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false) && rand.nextFloat() < 0.02F) {
+        if(rand.nextFloat() <= 0.02F) {
             GearModification.Result result;
+            if(stack.getItem() instanceof JewelItem) {
+                result = VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.CORRUPTED));
+                if (result.success()) {
+                    data.createOrReplaceAttributeValue(ModGearAttributes.JEWEL_SIZE, player.getRandom().nextInt(1, 21));
+                    VaultGearModifierHelper.setGearCorrupted(stack);
+                }
+                return;
+            }
+
+
             if (rand.nextBoolean()) {
                 result = VaultGearModifierHelper.generateCorruptedImplicit(stack, rand);
             } else {
@@ -95,26 +110,31 @@ public class MixinGearRollHelper {
             }
         }
         //Randomly frozen (if not a jewel)
-        else if(data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false) && rand.nextFloat() < 0.02F) {
+        else if(rand.nextFloat() <= 0.02F) {
             if(stack.getItem() instanceof JewelItem) {
                 return;
             }
             VaultGearModifierHelper.lockRandomAffix(stack, rand);
         }
         //Randomly add unusual
-        else if(data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false) && rand.nextFloat() < 0.03F) {
+        else if(rand.nextFloat() <= 0.03F) {
             WoldGearModifierHelper.removeRandomModifierAlways(stack, rand);
             WoldGearModifierHelper.addUnusualModifier(stack, player.level.getGameTime(), rand);
         }
+        //Randomly add greater modifier
+        else if(rand.nextFloat() >= 0.02F) {
+            VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.GREATER));
+        }
         //Randomly improve gear rarity (if not a jewel)
-        else if(data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false) && rand.nextFloat() < 0.04F) {
+        else if(rand.nextFloat() <= 0.04F) {
             if(stack.getItem() instanceof JewelItem) {
                 return;
             }
             VaultGearModifierHelper.improveGearRarity(stack, rand);
         }
+
         //Randomly add ability enhancement (non functional atm)
-        else if(data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false) && rand.nextFloat() < 0.01F && stack.getItem() instanceof VaultArmorItem armorItem) {
+        else if(rand.nextFloat() < 0.01F && stack.getItem() instanceof VaultArmorItem armorItem) {
             if(armorItem.getEquipmentSlot(stack) != null && armorItem.getEquipmentSlot(stack).equals(EquipmentSlot.HEAD)) {
                 VaultGearModifierHelper.createOrReplaceAbilityEnhancementModifier(stack, rand);
             }
