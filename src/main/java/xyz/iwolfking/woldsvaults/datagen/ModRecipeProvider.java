@@ -349,5 +349,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 40,
                 9
         ).unlockedBy("has_essence", has(iskallia.vault.init.ModItems.VAULT_ESSENCE)).save(pFinishedRecipeConsumer);
+
+        companionRerollRecipe("companion_temporalizer", pFinishedRecipeConsumer);
+
+    }
+
+    private void companionRerollRecipe(String recipeId, Consumer<FinishedRecipe> finishedRecipe) {
+        ShapedRecipeBuilder.shaped(ModItems.COMPANION_REROLLER)
+                .define('T', iskallia.vault.init.ModItems.TEMPORAL_SHARD)
+                .define('R', iskallia.vault.init.ModItems.ECHO_POG)
+                .define('C', ModItems.POG_PRISM)
+                .define('D', iskallia.vault.init.ModBlocks.VAULT_DIAMOND_BLOCK)
+                .pattern("DTD")
+                .pattern("CRC")
+                .pattern("DTD")
+                .unlockedBy("has_temporal_shard", has(iskallia.vault.init.ModItems.TEMPORAL_SHARD))
+                .save(finishedRecipe, WoldsVaults.id(recipeId));
     }
 }

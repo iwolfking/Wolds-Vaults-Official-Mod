@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:companion_temporalizer"
+    ]
+  },
+  "criteria": {
+    "has_temporal_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:temporal_shard"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:companion_temporalizer"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_temporal_shard",
+      "has_the_recipe"
+    ]
+  ]
+}

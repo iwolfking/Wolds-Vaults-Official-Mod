@@ -95,6 +95,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CATALYST_TEMPORAL);
         simpleItem(ModItems.CATALYST_UNSTABLE);
         simpleItem(ModItems.CRYSTAL_SEAL_ALCHEMY);
+        simpleItem(ModItems.COMPANION_REROLLER);
         //simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         spawnEgg(ModItems.BLUE_BLAZE_EGG);
