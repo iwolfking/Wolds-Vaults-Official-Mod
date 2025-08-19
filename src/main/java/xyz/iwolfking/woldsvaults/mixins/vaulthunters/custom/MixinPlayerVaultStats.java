@@ -97,7 +97,7 @@ public abstract class MixinPlayerVaultStats {
             return ModConfigs.LEVELS_META.getLevelMeta(this.vaultLevel).tnl;
         }
 
-        return (int) (ModConfigs.LEVELS_META.getPrestigeTnl() + (ModConfigs.LEVELS_META.getPrestigeTnl() * ((this.getVaultLevel() - 100) * 0.01F)));
+        return (int) (ModConfigs.LEVELS_META.getPrestigeTnl() + (ModConfigs.LEVELS_META.getPrestigeTnl() * ((this.getVaultLevel() - 100) * 0.005F)));
 
     }
 }
