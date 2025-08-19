@@ -181,6 +181,7 @@
     "vaulthunters.custom.MixinRoyalePresetConfig",
     "vaulthunters.custom.MixinRuneBossObjective",
     "vaulthunters.custom.MixinRunner",
+    "vaulthunters.custom.MixinShellQuillAbility",
     "vaulthunters.custom.MixinShopPedestalBlockTileRenderer",
     "vaulthunters.custom.MixinSpecialAbilityModificationRegistry",
     "vaulthunters.custom.MixinToolItem",
