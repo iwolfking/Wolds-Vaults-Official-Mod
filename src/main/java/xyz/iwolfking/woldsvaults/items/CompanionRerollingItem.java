@@ -18,46 +18,51 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 
 public class CompanionRerollingItem extends BasicItem {
     public CompanionRerollingItem(ResourceLocation id) {
         super(id);
     }
 
-
-    @Override
-    public InteractionResult useOn(UseOnContext context) {
-        Level level = context.getLevel();
-        ItemStack stackInHand = context.getItemInHand();
+    public static InteractionResult rerollCompanionModifier(Level level, ItemStack stackInHand, Player player, BlockPos pos) {
         if(level.isClientSide) {
             return InteractionResult.PASS;
         }
 
-        if(level.getBlockEntity(context.getClickedPos()) instanceof CompanionHomeTileEntity home && stackInHand.getItem() instanceof CompanionRerollingItem) {
-            if(!home.getCompanion().isEmpty()) {
+        if(player == null) {
+            return InteractionResult.FAIL;
+        }
+
+        if(level.getBlockEntity(pos) instanceof CompanionHomeTileEntity home && stackInHand.getItem() instanceof CompanionRerollingItem) {
+            if(!home.getCompanion().isEmpty() && player.isShiftKeyDown()) {
                 ItemStack companion = home.getCompanion();
-                if(stackInHand.hasTag()) {
-                    VaultModifier<?> modifier;
-                    if(stackInHand.getOrCreateTag().contains("modifier")) {
-                        String modifierId = stackInHand.getOrCreateTag().getString("modifier");
-                        modifier = VaultModifierRegistry.get(new ResourceLocation(modifierId));
-                    }
-                    else {
-                        modifier = CompanionItem.getRandomTemporalModifier();
-                    }
-
-                    CompanionItem.setTemporalModifier(companion, modifier.getId());
-                    stackInHand.shrink(1);
-                    if(context.getPlayer() != null) {
-                        context.getPlayer().displayClientMessage(new TextComponent("Your Companion now has the ").append(modifier.getNameComponent()).append(" modifier!"), true);
-                    }
-
-                    return InteractionResult.SUCCESS;
+                VaultModifier<?> modifier;
+                if(stackInHand.hasTag() && stackInHand.getOrCreateTag().contains("modifier")) {
+                    String modifierId = stackInHand.getOrCreateTag().getString("modifier");
+                    modifier = VaultModifierRegistry.get(new ResourceLocation(modifierId));
                 }
+                else {
+                    modifier = CompanionItem.getRandomTemporalModifier();
+                }
+
+                CompanionItem.setTemporalModifier(companion, modifier.getId());
+                stackInHand.shrink(1);
+                player.displayClientMessage(new TextComponent("Your Companion now has the ").append(modifier.getNameComponent()).append(" modifier!"), true);
+                return InteractionResult.CONSUME;
             }
         }
 
         return InteractionResult.PASS;
     }
 
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Player player = context.getPlayer();
+        if(player == null) {
+            return InteractionResult.FAIL;
+        }
+
+        return CompanionRerollingItem.rerollCompanionModifier(context.getLevel(), player.getItemInHand(context.getHand()), player, context.getClickedPos());
+    }
 }
