@@ -150,7 +150,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapedRecipeBuilder.shaped(ModItems.FILTER_NECKLACE)
                 .define('F', Registry.ITEM.get(new ResourceLocation("create", "attribute_filter")))
                 .define('P', ModItems.POG_PRISM)
-                .define('I', iskallia.vault.init.ModItems.CHROMATIC_STEEL_INGOT)
+                .define('I', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
                 .pattern(" II")
                 .pattern(" PI")
                 .pattern("F  ")
