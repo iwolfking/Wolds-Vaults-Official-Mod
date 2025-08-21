@@ -13,9 +13,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import top.theillusivec4.curios.api.CuriosApi;
 
 @Mixin(value = RoyaleObjective.class, remap = false)
 public class MixinRoyaleObjective {
+    //TODO: try out IntegrationCurios.clearCurios() instead
     @Inject(method = "lambda$initServer$7", at = @At(value = "INVOKE", target = "Liskallia/vault/util/MiscUtils;clearPlayerInventory(Lnet/minecraft/world/entity/player/Player;)V", shift = At.Shift.BEFORE))
     private void clearTrinketSlotsOnCompletion(Vault vault, ListenerLeaveEvent.Data data, CallbackInfo ci, @Local ServerPlayer player) {
             IntegrationCurios.setCurioItemStack(player, ItemStack.EMPTY, "red_trinket", 0);
