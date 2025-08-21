@@ -92,7 +92,7 @@ public class MixinGearRollHelper {
             if(stack.getItem() instanceof JewelItem) {
                 result = VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.CORRUPTED));
                 if (result.success()) {
-                    data.createOrReplaceAttributeValue(ModGearAttributes.JEWEL_SIZE, player.getRandom().nextInt(1, 21));
+                    data.createOrReplaceAttributeValue(ModGearAttributes.JEWEL_SIZE, player.getRandom().nextInt(1, 26));
                     VaultGearModifierHelper.setGearCorrupted(stack);
                 }
                 return;
@@ -122,7 +122,7 @@ public class MixinGearRollHelper {
             WoldGearModifierHelper.addUnusualModifier(stack, player.level.getGameTime(), rand);
         }
         //Randomly add greater modifier
-        else if(itemLevel >= 40 && rand.nextFloat() >= 0.02F) {
+        else if(itemLevel >= 40 && rand.nextFloat() <= 0.02F) {
             VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.GREATER));
         }
         //Randomly improve gear rarity (if not a jewel)
