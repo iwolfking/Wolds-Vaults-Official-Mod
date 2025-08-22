@@ -93,6 +93,7 @@ public class MixinGearRollHelper {
                 result = VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.CORRUPTED));
                 if (result.success()) {
                     data.createOrReplaceAttributeValue(ModGearAttributes.JEWEL_SIZE, player.getRandom().nextInt(1, 26));
+                    data.write(stack);
                     VaultGearModifierHelper.setGearCorrupted(stack);
                 }
                 return;
