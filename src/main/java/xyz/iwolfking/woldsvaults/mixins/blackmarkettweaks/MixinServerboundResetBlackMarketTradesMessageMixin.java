@@ -18,6 +18,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Random;
 import java.util.function.Supplier;
 
 @Mixin(value = ServerboundResetBlackMarketTradesMessage.class, remap = false)
@@ -49,8 +51,10 @@ public class MixinServerboundResetBlackMarketTradesMessageMixin {
                 chance = (power.getExtraRerolls() * 0.25);
             }
 
+            Random random = new Random();
+
             OverSizedInventory container = ((BlackMarketInventory) be).bmt$get();
-            if (Math.random() < chance) {
+            if (random.nextFloat() >= chance) {
                 ItemStack pearl = container.getItem(0);
                 pearl.shrink(dev.attackeight.black_market_tweaks.init.ModConfig.COST.get());
                 container.setItem(0, pearl);

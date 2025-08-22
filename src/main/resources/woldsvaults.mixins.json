@@ -67,7 +67,6 @@
     "occultism.MixinFamiliarRingItemCurio",
     "occultism.MixinFamiliarUtils",
     "occultism.MixinRemoteStorageAccessor",
-    "openpac.MixinCommonEvents",
     "openpac.MixinHostileEntityProtectionHelper",
     "pnc.MixinDisenchantingPressureRecipe",
     "quark.MixinAncientTomesModule",

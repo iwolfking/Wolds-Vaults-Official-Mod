@@ -23,17 +23,17 @@ import java.util.stream.Stream;
 )
 @Mixin(value = CommonEvents.class, remap = false)
 public class MixinCommonEvents {
-    @Inject(method = "onEntityPlaceBlock", at = @At(value = "HEAD"), cancellable = true)
-    private void allowPlacingVaultPortalsSingle(LevelAccessor levelAccessor, BlockPos pos, Entity entity, BlockState placedBlock, BlockState replacedBlock, CallbackInfoReturnable<Boolean> cir) {
-        if(placedBlock.getBlock() instanceof VaultPortalBlock) {
-            cir.setReturnValue(false);
-        }
-    }
-
-    @Inject(method = "onEntityMultiPlaceBlock", at = @At("HEAD"), cancellable = true)
-    private void allowPlacingVaultPortalsMulti(LevelAccessor levelAccessor, Stream<Pair<BlockPos, BlockState>> blocks, Entity entity, CallbackInfoReturnable<Boolean> cir) {
-        if(blocks.anyMatch(blockPosBlockStatePair -> blockPosBlockStatePair.getRight().getBlock() instanceof VaultPortalBlock)) {
-            cir.setReturnValue(false);
-        }
-    }
+//    @Inject(method = "onEntityPlaceBlock", at = @At(value = "HEAD"), cancellable = true)
+//    private void allowPlacingVaultPortalsSingle(LevelAccessor levelAccessor, BlockPos pos, Entity entity, BlockState placedBlock, BlockState replacedBlock, CallbackInfoReturnable<Boolean> cir) {
+//        if(placedBlock.getBlock() instanceof VaultPortalBlock) {
+//            cir.setReturnValue(false);
+//        }
+//    }
+//
+//    @Inject(method = "onEntityMultiPlaceBlock", at = @At("HEAD"), cancellable = true)
+//    private void allowPlacingVaultPortalsMulti(LevelAccessor levelAccessor, Stream<Pair<BlockPos, BlockState>> blocks, Entity entity, CallbackInfoReturnable<Boolean> cir) {
+//        if(blocks.anyMatch(blockPosBlockStatePair -> blockPosBlockStatePair.getRight().getBlock() instanceof VaultPortalBlock)) {
+//            cir.setReturnValue(false);
+//        }
+//    }
 }
