@@ -89,16 +89,6 @@ public class MixinGearRollHelper {
         //Randomly add a corrupted implicit
         if(itemLevel >= 65 && rand.nextFloat() <= 0.02F) {
             GearModification.Result result;
-            if(stack.getItem() instanceof JewelItem) {
-                result = VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.CORRUPTED));
-                if (result.success()) {
-                    data.createOrReplaceAttributeValue(ModGearAttributes.JEWEL_SIZE, player.getRandom().nextInt(1, 26));
-                    data.write(stack);
-                    VaultGearModifierHelper.setGearCorrupted(stack);
-                }
-                return;
-            }
-
 
             if (rand.nextBoolean()) {
                 result = VaultGearModifierHelper.generateCorruptedImplicit(stack, rand);
@@ -138,6 +128,28 @@ public class MixinGearRollHelper {
         else if(rand.nextFloat() < 0.01F && stack.getItem() instanceof VaultArmorItem armorItem) {
             if(armorItem.getEquipmentSlot(stack) != null && armorItem.getEquipmentSlot(stack).equals(EquipmentSlot.HEAD)) {
                 VaultGearModifierHelper.createOrReplaceAbilityEnhancementModifier(stack, rand);
+            }
+        }
+    }
+
+    @Inject(method = "initializeGear(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At("TAIL"))
+    private static void handleCorruptedJewelSize(ItemStack stack, Player player, CallbackInfo ci, @Local VaultGearData data) {
+        if(stack.getItem() instanceof JewelItem) {
+            if(data.getItemLevel() < 65 || rand.nextFloat() > 0.02F) {
+                return;
+            }
+
+            GearModification.Result result = VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.CORRUPTED));
+            VaultGearData jData = VaultGearData.read(stack);
+            if (result.success()) {
+                List<VaultGearModifier<?>> sizeMods = jData.getModifiers(VaultGearModifier.AffixType.IMPLICIT).stream().filter(vaultGearModifier -> vaultGearModifier.getAttribute() == ModGearAttributes.JEWEL_SIZE).toList();
+                if(!sizeMods.isEmpty()) {
+                    jData.removeModifier(sizeMods.get(0));
+                }
+
+                jData.addModifier(VaultGearModifier.AffixType.IMPLICIT, new VaultGearModifier<>(ModGearAttributes.JEWEL_SIZE, rand.nextInt(1, 26)));
+                jData.write(stack);
+                VaultGearModifierHelper.setGearCorrupted(stack);
             }
         }
     }
