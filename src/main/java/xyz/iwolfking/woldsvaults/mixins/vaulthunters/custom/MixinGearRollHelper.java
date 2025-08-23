@@ -108,12 +108,12 @@ public class MixinGearRollHelper {
             VaultGearModifierHelper.lockRandomAffix(stack, rand);
         }
         //Randomly add unusual
-        else if(itemLevel>= 20 && rand.nextFloat() <= 0.03F) {
+        else if(itemLevel>= 20 && rand.nextFloat() <= 0.02F) {
             WoldGearModifierHelper.removeRandomModifierAlways(stack, rand);
             WoldGearModifierHelper.addUnusualModifier(stack, player.level.getGameTime(), rand);
         }
         //Randomly add greater modifier
-        else if(itemLevel >= 40 && rand.nextFloat() <= 0.02F) {
+        else if(itemLevel >= 40 && rand.nextFloat() <= 0.01F) {
             VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.GREATER));
         }
         //Randomly improve gear rarity (if not a jewel)

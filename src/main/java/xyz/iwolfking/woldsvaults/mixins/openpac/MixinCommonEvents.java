@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.openpac;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.block.VaultPortalBlock;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
@@ -23,17 +24,17 @@ import java.util.stream.Stream;
 )
 @Mixin(value = CommonEvents.class, remap = false)
 public class MixinCommonEvents {
-//    @Inject(method = "onEntityPlaceBlock", at = @At(value = "HEAD"), cancellable = true)
-//    private void allowPlacingVaultPortalsSingle(LevelAccessor levelAccessor, BlockPos pos, Entity entity, BlockState placedBlock, BlockState replacedBlock, CallbackInfoReturnable<Boolean> cir) {
-//        if(placedBlock.getBlock() instanceof VaultPortalBlock) {
-//            cir.setReturnValue(false);
-//        }
-//    }
-//
-//    @Inject(method = "onEntityMultiPlaceBlock", at = @At("HEAD"), cancellable = true)
-//    private void allowPlacingVaultPortalsMulti(LevelAccessor levelAccessor, Stream<Pair<BlockPos, BlockState>> blocks, Entity entity, CallbackInfoReturnable<Boolean> cir) {
-//        if(blocks.anyMatch(blockPosBlockStatePair -> blockPosBlockStatePair.getRight().getBlock() instanceof VaultPortalBlock)) {
-//            cir.setReturnValue(false);
-//        }
-//    }
+    @Inject(method = "onEntityPlaceBlock", at = @At(value = "HEAD"), cancellable = true)
+    private void allowPlacingVaultPortalsSingle(LevelAccessor levelAccessor, BlockPos pos, Entity entity, BlockState placedBlock, BlockState replacedBlock, CallbackInfoReturnable<Boolean> cir) {
+        if(placedBlock.getBlock() instanceof VaultPortalBlock) {
+            cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(method = "onEntityMultiPlaceBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isAir()Z"), cancellable = true, remap = true)
+    private void allowPlacingVaultPortalsMulti(LevelAccessor levelAccessor, Stream<Pair<BlockPos, BlockState>> blocks, Entity entity, CallbackInfoReturnable<Boolean> cir, @Local BlockState state) {
+        if(state.getBlock() instanceof VaultPortalBlock) {
+            cir.setReturnValue(false);
+        }
+    }
 }
