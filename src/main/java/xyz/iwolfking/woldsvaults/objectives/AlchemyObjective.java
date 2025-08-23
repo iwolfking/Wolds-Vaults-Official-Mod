@@ -398,6 +398,9 @@ public class AlchemyObjective extends Objective {
 
         // Check if it crossed the threshold this brew
         if (oldProgress < this.get(REQUIRED_PROGRESS) && newProgress > this.get(REQUIRED_PROGRESS)) {
+            if(this.get(FULLY_OVERSTACKED)) {
+                return;
+            }
             // Only count overflow amount above the requirement
             float overflow = newProgress - this.get(REQUIRED_PROGRESS);
             int crateAmount = (int) (overflow * 100);
