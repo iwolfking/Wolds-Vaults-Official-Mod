@@ -43,6 +43,15 @@ public class WoldMixinCanceller implements MixinCanceller {
             }
         }
 
+        if(s.equals("com.dog.serverportals.mixin.PlayerListMixin")) {
+            return true;
+        }
+
+        if(s.equals("com.dog.serverportals.mixin.ServerGamePacketListenerImplMixin")) {
+            return true;
+        }
+
+
         return false;
     }
 }
