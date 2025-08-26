@@ -31,6 +31,7 @@
     "bettercombat.MixinBetterCombatAttackRange",
     "bettercombat.MixinWeaponAttributesHelper",
     "bettercombat.MixinWeaponRegistry",
+    "blackmarkettweaks.MixinBlackMarketTileEntity",
     "blackmarkettweaks.MixinServerboundResetBlackMarketTradesMessageMixin",
     "cloudstorage.MixinBalloonBuddyEntity",
     "cofhcore.MixinCofhEnchantment",

@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -44,7 +45,15 @@ public class MixinServerboundResetBlackMarketTradesMessageMixin {
                 return;
             }
 
-            double chance = -1;
+            OverSizedInventory container = ((BlackMarketInventory) be).bmt$get();
+            ItemStack pearl = container.getItem(0);
+            if(!pearl.getItem().equals(ModItems.SOUL_ICHOR)) {
+                context.setPacketHandled(true);
+                ci.cancel();
+                return;
+            }
+
+            double chance = 0.0;
 
             PlayerBlackMarketData.BlackMarket playerMarket = PlayerBlackMarketData.get(context.getSender().server).getBlackMarket(context.getSender());
             for(BlackMarketRerollsPrestigePowerPower power : PrestigeHelper.getPrestige(serverPlayer).getAll(BlackMarketRerollsPrestigePowerPower.class, Skill::isUnlocked)) {
@@ -53,9 +62,7 @@ public class MixinServerboundResetBlackMarketTradesMessageMixin {
 
             Random random = new Random();
 
-            OverSizedInventory container = ((BlackMarketInventory) be).bmt$get();
             if (random.nextFloat() >= chance) {
-                ItemStack pearl = container.getItem(0);
                 pearl.shrink(dev.attackeight.black_market_tweaks.init.ModConfig.COST.get());
                 container.setItem(0, pearl);
             }
