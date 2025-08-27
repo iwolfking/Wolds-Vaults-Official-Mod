@@ -42,6 +42,7 @@
     "dungeons_library.MixinArtifactsBarRenderer",
     "dungeons_library.MixinAttacherBuiltInEnchantments",
     "dungeons_library.MixinCuriosKeyBindings",
+    "dungeons_mobs.MixinReplacedIllagersEvents",
     "dyenamicsandfriends.MixinComputerCraftCompatModule",
     "dyenamicsandfriends.MixinIncBootstrapForge",
     "ensorcellation.MixinCommonEvents",

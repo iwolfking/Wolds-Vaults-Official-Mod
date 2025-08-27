@@ -261,6 +261,7 @@ dependencies {
     implementation fg.deobf("curse.maven:placebo-283644:4500363")
     implementation fg.deobf("curse.maven:mekanism-268560:3875976")
     implementation fg.deobf("curse.maven:dungeons-libraries-550941:4363207")
+    implementation fg.deobf("curse.maven:dungeons-mobs-428883:4344582")
     implementation fg.deobf("curse.maven:ftb-quests-forge-289412:6113498")
     implementation fg.deobf("curse.maven:ftb-library-forge-404465:4396792")
     implementation fg.deobf("curse.maven:ftb-teams-forge-404468:4579981")
