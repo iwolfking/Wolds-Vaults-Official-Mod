@@ -282,6 +282,7 @@
     "vaulthunters.performance.MixinGearStackingTalent",
     "vaulthunters.performance.MixinHighHealthGearAttributeTalent",
     "vaulthunters.performance.MixinToolHighlight",
+    "vaulthunters.performance.elixir.MixinElixirTask",
     "vaulthunters.recipes.MixinAnvilRecipes",
     "vaulthunters.recipes.MixinJewelCraftingRecipe",
     "vaulthunters.skills.MixinAbilityLabelFactory",
@@ -296,6 +297,7 @@
   ],
   "client": [
     "MixinAnvilScreen",
+    "AccessorParticleEngine",
     "MixinItemRenderer",
     "MixinThrownTridentRenderer",
     "inventoryhud.MixinCuriosRenderer",
