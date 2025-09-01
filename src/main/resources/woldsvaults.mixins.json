@@ -21,6 +21,7 @@
     "MixinThrownTrident",
     "ThrownTridentAccessor",
     "advanced_peripherals.MixinVillagerTrades",
+    "ae2.terminal.MixinAEBaseMenu",
     "ae2.terminal.MixinInventoryHotkeyAction",
     "ae2.terminal.MixinMenuItemLocator",
     "ae2.terminal.MixinWirelessTerminalItem",
