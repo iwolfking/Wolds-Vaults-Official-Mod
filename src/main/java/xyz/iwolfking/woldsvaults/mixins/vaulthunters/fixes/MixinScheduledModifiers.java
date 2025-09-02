@@ -4,6 +4,7 @@ import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ScheduledModifiers;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.core.vault.time.TickClock;
 import iskallia.vault.gear.attribute.custom.RandomGodVaultModifierAttribute;
@@ -31,6 +32,10 @@ public class MixinScheduledModifiers {
      */
     @Overwrite
     public void onJoin(Vault vault, ServerPlayer player) {
+        if(VaultUtils.isRoyaleVault(vault) || VaultUtils.isPvPVault(vault) || VaultUtils.isHeraldVault(vault)) {
+            return;
+        }
+
         RandomSource random = JavaRandom.ofScrambled(player.getUUID().getLeastSignificantBits() ^ ((UUID) vault.get(Vault.ID)).getMostSignificantBits());
         int logicalTime = (Integer) ((TickClock) vault.get(Vault.CLOCK)).get(TickClock.LOGICAL_TIME);
         int displayTime = (Integer) ((TickClock) vault.get(Vault.CLOCK)).get(TickClock.DISPLAY_TIME);
