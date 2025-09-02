@@ -241,6 +241,7 @@
     "vaulthunters.fixes.MixinImmortalityEffect",
     "vaulthunters.fixes.MixinIntegrationCurios",
     "vaulthunters.fixes.MixinJewelCraftingRecipe",
+    "vaulthunters.fixes.MixinMineBlockTask",
     "vaulthunters.fixes.MixinMixinWorldChunk",
     "vaulthunters.fixes.MixinModGearAttribute",
     "vaulthunters.fixes.MixinMonolithRenderer",
