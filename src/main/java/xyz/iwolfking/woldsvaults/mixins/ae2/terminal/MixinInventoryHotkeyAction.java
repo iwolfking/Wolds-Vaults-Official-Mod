@@ -1,18 +1,17 @@
 package xyz.iwolfking.woldsvaults.mixins.ae2.terminal;
 
 import appeng.hotkeys.InventoryHotkeyAction;
-import appeng.items.tools.powered.WirelessCraftingTerminalItem;
-import appeng.items.tools.powered.WirelessTerminalItem;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.function.Predicate;
@@ -26,31 +25,21 @@ public abstract class MixinInventoryHotkeyAction {
     @Shadow @Final private Predicate<ItemStack> locatable;
     @Shadow @Final private InventoryHotkeyAction.Opener opener;
 
-    /**
-     * @author iwolfking
-     * @reason  Add Curio support to Wireless AE Terminal
-     */
-    @Overwrite
-    public boolean run(Player player) {
-        NonNullList<ItemStack> items = player.getInventory().items;
 
-        for (int i = 0; i < items.size(); ++i) {
-            if (this.locatable.test(items.get(i)) && this.opener.open(player, i)) {
-                return true;
-            }
+    @Inject(method = "run", at = @At("HEAD"), cancellable = true)
+    private void runWirelessTerminalCurio(Player player, CallbackInfoReturnable<Boolean> cir) {
+
+        IItemHandlerModifiable handler = CuriosApi.getCuriosHelper().getEquippedCurios(player).resolve().orElse(null);
+        if (handler == null) {
+            return;
         }
 
-        IItemHandlerModifiable handler = CuriosApi.getCuriosHelper().getEquippedCurios(player).resolve().get();
-
-        for(int i =0; i < handler.getSlots(); i++) {
+        for (int i = 0; i < handler.getSlots(); i++) {
             ItemStack curioStack = handler.getStackInSlot(i);
-            if(curioStack.getItem() instanceof WirelessTerminalItem || curioStack.getItem() instanceof WirelessCraftingTerminalItem) {
-                if(opener.open(player, i)) {
-                    return true;
-                }
+            if (this.locatable.test(curioStack) && opener.open(player, -1)) {
+                cir.setReturnValue(true);
+                return;
             }
         }
-
-        return false;
     }
 }
