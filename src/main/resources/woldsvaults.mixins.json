@@ -196,6 +196,7 @@
     "vaulthunters.custom.MixinVaultCrateBlock",
     "vaulthunters.custom.MixinVaultCrystalItem",
     "vaulthunters.custom.MixinVaultDollItem",
+    "vaulthunters.custom.MixinVaultFruitItem",
     "vaulthunters.custom.MixinVaultGearHelper",
     "vaulthunters.custom.MixinVaultGearRarity",
     "vaulthunters.custom.MixinVaultGearRecipe",

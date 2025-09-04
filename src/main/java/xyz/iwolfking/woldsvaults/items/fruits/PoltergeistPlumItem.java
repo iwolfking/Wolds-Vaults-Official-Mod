@@ -32,9 +32,9 @@ import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 import java.util.List;
 import java.util.Random;
 
-public class PoltergeistPlum extends ItemVaultFruit {
+public class PoltergeistPlumItem extends ItemVaultFruit {
     private static final Random rand = new Random();
-    public PoltergeistPlum(ResourceLocation id) {
+    public PoltergeistPlumItem(ResourceLocation id) {
         super(id, 4800);
     }
 

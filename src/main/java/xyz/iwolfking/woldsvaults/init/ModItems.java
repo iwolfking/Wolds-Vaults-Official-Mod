@@ -22,8 +22,9 @@ import xyz.iwolfking.woldsvaults.items.*;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.fruits.FruitSmoothieItem;
 import xyz.iwolfking.woldsvaults.items.fruits.HastyPomegranteItem;
-import xyz.iwolfking.woldsvaults.items.fruits.PoltergeistPlum;
+import xyz.iwolfking.woldsvaults.items.fruits.PoltergeistPlumItem;
 import xyz.iwolfking.woldsvaults.items.fruits.WisdomFruitItem;
 import xyz.iwolfking.woldsvaults.items.gear.*;
 import xyz.iwolfking.woldsvaults.items.rings.*;
@@ -166,7 +167,8 @@ public class ModItems {
     public static BasicItem GEM_REAGENT_SPARKLETINE;
     public static BasicItem GEM_REAGENT_TUBIUM;
     public static BasicItem AUGMENT_PIECE;
-    public static PoltergeistPlum POLTERGEIST_PLUM;
+    public static PoltergeistPlumItem POLTERGEIST_PLUM;
+    public static FruitSmoothieItem FRUIT_SMOOTHIE;
 
     //Zealot items
     public static BasicItem TOME_OF_TENOS;
@@ -347,6 +349,8 @@ public class ModItems {
         registry.register(CATALYST_FOCUSING);
         registry.register(CATALYST_TEMPORAL);
         registry.register(CATALYST_UNSTABLE);
+
+        registry.register(FRUIT_SMOOTHIE);
     }
 
     static {
@@ -447,7 +451,7 @@ public class ModItems {
         PRISMATIC_FIBER = new BasicItem(WoldsVaults.id("prismatic_fiber"));
         RECIPE_BLUEPRINT = new RecipeBlueprintItem(WoldsVaults.id("recipe_blueprint"), new Item.Properties().tab(VAULT_MOD_GROUP));
         RESEARCH_TOKEN = new ResearchTokenItem(WoldsVaults.id("research_token"), new Item.Properties().stacksTo(1));
-        POLTERGEIST_PLUM = new PoltergeistPlum(WoldsVaults.id("poltergeist_plum"));
+        POLTERGEIST_PLUM = new PoltergeistPlumItem(WoldsVaults.id("poltergeist_plum"));
         XL_BACKPACK = new BackpackItem(() -> 180, () -> 8, () -> ModBlocks.XL_BACKPACK, Item.Properties::fireResistant);
         XL_BACKPACK.setRegistryName(WoldsVaults.MOD_ID, "xl_backpack");
         RANG = new VaultRangItem(VaultMod.id("rang"), new Item.Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
@@ -466,6 +470,7 @@ public class ModItems {
         GOD_OFFERING = new GodReputationItem(WoldsVaults.id("god_offering"));
         FILTER_NECKLACE = new FilterNecklaceItem(WoldsVaults.id("filter_necklace"), 9);
         COMPANION_REROLLER = new CompanionRerollingItem(WoldsVaults.id("companion_reroller"));
+        FRUIT_SMOOTHIE = new FruitSmoothieItem(WoldsVaults.id("fruit_smoothie"), 600);
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }
