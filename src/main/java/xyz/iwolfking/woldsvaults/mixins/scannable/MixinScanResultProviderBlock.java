@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = ScanResultProviderBlock.class)
 public class MixinScanResultProviderBlock {
     @WrapOperation(method = "computeScanResults", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/chunk/ChunkAccess;getSections()[Lnet/minecraft/world/level/chunk/LevelChunkSection;"))
-    private LevelChunkSection[] fixIndexOutOfRangeCrash(ChunkAccess instance, Operation<LevelChunkSection[]> original, @Local(ordinal = 2) int chunkSectionIndex){
+    private LevelChunkSection[] fixIndexOutOfRangeCrash(ChunkAccess instance, Operation<LevelChunkSection[]> original, @Local(ordinal = 3) int chunkSectionIndex){
         LevelChunkSection[] result = original.call(instance);
         if (chunkSectionIndex >= result.length){
             // original code continues in looping when it retrieves null from the array
