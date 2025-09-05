@@ -246,6 +246,7 @@
     "vaulthunters.fixes.MixinMineBlockTask",
     "vaulthunters.fixes.MixinMixinWorldChunk",
     "vaulthunters.fixes.MixinModGearAttribute",
+    "vaulthunters.fixes.MixinModifiers",
     "vaulthunters.fixes.MixinMonolithRenderer",
     "vaulthunters.fixes.MixinMultiJumpTrinket",
     "vaulthunters.fixes.MixinRoyaleObjective",
