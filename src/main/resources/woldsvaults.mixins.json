@@ -290,6 +290,7 @@
     "MixinThrownTridentRenderer",
     "inventoryhud.MixinCuriosRenderer",
     "inventoryhud.MixinInventoryHudRenderer",
+    "scannable.MixinScanResultProviderBlock",
     "sophisticatedbackpacks.MixinBackpackModel",
     "vaulthunters.accessors.VaultChestRendererAccessor",
     "vaulthunters.custom.MixinAugmentItem",
