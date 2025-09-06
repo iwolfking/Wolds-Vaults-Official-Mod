@@ -14,14 +14,17 @@ import iskallia.vault.item.tool.ToolItem;
 import iskallia.vault.item.tool.ToolMaterial;
 import iskallia.vault.item.tool.ToolType;
 import iskallia.vault.util.data.WeightedList;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -125,6 +128,11 @@ public class MixinModConfigs {
                 recipe.addInput(i);
             }
             ModConfigs.TOOL_RECIPES.getConfigRecipes().add(recipe);
+        }
+
+        MinecraftServer srv = ServerLifecycleHooks.getCurrentServer();
+        if (srv != null) {
+            srv.getPlayerList().getPlayers().forEach((player) -> ModConfigs.TOOL_RECIPES.syncTo(ModConfigs.TOOL_RECIPES, player));
         }
     }
 
