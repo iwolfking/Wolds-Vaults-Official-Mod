@@ -11,7 +11,6 @@ import xyz.iwolfking.woldsvaults.compat.infernalmobs.DevEnvTester;
 @Restriction(
     require = {
         @Condition(type = Condition.Type.MOD, value = "infernalmobs"),
-        @Condition(type = Condition.Type.TESTER, tester = DevEnvTester.class)
     }
 )
 @Mixin(value = InfernalMobsClient.class, remap = false)

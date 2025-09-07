@@ -8,6 +8,8 @@ import com.nodiumhosting.vaultmapper.map.VaultMapOverlayRenderer;
 import iskallia.vault.core.vault.ClientVaults;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultUtils;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,6 +22,11 @@ import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
+@Restriction(
+    require = {
+        @Condition(type = Condition.Type.MOD, value = "vaultmapper")
+    }
+)
 @Mixin(value = VaultMapOverlayRenderer.class, remap = false)
 public abstract class MixinVaultMapOverlayRenderer {
     @Shadow

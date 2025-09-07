@@ -21,7 +21,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 @Restriction(
         require = {
-                @Condition(type = Condition.Type.MOD, value = "supplementaries")
+                @Condition(type = Condition.Type.MOD, value = "supplementaries"),
+                @Condition(type = Condition.Type.MOD, value = "modularrouters")
         }
 )
 @Mixin(value = FaucetBlockTile.class, remap = false)

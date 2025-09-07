@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.compat.lightmanscurrency;
 
 import iskallia.vault.integration.IntegrationSB;
 import iskallia.vault.util.InventoryUtil;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -12,6 +14,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
+@Restriction(
+    require = {
+        @Condition(type = Condition.Type.MOD, value = "lightmanscurrency")
+    }
+)
 @Mixin(value = InventoryUtil.class, remap = false)
 public abstract class MixinInventoryUtil {
     @Shadow @Final @Mutable

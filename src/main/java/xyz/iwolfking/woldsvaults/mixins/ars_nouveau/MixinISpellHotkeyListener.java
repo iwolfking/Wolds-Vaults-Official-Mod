@@ -3,17 +3,20 @@ package xyz.iwolfking.woldsvaults.mixins.ars_nouveau;
 import com.hollingsworth.arsnouveau.api.item.ISpellHotkeyListener;
 import com.hollingsworth.arsnouveau.api.spell.ISpellCaster;
 import com.hollingsworth.arsnouveau.api.util.CasterUtil;
-import com.hollingsworth.arsnouveau.common.block.tile.WhirlisprigTile;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
+@Restriction(
+    require = {
+        @Condition(type = Condition.Type.MOD, value = "ars_nouveau")
+    }
+)
 @Mixin(value = ISpellHotkeyListener.class, remap = false)
 public interface MixinISpellHotkeyListener {
     /**

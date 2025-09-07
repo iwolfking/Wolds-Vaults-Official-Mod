@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
-import fuzs.puzzleslib.api.event.v1.core.EventResult;
 import iskallia.vault.effect.ImmortalityEffect;
 import iskallia.vault.entity.champion.ChampionLogic;
 import iskallia.vault.entity.champion.IChampionAffix;
