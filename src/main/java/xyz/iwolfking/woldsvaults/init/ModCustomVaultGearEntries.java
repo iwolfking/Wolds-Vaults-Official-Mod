@@ -2,9 +2,9 @@ package xyz.iwolfking.woldsvaults.init;
 
 
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.ModList;
 import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.woldsvaults.config.fake.CustomVaultGearModelRollRaritiesConfig;
-import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.integration.jewelsorting.SortableVaultItems;
 import xyz.iwolfking.woldsvaults.models.*;
 
@@ -23,6 +23,8 @@ public class ModCustomVaultGearEntries {
         event.getRegistry().register(PLUSHIE);
         event.getRegistry().register(RANG);
         event.getRegistry().register(MAP);
-        SortableVaultItems.addGear(ModItems.BATTLESTAFF, ModItems.TRIDENT, ModItems.PLUSHIE, ModItems.LOOT_SACK, ModItems.RANG);
+        if (ModList.get().isLoaded("vault_hunters_jewel_sorting")) {
+            SortableVaultItems.addGear(ModItems.BATTLESTAFF, ModItems.TRIDENT, ModItems.PLUSHIE, ModItems.LOOT_SACK, ModItems.RANG, ModItems.MAP);
+        }
     }
 }

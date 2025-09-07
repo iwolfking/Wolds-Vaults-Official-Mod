@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.compat.angelring;
 
-import com.hollingsworth.arsnouveau.common.potions.FlightEffect;
 import com.hollingsworth.arsnouveau.common.potions.ModPotions;
 import iskallia.vault.block.AngelBlock;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
@@ -13,7 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.items.rings.AngelRingItem;
 @Restriction(
         require = {
-                @Condition(type = Condition.Type.MOD, value = "angelring")
+                @Condition(type = Condition.Type.MOD, value = "angelring"),
+                @Condition(type = Condition.Type.MOD, value = "ars_nouveau")
         }
 )
 @Mixin(value = AngelBlock.class, remap = false)
