@@ -7,6 +7,8 @@ import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.*;
+import iskallia.vault.core.vault.player.ClassicListenersLogic;
+import iskallia.vault.core.vault.player.Listeners;
 import iskallia.vault.core.world.roll.IntRoll;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
@@ -56,6 +58,9 @@ public class CorruptedCrystalObjective extends CrystalObjective {
     @Override
     public void configure(Vault vault, RandomSource random) {
         int level = vault.get(Vault.LEVEL).get();
+        if (vault.get(Vault.LISTENERS).get(Listeners.LOGIC) instanceof ClassicListenersLogic classic) {
+            classic.set(ClassicListenersLogic.MIN_LEVEL, 100);
+        }
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
             objectives.add(CorruptedObjective.of(this.target.get(random), this.secondTarget.get(random), this.objectiveProbability, ModConfigs.CORRUPTED_OBJECTIVE.getModifierPool(level))
                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("CORRUPTED"), "corrupted", level, true))
