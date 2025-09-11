@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ResearchExclusionConfig extends Config {
 
@@ -26,6 +27,10 @@ public class ResearchExclusionConfig extends Config {
     }
 
     public boolean isExcludedFromResearch(String researchName, ResourceLocation itemId) {
+        // gson uses LinkedTreeMap, which can sometimes explode
+        if (!(RESEARCH_EXCLUSIONS instanceof ConcurrentHashMap<String, List<String>>)){
+            RESEARCH_EXCLUSIONS = new ConcurrentHashMap<>(RESEARCH_EXCLUSIONS);
+        }
         if(!RESEARCH_EXCLUSIONS.containsKey(researchName)) {
             return false;
         }
