@@ -47,6 +47,11 @@ public class WoldMixinCanceller implements MixinCanceller {
             return true;
         }
 
+        //Use Wold's version of this mixin instead of Unobtaniums
+        if(s.equals("xyz.iwolfking.unobtainium.mixin.the_vault.fixes.FixSpawnersInRaidRooms")) {
+            return true;
+        }
+
         if(s.equals("com.dog.serverportals.mixin.ServerGamePacketListenerImplMixin")) {
             return true;
         }
