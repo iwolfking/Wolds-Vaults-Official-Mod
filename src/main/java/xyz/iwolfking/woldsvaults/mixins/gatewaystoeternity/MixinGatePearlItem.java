@@ -6,15 +6,18 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import shadows.gateways.item.GatePearlItem;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 @Restriction(
     require = {
         @Condition(type = Condition.Type.MOD, value = "gateways")
     }
 )
-@Mixin(value = GatePearlItem.class, remap = false)
+@Mixin(value = GatePearlItem.class)
 public abstract class MixinGatePearlItem extends Item {
 
     public MixinGatePearlItem(Properties pProperties) {
@@ -25,8 +28,10 @@ public abstract class MixinGatePearlItem extends Item {
      * @author iwolfking
      * @reason Remove being able to use Gate Pearls anywhere.
      */
-    @Overwrite
-    public InteractionResult useOn(UseOnContext ctx)  {
-        return super.useOn(ctx);
+    @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
+    public void useOn(UseOnContext ctx, CallbackInfoReturnable<InteractionResult> cir)  {
+        if(!WoldsVaultsConfig.SERVER.enableNormalGatewayPearls.get()) {
+            cir.setReturnValue(super.useOn(ctx));
+        }
     }
 }
