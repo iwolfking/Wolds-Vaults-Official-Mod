@@ -41,7 +41,7 @@ public abstract class MixinMineBlockTask extends ProgressConfiguredTask<Integer,
                     Player player = data.getPlayer();
                     ItemStack mainHandStack = player.getMainHandItem();
                     if(mainHandStack.getItem() instanceof ToolItem) {
-                        if(GearDataCache.of(mainHandStack).hasAttribute(ModGearAttributes.BREACHING)) {
+                        if(GearDataCache.of(mainHandStack).hasAttribute(ModGearAttributes.BREACHING) && this.getConfig().filter.toString().equals("the_vault:coin_pile[size=1]")) {
                             return true;
                         }
                     }
