@@ -106,7 +106,7 @@ public class WeavingStationBlock extends Block implements EntityBlock, Inventory
 
     @Override
     public void onRemove(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) {
-        this.onInventoryBlockDestroy(world, pos);
+        this.onInventoryBlockDestroy(world, pos, state, newState);
         super.onRemove(state, world, pos, newState, isMoving);
     }
 

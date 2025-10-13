@@ -182,7 +182,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     implementation('cpw.mods:securejarhandler') { version { strictly '0.9.45' } }
     // VH
-    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6833423")
+    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:7102303")
 
     // VH deps
     implementation fg.deobf('curse.maven:curios-309927:4985315')
