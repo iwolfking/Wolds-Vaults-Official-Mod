@@ -56,6 +56,12 @@ public class WoldMixinCanceller implements MixinCanceller {
             return true;
         }
 
+        //Me on my way to strangle Pat
+        if(s.equals("com.infamous.dungeons_mobs.mixin.SpiderModelMixin")) {
+            return true;
+        }
+
+
 
         return false;
     }

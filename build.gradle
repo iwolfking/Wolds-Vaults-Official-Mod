@@ -252,7 +252,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:tropicraft-254794:4616839")
     compileOnly fg.deobf("curse.maven:vault-hunters-item-sorting-1341046:6963298")
     compileOnly fg.deobf("curse.maven:vaultarhud-1011085:5706845")
-    compileOnly fg.deobf("curse.maven:vaultmapper-1099126:6627077")
+    compileOnly fg.deobf("curse.maven:vaultmapper-1099126:7031447")
     compileOnly fg.deobf("curse.maven:xaeros-minimap-263420:3778436")
     compileOnly fg.deobf('curse.maven:alexs-cloud-storage-606618:3757407')
     compileOnly fg.deobf('curse.maven:atomicstrykers-infernal-mobs-227875:4149699')

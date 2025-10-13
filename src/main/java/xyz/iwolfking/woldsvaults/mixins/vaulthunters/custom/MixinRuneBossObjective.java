@@ -21,12 +21,12 @@ public class MixinRuneBossObjective {
         //NormalizedHelper.handleAddingNormalizedToVault(vault, world.getLevel());
     }
 
-    @Inject(method = "lambda$initServer$3", at = @At(value = "INVOKE", target = "Liskallia/vault/item/BossRuneItem;getModifier(Lnet/minecraft/world/item/ItemStack;)Ljava/lang/String;"), cancellable = true)
-    private static void capMaximumRunes(VirtualWorld world, Vault vault, ScavengerAltarConsumeEvent.Data data, CallbackInfo ci, @Local BossRunePillarTileEntity pillarTileEntity) {
-        if(pillarTileEntity.getRuneCount() >= pillarTileEntity.getRuneMinimum() * 5) {
-            if(!GameruleHelper.isEnabled(ModGameRules.UNLIMITED_RUNE_BOSS, world.getLevel())) {
-                ci.cancel();
-            }
-        }
-    }
+//    @Inject(method = "lambda$initServer$3", at = @At(value = "INVOKE", target = "Liskallia/vault/item/BossRuneItem;getModifier(Lnet/minecraft/world/item/ItemStack;)Ljava/lang/String;"), cancellable = true)
+//    private static void capMaximumRunes(VirtualWorld world, Vault vault, ScavengerAltarConsumeEvent.Data data, CallbackInfo ci, @Local BossRunePillarTileEntity pillarTileEntity) {
+//        if(pillarTileEntity.getRuneCount() >= pillarTileEntity.getRuneMinimum() * 5) {
+//            if(!GameruleHelper.isEnabled(ModGameRules.UNLIMITED_RUNE_BOSS, world.getLevel())) {
+//                ci.cancel();
+//            }
+//        }
+//    }
 }
