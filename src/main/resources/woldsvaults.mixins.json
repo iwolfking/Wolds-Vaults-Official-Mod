@@ -180,6 +180,7 @@
     "vaulthunters.custom.MixinPlayerVaultStats",
     "vaulthunters.custom.MixinPlayerVaultStatsData",
     "vaulthunters.custom.MixinPylonBlock",
+    "vaulthunters.custom.MixinRecoveryCost",
     "vaulthunters.custom.MixinResearchTree",
     "vaulthunters.custom.MixinRewardConfig",
     "vaulthunters.custom.MixinRoyaleDraftContainer",
