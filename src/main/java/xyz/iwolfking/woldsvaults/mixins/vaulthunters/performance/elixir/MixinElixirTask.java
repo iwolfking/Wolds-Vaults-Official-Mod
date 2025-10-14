@@ -24,7 +24,7 @@ public class MixinElixirTask {
         int size = (amount < 0 ? -1 : 1) * ModConfigs.ELIXIR.getSize(Math.abs(amount));
 
         for(int i = 0; i < Math.abs(size) / 2 + 3; i++) {
-            ModNetwork.sendToAllClients(new ElixirParticleMessage(size));
+            ModNetwork.sendToAllClients(new ElixirParticleMessage(size, new BlockPos(pos)));
         }
 
         world.playSound(null, new BlockPos(pos), SoundEvents.HONEY_BLOCK_BREAK, SoundSource.BLOCKS, 0.4f, 0.7f);
