@@ -61,6 +61,10 @@ public class WoldMixinCanceller implements MixinCanceller {
             return true;
         }
 
+        if(s.equals("net.joseph.vaultfilters.mixin.other.MixinAttributeResearchBypass")) {
+            return true;
+        }
+
 
 
         return false;

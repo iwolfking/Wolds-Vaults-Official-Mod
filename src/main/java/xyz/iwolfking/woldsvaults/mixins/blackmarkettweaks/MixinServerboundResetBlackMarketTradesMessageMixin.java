@@ -9,6 +9,8 @@ import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.prestige.BlackMarketRerollsPrestigePowerPower;
 import iskallia.vault.skill.prestige.helper.PrestigeHelper;
 import iskallia.vault.world.data.PlayerBlackMarketData;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,6 +25,11 @@ import xyz.iwolfking.woldsvaults.init.ModItems;
 import java.util.Random;
 import java.util.function.Supplier;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "blackmarkettweaks")
+        }
+)
 @Mixin(value = ServerboundResetBlackMarketTradesMessage.class, remap = false)
 public class MixinServerboundResetBlackMarketTradesMessageMixin {
 

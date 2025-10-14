@@ -6,6 +6,8 @@ import iskallia.vault.block.entity.BlackMarketTileEntity;
 import iskallia.vault.block.entity.base.FilteredInputInventoryTileEntity;
 import iskallia.vault.container.oversized.OverSizedInventory;
 import iskallia.vault.integration.IntegrationRefinedStorage;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
@@ -20,6 +22,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "blackmarkettweaks")
+        }
+)
 @Mixin(value = BlackMarketTileEntity.class)
 public class MixinBlackMarketTileEntity extends BlockEntity implements FilteredInputInventoryTileEntity {
     public MixinBlackMarketTileEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
