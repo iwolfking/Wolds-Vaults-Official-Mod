@@ -8,6 +8,8 @@ import com.nodiumhosting.vaultmapper.map.VaultMapOverlayRenderer;
 import iskallia.vault.core.vault.ClientVaults;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultUtils;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,10 +18,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
-
+@Restriction(
+    require = {
+        @Condition(type = Condition.Type.MOD, value = "vaultmapper")
+    }
+)
 @Mixin(value = VaultMapOverlayRenderer.class, remap = false)
 public abstract class MixinVaultMapOverlayRenderer {
     @Shadow
@@ -37,8 +40,8 @@ public abstract class MixinVaultMapOverlayRenderer {
         }
     }
 
-    @Redirect( method = "eventHandler", at = @At(value = "INVOKE", target = "Ljava/util/concurrent/ConcurrentHashMap;forEach(Ljava/util/function/BiConsumer;)V", ordinal = 0))
-    private static void cancelOtherPlayerArrowRenderInPvP(ConcurrentHashMap<String, VaultMap.MapPlayer> instance, BiConsumer<? super String, ? super VaultMap.MapPlayer> it, @Local BufferBuilder bufferBuilder) {
+    @Redirect( method = "eventHandler", at = @At(value = "INVOKE", target = "Lcom/nodiumhosting/vaultmapper/map/VaultMapOverlayRenderer;renderPlayerArrow(Lcom/mojang/blaze3d/vertex/BufferBuilder;Lcom/nodiumhosting/vaultmapper/map/VaultMap$MapPlayer;)V", ordinal = 0))
+    private static void cancelOtherPlayerArrowRenderInPvP(BufferBuilder arrowX, VaultMap.MapPlayer arrowZ, @Local BufferBuilder bufferBuilder) {
         Vault vault = ClientVaults.getActive().orElse(null);
         if(vault == null) {
             return;
@@ -49,11 +52,11 @@ public abstract class MixinVaultMapOverlayRenderer {
         }
 
 
-        instance.forEach((name, data) -> renderPlayerArrow(bufferBuilder, data));
+        renderPlayerArrow(bufferBuilder, arrowZ);
     }
 
-    @Redirect( method = "eventHandler", at = @At(value = "INVOKE", target = "Ljava/util/concurrent/ConcurrentHashMap;forEach(Ljava/util/function/BiConsumer;)V", ordinal = 1))
-    private static void cancelOtherPlayerNameRenderInPvP(ConcurrentHashMap<String, VaultMap.MapPlayer> instance, BiConsumer<? super String, ? super VaultMap.MapPlayer> it, @Local(argsOnly = true) RenderGameOverlayEvent.Post event) {
+    @Redirect( method = "eventHandler", at = @At(value = "INVOKE", target = "Lcom/nodiumhosting/vaultmapper/map/VaultMapOverlayRenderer;renderPlayerName(Lcom/mojang/blaze3d/vertex/PoseStack;Ljava/lang/String;Lcom/nodiumhosting/vaultmapper/map/VaultMap$MapPlayer;)V", ordinal = 0))
+    private static void cancelOtherPlayerNameRenderInPvP(PoseStack arrowX, String arrowZ, VaultMap.MapPlayer posestack, @Local(argsOnly = true) RenderGameOverlayEvent.Post event) {
         Vault vault = ClientVaults.getActive().orElse(null);
         if(vault == null) {
             return;
@@ -64,6 +67,6 @@ public abstract class MixinVaultMapOverlayRenderer {
         }
 
 
-        instance.forEach((name, data) -> renderPlayerName(event.getMatrixStack(), name, data));
+        renderPlayerName(event.getMatrixStack(), arrowZ, posestack);
     }
 }

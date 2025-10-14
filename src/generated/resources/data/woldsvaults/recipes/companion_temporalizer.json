@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DTD",
+    "CRC",
+    "DTD"
+  ],
+  "key": {
+    "T": {
+      "item": "the_vault:temporal_shard"
+    },
+    "R": {
+      "item": "the_vault:echo_pog"
+    },
+    "C": {
+      "item": "the_vault:pog_prism"
+    },
+    "D": {
+      "item": "the_vault:vault_diamond_block"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:companion_reroller"
+  }
+}

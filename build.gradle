@@ -179,98 +179,118 @@ repositories {
 
 dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
-    // Specify the version of Minecraft to use.
-    // Any artifact can be supplied so long as it has a "userdev" classifier artifact and is a compatible patcher artifact.
-    // The "userdev" classifier will be requested and setup by ForgeGradle.
-    // If the group id is "net.minecraft" and the artifact id is one of ["client", "server", "joined"],
-    // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    implementation('cpw.mods:securejarhandler') { version { strictly '0.9.45' } }
+    // VH
+    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:7102303")
 
-    //implementation fg.deobf('curse.maven:vault-hunters-official-mod-458203:5621637')
-    implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-    implementation fg.deobf("curse.maven:hostile-neural-networks-552574:4593797")
-    implementation fg.deobf('curse.maven:lightmans-currency-472521:4977514')
+    // VH deps
     implementation fg.deobf('curse.maven:curios-309927:4985315')
-    implementation fg.deobf('curse.maven:corpse-316582:3694258')
-    implementation fg.deobf('curse.maven:open-parties-and-claims-636608:4982642')
-    implementation fg.deobf('curse.maven:better-combat-by-daedelus-639842:4428885')
-    implementation fg.deobf('curse.maven:cooking-for-blockheads-231484:4065856')
-    implementation fg.deobf('curse.maven:scannable-266784:3738448')
-    implementation fg.deobf("curse.maven:parcool-482378:6189392")
-    //implementation fg.deobf('curse.maven:parcool-482378:4944977')
-    implementation fg.deobf('curse.maven:ecologics-570463:4171283')
-    implementation fg.deobf('curse.maven:alexs-mobs-426558:3853078')
-    implementation fg.deobf('curse.maven:the-wild-backport-537901:3988035')
-    implementation fg.deobf('curse.maven:quark-243121:3840125')
-    implementation fg.deobf('curse.maven:applied-energistics-2-223794:4136407')
-    implementation fg.deobf('curse.maven:alexs-cloud-storage-606618:3757407')
-    implementation fg.deobf('curse.maven:ensorcellation-349447:4782920')
-    implementation fg.deobf('curse.maven:cofh-core-69162:4801048')
-    implementation fg.deobf('curse.maven:pehkui-319596:4823461')
-    implementation fg.deobf('curse.maven:angel-ring-333396:4641783')
-    implementation fg.deobf('curse.maven:refined-storage-243076:4902316')
-    implementation fg.deobf('curse.maven:atomicstrykers-infernal-mobs-227875:4149699')
-    implementation fg.deobf('curse.maven:balm-531761:4442615')
-    implementation fg.deobf('curse.maven:secretroomsmod-59652:3764897')
-    implementation fg.deobf("curse.maven:incorporeal-3-616485:3944433")
-    implementation fg.deobf("curse.maven:botania-225643:3936568")
-    implementation fg.deobf("curse.maven:integrated-terminals-295910:5264606")
-    implementation fg.deobf("curse.maven:cyclops-core-232758:5262021")
-    implementation fg.deobf("curse.maven:sophisticatedcore-618298:4913626")
-    implementation fg.deobf("curse.maven:item-borders-513769:3583942")
-    implementation fg.deobf("curse.maven:vaultarhud-1011085:5706845")
-    implementation fg.deobf("curse.maven:toms-storage-378609:5211203")
-    implementation fg.deobf("curse.maven:rftoolstorage-350006:4069708")
-    implementation fg.deobf("curse.maven:rftoolsbase-326041:4373521")
-    implementation fg.deobf("curse.maven:vault-filters-952507:5925682")
-    implementation fg.deobf("curse.maven:create-328085:4835188")
-    implementation fg.deobf("curse.maven:pneumaticcraft-repressurized-281849:4922258")
-    implementation fg.deobf("curse.maven:just-enough-vh-1035310:6853389")
-    implementation fg.deobf("curse.maven:dimensional-worldborder-631202:3832850")
-    implementation fg.deobf("curse.maven:immersive-engineering-231951:4412849")
-    implementation fg.deobf("curse.maven:industrial-foregoing-266515:5334842")
-    implementation fg.deobf("curse.maven:titanium-287342:5151207")
-    implementation fg.deobf("curse.maven:travel-anchors-413234:3741307")
-    implementation fg.deobf("curse.maven:advanced-peripherals-431725:4684137")
-    implementation fg.deobf("curse.maven:integrated-dynamics-236307:5262070")
-    implementation fg.deobf("curse.maven:common-capabilities-247007:4987177")
-    implementation fg.deobf("curse.maven:integrated-tunnels-251389:5314661")
-    implementation fg.deobf("curse.maven:thermal-foundation-222880:4788649")
-    implementation fg.deobf("io.github.noeppi_noeppi.mods:LibX:1.18.2-3.2.2")
     implementation fg.deobf("curse.maven:sophisticated-backpacks-422301:4950560")
-    implementation fg.deobf("curse.maven:sophisticated-storage-619320:4950570")
-    implementation fg.deobf("curse.maven:supplementaries-412082:4548315")
-    implementation fg.deobf("curse.maven:modular-routers-250294:4984984")
-    implementation fg.deobf("curse.maven:emojiful-284324:3732908")
-    implementation fg.deobf("curse.maven:vault-autocrafting-fix-1096429:5695962")
-    implementation fg.deobf("curse.maven:daves-potioneering-639653:4788622")
-    compileOnly fg.deobf("curse.maven:grimoire-of-gaia-228948:5678608")
-    implementation fg.deobf("curse.maven:tropicraft-254794:4616839")
-    implementation fg.deobf("curse.maven:better-tridents-666941:4707885")
-    implementation fg.deobf("curse.maven:puzzles-lib-495476:5114509")
+    implementation fg.deobf("curse.maven:sophisticatedcore-618298:4913626")
+    implementation fg.deobf('curse.maven:quark-243121:3840125')
+    implementation fg.deobf("curse.maven:geckolib-388172:4181370")
+    implementation fg.deobf('curse.maven:alexs-mobs-426558:3853078')
+    implementation fg.deobf("curse.maven:citadel4-331936:3783096") // alex's mobs dep
+
+    // core WV integrations
     implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6803115")
-    implementation fg.deobf("curse.maven:black-market-tweaks-1168437:6806503")
+    implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") // jei integration
+    implementation fg.deobf("curse.maven:just-enough-vh-1035310:6879953") // jei integration
+    implementation fg.deobf("curse.maven:parcool-482378:6189392") // trinket
+    implementation fg.deobf('curse.maven:ecologics-570463:4171283') // enchanted event
+    implementation fg.deobf("curse.maven:thermal-foundation-222880:4788649") // enchanted event
+    implementation fg.deobf('curse.maven:cofh-core-69162:4801048') // enchanted event
+    implementation fg.deobf("curse.maven:vault-filters-952507:6927578") // new attributes
+    implementation fg.deobf("curse.maven:black-market-tweaks-1168437:6880977") // hopper support and expertise
+    implementation fg.deobf("curse.maven:cucumber-272335:4831151") // wv tile entities
+    implementation fg.deobf("curse.maven:ftb-quests-forge-289412:6113498") // quests
+    implementation fg.deobf("curse.maven:configured-457570:4462832") // config keybind
+    implementation fg.deobf('curse.maven:pehkui-319596:4823461') // scale abilities
+    implementation fg.deobf('curse.maven:angel-ring-333396:4641783') // angel rings
+    implementation fg.deobf('curse.maven:the-wild-backport-537901:3988035') // darkness effect
+    implementation fg.deobf("curse.maven:gateways-to-eternity-417802:4548643") // gateway pearls
+
+    implementation fg.deobf('curse.maven:refined-storage-243076:4902316') // vaultarhud
+    implementation fg.deobf("curse.maven:toms-storage-378609:5211203") // vaultarhud
+
+    implementation fg.deobf("curse.maven:botania-225643:3936568") // datagen
+
+    // transitive WV deps
+    implementation fg.deobf("curse.maven:placebo-283644:4500363") // gateways
+    implementation fg.deobf("curse.maven:puzzles-lib-495476:5114509") // better tridents
+    implementation fg.deobf("curse.maven:create-328085:4835188") // vaultfilters
+    implementation fg.deobf('curse.maven:applied-energistics-2-223794:4136407') // vaultfilters
+    implementation fg.deobf("curse.maven:ftb-library-forge-404465:4396792") // ftb quests
+    implementation fg.deobf("curse.maven:ftb-teams-forge-404468:4579981") // ftb quests
+    implementation fg.deobf("curse.maven:cyclops-core-232758:5262021") // lot of mods
+
+    // optional mods (usually conditional mixin)
+    compileOnly fg.deobf("curse.maven:better-tridents-666941:4707885")
+    compileOnly fg.deobf("curse.maven:advanced-peripherals-431725:4684137")
+    compileOnly fg.deobf("curse.maven:ars-nouveau-401955:4543053")
+    compileOnly fg.deobf("curse.maven:custom-starter-gear-253735:4683370")
+    compileOnly fg.deobf("curse.maven:dimensional-worldborder-631202:3832850")
+    compileOnly fg.deobf("curse.maven:dungeons-libraries-550941:4363207")
+    compileOnly fg.deobf("curse.maven:dungeons-mobs-428883:4344582")
+    compileOnly fg.deobf("curse.maven:grimoire-of-gaia-228948:5678608")
     compileOnly fg.deobf("curse.maven:hexal-824725:5099219")
-    implementation fg.deobf("curse.maven:occultism-361026:4729072")
-    implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
-    implementation fg.deobf("curse.maven:custom-starter-gear-253735:4683370")
-    implementation fg.deobf("curse.maven:cucumber-272335:4831151")
-    implementation fg.deobf("curse.maven:second-chance-forge-509239:3832230")
-    implementation fg.deobf("curse.maven:gateways-to-eternity-417802:4548643")
-    implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:6631596")
-    implementation fg.deobf("curse.maven:placebo-283644:4500363")
-    implementation fg.deobf("curse.maven:mekanism-268560:3875976")
-    implementation fg.deobf("curse.maven:dungeons-libraries-550941:4363207")
-    implementation fg.deobf("curse.maven:ftb-quests-forge-289412:6113498")
-    implementation fg.deobf("curse.maven:ftb-library-forge-404465:4396792")
-    implementation fg.deobf("curse.maven:ftb-teams-forge-404468:4579981")
-    implementation fg.deobf("curse.maven:item-filters-309674:4553322")
-    implementation fg.deobf("curse.maven:configured-457570:4462832")
-    implementation fg.deobf("curse.maven:effortless-building-302113:4369816")
-    compileOnly fg.deobf("curse.maven:qol-hunters-1093452:6803436")
-    implementation fg.deobf("curse.maven:vaultmapper-1099126:6627077")
-    compileOnly "curse.maven:citadel4-331936:3683009" // change to 3548061
-    runtimeOnly "curse.maven:citadel4-331936:3683009"
+    compileOnly fg.deobf("curse.maven:hostile-neural-networks-552574:4593797")
+    compileOnly fg.deobf("curse.maven:immersive-engineering-231951:4412849")
+    compileOnly fg.deobf("curse.maven:incorporeal-3-616485:3944433")
+    compileOnly fg.deobf("curse.maven:industrial-foregoing-266515:5334842")
+    compileOnly fg.deobf("curse.maven:integrated-dynamics-236307:5262070")
+    compileOnly fg.deobf("curse.maven:integrated-terminals-295910:5264606")
+    compileOnly fg.deobf("curse.maven:inventory-hud-forge-357540:5639943")
+    compileOnly fg.deobf("curse.maven:modular-routers-250294:4984984")
+    compileOnly fg.deobf("curse.maven:occultism-361026:4729072")
+    compileOnly fg.deobf("curse.maven:pneumaticcraft-repressurized-281849:4922258")
+    compileOnly fg.deobf("curse.maven:sophisticated-storage-619320:4950570")
+    compileOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
+    compileOnly fg.deobf("curse.maven:titanium-287342:5151207") // industrial foregoing dep
+    compileOnly fg.deobf("curse.maven:travel-anchors-413234:3741307")
+    compileOnly fg.deobf("curse.maven:tropicraft-254794:4616839")
+    compileOnly fg.deobf("curse.maven:vault-hunters-item-sorting-1341046:6963298")
+    compileOnly fg.deobf("curse.maven:vaultarhud-1011085:5706845")
+    compileOnly fg.deobf("curse.maven:vaultmapper-1099126:7031447")
+    compileOnly fg.deobf("curse.maven:xaeros-minimap-263420:3778436")
+    compileOnly fg.deobf('curse.maven:alexs-cloud-storage-606618:3757407')
+    compileOnly fg.deobf('curse.maven:atomicstrykers-infernal-mobs-227875:4149699')
+    compileOnly fg.deobf('curse.maven:better-combat-by-daedelus-639842:4428885')
+    compileOnly fg.deobf('curse.maven:cooking-for-blockheads-231484:4065856')
+    compileOnly fg.deobf('curse.maven:ensorcellation-349447:4782920')
+    compileOnly fg.deobf('curse.maven:lightmans-currency-472521:4977514')
+    compileOnly fg.deobf('curse.maven:open-parties-and-claims-636608:4982642')
+    compileOnly fg.deobf('curse.maven:scannable-266784:3738448')
+    compileOnly fg.deobf('curse.maven:secretroomsmod-59652:3764897')
+
+    // deps needed for runtime debug
+    runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382") // quark
+    runtimeOnly fg.deobf("curse.maven:auxblocks-711533:4358959") // vault blocks
+    runtimeOnly fg.deobf("curse.maven:item-filters-309674:4553322") // ftb quests
+    runtimeOnly fg.deobf("curse.maven:terrablender-563928:3957976") // wild backport
+    runtimeOnly fg.deobf("curse.maven:architectury-api-419699:4521465") // lot of mods
+    runtimeOnly fg.deobf("curse.maven:patchouli-306770:3846086")
+    runtimeOnly fg.deobf("curse.maven:tropicraft-254794:4616839") // kept for backwards compat with worlds (adds dimension type)
+
+
+    // perf in dev
+    runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")
+    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5322305")
+    runtimeOnly fg.deobf("curse.maven:fastload-630620:4706140")
+
+    // local jij mods
+    implementation fg.deobf('local:forgified-sgui:1.0.2')
+    jarJar(group: 'eu.pb4', name: 'forgified-sgui', version: '[1.0.2,)') {
+        jarJar.pin(it, '1.0.2')
+    }
+
+    implementation fg.deobf('local:serverportals:1.18.2-1.5')
+    jarJar(group: 'com.dog', name: 'serverportals', version: '[1.18.2-1.5,)') {
+        jarJar.pin(it, '1.18.2-1.5')
+    }
+
+    // mixins
     compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.3")
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.3.3")) {
         jarJar.ranged(it, "[0.3.3,)")
@@ -280,49 +300,10 @@ dependencies {
         jarJar.ranged(it, "[0.2.0,)")
     }
     implementation 'me.fallenbreath:conditional-mixin-forge:0.6.2'
-    implementation fg.deobf('local:forgified-sgui:1.0.2')
-    implementation fg.deobf("curse.maven:vault-hunters-official-mod-458203:6833423")
     jarJar(group: 'me.fallenbreath', name: 'conditional-mixin-forge', version: '[0.6.2,)') {
         jarJar.pin(it, '0.6.2')
     }
-
-    jarJar(group: 'eu.pb4', name: 'forgified-sgui', version: '[1.0.2,)') {
-        jarJar.pin(it, '1.0.2')
-    }
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
-    implementation fg.deobf("curse.maven:inventory-hud-forge-357540:5639943")
-    compileOnly fg.deobf("curse.maven:xaeros-minimap-263420:3778436")
-
-
-
-    // dev
-    runtimeOnly fg.deobf("curse.maven:geckolib-388172:4181370")
-    runtimeOnly fg.deobf("curse.maven:selene-499980:5660287")
-    runtimeOnly fg.deobf("curse.maven:patchouli-306770:3846086")
-    runtimeOnly fg.deobf("curse.maven:citadel-331936:3783096")
-    runtimeOnly fg.deobf("curse.maven:terrablender-563928:3957976")
-    runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382")
-    runtimeOnly fg.deobf("curse.maven:cc-tweaked-282001:4630521")
-    runtimeOnly fg.deobf("curse.maven:mcjtylib-233105:4277564")
-    runtimeOnly fg.deobf("curse.maven:smartbrainlib-661293:4458592")
-    runtimeOnly fg.deobf("curse.maven:cloth-config-348521:5729090")
-    runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4418152")
-    runtimeOnly fg.deobf("curse.maven:modonomicon-538392:4641770")
-    runtimeOnly fg.deobf("curse.maven:iceberg-520110:4035917")
-    runtimeOnly fg.deobf("curse.maven:jei-238222:4351311")
-    runtimeOnly fg.deobf("curse.maven:auxblocks-711533:4358959")
-    runtimeOnly fg.deobf("curse.maven:modded-item-borders-1170138:6044948")
-
-    // perf in dev
-    runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")
-    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5322305")
-    runtimeOnly fg.deobf("curse.maven:fastload-630620:4706140")
-
-    runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:3820503")
-    runtimeOnly fg.deobf("curse.maven:architectury-api-419699:4521465")
-    runtimeOnly fg.deobf("curse.maven:ftb-library-forge-404465:4396792")
 
 }
 

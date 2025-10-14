@@ -2,17 +2,17 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "woldsvaults:xl_backpack"
+      "woldsvaults:companion_temporalizer"
     ]
   },
   "criteria": {
-    "has_netherite_backpack": {
+    "has_temporal_shard": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "sophisticatedbackpacks:netherite_backpack"
+              "the_vault:temporal_shard"
             ]
           }
         ]
@@ -21,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "woldsvaults:xl_backpack"
+        "recipe": "woldsvaults:companion_temporalizer"
       }
     }
   },
   "requirements": [
     [
-      "has_netherite_backpack",
+      "has_temporal_shard",
       "has_the_recipe"
     ]
   ]

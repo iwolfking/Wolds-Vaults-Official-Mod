@@ -1,10 +1,13 @@
 package xyz.iwolfking.woldsvaults.mixins.blackmarkettweaks;
 
 import dev.attackeight.black_market_tweaks.BlackMarketTweaks;
+import dev.attackeight.black_market_tweaks.extension.BlackMarketInventory;
 import iskallia.vault.block.entity.BlackMarketTileEntity;
 import iskallia.vault.block.entity.base.FilteredInputInventoryTileEntity;
 import iskallia.vault.container.oversized.OverSizedInventory;
 import iskallia.vault.integration.IntegrationRefinedStorage;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
@@ -19,6 +22,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "blackmarkettweaks")
+        }
+)
 @Mixin(value = BlackMarketTileEntity.class)
 public class MixinBlackMarketTileEntity extends BlockEntity implements FilteredInputInventoryTileEntity {
     public MixinBlackMarketTileEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
@@ -33,7 +41,7 @@ public class MixinBlackMarketTileEntity extends BlockEntity implements FilteredI
 
         if (level.getBlockEntity(this.worldPosition) instanceof BlackMarketTileEntity be) {
             try {
-                OverSizedInventory container = (OverSizedInventory) be.getClass().getDeclaredField("inventory").get(be);
+                OverSizedInventory container = ((BlackMarketInventory)be).bmt$get();
                 return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.getFilteredInputCapability(side, new Container[]{container}) : super.getCapability(cap, side);
             } catch (Exception e) {
                 BlackMarketTweaks.LOGGER.error(e.toString());

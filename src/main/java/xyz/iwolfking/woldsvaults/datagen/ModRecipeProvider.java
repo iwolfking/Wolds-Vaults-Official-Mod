@@ -33,18 +33,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
-        ShapedRecipeBuilder.shaped(ModItems.XL_BACKPACK)
-                .define('I', ModItems.PRISMATIC_FIBER)
-                .define('L', Registry.ITEM.get(new ResourceLocation("the_vault", "wold_star_chunk")))
-                .define('P', ModItems.CHROMA_CORE)
-                .define('B', Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack")))
-                .define('S', iskallia.vault.init.ModBlocks.BLACK_CHROMATIC_STEEL_BLOCK)
-                .define('M', iskallia.vault.init.ModItems.OMEGA_POG)
-                .pattern("ILI")
-                .pattern("PBP")
-                .pattern("SMS")
-                .unlockedBy("has_netherite_backpack", has(Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack"))))
-                .save(pFinishedRecipeConsumer);
+//        ShapedRecipeBuilder.shaped(ModItems.XL_BACKPACK)
+//                .define('I', ModItems.PRISMATIC_FIBER)
+//                .define('L', Registry.ITEM.get(new ResourceLocation("the_vault", "wold_star_chunk")))
+//                .define('P', ModItems.CHROMA_CORE)
+//                .define('B', Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack")))
+//                .define('S', iskallia.vault.init.ModBlocks.BLACK_CHROMATIC_STEEL_BLOCK)
+//                .define('M', iskallia.vault.init.ModItems.OMEGA_POG)
+//                .pattern("ILI")
+//                .pattern("PBP")
+//                .pattern("SMS")
+//                .unlockedBy("has_netherite_backpack", has(Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack"))))
+//                .save(pFinishedRecipeConsumer);
 
         CompoundTag colossus = new CompoundTag();
         colossus.putString("Ability", "Colossus");
@@ -150,7 +150,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapedRecipeBuilder.shaped(ModItems.FILTER_NECKLACE)
                 .define('F', Registry.ITEM.get(new ResourceLocation("create", "attribute_filter")))
                 .define('P', ModItems.POG_PRISM)
-                .define('I', iskallia.vault.init.ModItems.CHROMATIC_STEEL_INGOT)
+                .define('I', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
                 .pattern(" II")
                 .pattern(" PI")
                 .pattern("F  ")
@@ -349,5 +349,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 40,
                 9
         ).unlockedBy("has_essence", has(iskallia.vault.init.ModItems.VAULT_ESSENCE)).save(pFinishedRecipeConsumer);
+
+        companionRerollRecipe("companion_temporalizer", pFinishedRecipeConsumer);
+
+    }
+
+    private void companionRerollRecipe(String recipeId, Consumer<FinishedRecipe> finishedRecipe) {
+        ShapedRecipeBuilder.shaped(ModItems.COMPANION_REROLLER)
+                .define('T', iskallia.vault.init.ModItems.TEMPORAL_SHARD)
+                .define('R', iskallia.vault.init.ModItems.ECHO_POG)
+                .define('C', ModItems.POG_PRISM)
+                .define('D', iskallia.vault.init.ModBlocks.VAULT_DIAMOND_BLOCK)
+                .pattern("DTD")
+                .pattern("CRC")
+                .pattern("DTD")
+                .unlockedBy("has_temporal_shard", has(iskallia.vault.init.ModItems.TEMPORAL_SHARD))
+                .save(finishedRecipe, WoldsVaults.id(recipeId));
     }
 }

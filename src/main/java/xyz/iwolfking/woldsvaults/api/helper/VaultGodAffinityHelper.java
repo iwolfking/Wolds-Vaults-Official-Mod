@@ -30,7 +30,6 @@ public class VaultGodAffinityHelper {
         AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(entity);
         affinity += snapshot.getAttributeValue(GOD_TO_ATTRIBUTE.get(god), VaultGearAttributeTypeMerger.floatSum());
         affinity = CommonEvents.PLAYER_STAT.invoke(GOD_TO_STAT.get(god), entity, affinity).getValue();
-        System.out.println(affinity);
         return affinity;
     }
 

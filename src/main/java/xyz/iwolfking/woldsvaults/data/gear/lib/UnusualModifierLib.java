@@ -3,9 +3,7 @@ package xyz.iwolfking.woldsvaults.data.gear.lib;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.config.BooleanFlagGenerator;
-import iskallia.vault.gear.attribute.config.DoubleAttributeGenerator;
 import iskallia.vault.gear.attribute.config.FloatAttributeGenerator;
-import iskallia.vault.gear.attribute.config.IntegerAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.effect.EffectCloudAttribute;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.data.gear.util.GearModifierRegistryHelper;
@@ -42,6 +40,9 @@ public class UnusualModifierLib {
     public static VaultGearTierConfig.ModifierTierGroup KNOCKBACK_RESISTANCE_JEWEL = GearModifierRegistryHelper.create(VaultMod.id("knockback_resistance"), "ModKBR", VaultMod.id("mod_kbr_unusual"));
     public static VaultGearTierConfig.ModifierTierGroup HEALING_EFFECTIVENESS_JEWEL = GearModifierRegistryHelper.create(VaultMod.id("healing_effectiveness"), "ModHealing", VaultMod.id("mod_healing_unusual"));
     public static VaultGearTierConfig.ModifierTierGroup DURABILITY_WEAR_REDUCTION_JEWEL = GearModifierRegistryHelper.create(VaultMod.id("durability_wear_reduction"), "ModDurabilityReduction", VaultMod.id("mod_dura_unusual"));
+    public static VaultGearTierConfig.ModifierTierGroup VEIN_MINER_LEVEL_JEWEL = GearModifierRegistryHelper.create(VaultMod.id("added_ability_level"), "ModVeinMinerLevel", VaultMod.id("mod_vein_miner_normal_level"));
+    public static VaultGearTierConfig.ModifierTierGroup CHAIN_MINER_LEVEL_JEWEL = GearModifierRegistryHelper.create(VaultMod.id("added_ability_level"), "ModVeinMinerLevel", VaultMod.id("mod_vein_miner_chain_level"));
+    public static VaultGearTierConfig.ModifierTierGroup FINESSE_MINER_LEVEL_JEWEL = GearModifierRegistryHelper.create(VaultMod.id("added_ability_level"), "ModVeinMinerLevel", VaultMod.id("mod_vein_miner_dura_level"));
 
     //Suffixes
     public static VaultGearTierConfig.ModifierTierGroup AXE_BLEED_CLOUD = GearModifierRegistryHelper.create(VaultMod.id("effect_cloud"), "ModOnHitAddition", VaultMod.id("mod_bleed_cloud_unusual"));
@@ -78,38 +79,37 @@ public class UnusualModifierLib {
     public static VaultGearTierConfig.ModifierTierGroup HUNGER = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModUnique", VaultMod.id("hunger"));
     public static VaultGearTierConfig.ModifierTierGroup JUMPY = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModJump", VaultMod.id("jumpy_deluxe"));
 
-
     static {
-        AXE_CLEAVE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 50, 90), List.of(-1, -1, -1), List.of(2, 3, 4), List.of(2, 3, 4), 1, 6));
-        CHAINING.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 50, 90), List.of(-1, -1, -1), List.of(1, 2, 3), List.of(2, 3, 4), 1, 6));
-        MANA_ADDITIVE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 30, 50, 70, 95), List.of(45, 60, 80, -1, -1), List.of(10, 21, 31, 41, 51), List.of(20, 30, 40, 50, 60), 1, 10));
-        ABILITY_POWER.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 12, 20, 34, 47, 62, 71, 80, 86, 96), List.of(25, 34, 44, 52, 60, 75, 90, -1, -1, -1), List.of(2.0F, 5.0F, 11.0F, 15.0F, 19.0F, 23.0F, 27.0F, 32.0F, 37.0F, 43.0F), List.of(4.0F, 10.0F, 14.0F, 18.0F, 22.0F, 26.0F, 31.0F, 36.0F, 42.0F, 46.0F), 1.0F, 10));
-        AXE_REAVING.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 28, 45, 75), List.of(45, 75, -1, -1), List.of(0.04F, 0.1F, 0.15F, 0.19F), List.of(0.09F, 0.14F, 0.18F, 0.23F), 0.01F, 5));
-        ITEM_QUANTITY.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 22, 45, 72), List.of(40, 70, -1, -1), List.of(0.03F, 0.07F, 0.13F, 0.19F), List.of(0.06F, 0.12F, 0.18F, 0.25F), 0.01F, 10));
-        ITEM_RARITY.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 22, 45, 72), List.of(40, 70, -1, -1), List.of(0.03F, 0.07F, 0.13F, 0.19F), List.of(0.06F, 0.12F, 0.18F, 0.25F), 0.01F, 10));
-        COPIOUSLY.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 21, 46, 72), List.of(40, 70, -1, -1), List.of(0.05F, 0.07F, 0.11F, 0.16F), List.of(0.07F, 0.09F, 0.14F, 0.20F), 0.01F, 10));
-        TRAP_DISARMING.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 21, 46, 72), List.of(40, 70, -1, -1), List.of(0.05F, 0.07F, 0.11F, 0.16F), List.of(0.07F, 0.09F, 0.14F, 0.20F), 0.01F, 10));
-        REACH.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 30, 43, 62, 78), List.of(25, 45, 65, -1, -1), List.of(0.1, 0.31, 0.66, 0.91, 1.11), List.of(0.3, 0.65, 0.9, 1.1, 1.35), 0.01, 10));
-        HEALTH.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 20, 45, 65), List.of(40, 65, -1, -1), List.of(2.0F, 4.0F, 6.0F, 8.0F), List.of(4.0F, 6.0F, 8.0F, 10.0F), 1.0F, 10));
-        MOVEMENT_SPEED.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 40, 65, 85), List.of(40, 65, -1, -1), List.of(0.02F, 0.07F, 0.11F, 0.16F), List.of(0.06F, 0.1F, 0.15F, 0.2F), 0.01F, 10));
-        RESISTANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 36, 57, 82), List.of(40, 80, -1, -1), List.of(0.02F, 0.05F, 0.07F, 0.09F), List.of(0.04F, 0.06F, 0.08F, 0.1F), 0.01F, 10));
-        DAMAGE_INCREASE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 21, 44, 73, 90), List.of(35, 60, 75, -1, -1), List.of(0.04F, 0.09F, 0.14F, 0.2F, 0.26F), List.of(0.08F, 0.13F, 0.19F, 0.25F, 0.3F), 0.01F, 10));
-        DAMAGE_BABY.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 35, 90), List.of(35, 75, -1), List.of(0.15F, 0.31F, 0.51F), List.of(0.3F, 0.5F, 0.75F), 0.01F, 1));
-        LEECH.addAll(GearModifierRegistryHelper.createTiers(List.of(50, 75, 90), List.of(-1, -1, -1), List.of(0.01F, 0.02F, 0.03F), List.of(0.02F, 0.03F, 0.035F), 0.01F, 1));
-        EFFECT_CLOUD_CHANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(25, 50, 90), List.of(65, -1, -1), List.of(0.01F, 0.02F, 0.03F), List.of(0.02F, 0.03F, 0.04F), 0.01F, 5));
-        DODGE_CHANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(75, 95), List.of(-1, -1), List.of(0.01F, 0.05F), List.of(0.05F, 0.1F), 0.01F, 2));
-        EFFECT_RADIUS.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 40, 65, 90), List.of(45, 75, -1, -1), List.of(0.03F, 0.08F, 0.12F, 0.17F), List.of(0.07F, 0.11F, 0.16F, 0.2F), 0.01F, 10));
-        CRITICAL_HIT_MITIGATION.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 35, 65), List.of(65, -1, -1), List.of(0.05F, 0.11F, 0.21F), List.of(0.1F, 0.2F, 0.25F), 0.01F, 10));
-        LUCKY_HIT_CHANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(25, 50, 75), List.of(75, -1, -1), List.of(0.01F, 0.04F, 0.07F), List.of(0.04F, 0.06F, 0.09F), 0.01F, 8));
-        KNOCKBACK_RESISTANCE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 15, 30, 57, 89), List.of(35, 60, 90, -1, -1), List.of(0.05F, 0.11F, 0.15F, 0.2F, 0.25F), List.of(0.1F, 0.14F, 0.19F, 0.24F, 0.3F), 0.01F, 10));
-        DURABILITY_WEAR_REDUCTION.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 25, 50, 65, 90), List.of(30, 60, 90, -1, -1), List.of(0.05F, 0.11F, 0.21F, 0.31F, 0.41F), List.of(0.1F, 0.2F, 0.3F, 0.4F, 0.5F), 0.01F, 10));
-        MANA_PERCENTILE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 45, 80), List.of(45, -1, -1), List.of(0.1F, 0.15F, 0.25F), List.of(0.15F, 0.2F, 0.3F), 0.01F, 10));
-        ABILITY_POWER_PERCENTILE.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 30, 65), List.of(45, -1, -1), List.of(0.03F, 0.06F, 0.1F), List.of(0.05F, 0.09F, 0.15F), 0.01F, 10));
-        EFFECT_DURATION.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 25, 50, 75, 85, 95), List.of(25, 50, 75, -1, -1, -1), List.of(0.03F, 0.06F, 0.09F, 0.12F, 0.15F, 0.18F), List.of(0.05F, 0.08F, 0.11F, 0.14F, 0.17F, 0.2F), 0.01F, 10));
-        HEALING_EFFECTIVENESS.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 25, 45, 70), List.of(30, 60, -1, -1), List.of(0.04F, 0.09F, 0.13F, 0.17F), List.of(0.08F, 0.12F, 0.16F, 0.2F), 0.01F, 10));
-        MANA_REGEN.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 15, 35, 50, 65, 80), List.of(30, 50, 75, -1, -1, -1), List.of(0.05F, 0.11F, 0.16F, 0.21F, 0.31F, 0.4F), List.of(0.1F, 0.15F, 0.2F, 0.3F, 0.4F, 0.5F), 0.01F, 10));
-        COOLDOWN_REDUCTION.addAll(GearModifierRegistryHelper.createTiers(List.of(0, 25, 45, 65, 85), List.of(30, 60, 90, -1, -1), List.of(0.03F, 0.07F, 0.11F, 0.15F, 0.18F), List.of(0.06F, 0.1F, 0.14F, 0.17F, 0.2F), 0.01F, 10));
-        HEXING_HIT.addAll(GearModifierRegistryHelper.createTiers(List.of(25, 40, 60, 80, 95), List.of(50, 60, 80, -1, -1), List.of(0.02F, 0.05F, 0.07F, 0.09F, 0.11F), List.of(0.04F, 0.07F, 0.08F, 0.1F, 0.12F), 0.01F, 4));
+        AXE_CLEAVE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 50, 90), List.of(-1, -1, -1), List.of(2, 3, 4), List.of(2, 3, 4), 1, 6));
+        CHAINING.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 50, 90), List.of(-1, -1, -1), List.of(1, 2, 3), List.of(2, 3, 4), 1, 6));
+        MANA_ADDITIVE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 30, 50, 70, 95), List.of(45, 60, 80, -1, -1), List.of(10, 21, 31, 41, 51), List.of(20, 30, 40, 50, 60), 1, 10));
+        ABILITY_POWER.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 12, 20, 34, 47, 62, 71, 80, 86, 96), List.of(25, 34, 44, 52, 60, 75, 90, -1, -1, -1), List.of(2.0F, 5.0F, 11.0F, 15.0F, 19.0F, 23.0F, 27.0F, 32.0F, 37.0F, 43.0F), List.of(4.0F, 10.0F, 14.0F, 18.0F, 22.0F, 26.0F, 31.0F, 36.0F, 42.0F, 46.0F), 1.0F, 10));
+        AXE_REAVING.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 28, 45, 75), List.of(45, 75, -1, -1), List.of(0.04F, 0.1F, 0.15F, 0.19F), List.of(0.09F, 0.14F, 0.18F, 0.23F), 0.01F, 5));
+        ITEM_QUANTITY.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 22, 45, 72), List.of(40, 70, -1, -1), List.of(0.03F, 0.07F, 0.13F, 0.19F), List.of(0.06F, 0.12F, 0.18F, 0.25F), 0.01F, 10));
+        ITEM_RARITY.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 22, 45, 72), List.of(40, 70, -1, -1), List.of(0.03F, 0.07F, 0.13F, 0.19F), List.of(0.06F, 0.12F, 0.18F, 0.25F), 0.01F, 10));
+        COPIOUSLY.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 21, 46, 72), List.of(40, 70, -1, -1), List.of(0.05F, 0.07F, 0.11F, 0.16F), List.of(0.07F, 0.09F, 0.14F, 0.20F), 0.01F, 10));
+        TRAP_DISARMING.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 21, 46, 72), List.of(40, 70, -1, -1), List.of(0.05F, 0.07F, 0.11F, 0.16F), List.of(0.07F, 0.09F, 0.14F, 0.20F), 0.01F, 10));
+        REACH.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 30, 43, 62, 78), List.of(25, 45, 65, -1, -1), List.of(0.1, 0.31, 0.66, 0.91, 1.11), List.of(0.3, 0.65, 0.9, 1.1, 1.35), 0.01, 10));
+        HEALTH.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 20, 45, 65), List.of(40, 65, -1, -1), List.of(2.0F, 4.0F, 6.0F, 8.0F), List.of(4.0F, 6.0F, 8.0F, 10.0F), 1.0F, 10));
+        MOVEMENT_SPEED.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 40, 65, 85), List.of(40, 65, -1, -1), List.of(0.02F, 0.07F, 0.11F, 0.16F), List.of(0.06F, 0.1F, 0.15F, 0.2F), 0.01F, 10));
+        RESISTANCE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 36, 57, 82), List.of(40, 80, -1, -1), List.of(0.02F, 0.05F, 0.07F, 0.09F), List.of(0.04F, 0.06F, 0.08F, 0.1F), 0.01F, 10));
+        DAMAGE_INCREASE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 21, 44, 73, 90), List.of(35, 60, 75, -1, -1), List.of(0.04F, 0.09F, 0.14F, 0.2F, 0.26F), List.of(0.08F, 0.13F, 0.19F, 0.25F, 0.3F), 0.01F, 10));
+        DAMAGE_BABY.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 35, 90), List.of(35, 75, -1), List.of(0.15F, 0.31F, 0.51F), List.of(0.3F, 0.5F, 0.75F), 0.01F, 1));
+        LEECH.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(50, 75, 90), List.of(-1, -1, -1), List.of(0.01F, 0.02F, 0.03F), List.of(0.02F, 0.03F, 0.035F), 0.01F, 1));
+        EFFECT_CLOUD_CHANCE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(25, 50, 90), List.of(65, -1, -1), List.of(0.01F, 0.02F, 0.03F), List.of(0.02F, 0.03F, 0.04F), 0.01F, 5));
+        DODGE_CHANCE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(75, 95), List.of(-1, -1), List.of(0.01F, 0.05F), List.of(0.05F, 0.1F), 0.01F, 2));
+        EFFECT_RADIUS.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 40, 65, 90), List.of(45, 75, -1, -1), List.of(0.03F, 0.08F, 0.12F, 0.17F), List.of(0.07F, 0.11F, 0.16F, 0.2F), 0.01F, 10));
+        CRITICAL_HIT_MITIGATION.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 35, 65), List.of(65, -1, -1), List.of(0.05F, 0.11F, 0.21F), List.of(0.1F, 0.2F, 0.25F), 0.01F, 10));
+        LUCKY_HIT_CHANCE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(25, 50, 75), List.of(75, -1, -1), List.of(0.01F, 0.04F, 0.07F), List.of(0.04F, 0.06F, 0.09F), 0.01F, 8));
+        KNOCKBACK_RESISTANCE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 15, 30, 57, 89), List.of(35, 60, 90, -1, -1), List.of(0.05F, 0.11F, 0.15F, 0.2F, 0.25F), List.of(0.1F, 0.14F, 0.19F, 0.24F, 0.3F), 0.01F, 10));
+        DURABILITY_WEAR_REDUCTION.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 25, 50, 65, 90), List.of(30, 60, 90, -1, -1), List.of(0.05F, 0.11F, 0.21F, 0.31F, 0.41F), List.of(0.1F, 0.2F, 0.3F, 0.4F, 0.5F), 0.01F, 10));
+        MANA_PERCENTILE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 45, 80), List.of(45, -1, -1), List.of(0.1F, 0.15F, 0.25F), List.of(0.15F, 0.2F, 0.3F), 0.01F, 10));
+        ABILITY_POWER_PERCENTILE.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 30, 65), List.of(45, -1, -1), List.of(0.03F, 0.06F, 0.1F), List.of(0.05F, 0.09F, 0.15F), 0.01F, 10));
+        EFFECT_DURATION.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 25, 50, 75, 85, 95), List.of(25, 50, 75, -1, -1, -1), List.of(0.03F, 0.06F, 0.09F, 0.12F, 0.15F, 0.18F), List.of(0.05F, 0.08F, 0.11F, 0.14F, 0.17F, 0.2F), 0.01F, 10));
+        HEALING_EFFECTIVENESS.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 25, 45, 70), List.of(30, 60, -1, -1), List.of(0.04F, 0.09F, 0.13F, 0.17F), List.of(0.08F, 0.12F, 0.16F, 0.2F), 0.01F, 10));
+        MANA_REGEN.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 15, 35, 50, 65, 80), List.of(30, 50, 75, -1, -1, -1), List.of(0.05F, 0.11F, 0.16F, 0.21F, 0.31F, 0.4F), List.of(0.1F, 0.15F, 0.2F, 0.3F, 0.4F, 0.5F), 0.01F, 10));
+        COOLDOWN_REDUCTION.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 25, 45, 65, 85), List.of(30, 60, 90, -1, -1), List.of(0.03F, 0.07F, 0.11F, 0.15F, 0.18F), List.of(0.06F, 0.1F, 0.14F, 0.17F, 0.2F), 0.01F, 10));
+        HEXING_HIT.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(25, 40, 60, 80, 95), List.of(50, 60, 80, -1, -1), List.of(0.02F, 0.05F, 0.07F, 0.09F, 0.11F), List.of(0.04F, 0.07F, 0.08F, 0.1F, 0.12F), 0.01F, 4));
 
         //Boolean
         KINETIC_IMMUNITY.add(new VaultGearTierConfig.ModifierTier<>(0, 1, new BooleanFlagGenerator.BooleanFlag(true)));
@@ -147,6 +147,8 @@ public class UnusualModifierLib {
 
         DURABILITY_WEAR_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.01F, 0.03F, 0.001F)));
         DURABILITY_WEAR_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.03F, 0.05F, 0.001F)));
+
+        VEIN_MINER_LEVEL_JEWEL.addAll(GearModifierRegistryHelper.createAbilityLevelTiers("Vein_Miner", List.of(65), List.of(-1), List.of(1), 15));
 
 
         //Maps

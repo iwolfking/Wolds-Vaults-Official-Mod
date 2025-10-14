@@ -6,8 +6,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -22,6 +24,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import xyz.iwolfking.woldsvaults.blocks.tiles.VaultInfuserTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
+
+import java.util.List;
 
 public class VaultInfuserBlock extends BaseTileEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -60,6 +64,13 @@ public class VaultInfuserBlock extends BaseTileEntityBlock {
 
             if (tile instanceof VaultInfuserTileEntity compressor) {
                 Containers.dropContents(level, pos, compressor.getInventory().getStacks());
+                if (!level.isClientSide && compressor.getMaterialStack() != null && !compressor.getMaterialStack().isEmpty()) {
+                    int slotStackCount = 0;
+                    slotStackCount += compressor.getInventory().getStackInSlot(0).getCount();
+                    ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(compressor.getMaterialStack().getItem(), compressor.getMaterialCount() - slotStackCount));
+                    itemEntity.setPickUpDelay(10); // Optional: delay before it can be picked up
+                    level.addFreshEntity(itemEntity);
+                }
             }
         }
 

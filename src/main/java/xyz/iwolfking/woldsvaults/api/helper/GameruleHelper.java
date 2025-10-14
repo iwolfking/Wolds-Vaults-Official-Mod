@@ -22,6 +22,7 @@ public class GameruleHelper {
         gameruleMap.put("enablePlacingVaultDolls", GameruleHelper.isEnabled(ModGameRules.ENABLE_PLACING_VAULT_DOLLS, level));
         gameruleMap.put("vaultAllowMentoring", GameruleHelper.isEnabled(iskallia.vault.init.ModGameRules.ALLOW_MENTOR_BREW, level));
         gameruleMap.put("vaultAllowKnowledgeBrew", GameruleHelper.isEnabled(iskallia.vault.init.ModGameRules.ALLOW_KNOWLEDGE_BREW, level));
+        gameruleMap.put("enableVaults", GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULTS, level));
         if(players != null && !players.isEmpty()) {
             players.forEach(serverPlayer -> {
                 ModNetwork.sendToClient(new ClientboundSyncGamerulesMessage(gameruleMap), serverPlayer);

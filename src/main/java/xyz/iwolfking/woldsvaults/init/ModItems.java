@@ -208,6 +208,8 @@ public class ModItems {
     public static FilterNecklaceItem FILTER_NECKLACE;
 
 
+    public static CompanionRerollingItem COMPANION_REROLLER;
+
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
@@ -330,6 +332,7 @@ public class ModItems {
         registry.register(RECIPE_BLUEPRINT);
         registry.register(CHROMA_CORE);
         registry.register(FILTER_NECKLACE);
+        registry.register(COMPANION_REROLLER);
 
         registry.register(ROTTEN_HEART);
         registry.register(ROTTEN_APPLE);
@@ -462,6 +465,7 @@ public class ModItems {
         NULLITE_CRYSTAL = new BasicItem(WoldsVaults.id("nullite_crystal"));
         GOD_OFFERING = new GodReputationItem(WoldsVaults.id("god_offering"));
         FILTER_NECKLACE = new FilterNecklaceItem(WoldsVaults.id("filter_necklace"), 9);
+        COMPANION_REROLLER = new CompanionRerollingItem(WoldsVaults.id("companion_reroller"));
         //WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_augmenter"), new Item.Properties().tab(VAULT_MOD_GROUP));
     }
 }

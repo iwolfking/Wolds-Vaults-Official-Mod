@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import dev.ftb.mods.ftbquests.quest.ServerQuestFile;
 import dev.ftb.mods.ftbquests.quest.TeamData;
 import iskallia.vault.config.VaultLevelsConfig;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.skill.PlayerVaultStats;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.expertise.type.ExperiencedExpertise;
@@ -83,5 +84,20 @@ public abstract class MixinPlayerVaultStats {
                 data.setProgress(task, newLevel);
             }
         }
+    }
+
+
+    /**
+     * @author iwolfking
+     * @reason Scale amount of XP needed for prestige levels
+     */
+    @Overwrite
+    public int getExpNeededToNextLevel() {
+        if(this.getVaultLevel() < 100) {
+            return ModConfigs.LEVELS_META.getLevelMeta(this.vaultLevel).tnl;
+        }
+
+        return (int) (ModConfigs.LEVELS_META.getPrestigeTnl() + (ModConfigs.LEVELS_META.getPrestigeTnl() * ((this.getVaultLevel() - 100) * 0.005F)));
+
     }
 }

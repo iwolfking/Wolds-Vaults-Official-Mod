@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.items.gear.rang;
 
 import com.google.common.collect.Multimap;
+import iskallia.vault.entity.entity.FloatingItemEntity;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.core.BlockPos;
@@ -383,7 +384,7 @@ public class VaultRangEntity extends Projectile {
 
             Vec3 ourPos = position();
             for(ItemEntity item : items) {
-                if (item.isPassenger())
+                if (item.isPassenger() || item instanceof FloatingItemEntity)
                     continue;
                 item.startRiding(this);
 

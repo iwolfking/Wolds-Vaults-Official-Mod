@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.openpac;
 
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
@@ -10,6 +12,11 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import xaero.pac.common.server.claims.protection.ChunkProtectionEntityHelper;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "openpartiesandclaims")
+        }
+)
 @Mixin(value = ChunkProtectionEntityHelper.class, remap = false)
 public abstract class MixinHostileEntityProtectionHelper {
     @Shadow abstract boolean hostileException(Entity e);

@@ -1,22 +1,23 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
 import io.github.lightman314.lightmanscurrency.LightmansCurrency;
-import io.github.lightman314.lightmanscurrency.common.capability.WalletCapability;
 import io.github.lightman314.lightmanscurrency.common.items.WalletItem;
 import io.github.lightman314.lightmanscurrency.common.money.MoneyUtil;
-import iskallia.vault.init.ModBlocks;
 import iskallia.vault.item.CoinPouchItem;
-import net.minecraft.nbt.CompoundTag;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
+@Restriction(
+    require = {
+        @Condition(type = Condition.Type.MOD, value = "lightmanscurrency")
+    }
+)
 @Mixin(value = CoinPouchItem.class, remap = false)
 public abstract class MixinCoinPouchItem {
     @Shadow

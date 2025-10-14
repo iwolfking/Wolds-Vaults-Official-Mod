@@ -43,6 +43,30 @@ public class WoldMixinCanceller implements MixinCanceller {
             }
         }
 
+        if(s.equals("com.dog.serverportals.mixin.PlayerListMixin")) {
+            return true;
+        }
+
+        //Use Wold's version of this mixin instead of Unobtaniums
+        if(s.equals("xyz.iwolfking.unobtainium.mixin.the_vault.fixes.FixSpawnersInRaidRooms")) {
+            return true;
+        }
+
+        if(s.equals("com.dog.serverportals.mixin.ServerGamePacketListenerImplMixin")) {
+            return true;
+        }
+
+        //Me on my way to strangle Pat
+        if(s.equals("com.infamous.dungeons_mobs.mixin.SpiderModelMixin")) {
+            return true;
+        }
+
+        if(s.equals("net.joseph.vaultfilters.mixin.other.MixinAttributeResearchBypass")) {
+            return true;
+        }
+
+
+
         return false;
     }
 }

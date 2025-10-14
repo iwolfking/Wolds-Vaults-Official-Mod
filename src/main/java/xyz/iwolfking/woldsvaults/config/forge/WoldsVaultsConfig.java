@@ -27,6 +27,7 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.ConfigValue<Boolean> disableWanderingWispSpawning;
         public final ForgeConfigSpec.ConfigValue<Boolean> weaponsShouldntBeBetter;
         public final ForgeConfigSpec.ConfigValue<Integer> soulFlameLevelAllowance;
+
         public Common(ForgeConfigSpec.Builder builder)
         {
             builder.push("Gameplay Settings");
@@ -50,6 +51,7 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerEnergyConsumption;
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerEnergyTransfer;
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerExtractionSpeed;
+        public final ForgeConfigSpec.ConfigValue<Boolean> enableNormalGatewayPearls;
 
         public Server(ForgeConfigSpec.Builder builder) {
             builder.push("Doll Mixer Settings");
@@ -57,6 +59,9 @@ public class WoldsVaultsConfig
             this.dollDismantlerEnergyConsumption = builder.comment("Controls how much energy the Doll Dismantler uses while blending. (default: 16)").defineInRange("dollDismantlerEnergyConsumption", 16, 0, Integer.MAX_VALUE);
             this.dollDismantlerEnergyTransfer = builder.comment("Controls how much energy the Doll Dismantler can receive/extract (default: 100)").defineInRange("dollDismantlerEnergyTransfer", 100, 0, Integer.MAX_VALUE);
             this.dollDismantlerExtractionSpeed = builder.comment("Controls how many stacks per tick the doll dismantler extracts (default: 5)").defineInRange("dollDismantlerEnergyTransfer", 5, 1, 100);
+            builder.pop();
+            builder.push("Gameplay Settings");
+            this.enableNormalGatewayPearls = builder.comment("Whether Gateway Pearls should be able to be used normally (right-clicking to use them on ground) (default: false)").define("enableNormalGatewayPearls", false);
         }
     }
 

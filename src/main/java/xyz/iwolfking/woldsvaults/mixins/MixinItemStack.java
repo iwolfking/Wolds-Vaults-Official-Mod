@@ -20,6 +20,8 @@ public abstract class MixinItemStack extends net.minecraftforge.common.capabilit
         super(baseClass);
     }
 
+
+
     @WrapOperation(
         method = "hurt",
         at = @At(

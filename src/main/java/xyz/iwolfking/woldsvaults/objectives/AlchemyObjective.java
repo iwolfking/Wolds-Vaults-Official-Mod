@@ -45,21 +45,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import xyz.iwolfking.woldsvaults.api.helper.GameruleHelper;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vaultevents.BrewingAltarBrewEvent;
 import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.events.vaultevents.client.WoldClientEvents;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.objectives.data.alchemy.AlchemyTasks;
 import xyz.iwolfking.woldsvaults.util.MessageFunctions;
+import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AlchemyObjective extends Objective {
     public static final ResourceLocation HUD = VaultMod.id("textures/gui/alchemy/hud.png");
@@ -70,6 +70,8 @@ public class AlchemyObjective extends Objective {
     private static final FieldKey<Float> OBJECTIVE_PROBABILITY = FieldKey.of("objective_probability", Float.class).with(Version.v1_2, Adapters.FLOAT, DISK.all()).register(FIELDS);
     private static final FieldKey<Float> PROGRESS = FieldKey.of("progress", Float.class).with(Version.v1_31, Adapters.FLOAT, DISK.all().or(CLIENT.all())).register(FIELDS);
     private static final FieldKey<Float> REQUIRED_PROGRESS = FieldKey.of("required_progress", Float.class).with(Version.v1_31, Adapters.FLOAT, DISK.all().or(CLIENT.all())).register(FIELDS);
+    private static final FieldKey<Boolean> FULLY_OVERSTACKED = FieldKey.of("fully_overstacked", Boolean.class).with(Version.v1_31, Adapters.BOOLEAN, DISK.all().or(CLIENT.all())).register(FIELDS);
+    private static final FieldKey<Integer> OVERSTACK_ALLOWANCE = FieldKey.of("overstack_allowance", Integer.class).with(Version.v1_31, Adapters.INT, DISK.all().or(CLIENT.all())).register(FIELDS);
 
 
     public static final FieldKey<Integer> VAULT_LEVEL = FieldKey.of("vault_level", Integer.class)
@@ -83,10 +85,13 @@ public class AlchemyObjective extends Objective {
     }
 
     protected AlchemyObjective(float objectiveProbability, int vaultLevel, float requiredProgress) {
+        Random random = new Random();
         this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
         this.set(PROGRESS, 0F);
         this.set(VAULT_LEVEL, vaultLevel);
         this.set(REQUIRED_PROGRESS, requiredProgress);
+        this.set(FULLY_OVERSTACKED, false);
+        this.set(OVERSTACK_ALLOWANCE, random.nextInt(100, 1001));
     }
 
     public static AlchemyObjective of(float objectiveProbability, int vaultLevel, float requiredProgress) {
@@ -203,18 +208,28 @@ public class AlchemyObjective extends Objective {
         Component txt;
 
         if (this.get(PROGRESS) >= this.get(REQUIRED_PROGRESS)) {
-            txt = new TextComponent("Brew more ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
-                    .append(new TextComponent("Potions ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
-                    .append(new TextComponent("for ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
-                    .append(new TextComponent("Crate Quantity").withStyle(Style.EMPTY.withColor(0x38C9C0)))
-                    .append(new TextComponent(", or Exit to complete ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
-                    .append(new TextComponent("the Vault").withStyle(Style.EMPTY.withColor(0xF0E68C)))
-                    .append(new TextComponent("!").withStyle(Style.EMPTY.withColor(0xFFFFFF)));
+            if(!this.get(FULLY_OVERSTACKED)) {
+                txt = new TextComponent("Brew more ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
+                        .append(new TextComponent("Potions ").withStyle(Style.EMPTY.withColor(0xF0E68C)))
+                        .append(new TextComponent("for ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
+                        .append(new TextComponent("Crate Quantity").withStyle(Style.EMPTY.withColor(0x38C9C0)))
+                        .append(new TextComponent(", or Exit to complete ").withStyle(Style.EMPTY.withColor(0xFFFFFF)))
+                        .append(new TextComponent("the Vault").withStyle(Style.EMPTY.withColor(0xF0E68C)))
+                        .append(new TextComponent("!").withStyle(Style.EMPTY.withColor(0xFFFFFF)));
 
-            FormattedCharSequence var21 = txt.getVisualOrderText();
-            float var22 = (float)midX - (float)font.width(txt) / 2.0F;
-            font.drawInBatch(var21, var22, 9.0F, -1, true, poseStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
-            buffer.endBatch();
+                FormattedCharSequence var21 = txt.getVisualOrderText();
+                float var22 = (float)midX - (float)font.width(txt) / 2.0F;
+                font.drawInBatch(var21, var22, 9.0F, -1, true, poseStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
+                buffer.endBatch();
+            }
+            else {
+                txt = new TextComponent("The Brew is overflowing! Exit to Complete! ").withStyle(Style.EMPTY.withColor(0xFFFFFF));
+                FormattedCharSequence var21 = txt.getVisualOrderText();
+                float var22 = (float)midX - (float)font.width(txt) / 2.0F;
+                font.drawInBatch(var21, var22, 9.0F, -1, true, poseStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
+                buffer.endBatch();
+            }
+
         } else {
             float current = this.get(PROGRESS);
             float goal = this.get(REQUIRED_PROGRESS);
@@ -383,6 +398,9 @@ public class AlchemyObjective extends Objective {
 
         // Check if it crossed the threshold this brew
         if (oldProgress < this.get(REQUIRED_PROGRESS) && newProgress > this.get(REQUIRED_PROGRESS)) {
+            if(this.get(FULLY_OVERSTACKED)) {
+                return;
+            }
             // Only count overflow amount above the requirement
             float overflow = newProgress - this.get(REQUIRED_PROGRESS);
             int crateAmount = (int) (overflow * 100);
@@ -406,6 +424,10 @@ public class AlchemyObjective extends Objective {
             int crateAmount = (int) (percentage * 100);
 
             if (crateAmount > 0) {
+                if(this.get(FULLY_OVERSTACKED)) {
+                    return;
+                }
+
                 VaultModifier<?> crateQuantity = VaultModifierRegistry.get(VaultMod.id("crate_quantity"));
                 vault.get(Vault.MODIFIERS).addModifier(crateQuantity, crateAmount, true, random);
 
@@ -417,6 +439,18 @@ public class AlchemyObjective extends Objective {
                                 Util.NIL_UUID
                         )
                 );
+
+
+                if(!GameruleHelper.isEnabled(ModGameRules.UNLIMITED_ALCHEMY_OVERSTACKING, world.getLevel()) && VaultModifierUtils.hasCountOfModifiers(vault, VaultMod.id("crate_quantity"), this.get(OVERSTACK_ALLOWANCE))) {
+                    this.set(FULLY_OVERSTACKED, true);
+                    world.players().forEach(player ->
+                            player.sendMessage(
+                                    new TextComponent("- The Brew is completely overflowing, further ingredients will not add more crate quantity!").withStyle(Style.EMPTY.withColor(0xFFFFFF)),
+                                    Util.NIL_UUID
+                            )
+                    );
+                }
+
             }
         }
 

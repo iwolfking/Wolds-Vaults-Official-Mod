@@ -37,6 +37,9 @@ public class UnusualModifiers {
         JEWEL_SUFFIX.add(UnusualModifierLib.RESISTANCE_JEWEL);
         JEWEL_SUFFIX.add(UnusualModifierLib.MOVEMENT_SPEED_JEWEL);
         JEWEL_SUFFIX.add(UnusualModifierLib.COOLDOWN_REDUCTION_JEWEL);
+        JEWEL_SUFFIX.add(UnusualModifierLib.VEIN_MINER_LEVEL_JEWEL);
+        JEWEL_SUFFIX.add(UnusualModifierLib.CHAIN_MINER_LEVEL_JEWEL);
+        JEWEL_SUFFIX.add(UnusualModifierLib.FINESSE_MINER_LEVEL_JEWEL);
         //JEWEL_SUFFIX.add(UnusualModifierLib.DURABILITY_WEAR_REDUCTION_JEWEL);
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("jewel"), JEWEL_SUFFIX);
 

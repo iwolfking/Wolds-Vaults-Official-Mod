@@ -16,9 +16,11 @@ import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.MiscUtils;
 import iskallia.vault.world.data.DiscoveredModelsData;
+import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -52,6 +54,7 @@ import net.minecraftforge.fml.loading.LoadingModList;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.compat.bettertridents.BetterThrownTrident;
 import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.models.Tridents;
 
 import javax.annotation.Nonnull;
@@ -176,20 +179,25 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
 
     @Override
     public int getUseDuration(ItemStack stack) {
-        //VaultGearData data = VaultGearData.read(stack);
-        //float percentDecrease = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_WINDUP, VaultGearAttributeTypeMerger.floatSum());
         return 72000;
     }
 
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int duration) {
+        VaultGearData data = VaultGearData.read(stack);
+        if(level instanceof ServerLevel slevel) {
+            if(entity instanceof ServerPlayer sPlayer) {
+                if(data.getItemLevel() > PlayerVaultStatsData.get(slevel).getVaultStats(sPlayer).getVaultLevel()) {
+                    return;
+                }
+            }
+        }
         if (entity instanceof Player player) {
-            VaultGearData data = VaultGearData.read(stack);
             float percentDecrease = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_WINDUP, VaultGearAttributeTypeMerger.floatSum());
             int i = this.getUseDuration(stack) - duration;
             if (i >= (10 * (1 -percentDecrease))) {
                 int j = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_RIPTIDE, VaultGearAttributeTypeMerger.intSum());
-                if (j <= 0 || player.isInWaterOrRain()) {
+                if (true) {
                     if (!level.isClientSide) {
                         stack.hurtAndBreak(1, player, (p_43388_) -> {
                             p_43388_.broadcastBreakEvent(entity.getUsedItemHand());
@@ -239,6 +247,10 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
                             soundevent = SoundEvents.TRIDENT_RIPTIDE_2;
                         } else {
                             soundevent = SoundEvents.TRIDENT_RIPTIDE_1;
+                        }
+
+                        if(entity instanceof ServerPlayer sPlayer) {
+                            sPlayer.getCooldowns().addCooldown(ModItems.TRIDENT, (int)(60 - (60 * percentDecrease)));
                         }
 
                         level.playSound(null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);

@@ -23,7 +23,6 @@ public class PlayerResearchCommand {
         if (UsernameCache.getMap().containsValue(target)) {
             if (ctx.getServer().getProfileCache().get(target).isPresent()) {
                 UUID uuid = ctx.getServer().getProfileCache().get(target).get().getId();
-                System.out.println(target);
                 PlayerResearchesGUI gui = new PlayerResearchesGUI(ctx.getPlayerOrException(), uuid);
                 gui.updateDisplay();
                 gui.setTitle(new TextComponent(target + "'s Researches"));

@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.integration.jei;
 
 import dev.attackeight.just_enough_vh.jei.ForgeItem;
+import dev.attackeight.just_enough_vh.jei.JEIRecipeProvider;
 import dev.attackeight.just_enough_vh.jei.RecyclerRecipe;
 import dev.attackeight.just_enough_vh.jei.TheVaultJEIPlugin;
 import dev.attackeight.just_enough_vh.jei.category.ForgeItemRecipeCategory;
@@ -33,8 +34,6 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ShopTierAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static xyz.iwolfking.woldsvaults.mixins.just_enough_vh.JEIRecipeProviderAccessor.invokeAddLoreToRecyclerOutput;
 
 @JeiPlugin
 @SuppressWarnings("unused")
@@ -144,6 +143,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(VAULTAR_BOX, List.of(ModConfigs.VAULTAR_BOX));
         registration.addRecipes(GATEWAY_PEARL, List.of(ModConfigs.GATEWAY_PEARL));
 
+        registerShopPedestalRecipes(registration, ModConfigs.ETCHING_SHOP_PEDESTAL, ETCHING_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.GOD_SHOP_PEDESTAL, GOD_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.BLACKSMITH_SHOP_PEDESTAL, BLACKSMITH_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.RARE_SHOP_PEDESTAL, RARE_SHOP_PEDESTAL);
@@ -174,15 +174,8 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     private static void addCustomRecyclerRecipes(IRecipeRegistration registration) {
         List<RecyclerRecipe> recipes = new ArrayList<>();
         for (var rec : ModConfigs.CUSTOM_RECYCLER_CONFIG.getOutputs().entrySet()) {
-            recipes.add(getRecyclerRecipe(new ItemStack(Registry.ITEM.get(rec.getKey())), rec.getValue()));
+            recipes.add(JEIRecipeProvider.getRecyclerRecipe(new ItemStack(Registry.ITEM.get(rec.getKey())), rec.getValue()));
         }
         registration.addRecipes(TheVaultJEIPlugin.VAULT_RECYCLER, recipes);
-    }
-
-    private static RecyclerRecipe getRecyclerRecipe(ItemStack input, VaultRecyclerConfig.RecyclerOutput output) {
-        return RecyclerRecipe.of(input, List.of(
-            invokeAddLoreToRecyclerOutput(output.getMainOutput()),
-            invokeAddLoreToRecyclerOutput(output.getExtraOutput1()),
-            invokeAddLoreToRecyclerOutput(output.getExtraOutput2())));
     }
 }

@@ -1,25 +1,23 @@
 package xyz.iwolfking.woldsvaults.mixins.gatewaystoeternity;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TranslatableComponent;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
-import shadows.gateways.entity.GatewayEntity;
-import shadows.gateways.gate.Gateway;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import shadows.gateways.item.GatePearlItem;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
-@Mixin(value = GatePearlItem.class, remap = false)
+@Restriction(
+    require = {
+        @Condition(type = Condition.Type.MOD, value = "gateways")
+    }
+)
+@Mixin(value = GatePearlItem.class)
 public abstract class MixinGatePearlItem extends Item {
 
     public MixinGatePearlItem(Properties pProperties) {
@@ -30,8 +28,10 @@ public abstract class MixinGatePearlItem extends Item {
      * @author iwolfking
      * @reason Remove being able to use Gate Pearls anywhere.
      */
-    @Overwrite
-    public InteractionResult useOn(UseOnContext ctx)  {
-        return super.useOn(ctx);
+    @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
+    public void useOn(UseOnContext ctx, CallbackInfoReturnable<InteractionResult> cir)  {
+        if(!WoldsVaultsConfig.SERVER.enableNormalGatewayPearls.get()) {
+            cir.setReturnValue(super.useOn(ctx));
+        }
     }
 }

@@ -53,7 +53,6 @@ public class FracturedObelisk extends Block implements EntityBlock {
     @Override
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
         super.onPlace(pState, pLevel, pPos, pOldState, pIsMoving);
-        System.out.println();
         if(pLevel.getBlockState(pPos.above()) != pLevel.getBlockState(pPos).setValue(HALF, DoubleBlockHalf.UPPER) && pState.getValue(HALF) != DoubleBlockHalf.UPPER) {
             pLevel.setBlock(pPos.above(), pLevel.getBlockState(pPos).setValue(HALF, DoubleBlockHalf.UPPER), Block.UPDATE_ALL);
         }

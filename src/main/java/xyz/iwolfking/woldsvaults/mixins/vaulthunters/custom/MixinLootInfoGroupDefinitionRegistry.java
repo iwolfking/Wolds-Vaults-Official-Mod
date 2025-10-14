@@ -24,6 +24,7 @@ public abstract class MixinLootInfoGroupDefinitionRegistry {
         register("living_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.LIVING_CHEST));
         register("gilded_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.GILDED_CHEST));
         register("wooden_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.WOODEN_CHEST));
+        register("treasure_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
     }
 
     @Shadow
