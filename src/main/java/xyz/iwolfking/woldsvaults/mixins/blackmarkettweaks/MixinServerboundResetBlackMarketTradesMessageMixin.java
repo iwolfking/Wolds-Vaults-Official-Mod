@@ -33,50 +33,56 @@ import java.util.function.Supplier;
 @Mixin(value = ServerboundResetBlackMarketTradesMessage.class, remap = false)
 public class MixinServerboundResetBlackMarketTradesMessageMixin {
 
-    @Redirect(method = "handle", at = @At(value = "INVOKE", target = "Liskallia/vault/world/data/PlayerBlackMarketData$BlackMarket;getResetRolls()I"))
-    private static int dontConsiderResetRolls(PlayerBlackMarketData.BlackMarket instance) {
-        return -1;
-    }
-
-    @Inject(method = "handle", at = @At(value = "INVOKE", target = "Liskallia/vault/world/data/PlayerBlackMarketData;get(Lnet/minecraft/server/MinecraftServer;)Liskallia/vault/world/data/PlayerBlackMarketData;"), cancellable = true)
-    private static void shrinkItemStack(ServerboundResetBlackMarketTradesMessage message, Supplier<NetworkEvent.Context> contextSupplier, CallbackInfo ci) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            ServerPlayer serverPlayer = context.getSender();
-            if (serverPlayer == null) {
-                return;
-            }
-
-            BlockEntity be = serverPlayer.level.getBlockEntity(BlackMarketTweaks.getLastClickedPos(serverPlayer.getUUID()));
-            if (!(be instanceof BlackMarketTileEntity)) {
-                return;
-            }
-
-            OverSizedInventory container = ((BlackMarketInventory) be).bmt$get();
-            ItemStack pearl = container.getItem(0);
-            if(!pearl.getItem().equals(ModItems.SOUL_ICHOR)) {
-                context.setPacketHandled(true);
-                ci.cancel();
-                return;
-            }
-
-            double chance = 0.0;
-
-            PlayerBlackMarketData.BlackMarket playerMarket = PlayerBlackMarketData.get(context.getSender().server).getBlackMarket(context.getSender());
-            for(BlackMarketRerollsPrestigePowerPower power : PrestigeHelper.getPrestige(serverPlayer).getAll(BlackMarketRerollsPrestigePowerPower.class, Skill::isUnlocked)) {
-                chance = (power.getExtraRerolls() * 0.25);
-            }
-
-            Random random = new Random();
-
-            if (random.nextFloat() >= chance) {
-                pearl.shrink(dev.attackeight.black_market_tweaks.init.ModConfig.COST.get());
-                container.setItem(0, pearl);
-            }
-            playerMarket.resetTradesWithoutTimer(context.getSender());
-        });
-
-        context.setPacketHandled(true);
-        ci.cancel();
-    }
+//    @Redirect(method = "handle", at = @At(value = "INVOKE", target = "Liskallia/vault/world/data/PlayerBlackMarketData$BlackMarket;getResetRolls()I"))
+//    private static int dontConsiderResetRolls(PlayerBlackMarketData.BlackMarket instance) {
+//        return -1;
+//    }
+//
+//
+//    @Inject(method = "handle", at = @At(value = "INVOKE", target = "Liskallia/vault/world/data/PlayerBlackMarketData;get(Lnet/minecraft/server/MinecraftServer;)Liskallia/vault/world/data/PlayerBlackMarketData;"), cancellable = true)
+//    private static void shrinkItemStack(ServerboundResetBlackMarketTradesMessage message, Supplier<NetworkEvent.Context> contextSupplier, CallbackInfo ci) {
+//        NetworkEvent.Context context = contextSupplier.get();
+//        context.enqueueWork(() -> {
+//            ServerPlayer serverPlayer = context.getSender();
+//            if (serverPlayer == null) {
+//                System.out.println("Server player is null");
+//                return;
+//            }
+//
+//            BlockEntity be = serverPlayer.level.getBlockEntity(BlackMarketTweaks.getLastClickedPos(serverPlayer.getUUID()));
+//            if (!(be instanceof BlackMarketTileEntity)) {
+//                System.out.println("Not a black market entity");
+//                return;
+//            }
+//
+//            double chance = 0.0;
+//
+//            OverSizedInventory container = ((BlackMarketInventory) be).bmt$get();
+//            ItemStack pearl = container.getItem(0);
+//            if(!pearl.getItem().equals(ModItems.SOUL_ICHOR)) {
+//                System.out.println("Item in slot wasn't soul ichor! it is " + pearl.getItem());
+//                context.setPacketHandled(true);
+//                ci.cancel();
+//                return;
+//            }
+//
+//            PlayerBlackMarketData.BlackMarket playerMarket = PlayerBlackMarketData.get(context.getSender().server).getBlackMarket(context.getSender());
+//            for(BlackMarketRerollsPrestigePowerPower power : PrestigeHelper.getPrestige(serverPlayer).getAll(BlackMarketRerollsPrestigePowerPower.class, Skill::isUnlocked)) {
+//                chance = (power.getExtraRerolls() * 0.25);
+//            }
+//
+//            System.out.println(chance);
+//
+//
+//            if (Math.random() > chance) {
+//                System.out.println("Chance failed");
+//                pearl.shrink(dev.attackeight.black_market_tweaks.init.ModConfig.COST.get());
+//                container.setItem(0, pearl);
+//            }
+//            playerMarket.resetTradesWithoutTimer(context.getSender());
+//        });
+//
+//        context.setPacketHandled(true);
+//        ci.cancel();
+//    }
 }
