@@ -54,5 +54,13 @@ public abstract class MixinModAbilityLabelBindings {
                 ability -> AbilityLabelFormatters.decimal(ability.getLevitateSpeed())
 
         ));
+
+        ModAbilityLabelBindings.register(ExpungeAbility.class, Map.of(
+                "durationMultiplier",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getDurationMultiplier()),
+                "radiusMultiplier",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getRadiusMultiplier())
+        ));
+
     }
 }
