@@ -272,6 +272,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("entity.the_vault.boogieman_boss", "Boogieman Boss");
         add("entity.the_vault.golem_boss", "Golem Boss");
         add("key.the_vault.quickselect.colossus", "Select and use ability: Colossus");
+        add("key.the_vault.quickselect.expunge", "Select and use ability: Expunge");
         add("woldsvaults.subtitle.saferspaces_proc", "Safer Spaces activated!");
         add("the_vault.gear_modification.tab.mythical", "Mythical");
         add("item.woldsvaults.pogominium_ingot", "POG-ominium Ingot");

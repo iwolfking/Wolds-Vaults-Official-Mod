@@ -6,12 +6,14 @@ import iskallia.vault.core.net.BitBuffer;
 import iskallia.vault.entity.entity.EffectCloudEntity;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.init.ModSounds;
 import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.util.calc.AreaOfEffectHelper;
 import iskallia.vault.util.calc.EffectDurationHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import xyz.iwolfking.woldsvaults.api.helper.WoldAttributeHelper;
 
@@ -20,10 +22,6 @@ import java.util.Optional;
 public class ExpungeAbility extends InstantManaAbility {
     private float radiusMultiplier;
     private float durationMultiplier;
-
-    public ExpungeAbility() {
-
-    }
 
     public float getRadiusMultiplier() {
         return radiusMultiplier;
@@ -40,6 +38,11 @@ public class ExpungeAbility extends InstantManaAbility {
         super(unlockLevel, learnPointCost, regretPointCost, cooldownTicks, manaCost);
         this.radiusMultiplier = radiusMultiplier;
         this.durationMultiplier = durationMultiplier;
+    }
+
+
+    public ExpungeAbility() {
+
     }
 
 
@@ -81,6 +84,8 @@ public class ExpungeAbility extends InstantManaAbility {
                             })
             );
 
+            player.getLevel().playSound(null, player.getOnPos(), ModSounds.OVERGROWN_ZOMBIE_DEATH, SoundSource.PLAYERS, 1.0F, 0.5F);
+            this.putOnCooldown(context);
             return ActionResult.successCooldownDeferred();
         }).orElse(ActionResult.fail());
     }

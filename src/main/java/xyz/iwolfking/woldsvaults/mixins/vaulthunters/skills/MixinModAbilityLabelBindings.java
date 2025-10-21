@@ -59,7 +59,11 @@ public abstract class MixinModAbilityLabelBindings {
                 "durationMultiplier",
                 ability -> AbilityLabelFormatters.percentRounded(ability.getDurationMultiplier()),
                 "radiusMultiplier",
-                ability -> AbilityLabelFormatters.percentRounded(ability.getRadiusMultiplier())
+                ability -> AbilityLabelFormatters.percentRounded(ability.getRadiusMultiplier()),
+                "cooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks()),
+                "manaCost",
+                ability -> AbilityLabelFormatters.integer((int) ability.getManaCost())
         ));
 
     }
