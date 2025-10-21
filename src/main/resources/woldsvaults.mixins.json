@@ -209,6 +209,7 @@
     "vaulthunters.custom.MixinVaultMapOverlay",
     "vaulthunters.custom.MixinVaultModifierStack",
     "vaulthunters.custom.MixinVaultRegistry",
+    "vaulthunters.custom.MixinVaultSwordItem",
     "vaulthunters.custom.MixinVoidStoneItem",
     "vaulthunters.custom.MixinWildSpawnerTileEntity",
     "vaulthunters.custom.artisan.MixinArtisanStationContainer",
@@ -296,8 +297,8 @@
     "vaultmapper.MixinVaultMapOverlayRenderer"
   ],
   "client": [
-    "MixinAnvilScreen",
     "AccessorParticleEngine",
+    "MixinAnvilScreen",
     "MixinItemRenderer",
     "MixinThrownTridentRenderer",
     "inventoryhud.MixinCuriosRenderer",
