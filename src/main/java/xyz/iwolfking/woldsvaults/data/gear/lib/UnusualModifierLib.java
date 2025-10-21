@@ -62,6 +62,14 @@ public class UnusualModifierLib {
     public static VaultGearTierConfig.ModifierTierGroup HEXING_HIT = GearModifierRegistryHelper.create(VaultMod.id("hexing_chance"), "ModOnHitType", VaultMod.id("mod_hexing_chance_unusual"));
     public static VaultGearTierConfig.ModifierTierGroup DODGE_CHANCE = GearModifierRegistryHelper.create(VaultMod.id("dodge_percent"), "ModResistance", VaultMod.id("mod_dodge_chance_unusual"));
 
+    //Effect Cloud Suffixes
+    public static VaultGearTierConfig.ModifierTierGroup HEALING_CLOUD_ON_HIT = GearModifierRegistryHelper.create(VaultMod.id("effect_cloud_when_hit"), "ModEffectCloud", VaultMod.id("mod_healing_cloud_unusual"));
+    public static VaultGearTierConfig.ModifierTierGroup WEAKNESS_CLOUD_ON_HIT = GearModifierRegistryHelper.create(VaultMod.id("effect_cloud_when_hit"), "ModEffectCloud", VaultMod.id("mod_weakness_cloud_unusual"));
+    public static VaultGearTierConfig.ModifierTierGroup SLOWNESS_CLOUD_ON_HIT = GearModifierRegistryHelper.create(VaultMod.id("effect_cloud_when_hit"), "ModEffectCloud", VaultMod.id("mod_slowness_cloud_unusual"));
+    public static VaultGearTierConfig.ModifierTierGroup POISON_CLOUD_ON_HIT = GearModifierRegistryHelper.create(VaultMod.id("effect_cloud_when_hit"), "ModEffectCloud", VaultMod.id("mod_poison_cloud_unusual"));
+    public static VaultGearTierConfig.ModifierTierGroup BLEED_CLOUD_ON_HIT = GearModifierRegistryHelper.create(VaultMod.id("effect_cloud_when_hit"), "ModEffectCloud", VaultMod.id("mod_bleed_cloud_unusual"));
+    public static VaultGearTierConfig.ModifierTierGroup VULNERABLE_CLOUD_ON_HIT = GearModifierRegistryHelper.create(VaultMod.id("effect_cloud_when_hit"), "ModEffectCloud", VaultMod.id("mod_vulnerable_cloud_unusual"));
+
     //Map
     public static VaultGearTierConfig.ModifierTierGroup NON_LETHAL = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModMobCrit", VaultMod.id("no_crit_mobs"));
     public static VaultGearTierConfig.ModifierTierGroup CORROSIVE = GearModifierRegistryHelper.create(VaultMod.id("static_modifier"), "ModDurability", VaultMod.id("corrosive"));
@@ -125,6 +133,15 @@ public class UnusualModifierLib {
         AXE_BLEED_CLOUD.add(new VaultGearTierConfig.ModifierTier<>(0, 10, BLEED_0));
         AXE_BLEED_CLOUD.add(new VaultGearTierConfig.ModifierTier<>(32, 10, BLEED_1));
         AXE_BLEED_CLOUD.add(new VaultGearTierConfig.ModifierTier<>(64, 10, BLEED_2));
+
+        HEALING_CLOUD_ON_HIT.addAll(GearModifierRegistryHelper.createEffectCloudTiers("Healing", new ResourceLocation("minecraft", "empty"), List.of(0, 25, 45, 60), List.of(-1, -1, -1, -1), List.of(80, 120, 160, 200), List.of(4.0F, 4.0F, 4.0F, 4.0F), 16150747, true, List.of(0.05F, 0.05F, 0.05F, 0.05F), new ResourceLocation("minecraft", "instant_health"), List.of(20, 20, 20, 20), List.of(0, 0, 0, 0), 10));
+        WEAKNESS_CLOUD_ON_HIT.addAll(GearModifierRegistryHelper.createEffectCloudTiers("Weakness", new ResourceLocation("minecraft", "empty"), List.of(0, 25, 45, 60), List.of(-1, -1, -1, -1), List.of(120, 160, 200, 240), List.of(4.0F, 4.0F, 4.0F, 4.0F), 10906908, false, List.of(0.05F, 0.05F, 0.05F, 0.05F), new ResourceLocation("minecraft", "weakness"), List.of(140, 140, 140, 140), List.of(0, 1, 2, 3), 10));
+        SLOWNESS_CLOUD_ON_HIT.addAll(GearModifierRegistryHelper.createEffectCloudTiers("Slowness", new ResourceLocation("minecraft", "empty"), List.of(0, 25, 45, 60), List.of(-1, -1, -1, -1), List.of(120, 160, 200, 240), List.of(4.0F, 4.0F, 4.0F, 4.0F), 10906908, false, List.of(0.05F, 0.05F, 0.05F, 0.05F), new ResourceLocation("minecraft", "slowness"), List.of(140, 140, 140, 140), List.of(0, 1, 2, 3), 10));
+        POISON_CLOUD_ON_HIT.addAll(GearModifierRegistryHelper.createEffectCloudTiers("Poison", new ResourceLocation("minecraft", "empty"), List.of(0, 25, 45, 60), List.of(-1, -1, -1, -1), List.of(120, 160, 200, 240), List.of(4.0F, 4.0F, 4.0F, 4.0F), 10906908, false, List.of(0.03F, 0.03F, 0.03F, 0.03F), new ResourceLocation("minecraft", "poison"), List.of(140, 140, 140, 140), List.of(1, 3, 5, 6), 10));
+        BLEED_CLOUD_ON_HIT.addAll(GearModifierRegistryHelper.createEffectCloudTiers("Bleed", new ResourceLocation("minecraft", "empty"), List.of(0, 25, 45, 60), List.of(-1, -1, -1, -1), List.of(120, 160, 200, 240), List.of(4.0F, 4.0F, 4.0F, 4.0F), 10906908, false, List.of(0.03F, 0.03F, 0.03F, 0.03F), new ResourceLocation("the_vault", "bleed"), List.of(140, 140, 140, 140), List.of(0, 1, 2, 3), 10));
+        VULNERABLE_CLOUD_ON_HIT.addAll(GearModifierRegistryHelper.createEffectCloudTiers("Vulnerability", new ResourceLocation("minecraft", "empty"), List.of(0, 25, 45, 60), List.of(-1, -1, -1, -1), List.of(120, 160, 200, 240), List.of(4.0F, 4.0F, 4.0F, 4.0F), 10906908, false, List.of(0.05F, 0.05F, 0.05F, 0.05F), new ResourceLocation("the_vault", "vulnerable"), List.of(140, 140, 140, 140), List.of(0, 1, 2, 3), 10));
+
+
 
         //Jewels
         COOLDOWN_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.005F, 0.01F, 0.001F)));
