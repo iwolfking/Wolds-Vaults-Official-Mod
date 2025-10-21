@@ -30,6 +30,7 @@
     "ars_nouveau.MixinISpellHotkeyListener",
     "ars_nouveau.MixinReactiveEnchantment",
     "bettercombat.MixinBetterCombatAttackRange",
+    "bettercombat.MixinRadialFilter",
     "bettercombat.MixinWeaponAttributesHelper",
     "bettercombat.MixinWeaponRegistry",
     "blackmarkettweaks.MixinBlackMarketTileEntity",

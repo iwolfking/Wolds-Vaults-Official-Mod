@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.items.gear.rang;
 
 import com.google.common.collect.Multimap;
+import iskallia.vault.block.MobBarrier;
 import iskallia.vault.entity.entity.FloatingItemEntity;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
@@ -47,6 +48,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import vazkii.quark.base.handler.QuarkSounds;
+import xyz.iwolfking.woldsvaults.api.helper.CollisionHelper;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
@@ -163,7 +165,7 @@ public class VaultRangEntity extends Projectile {
                     onHit(result);
                 else doEntities = false;
             } else {
-                HitResult result = level.clip(new ClipContext(position, rayEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+                HitResult result = CollisionHelper.specialClip(level, new ClipContext(position, rayEnd, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
                 if(result.getType() == HitResult.Type.MISS)
                     return;
                 else onHit(result);
@@ -192,7 +194,7 @@ public class VaultRangEntity extends Projectile {
             BlockPos hit = hitResult.getBlockPos();
             BlockState state = level.getBlockState(hit);
 
-            if(getPiercingModifier() == 0 || state.getMaterial().isSolidBlocking())
+            if(getPiercingModifier() == 0 || state.getMaterial().isSolidBlocking() || state.getBlock() instanceof MobBarrier)
                 addHit();
 
             if(!(owner instanceof ServerPlayer))

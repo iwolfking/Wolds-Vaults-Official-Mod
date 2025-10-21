@@ -1,6 +1,9 @@
 package xyz.iwolfking.woldsvaults.blocks;
 
+import iskallia.vault.block.MobBarrier;
 import iskallia.vault.entity.entity.EternalEntity;
+import iskallia.vault.entity.entity.PetEntity;
+import iskallia.vault.item.CompanionItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
@@ -38,7 +41,7 @@ public class SurvivalMobBarrier extends Block implements EntityBlock {
     public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         if (pContext instanceof EntityCollisionContext entityCollisionContext) {
             Entity entity = entityCollisionContext.getEntity();
-            if (entity instanceof Player || entity instanceof EternalEntity) {
+            if (entity instanceof Player || entity instanceof EternalEntity || entity instanceof PetEntity) {
                 return Shapes.empty();
             }
         }
