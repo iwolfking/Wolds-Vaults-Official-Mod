@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.VaultMod;
+import iskallia.vault.client.ClientExpertiseData;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
@@ -11,7 +12,11 @@ import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.IdentifiableItem;
 import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.skill.base.Skill;
+import iskallia.vault.skill.base.TieredSkill;
+import iskallia.vault.skill.tree.ExpertiseTree;
 import iskallia.vault.util.LootInitialization;
+import iskallia.vault.world.data.PlayerExpertisesData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -44,6 +49,21 @@ public abstract class MixinJewelCraftingRecipe extends VaultForgeRecipe {
 
     @Override
     public boolean canCraft(Player player) {
+        if(this.getId().equals(VaultMod.id("random"))) {
+            if(player instanceof ServerPlayer serverPlayer) {
+                ExpertiseTree tree = PlayerExpertisesData.get(serverPlayer.server).getExpertises(player);
+                for(Skill skill : tree.skills) {
+                    if(skill.getId().equals("Jeweler")) {
+                        return skill.isUnlocked();
+                    }
+                }
+            }
+            else {
+                TieredSkill expertise = ClientExpertiseData.getLearnedTalentNode("Jeweler");
+                return expertise != null && expertise.isUnlocked();
+            }
+        }
+
         if(ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.containsKey(this.getId())) {
             if (player instanceof ServerPlayer sPlayer) {
                 return player.isCreative() || DiscoveredRecipesData.get(sPlayer.server).hasDiscovered(player, this.getId());

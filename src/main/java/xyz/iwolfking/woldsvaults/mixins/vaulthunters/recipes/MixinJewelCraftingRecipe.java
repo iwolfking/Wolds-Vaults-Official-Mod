@@ -37,24 +37,4 @@ public abstract class MixinJewelCraftingRecipe extends VaultForgeRecipe {
     protected MixinJewelCraftingRecipe(ForgeRecipeType type, ResourceLocation id, ItemStack output) {
         super(type, id, output);
     }
-
-    @Override
-    public boolean canCraft(Player player) {
-        if(this.getId().equals(VaultMod.id("random"))) {
-            if(player instanceof ServerPlayer serverPlayer) {
-                ExpertiseTree tree = PlayerExpertisesData.get(serverPlayer.server).getExpertises(player);
-                for(Skill skill : tree.skills) {
-                    if(skill.getId().equals("Jeweler")) {
-                        return skill.isUnlocked();
-                    }
-                }
-            }
-            else {
-                TieredSkill expertise = ClientExpertiseData.getLearnedTalentNode("Jeweler");
-                return expertise != null && expertise.isUnlocked();
-            }
-        }
-
-        return true;
-    }
 }
