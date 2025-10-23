@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(value = SpiritExtractorTileEntity.RecoveryCost.class, remap = false)
 public class MixinRecoveryCost {
-    @Redirect(method = "lambda$calculate$2", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(II)I"))
+    @Redirect(method = "lambda$calculate$2", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(II)I", ordinal = 0))
     private int capLevelCostScaling(int a, int b) {
         if(b > 100) {
             return 100;
