@@ -1,10 +1,8 @@
 package xyz.iwolfking.woldsvaults.mixins.scannable;
 
-import li.cil.scannable.common.config.CommonConfig;
 import li.cil.scannable.common.scanning.RangeScannerModule;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
-import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.spongepowered.asm.mixin.Mixin;

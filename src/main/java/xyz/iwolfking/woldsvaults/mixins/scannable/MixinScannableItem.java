@@ -1,88 +1,36 @@
 package xyz.iwolfking.woldsvaults.mixins.scannable;
 
-import li.cil.scannable.common.capabilities.Capabilities;
-import li.cil.scannable.common.config.Strings;
-import li.cil.scannable.common.energy.ScannerEnergyStorage;
 import li.cil.scannable.common.item.ModItem;
 import li.cil.scannable.common.item.ScannerItem;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-
-import javax.annotation.Nullable;
-import java.util.List;
-
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+@Restriction(
+    require = {
+        @Condition(type = Condition.Type.MOD, value = "scannable")
+    }
+)
 @Mixin(value = ScannerItem.class, remap = false)
 public abstract class MixinScannableItem extends ModItem {
-    @Shadow
-    private static boolean collectModules(ItemStack scanner, List<ItemStack> modules) {
-        return false;
+    @Shadow private static float getRelativeEnergy(ItemStack stack) {
+        return 0;
     }
-
-    /**
-     * @author iwolfking
-     * @reason Hard code module energy cost
-     */
-    @Overwrite
-    static int getModuleEnergyCost(ItemStack stack) {
-        return Capabilities.SCANNER_MODULE_CAPABILITY != null ? (Integer) stack.getCapability(Capabilities.SCANNER_MODULE_CAPABILITY).map((module) -> module.getEnergyCost(stack)).orElse(0) : 0;
-    }
-
-    /**
-     * @author iwolfking
-     * @reason Hard code module energy cost
-     */
-    @Overwrite
-    private static float getRelativeEnergy(ItemStack stack) {
-        return (Float) stack.getCapability(CapabilityEnergy.ENERGY).map((storage) -> (float) storage.getEnergyStored() / (float) storage.getMaxEnergyStored()).orElse(0.0F);
-    }
-
-    /**
-     * @author iwolfking
-     * @reason Scanner should always consume energy regardless of config
-     */
-    @Overwrite
-    private static boolean tryConsumeEnergy(Player player, ItemStack scanner, List<ItemStack> modules, boolean simulate) {
-        if (player.isCreative()) {
-            return true;
-        } else {
-            LazyOptional<IEnergyStorage> energyStorage = scanner.getCapability(CapabilityEnergy.ENERGY);
-            if (!energyStorage.isPresent()) {
-                return false;
-            } else {
-                int totalCostAccumulator = modules.stream().mapToInt(MixinScannableItem::getModuleEnergyCost).sum();
-
-                int extracted = (Integer) energyStorage.map((storage) -> storage.extractEnergy(totalCostAccumulator, simulate)).orElse(0);
-                return extracted >= totalCostAccumulator;
-            }
+    @Inject(method = "isBarVisible", at = @At("HEAD"), cancellable = true)
+    public void hideBarWhenFullyCharged(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (getRelativeEnergy(stack) < 1) {
+            cir.setReturnValue(false);
         }
     }
 
-    /**
-     * @author iwolfking
-     * @reason Always show energy bar.
-     */
-    @Overwrite
-    public boolean isBarVisible(ItemStack stack) {
+    @Redirect(method = {"appendHoverText", "tryConsumeEnergy", "getRelativeEnergy", "getModuleEnergyCost", "isBarVisible"}, at = @At(value = "FIELD", target = "Lli/cil/scannable/common/config/CommonConfig;useEnergy:Z", opcode = Opcodes.GETSTATIC))
+    private static boolean alwaysUseEnergy() {
         return true;
-    }
-
-    /**
-     * @author iwolfking
-     * @reason Always show energy tooltip
-     */
-    @Overwrite
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
-        ScannerEnergyStorage energyStorage = ScannerEnergyStorage.of(stack);
-        tooltip.add(Strings.energyStorage(energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored()));
     }
 }
