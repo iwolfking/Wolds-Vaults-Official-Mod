@@ -307,7 +307,6 @@
     "inventoryhud.MixinCuriosRenderer",
     "inventoryhud.MixinInventoryHudRenderer",
     "jei.MixinRecipesGui",
-    "scannable.MixinScanManager",
     "scannable.MixinScanResultProviderBlock",
     "sophisticatedbackpacks.MixinBackpackModel",
     "vaulthunters.accessors.VaultChestRendererAccessor",
