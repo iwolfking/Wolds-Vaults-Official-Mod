@@ -20,17 +20,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = ScannerItem.class, remap = false)
 public abstract class MixinScannableItem extends ModItem {
     @Shadow private static float getRelativeEnergy(ItemStack stack) {
-        return 0;
+        throw new AssertionError("Mixin application failed");
     }
-    @Inject(method = "isBarVisible", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isBarVisible", at = @At("HEAD"), cancellable = true, remap = true)
     public void hideBarWhenFullyCharged(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (getRelativeEnergy(stack) < 1) {
+        if (getRelativeEnergy(stack) == 1) {
             cir.setReturnValue(false);
         }
     }
 
-    @Redirect(method = {"appendHoverText", "tryConsumeEnergy", "getRelativeEnergy", "getModuleEnergyCost", "isBarVisible"}, at = @At(value = "FIELD", target = "Lli/cil/scannable/common/config/CommonConfig;useEnergy:Z", opcode = Opcodes.GETSTATIC))
-    private static boolean alwaysUseEnergy() {
+    @Redirect(method = {"appendHoverText", "isBarVisible"}, at = @At(value = "FIELD", target = "Lli/cil/scannable/common/config/CommonConfig;useEnergy:Z", opcode = Opcodes.GETSTATIC))
+    private boolean alwaysUseEnergy() {
+        return true;
+    }
+
+    @Redirect(method = {"tryConsumeEnergy", "getRelativeEnergy", "getModuleEnergyCost"}, at = @At(value = "FIELD", target = "Lli/cil/scannable/common/config/CommonConfig;useEnergy:Z", opcode = Opcodes.GETSTATIC))
+    private static boolean alwaysUseEnergyStatic() {
         return true;
     }
 }

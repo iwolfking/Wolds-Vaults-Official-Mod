@@ -29,7 +29,7 @@ public class MixinScannerEnergyStorage extends EnergyStorage {
 
 
     @Redirect(method = {"extractEnergy","receiveEnergy"}, at = @At(value = "FIELD", target = "Lli/cil/scannable/common/config/CommonConfig;useEnergy:Z", opcode = Opcodes.GETSTATIC))
-    private static boolean alwaysUseEnergy() {
+    private boolean alwaysUseEnergy() {
         return true;
     }
 }
