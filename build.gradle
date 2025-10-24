@@ -261,7 +261,7 @@ dependencies {
     compileOnly fg.deobf('curse.maven:ensorcellation-349447:4782920')
     compileOnly fg.deobf('curse.maven:lightmans-currency-472521:4977514')
     compileOnly fg.deobf('curse.maven:open-parties-and-claims-636608:4982642')
-    compileOnly fg.deobf('curse.maven:scannable-266784:3738448')
+    implementation fg.deobf('curse.maven:scannable-266784:3738448')
     compileOnly fg.deobf('curse.maven:secretroomsmod-59652:3764897')
 
     // deps needed for runtime debug
@@ -357,6 +357,18 @@ tasks.named('jar', Jar).configure {
     finalizedBy 'reobfJar'
 }
 
+tasks.register("deleteSlimJar") {
+    dependsOn tasks.jar
+    doLast {
+        def slimJarFile = tasks.jar.archiveFile.get().asFile
+        if (slimJarFile.exists()) {
+            println "Deleting slim jar: ${slimJarFile}"
+            slimJarFile.delete()
+        }
+    }
+}
+
+tasks.jarJar.finalizedBy(tasks.deleteSlimJar)
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation

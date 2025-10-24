@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -72,15 +73,7 @@ public enum VaultDungeonDoorsBlockScannerModule implements BlockScannerModule {
                 filters.add(new BlockScanFilter(block));
             }
         }
-        final ITagManager<Block> tags = ForgeRegistries.BLOCKS.tags();
-        if (tags != null) {
-            for (final ResourceLocation location : vaultDoorBlocks) {
-                final TagKey<Block> tag = TagKey.create(Registry.BLOCK_REGISTRY, location);
-                if (tags.isKnownTagName(tag)) {
-                    filters.add(new BlockTagScanFilter(tag));
-                }
-            }
-        }
-        filter = new BlockCacheScanFilter(filters);
+        Predicate<BlockState> isOpen = (BlockState s) -> s.hasProperty(DoorBlock.OPEN) && s.getValue(DoorBlock.OPEN);
+        filter = new BlockCacheScanFilter(filters).and(door -> !isOpen.test(door));
     }
 }
