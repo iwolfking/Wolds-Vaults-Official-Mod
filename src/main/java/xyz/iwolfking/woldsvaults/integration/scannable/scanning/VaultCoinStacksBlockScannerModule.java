@@ -69,15 +69,6 @@ public enum VaultCoinStacksBlockScannerModule implements BlockScannerModule {
                 filters.add(new BlockScanFilter(block));
             }
         }
-        final ITagManager<Block> tags = ForgeRegistries.BLOCKS.tags();
-        if (tags != null) {
-            for (final ResourceLocation location : vaultBlocks) {
-                final TagKey<Block> tag = TagKey.create(Registry.BLOCK_REGISTRY, location);
-                if (tags.isKnownTagName(tag)) {
-                    filters.add(new BlockTagScanFilter(tag));
-                }
-            }
-        }
         filter = new BlockCacheScanFilter(filters);
     }
 }
