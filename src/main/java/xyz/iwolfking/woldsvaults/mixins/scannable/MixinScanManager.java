@@ -7,6 +7,8 @@ import iskallia.vault.block.entity.PylonTileEntity;
 import iskallia.vault.init.ModBlocks;
 import li.cil.scannable.api.scanning.ScanResult;
 import li.cil.scannable.client.ScanManager;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -21,6 +23,11 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.function.Predicate;
 
+@Restriction(
+    require = {
+        @Condition(type = Condition.Type.MOD, value = "scannable")
+    }
+)
 @Mixin(value = ScanManager.class, remap = false)
 public abstract class MixinScanManager {
 
