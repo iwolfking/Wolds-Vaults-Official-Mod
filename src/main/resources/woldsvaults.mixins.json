@@ -273,6 +273,7 @@
     "vaulthunters.fixes.MixinWardrobeTileEntity",
     "vaulthunters.fixes.bettercombat.MixinAttributeSnapshotCalculatorNoBC",
     "vaulthunters.fixes.bettercombat.MixinGearAttributeEvents",
+    "vaulthunters.fixes.bettercombat.MixinLuckyHitTalent",
     "vaulthunters.fixes.chunkfix.CoinPilesTileEntityMixin",
     "vaulthunters.fixes.chunkfix.HellishSandTileEntityMixin",
     "vaulthunters.fixes.chunkfix.IskallianLeavesTileEntityMixin",
