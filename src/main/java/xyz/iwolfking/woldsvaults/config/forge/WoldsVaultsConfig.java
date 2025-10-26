@@ -10,10 +10,12 @@ public class WoldsVaultsConfig
     public static class Client {
         public final ForgeConfigSpec.ConfigValue<Boolean> showVanillaVaultHud;
         public final ForgeConfigSpec.ConfigValue<Boolean> showVanillaVaultMap;
+        public final ForgeConfigSpec.ConfigValue<Boolean> playVaultMusic;
         public Client(ForgeConfigSpec.Builder builder)
         {
             this.showVanillaVaultHud = builder.comment("Whether to show the built-in Vault Inventory HUD").define("showVanillaVaultHud", false);
             this.showVanillaVaultMap = builder.comment("Whether to show the built-in Vault Map in the HUD").define("showVanillaVaultMap", false);
+            this.playVaultMusic = builder.comment("Whether to play special tracks while inside the Vault").define("playVaultMusic", false);
         }
     }
     public static class Common
