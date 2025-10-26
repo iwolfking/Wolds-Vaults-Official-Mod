@@ -357,6 +357,18 @@ tasks.named('jar', Jar).configure {
     finalizedBy 'reobfJar'
 }
 
+tasks.register("deleteSlimJar") {
+    dependsOn tasks.jar
+    doLast {
+        def slimJarFile = tasks.jar.archiveFile.get().asFile
+        if (slimJarFile.exists()) {
+            println "Deleting slim jar: ${slimJarFile}"
+            slimJarFile.delete()
+        }
+    }
+}
+
+tasks.jarJar.finalizedBy(tasks.deleteSlimJar)
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation

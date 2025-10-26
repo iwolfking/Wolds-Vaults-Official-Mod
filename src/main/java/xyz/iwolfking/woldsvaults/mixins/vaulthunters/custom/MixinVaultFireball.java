@@ -14,7 +14,7 @@ public abstract class MixinVaultFireball {
     @Shadow
     public abstract void explode(Vec3 pos);
 
-    @Inject(method = "onHit", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/entity/VaultFireball;createBouncingFireball(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;I)Liskallia/vault/entity/entity/VaultFireball;", ordinal = 0), remap = true)
+    @Inject(method = "onHit", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/entity/VaultFireball;createBouncingFireball(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;I)Liskallia/vault/entity/entity/VaultFireball;", ordinal = 0, remap = false), remap = true)
     private void fireVolleyBouncesExplode(HitResult result, CallbackInfo ci) {
         explode(result.getLocation());
     }
