@@ -34,31 +34,21 @@ public class UnusualModifiers {
         JEWEL_SUFFIX.add(UnusualModifierLib.HEALING_EFFECTIVENESS_JEWEL);
         JEWEL_SUFFIX.add(UnusualModifierLib.MANA_REGEN_JEWEL);
         JEWEL_SUFFIX.add(UnusualModifierLib.KNOCKBACK_RESISTANCE_JEWEL);
-        JEWEL_SUFFIX.add(UnusualModifierLib.RESISTANCE_JEWEL);
-        JEWEL_SUFFIX.add(UnusualModifierLib.MOVEMENT_SPEED_JEWEL);
-        JEWEL_SUFFIX.add(UnusualModifierLib.COOLDOWN_REDUCTION_JEWEL);
         JEWEL_SUFFIX.add(UnusualModifierLib.VEIN_MINER_LEVEL_JEWEL);
         JEWEL_SUFFIX.add(UnusualModifierLib.CHAIN_MINER_LEVEL_JEWEL);
         JEWEL_SUFFIX.add(UnusualModifierLib.FINESSE_MINER_LEVEL_JEWEL);
-        //JEWEL_SUFFIX.add(UnusualModifierLib.DURABILITY_WEAR_REDUCTION_JEWEL);
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("jewel"), JEWEL_SUFFIX);
 
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.REACH);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.RESISTANCE);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.DAMAGE_INCREASE);
-        AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.DAMAGE_BABY);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.LEECH);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.CRITICAL_HIT_MITIGATION);
-        AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.ABILITY_POWER);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.MANA_ADDITIVE);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.MANA_REGEN);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.COOLDOWN_REDUCTION);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
-        AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.ITEM_QUANTITY);
-        AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.ITEM_RARITY);
-        AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.COPIOUSLY);
-        AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.TRAP_DISARMING);
         AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.EFFECT_DURATION);
         AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.EFFECT_RADIUS);
         AXE_MODIFIERS_SUFFIX.add(UnusualModifierLib.KINETIC_IMMUNITY);
@@ -74,10 +64,8 @@ public class UnusualModifiers {
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.RESISTANCE);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.DAMAGE_INCREASE);
-        SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.DAMAGE_BABY);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.LEECH);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.CRITICAL_HIT_MITIGATION);
-        SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.ABILITY_POWER);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.MANA_ADDITIVE);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.MANA_REGEN);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.COOLDOWN_REDUCTION);
@@ -85,13 +73,8 @@ public class UnusualModifiers {
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.AXE_REAVING);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.AXE_CLEAVE);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
-        SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.ITEM_QUANTITY);
-        SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.ITEM_RARITY);
-        SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.COPIOUSLY);
-        SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.TRAP_DISARMING);
         SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.EFFECT_DURATION);
         SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.EFFECT_RADIUS);
-        SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.KINETIC_IMMUNITY);
         SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.KNOCKBACK_RESISTANCE);
         SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
         SWORD_MODIFIERS_SUFFIX.add(UnusualModifierLib.ABILITY_POWER_PERCENTILE);
@@ -109,7 +92,6 @@ public class UnusualModifiers {
 
 
         ARMOR_MODIFIERS_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
-        ARMOR_MODIFIERS_PREFIX.add(UnusualModifierLib.DAMAGE_BABY);
         ARMOR_MODIFIERS_PREFIX.add(UnusualModifierLib.COPIOUSLY);
         ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.KINETIC_IMMUNITY);
         ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
@@ -132,7 +114,6 @@ public class UnusualModifiers {
         NON_SACK_PREFIX.add(UnusualModifierLib.REACH);
         NON_SACK_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
         NON_SACK_PREFIX.add(UnusualModifierLib.RESISTANCE);
-        NON_SACK_PREFIX.add(UnusualModifierLib.DAMAGE_BABY);
         NON_SACK_PREFIX.add(UnusualModifierLib.LEECH);
         NON_SACK_PREFIX.add(UnusualModifierLib.MANA_ADDITIVE);
         NON_SACK_PREFIX.add(UnusualModifierLib.MANA_REGEN);
@@ -169,7 +150,6 @@ public class UnusualModifiers {
 
         SACK_PREFIX.add(UnusualModifierLib.RESISTANCE);
         SACK_PREFIX.add(UnusualModifierLib.DAMAGE_INCREASE);
-        SACK_PREFIX.add(UnusualModifierLib.DAMAGE_BABY);
         SACK_PREFIX.add(UnusualModifierLib.LEECH);
         SACK_PREFIX.add(UnusualModifierLib.CRITICAL_HIT_MITIGATION);
         SACK_PREFIX.add(UnusualModifierLib.ABILITY_POWER);
@@ -180,12 +160,15 @@ public class UnusualModifiers {
         SACK_PREFIX.add(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
         SACK_SUFFIX.add(UnusualModifierLib.EFFECT_DURATION);
         SACK_SUFFIX.add(UnusualModifierLib.EFFECT_RADIUS);
-        SACK_SUFFIX.add(UnusualModifierLib.KINETIC_IMMUNITY);
         SACK_SUFFIX.add(UnusualModifierLib.KNOCKBACK_RESISTANCE);
         SACK_SUFFIX.add(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
         SACK_SUFFIX.add(UnusualModifierLib.ABILITY_POWER_PERCENTILE);
         SACK_SUFFIX.add(UnusualModifierLib.HEALING_EFFECTIVENESS);
         SACK_SUFFIX.add(UnusualModifierLib.DODGE_CHANCE);
+        SACK_SUFFIX.add(UnusualModifierLib.WEAKNESS_CLOUD_ON_HIT);
+        SACK_SUFFIX.add(UnusualModifierLib.VULNERABLE_CLOUD_ON_HIT);
+        SACK_SUFFIX.add(UnusualModifierLib.BLEED_CLOUD_ON_HIT);
+        SACK_SUFFIX.add(UnusualModifierLib.LUCKY_HIT_CHANCE);
         UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("loot_sack"), SACK_PREFIX);
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("loot_sack"), SACK_SUFFIX);
         UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("magnet"), SACK_PREFIX);
