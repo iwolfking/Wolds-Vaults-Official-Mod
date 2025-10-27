@@ -44,6 +44,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         generateGenericItemModelBlockState(ModBlocks.ETCHING_PEDESTAL);
         generateGenericItemModelBlockState(ModBlocks.GOD_VENDOR_PEDESTAL);
         generateGenericItemModelBlockState(ModBlocks.BREWING_ALTAR);
+        generateGenericItemModelBlockState(ModBlocks.GRAVEYARD_LOOT_BLOCK);
         generateGenericItemModelBlockState(ModBlocks.CARD_VENDOR_PEDESTAL, "god_shop_pedestal");
         generateGenericItemModelBlockState(ModBlocks.SPOOKY_VENDOR_PEDESTAL, "etching_shop_pedestal");
 
