@@ -263,6 +263,7 @@ dependencies {
     compileOnly fg.deobf('curse.maven:open-parties-and-claims-636608:4982642')
     compileOnly fg.deobf('curse.maven:scannable-266784:3738448')
     compileOnly fg.deobf('curse.maven:secretroomsmod-59652:3764897')
+    compileOnly fg.deobf("curse.maven:vaultlootbeams-1313069:6882936")
 
     // deps needed for runtime debug
     runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382") // quark
