@@ -68,6 +68,7 @@ public class HellishSandTileEntity extends LootableTileEntity implements Templat
     @Override
     public void load(CompoundTag nbt) {
         super.load(nbt);
+        this.templateTags.clear();
         this.templateTags.addAll(this.loadTemplateTags(nbt));
     }
 
