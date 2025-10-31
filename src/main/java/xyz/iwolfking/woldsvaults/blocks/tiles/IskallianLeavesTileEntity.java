@@ -68,6 +68,7 @@ public class IskallianLeavesTileEntity extends LootableTileEntity implements Tem
     @Override
     public void load(CompoundTag nbt) {
         super.load(nbt);
+        this.templateTags.clear();
         this.templateTags.addAll(this.loadTemplateTags(nbt));
     }
 
