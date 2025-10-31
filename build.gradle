@@ -296,10 +296,10 @@ dependencies {
         jarJar.pin(it, '1.5')
     }
 
-    //implementation fg.deobf('local:just_enough_vh:1.6')
-    //jarJar(group: 'dev.attackeight', name: 'just_enough_vh', version: '[1.6,)') {
-    //     jarJar.pin(it, '1.6')
-    //}
+    implementation fg.deobf('local:just_enough_vh:1.6')
+    jarJar(group: 'dev.attackeight', name: 'just_enough_vh', version: '[1.6,)') {
+         jarJar.pin(it, '1.6')
+    }
 
     // mixins
     compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.3")
