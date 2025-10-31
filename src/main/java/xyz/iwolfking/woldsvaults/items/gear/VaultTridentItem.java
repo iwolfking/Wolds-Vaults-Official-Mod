@@ -188,6 +188,7 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         if(level instanceof ServerLevel slevel) {
             if(entity instanceof ServerPlayer sPlayer) {
                 if(data.getItemLevel() > PlayerVaultStatsData.get(slevel).getVaultStats(sPlayer).getVaultLevel()) {
+                    sPlayer.getCooldowns().addCooldown(ModItems.TRIDENT, (int)(360));
                     return;
                 }
             }
@@ -250,7 +251,7 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
                         }
 
                         if(entity instanceof ServerPlayer sPlayer) {
-                            sPlayer.getCooldowns().addCooldown(ModItems.TRIDENT, (int)(60 - (60 * percentDecrease)));
+                            sPlayer.getCooldowns().addCooldown(ModItems.TRIDENT, Math.max((int)(100 - (100 * percentDecrease)), 20));
                         }
 
                         level.playSound(null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
