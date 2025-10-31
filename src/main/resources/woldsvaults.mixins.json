@@ -265,6 +265,7 @@
     "vaulthunters.fixes.MixinToolItem",
     "vaulthunters.fixes.MixinTransmogTableBlock",
     "vaulthunters.fixes.MixinTreasureDoorTileEntityRenderer",
+    "vaulthunters.fixes.MixinTreasureHunterEffect",
     "vaulthunters.fixes.MixinUniqueGearCommand",
     "vaulthunters.fixes.MixinVaultChestTileEntity",
     "vaulthunters.fixes.MixinVaultGearModifierHelper",
