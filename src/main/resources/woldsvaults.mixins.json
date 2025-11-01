@@ -192,6 +192,7 @@
     "vaulthunters.custom.MixinServerboundRoyaleSelectTrinketMessage",
     "vaulthunters.custom.MixinShellQuillAbility",
     "vaulthunters.custom.MixinShopPedestalBlockTileRenderer",
+    "vaulthunters.custom.MixinSkillAltarBlock",
     "vaulthunters.custom.MixinSpecialAbilityModificationRegistry",
     "vaulthunters.custom.MixinToolItem",
     "vaulthunters.custom.MixinToolStationHelper",

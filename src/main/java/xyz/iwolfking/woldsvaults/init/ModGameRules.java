@@ -27,6 +27,7 @@ public class ModGameRules {
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_VAULTS;
     //public static GameRules.Key<GameRules.BooleanValue> UNLIMITED_RUNE_BOSS;
     public static GameRules.Key<GameRules.BooleanValue> UNLIMITED_ALCHEMY_OVERSTACKING;
+    public static GameRules.Key<GameRules.BooleanValue> ENABLE_SKILL_ALTARS;
 
     public static void initialize() {
         ALLOW_FLIGHT_IN_VAULTS = GameRules.register("enableFlightInVaults", GameRules.Category.PLAYER, booleanRule(false));
@@ -37,6 +38,7 @@ public class ModGameRules {
         ENABLE_VAULTS = GameRules.register("enableVaults", GameRules.Category.PLAYER, booleanRule(true));
         //UNLIMITED_RUNE_BOSS = GameRules.register("unlimitedRuneBoss", GameRules.Category.PLAYER, booleanRule(false));
         UNLIMITED_ALCHEMY_OVERSTACKING = GameRules.register("unlimitedAlchemyOverflow", GameRules.Category.PLAYER, booleanRule(false));
+        ENABLE_SKILL_ALTARS = GameRules.register("enableSkillAltars", GameRules.Category.PLAYER, booleanRule(false));
     }
 
 

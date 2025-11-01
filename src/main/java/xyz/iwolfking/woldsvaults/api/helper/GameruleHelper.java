@@ -23,6 +23,7 @@ public class GameruleHelper {
         gameruleMap.put("vaultAllowMentoring", GameruleHelper.isEnabled(iskallia.vault.init.ModGameRules.ALLOW_MENTOR_BREW, level));
         gameruleMap.put("vaultAllowKnowledgeBrew", GameruleHelper.isEnabled(iskallia.vault.init.ModGameRules.ALLOW_KNOWLEDGE_BREW, level));
         gameruleMap.put("enableVaults", GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULTS, level));
+        gameruleMap.put("enableSkillAltars", GameruleHelper.isEnabled(ModGameRules.ENABLE_SKILL_ALTARS, level));
         if(players != null && !players.isEmpty()) {
             players.forEach(serverPlayer -> {
                 ModNetwork.sendToClient(new ClientboundSyncGamerulesMessage(gameruleMap), serverPlayer);
