@@ -84,7 +84,7 @@ public class AltarResetItem extends BasicItem {
                     if(altar.getAltarState().equals(VaultAltarTileEntity.AltarState.ACCEPTING)) {
                         AltarInfusionRecipe recipe;
 
-                        if(altarData.getRecipe(player).isPogInfused()) {
+                        if(altarData.getRecipe(player) != null && altarData.getRecipe(player).isPogInfused()) {
                             ((VaultAltarTileEntityInterface)altar).invokeResetAltar(player.getLevel());
                             altar.setRecipe(null);
                             altar.setAltarState(VaultAltarTileEntity.AltarState.IDLE);
