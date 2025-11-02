@@ -49,7 +49,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 import vazkii.quark.base.handler.QuarkSounds;
-import xyz.iwolfking.woldsvaults.api.helper.CollisionHelper;
+import xyz.iwolfking.woldsvaults.api.util.CollisionHelper;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.AttributeSnapshotHelperAccessor;
