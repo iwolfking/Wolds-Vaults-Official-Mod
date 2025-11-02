@@ -45,7 +45,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import xyz.iwolfking.woldsvaults.api.helper.GameruleHelper;
+import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vaultevents.BrewingAltarBrewEvent;
@@ -56,8 +56,7 @@ import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.objectives.data.alchemy.AlchemyTasks;
-import xyz.iwolfking.woldsvaults.util.MessageFunctions;
-import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 import java.util.*;
 

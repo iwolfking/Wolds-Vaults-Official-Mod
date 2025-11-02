@@ -1,10 +1,14 @@
 package xyz.iwolfking.woldsvaults.items.gear;
 
 import com.google.common.collect.Multimap;
+import iskallia.vault.VaultMod;
 import iskallia.vault.dynamodel.DynamicModel;
+import iskallia.vault.entity.entity.EternalEntity;
+import iskallia.vault.entity.entity.PetEntity;
+import iskallia.vault.event.ActiveFlags;
+import iskallia.vault.event.PlayerActiveFlags;
 import iskallia.vault.gear.VaultGearClassification;
 import iskallia.vault.gear.VaultGearHelper;
-import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.VaultGearType;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
@@ -14,7 +18,10 @@ import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
-import iskallia.vault.util.MiscUtils;
+import iskallia.vault.init.ModNetwork;
+import iskallia.vault.network.message.ShockedParticleMessage;
+import iskallia.vault.snapshot.AttributeSnapshot;
+import iskallia.vault.util.EntityHelper;
 import iskallia.vault.world.data.DiscoveredModelsData;
 import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.core.NonNullList;
@@ -29,12 +36,10 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
@@ -51,6 +56,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.LoadingModList;
+import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.compat.bettertridents.BetterThrownTrident;
 import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
@@ -283,6 +289,96 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
         tooltip.addAll(createTooltip(stack, GearTooltip.itemTooltip()));
+    }
+
+    public static boolean isVaultTridentChanneling(ItemStack stack) {
+        VaultGearData data = VaultGearData.read(stack);
+        return data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_CHANNELING, VaultGearAttributeTypeMerger.anyTrue());
+    }
+
+    public static boolean isVaultTridentRiptide(ItemStack stack) {
+        VaultGearData data = VaultGearData.read(stack);
+        return data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_RIPTIDE, VaultGearAttributeTypeMerger.intSum()) >= 1;
+    }
+
+    public static boolean shouldTriggerChanneling(VaultGearData data) {
+        float channelChance = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.CHANNELING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+        return channelChance >= random.nextFloat();
+    }
+
+    public static void triggerChannelingRiptide(ItemStack stack, Level level, Player player) {
+        VaultGearData data = VaultGearData.read(stack);
+        if(level instanceof ServerLevel && isVaultTridentChanneling(stack)) {
+            if(shouldTriggerChanneling(data)) {
+                List<Mob> nearby = EntityHelper.getNearby(level, player.blockPosition(), 5.0F, Mob.class);
+                nearby.remove(player);
+                nearby.removeIf(
+                        mob -> mob instanceof EternalEntity || mob instanceof PetEntity
+                );
+                nearby.forEach(
+                        mob -> {
+                            EntityHelper.knockbackIgnoreResist(mob, player, 1.0F);
+                            PlayerActiveFlags.set(player, PlayerActiveFlags.Flag.ATTACK_AOE, 2);
+                            int ticksSinceLastSwing = player.attackStrengthTicker;
+                            player.attackStrengthTicker = (int) (1.0 / player.getAttributeValue(Attributes.ATTACK_SPEED) * 20.0) + 1;
+                            player.attack(mob);
+                            player.attackStrengthTicker = ticksSinceLastSwing;
+                            ModNetwork.CHANNEL
+                                    .send(
+                                            PacketDistributor.ALL.noArg(),
+                                            new ShockedParticleMessage(
+                                                    new Vec3(mob.position().x, mob.position().y + mob.getBbHeight() / 2.0F, mob.position().z),
+                                                    new Vec3(mob.getBbWidth() / 2.0F, mob.getBbHeight() / 2.0F, mob.getBbWidth() / 2.0F),
+                                                    mob.getId()
+                                            )
+                                    );
+                        }
+                );
+            }
+        }
+    }
+
+    public static double getTridentScaledDamage(AttributeSnapshot snapshot, LivingEntity entity, double originalDamage) {
+        MobType type = ((LivingEntity) entity).getMobType();
+        float increasedDamage = 0.0F;
+        if (!ActiveFlags.IS_AP_ATTACKING.isSet())
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_INCREASE, VaultGearAttributeTypeMerger.floatSum());
+        if (type == MobType.UNDEAD) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_UNDEAD, VaultGearAttributeTypeMerger.floatSum());
+        }
+        if (type == MobType.ARTHROPOD) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_SPIDERS, VaultGearAttributeTypeMerger.floatSum());
+        }
+        if (type == MobType.ILLAGER) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_ILLAGERS, VaultGearAttributeTypeMerger.floatSum());
+        }
+        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/nether"), entity)) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_NETHER, VaultGearAttributeTypeMerger.floatSum());
+        }
+        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/champion"), entity)) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_CHAMPION, VaultGearAttributeTypeMerger.floatSum());
+        }
+
+        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/dungeon"), entity)) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_DUNGEON, VaultGearAttributeTypeMerger.floatSum());
+        }
+
+        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/tank"), entity)) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_TANK, VaultGearAttributeTypeMerger.floatSum());
+        }
+
+        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/horde"), entity)) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_HORDE, VaultGearAttributeTypeMerger.floatSum());
+        }
+
+        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/assassin"), entity)) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_ASSASSIN, VaultGearAttributeTypeMerger.floatSum());
+        }
+
+        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/dweller"), entity)) {
+            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_DWELLER, VaultGearAttributeTypeMerger.floatSum());
+        }
+        return  (originalDamage * (1.0F + increasedDamage));
     }
 
 }

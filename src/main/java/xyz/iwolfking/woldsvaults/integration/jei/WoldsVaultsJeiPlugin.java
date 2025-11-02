@@ -133,6 +133,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
             registration.addRecipes(manager.byType(ModRecipeTypes.INFUSER).values(), InfuserCraftingCategory.UID);
         }
 
+
         registration.addRecipes(ENIGMA_EGG, List.of(ModConfigs.ENIGMA_EGG));
         registration.addRecipes(OMEGA_BOX, List.of(ModConfigs.OMEGA_BOX));
         registration.addRecipes(GEM_BOX, List.of(ModConfigs.GEM_BOX));

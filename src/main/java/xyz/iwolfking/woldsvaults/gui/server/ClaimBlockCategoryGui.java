@@ -34,7 +34,7 @@ import xaero.pac.common.server.parties.party.IServerParty;
 import xaero.pac.common.server.player.config.IPlayerConfig;
 import xaero.pac.common.server.player.config.IPlayerConfigManager;
 import xaero.pac.common.server.player.config.api.PlayerConfigOptions;
-import xyz.iwolfking.woldsvaults.util.MessageFunctions;
+import xyz.iwolfking.woldsvaults.api.util.MessageFunctions;
 
 import javax.annotation.Nullable;
 

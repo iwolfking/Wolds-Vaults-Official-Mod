@@ -15,7 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
-import xyz.iwolfking.woldsvaults.api.helper.WoldAttributeHelper;
+import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 
 import java.util.Optional;
 

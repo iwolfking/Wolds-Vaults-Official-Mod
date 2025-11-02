@@ -5,7 +5,6 @@ import iskallia.vault.config.gear.VaultEtchingConfig;
 import iskallia.vault.gear.*;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
-import iskallia.vault.gear.data.JewelGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.modification.GearModification;
@@ -32,13 +31,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.api.helper.WoldGearModifierHelper;
+import xyz.iwolfking.woldsvaults.api.util.WoldGearModifierHelper;
 import xyz.iwolfking.woldsvaults.expertises.CraftsmanExpertise;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 @Mixin(value = GearRollHelper.class, remap = false)
 public class MixinGearRollHelper {

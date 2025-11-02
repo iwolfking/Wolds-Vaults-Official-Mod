@@ -8,7 +8,7 @@ import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.common.UsernameCache;
 import xyz.iwolfking.woldsvaults.gui.server.PlayerResearchesGUI;
-import xyz.iwolfking.woldsvaults.util.MessageFunctions;
+import xyz.iwolfking.woldsvaults.api.util.MessageFunctions;
 
 import java.util.UUID;
 

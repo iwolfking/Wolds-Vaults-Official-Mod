@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.init;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
-import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeType;
@@ -15,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.util.UniqueEffectGearAttribute;
+import xyz.iwolfking.woldsvaults.api.util.UniqueEffectGearAttribute;
 
 import javax.annotation.Nullable;
 

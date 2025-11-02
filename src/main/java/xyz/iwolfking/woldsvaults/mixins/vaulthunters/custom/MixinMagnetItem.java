@@ -37,7 +37,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
-import xyz.iwolfking.woldsvaults.util.MagnetPickupUtils;
+import xyz.iwolfking.woldsvaults.api.util.MagnetPickupUtils;
 
 import java.util.List;
 import java.util.Optional;

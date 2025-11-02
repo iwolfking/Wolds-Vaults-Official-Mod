@@ -2,19 +2,12 @@ package xyz.iwolfking.woldsvaults.init;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.helper.GameruleHelper;
+import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.mixins.GameRulesBooleanValueAccessor;
-import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public class ModGameRules {

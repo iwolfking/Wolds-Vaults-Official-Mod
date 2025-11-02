@@ -42,10 +42,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import xyz.iwolfking.woldsvaults.api.helper.NormalizedHelper;
-import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+import xyz.iwolfking.woldsvaults.api.util.NormalizedHelper;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BingoObjectiveAccessor;
-import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
 import java.util.Iterator;
 import java.util.List;

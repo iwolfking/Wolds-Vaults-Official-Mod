@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import xyz.iwolfking.woldsvaults.api.helper.PlayerVaultAltarDataHelper;
 import xyz.iwolfking.woldsvaults.lib.VaultAltarTileEntityInterface;
 
 import java.util.List;

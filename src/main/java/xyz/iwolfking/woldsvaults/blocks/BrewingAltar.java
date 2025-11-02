@@ -39,7 +39,7 @@ import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
-import xyz.iwolfking.woldsvaults.util.VoxelShapeUtils;
+import xyz.iwolfking.woldsvaults.api.util.VoxelShapeUtils;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;

@@ -19,7 +19,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
-import xyz.iwolfking.woldsvaults.util.ComponentUtils;
+import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
 import java.util.List;
 import java.util.Optional;
 

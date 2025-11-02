@@ -21,6 +21,7 @@ import iskallia.vault.entity.entity.elite.EliteWitchEntity;
 import iskallia.vault.entity.entity.elite.EliteWitherSkeleton;
 import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
+import iskallia.vault.event.PlayerActiveFlags;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -44,18 +45,16 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -64,20 +63,21 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.helper.WoldAttributeHelper;
+import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.data.HexEffects;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.EchoingPotionEffect;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
+import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
-import xyz.iwolfking.woldsvaults.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
 
-import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
@@ -527,6 +527,27 @@ public class LivingEntityEvents {
                 } else {
                     event.setDistance(event.getDistance() - 2.0F);
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurt(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)) {
+            return;
+        }
+
+        ItemStack stack = player.getMainHandItem();
+
+        if (stack.getItem() instanceof VaultTridentItem &&
+                player.isAutoSpinAttack() && VaultTridentItem.isVaultTridentRiptide(stack)) {
+            VaultGearData data = VaultGearData.read(stack);
+            Double f = data.get(iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE, VaultGearAttributeTypeMerger.doubleSum());
+
+            AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
+            event.setAmount((float) VaultTridentItem.getTridentScaledDamage(snapshot, event.getEntityLiving(), f * 2));
+            if(!PlayerActiveFlags.isSet(player, PlayerActiveFlags.Flag.ATTACK_AOE)) {
+                VaultTridentItem.triggerChannelingRiptide(stack, player.getLevel(), player);
             }
         }
     }

@@ -10,8 +10,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.iwolfking.woldsvaults.util.ColorUtil;
-import xyz.iwolfking.woldsvaults.util.ComponentUtils;
+import xyz.iwolfking.woldsvaults.api.util.ColorUtil;
+import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;

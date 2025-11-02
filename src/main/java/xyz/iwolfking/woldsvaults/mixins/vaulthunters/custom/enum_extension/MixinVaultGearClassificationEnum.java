@@ -4,7 +4,7 @@ import iskallia.vault.gear.VaultGearClassification;
 import iskallia.vault.gear.VaultGearRarity;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.gen.Invoker;
-import xyz.iwolfking.woldsvaults.api.helper.VaultGearClassificationHelper;
+import xyz.iwolfking.woldsvaults.api.util.VaultGearClassificationHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -3,8 +3,8 @@ package xyz.iwolfking.woldsvaults.api;
 import xyz.iwolfking.vhapi.api.LoaderRegistry;
 import xyz.iwolfking.vhapi.api.events.VHAPIProcessorsEvent;
 import xyz.iwolfking.vhapi.api.loaders.box.WeightedProductEntryConfigLoader;
-import xyz.iwolfking.woldsvaults.api.loaders.objectives.enchanted_elixir.EnchantedElixirEventLoader;
-import xyz.iwolfking.woldsvaults.api.loaders.recipes.AugmentRecipesLoader;
+import xyz.iwolfking.woldsvaults.api.vhapi.loaders.objectives.enchanted_elixir.EnchantedElixirEventLoader;
+import xyz.iwolfking.woldsvaults.api.vhapi.loaders.recipes.AugmentRecipesLoader;
 import xyz.iwolfking.woldsvaults.data.vhapi.VHAPIModules;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 

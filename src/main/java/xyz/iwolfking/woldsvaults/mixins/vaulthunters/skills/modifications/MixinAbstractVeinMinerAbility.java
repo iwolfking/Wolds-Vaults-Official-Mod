@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.util.ChainBreakHandler;
-import xyz.iwolfking.woldsvaults.util.ducks.DuckGetRange;
+import xyz.iwolfking.woldsvaults.api.util.ChainBreakHandler;
+import xyz.iwolfking.woldsvaults.api.util.ducks.DuckGetRange;
 
 @Mixin(value = AbstractVeinMinerAbility.class, remap = false)
 public abstract class MixinAbstractVeinMinerAbility extends HoldAbility implements DuckGetRange {

@@ -2,7 +2,7 @@ package xyz.iwolfking.woldsvaults.init;
 
 import net.minecraft.client.gui.screens.Screen;
 import xyz.iwolfking.woldsvaults.lib.vaultarhud.screens.*;
-import xyz.iwolfking.woldsvaults.util.ConditionalModUtils;
+import xyz.iwolfking.woldsvaults.api.util.ConditionalModUtils;
 
 import java.util.ArrayList;
 import java.util.List;
