@@ -91,6 +91,7 @@
     "vaultarhud.MixinInventoryHudRender",
     "vaultarhud.MixinScreenValidator",
     "vaulthunters.MixinModConfigs",
+    "vaulthunters.accessors.AttributeSnapshotHelperAccessor",
     "vaulthunters.accessors.AttributeSnapshotValueAccessor",
     "vaulthunters.accessors.BingoObjectiveAccessor",
     "vaulthunters.accessors.ClassicCircleCrystalLayoutAccessor",

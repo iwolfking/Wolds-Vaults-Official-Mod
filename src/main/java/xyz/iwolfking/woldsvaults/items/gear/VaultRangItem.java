@@ -94,7 +94,7 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
             Inventory inventory = playerIn.getInventory();
             int slot = handIn == InteractionHand.OFF_HAND ? inventory.getContainerSize() - 1 : inventory.selected;
             VaultRangEntity entity = new VaultRangEntity(worldIn, playerIn);
-            entity.setThrowData(slot, itemstack);
+            entity.setThrowData(slot, itemstack, snapshot);
             entity.shoot(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, 1.5F + velocity * 0.325F, 0F);
             worldIn.addFreshEntity(entity);
         }

@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.items.gear.rang;
 import com.google.common.collect.Multimap;
 import iskallia.vault.block.MobBarrier;
 import iskallia.vault.entity.entity.FloatingItemEntity;
+import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.core.BlockPos;
@@ -51,6 +52,7 @@ import vazkii.quark.base.handler.QuarkSounds;
 import xyz.iwolfking.woldsvaults.api.helper.CollisionHelper;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.AttributeSnapshotHelperAccessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -78,6 +80,8 @@ public class VaultRangEntity extends Projectile {
 
     private float returningDamage = 0F;
     private int hits = 0;
+
+    private AttributeSnapshot snapshot = null;
 
     public VaultRangEntity(EntityType<? extends VaultRangEntity> type, Level worldIn) {
         super(type, worldIn);
@@ -135,10 +139,11 @@ public class VaultRangEntity extends Projectile {
 
     }
 
-    public void setThrowData(int slot, ItemStack stack) {
+    public void setThrowData(int slot, ItemStack stack, @Nullable AttributeSnapshot snapshot) {
         this.slot = slot;
         setStack(stack.copy());
         this.returningDamage = VaultRangLogic.getReturningDamage(getStack());
+        this.snapshot = snapshot;
     }
 
     @Override
@@ -230,7 +235,7 @@ public class VaultRangEntity extends Projectile {
 
                         if (owner instanceof Player player) {
                             hits++;
-                            AttributeSnapshotHelper.getInstance().refreshSnapshot((ServerPlayer) player);
+                            ((AttributeSnapshotHelperAccessor)AttributeSnapshotHelper.getInstance()).getPlayerSnapshots().put(owner.getUUID(), snapshot);
                             if(entityData.get(RETURNING) && hits > 1 && returningDamage > 0F) {
                                 hit.hurt(DamageSource.playerAttack(player), (float) (owner.getAttributeValue(Attributes.ATTACK_DAMAGE) * (1.0F + returningDamage)));
                             }
