@@ -1,6 +1,5 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.lib;
+package xyz.iwolfking.woldsvaults.api.core.vault_events;
 
-import com.google.gson.annotations.Expose;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.player.Listener;
 import net.minecraft.ChatFormatting;
@@ -9,11 +8,11 @@ import net.minecraft.network.chat.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class VaultEvent {
 
@@ -147,6 +146,43 @@ public class VaultEvent {
 
     public Style getHoverDescription() {
         return Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, getEventDescriptor()));
+    }
+
+    public static class Builder {
+        private EventDisplayType eventDisplayType = EventDisplayType.NONE;
+        private Set<EventTag> eventTags = new HashSet<>();
+        private TextComponent eventMessage;
+        private TextColor nameColor = TextColor.fromLegacyFormat(ChatFormatting.WHITE);
+        private List<VaultEventTask> eventTasks = new ArrayList<>();
+
+        public Builder displayType(EventDisplayType type) {
+            this.eventDisplayType = type;
+            return this;
+        }
+
+        public Builder tag(EventTag tag) {
+            this.eventTags.add(tag);
+            return this;
+        }
+
+        public Builder message(TextComponent messsage) {
+            this.eventMessage = messsage;
+            return this;
+        }
+
+        public Builder color(TextColor color) {
+            this.nameColor = color;
+            return this;
+        }
+
+        public Builder task(VaultEventTask task) {
+            this.eventTasks.add(task);
+            return this;
+        }
+
+        public VaultEvent build(String eventName, TextComponent eventDescription) {
+            return new VaultEvent(eventName, eventMessage, nameColor, eventDescription, eventDisplayType, eventTags, eventTasks);
+        }
     }
 
     public enum EventDisplayType {

@@ -1,7 +1,6 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.tasks;
+package xyz.iwolfking.woldsvaults.api.core.vault_events.impl.tasks;
 
 import com.github.alexthe666.alexsmobs.entity.EntityCockroach;
-import com.google.gson.annotations.Expose;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.util.WeightedList;
@@ -9,7 +8,6 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,21 +15,23 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
+import xyz.iwolfking.woldsvaults.api.util.ref.Effect;
 
 import javax.annotation.Nullable;
 
-public class SpawnMobTask extends VaultEventTask {
-    @Expose
+public class SpawnMobTask implements VaultEventTask {
+
     private final WeightedList<EntityType<?>> entities;
-    @Expose
+
     private final WeightedList<Integer> amounts;
-    @Expose
-    private final WeightedList<MobEffectInstance> effects;
+
+    private final WeightedList<Effect> effects;
 
     private final ItemStack heldStack;
 
-    public SpawnMobTask(WeightedList<EntityType<?>> entities, WeightedList<Integer> amounts, WeightedList<MobEffectInstance> effects, ItemStack heldStack) {
+    public SpawnMobTask(WeightedList<EntityType<?>> entities, WeightedList<Integer> amounts, WeightedList<Effect> effects, ItemStack heldStack) {
         this.entities = entities;
         this.amounts = amounts;
         this.effects = effects;
@@ -50,22 +50,27 @@ public class SpawnMobTask extends VaultEventTask {
         double min = 10.0;
         double max = 13.0;
 
-        LivingEntity spawned;
-        int x;
-        int z;
-        int y;
-        for(spawned = null; spawned == null; spawned = spawnMob(world, pos.getX() + x, pos.getY() + y, pos.getZ() + z, random)) {
+        LivingEntity spawned = null;
+        int attempts = 0;
+        int maxAttempts = 50; // stop after 50 tries
+
+        while (spawned == null && attempts++ < maxAttempts) {
             double angle = 2 * Math.PI * random.nextDouble();
             double distance = Math.sqrt(random.nextDouble() * (max * max - min * min) + min * min);
-            x = (int)Math.ceil(distance * Math.cos(angle));
-            z = (int)Math.ceil(distance * Math.sin(angle));
+            int x = (int)Math.ceil(distance * Math.cos(angle));
+            int z = (int)Math.ceil(distance * Math.sin(angle));
             double xzRadius = Math.sqrt(x * x + z * z);
             double yRange = Math.sqrt(max * max - xzRadius * xzRadius);
-            y = random.nextInt((int)Math.ceil(yRange) * 2 + 1) - (int)Math.ceil(yRange);
+            int y = random.nextInt((int)Math.ceil(yRange) * 2 + 1) - (int)Math.ceil(yRange);
+
+            spawned = spawnMob(world, pos.getX() + x, pos.getY() + y, pos.getZ() + z, random);
+        }
+
+        if (spawned == null) {
+            WoldsVaults.LOGGER.warn("Failed to spawn mob after {} attempts at {} in {}", maxAttempts, pos, world.getLevel().dimension());
         }
 
         return spawned;
-
     }
 
     @Nullable
@@ -106,13 +111,59 @@ public class SpawnMobTask extends VaultEventTask {
 
         if(!effects.isEmpty()) {
             effects.forEach((mobEffectInstance, aDouble) -> {
-                ((LivingEntity)entity).addEffect(mobEffectInstance);
+                if(entity instanceof LivingEntity livingEntity) {
+                    mobEffectInstance.apply(livingEntity);
+                }
             });
         }
 
         world.addWithUUID(entity);
 
         return (LivingEntity) entity;
+
+    }
+
+    public static class Builder {
+        private final WeightedList<EntityType<?>> entities = new WeightedList<>();
+
+        private final WeightedList<Integer> amounts = new WeightedList<>();
+
+        private final WeightedList<Effect> effects = new WeightedList<>();
+
+        private ItemStack heldStack = ItemStack.EMPTY;
+
+        public Builder entity(EntityType<?> type, double weight) {
+            entities.add(type, weight);
+            return this;
+        }
+
+        public Builder amount(Integer amount, double weight) {
+            amounts.add(amount, weight);
+            return this;
+        }
+
+        public Builder effect(Effect effect, double weight) {
+            effects.add(effect, weight);
+            return this;
+        }
+
+        public Builder heldStack(ItemStack stack) {
+            heldStack = stack;
+            return this;
+        }
+
+        public SpawnMobTask build() {
+            if(entities.isEmpty()) {
+                entities.add(EntityType.BAT, 1.0);
+            }
+
+            if(amounts.isEmpty()) {
+                amounts.add(1, 1.0);
+            }
+
+            return new SpawnMobTask(entities, amounts, effects, heldStack);
+        }
+
 
     }
 }

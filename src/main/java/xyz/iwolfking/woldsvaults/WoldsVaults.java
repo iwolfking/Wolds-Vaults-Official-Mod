@@ -96,6 +96,7 @@ public class WoldsVaults {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         EnchantedEventsRegistry.addEvents();
+        ModVaultEvents.init();
         BrutalBossesRegistry.init();
     }
 

@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.impl;
+package xyz.iwolfking.woldsvaults.api.core.vault_events.legacy;
 
 import com.google.gson.annotations.Expose;
 import iskallia.vault.VaultMod;
@@ -17,12 +17,12 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.BasicVaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.LegacyVaultEvent;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class VaultModifierVaultEvent extends BasicVaultEvent {
+public class VaultModifierVaultEvent extends LegacyVaultEvent {
 
     @Expose
     private final String modifierString;

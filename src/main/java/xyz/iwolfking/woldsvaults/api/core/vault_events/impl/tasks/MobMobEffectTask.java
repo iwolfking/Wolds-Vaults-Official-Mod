@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.impl;
+package xyz.iwolfking.woldsvaults.api.core.vault_events.impl.tasks;
 
 import com.google.gson.annotations.Expose;
 import iskallia.vault.core.util.WeightedList;
@@ -8,23 +8,22 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.BasicVaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
 import java.util.List;
 import java.util.Objects;
 
-public class BuffEntityInAreaVaultEvent extends BasicVaultEvent {
-    @Expose
+public class MobMobEffectTask implements VaultEventTask {
+
     private final WeightedList<MobEffectInstance> effects;
-    @Expose
+
     private final boolean shouldGrantAllEffects;
-    @Expose
+
     private final int randomEffectCount;
-    @Expose
+
     private final double effectRadius;
 
-    public BuffEntityInAreaVaultEvent(String eventName, String eventDescription, String primaryColor, WeightedList<MobEffectInstance> effects, boolean shouldGrantAllEffects, int randomEffectCount, double effectRadius) {
-        super(eventName, eventDescription, primaryColor);
+    public MobMobEffectTask(WeightedList<MobEffectInstance> effects, boolean shouldGrantAllEffects, int randomEffectCount, double effectRadius) {
         this.effects = effects;
         this.shouldGrantAllEffects = shouldGrantAllEffects;
         this.randomEffectCount = randomEffectCount;
@@ -32,7 +31,7 @@ public class BuffEntityInAreaVaultEvent extends BasicVaultEvent {
     }
 
     @Override
-    public void triggerEvent(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
         List<LivingEntity> nearbyEntities = player.level.getEntitiesOfClass(LivingEntity.class, Objects.requireNonNull(player).getBoundingBox().inflate(effectRadius));
 
         nearbyEntities.forEach(livingEntity -> {
@@ -49,6 +48,5 @@ public class BuffEntityInAreaVaultEvent extends BasicVaultEvent {
             }
 
         });
-        super.triggerEvent(pos, player, vault);
     }
 }
