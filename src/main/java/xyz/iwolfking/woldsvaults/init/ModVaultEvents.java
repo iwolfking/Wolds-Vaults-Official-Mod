@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.init;
 
-import com.github.alexthe666.alexsmobs.effect.AMEffectRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.effect.MobEffects;
