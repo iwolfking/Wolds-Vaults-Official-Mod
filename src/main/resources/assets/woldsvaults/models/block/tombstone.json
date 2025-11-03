@@ -1,83 +1,57 @@
 {
-	"format_version": "1.9.0",
-	"credit": "Made with Blockbench",
-	"textures": {
-		"2": "woldsvaults:block/tombstone",
-        "particle": "minecraft:block/deepslate"
-	},
+  "parent": "block/block",
+  "textures": {
+    "particle": "minecraft:block/deepslate",
+    "tombstone": "woldsvaults:block/tombstone"
+  },
   "elements": [
     {
-      "name": "head_top",
       "from": [4.5, 14, 4.9375],
       "to": [11.5, 14.875, 8.4375],
-      "rotation": {"angle": 0, "axis": "y", "origin": [8, 23.1875, 4.5]},
       "faces": {
-        "north": {"uv": [0, 2.25, 2.5, 2.5], "texture": "#2"},
-        "east": {"uv": [0, 2.25, 2, 2.75], "texture": "#2"},
-        "south": {"uv": [0, 2, 2.5, 2.25], "texture": "#2"},
-        "west": {"uv": [0.25, 2.25, 2.25, 2.75], "texture": "#2"},
-        "up": {"uv": [0.25, 5, 3.25, 6.5], "texture": "#2"},
-        "down": {"uv": [3.75, 6, 7.75, 6.5], "texture": "#2"}
+        "north": {"uv": [0, 2.25, 2.5, 2.5], "texture": "#tombstone"},
+        "east":  {"uv": [0, 2.25, 2, 2.75], "texture": "#tombstone"},
+        "south": {"uv": [0, 2, 2.5, 2.25], "texture": "#tombstone"},
+        "west":  {"uv": [0.25, 2.25, 2.25, 2.75], "texture": "#tombstone"},
+        "up":    {"uv": [0.25, 5, 3.25, 6.5], "texture": "#tombstone"},
+        "down":  {"uv": [3.75, 6, 7.75, 6.5], "texture": "#tombstone"}
       }
     },
     {
-      "name": "head_body",
       "from": [2.75, 12.25, 4.9375],
       "to": [13.25, 14, 8.4375],
-      "rotation": {"angle": 0, "axis": "y", "origin": [4.9375, 18.8125, 4.5]},
       "faces": {
-        "north": {"uv": [0, 6, 2.75, 7], "texture": "#2"},
-        "east": {"uv": [0, 0, 2, 1], "texture": "#2"},
-        "south": {"uv": [0, 2, 3.5, 3], "texture": "#2"},
-        "west": {"uv": [0, 4.75, 2, 5.75], "texture": "#2"},
-        "up": {"uv": [0.25, 4.75, 3.25, 6.25], "texture": "#2"},
-        "down": {"uv": [0, 4.25, 3.25, 6.5], "texture": "#2"}
+        "north": {"uv": [0, 6, 2.75, 7], "texture": "#tombstone"},
+        "east":  {"uv": [0, 0, 2, 1], "texture": "#tombstone"},
+        "south": {"uv": [0, 2, 3.5, 3], "texture": "#tombstone"},
+        "west":  {"uv": [0, 4.75, 2, 5.75], "texture": "#tombstone"},
+        "up":    {"uv": [0.25, 4.75, 3.25, 6.25], "texture": "#tombstone"},
+        "down":  {"uv": [0, 4.25, 3.25, 6.5], "texture": "#tombstone"}
       }
     },
     {
-      "name": "body",
       "from": [1.875, 0.875, 4.9375],
       "to": [14.125, 12.25, 8.4375],
-      "rotation": {"angle": 0, "axis": "y", "origin": [3.1875, 3.5, 1]},
       "faces": {
-        "north": {"uv": [0, 4, 3.5, 7.25], "texture": "#2"},
-        "east": {"uv": [0, 4.5, 3.25, 6.5], "texture": "#2"},
-        "south": {"uv": [0, 0, 3.5, 3.5], "texture": "#2"},
-        "west": {"uv": [0, 5.75, 2.75, 6.75], "texture": "#2"},
-        "up": {"uv": [4, 3, 5.75, 5], "texture": "#2"},
-        "down": {"uv": [0, 4.75, 3.5, 6.5], "texture": "#2"}
+        "north": {"uv": [0, 4, 3.5, 7.25], "texture": "#tombstone"},
+        "east":  {"uv": [0, 4.5, 3.25, 6.5], "texture": "#tombstone"},
+        "south": {"uv": [0, 0, 3.5, 3.5], "texture": "#tombstone"},
+        "west":  {"uv": [0, 5.75, 2.75, 6.75], "texture": "#tombstone"},
+        "up":    {"uv": [4, 3, 5.75, 5], "texture": "#tombstone"},
+        "down":  {"uv": [0, 4.75, 3.5, 6.5], "texture": "#tombstone"}
       }
     },
     {
-      "name": "base",
       "from": [1, 0.01, 4.5],
       "to": [15, 1.75, 11.5],
-      "rotation": {"angle": 0, "axis": "y", "origin": [1, 0.875, 4.5]},
       "faces": {
-        "north": {"uv": [4.5, 3.5, 8.5, 4], "texture": "#2"},
-        "east": {"uv": [0, 0, 2, 0.5], "texture": "#2"},
-        "south": {"uv": [4, 6, 8, 6.5], "texture": "#2"},
-        "west": {"uv": [0, 0, 2, 0.5], "texture": "#2"},
-        "up": {"uv": [0.25, 5.25, 3.25, 6.75], "texture": "#2"},
-        "down": {"uv": [0.25, 4.5, 3.25, 6.25], "texture": "#2"}
+        "north": {"uv": [4.5, 3.5, 8.5, 4], "texture": "#tombstone"},
+        "east":  {"uv": [0, 0, 2, 0.5], "texture": "#tombstone"},
+        "south": {"uv": [4, 6, 8, 6.5], "texture": "#tombstone"},
+        "west":  {"uv": [0, 0, 2, 0.5], "texture": "#tombstone"},
+        "up":    {"uv": [0.25, 5.25, 3.25, 6.75], "texture": "#tombstone"},
+        "down":  {"uv": [0.25, 4.5, 3.25, 6.25], "texture": "#tombstone"}
       }
-    }
-  ],
-    "groups": [
-    {
-      "name": "tombstone",
-      "origin": [9, 9.25, 6],
-      "color": 0,
-      "children": [
-        {
-          "name": "head",
-          "origin": [8.25, 7.75, 6],
-          "color": 0,
-          "children": [0, 1]
-        },
-        2,
-        3
-      ]
     }
   ]
 }
