@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api;
+package xyz.iwolfking.woldsvaults.api.vhapi.loaders;
 
 import xyz.iwolfking.vhapi.api.LoaderRegistry;
 import xyz.iwolfking.vhapi.api.events.VHAPIProcessorsEvent;

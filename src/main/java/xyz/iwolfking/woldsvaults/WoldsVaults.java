@@ -22,7 +22,7 @@ import net.minecraftforge.fml.loading.LoadingModList;
 import org.slf4j.Logger;
 import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
-import xyz.iwolfking.woldsvaults.api.WoldDataLoaders;
+import xyz.iwolfking.woldsvaults.api.vhapi.loaders.WoldDataLoaders;
 import xyz.iwolfking.woldsvaults.client.init.ModParticles;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
