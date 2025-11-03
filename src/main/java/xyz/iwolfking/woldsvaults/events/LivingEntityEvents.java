@@ -487,7 +487,7 @@ public class LivingEntityEvents {
         if (!world.isClientSide() && world instanceof ServerLevel) {
             if (event.getState().getBlock() instanceof VaultChestBlock || event.getState().getBlock() instanceof CoinPileBlock || event.getState().getBlock() instanceof VaultOreBlock) {
                 ItemStack offHand = event.getPlayer().getOffhandItem();
-                if (!ServerVaults.get(world).isEmpty() || !(offHand.getItem() instanceof VaultGearItem)) {
+                if (ServerVaults.get(world).isPresent() || !(offHand.getItem() instanceof VaultGearItem)) {
                     if (offHand.getItem() instanceof VaultLootSackItem) {
                         if(event.getState().getBlock() instanceof VaultChestBlock chestBlock && world.getBlockEntity(event.getPos()) instanceof VaultChestTileEntity chest) {
                             if(chestBlock.hasStepBreaking(chest)) {

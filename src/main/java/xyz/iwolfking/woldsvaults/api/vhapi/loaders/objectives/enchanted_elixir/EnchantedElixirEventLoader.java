@@ -5,7 +5,7 @@ import xyz.iwolfking.vhapi.api.events.VaultConfigEvent;
 import xyz.iwolfking.vhapi.api.loaders.lib.core.VaultConfigProcessor;
 import xyz.iwolfking.woldsvaults.api.vhapi.loaders.objectives.enchanted_elixir.config.EnchantedElixirEventConfig;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.VaultModifierVaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.legacy.VaultModifierVaultEvent;
 
 public class EnchantedElixirEventLoader extends VaultConfigProcessor<EnchantedElixirEventConfig> {
     public EnchantedElixirEventLoader() {

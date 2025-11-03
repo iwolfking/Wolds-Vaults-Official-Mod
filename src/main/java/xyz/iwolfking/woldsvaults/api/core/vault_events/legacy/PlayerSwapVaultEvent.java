@@ -1,16 +1,16 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.impl;
+package xyz.iwolfking.woldsvaults.api.core.vault_events.legacy;
 
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.player.Listener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.BasicVaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.LegacyVaultEvent;
 
 import java.util.Iterator;
 import java.util.Random;
 
-public class PlayerSwapVaultEvent extends BasicVaultEvent {
+public class PlayerSwapVaultEvent extends LegacyVaultEvent {
     public PlayerSwapVaultEvent(String eventName, String eventDescription, String primaryColor) {
         super(eventName, eventDescription, primaryColor);
     }

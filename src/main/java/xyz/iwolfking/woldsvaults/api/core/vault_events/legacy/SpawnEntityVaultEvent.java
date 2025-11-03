@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.impl;
+package xyz.iwolfking.woldsvaults.api.core.vault_events.legacy;
 
 import com.github.alexthe666.alexsmobs.entity.EntityCockroach;
 import com.google.gson.annotations.Expose;
@@ -18,11 +18,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.BasicVaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.LegacyVaultEvent;
 
 import javax.annotation.Nullable;
 
-public class SpawnEntityVaultEvent extends BasicVaultEvent {
+public class SpawnEntityVaultEvent extends LegacyVaultEvent {
     @Expose
     private final WeightedList<EntityType<?>> entities;
     @Expose

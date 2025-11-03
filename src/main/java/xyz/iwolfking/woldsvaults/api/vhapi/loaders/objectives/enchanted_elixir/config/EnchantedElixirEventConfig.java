@@ -3,7 +3,7 @@ package xyz.iwolfking.woldsvaults.api.vhapi.loaders.objectives.enchanted_elixir.
 import com.google.gson.annotations.Expose;
 import iskallia.vault.config.Config;
 import iskallia.vault.util.data.WeightedList;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.VaultModifierVaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.legacy.VaultModifierVaultEvent;
 
 public class EnchantedElixirEventConfig extends Config {
 

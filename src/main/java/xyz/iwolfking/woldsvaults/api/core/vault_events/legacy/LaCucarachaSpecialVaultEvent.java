@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.impl;
+package xyz.iwolfking.woldsvaults.api.core.vault_events.legacy;
 
 import iskallia.vault.core.vault.Vault;
 import net.minecraft.ChatFormatting;
@@ -7,11 +7,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.BasicVaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.LegacyVaultEvent;
 
 import java.util.Random;
 
-public class LaCucarachaSpecialVaultEvent extends BasicVaultEvent {
+public class LaCucarachaSpecialVaultEvent extends LegacyVaultEvent {
     private final float eventOdds;
 
     private static final Component COCKROACH_BLESSING_MESSAGE = new TextComponent("The dancing cockroaches are fond towards you and bless each player with a random positive event!").withStyle(ChatFormatting.GOLD);

@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.impl;
+package xyz.iwolfking.woldsvaults.api.core.vault_events.legacy;
 
 import com.google.gson.annotations.Expose;
 import iskallia.vault.core.util.WeightedList;
@@ -6,9 +6,9 @@ import iskallia.vault.core.vault.Vault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.BasicVaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.LegacyVaultEvent;
 
-public class MessagePlayerVaultEvent extends BasicVaultEvent {
+public class MessagePlayerVaultEvent extends LegacyVaultEvent {
     @Expose
     private final WeightedList<Component> messages;
     protected MessagePlayerVaultEvent(String eventName, String eventDescription, String primaryColor, WeightedList<Component> messages) {

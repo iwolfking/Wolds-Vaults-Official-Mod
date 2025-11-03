@@ -13,27 +13,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.loading.LoadingModList;
 import samebutdifferent.ecologics.registry.ModMobEffects;
 import vazkii.quark.content.mobs.module.WraithModule;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.*;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.legacy.*;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.objectives.data.builtin.events.CloudStorageEvents;
 import xyz.iwolfking.woldsvaults.objectives.data.builtin.events.WildBackportEvents;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.LaCucarachaSpecialVaultEvent;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.PlayerSwapVaultEvent;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.BasicVaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.LegacyVaultEvent;
 
 import java.util.List;
 
 
 public class EnchantedEventsRegistry {
 
-    private static final WeightedList<BasicVaultEvent> ENCHANTED_EVENTS = new WeightedList<>();
-    private static final WeightedList<BasicVaultEvent> OMEGA_ENCHANTED_EVENTS = new WeightedList<>();
-    private static final WeightedList<BasicVaultEvent> POSITIVE_ENCHANTED_EVENTS = new WeightedList<>();
-    private static final WeightedList<BasicVaultEvent> NEGATIVE_ENCHANTED_EVENTS = new WeightedList<>();
+    private static final WeightedList<LegacyVaultEvent> ENCHANTED_EVENTS = new WeightedList<>();
+    private static final WeightedList<LegacyVaultEvent> OMEGA_ENCHANTED_EVENTS = new WeightedList<>();
+    private static final WeightedList<LegacyVaultEvent> POSITIVE_ENCHANTED_EVENTS = new WeightedList<>();
+    private static final WeightedList<LegacyVaultEvent> NEGATIVE_ENCHANTED_EVENTS = new WeightedList<>();
 
-    private static final WeightedList<BasicVaultEvent> SPAWN_ENTITY_ENCHANTED_EVENTS = new WeightedList<>();
-    private static final WeightedList<BasicVaultEvent> MODIFIER_ENCHANTED_EVENTS = new WeightedList<>();
+    private static final WeightedList<LegacyVaultEvent> SPAWN_ENTITY_ENCHANTED_EVENTS = new WeightedList<>();
+    private static final WeightedList<LegacyVaultEvent> MODIFIER_ENCHANTED_EVENTS = new WeightedList<>();
 
 
     public static final VaultModifierVaultEvent COMMON_POSITIVE_MODIFER_EVENT;
@@ -190,7 +188,7 @@ public class EnchantedEventsRegistry {
         });
     }
 
-    public static void register(BasicVaultEvent event, Double weight, boolean isOmega, boolean isPositive) {
+    public static void register(LegacyVaultEvent event, Double weight, boolean isOmega, boolean isPositive) {
         ENCHANTED_EVENTS.add(event, weight);
         if(isOmega) {
             OMEGA_ENCHANTED_EVENTS.add(event, 1.0);
@@ -204,18 +202,18 @@ public class EnchantedEventsRegistry {
         }
     }
 
-    public static WeightedList<BasicVaultEvent> getEvents() {
+    public static WeightedList<LegacyVaultEvent> getEvents() {
         return ENCHANTED_EVENTS;
     }
 
-    public static WeightedList<BasicVaultEvent> getOmegaEvents() {
+    public static WeightedList<LegacyVaultEvent> getOmegaEvents() {
         return OMEGA_ENCHANTED_EVENTS;
     }
-    public static WeightedList<BasicVaultEvent> getPositiveEvents() {
+    public static WeightedList<LegacyVaultEvent> getPositiveEvents() {
         return POSITIVE_ENCHANTED_EVENTS;
     }
 
-    public static WeightedList<BasicVaultEvent> getNegativeEvents() {
+    public static WeightedList<LegacyVaultEvent> getNegativeEvents() {
         return NEGATIVE_ENCHANTED_EVENTS;
     }
 
@@ -267,7 +265,7 @@ public class EnchantedEventsRegistry {
         X_OMEGA_RANDOM_EVENT = new InceptionVaultEvent("3 Random Omega Events", "3 random omega events, did you get lucky?", "#0088cc", OMEGA_ENCHANTED_EVENTS, true, 3);
         X_MODIFIER_RANDOM_EVENT = new InceptionVaultEvent("3 Random Modifier Events", "3 random modifier events", "#ff66b3",  MODIFIER_ENCHANTED_EVENTS, true, 3);
         HORDE_EVENT = new InceptionVaultEvent("Horde Night", "3 Random Mob spawn events", "#5c5cd6",  SPAWN_ENTITY_ENCHANTED_EVENTS, true, 3);
-        VAMPIRE_SURVIVORS = new InceptionVaultEvent("Vampire Survivors", "Grants leeching and spawns bats", "#ffc34d",  new WeightedList<BasicVaultEvent>().add(LEECHING_MODIFIER_EVENT, 1.0).add(BAT_EVENT, 1.0), false, 0);
+        VAMPIRE_SURVIVORS = new InceptionVaultEvent("Vampire Survivors", "Grants leeching and spawns bats", "#ffc34d",  new WeightedList<LegacyVaultEvent>().add(LEECHING_MODIFIER_EVENT, 1.0).add(BAT_EVENT, 1.0), false, 0);
         TELESWAP_EVENT = new PlayerSwapVaultEvent("Teleswap", "Swap places with another player", "#cc6699");
         LA_CUCARACHA_RANDOM_EVENT = new LaCucarachaSpecialVaultEvent("Cockroach's Judgement", "Gives a random negative or postive event to each player.", "#eab676", 0.25F);
         MOB_VIGOR_EVENT = new BuffEntityInAreaVaultEvent("Mob Boost", "Gives speed and strength to nearby mobs", "#789D00", new WeightedList<MobEffectInstance>().add(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 1800, 1 ), 1.0).add(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 1800, 1), 1.0), true, 1, 32);

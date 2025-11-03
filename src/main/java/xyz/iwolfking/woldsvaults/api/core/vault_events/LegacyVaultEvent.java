@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.lib;
+package xyz.iwolfking.woldsvaults.api.core.vault_events;
 
 import com.google.gson.annotations.Expose;
 import iskallia.vault.core.vault.Vault;
@@ -18,7 +18,7 @@ import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import java.util.Random;
 
-public abstract class BasicVaultEvent {
+public abstract class LegacyVaultEvent {
     @Expose
     private final String eventName;
 
@@ -46,7 +46,7 @@ public abstract class BasicVaultEvent {
 
 
 
-    protected BasicVaultEvent(String eventName, String eventDescription, String primaryColor) {
+    protected LegacyVaultEvent(String eventName, String eventDescription, String primaryColor) {
         this.eventDescription = eventDescription;
         this.eventName = eventName;
         this.color = primaryColor;

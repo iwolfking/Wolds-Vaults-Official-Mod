@@ -13,10 +13,10 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.blocks.tiles.GraveyardLootTileEntity;
-import xyz.iwolfking.woldsvaults.blocks.tiles.HellishSandTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
-import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,9 +40,10 @@ public class GraveyardLootBlock extends LootableBlock {
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         if(!level.isClientSide() && VaultUtils.getVault(level).isPresent()) {
-            EnchantedEventsRegistry.BUNFUNGUS_EVENT.triggerEvent(pos, (ServerPlayer) player, VaultUtils.getVault(level).get());
+            VaultEventSystem.triggerEvent(WoldsVaults.id("tombstone_0"), pos, (ServerPlayer) player, VaultUtils.getVault(level).get());
+            //EnchantedEventsRegistry.BUNFUNGUS_EVENT.triggerEvent(pos, (ServerPlayer) player, VaultUtils.getVault(level).get());
         }
-        //TODO: Spawn mob/Do event
+
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
 }
