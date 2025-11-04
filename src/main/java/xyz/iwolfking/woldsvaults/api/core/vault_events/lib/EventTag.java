@@ -4,5 +4,6 @@ public enum EventTag {
     POSITIVE,
     NEGATIVE,
     OMEGA,
-    CASCADE
+    CASCADE,
+    TOMBSTONE
 }

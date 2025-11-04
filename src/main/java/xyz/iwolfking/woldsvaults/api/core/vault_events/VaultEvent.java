@@ -148,6 +148,10 @@ public class VaultEvent {
         return Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, getEventDescriptor()));
     }
 
+    public Set<EventTag> getEventTags() {
+        return eventTags;
+    }
+
     public static class Builder {
         private EventDisplayType eventDisplayType = EventDisplayType.NONE;
         private Set<EventTag> eventTags = new HashSet<>();
@@ -181,6 +185,9 @@ public class VaultEvent {
         }
 
         public VaultEvent build(String eventName, TextComponent eventDescription) {
+            if(eventMessage == null) {
+                eventMessage = new TextComponent("");
+            }
             return new VaultEvent(eventName, eventMessage, nameColor, eventDescription, eventDisplayType, eventTags, eventTasks);
         }
     }

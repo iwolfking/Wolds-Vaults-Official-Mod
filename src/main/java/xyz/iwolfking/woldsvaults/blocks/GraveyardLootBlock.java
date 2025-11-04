@@ -77,7 +77,7 @@ public class GraveyardLootBlock extends LootableBlock {
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         if (!level.isClientSide() && VaultUtils.getVault(level).isPresent()) {
-            VaultEventSystem.triggerEvent(WoldsVaults.id("tombstone_0"), pos, (ServerPlayer) player, VaultUtils.getVault(level).get());
+            VaultEventSystem.triggerEvent(WoldsVaults.id("tombstone_event"), pos, (ServerPlayer) player, VaultUtils.getVault(level).get());
         }
 
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
