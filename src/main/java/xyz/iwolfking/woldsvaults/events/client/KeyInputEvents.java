@@ -16,6 +16,7 @@ import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.LoadingModList;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.compat.bettercombat.BetterCombatToggleHelper;
 import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -42,6 +43,10 @@ public class KeyInputEvents {
                 Screen configScreen = ConfigScreenHelper.createForgeConfigSelectionScreen(new TextComponent("Wold's Vaults Configs"), ModList.get().getModContainerById(WoldsVaults.MOD_ID).orElse(null), BACKGROUND);
                 Minecraft.getInstance().setScreen(configScreen);
             }
+        }
+
+        if(ModKeybinds.toggleBetterCombat.consumeClick()) {
+            BetterCombatToggleHelper.toggleBetterCombat();
         }
     }
 }

@@ -223,6 +223,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.key.cherish_item", "Cherish Item");
         add("key.woldsvaults.cherish_item", "Cherish Item");
         add("key.woldsvaults.open_wolds_vaults_config", "Open Wold's Vaults Config Screen");
+        add("key.woldsvaults.toggle_better_combat", "Toggle Better Combat");
         add("key.woldsvaults.is_feather_fixed", "Toggle Prismatic Feather Fix");
         add("key.category.woldsvaults", "Wold's Vaults");
         add("the_vault.gear_modification.reforge_weapon_type.description", "Reforges weapon type");

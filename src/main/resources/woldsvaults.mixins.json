@@ -32,7 +32,6 @@
     "bettercombat.MixinBetterCombatAttackRange",
     "bettercombat.MixinRadialFilter",
     "bettercombat.MixinWeaponAttributesHelper",
-    "bettercombat.MixinWeaponRegistry",
     "blackmarkettweaks.MixinBlackMarketTileEntity",
     "blackmarkettweaks.MixinServerboundResetBlackMarketTradesMessageMixin",
     "cloudstorage.MixinBalloonBuddyEntity",
@@ -325,7 +324,8 @@
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
-    "vaulthunters.fixes.MixinUniqueCodexScreen"
+    "vaulthunters.fixes.MixinUniqueCodexScreen",
+    "bettercombat.MixinWeaponRegistry"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -186,8 +186,8 @@ dependencies {
 
     // VH deps
     implementation fg.deobf('curse.maven:curios-309927:4985315')
-    implementation fg.deobf("curse.maven:sophisticated-backpacks-422301:4950560")
-    implementation fg.deobf("curse.maven:sophisticatedcore-618298:4913626")
+    implementation fg.deobf("curse.maven:sophisticated-backpacks-422301:5654080")
+    implementation fg.deobf("curse.maven:sophisticated-core-618298:5296312")
     implementation fg.deobf('curse.maven:quark-243121:3840125')
     implementation fg.deobf("curse.maven:geckolib-388172:4181370")
     implementation fg.deobf('curse.maven:alexs-mobs-426558:3853078')
@@ -245,7 +245,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:modular-routers-250294:4984984")
     compileOnly fg.deobf("curse.maven:occultism-361026:4729072")
     compileOnly fg.deobf("curse.maven:pneumaticcraft-repressurized-281849:4922258")
-    compileOnly fg.deobf("curse.maven:sophisticated-storage-619320:4950570")
+    compileOnly fg.deobf("curse.maven:sophisticated-storage-619320:5809745")
     compileOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
     compileOnly fg.deobf("curse.maven:titanium-287342:5151207") // industrial foregoing dep
     compileOnly fg.deobf("curse.maven:travel-anchors-413234:3741307")
