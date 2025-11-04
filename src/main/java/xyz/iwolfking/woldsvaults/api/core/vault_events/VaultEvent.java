@@ -43,9 +43,7 @@ public class VaultEvent {
             cascadeEvent(vault, player);
         }
 
-        for (VaultEventTask eventTask : eventTasks) {
-            eventTask.performTask(pos, player, vault);
-        }
+        DelayedSequenceHandler.startSequence(eventTasks, pos, player, vault);
     }
 
     public void cascadeEvent(Vault vault, ServerPlayer originator) {

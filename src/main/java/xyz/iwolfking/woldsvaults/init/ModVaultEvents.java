@@ -5,7 +5,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffects;
-import net.tropicraft.core.common.sound.Sounds;
+import net.minecraft.world.level.block.Blocks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.tasks.*;
@@ -50,8 +50,21 @@ public class ModVaultEvents {
                                         .task(new PlaySoundTask(SoundEvents.SOUL_ESCAPE))
                                         .task(new MessageTask(VaultEvent.EventDisplayType.ACTION_BAR, (TextComponent) new TextComponent("Spirits awaken around you!").withStyle(ChatFormatting.AQUA)))
                                         .build(),1.0)
+                                .task(new TaskGroup.Builder()
+                                        .task(new SpawnMobTask.Builder()
+                                                .entity(iskallia.vault.init.ModEntities.T3_ZOMBIE, 1)
+                                                .amount(3, 1)
+                                                .amount(5, 1)
+                                                .effect(new Effect(MobEffects.MOVEMENT_SPEED, 2, 200), 1)
+                                                .build()
+                                        )
+                                        .task(new PlaySoundTask(SoundEvents.SOUL_ESCAPE))
+                                        .task(new MessageTask(VaultEvent.EventDisplayType.ACTION_BAR, (TextComponent) new TextComponent("Spirits awaken around you!").withStyle(ChatFormatting.AQUA)))
+                                        .build(),1.0)
                                 .build()
                         )
+                        .task(new DelayTask(20))
+                        .task(new BlockConversionTask.Builder().build(block -> block.equals(Blocks.BEDROCK)))
 
                 .build("Tombstone", new TextComponent("Possible events that can occur when breaking a Tombstone.")));
     }
