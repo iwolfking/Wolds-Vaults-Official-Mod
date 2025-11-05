@@ -1,17 +1,27 @@
 package xyz.iwolfking.woldsvaults.recipes.gear;
 
 import cofh.ensorcellation.init.EnsorcEnchantments;
+import iskallia.vault.gear.attribute.VaultGearModifier;
+import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.item.crystal.recipe.AnvilContext;
 import iskallia.vault.item.crystal.recipe.VanillaAnvilRecipe;
+import iskallia.vault.item.tool.JewelItem;
 import iskallia.vault.item.tool.ToolItem;
+import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.items.gear.VaultBattleStaffItem;
+import xyz.iwolfking.woldsvaults.items.gear.VaultRangItem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class MercyEnchantmentAdderRecipe extends VanillaAnvilRecipe {
@@ -21,7 +31,7 @@ public class MercyEnchantmentAdderRecipe extends VanillaAnvilRecipe {
     public boolean onSimpleCraft(AnvilContext context) {
         ItemStack primary = context.getInput()[0];
         ItemStack secondary = context.getInput()[1];
-        if ((primary.getItem() instanceof SwordItem || primary.getItem() instanceof AxeItem || primary.getItem() instanceof ToolItem) && secondary.getItem() == ModItems.MERCY_ORB) {
+        if ((primary.getItem() instanceof SwordItem || primary.getItem() instanceof AxeItem || primary.getItem() instanceof ToolItem || primary.getItem() instanceof VaultBattleStaffItem || primary.getItem() instanceof TridentItem || primary.getItem() instanceof VaultRangItem) && secondary.getItem() == ModItems.MERCY_ORB) {
             ItemStack output = primary.copy();
             Map<Enchantment, Integer> stackEnchMap = EnchantmentHelper.getEnchantments(output);
             if(stackEnchMap.containsKey(EnsorcEnchantments.CURSE_MERCY.get())) {
@@ -42,7 +52,18 @@ public class MercyEnchantmentAdderRecipe extends VanillaAnvilRecipe {
     }
 
     @Override
-    public void onRegisterJEI(IRecipeRegistration iRecipeRegistration) {
+    public void onRegisterJEI(IRecipeRegistration registry) {
+        IVanillaRecipeFactory factory = registry.getVanillaRecipeFactory();
 
+        List<ItemStack> inputs = List.of(new ItemStack(ModItems.RANG), new ItemStack(ModItems.BATTLESTAFF), new ItemStack(ModItems.TRIDENT), new ItemStack(iskallia.vault.init.ModItems.SWORD), new ItemStack(iskallia.vault.init.ModItems.AXE));
+        ItemStack secondary = new ItemStack(ModItems.MERCY_ORB);
+        List<ItemStack> outputs = new ArrayList<>();
+        for(ItemStack input : inputs) {
+            ItemStack output = input.copy();
+            EnchantmentHelper.setEnchantments(Map.of(EnsorcEnchantments.CURSE_MERCY.get(), 1), output);
+            outputs.add(output);
+        }
+
+        registry.addRecipes(RecipeTypes.ANVIL, List.of(factory.createAnvilRecipe(inputs, List.of(secondary), outputs)));
     }
 }
