@@ -7,6 +7,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.entities.thanksgiving.client.renderer.CranberrySlimeRenderer;
+import xyz.iwolfking.woldsvaults.entities.thanksgiving.client.renderer.HostileTurkeyRenderer;
 import xyz.iwolfking.woldsvaults.entities.ghosts.lib.client.GenericWraithRenderer;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangRenderer;
@@ -29,6 +31,8 @@ public class ModEntityRenderers {
         EntityRenderers.register(ModEntities.PURPLE_GHOST, ctx -> new GenericWraithRenderer(ctx, WoldsVaults.id("textures/entity/purple_ghost.png")));
         EntityRenderers.register(ModEntities.YELLOW_GHOST, ctx -> new GenericWraithRenderer(ctx, WoldsVaults.id("textures/entity/yellow_ghost.png")));
         EntityRenderers.register(ModEntities.RED_GHOST, ctx -> new GenericWraithRenderer(ctx, WoldsVaults.id("textures/entity/red_ghost.png")));
+        EntityRenderers.register(ModEntities.HOSTILE_TURKEY, HostileTurkeyRenderer::new);
+        EntityRenderers.register(ModEntities.CRANBERRY_SLIME, CranberrySlimeRenderer::new);
         EntityRenderers.register(ModEntities.VAULT_RANG, VaultRangRenderer::new);
     }
 }
