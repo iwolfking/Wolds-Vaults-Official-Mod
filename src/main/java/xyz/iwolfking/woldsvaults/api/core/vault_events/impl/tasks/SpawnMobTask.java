@@ -31,11 +31,25 @@ public class SpawnMobTask implements VaultEventTask {
 
     private final ItemStack heldStack;
 
+    private final double minSpawnRange;
+    private final double maxSpawnRange;
+
     public SpawnMobTask(WeightedList<EntityType<?>> entities, WeightedList<Integer> amounts, WeightedList<Effect> effects, ItemStack heldStack) {
         this.entities = entities;
         this.amounts = amounts;
         this.effects = effects;
         this.heldStack = heldStack;
+        this.minSpawnRange = 10.0;
+        this.maxSpawnRange = 13.0;
+    }
+
+    public SpawnMobTask(WeightedList<EntityType<?>> entities, WeightedList<Integer> amounts, WeightedList<Effect> effects, ItemStack heldStack, double minSpawnRange, double maxSpawnRange) {
+        this.entities = entities;
+        this.amounts = amounts;
+        this.effects = effects;
+        this.heldStack = heldStack;
+        this.minSpawnRange = minSpawnRange;
+        this.maxSpawnRange = maxSpawnRange;
     }
 
     @Override
@@ -47,8 +61,8 @@ public class SpawnMobTask implements VaultEventTask {
     }
 
     public LivingEntity doSpawn(VirtualWorld world, BlockPos pos, RandomSource random) {
-        double min = 10.0;
-        double max = 13.0;
+        double min = minSpawnRange;
+        double max = maxSpawnRange;
 
         LivingEntity spawned = null;
         int attempts = 0;
@@ -132,6 +146,10 @@ public class SpawnMobTask implements VaultEventTask {
 
         private ItemStack heldStack = ItemStack.EMPTY;
 
+        private double minSpawnRange = 10.0;
+
+        private double maxSpawnRange = 13.0;
+
         public Builder entity(EntityType<?> type, double weight) {
             entities.add(type, weight);
             return this;
@@ -152,6 +170,12 @@ public class SpawnMobTask implements VaultEventTask {
             return this;
         }
 
+        public Builder spawnRanges(double minSpawnRange, double maxSpawnRange) {
+            this.minSpawnRange = minSpawnRange;
+            this.maxSpawnRange = maxSpawnRange;
+            return this;
+        }
+
         public SpawnMobTask build() {
             if(entities.isEmpty()) {
                 entities.add(EntityType.BAT, 1.0);
@@ -161,7 +185,7 @@ public class SpawnMobTask implements VaultEventTask {
                 amounts.add(1, 1.0);
             }
 
-            return new SpawnMobTask(entities, amounts, effects, heldStack);
+            return new SpawnMobTask(entities, amounts, effects, heldStack, minSpawnRange, maxSpawnRange);
         }
 
 

@@ -105,6 +105,7 @@
     "vaulthunters.accessors.ModifierGearTierAccessor",
     "vaulthunters.accessors.PlayerVaultAltarDataAccessor",
     "vaulthunters.accessors.ProductEntryAccessor",
+    "vaulthunters.accessors.ScheduledModifiersAccessor",
     "vaulthunters.accessors.ServerboundRoyaleSelectTrinketMessageAccessor",
     "vaulthunters.accessors.ShopEntryAccessor",
     "vaulthunters.accessors.ShopTierAccessor",
@@ -302,6 +303,7 @@
     "MixinAnvilScreen",
     "MixinItemRenderer",
     "MixinThrownTridentRenderer",
+    "bettercombat.MixinWeaponRegistry",
     "inventoryhud.MixinCuriosRenderer",
     "inventoryhud.MixinInventoryHudRenderer",
     "jei.MixinRecipesGui",
@@ -324,8 +326,7 @@
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
-    "vaulthunters.fixes.MixinUniqueCodexScreen",
-    "bettercombat.MixinWeaponRegistry"
+    "vaulthunters.fixes.MixinUniqueCodexScreen"
   ],
   "injectors": {
     "defaultRequire": 1
