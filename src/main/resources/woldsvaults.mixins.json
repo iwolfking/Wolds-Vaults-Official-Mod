@@ -20,6 +20,7 @@
     "MixinTagLoader",
     "MixinThrownTrident",
     "ThrownTridentAccessor",
+    "accessors.SheepAccessor",
     "advanced_peripherals.MixinVillagerTrades",
     "ae2.terminal.MixinAEBaseMenu",
     "ae2.terminal.MixinInventoryHotkeyAction",

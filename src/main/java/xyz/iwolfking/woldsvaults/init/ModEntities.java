@@ -10,6 +10,9 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.entities.barnyard.HostileChickenEntity;
+import xyz.iwolfking.woldsvaults.entities.barnyard.HostilePigEntity;
+import xyz.iwolfking.woldsvaults.entities.barnyard.HostileSheepEntity;
 import xyz.iwolfking.woldsvaults.entities.ghosts.*;
 import xyz.iwolfking.woldsvaults.entities.thanksgiving.CranberrySlimeEntity;
 import xyz.iwolfking.woldsvaults.entities.thanksgiving.HostileTurkeyEntity;
@@ -36,6 +39,9 @@ public class ModEntities {
     public static EntityType<VaultRangEntity> VAULT_RANG;
     public static EntityType<HostileTurkeyEntity> HOSTILE_TURKEY;
     public static EntityType<CranberrySlimeEntity> CRANBERRY_SLIME;
+    public static EntityType<HostileChickenEntity> HOSTILE_CHICKEN;
+    public static EntityType<HostileSheepEntity> HOSTILE_SHEEP;
+    public static EntityType<HostilePigEntity> HOSTILE_PIG;
 
     public static void register(RegistryEvent.Register<EntityType<?>> event) {
         WOLD = registerLiving("wold", EntityType.Builder.of(WoldBoss::new, MobCategory.MONSTER)
@@ -52,6 +58,9 @@ public class ModEntities {
         DARK_GRAY_GHOST = registerLivingWV("dark_gray_ghost", EntityType.Builder.of(DarkGrayGhost::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new DarkGrayGhost(DARK_GRAY_GHOST, level))), DarkGrayGhost::createAttributes, event);
         HOSTILE_TURKEY = registerLivingWV("hostile_turkey", EntityType.Builder.of(HostileTurkeyEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new HostileTurkeyEntity(HOSTILE_TURKEY, level))), HostileTurkeyEntity::createAttributes, event);
         CRANBERRY_SLIME = registerLivingWV("cranberry_slime", EntityType.Builder.of(CranberrySlimeEntity::new, MobCategory.MONSTER).sized(1.0F, 1.0F).clientTrackingRange(8).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new CranberrySlimeEntity(CRANBERRY_SLIME, level))), CranberrySlimeEntity::createAttributes, event);
+        HOSTILE_CHICKEN = registerLivingWV("hostile_chicken", EntityType.Builder.of(HostileChickenEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new HostileChickenEntity(HOSTILE_CHICKEN, level))), HostileChickenEntity::createAttributes, event);
+        HOSTILE_SHEEP = registerLivingWV("hostile_sheep", EntityType.Builder.of(HostileSheepEntity::new, MobCategory.MONSTER).sized(1.0F, 1.0F).clientTrackingRange(8).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new HostileSheepEntity(HOSTILE_SHEEP, level))), HostileSheepEntity::createAttributes, event);
+        HOSTILE_PIG = registerLivingWV("hostile_pig", EntityType.Builder.of(HostilePigEntity::new, MobCategory.MONSTER).sized(1.0F, 1.0F).clientTrackingRange(8).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new HostilePigEntity(HOSTILE_PIG, level))), HostilePigEntity::createAttributes, event);
         VAULT_RANG = registerWV("rang", EntityType.Builder.<VaultRangEntity>of(VaultRangEntity::new, MobCategory.MISC)
                 .sized(0.4F, 0.4F)
                 .clientTrackingRange(4)

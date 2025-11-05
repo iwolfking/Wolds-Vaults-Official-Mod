@@ -2,7 +2,10 @@ package xyz.iwolfking.woldsvaults.init.client;
 
 
 import iskallia.vault.entity.model.ModModelLayers;
+import net.minecraft.client.renderer.entity.ChickenRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.PigRenderer;
+import net.minecraft.client.renderer.entity.SheepRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -33,6 +36,9 @@ public class ModEntityRenderers {
         EntityRenderers.register(ModEntities.RED_GHOST, ctx -> new GenericWraithRenderer(ctx, WoldsVaults.id("textures/entity/red_ghost.png")));
         EntityRenderers.register(ModEntities.HOSTILE_TURKEY, HostileTurkeyRenderer::new);
         EntityRenderers.register(ModEntities.CRANBERRY_SLIME, CranberrySlimeRenderer::new);
+        EntityRenderers.register(ModEntities.HOSTILE_CHICKEN, ChickenRenderer::new);
+        EntityRenderers.register(ModEntities.HOSTILE_SHEEP, SheepRenderer::new);
+        EntityRenderers.register(ModEntities.HOSTILE_PIG, PigRenderer::new);
         EntityRenderers.register(ModEntities.VAULT_RANG, VaultRangRenderer::new);
     }
 }
