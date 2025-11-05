@@ -144,8 +144,9 @@ public class MixinGearAttributeEvents {
      */
     @Inject(method = "triggerAoEAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/damagesource/DamageSource;getEntity()Lnet/minecraft/world/entity/Entity;", shift = At.Shift.AFTER), cancellable = true, remap = true)
     private static void triggerAoEAttack(LivingHurtEvent event, CallbackInfo ci) {
-        if(ActiveFlags.IS_SMITE_ATTACKING.isSet() && !ActiveFlags.IS_SMITE_BASE_ATTACKING.isSet())
+        if((ActiveFlags.IS_SMITE_ATTACKING.isSet() && !ActiveFlags.IS_SMITE_BASE_ATTACKING.isSet()) || ActiveFlags.IS_AP_ATTACKING.isSet() || ActiveFlags.IS_THORNS_REFLECTING.isSet() || ActiveFlags.IS_REFLECT_ATTACKING.isSet()) {
             ci.cancel();
+        }
     }
 
 
