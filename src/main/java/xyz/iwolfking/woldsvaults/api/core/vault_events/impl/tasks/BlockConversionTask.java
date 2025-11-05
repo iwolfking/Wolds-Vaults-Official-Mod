@@ -23,11 +23,12 @@ public class BlockConversionTask implements VaultEventTask {
 
     private final WeightedList<BlockState> replacementBlocks;
 
-    private final int radius = 5;
+    private final int searchRadius;
 
-    public BlockConversionTask(Predicate<Block> blockPredicate, WeightedList<BlockState> replacementBlocks) {
+    public BlockConversionTask(Predicate<Block> blockPredicate, WeightedList<BlockState> replacementBlocks, int searchRadius) {
         this.blockPredicate = blockPredicate;
         this.replacementBlocks = replacementBlocks;
+        this.searchRadius = searchRadius;
     }
 
     @Override
@@ -36,9 +37,9 @@ public class BlockConversionTask implements VaultEventTask {
 
         List<BlockPos> foundBlocks = new ArrayList<>();
 
-        for (int x = -radius; x <= radius; x++) {
-            for (int y = -radius; y <= radius; y++) {
-                for (int z = -radius; z <= radius; z++) {
+        for (int x = -searchRadius; x <= searchRadius; x++) {
+            for (int y = -searchRadius; y <= searchRadius; y++) {
+                for (int z = -searchRadius; z <= searchRadius; z++) {
                     BlockPos currentPos = pos.offset(x, y, z);
                     BlockState state = level.getBlockState(currentPos);
 
@@ -71,9 +72,15 @@ public class BlockConversionTask implements VaultEventTask {
 
     public static class Builder {
         private final WeightedList<BlockState> blocks = new WeightedList<>();
+        private int searchRadius = 5;
 
         public Builder replacementBlock(BlockState state, double weight) {
             blocks.add(state, weight);
+            return this;
+        }
+
+        public Builder searchRadius(int searchRadius) {
+            this.searchRadius = searchRadius;
             return this;
         }
 
@@ -82,7 +89,7 @@ public class BlockConversionTask implements VaultEventTask {
                 blocks.add(Blocks.AIR.defaultBlockState(), 1.0);
             }
 
-            return new BlockConversionTask(blockPredicate, blocks);
+            return new BlockConversionTask(blockPredicate, blocks, searchRadius);
         }
     }
 }

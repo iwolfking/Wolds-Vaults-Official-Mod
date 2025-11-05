@@ -64,7 +64,16 @@ public class ModVaultEvents {
                                 .build()
                         )
                         .task(new DelayTask(20))
-                        .task(new BlockConversionTask.Builder().build(block -> block.equals(Blocks.BEDROCK)))
+                        .task(new BlockConversionTask.Builder()
+                                .replacementBlock(Blocks.DIRT.defaultBlockState(), 4)
+                                .replacementBlock(Blocks.ROOTED_DIRT.defaultBlockState(), 2)
+                                .replacementBlock(Blocks.STONE.defaultBlockState(), 1)
+                                .replacementBlock(Blocks.COARSE_DIRT.defaultBlockState(), 2)
+                                .replacementBlock(Blocks.ANDESITE.defaultBlockState(), 1)
+                                .replacementBlock(Blocks.PODZOL.defaultBlockState(), 2)
+                                .build(block -> block.equals(Blocks.BEDROCK)))
+                        .task(new DelayTask(10))
+                        .task(new BlockConversionTask.Builder().build(block -> block.equals(Blocks.BARRIER)))
 
                 .build("Tombstone", new TextComponent("Possible events that can occur when breaking a Tombstone.")));
     }
