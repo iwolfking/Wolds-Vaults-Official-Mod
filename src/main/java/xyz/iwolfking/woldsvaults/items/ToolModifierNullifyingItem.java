@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ToolModifierNullifyingItem extends BasicItem {
 
-    List<String> CHISELING_MODIFIER_TYPES = List.of("copiously", "reaping", "picking", "axing", "shovelling", "ornate_affinity", "coin_affinity", "gilded_affinity", "living_affinity", "wooden_affinity", "hammering", "hydrovoid", "rotating", "durability", "immortality", "mining_speed", "item_quantity", "item_rarity", "trap_disarming", "soulbound", "smelting", "pulverizing");
+    public static List<String> CHISELING_MODIFIER_TYPES = List.of("copiously", "reaping", "picking", "axing", "shovelling", "ornate_affinity", "coin_affinity", "gilded_affinity", "living_affinity", "wooden_affinity", "hammering", "hydrovoid", "rotating", "durability", "immortality", "mining_speed", "item_quantity", "item_rarity", "trap_disarming", "soulbound", "smelting", "pulverizing");
 
 
     public ToolModifierNullifyingItem(ResourceLocation id, Properties properties) {

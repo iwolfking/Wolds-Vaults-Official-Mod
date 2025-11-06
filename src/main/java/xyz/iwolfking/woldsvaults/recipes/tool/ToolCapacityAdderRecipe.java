@@ -77,7 +77,7 @@ public class ToolCapacityAdderRecipe extends VanillaAnvilRecipe {
         IVanillaRecipeFactory factory = registry.getVanillaRecipeFactory();
         List<ItemStack> inputs = new ArrayList<>();
         List<ItemStack> outputs = new ArrayList<>();
-        List<ItemStack> secondary = List.of(new ItemStack(ModItems.RESONATING_REINFORCEMENT), new ItemStack(ModItems.CRYSTAL_REINFORCEMENT));
+        List<ItemStack> secondary = List.of(new ItemStack(ModItems.RESONATING_REINFORCEMENT));
 
         for(ToolMaterial material : ToolMaterial.values()) {
             for(ToolType type : ToolType.values()) {
