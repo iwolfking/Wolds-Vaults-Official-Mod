@@ -22,6 +22,7 @@ import net.minecraftforge.fml.loading.LoadingModList;
 import org.slf4j.Logger;
 import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
+import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.api.vhapi.loaders.WoldDataLoaders;
 import xyz.iwolfking.woldsvaults.client.init.ModParticles;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
@@ -87,6 +88,7 @@ public class WoldsVaults {
         ModVaultFilterAttributes.initAttributes();
         ModGameRules.initialize();
         NetworkHandler.onCommonSetup();
+        DelayedExecutionHelper.init();
         CrystalData.OBJECTIVE.register("brb_speedrun", SpeedrunCrystalObjective.class, SpeedrunCrystalObjective::new);
         BETTER_COMBAT_PRESENT = LoadingModList.get().getModFileById("bettercombat") != null;
     }
