@@ -42,5 +42,6 @@ public class MixinVaultModifierTypeRegistry {
         MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/player_stat_settable"), VaultModifierType.of(PlayerAttributeModifierSettable.class, PlayerAttributeModifierSettable.Properties.class, PlayerAttributeModifierSettable::new));
         MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/entity_effect_settable"), VaultModifierType.of(MobEffectModifierSettable.class, MobEffectModifierSettable.Properties.class, MobEffectModifierSettable::new));
         MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/greedy"), VaultModifierType.of(GreedyVaultModifier.class, GreedyVaultModifier.Properties.class, GreedyVaultModifier::new));
+        MODIFIER_TYPE_REGISTRY.put(VaultMod.id("modifier_type/champion_loot_chance"), VaultModifierType.of(ChampionDropsVaultModifier.class, ChampionDropsVaultModifier.Properties.class, ChampionDropsVaultModifier::new));
     }
 }

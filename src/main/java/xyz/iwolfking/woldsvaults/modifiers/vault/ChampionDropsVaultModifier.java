@@ -15,21 +15,6 @@ public class ChampionDropsVaultModifier extends VaultModifier<ChampionDropsVault
         this.setDescriptionFormatter((t, p, s) -> t.formatted((int)(p.getAddend() * s * 100.0F)));
     }
 
-    @Override
-    public void onListenerAdd(VirtualWorld world, Vault vault, ModifierContext context, Listener listener) {
-        if (!context.hasTarget() || context.getTarget().equals(listener.getId())) {
-            vault.getOptional(Vault.STATS)
-                    .map(stats -> stats.get(listener))
-                    .ifPresent(
-                            stats -> {
-                                stats.modify(StatCollector.OBJECTIVE_EXP_MULTIPLIER, exp -> exp * this.properties.getAddend());
-                                stats.modify(StatCollector.BONUS_EXP_MULTIPLIER, exp -> exp * this.properties.getAddend());
-                            }
-                    );
-        }
-    }
-
-
     public static class Properties {
         @Expose
         private final float addend;
