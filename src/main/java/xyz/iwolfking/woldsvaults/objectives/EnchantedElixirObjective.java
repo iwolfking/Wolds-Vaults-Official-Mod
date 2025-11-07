@@ -14,6 +14,7 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.util.NormalizedHelper;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
@@ -160,13 +161,13 @@ public class EnchantedElixirObjective extends ElixirObjective {
 
     private void triggerRandomEvent(ServerPlayer objPlayer, Vault vault) {
         if(EnchantedEventsRegistry.getEvents().getRandom().isPresent()) {
-            EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(objPlayer.getOnPos(), objPlayer, vault);
+            EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(objPlayer.getOnPos(), objPlayer, vault, true, VaultEvent.EventDisplayType.LEGACY);
         }
     }
 
     private void triggerOmegaRandomEvent(ServerPlayer objPlayer, Vault vault) {
         if(EnchantedEventsRegistry.getEvents().getRandom().isPresent()) {
-            EnchantedEventsRegistry.getOmegaEvents().getRandom().get().triggerEvent(objPlayer.getOnPos(), objPlayer, vault);
+            EnchantedEventsRegistry.getOmegaEvents().getRandom().get().triggerEvent(objPlayer.getOnPos(), objPlayer, vault, true, VaultEvent.EventDisplayType.LEGACY);
         }
     }
 

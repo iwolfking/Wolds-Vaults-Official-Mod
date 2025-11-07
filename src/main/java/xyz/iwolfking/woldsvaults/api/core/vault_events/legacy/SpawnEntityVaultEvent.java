@@ -64,10 +64,6 @@ public class SpawnEntityVaultEvent extends LegacyVaultEvent {
             doSpawn((VirtualWorld) player.level, pos, javaRandom);
         }
 
-        if(this.getEventName().equals("La Cucaracha")) {
-            EnchantedEventsRegistry.LA_CUCARACHA_RANDOM_EVENT.triggerEvent(pos, player, vault);
-        }
-
         super.triggerEvent(pos, player, vault);
     }
 

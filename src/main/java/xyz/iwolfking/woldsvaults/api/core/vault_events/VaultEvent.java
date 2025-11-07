@@ -36,14 +36,24 @@ public class VaultEvent {
         this.eventTasks = eventTasks;
     }
 
-    public void triggerEvent(BlockPos pos, ServerPlayer player, Vault vault) {
-        sendEventMessages(vault, player);
+    public void triggerEvent(BlockPos pos, ServerPlayer player, Vault vault, boolean shouldCascade, EventDisplayType displayOverride) {
+        if(displayOverride != null) {
+            sendEventMessages(vault, player, displayOverride);
+        }
+        else {
+            sendEventMessages(vault, player);
+        }
 
-        if(eventTags.contains(EventTag.CASCADE)) {
+
+        if(shouldCascade) {
             cascadeEvent(vault, player);
         }
 
         DelayedSequenceHandler.startSequence(eventTasks, pos, player, vault);
+    }
+
+    public void triggerEvent(BlockPos pos, ServerPlayer player, Vault vault) {
+        triggerEvent(pos, player, vault, false, null);
     }
 
     public void cascadeEvent(Vault vault, ServerPlayer originator) {
@@ -88,6 +98,18 @@ public class VaultEvent {
         cascadeMessage.append(eventName).withStyle(Style.EMPTY.withColor(nameColor)).withStyle(getHoverDescription());
         cascadeMessage.append(" event has cascaded onto you!").withStyle(ChatFormatting.GRAY);
         return cascadeMessage;
+    }
+
+    public void sendEventMessages(Vault vault, ServerPlayer originator, EventDisplayType type) {
+        switch (type) {
+            case NONE -> {
+                return;
+            }
+            case ACTION_BAR -> handleActionBarMessage(originator);
+            case CHAT_MESSAGE_TARGET -> handleChatMessage(originator, vault, false);
+            case CHAT_MESSAGE_ALL -> handleChatMessage(originator, vault, true);
+            default -> handleLegacyEventMessage(originator, vault);
+        }
     }
 
     public void sendEventMessages(Vault vault, ServerPlayer originator) {

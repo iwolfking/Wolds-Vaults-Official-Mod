@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 public class VaultEventSystem {
     private static final HashMap<ResourceLocation, VaultEvent> VAULT_EVENT_REGISTRY = new HashMap<>();
 
-    public static void register(ResourceLocation id, VaultEvent event) {
+    public static VaultEvent register(ResourceLocation id, VaultEvent event) {
         VAULT_EVENT_REGISTRY.put(id, event);
+        return event;
     }
 
     public static void triggerEvent(ResourceLocation id, BlockPos pos, ServerPlayer player, Vault vault) {

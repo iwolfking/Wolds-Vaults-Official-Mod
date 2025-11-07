@@ -16,7 +16,7 @@ public class EnchantedElixirEventLoader extends VaultConfigProcessor<EnchantedEl
     public void afterConfigsLoad(VaultConfigEvent.End event) {
         for(EnchantedElixirEventConfig config : CUSTOM_CONFIGS.values()) {
             for (WeightedList.Entry<VaultModifierVaultEvent> modifierEnchantedEventEntry : config.MODIFIER_ENCHANTED_EVENTS) {
-                EnchantedEventsRegistry.register(modifierEnchantedEventEntry.value, ((double)modifierEnchantedEventEntry.weight), modifierEnchantedEventEntry.value.isOmega, modifierEnchantedEventEntry.value.isPositive);
+                //EnchantedEventsRegistry.register(modifierEnchantedEventEntry.value, ((double)modifierEnchantedEventEntry.weight), modifierEnchantedEventEntry.value.isOmega, modifierEnchantedEventEntry.value.isPositive);
             }
         }
         this.CUSTOM_CONFIGS.clear();

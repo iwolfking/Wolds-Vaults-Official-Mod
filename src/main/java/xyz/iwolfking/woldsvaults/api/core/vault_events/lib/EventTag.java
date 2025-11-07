@@ -5,5 +5,7 @@ public enum EventTag {
     NEGATIVE,
     OMEGA,
     CASCADE,
+    SPAWN_MOB,
+    ADDS_MODIFIER,
     TOMBSTONE
 }

@@ -1,12 +1,28 @@
 package xyz.iwolfking.woldsvaults.objectives.data.builtin.events;
 
 import com.cursedcauldron.wildbackport.common.registry.WBMobEffects;
+import com.github.alexthe668.cloudstorage.entity.CSEntityRegistry;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.effect.MobEffect;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.tasks.PlayerMobEffectTask;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.tasks.SpawnMobTask;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.legacy.PotionEffectVaultEvent;
 
 public class WildBackportEvents {
-    public static final PotionEffectVaultEvent DARKNESS_EVENT = new PotionEffectVaultEvent("Lights Out", "Who turned out the lights!?", "#1a1a00", WBMobEffects.DARKNESS.get(), 600, 200);
     public static void init() {
-        EnchantedEventsRegistry.register(DARKNESS_EVENT, 14.0, false, false);
+        EnchantedEventsRegistry.register(WoldsVaults.id("lights_out"), new VaultEvent.Builder()
+                .tag(EventTag.NEGATIVE)
+                .color(TextColor.parseColor("#1a1a00"))
+                .displayType(VaultEvent.EventDisplayType.LEGACY)
+                .task(new PlayerMobEffectTask.Builder()
+                        .effect(WBMobEffects.DARKNESS.get(), 200, 600)
+                        .build()
+                )
+                .build("Lights Out", new TextComponent("Who turned out the lights!?")), 6.0);
     }
 }
