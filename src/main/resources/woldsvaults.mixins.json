@@ -145,6 +145,7 @@
     "vaulthunters.custom.MixinBottleItem",
     "vaulthunters.custom.MixinCatalystAnvilRecipe",
     "vaulthunters.custom.MixinCatalystForgeRecipe",
+    "vaulthunters.custom.MixinChampionLogic",
     "vaulthunters.custom.MixinCharmAnvilRecipe",
     "vaulthunters.custom.MixinCharmItem",
     "vaulthunters.custom.MixinClassicListenersLogic",

@@ -49,5 +49,13 @@ public abstract class MixinAbilityLabelFactory {
                 "radiusMultiplier",
                 context -> label("\n Radius Multiplier: ",binding(context.config(), "radiusMultiplier"),"areaOfEffect")
         );
+        FACTORY_MAP.put(
+                "amplitudeScaleChance",
+                context -> label("\n Amplitude Scale Chance: ",binding(context.config(), "amplitudeScaleChance"),"resistance")
+        );
+        FACTORY_MAP.put(
+                "baseAmplitude",
+                context -> label("\n Base Amplitude: ",binding(context.config(), "baseAmplitude"),"force")
+        );
     }
 }

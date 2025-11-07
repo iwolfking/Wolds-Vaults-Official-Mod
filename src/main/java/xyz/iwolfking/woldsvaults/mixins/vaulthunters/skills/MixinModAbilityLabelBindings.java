@@ -69,7 +69,11 @@ public abstract class MixinModAbilityLabelBindings {
         ModAbilityLabelBindings.register(ConcentrateAbility.class, Map.of(
                 "radius",
                 ability -> AbilityLabelFormatters.decimal(ability.getRadius()),
+                "adjustedRadius",
+                ability -> AbilityLabelFormatters.decimal(ability.getRadius()),
                 "baseEffectDuration",
+                ability -> AbilityLabelFormatters.ticks(ability.getBaseEffectDuration()),
+                "adjustedDuration",
                 ability -> AbilityLabelFormatters.ticks(ability.getBaseEffectDuration()),
                 "baseAmplitude",
                 ability -> AbilityLabelFormatters.integer(ability.getBaseAmplitude()),

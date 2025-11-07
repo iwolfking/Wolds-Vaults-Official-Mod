@@ -8,6 +8,8 @@ import iskallia.vault.core.net.BitBuffer;
 import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
 import iskallia.vault.skill.base.SkillContext;
+import iskallia.vault.util.calc.AreaOfEffectHelper;
+import iskallia.vault.util.calc.EffectDurationHelper;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -64,7 +66,7 @@ public class ConcentrateAbility extends InstantManaAbility {
 
             List<LivingEntity> entities = level.getEntitiesOfClass(
                     LivingEntity.class,
-                    serverPlayer.getBoundingBox().inflate(radius),
+                    serverPlayer.getBoundingBox().inflate(AreaOfEffectHelper.adjustAreaOfEffect(serverPlayer, this, (float)getRadius())),
                     e -> !(e instanceof ServerPlayer || e instanceof PetEntity)
             );
 
@@ -112,7 +114,7 @@ public class ConcentrateAbility extends InstantManaAbility {
 
                         serverPlayer.forceAddEffect(new MobEffectInstance(
                                 effect,
-                                currentEffectInstance.getDuration() + baseEffectDuration,
+                                currentEffectInstance.getDuration() + (int)EffectDurationHelper.adjustEffectDuration(serverPlayer, baseEffectDuration),
                                 currentAmp,
                                 false,
                                 true
@@ -120,7 +122,7 @@ public class ConcentrateAbility extends InstantManaAbility {
                     } else {
                         serverPlayer.addEffect(new MobEffectInstance(
                                 effect,
-                                baseEffectDuration,
+                                (int) EffectDurationHelper.adjustEffectDuration(serverPlayer, baseEffectDuration),
                                 baseAmplitude,
                                 false,
                                 true
