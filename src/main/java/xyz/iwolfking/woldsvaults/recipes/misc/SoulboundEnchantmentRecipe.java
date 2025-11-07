@@ -7,6 +7,8 @@ import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.init.ModItems;
+import iskallia.vault.item.AntiqueStampCollectorBook;
+import iskallia.vault.item.CompassItem;
 import iskallia.vault.item.ItemShardPouch;
 import iskallia.vault.item.crystal.recipe.AnvilContext;
 import iskallia.vault.item.crystal.recipe.VanillaAnvilRecipe;
@@ -14,9 +16,11 @@ import iskallia.vault.item.tool.JewelItem;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +30,7 @@ public class SoulboundEnchantmentRecipe extends VanillaAnvilRecipe {
         ItemStack primary = anvilContext.getInput()[0];
         ItemStack secondary = anvilContext.getInput()[1];
 
-        if(primary.getItem() instanceof ItemShardPouch && secondary.getItem() instanceof JewelItem) {
+        if(isValidItem(primary.getItem()) && secondary.getItem() instanceof JewelItem) {
             VaultGearData jewelData = VaultGearData.read(secondary);
             if(jewelData.hasAttribute(ModGearAttributes.SOULBOUND)) {
                 ItemStack output = primary.copy();
@@ -48,15 +52,24 @@ public class SoulboundEnchantmentRecipe extends VanillaAnvilRecipe {
     public void onRegisterJEI(IRecipeRegistration registry) {
         IVanillaRecipeFactory factory = registry.getVanillaRecipeFactory();
 
-        ItemStack input = new ItemStack(ModItems.SHARD_POUCH);
+        List<ItemStack> inputs = List.of(new ItemStack(ModItems.SHARD_POUCH), new ItemStack(ModItems.VAULT_COMPASS), new ItemStack(ModItems.ANTIQUE_COLLECTOR_BOOK));
+        List<ItemStack> outputs = new ArrayList<>();
         ItemStack secondary = JewelItem.create((vaultGearData -> {
             vaultGearData.setRarity(VaultGearRarity.SCRAPPY);
             vaultGearData.setState(VaultGearState.IDENTIFIED);
             vaultGearData.addModifier(VaultGearModifier.AffixType.SUFFIX, new VaultGearModifier<>(ModGearAttributes.SOULBOUND, true));
             vaultGearData.addModifier(VaultGearModifier.AffixType.IMPLICIT, new VaultGearModifier<>(ModGearAttributes.JEWEL_SIZE, 10));
         }));
-        ItemStack output = input.copy();
-        EnchantmentHelper.setEnchantments(Map.of(EnsorcEnchantments.SOULBOUND.get(), 1), output);
-        registry.addRecipes(RecipeTypes.ANVIL, List.of(factory.createAnvilRecipe(List.of(input), List.of(secondary), List.of(output))));
+
+        for(ItemStack input : inputs) {
+            ItemStack output = input.copy();
+            EnchantmentHelper.setEnchantments(Map.of(EnsorcEnchantments.SOULBOUND.get(), 1), output);
+            outputs.add(output);
+        }
+        registry.addRecipes(RecipeTypes.ANVIL, List.of(factory.createAnvilRecipe(inputs, List.of(secondary), outputs)));
+    }
+
+    public boolean isValidItem(Item item) {
+        return item instanceof ItemShardPouch || item instanceof CompassItem || item instanceof AntiqueStampCollectorBook;
     }
 }
