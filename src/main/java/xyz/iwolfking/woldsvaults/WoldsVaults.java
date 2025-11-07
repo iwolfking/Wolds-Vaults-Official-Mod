@@ -31,6 +31,7 @@ import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.data.recipes.CachedInfuserRecipeData;
 import xyz.iwolfking.woldsvaults.events.LivingEntityEvents;
 import xyz.iwolfking.woldsvaults.events.RegisterCommandEventHandler;
+import xyz.iwolfking.woldsvaults.events.ServerKiller;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
@@ -100,6 +101,9 @@ public class WoldsVaults {
         EnchantedEventsRegistry.addEvents();
         ModVaultEvents.init();
         BrutalBossesRegistry.init();
+        if(WoldsVaultsConfig.SERVER.enableServerKiller.get()) {
+            ServerKiller.register();
+        }
     }
 
     public void onLevelLoad(WorldEvent.Load event) {

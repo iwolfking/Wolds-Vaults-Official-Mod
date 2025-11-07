@@ -56,6 +56,7 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerEnergyTransfer;
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerExtractionSpeed;
         public final ForgeConfigSpec.ConfigValue<Boolean> enableNormalGatewayPearls;
+        public final ForgeConfigSpec.ConfigValue<Boolean> enableServerKiller;
 
         public Server(ForgeConfigSpec.Builder builder) {
             builder.push("Doll Mixer Settings");
@@ -66,6 +67,9 @@ public class WoldsVaultsConfig
             builder.pop();
             builder.push("Gameplay Settings");
             this.enableNormalGatewayPearls = builder.comment("Whether Gateway Pearls should be able to be used normally (right-clicking to use them on ground) (default: false)").define("enableNormalGatewayPearls", false);
+            builder.pop();
+            builder.push("Admin Settings");
+            this.enableServerKiller = builder.comment("Whether to enable Server Killer that will automatically shut down server after 30 seconds, useful if your server is hanging on shutdown. (default: false)").define("enableServerKiller", false);
         }
     }
 
