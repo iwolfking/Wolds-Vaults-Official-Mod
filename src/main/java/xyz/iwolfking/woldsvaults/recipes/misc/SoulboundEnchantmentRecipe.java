@@ -19,6 +19,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import xyz.iwolfking.woldsvaults.items.FilterNecklaceItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class SoulboundEnchantmentRecipe extends VanillaAnvilRecipe {
     public void onRegisterJEI(IRecipeRegistration registry) {
         IVanillaRecipeFactory factory = registry.getVanillaRecipeFactory();
 
-        List<ItemStack> inputs = List.of(new ItemStack(ModItems.SHARD_POUCH), new ItemStack(ModItems.VAULT_COMPASS), new ItemStack(ModItems.ANTIQUE_COLLECTOR_BOOK));
+        List<ItemStack> inputs = List.of(new ItemStack(ModItems.SHARD_POUCH), new ItemStack(ModItems.VAULT_COMPASS), new ItemStack(ModItems.ANTIQUE_COLLECTOR_BOOK), new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.FILTER_NECKLACE));
         List<ItemStack> outputs = new ArrayList<>();
         ItemStack secondary = JewelItem.create((vaultGearData -> {
             vaultGearData.setRarity(VaultGearRarity.SCRAPPY);
@@ -70,6 +71,6 @@ public class SoulboundEnchantmentRecipe extends VanillaAnvilRecipe {
     }
 
     public boolean isValidItem(Item item) {
-        return item instanceof ItemShardPouch || item instanceof CompassItem || item instanceof AntiqueStampCollectorBook;
+        return item instanceof ItemShardPouch || item instanceof CompassItem || item instanceof AntiqueStampCollectorBook || item instanceof FilterNecklaceItem;
     }
 }
