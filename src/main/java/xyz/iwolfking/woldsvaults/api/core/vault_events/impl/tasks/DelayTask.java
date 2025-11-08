@@ -8,6 +8,8 @@ import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
+import java.util.function.Supplier;
+
 public class DelayTask implements VaultEventTask {
     private final int delay;
 
@@ -16,7 +18,7 @@ public class DelayTask implements VaultEventTask {
     }
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         WoldsVaults.LOGGER.debug("Delaying Vault Task for {} ticks", delay);
     }
 

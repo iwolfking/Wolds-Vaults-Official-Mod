@@ -200,6 +200,7 @@ dependencies {
     implementation fg.deobf("curse.maven:parcool-482378:6189392") // trinket
     implementation fg.deobf('curse.maven:ecologics-570463:4171283') // enchanted event
     implementation fg.deobf("curse.maven:thermal-foundation-222880:4788649") // enchanted event
+    implementation fg.deobf("curse.maven:thermal-expansion-69163:4782927") //enchanted event
     implementation fg.deobf('curse.maven:cofh-core-69162:4801048') // enchanted event
     implementation fg.deobf("curse.maven:vault-filters-952507:6927578") // new attributes
     implementation fg.deobf("curse.maven:black-market-tweaks-1168437:6880977") // hopper support and expertise

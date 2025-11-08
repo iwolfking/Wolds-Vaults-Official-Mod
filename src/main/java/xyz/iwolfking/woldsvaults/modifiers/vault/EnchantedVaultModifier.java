@@ -37,7 +37,7 @@ public class EnchantedVaultModifier extends VaultModifier<EnchantedVaultModifier
 
                 if(event.player.getRandom().nextDouble() < this.properties.getChance()) {
                     if(EnchantedEventsRegistry.getEvents().getRandom().isPresent()) {
-                        EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(event.player.getOnPos(), (ServerPlayer) event.player, vault, false, VaultEvent.EventDisplayType.LEGACY);
+                        EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(event.player::getOnPos, (ServerPlayer) event.player, vault, false, VaultEvent.EventDisplayType.LEGACY);
                     }
                 }
             }

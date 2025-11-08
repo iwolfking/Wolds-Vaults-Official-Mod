@@ -3,9 +3,8 @@ package xyz.iwolfking.woldsvaults.api.vhapi.loaders.objectives.enchanted_elixir;
 import iskallia.vault.util.data.WeightedList;
 import xyz.iwolfking.vhapi.api.events.VaultConfigEvent;
 import xyz.iwolfking.vhapi.api.loaders.lib.core.VaultConfigProcessor;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.vhapi.loaders.objectives.enchanted_elixir.config.EnchantedElixirEventConfig;
-import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.legacy.VaultModifierVaultEvent;
 
 public class EnchantedElixirEventLoader extends VaultConfigProcessor<EnchantedElixirEventConfig> {
     public EnchantedElixirEventLoader() {
@@ -15,7 +14,7 @@ public class EnchantedElixirEventLoader extends VaultConfigProcessor<EnchantedEl
     @Override
     public void afterConfigsLoad(VaultConfigEvent.End event) {
         for(EnchantedElixirEventConfig config : CUSTOM_CONFIGS.values()) {
-            for (WeightedList.Entry<VaultModifierVaultEvent> modifierEnchantedEventEntry : config.MODIFIER_ENCHANTED_EVENTS) {
+            for (WeightedList.Entry<VaultEvent> modifierEnchantedEventEntry : config.MODIFIER_ENCHANTED_EVENTS) {
                 //EnchantedEventsRegistry.register(modifierEnchantedEventEntry.value, ((double)modifierEnchantedEventEntry.weight), modifierEnchantedEventEntry.value.isOmega, modifierEnchantedEventEntry.value.isPositive);
             }
         }

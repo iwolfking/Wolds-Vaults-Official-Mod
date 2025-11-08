@@ -7,6 +7,7 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class TaskGroup implements VaultEventTask {
 
@@ -18,7 +19,7 @@ public class TaskGroup implements VaultEventTask {
 
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         for(VaultEventTask task : tasks) {
             task.performTask(pos, player, vault);
         }

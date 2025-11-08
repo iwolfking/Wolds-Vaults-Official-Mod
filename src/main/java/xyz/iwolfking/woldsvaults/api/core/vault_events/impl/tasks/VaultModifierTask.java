@@ -7,6 +7,8 @@ import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
+import java.util.function.Supplier;
+
 public class VaultModifierTask implements VaultEventTask {
 
     protected final ResourceLocation modifierId;
@@ -27,7 +29,7 @@ public class VaultModifierTask implements VaultEventTask {
 
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         if(duration > 0) {
             VaultModifierUtils.addTimedModifier(vault, modifierId, count, duration, player);
         }

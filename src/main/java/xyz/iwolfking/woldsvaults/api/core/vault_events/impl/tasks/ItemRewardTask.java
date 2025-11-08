@@ -11,6 +11,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
+import java.util.function.Supplier;
+
 public class ItemRewardTask implements VaultEventTask {
 
     private final WeightedList<ItemStack> items;
@@ -20,7 +22,7 @@ public class ItemRewardTask implements VaultEventTask {
     }
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         items.getRandom().ifPresent(player::addItem);
     }
 

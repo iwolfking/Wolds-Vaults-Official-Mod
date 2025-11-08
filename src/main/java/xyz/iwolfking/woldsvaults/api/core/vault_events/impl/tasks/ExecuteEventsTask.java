@@ -20,7 +20,7 @@ public class ExecuteEventsTask implements VaultEventTask {
     }
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         for(int i = 0; i < count; i++) {
             events.get().getRandom().ifPresent(vaultEvent -> vaultEvent.triggerEvent(pos, player, vault));
         }

@@ -13,6 +13,7 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class VaultEvent {
 
@@ -36,7 +37,7 @@ public class VaultEvent {
         this.eventTasks = eventTasks;
     }
 
-    public void triggerEvent(BlockPos pos, ServerPlayer player, Vault vault, boolean shouldCascade, EventDisplayType displayOverride) {
+    public void triggerEvent(Supplier<BlockPos> pos, ServerPlayer player, Vault vault, boolean shouldCascade, EventDisplayType displayOverride) {
         if(displayOverride != null) {
             sendEventMessages(vault, player, displayOverride);
         }
@@ -52,7 +53,7 @@ public class VaultEvent {
         DelayedSequenceHandler.startSequence(eventTasks, pos, player, vault);
     }
 
-    public void triggerEvent(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void triggerEvent(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         triggerEvent(pos, player, vault, false, null);
     }
 
@@ -70,7 +71,7 @@ public class VaultEvent {
                     other.displayClientMessage(getCascadingEventMessage(originator), false);
                     cascadingValue = cascadingValue+3;
 
-                    EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(other.getOnPos(), other, vault);
+                    EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(other::getOnPos, other, vault);
 
 
                 });

@@ -161,13 +161,13 @@ public class EnchantedElixirObjective extends ElixirObjective {
 
     private void triggerRandomEvent(ServerPlayer objPlayer, Vault vault) {
         if(EnchantedEventsRegistry.getEvents().getRandom().isPresent()) {
-            EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(objPlayer.getOnPos(), objPlayer, vault, true, VaultEvent.EventDisplayType.LEGACY);
+            EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(objPlayer::getOnPos, objPlayer, vault, true, VaultEvent.EventDisplayType.LEGACY);
         }
     }
 
     private void triggerOmegaRandomEvent(ServerPlayer objPlayer, Vault vault) {
         if(EnchantedEventsRegistry.getEvents().getRandom().isPresent()) {
-            EnchantedEventsRegistry.getOmegaEvents().getRandom().get().triggerEvent(objPlayer.getOnPos(), objPlayer, vault, true, VaultEvent.EventDisplayType.LEGACY);
+            EnchantedEventsRegistry.getOmegaEvents().getRandom().get().triggerEvent(objPlayer::getOnPos, objPlayer, vault, true, VaultEvent.EventDisplayType.LEGACY);
         }
     }
 

@@ -16,6 +16,7 @@ import xyz.iwolfking.woldsvaults.api.util.ref.Effect;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class PlayerMobEffectTask implements VaultEventTask {
 
@@ -28,7 +29,7 @@ public class PlayerMobEffectTask implements VaultEventTask {
 
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         for(Effect effect : effects) {
             effect.apply(player);
         }

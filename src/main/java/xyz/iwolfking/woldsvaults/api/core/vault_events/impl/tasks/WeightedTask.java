@@ -10,6 +10,7 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class WeightedTask implements VaultEventTask {
 
@@ -21,7 +22,7 @@ public class WeightedTask implements VaultEventTask {
 
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         tasks.getRandom().ifPresent(vaultEventTask -> vaultEventTask.performTask(pos, player, vault));
     }
 

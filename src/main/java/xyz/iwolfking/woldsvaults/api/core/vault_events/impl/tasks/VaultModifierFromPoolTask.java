@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class VaultModifierFromPoolTask implements VaultEventTask {
 
@@ -23,7 +24,7 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
 
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         VaultModifierUtils.addModifierFromPool(vault, modifierPoolId);
     }
 }

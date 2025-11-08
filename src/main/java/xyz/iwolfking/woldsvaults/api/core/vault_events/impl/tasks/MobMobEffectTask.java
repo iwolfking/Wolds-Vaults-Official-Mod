@@ -14,6 +14,7 @@ import xyz.iwolfking.woldsvaults.api.util.ref.Effect;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public class MobMobEffectTask implements VaultEventTask {
 
@@ -33,7 +34,7 @@ public class MobMobEffectTask implements VaultEventTask {
     }
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         List<LivingEntity> nearbyEntities = player.level.getEntitiesOfClass(LivingEntity.class, Objects.requireNonNull(player).getBoundingBox().inflate(effectRadius));
 
         nearbyEntities.forEach(livingEntity -> {

@@ -9,10 +9,11 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
 import java.util.Iterator;
 import java.util.Random;
+import java.util.function.Supplier;
 
 public class PlayerSwapTask implements VaultEventTask {
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         Random random = new Random();
 
         Iterator<Listener> playerIterator = vault.get(Vault.LISTENERS).getAll().iterator();
@@ -26,11 +27,11 @@ public class PlayerSwapTask implements VaultEventTask {
             else {
                 if(playerIterator.hasNext()) {
                     if(random.nextBoolean()) {
-                        teleSwap(pos, player, target);
+                        teleSwap(pos.get(), player, target);
                     }
                 }
                 else {
-                    teleSwap(pos, player, target);
+                    teleSwap(pos.get(), player, target);
                 }
             }
         }

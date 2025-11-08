@@ -6,6 +6,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Explosion;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
+import java.util.function.Supplier;
+
 public class ExplosionTask implements VaultEventTask {
 
     private final float explosionRadius;
@@ -19,7 +21,7 @@ public class ExplosionTask implements VaultEventTask {
     }
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
-        player.getLevel().explode(null, pos.getX(), pos.getY(), pos.getZ(), explosionRadius, causesFire, blockInteractionType);
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
+        player.getLevel().explode(null, pos.get().getX(), pos.get().getY(), pos.get().getZ(), explosionRadius, causesFire, blockInteractionType);
     }
 }

@@ -20,6 +20,6 @@ public class Effect {
     }
 
     public MobEffectInstance getInstance() {
-        return new MobEffectInstance(new MobEffectInstance(this.effect, this.amplitude, this.duration));
+        return new MobEffectInstance(this.effect, this.duration, this.amplitude);
     }
 }

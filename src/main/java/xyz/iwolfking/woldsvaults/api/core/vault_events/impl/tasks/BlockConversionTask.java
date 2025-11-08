@@ -16,6 +16,7 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class BlockConversionTask implements VaultEventTask {
 
@@ -32,7 +33,7 @@ public class BlockConversionTask implements VaultEventTask {
     }
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         ServerLevel level = player.getLevel();
 
         List<BlockPos> foundBlocks = new ArrayList<>();
@@ -40,7 +41,7 @@ public class BlockConversionTask implements VaultEventTask {
         for (int x = -searchRadius; x <= searchRadius; x++) {
             for (int y = -searchRadius; y <= searchRadius; y++) {
                 for (int z = -searchRadius; z <= searchRadius; z++) {
-                    BlockPos currentPos = pos.offset(x, y, z);
+                    BlockPos currentPos = pos.get().offset(x, y, z);
                     BlockState state = level.getBlockState(currentPos);
 
                     if (blockPredicate.test(state.getBlock())) {

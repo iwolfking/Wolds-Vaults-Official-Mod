@@ -10,6 +10,8 @@ import net.minecraft.sounds.SoundSource;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
+import java.util.function.Supplier;
+
 public class PlaySoundTask implements VaultEventTask {
 
     private final SoundEvent sound;
@@ -41,7 +43,7 @@ public class PlaySoundTask implements VaultEventTask {
 
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
-        player.getLevel().playSound(null, pos, sound, source, volume, pitch);
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
+        player.getLevel().playSound(null, pos.get(), sound, source, volume, pitch);
     }
 }

@@ -20,6 +20,7 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import xyz.iwolfking.woldsvaults.api.util.ref.Effect;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class SpawnMobTask implements VaultEventTask {
 
@@ -53,18 +54,18 @@ public class SpawnMobTask implements VaultEventTask {
     }
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         JavaRandom javaRandom = JavaRandom.ofNanoTime();
         for(int i = 0; i < amounts.getRandom().get(); i++) {
-            doSpawn((VirtualWorld) player.level, pos, javaRandom);
+            doSpawn((VirtualWorld) player.level, pos.get(), javaRandom);
         }
     }
 
-    public LivingEntity doSpawn(VirtualWorld world, BlockPos pos, RandomSource random) {
+    public Entity doSpawn(VirtualWorld world, BlockPos pos, RandomSource random) {
         double min = minSpawnRange;
         double max = maxSpawnRange;
 
-        LivingEntity spawned = null;
+        Entity spawned = null;
         int attempts = 0;
         int maxAttempts = 50; // stop after 50 tries
 
@@ -88,7 +89,7 @@ public class SpawnMobTask implements VaultEventTask {
     }
 
     @Nullable
-    public LivingEntity spawnMob(VirtualWorld world, int x, int y, int z, RandomSource random) {
+    public Entity spawnMob(VirtualWorld world, int x, int y, int z, RandomSource random) {
         Entity entity;
         EntityType<?> type = null;
         if(entities.getRandom().isPresent()) {
@@ -126,14 +127,18 @@ public class SpawnMobTask implements VaultEventTask {
         if(!effects.isEmpty()) {
             effects.forEach((mobEffectInstance, aDouble) -> {
                 if(entity instanceof LivingEntity livingEntity) {
+                    System.out.println("Applying effect!");
                     mobEffectInstance.apply(livingEntity);
+                }
+                else {
+                    System.out.println("NOT A LIVING ENTITY");
                 }
             });
         }
 
         world.addWithUUID(entity);
 
-        return (LivingEntity) entity;
+        return entity;
 
     }
 

@@ -11,6 +11,8 @@ import net.minecraft.sounds.SoundSource;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
+import java.util.function.Supplier;
+
 public class MessageTask implements VaultEventTask {
 
     private final VaultEvent.EventDisplayType displayType;
@@ -23,7 +25,7 @@ public class MessageTask implements VaultEventTask {
 
 
     @Override
-    public void performTask(BlockPos pos, ServerPlayer player, Vault vault) {
+    public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         sendEventMessages(vault, player);
     }
     public void sendEventMessages(Vault vault, ServerPlayer originator) {
