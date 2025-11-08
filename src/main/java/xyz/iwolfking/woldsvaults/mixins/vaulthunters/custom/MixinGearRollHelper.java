@@ -10,9 +10,7 @@ import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.modification.GearModification;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
-import iskallia.vault.item.gear.CharmItem;
-import iskallia.vault.item.gear.EtchingItem;
-import iskallia.vault.item.gear.VaultArmorItem;
+import iskallia.vault.item.gear.*;
 import iskallia.vault.item.tool.JewelItem;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.ExpertiseTree;
@@ -63,7 +61,7 @@ public class MixinGearRollHelper {
     @Inject(method = "initializeGear(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/VaultGearModifierHelper;generateModifiers(Lnet/minecraft/world/item/ItemStack;Ljava/util/Random;)Liskallia/vault/gear/modification/GearModification$Result;", shift = At.Shift.AFTER))
     private static void initializeGearWithEffects(ItemStack stack, Player player, CallbackInfo ci, @Local VaultGearData data) {
         //Don't need to process jewels and other kinds of gear.
-        if(stack.getItem() instanceof CharmItem) {
+        if(stack.getItem() instanceof CharmItem || stack.getItem() instanceof VaultNecklaceItem || stack.getItem() instanceof VaultCharmItem) {
             return;
         }
 
