@@ -23,7 +23,7 @@ public class MusicEvents {
     public static void onTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.START) {
             SoundManager manager = Minecraft.getInstance().getSoundManager();
-            if (!shouldPlay() || manager.isActive(HeraldMusicHandler.TRACK)) {
+            if (!shouldPlay()) {
                 if (manager.isActive(TRACK)) {
                     manager.stop(TRACK);
                 }

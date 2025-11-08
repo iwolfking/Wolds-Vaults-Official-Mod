@@ -80,6 +80,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("jei.the_vault.dungeon_pedestal_loot", "Dungeon Pedestal");
         add("jei.the_vault.treasure_pedestal_loot", "Treasure Pedestal");
         add("jei.the_vault.brazier_pillage_loot", "Brazier Pillaging");
+        add("jei.the_vault.tombstone", "Tombstone");
         add("item.the_vault.gem_iskallium", "§5Woldium Gem");
         add("item.the_vault.key_iskallium", "§5Woldium Key");
         add("item.the_vault.cluster_iskallium", "§5Woldium Cluster");
