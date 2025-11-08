@@ -130,6 +130,8 @@ public class ConcentrateAbility extends InstantManaAbility {
                     }
                 });
             }
+
+            this.putOnCooldown(context);
             return ActionResult.successCooldownImmediate();
         }).orElse(ActionResult.fail());
 
