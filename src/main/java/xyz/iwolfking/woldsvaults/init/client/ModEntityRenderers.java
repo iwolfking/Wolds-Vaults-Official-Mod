@@ -11,10 +11,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.entities.thanksgiving.client.renderer.CranberrySlimeRenderer;
+import xyz.iwolfking.woldsvaults.entities.thanksgiving.client.renderer.HaturkeyRenderer;
 import xyz.iwolfking.woldsvaults.entities.thanksgiving.client.renderer.HostileTurkeyRenderer;
 import xyz.iwolfking.woldsvaults.entities.ghosts.lib.client.GenericWraithRenderer;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangRenderer;
+import xyz.iwolfking.woldsvaults.models.entity.HaturkeyEntityModel;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.client.WoldBossRenderer;
 
 @OnlyIn(Dist.CLIENT)
@@ -40,5 +42,6 @@ public class ModEntityRenderers {
         EntityRenderers.register(ModEntities.HOSTILE_SHEEP, SheepRenderer::new);
         EntityRenderers.register(ModEntities.HOSTILE_PIG, PigRenderer::new);
         EntityRenderers.register(ModEntities.VAULT_RANG, VaultRangRenderer::new);
+        EntityRenderers.register(ModEntities.HATURKIN, HaturkeyRenderer::new);
     }
 }

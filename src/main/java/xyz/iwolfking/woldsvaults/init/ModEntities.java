@@ -15,6 +15,7 @@ import xyz.iwolfking.woldsvaults.entities.barnyard.HostilePigEntity;
 import xyz.iwolfking.woldsvaults.entities.barnyard.HostileSheepEntity;
 import xyz.iwolfking.woldsvaults.entities.ghosts.*;
 import xyz.iwolfking.woldsvaults.entities.thanksgiving.CranberrySlimeEntity;
+import xyz.iwolfking.woldsvaults.entities.thanksgiving.HaturkeyEntity;
 import xyz.iwolfking.woldsvaults.entities.thanksgiving.HostileTurkeyEntity;
 import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangEntity;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
@@ -42,6 +43,7 @@ public class ModEntities {
     public static EntityType<HostileChickenEntity> HOSTILE_CHICKEN;
     public static EntityType<HostileSheepEntity> HOSTILE_SHEEP;
     public static EntityType<HostilePigEntity> HOSTILE_PIG;
+    public static EntityType<HaturkeyEntity> HATURKIN;
 
     public static void register(RegistryEvent.Register<EntityType<?>> event) {
         WOLD = registerLiving("wold", EntityType.Builder.of(WoldBoss::new, MobCategory.MONSTER)
@@ -61,6 +63,7 @@ public class ModEntities {
         HOSTILE_CHICKEN = registerLivingWV("hostile_chicken", EntityType.Builder.of(HostileChickenEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(8).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new HostileChickenEntity(HOSTILE_CHICKEN, level))), HostileChickenEntity::createAttributes, event);
         HOSTILE_SHEEP = registerLivingWV("hostile_sheep", EntityType.Builder.of(HostileSheepEntity::new, MobCategory.MONSTER).sized(1.0F, 1.0F).clientTrackingRange(8).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new HostileSheepEntity(HOSTILE_SHEEP, level))), HostileSheepEntity::createAttributes, event);
         HOSTILE_PIG = registerLivingWV("hostile_pig", EntityType.Builder.of(HostilePigEntity::new, MobCategory.MONSTER).sized(1.0F, 1.0F).clientTrackingRange(8).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new HostilePigEntity(HOSTILE_PIG, level))), HostilePigEntity::createAttributes, event);
+        HATURKIN = registerLivingWV("haturkin", EntityType.Builder.of(HaturkeyEntity::new, MobCategory.MONSTER).sized(1.0F, 1.0F).clientTrackingRange(16).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new HaturkeyEntity(HATURKIN, level))), HaturkeyEntity::createAttributes, event);
         VAULT_RANG = registerWV("rang", EntityType.Builder.<VaultRangEntity>of(VaultRangEntity::new, MobCategory.MISC)
                 .sized(0.4F, 0.4F)
                 .clientTrackingRange(4)

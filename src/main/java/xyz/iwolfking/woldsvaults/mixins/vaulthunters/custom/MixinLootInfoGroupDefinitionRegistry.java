@@ -5,12 +5,13 @@ import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
-
+import xyz.iwolfking.woldsvaults.init.ModItems;
 import java.util.function.Supplier;
 
 @Mixin(value = LootInfoGroupDefinitionRegistry.class, remap = false)
 public abstract class MixinLootInfoGroupDefinitionRegistry {
     static {
+
         register("iskallian_leaves", () -> new ItemStack(ModBlocks.ISKALLIAN_LEAVES_BLOCK));
         register("hellish_sand", () -> new ItemStack(ModBlocks.HELLISH_SAND_BLOCK));
         register("dungeon_pedestal", () -> new ItemStack(ModBlocks.DUNGEON_PEDESTAL_BLOCK));
@@ -26,6 +27,10 @@ public abstract class MixinLootInfoGroupDefinitionRegistry {
         register("wooden_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.WOODEN_CHEST));
         register("treasure_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
         register("tombstone", () -> new ItemStack(ModBlocks.GRAVEYARD_LOOT_BLOCK));
+        register("god_altar_velara", () -> new ItemStack(ModItems.VELARA_APPLE));
+        register("god_altar_tenos", () -> new ItemStack(ModItems.TOME_OF_TENOS));
+        register("god_altar_idona", () -> new ItemStack(ModItems.IDONA_DAGGER));
+        register("god_altar_wendarr", () -> new ItemStack(ModItems.WENDARR_GEM));
     }
 
     @Shadow
