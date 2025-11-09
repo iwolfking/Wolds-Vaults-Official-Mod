@@ -183,6 +183,11 @@ public class UnusualModifiers {
         MAP_PREFIX.add(UnusualModifierLib.JUMPY);
         MAP_PREFIX.add(UnusualModifierLib.KILL_NOVA);
         UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map"), MAP_PREFIX);
+        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_1"), MAP_PREFIX);
+        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_2"), MAP_PREFIX);
+        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_3"), MAP_PREFIX);
+        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_4"), MAP_PREFIX);
+        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_5"), MAP_PREFIX);
 
         MAP_SUFFIX.add(UnusualModifierLib.NON_LETHAL);
         MAP_SUFFIX.add(UnusualModifierLib.DOOR_HUNTER);
@@ -192,5 +197,10 @@ public class UnusualModifiers {
         MAP_PREFIX.add(UnusualModifierLib.KILL_FROST_NOVA);
         MAP_PREFIX.add(UnusualModifierLib.BACKWARDS);
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map"), MAP_SUFFIX);
+        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_1"), MAP_SUFFIX);
+        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_2"), MAP_SUFFIX);
+        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_3"), MAP_SUFFIX);
+        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_4"), MAP_SUFFIX);
+        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_5"), MAP_SUFFIX);
     }
 }
