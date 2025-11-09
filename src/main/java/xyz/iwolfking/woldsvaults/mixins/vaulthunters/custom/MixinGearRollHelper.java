@@ -31,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.util.WoldGearModifierHelper;
 import xyz.iwolfking.woldsvaults.expertises.CraftsmanExpertise;
+import xyz.iwolfking.woldsvaults.expertises.EclecticGearExpertise;
 
 import java.util.List;
 import java.util.Random;
@@ -79,10 +80,19 @@ public class MixinGearRollHelper {
             return;
         }
 
+        float increasedSpecialRollsChance = 0.0F;
+
+        if(player != null) {
+            ExpertiseTree expertises = PlayerExpertisesData.get((ServerLevel) player.getLevel()).getExpertises(player);
+            for (EclecticGearExpertise eclecticGearExpertise : expertises.getAll(EclecticGearExpertise.class, Skill::isUnlocked)) {
+                increasedSpecialRollsChance += eclecticGearExpertise.getIncreasedChance();
+            }
+        }
+
         int itemLevel = data.getItemLevel();
 
         //Randomly add a corrupted implicit
-        if(itemLevel >= 65 && rand.nextFloat() <= 0.02F) {
+        if(itemLevel >= 65 && rand.nextFloat() <= 0.02F + increasedSpecialRollsChance) {
             GearModification.Result result;
 
             if (rand.nextBoolean()) {
@@ -96,34 +106,27 @@ public class MixinGearRollHelper {
             }
         }
         //Randomly frozen (if not a jewel)
-        else if(itemLevel >= 25 && rand.nextFloat() <= 0.02F) {
+        else if(itemLevel >= 25 && rand.nextFloat() <= 0.02F + increasedSpecialRollsChance) {
             if(stack.getItem() instanceof JewelItem) {
                 return;
             }
             VaultGearModifierHelper.lockRandomAffix(stack, rand);
         }
         //Randomly add unusual
-        else if(itemLevel>= 20 && rand.nextFloat() <= 0.02F) {
+        else if(itemLevel>= 20 && rand.nextFloat() <= 0.02F + increasedSpecialRollsChance) {
             WoldGearModifierHelper.removeRandomModifierAlways(stack, rand);
             WoldGearModifierHelper.addUnusualModifier(stack, player.level.getGameTime(), rand);
         }
         //Randomly add greater modifier
-        else if(itemLevel >= 40 && rand.nextFloat() <= 0.01F) {
+        else if(itemLevel >= 40 && rand.nextFloat() <= 0.01F + increasedSpecialRollsChance) {
             VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.GREATER));
         }
         //Randomly improve gear rarity (if not a jewel)
-        else if(rand.nextFloat() <= 0.04F) {
+        else if(rand.nextFloat() <= 0.04F + increasedSpecialRollsChance) {
             if(stack.getItem() instanceof JewelItem) {
                 return;
             }
             VaultGearModifierHelper.improveGearRarity(stack, rand);
-        }
-
-        //Randomly add ability enhancement (non functional atm)
-        else if(rand.nextFloat() < 0.01F && stack.getItem() instanceof VaultArmorItem armorItem) {
-            if(armorItem.getEquipmentSlot(stack) != null && armorItem.getEquipmentSlot(stack).equals(EquipmentSlot.HEAD)) {
-                VaultGearModifierHelper.createOrReplaceAbilityEnhancementModifier(stack, rand);
-            }
         }
     }
 
