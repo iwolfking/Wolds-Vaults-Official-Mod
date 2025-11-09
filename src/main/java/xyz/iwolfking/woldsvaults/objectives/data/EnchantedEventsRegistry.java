@@ -6,11 +6,13 @@ import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
 import com.github.alexthe666.alexsmobs.misc.AMSoundRegistry;
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.util.WeightedList;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.init.ModEntities;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -598,7 +600,7 @@ public class EnchantedEventsRegistry {
                 .tag(EventTag.SPAWN_MOB)
                 .color(TextColor.parseColor("#ffc34d"))
                 .displayType(VaultEvent.EventDisplayType.LEGACY)
-                .task(new VaultModifierTask(VaultMod.id("leeching"), 1, 900))
+                .task(new VaultModifierTask(VaultMod.id("leeching"), 1, 2400))
                         .task(new SpawnMobTask.Builder()
                                 .entity(EntityType.BAT, 1.0)
                                 .spawnRanges(13.0, 25.0)
@@ -722,6 +724,99 @@ public class EnchantedEventsRegistry {
                         .build()
                 )
                 .build("Purifying Aura", new TextComponent("Become immune to negative effects for a while.")), 8.0);
+
+        register(WoldsVaults.id("turkey_feast"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .tag(EventTag.NEGATIVE)
+                .tag(EventTag.SPAWN_MOB)
+                .color(TextColor.parseColor("#8871744"))
+                .displayType(VaultEvent.EventDisplayType.LEGACY)
+                .task(new PlayerMobEffectTask.Builder()
+                        .effect(MobEffects.SATURATION, 3, 2400)
+                        .effect(MobEffects.REGENERATION, 1, 1200)
+                        .build()
+                )
+                .task(new PlaySoundTask(SoundEvents.GENERIC_EAT))
+                .task(new SpawnMobTask.Builder()
+                        .entity(xyz.iwolfking.woldsvaults.init.ModEntities.HATURKIN, 3.0)
+                        .entity(xyz.iwolfking.woldsvaults.init.ModEntities.HOSTILE_TURKEY, 6.0)
+                        .entity(xyz.iwolfking.woldsvaults.init.ModEntities.HOSTILE_CHICKEN, 4.0)
+                        .effect(new Effect(MobEffects.REGENERATION, 9, 1200), 1.0)
+                        .effect(new Effect(MobEffects.DAMAGE_RESISTANCE, 1, 1200), 1.0)
+                        .effect(new Effect(MobEffects.MOVEMENT_SPEED, 1, 1200), 1.0)
+                        .build())
+                .build("Fowl Feast", new TextComponent("Spawns some angry fowls and grants big saturation and regeneration for a while!")), 4.0);
+
+        register(WoldsVaults.id("soul_fest"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .tag(EventTag.OMEGA)
+                .tag(EventTag.ADDS_MODIFIER)
+                .color(TextColor.parseColor("#87008E"))
+                .displayType(VaultEvent.EventDisplayType.LEGACY)
+                .task(new VaultModifierTask(VaultMod.id("soul_fest"), 1, 1200))
+                .build("Soul Fest", new TextComponent("Big soul shard boost for a limited time!")), 2.0);
+
+        register(WoldsVaults.id("surprise_boxes"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .tag(EventTag.NEGATIVE)
+                .tag(EventTag.OMEGA)
+                .tag(EventTag.ADDS_MODIFIER)
+                .color(TextColor.parseColor("#884569"))
+                .displayType(VaultEvent.EventDisplayType.LEGACY)
+                .task(new VaultModifierTask(VaultMod.id("surprise_boxes"), 1, 1600))
+                .task(new VaultModifierTask(VaultMod.id("hoard"), 1, 1600))
+                .task(new VaultModifierTask(VaultMod.id("fortuitous"), 1, 1600))
+                .build("Surprise!?", new TextComponent("Chests spawn nasty mobs and other things but have more stuffs for a limited time!")), 4.0);
+
+        register(WoldsVaults.id("no_fruit_or_temporal"), new VaultEvent.Builder()
+                .tag(EventTag.NEGATIVE)
+                .tag(EventTag.OMEGA)
+                .tag(EventTag.ADDS_MODIFIER)
+                .color(TextColor.parseColor("#676934"))
+                .displayType(VaultEvent.EventDisplayType.LEGACY)
+                .task(new VaultModifierTask(VaultMod.id("rotten"), 1, 6000))
+                .task(new VaultModifierTask(VaultMod.id("no_temporal_shard"), 1, 6000))
+                .build("Rotten Core", new TextComponent("Fruit, Temporal Shards, and Companions are temporarily disabled!")), 4.0);
+
+        register(WoldsVaults.id("lunar"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .tag(EventTag.OMEGA)
+                .tag(EventTag.ADDS_MODIFIER)
+                .color(TextColor.parseColor("#676934"))
+                .displayType(VaultEvent.EventDisplayType.LEGACY)
+                .task(new VaultModifierTask(VaultMod.id("jumpy_deluxe"), 3, 2400))
+                .task(new VaultModifierTask(VaultMod.id("lunar"), 1, 2400))
+                .build("Lunar Gravity", new TextComponent("Huge jump boost and mobs float for a limited time!")), 4.0);
+
+        register(WoldsVaults.id("strange_times"), new VaultEvent.Builder()
+                .tag(EventTag.NEGATIVE)
+                .color(TextColor.parseColor("#843E34"))
+                .displayType(VaultEvent.EventDisplayType.LEGACY)
+                .task(new RepeatTask(new WeightedTask.Builder()
+                        .task(new PlayerMobEffectTask.Builder().effect(MobEffects.LEVITATION, 0, 120).build(), 1.0)
+                        .task(new PlayerMobEffectTask.Builder().effect(MobEffects.CONFUSION, 0, 240).build(), 1.0)
+                        .task(new PlayerMobEffectTask.Builder().effect(MobEffects.BLINDNESS, 0, 120).build(), 1.0)
+                        .task(new PlayerMobEffectTask.Builder().effect(MobEffects.HUNGER, 2, 240).build(), 1.0)
+                        .task(new PlayerMobEffectTask.Builder().effect(MobEffects.NIGHT_VISION, 0, 120).build(), 1.0)
+                        .task(new PlayerMobEffectTask.Builder().effect(MobEffects.WITHER, 0, 120).build(), 1.0)
+                        .task(new PlayerMobEffectTask.Builder().effect(ModEffects.QUICKENING, 2, 240).build(), 1.0)
+                        .task(new PlayerMobEffectTask.Builder().effect(ModEffects.EMPOWER, 2, 240).build(), 1.0)
+                        .task(new PlayerMobEffectTask.Builder().effect(MobEffects.DAMAGE_RESISTANCE, 2, 240).build(), 1.0)
+                        .task(new PlayerMobEffectTask.Builder().effect(AMEffectRegistry.SOULSTEAL, 0, 240).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(ModEffects.EMPOWER, 2, 240).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(MobEffects.LEVITATION, 0, 120).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(MobEffects.CONFUSION, 0, 240).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(MobEffects.BLINDNESS, 0, 120).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(MobEffects.HUNGER, 2, 240).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(MobEffects.NIGHT_VISION, 0, 120).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(MobEffects.WITHER, 0, 120).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(ModEffects.QUICKENING, 2, 240).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(MobEffects.DAMAGE_RESISTANCE, 2, 240).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(MobEffects.DAMAGE_BOOST, 4, 240).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(MobEffects.MOVEMENT_SPEED, 3, 240).build(), 1.0)
+                        .task(new MobMobEffectTask.Builder().effect(AMEffectRegistry.SOULSTEAL, 0, 240).build(), 1.0)
+                        .build(), 120, 60))
+                .build("Strange Times", new TextComponent("Strange effects happen to you and mobs around you!")), 6.0);
 
         register(WoldsVaults.id("la_cucaracha"), new VaultEvent.Builder()
                 .tag(EventTag.POSITIVE)

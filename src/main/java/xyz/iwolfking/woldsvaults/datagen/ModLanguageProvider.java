@@ -81,10 +81,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add("jei.the_vault.treasure_pedestal_loot", "Treasure Pedestal");
         add("jei.the_vault.brazier_pillage_loot", "Brazier Pillaging");
         add("jei.the_vault.tombstone_loot", "Tombstone");
-        add("jei.the_vault.god_altar_wendarr", "God Altar (Wendarr)");
-        add("jei.the_vault.god_altar_idona", "God Altar (Idona)");
-        add("jei.the_vault.god_altar_tenos", "God Altar (Tenos)");
-        add("jei.the_vault.god_altar_velara", "God Altar (Velara)");
+        add("jei.the_vault.god_altar_wendarr_loot", "God Altar (Wendarr)");
+        add("jei.the_vault.god_altar_idona_loot", "God Altar (Idona)");
+        add("jei.the_vault.god_altar_tenos_loot", "God Altar (Tenos)");
+        add("jei.the_vault.god_altar_velara_loot", "God Altar (Velara)");
         add("item.the_vault.gem_iskallium", "§5Woldium Gem");
         add("item.the_vault.key_iskallium", "§5Woldium Key");
         add("item.the_vault.cluster_iskallium", "§5Woldium Cluster");
