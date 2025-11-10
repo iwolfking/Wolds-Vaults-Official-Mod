@@ -5,8 +5,6 @@ import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.appender.AbstractAppender;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
-
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.concurrent.Executors;
@@ -38,7 +36,7 @@ public class ServerKiller extends AbstractAppender {
         if (this.isShuttingDown && message.contains("All dimensions are saved")) {
             System.out.println("[Wold's Vaults] Instance will shut down in 30 seconds.");
             scheduler.schedule(() -> {
-                WoldsVaults.LOGGER.warn("[Wold's Vaults] Forcing shut down.");
+                System.out.println("[Wold's Vaults] Forcing shut down.");
                 ServerKiller.forceKillProcess();
             }, 30L, TimeUnit.SECONDS);
         }
