@@ -14,7 +14,7 @@ public class ResearchExclusionConfig extends Config {
 
     @Expose
     public Map<String, List<String>> RESEARCH_EXCLUSIONS = new HashMap<>();
-    public Map<String, Map<String, Boolean>> researchExclusionCache = new HashMap<>();
+    public Map<String, Map<String, Boolean>> researchExclusionCache = new ConcurrentHashMap<>();
 
     @Override
     public String getName() {
