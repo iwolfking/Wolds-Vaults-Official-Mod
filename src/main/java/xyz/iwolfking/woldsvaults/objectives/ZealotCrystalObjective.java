@@ -60,7 +60,7 @@ public class ZealotCrystalObjective extends CrystalObjective {
 
     @Override
     public void readNbt(CompoundTag nbt) {
-        this.target = Adapters.INT_ROLL.readNbt(nbt.getCompound("target")).orElse(null);
+        this.target = Adapters.INT_ROLL.readNbt(nbt.getCompound("target")).orElse(IntRoll.ofUniform(3,5));
     }
 
     @Override
@@ -72,6 +72,6 @@ public class ZealotCrystalObjective extends CrystalObjective {
 
     @Override
     public void readJson(JsonObject json) {
-        this.target = Adapters.INT_ROLL.readJson(json.getAsJsonObject("target")).orElse(null);
+        this.target = Adapters.INT_ROLL.readJson(json.getAsJsonObject("target")).orElse(IntRoll.ofUniform(3,5));
     }
 }

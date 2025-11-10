@@ -67,7 +67,7 @@ public class HauntedBraziersCrystalObjective extends CrystalObjective {
 
     @Override
     public void readNbt(CompoundTag nbt) {
-        this.target = Adapters.INT_ROLL.readNbt(nbt.getCompound("target")).orElse(null);
+        this.target = Adapters.INT_ROLL.readNbt(nbt.getCompound("target")).orElse(IntRoll.ofUniform(3,5));
         this.objectiveProbability = Adapters.FLOAT.readNbt(nbt.get("objective_probability")).orElse(0.0F);
     }
 
@@ -81,7 +81,7 @@ public class HauntedBraziersCrystalObjective extends CrystalObjective {
 
     @Override
     public void readJson(JsonObject json) {
-        this.target = Adapters.INT_ROLL.readJson(json.getAsJsonObject("target")).orElse(null);
+        this.target = Adapters.INT_ROLL.readJson(json.getAsJsonObject("target")).orElse(IntRoll.ofUniform(3,5));
         this.objectiveProbability = Adapters.FLOAT.readJson(json.get("objective_probability")).orElse(0.0F);
     }
 }
