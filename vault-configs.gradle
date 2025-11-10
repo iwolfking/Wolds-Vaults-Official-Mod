@@ -1,0 +1,298 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+/**
+ * dl pack from github master branch to build/temp-vault-assets
+ * remove modded items from few configs to get rid of error screens
+ * move build/temp-vault-assets/config to run/config and build/temp-vault-assets/defaultconfigs to run/defaultconfigs
+ */
+
+def zipUrl = "https://github.com/iwolfking/Wolds-Vaults/archive/refs/heads/master.zip"
+def zipFile = file("build/temp-vault-assets/archive.zip")
+def outputDir = file("build/temp-vault-assets/unzipped")
+def runDir = file("run")
+
+def allowedNamespaces = ["minecraft:", "the_vault:", "woldsvaults:"]
+
+tasks.register('checkEmptyConfigDirs') {
+    def runConfig = file("${runDir}/config")
+    def runDefaults = file("${runDir}/defaultconfigs")
+
+    runDir.mkdirs()
+
+    if (runConfig.exists()) {
+        throw new GradleException("run/config already exists, delete the directory to update")
+    }
+
+    if (runDefaults.exists()) {
+        throw new GradleException("run/defaultconfigs already exists, delete the directory to update")
+    }
+}
+
+tasks.register('downloadZip') {
+    dependsOn 'checkEmptyConfigDirs'
+    doLast {
+        zipFile.parentFile.mkdirs()
+
+        println "Downloading $zipUrl..."
+        new URL(zipUrl).withInputStream { i ->
+            zipFile.withOutputStream { it << i }
+        }
+    }
+}
+
+tasks.register('unzip') {
+    dependsOn 'downloadZip'
+    doLast {
+        outputDir.mkdirs()
+
+        copy {
+            from zipTree(zipFile)
+            into outputDir
+        }
+    }
+}
+
+tasks.register("removeModdedItemsFromConfig") {
+    dependsOn 'unzip',
+            'removeModdedItemsEnchantments',
+            'removeModdedItemsPaxel',
+            'removeModdedItemsOmegaShopPedestal',
+            'removeModdedItemsSpookyShopPedestal',
+            'removeModdedItemsSpirit',
+            'removeModdedItemsAltar'
+    doLast {
+        println "Finished removing modded items from config."
+    }
+}
+
+tasks.register("moveToRun") {
+    dependsOn 'removeModdedItemsFromConfig'
+    finalizedBy 'cleanupVaultAssets'
+    doLast {
+        def overridesConfig = file("${outputDir}/Wolds-Vaults-master/config")
+        def overridesDefaults = file("${outputDir}/Wolds-Vaults-master/defaultconfigs")
+
+        def runConfig = file("${runDir}/config")
+        def runDefaults = file("${runDir}/defaultconfigs")
+
+        runDir.mkdirs()
+
+        if (!overridesConfig.exists()) {
+            throw new GradleException("downloaded config doesn't exist")
+        }
+        if (!runConfig.exists()) {
+            println "Moving config -> ${runConfig}"
+            ant.move(file: overridesConfig, todir: runDir)
+        } else {
+            throw new GradleException("run/config already exists, delete the directory to update")
+        }
+
+        if (!overridesDefaults.exists()) {
+            throw new GradleException("downloaded config doesn't exist")
+        }
+        if (!runDefaults.exists()) {
+            println "Moving defaultconfigs -> ${runDefaults}"
+            ant.move(file: overridesDefaults, todir: runDir)
+        } else {
+            throw new GradleException("run/defaultconfigs already exists, delete the directory to update")
+        }
+    }
+}
+
+tasks.register("cleanupVaultAssets") {
+    doLast {
+        def vaultAssetsDir = file("build/temp-vault-assets")
+        if (vaultAssetsDir.exists()) {
+            println "Deleting ${vaultAssetsDir}"
+            delete vaultAssetsDir
+        } else {
+            println "No build/temp-vault-assets directory to delete."
+        }
+    }
+}
+
+
+tasks.register("getVaultConfigs") {
+    group = "Vault Configs"
+    dependsOn "moveToRun"
+}
+
+
+// Remove modded items from configs to remove error screens in dev env
+
+def filterByAllowedNamespaces = inputMap -> {
+    inputMap.findAll { key, value -> !(key.contains(":") && !allowedNamespaces.any { ns -> key.startsWith(ns) })
+    }
+}
+
+
+tasks.register('removeModdedItemsEnchantments') {
+    dependsOn 'unzip'
+    doLast {
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/gear_enchantment.json")
+        def json = new JsonSlurper().parseText(inputFile.text)
+
+
+        if (json.costs instanceof Map) {
+            json.costs = filterByAllowedNamespaces(json.costs)
+        } else {
+            println "No 'costs' object found or it's not a map"
+        }
+
+        inputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(json))
+        println "Removed modded items from gear_enchantment.json"
+    }
+}
+
+tasks.register('removeModdedItemsPaxel') {
+    dependsOn 'unzip'
+    doLast {
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/paxel.json")
+        def json = new JsonSlurper().parseText(inputFile.text)
+
+        if (json.PULVERIZING_MAP instanceof Map) {
+            def filteredMap = filterByAllowedNamespaces(json.PULVERIZING_MAP)
+            filteredMap = filteredMap.findAll { key, value ->
+                def outputItem = value?.item?.item
+                if (outputItem instanceof String) {
+                    allowedNamespaces.any { ns -> outputItem.startsWith(ns) }
+                } else {
+                    false
+                }
+            }
+
+            json.PULVERIZING_MAP = filteredMap
+        } else {
+            println "No 'PULVERIZING_MAP' object found or it's not a map"
+        }
+
+        inputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(json))
+        println "Removed modded items from paxel.json"
+    }
+}
+
+
+tasks.register('removeModdedItemsOmegaShopPedestal') {
+    dependsOn 'unzip'
+    doLast {
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/omega_shop_pedestal.json")
+        def json = new JsonSlurper().parseText(inputFile.text)
+
+        if (json.LEVELS instanceof List) {
+            json.LEVELS.each { level ->
+                if (level.TRADE_POOL instanceof List) {
+                    level.TRADE_POOL = level.TRADE_POOL.findAll { entry ->
+                        def item = entry?.value?.OFFER?.item
+                        item instanceof String && (allowedNamespaces.any { ns -> item.startsWith(ns) } && item != "the_vault:gem_pog_1")
+                    }
+                }
+            }
+        } else {
+            println "LEVELS array not found or malformed"
+        }
+
+
+        inputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(json))
+        println "Removed modded items from omega_shop_pedestal.json"
+    }
+}
+
+tasks.register('removeModdedItemsSpookyShopPedestal') {
+    dependsOn 'unzip'
+    doLast {
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/spooky_shop_pedestal.json")
+        def json = new JsonSlurper().parseText(inputFile.text)
+
+        if (json.LEVELS instanceof List) {
+            json.LEVELS.each { level ->
+                if (level.TRADE_POOL instanceof List) {
+                    level.TRADE_POOL = level.TRADE_POOL.findAll { entry ->
+                        def item = entry?.value?.OFFER?.item
+                        item instanceof String && allowedNamespaces.any { ns -> item.startsWith(ns) }
+                    }
+                }
+            }
+        } else {
+            println "LEVELS array not found or malformed"
+        }
+
+
+        inputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(json))
+        println "Removed modded items from spooky_shop_pedestal.json"
+    }
+}
+
+tasks.register('removeModdedItemsSpirit') {
+    dependsOn 'unzip'
+    doLast {
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/spirit.json")
+        def json = new JsonSlurper().parseText(inputFile.text)
+
+
+        if (json.levelCosts instanceof List) {
+            json.levelCosts.each { level ->
+                if (level.item instanceof String && !allowedNamespaces.any { ns -> level.item.startsWith(ns) }) {
+                    level.item = null
+                }
+
+                if (level.itemCost instanceof List) {
+                    level.itemCost = level.itemCost.collect { pair ->
+                        if (pair instanceof List && pair.size() >= 1) {
+                            def itemEntry = pair[0]
+                            if (itemEntry?.item instanceof String) {
+                                allowedNamespaces.any { ns -> itemEntry.item.startsWith(ns) } ? pair : null
+                            } else {
+                                pair
+                            }
+                        } else {
+                            pair
+                        }
+                    }.findAll { it != null }
+                }
+            }
+        } else {
+            println "levelCosts array not found or malformed"
+        }
+
+
+        inputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(json))
+        println "Removed modded items from spirit.json"
+    }
+}
+
+tasks.register('removeModdedItemsAltar') {
+    dependsOn 'unzip'
+    doLast {
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/vault_altar/vault_altar_ingredients.json")
+        def json = new JsonSlurper().parseText(inputFile.text)
+
+
+        if (json.LEVELS instanceof Map) {
+            json.LEVELS.each { levelKey, level ->
+                level.each { categoryName, categoryList ->
+                    if (categoryList instanceof List) {
+                        categoryList.each { entry ->
+                            def items = entry?.value?.items
+                            if (items instanceof List) {
+                                entry.value.items = items.findAll { itemEntry ->
+                                    def itemName = itemEntry?.item
+                                    itemName instanceof String && allowedNamespaces.any { ns -> itemName.startsWith(ns) }
+                                }
+                            }
+                        }
+                        level[categoryName] = categoryList.findAll { entry ->
+                            entry?.value?.items instanceof List && entry.value.items
+                        }
+                    }
+                }
+            }
+        } else {
+            println "LEVELS object not found or malformed"
+        }
+
+
+        inputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(json))
+        println "Removed modded items from vault_altar_ingredients.json"
+    }
+}

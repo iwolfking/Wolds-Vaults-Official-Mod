@@ -27,6 +27,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import xyz.iwolfking.woldsvaults.init.ModSounds;
 
+@SuppressWarnings({"deprecated", "removal"})
 public class HaturkeyEntity extends PathfinderMob implements IAnimatable {
 
     private final AnimationFactory factory = new AnimationFactory(this);

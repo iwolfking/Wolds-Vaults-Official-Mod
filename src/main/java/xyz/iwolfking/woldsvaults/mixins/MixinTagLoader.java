@@ -60,5 +60,7 @@ public class MixinTagLoader {
         for (ResourceLocation item : notAllowedHolders) {
             voidCrucibleExtras.addElement(item, "Wold's dynamic tags");
         }
+
+        ThemeBlockRetriever.CACHE.clear(); // save some memory if the theme is not actually used
     }
 }
