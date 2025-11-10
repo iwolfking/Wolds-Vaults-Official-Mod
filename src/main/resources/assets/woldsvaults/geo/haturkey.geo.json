@@ -12,7 +12,12 @@
 			},
 			"bones": [
 				{
+					"name": "root",
+					"pivot": [0, 15, 0]
+				},
+				{
 					"name": "body",
+					"parent": "root",
 					"pivot": [0, 15, 0],
 					"cubes": [
 						{"origin": [-8, 15, -8], "size": [16, 12, 16], "uv": [0, 0]},
@@ -46,6 +51,7 @@
 				},
 				{
 					"name": "leg1",
+					"parent": "root",
 					"pivot": [-2.5, 17, 0.5],
 					"cubes": [
 						{"origin": [-3, 2, 0], "size": [1, 15, 1], "uv": [48, 0]},
@@ -55,6 +61,7 @@
 				},
 				{
 					"name": "leg2",
+					"parent": "root",
 					"pivot": [2.5, 17, 0.5],
 					"cubes": [
 						{"origin": [2, 2, 0], "size": [1, 15, 1], "uv": [48, 0]},

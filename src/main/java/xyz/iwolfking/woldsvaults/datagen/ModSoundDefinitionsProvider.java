@@ -56,6 +56,13 @@ public class ModSoundDefinitionsProvider extends SoundDefinitionsProvider {
                 ).subtitle("woldsvaults.subtitle.ambience")
         );
 
+
+        add(ModSounds.HATURKIN_GOBBLE,
+                SoundDefinition.definition().with(
+                        sound(WoldsVaults.id("haturkin/gobble"))
+                ).subtitle("woldsvaults.subtitle.haturkin.ambient")
+        );
+
         add(ModSounds.DARK, SoundDefinition.definition().with(sound(WoldsVaults.id("dark")).stream()));
 
         add(ModSounds.BLENDER, SoundDefinition.definition().with(sound(WoldsVaults.id("blender")).stream()));

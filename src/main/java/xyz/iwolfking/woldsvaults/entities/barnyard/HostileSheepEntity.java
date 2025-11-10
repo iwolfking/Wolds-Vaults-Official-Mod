@@ -19,6 +19,7 @@ public class HostileSheepEntity extends Sheep {
 
     @Override
     protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         ((SheepAccessor)this).setEatBlockGoal(new EatBlockGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, false));
         this.goalSelector.addGoal(2, new RandomStrollGoal(this, 1.0D));
