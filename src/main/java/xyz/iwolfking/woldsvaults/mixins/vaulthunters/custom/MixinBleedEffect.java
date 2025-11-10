@@ -9,6 +9,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import xyz.iwolfking.woldsvaults.api.util.VaultMobUtils;
 
 @Mixin(value = BleedEffect.class, remap = false)
 public class MixinBleedEffect {
@@ -22,9 +23,9 @@ public class MixinBleedEffect {
             MobEffectInstance instance = entity.getEffect(ModEffects.BLEED);
             if (instance != null) {
                 if (instance.getDuration() % 40 == 0) {
-                    float maxHealthPercent = instance.getAmplifier() * 0.005F;
+                    float maxHealthPercent = instance.getAmplifier() * 0.025F;
 
-                    if(ChampionLogic.isChampion(entity) || entity instanceof VaultBoss) {
+                    if(VaultMobUtils.isSpecialMob(entity)) {
                         maxHealthPercent = maxHealthPercent * 0.5f;
                     }
 
