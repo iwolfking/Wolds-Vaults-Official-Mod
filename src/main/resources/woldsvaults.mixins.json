@@ -175,6 +175,7 @@
     "vaulthunters.custom.MixinManaPylonBuff",
     "vaulthunters.custom.MixinModBlocks",
     "vaulthunters.custom.MixinModChestModels",
+    "vaulthunters.custom.MixinModDynamicModelsArmor",
     "vaulthunters.custom.MixinModGearAttributes",
     "vaulthunters.custom.MixinModifierContext",
     "vaulthunters.custom.MixinModModelDiscoveryGoals",
