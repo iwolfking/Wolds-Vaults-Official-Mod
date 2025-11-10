@@ -2,6 +2,13 @@
   "values": [
     "woldsvaults:crystal_seal_zealot",
     "the_vault:crystal_seal_architect",
-    "woldsvaults:crystal_seal_warrior"
+    "woldsvaults:crystal_seal_warrior",
+    "the_vault:crystal_seal_spirits",
+    "the_vault:crystal_seal_unhinged",
+    "the_vault:crystal_seal_titan",
+    "the_vault:crystal_seal_enchanter",
+    "the_vault:crystal_seal_doomsayer",
+    "woldsvaults:crystal_seal_corrupt",
+    "woldsvaults:crystal_seal_alchemy"
   ]
 }
