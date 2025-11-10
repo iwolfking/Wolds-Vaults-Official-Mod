@@ -21,6 +21,7 @@ plugins {
 apply plugin: 'org.spongepowered.mixin'
 //apply plugin: 'kotlin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply from: 'vault-configs.gradle'
 
 group = mod_group_id
 version = mod_version
