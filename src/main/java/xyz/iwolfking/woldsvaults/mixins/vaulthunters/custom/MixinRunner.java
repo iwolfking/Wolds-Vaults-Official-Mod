@@ -71,7 +71,7 @@ public abstract class MixinRunner extends Listener {
                 }
             }
             if(surpriseModifiersExpertiseLevel > 0) {
-                if(world.getRandom().nextFloat() < (surpriseModifiersExpertiseLevel * 0.1F)) {
+                if(world.getRandom().nextFloat() < (surpriseModifiersExpertiseLevel * 0.2F)) {
                     VaultModifierUtils.addModifierFromPool(vault, VaultMod.id("random_positive"));
                 }
             }

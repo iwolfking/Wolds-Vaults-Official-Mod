@@ -22,6 +22,7 @@ import iskallia.vault.init.ModNetwork;
 import iskallia.vault.network.message.ShockedParticleMessage;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.util.EntityHelper;
+import iskallia.vault.util.SidedHelper;
 import iskallia.vault.world.data.DiscoveredModelsData;
 import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.core.NonNullList;
@@ -191,14 +192,12 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int duration) {
         VaultGearData data = VaultGearData.read(stack);
-        if(level instanceof ServerLevel slevel) {
-            if(entity instanceof ServerPlayer sPlayer) {
-                if(data.getItemLevel() > PlayerVaultStatsData.get(slevel).getVaultStats(sPlayer).getVaultLevel()) {
-                    sPlayer.getCooldowns().addCooldown(ModItems.TRIDENT, (int)(360));
-                    return;
-                }
+        if(entity instanceof Player player) {
+            if(data.getItemLevel() > SidedHelper.getVaultLevel(player)) {
+                return;
             }
         }
+
         if (entity instanceof Player player) {
             float percentDecrease = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_WINDUP, VaultGearAttributeTypeMerger.floatSum());
             int i = this.getUseDuration(stack) - duration;

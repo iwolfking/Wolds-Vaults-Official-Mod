@@ -127,11 +127,7 @@ public class SpawnMobTask implements VaultEventTask {
         if(!effects.isEmpty()) {
             effects.forEach((mobEffectInstance, aDouble) -> {
                 if(entity instanceof LivingEntity livingEntity) {
-                    System.out.println("Applying effect!");
                     mobEffectInstance.apply(livingEntity);
-                }
-                else {
-                    System.out.println("NOT A LIVING ENTITY");
                 }
             });
         }

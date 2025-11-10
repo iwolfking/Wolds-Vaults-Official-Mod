@@ -254,8 +254,8 @@ public class VaultRangEntity extends Projectile {
                         VaultRangLogic.setActiveRang(null);
 
                         owner.attackStrengthTicker = ticksSinceLastSwing;
-                        if(this.getLevel().dimension().location().getNamespace().equals("the_vault")) {
-                            getStack().hurt(1, level.random, null);
+                        if(this.getLevel().dimension().location().getNamespace().equals("the_vault") && owner instanceof ServerPlayer serverPlayer) {
+                            getStack().hurt(1, level.random, serverPlayer);
                         }
 
                         setStack(owner.getMainHandItem());
@@ -357,8 +357,13 @@ public class VaultRangEntity extends Projectile {
         pos = position();
         this.setPos(pos.x, pos.y, pos.z);
 
-        if(!isAlive())
+        if(!isAlive()) {
+            if(owner instanceof ServerPlayer serverPlayer) {
+                AttributeSnapshotHelper.getInstance().refreshSnapshot(serverPlayer);
+            }
             return;
+
+        }
 
         ItemStack stack = getStack();
 
@@ -372,6 +377,9 @@ public class VaultRangEntity extends Projectile {
                     setPos(getX(), getY() + 1, getZ());
 
                 spawnAtLocation(stack, 0);
+                if(owner instanceof ServerPlayer serverPlayer) {
+                    AttributeSnapshotHelper.getInstance().refreshSnapshot(serverPlayer);
+                }
                 discard();
             }
 
@@ -439,6 +447,10 @@ public class VaultRangEntity extends Projectile {
                             else if (riding instanceof ExperienceOrb)
                                 riding.playerTouch(player);
                         }
+                    }
+
+                    if(owner instanceof ServerPlayer serverPlayer) {
+                        AttributeSnapshotHelper.getInstance().refreshSnapshot(serverPlayer);
                     }
 
                     discard();
