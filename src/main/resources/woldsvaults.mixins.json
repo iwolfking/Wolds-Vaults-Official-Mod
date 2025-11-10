@@ -270,6 +270,7 @@
     "vaulthunters.fixes.MixinScheduledModifiers",
     "vaulthunters.fixes.MixinSpiritExtractorTileEntity",
     "vaulthunters.fixes.MixinStatisticsElementContainerScreenData",
+    "vaulthunters.fixes.MixinThemeBlockRetriever",
     "vaulthunters.fixes.MixinToolItem",
     "vaulthunters.fixes.MixinTransmogTableBlock",
     "vaulthunters.fixes.MixinTreasureDoorTileEntityRenderer",
