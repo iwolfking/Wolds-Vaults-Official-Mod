@@ -6,9 +6,17 @@ import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.item.crystal.recipe.AnvilContext;
 import iskallia.vault.item.crystal.recipe.VanillaAnvilRecipe;
 import iskallia.vault.item.tool.ToolItem;
+import iskallia.vault.item.tool.ToolMaterial;
+import iskallia.vault.item.tool.ToolType;
+import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ToolStylishAdderRecipe extends VanillaAnvilRecipe {
 
@@ -42,7 +50,23 @@ public class ToolStylishAdderRecipe extends VanillaAnvilRecipe {
     }
 
     @Override
-    public void onRegisterJEI(IRecipeRegistration iRecipeRegistration) {
+    public void onRegisterJEI(IRecipeRegistration registry) {
+        IVanillaRecipeFactory factory = registry.getVanillaRecipeFactory();
+        List<ItemStack> inputs = new ArrayList<>();
+        List<ItemStack> outputs = new ArrayList<>();
+        List<ItemStack> secondary = List.of(new ItemStack(ModItems.STYLISH_FOCUS));
 
+        for(ToolMaterial material : ToolMaterial.values()) {
+            for(ToolType type : ToolType.values()) {
+                inputs.add(ToolItem.create(material, type));
+                ItemStack output = ToolItem.create(material, type);
+                VaultGearData data = VaultGearData.read(output);
+                data.createOrReplaceAttributeValue(ModGearAttributes.ROTATING_TOOL, true);
+                data.write(output);
+                outputs.add(output);
+            }
+        }
+
+        registry.addRecipes(RecipeTypes.ANVIL, List.of(factory.createAnvilRecipe(inputs, secondary, outputs)));
     }
 }

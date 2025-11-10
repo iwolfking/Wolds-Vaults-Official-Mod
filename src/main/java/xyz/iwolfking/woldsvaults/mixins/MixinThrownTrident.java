@@ -1,11 +1,8 @@
 package xyz.iwolfking.woldsvaults.mixins;
 
-import iskallia.vault.VaultMod;
 import iskallia.vault.entity.entity.EffectCloudEntity;
-import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
-import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
@@ -20,7 +17,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
@@ -105,46 +101,7 @@ public abstract class MixinThrownTrident extends AbstractArrow {
             Entity entity1 = this.getOwner();
             if(entity1 instanceof Player player) {
                 AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
-                MobType type = ((LivingEntity) entity).getMobType();
-                float increasedDamage = 0.0F;
-                if (!ActiveFlags.IS_AP_ATTACKING.isSet())
-                       increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_INCREASE, VaultGearAttributeTypeMerger.floatSum());
-                if (type == MobType.UNDEAD) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_UNDEAD, VaultGearAttributeTypeMerger.floatSum());
-                }
-                if (type == MobType.ARTHROPOD) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_SPIDERS, VaultGearAttributeTypeMerger.floatSum());
-                }
-                if (type == MobType.ILLAGER) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_ILLAGERS, VaultGearAttributeTypeMerger.floatSum());
-                }
-                if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/nether"), entity)) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_NETHER, VaultGearAttributeTypeMerger.floatSum());
-                }
-                if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/champion"), entity)) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_CHAMPION, VaultGearAttributeTypeMerger.floatSum());
-                }
-
-                if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/dungeon"), entity)) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_DUNGEON, VaultGearAttributeTypeMerger.floatSum());
-                }
-
-                if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/tank"), entity)) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_TANK, VaultGearAttributeTypeMerger.floatSum());
-                }
-
-                if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/horde"), entity)) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_HORDE, VaultGearAttributeTypeMerger.floatSum());
-                }
-
-                if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/assassin"), entity)) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_ASSASSIN, VaultGearAttributeTypeMerger.floatSum());
-                }
-
-                if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/dweller"), entity)) {
-                    increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_DWELLER, VaultGearAttributeTypeMerger.floatSum());
-                }
-                f += (f * (1.0F + increasedDamage));
+                f = VaultTridentItem.getTridentScaledDamage(snapshot, (LivingEntity) entity, f);
             }
 
 
@@ -165,9 +122,8 @@ public abstract class MixinThrownTrident extends AbstractArrow {
 
             this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
             float f1 = 1.0F;
-            if (this.level instanceof ServerLevel && this.isVaultTridentChanneling()) {
-                float channelChance = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.CHANNELING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
-                if(channelChance <= random.nextFloat() || channelChance == 0.0) {
+            if (this.level instanceof ServerLevel && VaultTridentItem.isVaultTridentChanneling(this.tridentItem)) {
+                if(!VaultTridentItem.shouldTriggerChanneling(data)) {
                     ci.cancel();
                     return;
                 }
@@ -201,11 +157,6 @@ public abstract class MixinThrownTrident extends AbstractArrow {
             this.playSound(soundevent, f1, 1.0F);
             ci.cancel();
         }
-    }
-
-    private boolean isVaultTridentChanneling() {
-        VaultGearData data = VaultGearData.read(this.tridentItem);
-        return data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_CHANNELING, VaultGearAttributeTypeMerger.anyTrue());
     }
 
     @Shadow protected abstract boolean isAcceptibleReturnOwner();

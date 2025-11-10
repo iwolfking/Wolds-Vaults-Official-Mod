@@ -9,6 +9,7 @@ import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.gear.VaultGearModifierHelper;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.IdentifiableItem;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.crystal.CrystalData;
@@ -20,16 +21,24 @@ import iskallia.vault.item.crystal.theme.CrystalTheme;
 import iskallia.vault.item.crystal.theme.PoolCrystalTheme;
 import iskallia.vault.item.crystal.theme.ValueCrystalTheme;
 import iskallia.vault.item.data.InscriptionData;
+import iskallia.vault.item.tool.ToolItem;
+import iskallia.vault.item.tool.ToolMaterial;
+import iskallia.vault.item.tool.ToolType;
+import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.items.ToolModifierNullifyingItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.GreedyVaultModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.InscriptionCrystalModifierSettable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class MapModificationRecipe extends VanillaAnvilRecipe {
@@ -147,8 +156,33 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
     }
 
     @Override
-    public void onRegisterJEI(IRecipeRegistration iRecipeRegistration) {
+    public void onRegisterJEI(IRecipeRegistration registry) {
+        IVanillaRecipeFactory factory = registry.getVanillaRecipeFactory();
 
+        ItemStack map = new ItemStack(ModItems.MAP);
+        if(map.getItem() instanceof IdentifiableItem identifiableItem) {
+            identifiableItem.instantIdentify(null, map);
+        }
+        VaultGearData mapData = VaultGearData.read(map);
+
+
+        ItemStack crystal = VaultCrystalItem.create(crystalData -> {
+            crystalData.getModifiers().add(new VaultModifierStack(VaultModifierRegistry.get(VaultMod.id("greedy")), 1));
+            crystalData.getProperties().setLevel(100);
+        });
+
+        ItemStack crystalOutput = VaultCrystalItem.create(crystalData -> {
+            crystalData.getModifiers().add(new VaultModifierStack(VaultModifierRegistry.get(VaultMod.id("greedy")), 1));
+            crystalData.getProperties().setLevel(100);
+            applySpecialModifiers(crystalData, mapData, VaultGearModifier.AffixType.IMPLICIT, null, null, false);
+            applySpecialModifiers(crystalData, mapData, VaultGearModifier.AffixType.PREFIX, null, null, false);
+            applySpecialModifiers(crystalData, mapData, VaultGearModifier.AffixType.SUFFIX, null, null, false);
+            crystalData.getProperties().setUnmodifiable(true);
+        });
+
+
+
+        registry.addRecipes(RecipeTypes.ANVIL, List.of(factory.createAnvilRecipe(List.of(crystal), List.of(map), List.of(crystalOutput))));
     }
 
     public static boolean applySpecialModifiers(CrystalData data, VaultGearData mapData, VaultGearModifier.AffixType affixType, AnvilContext context, ItemStack output, boolean shouldReduceValues) {

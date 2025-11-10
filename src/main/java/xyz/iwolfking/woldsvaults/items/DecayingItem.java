@@ -17,8 +17,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
-import xyz.iwolfking.woldsvaults.util.ComponentUtils;
-import xyz.iwolfking.woldsvaults.util.CorruptedVaultHelper;
+import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
+import xyz.iwolfking.woldsvaults.api.util.CorruptedVaultHelper;
 
 import java.util.List;
 import java.util.Optional;

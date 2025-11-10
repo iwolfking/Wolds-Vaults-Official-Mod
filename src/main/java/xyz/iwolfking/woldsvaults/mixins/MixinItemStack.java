@@ -1,18 +1,15 @@
 package xyz.iwolfking.woldsvaults.mixins;
 
-import com.bawnorton.mixinsquared.TargetHandler;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import iskallia.vault.init.ModItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Slice;
-import xyz.iwolfking.woldsvaults.items.gear.VaultBattleStaffItem;
-import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
-import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
-import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
+import xyz.iwolfking.woldsvaults.items.gear.*;
 
 @Mixin(value = ItemStack.class, priority = 1501)
 public abstract class MixinItemStack extends net.minecraftforge.common.capabilities.CapabilityProvider<ItemStack> implements net.minecraftforge.common.extensions.IForgeItemStack  {
@@ -22,6 +19,7 @@ public abstract class MixinItemStack extends net.minecraftforge.common.capabilit
 
 
 
+    @Dynamic(mixin = iskallia.vault.mixin.MixinItemStack.class)
     @WrapOperation(
         method = "hurt",
         at = @At(
@@ -31,10 +29,11 @@ public abstract class MixinItemStack extends net.minecraftforge.common.capabilit
     )
     public Item gearDurabilityPrestigeForWoldItems(ItemStack instance, Operation<Item> original) {
         Item item = original.call(instance);
-        if (   item instanceof VaultBattleStaffItem
+        if (item instanceof VaultBattleStaffItem
             || item instanceof VaultTridentItem
             || item instanceof VaultPlushieItem
-            || item instanceof VaultLootSackItem){
+            || item instanceof VaultLootSackItem
+            || item instanceof VaultRangItem) {
             return ModItems.FOCUS; // just pretend that wold items are focuses that already use the expertise
         }
         return item;

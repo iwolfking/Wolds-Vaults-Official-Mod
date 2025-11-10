@@ -44,6 +44,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         generateGenericItemModelBlockState(ModBlocks.ETCHING_PEDESTAL);
         generateGenericItemModelBlockState(ModBlocks.GOD_VENDOR_PEDESTAL);
         generateGenericItemModelBlockState(ModBlocks.BREWING_ALTAR);
+        horizontalBlock(ModBlocks.GRAVEYARD_LOOT_BLOCK, new ModelFile.ExistingModelFile(
+                modLoc("block/tombstone"), models().existingFileHelper));
         generateGenericItemModelBlockState(ModBlocks.CARD_VENDOR_PEDESTAL, "god_shop_pedestal");
         generateGenericItemModelBlockState(ModBlocks.SPOOKY_VENDOR_PEDESTAL, "etching_shop_pedestal");
 
@@ -55,6 +57,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.NULLITE_ORE);
         simpleBlockWithItem(ModBlocks.PRISMATIC_FIBER_BLOCK);
         simpleBlockWithItem(ModBlocks.SURVIVAL_MOB_BARRIER);
+        simpleBlockItem(
+                ModBlocks.GRAVEYARD_LOOT_BLOCK,
+                new ModelFile.ExistingModelFile(
+                        modLoc("block/tombstone"),
+                        models().existingFileHelper
+                )
+        );
     }
 
     private void simpleBlockWithItem(Block block) {
@@ -110,7 +119,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         itemModels().withExistingParent("obelisk", modLoc("block/obelisk_inactive"));
     }
-
 
 
     private void generateChromaticSteelVaultInfuser() {

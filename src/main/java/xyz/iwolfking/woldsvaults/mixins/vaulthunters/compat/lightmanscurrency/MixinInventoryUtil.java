@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
-import xyz.iwolfking.woldsvaults.api.helper.WoldInventoryUtil;
+import xyz.iwolfking.woldsvaults.api.util.WoldInventoryUtil;
 
 import java.util.List;
 import java.util.Set;

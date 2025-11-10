@@ -1,11 +1,9 @@
 package xyz.iwolfking.woldsvaults.objectives;
 
-import iskallia.vault.VaultMod;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.ElixirObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.objective.elixir.ElixirGoal;
@@ -16,11 +14,10 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.api.helper.NormalizedHelper;
-import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
+import xyz.iwolfking.woldsvaults.api.util.NormalizedHelper;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
-import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -164,13 +161,13 @@ public class EnchantedElixirObjective extends ElixirObjective {
 
     private void triggerRandomEvent(ServerPlayer objPlayer, Vault vault) {
         if(EnchantedEventsRegistry.getEvents().getRandom().isPresent()) {
-            EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(objPlayer.getOnPos(), objPlayer, vault);
+            EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(objPlayer::getOnPos, objPlayer, vault, true, VaultEvent.EventDisplayType.LEGACY);
         }
     }
 
     private void triggerOmegaRandomEvent(ServerPlayer objPlayer, Vault vault) {
         if(EnchantedEventsRegistry.getEvents().getRandom().isPresent()) {
-            EnchantedEventsRegistry.getOmegaEvents().getRandom().get().triggerEvent(objPlayer.getOnPos(), objPlayer, vault);
+            EnchantedEventsRegistry.getOmegaEvents().getRandom().get().triggerEvent(objPlayer::getOnPos, objPlayer, vault, true, VaultEvent.EventDisplayType.LEGACY);
         }
     }
 

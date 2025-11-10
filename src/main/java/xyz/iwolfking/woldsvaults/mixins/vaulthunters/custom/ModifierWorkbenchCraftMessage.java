@@ -21,7 +21,7 @@ import net.minecraftforge.network.NetworkEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import xyz.iwolfking.woldsvaults.expertises.CraftsmanExpertise;
-import xyz.iwolfking.woldsvaults.helpers.ModifierWorkbenchMixinHelper;
+import xyz.iwolfking.woldsvaults.api.util.ModifierWorkbenchMixinHelper;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.MixinModifierWorkbenchCraftMessageAccessor;
 
 import java.util.ArrayList;

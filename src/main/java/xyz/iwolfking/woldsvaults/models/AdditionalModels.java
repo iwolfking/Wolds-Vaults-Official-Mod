@@ -2,13 +2,23 @@ package xyz.iwolfking.woldsvaults.models;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.dynamodel.DynamicModelProperties;
+import iskallia.vault.dynamodel.model.armor.ArmorModel;
 import iskallia.vault.dynamodel.model.item.HandHeldModel;
 import iskallia.vault.dynamodel.model.item.PlainItemModel;
 import iskallia.vault.dynamodel.model.item.shield.ShieldModel;
+import iskallia.vault.dynamodel.registry.DynamicModelRegistries;
+import iskallia.vault.gear.renderer.VaultArmorRenderProperties;
 import iskallia.vault.init.ModDynamicModels;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.vhapi.VHAPI;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.models.armor.HeatwaveArmorModel;
 
-
+@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class AdditionalModels {
 
     public static final HandHeldModel LEVIATHAN_AXE;
@@ -44,6 +54,7 @@ public class AdditionalModels {
     public static final PlainItemModel CAT_WAND;
     public static final PlainItemModel MUSTARD;
     public static final PlainItemModel TINKERS_TANKARD;
+    //public static final ArmorModel HEATWAVE;
 
     static {
        LEVIATHAN_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/leviathan"), "Leviathan Axe")).properties(new DynamicModelProperties());
@@ -79,6 +90,14 @@ public class AdditionalModels {
        CAT_WAND = ModDynamicModels.Wands.REGISTRY.register(new PlainItemModel(VHAPI.of("gear/wand/cat"), "Cat Wand")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
        MUSTARD = ModDynamicModels.Wands.REGISTRY.register(new PlainItemModel(VHAPI.of("gear/wand/mustard"), "Mustard Bottle")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
        TINKERS_TANKARD = ModDynamicModels.Focus.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/focus/tinkers_tankard"), "Tinker's Tankard")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+//       HEATWAVE = new ArmorModel(VaultMod.id("gear/armor/heatwave"), "Heatwave")
+//               .properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll())
+//               .usingLayers(new HeatwaveArmorModel())
+//               .addSlot(EquipmentSlot.HEAD)
+//               .addSlot(EquipmentSlot.CHEST)
+//               .addSlot(EquipmentSlot.LEGS)
+//               .addSlot(EquipmentSlot.FEET);
     }
+
 
 }

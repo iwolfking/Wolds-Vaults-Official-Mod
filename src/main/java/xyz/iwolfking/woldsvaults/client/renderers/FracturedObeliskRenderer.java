@@ -16,7 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.blocks.tiles.FracturedObeliskTileEntity;
-import xyz.iwolfking.woldsvaults.util.ComponentUtils;
+import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
 
 import java.util.ArrayList;
 import java.util.List;

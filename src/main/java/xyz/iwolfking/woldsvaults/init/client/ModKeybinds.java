@@ -8,10 +8,12 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 public class ModKeybinds {
     public static KeyMapping isFeatherFixed;
     public static KeyMapping openWoldsVaultsConfig;
+    public static KeyMapping toggleBetterCombat;
 
     public static void registerKeyBinds() {
         isFeatherFixed = registerKeyMapping("is_feather_fixed", -1);
         openWoldsVaultsConfig = registerKeyMapping("open_wolds_vaults_config", GLFW.GLFW_KEY_DELETE);
+        toggleBetterCombat = registerKeyMapping("toggle_better_combat", GLFW.GLFW_KEY_PERIOD);
     }
 
     private static KeyMapping registerKeyMapping(String name, int keyCode) {

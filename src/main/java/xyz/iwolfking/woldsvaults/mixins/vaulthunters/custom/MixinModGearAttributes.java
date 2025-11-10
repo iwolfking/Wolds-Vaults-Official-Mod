@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
-import xyz.iwolfking.woldsvaults.util.MutableModifierReader;
-import xyz.iwolfking.woldsvaults.util.WoldTexFX;
+import xyz.iwolfking.woldsvaults.api.util.MutableModifierReader;
+import xyz.iwolfking.woldsvaults.api.util.WoldTexFX;
 
 import javax.annotation.Nullable;
 

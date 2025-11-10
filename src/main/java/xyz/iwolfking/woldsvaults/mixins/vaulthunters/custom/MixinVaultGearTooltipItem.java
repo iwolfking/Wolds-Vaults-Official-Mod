@@ -36,11 +36,6 @@ public interface MixinVaultGearTooltipItem{
         data.getAttributes(ModGearAttributes.LIVING)
             .filter(VaultGearAttributeInstance::getValue)
             .forEach(attr -> attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).ifPresent(tooltip::add));
-        if(WoldsVaults.BETTER_COMBAT_PRESENT || WoldsVaultsConfig.COMMON.weaponsShouldntBeBetter.get()) {
-            data.getAttributes(xyz.iwolfking.woldsvaults.init.ModGearAttributes.WEAPON_TYPE)
-                    .filter(Objects::nonNull)
-                    .forEach(attr -> attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).ifPresent(tooltip::add));
-        }
         data.getAttributes(xyz.iwolfking.woldsvaults.init.ModGearAttributes.DIVINE).filter(VaultGearAttributeInstance::getValue).forEach(booleanVaultGearAttributeInstance -> booleanVaultGearAttributeInstance.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack,displayDetail).ifPresent(tooltip::add));
         if (tooltip.size() > txtLength && displayDetail) {
             tooltip.add(TextComponent.EMPTY);

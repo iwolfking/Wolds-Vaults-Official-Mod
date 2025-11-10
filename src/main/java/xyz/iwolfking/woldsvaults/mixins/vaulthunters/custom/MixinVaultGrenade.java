@@ -10,13 +10,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.api.helper.WoldAttributeHelper;
+import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 
 @Mixin(value = VaultGrenade.class, remap = false)
 public abstract class MixinVaultGrenade extends ThrowableItemProjectile {

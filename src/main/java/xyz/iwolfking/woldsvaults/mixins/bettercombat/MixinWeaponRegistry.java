@@ -23,7 +23,7 @@ import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 public class MixinWeaponRegistry {
     @Inject(method = "getAttributes(Lnet/minecraft/world/item/ItemStack;)Lnet/bettercombat/api/WeaponAttributes;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;", shift = At.Shift.AFTER), cancellable = true, remap = true)
     private static void ignoreFallbackForWeaponTypeAttribute(ItemStack itemStack, CallbackInfoReturnable<WeaponAttributes> cir) {
-        if(WoldsVaultsConfig.COMMON.weaponsShouldntBeBetter.get()) {
+        if(WoldsVaultsConfig.CLIENT.weaponsShouldntBeBetter.get()) {
             cir.setReturnValue(null);
         }
     }

@@ -39,6 +39,12 @@
       "woldsvaults:ominous_ambience_3"
     ]
   },
+  "haturkin_gobble": {
+    "subtitle": "woldsvaults.subtitle.haturkin.ambient",
+    "sounds": [
+      "woldsvaults:haturkin/gobble"
+    ]
+  },
   "dark": {
     "sounds": [
       {

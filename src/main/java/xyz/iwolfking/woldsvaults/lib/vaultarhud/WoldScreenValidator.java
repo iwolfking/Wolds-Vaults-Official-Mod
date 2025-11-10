@@ -6,7 +6,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import xyz.iwolfking.woldsvaults.init.ModVaultarHudScreenRegistry;
 import xyz.iwolfking.woldsvaults.lib.vaultarhud.screens.*;
-import xyz.iwolfking.woldsvaults.util.ConditionalModUtils;
+import xyz.iwolfking.woldsvaults.api.util.ConditionalModUtils;
 
 import java.util.List;
 

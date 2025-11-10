@@ -86,12 +86,4 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
 
         return List.of((new TextComponent("Undiscovered")).withStyle(ChatFormatting.ITALIC));
     }
-
-
-//    public void getDisabledText(ItemStack result, List<Component> out) {
-//        if(result.getItem() instanceof AirMobilityItem || result.getItem() instanceof VaultMapItem) {
-//            out.add(new TextComponent("Defeat The Herald by collecting all 25 Artifacts to unlock."));
-//        }
-//        super.addCraftingDisplayTooltip(result, out);
-//    }
 }

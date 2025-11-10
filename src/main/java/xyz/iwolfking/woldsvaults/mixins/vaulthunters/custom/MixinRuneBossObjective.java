@@ -1,8 +1,5 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import iskallia.vault.block.entity.BossRunePillarTileEntity;
-import iskallia.vault.core.event.common.ScavengerAltarConsumeEvent;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.RuneBossObjective;
 import iskallia.vault.core.world.storage.VirtualWorld;
@@ -10,9 +7,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.api.helper.GameruleHelper;
-import xyz.iwolfking.woldsvaults.api.helper.NormalizedHelper;
-import xyz.iwolfking.woldsvaults.init.ModGameRules;
 
 @Mixin(value = RuneBossObjective.class, remap = false)
 public class MixinRuneBossObjective {

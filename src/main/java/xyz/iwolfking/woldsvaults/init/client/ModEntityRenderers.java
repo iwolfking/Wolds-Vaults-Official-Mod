@@ -2,14 +2,21 @@ package xyz.iwolfking.woldsvaults.init.client;
 
 
 import iskallia.vault.entity.model.ModModelLayers;
+import net.minecraft.client.renderer.entity.ChickenRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.PigRenderer;
+import net.minecraft.client.renderer.entity.SheepRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.entities.thanksgiving.client.renderer.CranberrySlimeRenderer;
+import xyz.iwolfking.woldsvaults.entities.thanksgiving.client.renderer.HaturkeyRenderer;
+import xyz.iwolfking.woldsvaults.entities.thanksgiving.client.renderer.HostileTurkeyRenderer;
 import xyz.iwolfking.woldsvaults.entities.ghosts.lib.client.GenericWraithRenderer;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangRenderer;
+import xyz.iwolfking.woldsvaults.models.entity.HaturkeyEntityModel;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.client.WoldBossRenderer;
 
 @OnlyIn(Dist.CLIENT)
@@ -29,6 +36,12 @@ public class ModEntityRenderers {
         EntityRenderers.register(ModEntities.PURPLE_GHOST, ctx -> new GenericWraithRenderer(ctx, WoldsVaults.id("textures/entity/purple_ghost.png")));
         EntityRenderers.register(ModEntities.YELLOW_GHOST, ctx -> new GenericWraithRenderer(ctx, WoldsVaults.id("textures/entity/yellow_ghost.png")));
         EntityRenderers.register(ModEntities.RED_GHOST, ctx -> new GenericWraithRenderer(ctx, WoldsVaults.id("textures/entity/red_ghost.png")));
+        EntityRenderers.register(ModEntities.HOSTILE_TURKEY, HostileTurkeyRenderer::new);
+        EntityRenderers.register(ModEntities.CRANBERRY_SLIME, CranberrySlimeRenderer::new);
+        EntityRenderers.register(ModEntities.HOSTILE_CHICKEN, ChickenRenderer::new);
+        EntityRenderers.register(ModEntities.HOSTILE_SHEEP, SheepRenderer::new);
+        EntityRenderers.register(ModEntities.HOSTILE_PIG, PigRenderer::new);
         EntityRenderers.register(ModEntities.VAULT_RANG, VaultRangRenderer::new);
+        EntityRenderers.register(ModEntities.HATURKIN, HaturkeyRenderer::new);
     }
 }

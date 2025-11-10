@@ -27,8 +27,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.client.sfx.LoopSoundHandler;
 import xyz.iwolfking.woldsvaults.data.compound.FloatList;
 import xyz.iwolfking.woldsvaults.events.vaultevents.client.WoldClientEvents;
-import xyz.iwolfking.woldsvaults.util.CorruptedVaultClientHelper;
-import xyz.iwolfking.woldsvaults.util.CorruptedVaultHelper;
+import xyz.iwolfking.woldsvaults.api.util.CorruptedVaultClientHelper;
+import xyz.iwolfking.woldsvaults.api.util.CorruptedVaultHelper;
 
 public class CorruptedObjective extends Objective {
 

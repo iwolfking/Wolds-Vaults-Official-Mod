@@ -11,11 +11,13 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.ConfigValue<Boolean> showVanillaVaultHud;
         public final ForgeConfigSpec.ConfigValue<Boolean> showVanillaVaultMap;
         public final ForgeConfigSpec.ConfigValue<Boolean> playVaultMusic;
+        public final ForgeConfigSpec.ConfigValue<Boolean> weaponsShouldntBeBetter;
         public Client(ForgeConfigSpec.Builder builder)
         {
             this.showVanillaVaultHud = builder.comment("Whether to show the built-in Vault Inventory HUD").define("showVanillaVaultHud", false);
             this.showVanillaVaultMap = builder.comment("Whether to show the built-in Vault Map in the HUD").define("showVanillaVaultMap", false);
             this.playVaultMusic = builder.comment("Whether to play special tracks while inside the Vault").define("playVaultMusic", false);
+            this.weaponsShouldntBeBetter = builder.comment("Whether to enable Better Combat or not (default: false)").define("weaponsShouldntBeBetter", false);
         }
     }
     public static class Common
@@ -27,7 +29,7 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.ConfigValue<Boolean> enableDebugMode;
         public final ForgeConfigSpec.ConfigValue<Integer> crystalReinforcementMaxCapacityAdded;
         public final ForgeConfigSpec.ConfigValue<Boolean> disableWanderingWispSpawning;
-        public final ForgeConfigSpec.ConfigValue<Boolean> weaponsShouldntBeBetter;
+        //public final ForgeConfigSpec.ConfigValue<Boolean> weaponsShouldntBeBetter;
         public final ForgeConfigSpec.ConfigValue<Integer> soulFlameLevelAllowance;
 
         public Common(ForgeConfigSpec.Builder builder)
@@ -37,7 +39,7 @@ public class WoldsVaultsConfig
                     .define("enableMoteRecipes", false);
             this.crystalReinforcementMaxCapacityAdded = builder.comment("The max capacity that can be added to a tool with Resonating Reinforcements. (default: 20)").define("resonatingReinforcementMaxCapacityAdded", 20);
             this.disableWanderingWispSpawning = builder.comment("Controls whether or not wandering wisps should spawn (default: true)").define("disableWanderingWispSpawning", true);
-            this.weaponsShouldntBeBetter = builder.comment("Whether Better Combat should be disabled for weapons or not (note: this is a client-side setting, don't change on servers) (default: false)").define("weaponsShouldntBeBetter", false);
+            //this.weaponsShouldntBeBetter = builder.comment("Whether Better Combat should be disabled for weapons or not (note: this is a client-side setting, don't change on servers) (default: false)").define("weaponsShouldntBeBetter", false);
             this.soulFlameLevelAllowance = builder.comment("How much a difference in levels should be allowed for Soul Flames before not raising stacks (default: 3)").define("soulFlameLevelAllowance", 3);
             builder.pop();
             builder.push("Developer Settings");
@@ -54,6 +56,7 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerEnergyTransfer;
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerExtractionSpeed;
         public final ForgeConfigSpec.ConfigValue<Boolean> enableNormalGatewayPearls;
+        public final ForgeConfigSpec.ConfigValue<Boolean> enableServerKiller;
 
         public Server(ForgeConfigSpec.Builder builder) {
             builder.push("Doll Mixer Settings");
@@ -64,6 +67,9 @@ public class WoldsVaultsConfig
             builder.pop();
             builder.push("Gameplay Settings");
             this.enableNormalGatewayPearls = builder.comment("Whether Gateway Pearls should be able to be used normally (right-clicking to use them on ground) (default: false)").define("enableNormalGatewayPearls", false);
+            builder.pop();
+            builder.push("Admin Settings");
+            this.enableServerKiller = builder.comment("Whether to enable Server Killer that will automatically shut down server after 30 seconds, useful if your server is hanging on shutdown. (default: false)").define("enableServerKiller", false);
         }
     }
 

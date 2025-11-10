@@ -19,7 +19,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import shadows.gateways.entity.GatewayEntity;
 import shadows.gateways.item.GatePearlItem;
-import xyz.iwolfking.woldsvaults.api.helper.GTEHelper;
+import xyz.iwolfking.woldsvaults.api.util.GTEHelper;
 
 import static shadows.gateways.item.GatePearlItem.getGate;
 

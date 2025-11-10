@@ -15,35 +15,39 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+import xyz.iwolfking.woldsvaults.events.client.music.VaultMusic;
+
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class MusicEvents {
-    public static SimpleSoundInstance TRACK;
+
+    private static boolean isPlayingVaultMusic = false;
 
     @SubscribeEvent
-    public static void onTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.START) {
-            SoundManager manager = Minecraft.getInstance().getSoundManager();
-            if (!shouldPlay() || manager.isActive(HeraldMusicHandler.TRACK)) {
-                if (manager.isActive(TRACK)) {
-                    manager.stop(TRACK);
-                }
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
 
-            } else {
-                if (!manager.isActive(TRACK) && shouldPlay()) {
-                    TRACK = new SimpleSoundInstance(
-                            getTrack().getLocation(), SoundSource.MASTER, 0.3F, 1.0F, true, 0, SoundInstance.Attenuation.LINEAR, 0.0, 0.0, 0.0, true
-                    );
-                    manager.play(TRACK);
-                }
-            }
+        Minecraft mc = Minecraft.getInstance();
+        var manager = mc.getMusicManager();
+        var soundManager = mc.getSoundManager();
+
+        boolean shouldPlay = shouldPlayVaultMusic();
+
+        if (shouldPlay && !isPlayingVaultMusic) {
+            manager.stopPlaying();
+            manager.startPlaying(VaultMusic.VAULT_LOOP(getVaultTrack()));
+            isPlayingVaultMusic = true;
+        } else if (!shouldPlay && isPlayingVaultMusic) {
+            manager.stopPlaying();
+            soundManager.stop(null, net.minecraft.sounds.SoundSource.MUSIC);
+            isPlayingVaultMusic = false;
         }
     }
 
-    private static SoundEvent getTrack() {
+    private static SoundEvent getVaultTrack() {
         return ModSounds.VAULT_AMBIENT_LOOP;
     }
 
-    private static boolean shouldPlay() {
+    private static boolean shouldPlayVaultMusic() {
         return WoldsVaultsConfig.CLIENT.playVaultMusic.get() && ClientVaults.getActive().isPresent();
     }
 }

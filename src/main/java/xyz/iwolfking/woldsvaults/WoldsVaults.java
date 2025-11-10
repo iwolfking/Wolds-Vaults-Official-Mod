@@ -22,7 +22,8 @@ import net.minecraftforge.fml.loading.LoadingModList;
 import org.slf4j.Logger;
 import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
-import xyz.iwolfking.woldsvaults.api.WoldDataLoaders;
+import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
+import xyz.iwolfking.woldsvaults.api.vhapi.loaders.WoldDataLoaders;
 import xyz.iwolfking.woldsvaults.client.init.ModParticles;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
@@ -30,6 +31,7 @@ import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.data.recipes.CachedInfuserRecipeData;
 import xyz.iwolfking.woldsvaults.events.LivingEntityEvents;
 import xyz.iwolfking.woldsvaults.events.RegisterCommandEventHandler;
+import xyz.iwolfking.woldsvaults.events.ServerKiller;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
@@ -87,6 +89,7 @@ public class WoldsVaults {
         ModVaultFilterAttributes.initAttributes();
         ModGameRules.initialize();
         NetworkHandler.onCommonSetup();
+        DelayedExecutionHelper.init();
         CrystalData.OBJECTIVE.register("brb_speedrun", SpeedrunCrystalObjective.class, SpeedrunCrystalObjective::new);
         BETTER_COMBAT_PRESENT = LoadingModList.get().getModFileById("bettercombat") != null;
     }
@@ -95,8 +98,12 @@ public class WoldsVaults {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        EnchantedEventsRegistry.addEvents();
+        EnchantedEventsRegistry.registerAllBuiltInEvents();
+        ModVaultEvents.init();
         BrutalBossesRegistry.init();
+        if(WoldsVaultsConfig.SERVER.enableServerKiller.get()) {
+            ServerKiller.register();
+        }
     }
 
     public void onLevelLoad(WorldEvent.Load event) {

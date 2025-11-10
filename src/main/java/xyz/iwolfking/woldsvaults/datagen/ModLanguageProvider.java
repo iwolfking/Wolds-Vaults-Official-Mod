@@ -80,6 +80,11 @@ public class ModLanguageProvider extends LanguageProvider {
         add("jei.the_vault.dungeon_pedestal_loot", "Dungeon Pedestal");
         add("jei.the_vault.treasure_pedestal_loot", "Treasure Pedestal");
         add("jei.the_vault.brazier_pillage_loot", "Brazier Pillaging");
+        add("jei.the_vault.tombstone_loot", "Tombstone");
+        add("jei.the_vault.god_altar_wendarr_loot", "God Altar (Wendarr)");
+        add("jei.the_vault.god_altar_idona_loot", "God Altar (Idona)");
+        add("jei.the_vault.god_altar_tenos_loot", "God Altar (Tenos)");
+        add("jei.the_vault.god_altar_velara_loot", "God Altar (Velara)");
         add("item.the_vault.gem_iskallium", "§5Woldium Gem");
         add("item.the_vault.key_iskallium", "§5Woldium Key");
         add("item.the_vault.cluster_iskallium", "§5Woldium Cluster");
@@ -138,6 +143,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.woldsvaults.vault_crate_alchemy", "Alchemy Vault Crate");
         add("block.woldsvaults.nullite_ore", "Nullite Ore");
         add("block.woldsvaults.doll_dismantler", "Doll Blender");
+        add("block.woldsvaults.tombstone", "Tombstone");
         add("entity.the_vault.wold", "Wold");
         add("entity.woldsvaults.green_ghost", "Toxic Ghost");
         add("entity.woldsvaults.black_ghost", "Unholy Ghost");
@@ -149,6 +155,12 @@ public class ModLanguageProvider extends LanguageProvider {
         add("entity.woldsvaults.purple_ghost", "Enchanted Ghost");
         add("entity.woldsvaults.red_ghost", "Red Ghost");
         add("entity.woldsvaults.yellow_ghost", "Rapid Ghost");
+        add("entity.woldsvaults.hostile_turkey", "Aggressive Turkey");
+        add("entity.woldsvaults.hostile_chicken", "Aggressive Chicken");
+        add("entity.woldsvaults.hostile_sheep", "Aggressive Sheep");
+        add("entity.woldsvaults.hostile_pig", "Aggressive Pig");
+        add("entity.woldsvaults.cranberry_slime", "Cranberry Sauce Slime");
+        add("entity.woldsvaults.haturkin", "Haturkin");
         add("item.woldsvaults.wold_spawn_egg", "Wold Spawn Egg");
         add("item.woldsvaults.boogieman_spawn_egg", "Boogieman Spawn Egg");
         add("item.woldsvaults.monster_eye_spawn_egg", "Monster Eye Spawn Egg");
@@ -222,6 +234,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.key.cherish_item", "Cherish Item");
         add("key.woldsvaults.cherish_item", "Cherish Item");
         add("key.woldsvaults.open_wolds_vaults_config", "Open Wold's Vaults Config Screen");
+        add("key.woldsvaults.toggle_better_combat", "Toggle Better Combat");
         add("key.woldsvaults.is_feather_fixed", "Toggle Prismatic Feather Fix");
         add("key.category.woldsvaults", "Wold's Vaults");
         add("the_vault.gear_modification.reforge_weapon_type.description", "Reforges weapon type");
@@ -272,7 +285,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("entity.the_vault.boogieman_boss", "Boogieman Boss");
         add("entity.the_vault.golem_boss", "Golem Boss");
         add("key.the_vault.quickselect.colossus", "Select and use ability: Colossus");
-        add("key.the_vault.quickselect.expunge", "Select and use ability: Expunge");
+        add("key.the_vault.quickselect.expunge", "Select and use ability: Diffuse");
         add("woldsvaults.subtitle.saferspaces_proc", "Safer Spaces activated!");
         add("the_vault.gear_modification.tab.mythical", "Mythical");
         add("item.woldsvaults.pogominium_ingot", "POG-ominium Ingot");

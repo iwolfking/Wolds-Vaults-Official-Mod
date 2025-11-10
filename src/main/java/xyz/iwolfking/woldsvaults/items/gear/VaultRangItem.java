@@ -9,6 +9,7 @@ import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.VaultGearType;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.crafting.ProficiencyType;
+import iskallia.vault.gear.data.GearDataCache;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.tooltip.GearTooltip;
@@ -17,10 +18,13 @@ import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.item.BasicItem;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
+import iskallia.vault.util.SidedHelper;
 import iskallia.vault.world.data.DiscoveredModelsData;
+import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -29,6 +33,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Inventory;
@@ -80,9 +85,16 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
+
         if(VaultGearHelper.rightClick(worldIn, playerIn, handIn, super.use(worldIn, playerIn, handIn)).getResult().equals(InteractionResult.FAIL)) {
             return InteractionResultHolder.fail(itemstack);
         }
+
+        VaultGearData data = VaultGearData.read(itemstack);
+        if(data.getItemLevel() > SidedHelper.getVaultLevel(playerIn)) {
+            return new InteractionResultHolder<>(InteractionResult.FAIL, itemstack);
+        }
+
         playerIn.setItemInHand(handIn, ItemStack.EMPTY);
         AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(playerIn);
         float velocity = snapshot.getAttributeValue(ModGearAttributes.VELOCITY, VaultGearAttributeTypeMerger.floatSum()) * 100;
@@ -94,7 +106,7 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
             Inventory inventory = playerIn.getInventory();
             int slot = handIn == InteractionHand.OFF_HAND ? inventory.getContainerSize() - 1 : inventory.selected;
             VaultRangEntity entity = new VaultRangEntity(worldIn, playerIn);
-            entity.setThrowData(slot, itemstack);
+            entity.setThrowData(slot, itemstack, snapshot);
             entity.shoot(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, 1.5F + velocity * 0.325F, 0F);
             worldIn.addFreshEntity(entity);
         }
@@ -107,6 +119,15 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
 
         playerIn.awardStat(Stats.ITEM_USED.get(this));
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemstack);
+    }
+
+    @Override
+    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
+        boolean result = super.hurtEnemy(pStack, pTarget, pAttacker);
+        pTarget.setDeltaMovement(Vec3.ZERO);
+        Vec3 dir = pAttacker.getLookAngle().normalize();
+        pTarget.push(dir.x * 0.05, 0.05, dir.z * 0.05);
+        return result;
     }
 
     @Override

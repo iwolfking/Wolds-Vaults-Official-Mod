@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.altar;
 
 import iskallia.vault.altar.AltarInfusionRecipe;
 import iskallia.vault.block.entity.VaultAltarTileEntity;
-import iskallia.vault.command.ResetCommand;
 import iskallia.vault.world.data.PlayerVaultAltarData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import xyz.iwolfking.woldsvaults.api.helper.PlayerVaultAltarDataHelper;
+import xyz.iwolfking.woldsvaults.api.util.PlayerVaultAltarDataHelper;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.util.List;

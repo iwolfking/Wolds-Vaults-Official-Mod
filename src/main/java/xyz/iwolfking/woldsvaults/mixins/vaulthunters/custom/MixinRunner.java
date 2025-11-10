@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
-import xyz.iwolfking.woldsvaults.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 import java.util.List;
 @Mixin(value = Runner.class, remap = false)
@@ -71,7 +71,7 @@ public abstract class MixinRunner extends Listener {
                 }
             }
             if(surpriseModifiersExpertiseLevel > 0) {
-                if(world.getRandom().nextFloat() < (surpriseModifiersExpertiseLevel * 0.1F)) {
+                if(world.getRandom().nextFloat() < (surpriseModifiersExpertiseLevel * 0.2F)) {
                     VaultModifierUtils.addModifierFromPool(vault, VaultMod.id("random_positive"));
                 }
             }

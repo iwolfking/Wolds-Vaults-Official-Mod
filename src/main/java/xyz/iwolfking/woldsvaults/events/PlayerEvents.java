@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.events;
 
+import iskallia.vault.block.SkillAltarBlock;
 import iskallia.vault.item.KnowledgeBrewItem;
 import iskallia.vault.item.MentorsBrewItem;
 import iskallia.vault.item.VaultDollItem;
@@ -27,7 +28,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.helper.GameruleHelper;
+import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.blocks.DollDismantlingBlock;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.items.FilterNecklaceItem;
@@ -68,6 +69,7 @@ public class PlayerEvents {
         }
     }
 
+    //TODO: Refactor this into something more dynamic
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
         if(event.getCrafting().getItem() instanceof VaultDollItem && !GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULT_DOLLS, event.getPlayer().getLevel())) {
@@ -82,24 +84,31 @@ public class PlayerEvents {
         else if(event.getCrafting().getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof DollDismantlingBlock && !GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULT_DOLLS, event.getPlayer().getLevel())) {
             cancelCraft(event, event.getCrafting());
         }
+        else if(event.getCrafting().getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof SkillAltarBlock && !GameruleHelper.isEnabled(ModGameRules.ENABLE_SKILL_ALTARS, event.getPlayer().getLevel())) {
+            cancelCraft(event, event.getCrafting());
+        }
     }
 
+    //TODO: Refactor this into something more dynamic
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onItemTooltip(ItemTooltipEvent event) {
         Player player = event.getPlayer();
         if(player != null) {
             if(event.getItemStack().getItem() instanceof VaultDollItem && !GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULT_DOLLS, event.getPlayer().getLevel())) {
-                event.getToolTip().add(new TextComponent("Vault Dolls are disabled on this server!").withStyle(ChatFormatting.RED));
+                event.getToolTip().add(new TextComponent("Vault Dolls are disabled in this world!").withStyle(ChatFormatting.RED));
             }
             else if(event.getItemStack().getItem() instanceof KnowledgeBrewItem && !GameruleHelper.isEnabled(iskallia.vault.init.ModGameRules.ALLOW_KNOWLEDGE_BREW, event.getPlayer().getLevel())) {
-                event.getToolTip().add(new TextComponent("Knowledge Brew are disabled on this server!").withStyle(ChatFormatting.RED));
+                event.getToolTip().add(new TextComponent("Knowledge Brews are disabled in this world!").withStyle(ChatFormatting.RED));
             }
             else if(event.getItemStack().getItem() instanceof MentorsBrewItem && !GameruleHelper.isEnabled(iskallia.vault.init.ModGameRules.ALLOW_MENTOR_BREW, event.getPlayer().getLevel())) {
-                event.getToolTip().add(new TextComponent("Mentor's Brew are disabled on this server!").withStyle(ChatFormatting.RED));
+                event.getToolTip().add(new TextComponent("Mentor Brews are disabled in this world!").withStyle(ChatFormatting.RED));
             }
             else if(event.getItemStack().getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof DollDismantlingBlock && !GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULT_DOLLS, event.getPlayer().getLevel())) {
-                event.getToolTip().add(new TextComponent("Vault Dolls are disabled on this server!").withStyle(ChatFormatting.RED));
+                event.getToolTip().add(new TextComponent("Vault Dolls are disabled in this world!").withStyle(ChatFormatting.RED));
+            }
+            else if(event.getItemStack().getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof SkillAltarBlock && !GameruleHelper.isEnabled(ModGameRules.ENABLE_SKILL_ALTARS, event.getPlayer().getLevel())) {
+                event.getToolTip().add(new TextComponent("Skill Altars are disabled in this world!").withStyle(ChatFormatting.RED));
             }
         }
 
@@ -109,7 +118,7 @@ public class PlayerEvents {
         MutableComponent name = (MutableComponent) item.getDisplayName();
         Style style = Style.EMPTY.withColor(TextColor.fromRgb(-203978));
         name.setStyle(style);
-        Component text = name.append(new TextComponent(" cannot be crafted on this server!"));
+        Component text = name.append(new TextComponent(" cannot be crafted in this world!"));
         Minecraft.getInstance().gui.setOverlayMessage(text, false);
     }
 

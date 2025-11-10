@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.util.ComponentUtils;
-import xyz.iwolfking.woldsvaults.util.CorruptedVaultHelper;
+import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
+import xyz.iwolfking.woldsvaults.api.util.CorruptedVaultHelper;
 
 import static net.minecraft.client.gui.GuiComponent.GUI_ICONS_LOCATION;
 
