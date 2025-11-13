@@ -102,7 +102,7 @@ public abstract class MixinModModelDiscoveryGoals {
             }
         }));
 
-        TREASURED_JEWEL = registerGoal(WoldsVaults.id("open_10_treasure_rooms"), (new TreasuredJewelDiscoveryGoal(05.0F)).setReward((player, goal) -> {
+        TREASURED_JEWEL = registerGoal(WoldsVaults.id("open_10_treasure_rooms"), (new TreasuredJewelDiscoveryGoal(10.0F)).setReward((player, goal) -> {
             DiscoveredRecipesData data = DiscoveredRecipesData.get(player.getLevel());
             ResourceLocation unlock = WoldsVaults.id("treasure_jewel");
             if(!data.hasDiscovered(player, unlock)) {
