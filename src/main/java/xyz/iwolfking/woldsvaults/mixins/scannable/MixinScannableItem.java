@@ -41,7 +41,7 @@ public abstract class MixinScannableItem extends ModItem {
         return true;
     }
 
-    @Redirect(method = "finishUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemCooldowns;addCooldown(Lnet/minecraft/world/item/Item;I)V"))
+    @Redirect(method = "finishUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemCooldowns;addCooldown(Lnet/minecraft/world/item/Item;I)V"), remap = true)
     private void adjustCooldown(ItemCooldowns instance, Item pItem, int pTicks) {
         instance.addCooldown(pItem, 1200);
     }
