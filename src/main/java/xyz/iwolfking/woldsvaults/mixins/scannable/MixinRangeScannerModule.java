@@ -23,6 +23,6 @@ public class MixinRangeScannerModule {
     @Overwrite
     @OnlyIn(Dist.CLIENT)
     public float adjustGlobalRange(float range) {
-        return range * 1.5F;
+        return range * 2.0F;
     }
 }
