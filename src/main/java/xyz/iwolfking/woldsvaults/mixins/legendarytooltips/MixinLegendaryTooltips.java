@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(value = LegendaryTooltips.class, remap = false)
 public class MixinLegendaryTooltips {
-    @WrapOperation(method = "onRenderTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/Slot;hasItem()Z"))
+    @WrapOperation(method = "onRenderTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/Slot;hasItem()Z", remap = true))
     private static boolean renderTickHead(Slot instance, Operation<Boolean> original){
         try {
             return original.call(instance);
