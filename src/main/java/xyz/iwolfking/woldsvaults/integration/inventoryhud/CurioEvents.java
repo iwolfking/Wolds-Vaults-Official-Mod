@@ -1,9 +1,9 @@
 package xyz.iwolfking.woldsvaults.integration.inventoryhud;
 
 
-import dlovin.inventoryhud.InventoryHUD;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.event.SlotModifiersUpdatedEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -12,12 +12,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 public class CurioEvents {
     @SubscribeEvent
     public static void onCurioModifiersUpdated(SlotModifiersUpdatedEvent event) {
-        try {
-            if (InventoryHUD.isCuriosMod) {
-                InventoryHUD.getInstance().getInventoryGui().disableCurios();
-            }
-        } catch (Exception ignored) {
-            // invhud not loaded
+        if (ModList.get().isLoaded("inventoryhud")) {
+            InvHudEvent.onCurioModifiersUpdated(event);
         }
     }
 }
