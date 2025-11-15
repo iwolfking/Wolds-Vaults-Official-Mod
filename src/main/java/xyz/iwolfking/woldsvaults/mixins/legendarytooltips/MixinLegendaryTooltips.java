@@ -3,10 +3,17 @@ package xyz.iwolfking.woldsvaults.mixins.legendarytooltips;
 import com.anthonyhilyard.legendarytooltips.LegendaryTooltips;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@Restriction(
+    require = {
+        @Condition(type = Condition.Type.MOD, value = "legendarytooltips")
+    }
+)
 @Mixin(value = LegendaryTooltips.class, remap = false)
 public class MixinLegendaryTooltips {
     @WrapOperation(method = "onRenderTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/Slot;hasItem()Z", remap = true))
