@@ -266,6 +266,7 @@ dependencies {
     compileOnly fg.deobf('curse.maven:scannable-266784:3738448')
     compileOnly fg.deobf('curse.maven:secretroomsmod-59652:3764897')
     compileOnly fg.deobf("curse.maven:vaultlootbeams-1313069:6882936")
+    compileOnly fg.deobf("curse.maven:legendary-tooltips-532127:4035921")
 
     // deps needed for runtime debug
     runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382") // quark
