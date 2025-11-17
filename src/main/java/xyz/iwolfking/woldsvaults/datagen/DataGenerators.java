@@ -26,6 +26,9 @@ public class DataGenerators {
 
         if (event.includeServer()) {
             gen.addProvider(new ModRecipeProvider(gen));
+            gen.addProvider(new ModVaultPalettesProvider(gen, WoldsVaults.MOD_ID));
+            gen.addProvider(new ModVaultThemesProvider(gen, WoldsVaults.MOD_ID));
+            gen.addProvider(new ModVaultTemplatePoolsProvider(gen, WoldsVaults.MOD_ID));
         }
     }
 }
