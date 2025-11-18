@@ -5,7 +5,6 @@ import dev.attackeight.just_enough_vh.jei.JEIRecipeProvider;
 import dev.attackeight.just_enough_vh.jei.RecyclerRecipe;
 import dev.attackeight.just_enough_vh.jei.TheVaultJEIPlugin;
 import dev.attackeight.just_enough_vh.jei.category.ForgeItemRecipeCategory;
-import iskallia.vault.config.VaultRecyclerConfig;
 import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import mezz.jei.api.IModPlugin;

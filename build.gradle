@@ -197,7 +197,7 @@ dependencies {
     // core WV integrations
     //implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6803115")
     implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") // jei integration
-    implementation fg.deobf("curse.maven:just-enough-vh-1035310:6879953") // jei integration
+    implementation fg.deobf("curse.maven:just-enough-vh-1035310:7160447") // jei integration
     implementation fg.deobf("curse.maven:parcool-482378:6189392") // trinket
     implementation fg.deobf('curse.maven:ecologics-570463:4171283') // enchanted event
     implementation fg.deobf("curse.maven:thermal-foundation-222880:4788649") // enchanted event

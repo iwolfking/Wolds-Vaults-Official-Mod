@@ -1,6 +1,9 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import com.google.gson.JsonObject;
 import iskallia.vault.VaultMod;
+import iskallia.vault.block.PlaceholderBlock;
+import iskallia.vault.item.VaultModifierItem;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -379,7 +382,6 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                     entries.put("the_vault:vault_fighter_4", 15);
                 });
             });
-
 
             p.reference("the_vault:generic/spawners/group_settings");
         });
