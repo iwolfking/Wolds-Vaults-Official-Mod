@@ -3,7 +3,12 @@ package xyz.iwolfking.woldsvaults.datagen;
 import iskallia.vault.VaultMod;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraftforge.common.Tags;
 import xyz.iwolfking.vhapi.api.lib.core.datagen.gen.AbstractPaletteProvider;
+import xyz.iwolfking.vhapi.api.registry.gen.palette.PaletteProcessors;
+import xyz.iwolfking.vhapi.api.registry.gen.template_pools.TemplatePoolProcessors;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModVaultPalettesProvider extends AbstractPaletteProvider {
     public ModVaultPalettesProvider(DataGenerator generator, String modid) {
@@ -335,9 +340,49 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
             b.reference(VaultMod.id("generic/spawners/beach_mobs"));
             b.reference(VaultMod.id("generic/common_elite_spawners"));
 
-            // template stack examples:
             b.templateStackTile("@the_vault:vault_lootables", "THEME_AURORA_CAVE", "THEME_CATEGORY_ICE");
             b.templateStackSpawner("ispawner:spawner", "THEME_AURORA_CAVE", "THEME_CATEGORY_ICE");
         });
+
+        add(WoldsVaults.id("spawners_group_standard"), p -> {
+
+            p.leveled(leveledBuilder -> {
+                leveledBuilder.list(0, "weighted_target", "ispawner:spawner", entries -> {
+                    entries.put("ispawner:spawner{group: horde}", 50);
+                    entries.put("ispawner:spawner{group: assassin}", 33);
+                    entries.put("ispawner:spawner{group: tank}", 12);
+                    entries.put("ispawner:spawner{group: dwellers}", 5);
+                });
+            });
+
+            p.leveled(leveledBuilder -> {
+                leveledBuilder.weighted(0, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter", 15);
+                });
+                leveledBuilder.weighted(20, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter", 15);
+                    entries.put("the_vault:vault_fighter_2", 15);
+                });
+                leveledBuilder.weighted(40, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter_1", 15);
+                    entries.put("the_vault:vault_fighter_2", 15);
+                });
+                leveledBuilder.weighted(60, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter_2", 15);
+                    entries.put("the_vault:vault_fighter_3", 15);
+                });
+                leveledBuilder.weighted(80, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter_3", 15);
+                    entries.put("the_vault:vault_fighter_4", 15);
+                });
+                leveledBuilder.weighted(100, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter_4", 15);
+                });
+            });
+
+
+            p.reference("the_vault:generic/spawners/group_settings");
+        });
+
     }
 }
