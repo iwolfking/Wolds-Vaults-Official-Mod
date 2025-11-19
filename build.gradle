@@ -212,6 +212,7 @@ dependencies {
     implementation fg.deobf('curse.maven:angel-ring-333396:4641783') // angel rings
     implementation fg.deobf('curse.maven:the-wild-backport-537901:3988035') // darkness effect
     implementation fg.deobf("curse.maven:gateways-to-eternity-417802:4548643") // gateway pearls
+    implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:7188371")
 
     implementation fg.deobf('curse.maven:refined-storage-243076:4902316') // vaultarhud
     implementation fg.deobf("curse.maven:toms-storage-378609:5211203") // vaultarhud

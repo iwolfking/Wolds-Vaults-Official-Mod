@@ -29,6 +29,9 @@ public class DataGenerators {
             gen.addProvider(new ModVaultPalettesProvider(gen, WoldsVaults.MOD_ID));
             gen.addProvider(new ModVaultThemesProvider(gen, WoldsVaults.MOD_ID));
             gen.addProvider(new ModVaultTemplatePoolsProvider(gen, WoldsVaults.MOD_ID));
+            gen.addProvider(new ModVaultGearTiersProvider(gen));
+            gen.addProvider(new ModVaultModifierPoolsProvider(gen));
+            gen.addProvider(new ModVaultModifiersProvider(gen));
         }
     }
 }

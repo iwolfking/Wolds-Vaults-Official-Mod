@@ -1,16 +1,9 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import com.google.gson.JsonObject;
 import iskallia.vault.VaultMod;
-import iskallia.vault.block.PlaceholderBlock;
-import iskallia.vault.item.VaultModifierItem;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.common.Tags;
 import xyz.iwolfking.vhapi.api.lib.core.datagen.gen.AbstractPaletteProvider;
-import xyz.iwolfking.vhapi.api.registry.gen.palette.PaletteProcessors;
-import xyz.iwolfking.vhapi.api.registry.gen.template_pools.TemplatePoolProcessors;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModVaultPalettesProvider extends AbstractPaletteProvider {
