@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import iskallia.vault.VaultMod;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -142,6 +143,41 @@ public class ModItemModelProvider extends ItemModelProvider {
         itemWithTexture(ModItems.TRINKET_POUCH, "standard_trinket_pouch");
         itemWithTexture(ModItems.GOD_OFFERING, "god_blessing_idona");
 
+        //Vault Modifier icon models
+        vaultModifier(VaultMod.id("orematic"), "oremania");
+        vaultModifier(VaultMod.id("resistant_mobs"));
+        vaultModifier(VaultMod.id("phantasmal_mobs"));
+        vaultModifier(VaultMod.id("fleet_footed_mobs"), "fleetfooted_mobs");
+        vaultModifier(VaultMod.id("witch_party"));
+        vaultModifier(VaultMod.id("ghost_party"));
+        vaultModifier(VaultMod.id("ghost_town"));
+        vaultModifier(VaultMod.id("blinding"));
+        vaultModifier(VaultMod.id("corrosive"));
+        vaultModifier(VaultMod.id("mildly_enchanted"));
+        vaultModifier(VaultMod.id("enchanted"));
+        vaultModifier(VaultMod.id("armed"));
+        vaultModifier(VaultMod.id("surprise_boxes"));
+        vaultModifier(VaultMod.id("fungal"));
+        vaultModifier(VaultMod.id("fungal_infestation"));
+        vaultModifier(VaultMod.id("safari"));
+        vaultModifier(VaultMod.id("winter"));
+        vaultModifier(VaultMod.id("retro"));
+        vaultModifier(VaultMod.id("sweet_retro"), "candy");
+        vaultModifier(VaultMod.id("explosive"));
+        vaultModifier(VaultMod.id("electric"));
+        vaultModifier(VaultMod.id("acidic"));
+        vaultModifier(VaultMod.id("infernal"));
+        vaultModifier(VaultMod.id("springy"));
+        vaultModifier(VaultMod.id("jumpy_deluxe"));
+        vaultModifier(VaultMod.id("plated"));
+        vaultModifier(VaultMod.id("stunning"), "hex_stunning");
+        vaultModifier(VaultMod.id("blinding"), "hex_blinding");
+        vaultModifier(VaultMod.id("raging"));
+        vaultModifier(VaultMod.id("spooky"));
+        vaultModifier(VaultMod.id("levitation"));
+        vaultModifier(VaultMod.id("ghost_town"), "ghost_city");
+        vaultModifier(VaultMod.id("vexation"), "vexation");
+
 
     }
 
@@ -150,6 +186,20 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getRegistryName().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(WoldsVaults.MOD_ID, "item/" + item.getRegistryName().getPath()));
+    }
+
+    private ItemModelBuilder vaultModifier(ResourceLocation modifierId) {
+        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierId.getPath()).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierId.getPath()));
+    }
+
+    private ItemModelBuilder vaultModifier(ResourceLocation modifierId, String modifierNameOverride) {
+        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierNameOverride).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierId.getPath()));
     }
 
     private ItemModelBuilder simpleResource(String resource) {
