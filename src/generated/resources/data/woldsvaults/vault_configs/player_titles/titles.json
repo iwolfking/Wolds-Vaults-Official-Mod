@@ -1,0 +1,18 @@
+{
+  "PREFIXES": [
+    {
+      "id": "test_prefix",
+      "display": "Tester",
+      "color": "#33333",
+      "cost": 1
+    }
+  ],
+  "SUFFIXES": [
+    {
+      "id": "test_suffix",
+      "display": "of Testing",
+      "color": "#33333",
+      "cost": 1
+    }
+  ]
+}

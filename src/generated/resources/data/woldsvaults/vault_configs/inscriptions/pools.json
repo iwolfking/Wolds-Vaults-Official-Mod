@@ -1,0 +1,11 @@
+{
+  "pools": {},
+  "poolToModel": {
+    "the_vault:vault/rooms/omega/digsite2": 6,
+    "the_vault:vault/rooms/omega/cube": 105,
+    "the_vault:vault/rooms/omega/comet_observatory": 106,
+    "the_vault:vault/rooms/omega/wolds_dinner": 107,
+    "the_vault:vault/rooms/omega/wardens_garden": 108
+  },
+  "ringWeights": []
+}

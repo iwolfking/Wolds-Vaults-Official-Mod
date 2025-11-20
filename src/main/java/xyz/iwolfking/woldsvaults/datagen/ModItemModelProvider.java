@@ -8,6 +8,8 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import xyz.iwolfking.vhapi.api.registry.CustomCatalystModelRegistry;
+import xyz.iwolfking.vhapi.api.registry.CustomInscriptionModelRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
@@ -178,6 +180,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         vaultModifier(VaultMod.id("ghost_town"), "ghost_city");
         vaultModifier(VaultMod.id("vexation"), "vexation");
 
+        CustomInscriptionModelRegistry.getModelMap().forEach(this::vaultInscription);
+        CustomCatalystModelRegistry.getModelMap().forEach(this::vaultCatalyst);
 
     }
 
@@ -194,6 +198,30 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .texture("layer0",
                         new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierId.getPath()));
     }
+
+    private ItemModelBuilder vaultInscription(int modelNumber) {
+        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/inscription/" + modelNumber).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        new ResourceLocation(VaultMod.MOD_ID, "item/inscription/" + modelNumber));
+    }
+
+    private ItemModelBuilder vaultInscription(int modelNumber, String modelNameOverride) {
+        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/inscription/" + modelNumber).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        new ResourceLocation(VaultMod.MOD_ID, "item/inscription/" + modelNameOverride));
+    }
+
+
+    private ItemModelBuilder vaultCatalyst(int modelNumber, String modelNameOverride) {
+        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/catalyst/" + modelNumber).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        new ResourceLocation(VaultMod.MOD_ID, "item/catalyst/" + modelNameOverride));
+    }
+
+
 
     private ItemModelBuilder vaultModifier(ResourceLocation modifierId, String modifierNameOverride) {
         return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierNameOverride).toString())

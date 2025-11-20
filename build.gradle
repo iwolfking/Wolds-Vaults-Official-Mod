@@ -276,7 +276,8 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:architectury-api-419699:4521465") // lot of mods
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:3846086")
     runtimeOnly fg.deobf("curse.maven:tropicraft-254794:4616839") // kept for backwards compat with worlds (adds dimension type)
-
+    runtimeOnly fg.deobf("curse.maven:storage-drawers-223852:5636643")
+    runtimeOnly fg.deobf("curse.maven:qol-hunters-1093452:7189491")
 
     // perf in dev
     runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")

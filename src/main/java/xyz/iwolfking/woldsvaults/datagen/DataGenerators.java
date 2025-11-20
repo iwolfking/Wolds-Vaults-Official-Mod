@@ -32,6 +32,9 @@ public class DataGenerators {
             gen.addProvider(new ModVaultGearTiersProvider(gen));
             gen.addProvider(new ModVaultModifierPoolsProvider(gen));
             gen.addProvider(new ModVaultModifiersProvider(gen));
+            gen.addProvider(new ModPlayerTitlesProvider(gen));
+            gen.addProvider(new ModVaultInscriptionsProvider(gen));
+            gen.addProvider(new ModUniqueGearProvider(gen));
         }
     }
 }

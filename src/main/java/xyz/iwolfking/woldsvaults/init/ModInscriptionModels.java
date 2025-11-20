@@ -15,5 +15,9 @@ public class ModInscriptionModels {
         CustomInscriptionModelRegistry.addModel(102, "aquarium");
         CustomInscriptionModelRegistry.addModel(103, "labyrinth");
         CustomInscriptionModelRegistry.addModel(104, "graveyard");
+        CustomInscriptionModelRegistry.addModel(105, "cube");
+        CustomInscriptionModelRegistry.addModel(106, "comet_observatory");
+        CustomInscriptionModelRegistry.addModel(107, "wolds_dinner");
+        CustomInscriptionModelRegistry.addModel(108, "wardens_garden");
     }
 }

@@ -20,9 +20,6 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
     public void addFiles(Map<String, Consumer<ModifierPoolBuilder>> map) {
         map.put("test", b -> {
 
-            // ------------------------
-            // the_vault:companion_positive
-            // ------------------------
             b.pool("the_vault:example_1", pool ->
                     pool.level(0, entries ->
                             entries.entry(1, 1, e -> {
@@ -42,9 +39,6 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                     )
             );
 
-            // ------------------------
-            // the_vault:companion_temporal
-            // ------------------------
             b.pool("the_vault:example_2", pool ->
                     pool.level(0, entries ->
                             entries.entry(1, 1, e -> {
@@ -66,9 +60,6 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                     )
             );
 
-            // ------------------------
-            // the_vault:companion_modifiers
-            // ------------------------
             b.pool("the_vault:example_3", pool ->
                     pool.level(0, entries ->
                             entries.entry(1, 1, e -> {

@@ -1,0 +1,23 @@
+{
+  "modifierGroup": {
+    "IMPLICIT": [
+      {
+        "attribute": "the_vault:damage_dweller",
+        "group": "ModDamageDweller",
+        "identifier": "the_vault:damage_dweller_implicit",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 1000,
+            "value": {
+              "min": 3.0,
+              "max": 9.0,
+              "step": 2.0
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
