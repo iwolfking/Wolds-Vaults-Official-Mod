@@ -213,7 +213,6 @@ dependencies {
     implementation fg.deobf('curse.maven:the-wild-backport-537901:3988035') // darkness effect
     implementation fg.deobf("curse.maven:gateways-to-eternity-417802:4548643") // gateway pearls
     implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:7188371")
-
     implementation fg.deobf('curse.maven:refined-storage-243076:4902316') // vaultarhud
     implementation fg.deobf("curse.maven:toms-storage-378609:5211203") // vaultarhud
 
@@ -278,6 +277,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:tropicraft-254794:4616839") // kept for backwards compat with worlds (adds dimension type)
     runtimeOnly fg.deobf("curse.maven:storage-drawers-223852:5636643")
     runtimeOnly fg.deobf("curse.maven:qol-hunters-1093452:7189491")
+    runtimeOnly fg.deobf("curse.maven:jade-324717:5079263")
 
     // perf in dev
     runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")

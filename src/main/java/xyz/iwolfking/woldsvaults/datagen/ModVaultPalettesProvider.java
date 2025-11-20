@@ -3,344 +3,255 @@ package xyz.iwolfking.woldsvaults.datagen;
 import iskallia.vault.VaultMod;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 import xyz.iwolfking.vhapi.api.lib.core.datagen.gen.AbstractPaletteProvider;
+import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.gen.palette.PaletteBuilder;
+import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.gen.palette.PaletteDefinition;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+
+import java.util.*;
+import java.util.function.Consumer;
 
 public class ModVaultPalettesProvider extends AbstractPaletteProvider {
     public ModVaultPalettesProvider(DataGenerator generator, String modid) {
         super(generator, modid);
     }
 
+    public static class ThemePaletteBuilder extends PaletteBuilder {
+
+        Map<ThemeBlockType, Map<ResourceLocation, Integer>> themeBlocks = new HashMap<>();
+
+        public ThemePaletteBuilder placeholder(ResourceLocation placeholderId) {
+            this.reference(placeholderId);
+            return this;
+        }
+
+        public ThemePaletteBuilder placeholder(Placeholder placeholder) {
+            return placeholder(placeholder.getId());
+        }
+
+        public ThemePaletteBuilder replace(ThemeBlockType type, ResourceLocation blockId, int weight) {
+            if(this.themeBlocks.containsKey(type)) {
+                themeBlocks.get(type).put(blockId, weight);
+            }
+            else {
+                Map<ResourceLocation, Integer> blockMap = new HashMap<>();
+                blockMap.put(blockId, weight);
+                this.themeBlocks.put(type, blockMap);
+            }
+            return this;
+        }
+
+        public ThemePaletteBuilder replace(ThemeBlockType type, Consumer<Map<ResourceLocation, Integer>> replacements) {
+            Map<ResourceLocation, Integer> replacementBlocks = new HashMap<>();
+            replacements.accept(replacementBlocks);
+            if(this.themeBlocks.containsKey(type)) {
+                replacementBlocks.forEach((res, weight) -> themeBlocks.get(type).put(res, weight));
+            }
+            else {
+                this.themeBlocks.put(type, replacementBlocks);
+            }
+
+            return this;
+        }
+
+        public ThemePaletteBuilder themeCategory(String themeName, String themeCategory) {
+            this.templateStackTile("@the_vault:vault_lootables", themeName, themeCategory);
+            this.templateStackSpawner("ispawner:spawner", themeName, themeCategory);
+            return this;
+        }
+
+        @Override
+        public PaletteDefinition build() {
+            for(ThemeBlockType themeBlockType : ThemeBlockType.values()) {
+                if(themeBlocks.containsKey(themeBlockType)) {
+                        this.weightedTarget(themeBlockType.toString(), weightedBuilder -> {
+                            themeBlocks.get(themeBlockType).forEach(weightedBuilder::add);
+                    });
+                }
+                else {
+                    if(themeBlockType.altId == null) {
+                        continue;
+                    }
+
+                    this.weightedTarget(themeBlockType.toString(), weightedBuilder -> {
+                        weightedBuilder.add(themeBlockType.altId, 1);
+                    });
+                }
+            }
+            return super.build();
+        }
+
+        public record ReplacementBlock(ResourceLocation block, int weight) { }
+
+        public enum ThemeBlockType {
+            WALL_MAIN("minecraft:stone"),
+            WALL_SECONDARY("minecraft:cobblestone"),
+            WALL_TERTIARY("minecraft:gray_concrete"),
+            WALL_FLOURISH("minecraft:purple_wool"),
+
+            POI_BARS("minecraft:iron_bars"),
+            POI_MAIN("minecraft:stone_bricks"),
+            POI_MAIN_ALT("minecraft:mossy_stone_bricks"),
+            POI_MAIN_ALT_SECONDARY("minecraft:mossy_cobblestone"),
+            POI_ACCENT("minecraft:chiseled_stone_bricks"),
+            POI_PILLAR("create:andesite_pillar"),
+            POI_STAIRS("minecraft:stone_bricks_stairs"),
+            POI_STAIRS_SECONDARY("minecraft:cobblestone_stairs"),
+            POI_WALL("minecraft:stone_brick_wall"),
+            POI_WALL_SECONDARY("minecraft:cobblestone_wall"),
+            POI_SLAB("minecraft:stone_brick_slab"),
+            POI_SLAB_SECONDARY("minecraft:cobblestone_slab"),
+            POI_SLAB_TERTIARY("minecraft:stone_slab"),
+            POI_LOG("minecraft:oak_log"),
+            POI_WOOD("minecraft:oak_wood"),
+            POI_LEAVES("minecraft:oak_leaves"),
+            POI_PLANKS("minecraft:oak_planks"),
+            POI_FENCE("minecraft:oak_fence"),
+            POI_TRAPDOOR("minecraft:oak_trapdoor"),
+            POI_STAIRS_WOOD("minecraft:oak_stairs"),
+            POI_POT("minecraft:potted_oak_sapling"),
+            POI_LANTERN("minecraft:lantern"),
+            POI_CAMPFIRE("minecraft:campfire"),
+            POI_BOOKSHELF("minecraft:bookshelf"),
+            POI_FENCE_GATE("minecraft:oak_fence_gate"),
+            POI_WALL_LANTERN("supplementaries:wall_lantern{Lantern:{Name:\\\"minecraft:lantern\\\"}}\""),
+            POI_DOOR("minecraft:oak_door"),
+            POI_VERTICAL_SLAB_BRICK("quark:stone_brick_vertical_slab"),
+            POI_VERTICAL_SLAB("quark:stone_vertical_slab"),
+            POI_SUPPORT("decorative_blocks:oak_support"),
+
+            FLOOR("minecraft:dirt"),
+            FLOOR_SLAB("minecraft:spruce_slab"),
+            FLOOR_SECONDARY("minecraft:coarse_dirt"),
+            FLOOR_TERTIRARY("minecraft:grass_block"),
+            FLOOR_CARPET("minecraft:moss_carpet"),
+            FLOOR_DECORATION("minecraft:grass"),
+            FLOOR_DECORATION_SECONDARY("minecraft:fern"),
+            FLOOR_TALL_DECORATION_LOWER("minecraft:tall_grass[half=lower]"),
+            FLOOR_TALL_DECORATION_UPPER("minecraft:tall_grass[half=upper]"),
+            FLOOR_VINES("minecraft:twisting_vines"),
+            FLOOR_PLANT("minecraft:twisting_vines_plant"),
+
+            CEILING_PLANT("minecraft:cave_vines_plant"),
+            CEILING_VINES("minecraft:cave_vines"),
+            CEILING_HANGING_ACCENT("minecraft:birch_fence"),
+            CEILING_DECORATION("minecraft:spore_blossom"),
+            CEILING_ACCENT("minecraft:pink_wool"),
+            CEILING_ACCENT_SECONDARY("minecraft:lime_wool"),
+            CEILING_ACCENT_TERTIARY("minecraft:brown_wool"),
+
+            TUNNEL_LANTERN("minecraft:soul_lantern"),
+            TUNNEL_PILLAR("quark:azalea_log"),
+            TUNNEL_PILLAR_SECONDARY("quark:azalea_planks"),
+            TUNNEL_PILLAR_ACCENT("create:cut_veridium_wall"),
+            TUNNEL_PILLAR_STAIRS("quark:azalea_planks_stairs"),
+
+            TUNNEL_VARIANT_PILLAR("ecologics:azalea_log"),
+            TUNNEL_VARIANT_PILLAR_ACCENT("create:cut_crimsite_wall"),
+
+
+
+            GOD_ALTAR_ACCENT("minecraft:end_stone"),
+            GOD_ALTAR_MAIN("minecraft:end_stone_bricks"),
+            GOD_ALTAR_STAIRS("minecraft:end_stone_bricks_stairs"),
+            GOD_ALTAR_SLAB("minecraft:end_stone_brick_slab"),
+
+            POST_FENCE("minecraft:warped_fence"),
+            POST_BLOCK("minecraft:warped_fence"),
+            POST_LIGHT("minecraft:shroomlight"),
+
+            BRIDGE_SLAB("minecraft:oak_slab"),
+
+            DECORATION_BRAZIER("decorative_blocks:brazier"),
+
+
+            LAVA("minecraft:lava"),
+            WATER("minecraft:water"),
+
+            STARTING_ROOM_POOL_TOP_LAYER("minecraft:cyan_stained_glass", "minecraft:water"),
+            STARTING_ROOM_POOL_BOTTOM_LAYER("minecraft:light_blue_stained_glass", "minecraft:water"),
+
+            MAGMA("minecraft:magma_block"),
+
+            LIGHT("minecraft:glass", "minecraft:light[level=15]"),
+
+
+            //Misc
+            CANDLE("minecraft:candle"),
+            CHAIN("minecraft:chain"),
+            COBWEB("minecraft:cobweb"),
+            RAIL("minecraft:rail"),
+            GRINDSTONE("minecraft:grindstone"),
+            SAND("minecraft:sand"),
+
+            //Unknown purpose
+            NATURE("minecraft:green_concrete"),
+            TWISTED_FENCE("architects_palette:twisted_fence"),
+            FENCE_WOOD_SECONDARY("ecologics:azalea_fence"),
+            HEDGE("quark:oak_hedge");
+
+            private final String id;
+            private String altId;
+
+            ThemeBlockType(String s) {
+                this.id = s;
+                this.altId = null;
+            }
+
+            ThemeBlockType(String s, String alt) {
+                this.id = s;
+                this.altId = alt;
+            }
+
+            @Override
+            public String toString() {
+                return this.id;
+            }
+        }
+
+        public enum Placeholder {
+            ORE_PLACEHOLDER_VOID(VaultMod.id("generic/ore_placeholder_void")),
+            TREASURE_DOOR(VaultMod.id("generic/treasure_door_placeholder")),
+            COMMON_ELITE_SPAWNERS(VaultMod.id("generic/common_elite_spawners")),
+            ROOM_BASE(VaultMod.id("generic/room_base"));
+
+            private final ResourceLocation id;
+
+            Placeholder(ResourceLocation placeholderId) {
+                this.id = placeholderId;
+            }
+
+            public ResourceLocation getId() {
+                return id;
+            }
+
+        }
+    }
+
     @Override
     protected void registerPalettes() {
-        add(new ResourceLocation("woldsvaults", "universal_eclipse"), b -> {
-            b.reference(VaultMod.id("generic/ore_placeholder_void"))
-                    .reference(VaultMod.id("generic/treasure_door_placeholder"));
-
-            b.weightedTarget("minecraft:stone", w -> {
-                w.add("minecraft:obsidian", 1)
-                        .add("minecraft:black_concrete", 1)
-                        .add("minecraft:blackstone", 1);
-            });
-
-            b.weightedTarget("minecraft:cobblestone", w -> {
-                w.add("minecraft:cobbled_deepslate", 1);
-            });
-
-            b.weightedTarget("minecraft:gray_concrete", w -> {
-                w.add("minecraft:deepslate", 1);
-            });
-
-            b.weightedTarget("minecraft:coarse_dirt", w -> {
-                w.add("minecraft:coarse_dirt", 1);
-            });
-
-            b.weightedTarget("minecraft:dirt", w -> {
-                w.add("minecraft:dirt", 1);
-            });
-
-            b.weightedTarget("minecraft:grass_block", w -> {
-                w.add("minecraft:grass_block", 1);
-            });
-
-            b.weightedTarget("minecraft:stone_slab", w -> {
-                w.add("minecraft:sandstone_slab", 1);
-            });
-
-            b.weightedTarget("minecraft:cobblestone_slab", w -> {
-                w.add("minecraft:sandstone_slab", 1);
-            });
-
-            b.weightedTarget("minecraft:spruce_slab", w -> {
-                w.add("minecraft:spruce_slab", 1);
-            });
-
-            b.weightedTarget("minecraft:purple_wool", w -> {
-                w.add("minecraft:stripped_spruce_wood", 1);
-            });
-
-            b.weightedTarget("minecraft:water", w -> {
-                w.add("minecraft:water", 1);
-            });
-
-            b.weightedTarget("minecraft:birch_fence", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:warped_fence", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:warped_wart_block", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:shroomlight", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("architects_palette:twisted_fence", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:cave_vines_plant", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:cave_vines", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:spore_blossom", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:brown_wool", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:pink_wool", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:grass", w -> {
-                w.add("minecraft:grass", 1);
-            });
-
-            b.weightedTarget("minecraft:tall_grass[half=lower]", w -> {
-                w.add("minecraft:grass", 1);
-            });
-
-            b.weightedTarget("minecraft:tall_grass[half=upper]", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:twisting_vines_plant", w -> {
-                w.add("minecraft:cactus", 1);
-            });
-
-            b.weightedTarget("minecraft:twisting_vines", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:fern", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:lime_wool", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_log", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_wood", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_leaves", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_planks", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_fence", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_slab", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_trapdoor", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_stairs", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_fence_gate", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:oak_door", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:stone_bricks", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:stone_brick_stairs", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("create:andesite_pillar", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:chiseled_stone_bricks", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:stone_brick_slab", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("quark:stone_brick_vertical_slab", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("quark:stone_vertical_slab", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:stone_brick_wall", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:cobblestone_wall", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:cobblestone_stairs", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:mossy_stone_bricks", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:mossy_cobblestone", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:magma_block", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:lava", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:green_concrete", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:moss_carpet", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("decorative_blocks:brazier", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:campfire", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:lantern", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("supplementaries:wall_lantern{Lantern:{Name:\"minecraft:lantern\"}}", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:soul_lantern", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:glass", w -> {
-                w.add("minecraft:light[level=15]", 1);
-            });
-
-            b.weightedTarget("minecraft:cyan_stained_glass", w -> {
-                w.add("minecraft:water", 1);
-            });
-
-            b.weightedTarget("minecraft:light_blue_stained_glass", w -> {
-                w.add("minecraft:water", 1);
-            });
-
-            b.weightedTarget("minecraft:bookshelf", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("ecologics:azalea_log", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("ecologics:azalea_fence", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-
-            b.weightedTarget("create:cut_crimsite_wall", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("quark:azalea_log", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("quark:azalea_planks", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("quark:azalea_planks_stairs", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("create:cut_veridium_wall", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:sand", w -> {
-                w.add("minecraft:sand", 1);
-            });
-
-            b.weightedTarget("minecraft:potted_oak_sapling", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("quark:oak_hedge", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("decorative_blocks:oak_support", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:end_stone_bricks", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:end_stone_bricks_stairs", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:end_stone_brick_slab", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.weightedTarget("minecraft:end_stone", w -> {
-                w.add("minecraft:air", 1);
-            });
-
-            b.reference(VaultMod.id("generic/room_base"));
-            b.reference(VaultMod.id("generic/spawners/beach_mobs"));
-            b.reference(VaultMod.id("generic/common_elite_spawners"));
-
-            b.templateStackTile("@the_vault:vault_lootables", "THEME_AURORA_CAVE", "THEME_CATEGORY_ICE");
-            b.templateStackSpawner("ispawner:spawner", "THEME_AURORA_CAVE", "THEME_CATEGORY_ICE");
+        add(WoldsVaults.id("universal_eclipse"), new ThemePaletteBuilder(), tb -> {
+            tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER_VOID)
+                    .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
+                    .placeholder(ThemePaletteBuilder.Placeholder.ROOM_BASE)
+                    .placeholder(ThemePaletteBuilder.Placeholder.COMMON_ELITE_SPAWNERS)
+                    .placeholder(VaultMod.id("generic/spawners/beach_mobs"))
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_MAIN, replacementBlocks -> {
+                        replacementBlocks.put(Blocks.BLACKSTONE.getRegistryName(), 3);
+                        replacementBlocks.put(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.getRegistryName(), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, new ResourceLocation("blackstone_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, new ResourceLocation("black_stained_glass"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, new ResourceLocation("black_wool"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_SECONDARY, Blocks.POLISHED_BLACKSTONE.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_TERTIARY, Blocks.POLISHED_BLACKSTONE_BRICKS.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_DECORATION, Blocks.GILDED_BLACKSTONE.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, Blocks.AIR.getRegistryName(), 1);
         });
 
-        add(WoldsVaults.id("spawners_group_standard"), p -> {
+        add(WoldsVaults.id("spawners_group_standard"), new PaletteBuilder(), p -> {
 
             p.leveled(leveledBuilder -> {
                 leveledBuilder.list(0, "weighted_target", "ispawner:spawner", entries -> {

@@ -4,7 +4,7 @@ import iskallia.vault.config.ThemeAugmentLoreConfig;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.vhapi.api.lib.core.datagen.gen.AbstractThemeProvider;
-import xyz.iwolfking.vhapi.api.util.builder.theme_lore.ThemeLoreDescription;
+import xyz.iwolfking.vhapi.api.util.builder.theme_lore.JsonDescription;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModVaultThemesProvider extends AbstractThemeProvider {
@@ -34,11 +34,11 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .themeWeight(20)
                     .themeGroup("Astral")
                     .themeLore(new ThemeAugmentLoreConfig.AugmentLore("Astral", new xyz.iwolfking.vhapi.api.util.builder.theme_lore.DescriptionDataBuilder()
-                            .description(ThemeLoreDescription.perkDescription("This is a test description.\n"))
-                                    .description(ThemeLoreDescription.mobsDescription("Hordes: ", new ThemeLoreDescription.MobEntry("Enderman", 1, 2, 1), new ThemeLoreDescription.MobEntry("Test", 3, 2, 3)))
-                                    .description(ThemeLoreDescription.mobsDescription("Assassins: ", new ThemeLoreDescription.MobEntry("Enderman", 1, 2, 1), new ThemeLoreDescription.MobEntry("Test", 3, 2, 3)))
-                                    .description(ThemeLoreDescription.mobsDescription("Tanks: ", new ThemeLoreDescription.MobEntry("Enderman", 1, 2, 1), new ThemeLoreDescription.MobEntry("Test", 3, 2, 3)))
-                                    .description(ThemeLoreDescription.dwellersDescription(3))
+                            .description(JsonDescription.perkDescription("This is a test description.\n"))
+                                    .description(JsonDescription.mobsDescription("Hordes: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
+                                    .description(JsonDescription.mobsDescription("Assassins: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
+                                    .description(JsonDescription.mobsDescription("Tanks: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
+                                    .description(JsonDescription.dwellersDescription(3))
                             .build(),
                             3));
         });

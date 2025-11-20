@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import iskallia.vault.config.UniqueCodexConfig;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractUniqueGearProvider;
@@ -27,6 +28,11 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                         "the_vault:base_lucky_hit_chance",
                         "the_vault:base_lucky_hit_chance")
                 .suffix("the_vault:u_item_rarity")
+                .dropLocation("Nowhere")
+                .description("This is a test unique!!!", "$text")
+                .description("\n\nIt is very testy", "$text")
+                .modelType("ARMOR")
+                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.HEAD)
                 .build()
         ));
     }

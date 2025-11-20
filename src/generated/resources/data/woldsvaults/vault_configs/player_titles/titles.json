@@ -1,18 +1,1788 @@
 {
   "PREFIXES": [
     {
-      "id": "test_prefix",
-      "display": "Tester",
-      "color": "#33333",
+      "id": "mythic_prefix",
+      "display": "Mythic",
+      "color": "#9B59B6",
+      "cost": 4
+    },
+    {
+      "id": "eternal_prefix",
+      "display": "Eternal",
+      "color": "#2ECC71",
+      "cost": 2
+    },
+    {
+      "id": "divine_prefix",
+      "display": "Divine",
+      "color": "#F1C40F",
+      "cost": 4
+    },
+    {
+      "id": "spectral_prefix",
+      "display": "Spectral",
+      "color": "#7F8C8D",
+      "cost": 2
+    },
+    {
+      "id": "riftborn_prefix",
+      "display": "Riftborn",
+      "color": "#8E44AD",
+      "cost": 2
+    },
+    {
+      "id": "dreadknight_prefix",
+      "display": "Dreadknight",
+      "color": "#4B0082",
+      "cost": 2
+    },
+    {
+      "id": "ironbound_prefix",
+      "display": "Ironbound",
+      "color": "#5A5A5A",
+      "cost": 2
+    },
+    {
+      "id": "warden_prefix",
+      "display": "Warden",
+      "color": "#2E4053",
+      "cost": 2
+    },
+    {
+      "id": "grim_prefix",
+      "display": "Grim",
+      "color": "#5D6D7E",
+      "cost": 2
+    },
+    {
+      "id": "hollow_prefix",
+      "display": "Hollow",
+      "color": "#1B2631",
+      "cost": 2
+    },
+    {
+      "id": "neo_prefix",
+      "display": "Neo",
+      "color": "#00FFFF",
+      "cost": 2
+    },
+    {
+      "id": "cyber_prefix",
+      "display": "Cyber",
+      "color": "#08F7FE",
+      "cost": 2
+    },
+    {
+      "id": "quantum_prefix",
+      "display": "Quantum",
+      "color": "#BB8FCE",
+      "cost": 2
+    },
+    {
+      "id": "celestial_prefix",
+      "display": "Celestial",
+      "color": "#A3E4D7",
+      "cost": 4
+    },
+    {
+      "id": "ashen_prefix",
+      "display": "Ashen",
+      "color": "#A6ACAF",
+      "cost": 2
+    },
+    {
+      "id": "runewrought_prefix",
+      "display": "Runewrought",
+      "color": "#D7BDE2",
+      "cost": 3
+    },
+    {
+      "id": "stormforged_prefix",
+      "display": "Stormforged",
+      "color": "#5DADE2",
+      "cost": 4
+    },
+    {
+      "id": "gilded_prefix",
+      "display": "Gilded",
+      "color": "#F7DC6F",
+      "cost": 3
+    },
+    {
+      "id": "soulbound_prefix",
+      "display": "Soulbound",
+      "color": "#884EA0",
+      "cost": 4
+    },
+    {
+      "id": "titanic_prefix",
+      "display": "Titanic",
+      "color": "#566573",
+      "cost": 2
+    },
+    {
+      "id": "radiant_prefix",
+      "display": "Radiant",
+      "color": "#FDEBD0",
+      "cost": 2
+    },
+    {
+      "id": "echoing_prefix",
+      "display": "Echoing",
+      "color": "#AEB6BF",
+      "cost": 2
+    },
+    {
+      "id": "nethersteel_prefix",
+      "display": "Nethersteel",
+      "color": "#922B21",
+      "cost": 3
+    },
+    {
+      "id": "gravemind_prefix",
+      "display": "Gravemind",
+      "color": "#1C2833",
+      "cost": 2
+    },
+    {
+      "id": "auric_prefix",
+      "display": "Auric",
+      "color": "#F4D03F",
+      "cost": 3
+    },
+    {
+      "id": "shattered_prefix",
+      "display": "Shattered",
+      "color": "#99A3A4",
+      "cost": 2
+    },
+    {
+      "id": "emberborn_prefix",
+      "display": "Emberborn",
+      "color": "#E74C3C",
+      "cost": 3
+    },
+    {
+      "id": "skyborne_prefix",
+      "display": "Skyborne",
+      "color": "#5DADE2",
+      "cost": 2
+    },
+    {
+      "id": "arcane_prefix",
+      "display": "Arcane",
+      "color": "#AF7AC5",
+      "cost": 4
+    },
+    {
+      "id": "forlorn_prefix",
+      "display": "Forlorn",
+      "color": "#566573",
+      "cost": 2
+    },
+    {
+      "id": "verdant_prefix",
+      "display": "Verdant",
+      "color": "#58D68D",
+      "cost": 3
+    },
+    {
+      "id": "lunarcrown_prefix",
+      "display": "Lunarcrown",
+      "color": "#D2B4DE",
+      "cost": 4
+    },
+    {
+      "id": "tempest_prefix",
+      "display": "Tempest",
+      "color": "#2471A3",
+      "cost": 3
+    },
+    {
+      "id": "hellforged_prefix",
+      "display": "Hellforged",
+      "color": "#8B0000",
+      "cost": 4
+    },
+    {
+      "id": "infernal_prefix",
+      "display": "Infernal",
+      "color": "#B22222",
+      "cost": 3
+    },
+    {
+      "id": "demonbound_prefix",
+      "display": "Demonbound",
+      "color": "#7D1B1B",
+      "cost": 2
+    },
+    {
+      "id": "voidspawn_prefix",
+      "display": "Voidspawn",
+      "color": "#4A0E0E",
+      "cost": 2
+    },
+    {
+      "id": "blightfire_prefix",
+      "display": "Blightfire",
+      "color": "#A93226",
+      "cost": 2
+    },
+    {
+      "id": "malignant_prefix",
+      "display": "Malignant",
+      "color": "#641E16",
+      "cost": 2
+    },
+    {
+      "id": "bloodrot_prefix",
+      "display": "Bloodrot",
+      "color": "#922B21",
+      "cost": 2
+    },
+    {
+      "id": "netherborn_prefix",
+      "display": "Netherborn",
+      "color": "#C0392B",
+      "cost": 3
+    },
+    {
+      "id": "abyssal_prefix",
+      "display": "Abyssal",
+      "color": "#2C1A1A",
+      "cost": 3
+    },
+    {
+      "id": "soulmaw_prefix",
+      "display": "Soulmaw",
+      "color": "#4D0F0F",
+      "cost": 2
+    },
+    {
+      "id": "fiendforged_prefix",
+      "display": "Fiendforged",
+      "color": "#7C0A02",
+      "cost": 3
+    },
+    {
+      "id": "scarletflame_prefix",
+      "display": "Scarletflame",
+      "color": "#B03A2E",
+      "cost": 2
+    },
+    {
+      "id": "nightmarish_prefix",
+      "display": "Nightmarish",
+      "color": "#5A0000",
+      "cost": 2
+    },
+    {
+      "id": "hatespawn_prefix",
+      "display": "Hatespawn",
+      "color": "#6E2C2C",
+      "cost": 2
+    },
+    {
+      "id": "warpfire_prefix",
+      "display": "Warpfire",
+      "color": "#FF3300",
+      "cost": 3
+    },
+    {
+      "id": "seraphic_prefix",
+      "display": "Seraphic",
+      "color": "#FADBD8",
+      "cost": 4
+    },
+    {
+      "id": "celestial_prefix",
+      "display": "Celestial",
+      "color": "#FDF2E9",
+      "cost": 4
+    },
+    {
+      "id": "radiant_prefix",
+      "display": "Radiant",
+      "color": "#F9E79F",
+      "cost": 3
+    },
+    {
+      "id": "divinity_prefix",
+      "display": "Divinity",
+      "color": "#F7DC6F",
+      "cost": 4
+    },
+    {
+      "id": "haloed_prefix",
+      "display": "Haloed",
+      "color": "#FFF8DC",
+      "cost": 2
+    },
+    {
+      "id": "archon_prefix",
+      "display": "Archon",
+      "color": "#FDEDEC",
+      "cost": 3
+    },
+    {
+      "id": "blessed_prefix",
+      "display": "Blessed",
+      "color": "#FCF3CF",
+      "cost": 2
+    },
+    {
+      "id": "luminous_prefix",
+      "display": "Luminous",
+      "color": "#F4ECF7",
+      "cost": 3
+    },
+    {
+      "id": "sanctified_prefix",
+      "display": "Sanctified",
+      "color": "#EBF5FB",
+      "cost": 2
+    },
+    {
+      "id": "ethereal_prefix",
+      "display": "Ethereal",
+      "color": "#E8F8F5",
+      "cost": 3
+    },
+    {
+      "id": "dawnforged_prefix",
+      "display": "Dawnforged",
+      "color": "#FFF2CC",
+      "cost": 3
+    },
+    {
+      "id": "hallowed_prefix",
+      "display": "Hallowed",
+      "color": "#FDEBD0",
+      "cost": 2
+    },
+    {
+      "id": "gracebound_prefix",
+      "display": "Gracebound",
+      "color": "#FBEEE6",
+      "cost": 2
+    },
+    {
+      "id": "auroral_prefix",
+      "display": "Auroral",
+      "color": "#FEF9E7",
+      "cost": 2
+    },
+    {
+      "id": "solarian_prefix",
+      "display": "Solarian",
+      "color": "#FFF4B0",
+      "cost": 4
+    },
+    {
+      "id": "astral_prefix",
+      "display": "Astral",
+      "color": "#A569BD",
+      "cost": 3
+    },
+    {
+      "id": "cosmic_prefix",
+      "display": "Cosmic",
+      "color": "#7FB3D5",
+      "cost": 3
+    },
+    {
+      "id": "voidborn_prefix",
+      "display": "Voidborn",
+      "color": "#1C1C3C",
+      "cost": 4
+    },
+    {
+      "id": "galactic_prefix",
+      "display": "Galactic",
+      "color": "#5DADE2",
+      "cost": 3
+    },
+    {
+      "id": "nebular_prefix",
+      "display": "Nebular",
+      "color": "#AF7AC5",
+      "cost": 2
+    },
+    {
+      "id": "stellar_prefix",
+      "display": "Stellar",
+      "color": "#F5CBA7",
+      "cost": 3
+    },
+    {
+      "id": "quantumstar_prefix",
+      "display": "Quantumstar",
+      "color": "#7845FF",
+      "cost": 4
+    },
+    {
+      "id": "darkmatter_prefix",
+      "display": "Darkmatter",
+      "color": "#0B0B0F",
+      "cost": 4
+    },
+    {
+      "id": "supernova_prefix",
+      "display": "Supernova",
+      "color": "#F1948A",
+      "cost": 3
+    },
+    {
+      "id": "eventide_prefix",
+      "display": "Eventide",
+      "color": "#566573",
+      "cost": 2
+    },
+    {
+      "id": "astron_prefix",
+      "display": "Astron",
+      "color": "#85929E",
+      "cost": 2
+    },
+    {
+      "id": "chronos_prefix",
+      "display": "Chronos",
+      "color": "#AAB7B8",
+      "cost": 3
+    },
+    {
+      "id": "gravitybound_prefix",
+      "display": "Gravitybound",
+      "color": "#34495E",
+      "cost": 3
+    },
+    {
+      "id": "interstellar_prefix",
+      "display": "Interstellar",
+      "color": "#566DF0",
+      "cost": 4
+    },
+    {
+      "id": "cosmograd_prefix",
+      "display": "Cosmograd",
+      "color": "#BB8FCE",
+      "cost": 3
+    },
+    {
+      "id": "buccaneer_prefix",
+      "display": "Buccaneer",
+      "color": "#C49A6C",
+      "cost": 2
+    },
+    {
+      "id": "corsair_prefix",
+      "display": "Corsair",
+      "color": "#8E6B3A",
+      "cost": 3
+    },
+    {
+      "id": "dreadpirate_prefix",
+      "display": "Dreadpirate",
+      "color": "#4A3728",
+      "cost": 3
+    },
+    {
+      "id": "salted_prefix",
+      "display": "Salted",
+      "color": "#B0C4DE",
       "cost": 1
+    },
+    {
+      "id": "searavager_prefix",
+      "display": "Sea-Ravager",
+      "color": "#6E6658",
+      "cost": 2
+    },
+    {
+      "id": "blackflag_prefix",
+      "display": "Black-Flag",
+      "color": "#0D0D0D",
+      "cost": 4
+    },
+    {
+      "id": "ironhook_prefix",
+      "display": "Ironhook",
+      "color": "#7F8C8D",
+      "cost": 2
+    },
+    {
+      "id": "rumsoaked_prefix",
+      "display": "Rum-Soaked",
+      "color": "#A0522D",
+      "cost": 2
+    },
+    {
+      "id": "krakenbound_prefix",
+      "display": "Krakenbound",
+      "color": "#2E4053",
+      "cost": 3
+    },
+    {
+      "id": "mariner_prefix",
+      "display": "Mariner",
+      "color": "#5D6D7E",
+      "cost": 2
+    },
+    {
+      "id": "stormtide_prefix",
+      "display": "Stormtide",
+      "color": "#34495E",
+      "cost": 3
+    },
+    {
+      "id": "cutlass_prefix",
+      "display": "Cutlass",
+      "color": "#9E9E9E",
+      "cost": 2
+    },
+    {
+      "id": "tidereaver_prefix",
+      "display": "Tidereaver",
+      "color": "#1B4F72",
+      "cost": 3
+    },
+    {
+      "id": "scallywag_prefix",
+      "display": "Scallywag",
+      "color": "#C29F66",
+      "cost": 1
+    },
+    {
+      "id": "oceanborn_prefix",
+      "display": "Oceanborn",
+      "color": "#567D8C",
+      "cost": 2
+    },
+    {
+      "id": "crystalline_prefix",
+      "display": "Crystalline",
+      "color": "#AEE5F8",
+      "cost": 3
+    },
+    {
+      "id": "shardbound_prefix",
+      "display": "Shardbound",
+      "color": "#8FD3E8",
+      "cost": 2
+    },
+    {
+      "id": "gemcarved_prefix",
+      "display": "Gemcarved",
+      "color": "#D7BDE2",
+      "cost": 3
+    },
+    {
+      "id": "frostcrystal_prefix",
+      "display": "Frostcrystal",
+      "color": "#A9CCE3",
+      "cost": 2
+    },
+    {
+      "id": "lumincryst_prefix",
+      "display": "Lumincryst",
+      "color": "#F9E79F",
+      "cost": 3
+    },
+    {
+      "id": "geode_prefix",
+      "display": "Geode",
+      "color": "#BB8FCE",
+      "cost": 2
+    },
+    {
+      "id": "prismal_prefix",
+      "display": "Prismal",
+      "color": "#FAD7A0",
+      "cost": 3
+    },
+    {
+      "id": "glimmered_prefix",
+      "display": "Glimmered",
+      "color": "#EBDEF0",
+      "cost": 2
+    },
+    {
+      "id": "facet_prefix",
+      "display": "Facet",
+      "color": "#AED6F1",
+      "cost": 1
+    },
+    {
+      "id": "radiantcrystal_prefix",
+      "display": "Radiantcrystal",
+      "color": "#FDEBD0",
+      "cost": 3
+    },
+    {
+      "id": "starshard_prefix",
+      "display": "Starshard",
+      "color": "#D2B4DE",
+      "cost": 4
+    },
+    {
+      "id": "quartzforged_prefix",
+      "display": "Quartzforged",
+      "color": "#F7F7F7",
+      "cost": 3
+    },
+    {
+      "id": "amethystine_prefix",
+      "display": "Amethystine",
+      "color": "#C39BD3",
+      "cost": 3
+    },
+    {
+      "id": "opaline_prefix",
+      "display": "Opaline",
+      "color": "#FDF1FF",
+      "cost": 2
+    },
+    {
+      "id": "calcite_prefix",
+      "display": "Calcite",
+      "color": "#FFF7D6",
+      "cost": 1
+    },
+    {
+      "id": "ronin_prefix",
+      "display": "Ronin",
+      "color": "#7F8C8D",
+      "cost": 2
+    },
+    {
+      "id": "kensai_prefix",
+      "display": "Kensai",
+      "color": "#C0392B",
+      "cost": 3
+    },
+    {
+      "id": "shogun_prefix",
+      "display": "Shogun",
+      "color": "#4A235A",
+      "cost": 4
+    },
+    {
+      "id": "bushido_prefix",
+      "display": "Bushido",
+      "color": "#1F618D",
+      "cost": 3
+    },
+    {
+      "id": "oni_slayer_prefix",
+      "display": "Oni-Slayer",
+      "color": "#922B21",
+      "cost": 3
+    },
+    {
+      "id": "windwalker_prefix",
+      "display": "Windwalker",
+      "color": "#D5D8DC",
+      "cost": 2
+    },
+    {
+      "id": "moonblade_prefix",
+      "display": "Moonblade",
+      "color": "#F2F4F4",
+      "cost": 2
+    },
+    {
+      "id": "yokai_bane_prefix",
+      "display": "Yokai-Bane",
+      "color": "#7D3C98",
+      "cost": 3
+    },
+    {
+      "id": "jade_samurai_prefix",
+      "display": "Jade Samurai",
+      "color": "#2ECC71",
+      "cost": 2
+    },
+    {
+      "id": "crimson_ronin_prefix",
+      "display": "Crimson Ronin",
+      "color": "#A93226",
+      "cost": 3
+    },
+    {
+      "id": "shadow_katana_prefix",
+      "display": "Shadow Katana",
+      "color": "#1B2631",
+      "cost": 4
+    },
+    {
+      "id": "storm_samurai_prefix",
+      "display": "Storm Samurai",
+      "color": "#5DADE2",
+      "cost": 3
+    },
+    {
+      "id": "bladeshaper_prefix",
+      "display": "Bladeshaper",
+      "color": "#99A3A4",
+      "cost": 2
+    },
+    {
+      "id": "dragoncrest_prefix",
+      "display": "Dragoncrest",
+      "color": "#76448A",
+      "cost": 3
+    },
+    {
+      "id": "steel_tempest_prefix",
+      "display": "Steel Tempest",
+      "color": "#B3B6B7",
+      "cost": 2
+    },
+    {
+      "id": "leafy_prefix",
+      "display": "Leafy",
+      "color": "#6B8E23",
+      "cost": 3
+    },
+    {
+      "id": "blooming_prefix",
+      "display": "Blooming",
+      "color": "#98FB98",
+      "cost": 2
+    },
+    {
+      "id": "mossy_prefix",
+      "display": "Mossy",
+      "color": "#556B2F",
+      "cost": 2
+    },
+    {
+      "id": "sunbeam_prefix",
+      "display": "Sunbeam",
+      "color": "#FFD700",
+      "cost": 2
+    },
+    {
+      "id": "twiggy_prefix",
+      "display": "Twiggy",
+      "color": "#8B4513",
+      "cost": 2
+    },
+    {
+      "id": "sprout_prefix",
+      "display": "Sprout",
+      "color": "#7CFC00",
+      "cost": 3
+    },
+    {
+      "id": "petal_prefix",
+      "display": "Petal",
+      "color": "#FFB6C1",
+      "cost": 2
+    },
+    {
+      "id": "acorn_prefix",
+      "display": "Acorn",
+      "color": "#A0522D",
+      "cost": 2
+    },
+    {
+      "id": "breezy_prefix",
+      "display": "Breezy",
+      "color": "#87CEEB",
+      "cost": 2
+    },
+    {
+      "id": "fluffy_prefix",
+      "display": "Fluffy",
+      "color": "#FFC0CB",
+      "cost": 3
+    },
+    {
+      "id": "sparkly_prefix",
+      "display": "Sparkly",
+      "color": "#FFD700",
+      "cost": 2
+    },
+    {
+      "id": "bubbly_prefix",
+      "display": "Bubbly",
+      "color": "#87CEFA",
+      "cost": 2
+    },
+    {
+      "id": "twinkle_prefix",
+      "display": "Twinkle",
+      "color": "#FFFACD",
+      "cost": 2
+    },
+    {
+      "id": "cuddly_prefix",
+      "display": "Cuddly",
+      "color": "#FFB6C1",
+      "cost": 2
+    },
+    {
+      "id": "hoppy_prefix",
+      "display": "Hoppy",
+      "color": "#98FB98",
+      "cost": 2
+    },
+    {
+      "id": "cheery_prefix",
+      "display": "Cheery",
+      "color": "#FFDAB9",
+      "cost": 3
+    },
+    {
+      "id": "peppy_prefix",
+      "display": "Peppy",
+      "color": "#FF69B4",
+      "cost": 2
+    },
+    {
+      "id": "tiny_prefix",
+      "display": "Tiny",
+      "color": "#E6E6FA",
+      "cost": 2
+    },
+    {
+      "id": "shiny_prefix",
+      "display": "Shiny",
+      "color": "#FFFFE0",
+      "cost": 2
+    },
+    {
+      "id": "radiant_prefix",
+      "display": "Radiant",
+      "color": "#FFD1DC",
+      "cost": 3
+    },
+    {
+      "id": "luminous_prefix",
+      "display": "Luminous",
+      "color": "#FFE4B5",
+      "cost": 2
+    },
+    {
+      "id": "elegant_prefix",
+      "display": "Elegant",
+      "color": "#E6E6FA",
+      "cost": 2
+    },
+    {
+      "id": "glimmering_prefix",
+      "display": "Glimmering",
+      "color": "#F0E68C",
+      "cost": 2
+    },
+    {
+      "id": "serene_prefix",
+      "display": "Serene",
+      "color": "#AFEEEE",
+      "cost": 2
+    },
+    {
+      "id": "dazzling_prefix",
+      "display": "Dazzling",
+      "color": "#FFFACD",
+      "cost": 2
+    },
+    {
+      "id": "silken_prefix",
+      "display": "Silken",
+      "color": "#F5F5DC",
+      "cost": 2
+    },
+    {
+      "id": "gilded_prefix",
+      "display": "Gilded",
+      "color": "#FFD700",
+      "cost": 2
+    },
+    {
+      "id": "moonlit_prefix",
+      "display": "Moonlit",
+      "color": "#E0FFFF",
+      "cost": 2
+    },
+    {
+      "id": "crimson_prefix",
+      "display": "Crimson",
+      "color": "#DC143C",
+      "cost": 2
     }
   ],
   "SUFFIXES": [
     {
-      "id": "test_suffix",
-      "display": "of Testing",
-      "color": "#33333",
+      "id": "first_flame_suffix",
+      "display": "of the First Flame",
+      "color": "#E74C3C",
+      "cost": 2
+    },
+    {
+      "id": "legends_suffix",
+      "display": "of Legends",
+      "color": "#3498DB",
+      "cost": 2
+    },
+    {
+      "id": "ascension_suffix",
+      "display": "of Ascension",
+      "color": "#F39C12",
+      "cost": 20
+    },
+    {
+      "id": "void_suffix",
+      "display": "of the Void",
+      "color": "#5D7D7E",
+      "cost": 2
+    },
+    {
+      "id": "dragonslayer_suffix",
+      "display": "the Dragonslayer",
+      "color": "#C0392B",
+      "cost": 2
+    },
+    {
+      "id": "wanderer_suffix",
+      "display": "the Wanderer",
+      "color": "#7DCEA0",
+      "cost": 2
+    },
+    {
+      "id": "shieldbreaker_suffix",
+      "display": "the Shieldbreaker",
+      "color": "#7B7D7D",
+      "cost": 2
+    },
+    {
+      "id": "frostborn_suffix",
+      "display": "the Frostborn",
+      "color": "#85C1E9",
+      "cost": 2
+    },
+    {
+      "id": "reaper_suffix",
+      "display": "the Reaper",
+      "color": "#900C3F",
+      "cost": 2
+    },
+    {
+      "id": "version_suffix",
+      "display": "v2.0",
+      "color": "#2ECCFA",
+      "cost": 2
+    },
+    {
+      "id": "the_everflame_suffix",
+      "display": "the Everflame",
+      "color": "#D35400",
+      "cost": 3
+    },
+    {
+      "id": "of_shattered_realms_suffix",
+      "display": "of Shattered Realms",
+      "color": "#AAB7B8",
+      "cost": 3
+    },
+    {
+      "id": "of_the_sunforge_suffix",
+      "display": "of the Sunforge",
+      "color": "#F4D03F",
+      "cost": 4
+    },
+    {
+      "id": "the_starfaller_suffix",
+      "display": "the Starfaller",
+      "color": "#AED6F1",
+      "cost": 2
+    },
+    {
+      "id": "of_the_voidheart_suffix",
+      "display": "of the Voidheart",
+      "color": "#1F618D",
+      "cost": 3
+    },
+    {
+      "id": "the_runeweaver_suffix",
+      "display": "the Runeweaver",
+      "color": "#BB8FCE",
+      "cost": 2
+    },
+    {
+      "id": "the_blooddrinker_suffix",
+      "display": "the Blooddrinker",
+      "color": "#C0392B",
+      "cost": 3
+    },
+    {
+      "id": "of_the_first_storm_suffix",
+      "display": "of the First Storm",
+      "color": "#5DADE2",
+      "cost": 2
+    },
+    {
+      "id": "the_unbroken_suffix",
+      "display": "the Unbroken",
+      "color": "#7DCEA0",
+      "cost": 3
+    },
+    {
+      "id": "of_arcane_echoes_suffix",
+      "display": "of Arcane Echoes",
+      "color": "#A569BD",
+      "cost": 2
+    },
+    {
+      "id": "the_dreadforge_suffix",
+      "display": "the Dreadforge",
+      "color": "#4A235A",
+      "cost": 3
+    },
+    {
+      "id": "of_the_eternal_night_suffix",
+      "display": "of the Eternal Night",
+      "color": "#1C1C1C",
+      "cost": 4
+    },
+    {
+      "id": "the_vindicator_suffix",
+      "display": "the Vindicator",
+      "color": "#7F8C8D",
+      "cost": 2
+    },
+    {
+      "id": "the_soultaker_suffix",
+      "display": "the Soultaker",
+      "color": "#900C3F",
+      "cost": 3
+    },
+    {
+      "id": "the_icebreaker_suffix",
+      "display": "the Icebreaker",
+      "color": "#85C1E9",
+      "cost": 2
+    },
+    {
+      "id": "of_the_twilight_suffix",
+      "display": "of the Twilight",
+      "color": "#76448A",
+      "cost": 3
+    },
+    {
+      "id": "the_mirage_suffix",
+      "display": "the Mirage",
+      "color": "#FADBD8",
+      "cost": 2
+    },
+    {
+      "id": "the_damned_suffix",
+      "display": "the Damned",
+      "color": "#5C1A1A",
+      "cost": 3
+    },
+    {
+      "id": "the_fallen_suffix",
+      "display": "the Fallen",
+      "color": "#7B241C",
+      "cost": 2
+    },
+    {
+      "id": "the_pitfiend_suffix",
+      "display": "the Pitfiend",
+      "color": "#8E1B1B",
+      "cost": 3
+    },
+    {
+      "id": "the_hellcaller_suffix",
+      "display": "the Hellcaller",
+      "color": "#A93226",
+      "cost": 3
+    },
+    {
+      "id": "the_soulflayer_suffix",
+      "display": "the Soulflayer",
+      "color": "#641E16",
+      "cost": 2
+    },
+    {
+      "id": "the_crimson_hunger_suffix",
+      "display": "the Crimson Hunger",
+      "color": "#922B21",
+      "cost": 3
+    },
+    {
+      "id": "the_bloodlord_suffix",
+      "display": "the Bloodlord",
+      "color": "#BB0A1E",
+      "cost": 4
+    },
+    {
+      "id": "the_abyss_suffix",
+      "display": "the Abyss",
+      "color": "#2E0F0F",
+      "cost": 2
+    },
+    {
+      "id": "the_brimstone_suffix",
+      "display": "the Brimstone",
+      "color": "#E25822",
+      "cost": 3
+    },
+    {
+      "id": "the_hellstorm_suffix",
+      "display": "the Hellstorm",
+      "color": "#C0392B",
+      "cost": 3
+    },
+    {
+      "id": "the_dreadfire_suffix",
+      "display": "the Dreadfire",
+      "color": "#7B0000",
+      "cost": 2
+    },
+    {
+      "id": "the_shadowflame_suffix",
+      "display": "the Shadowflame",
+      "color": "#6C1E1E",
+      "cost": 2
+    },
+    {
+      "id": "the_night_terror_suffix",
+      "display": "the Night Terror",
+      "color": "#4A0000",
+      "cost": 3
+    },
+    {
+      "id": "the_sinweaver_suffix",
+      "display": "the Sinweaver",
+      "color": "#7D3C3C",
+      "cost": 2
+    },
+    {
+      "id": "the_voideater_suffix",
+      "display": "the Voideater",
+      "color": "#3B0A0A",
+      "cost": 2
+    },
+    {
+      "id": "of_the_seraph_suffix",
+      "display": "of the Seraph",
+      "color": "#F9EBEA",
+      "cost": 3
+    },
+    {
+      "id": "of_the_archangel_suffix",
+      "display": "of the Archangel",
+      "color": "#FDEBD0",
+      "cost": 4
+    },
+    {
+      "id": "of_divine_light_suffix",
+      "display": "of Divine Light",
+      "color": "#F7DC6F",
+      "cost": 3
+    },
+    {
+      "id": "of_the_sanctum_suffix",
+      "display": "of the Sanctum",
+      "color": "#EBF5FB",
+      "cost": 2
+    },
+    {
+      "id": "of_pure_grace_suffix",
+      "display": "of Pure Grace",
+      "color": "#F5EEF8",
+      "cost": 2
+    },
+    {
+      "id": "of_the_halo_suffix",
+      "display": "of the Halo",
+      "color": "#FFF9E3",
+      "cost": 2
+    },
+    {
+      "id": "of_the_dawnbringer_suffix",
+      "display": "of the Dawnbringer",
+      "color": "#FAF3C1",
+      "cost": 3
+    },
+    {
+      "id": "of_the_empyrion_suffix",
+      "display": "of the Empyrion",
+      "color": "#FDEDEC",
+      "cost": 4
+    },
+    {
+      "id": "of_the_radiant_host_suffix",
+      "display": "of the Radiant Host",
+      "color": "#F4ECF7",
+      "cost": 3
+    },
+    {
+      "id": "of_the_ascended_suffix",
+      "display": "of the Ascended",
+      "color": "#E8F8F5",
+      "cost": 3
+    },
+    {
+      "id": "of_the_sunspire_suffix",
+      "display": "of the Sunspire",
+      "color": "#FFF2CC",
+      "cost": 2
+    },
+    {
+      "id": "of_the_eternal_glow_suffix",
+      "display": "of the Eternal Glow",
+      "color": "#FEF9E7",
+      "cost": 2
+    },
+    {
+      "id": "of_the_skyward_suffix",
+      "display": "of the Skyward",
+      "color": "#D6EAF8",
+      "cost": 2
+    },
+    {
+      "id": "of_the_celestium_suffix",
+      "display": "of the Celestium",
+      "color": "#EBDEF0",
+      "cost": 3
+    },
+    {
+      "id": "of_the_lightbound_suffix",
+      "display": "of the Lightbound",
+      "color": "#F9E79F",
+      "cost": 2
+    },
+    {
+      "id": "of_the_astral_plane_suffix",
+      "display": "of the Astral Plane",
+      "color": "#A569BD",
+      "cost": 3
+    },
+    {
+      "id": "of_the_cosmos_suffix",
+      "display": "of the Cosmos",
+      "color": "#7FB3D5",
+      "cost": 3
+    },
+    {
+      "id": "of_the_void_suffix",
+      "display": "of the Void",
+      "color": "#1C1C3C",
+      "cost": 4
+    },
+    {
+      "id": "of_the_nebula_suffix",
+      "display": "of the Nebula",
+      "color": "#AF7AC5",
+      "cost": 2
+    },
+    {
+      "id": "of_the_stars_suffix",
+      "display": "of the Stars",
+      "color": "#F5CBA7",
+      "cost": 3
+    },
+    {
+      "id": "of_the_galaxy_suffix",
+      "display": "of the Galaxy",
+      "color": "#5DADE2",
+      "cost": 3
+    },
+    {
+      "id": "of_the_event_horizon_suffix",
+      "display": "of the Event Horizon",
+      "color": "#0B0B0F",
+      "cost": 4
+    },
+    {
+      "id": "of_the_supercluster_suffix",
+      "display": "of the Supercluster",
+      "color": "#BB8FCE",
+      "cost": 3
+    },
+    {
+      "id": "of_the_dark_infinity_suffix",
+      "display": "of the Dark Infinity",
+      "color": "#0A0A16",
+      "cost": 4
+    },
+    {
+      "id": "of_the_quasar_suffix",
+      "display": "of the Quasar",
+      "color": "#7845FF",
+      "cost": 3
+    },
+    {
+      "id": "of_the_blackstar_suffix",
+      "display": "of the Blackstar",
+      "color": "#212F3D",
+      "cost": 2
+    },
+    {
+      "id": "of_the_starforge_suffix",
+      "display": "of the Starforge",
+      "color": "#566DF0",
+      "cost": 3
+    },
+    {
+      "id": "of_the_cosmic_wave_suffix",
+      "display": "of the Cosmic Wave",
+      "color": "#85929E",
+      "cost": 2
+    },
+    {
+      "id": "of_the_gravemind_suffix",
+      "display": "of the Gravemind",
+      "color": "#34495E",
+      "cost": 3
+    },
+    {
+      "id": "of_the_chrono_depths_suffix",
+      "display": "of the Chrono Depths",
+      "color": "#AAB7B8",
+      "cost": 2
+    },
+    {
+      "id": "of_the_crimson_cutlass_suffix",
+      "display": "of the Crimson Cutlass",
+      "color": "#A93226",
+      "cost": 3
+    },
+    {
+      "id": "of_the_tidecaller_suffix",
+      "display": "of the Tidecaller",
+      "color": "#1F618D",
+      "cost": 2
+    },
+    {
+      "id": "of_the_black_flag_suffix",
+      "display": "of the Black Flag",
+      "color": "#0D0D0D",
+      "cost": 4
+    },
+    {
+      "id": "of_the_kraken_suffix",
+      "display": "of the Kraken",
+      "color": "#1B2631",
+      "cost": 3
+    },
+    {
+      "id": "of_the_high_seas_suffix",
+      "display": "of the High Seas",
+      "color": "#5DADE2",
+      "cost": 2
+    },
+    {
+      "id": "of_the_bilge_rat_suffix",
+      "display": "of the Bilge Rat",
+      "color": "#7E5109",
       "cost": 1
+    },
+    {
+      "id": "of_the_greater_horizon_suffix",
+      "display": "of the Greater Horizon",
+      "color": "#85C1E9",
+      "cost": 2
+    },
+    {
+      "id": "of_the_cursed_treasure_suffix",
+      "display": "of the Cursed Treasure",
+      "color": "#7D6608",
+      "cost": 3
+    },
+    {
+      "id": "of_the_sea_reaver_suffix",
+      "display": "of the Sea-Reaver",
+      "color": "#34495E",
+      "cost": 3
+    },
+    {
+      "id": "of_the_stormwake_suffix",
+      "display": "of the Stormwake",
+      "color": "#2C3E50",
+      "cost": 2
+    },
+    {
+      "id": "of_the_sunken_king_suffix",
+      "display": "of the Sunken King",
+      "color": "#1C2833",
+      "cost": 4
+    },
+    {
+      "id": "of_the_gallows_suffix",
+      "display": "of the Gallows",
+      "color": "#4A3728",
+      "cost": 2
+    },
+    {
+      "id": "of_the_brine_depths_suffix",
+      "display": "of the Brine Depths",
+      "color": "#154360",
+      "cost": 2
+    },
+    {
+      "id": "of_the_rusty_hook_suffix",
+      "display": "of the Rusty Hook",
+      "color": "#A97142",
+      "cost": 1
+    },
+    {
+      "id": "of_the_tidebreaker_suffix",
+      "display": "of the Tidebreaker",
+      "color": "#21618C",
+      "cost": 3
+    },
+    {
+      "id": "of_the_crystalspire_suffix",
+      "display": "of the Crystalspire",
+      "color": "#AEE5F8",
+      "cost": 3
+    },
+    {
+      "id": "of_the_shatterpeak_suffix",
+      "display": "of the Shatterpeak",
+      "color": "#8FD3E8",
+      "cost": 3
+    },
+    {
+      "id": "of_the_primordial_gem_suffix",
+      "display": "of the Primordial Gem",
+      "color": "#D7BDE2",
+      "cost": 4
+    },
+    {
+      "id": "of_the_frostshard_suffix",
+      "display": "of the Frostshard",
+      "color": "#A9CCE3",
+      "cost": 2
+    },
+    {
+      "id": "of_the_prismatic_depths_suffix",
+      "display": "of the Prismatic Depths",
+      "color": "#FAD7A0",
+      "cost": 3
+    },
+    {
+      "id": "of_the_opal_vein_suffix",
+      "display": "of the Opal Vein",
+      "color": "#FDF1FF",
+      "cost": 2
+    },
+    {
+      "id": "of_the_starcrystal_suffix",
+      "display": "of the Starcrystal",
+      "color": "#D2B4DE",
+      "cost": 4
+    },
+    {
+      "id": "of_the_glimmervault_suffix",
+      "display": "of the Glimmervault",
+      "color": "#EBDEF0",
+      "cost": 2
+    },
+    {
+      "id": "of_the_quartzwake_suffix",
+      "display": "of the Quartzwake",
+      "color": "#F7F7F7",
+      "cost": 2
+    },
+    {
+      "id": "of_the_crystal_depths_suffix",
+      "display": "of the Crystal Depths",
+      "color": "#AED6F1",
+      "cost": 3
+    },
+    {
+      "id": "of_the_lumengorge_suffix",
+      "display": "of the Lumengorge",
+      "color": "#FDEBD0",
+      "cost": 3
+    },
+    {
+      "id": "of_the_faceted_star_suffix",
+      "display": "of the Faceted Star",
+      "color": "#C39BD3",
+      "cost": 3
+    },
+    {
+      "id": "of_the_gemforge_suffix",
+      "display": "of the Gemforge",
+      "color": "#BB8FCE",
+      "cost": 2
+    },
+    {
+      "id": "of_the_radiant_shard_suffix",
+      "display": "of the Radiant Shard",
+      "color": "#F9E79F",
+      "cost": 2
+    },
+    {
+      "id": "of_the_crystal_maw_suffix",
+      "display": "of the Crystal Maw",
+      "color": "#8E44AD",
+      "cost": 4
+    },
+    {
+      "id": "of_the_ronin_path_suffix",
+      "display": "of the Ronin Path",
+      "color": "#7F8C8D",
+      "cost": 2
+    },
+    {
+      "id": "of_the_katana_suffix",
+      "display": "of the Katana",
+      "color": "#F2F4F4",
+      "cost": 2
+    },
+    {
+      "id": "of_the_crimson_shogun_suffix",
+      "display": "of the Crimson Shogun",
+      "color": "#A93226",
+      "cost": 4
+    },
+    {
+      "id": "of_the_wind_stance_suffix",
+      "display": "of the Wind Stance",
+      "color": "#D5D8DC",
+      "cost": 2
+    },
+    {
+      "id": "of_the_dragonblade_suffix",
+      "display": "of the Dragonblade",
+      "color": "#76448A",
+      "cost": 3
+    },
+    {
+      "id": "of_the_bushido_code_suffix",
+      "display": "of the Bushido Code",
+      "color": "#1F618D",
+      "cost": 3
+    },
+    {
+      "id": "of_the_oni_hunter_suffix",
+      "display": "of the Oni Hunter",
+      "color": "#922B21",
+      "cost": 3
+    },
+    {
+      "id": "of_the_moonlit_edge_suffix",
+      "display": "of the Moonlit Edge",
+      "color": "#F2F4F4",
+      "cost": 2
+    },
+    {
+      "id": "of_the_sakura_fall_suffix",
+      "display": "of the Sakura Fall",
+      "color": "#F5B7B1",
+      "cost": 2
+    },
+    {
+      "id": "of_the_thunder_cut_suffix",
+      "display": "of the Thunder-Cut",
+      "color": "#5DADE2",
+      "cost": 3
+    },
+    {
+      "id": "of_the_silent_blade_suffix",
+      "display": "of the Silent Blade",
+      "color": "#1B2631",
+      "cost": 4
+    },
+    {
+      "id": "of_the_spirit_samurai_suffix",
+      "display": "of the Spirit Samurai",
+      "color": "#A9CCE3",
+      "cost": 2
+    },
+    {
+      "id": "of_the_dragon_crest_suffix",
+      "display": "of the Dragon Crest",
+      "color": "#7D3C98",
+      "cost": 3
+    },
+    {
+      "id": "of_the_steel_tempest_suffix",
+      "display": "of the Steel Tempest",
+      "color": "#B3B6B7",
+      "cost": 2
+    },
+    {
+      "id": "of_the_yokai_watcher_suffix",
+      "display": "of the Yokai Watcher",
+      "color": "#7D3C98",
+      "cost": 2
+    },
+    {
+      "id": "of_the_grove_suffix",
+      "display": "of the Grove",
+      "color": "#32CD32",
+      "cost": 3
+    },
+    {
+      "id": "of_sunny_days_suffix",
+      "display": "of Sunny Days",
+      "color": "#FFD700",
+      "cost": 2
+    },
+    {
+      "id": "of_whispering_leaves_suffix",
+      "display": "of Whispering Leaves",
+      "color": "#228B22",
+      "cost": 2
+    },
+    {
+      "id": "of_blossoms_suffix",
+      "display": "of Blossoms",
+      "color": "#FF69B4",
+      "cost": 2
+    },
+    {
+      "id": "of_forest_friends_suffix",
+      "display": "of Forest Friends",
+      "color": "#6B8E23",
+      "cost": 2
+    },
+    {
+      "id": "of_moonlit_paths_suffix",
+      "display": "of Moonlit Paths",
+      "color": "#E0FFFF",
+      "cost": 2
+    },
+    {
+      "id": "of_acorn_luck_suffix",
+      "display": "of Acorn Luck",
+      "color": "#A0522D",
+      "cost": 2
+    },
+    {
+      "id": "of_squirrels_suffix",
+      "display": "of Squirrels",
+      "color": "#D2B48C",
+      "cost": 1
+    },
+    {
+      "id": "of_snuggles_suffix",
+      "display": "of Snuggles",
+      "color": "#FFB6C1",
+      "cost": 3
+    },
+    {
+      "id": "of_rainbows_suffix",
+      "display": "of Rainbows",
+      "color": "#FFD700",
+      "cost": 2
+    },
+    {
+      "id": "of_sparkles_suffix",
+      "display": "of Sparkles",
+      "color": "#FFFACD",
+      "cost": 2
+    },
+    {
+      "id": "of_purrs_suffix",
+      "display": "of Purrs",
+      "color": "#FFE4E1",
+      "cost": 2
+    },
+    {
+      "id": "of_bouncing_suffix",
+      "display": "of Bouncing",
+      "color": "#98FB98",
+      "cost": 2
+    },
+    {
+      "id": "of_giggles_suffix",
+      "display": "of Giggles",
+      "color": "#FFDAB9",
+      "cost": 2
+    },
+    {
+      "id": "of_hugs_suffix",
+      "display": "of Hugs",
+      "color": "#FF69B4",
+      "cost": 2
+    },
+    {
+      "id": "of_twinkling_suffix",
+      "display": "of Twinkling",
+      "color": "#E6E6FA",
+      "cost": 2
+    },
+    {
+      "id": "of_cupcakes_suffix",
+      "display": "of Cupcakes",
+      "color": "#FFF0F5",
+      "cost": 2
+    },
+    {
+      "id": "of_sunny_days_suffix",
+      "display": "of Sunny Days",
+      "color": "#FFFFE0",
+      "cost": 2
+    },
+    {
+      "id": "of_blossoms_suffix",
+      "display": "of Blossoms",
+      "color": "#FFC0CB",
+      "cost": 3
+    },
+    {
+      "id": "of_starlight_suffix",
+      "display": "of Starlight",
+      "color": "#F0FFFF",
+      "cost": 2
+    },
+    {
+      "id": "of_moonlight_suffix",
+      "display": "of Moonlight",
+      "color": "#E0FFFF",
+      "cost": 2
+    },
+    {
+      "id": "of_sunrise_suffix",
+      "display": "of Sunrise",
+      "color": "#FFDAB9",
+      "cost": 2
+    },
+    {
+      "id": "of_aurora_suffix",
+      "display": "of Aurora",
+      "color": "#AFEEEE",
+      "cost": 2
+    },
+    {
+      "id": "of_dreams_suffix",
+      "display": "of Dreams",
+      "color": "#FFE4E1",
+      "cost": 2
+    },
+    {
+      "id": "of_glory_suffix",
+      "display": "of Glory",
+      "color": "#FFFACD",
+      "cost": 2
+    },
+    {
+      "id": "of_sparkle_suffix",
+      "display": "of Sparkle",
+      "color": "#F5F5DC",
+      "cost": 2
+    },
+    {
+      "id": "of_elegance_suffix",
+      "display": "of Elegance",
+      "color": "#E6E6FA",
+      "cost": 2
+    },
+    {
+      "id": "of_gleaming_suffix",
+      "display": "of Gleaming",
+      "color": "#FFF8DC",
+      "cost": 2
     }
   ]
 }
