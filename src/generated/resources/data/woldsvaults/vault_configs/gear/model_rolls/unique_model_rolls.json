@@ -1,0 +1,114 @@
+{
+  "AXE_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "WAND_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "SWORD_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "ARMOR_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "SHIELD_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "FOCUS_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "MAGNETS_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "TRIDENT_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [
+      "woldsvaults:gear/trident/ocean_current"
+    ],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "BATTLESTAFF_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "PLUSHIE_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  },
+  "LOOT_SACK_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [],
+    "UNIQUE": [],
+    "SPECIAL": [],
+    "MYTHIC": []
+  }
+}

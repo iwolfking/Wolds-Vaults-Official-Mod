@@ -1,0 +1,11 @@
+{
+  "percentOfExperienceDealtAsDurabilityDamage": 0.0,
+  "freeExperienceNotDealtAsDurabilityDamage": 6000.0,
+  "chests": {},
+  "blocksMined": {},
+  "treasureRoomsOpened": 3400.0,
+  "mobsKilled": {
+    "alexsmobs:grizzly_bear": 100.0
+  },
+  "completion": {}
+}

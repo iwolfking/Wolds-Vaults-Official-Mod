@@ -1,0 +1,3222 @@
+{
+  "groupDescriptions": {},
+  "entities": [
+    {
+      "entityId": "alexsmobs:grizzly_bear",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "Test description",
+            "color": "yellow"
+          }
+        ]
+      },
+      "themes": [
+        "Test"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:mimicube",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t1_enderman",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t2_enderman",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t3_enderman",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_fighter_7",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_fighter_5",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_fighter_6",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_tank",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t1_cave_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t2_cave_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t3_cave_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t4_cave_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t5_cave_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:creep",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:snow_golem",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:elite_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:raised_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:raised_zombie_chicken",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "auxiliaryblocks:gingerbread_man_giant",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:elite_husk",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:scarab",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:elite_drowned",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:elite_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:elite_spider",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:elite_stray",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:elite_witch",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:elite_wither_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:elite_enderman",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:evoker",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:illusioner",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:cave_spider",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_spider_baby",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:spider",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:silverfish",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:vex",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:boogieman",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:monster_eye",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:robot",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blue_blaze",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:arena_boss",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:treasure_goblin",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:bruiser_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:arbalist_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:crystal_bruiser_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:crystal_arbalist_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:pirate_bruiser_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:pirate_arbalist_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:butcher_bruiser_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:butcher_arbalist_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:chicken",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:levishroom",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "rottencreatures:scarab",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "rottencreatures:flying_scarab",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "rottencreatures:frostbitten",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "rottencreatures:zombie_lackey",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "rottencreatures:skeleton_lackey",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:ravager",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:pillager",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:witch",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:healer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:vindicator",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_horde_t1",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_horde_t2",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_horde_t3",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_horde_t4",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_horde_t5",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_horse",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_dood",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_slime",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_skeleton_t0",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_skeleton_t1",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_skeleton_t2",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_skeleton_t3",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_skeleton_t4",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_skeleton_t5",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:blood_silverfish",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:golem_boss",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:boogieman_boss",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:black_widow_boss",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:wold",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:swamp_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:black_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:blue_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:brown_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:dark_blue_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:dark_red_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:dark_gray_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:green_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:purple_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:red_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:craftenstein",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:yellow_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:mungus",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:void_worm",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:enderiophage",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:komodo_dragon",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:snow_leopard",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:dropbear",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:tiger",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:gorilla",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:crocodile",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:aggressive_cow_boss",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "cloudstorage:bloviator",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:centipede_head",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:minotaur",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:minotaurus",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:eih",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:cobble_golem",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:cobblestone_golem",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:flesh_lich",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:tropiskelly",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "thermal:blizz",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "thermal:blitz",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "thermal:basalz",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:guster",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:orca",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:frilled_shark",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:elder_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "quark:wraith",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:tropicreeper",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:anubis",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:sphinx",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:harpy",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:werecat",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:tropi_spider",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t1_plastic_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t2_plastic_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t3_plastic_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t4_plastic_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t1_plastic_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t2_plastic_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t3_plastic_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t4_plastic_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t5_plastic_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t1_plastic_slime",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t2_plastic_slime",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t3_plastic_slime",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:t4_plastic_slime",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "ecologics:coconut_crab",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:goblin_feral",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:ashen",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:bone_knight",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:mandragora",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:ant",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:mermaid",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:kobold",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:naga",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:siren",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:oni",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:toad",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:sharko",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "wildbackport:warden",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:cecaelia",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:succubus",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:yuki_onna",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:selkie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:matango",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:inquisitor",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:incinerator",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:witch",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:deathword",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:behender",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:wither_cow",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:mummy",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:banshee",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:yeti",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:wildfire",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:necromancer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:drowned_necromancer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:frozen_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:jungle_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:mossy_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:wraith",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:skeleton_vanguard",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:redstone_golem",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:whisperer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:sunken_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:leapleaf",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:redstone_cube",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:vindicator_chef",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:armored_vindicator",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:armored_pillager",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:iceologer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "enchantwithmob:enchanter",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:icy_creeper",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:illusioner",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:mage",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:geomancer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:mountaineer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:royal_guard",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:windcaller",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:grimwick",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:jack_o_web",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:jack",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:jack_poison",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_wraith_yellow",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:aggressive_goat",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Not Configured"
+      ],
+      "minLevel": 0,
+      "drops": []
+    }
+  ],
+  "hiddenGroups": []
+}
