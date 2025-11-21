@@ -35,6 +35,8 @@ public class DataGenerators {
             gen.addProvider(new ModPlayerTitlesProvider(gen));
             gen.addProvider(new ModVaultInscriptionsProvider(gen));
             gen.addProvider(new ModUniqueGearProvider(gen));
+            gen.addProvider(new ModVaultMobsProvider(gen, WoldsVaults.MOD_ID));
+            gen.addProvider(new ModSkillDescriptionsProvider(gen));
         }
     }
 }

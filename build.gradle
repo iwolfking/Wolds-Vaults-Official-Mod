@@ -226,6 +226,7 @@ dependencies {
     implementation fg.deobf("curse.maven:ftb-library-forge-404465:4396792") // ftb quests
     implementation fg.deobf("curse.maven:ftb-teams-forge-404468:4579981") // ftb quests
     implementation fg.deobf("curse.maven:cyclops-core-232758:5262021") // lot of mods
+    implementation fg.deobf("curse.maven:ispawner-533792:5925639")
 
     // optional mods (usually conditional mixin)
     compileOnly fg.deobf("curse.maven:better-tridents-666941:4707885")
@@ -251,7 +252,6 @@ dependencies {
     compileOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
     compileOnly fg.deobf("curse.maven:titanium-287342:5151207") // industrial foregoing dep
     compileOnly fg.deobf("curse.maven:travel-anchors-413234:3741307")
-    compileOnly fg.deobf("curse.maven:tropicraft-254794:4616839")
     compileOnly fg.deobf("curse.maven:vault-hunters-item-sorting-1341046:6963298")
     compileOnly fg.deobf("curse.maven:vaultarhud-1011085:5706845")
     compileOnly fg.deobf("curse.maven:vaultmapper-1099126:7031447")
@@ -269,7 +269,7 @@ dependencies {
 
     // deps needed for runtime debug
     runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382") // quark
-    runtimeOnly fg.deobf("curse.maven:auxblocks-711533:4358959") // vault blocks
+    runtimeOnly fg.deobf("curse.maven:auxblocks-711533:7099196")// vault blocks
     runtimeOnly fg.deobf("curse.maven:item-filters-309674:4553322") // ftb quests
     runtimeOnly fg.deobf("curse.maven:terrablender-563928:3957976") // wild backport
     runtimeOnly fg.deobf("curse.maven:architectury-api-419699:4521465") // lot of mods
@@ -278,6 +278,31 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:storage-drawers-223852:5636643")
     runtimeOnly fg.deobf("curse.maven:qol-hunters-1093452:7189491")
     runtimeOnly fg.deobf("curse.maven:jade-324717:5079263")
+
+    //For building themes -- Wold's Only
+    runtimeOnly fg.deobf("curse.maven:rechiseled-558998:5286275")
+    runtimeOnly fg.deobf("curse.maven:chipped-456956:4293291")
+    runtimeOnly fg.deobf("curse.maven:daves-building-extended-568645:4841877")
+    runtimeOnly fg.deobf("curse.maven:supermartijn642s-config-lib-438332:4715404")
+    runtimeOnly fg.deobf("curse.maven:supermartijn642s-core-lib-454372:6034709")
+    runtimeOnly fg.deobf("curse.maven:ctm-267602:3933537")
+    runtimeOnly fg.deobf("curse.maven:fusion-connected-textures-854949:6923644")
+    implementation fg.deobf("curse.maven:tropicraft-254794:4616839")
+    runtimeOnly fg.deobf("curse.maven:regions-unexplored-659110:4554212")
+    runtimeOnly fg.deobf("curse.maven:selene-499980:6047192")
+
+    //Vanilla VH
+    runtimeOnly fg.deobf("curse.maven:macaws-doors-378646:6146369")
+    runtimeOnly fg.deobf("curse.maven:macaws-windows-363569:7025424")
+    runtimeOnly fg.deobf("curse.maven:macaws-fences-and-walls-453925:6363146")
+    runtimeOnly fg.deobf("curse.maven:simply-light-300331:4016411")
+    runtimeOnly fg.deobf("curse.maven:decorative-blocks-362528:3965454")
+    runtimeOnly fg.deobf("curse.maven:macaws-trapdoors-400933:5977649")
+    runtimeOnly fg.deobf("curse.maven:macaws-lights-and-lamps-502372:6502681")
+    runtimeOnly fg.deobf("curse.maven:macaws-furniture-359540:7197914")
+    runtimeOnly fg.deobf("curse.maven:twigs-496913:3968055")
+    runtimeOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
+    runtimeOnly fg.deobf("curse.maven:architects-palette-433862:4957984")
 
     // perf in dev
     runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")

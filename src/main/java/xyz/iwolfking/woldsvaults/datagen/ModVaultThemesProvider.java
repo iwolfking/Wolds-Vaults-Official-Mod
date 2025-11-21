@@ -4,7 +4,8 @@ import iskallia.vault.config.ThemeAugmentLoreConfig;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.vhapi.api.lib.core.datagen.gen.AbstractThemeProvider;
-import xyz.iwolfking.vhapi.api.util.builder.theme_lore.JsonDescription;
+import xyz.iwolfking.vhapi.api.util.builder.description.DescriptionDataBuilder;
+import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModVaultThemesProvider extends AbstractThemeProvider {
@@ -33,7 +34,7 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .levelEntry("the_vault:default", 30)
                     .themeWeight(20)
                     .themeGroup("Astral")
-                    .themeLore(new ThemeAugmentLoreConfig.AugmentLore("Astral", new xyz.iwolfking.vhapi.api.util.builder.theme_lore.DescriptionDataBuilder()
+                    .themeLore(new ThemeAugmentLoreConfig.AugmentLore("Astral", new DescriptionDataBuilder()
                             .description(JsonDescription.perkDescription("This is a test description.\n"))
                                     .description(JsonDescription.mobsDescription("Hordes: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
                                     .description(JsonDescription.mobsDescription("Assassins: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))

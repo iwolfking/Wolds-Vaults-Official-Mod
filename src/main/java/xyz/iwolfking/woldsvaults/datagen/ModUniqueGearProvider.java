@@ -20,8 +20,8 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
 
     @Override
     protected void addGear(Consumer<GeneratedEntry> consumer) {
-        consumer.accept(entry("the_vault:test_unique", new UniqueGearBuilder("Test Unique")
-                .model("the_vault:gear/armor/jester/helmet")
+        consumer.accept(entry("woldsvaults:ocean_current", new UniqueGearBuilder("Ocean Current")
+                .model("woldsvaults:gear/trident/ocean_current")
                 .base("the_vault:base_durability", "the_vault:u_living")
                 .implicit("the_vault:base_armor",
                         "the_vault:jester_lucky_hit",
@@ -31,8 +31,8 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .dropLocation("Nowhere")
                 .description("This is a test unique!!!", "$text")
                 .description("\n\nIt is very testy", "$text")
-                .modelType("ARMOR")
-                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.HEAD)
+                .modelType("TRIDENT")
+                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.SWORD)
                 .build()
         ));
     }

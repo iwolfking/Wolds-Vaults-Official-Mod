@@ -116,6 +116,7 @@
     "vaulthunters.accessors.VaultGearRollTypeConfigAccessor",
     "vaulthunters.accessors.VaultGearRollTypeConfigRollTypeAccessor",
     "vaulthunters.accessors.VaultGearTierConfigAccessor",
+    "vaulthunters.accessors.VaultMobsConfigAccessor",
     "vaulthunters.altar.MixinVaultAltarIngredientsConfig",
     "vaulthunters.altar.MixinVaultAltarTileEntity",
     "vaulthunters.altar.VaultAltarTileEntityAccessor",

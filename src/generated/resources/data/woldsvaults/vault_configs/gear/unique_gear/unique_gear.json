@@ -1,8 +1,8 @@
 {
   "registry": {
-    "the_vault:test_unique": {
-      "name": "Test Unique",
-      "model": "the_vault:gear/armor/jester/helmet",
+    "woldsvaults:ocean_current": {
+      "name": "Ocean Current",
+      "model": "woldsvaults:gear/trident/ocean_current",
       "modifierIdentifiers": {
         "BASE_ATTRIBUTE": [
           "the_vault:base_durability",
@@ -24,8 +24,8 @@
     }
   },
   "pools": {
-    "the_vault:test_unique": {
-      "weight": 1
+    "woldsvaults:ocean_current": {
+      "woldsvaults:ocean_current": 1
     }
   }
 }
