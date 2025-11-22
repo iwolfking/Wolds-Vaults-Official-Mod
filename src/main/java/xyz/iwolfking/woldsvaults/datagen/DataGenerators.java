@@ -37,6 +37,9 @@ public class DataGenerators {
             gen.addProvider(new ModUniqueGearProvider(gen));
             gen.addProvider(new ModVaultMobsProvider(gen, WoldsVaults.MOD_ID));
             gen.addProvider(new ModSkillDescriptionsProvider(gen));
+            gen.addProvider(new ModTooltipsProvider(gen));
+            gen.addProvider(new ModTalentsProvider(gen));
+            gen.addProvider(new ModAbilitiesProvider(gen));
         }
     }
 }

@@ -1,12 +1,22 @@
 {
   "descriptions": {
-    "Ars Nouveau": [
+    "Ars Nouveau 2": [
       {
-        "text": "Test description.",
+        "text": "Test\n",
         "color": "yellow"
       },
       {
-        "text": "\nTest description line 2",
+        "text": "Whatever\n",
+        "color": "yellow"
+      }
+    ],
+    "Ars Nouveau": [
+      {
+        "text": "Test",
+        "color": "yellow"
+      },
+      {
+        "text": "\nConfig Datagen",
         "color": "yellow"
       }
     ]

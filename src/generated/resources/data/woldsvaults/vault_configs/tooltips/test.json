@@ -1,0 +1,12 @@
+{
+  "tooltips": [
+    {
+      "item": "woldsvaults:chroma_core",
+      "value": "test"
+    },
+    {
+      "item": "the_vault:chromatic_gold_ingot",
+      "value": "test"
+    }
+  ]
+}
