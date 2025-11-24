@@ -43,6 +43,8 @@ public class DataGenerators {
             gen.addProvider(new ModTrinketsProvider(gen));
             gen.addProvider(new ModVaultLootTablesProvider(gen));
             gen.addProvider(new ModVaultDiffuserProvider(gen));
+            gen.addProvider(new ModVaultAltarIngredientsProvider(gen));
+            gen.addProvider(new ModInscriptionRecipesProvider(gen));
         }
     }
 }

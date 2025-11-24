@@ -32,7 +32,7 @@ public class WeaponTypeSettingItem extends BasicItem{
     }
 
     public String displayAllowedValues(String type) {
-        return ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.get(type).displayAllowedTypes();
+        return "";
     }
 
     public static ItemStack create(String tag) {

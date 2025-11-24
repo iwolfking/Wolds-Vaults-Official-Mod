@@ -12,15 +12,16 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
 
     @Override
     public void registerConfigs() {
-        addConfig("descriptions", new SkillDescriptionsConfigBuilder()
-                .addDescription("Ars Nouveau", jsonElements -> {
-                    jsonElements.add(JsonDescription.simpleDescription("Test", "yellow"));
-                    jsonElements.add(JsonDescription.simpleDescription("\nConfig Datagen", "yellow"));
-                })
-                .addDescription("Ars Nouveau 2", jsonElements -> {
-                    jsonElements.add(JsonDescription.simpleDescription("Test\n", "yellow"));
-                    jsonElements.add(JsonDescription.simpleDescription("Whatever\n", "yellow"));
-                })
-                .build());
+        add("descriptions", builder -> {
+            builder.addDescription("Ars Nouveau", jsonElements -> {
+                        jsonElements.add(JsonDescription.simpleDescription("Test", "yellow"));
+                        jsonElements.add(JsonDescription.simpleDescription("\nConfig Datagen", "yellow"));
+                    })
+                    .addDescription("Ars Nouveau 2", jsonElements -> {
+                        jsonElements.add(JsonDescription.simpleDescription("Test\n", "yellow"));
+                        jsonElements.add(JsonDescription.simpleDescription("Whatever\n", "yellow"));
+                    })
+                    .build();
+        });
     }
 }

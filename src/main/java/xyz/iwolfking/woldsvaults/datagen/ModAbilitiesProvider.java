@@ -14,21 +14,21 @@ public class ModAbilitiesProvider extends AbstractAbilityProvider {
     @Override
     public void registerConfigs() {
 
+        add("test", builder -> {
+              builder.addSpecializedAbility("Expunge", "Diffuse", 8, 0, 1, 2, i ->
+            {
+                if (i == 0) {
+                    return createTieredSkill("Expunge_Base", "Diffuse", 0, 1, 8, 100, (i2) -> {
+                        return createAndAssignId("expunge", i2, new ExpungeAbility(0, 1, 1, 600, 30 + (i2 * 2), 2.0F + (0.5F * i2), 200 + (20 * i2)));
+                    });
+                }
+                else {
+                    return createTieredSkill("Concentrate_Base", "Concentrate", 0, 1, 8, 100, (i2) -> {
+                        return createAndAssignId("concentrate", i2, new ConcentrateAbility(0, 1, 1, 600, 30 + i2, 2.0F + (0.5F * i2), i2, i2, 1.0F, 30, 2));
+                    });
+                }
+            }).build();
+        });
 
-        addConfig("test", new AbilityBuilder()
-                .addSpecializedAbility("Expunge", "Diffuse", 8, 0, 1, 2, i ->
-                        {
-                            if (i == 0) {
-                                return createTieredSkill("Expunge_Base", "Diffuse", 0, 1, 8, 100, (i2) -> {
-                                    return createAndAssignId("expunge", i2, new ExpungeAbility(0, 1, 1, 600, 30 + (i2 * 2), 2.0F + (0.5F * i2), 200 + (20 * i2)));
-                                });
-                            }
-                            else {
-                                return createTieredSkill("Concentrate_Base", "Concentrate", 0, 1, 8, 100, (i2) -> {
-                                    return createAndAssignId("concentrate", i2, new ConcentrateAbility(0, 1, 1, 600, 30 + i2, 2.0F + (0.5F * i2), i2, i2, 1.0F, 30, 2));
-                                });
-                            }
-                        })
-                .build());
     }
 }

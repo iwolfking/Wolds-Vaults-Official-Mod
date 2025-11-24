@@ -12,9 +12,10 @@ public class ModTooltipsProvider extends AbstractTooltipProvider {
 
     @Override
     public void registerConfigs() {
-        addConfig("test", new TooltipConfigBuilder()
-                .addTooltipEntry(ModItems.CHROMA_CORE.getRegistryName(), "test")
-                .addTooltipEntry(ModItems.CHROMATIC_GOLD_INGOT.getRegistryName(), "test")
-                .build());
+        add("test", builder -> {
+            builder.addTooltipEntry(ModItems.CHROMA_CORE.getRegistryName(), "test")
+                    .addTooltipEntry(ModItems.CHROMATIC_GOLD_INGOT.getRegistryName(), "test")
+                    .build();
+        });
     }
 }

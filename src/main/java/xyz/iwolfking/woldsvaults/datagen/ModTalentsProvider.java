@@ -12,8 +12,11 @@ public class ModTalentsProvider extends AbstractTalentProvider {
 
     @Override
     public void registerConfigs() {
-        addConfig("test", new TalentBuilder()
-                .addGearAttributeTalent("Test", "Test", 4, 0, 1, 100, ModGearAttributes.THORNS_DAMAGE_FLAT, (i) -> 4 + (8 * i))
-                .build());
+        add("test", builder -> {
+            builder
+                    .addGearAttributeTalent("Test", "Test", 4, 0, 1, 100, ModGearAttributes.THORNS_DAMAGE_FLAT, (i) -> 4 + (8 * i))
+                    .build();
+            });
+
     }
 }
