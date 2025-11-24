@@ -1,8 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import net.minecraft.data.DataGenerator;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractInscriptionProvider;
-import xyz.iwolfking.vhapi.api.registry.CustomInscriptionModelRegistry;
+import xyz.iwolfking.vhapi.api.datagen.AbstractInscriptionProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModVaultInscriptionsProvider extends AbstractInscriptionProvider {

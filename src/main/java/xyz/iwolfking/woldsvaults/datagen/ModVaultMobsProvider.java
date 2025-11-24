@@ -4,12 +4,11 @@ import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.BestiaryConfig;
 import iskallia.vault.config.VaultMobsConfig;
-import iskallia.vault.core.world.data.entity.EntityPredicate;
 import iskallia.vault.core.world.data.entity.PartialEntity;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractVaultMobsProvider;
+import xyz.iwolfking.vhapi.api.datagen.AbstractVaultMobsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultMobsConfigAccessor;
 

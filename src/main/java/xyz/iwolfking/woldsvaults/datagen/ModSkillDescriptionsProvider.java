@@ -1,7 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import net.minecraft.data.DataGenerator;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractSkillDescriptionsProvider;
+import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 

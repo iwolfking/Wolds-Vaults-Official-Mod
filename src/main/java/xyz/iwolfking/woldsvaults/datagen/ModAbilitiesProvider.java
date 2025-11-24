@@ -1,10 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import iskallia.vault.init.ModGearAttributes;
-import iskallia.vault.skill.base.TieredSkill;
 import net.minecraft.data.DataGenerator;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractAbilityProvider;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractTalentProvider;
+import xyz.iwolfking.vhapi.api.datagen.AbstractAbilityProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.ConcentrateAbility;
 import xyz.iwolfking.woldsvaults.abilities.ExpungeAbility;

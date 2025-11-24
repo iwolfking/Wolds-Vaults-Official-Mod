@@ -4,9 +4,8 @@ import iskallia.vault.VaultMod;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.gen.AbstractPaletteProvider;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.gen.palette.PaletteBuilder;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.gen.palette.PaletteDefinition;
+import xyz.iwolfking.vhapi.api.datagen.gen.AbstractPaletteProvider;
+import xyz.iwolfking.vhapi.api.datagen.lib.gen.palette.PaletteBuilder;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.*;

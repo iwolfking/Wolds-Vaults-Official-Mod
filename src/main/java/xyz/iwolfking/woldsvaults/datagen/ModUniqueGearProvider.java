@@ -3,14 +3,10 @@ package xyz.iwolfking.woldsvaults.datagen;
 import iskallia.vault.config.UniqueCodexConfig;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractUniqueGearProvider;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractVaultModifierPoolsProvider;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.gear.UniqueGearBuilder;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.gear.UniqueGearEntry;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.modifier_pools.ModifierPoolBuilder;
+import xyz.iwolfking.vhapi.api.datagen.AbstractUniqueGearProvider;
+import xyz.iwolfking.vhapi.api.datagen.lib.gear.UniqueGearBuilder;
+import xyz.iwolfking.vhapi.api.datagen.lib.gear.UniqueGearEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
@@ -19,7 +15,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
     }
 
     @Override
-    protected void addGear(Consumer<GeneratedEntry> consumer) {
+    protected void addGear(Consumer<AbstractUniqueGearProvider.GeneratedEntry> consumer) {
         consumer.accept(entry("woldsvaults:ocean_current", new UniqueGearBuilder("Ocean Current")
                 .model("woldsvaults:gear/trident/ocean_current")
                 .base("the_vault:base_durability", "the_vault:u_living")

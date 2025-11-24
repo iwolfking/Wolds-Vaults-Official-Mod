@@ -1,11 +1,8 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import net.minecraft.data.DataGenerator;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractGearModifierProvider;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractVaultModifierPoolsProvider;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.gear.ModifierGroupBuilder;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.gear.RangeValue;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.lib.modifier_pools.ModifierPoolBuilder;
+import xyz.iwolfking.vhapi.api.datagen.AbstractVaultModifierPoolsProvider;
+import xyz.iwolfking.vhapi.api.datagen.lib.modifier_pools.ModifierPoolBuilder;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Map;

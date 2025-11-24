@@ -1,7 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import net.minecraft.data.DataGenerator;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.AbstractTooltipProvider;
+import xyz.iwolfking.vhapi.api.datagen.AbstractTooltipProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
