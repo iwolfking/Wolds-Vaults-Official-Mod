@@ -3,7 +3,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 import iskallia.vault.config.ThemeAugmentLoreConfig;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import xyz.iwolfking.vhapi.api.lib.core.datagen.gen.AbstractThemeProvider;
+import xyz.iwolfking.vhapi.api.lib.core.datagen.genResearchExclusionConfig.AbstractThemeProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.DescriptionDataBuilder;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
