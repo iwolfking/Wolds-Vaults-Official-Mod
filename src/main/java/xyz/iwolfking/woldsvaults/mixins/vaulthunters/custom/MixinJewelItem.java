@@ -31,9 +31,6 @@ public abstract class MixinJewelItem extends Item implements VaultGearItem, Data
 
     private ServerPlayer player;
 
-  //  @Unique
-   // private static final VaultRecyclerConfig.RecyclerOutput woldsVaults$jewelOutput = new VaultRecyclerConfig.RecyclerOutput(new ChanceItemStackEntry(new ItemStack(ModItems.SILVER_SCRAP), 5, 8, 1.0F), new ChanceItemStackEntry(new ItemStack(ModItems.GEMSTONE), 1, 1, 1.0F), new ChanceItemStackEntry(ItemStack.EMPTY, 1, 1, 0.0F));
-
     public MixinJewelItem(Properties pProperties) {
         super(pProperties);
     }
@@ -45,25 +42,6 @@ public abstract class MixinJewelItem extends Item implements VaultGearItem, Data
         }
     }
 
-    /**
-//     * @author iwolfking
-//     * @reason Return a gemstone always when a jewel has a legendary
-//     */
-//    @Overwrite @Override
-//    public VaultRecyclerConfig.RecyclerOutput getOutput(ItemStack input) {
-//        VaultGearData data = VaultGearData.read(input);
-//        AtomicBoolean hasLegendary = new AtomicBoolean(false);
-//        data.getAllModifierAffixes().forEach(vaultGearModifier -> {
-//            if(vaultGearModifier.hasCategory(VaultGearModifier.AffixCategory.LEGENDARY)) {
-//                hasLegendary.set(true);
-//            }
-//        });
-//
-//        if(hasLegendary.get()) {
-//            return woldsVaults$jewelOutput;
-//        }
-//        return ModConfigs.VAULT_RECYCLER.getJewelRecyclingOutput();
-//    }
 
     @Override
     public Optional<? extends DynamicModel<?>> resolveDynamicModel(ItemStack stack, ResourceLocation key) {
