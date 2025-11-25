@@ -1,0 +1,11 @@
+{
+  "VALID_BLOCKS": [
+    "the_vault:vault_stone_1",
+    "the_vault:vault_stone_2",
+    "the_vault:vault_cobblestone_1",
+    "the_vault:vault_cobblestone_2",
+    "the_vault:gem_pog_1",
+    "the_vault:echo_pog_1",
+    "the_vault:omega_pog_1"
+  ]
+}

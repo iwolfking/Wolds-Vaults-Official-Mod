@@ -1,37 +1,88 @@
 {
   "ATTRIBUTE_OVERRIDES": {
-    "woldsvaults:green_ghost": [],
-    "alexsmobs:snow_leopard": [],
-    "enchantwithmob:enchanter": [],
-    "the_vault:t3_plastic_slime": [],
-    "tropicraft:tropicreeper": [],
-    "grimoireofgaia:anubis": [],
-    "the_vault:crystal_bruiser_guardian": [],
-    "dungeons_mobs:drowned_necromancer": [],
-    "dungeons_mobs:geomancer": [],
-    "dungeons_mobs:armored_vindicator": [],
-    "wildbackport:warden": [],
-    "the_vault:t2_enderman": [],
-    "woldsvaults:purple_ghost": [],
-    "tropicraft:tropi_spider": [],
-    "grimoireofgaia:banshee": [],
-    "the_vault:t1_plastic_skeleton": [],
-    "minecraft:cave_spider": [],
-    "rottencreatures:zombie_lackey": [],
-    "the_vault:elite_wither_skeleton": [],
-    "the_vault:pirate_arbalist_guardian": [],
-    "the_vault:t1_cave_skeleton": [],
-    "grimoireofgaia:cobblestone_golem": [],
-    "the_vault:butcher_bruiser_guardian": [],
-    "woldsvaults:dark_blue_ghost": [],
-    "alexsmobs:komodo_dragon": [],
-    "grimoireofgaia:cobble_golem": [],
-    "auxiliaryblocks:gingerbread_man_giant": [],
-    "alexsmobs:dropbear": [],
-    "alexsmobs:tiger": [],
-    "dungeons_mobs:redstone_golem": [],
-    "dungeons_mobs:redstone_cube": [],
-    "alexsmobs:grizzly_bear": [
+    "woldsvaults:hostile_sheep": [
+      {
+        "NAME": "minecraft:generic.max_health",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 30.0,
+            "MAX": 40.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.07,
+            "SCALE_MAX_LEVEL": 49
+          },
+          {
+            "MIN_LEVEL": 50,
+            "MIN": 39.0,
+            "MAX": 58.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.09,
+            "SCALE_MAX_LEVEL": 64
+          },
+          {
+            "MIN_LEVEL": 65,
+            "MIN": 40.0,
+            "MAX": 69.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.09,
+            "SCALE_MAX_LEVEL": -1
+          },
+          {
+            "MIN_LEVEL": 80,
+            "MIN": 44,
+            "MAX": 75.9,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.09,
+            "SCALE_MAX_LEVEL": -1
+          },
+          {
+            "MIN_LEVEL": 90,
+            "MIN": 42.0,
+            "MAX": 82.8,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.09,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
+      {
+        "NAME": "minecraft:generic.attack_damage",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 1.0,
+            "MAX": 3.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.1,
+            "SCALE_MAX_LEVEL": 50
+          },
+          {
+            "MIN_LEVEL": 65,
+            "MIN": 2.0,
+            "MAX": 4.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.1,
+            "SCALE_MAX_LEVEL": -1
+          },
+          {
+            "MIN_LEVEL": 90,
+            "MIN": 2.5,
+            "MAX": 5.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.1,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
       {
         "NAME": "the_vault:generic.crit_chance",
         "LEVELS": [
@@ -97,56 +148,6 @@
         ]
       },
       {
-        "NAME": "minecraft:generic.attack_damage",
-        "MIN": 1.4,
-        "MAX": 2,
-        "OPERATOR": "set",
-        "ROLL_CHANCE": 1,
-        "SCALE_PER_LEVEL": 0.1,
-        "SCALE_MAX_LEVEL": -1
-      },
-      {
-        "NAME": "minecraft:generic.max_health",
-        "LEVELS": [
-          {
-            "MIN_LEVEL": 0,
-            "MIN": 16.0,
-            "MAX": 20.0,
-            "OPERATOR": "set",
-            "ROLL_CHANCE": 1.0,
-            "SCALE_PER_LEVEL": 0.067,
-            "SCALE_MAX_LEVEL": 49
-          },
-          {
-            "MIN_LEVEL": 50,
-            "MIN": 18.0,
-            "MAX": 22.0,
-            "OPERATOR": "set",
-            "ROLL_CHANCE": 1.0,
-            "SCALE_PER_LEVEL": 0.067,
-            "SCALE_MAX_LEVEL": 64
-          },
-          {
-            "MIN_LEVEL": 65,
-            "MIN": 20.0,
-            "MAX": 28.0,
-            "OPERATOR": "set",
-            "ROLL_CHANCE": 1.0,
-            "SCALE_PER_LEVEL": 0.067,
-            "SCALE_MAX_LEVEL": 89
-          },
-          {
-            "MIN_LEVEL": 90,
-            "MIN": 26.0,
-            "MAX": 30.0,
-            "OPERATOR": "set",
-            "ROLL_CHANCE": 1.0,
-            "SCALE_PER_LEVEL": 0.067,
-            "SCALE_MAX_LEVEL": -1
-          }
-        ]
-      },
-      {
         "NAME": "minecraft:generic.movement_speed",
         "MIN": 1.05,
         "MAX": 1.1,
@@ -165,175 +166,320 @@
         "SCALE_MAX_LEVEL": -1
       }
     ],
-    "the_vault:vault_spider_baby": [],
-    "rottencreatures:scarab": [],
-    "tropicraft:eih": [],
-    "grimoireofgaia:minotaur": [],
-    "woldsvaults:dark_red_ghost": [],
-    "dungeons_mobs:mossy_skeleton": [],
-    "dungeons_mobs:armored_pillager": [],
-    "the_vault:t2_cave_skeleton": [],
-    "grimoireofgaia:siren": [],
-    "minecraft:illusioner": [],
-    "the_vault:craftenstein": [],
-    "alexsmobs:crocodile": [],
-    "the_vault:elite_zombie": [],
-    "the_vault:elite_enderman": [],
-    "grimoireofgaia:selkie": [],
-    "woldsvaults:dark_gray_ghost": [],
-    "grimoireofgaia:toad": [],
-    "alexsmobs:frilled_shark": [],
-    "woldsvaults:brown_ghost": [],
-    "the_vault:t1_plastic_zombie": [],
-    "grimoireofgaia:naga": [],
-    "tropicraft:tropiskelly": [],
-    "the_vault:boogieman_boss": [],
-    "grimoireofgaia:mermaid": [],
-    "the_vault:blood_skeleton_t5": [],
-    "alexsmobs:mimicube": [],
-    "the_vault:blood_skeleton_t2": [],
-    "the_vault:blood_skeleton_t1": [],
-    "alexsmobs:gorilla": [],
-    "the_vault:t2_plastic_zombie": [],
-    "the_vault:blood_skeleton_t4": [],
-    "the_vault:vault_wraith_yellow": [],
-    "the_vault:blood_skeleton_t3": [],
-    "the_vault:t5_cave_skeleton": [],
-    "the_vault:blood_skeleton_t0": [],
-    "alexsmobs:void_worm": [],
-    "the_vault:elite_spider": [],
-    "the_vault:t4_plastic_slime": [],
-    "dungeons_mobs:mage": [],
-    "minecraft:guardian": [],
-    "the_vault:arbalist_guardian": [],
-    "thermal:blizz": [],
-    "alexsmobs:centipede_head": [],
-    "grimoireofgaia:wither_cow": [],
-    "grimoireofgaia:bone_knight": [],
-    "dungeons_mobs:skeleton_vanguard": [],
-    "grimoireofgaia:incinerator": [],
-    "the_vault:grimwick": [],
-    "woldsvaults:blue_ghost": [],
-    "ecologics:coconut_crab": [],
-    "the_vault:t3_enderman": [],
-    "woldsvaults:black_ghost": [],
-    "the_vault:jack_poison": [],
-    "grimoireofgaia:sphinx": [],
-    "minecraft:elder_guardian": [],
-    "dungeons_mobs:sunken_skeleton": [],
-    "grimoireofgaia:yeti": [],
-    "dungeons_mobs:frozen_zombie": [],
-    "minecraft:vindicator": [],
-    "dungeons_mobs:royal_guard": [],
-    "the_vault:elite_stray": [],
-    "the_vault:scarab": [],
-    "alexsmobs:guster": [],
-    "grimoireofgaia:mummy": [],
-    "minecraft:evoker": [],
-    "grimoireofgaia:creep": [],
-    "the_vault:elite_skeleton": [],
-    "grimoireofgaia:behender": [],
-    "grimoireofgaia:yuki_onna": [],
-    "the_vault:vault_guardian": [],
-    "the_vault:blood_horde_t5": [],
-    "the_vault:blood_horde_t4": [],
-    "the_vault:blood_horde_t3": [],
-    "the_vault:blood_horde_t2": [],
-    "the_vault:blood_horde_t1": [],
-    "the_vault:t5_plastic_skeleton": [],
-    "grimoireofgaia:cecaelia": [],
-    "the_vault:monster_eye": [],
-    "the_vault:vault_fighter_7": [],
-    "grimoireofgaia:kobold": [],
-    "minecraft:silverfish": [],
-    "the_vault:t2_plastic_skeleton": [],
-    "the_vault:vault_fighter_5": [],
-    "the_vault:bruiser_guardian": [],
-    "the_vault:vault_fighter_6": [],
-    "the_vault:elite_witch": [],
-    "minecraft:chicken": [],
-    "minecraft:zombie": [],
-    "the_vault:jack_o_web": [],
-    "rottencreatures:frostbitten": [],
-    "the_vault:wold": [],
-    "grimoireofgaia:witch": [],
-    "the_vault:butcher_arbalist_guardian": [],
-    "the_vault:raised_zombie": [],
-    "dungeons_mobs:iceologer": [],
-    "the_vault:t1_enderman": [],
-    "grimoireofgaia:minotaurus": [],
-    "the_vault:blue_blaze": [],
-    "grimoireofgaia:matango": [],
-    "the_vault:golem_boss": [],
-    "thermal:blitz": [],
-    "woldsvaults:yellow_ghost": [],
-    "rottencreatures:skeleton_lackey": [],
-    "minecraft:witch": [],
-    "dungeons_mobs:necromancer": [],
-    "the_vault:levishroom": [],
-    "quark:wraith": [],
-    "the_vault:t4_plastic_zombie": [],
-    "minecraft:vex": [],
-    "the_vault:robot": [],
-    "grimoireofgaia:harpy": [],
-    "the_vault:t1_plastic_slime": [],
-    "the_vault:t3_plastic_skeleton": [],
-    "the_vault:t3_plastic_zombie": [],
-    "the_vault:vault_dood": [],
-    "woldsvaults:red_ghost": [],
-    "grimoireofgaia:deathword": [],
-    "grimoireofgaia:flesh_lich": [],
-    "minecraft:ravager": [],
-    "the_vault:healer": [],
-    "grimoireofgaia:succubus": [],
-    "the_vault:t4_plastic_skeleton": [],
-    "the_vault:swamp_zombie": [],
-    "grimoireofgaia:inquisitor": [],
-    "dungeons_mobs:icy_creeper": [],
-    "the_vault:jack": [],
-    "the_vault:elite_husk": [],
-    "dungeons_mobs:windcaller": [],
-    "the_vault:t4_cave_skeleton": [],
-    "minecraft:snow_golem": [],
-    "dungeons_mobs:mountaineer": [],
-    "the_vault:t3_cave_skeleton": [],
-    "grimoireofgaia:sharko": [],
-    "grimoireofgaia:ant": [],
-    "the_vault:blood_slime": [],
-    "grimoireofgaia:mandragora": [],
-    "minecraft:pillager": [],
-    "the_vault:aggressive_goat": [],
-    "the_vault:arena_boss": [],
-    "alexsmobs:orca": [],
-    "dungeons_mobs:wildfire": [],
-    "the_vault:treasure_goblin": [],
-    "thermal:basalz": [],
-    "the_vault:blood_tank": [],
-    "rottencreatures:flying_scarab": [],
-    "grimoireofgaia:goblin_feral": [],
-    "alexsmobs:mungus": [],
-    "the_vault:pirate_bruiser_guardian": [],
-    "the_vault:raised_zombie_chicken": [],
-    "the_vault:t2_plastic_slime": [],
-    "the_vault:boogieman": [],
-    "the_vault:aggressive_cow_boss": [],
-    "the_vault:vault_horse": [],
-    "the_vault:black_widow_boss": [],
-    "dungeons_mobs:leapleaf": [],
-    "dungeons_mobs:wraith": [],
-    "cloudstorage:bloviator": [],
-    "dungeons_mobs:whisperer": [],
-    "dungeons_mobs:jungle_zombie": [],
-    "dungeons_mobs:illusioner": [],
-    "the_vault:crystal_arbalist_guardian": [],
-    "grimoireofgaia:werecat": [],
-    "alexsmobs:enderiophage": [],
-    "minecraft:spider": [],
-    "tropicraft:ashen": [],
-    "the_vault:blood_silverfish": [],
-    "grimoireofgaia:oni": [],
-    "dungeons_mobs:vindicator_chef": [],
-    "the_vault:elite_drowned": []
+    "woldsvaults:hostile_turkey": [
+      {
+        "NAME": "minecraft:generic.max_health",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 25.0,
+            "MAX": 35.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.07,
+            "SCALE_MAX_LEVEL": 49
+          },
+          {
+            "MIN_LEVEL": 50,
+            "MIN": 35.0,
+            "MAX": 45.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.09,
+            "SCALE_MAX_LEVEL": 64
+          },
+          {
+            "MIN_LEVEL": 80,
+            "MIN": 45.0,
+            "MAX": 55.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.09,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
+      {
+        "NAME": "minecraft:generic.attack_damage",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 2.0,
+            "MAX": 3.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.1,
+            "SCALE_MAX_LEVEL": 50
+          },
+          {
+            "MIN_LEVEL": 65,
+            "MIN": 2.2,
+            "MAX": 4.3,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.1,
+            "SCALE_MAX_LEVEL": -1
+          },
+          {
+            "MIN_LEVEL": 90,
+            "MIN": 2.4,
+            "MAX": 4.6,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.1,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
+      {
+        "NAME": "the_vault:generic.crit_chance",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 0.05,
+            "MAX": 0.1,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": 49
+          },
+          {
+            "MIN_LEVEL": 50,
+            "MIN": 0.1,
+            "MAX": 0.15,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": 84
+          },
+          {
+            "MIN_LEVEL": 85,
+            "MIN": 0.15,
+            "MAX": 0.2,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
+      {
+        "NAME": "the_vault:generic.crit_multiplier",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 1.2,
+            "MAX": 1.2,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": 49
+          },
+          {
+            "MIN_LEVEL": 50,
+            "MIN": 1.3,
+            "MAX": 1.3,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": 84
+          },
+          {
+            "MIN_LEVEL": 85,
+            "MIN": 1.4,
+            "MAX": 1.4,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
+      {
+        "NAME": "minecraft:generic.movement_speed",
+        "MIN": 0.9,
+        "MAX": 1.1,
+        "OPERATOR": "multiply",
+        "ROLL_CHANCE": 1,
+        "SCALE_PER_LEVEL": 0.0,
+        "SCALE_MAX_LEVEL": -1
+      },
+      {
+        "NAME": "forge:swim_speed",
+        "MIN": 5,
+        "MAX": 5,
+        "OPERATOR": "set",
+        "ROLL_CHANCE": 1,
+        "SCALE_PER_LEVEL": 0.0,
+        "SCALE_MAX_LEVEL": -1
+      }
+    ],
+    "the_vault:vault_wraith_yellow": [
+      {
+        "NAME": "minecraft:generic.max_health",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 100,
+            "MAX": 200,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.067,
+            "SCALE_MAX_LEVEL": 49
+          },
+          {
+            "MIN_LEVEL": 35,
+            "MIN": 200,
+            "MAX": 300,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.077,
+            "SCALE_MAX_LEVEL": 64
+          },
+          {
+            "MIN_LEVEL": 65,
+            "MIN": 300.0,
+            "MAX": 375.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.077,
+            "SCALE_MAX_LEVEL": -1
+          },
+          {
+            "MIN_LEVEL": 80,
+            "MIN": 330,
+            "MAX": 410.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.077,
+            "SCALE_MAX_LEVEL": -1
+          },
+          {
+            "MIN_LEVEL": 90,
+            "MIN": 360.0,
+            "MAX": 450.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.077,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
+      {
+        "NAME": "minecraft:generic.attack_damage",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 4.0,
+            "MAX": 7.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.1,
+            "SCALE_MAX_LEVEL": 50
+          },
+          {
+            "MIN_LEVEL": 65,
+            "MIN": 5.0,
+            "MAX": 8.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.1,
+            "SCALE_MAX_LEVEL": -1
+          },
+          {
+            "MIN_LEVEL": 90,
+            "MIN": 7.0,
+            "MAX": 12.0,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.1,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
+      {
+        "NAME": "the_vault:generic.crit_chance",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 0.05,
+            "MAX": 0.1,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": 49
+          },
+          {
+            "MIN_LEVEL": 50,
+            "MIN": 0.1,
+            "MAX": 0.15,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": 84
+          },
+          {
+            "MIN_LEVEL": 85,
+            "MIN": 0.15,
+            "MAX": 0.2,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
+      {
+        "NAME": "the_vault:generic.crit_multiplier",
+        "LEVELS": [
+          {
+            "MIN_LEVEL": 0,
+            "MIN": 1.2,
+            "MAX": 1.2,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": 49
+          },
+          {
+            "MIN_LEVEL": 50,
+            "MIN": 1.3,
+            "MAX": 1.3,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": 84
+          },
+          {
+            "MIN_LEVEL": 85,
+            "MIN": 1.4,
+            "MAX": 1.4,
+            "OPERATOR": "set",
+            "ROLL_CHANCE": 1.0,
+            "SCALE_PER_LEVEL": 0.0,
+            "SCALE_MAX_LEVEL": -1
+          }
+        ]
+      },
+      {
+        "NAME": "minecraft:generic.movement_speed",
+        "MIN": 0.15,
+        "MAX": 0.2,
+        "OPERATOR": "multiply",
+        "ROLL_CHANCE": 1,
+        "SCALE_PER_LEVEL": 0.0,
+        "SCALE_MAX_LEVEL": -1
+      },
+      {
+        "NAME": "forge:swim_speed",
+        "MIN": 5,
+        "MAX": 5,
+        "OPERATOR": "set",
+        "ROLL_CHANCE": 1,
+        "SCALE_PER_LEVEL": 0.0,
+        "SCALE_MAX_LEVEL": -1
+      }
+    ]
   },
   "LEVEL_OVERRIDES": []
 }

@@ -1,7 +1,11 @@
 {
   "groups": {
     "the_vault:horde": [
-      "alexsmobs:grizzly_bear"
+      "woldsvaults:hostile_turkey"
+    ],
+    "the_vault:assassin": [
+      "woldsvaults:hostile_sheep",
+      "the_vault:vault_wraith_yellow"
     ]
   }
 }

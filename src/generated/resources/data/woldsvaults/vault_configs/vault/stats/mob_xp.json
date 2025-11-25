@@ -5,7 +5,9 @@
   "blocksMined": {},
   "treasureRoomsOpened": 3400.0,
   "mobsKilled": {
-    "alexsmobs:grizzly_bear": 100.0
+    "woldsvaults:hostile_sheep": 70.0,
+    "woldsvaults:hostile_turkey": 65.0,
+    "the_vault:vault_wraith_yellow": 125.0
   },
   "completion": {}
 }

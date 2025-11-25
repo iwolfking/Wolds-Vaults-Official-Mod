@@ -1,0 +1,19 @@
+{
+  "inscriptionRecipes": [
+    {
+      "id": "woldsvaults:test_recipe",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:inscription",
+        "NBT": "{data:{color:3,entries:[{color:3,count:1,type:2}],isSuper:0b,model:5,size:10}}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 3,
+          "ITEM": "minecraft:apple",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "VALID_BLOCKS": [
+    "the_vault:vault_stone_stairs",
+    "the_vault:vault_stone_slab",
+    "the_vault:polished_vault_stone_slab",
+    "the_vault:polished_vault_stone_stairs",
+    "the_vault:vault_stone_brick_slab",
+    "the_vault:vault_stone_bricks_stairs"
+  ]
+}
