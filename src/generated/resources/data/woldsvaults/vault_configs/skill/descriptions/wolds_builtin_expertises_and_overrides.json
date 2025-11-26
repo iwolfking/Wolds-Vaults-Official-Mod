@@ -211,7 +211,7 @@
         "text": "You become closer to the gods!\n\n"
       },
       {
-        "text": "Gives you a chance to earn"
+        "text": "Gives you a chance to earn "
       },
       {
         "text": "2 reputation points ",
@@ -474,18 +474,18 @@
         "text": "Improves your luck with rolling special gear modifiers like  "
       },
       {
-        "text": "Corrupted ",
+        "text": "Corrupted",
         "color": "#A31500"
       },
       {
-        "text": ","
+        "text": ", "
       },
       {
         "text": "Frozen",
         "color": "#0392C4"
       },
       {
-        "text": ","
+        "text": ", "
       },
       {
         "text": "Greater",
@@ -516,7 +516,79 @@
     ],
     "Bounty_Hunter": [
       {
-        "text": "Become a master at Bounty Hunting."
+        "text": "Become a master at Bounty Hunting.\n\n"
+      },
+      {
+        "text": "1 "
+      },
+      {
+        "text": "Reduce the "
+      },
+      {
+        "text": "Bounty wait period ",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": "to "
+      },
+      {
+        "text": "30 minutes ",
+        "color": "#CBE6FE"
+      },
+      {
+        "text": ".\n"
+      },
+      {
+        "text": "2 "
+      },
+      {
+        "text": "Reduce the "
+      },
+      {
+        "text": "abandon penalty ",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": "to "
+      },
+      {
+        "text": "30 minutes ",
+        "color": "#CBE6FE"
+      },
+      {
+        "text": ".\n"
+      },
+      {
+        "text": "3 "
+      },
+      {
+        "text": "Have "
+      },
+      {
+        "text": "2 active bounties ",
+        "color": "#FFEB07"
+      },
+      {
+        "text": "at a time "
+      },
+      {
+        "text": ".\n"
+      },
+      {
+        "text": "4 "
+      },
+      {
+        "text": "Have "
+      },
+      {
+        "text": "3 active bounties ",
+        "color": "#FFEB07"
+      },
+      {
+        "text": "at a time "
+      },
+      {
+        "text": ".\n"
       },
       {
         "text": "\n\n",
@@ -720,7 +792,20 @@
     ],
     "Craftsman": [
       {
-        "text": "Become an expert Vault Gear craftsman and enhance the capabilities and versatility of your crafted gear. "
+        "text": "Become an expert Vault Gear craftsman and enhance the capabilities and versatility of your crafted gear.\n\n "
+      },
+      {
+        "text": "1 "
+      },
+      {
+        "text": "Crafted Gear can roll "
+      },
+      {
+        "text": "Legendary Modifiers ",
+        "color": "gold"
+      },
+      {
+        "text": "."
       },
       {
         "text": "\n\n",
@@ -732,7 +817,7 @@
         "text": "You become better at breaking off beautiful Temporal Relics from Pylons\n\n"
       },
       {
-        "text": "Increases your"
+        "text": "Increases your "
       },
       {
         "text": "chance ",

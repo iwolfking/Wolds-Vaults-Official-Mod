@@ -9,11 +9,11 @@
         "color": "#FFD700"
       },
       {
-        "text": "when entering a vault, equal to a percentage of your ",
-        "color": "#F4467E"
+        "text": "when entering a vault, equal to a percentage of your "
       },
       {
-        "text": "max health. "
+        "text": "max health. ",
+        "color": "green"
       },
       {
         "text": "\n\n",
@@ -121,7 +121,7 @@
         "text": "you will generate an "
       },
       {
-        "text": "Absorption shield",
+        "text": "Absorption shield ",
         "color": "#FFD700"
       },
       {
@@ -236,15 +236,15 @@
         "text": "Increases the "
       },
       {
-        "text": "chance",
+        "text": "chance ",
         "color": "yellow"
       },
       {
-        "text": "of finding",
+        "text": "of finding ",
         "color": "yellow"
       },
       {
-        "text": "Temporal Relics",
+        "text": "Temporal Relics ",
         "color": "#00FFFF"
       },
       {
@@ -253,6 +253,9 @@
       {
         "text": "Pylons",
         "color": "#FFD700"
+      },
+      {
+        "text": "."
       },
       {
         "text": "\n\n",

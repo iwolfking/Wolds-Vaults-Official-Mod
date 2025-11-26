@@ -381,7 +381,29 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("to not consume crafting potential when reforging gear in the Artisan Station."));
                 })
                 .addDescription("Bounty_Hunter", jsonElements -> {
-                    jsonElements.add(JsonDescription.simple("Become a master at Bounty Hunting."));
+                    jsonElements.add(JsonDescription.simple("Become a master at Bounty Hunting.\n\n"));
+                    jsonElements.add(JsonDescription.simple("1 "));
+                    jsonElements.add(JsonDescription.simple("Reduce the "));
+                    jsonElements.add(JsonDescription.simple("Bounty wait period ", "#FCF5C5"));
+                    jsonElements.add(JsonDescription.simple("to "));
+                    jsonElements.add(JsonDescription.simple("30 minutes ", "#CBE6FE"));
+                    jsonElements.add(JsonDescription.simple(".\n"));
+                    jsonElements.add(JsonDescription.simple("2 "));
+                    jsonElements.add(JsonDescription.simple("Reduce the "));
+                    jsonElements.add(JsonDescription.simple("abandon penalty ", "#FCF5C5"));
+                    jsonElements.add(JsonDescription.simple("to "));
+                    jsonElements.add(JsonDescription.simple("30 minutes ", "#CBE6FE"));
+                    jsonElements.add(JsonDescription.simple(".\n"));
+                    jsonElements.add(JsonDescription.simple("3 "));
+                    jsonElements.add(JsonDescription.simple("Have "));
+                    jsonElements.add(JsonDescription.simple("2 active bounties ", "#FFEB07"));
+                    jsonElements.add(JsonDescription.simple("at a time "));
+                    jsonElements.add(JsonDescription.simple(".\n"));
+                    jsonElements.add(JsonDescription.simple("4 "));
+                    jsonElements.add(JsonDescription.simple("Have "));
+                    jsonElements.add(JsonDescription.simple("3 active bounties ", "#FFEB07"));
+                    jsonElements.add(JsonDescription.simple("at a time "));
+                    jsonElements.add(JsonDescription.simple(".\n"));
                 })
                 .addDescription("Unbreakable", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("Increases the cap for "));
@@ -425,7 +447,11 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("when entering a Vault."));
                 })
                 .addDescription("Craftsman", jsonElements -> {
-                    jsonElements.add(JsonDescription.simple("Become an expert Vault Gear craftsman and enhance the capabilities and versatility of your crafted gear. "));
+                    jsonElements.add(JsonDescription.simple("Become an expert Vault Gear craftsman and enhance the capabilities and versatility of your crafted gear.\n\n "));
+                    jsonElements.add(JsonDescription.simple("1 "));
+                    jsonElements.add(JsonDescription.simple("Crafted Gear can roll "));
+                    jsonElements.add(JsonDescription.simple("Legendary Modifiers ", "gold"));
+                    jsonElements.add(JsonDescription.simple("."));
                 })
                 .addDescription("Infuser", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("When applying an "));
