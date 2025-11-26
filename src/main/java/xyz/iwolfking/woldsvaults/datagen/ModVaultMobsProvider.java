@@ -50,7 +50,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     .bestiaryEntry(themes -> {
                         themes.add("Barnyard");
                     }, 30, descriptions -> {
-                        descriptions.add(JsonDescription.simpleDescription("Baaaa!", "$text"));
+                        descriptions.add(JsonDescription.simple("Baaaa!", "$text"));
                     });
         });
 
@@ -82,7 +82,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     .bestiaryEntry(themes -> {
                         themes.add("Harvest");
                     }, 0, descriptions -> {
-                        descriptions.add(JsonDescription.simpleDescription("Gobble-gobble!", "$text"));
+                        descriptions.add(JsonDescription.simple("Gobble-gobble!", "$text"));
                     });
         });
 
@@ -116,7 +116,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     .bestiaryEntry(themes -> {
                         themes.add("Caves");
                     }, 0, descriptions -> {
-                        descriptions.add(JsonDescription.simpleDescription("Watch out for this slow rolling killer!", "$text"));
+                        descriptions.add(JsonDescription.simple("Watch out for this slow rolling killer!", "$text"));
                     });
         });
 

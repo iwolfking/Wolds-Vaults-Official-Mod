@@ -35,11 +35,11 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .themeWeight(20)
                     .themeGroup("Astral")
                     .themeLore(new ThemeAugmentLoreConfig.AugmentLore("Astral", new DescriptionDataBuilder()
-                            .description(JsonDescription.perkDescription("This is a test description.\n"))
-                                    .description(JsonDescription.mobsDescription("Hordes: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
-                                    .description(JsonDescription.mobsDescription("Assassins: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
-                                    .description(JsonDescription.mobsDescription("Tanks: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
-                                    .description(JsonDescription.dwellersDescription(3))
+                            .description(JsonDescription.perk("This is a test description.\n"))
+                                    .description(JsonDescription.mobs("Hordes: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
+                                    .description(JsonDescription.mobs("Assassins: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
+                                    .description(JsonDescription.mobs("Tanks: ", new JsonDescription.MobEntry("Enderman", 1, 2, 1), new JsonDescription.MobEntry("Test", 3, 2, 3)))
+                                    .description(JsonDescription.dwellers(3))
                             .build(),
                             3));
         });

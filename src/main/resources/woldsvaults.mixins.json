@@ -111,6 +111,7 @@
     "vaulthunters.accessors.ShopEntryAccessor",
     "vaulthunters.accessors.ShopTierAccessor",
     "vaulthunters.accessors.TemplateProcessorModifierPropertiesAccessor",
+    "vaulthunters.accessors.VanillaAttributeTalentAccessor",
     "vaulthunters.accessors.VaultDifficultyAccessor",
     "vaulthunters.accessors.VaultGearCommonConfigAccessor",
     "vaulthunters.accessors.VaultGearRollTypeConfigAccessor",

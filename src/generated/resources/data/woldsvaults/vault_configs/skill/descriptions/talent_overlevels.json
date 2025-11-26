@@ -1,0 +1,4064 @@
+{
+  "descriptions": {
+    "Prudent": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Prudent",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Fatal_Strike_Chance": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Fatal_Strike_Chance",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.03\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.06\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.09\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.12\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Nucleus": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Nucleus",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      }
+    ],
+    "Frostbite": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Frostbite",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Intelligence": [
+      {
+        "text": "Increase your "
+      },
+      {
+        "text": "Ability Power ",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+4.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+8.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+16.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+24.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+32.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+48.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+56.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+64.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+72.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+80.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+88.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+96.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+104.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+112.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+120.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+144.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+180.0\n",
+        "color": "#FF00CB"
+      }
+    ],
+    "Stoneskin": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Stoneskin",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Methodical": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Methodical",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      }
+    ],
+    "Treasure_Seeker": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Treasure_Seeker",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Weakness_Affinity": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Weakness_Affinity",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Stone_Skin": [
+      {
+        "text": "Increases your knockback resistance, reducing the amount of knockback of projectiles and melee hits. "
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+60.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+70.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+80.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+90.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#90FF00"
+      }
+    ],
+    "Depleted": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Depleted",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      }
+    ],
+    "Haste": [
+      {
+        "text": "Increases your "
+      },
+      {
+        "text": "mining speed ",
+        "color": "#47B8F5"
+      },
+      {
+        "text": "by applying the "
+      },
+      {
+        "text": "Haste ",
+        "color": "green"
+      },
+      {
+        "text": "effect permanently\n\n "
+      },
+      {
+        "text": "Every level of the Haste effect increases mining speed by "
+      },
+      {
+        "text": "20%",
+        "color": "#47B8F5"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1\n",
+        "color": "green"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2\n",
+        "color": "green"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+3\n",
+        "color": "green"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+4\n",
+        "color": "green"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5\n",
+        "color": "green"
+      }
+    ],
+    "Alchemist": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Alchemist",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Bountiful_Harvest": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Bountiful_Harvest",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Lucky_Hit": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Lucky_Hit",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "Explosive": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Explosive",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Purist": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "extra damage ",
+        "color": "#C23627"
+      },
+      {
+        "text": "based on the amount of "
+      },
+      {
+        "text": "Scrappy "
+      },
+      {
+        "text": "armor pieces you wear."
+      },
+      {
+        "text": "20%",
+        "color": "#F6CD0E"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2.5% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5.0% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+7.5000005% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+12.5% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+15.000001% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+17.5% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+22.5% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25.0% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+27.5% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.000002% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+32.5% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+35.0% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+37.5% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+42.5% damage per piece\n",
+        "color": "#C23627"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+45.0% damage per piece\n",
+        "color": "#C23627"
+      }
+    ],
+    "Blight": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Blight",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      }
+    ],
+    "Hunters_Instinct": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Hunters_Instinct",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      }
+    ],
+    "Berserking": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Berserking",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      }
+    ],
+    "Sorcery": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Sorcery",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Lightning_Stun": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Lightning_Stun",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      }
+    ],
+    "Fatal_Strike_Damage": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Fatal_Strike_Damage",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1.25\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1.5\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1.75\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Masteries": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Masteries",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "Speed": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Speed",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1\n",
+        "color": "green"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2\n",
+        "color": "green"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+3\n",
+        "color": "green"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+4\n",
+        "color": "green"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5\n",
+        "color": "green"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+6\n",
+        "color": "green"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+7\n",
+        "color": "green"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+8\n",
+        "color": "green"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+9\n",
+        "color": "green"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10\n",
+        "color": "green"
+      }
+    ],
+    "Reach": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Reach",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+300.0%\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Slowness_Affinity": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Slowness_Affinity",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Farmer_Twerker": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Farmer_Twerker",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Daze": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Daze",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Toxic_Reaction": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Toxic_Reaction",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      }
+    ],
+    "Blazing": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Blazing",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      }
+    ],
+    "Critical_Strike": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Critical_Strike",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.25\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.5\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.75\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Thorns_Damage": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Thorns_Damage",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.1\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.2\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.3\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.4\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Wither_Affinity": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Wither_Affinity",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Lightning_Damage": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Lightning_Damage",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      }
+    ],
+    "Witchery": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Witchery",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Last_Stand": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Last_Stand",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      }
+    ],
+    "Prime_Amplification": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Prime_Amplification",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Thorns_Chance": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Thorns_Chance",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.03\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.06\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.09\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.12\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      }
+    ],
+    "Arcana": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Arcana",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      }
+    ],
+    "Frenzy": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Frenzy",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      }
+    ],
+    "Javelin_Talent": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Javelin_Talent",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "Strength": [
+      {
+        "text": "Increases your "
+      },
+      {
+        "text": "movement speed ",
+        "color": "#F6CD0E"
+      },
+      {
+        "text": "by applying the "
+      },
+      {
+        "text": "Speed ",
+        "color": "green"
+      },
+      {
+        "text": "effect permanently\n\n "
+      },
+      {
+        "text": "Every level of the Speed effect increases movement speed by "
+      },
+      {
+        "text": "20%",
+        "color": "#F6CD0E"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1\n",
+        "color": "green"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2\n",
+        "color": "green"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+3\n",
+        "color": "green"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+4\n",
+        "color": "green"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5\n",
+        "color": "green"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+6\n",
+        "color": "green"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+7\n",
+        "color": "green"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+8\n",
+        "color": "green"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+9\n",
+        "color": "green"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10\n",
+        "color": "green"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+12\n",
+        "color": "green"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+14\n",
+        "color": "green"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+16\n",
+        "color": "green"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+18\n",
+        "color": "green"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20\n",
+        "color": "green"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+22\n",
+        "color": "green"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25\n",
+        "color": "green"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30\n",
+        "color": "green"
+      }
+    ],
+    "Blizzard": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Blizzard",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      }
+    ],
+    "Lucky_Momentum": [
+      {
+        "text": "No description for ",
+        "color": "#192022"
+      },
+      {
+        "text": "Lucky_Momentum",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": ", yet",
+        "color": "#192022"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.0\n",
+        "color": "#FF00CB"
+      }
+    ]
+  }
+}
