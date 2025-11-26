@@ -1,0 +1,979 @@
+{
+  "descriptions": {
+    "Unbreakable": [
+      {
+        "text": "Increases the cap for "
+      },
+      {
+        "text": "Durability Damage Reduction",
+        "color": "#69D68F"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+15.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Mystic": [
+      {
+        "text": "Gain extra "
+      },
+      {
+        "text": "capacity ",
+        "color": "yellow"
+      },
+      {
+        "text": "on "
+      },
+      {
+        "text": "Vault Crystals ",
+        "color": "aqua"
+      },
+      {
+        "text": "that you craft, allowing you to modify them further."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10 capacity\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20 capacity\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30 capacity\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40 capacity\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50 capacity\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Surprise_Favors": [
+      {
+        "text": "Gain a "
+      },
+      {
+        "text": "chance ",
+        "color": "yellow"
+      },
+      {
+        "text": "to add additional random positive "
+      },
+      {
+        "text": "Vault Modifiers ",
+        "color": "#B90061"
+      },
+      {
+        "text": "when entering a Vault."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+60.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Bartering": [
+      {
+        "text": "Gain a "
+      },
+      {
+        "text": "cost reduction ",
+        "color": "yellow"
+      },
+      {
+        "text": "on items sold in shopping pedestals inside a vault."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "-15.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "-30.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "-50.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Divine": [
+      {
+        "text": "You become closer to the gods!\n\n"
+      },
+      {
+        "text": "Gives you a chance to earn"
+      },
+      {
+        "text": "2 reputation points ",
+        "color": "#B2F44B"
+      },
+      {
+        "text": "when completing a God Altar."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Fortuitous_Finesse": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "chance ",
+        "color": "yellow"
+      },
+      {
+        "text": "of a gear piece getting a "
+      },
+      {
+        "text": "Legendary Modifier ",
+        "color": "gold"
+      },
+      {
+        "text": "when being identified. "
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Companion_Loyalty": [
+      {
+        "text": "Decreases the "
+      },
+      {
+        "text": "Cooldown ",
+        "color": "#008080"
+      },
+      {
+        "text": "of your "
+      },
+      {
+        "text": "Companions",
+        "color": "#FFFF55"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Artisan": [
+      {
+        "text": "Gain a "
+      },
+      {
+        "text": "chance ",
+        "color": "yellow"
+      },
+      {
+        "text": "to not consume crafting potential when reforging gear in the Artisan Station."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+60.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "ShopReroll": [
+      {
+        "text": "Rough up those Vendor Pedestals and get them to give you the offers you really want!\n\n "
+      },
+      {
+        "text": "Grants the ability to reroll Shop Pedestal offers (once per pedestal) by sneaking and right-clicking on it."
+      },
+      {
+        "text": "There is a cooldown in between rerolls."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "45 seconds cooldown\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "15 seconds cooldown\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "5 seconds cooldown\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Grave_Insurance": [
+      {
+        "text": "You make a deal with the Reaper and he looks the other way when you slip a few less coins than usual...\nDecreases the cost of your "
+      },
+      {
+        "text": "Spirit ",
+        "color": "#875FB2"
+      },
+      {
+        "text": "in the "
+      },
+      {
+        "text": "Spirit Extractor",
+        "color": "#FFFF55"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "-25.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "-50.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Augmentation_Luck": [
+      {
+        "text": "Improves your luck with rolling special gear modifiers like  "
+      },
+      {
+        "text": "Corrupted ",
+        "color": "#A31500"
+      },
+      {
+        "text": ","
+      },
+      {
+        "text": "Frozen",
+        "color": "#0392C4"
+      },
+      {
+        "text": ","
+      },
+      {
+        "text": "Greater",
+        "color": "#039208"
+      },
+      {
+        "text": ", and "
+      },
+      {
+        "text": "Unusual",
+        "color": "#039261"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Bounty_Hunter": [
+      {
+        "text": "Become a master at Bounty Hunting."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "Blessed": [
+      {
+        "text": "You become closer to the gods!\n"
+      },
+      {
+        "text": "Increases your "
+      },
+      {
+        "text": "affinity rating",
+        "color": "#B2F44B"
+      },
+      {
+        "text": "for all vault gods, making them more likely to give you a reputation point when completing a god altar."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Jeweler": [
+      {
+        "text": "Allows the ability to craft random jewels in the Jewel Crafting Station using gemstones and other materials."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "Experienced": [
+      {
+        "text": "Increase the "
+      },
+      {
+        "text": "value ",
+        "color": "#D9FF00"
+      },
+      {
+        "text": "of "
+      },
+      {
+        "text": "Vault Experience ",
+        "color": "#C1B72A"
+      },
+      {
+        "text": "you gain from all sources."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+15.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+45.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+60.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+80.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Trinketer": [
+      {
+        "text": "Gain a "
+      },
+      {
+        "text": "chance ",
+        "color": "yellow"
+      },
+      {
+        "text": "to not consume a use of your Trinkets, Vault Necklaces, and Vault God Charms when entering a vault."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Craftsman": [
+      {
+        "text": "Become an expert Vault Gear craftsman and enhance the capabilities and versatility of your crafted gear. "
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "Pylon_Pilferer": [
+      {
+        "text": "You become better at breaking off beautiful Temporal Relics from Pylons\n\n"
+      },
+      {
+        "text": "Increases your"
+      },
+      {
+        "text": "chance ",
+        "color": "yellow"
+      },
+      {
+        "text": "for a Temporal Relic to drop when breaking Pylons."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+3.5%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Fortunate": [
+      {
+        "text": "Gain passive "
+      },
+      {
+        "text": "Fortune ",
+        "color": "#8BD0C9"
+      },
+      {
+        "text": "levels that are applied whenever you use a tool enchanted with "
+      },
+      {
+        "text": "Fortune ",
+        "color": "#8BD0C9"
+      },
+      {
+        "text": "to break blocks."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1 levels\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2 levels\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Marketer": [
+      {
+        "text": "Unlock an additional "
+      },
+      {
+        "text": "Black Market ",
+        "color": "#4800FF"
+      },
+      {
+        "text": "slot per level. "
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0 slot\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1 slot\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2 slot\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Lucky_Altar": [
+      {
+        "text": "Gain a "
+      },
+      {
+        "text": "chance ",
+        "color": "yellow"
+      },
+      {
+        "text": "to have the altar roll Lucky when crafting a crystal, automatically completing the Altar's recipe."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Infuser": [
+      {
+        "text": "When applying an "
+      },
+      {
+        "text": "Infused Vault Catalyst ",
+        "color": "#B90061"
+      },
+      {
+        "text": "to a "
+      },
+      {
+        "text": "Vault Crystal ",
+        "color": "aqua"
+      },
+      {
+        "text": ", there is a "
+      },
+      {
+        "text": "chance ",
+        "color": "yellow"
+      },
+      {
+        "text": "to not apply a negative modifier."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+15.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+45.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+60.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+75.0%\n",
+        "color": "#FFD700"
+      }
+    ]
+  }
+}

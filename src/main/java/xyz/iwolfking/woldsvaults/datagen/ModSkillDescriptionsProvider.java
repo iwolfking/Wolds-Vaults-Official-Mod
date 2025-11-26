@@ -1,29 +1,17 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import iskallia.vault.config.ModBoxConfig;
 import iskallia.vault.config.SkillDescriptionsConfig;
-import iskallia.vault.config.TalentsConfig;
 import iskallia.vault.init.ModConfigs;
-import iskallia.vault.skill.base.LearnableSkill;
-import iskallia.vault.skill.base.TieredSkill;
-import iskallia.vault.skill.talent.type.EffectTalent;
-import iskallia.vault.skill.talent.type.GearAttributeTalent;
-import iskallia.vault.skill.talent.type.PuristTalent;
-import iskallia.vault.skill.talent.type.VanillaAttributeTalent;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
 import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
-import xyz.iwolfking.vhapi.api.datagen.AbstractTalentProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
-import xyz.iwolfking.vhapi.mixin.accessors.SkillDescriptionsConfigAccessor;
-import xyz.iwolfking.vhapi.mixin.accessors.TieredSkillAccessor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VanillaAttributeTalentAccessor;
+import xyz.iwolfking.woldsvaults.api.util.datagen.ExpertisesDescriptionHelper;
+import xyz.iwolfking.woldsvaults.api.util.datagen.PrestigePowersDescriptionsHelper;
+import xyz.iwolfking.woldsvaults.api.util.datagen.TalentDescriptionsHelper;
 
 import java.util.function.Consumer;
 
@@ -33,72 +21,26 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
     }
 
 
-    public static JsonArray toJsonArray(Component component) {
-        JsonArray array = new JsonArray();
-        collectParts(component, array);
-        return array;
-    }
-
-    private static void collectParts(Component component, JsonArray array) {
-
-        String ownText = component.getContents();
-
-        if (!ownText.isEmpty()) {
-            JsonObject obj = new JsonObject();
-            obj.addProperty("text", ownText);
-
-            TextColor color = component.getStyle().getColor();
-            if (color != null) {
-                obj.addProperty("color", color.serialize());
-            }
-
-            array.add(obj);
-        }
-
-        for (Component child : component.getSiblings()) {
-            collectParts(child, array);
-        }
-    }
-
-
-
     @Override
     public void registerConfigs() {
         ModConfigs.MOD_BOX = new ModBoxConfig().readConfig();
-        ModConfigs.TALENTS = new TalentsConfig().readConfig();
-        SkillDescriptionsConfig talentsDescriptions = getTalentDescriptions();
-        add("talent_overlevels", builder -> {
-            ModConfigs.TALENTS.tree.skills.forEach(skill -> {
-                builder.addDescription(skill.getId(), jsonElements -> {
-                    toJsonArray(talentsDescriptions.getDescriptionFor(skill.getId())).forEach(jsonElements::add);
 
-                    jsonElements.add(JsonDescription.simple("\n\n"));
-                    if(skill instanceof TieredSkill tieredSkill) {
-                        for(int i = 0; i < tieredSkill.getTiers().size(); i++) {
-                            LearnableSkill tier = tieredSkill.getTiers().get(i);
-                            jsonElements.add(JsonDescription.simple(i + 1 + " "));
-                            if(tier instanceof GearAttributeTalent gearAttributeTalent) {
-                                jsonElements.add(JsonDescription.simple("+" + gearAttributeTalent.getValue() + "\n", "#FF00CB"));
-                            }
-                            if(tier instanceof EffectTalent effectTalent) {
-                                jsonElements.add(JsonDescription.simple("+" + effectTalent.getAmplifier()+ "\n", "green"));
-                            }
-                            if(tier instanceof PuristTalent puristTalent) {
-                                jsonElements.add(JsonDescription.simple("+" + (puristTalent.getDamageIncrease() * 100) + "% damage per piece\n", "#C23627"));
-                            }
-                            if(tier instanceof VanillaAttributeTalent vanillaAttributeTalent) {
-                                jsonElements.add(JsonDescription.simple("+" + (((VanillaAttributeTalentAccessor)vanillaAttributeTalent).getAmount() * 100) + "%\n", "#90FF00"));
-                            }
-                            if(i + 1 == tieredSkill.getMaxLearnableTier()) {
-                                jsonElements.add(JsonDescription.simple("Overlevels\n", "#EFBF04"));
-                                jsonElements.add(JsonDescription.simple("------------", "#EFBF04"));
-                                jsonElements.add(JsonDescription.simple("\n"));
-                            }
-                        }
-                    }
-                });
-            });
+        add("talent_overlevels", builder -> {
+            TalentDescriptionsHelper.generateTalentDescriptions(builder, getTalentDescriptions());
         });
+
+        add("prestige_overrides", builder -> {
+            PrestigePowersDescriptionsHelper.generateDescriptions(builder, getOverridePrestigeDescriptions());
+        });
+
+        add("wolds_builtin_prestiges", builder -> {
+            PrestigePowersDescriptionsHelper.generateDescriptions(builder, getBuiltInPrestigePowers());
+        });
+
+        add("wolds_builtin_expertises_and_overrides", builder -> {
+            ExpertisesDescriptionHelper.generateDescriptions(builder, getExpertises());
+        });
+
 
         add("vanilla_research_overrides", builder ->
                 builder.addDescription("Easy Villagers", jsonElements -> modDesc("Easy Villagers and Easy Piglins", "mods", innerDesc -> {
@@ -358,6 +300,280 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 .build());
     }
 
+    public SkillDescriptionsConfig getBuiltInPrestigePowers() {
+        return new Builder()
+                .addDescription("WeaverOfTime", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("Cooldown Reduction ", "#F2CC8C"));
+                    jsonElements.add(JsonDescription.simple("Cap."));
+                })
+                .addDescription("ShieldOfLastingGuard", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("Block Chance ", "#00F5B2"));
+                    jsonElements.add(JsonDescription.simple("Cap."));
+                })
+                .addDescription("BarrierOfResilience", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("Resistance ", "#FEDD00"));
+                    jsonElements.add(JsonDescription.simple("Cap."));
+                })
+                .addDescription("SpiritsHand", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("Reach ", "#82D4FC"));
+                    jsonElements.add(JsonDescription.simple("Cap inside vaults."));
+                })
+                .addDescription("PrismaticPouch", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Unlocks the "));
+                    jsonElements.add(JsonDescription.simple("Prismatic Trinket Pouch ", "#82D4FC"));
+                    jsonElements.add(JsonDescription.simple("for crafting inside the "));
+                    jsonElements.add(JsonDescription.simple("Weaving Station", "aqua"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .build();
+    }
+
+    public SkillDescriptionsConfig getExpertises() {
+        return new Builder()
+                .addDescription("Companion_Loyalty", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Decreases the "));
+                    jsonElements.add(JsonDescription.simple("Cooldown ", "#008080"));
+                    jsonElements.add(JsonDescription.simple("of your "));
+                    jsonElements.add(JsonDescription.simple("Companions", "#FFFF55"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("Grave_Insurance", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("You make a deal with the Reaper and he looks the other way when you slip a few less coins than usual...\nDecreases the cost of your "));
+                    jsonElements.add(JsonDescription.simple("Spirit ", "#875FB2"));
+                    jsonElements.add(JsonDescription.simple("in the "));
+                    jsonElements.add(JsonDescription.simple("Spirit Extractor", "#FFFF55"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("Augmentation_Luck", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Improves your luck with rolling special gear modifiers like  "));
+                    jsonElements.add(JsonDescription.simple("Corrupted", "#A31500"));
+                    jsonElements.add(JsonDescription.simple(", "));
+                    jsonElements.add(JsonDescription.simple("Frozen", "#0392C4"));
+                    jsonElements.add(JsonDescription.simple(", "));
+                    jsonElements.add(JsonDescription.simple("Greater", "#039208"));
+                    jsonElements.add(JsonDescription.simple(", and "));
+                    jsonElements.add(JsonDescription.simple("Unusual", "#039261"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("Blessed", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("You become closer to the gods!\n"));
+                    jsonElements.add(JsonDescription.simple("Increases your "));
+                    jsonElements.add(JsonDescription.simple("affinity rating", "#B2F44B"));
+                    jsonElements.add(JsonDescription.simple("for all vault gods, making them more likely to give you a reputation point when completing a god altar."));
+                })
+                .addDescription("Lucky_Altar", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("to have the altar roll Lucky when crafting a crystal, automatically completing the Altar's recipe."));
+                })
+                .addDescription("Bartering", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain a "));
+                    jsonElements.add(JsonDescription.simple("cost reduction ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("on items sold in shopping pedestals inside a vault."));
+                })
+                .addDescription("Artisan", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("to not consume crafting potential when reforging gear in the Artisan Station."));
+                })
+                .addDescription("Bounty_Hunter", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Become a master at Bounty Hunting."));
+                })
+                .addDescription("Unbreakable", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the cap for "));
+                    jsonElements.add(JsonDescription.simple("Durability Damage Reduction", "#69D68F"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("ShopReroll", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Rough up those Vendor Pedestals and get them to give you the offers you really want!\n\n "));
+                    jsonElements.add(JsonDescription.simple("Grants the ability to reroll Shop Pedestal offers (once per pedestal) by sneaking and right-clicking on it."));
+                    jsonElements.add(JsonDescription.simple("There is a cooldown in between rerolls."));
+                })
+                .addDescription("Divine", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("You become closer to the gods!\n\n"));
+                    jsonElements.add(JsonDescription.simple("Gives you a chance to earn "));
+                    jsonElements.add(JsonDescription.simple("2 reputation points ", "#B2F44B"));
+                    jsonElements.add(JsonDescription.simple("when completing a God Altar."));
+                })
+                .addDescription("Pylon_Pilferer", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("You become better at breaking off beautiful Temporal Relics from Pylons\n\n"));
+                    jsonElements.add(JsonDescription.simple("Increases your "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("for a Temporal Relic to drop when breaking Pylons."));
+                })
+                .addDescription("Trinketer", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("to not consume a use of your Trinkets, Vault Necklaces, and Vault God Charms when entering a vault."));
+                })
+                .addDescription("Mystic", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain extra "));
+                    jsonElements.add(JsonDescription.simple("capacity ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("on "));
+                    jsonElements.add(JsonDescription.simple("Vault Crystals ", "aqua"));
+                    jsonElements.add(JsonDescription.simple("that you craft, allowing you to modify them further."));
+                })
+                .addDescription("Surprise_Favors", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("to add additional random positive "));
+                    jsonElements.add(JsonDescription.simple("Vault Modifiers ", "#B90061"));
+                    jsonElements.add(JsonDescription.simple("when entering a Vault."));
+                })
+                .addDescription("Craftsman", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Become an expert Vault Gear craftsman and enhance the capabilities and versatility of your crafted gear. "));
+                })
+                .addDescription("Infuser", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("When applying an "));
+                    jsonElements.add(JsonDescription.simple("Infused Vault Catalyst ", "#B90061"));
+                    jsonElements.add(JsonDescription.simple("to a "));
+                    jsonElements.add(JsonDescription.simple("Vault Crystal ", "aqua"));
+                    jsonElements.add(JsonDescription.simple(", there is a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("to not apply a negative modifier."));
+                })
+                .addDescription("Experienced", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increase the "));
+                    jsonElements.add(JsonDescription.simple("value ", "#D9FF00"));
+                    jsonElements.add(JsonDescription.simple("of "));
+                    jsonElements.add(JsonDescription.simple("Vault Experience ", "#C1B72A"));
+                    jsonElements.add(JsonDescription.simple("you gain from all sources."));
+                })
+                .addDescription("Fortunate", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain passive "));
+                    jsonElements.add(JsonDescription.simple("Fortune ", "#8BD0C9"));
+                    jsonElements.add(JsonDescription.simple("levels that are applied whenever you use a tool enchanted with "));
+                    jsonElements.add(JsonDescription.simple("Fortune ", "#8BD0C9"));
+                    jsonElements.add(JsonDescription.simple("to break blocks."));
+                })
+                .addDescription("Jeweler", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Allows the ability to craft random jewels in the Jewel Crafting Station using gemstones and other materials."));
+                })
+                .addDescription("Marketer", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Unlock an additional "));
+                    jsonElements.add(JsonDescription.simple("Black Market ", "#4800FF"));
+                    jsonElements.add(JsonDescription.simple("slot per level. "));
+                })
+                .addDescription("Fortuitous_Finesse", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("of a gear piece getting a "));
+                    jsonElements.add(JsonDescription.simple("Legendary Modifier ", "gold"));
+                    jsonElements.add(JsonDescription.simple("when being identified. "));
+                })
+
+
+
+                .build();
+    }
+
+    public SkillDescriptionsConfig getOverridePrestigeDescriptions() {
+        return new Builder()
+                .addDescription("BlackMarketRerolls", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Makes the "));
+                    jsonElements.add(JsonDescription.simple("special slot ", "#8000A8"));
+                    jsonElements.add(JsonDescription.simple("in the "));
+                    jsonElements.add(JsonDescription.simple("Black Market ", "#8000A8"));
+                    jsonElements.add(JsonDescription.simple("contain new "));
+                    jsonElements.add(JsonDescription.simple("rare items ", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple(", and adds a  "));
+                    jsonElements.add(JsonDescription.simple("25% ", "#8000A8"));
+                    jsonElements.add(JsonDescription.simple("chance to consume no "));
+                    jsonElements.add(JsonDescription.simple("Soul Ichor ", "#8000A8"));
+                    jsonElements.add(JsonDescription.simple("when rerolling."));
+                })
+                .addDescription("PickupRange", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("The effect of "));
+                    jsonElements.add(JsonDescription.simple("Copiously ", "#f4467e"));
+                    jsonElements.add(JsonDescription.simple("on your "));
+                    jsonElements.add(JsonDescription.simple("Magnet ", "aqua"));
+                    jsonElements.add(JsonDescription.simple("is "));
+                    jsonElements.add(JsonDescription.simple("doubled", "yellow"));
+                    jsonElements.add(JsonDescription.simple(".\n\n"));
+                    jsonElements.add(JsonDescription.simple("Additionally, your "));
+                    jsonElements.add(JsonDescription.simple("Magnet ", "aqua"));
+                    jsonElements.add(JsonDescription.simple("gains additional "));
+                    jsonElements.add(JsonDescription.simple("Pickup Range ", "yellow"));
+                    jsonElements.add(JsonDescription.simple(". "));
+                })
+                .addDescription("PickupRange", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("The effect of "));
+                    jsonElements.add(JsonDescription.simple("Copiously", "#f4467e"));
+                    jsonElements.add(JsonDescription.simple("on your "));
+                    jsonElements.add(JsonDescription.simple("Magnet ", "aqua"));
+                    jsonElements.add(JsonDescription.simple("is "));
+                    jsonElements.add(JsonDescription.simple("doubled", "yellow"));
+                    jsonElements.add(JsonDescription.simple(".\n\n"));
+                    jsonElements.add(JsonDescription.simple("Additionally, your "));
+                    jsonElements.add(JsonDescription.simple("Magnet ", "aqua"));
+                    jsonElements.add(JsonDescription.simple("gains additional "));
+                    jsonElements.add(JsonDescription.simple("Pickup Range ", "yellow"));
+                })
+                .addDescription("Shielded", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Grants you an "));
+                    jsonElements.add(JsonDescription.simple("Absorption shield ", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("when entering a vault, equal to a percentage of your "));
+                    jsonElements.add(JsonDescription.simple("max health. ", "green"));
+                })
+                .addDescription("ChampionsDamage", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Doubles the loot dropped by "));
+                    jsonElements.add(JsonDescription.simple("Champions", "#f4467e"));
+                    jsonElements.add(JsonDescription.simple(".\n\n"));
+                    jsonElements.add(JsonDescription.simple("Additionally, increases all your "));
+                    jsonElements.add(JsonDescription.simple("damage dealt ", "#B22222"));
+                    jsonElements.add(JsonDescription.simple("to "));
+                    jsonElements.add(JsonDescription.simple("Champions", "#f4467e"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("Fruity", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the time granted by any "));
+                    jsonElements.add(JsonDescription.simple("Vault Fruit", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("SuperCrystals", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the capacity of any "));
+                    jsonElements.add(JsonDescription.simple("Vault Crystals", "aqua"));
+                    jsonElements.add(JsonDescription.simple("you craft, allowing you to modify them further."));
+                })
+                .addDescription("TemporalShardChance", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("of finding ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("Temporal Relics ", "#00FFFF"));
+                    jsonElements.add(JsonDescription.simple("when breaking "));
+                    jsonElements.add(JsonDescription.simple("Pylons", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("OriginalWardPower", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("While not taking or dealing damage for a certain "));
+                    jsonElements.add(JsonDescription.simple("duration ", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("you will generate an "));
+                    jsonElements.add(JsonDescription.simple("Absorption shield ", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("equal to your "));
+                    jsonElements.add(JsonDescription.simple("max health", "#32CD32"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("TreasureHunterPower", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Looting a chest increases your "));
+                    jsonElements.add(JsonDescription.simple("Item Quantity ", "#FFA500"));
+                    jsonElements.add(JsonDescription.simple("and "));
+                    jsonElements.add(JsonDescription.simple("Item Rarity", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple(".\n\n"));
+                    jsonElements.add(JsonDescription.simple("This effect can stack up to 20 times and wears off while not looting a chest or taking damage."));
+                })
+                .addDescription("CommanderPower", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the duration of your "));
+                    jsonElements.add(JsonDescription.simple("Companion's ", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple(" "));
+                    jsonElements.add(JsonDescription.simple("Temporal Modifier", "#00FFFF"));
+                })
+                .build();
+    }
+
     public SkillDescriptionsConfig getTalentDescriptions() {
         return new Builder()
                 .addDescription("Intelligence", jsonElements -> {
@@ -390,8 +606,282 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("armor pieces you wear."));
                     jsonElements.add(JsonDescription.simple("20%", "#F6CD0E"));
                 })
-                .addDescription("Stone_Skin", jsonElements -> {
-                    jsonElements.add(JsonDescription.simple("Increases your knockback resistance, reducing the amount of knockback of projectiles and melee hits. "));
+                .addDescription("Nether_Mastery", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("damage ", "#C21A00"));
+                    jsonElements.add(JsonDescription.simple("dealt when fighting Dungeon mobs.\nThe total can be seen in your statistics tab under Dungeon Damage. "));
+                })
+                .addDescription("Undead_Mastery", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("damage ", "#C21A00"));
+                    jsonElements.add(JsonDescription.simple("dealt when fighting Horde mobs.\nThe total can be seen in your statistics tab under Horde Damage. "));
+                })
+                .addDescription("Arthropod_Mastery", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("damage ", "#C21A00"));
+                    jsonElements.add(JsonDescription.simple("dealt when fighting Assassin mobs.\nThe total can be seen in your statistics tab under Assassin Damage. "));
+                })
+                .addDescription("Illager_Mastery", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("damage ", "#C21A00"));
+                    jsonElements.add(JsonDescription.simple("dealt when fighting Vault Dwellers mobs.\nThe total can be seen in your statistics tab under Dweller Damage. "));
+                })
+                .addDescription("Champion_Mastery", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("damage ", "#C21A00"));
+                    jsonElements.add(JsonDescription.simple("dealt when fighting Champion mobs.\nThe total can be seen in your statistics tab under Champion Damage. "));
+                })
+                .addDescription("Tank_Mastery", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the "));
+                    jsonElements.add(JsonDescription.simple("damage ", "#C21A00"));
+                    jsonElements.add(JsonDescription.simple("dealt when fighting Tank mobs.\nThe total can be seen in your statistics tab under Tank Damage. "));
+                })
+                .addDescription("Last_Stand", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("extra resistance ", "#09BFB8"));
+                    jsonElements.add(JsonDescription.simple("while below "));
+                    jsonElements.add(JsonDescription.simple("20% ", "#7DF587"));
+                    jsonElements.add(JsonDescription.simple("max health."));
+                })
+                .addDescription("Berserking", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("extra damage ", "#C23627"));
+                    jsonElements.add(JsonDescription.simple("while below "));
+                    jsonElements.add(JsonDescription.simple("20% ", "#7DF587"));
+                    jsonElements.add(JsonDescription.simple("max health."));
+                })
+                .addDescription("Methodical", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("extra healing efficiency ", "#7DF587"));
+                    jsonElements.add(JsonDescription.simple("while below "));
+                    jsonElements.add(JsonDescription.simple("20% ", "#0353D7"));
+                    jsonElements.add(JsonDescription.simple("max health."));
+                })
+                .addDescription("Sorcery", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("extra mana regeneration ", "#0353D7"));
+                    jsonElements.add(JsonDescription.simple("while above "));
+                    jsonElements.add(JsonDescription.simple("80% ", "#0353D7"));
+                    jsonElements.add(JsonDescription.simple("max health."));
+                })
+                .addDescription("Prime_Amplification", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("increased area of effect ", "#E9C375"));
+                    jsonElements.add(JsonDescription.simple("while above "));
+                    jsonElements.add(JsonDescription.simple("80% ", "#0353D7"));
+                    jsonElements.add(JsonDescription.simple("max health."));
+                })
+                .addDescription("Bountiful_Harvest", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("extra item quantity ", "#ffaa3d"));
+                    jsonElements.add(JsonDescription.simple("while below "));
+                    jsonElements.add(JsonDescription.simple("20% ", "#7DF587"));
+                    jsonElements.add(JsonDescription.simple("max health."));
+                })
+                .addDescription("Lightning_Damage", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases your "));
+                    jsonElements.add(JsonDescription.simple("minimum damage ", "#FF00CB"));
+                    jsonElements.add(JsonDescription.simple("by a percentage when using Lightning Abilities."));
+                })
+                .addDescription("Lightning_Stun", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gives you a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("to "));
+                    jsonElements.add(JsonDescription.simple("stun ", "#19A6E4"));
+                    jsonElements.add(JsonDescription.simple("enemies hit by Lightning Abilities."));
+                })
+                .addDescription("Treasure_Seeker", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("extra item rarity ", "#EAFF00"));
+                    jsonElements.add(JsonDescription.simple("while below "));
+                    jsonElements.add(JsonDescription.simple("20% ", "#7DF587"));
+                    jsonElements.add(JsonDescription.simple("max health."));
+                })
+                .addDescription("Stoneskin", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("increased knockback resistance ", "#E9C375"));
+                    jsonElements.add(JsonDescription.simple("while above "));
+                    jsonElements.add(JsonDescription.simple("80% ", "#0353D7"));
+                    jsonElements.add(JsonDescription.simple("max health."));
+                })
+                .addDescription("Witchery", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("increased soul chance ", "#4800FF"));
+                    jsonElements.add(JsonDescription.simple("while above "));
+                    jsonElements.add(JsonDescription.simple("80% max mana", "#0353D7"));
+                })
+                .addDescription("Depleted", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain "));
+                    jsonElements.add(JsonDescription.simple("increased damage ", "#C23627"));
+                    jsonElements.add(JsonDescription.simple("while below "));
+                    jsonElements.add(JsonDescription.simple("20% max mana", "#0353D7"));
+                })
+                .addDescription("Fatal_Strike", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Adds Fatal Strike to your "));
+                    jsonElements.add(JsonDescription.simple("Lucky Hits ", "#6DF5A3"));
+                    jsonElements.add(JsonDescription.simple("causing you to deal "));
+                    jsonElements.add(JsonDescription.simple("increased damage ", "#C23627"));
+                    jsonElements.add(JsonDescription.simple("with your hit. "));
+                })
+                .addDescription("Mana_Steal", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Adds Mana Steal to your "));
+                    jsonElements.add(JsonDescription.simple("Lucky Hits ", "#6DF5A3"));
+                    jsonElements.add(JsonDescription.simple("causing you to gain back part of your "));
+                    jsonElements.add(JsonDescription.simple("max mana ", "#0353D7"));
+                    jsonElements.add(JsonDescription.simple("with your hit. "));
+                })
+                .addDescription("Life_Steal", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Adds Life Steal to your "));
+                    jsonElements.add(JsonDescription.simple("Lucky Hits ", "#6DF5A3"));
+                    jsonElements.add(JsonDescription.simple("causing you to gain back part of your "));
+                    jsonElements.add(JsonDescription.simple("max health ", "#CF0000"));
+                    jsonElements.add(JsonDescription.simple("with your hit, as long as your hit deals the same amount of damage, percentage wise, to the target's total health."));
+                })
+                .addDescription("Cleave", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Adds Cleave to your "));
+                    jsonElements.add(JsonDescription.simple("Lucky Hits ", "#6DF5A3"));
+                    jsonElements.add(JsonDescription.simple(", causing you to deal "));
+                    jsonElements.add(JsonDescription.simple("part of your damage", "#CF0000"));
+                    jsonElements.add(JsonDescription.simple("in a 5 by 5 area around the target."));
+                })
+                .addDescription("Prudent", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gives you a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple(" to not consume a potion charge when drinking any "));
+                    jsonElements.add(JsonDescription.simple("Vault Potion", "aqua"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("Blizzard", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Hitting a "));
+                    jsonElements.add(JsonDescription.simple("chilled ", "#2FE1FA"));
+                    jsonElements.add(JsonDescription.simple("mob has a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("of causing a "));
+                    jsonElements.add(JsonDescription.simple("Frost Nova", "#23D2BB"));
+                    jsonElements.add(JsonDescription.simple("to be cast around the target. \nThe Frost Nova scales in"));
+                    jsonElements.add(JsonDescription.simple("level ", "#c1579d"));
+                    jsonElements.add(JsonDescription.simple("with this talent and does not require you to have the ability learnt."));
+                })
+                .addDescription("Frostbite", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Hitting a "));
+                    jsonElements.add(JsonDescription.simple("chilled ", "#2FE1FA"));
+                    jsonElements.add(JsonDescription.simple("mob has a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("of causing them to get "));
+                    jsonElements.add(JsonDescription.simple("Frostbitten ", "#23D2BB"));
+                    jsonElements.add(JsonDescription.simple("for "));
+                    jsonElements.add(JsonDescription.simple("3 seconds ", "#7024AC"));
+                    jsonElements.add(JsonDescription.simple(", and if hit again they will shatter and die instantly, regardless of their health."));
+                })
+                .addDescription("Daze", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Deal increased "));
+                    jsonElements.add(JsonDescription.simple("damage ", "#C23627"));
+                    jsonElements.add(JsonDescription.simple("to stunned enemies on hit."));
+                })
+                .addDescription("Nucleus", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Killing a "));
+                    jsonElements.add(JsonDescription.simple("stunned ", "#2FE1FA"));
+                    jsonElements.add(JsonDescription.simple("mob has a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("of causing an explosive reaction, casting a Nova of your level around the killed mob."));
+                    jsonElements.add(JsonDescription.simple(" This talent requires levels in the ability Nova."));
+                })
+                .addDescription("Blight", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Apply "));
+                    jsonElements.add(JsonDescription.simple("Weakness ", "#AFB477"));
+                    jsonElements.add(JsonDescription.simple("to your targets while hitting them, lowering their "));
+                    jsonElements.add(JsonDescription.simple("damage ", "#C23627"));
+                    jsonElements.add(JsonDescription.simple("for a "));
+                    jsonElements.add(JsonDescription.simple("duration ", "#7024AC"));
+                    jsonElements.add(JsonDescription.simple("of time, if they are affected by "));
+                    jsonElements.add(JsonDescription.simple("Poison ", "#6fe95a"));
+                })
+                .addDescription("Hunters_Instinct", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Killing a mob grants a chance of having their death cause your "));
+                    jsonElements.add(JsonDescription.simple("Hunter senses ", "#FCF5C5"));
+                    jsonElements.add(JsonDescription.simple("to trigger, revealing all POI's in a radius around the killed mob. "));
+                    jsonElements.add(JsonDescription.simple("This talent requires a level in "));
+                    jsonElements.add(JsonDescription.simple("Hunter", "#FCF5C5"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("Arcana", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain 20% "));
+                    jsonElements.add(JsonDescription.simple("Mana Regeneration ", "#00FFFF"));
+                    jsonElements.add(JsonDescription.simple("when killing a mob. This effect can "));
+                    jsonElements.add(JsonDescription.simple("stack ", "#ffeb07"));
+                    jsonElements.add(JsonDescription.simple("and lasts for a duration of time."));
+                })
+                .addDescription("Blazing", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain 5% "));
+                    jsonElements.add(JsonDescription.simple("Movement Speed ", "#FFE068"));
+                    jsonElements.add(JsonDescription.simple("when killing a mob. This effect can "));
+                    jsonElements.add(JsonDescription.simple("stack ", "#ffeb07"));
+                    jsonElements.add(JsonDescription.simple("and lasts for a duration of time."));
+                })
+                .addDescription("Lucky_Momentum", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain 1% "));
+                    jsonElements.add(JsonDescription.simple("Lucky Hit ", "#6DF5A3"));
+                    jsonElements.add(JsonDescription.simple("when killing a mob. This effect can "));
+                    jsonElements.add(JsonDescription.simple("stack ", "#ffeb07"));
+                    jsonElements.add(JsonDescription.simple("and lasts for a duration of time."));
+                })
+                .addDescription("Frenzy", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gain 2.5% "));
+                    jsonElements.add(JsonDescription.simple("Attack Speed ", "#FFE068"));
+                    jsonElements.add(JsonDescription.simple("when killing a mob. This effect can "));
+                    jsonElements.add(JsonDescription.simple("stack ", "#ffeb07"));
+                    jsonElements.add(JsonDescription.simple("and lasts for a duration of time."));
+                })
+                .addDescription("Toxic_Reaction", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Killing a "));
+                    jsonElements.add(JsonDescription.simple("poisoned ", "#6fe95a"));
+                    jsonElements.add(JsonDescription.simple("mob has a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("of casting a "));
+                    jsonElements.add(JsonDescription.simple("Poison Nova", "#6fe95a"));
+                    jsonElements.add(JsonDescription.simple(", of your level, when the mob dies. This effect can chain indefinitely, but requires you to have levels in"));
+                    jsonElements.add(JsonDescription.simple("Poison Nova", "#6fe95a"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("Javelin_Throw_Power", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Enhances the "));
+                    jsonElements.add(JsonDescription.simple("projectile speed ", "#F6CD0E"));
+                    jsonElements.add(JsonDescription.simple("of your "));
+                    jsonElements.add(JsonDescription.simple("Javelins", "#FFE068"));
+                })
+                .addDescription("Javelin_Damage", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Enhances the "));
+                    jsonElements.add(JsonDescription.simple("damage ", "#C23627"));
+                    jsonElements.add(JsonDescription.simple("of your "));
+                    jsonElements.add(JsonDescription.simple("Javelins", "#FFE068"));
+                })
+                .addDescription("Javelin_Conduct", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gives your "));
+                    jsonElements.add(JsonDescription.simple("Javelins ", "#FFE068"));
+                    jsonElements.add(JsonDescription.simple("Conducting Power ", "#DF750E"));
+                    jsonElements.add(JsonDescription.simple(", making it able to transfer any on-hit effect, except Lucky Hit, to the throw. On-hit effects include "));
+                    jsonElements.add(JsonDescription.simple("Clouds", "#DF0EC4"));
+                    jsonElements.add(JsonDescription.simple(", "));
+                    jsonElements.add(JsonDescription.simple("Stunning ", "#19A6E4"));
+                    jsonElements.add(JsonDescription.simple("and "));
+                    jsonElements.add(JsonDescription.simple("Shocking", "#FFFB81"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("Javelin_Frugal", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Gives your "));
+                    jsonElements.add(JsonDescription.simple("Javelins ", "#FFE068"));
+                    jsonElements.add(JsonDescription.simple("a "));
+                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("to consume no "));
+                    jsonElements.add(JsonDescription.simple("mana", "#0353D7"));
+                    jsonElements.add(JsonDescription.simple(" for the throw."));
+                })
+                .addDescription("Farmer_Twerker", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Allows you to hold down shift to increase growth speed of nearby crops and animals. Works on most planted crops, as well as Cactus, Melon, Pumpkin, Sugar Cane and Nether Wart.\n\nLevels increase "));
+                    jsonElements.add(JsonDescription.simple("Radius ", "#33ff6d"));
+                    jsonElements.add(JsonDescription.simple("and "));
+                    jsonElements.add(JsonDescription.simple("Growth Speed ", "#f6cd0e"));
+                    jsonElements.add(JsonDescription.simple("."));
                 })
                 .build();
     }
