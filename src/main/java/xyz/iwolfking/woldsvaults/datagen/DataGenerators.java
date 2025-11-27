@@ -50,6 +50,10 @@ public class DataGenerators {
             gen.addProvider(new ModInscriptionRecipesProvider(gen));
             gen.addProvider(new ModPrebuiltToolsProvider(gen));
             gen.addProvider(new ModVaultPortalBlocksProvider(gen));
+            gen.addProvider(new ModChampionsProvider(gen));
+            gen.addProvider(new ModEnigmaEggProvider(gen));
+            gen.addProvider(new ModExpertisesProvider(gen));
+            gen.addProvider(new ModGearEnchantmentsProvider(gen));
         }
     }
 }

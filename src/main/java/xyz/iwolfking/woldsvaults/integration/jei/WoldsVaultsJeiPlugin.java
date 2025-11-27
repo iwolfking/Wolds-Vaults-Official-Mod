@@ -38,15 +38,15 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class WoldsVaultsJeiPlugin implements IModPlugin {
 
-    public static final RecipeType<GenericLootableConfig> CATALYST_BOX = RecipeType.create(WoldsVaults.MOD_ID, "catalyst_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> INSCRIPTION_BOX = RecipeType.create(WoldsVaults.MOD_ID, "inscription_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> AUGMENT_BOX = RecipeType.create(WoldsVaults.MOD_ID, "augment_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> SUPPLY_BOX = RecipeType.create(WoldsVaults.MOD_ID, "supply_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> GEM_BOX = RecipeType.create(WoldsVaults.MOD_ID, "gem_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> OMEGA_BOX = RecipeType.create(WoldsVaults.MOD_ID, "omega_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> ENIGMA_EGG = RecipeType.create(WoldsVaults.MOD_ID, "enigma_egg", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> VAULTAR_BOX = RecipeType.create(WoldsVaults.MOD_ID, "vaultar_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> GATEWAY_PEARL = RecipeType.create(WoldsVaults.MOD_ID, "gateway_pearl", GenericLootableConfig.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> CATALYST_BOX = RecipeType.create(WoldsVaults.MOD_ID, "catalyst_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> INSCRIPTION_BOX = RecipeType.create(WoldsVaults.MOD_ID, "inscription_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> AUGMENT_BOX = RecipeType.create(WoldsVaults.MOD_ID, "augment_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> SUPPLY_BOX = RecipeType.create(WoldsVaults.MOD_ID, "supply_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> GEM_BOX = RecipeType.create(WoldsVaults.MOD_ID, "gem_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> OMEGA_BOX = RecipeType.create(WoldsVaults.MOD_ID, "omega_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> ENIGMA_EGG = RecipeType.create(WoldsVaults.MOD_ID, "enigma_egg", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> VAULTAR_BOX = RecipeType.create(WoldsVaults.MOD_ID, "vaultar_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> GATEWAY_PEARL = RecipeType.create(WoldsVaults.MOD_ID, "gateway_pearl", GenericLootableBoxCategory.GenericLootableConfigPage.class);
 
     public static final RecipeType<ShopTierAccessor> ETCHING_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "etching_shop_pedestal", ShopTierAccessor.class);
     public static final RecipeType<ShopTierAccessor> GOD_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "god_shop_pedestal", ShopTierAccessor.class);
@@ -133,15 +133,15 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         }
 
 
-        registration.addRecipes(ENIGMA_EGG, List.of(ModConfigs.ENIGMA_EGG));
-        registration.addRecipes(OMEGA_BOX, List.of(ModConfigs.OMEGA_BOX));
-        registration.addRecipes(GEM_BOX, List.of(ModConfigs.GEM_BOX));
-        registration.addRecipes(SUPPLY_BOX, List.of(ModConfigs.SUPPLY_BOX));
-        registration.addRecipes(AUGMENT_BOX, List.of(ModConfigs.AUGMENT_BOX));
-        registration.addRecipes(INSCRIPTION_BOX, List.of(ModConfigs.INSCRIPTION_BOX));
-        registration.addRecipes(CATALYST_BOX, List.of(ModConfigs.CATALYST_BOX));
-        registration.addRecipes(VAULTAR_BOX, List.of(ModConfigs.VAULTAR_BOX));
-        registration.addRecipes(GATEWAY_PEARL, List.of(ModConfigs.GATEWAY_PEARL));
+        registration.addRecipes(ENIGMA_EGG, makePages(ModConfigs.ENIGMA_EGG));
+        registration.addRecipes(OMEGA_BOX, makePages(ModConfigs.OMEGA_BOX));
+        registration.addRecipes(GEM_BOX, makePages(ModConfigs.GEM_BOX));
+        registration.addRecipes(SUPPLY_BOX, makePages(ModConfigs.SUPPLY_BOX));
+        registration.addRecipes(AUGMENT_BOX, makePages(ModConfigs.AUGMENT_BOX));
+        registration.addRecipes(INSCRIPTION_BOX, makePages(ModConfigs.INSCRIPTION_BOX));
+        registration.addRecipes(CATALYST_BOX, makePages(ModConfigs.CATALYST_BOX));
+        registration.addRecipes(VAULTAR_BOX, makePages(ModConfigs.VAULTAR_BOX));
+        registration.addRecipes(GATEWAY_PEARL, makePages(ModConfigs.GATEWAY_PEARL));
 
         registerShopPedestalRecipes(registration, ModConfigs.ETCHING_SHOP_PEDESTAL, ETCHING_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.GOD_SHOP_PEDESTAL, GOD_SHOP_PEDESTAL);
@@ -177,5 +177,17 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
             recipes.add(JEIRecipeProvider.getRecyclerRecipe(new ItemStack(Registry.ITEM.get(rec.getKey())), rec.getValue()));
         }
         registration.addRecipes(TheVaultJEIPlugin.VAULT_RECYCLER, recipes);
+    }
+
+    private List<GenericLootableBoxCategory.GenericLootableConfigPage> makePages(GenericLootableConfig cfg) {
+        int max = 54;
+        int size = cfg.POOL.size();
+        int pageCount = (int)Math.ceil((double) size / max);
+
+        List<GenericLootableBoxCategory.GenericLootableConfigPage> out = new ArrayList<>();
+        for (int i = 0; i < pageCount; i++) {
+            out.add(new GenericLootableBoxCategory.GenericLootableConfigPage(cfg, i));
+        }
+        return out;
     }
 }

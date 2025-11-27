@@ -14,6 +14,11 @@ public class SurpriseModifiersExpertise extends LearnableSkill {
     public SurpriseModifiersExpertise() {
     }
 
+    public SurpriseModifiersExpertise(int unlockLevel, int learnPointCost, int regretCost, int expertiseLevel) {
+        super(unlockLevel, learnPointCost, regretCost);
+        this.expertiseLevel = expertiseLevel;
+    }
+
     @Override
     public void writeBits(BitBuffer buffer) {
         super.writeBits(buffer);
