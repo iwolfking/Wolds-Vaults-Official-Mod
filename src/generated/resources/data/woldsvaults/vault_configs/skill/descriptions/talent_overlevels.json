@@ -212,7 +212,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -224,7 +224,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -236,7 +236,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -248,7 +248,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -260,7 +260,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -272,7 +272,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -284,7 +284,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -296,7 +296,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -308,7 +308,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -320,7 +320,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -332,7 +332,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -344,7 +344,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -356,7 +356,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -368,7 +368,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -380,7 +380,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -392,7 +392,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -404,7 +404,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       },
       {
@@ -416,7 +416,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - effect.the_vault.glacial_shatter Level 10, 3 seconds\n",
+        "text": " - Glacial Shatter Level 10, 3 seconds\n",
         "color": "#90FF00"
       }
     ],
@@ -1906,64 +1906,156 @@
         "color": "$text"
       },
       {
+        "text": "+200.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "50.0 damage\n",
+        "color": "#90FF00"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+200.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "65.0 damage\n",
+        "color": "#90FF00"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
-        "text": "Overlevels\n",
-        "color": "#EFBF04"
+        "text": "+200.000000 range ",
+        "color": "#90FF00"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
+        "text": "80.0 damage\n",
+        "color": "#90FF00"
       },
       {
         "text": "4 ",
         "color": "$text"
       },
       {
+        "text": "+200.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "85.0 damage\n",
+        "color": "#90FF00"
+      },
+      {
         "text": "5 ",
         "color": "$text"
+      },
+      {
+        "text": "+200.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "90.0 damage\n",
+        "color": "#90FF00"
       },
       {
         "text": "6 ",
         "color": "$text"
       },
       {
+        "text": "+200.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "95.0 damage\n",
+        "color": "#90FF00"
+      },
+      {
         "text": "7 ",
         "color": "$text"
+      },
+      {
+        "text": "+200.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "100.0 damage\n",
+        "color": "#90FF00"
       },
       {
         "text": "8 ",
         "color": "$text"
       },
       {
+        "text": "+250.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "100.0 damage\n",
+        "color": "#90FF00"
+      },
+      {
         "text": "9 ",
         "color": "$text"
+      },
+      {
+        "text": "+300.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "100.0 damage\n",
+        "color": "#90FF00"
       },
       {
         "text": "10 ",
         "color": "$text"
       },
       {
+        "text": "+350.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "100.0 damage\n",
+        "color": "#90FF00"
+      },
+      {
         "text": "11 ",
         "color": "$text"
+      },
+      {
+        "text": "+400.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "100.0 damage\n",
+        "color": "#90FF00"
       },
       {
         "text": "12 ",
         "color": "$text"
       },
       {
+        "text": "+450.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "100.0 damage\n",
+        "color": "#90FF00"
+      },
+      {
         "text": "13 ",
         "color": "$text"
+      },
+      {
+        "text": "+500.000000 range ",
+        "color": "#90FF00"
+      },
+      {
+        "text": "100.0 damage\n",
+        "color": "#90FF00"
       }
     ],
     "Javelin_Throw_Power": [
@@ -2165,7 +2257,7 @@
         "color": "$text"
       },
       {
-        "text": "+3 Radius\n",
+        "text": "+3 Radius",
         "color": "#FF00CB"
       },
       {
@@ -2181,7 +2273,7 @@
         "color": "$text"
       },
       {
-        "text": "+6 Radius\n",
+        "text": "+6 Radius",
         "color": "#FF00CB"
       },
       {
@@ -2197,7 +2289,7 @@
         "color": "$text"
       },
       {
-        "text": "+9 Radius\n",
+        "text": "+9 Radius",
         "color": "#FF00CB"
       },
       {
@@ -2213,7 +2305,7 @@
         "color": "$text"
       },
       {
-        "text": "+12 Radius\n",
+        "text": "+12 Radius",
         "color": "#FF00CB"
       },
       {
@@ -2245,7 +2337,7 @@
         "color": "$text"
       },
       {
-        "text": "+25.0%",
+        "text": "+25.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2253,7 +2345,7 @@
         "color": "$text"
       },
       {
-        "text": "+50.0%",
+        "text": "+50.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2261,7 +2353,7 @@
         "color": "$text"
       },
       {
-        "text": "+75.0%",
+        "text": "+75.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2269,7 +2361,7 @@
         "color": "$text"
       },
       {
-        "text": "+100.0%",
+        "text": "+100.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2277,7 +2369,7 @@
         "color": "$text"
       },
       {
-        "text": "+125.0%",
+        "text": "+125.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2285,7 +2377,7 @@
         "color": "$text"
       },
       {
-        "text": "+150.0%",
+        "text": "+150.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2293,7 +2385,7 @@
         "color": "$text"
       },
       {
-        "text": "+175.0%",
+        "text": "+175.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2301,7 +2393,7 @@
         "color": "$text"
       },
       {
-        "text": "+200.0%",
+        "text": "+200.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2309,7 +2401,7 @@
         "color": "$text"
       },
       {
-        "text": "+225.0%",
+        "text": "+225.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2317,7 +2409,7 @@
         "color": "$text"
       },
       {
-        "text": "+250.0%",
+        "text": "+250.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2325,7 +2417,7 @@
         "color": "$text"
       },
       {
-        "text": "+275.0%",
+        "text": "+275.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2333,7 +2425,7 @@
         "color": "$text"
       },
       {
-        "text": "+300.0%",
+        "text": "+300.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2341,7 +2433,7 @@
         "color": "$text"
       },
       {
-        "text": "+325.0%",
+        "text": "+325.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2349,7 +2441,7 @@
         "color": "$text"
       },
       {
-        "text": "+350.0%",
+        "text": "+350.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2357,7 +2449,7 @@
         "color": "$text"
       },
       {
-        "text": "+375.0%",
+        "text": "+375.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2365,7 +2457,7 @@
         "color": "$text"
       },
       {
-        "text": "+400.0%",
+        "text": "+400.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2373,7 +2465,7 @@
         "color": "$text"
       },
       {
-        "text": "+425.0%",
+        "text": "+425.0%\n",
         "color": "#90FF00"
       },
       {
@@ -2381,7 +2473,7 @@
         "color": "$text"
       },
       {
-        "text": "+450.0%",
+        "text": "+450.0%\n",
         "color": "#90FF00"
       }
     ],

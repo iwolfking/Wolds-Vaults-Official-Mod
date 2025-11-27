@@ -278,6 +278,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:storage-drawers-223852:5636643")
     runtimeOnly fg.deobf("curse.maven:qol-hunters-1093452:7189491")
     runtimeOnly fg.deobf("curse.maven:jade-324717:5079263")
+    runtimeOnly fg.deobf("curse.maven:open-loader-354339:3697234")
 
     //For building themes -- Wold's Only
     runtimeOnly fg.deobf("curse.maven:rechiseled-558998:5286275")

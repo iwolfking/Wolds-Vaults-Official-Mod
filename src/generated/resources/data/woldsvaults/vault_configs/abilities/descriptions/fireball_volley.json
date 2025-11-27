@@ -1,0 +1,50 @@
+{
+  "data": {
+    "Fireball_Volley": {
+      "description": [
+        {
+          "text": "Summon a magical bouncing Fireball that ",
+          "color": "$text"
+        },
+        {
+          "text": "scorches ",
+          "color": "$ability_power"
+        },
+        {
+          "text": "mobs in its path and explodes in a small radius - dealing an amount of ",
+          "color": "$text"
+        },
+        {
+          "text": "damage ",
+          "color": "$ability_power"
+        },
+        {
+          "text": "based off your ability power. ",
+          "color": "$text"
+        },
+        {
+          "text": "After a duration of time, it will stop bouncing and explode a final time. ",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "ability_power",
+        "adjustedRadius",
+        "cooldown",
+        "manaCost",
+        "duration"
+      ],
+      "next": [
+        "ability_power",
+        "adjustedRadius",
+        "cooldown",
+        "manaCost",
+        "duration"
+      ]
+    }
+  }
+}

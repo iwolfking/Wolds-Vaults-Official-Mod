@@ -4,8 +4,10 @@ import com.google.gson.JsonArray;
 import iskallia.vault.config.AbilitiesConfig;
 import iskallia.vault.config.SkillDescriptionsConfig;
 import iskallia.vault.config.TalentsConfig;
+import iskallia.vault.effect.GlacialShatterEffect;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeType;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.skill.base.GroupedSkill;
 import iskallia.vault.skill.base.LearnableSkill;
 import iskallia.vault.skill.base.Skill;
@@ -19,6 +21,7 @@ import iskallia.vault.skill.talent.type.health.LowHealthResistanceTalent;
 import iskallia.vault.skill.talent.type.luckyhit.DamageLuckyHitTalent;
 import iskallia.vault.skill.talent.type.luckyhit.HealthLeechLuckyHitTalent;
 import iskallia.vault.skill.talent.type.luckyhit.ManaLeechLuckyHitTalent;
+import iskallia.vault.skill.talent.type.luckyhit.SweepingLuckyHitTalent;
 import iskallia.vault.skill.talent.type.mana.HighManaGearAttributeTalent;
 import iskallia.vault.skill.talent.type.mana.LowManaDamageTalent;
 import iskallia.vault.skill.talent.type.mana.LowManaHealingEfficiencyTalent;
@@ -106,12 +109,21 @@ public class TalentDescriptionsHelper {
                 else if(tier instanceof HealthLeechLuckyHitTalent healthLeechLuckyHitTalent) {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", ((HealthLeechLuckyHitTalentAccessor)healthLeechLuckyHitTalent).getMaxHealthPercentage() * 100) + "%\n", "#90FF00"));
                 }
+                else if(tier instanceof SweepingLuckyHitTalent sweepingLuckyHitTalent) {
+                    jsonElements.add(JsonDescription.simple("+" + String.format("%f", ((SweepingLuckyHitTalentAccessor)sweepingLuckyHitTalent).getRange() * 100) + " range ", "#90FF00"));
+                    jsonElements.add(JsonDescription.simple(String.format("%.1f", ((SweepingLuckyHitTalentAccessor)sweepingLuckyHitTalent).getDamage() * 100) + " damage\n", "#90FF00"));
+                }
                 else if(tier instanceof PrudentTalent prudentTalent) {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", prudentTalent.getProbability() * 100) + "%\n", "#90FF00"));
                 }
                 else if(tier instanceof EffectOnHitTalent effectOnHitTalent) {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", ((EffectOnHitTalentAccessor)effectOnHitTalent).getProbability() * 100) + "% chance\n", "#90FF00"));
-                    jsonElements.add(JsonDescription.simple(" - " + effectOnHitTalent.getEffect().getDisplayName().getString() + " Level " + ((EffectOnHitTalentAccessor)effectOnHitTalent).getAmplifier() + ", " + (effectOnHitTalent.getUnmodifiedDuration() / 20) + " seconds\n", "#90FF00"));
+                    if(effectOnHitTalent.getEffect() instanceof GlacialShatterEffect) {
+                        jsonElements.add(JsonDescription.simple(" - Glacial Shatter" + " Level " + ((EffectOnHitTalentAccessor)effectOnHitTalent).getAmplifier() + ", " + (effectOnHitTalent.getUnmodifiedDuration() / 20) + " seconds\n", "#90FF00"));
+                    }
+                    else {
+                        jsonElements.add(JsonDescription.simple(" - " + effectOnHitTalent.getEffect().getDisplayName().getString() + " Level " + ((EffectOnHitTalentAccessor)effectOnHitTalent).getAmplifier() + ", " + (effectOnHitTalent.getUnmodifiedDuration() / 20) + " seconds\n", "#90FF00"));
+                    }
                 }
                 else if(tier instanceof CastOnHitTalent castOnHitTalent) {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", ((CastOnHitTalentAccessor)castOnHitTalent).getProbability() * 100) + "%", "#90FF00"));
@@ -134,7 +146,7 @@ public class TalentDescriptionsHelper {
                     }
                 }
                 else if(tier instanceof DamageOnHitTalent damageOnHitTalent) {
-                    jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", ((DamageOnHitTalentAccessor)damageOnHitTalent).getDamageIncrease() * 100) + "%", "#90FF00"));
+                    jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", ((DamageOnHitTalentAccessor)damageOnHitTalent).getDamageIncrease() * 100) + "%\n", "#90FF00"));
                 }
                 else if(tier instanceof StackingGearAttributeTalent stackingGearAttributeTalent) {
                     jsonElements.add(JsonDescription.simple(((StackingGearAttributeTalentAccessor)stackingGearAttributeTalent).getMaxStacks() + " max stacks", "#90FF00"));
@@ -151,7 +163,7 @@ public class TalentDescriptionsHelper {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", javelinThrowPowerTalent.getThrowPower() * 100) + "%\n", "#FF00CB"));
                 }
                 else if(tier instanceof FarmerTwerker farmerTwerker) {
-                    jsonElements.add(JsonDescription.simple("+" + farmerTwerker.getHorizontalRange() + " Radius\n", "#FF00CB"));
+                    jsonElements.add(JsonDescription.simple("+" + farmerTwerker.getHorizontalRange() + " Radius", "#FF00CB"));
                     jsonElements.add(JsonDescription.simple(", "));
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", (1.0 + ((20 - farmerTwerker.getTickDelay()) / 10))) + "% Growth Speed\n", "#FF00CB"));
                 }
@@ -161,6 +173,9 @@ public class TalentDescriptionsHelper {
                     }
                     else if(gearAttributeTalent.getAttribute().getType().equals(VaultGearAttributeType.doubleType())) {
                         jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", gearAttributeTalent.getValue() * 100) + "%\n", "#FF00CB"));
+                    }
+                    else if(gearAttributeTalent.getAttribute().getType().equals(VaultGearAttributeType.intType())) {
+                        jsonElements.add(JsonDescription.simple("+" + gearAttributeTalent.getValue() + "\n", "#FF00CB"));
                     }
                     else if(gearAttributeTalent.getAttribute().getType().equals(VaultGearAttributeType.intType())) {
                         jsonElements.add(JsonDescription.simple("+" + gearAttributeTalent.getValue() + "\n", "#FF00CB"));

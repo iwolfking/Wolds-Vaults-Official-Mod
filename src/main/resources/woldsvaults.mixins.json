@@ -126,6 +126,7 @@
     "vaulthunters.accessors.ShopEntryAccessor",
     "vaulthunters.accessors.ShopTierAccessor",
     "vaulthunters.accessors.StackingGearAttributeTalentAccessor",
+    "vaulthunters.accessors.SweepingLuckyHitTalentAccessor",
     "vaulthunters.accessors.TemplateProcessorModifierPropertiesAccessor",
     "vaulthunters.accessors.VanillaAttributeTalentAccessor",
     "vaulthunters.accessors.VaultDifficultyAccessor",
