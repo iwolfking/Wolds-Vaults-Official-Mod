@@ -54,6 +54,7 @@ public class DataGenerators {
             gen.addProvider(new ModEnigmaEggProvider(gen));
             gen.addProvider(new ModExpertisesProvider(gen));
             gen.addProvider(new ModGearEnchantmentsProvider(gen));
+            gen.addProvider(new ModLootInfoProvider(gen));
         }
     }
 }
