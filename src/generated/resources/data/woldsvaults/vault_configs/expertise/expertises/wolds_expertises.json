@@ -1,0 +1,237 @@
+{
+  "tree": {
+    "present": false,
+    "unlockLevel": 0,
+    "learnPointCost": 0,
+    "regretPointCost": 0,
+    "skills": [
+      {
+        "id": "Grave_Insurance",
+        "name": "Grave Insurance",
+        "present": false,
+        "unlockLevel": 20,
+        "learnPointCost": 1,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "present": false,
+            "unlockLevel": 20,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "costReduction": 0.25,
+            "type": "grave_insurance"
+          },
+          {
+            "present": false,
+            "unlockLevel": 20,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "costReduction": 0.5,
+            "type": "grave_insurance"
+          }
+        ],
+        "maxLearnableTier": 2,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "Augmentation_Luck",
+        "name": "Augmentation Luck",
+        "present": false,
+        "unlockLevel": 20,
+        "learnPointCost": 1,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "present": false,
+            "unlockLevel": 20,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "increasedChance": 0.01,
+            "type": "augmentation_luck"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "Blessed",
+        "name": "Blessed",
+        "present": false,
+        "unlockLevel": 40,
+        "learnPointCost": 1,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "present": false,
+            "unlockLevel": 40,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "affinityIncrease": 0.1,
+            "type": "blessed"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "ShopReroll",
+        "name": "Negotiator",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 1,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "rerollTimeout": 900,
+            "type": "negotiator"
+          },
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "rerollTimeout": 300,
+            "type": "negotiator"
+          },
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "rerollTimeout": 100,
+            "type": "negotiator"
+          }
+        ],
+        "maxLearnableTier": 3,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "Pylon_Pilferer",
+        "name": "Pylon Pilferer",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 1,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "chanceIncrease": 0.02,
+            "type": "pylon_pilferer"
+          },
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "chanceIncrease": 0.035,
+            "type": "pylon_pilferer"
+          },
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "chanceIncrease": 0.049999997,
+            "type": "pylon_pilferer"
+          }
+        ],
+        "maxLearnableTier": 3,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "Surprise_Favors",
+        "name": "Surprise Favors",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 1,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "surpriseLevel": 2,
+            "type": "surprise_favors"
+          },
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "surpriseLevel": 4,
+            "type": "surprise_favors"
+          },
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "surpriseLevel": 6,
+            "type": "surprise_favors"
+          }
+        ],
+        "maxLearnableTier": 3,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "Craftsman",
+        "name": "Craftsman",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 1,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "craftsmanLevel": 1,
+            "type": "craftsman"
+          },
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "craftsmanLevel": 2,
+            "type": "craftsman"
+          },
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 1,
+            "regretPointCost": 0,
+            "craftsmanLevel": 3,
+            "type": "craftsman"
+          }
+        ],
+        "maxLearnableTier": 3,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      }
+    ],
+    "type": "expertises"
+  }
+}

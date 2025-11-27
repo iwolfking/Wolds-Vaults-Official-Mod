@@ -1,0 +1,33 @@
+{
+  "tree": {
+    "present": false,
+    "unlockLevel": 0,
+    "learnPointCost": 0,
+    "regretPointCost": 0,
+    "skills": [
+      {
+        "id": "Jeweler",
+        "name": "Jeweler",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 1,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 0,
+            "additionalIdentifiedJewels": 0,
+            "type": "jeweler"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      }
+    ],
+    "type": "expertises"
+  }
+}

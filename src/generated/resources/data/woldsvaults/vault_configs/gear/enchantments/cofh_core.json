@@ -1,0 +1,13 @@
+{
+  "costs": {
+    "cofh_core:holding": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 1
+    }
+  }
+}
