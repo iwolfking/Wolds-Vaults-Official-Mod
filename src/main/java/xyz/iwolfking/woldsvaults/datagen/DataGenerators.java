@@ -53,8 +53,19 @@ public class DataGenerators {
             gen.addProvider(new ModChampionsProvider(gen));
             gen.addProvider(new ModEnigmaEggProvider(gen));
             gen.addProvider(new ModExpertisesProvider(gen));
+            gen.addProvider(new ModPrestigePowersProvider(gen));
+            gen.addProvider(new ModPrestigePowerStylesProvider(gen));
             gen.addProvider(new ModGearEnchantmentsProvider(gen));
             gen.addProvider(new ModLootInfoProvider(gen));
+            gen.addProvider(new ModRoyalePresetsProvider(gen));
+            gen.addProvider(new ModSkillGatesProvider(gen));
+            gen.addProvider(new ModSkillScrollsProvider(gen));
+            gen.addProvider(new ModVaultAltarProvider(gen));
+            gen.addProvider(new ModVaultEntitiesProvider(gen));
+            gen.addProvider(new ModVaultBlacklistProvider(gen));
+            gen.addProvider(new ModVaultItemsProvider(gen));
+            gen.addProvider(new ModVaultMapIconsProvider(gen));
+            //gen.addProvider(new ModVaultCrystalProvider(gen));
         }
     }
 }

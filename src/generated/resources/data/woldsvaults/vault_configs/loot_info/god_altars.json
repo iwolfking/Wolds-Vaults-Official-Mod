@@ -9,6 +9,14 @@
         }
       }
     },
+    "the_vault:god_altar_wendarr": {
+      "display": "God Altar (Wendarr)",
+      "lootTableKeys": {
+        "the_vault:god_altar_wendarr": {
+          "level": 40
+        }
+      }
+    },
     "the_vault:god_altar_velara": {
       "display": "God Altar (Velara)",
       "lootTableKeys": {
