@@ -1,0 +1,39 @@
+{
+  "styles": {
+    "ShieldOfLastingGuard": {
+      "x": 90,
+      "y": 180,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/prestige/shield_of_lasting_guard",
+      "inactiveIcon": "the_vault:gui/prestige/shield_of_lasting_guard_inactive"
+    },
+    "SpiritsHand": {
+      "x": 0,
+      "y": 180,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/prestige/spirits_hand",
+      "inactiveIcon": "the_vault:gui/prestige/spirits_hand_inactive"
+    },
+    "BarrierOfResilience": {
+      "x": 30,
+      "y": 180,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/prestige/barrier_of_resilience",
+      "inactiveIcon": "the_vault:gui/prestige/barrier_of_resilience_inactive"
+    },
+    "PrismaticPouch": {
+      "x": 120,
+      "y": 180,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/prestige/prism_possessor",
+      "inactiveIcon": "the_vault:gui/prestige/prism_possessor_inactive"
+    },
+    "WeaverOfTime": {
+      "x": 120,
+      "y": 180,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/prestige/weaver_of_time",
+      "inactiveIcon": "the_vault:gui/prestige/weaver_of_time_inactive"
+    }
+  }
+}

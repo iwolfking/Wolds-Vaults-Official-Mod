@@ -1,0 +1,18 @@
+{
+  "abilities": [
+    {
+      "value": "Heal",
+      "weight": 4
+    },
+    {
+      "value": "Colossus",
+      "weight": 2
+    },
+    {
+      "value": "Expunge",
+      "weight": 4
+    }
+  ],
+  "talents": [],
+  "modifiers": []
+}

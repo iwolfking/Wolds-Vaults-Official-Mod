@@ -1,0 +1,8 @@
+{
+  "tooltips": [
+    {
+      "item": "supplementaries:mob_cage",
+      "value": "Can capture any mob below 10% health."
+    }
+  ]
+}
