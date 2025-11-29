@@ -48,6 +48,966 @@
       ],
       "minLevel": 0,
       "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:windcaller",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Raid"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:royal_guard",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Raid"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:mountaineer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Raid"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:geomancer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Raid"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:mage",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Raid"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:incinerator",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Raid"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:inquisitor",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Raid"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:iceologer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Raid"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:matango",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:selkie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:yuki_onna",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:succubus",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:cecaelia",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "wildbackport:warden",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:sharko",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:toad",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:oni",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:siren",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:naga",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:kobold",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:mermaid",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:werecat",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:anubis",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:sphinx",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:ant",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:mandragora",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:bone_knight",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:goblin_feral",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:ashen",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:tropi_spider",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:flesh_lich",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:cobblestone_golem",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:cobble_golem",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:tropiskelly",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:redstone_cube",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:redstone_golem",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:skeleton_vanguard",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:leapleaf",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:sunken_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Amalgam Beach"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:mossy_skeleton",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:whisperer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:jungle_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:frozen_zombie",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Amalgam Ice"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:drowned_necromancer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:necromancer",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:banshee",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:mummy",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:wither_cow",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "dungeons_mobs:icy_creeper",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Ice"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:tropicreeper",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Tropical Oasis"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Undersea"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:frilled_shark",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Undersea"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:orca",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Undersea"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:guster",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "thermal:basalz",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "thermal:blitz",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "thermal:blizz",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:behender",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:deathword",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:witch",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        ""
+      ],
+      "minLevel": 0,
+      "drops": []
     }
   ],
   "hiddenGroups": []

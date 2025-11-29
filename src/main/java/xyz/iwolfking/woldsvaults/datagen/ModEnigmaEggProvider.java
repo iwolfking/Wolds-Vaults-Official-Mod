@@ -32,7 +32,7 @@ public class ModEnigmaEggProvider extends AbstractEnigmaEggProvider {
     public static List<SpawnEggItem> getAllSpawnEggs() {
         return ForgeRegistries.ITEMS.getValues().stream()
                 .filter(b -> b instanceof SpawnEggItem)
-                .filter(b -> b.getRegistryName() != null && NAMESPACES_TO_FILTER.contains(b.getRegistryName().getNamespace()))
+                .filter(b -> b.getRegistryName() != null && !NAMESPACES_TO_FILTER.contains(b.getRegistryName().getNamespace()))
                 .map(b -> (SpawnEggItem) b)
                 .toList();
     }
