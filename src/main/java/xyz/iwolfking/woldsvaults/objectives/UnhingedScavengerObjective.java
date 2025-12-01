@@ -24,7 +24,7 @@ import iskallia.vault.item.KeystoneItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
-import xyz.iwolfking.woldsvaults.api.util.NormalizedHelper;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.config.UnhingedScavengerConfig;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public class UnhingedScavengerObjective extends ScavengerObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault, world);
+        ObjectiveHelper.handleAddingNormalizedToVault(vault, world);
 
 
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {

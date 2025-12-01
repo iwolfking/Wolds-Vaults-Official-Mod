@@ -42,7 +42,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import xyz.iwolfking.woldsvaults.api.util.NormalizedHelper;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BingoObjectiveAccessor;
 
 import java.util.Iterator;
@@ -134,7 +134,7 @@ public class BallisticBingoObjective extends BingoObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault, world);
+        ObjectiveHelper.handleAddingNormalizedToVault(vault, world);
 
         this.pvp = ((Objectives)vault.get(Vault.OBJECTIVES)).forEach(PvPObjective.class, (obj) -> true);
         CommonEvents.LISTENER_JOIN.register(this, (data) -> {
