@@ -254,7 +254,6 @@
     "vaulthunters.fixes.MixinEliteZombie",
     "vaulthunters.fixes.MixinEntityGroupsConfig",
     "vaulthunters.fixes.MixinFloatingItem",
-    "vaulthunters.fixes.MixinGateRenderer",
     "vaulthunters.fixes.MixinGearModelRollRarities",
     "vaulthunters.fixes.MixinGearScoreHelper",
     "vaulthunters.fixes.MixinImmortalityEffect",
