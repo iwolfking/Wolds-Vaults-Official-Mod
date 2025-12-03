@@ -810,15 +810,7 @@
     },
     {
       "value": {
-        "id": "quark:foxhound_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:stoneling_spawn_egg",
+        "id": "quark:toretoise_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -827,6 +819,14 @@
     {
       "value": {
         "id": "quark:shiba_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:foxhound_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -850,7 +850,7 @@
     },
     {
       "value": {
-        "id": "quark:toretoise_spawn_egg",
+        "id": "quark:stoneling_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
       },

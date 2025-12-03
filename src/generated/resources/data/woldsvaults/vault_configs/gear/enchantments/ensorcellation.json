@@ -1,10 +1,55 @@
 {
   "costs": {
+    "ensorcellation:gourmand": {
+      "items": [
+        {
+          "id": "pumpkin_pie",
+          "count": 64
+        }
+      ],
+      "levels": 2
+    },
     "ensorcellation:quick_draw": {
       "items": [
         {
           "id": "emerald",
           "count": 5
+        }
+      ],
+      "levels": 3
+    },
+    "ensorcellation:angler": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 2
+    },
+    "ensorcellation:soulbound": {
+      "items": [
+        {
+          "id": "the_vault:echo_pog",
+          "count": 1
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:air_affinity": {
+      "items": [
+        {
+          "id": "the_vault:phoenix_feather",
+          "count": 1
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:exp_boost": {
+      "items": [
+        {
+          "id": "the_vault:wutodic_mass",
+          "count": 8
         }
       ],
       "levels": 3
@@ -27,23 +72,14 @@
       ],
       "levels": 2
     },
-    "ensorcellation:damage_ender": {
+    "ensorcellation:hunter": {
       "items": [
         {
-          "id": "ender_eye",
-          "count": 32
+          "id": "emerald",
+          "count": 5
         }
       ],
-      "levels": 1
-    },
-    "ensorcellation:soulbound": {
-      "items": [
-        {
-          "id": "the_vault:echo_pog",
-          "count": 1
-        }
-      ],
-      "levels": 1
+      "levels": 2
     },
     "ensorcellation:vitality": {
       "items": [
@@ -54,50 +90,14 @@
       ],
       "levels": 3
     },
-    "ensorcellation:hunter": {
+    "ensorcellation:damage_ender": {
       "items": [
         {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 2
-    },
-    "ensorcellation:angler": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 2
-    },
-    "ensorcellation:air_affinity": {
-      "items": [
-        {
-          "id": "the_vault:phoenix_feather",
-          "count": 1
+          "id": "ender_eye",
+          "count": 32
         }
       ],
       "levels": 1
-    },
-    "ensorcellation:exp_boost": {
-      "items": [
-        {
-          "id": "the_vault:wutodic_mass",
-          "count": 8
-        }
-      ],
-      "levels": 3
-    },
-    "ensorcellation:gourmand": {
-      "items": [
-        {
-          "id": "pumpkin_pie",
-          "count": 64
-        }
-      ],
-      "levels": 2
     }
   }
 }
