@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.fruitbag;
 
 import com.shiftthedev.vaultfruitbag.containers.FruitSlot;
+import com.shiftthedev.vaultfruitbag.handlers.FruitBagHandler;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.world.item.ItemStack;
@@ -14,24 +15,24 @@ import org.spongepowered.asm.mixin.Overwrite;
         }
 )
 
-@Mixin(value = FruitSlot.class, remap = false)
-public class MixinFruitSlot {
+@Mixin(value = FruitBagHandler.class, remap = false)
+public class MixinFruitBagHandler {
 
     /**
-     * @author iwolfking
-     * @reason Unlimted slot size
+     * @author
+     * @reason
      */
     @Overwrite
-    public int getMaxStackSize() {
+    protected int getStackLimit(int slot, @NotNull ItemStack stack) {
         return Integer.MAX_VALUE;
     }
 
     /**
-     * @author iwolfking
-     * @reason Unlimited stack size
+     * @author
+     * @reason
      */
     @Overwrite
-    public int getMaxStackSize(@NotNull ItemStack stack) {
+    public int getSlotLimit(int slot) {
         return Integer.MAX_VALUE;
     }
 }

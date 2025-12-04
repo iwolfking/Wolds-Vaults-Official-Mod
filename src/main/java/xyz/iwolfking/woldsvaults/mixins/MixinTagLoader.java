@@ -5,9 +5,12 @@ import iskallia.vault.core.util.ThemeBlockRetriever;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagLoader;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,6 +18,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +34,18 @@ public class MixinTagLoader {
     private void afterBuild(Map<ResourceLocation, Tag.Builder> pBuilders, CallbackInfoReturnable<Map<ResourceLocation, Tag<?>>> cir) {
         if ("tags/items".equals(this.directory)){
             woldsVaults$genCrucibleTag(pBuilders);
+        }
+    }
+
+    private static void woldsVaults$genAlchemyTag(Map<ResourceLocation, Tag.Builder> pBuilders) {
+        List<ResourceLocation> holders = ForgeRegistries.ITEMS.getEntries().stream().filter(resourceKeyItemEntry -> {
+            return resourceKeyItemEntry.getValue() instanceof AlchemyIngredientItem;
+        }).map(resourceKeyItemEntry -> resourceKeyItemEntry.getKey().getRegistryName()).toList();
+
+        Tag.Builder alchemyIngredient = pBuilders.computeIfAbsent(WoldsVaults.id("alchemy_ingredient"), id -> Tag.Builder.tag());
+
+        for (ResourceLocation item : holders) {
+            alchemyIngredient.addElement(item, "Wold's dynamic tags");
         }
     }
 

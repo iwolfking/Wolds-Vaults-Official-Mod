@@ -2,10 +2,8 @@ package xyz.iwolfking.woldsvaults.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.init.ModConfigs;
-import iskallia.vault.item.AbilityScrollItem;
 import iskallia.vault.item.render.core.SpecialItemRenderer;
 import iskallia.vault.research.type.Research;
-import iskallia.vault.skill.base.Skill;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -34,8 +32,8 @@ public class ResearchTokenRenderer extends SpecialItemRenderer {
             String last = split[split.length - 1];
             ModelResourceLocation model = new ModelResourceLocation("woldsvaults:researches/" + last + "#inventory");
             poseStack.pushPose();
-            poseStack.scale(0.75F, 0.75F, 1.0F);
-            poseStack.translate(0.25, 0.1F, 0.01F);
+            //poseStack.scale(0.75F, 0.75F, 1.0F);
+            //poseStack.translate(0.25, 0.1F, 0.01F);
             if (transformType == ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND) {
                 poseStack.translate(-0.1F, 0.0, 0.0);
             } else if (transformType.equals(ItemTransforms.TransformType.GROUND)) {

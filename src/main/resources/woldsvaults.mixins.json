@@ -50,6 +50,7 @@
     "ensorcellation.MixinCommonEvents",
     "ensorcellation.MixinCurseMercyEnchantment",
     "ensorcellation.MixinEnsorcEnchantments",
+    "fruitbag.MixinFruitBagHandler",
     "fruitbag.MixinFruitSlot",
     "ftbquests.MixinFTBQuestsClient",
     "ftbquests.MixinItemReward",
