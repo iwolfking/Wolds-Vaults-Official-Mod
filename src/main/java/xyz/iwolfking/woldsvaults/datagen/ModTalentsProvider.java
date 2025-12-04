@@ -12,11 +12,11 @@ public class ModTalentsProvider extends AbstractTalentProvider {
 
     @Override
     public void registerConfigs() {
-        add("test", builder -> {
-            builder
-                    .addGearAttributeTalent("Test", "Test", 4, 0, 1, 100, ModGearAttributes.THORNS_DAMAGE_FLAT, (i) -> 4 + (8 * i))
-                    .build();
-            });
+//        add("replace/intelligence", builder -> {
+//            builder
+//                    .addGearAttributeTalent("Intelligence", "Intelligence", 8, 0, 1, 100, ModGearAttributes.ABILITY_POWER, (i) -> 10 * i)
+//                    .build();
+//            });
 
     }
 }

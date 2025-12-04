@@ -23,12 +23,12 @@ public class ModVaultAltarIngredientsProvider extends AbstractVaultAltarIngredie
     @Override
     public void registerConfigs() {
 
-        add("wolds_trinkets", builder -> {
-            builder.addIngredients(List.of(0, 10, 20, 50, 75, 90), "resource", altarIngredientsBuilder -> {
-                altarIngredientsBuilder.add(itemStacks -> {
-                    itemStacks.add(ModItems.POG.getDefaultInstance());
-                }, 1, 3, 1.0, 1000);
-            });
+        add("additional_ingredients", builder -> {
+//            builder.addIngredients(List.of(0, 10, 20, 50, 75, 90), "resource", altarIngredientsBuilder -> {
+//                altarIngredientsBuilder.add(itemStacks -> {
+//                    itemStacks.add(ModItems.POG.getDefaultInstance());
+//                }, 1, 3, 1.0, 1000);
+//            });
         });
 
     }

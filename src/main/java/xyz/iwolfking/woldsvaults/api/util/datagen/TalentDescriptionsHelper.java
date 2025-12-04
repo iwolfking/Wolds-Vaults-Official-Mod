@@ -1,11 +1,20 @@
 package xyz.iwolfking.woldsvaults.api.util.datagen;
 
 import com.google.gson.JsonArray;
+import iskallia.vault.VaultMod;
 import iskallia.vault.config.AbilitiesConfig;
 import iskallia.vault.config.SkillDescriptionsConfig;
 import iskallia.vault.config.TalentsConfig;
 import iskallia.vault.effect.GlacialShatterEffect;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
+import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
+import iskallia.vault.gear.attribute.VaultGearModifier;
+import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
+import iskallia.vault.gear.attribute.config.DoubleAttributeGenerator;
+import iskallia.vault.gear.attribute.config.FloatAttributeGenerator;
+import iskallia.vault.gear.attribute.config.IntegerAttributeGenerator;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeType;
+import iskallia.vault.gear.reader.IntegerModifierReader;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.skill.base.GroupedSkill;
@@ -31,8 +40,11 @@ import iskallia.vault.skill.talent.type.onhit.EffectOnHitTalent;
 import iskallia.vault.skill.talent.type.onkill.CastOnKillTalent;
 import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.*;
+
+import java.util.Random;
 
 public class TalentDescriptionsHelper {
 
@@ -60,6 +72,15 @@ public class TalentDescriptionsHelper {
     }
 
     private static void processTalentDescriptionsByType(Skill skill, JsonArray jsonElements) {
+        if(skill instanceof GroupedSkill groupedSkill) {
+            WoldsVaults.LOGGER.info(groupedSkill.getName());
+            groupedSkill.getChildren().forEach(lSkill ->{
+                WoldsVaults.LOGGER.info(lSkill.getName());
+            });
+            groupedSkill.getChildren().forEach(learnableSkill -> {
+                processTalentDescriptionsByType(learnableSkill, jsonElements);
+            });
+        }
         if(skill instanceof TieredSkill tieredSkill) {
             for(int i = 0; i < tieredSkill.getTiers().size(); i++) {
                 LearnableSkill tier = tieredSkill.getTiers().get(i);
@@ -168,31 +189,49 @@ public class TalentDescriptionsHelper {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", (1.0 + ((20 - farmerTwerker.getTickDelay()) / 10))) + "% Growth Speed\n", "#FF00CB"));
                 }
                 else if(tier instanceof GearAttributeTalent gearAttributeTalent) {
-                    if(gearAttributeTalent.getAttribute().getType().equals(VaultGearAttributeType.floatType())) {
+                    NumericKind type = detectNumericKind(gearAttributeTalent.getAttribute());
+                    if(type.equals(NumericKind.FLOAT) || type.equals(NumericKind.DOUBLE)) {
                         jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", gearAttributeTalent.getValue() * 100) + "%\n", "#FF00CB"));
                     }
-                    else if(gearAttributeTalent.getAttribute().getType().equals(VaultGearAttributeType.doubleType())) {
-                        jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", gearAttributeTalent.getValue() * 100) + "%\n", "#FF00CB"));
-                    }
-                    else if(gearAttributeTalent.getAttribute().getType().equals(VaultGearAttributeType.intType())) {
+                    else if(type.equals(NumericKind.INT)) {
                         jsonElements.add(JsonDescription.simple("+" + gearAttributeTalent.getValue() + "\n", "#FF00CB"));
                     }
-                    else if(gearAttributeTalent.getAttribute().getType().equals(VaultGearAttributeType.intType())) {
-                        jsonElements.add(JsonDescription.simple("+" + gearAttributeTalent.getValue() + "\n", "#FF00CB"));
+                    else {
+                        jsonElements.add(JsonDescription.simple("+" + gearAttributeTalent.getValue()+ "%\n", "#FF00CB"));
                     }
                 }
-                else if(i + 1 == tieredSkill.getMaxLearnableTier() && tieredSkill.getTiers().size() != tieredSkill.getMaxLearnableTier()) {
+
+                if(i + 1 == tieredSkill.getMaxLearnableTier() && tieredSkill.getTiers().size() != tieredSkill.getMaxLearnableTier()) {
                     jsonElements.add(JsonDescription.simple("Overlevels\n", "#EFBF04"));
                     jsonElements.add(JsonDescription.simple("------------", "#EFBF04"));
                     jsonElements.add(JsonDescription.simple("\n"));
                 }
             }
         }
-        if(skill instanceof GroupedSkill groupedSkill) {
-            groupedSkill.getChildren().forEach(learnableSkill -> {
-                processTalentDescriptionsByType(learnableSkill, jsonElements);
-            });
-        }
+
+
     }
+
+    public enum NumericKind { INT, FLOAT, DOUBLE, OTHER }
+
+    public static NumericKind detectNumericKind(VaultGearAttribute<?> attr) {
+
+        if(attr.getRegistryName().equals(VaultMod.id("ability_power"))) {
+            return NumericKind.INT;
+        }
+
+        if(attr.getGenerator() instanceof FloatAttributeGenerator) {
+            return NumericKind.FLOAT;
+        }
+        else if(attr.getGenerator() instanceof IntegerAttributeGenerator) {
+            return NumericKind.INT;
+        }
+        else if(attr.getGenerator() instanceof DoubleAttributeGenerator) {
+            return NumericKind.DOUBLE;
+        }
+
+        return NumericKind.OTHER;
+    }
+
 
 }

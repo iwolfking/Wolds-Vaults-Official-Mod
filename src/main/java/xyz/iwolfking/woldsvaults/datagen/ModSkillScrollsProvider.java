@@ -12,9 +12,9 @@ public class ModSkillScrollsProvider extends AbstractSkillScrollsProvider {
     @Override
     public void registerConfigs() {
         add("wolds_additions", builder -> {
-            builder.addAbility("Heal", 4);
-            builder.addAbility("Colossus", 2);
-            builder.addAbility("Expunge", 4);
+            //builder.addAbility("Heal", 4);
+            //builder.addAbility("Colossus", 2);
+            //builder.addAbility("Expunge", 4);
         });
     }
 }

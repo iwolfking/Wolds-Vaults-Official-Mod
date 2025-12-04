@@ -914,7 +914,7 @@
         "color": "$text"
       },
       {
-        "text": "+0 slot\n",
+        "text": "+1 slot\n",
         "color": "#FFD700"
       },
       {
@@ -922,7 +922,7 @@
         "color": "$text"
       },
       {
-        "text": "+1 slot\n",
+        "text": "+2 slot\n",
         "color": "#FFD700"
       },
       {
@@ -930,7 +930,7 @@
         "color": "$text"
       },
       {
-        "text": "+2 slot\n",
+        "text": "+3 slot\n",
         "color": "#FFD700"
       }
     ],

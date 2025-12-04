@@ -13,7 +13,7 @@ public class ModVaultTemplatePoolsProvider extends AbstractTemplatePoolProvider 
     @Override
     protected void registerPools() {
         createStandardPoolsForTheme("eclipse", WoldsVaults.id("universal_eclipse"), VaultMod.id("generic/ore_placeholder_void"));
-        addPool(templatePoolBuilder -> templatePoolBuilder.id(VaultMod.id("vault/rooms/omega_rooms_merge"))
-                .addReference(1, VaultMod.id("vault/rooms/challenge/dragon")));
+//        addPool(templatePoolBuilder -> templatePoolBuilder.id(VaultMod.id("vault/rooms/omega_rooms_merge"))
+//                .addReference(1, VaultMod.id("vault/rooms/challenge/dragon")));
     }
 }

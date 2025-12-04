@@ -22,7 +22,7 @@
       "inactiveIcon": "the_vault:gui/prestige/barrier_of_resilience_inactive"
     },
     "PrismaticPouch": {
-      "x": 120,
+      "x": 60,
       "y": 180,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/prestige/prism_possessor",

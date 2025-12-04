@@ -19,11 +19,6 @@
       "id": "woldsvaults:eclipse_rooms",
       "name": "Eclipse Rooms",
       "1.0": "woldsvaults:eclipse_rooms"
-    },
-    {
-      "id": "the_vault:vault/rooms/omega_rooms_merge",
-      "name": "Vault Rooms Omega Rooms Merge",
-      "1.0": "the_vault:vault/rooms/omega_rooms_merge"
     }
   ]
 }

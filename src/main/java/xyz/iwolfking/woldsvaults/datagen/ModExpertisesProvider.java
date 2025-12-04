@@ -48,7 +48,7 @@ public class ModExpertisesProvider extends AbstractExpertiseProvider {
             });
         });
 
-        add("additional_vanilla_tiers", builder -> {
+        add("replace/additional_vanilla_tiers", builder -> {
             builder.addExpertise("Companion_Loyalty", "Companion's Loyalty", 50, 1, 5, value -> {
                 return new CompanionCooldownExpertise(50, 1, 0, 0.1F + (0.1F * value));
             });
@@ -80,13 +80,13 @@ public class ModExpertisesProvider extends AbstractExpertiseProvider {
             });
         });
 
-        add("jeweler_replacement", builder -> {
+        add("replace/jeweler", builder -> {
             builder.addExpertise("Jeweler", "Jeweler", 0 ,1, 1, value -> {
                return new JewelExpertise();
             });
         });
 
-        add("marketer", builder -> {
+        add("replace/marketer", builder -> {
             builder.addExpertise("Marketer", "Marketer", 0 ,1, 3, value -> {
                 return new BlackMarketExpertise(0, 1, 0, 0, value + 1);
             });
