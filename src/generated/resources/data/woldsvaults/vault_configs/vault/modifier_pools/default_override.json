@@ -1,0 +1,267 @@
+{
+  "pools": {
+    "the_vault:default": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:beginners_grace",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:beginners_insurance",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 10,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:beginners_grace",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 20,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:enlighted",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:hoard",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:treasure",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:soul_surge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:prismatic",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:champion_chance",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:dummy",
+                "weight": 12
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 50,
+        "entries": [
+          {
+            "min": 1,
+            "max": 2,
+            "pool": [
+              {
+                "value": "the_vault:enlighted",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:hoard",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:treasure",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:soul_surge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:prismatic",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:champion_chance",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:prosperous",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:sparkling",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:coin_pile",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:gilded",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:living",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:ornate",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:plated",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:orematic",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:champion_chance",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:serendipitous",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:looters_lair",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:xp_gain",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:oneup",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:dummy",
+                "weight": 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 100,
+        "entries": [
+          {
+            "min": 1,
+            "max": 2,
+            "pool": [
+              {
+                "value": "the_vault:hoard",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:treasure",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:soul_surge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:prismatic",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:champion_chance",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:prosperous",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:sparkling",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:coin_pile",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:gilded",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:living",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:ornate",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:plated",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:orematic",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:champion_chance",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:serendipitous",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:looters_lair",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:oneup",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:dummy",
+                "weight": 102
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
