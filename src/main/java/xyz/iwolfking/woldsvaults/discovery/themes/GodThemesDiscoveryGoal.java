@@ -1,13 +1,13 @@
 package xyz.iwolfking.woldsvaults.discovery.themes;
 
+import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.DiscoveryGoalsManager;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.discoverylogic.goal.base.InVaultDiscoveryGoal;
+import iskallia.vault.task.source.EntityTaskSource;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-import xyz.iwolfking.vhapi.api.events.vault.VaultEvents;
 
 public class GodThemesDiscoveryGoal extends InVaultDiscoveryGoal<GodThemesDiscoveryGoal> {
 
@@ -20,12 +20,10 @@ public class GodThemesDiscoveryGoal extends InVaultDiscoveryGoal<GodThemesDiscov
 
     @Override
     public void initServer(DiscoveryGoalsManager discoveryGoalsManager, VirtualWorld virtualWorld, Vault vault) {
-        VaultEvents.GOD_ALTAR_COMPLETED.register(discoveryGoalsManager, event -> {
-            if(event.getPlayer() instanceof ServerPlayer sPlayer) {
-                if(sPlayer.getLevel() == virtualWorld) {
-                    if(event.getGod().equals(god)) {
-                        this.progress(sPlayer, 1.0F);
-                    }
+        CommonEvents.GOD_ALTAR_EVENT.register(discoveryGoalsManager, event -> {
+            if (event.getTask().getGod().equals(god) && event.isCompleted() && event.getContext().getSource() instanceof EntityTaskSource entitySource) {
+                for (ServerPlayer player : entitySource.getEntities(ServerPlayer.class)) {
+                    this.progress(player, 1.0F);
                 }
             }
         });
