@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:vault_cobblestone_1"
+    }
+  ],
+  "result": {
+    "item": "the_vault:vault_cobblestone",
+    "count": 9
+  }
+}

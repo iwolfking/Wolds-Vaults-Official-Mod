@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:ancient_copper_block_2"
+    }
+  ],
+  "result": {
+    "item": "compressium:ancient_copper_block_1",
+    "count": 9
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "compressium:vault_cobblestone_1_uncraft"
+    ]
+  },
+  "criteria": {
+    "has_compressed_vault_cobblestone_x1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "compressium:vault_cobblestone_1"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "compressium:vault_cobblestone_1_uncraft"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_compressed_vault_cobblestone_x1",
+      "has_the_recipe"
+    ]
+  ]
+}

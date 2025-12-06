@@ -102,6 +102,7 @@ public class ModBlocks {
     public static final VaultGemStairsBlock WUTODIE_STAIRS;
     public static final VaultGemSlabBlock WUTODIE_SLAB;
     public static final VaultGemWallBlock WUTODIE_WALL;
+    public static final VaultGemBlock WUTODIE;
 
     static {
         INFUSED_DRIFTWOOD_PLANKS = new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS));
@@ -136,6 +137,7 @@ public class ModBlocks {
         WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
         WUTODIE_WALL = new VaultGemWallBlock(ModItems.WUTODIE_GEM);
         WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
+        WUTODIE = new VaultGemBlock(ModItems.WUTODIE_GEM);
         DOLL_DISMANTLING_BLOCK = new DollDismantlingBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), DollDismantlingBlock.DOLL_DISMANTLING_SHAPE);
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
@@ -195,10 +197,11 @@ public class ModBlocks {
         registerBlock(event, WUTODIE_SLAB, VaultMod.id("block_gem_wutodie_slab"));
         registerBlock(event, WUTODIE_STAIRS, VaultMod.id("block_gem_wutodie_stairs"));
         registerBlock(event, WUTODIE_WALL, VaultMod.id("block_gem_wutodie_wall"));
+        registerBlock(event, WUTODIE, VaultMod.id("block_gem_wutodie"));
         registerBlock(event, BREWING_ALTAR, WoldsVaults.id("brewing_altar"));
         registerBlock(event, DOLL_DISMANTLING_BLOCK, WoldsVaults.id("doll_dismantler"));
-
     }
+
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
         registerTileEntity(event, VAULT_SALVAGER_ENTITY, VaultMod.id("vault_salvager_tile_entity"));
         registerTileEntity(event, ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("iskallian_leaves_tile_entity"));
@@ -253,11 +256,12 @@ public class ModBlocks {
         registerBlockItem(event, VAULT_CRATE_CORRUPTED, 1, Item.Properties::fireResistant);
         registerBlockItem(event, VAULT_CRATE_ALCHEMY, 1, Item.Properties::fireResistant);
         registerBlockItem(event, MONOLITH_CONTROLLER);
-        registerBlockItem(event, WUTODIE_STAIRS);
-        registerBlockItem(event, WUTODIE_SLAB);
-        registerBlockItem(event, WUTODIE_WALL);
-        registerBlockItem(event, BREWING_ALTAR);
-        registerBlockItem(event, DOLL_DISMANTLING_BLOCK);
+        registerBlockItem(event, WUTODIE_STAIRS, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, WUTODIE_SLAB, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, WUTODIE_WALL, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, WUTODIE, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, BREWING_ALTAR, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, DOLL_DISMANTLING_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

@@ -1,6 +1,8 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import com.simibubi.create.AllItems;
+import iskallia.vault.VaultMod;
+import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -9,13 +11,17 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import vazkii.botania.data.recipes.NbtOutputResult;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
+import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
 import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe.IngredientWithNBT;
@@ -352,6 +358,81 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         companionRerollRecipe("companion_temporalizer", pFinishedRecipeConsumer);
 
+        gemBlockRecipe("block_gem_wutodie", ModBlocks.WUTODIE, iskallia.vault.init.ModItems.WUTODIE_GEM, pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModItems.EXPERTISE_ORB_ITEM)
+                .define('X', ModItems.ARCANE_SHARD)
+                .define('O', iskallia.vault.init.ModItems.SKILL_ORB_FRAME)
+                .pattern("XXX")
+                .pattern("XOX")
+                .pattern("XXX")
+                .unlockedBy("has_orb_frame", has(iskallia.vault.init.ModItems.SKILL_ORB_FRAME))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModItems.REPAIR_AUGMENTER)
+                .define('X', ModItems.ARCANE_SHARD)
+                .define('O', iskallia.vault.init.ModItems.SKILL_ORB_FRAME)
+                .define('T', iskallia.vault.init.ModItems.BLACK_CHROMATIC_STEEL_INGOT)
+                .pattern("XTX")
+                .pattern("TOT")
+                .pattern("XTX")
+                .unlockedBy("has_resilient_focus", has(iskallia.vault.init.ModItems.RESILIENT_FOCUS))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModItems.VAULT_ROCK_CANDY)
+                .define('X', iskallia.vault.init.ModItems.VAULT_ROCK)
+                .define('O', iskallia.vault.init.ModBlocks.VAULT_SWEETS_ITEM)
+                .define('T', Items.SUGAR)
+                .pattern("XTX")
+                .pattern("XOX")
+                .pattern("XTX")
+                .unlockedBy("has_sweets", has(iskallia.vault.init.ModBlocks.VAULT_SWEETS_ITEM))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModItems.MERCY_ORB)
+                .define('X', iskallia.vault.init.ModItems.PAINITE_GEM)
+                .define('O', iskallia.vault.init.ModItems.GORGINITE_CLUSTER)
+                .define('T', Blocks.PINK_WOOL)
+                .pattern("XTX")
+                .pattern("TOT")
+                .pattern("XTX")
+                .unlockedBy("has_gorginite_cluster", has(iskallia.vault.init.ModItems.GORGINITE_CLUSTER))
+                .save(pFinishedRecipeConsumer);
+
+        ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
+            var name = k.name().toLowerCase();
+
+            Block baseBlock = ForgeRegistries.BLOCKS.getValue(k.baseResourceLocation());
+            ShapelessRecipeBuilder // Uses Minecraft Blocks Here
+                    .shapeless(baseBlock, 9)
+                    .requires(v.get(0).get())
+                    .unlockedBy("has_compressed_" + name + "_x1", has(v.get(0).get()))
+                    .save(pFinishedRecipeConsumer, Compressium.MODID + ":" + name + "_" + 1 + "_uncraft");
+            ShapedRecipeBuilder
+                    .shaped(v.get(0).get())
+                    .define('#', baseBlock)
+                    .pattern("###").pattern("###").pattern("###")
+                    .unlockedBy("has_" + name, has(baseBlock))
+                    .save(pFinishedRecipeConsumer);
+
+            for (int i = 0; i < v.size() - 1; i ++) {
+                int index = i + 1;
+                ShapelessRecipeBuilder
+                        .shapeless(v.get(index - 1).get(), 9)
+                        .requires(v.get(index).get())
+                        .unlockedBy("has_compressed_" + name + "_x" + (index + 1), has(v.get(index).get()))
+                        .save(pFinishedRecipeConsumer, Compressium.MODID + ":" + name + "_" + (index + 1) + "_uncraft");
+                ShapedRecipeBuilder
+                        .shaped(v.get(index).get())
+                        .define('#', v.get(index - 1).get())
+                        .pattern("###").pattern("###").pattern("###")
+                        .unlockedBy("has_compressed_" + name + "_x" + index, has(v.get(index - 1).get()))
+                        .save(pFinishedRecipeConsumer);
+            };
+        });
+
+
+
     }
 
     private void companionRerollRecipe(String recipeId, Consumer<FinishedRecipe> finishedRecipe) {
@@ -364,6 +445,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("CRC")
                 .pattern("DTD")
                 .unlockedBy("has_temporal_shard", has(iskallia.vault.init.ModItems.TEMPORAL_SHARD))
+                .save(finishedRecipe, WoldsVaults.id(recipeId));
+    }
+
+    private void gemBlockRecipe(String recipeId, Block gemBlock, Item gemItem, Consumer<FinishedRecipe> finishedRecipe) {
+        ShapedRecipeBuilder.shaped(gemBlock)
+                .define('X', gemItem)
+                .define('O', iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)
+                .pattern(" X ")
+                .pattern("XOX")
+                .pattern(" X ")
+                .unlockedBy("has_" + gemItem.getRegistryName().getPath(), has(gemItem))
                 .save(finishedRecipe, WoldsVaults.id(recipeId));
     }
 }

@@ -12,8 +12,8 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class ModVaultPalettesProvider extends AbstractPaletteProvider {
-    public ModVaultPalettesProvider(DataGenerator generator, String modid) {
-        super(generator, modid);
+    public ModVaultPalettesProvider(DataGenerator generator) {
+        super(generator, WoldsVaults.MOD_ID);
     }
 
     @Override

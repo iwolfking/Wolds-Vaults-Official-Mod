@@ -9,8 +9,8 @@ import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModVaultThemesProvider extends AbstractThemeProvider {
-    public ModVaultThemesProvider(DataGenerator generator, String modid) {
-        super(generator, modid);
+    public ModVaultThemesProvider(DataGenerator generator) {
+        super(generator, WoldsVaults.MOD_ID);
     }
 
     @Override

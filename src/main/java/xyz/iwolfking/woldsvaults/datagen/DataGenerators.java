@@ -26,16 +26,18 @@ public class DataGenerators {
 
         if (event.includeServer()) {
             gen.addProvider(new ModRecipeProvider(gen));
-            gen.addProvider(new ModVaultPalettesProvider(gen, WoldsVaults.MOD_ID));
-            gen.addProvider(new ModVaultThemesProvider(gen, WoldsVaults.MOD_ID));
-            gen.addProvider(new ModVaultTemplatePoolsProvider(gen, WoldsVaults.MOD_ID));
+            gen.addProvider(new ModCompressiumLootTableProvider(gen));
+            gen.addProvider(new ModBlockTagProvider(gen, efh));
+            gen.addProvider(new ModVaultPalettesProvider(gen));
+            gen.addProvider(new ModVaultThemesProvider(gen));
+            gen.addProvider(new ModVaultTemplatePoolsProvider(gen));
             gen.addProvider(new ModVaultGearTiersProvider(gen));
             gen.addProvider(new ModVaultModifierPoolsProvider(gen));
             gen.addProvider(new ModVaultModifiersProvider(gen));
             gen.addProvider(new ModPlayerTitlesProvider(gen));
             gen.addProvider(new ModVaultInscriptionsProvider(gen));
             gen.addProvider(new ModUniqueGearProvider(gen));
-            gen.addProvider(new ModVaultMobsProvider(gen, WoldsVaults.MOD_ID));
+            gen.addProvider(new ModVaultMobsProvider(gen));
             gen.addProvider(new ModSkillDescriptionsProvider(gen));
             gen.addProvider(new ModTooltipsProvider(gen));
             gen.addProvider(new ModTalentsProvider(gen));

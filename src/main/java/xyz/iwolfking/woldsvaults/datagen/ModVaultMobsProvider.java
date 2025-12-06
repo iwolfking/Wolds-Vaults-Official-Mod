@@ -10,8 +10,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 
 public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
-    public ModVaultMobsProvider(DataGenerator generator, String modid) {
-        super(generator, modid);
+    public ModVaultMobsProvider(DataGenerator generator) {
+        super(generator, WoldsVaults.MOD_ID);
     }
 
     @Override

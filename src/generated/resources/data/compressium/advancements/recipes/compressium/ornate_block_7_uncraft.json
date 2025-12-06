@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "compressium:ornate_block_7_uncraft"
+    ]
+  },
+  "criteria": {
+    "has_compressed_ornate_block_x7": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "compressium:ornate_block_7"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "compressium:ornate_block_7_uncraft"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_compressed_ornate_block_x7",
+      "has_the_recipe"
+    ]
+  ]
+}

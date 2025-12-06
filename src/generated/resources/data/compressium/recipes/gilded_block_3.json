@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "compressium:gilded_block_2"
+    }
+  },
+  "result": {
+    "item": "compressium:gilded_block_3"
+  }
+}

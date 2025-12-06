@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "the_vault:ornate_block"
+    }
+  },
+  "result": {
+    "item": "compressium:ornate_block_1"
+  }
+}

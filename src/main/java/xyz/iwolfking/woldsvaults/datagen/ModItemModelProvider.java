@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.ResearchesGUIConfig;
 import iskallia.vault.init.ModConfigs;
+import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -14,6 +15,7 @@ import xyz.iwolfking.vhapi.api.registry.CustomCatalystModelRegistry;
 import xyz.iwolfking.vhapi.api.registry.CustomInscriptionModelRegistry;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 
@@ -107,6 +109,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CATALYST_UNSTABLE);
         simpleItem(ModItems.CRYSTAL_SEAL_ALCHEMY);
         simpleItem(ModItems.COMPANION_REROLLER);
+        simpleItem(ModItems.POGGING_SEED_BASE);
+        simpleItem(ModItems.ECHOING_SEED_BASE);
+        simpleItem(ModItems.UNINFUSED_TERRASTEEL_INGOT);
         //simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         spawnEgg(ModItems.BLUE_BLAZE_EGG);
@@ -197,6 +202,13 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         CustomInscriptionModelRegistry.getModelMap().forEach(this::vaultInscription);
         CustomCatalystModelRegistry.getModelMap().forEach(this::vaultCatalyst);
+
+        ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
+            for (int i = 0; i < v.size(); i ++) {
+                var name = k.name().toLowerCase();
+                withExistingParent(Compressium.MODID + ":" + name + "_" + (i + 1), new ResourceLocation(Compressium.MODID, "block/" + name + "_" + (i + 1)));
+            }
+        });
 
     }
 

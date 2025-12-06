@@ -13,7 +13,7 @@
           <option value="runClient" />
         </list>
       </option>
-      <option name="vmOptions" value="-Xmx6192m -Xms4096m" />
+      <option name="vmOptions" value="-Xms2G -Xmx8G -Dfml.earlyprogresswindow=false " />
     </ExternalSystemSettings>
     <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>

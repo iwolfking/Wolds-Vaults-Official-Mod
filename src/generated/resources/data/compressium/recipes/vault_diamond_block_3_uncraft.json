@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:vault_diamond_block_3"
+    }
+  ],
+  "result": {
+    "item": "compressium:vault_diamond_block_2",
+    "count": 9
+  }
+}

@@ -6,8 +6,8 @@ import xyz.iwolfking.vhapi.api.datagen.gen.AbstractTemplatePoolProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModVaultTemplatePoolsProvider extends AbstractTemplatePoolProvider {
-    public ModVaultTemplatePoolsProvider(DataGenerator generator, String modid) {
-        super(generator, modid);
+    public ModVaultTemplatePoolsProvider(DataGenerator generator) {
+        super(generator, WoldsVaults.MOD_ID);
     }
 
     @Override

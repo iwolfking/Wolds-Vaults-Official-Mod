@@ -1,15 +1,20 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import me.dinnerbeef.compressium.Compressium;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.client.model.generators.*;
+import net.minecraftforge.client.model.generators.loaders.MultiLayerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
+import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     private final ModelFile EMPTY = models().getExistingFile(modLoc("block/base/nothing"));
@@ -63,6 +68,22 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         models().existingFileHelper
                 )
         );
+
+        ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
+            for (int i = 0; i < v.size(); i ++) {
+                var block = v.get(i);
+                simpleBlock(block.get(), models().getBuilder(Compressium.MODID + ":" + k.name().toLowerCase() + "_" + (i + 1))
+                        .parent(this.models().getExistingFile(mcLoc("block/block")))
+                        .texture("particle", k.particlePath())
+                        .customLoader(MultiLayerModelBuilder::begin)
+                        .submodel(RenderType.solid(),
+                                this.models().nested().parent(this.models().getExistingFile(k.baseBlockModel())))
+                        .submodel(RenderType.translucent(),
+                                this.models().nested().parent(this.models().getExistingFile(mcLoc("block/cube_all")))
+                                        .texture("all", new ResourceLocation(Compressium.MODID, "block/layer_" + (i + 1))))
+                        .end());
+            }
+        });
     }
 
     private void simpleBlockWithItem(Block block) {
