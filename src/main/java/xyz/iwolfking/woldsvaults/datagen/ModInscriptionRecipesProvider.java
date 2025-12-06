@@ -17,18 +17,18 @@ public class ModInscriptionRecipesProvider extends AbstractInscriptionRecipesPro
     @Override
     public void registerConfigs() {
 
-        add("test", builder -> {
-            InscriptionData data = InscriptionData.empty();
-            data.setSize(10);
-            data.setModel(5);
-            data.setColor(3);
-            data.add(ArchitectRoomEntry.Type.OMEGA, 1, 3);
-            ItemStack inscription = new ItemStack(ModItems.INSCRIPTION);
-            data.write(inscription);
-            builder.addRecipe(WoldsVaults.id("test_recipe"), inscription, inputs -> {
-                inputs.add(new ItemStack(Items.APPLE, 3));
-            });
-        });
+//        add("test", builder -> {
+//            InscriptionData data = InscriptionData.empty();
+//            data.setSize(10);
+//            data.setModel(5);
+//            data.setColor(3);
+//            data.add(ArchitectRoomEntry.Type.OMEGA, 1, 3);
+//            ItemStack inscription = new ItemStack(ModItems.INSCRIPTION);
+//            data.write(inscription);
+//            builder.addRecipe(WoldsVaults.id("test_recipe"), inscription, inputs -> {
+//                inputs.add(new ItemStack(Items.APPLE, 3));
+//            });
+//        });
     }
 }
 

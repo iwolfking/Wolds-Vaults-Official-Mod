@@ -53,6 +53,7 @@ public class DataGenerators {
             gen.addProvider(new ModChampionsProvider(gen));
             gen.addProvider(new ModEnigmaEggProvider(gen));
             gen.addProvider(new ModExpertisesProvider(gen));
+            gen.addProvider(new ModExpertiseStylesProvider(gen));
             gen.addProvider(new ModPrestigePowersProvider(gen));
             gen.addProvider(new ModPrestigePowerStylesProvider(gen));
             gen.addProvider(new ModGearEnchantmentsProvider(gen));

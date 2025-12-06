@@ -121,7 +121,7 @@ minecraft {
             workingDirectory project.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing-mod', 'the_vault'
         }
     }
 }
@@ -217,7 +217,7 @@ dependencies {
     implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:7188371")
     implementation fg.deobf('curse.maven:refined-storage-243076:4902316') // vaultarhud
     implementation fg.deobf("curse.maven:toms-storage-378609:5211203") // vaultarhud
-
+    implementation fg.deobf("curse.maven:fruit-bag-vh-addon-1186313:6193420") // fruit bag
     implementation fg.deobf("curse.maven:botania-225643:3936568") // datagen
 
     // transitive WV deps

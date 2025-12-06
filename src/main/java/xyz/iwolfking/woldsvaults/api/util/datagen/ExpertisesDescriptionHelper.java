@@ -131,7 +131,7 @@ public class ExpertisesDescriptionHelper {
 
                 if (tier instanceof BlackMarketExpertise) {
                     jsonElements.add(JsonDescription.simple(i + 1 + " "));
-                    jsonElements.add(JsonDescription.simple("+" + i + " slot\n", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("+" + (i + 1) + " slot\n", "#FFD700"));
                 }
 
                 if (tier instanceof LegendaryExpertise legendaryExpertise) {

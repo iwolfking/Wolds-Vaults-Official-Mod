@@ -1,14 +1,10 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import com.infamous.dungeons_mobs.DungeonsMobs;
 import iskallia.vault.config.ChampionsConfig;
 import iskallia.vault.core.world.data.entity.EntityPredicate;
-import iskallia.vault.core.world.data.entity.PartialEntity;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractChampionProvider;
-import xyz.iwolfking.vhapi.api.datagen.AbstractTooltipProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.init.ModItems;
 
 public class ModChampionsProvider extends AbstractChampionProvider {
     protected ModChampionsProvider(DataGenerator generator) {

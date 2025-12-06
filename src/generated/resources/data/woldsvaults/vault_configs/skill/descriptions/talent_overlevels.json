@@ -87,6 +87,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "9 ",
         "color": "$text"
       },
@@ -300,6 +312,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "9 ",
         "color": "$text"
       },
@@ -437,15 +461,43 @@
         "color": "$text"
       },
       {
+        "text": "+4.0\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+8.0\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+16.0\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+24.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
         "color": "$text"
       },
       {
@@ -453,56 +505,112 @@
         "color": "$text"
       },
       {
+        "text": "+32.0\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "6 ",
         "color": "$text"
+      },
+      {
+        "text": "+40.0\n",
+        "color": "#FF00CB"
       },
       {
         "text": "7 ",
         "color": "$text"
       },
       {
+        "text": "+48.0\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "8 ",
         "color": "$text"
+      },
+      {
+        "text": "+56.0\n",
+        "color": "#FF00CB"
       },
       {
         "text": "9 ",
         "color": "$text"
       },
       {
+        "text": "+64.0\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "10 ",
         "color": "$text"
+      },
+      {
+        "text": "+72.0\n",
+        "color": "#FF00CB"
       },
       {
         "text": "11 ",
         "color": "$text"
       },
       {
+        "text": "+80.0\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "12 ",
         "color": "$text"
+      },
+      {
+        "text": "+88.0\n",
+        "color": "#FF00CB"
       },
       {
         "text": "13 ",
         "color": "$text"
       },
       {
+        "text": "+96.0\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "14 ",
         "color": "$text"
+      },
+      {
+        "text": "+104.0\n",
+        "color": "#FF00CB"
       },
       {
         "text": "15 ",
         "color": "$text"
       },
       {
+        "text": "+112.0\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "16 ",
         "color": "$text"
+      },
+      {
+        "text": "+120.0\n",
+        "color": "#FF00CB"
       },
       {
         "text": "17 ",
         "color": "$text"
       },
       {
+        "text": "+144.0\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "18 ",
         "color": "$text"
+      },
+      {
+        "text": "+180.0\n",
+        "color": "#FF00CB"
       }
     ],
     "Methodical": [
@@ -558,6 +666,18 @@
       {
         "text": "+80.0%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -652,19 +772,51 @@
         "color": "$text"
       },
       {
+        "text": "+25.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+60.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
       },
       {
+        "text": "+75.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
         "color": "$text"
       },
       {
@@ -672,48 +824,96 @@
         "color": "$text"
       },
       {
+        "text": "+125.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "7 ",
         "color": "$text"
+      },
+      {
+        "text": "+150.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "8 ",
         "color": "$text"
       },
       {
+        "text": "+175.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "9 ",
         "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "10 ",
         "color": "$text"
       },
       {
+        "text": "+225.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "11 ",
         "color": "$text"
+      },
+      {
+        "text": "+250.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "12 ",
         "color": "$text"
       },
       {
+        "text": "+275.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "13 ",
         "color": "$text"
+      },
+      {
+        "text": "+300.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "14 ",
         "color": "$text"
       },
       {
+        "text": "+325.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "15 ",
         "color": "$text"
+      },
+      {
+        "text": "+350.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "16 ",
         "color": "$text"
       },
       {
+        "text": "+375.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "17 ",
         "color": "$text"
+      },
+      {
+        "text": "+400.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Treasure_Seeker": [
@@ -769,6 +969,18 @@
       {
         "text": "+20.0%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -969,6 +1181,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "5 ",
         "color": "$text"
       },
@@ -1069,19 +1293,51 @@
         "color": "$text"
       },
       {
+        "text": "+25.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+60.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
       },
       {
+        "text": "+75.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
         "color": "$text"
       },
       {
@@ -1089,48 +1345,96 @@
         "color": "$text"
       },
       {
+        "text": "+125.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "7 ",
         "color": "$text"
+      },
+      {
+        "text": "+150.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "8 ",
         "color": "$text"
       },
       {
+        "text": "+175.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "9 ",
         "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "10 ",
         "color": "$text"
       },
       {
+        "text": "+225.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "11 ",
         "color": "$text"
+      },
+      {
+        "text": "+250.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "12 ",
         "color": "$text"
       },
       {
+        "text": "+275.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "13 ",
         "color": "$text"
+      },
+      {
+        "text": "+300.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "14 ",
         "color": "$text"
       },
       {
+        "text": "+325.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "15 ",
         "color": "$text"
+      },
+      {
+        "text": "+350.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "16 ",
         "color": "$text"
       },
       {
+        "text": "+375.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "17 ",
         "color": "$text"
+      },
+      {
+        "text": "+400.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Explosive": [
@@ -1244,6 +1548,18 @@
       {
         "text": "+325.0%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "4 ",
@@ -1378,6 +1694,18 @@
       {
         "text": " - Hunter\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "2 ",
@@ -1635,6 +1963,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "9 ",
         "color": "$text"
       },
@@ -1760,6 +2100,18 @@
       {
         "text": "+7.5%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "4 ",
@@ -1936,6 +2288,18 @@
       {
         "text": "80.0 damage\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "4 ",
@@ -2140,6 +2504,18 @@
       {
         "text": "+160.0%\n",
         "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "9 ",
@@ -2365,6 +2741,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "5 ",
         "color": "$text"
       },
@@ -2499,16 +2887,32 @@
         "color": "$text"
       },
       {
+        "text": "+10.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+30.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Wither_Affinity": [
@@ -2590,6 +2994,18 @@
       {
         "text": "+8.0%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "4 ",
@@ -2767,6 +3183,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "9 ",
         "color": "$text"
       },
@@ -2869,16 +3297,32 @@
         "color": "$text"
       },
       {
+        "text": "+3.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+6.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+9.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
+      },
+      {
+        "text": "+12.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Arcana": [
@@ -2966,6 +3410,18 @@
       {
         "text": "10 second wear-off time\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -3279,6 +3735,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "5 ",
         "color": "$text"
       },
@@ -3525,16 +3993,32 @@
         "color": "$text"
       },
       {
+        "text": "+3.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+6.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+9.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
+      },
+      {
+        "text": "+12.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Nucleus": [
@@ -3609,6 +4093,18 @@
       {
         "text": " - Nova\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -3763,19 +4259,51 @@
         "color": "$text"
       },
       {
+        "text": "+25.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+60.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
       },
       {
+        "text": "+75.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
         "color": "$text"
       },
       {
@@ -3783,52 +4311,104 @@
         "color": "$text"
       },
       {
+        "text": "+125.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "7 ",
         "color": "$text"
+      },
+      {
+        "text": "+150.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "8 ",
         "color": "$text"
       },
       {
+        "text": "+175.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "9 ",
         "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "10 ",
         "color": "$text"
       },
       {
+        "text": "+225.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "11 ",
         "color": "$text"
+      },
+      {
+        "text": "+250.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "12 ",
         "color": "$text"
       },
       {
+        "text": "+225.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "13 ",
         "color": "$text"
+      },
+      {
+        "text": "+275.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "14 ",
         "color": "$text"
       },
       {
+        "text": "+300.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "15 ",
         "color": "$text"
+      },
+      {
+        "text": "+325.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "16 ",
         "color": "$text"
       },
       {
+        "text": "+350.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "17 ",
         "color": "$text"
       },
       {
+        "text": "+375.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "18 ",
         "color": "$text"
+      },
+      {
+        "text": "+400.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Stoneskin": [
@@ -3884,6 +4464,18 @@
       {
         "text": "+80.0%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -4018,19 +4610,51 @@
         "color": "$text"
       },
       {
+        "text": "+25.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+60.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
       },
       {
+        "text": "+75.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
         "color": "$text"
       },
       {
@@ -4038,52 +4662,104 @@
         "color": "$text"
       },
       {
+        "text": "+125.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "7 ",
         "color": "$text"
+      },
+      {
+        "text": "+150.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "8 ",
         "color": "$text"
       },
       {
+        "text": "+175.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "9 ",
         "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "10 ",
         "color": "$text"
       },
       {
+        "text": "+225.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "11 ",
         "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "12 ",
         "color": "$text"
       },
       {
+        "text": "+250.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "13 ",
         "color": "$text"
+      },
+      {
+        "text": "+275.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "14 ",
         "color": "$text"
       },
       {
+        "text": "+300.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "15 ",
         "color": "$text"
+      },
+      {
+        "text": "+325.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "16 ",
         "color": "$text"
       },
       {
+        "text": "+350.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "17 ",
         "color": "$text"
       },
       {
+        "text": "+375.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "18 ",
         "color": "$text"
+      },
+      {
+        "text": "+400.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Stone_Skin": [
@@ -4134,6 +4810,18 @@
       {
         "text": "+40.0%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -4238,6 +4926,18 @@
         "color": "green"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "4 ",
         "color": "$text"
       },
@@ -4340,6 +5040,18 @@
       {
         "text": "+45.0%\n",
         "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "4 ",
@@ -4507,6 +5219,18 @@
       {
         "text": "+20.0%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -4677,6 +5401,18 @@
       {
         "text": "+10.0% damage per piece\n",
         "color": "#C23627"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -4871,6 +5607,18 @@
       {
         "text": " - Weakness Level 16, 5 seconds\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -5072,6 +5820,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "5 ",
         "color": "$text"
       },
@@ -5207,6 +5967,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "9 ",
         "color": "$text"
       },
@@ -5285,16 +6057,32 @@
         "color": "$text"
       },
       {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+125.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+150.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
+      },
+      {
+        "text": "+175.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Speed": [
@@ -5345,6 +6133,18 @@
       {
         "text": "+4\n",
         "color": "green"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -5556,6 +6356,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "5 ",
         "color": "$text"
       },
@@ -5737,6 +6549,18 @@
       {
         "text": "10 second wear-off time\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -5985,16 +6809,32 @@
         "color": "$text"
       },
       {
+        "text": "+25.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+75.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Undead_Mastery": [
@@ -6017,19 +6857,51 @@
         "color": "$text"
       },
       {
+        "text": "+25.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+60.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
       },
       {
+        "text": "+75.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
         "color": "$text"
       },
       {
@@ -6037,48 +6909,96 @@
         "color": "$text"
       },
       {
+        "text": "+125.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "7 ",
         "color": "$text"
+      },
+      {
+        "text": "+150.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "8 ",
         "color": "$text"
       },
       {
+        "text": "+175.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "9 ",
         "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "10 ",
         "color": "$text"
       },
       {
+        "text": "+225.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "11 ",
         "color": "$text"
+      },
+      {
+        "text": "+250.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "12 ",
         "color": "$text"
       },
       {
+        "text": "+275.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "13 ",
         "color": "$text"
+      },
+      {
+        "text": "+300.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "14 ",
         "color": "$text"
       },
       {
+        "text": "+325.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "15 ",
         "color": "$text"
+      },
+      {
+        "text": "+350.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "16 ",
         "color": "$text"
       },
       {
+        "text": "+375.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "17 ",
         "color": "$text"
+      },
+      {
+        "text": "+400.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Lightning_Damage": [
@@ -6127,6 +7047,18 @@
       {
         "text": "+40.0%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -6227,6 +7159,18 @@
       {
         "text": "+80.0%\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -6425,6 +7369,18 @@
         "color": "#FF00CB"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "9 ",
         "color": "$text"
       },
@@ -6560,6 +7516,18 @@
         "color": "#90FF00"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "5 ",
         "color": "$text"
       },
@@ -6628,19 +7596,51 @@
         "color": "$text"
       },
       {
+        "text": "+25.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "2 ",
         "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "3 ",
         "color": "$text"
       },
       {
+        "text": "+60.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "4 ",
         "color": "$text"
       },
       {
+        "text": "+75.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
         "color": "$text"
       },
       {
@@ -6648,48 +7648,96 @@
         "color": "$text"
       },
       {
+        "text": "+125.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "7 ",
         "color": "$text"
+      },
+      {
+        "text": "+150.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "8 ",
         "color": "$text"
       },
       {
+        "text": "+175.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "9 ",
         "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "10 ",
         "color": "$text"
       },
       {
+        "text": "+225.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "11 ",
         "color": "$text"
+      },
+      {
+        "text": "+250.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "12 ",
         "color": "$text"
       },
       {
+        "text": "+275.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "13 ",
         "color": "$text"
+      },
+      {
+        "text": "+300.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "14 ",
         "color": "$text"
       },
       {
+        "text": "+325.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "15 ",
         "color": "$text"
+      },
+      {
+        "text": "+350.0%\n",
+        "color": "#FF00CB"
       },
       {
         "text": "16 ",
         "color": "$text"
       },
       {
+        "text": "+375.0%\n",
+        "color": "#FF00CB"
+      },
+      {
         "text": "17 ",
         "color": "$text"
+      },
+      {
+        "text": "+400.0%\n",
+        "color": "#FF00CB"
       }
     ],
     "Frenzy": [
@@ -6777,6 +7825,18 @@
       {
         "text": "10 second wear-off time\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",
@@ -7065,6 +8125,18 @@
         "color": "green"
       },
       {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
         "text": "5 ",
         "color": "$text"
       },
@@ -7260,6 +8332,18 @@
       {
         "text": " - null\n",
         "color": "#90FF00"
+      },
+      {
+        "text": "Overlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
       },
       {
         "text": "5 ",

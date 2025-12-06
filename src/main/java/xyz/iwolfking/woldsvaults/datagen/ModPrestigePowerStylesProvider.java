@@ -22,7 +22,7 @@ public class ModPrestigePowerStylesProvider extends AbstractPrestigePowerStylePr
                 builder.addStyle("SpiritsHand", new SkillStyle(0, 180, VaultMod.id("gui/prestige/spirits_hand"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/spirits_hand_inactive")));
                 builder.addStyle("ShieldOfLastingGuard", new SkillStyle(90, 180, VaultMod.id("gui/prestige/shield_of_lasting_guard"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/shield_of_lasting_guard_inactive")));
                 builder.addStyle("WeaverOfTime", new SkillStyle(120, 180, VaultMod.id("gui/prestige/weaver_of_time"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/weaver_of_time_inactive")));
-                builder.addStyle("PrismaticPouch", new SkillStyle(120, 180, VaultMod.id("gui/prestige/prism_possessor"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/prism_possessor_inactive")));
+                builder.addStyle("PrismaticPouch", new SkillStyle(60, 180, VaultMod.id("gui/prestige/prism_possessor"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/prism_possessor_inactive")));
         });
     }
 

@@ -810,15 +810,7 @@
     },
     {
       "value": {
-        "id": "quark:foxhound_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:crab_spawn_egg",
+        "id": "quark:forgotten_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -834,7 +826,7 @@
     },
     {
       "value": {
-        "id": "quark:shiba_spawn_egg",
+        "id": "quark:wraith_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -842,7 +834,23 @@
     },
     {
       "value": {
-        "id": "quark:wraith_spawn_egg",
+        "id": "quark:toretoise_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:crab_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:foxhound_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -858,15 +866,7 @@
     },
     {
       "value": {
-        "id": "quark:forgotten_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:toretoise_spawn_egg",
+        "id": "quark:shiba_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
       },

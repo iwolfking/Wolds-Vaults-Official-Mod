@@ -15,15 +15,15 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
 
     @Override
     public void registerLootTables() {
-        add(VaultMod.id("iskallian_leaves_merge"), lootBuilder -> {
-            lootBuilder.entry(entryBuilder -> {
-                entryBuilder.rolls(1, 3)
-                        .pool(1, poolBuilder -> {
-                            poolBuilder.item(1, "minecraft:dirt", 1, 32);
-                            poolBuilder.item(1, "minecraft:sand", 1, 32);
-                            poolBuilder.item(1, "minecraft:stone", 1, 32);
-                        });
-            });
-        });
+//        add(VaultMod.id("iskallian_leaves_merge"), lootBuilder -> {
+//            lootBuilder.entry(entryBuilder -> {
+//                entryBuilder.rolls(1, 3)
+//                        .pool(1, poolBuilder -> {
+//                            poolBuilder.item(1, "minecraft:dirt", 1, 32);
+//                            poolBuilder.item(1, "minecraft:sand", 1, 32);
+//                            poolBuilder.item(1, "minecraft:stone", 1, 32);
+//                        });
+//            });
+//        });
     }
 }

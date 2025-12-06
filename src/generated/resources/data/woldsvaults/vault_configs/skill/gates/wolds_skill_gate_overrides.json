@@ -361,7 +361,7 @@
           }
         ],
         "lockedBy": [],
-        "ignoreArrow": false
+        "ignoreArrow": true
       }
     }
   }

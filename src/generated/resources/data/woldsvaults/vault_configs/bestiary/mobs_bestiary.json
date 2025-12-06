@@ -34,6 +34,22 @@
       "drops": []
     },
     {
+      "entityId": "woldsvaults:hostile_chicken",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "Gobble-gobble!",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Barnyard"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
       "entityId": "the_vault:vault_wraith_yellow",
       "descriptionData": {
         "description": [
@@ -44,7 +60,13 @@
         ]
       },
       "themes": [
-        "Caves"
+        "Raw Cave",
+        "Andesite Cave",
+        "Geode Cave",
+        "Lush Cave",
+        "Living Cave",
+        "Wasteland Cave",
+        "Deepslate Cave"
       ],
       "minLevel": 0,
       "drops": []
@@ -62,7 +84,7 @@
       "themes": [
         "Brutal Raid"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -78,7 +100,7 @@
       "themes": [
         "Brutal Raid"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -94,7 +116,7 @@
       "themes": [
         "Brutal Raid"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -110,7 +132,7 @@
       "themes": [
         "Brutal Raid"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -126,7 +148,7 @@
       "themes": [
         "Brutal Raid"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -142,7 +164,7 @@
       "themes": [
         "Brutal Raid"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -158,7 +180,7 @@
       "themes": [
         "Brutal Raid"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -174,7 +196,7 @@
       "themes": [
         "Brutal Raid"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -204,7 +226,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -220,7 +242,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -236,7 +258,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -252,7 +274,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -268,7 +290,8 @@
         ]
       },
       "themes": [
-        ""
+        "Void",
+        "Warden\u0027s Garden Room"
       ],
       "minLevel": 0,
       "drops": []
@@ -284,9 +307,9 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Beach"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -300,7 +323,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -316,7 +339,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -332,7 +355,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -348,9 +371,9 @@
         ]
       },
       "themes": [
-        ""
+        "Labyrinth Room"
       ],
-      "minLevel": 0,
+      "minLevel": 70,
       "drops": []
     },
     {
@@ -364,7 +387,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -396,7 +419,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -412,7 +435,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -428,9 +451,9 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Desert"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -444,7 +467,7 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Desert"
       ],
       "minLevel": 0,
       "drops": []
@@ -460,7 +483,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -476,9 +499,107 @@
         ]
       },
       "themes": [
-        ""
+        "Dark Cavern",
+        "Graveyard Room"
+      ],
+      "minLevel": 50,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:haturkin",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Harvest"
       ],
       "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "minecraft:zombie_villager",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Harvest"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:hostile_pig",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Barnyard"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_fighter_7",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Amalgam Void",
+        "Amalgam Nether"
+      ],
+      "minLevel": 100,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_fighter_5",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "???"
+      ],
+      "minLevel": 100,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_fighter_6",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "???"
+      ],
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -492,7 +613,8 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Cave",
+        "Dark Cavern"
       ],
       "minLevel": 0,
       "drops": []
@@ -508,9 +630,9 @@
         ]
       },
       "themes": [
-        ""
+        "Tropical Oasis"
       ],
-      "minLevel": 0,
+      "minLevel": 30,
       "drops": []
     },
     {
@@ -524,7 +646,7 @@
         ]
       },
       "themes": [
-        ""
+        "Tropical Oasis"
       ],
       "minLevel": 0,
       "drops": []
@@ -540,9 +662,10 @@
         ]
       },
       "themes": [
-        ""
+        "Dark Cavern",
+        "Graveyard Room"
       ],
-      "minLevel": 0,
+      "minLevel": 50,
       "drops": []
     },
     {
@@ -556,9 +679,10 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Cave",
+        "Dark Caverns"
       ],
-      "minLevel": 0,
+      "minLevel": 50,
       "drops": []
     },
     {
@@ -572,9 +696,10 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Cave",
+        "Dark Caverns"
       ],
-      "minLevel": 0,
+      "minLevel": 50,
       "drops": []
     },
     {
@@ -588,7 +713,433 @@
         ]
       },
       "themes": [
+        "Tropical Oasis"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
+      "entityId": "tropicraft:eih",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Tropical Oasis"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:minotaurus",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Unused"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:minotaur",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Labyrinth Room"
+      ],
+      "minLevel": 70,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:centipede_head",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
         ""
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "cloudstorage:bloviator",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:crocodile",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:gorilla",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:tiger",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:dropbear",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:snow_leopard",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:soul_vulture",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:komodo_dragon",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:enderiophage",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "alexsmobs:mungus",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Enchanted Elixir"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:yellow_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:red_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:purple_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:green_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:dark_gray_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:dark_red_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:dark_blue_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:brown_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:blue_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:black_ghost",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Haunted Braziers",
+        "Graveyard Room"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:wold",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Bosses"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "the_vault:vault_dood",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Brutal Bosses"
       ],
       "minLevel": 0,
       "drops": []
@@ -604,7 +1155,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -620,7 +1171,7 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Nether"
       ],
       "minLevel": 0,
       "drops": []
@@ -636,7 +1187,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -652,9 +1203,9 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Cave"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -684,7 +1235,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -700,9 +1251,9 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Cave"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -716,7 +1267,7 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Cave"
       ],
       "minLevel": 0,
       "drops": []
@@ -734,7 +1285,7 @@
       "themes": [
         "Amalgam Ice"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -748,9 +1299,9 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Beach"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -764,9 +1315,11 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Cave",
+        "Amalgam Beach",
+        "Dark Caverns"
       ],
-      "minLevel": 0,
+      "minLevel": 100,
       "drops": []
     },
     {
@@ -780,9 +1333,10 @@
         ]
       },
       "themes": [
-        ""
+        "Labyrinth Room",
+        "Amalgam Void"
       ],
-      "minLevel": 0,
+      "minLevel": 70,
       "drops": []
     },
     {
@@ -802,6 +1356,22 @@
       "drops": []
     },
     {
+      "entityId": "rottencreatures:frostbitten",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Amalgam Ice"
+      ],
+      "minLevel": 100,
+      "drops": []
+    },
+    {
       "entityId": "grimoireofgaia:wither_cow",
       "descriptionData": {
         "description": [
@@ -812,9 +1382,11 @@
         ]
       },
       "themes": [
-        ""
+        "Amalgam Nether",
+        "Amalgam Void",
+        "Labyrinth Room"
       ],
-      "minLevel": 0,
+      "minLevel": 70,
       "drops": []
     },
     {
@@ -828,7 +1400,43 @@
         ]
       },
       "themes": [
-        "Ice"
+        "Aurora Cave",
+        "Ice Cave",
+        "Ice",
+        "Winter",
+        "Tenos"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "grimoireofgaia:creep",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Unused"
+      ],
+      "minLevel": 0,
+      "drops": []
+    },
+    {
+      "entityId": "woldsvaults:cranberry_slime",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Harvest"
       ],
       "minLevel": 0,
       "drops": []
@@ -846,7 +1454,7 @@
       "themes": [
         "Tropical Oasis"
       ],
-      "minLevel": 0,
+      "minLevel": 30,
       "drops": []
     },
     {
@@ -860,7 +1468,8 @@
         ]
       },
       "themes": [
-        "Undersea"
+        "Undersea",
+        "Aquarium Room"
       ],
       "minLevel": 0,
       "drops": []
@@ -972,9 +1581,10 @@
         ]
       },
       "themes": [
-        ""
+        "Labyrinth Room",
+        "Amalgam Void"
       ],
-      "minLevel": 0,
+      "minLevel": 70,
       "drops": []
     },
     {
@@ -988,7 +1598,7 @@
         ]
       },
       "themes": [
-        ""
+        "Unused"
       ],
       "minLevel": 0,
       "drops": []
@@ -1004,9 +1614,9 @@
         ]
       },
       "themes": [
-        ""
+        "Labyrinth Room"
       ],
-      "minLevel": 0,
+      "minLevel": 70,
       "drops": []
     }
   ],

@@ -1,13 +1,10 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import iskallia.vault.block.VaultOreBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.vhapi.api.datagen.AbstractTooltipProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractEnigmaEggProvider;
-import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.util.List;
 

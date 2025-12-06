@@ -7,12 +7,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.api.util.NormalizedHelper;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 
 @Mixin(value = CakeObjective.class, remap = false)
 public class MixinCakeObjective {
     @Inject(method = "initServer", at = @At("HEAD"))
     private void addNormalizedToCakeVaults(VirtualWorld world, Vault vault, CallbackInfo ci) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault, world.getLevel());
+        ObjectiveHelper.handleAddingNormalizedToVault(vault, world.getLevel());
     }
 }

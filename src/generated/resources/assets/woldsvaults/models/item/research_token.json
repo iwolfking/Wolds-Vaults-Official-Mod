@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "woldsvaults:item/research_token"
-  }
+  "parent": "builtin/entity"
 }

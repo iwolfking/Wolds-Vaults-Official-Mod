@@ -32,7 +32,7 @@ public class ModRoyalePresetsProvider extends AbstractRoyalePresetsProvider {
                    talents.add(new RoyalePresetConfig.SkillEntry("Frenzy", IntRoll.ofUniform(1, 4)));
                }, descriptionDataBuilder -> {
                    descriptionDataBuilder.description(descriptions -> {
-                      descriptions.add(JsonDescription.simple("This is a test preset!"));
+                      descriptions.add(JsonDescription.simple("Find gear with Effect Clouds and go to chemical warfare with your enemies!"));
                    });
                });
             }, (builder1) -> {}, (builder2) -> {});

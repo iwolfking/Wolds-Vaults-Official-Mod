@@ -1,6 +1,8 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.ResearchesGUIConfig;
+import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -10,6 +12,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import xyz.iwolfking.vhapi.api.registry.CustomCatalystModelRegistry;
 import xyz.iwolfking.vhapi.api.registry.CustomInscriptionModelRegistry;
+import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
@@ -66,6 +69,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.PRISMATIC_FIBER);
         simpleItem(ModItems.RECIPE_BLUEPRINT);
         simpleItem(ModItems.REPAIR_AUGMENTER);
+        getBuilder(ModItems.RESEARCH_TOKEN.getRegistryName().getPath())
+                .parent(new ModelFile.UncheckedModelFile(
+                        new ResourceLocation("builtin/entity")
+                ));
+        singleTexture("research_token_base", new ResourceLocation("minecraft", "item/generated"), WoldsVaults.id("item/research_token"));
         simpleItem(ModItems.RESEARCH_TOKEN);
         simpleItem(ModItems.RESONATING_REINFORCEMENT);
         simpleItem(ModItems.RUINED_ESSENCE);
@@ -180,6 +188,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         vaultModifier(VaultMod.id("ghost_town"), "ghost_city");
         vaultModifier(VaultMod.id("vexation"), "vexation");
 
+        skillScroll("colossus");
+        skillScroll("expunge");
+        ModConfigs.RESEARCHES_GUI = new ResearchesGUIConfig().readConfig();
+        ModConfigs.RESEARCHES_GUI.getStyles().forEach((name, s) -> {
+            researchToken(ModConfigs.RESEARCHES_GUI.getStyles().get(name).icon);
+        });
+
         CustomInscriptionModelRegistry.getModelMap().forEach(this::vaultInscription);
         CustomCatalystModelRegistry.getModelMap().forEach(this::vaultCatalyst);
 
@@ -190,6 +205,20 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getRegistryName().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(WoldsVaults.MOD_ID, "item/" + item.getRegistryName().getPath()));
+    }
+
+    public ItemModelBuilder skillScroll(String skillId) {
+        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/skills/" + skillId).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        new ResourceLocation(VaultMod.MOD_ID, "gui/abilities/" + skillId));
+    }
+
+    public ItemModelBuilder researchToken(ResourceLocation icon) {
+        return getBuilder(new ResourceLocation(WoldsVaults.MOD_ID, "item/researches/" + ResourceLocUtils.getStrippedPath(icon)).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        new ResourceLocation(VaultMod.MOD_ID, "gui/researches/" + ResourceLocUtils.getStrippedPath(icon)));
     }
 
     private ItemModelBuilder vaultModifier(ResourceLocation modifierId) {
