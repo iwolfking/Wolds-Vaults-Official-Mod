@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:gem_reagent_bomignite"
+    ]
+  },
+  "criteria": {
+    "has_gem_bomignite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:gem_bomignite"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:gem_reagent_bomignite"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gem_bomignite",
+      "has_the_recipe"
+    ]
+  ]
+}

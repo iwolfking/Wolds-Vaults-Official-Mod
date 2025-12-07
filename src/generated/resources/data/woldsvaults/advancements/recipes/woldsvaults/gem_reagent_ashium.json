@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:gem_reagent_ashium"
+    ]
+  },
+  "criteria": {
+    "has_gem_ashium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:gem_ashium"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:gem_reagent_ashium"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gem_ashium",
+      "has_the_recipe"
+    ]
+  ]
+}

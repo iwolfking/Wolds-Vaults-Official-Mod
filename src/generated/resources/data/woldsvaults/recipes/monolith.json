@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "GRG",
+    "GXG"
+  ],
+  "key": {
+    "X": {
+      "item": "the_vault:eternal_soul"
+    },
+    "G": {
+      "item": "the_vault:ornate_block"
+    },
+    "R": {
+      "item": "woldsvaults:general_decor_scroll"
+    },
+    "C": {
+      "item": "minecraft:campfire"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:monolith"
+  }
+}

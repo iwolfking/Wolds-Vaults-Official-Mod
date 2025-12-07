@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:carbon_block"
+    }
+  ],
+  "result": {
+    "item": "the_vault:carbon",
+    "count": 9
+  }
+}

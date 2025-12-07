@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "the_vault:gem_xenium"
+    },
+    {
+      "item": "the_vault:wild_focus"
+    },
+    {
+      "item": "the_vault:vault_diamond"
+    },
+    {
+      "item": "woldsvaults:smashed_vault_gem_cluster"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:gem_reagent_xenium"
+  }
+}

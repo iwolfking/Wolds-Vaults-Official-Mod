@@ -40,11 +40,23 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.WUTODIE_STAIRS)
                 .add(ModBlocks.WUTODIE_WALL)
                 .add(ModBlocks.WUTODIE)
-                .add(ModBlocks.DOLL_DISMANTLING_BLOCK);
+                .add(ModBlocks.DOLL_DISMANTLING_BLOCK)
+                .add(ModBlocks.CHROMATIC_GOLD_BLOCK)
+                .add(ModBlocks.SILVER_SCRAP_BLOCK)
+                .add(ModBlocks.SILVER_SCRAP_BLOCK)
+                .add(ModBlocks.VAULT_INGOT_BLOCK)
+                .add(ModBlocks.VAULT_PLATING_BLOCK)
+                .add(ModBlocks.CARBON_BLOCK)
+                .add(ModBlocks.OMEGA_POG_BLOCK)
+                .add(ModBlocks.ECHO_POG_BLOCK)
+                .add(ModBlocks.POG_BLOCK)
+                .add(ModBlocks.VAULT_PLATING_BLOCK);
         tag(BlockTags.MINEABLE_WITH_HOE)
-                .add(ModBlocks.ISKALLIAN_LEAVES_BLOCK);
+                .add(ModBlocks.ISKALLIAN_LEAVES_BLOCK)
+                .add(ModBlocks.PRISMATIC_FIBER_BLOCK);
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
-                .add(ModBlocks.HELLISH_SAND_BLOCK);
+                .add(ModBlocks.HELLISH_SAND_BLOCK)
+                .add(ModBlocks.VAULT_ESSENCE_BLOCK);
         tag(BlockTags.LEAVES)
                 .add(ModBlocks.ISKALLIAN_LEAVES_BLOCK);
         tag(WUTODIE_STORAGE_BLOCK)

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SXS",
+    "YOY",
+    "SXS"
+  ],
+  "key": {
+    "Y": {
+      "item": "the_vault:chromatic_steel_block"
+    },
+    "X": {
+      "item": "woldsvaults:pog_prism"
+    },
+    "O": {
+      "item": "the_vault:hardened_wutodic_mass"
+    },
+    "S": {
+      "item": "the_vault:black_chromatic_steel_ingot"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:resonating_reinforcement"
+  }
+}

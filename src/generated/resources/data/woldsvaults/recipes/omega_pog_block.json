@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "the_vault:omega_pog"
+    },
+    {
+      "item": "the_vault:omega_pog"
+    },
+    {
+      "item": "the_vault:omega_pog"
+    },
+    {
+      "item": "the_vault:omega_pog"
+    },
+    {
+      "item": "the_vault:omega_pog"
+    },
+    {
+      "item": "the_vault:omega_pog"
+    },
+    {
+      "item": "the_vault:omega_pog"
+    },
+    {
+      "item": "the_vault:omega_pog"
+    },
+    {
+      "item": "the_vault:omega_pog"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:omega_pog_block"
+  }
+}

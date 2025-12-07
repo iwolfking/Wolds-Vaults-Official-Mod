@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:smashed_vault_gem_cluster"
+    },
+    {
+      "item": "the_vault:vault_diamond"
+    },
+    {
+      "item": "the_vault:vault_diamond"
+    },
+    {
+      "item": "the_vault:vault_essence"
+    },
+    {
+      "item": "the_vault:carbon_nugget"
+    },
+    {
+      "item": "the_vault:carbon_nugget"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:gem_box"
+  }
+}

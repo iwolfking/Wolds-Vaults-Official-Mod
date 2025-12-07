@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XTX",
+    "XOX",
+    "XTX"
+  ],
+  "key": {
+    "X": {
+      "item": "the_vault:vault_rock"
+    },
+    "O": {
+      "item": "the_vault:vault_sweets"
+    },
+    "T": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:vault_rock_candy"
+  }
+}

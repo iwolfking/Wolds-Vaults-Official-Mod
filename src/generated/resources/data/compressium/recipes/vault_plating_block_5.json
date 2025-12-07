@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "compressium:vault_plating_block_4"
+    }
+  },
+  "result": {
+    "item": "compressium:vault_plating_block_5"
+  }
+}

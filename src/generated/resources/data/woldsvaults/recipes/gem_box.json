@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GTG",
+    "XRX",
+    "GTG"
+  ],
+  "key": {
+    "G": {
+      "item": "woldsvaults:smashed_vault_gem"
+    },
+    "T": {
+      "item": "the_vault:carbon_nugget"
+    },
+    "X": {
+      "item": "the_vault:vault_diamond"
+    },
+    "R": {
+      "item": "the_vault:vault_essence"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:gem_box"
+  }
+}

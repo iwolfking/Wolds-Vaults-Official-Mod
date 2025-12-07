@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:vault_salvager"
+    ]
+  },
+  "criteria": {
+    "has_recycler": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:vault_recycler"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:vault_salvager"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_recycler",
+      "has_the_recipe"
+    ]
+  ]
+}

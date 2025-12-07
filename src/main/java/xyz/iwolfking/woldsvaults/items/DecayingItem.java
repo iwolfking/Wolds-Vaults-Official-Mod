@@ -12,10 +12,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
 import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
 import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
 import xyz.iwolfking.woldsvaults.api.util.CorruptedVaultHelper;
@@ -27,9 +29,8 @@ public class DecayingItem extends BasicItem {
     private final int secondsUntilExpired;
     private int tickCount;
 
-    //TODO: Blacklist on Sophisticated
     public DecayingItem(ResourceLocation id, int secondsUntilExpired) {
-        super(id);
+        super(id, new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         this.secondsUntilExpired = secondsUntilExpired;
     }
 

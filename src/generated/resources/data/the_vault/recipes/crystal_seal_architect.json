@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LGL",
+    "XOX",
+    "LBL"
+  ],
+  "key": {
+    "X": {
+      "item": "the_vault:wutodic_silver_ingot"
+    },
+    "O": {
+      "item": "the_vault:crystal_seal_empty"
+    },
+    "G": {
+      "item": "minecraft:scaffolding"
+    },
+    "B": {
+      "item": "the_vault:perfect_larimar"
+    },
+    "L": {
+      "item": "the_vault:vault_essence"
+    }
+  },
+  "result": {
+    "item": "the_vault:crystal_seal_architect"
+  }
+}

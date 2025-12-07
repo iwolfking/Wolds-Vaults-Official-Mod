@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "woldsvaults:hellish_sand"
+    "woldsvaults:hellish_sand",
+    "woldsvaults:vault_essence_block"
   ]
 }

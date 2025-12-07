@@ -5,6 +5,7 @@ import me.dinnerbeef.compressium.CompressibleBlock;
 import me.dinnerbeef.compressium.CompressibleType;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.world.level.block.Block;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ public class ModCompressibleBlocks {
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("vault_diamond_block", new CompressibleBlock("vault_diamond_block", VaultMod.id("vault_diamond_block"), VaultMod.id("block/vault_diamond_block"), VaultMod.id("block/vault_diamond_block"), CompressibleType.BLOCK, 9, true));
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("magic_silk_block", new CompressibleBlock("magic_silk_block", VaultMod.id("magic_silk_block"), VaultMod.id("block/magic_silk_block"), VaultMod.id("block/magic_silk_block"), CompressibleType.BLOCK, 9, true));
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("ancient_copper_block", new CompressibleBlock("ancient_copper_block", VaultMod.id("ancient_copper_block"), VaultMod.id("block/ancient_copper_block"), VaultMod.id("block/ancient_copper_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("vault_plating_block", new CompressibleBlock("vault_plating_block", WoldsVaults.id("vault_plating_block"), WoldsVaults.id("block/vault_plating_block"), WoldsVaults.id("block/vault_plating_block"), CompressibleType.BLOCK, 9, true));
     }
 
     public static Map<CompressibleBlock, List<Supplier<Block>>> getRegisteredBlocks() {

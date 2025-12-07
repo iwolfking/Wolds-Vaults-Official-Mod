@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "COC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "the_vault:vault_catalyst_chaos"
+    },
+    "O": {
+      "item": "woldsvaults:heart_of_chaos"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:uber_chaos_catalyst"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:smashed_vault_gem"
+    },
+    {
+      "item": "woldsvaults:smashed_vault_gem"
+    },
+    {
+      "item": "woldsvaults:smashed_vault_gem"
+    },
+    {
+      "item": "woldsvaults:smashed_vault_gem"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:smashed_vault_gem_cluster"
+  }
+}

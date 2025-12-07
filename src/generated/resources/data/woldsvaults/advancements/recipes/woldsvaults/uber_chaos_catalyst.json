@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:uber_chaos_catalyst"
+    ]
+  },
+  "criteria": {
+    "has_heart_of_chaos": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:heart_of_chaos"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:uber_chaos_catalyst"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_heart_of_chaos",
+      "has_the_recipe"
+    ]
+  ]
+}

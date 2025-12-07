@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:smashed_vault_gem"
+    ]
+  },
+  "criteria": {
+    "smashed_vault_gem_cluster": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:smashed_vault_gem_cluster"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:smashed_vault_gem"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "smashed_vault_gem_cluster",
+      "has_the_recipe"
+    ]
+  ]
+}

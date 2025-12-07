@@ -8,6 +8,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -16,17 +17,12 @@ public class MissingMappingsEvents {
     public static void onMissingMappings(RegistryEvent.MissingMappings<Block> event) {
 
         for (RegistryEvent.MissingMappings.Mapping<Block> mapping : event.getAllMappings()) {
-
-            String path = mapping.key.getPath();
-
-//            if (path.equals("old_block_name")) {
-//                mapping.remap(YourModBlocks.NEW_BLOCK);
-//            }
-//
-//            // Example remapping vault_stone_1 → vault_stone
-//            if (path.matches("vault_stone_\\d+")) {
-//                mapping.remap(YourModBlocks.VAULT_STONE);
-//            }
+            if (mapping.key.equals(VaultMod.id("chromatic_gold_block"))) {
+                mapping.remap(ModBlocks.CHROMATIC_GOLD_BLOCK);
+            }
+            else if(mapping.key.equals(VaultMod.id("vault_salvager"))) {
+                mapping.remap(ModBlocks.VAULT_SALVAGER_BLOCK);
+            }
         }
     }
 
@@ -115,8 +111,14 @@ public class MissingMappingsEvents {
             else if (mapping.key.equals(VaultMod.id("smashed_vault_gem_cluster"))) {
                 mapping.remap(ModItems.SMASHED_VAULT_GEM_CLUSTER);
             }
-            else if (mapping.key.equals(new ResourceLocation("uninfused_terrasteel_ingot"))) {
+            else if (mapping.key.equals(new ResourceLocation("botania", "uninfused_terrasteel_ingot"))) {
                 mapping.remap(ModItems.UNINFUSED_TERRASTEEL_INGOT);
+            }
+            else if (mapping.key.equals(new ResourceLocation("mysticalagriculture", "pogging_seed_base"))) {
+                mapping.remap(ModItems.POGGING_SEED_BASE);
+            }
+            else if (mapping.key.equals(new ResourceLocation("mysticalagriculture", "echoing_seed_base"))) {
+                mapping.remap(ModItems.ECHOING_SEED_BASE);
             }
         }
     }

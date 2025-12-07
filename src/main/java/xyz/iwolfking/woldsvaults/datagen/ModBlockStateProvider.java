@@ -60,6 +60,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.ISKALLIAN_LEAVES_BLOCK);
         simpleBlockWithItem(ModBlocks.NULLITE_ORE);
         simpleBlockWithItem(ModBlocks.PRISMATIC_FIBER_BLOCK);
+        simpleBlockWithItem(ModBlocks.CHROMATIC_GOLD_BLOCK);
+        simpleBlockWithItem(ModBlocks.SILVER_SCRAP_BLOCK);
+        simpleBlockWithItem(ModBlocks.VAULT_ESSENCE_BLOCK);
+        simpleBlockWithItem(ModBlocks.CARBON_BLOCK);
+        simpleBlockWithItem(ModBlocks.VAULT_INGOT_BLOCK);
+        simpleBlockWithItem(ModBlocks.OMEGA_POG_BLOCK);
+        simpleBlockWithItem(ModBlocks.ECHO_POG_BLOCK);
+        simpleBlockWithItem(ModBlocks.POG_BLOCK);
+        simpleBlockWithItem(ModBlocks.VAULT_PLATING_BLOCK);
         simpleBlockWithItem(ModBlocks.SURVIVAL_MOB_BARRIER);
         simpleBlockItem(
                 ModBlocks.GRAVEYARD_LOOT_BLOCK,

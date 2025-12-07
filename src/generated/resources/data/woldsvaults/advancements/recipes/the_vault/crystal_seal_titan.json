@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:crystal_seal_titan"
+    ]
+  },
+  "criteria": {
+    "has_executioner_seal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:crystal_seal_executioner"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:crystal_seal_titan"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_executioner_seal",
+      "has_the_recipe"
+    ]
+  ]
+}

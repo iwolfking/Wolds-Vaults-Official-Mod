@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XYX",
+    "YGY",
+    "XYX"
+  ],
+  "key": {
+    "X": {
+      "item": "the_vault:gem_painite"
+    },
+    "Y": {
+      "item": "minecraft:red_stained_glass"
+    },
+    "G": {
+      "item": "minecraft:bone"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:mob_barrier_red",
+    "count": 16
+  }
+}

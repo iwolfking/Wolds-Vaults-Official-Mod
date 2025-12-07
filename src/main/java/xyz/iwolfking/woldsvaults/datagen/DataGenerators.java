@@ -26,6 +26,7 @@ public class DataGenerators {
 
         if (event.includeServer()) {
             gen.addProvider(new ModRecipeProvider(gen));
+            gen.addProvider(new ModBlockLootTableProvider(gen));
             gen.addProvider(new ModCompressiumLootTableProvider(gen));
             gen.addProvider(new ModBlockTagProvider(gen, efh));
             gen.addProvider(new ModVaultPalettesProvider(gen));

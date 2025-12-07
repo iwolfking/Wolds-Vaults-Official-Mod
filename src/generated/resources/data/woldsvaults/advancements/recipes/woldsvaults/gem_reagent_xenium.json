@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:gem_reagent_xenium"
+    ]
+  },
+  "criteria": {
+    "has_gem_xenium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:gem_xenium"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:gem_reagent_xenium"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gem_xenium",
+      "has_the_recipe"
+    ]
+  ]
+}

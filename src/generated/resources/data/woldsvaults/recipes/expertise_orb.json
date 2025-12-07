@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XOX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "woldsvaults:arcane_shard"
+    },
+    "O": {
+      "item": "the_vault:orb_frame"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:expertise_orb"
+  }
+}

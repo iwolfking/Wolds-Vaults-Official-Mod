@@ -319,6 +319,15 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.woldsvaults.unidentified_gateway_pearl", "Unidentified Gateway Pearl");
         add("item.woldsvaults.prismatic_fiber", "Prismatic Fiber");
         add("block.woldsvaults.prismatic_fiber_block", "Block of Prismatic Fiber");
+        add(ModBlocks.CHROMATIC_GOLD_BLOCK, "Block of Chromatic Gold");
+        add(ModBlocks.SILVER_SCRAP_BLOCK, "Block of Silver Scrap");
+        add(ModBlocks.VAULT_ESSENCE_BLOCK, "Block of Vault Essence");
+        add(ModBlocks.CARBON_BLOCK, "Block of Carbon");
+        add(ModBlocks.VAULT_INGOT_BLOCK, "Block of Vault Ingot");
+        add(ModBlocks.VAULT_PLATING_BLOCK, "Block of Vault Plating");
+        add(ModBlocks.OMEGA_POG_BLOCK, "Block of Omega Pog");
+        add(ModBlocks.ECHO_POG_BLOCK, "Block of Echo Pog");
+        add(ModBlocks.POG_BLOCK, "Block of Pog");
         add("block.woldsvaults.card_shop_pedestal", "Card Vendor Pedestal");
         add("block.woldsvaults.weaving_station", "Weaving Station");
         add("item.woldsvaults.recipe_blueprint", "Recipe Blueprint");

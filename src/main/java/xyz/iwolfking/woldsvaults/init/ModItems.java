@@ -369,26 +369,26 @@ public class ModItems {
         CRYSTAL_SEAL_ALCHEMY = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_alchemy"));
 
         CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_raid_rock_infinite_hard"));
-        UBER_CHAOS_CATALYST = new BasicItem(WoldsVaults.id("uber_chaos_catalyst"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        GREEDY_VAULT_ROCK = new BasicItem(WoldsVaults.id("greedy_vault_rock"));
+        UBER_CHAOS_CATALYST = new BasicItem(WoldsVaults.id("uber_chaos_catalyst"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        GREEDY_VAULT_ROCK = new BasicItem(WoldsVaults.id("greedy_vault_rock"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        BATTLESTAFF =  new VaultBattleStaffItem(VaultMod.id("battlestaff"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
-        TRIDENT = new VaultTridentItem(VaultMod.id("trident"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
-        PLUSHIE = new VaultPlushieItem(VaultMod.id("plushie"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
-        LOOT_SACK = new VaultLootSackItem(VaultMod.id("loot_sack"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
-        RANG = new VaultRangItem(VaultMod.id("rang"), new Item.Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
-        MAP = new VaultMapItem(VaultMod.id("map"), (new Item.Properties()).tab(GEAR_GROUP).stacksTo(1));
+        BATTLESTAFF =  new VaultBattleStaffItem(VaultMod.id("battlestaff"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
+        TRIDENT = new VaultTridentItem(VaultMod.id("trident"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
+        PLUSHIE = new VaultPlushieItem(VaultMod.id("plushie"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
+        LOOT_SACK = new VaultLootSackItem(VaultMod.id("loot_sack"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
+        RANG = new VaultRangItem(VaultMod.id("rang"), new Item.Properties().stacksTo(1).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS));
+        MAP = new VaultMapItem(VaultMod.id("map"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
 
-        GEM_BOX = new LootableItem(WoldsVaults.id("gem_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.GEM_BOX.POOL.getRandom(rand).generateItemStack()));
-        SUPPLY_BOX = new LootableItem(WoldsVaults.id("supply_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.SUPPLY_BOX.POOL.getRandom(rand).generateItemStack()));
-        AUGMENT_BOX = new LootableItem(WoldsVaults.id("augment_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.AUGMENT_BOX.POOL.getRandom(rand).generateItemStack()));
-        INSCRIPTION_BOX = new LootableItem(WoldsVaults.id("inscription_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.INSCRIPTION_BOX.POOL.getRandom(rand).generateItemStack()));
-        OMEGA_BOX = new LootableItem(WoldsVaults.id("omega_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.OMEGA_BOX.POOL.getRandom(rand).generateItemStack()));
-        CATALYST_BOX = new LootableItem(WoldsVaults.id("catalyst_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.CATALYST_BOX.POOL.getRandom(rand).generateItemStack()));
-        ENIGMA_EGG = new LootableItem(WoldsVaults.id("enigma_egg"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.ENIGMA_EGG.POOL.getRandom(rand).generateItemStack()));
-        VAULTAR_BOX = new LootableItem(WoldsVaults.id("vaultar_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.VAULTAR_BOX.POOL.getRandom(rand).generateItemStack()));
-        UNIDENTIFIED_GATEWAY_PEARL = new LootableItem(WoldsVaults.id("unidentified_gateway_pearl"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.GATEWAY_PEARL.POOL.getRandom(rand).generateItemStack()));
-        EXQUISITE_BOX = new MultiLootableItem(WoldsVaults.id("exquisite_box"), (new Item.Properties()).tab(VAULT_MOD_GROUP), () -> (ModConfigs.EXQUISITE_BOX.POOL.getRandom(rand).generateItemStack()), 3);
+        GEM_BOX = new LootableItem(WoldsVaults.id("gem_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.GEM_BOX.POOL.getRandom(rand).generateItemStack()));
+        SUPPLY_BOX = new LootableItem(WoldsVaults.id("supply_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.SUPPLY_BOX.POOL.getRandom(rand).generateItemStack()));
+        AUGMENT_BOX = new LootableItem(WoldsVaults.id("augment_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.AUGMENT_BOX.POOL.getRandom(rand).generateItemStack()));
+        INSCRIPTION_BOX = new LootableItem(WoldsVaults.id("inscription_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.INSCRIPTION_BOX.POOL.getRandom(rand).generateItemStack()));
+        OMEGA_BOX = new LootableItem(WoldsVaults.id("omega_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.OMEGA_BOX.POOL.getRandom(rand).generateItemStack()));
+        CATALYST_BOX = new LootableItem(WoldsVaults.id("catalyst_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.CATALYST_BOX.POOL.getRandom(rand).generateItemStack()));
+        ENIGMA_EGG = new LootableItem(WoldsVaults.id("enigma_egg"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.ENIGMA_EGG.POOL.getRandom(rand).generateItemStack()));
+        VAULTAR_BOX = new LootableItem(WoldsVaults.id("vaultar_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.VAULTAR_BOX.POOL.getRandom(rand).generateItemStack()));
+        UNIDENTIFIED_GATEWAY_PEARL = new LootableItem(WoldsVaults.id("unidentified_gateway_pearl"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.GATEWAY_PEARL.POOL.getRandom(rand).generateItemStack()));
+        EXQUISITE_BOX = new MultiLootableItem(WoldsVaults.id("exquisite_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.EXQUISITE_BOX.POOL.getRandom(rand).generateItemStack()), 3);
         TARGETED_MOD_BOX = new TargetedModBox(WoldsVaults.id("targeted_mod_box"));
 
         BENITOITE_GEMSTONE = new BasicScavengerItem("benitoite_gemstone");
@@ -400,7 +400,7 @@ public class ModItems {
         ENDER_CRYSTAL = new BasicScavengerItem("ender_crystal");
         ENDER_EYE = new BasicScavengerItem("enderman_eye");
 
-        ALTAR_DECATALYZER = new AltarResetItem(WoldsVaults.id("altar_recatalyzer"), (new Item.Properties().tab(VAULT_MOD_GROUP).rarity(Rarity.RARE)));
+        ALTAR_DECATALYZER = new AltarResetItem(WoldsVaults.id("altar_recatalyzer"), (new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS).rarity(Rarity.RARE)));
 
         CHROMATIC_IRON_ANGEL_RING = new ChromaticIronAngelRing();
         CHROMATIC_GOLD_ANGEL_RING= new ChromaticGoldAngelRing();
@@ -411,27 +411,27 @@ public class ModItems {
         EXPERTISE_ORB_ITEM = new ExpertiseOrbItem(WoldsVaults.id("expertise_orb"));
         SKILL_ORB_ITEM = new SkillOrbItem(WoldsVaults.id("skill_orb"));
 
-        FRENZY_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_frenzy"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        PROSPEROUS_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_prosperous"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        ALL_SEEING_EYE_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_all_seeing_eye"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        ENCHANTED_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_enchanted"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        VENDOOR_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_vendoors"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
+        FRENZY_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_frenzy"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        PROSPEROUS_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_prosperous"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        ALL_SEEING_EYE_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_all_seeing_eye"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        ENCHANTED_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_enchanted"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        VENDOOR_CAPSTONE = new BasicItem(WoldsVaults.id("capstone_vendoors"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        WAXING_AUGMENTER = new BasicItem(WoldsVaults.id("waxing_augmenter"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        WANING_AUGMENTER = new BasicItem(WoldsVaults.id("waning_augmenter"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        REPAIR_AUGMENTER = new BasicItem(WoldsVaults.id("repair_augmenter"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
+        WAXING_AUGMENTER = new BasicItem(WoldsVaults.id("waxing_augmenter"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        WANING_AUGMENTER = new BasicItem(WoldsVaults.id("waning_augmenter"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        REPAIR_AUGMENTER = new BasicItem(WoldsVaults.id("repair_augmenter"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        CRYSTAL_REINFORCEMENT = new BasicItem(WoldsVaults.id("crystal_reinforcement"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        RESONATING_REINFORCEMENT = new BasicItem(WoldsVaults.id("resonating_reinforcement"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
+        CRYSTAL_REINFORCEMENT = new BasicItem(WoldsVaults.id("crystal_reinforcement"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        RESONATING_REINFORCEMENT = new BasicItem(WoldsVaults.id("resonating_reinforcement"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        STYLISH_FOCUS = new BasicItem(WoldsVaults.id("stylish_focus"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        CHISELING_FOCUS = new ToolModifierNullifyingItem(WoldsVaults.id("chiseling_focus"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-        ECCENTRIC_FOCUS = new BasicItem(WoldsVaults.id("eccentric_focus"));
-        WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"));
-        BLAZING_FOCUS = new BasicItem(WoldsVaults.id("blazing_focus"));
-        SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"));
+        STYLISH_FOCUS = new BasicItem(WoldsVaults.id("stylish_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        CHISELING_FOCUS = new ToolModifierNullifyingItem(WoldsVaults.id("chiseling_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        ECCENTRIC_FOCUS = new BasicItem(WoldsVaults.id("eccentric_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        BLAZING_FOCUS = new BasicItem(WoldsVaults.id("blazing_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        MERCY_ORB = new BasicItem(WoldsVaults.id("mercy_orb"), (new Item.Properties()).tab(VAULT_MOD_GROUP));
+        MERCY_ORB = new BasicItem(WoldsVaults.id("mercy_orb"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 
         HASTY_POMEGRANATE = new HastyPomegranteItem(WoldsVaults.id("hasty_pomegranate"), 1200);
         WISDOM_FRUIT = new WisdomFruitItem(WoldsVaults.id("wisdom_fruit"));
@@ -441,63 +441,63 @@ public class ModItems {
 
         VAULT_ROCK_CANDY = new VaultBasicFoodItem(WoldsVaults.id("vault_rock_candy"), (new FoodProperties.Builder()).alwaysEat().fast().nutrition(8).saturationMod(1.4F).build());
 
-        CHROMATIC_GOLD_NUGGET = new BasicItem(WoldsVaults.id("chromatic_gold_nugget"));
-        CHROMATIC_GOLD_INGOT = new BasicItem(WoldsVaults.id("chromatic_gold_ingot"));
-        SMASHED_VAULT_GEM = new BasicItem(WoldsVaults.id("smashed_vault_gem"));
-        SMASHED_VAULT_GEM_CLUSTER = new BasicItem(WoldsVaults.id("smashed_vault_gem_cluster"));
-        CHUNK_OF_POWER = new BasicItem(WoldsVaults.id("chunk_of_power"));
-        WOLD_STAR_CHUNK = new BasicItem(WoldsVaults.id("wold_star_chunk"));
-        WOLD_STAR = new BasicItem(WoldsVaults.id("wold_star"));
-        POG_PRISM = new BasicItem(WoldsVaults.id("pog_prism"));
-        EXTRAORDINARY_POG_PRISM = new BasicItem(WoldsVaults.id("extraordinary_pog_prism"));
-        ARCANE_ESSENCE = new BasicItem(WoldsVaults.id("arcane_essence"));
-        ARCANE_SHARD = new BasicItem(WoldsVaults.id("arcane_shard"));
-        HEART_OF_CHAOS = new BasicItem(WoldsVaults.id("heart_of_chaos"));
-        AUGMENT_PIECE = new BasicItem(WoldsVaults.id("augment_piece"));
-        VAULT_DIAMOND_NUGGET = new BasicItem(WoldsVaults.id("vault_diamond_nugget"));
-        CHROMA_CORE = new BasicItem(WoldsVaults.id("chroma_core"));
+        CHROMATIC_GOLD_NUGGET = new BasicItem(WoldsVaults.id("chromatic_gold_nugget"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        CHROMATIC_GOLD_INGOT = new BasicItem(WoldsVaults.id("chromatic_gold_ingot"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        SMASHED_VAULT_GEM = new BasicItem(WoldsVaults.id("smashed_vault_gem"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        SMASHED_VAULT_GEM_CLUSTER = new BasicItem(WoldsVaults.id("smashed_vault_gem_cluster"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        CHUNK_OF_POWER = new BasicItem(WoldsVaults.id("chunk_of_power"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        WOLD_STAR_CHUNK = new BasicItem(WoldsVaults.id("wold_star_chunk"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        WOLD_STAR = new BasicItem(WoldsVaults.id("wold_star"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        POG_PRISM = new BasicItem(WoldsVaults.id("pog_prism"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        EXTRAORDINARY_POG_PRISM = new BasicItem(WoldsVaults.id("extraordinary_pog_prism"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        ARCANE_ESSENCE = new BasicItem(WoldsVaults.id("arcane_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        ARCANE_SHARD = new BasicItem(WoldsVaults.id("arcane_shard"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        HEART_OF_CHAOS = new BasicItem(WoldsVaults.id("heart_of_chaos"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        AUGMENT_PIECE = new BasicItem(WoldsVaults.id("augment_piece"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        VAULT_DIAMOND_NUGGET = new BasicItem(WoldsVaults.id("vault_diamond_nugget"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        CHROMA_CORE = new BasicItem(WoldsVaults.id("chroma_core"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        POGOMINIUM_INGOT = new BasicItem(WoldsVaults.id("pogominium_ingot"));
-        INFUSED_DRIFTWOOD = new BasicItem(WoldsVaults.id("infused_driftwood"));
-        SPARK_OF_INSPIRATION = new BasicItem(WoldsVaults.id("spark_of_inspiration"));
-        PRISMATIC_FIBER = new BasicItem(WoldsVaults.id("prismatic_fiber"));
+        POGOMINIUM_INGOT = new BasicItem(WoldsVaults.id("pogominium_ingot"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        INFUSED_DRIFTWOOD = new BasicItem(WoldsVaults.id("infused_driftwood"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        SPARK_OF_INSPIRATION = new BasicItem(WoldsVaults.id("spark_of_inspiration"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        PRISMATIC_FIBER = new BasicItem(WoldsVaults.id("prismatic_fiber"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        VAULT_DECO_SCROLL = new BasicItem(WoldsVaults.id("general_decor_scroll"));
+        VAULT_DECO_SCROLL = new BasicItem(WoldsVaults.id("general_decor_scroll"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        GEM_REAGENT_ASHIUM = new BasicItem(WoldsVaults.id("gem_reagent_ashium"));
-        GEM_REAGENT_BOMIGNITE = new BasicItem(WoldsVaults.id("gem_reagent_bomignite"));
-        GEM_REAGENT_GORGINITE = new BasicItem(WoldsVaults.id("gem_reagent_gorginite"));
-        GEM_REAGENT_PETEZANITE = new BasicItem(WoldsVaults.id("gem_reagent_petzanite"));
-        GEM_REAGENT_ISKALLIUM = new BasicItem(WoldsVaults.id("gem_reagent_iskallium"));
-        GEM_REAGENT_TUBIUM = new BasicItem(WoldsVaults.id("gem_reagent_tubium"));
-        GEM_REAGENT_UPALINE = new BasicItem(WoldsVaults.id("gem_reagent_upaline"));
-        GEM_REAGENT_XENIUM = new BasicItem(WoldsVaults.id("gem_reagent_xenium"));
-        GEM_REAGENT_SPARKLETINE = new BasicItem(WoldsVaults.id("gem_reagent_sparkletine"));
+        GEM_REAGENT_ASHIUM = new BasicItem(WoldsVaults.id("gem_reagent_ashium"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        GEM_REAGENT_BOMIGNITE = new BasicItem(WoldsVaults.id("gem_reagent_bomignite"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        GEM_REAGENT_GORGINITE = new BasicItem(WoldsVaults.id("gem_reagent_gorginite"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        GEM_REAGENT_PETEZANITE = new BasicItem(WoldsVaults.id("gem_reagent_petzanite"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        GEM_REAGENT_ISKALLIUM = new BasicItem(WoldsVaults.id("gem_reagent_iskallium"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        GEM_REAGENT_TUBIUM = new BasicItem(WoldsVaults.id("gem_reagent_tubium"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        GEM_REAGENT_UPALINE = new BasicItem(WoldsVaults.id("gem_reagent_upaline"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        GEM_REAGENT_XENIUM = new BasicItem(WoldsVaults.id("gem_reagent_xenium"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        GEM_REAGENT_SPARKLETINE = new BasicItem(WoldsVaults.id("gem_reagent_sparkletine"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
 
-        TOME_OF_TENOS = new BasicItem(WoldsVaults.id("tome_of_tenos"));
-        IDONA_DAGGER = new BasicItem(WoldsVaults.id("idona_dagger"));
-        VELARA_APPLE = new BasicItem(WoldsVaults.id("velara_apple"));
-        WENDARR_GEM = new BasicItem(WoldsVaults.id("wendarr_gem"));
+        TOME_OF_TENOS = new BasicItem(WoldsVaults.id("tome_of_tenos"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        IDONA_DAGGER = new BasicItem(WoldsVaults.id("idona_dagger"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        VELARA_APPLE = new BasicItem(WoldsVaults.id("velara_apple"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        WENDARR_GEM = new BasicItem(WoldsVaults.id("wendarr_gem"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        SOUL_ICHOR = new BasicItem(WoldsVaults.id("soul_ichor"));
+        SOUL_ICHOR = new BasicItem(WoldsVaults.id("soul_ichor"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        RECIPE_BLUEPRINT = new RecipeBlueprintItem(WoldsVaults.id("recipe_blueprint"), new Item.Properties().tab(VAULT_MOD_GROUP));
+        RECIPE_BLUEPRINT = new RecipeBlueprintItem(WoldsVaults.id("recipe_blueprint"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        COMMUNITY_TOKEN = new BasicItem(WoldsVaults.id("community_token"));
-        RESEARCH_TOKEN = new ResearchTokenItem(WoldsVaults.id("research_token"), new Item.Properties().stacksTo(1));
+        COMMUNITY_TOKEN = new BasicItem(WoldsVaults.id("community_token"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        RESEARCH_TOKEN = new ResearchTokenItem(WoldsVaults.id("research_token"), new Item.Properties().stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS));
 
         XL_BACKPACK = new BackpackItem(() -> 180, () -> 8, () -> ModBlocks.XL_BACKPACK, Item.Properties::fireResistant);
         XL_BACKPACK.setRegistryName(WoldsVaults.MOD_ID, "xl_backpack");
 
-        LAYOUT_MANIPULATOR = new LayoutModificationItem(VAULT_MOD_GROUP, WoldsVaults.id("layout_manipulator"));
+        LAYOUT_MANIPULATOR = new LayoutModificationItem(ModCreativeTabs.WOLDS_VAULTS, WoldsVaults.id("layout_manipulator"));
 
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
 
         RUINED_ESSENCE = new DecayingItem(WoldsVaults.id("ruined_essence"), 300);
         OBELISK_RESONATOR = new LocatorItem(WoldsVaults.id("obelisk_resonator"), ModBlocks.FRACTURED_OBELISK, 64);
-        NULLITE_FRAGMENT = new BasicItem(WoldsVaults.id("nullite_fragment"));
-        NULLITE_CRYSTAL = new BasicItem(WoldsVaults.id("nullite_crystal"));
+        NULLITE_FRAGMENT = new BasicItem(WoldsVaults.id("nullite_fragment"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        NULLITE_CRYSTAL = new BasicItem(WoldsVaults.id("nullite_crystal"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
         GOD_OFFERING = new GodReputationItem(WoldsVaults.id("god_offering"));
 
@@ -505,9 +505,9 @@ public class ModItems {
 
         COMPANION_REROLLER = new CompanionRerollingItem(WoldsVaults.id("companion_reroller"));
 
-        POGGING_SEED_BASE = new BasicItem(new ResourceLocation("mysticalagriculture", "pogging_seed_base"));
-        ECHOING_SEED_BASE = new BasicItem(new ResourceLocation("mysticalagriculture", "echoing_seed_base"));
+        POGGING_SEED_BASE = new BasicItem(WoldsVaults.id("pogging_seed_base"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        ECHOING_SEED_BASE = new BasicItem(WoldsVaults.id("echoing_seed_base"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        UNINFUSED_TERRASTEEL_INGOT = new BasicItem(WoldsVaults.id("uninfused_terrasteel_ingot"));
+        UNINFUSED_TERRASTEEL_INGOT = new BasicItem(WoldsVaults.id("uninfused_terrasteel_ingot"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
     }
 }

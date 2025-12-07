@@ -30,6 +30,7 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.TrinketPouchConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import javax.annotation.Nullable;
@@ -38,7 +39,7 @@ import static iskallia.vault.init.ModItems.VAULT_MOD_GROUP;
 
 public class TrinketPouchItem extends BasicItem implements ICurioItem {
     public TrinketPouchItem(ResourceLocation id) {
-        super(id, new Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
+        super(id, new Properties().stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS));
     }
 
 

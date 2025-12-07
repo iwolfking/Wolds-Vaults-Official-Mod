@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    "XRX",
+    "DEF"
+  ],
+  "key": {
+    "A": {
+      "item": "the_vault:perfect_larimar"
+    },
+    "B": {
+      "item": "the_vault:perfect_benitoite"
+    },
+    "C": {
+      "item": "the_vault:perfect_alexandrite"
+    },
+    "X": {
+      "item": "the_vault:gem_pog"
+    },
+    "R": {
+      "item": "the_vault:gem_echo"
+    },
+    "D": {
+      "item": "the_vault:perfect_painite"
+    },
+    "E": {
+      "item": "the_vault:perfect_wutodie"
+    },
+    "F": {
+      "item": "the_vault:perfect_black_opal"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:pog_prism"
+  }
+}

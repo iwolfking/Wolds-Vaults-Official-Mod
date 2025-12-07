@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "the_vault:red_vault_essence"
+    ]
+  },
+  "criteria": {
+    "has_perfect_painite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:perfect_painite"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "the_vault:red_vault_essence"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_perfect_painite",
+      "has_the_recipe"
+    ]
+  ]
+}
