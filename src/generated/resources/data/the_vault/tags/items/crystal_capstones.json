@@ -5,9 +5,6 @@
     "woldsvaults:capstone_prosperous",
     "woldsvaults:capstone_all_seeing_eye",
     "woldsvaults:capstone_enchanted",
-    "woldsvaults:capstone_vendoors",
-    "the_vault:mote_purity",
-    "the_vault:mote_clarity",
-    "the_vault:mote_sanctity"
+    "woldsvaults:capstone_vendoors"
   ]
 }
