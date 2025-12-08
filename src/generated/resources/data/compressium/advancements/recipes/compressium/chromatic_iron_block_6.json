@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "compressium:chromatic_iron_block_6"
+    ]
+  },
+  "criteria": {
+    "has_compressed_chromatic_iron_block_x5": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "compressium:chromatic_iron_block_5"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "compressium:chromatic_iron_block_6"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_compressed_chromatic_iron_block_x5",
+      "has_the_recipe"
+    ]
+  ]
+}

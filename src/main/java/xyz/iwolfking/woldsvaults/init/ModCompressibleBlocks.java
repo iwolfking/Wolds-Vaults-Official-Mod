@@ -5,6 +5,7 @@ import me.dinnerbeef.compressium.CompressibleBlock;
 import me.dinnerbeef.compressium.CompressibleType;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.HashMap;
@@ -25,6 +26,12 @@ public class ModCompressibleBlocks {
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("magic_silk_block", new CompressibleBlock("magic_silk_block", VaultMod.id("magic_silk_block"), VaultMod.id("block/magic_silk_block"), VaultMod.id("block/magic_silk_block"), CompressibleType.BLOCK, 9, true));
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("ancient_copper_block", new CompressibleBlock("ancient_copper_block", VaultMod.id("ancient_copper_block"), VaultMod.id("block/ancient_copper_block"), VaultMod.id("block/ancient_copper_block"), CompressibleType.BLOCK, 9, true));
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("vault_plating_block", new CompressibleBlock("vault_plating_block", WoldsVaults.id("vault_plating_block"), WoldsVaults.id("block/vault_plating_block"), WoldsVaults.id("block/vault_plating_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("carbon_block", new CompressibleBlock("carbon_block", WoldsVaults.id("carbon_block"), WoldsVaults.id("block/carbon_block"), WoldsVaults.id("block/carbon_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("vault_essence_block", new CompressibleBlock("vault_essence_block", WoldsVaults.id("vault_essence_block"), WoldsVaults.id("block/vault_essence_block"), WoldsVaults.id("block/vault_essence_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("chromatic_iron_block", new CompressibleBlock("chromatic_iron_block", VaultMod.id("chromatic_iron_block"), VaultMod.id("block/chromatic_iron_block"), VaultMod.id("block/chromatic_iron_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("chromatic_steel_block", new CompressibleBlock("chromatic_steel_block", VaultMod.id("chromatic_steel_block"), VaultMod.id("block/chromatic_steel_block"), VaultMod.id("block/chromatic_steel_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("chromatic_gold_block", new CompressibleBlock("chromatic_gold_block", WoldsVaults.id("chromatic_gold_block"), WoldsVaults.id("block/chromatic_gold_block"), WoldsVaults.id("block/chromatic_gold_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("silver_scrap_block", new CompressibleBlock("silver_scrap_block", WoldsVaults.id("silver_scrap_block"), WoldsVaults.id("block/silver_scrap_block"), WoldsVaults.id("block/silver_scrap_block"), CompressibleType.BLOCK, 9, true));
     }
 
     public static Map<CompressibleBlock, List<Supplier<Block>>> getRegisteredBlocks() {
@@ -39,5 +46,15 @@ public class ModCompressibleBlocks {
         }
 
         return REGISTERED_BLOCKS;
+    }
+
+    public static Block getCompressed(String blockName, int compressionLevel) {
+        if(compressionLevel <= 0) {
+            return Blocks.AIR;
+        }
+
+        CompressibleBlock block = ADDITIONAL_COMPRESSIBLE_BLOCKS.get(blockName);
+        int maxDepth = block.getNestedDepth();
+        return REGISTERED_BLOCKS.get(block).get(Math.min(compressionLevel - 1, maxDepth)).get();
     }
 }

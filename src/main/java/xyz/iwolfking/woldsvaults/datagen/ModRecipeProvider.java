@@ -447,7 +447,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_ENCHANTER)
-                .define('X', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+                .define('X', ModBlocks.VAULT_ESSENCE_BLOCK)
                 .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_SAGE)
                 .define('G', Blocks.ENCHANTING_TABLE)
                 .define('B', iskallia.vault.init.ModItems.EXTRAORDINARY_ALEXANDRITE)
@@ -458,7 +458,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_TITAN)
-                .define('X', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+                .define('X', ModBlocks.VAULT_ESSENCE_BLOCK)
                 .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_EXECUTIONER)
                 .define('G', Items.DIAMOND_SWORD)
                 .define('B', iskallia.vault.init.ModBlocks.VAULT_DIAMOND_BLOCK)
@@ -482,7 +482,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('G', ModItems.SMASHED_VAULT_GEM)
                 .define('T', iskallia.vault.init.ModItems.CARBON_NUGGET)
                 .define('X', iskallia.vault.init.ModItems.VAULT_DIAMOND)
-                .define('R', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+                .define('R', ModBlocks.VAULT_ESSENCE_BLOCK)
                 .pattern("GTG")
                 .pattern("XRX")
                 .pattern("GTG")
@@ -492,7 +492,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(ModItems.GEM_BOX, 1)
                 .requires(ModItems.SMASHED_VAULT_GEM_CLUSTER, 1)
                 .requires(iskallia.vault.init.ModItems.VAULT_DIAMOND, 2)
-                .requires(iskallia.vault.init.ModItems.VAULT_ESSENCE, 1)
+                .requires(ModBlocks.VAULT_ESSENCE_BLOCK, 1)
                 .requires(iskallia.vault.init.ModItems.CARBON_NUGGET, 2)
                 .unlockedBy("smashed_vault_gem_cluster", has(ModItems.SMASHED_VAULT_GEM_CLUSTER))
                 .save(pFinishedRecipeConsumer, WoldsVaults.id("gem_box_shortcut"));
@@ -623,7 +623,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         ShapelessRecipeBuilder.shapeless(ModItems.CHROMATIC_GOLD_INGOT, 1)
                 .requires(Items.GOLD_INGOT, 2)
-                .requires(iskallia.vault.init.ModItems.VAULT_DIAMOND, 1)
+                .requires(ModBlocks.VAULT_ESSENCE_BLOCK, 1)
                 .requires(iskallia.vault.init.ModItems.MAGIC_SILK, 1)
                 .unlockedBy("gold_ingot", has(Items.GOLD_INGOT))
                 .save(pFinishedRecipeConsumer);
@@ -738,7 +738,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.SUBLIME_VAULT_SUBSTANCE)
                 .define('C', iskallia.vault.init.ModItems.EXTRAORDINARY_PAINITE)
                 .define('A', iskallia.vault.init.ModItems.EXTRAORDINARY_ALEXANDRITE)
-                .define('D', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+                .define('D', ModBlocks.VAULT_ESSENCE_BLOCK)
                 .define('O', iskallia.vault.init.ModBlocks.PACKED_VAULT_MEAT_BLOCK)
                 .pattern("CAC")
                 .pattern("DOD")

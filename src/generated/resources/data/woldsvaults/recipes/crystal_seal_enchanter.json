@@ -7,7 +7,7 @@
   ],
   "key": {
     "X": {
-      "item": "the_vault:vault_essence"
+      "item": "woldsvaults:vault_essence_block"
     },
     "O": {
       "item": "the_vault:crystal_seal_sage"

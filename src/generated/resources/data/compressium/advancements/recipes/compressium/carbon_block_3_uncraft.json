@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "compressium:carbon_block_3_uncraft"
+    ]
+  },
+  "criteria": {
+    "has_compressed_carbon_block_x3": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "compressium:carbon_block_3"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "compressium:carbon_block_3_uncraft"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_compressed_carbon_block_x3",
+      "has_the_recipe"
+    ]
+  ]
+}
