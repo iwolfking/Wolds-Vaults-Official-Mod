@@ -29,7 +29,7 @@ import xyz.iwolfking.woldsvaults.items.fruits.WisdomFruitItem;
 import xyz.iwolfking.woldsvaults.items.gear.*;
 import xyz.iwolfking.woldsvaults.items.rings.*;
 
-import java.util.Random;
+import java.util.*;
 
 import static iskallia.vault.init.ModItems.GEAR_GROUP;
 import static iskallia.vault.init.ModItems.VAULT_MOD_GROUP;
@@ -215,6 +215,9 @@ public class ModItems {
 
     public static BasicItem UNINFUSED_TERRASTEEL_INGOT;
 
+    public static Map<DyeColor, BasicItem> COLORED_UNOBTANIUMS = new HashMap<>();
+    public static BasicItem RAINBOW_UNOBTANIUM;
+
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
@@ -355,6 +358,10 @@ public class ModItems {
         registry.register(POGGING_SEED_BASE);
         registry.register(ECHOING_SEED_BASE);
         registry.register(UNINFUSED_TERRASTEEL_INGOT);
+        COLORED_UNOBTANIUMS.forEach((s, bi) -> {
+            registry.register(bi);
+        });
+        registry.register(RAINBOW_UNOBTANIUM);
     }
 
     static {
@@ -509,5 +516,11 @@ public class ModItems {
         ECHOING_SEED_BASE = new BasicItem(WoldsVaults.id("echoing_seed_base"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
         UNINFUSED_TERRASTEEL_INGOT = new BasicItem(WoldsVaults.id("uninfused_terrasteel_ingot"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+
+        for(DyeColor dyeColor : DyeColor.values()) {
+            BasicItem dyedUnobtanium = new BasicItem(WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+            COLORED_UNOBTANIUMS.put(dyeColor, dyedUnobtanium);
+        }
+        RAINBOW_UNOBTANIUM = new BasicItem(WoldsVaults.id("rainbow_unobtanium"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
     }
 }

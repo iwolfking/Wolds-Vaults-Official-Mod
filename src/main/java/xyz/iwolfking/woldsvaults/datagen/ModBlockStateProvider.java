@@ -78,6 +78,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 )
         );
 
+        ModBlocks.COLORED_UNOBTANIUMS.forEach((dyeColor, block) -> {
+            simpleBlockWithItem(block);
+        });
+        simpleBlockWithItem(ModBlocks.RAINBOW_UNOBTANIUM);
+
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
             for (int i = 0; i < v.size(); i ++) {
                 var block = v.get(i);

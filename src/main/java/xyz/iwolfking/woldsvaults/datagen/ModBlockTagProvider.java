@@ -50,7 +50,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.OMEGA_POG_BLOCK)
                 .add(ModBlocks.ECHO_POG_BLOCK)
                 .add(ModBlocks.POG_BLOCK)
-                .add(ModBlocks.VAULT_PLATING_BLOCK);
+                .add(ModBlocks.VAULT_PLATING_BLOCK)
+                .add(ModBlocks.COLORED_UNOBTANIUMS.values().toArray(new Block[]{}))
+                .add(ModBlocks.RAINBOW_UNOBTANIUM);
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(ModBlocks.ISKALLIAN_LEAVES_BLOCK)
                 .add(ModBlocks.PRISMATIC_FIBER_BLOCK);
@@ -63,6 +65,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.WUTODIE);
         tag(BlockTags.BEACON_BASE_BLOCKS)
                 .add(ModBlocks.WUTODIE);
+        tag(BlockTags.NEEDS_IRON_TOOL)
+                .add(ModBlocks.COLORED_UNOBTANIUMS.values().toArray(new Block[]{}))
+                .add(ModBlocks.RAINBOW_UNOBTANIUM);
        addCompressibleTags();
     }
 
@@ -71,7 +76,10 @@ public class ModBlockTagProvider extends BlockTagsProvider {
             VAULT_STONE, VAULT_COBBLESTONE, ORNATE_BLOCK, GILDED_BLOCK, VAULT_DIAMOND_BLOCK, ANCIENT_COPPER_BLOCK
         }
         enum RequiresPick {
-            VAULT_STONE, VAULT_COBBLESTONE, ORNATE_BLOCK, GILDED_BLOCK, VAULT_DIAMOND_BLOCK, ANCIENT_COPPER_BLOCK
+            VAULT_STONE, VAULT_COBBLESTONE, ORNATE_BLOCK, GILDED_BLOCK, VAULT_DIAMOND_BLOCK, ANCIENT_COPPER_BLOCK, VAULT_PLATING_BLOCK, CARBON_BLOCK, CHROMATIC_IRON_BLOCK, CHROMATIC_STEEL_BLOCK, CHROMATIC_GOLD_BLOCK, SILVER_SCRAP_BLOCK, LIVING_ROCK_BLOCK_COBBLE
+        }
+        enum RequiresShovel {
+            VAULT_ESSENCE_BLOCK, SANDY_BLOCK, ROTTEN_MEAT_BLOCK
         }
         enum RequiresHoe {
             MAGIC_SILK_BLOCK
@@ -80,11 +88,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         addTagFromList(RequiresPick.values(), BlockTags.MINEABLE_WITH_PICKAXE);
         addTagFromList(RequiresWood.values(), Tags.Blocks.NEEDS_WOOD_TOOL);
         addTagFromList(RequiresHoe.values(), BlockTags.MINEABLE_WITH_HOE);
+        addTagFromList(RequiresShovel.values(), BlockTags.MINEABLE_WITH_SHOVEL);
     }
 
     private <T extends Enum<?>> void addTagFromList(T[] values, TagKey<Block> tag) {
         for (T value : values) {
-            // Find the type from the registered blocks based on the name of the compressed block type
             List<Supplier<Block>> blockList = ModCompressibleBlocks.getRegisteredBlocks().entrySet().stream().filter(e -> e.getKey().name().equalsIgnoreCase(value.name())).findFirst().map(Map.Entry::getValue).orElse(List.of());
             blockList.forEach(e -> tag(tag).add(e.get()));
         }

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:yellow_unobtanium_block_from_dye"
+    ]
+  },
+  "criteria": {
+    "has_unobtanium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "architects_palette:unobtanium_block"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:yellow_unobtanium_block_from_dye"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_unobtanium",
+      "has_the_recipe"
+    ]
+  ]
+}

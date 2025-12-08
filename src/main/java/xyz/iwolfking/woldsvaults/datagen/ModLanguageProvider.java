@@ -341,6 +341,17 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.the_vault.block_gem_wutodie_stairs", "Wutodie Stairs");
         add("item.woldsvaults.crystal_seal_alchemy", "Seal of the Alchemist");
 
+        ModItems.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
+            add(basicItem, StringUtils.convertToTitleCase(dyeColor.getSerializedName()) + " Unobtanium");
+        }));
+
+        ModBlocks.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
+            add(basicItem, StringUtils.convertToTitleCase(dyeColor.getSerializedName()) + " Unobtanium Block");
+        }));
+
+        add(ModBlocks.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium Block");
+        add(ModItems.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium");
+
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
             for (int i = 0; i < v.size(); i ++) {
                 add(v.get(i).get(), "Compressed " + (k.isBlockOf() ? "Block of " : "") + StringUtils.convertToTitleCase(k.name()) + " ("+(i+1)+"x)");

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "compressium:living_rock_block_cobble_1"
+    ]
+  },
+  "criteria": {
+    "has_living_rock_block_cobble": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:living_rock_block_cobble"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "compressium:living_rock_block_cobble_1"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_living_rock_block_cobble",
+      "has_the_recipe"
+    ]
+  ]
+}

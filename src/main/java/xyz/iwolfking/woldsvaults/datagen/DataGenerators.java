@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import com.supermartijn642.rechiseled.registration.RechiseledRegistrationImpl;
+import com.supermartijn642.rechiseled.registration.data.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -69,7 +71,11 @@ public class DataGenerators {
             gen.addProvider(new ModVaultBlacklistProvider(gen));
             gen.addProvider(new ModVaultItemsProvider(gen));
             gen.addProvider(new ModVaultMapIconsProvider(gen));
+            gen.addProvider(new RechiseledDataProvider(gen));
+
             //gen.addProvider(new ModVaultCrystalProvider(gen));
         }
     }
+
+
 }

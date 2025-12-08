@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:lime_unobtanium"
+    },
+    {
+      "item": "woldsvaults:lime_unobtanium"
+    },
+    {
+      "item": "woldsvaults:lime_unobtanium"
+    },
+    {
+      "item": "woldsvaults:lime_unobtanium"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:lime_unobtanium_block"
+  }
+}

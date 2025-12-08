@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:green_unobtanium_block"
+    ]
+  },
+  "criteria": {
+    "has_green_unobtanium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:green_unobtanium"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:green_unobtanium_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_green_unobtanium",
+      "has_the_recipe"
+    ]
+  ]
+}

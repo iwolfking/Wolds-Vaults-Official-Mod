@@ -220,6 +220,7 @@ dependencies {
     implementation fg.deobf("curse.maven:fruit-bag-vh-addon-1186313:6193420") // fruit bag
     implementation fg.deobf("curse.maven:botania-225643:3936568") // datagen
     implementation fg.deobf("curse.maven:compressium-342929:4034865")
+    implementation fg.deobf("curse.maven:rechiseled-558998:5286275")
 
     // transitive WV deps
     implementation fg.deobf("curse.maven:placebo-283644:4500363") // gateways
@@ -306,7 +307,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:macaws-furniture-359540:7197914")
     runtimeOnly fg.deobf("curse.maven:twigs-496913:3968055")
     runtimeOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
-    runtimeOnly fg.deobf("curse.maven:architects-palette-433862:4957984")
+    implementation fg.deobf("curse.maven:architects-palette-433862:4957984")
 
     // perf in dev
     runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")

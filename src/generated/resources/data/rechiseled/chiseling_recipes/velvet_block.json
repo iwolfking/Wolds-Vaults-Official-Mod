@@ -1,0 +1,15 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:velvet_block"
+    },
+    {
+      "item": "the_vault:velvet_block_chiseled"
+    },
+    {
+      "item": "the_vault:velvet_block_strips"
+    }
+  ],
+  "overwrite": false
+}

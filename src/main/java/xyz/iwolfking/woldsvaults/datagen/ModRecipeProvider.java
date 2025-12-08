@@ -12,6 +12,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -21,6 +22,7 @@ import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import vazkii.botania.data.recipes.NbtOutputResult;
+import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
@@ -780,8 +782,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         List<String> REAGENT_TYPES = List.of("ashium", "bomignite", "gorginite", "iskallium", "petzanite", "sparkletine", "tubium", "upaline", "xenium");
 
-        //List<Item> REAGENTS = List.of(ModItems.GEM_REAGENT_BOMIGNITE, ModItems.GEM_REAGENT_PETEZANITE, ModItems.GEM_REAGENT_GORGINITE, ModItems.GEM_REAGENT_ASHIUM, ModItems.GEM_REAGENT_ISKALLIUM, ModItems.GEM_REAGENT_SPARKLETINE, ModItems.GEM_REAGENT_UPALINE, ModItems.GEM_REAGENT_TUBIUM, ModItems.GEM_REAGENT_XENIUM);
-
         REAGENT_TYPES.forEach(type -> {
             ShapelessRecipeBuilder.shapeless(ForgeRegistries.ITEMS.getValue(VaultMod.id("gem_" + type)), 2)
                     .requires(ForgeRegistries.ITEMS.getValue(WoldsVaults.id("gem_reagent_" + type)), 1)
@@ -806,6 +806,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         compactingRecipe(ModBlocks.OMEGA_POG_BLOCK, iskallia.vault.init.ModItems.OMEGA_POG, pFinishedRecipeConsumer);
         compactingRecipe(ModBlocks.ECHO_POG_BLOCK, iskallia.vault.init.ModItems.ECHO_POG, pFinishedRecipeConsumer);
         compactingRecipe(ModBlocks.POG_BLOCK, iskallia.vault.init.ModItems.POG, pFinishedRecipeConsumer);
+
+        for(DyeColor color : DyeColor.values()) {
+            unobtanium(ModItems.COLORED_UNOBTANIUMS.get(color), ModBlocks.COLORED_UNOBTANIUMS.get(color), pFinishedRecipeConsumer);
+        }
+        unobtanium(ModItems.RAINBOW_UNOBTANIUM, ModBlocks.RAINBOW_UNOBTANIUM, pFinishedRecipeConsumer);
 
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
             var name = k.name().toLowerCase();
@@ -877,5 +882,41 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(result, 1)
                 .unlockedBy("has_" + result.getRegistryName().getPath(), has(result))
                 .save(finishedRecipe, WoldsVaults.id(result.getRegistryName().getPath() + "_to_" + input.getRegistryName().getPath()));
+    }
+
+    private void unobtanium(Item itemForm, Block blockForm, Consumer<FinishedRecipe> finishedRecipeConsumer) {
+        ShapelessRecipeBuilder.shapeless(blockForm, 1)
+                .requires(itemForm, 4)
+                .unlockedBy("has_" + itemForm.getRegistryName().getPath(), has(itemForm))
+                .save(finishedRecipeConsumer, WoldsVaults.id(blockForm.getRegistryName().getPath()));
+
+        ShapelessRecipeBuilder.shapeless(itemForm, 5)
+                .requires(blockForm, 1)
+                .unlockedBy("has_" + blockForm.getRegistryName().getPath(), has(blockForm))
+                .save(finishedRecipeConsumer, WoldsVaults.id(itemForm.getRegistryName().getPath()));
+
+
+        if(blockForm != ModBlocks.RAINBOW_UNOBTANIUM) {
+            ShapelessRecipeBuilder.shapeless(blockForm, 8)
+                    .requires(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("architects_palette", "unobtanium_block")), 8)
+                    .requires(ForgeRegistries.ITEMS.getValue(ResourceLocUtils.replace(ResourceLocUtils.swapNamespace(itemForm.getRegistryName(), "minecraft"), "unobtanium", "dye")), 1)
+                    .unlockedBy("has_unobtanium", has(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("architects_palette", "unobtanium_block"))))
+                    .save(finishedRecipeConsumer, WoldsVaults.id(blockForm.getRegistryName().getPath() + "_from_dye"));
+        }
+        else {
+            ShapelessRecipeBuilder.shapeless(blockForm, 1)
+                    .requires(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("architects_palette", "unobtanium_block")), 1)
+                    .requires(Items.GREEN_DYE)
+                    .requires(Items.RED_DYE)
+                    .requires(Items.BLUE_DYE)
+                    .requires(Items.PURPLE_DYE)
+                    .requires(Items.YELLOW_DYE)
+                    .requires(Items.ORANGE_DYE)
+                    .requires(Items.CYAN_DYE)
+                    .requires(Items.WHITE_DYE)
+                    .unlockedBy("has_unobtanium", has(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("architects_palette", "unobtanium_block"))))
+                    .save(finishedRecipeConsumer, WoldsVaults.id(blockForm.getRegistryName().getPath() + "_from_dye"));
+        }
+
     }
 }

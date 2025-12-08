@@ -228,6 +228,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         CustomInscriptionModelRegistry.getModelMap().forEach(this::vaultInscription);
         CustomCatalystModelRegistry.getModelMap().forEach(this::vaultCatalyst);
 
+        ModItems.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
+            simpleItem(basicItem);
+        }));
+        simpleItem(ModItems.RAINBOW_UNOBTANIUM);
+
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
             for (int i = 0; i < v.size(); i ++) {
                 var name = k.name().toLowerCase();

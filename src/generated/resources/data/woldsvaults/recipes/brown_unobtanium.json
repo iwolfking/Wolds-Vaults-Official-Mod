@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:brown_unobtanium_block"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:brown_unobtanium",
+    "count": 5
+  }
+}

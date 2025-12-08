@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:cyan_unobtanium"
+    },
+    {
+      "item": "woldsvaults:cyan_unobtanium"
+    },
+    {
+      "item": "woldsvaults:cyan_unobtanium"
+    },
+    {
+      "item": "woldsvaults:cyan_unobtanium"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:cyan_unobtanium_block"
+  }
+}

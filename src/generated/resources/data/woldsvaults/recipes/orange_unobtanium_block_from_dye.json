@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "minecraft:orange_dye"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:orange_unobtanium_block",
+    "count": 8
+  }
+}

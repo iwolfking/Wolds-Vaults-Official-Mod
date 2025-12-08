@@ -32,6 +32,10 @@ public class ModCompressibleBlocks {
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("chromatic_steel_block", new CompressibleBlock("chromatic_steel_block", VaultMod.id("chromatic_steel_block"), VaultMod.id("block/chromatic_steel_block"), VaultMod.id("block/chromatic_steel_block"), CompressibleType.BLOCK, 9, true));
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("chromatic_gold_block", new CompressibleBlock("chromatic_gold_block", WoldsVaults.id("chromatic_gold_block"), WoldsVaults.id("block/chromatic_gold_block"), WoldsVaults.id("block/chromatic_gold_block"), CompressibleType.BLOCK, 9, true));
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("silver_scrap_block", new CompressibleBlock("silver_scrap_block", WoldsVaults.id("silver_scrap_block"), WoldsVaults.id("block/silver_scrap_block"), WoldsVaults.id("block/silver_scrap_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("living_rock_block_cobble", new CompressibleBlock("living_rock_block_cobble", VaultMod.id("living_rock_block_cobble"), VaultMod.id("block/living_rock_block_cobble"), VaultMod.id("block/living_rock_block_cobble"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("sandy_block", new CompressibleBlock("sandy_block", VaultMod.id("sandy_block"), VaultMod.id("block/sandy_block"), VaultMod.id("block/sandy_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("rotten_meat_block", new CompressibleBlock("rotten_meat_block", VaultMod.id("rotten_meat_block"), VaultMod.id("block/rotten_meat_block"), VaultMod.id("block/rotten_meat_block"), CompressibleType.BLOCK, 9, true));
+        ADDITIONAL_COMPRESSIBLE_BLOCKS.put("velvet_block", new CompressibleBlock("velvet_block", VaultMod.id("velvet_block"), VaultMod.id("block/velvet"), VaultMod.id("block/velvet_block"), CompressibleType.BLOCK, 9, true));
     }
 
     public static Map<CompressibleBlock, List<Supplier<Block>>> getRegisteredBlocks() {

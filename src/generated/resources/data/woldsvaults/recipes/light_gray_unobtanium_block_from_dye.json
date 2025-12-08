@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "architects_palette:unobtanium_block"
+    },
+    {
+      "item": "minecraft:light_gray_dye"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:light_gray_unobtanium_block",
+    "count": 8
+  }
+}

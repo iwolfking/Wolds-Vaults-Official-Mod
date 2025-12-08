@@ -37,18 +37,6 @@ public class MixinTagLoader {
         }
     }
 
-    private static void woldsVaults$genAlchemyTag(Map<ResourceLocation, Tag.Builder> pBuilders) {
-        List<ResourceLocation> holders = ForgeRegistries.ITEMS.getEntries().stream().filter(resourceKeyItemEntry -> {
-            return resourceKeyItemEntry.getValue() instanceof AlchemyIngredientItem;
-        }).map(resourceKeyItemEntry -> resourceKeyItemEntry.getKey().getRegistryName()).toList();
-
-        Tag.Builder alchemyIngredient = pBuilders.computeIfAbsent(WoldsVaults.id("alchemy_ingredient"), id -> Tag.Builder.tag());
-
-        for (ResourceLocation item : holders) {
-            alchemyIngredient.addElement(item, "Wold's dynamic tags");
-        }
-    }
-
     @Unique private static void woldsVaults$genCrucibleTag(Map<ResourceLocation, Tag.Builder> pBuilders) {
         Set<ResourceLocation> allItems = new HashSet<>(ModConfigs.VOID_CRUCIBLE_CUSTOM_ROOMS.getAllItems());
         for (var theme : VaultRegistry.THEME.getKeys()) {
