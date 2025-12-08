@@ -17,6 +17,12 @@ public class MixinVaultCrateType {
 
     private static final VaultCrateBlock.Type CORRUPTED = enumExpansion$addVariant("CORRUPTED");
     private static final VaultCrateBlock.Type ALCHEMY = enumExpansion$addVariant("ALCHEMY");
+    private static final VaultCrateBlock.Type BRUTAL_BOSSES = enumExpansion$addVariant("BRUTAL_BOSSES");
+    private static final VaultCrateBlock.Type ENCHANTED_ELIXIR = enumExpansion$addVariant("ENCHANTED_ELIXIR");
+    private static final VaultCrateBlock.Type UNHINGED_SCAVENGER = enumExpansion$addVariant("UNHINGED_SCAVENGER");
+    private static final VaultCrateBlock.Type HAUNTED_BRAZIERS = enumExpansion$addVariant("HAUNTED_BRAZIERS");
+    private static final VaultCrateBlock.Type BALLISTIC_BINGO = enumExpansion$addVariant("BALLISTIC_BINGO");
+    private static final VaultCrateBlock.Type ZEALOT = enumExpansion$addVariant("ZEALOT");
 
 
     @Invoker("<init>")

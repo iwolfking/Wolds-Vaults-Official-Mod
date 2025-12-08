@@ -33,7 +33,7 @@ public class EnchantedElixirCrystalObjective extends CrystalObjective {
     public void configure(Vault vault, RandomSource random) {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            objectives.add(EnchantedElixirObjective.create().add(LodestoneObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.ELIXIR, "enchanted_elixir", level, true)).add(VictoryObjective.of(300))));
+            objectives.add(EnchantedElixirObjective.create().add(LodestoneObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ENCHANTED_ELIXIR"), "enchanted_elixir", level, true)).add(VictoryObjective.of(300))));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));

@@ -9,13 +9,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 @Mixin(value = VaultCrateBlock.class, remap = false)
-public class MixinVaultCrateBlock {
+public abstract class MixinVaultCrateBlock {
+
     @Inject(method = "getCrateBlock", at = @At("HEAD"), cancellable = true)
     private static void handleAdditionalCrates(VaultCrateBlock.Type type, CallbackInfoReturnable<Block> cir) {
-        if(type == VaultCrateBlock.Type.valueOf("CORRUPTED")) {
-            cir.setReturnValue(ModBlocks.VAULT_CRATE_CORRUPTED);
-        } else if (type == VaultCrateBlock.Type.valueOf("ALCHEMY")) {
-            cir.setReturnValue(ModBlocks.VAULT_CRATE_ALCHEMY);
+        if(ModBlocks.CUSTOM_VAULT_CRATES.containsKey(type.name().toLowerCase())) {
+            cir.setReturnValue(ModBlocks.getCrateFor(type.name()));
+        }
+        else if(type.equals(VaultCrateBlock.Type.valueOf("CORRUPTED"))) {
+            cir.setReturnValue(ModBlocks.getCrateFor("corrupt"));
         }
     }
 

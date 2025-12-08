@@ -144,8 +144,6 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.woldsvaults.mob_barrier_red", "Mob Barrier");
         add("block.woldsvaults.fractured_obelisk", "Fractured Obelisk");
         add("block.woldsvaults.monolith_controller", "Monolith Controller");
-        add("block.woldsvaults.vault_crate_corrupt", "Corrupted Vault Crate");
-        add("block.woldsvaults.vault_crate_alchemy", "Alchemy Vault Crate");
         add("block.woldsvaults.nullite_ore", "Nullite Ore");
         add("block.woldsvaults.doll_dismantler", "Doll Blender");
         add("block.woldsvaults.tombstone", "Tombstone");
@@ -351,6 +349,10 @@ public class ModLanguageProvider extends LanguageProvider {
 
         add(ModBlocks.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium Block");
         add(ModItems.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium");
+
+        ModBlocks.CUSTOM_VAULT_CRATES.forEach((s, crateBlock) -> {
+            add(crateBlock, StringUtils.convertToTitleCase(s) + " Vault Crate");
+        });
 
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
             for (int i = 0; i < v.size(); i ++) {

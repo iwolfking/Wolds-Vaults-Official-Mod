@@ -8,6 +8,7 @@ import iskallia.vault.init.ModDecorativeBlocks;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.CoinBlockItem;
 import iskallia.vault.item.VaultChestBlockItem;
+import iskallia.vault.item.crystal.objective.CrystalObjective;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
@@ -22,6 +23,8 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlockEntity;
+import vazkii.quark.addons.oddities.block.CrateBlock;
+import xyz.iwolfking.vhapi.api.registry.VaultObjectiveRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
 import xyz.iwolfking.woldsvaults.blocks.tiles.*;
@@ -48,8 +51,7 @@ public class ModBlocks {
     public static final GatewayChannelingBlock GATEWAY_CHANNELING_BLOCK;
     public static final FracturedObelisk FRACTURED_OBELISK;
     public static final MonolithControllerBlock MONOLITH_CONTROLLER;
-    public static final VaultCrateBlock VAULT_CRATE_CORRUPTED;
-    public static final VaultCrateBlock VAULT_CRATE_ALCHEMY;
+
     public static final BrewingAltar BREWING_ALTAR;
     public static final Block DOLL_DISMANTLING_BLOCK;
 
@@ -117,6 +119,9 @@ public class ModBlocks {
     public static final Map<DyeColor, Block> COLORED_UNOBTANIUMS = new HashMap<>();
     public static final Block RAINBOW_UNOBTANIUM;
 
+    public static final Map<String, VaultCrateBlock> CUSTOM_VAULT_CRATES = new HashMap<>();
+
+
     static {
         INFUSED_DRIFTWOOD_PLANKS = new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS));
         NULLITE_ORE = new Block(BlockBehaviour.Properties.of(Material.STONE).strength(250F, 1500F));
@@ -152,8 +157,6 @@ public class ModBlocks {
         POG_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK));
         GATEWAY_CHANNELING_BLOCK = new GatewayChannelingBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
         FRACTURED_OBELISK = new FracturedObelisk();
-        VAULT_CRATE_CORRUPTED = new VaultCrateBlock();
-        VAULT_CRATE_ALCHEMY = new VaultCrateBlock();
         MONOLITH_CONTROLLER = new MonolithControllerBlock();
         BREWING_ALTAR = new BrewingAltar();
         WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
@@ -185,7 +188,14 @@ public class ModBlocks {
             COLORED_UNOBTANIUMS.put(color, dyedUnobtanium);
         }
         RAINBOW_UNOBTANIUM = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL).strength(50F).requiresCorrectToolForDrops());
-
+        ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {
+            if(customObjectiveRegistryEntry.getId().equals("corrupted")) {
+                CUSTOM_VAULT_CRATES.put("corrupt", new VaultCrateBlock());
+            }
+            else {
+                CUSTOM_VAULT_CRATES.put(customObjectiveRegistryEntry.getId(), new VaultCrateBlock());
+            }
+        });
     }
 
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -222,8 +232,6 @@ public class ModBlocks {
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
         registerBlock(event, ETCHING_PEDESTAL, WoldsVaults.id("etching_shop_pedestal"));
         registerBlock(event, FRACTURED_OBELISK, WoldsVaults.id("fractured_obelisk"));
-        registerBlock(event, VAULT_CRATE_CORRUPTED, WoldsVaults.id("vault_crate_corrupt"));
-        registerBlock(event, VAULT_CRATE_ALCHEMY, WoldsVaults.id("vault_crate_alchemy"));
         registerBlock(event, MONOLITH_CONTROLLER, WoldsVaults.id("monolith_controller"));
         registerBlock(event, BLACKSMITH_VENDOR_PEDESTAL, WoldsVaults.id("blacksmith_shop_pedestal"));
         registerBlock(event, RARE_VENDOR_PEDESTAL, WoldsVaults.id("rare_shop_pedestal"));
@@ -241,6 +249,9 @@ public class ModBlocks {
             registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
         }));
         registerBlock(event, RAINBOW_UNOBTANIUM, WoldsVaults.id("rainbow_unobtanium_block"));
+        CUSTOM_VAULT_CRATES.forEach((objective, crateBlock) -> {
+            registerBlock(event, crateBlock, WoldsVaults.id("vault_crate_" + objective));
+        });
     }
 
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
@@ -303,8 +314,6 @@ public class ModBlocks {
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
         registerBlockItem(event, FRACTURED_OBELISK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
-        registerBlockItem(event, VAULT_CRATE_CORRUPTED, 1, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS).fireResistant());
-        registerBlockItem(event, VAULT_CRATE_ALCHEMY, 1, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS).fireResistant());
         registerBlockItem(event, MONOLITH_CONTROLLER, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, WUTODIE_STAIRS, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
         registerBlockItem(event, WUTODIE_SLAB, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
@@ -316,6 +325,9 @@ public class ModBlocks {
             registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         }));
         registerBlockItem(event, RAINBOW_UNOBTANIUM, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        CUSTOM_VAULT_CRATES.forEach((objective, crateBlock) -> {
+            registerBlockItem(event, crateBlock, 1, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS).fireResistant());
+        });
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -378,5 +390,20 @@ public class ModBlocks {
         DoubleHighBlockItem tallBlockItem = new DoubleHighBlockItem(block, (new Item.Properties()).tab(ModItems.VAULT_MOD_GROUP).stacksTo(64));
         tallBlockItem.setRegistryName(block.getRegistryName());
         event.getRegistry().register(tallBlockItem);
+    }
+
+    public static VaultCrateBlock getCrateFor(String objective) {
+        String lowerCaseObj = objective.toLowerCase();
+
+        System.out.println(CUSTOM_VAULT_CRATES);
+        if(!CUSTOM_VAULT_CRATES.containsKey(lowerCaseObj)) {
+            return iskallia.vault.init.ModBlocks.VAULT_CRATE;
+        }
+
+        if(lowerCaseObj.equals("corrupted")) {
+            return CUSTOM_VAULT_CRATES.get("corrupt");
+        }
+
+        return CUSTOM_VAULT_CRATES.get(lowerCaseObj);
     }
 }

@@ -41,7 +41,7 @@ public class BallisticBingoCrystalObjective extends CrystalObjective {
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
             ModConfigs.BALLISTIC_BINGO_CONFIG.generate(VaultMod.id("default"), level).ifPresent(task ->
                 objectives.add(BallisticBingoObjective.of(task).add(GridGatewayObjective.of(this.objectiveProbability)
-                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.BINGO, "bingo", level, true))
+                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("BALLISTIC_BINGO"), "bingo", level, true))
                     .add(VictoryObjective.of(300)))));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));

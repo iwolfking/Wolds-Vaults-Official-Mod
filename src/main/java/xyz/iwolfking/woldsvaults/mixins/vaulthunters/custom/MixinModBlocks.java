@@ -7,12 +7,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static iskallia.vault.init.ModBlocks.*;
 
@@ -37,15 +39,20 @@ public class MixinModBlocks {
         return pedestalList.toArray(new Block[]{});
     }
 
-
+    @Unique
+    private static Block[] woldsVaults$vanillaAndCustomCrates = Stream.concat(
+            Stream.of(
+                    VAULT_CRATE, VAULT_CRATE_CAKE, VAULT_CRATE_ARENA, VAULT_CRATE_SCAVENGER,
+                    VAULT_CRATE_CHAMPION, VAULT_CRATE_BOUNTY, VAULT_CRATE_MONOLITH,
+                    VAULT_CRATE_ELIXIR, VAULT_CRATE_PARADOX
+            ),
+            xyz.iwolfking.woldsvaults.init.ModBlocks.CUSTOM_VAULT_CRATES.values().stream()
+    ).toArray(Block[]::new);
     // Replace VaultCrateTileEntity Register with one including Corrupted Crates, can do it with a ModifyArg but im too lazy
     @Shadow
     @Final
     public static BlockEntityType<VaultCrateTileEntity> VAULT_CRATE_TILE_ENTITY =
-            BlockEntityType.Builder.of(VaultCrateTileEntity::new, VAULT_CRATE, VAULT_CRATE_CAKE,
-                    VAULT_CRATE_ARENA, VAULT_CRATE_SCAVENGER, VAULT_CRATE_CHAMPION, VAULT_CRATE_BOUNTY,
-                    VAULT_CRATE, VAULT_CRATE_MONOLITH, VAULT_CRATE_ELIXIR, VAULT_CRATE_PARADOX,
-                    xyz.iwolfking.woldsvaults.init.ModBlocks.VAULT_CRATE_CORRUPTED
+            BlockEntityType.Builder.of(VaultCrateTileEntity::new, woldsVaults$vanillaAndCustomCrates
             ).build(null);
 
 }

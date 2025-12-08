@@ -40,7 +40,7 @@ public class UnhingedScavengerCrystalObjective extends CrystalObjective {
             objectives.add(
                 UnhingedScavengerObjective.of(this.objectiveProbability, UnhingedScavengerObjective.Config.DEFAULT)
                     .add(
-                        AwardCrateObjective.ofConfig(VaultCrateBlock.Type.SCAVENGER, "unhinged_scavenger", level, true))
+                        AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("UNHINGED_SCAVENGER"), "unhinged_scavenger", level, true))
                     .add(VictoryObjective.of(300)));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));

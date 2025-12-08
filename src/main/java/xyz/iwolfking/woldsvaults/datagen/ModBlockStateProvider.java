@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import iskallia.vault.VaultMod;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
@@ -18,9 +19,11 @@ import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     private final ModelFile EMPTY = models().getExistingFile(modLoc("block/base/nothing"));
+    private final ExistingFileHelper efh;
 
     public ModBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
         super(gen, WoldsVaults.MOD_ID, exFileHelper);
+        efh = exFileHelper;
     }
 
 
@@ -36,8 +39,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         generateDecoMonolith();
         generateDecoObelisk();
         generateXLBackpack();
-        generateGenericItemModelBlockState(ModBlocks.VAULT_CRATE_CORRUPTED);
-        generateGenericItemModelBlockState(ModBlocks.VAULT_CRATE_ALCHEMY);
+        ModBlocks.CUSTOM_VAULT_CRATES.forEach((s, crateBlock) -> {
+            vaultCrate(crateBlock, efh, WoldsVaults.id("block/vault_crate_" + s));
+            //generateGenericItemModelBlockState(crateBlock);
+        });
         generateGenericItemModelBlockState(ModBlocks.DECO_SCAVENGER_ALTAR_BLOCK);
         generateGenericItemModelBlockState(ModBlocks.DECO_LODESTONE_BLOCK);
         generateGenericItemModelBlockState(ModBlocks.MOD_BOX_WORKSTATION);
@@ -303,5 +308,21 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 vbb.partialState().modelForState().modelFile(existingModel).rotationY(270).build());
 
         itemModels().withExistingParent("xl_backpack", modLoc("block/xl_backpack"));
+    }
+
+    private void simpleBlockWithTextures(Block block, ModelFile parent, String frameKey, ResourceLocation frameTex, String topKey, ResourceLocation topTex, String crateKey, ResourceLocation crateTex) {
+        ModelFile model = models().withExistingParent(block.getRegistryName().getPath(), parent.getLocation())
+                .texture(frameKey, frameTex)
+                .texture(topKey, topTex)
+                .texture(crateKey, crateTex)
+                .texture("particle", crateTex);
+
+        // Assign the blockstate to use this model
+        simpleBlock(block, models().getExistingFile(new ResourceLocation(block.getRegistryName().getNamespace(), "block/" + block.getRegistryName().getPath())));
+        itemModels().withExistingParent(block.getRegistryName().getPath(), model.getLocation());
+    }
+
+    private void vaultCrate(Block block, ExistingFileHelper efh, ResourceLocation crateTexture) {
+        simpleBlockWithTextures(block, new ModelFile.ExistingModelFile(WoldsVaults.id("block/vault_crate"), efh), "1", VaultMod.id("block/loot_crate_frame"), "2", VaultMod.id("block/loot_crate_top"), "3", crateTexture);
     }
 }

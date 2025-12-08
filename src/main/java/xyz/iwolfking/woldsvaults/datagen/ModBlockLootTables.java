@@ -77,8 +77,9 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         add(ModBlocks.DUNGEON_PEDESTAL_BLOCK, noDrop());
         add(ModBlocks.AUGMENT_CRAFTING_TABLE, noDrop());
         add(ModBlocks.MOD_BOX_WORKSTATION, noDrop());
-        add(ModBlocks.VAULT_CRATE_ALCHEMY, noDrop());
-        add(ModBlocks.VAULT_CRATE_CORRUPTED, noDrop());
+        ModBlocks.CUSTOM_VAULT_CRATES.forEach((s, crateBlock) -> {
+            add(crateBlock, noDrop());
+        });
         add(ModBlocks.BREWING_ALTAR, noDrop());
         add(ModBlocks.WEAVING_STATION, noDrop());
         add(ModBlocks.ETCHING_PEDESTAL, noDrop());

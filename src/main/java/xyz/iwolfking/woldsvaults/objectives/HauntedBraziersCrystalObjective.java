@@ -39,7 +39,7 @@ public class HauntedBraziersCrystalObjective extends CrystalObjective {
     public void configure(Vault vault, RandomSource random) {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            objectives.add(HauntedBraziersObjective.of(this.target.get(random), this.objectiveProbability, xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackLootTable(level)).add(FindExitObjective.create(ClassicPortalLogic.EXIT).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.MONOLITH, "haunted_braziers", level, true))));
+            objectives.add(HauntedBraziersObjective.of(this.target.get(random), this.objectiveProbability, xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackLootTable(level)).add(FindExitObjective.create(ClassicPortalLogic.EXIT).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("HAUNTED_BRAZIERS"), "haunted_braziers", level, true))));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
