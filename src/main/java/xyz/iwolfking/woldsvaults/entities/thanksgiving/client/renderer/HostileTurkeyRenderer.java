@@ -12,8 +12,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 public class HostileTurkeyRenderer extends MobRenderer<Chicken, ChickenModel<Chicken>> {
     private static final ResourceLocation TURKEY_LOCATION = WoldsVaults.id("textures/entity/hostile_turkey.png");
 
-    public HostileTurkeyRenderer(EntityRendererProvider.Context p_173952_) {
-        super(p_173952_, new ChickenModel<>(p_173952_.bakeLayer(ModelLayers.CHICKEN)), 0.3F);
+    public HostileTurkeyRenderer(EntityRendererProvider.Context pContext) {
+        super(pContext, new ChickenModel<>(pContext.bakeLayer(ModelLayers.CHICKEN)), 0.3F);
     }
 
     /**

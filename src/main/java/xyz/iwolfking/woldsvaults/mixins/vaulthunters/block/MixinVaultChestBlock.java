@@ -37,8 +37,8 @@ import java.util.function.Supplier;
 @ParametersAreNonnullByDefault
 public class MixinVaultChestBlock extends ChestBlock {
 
-    public MixinVaultChestBlock(Properties p_51490_, Supplier<BlockEntityType<? extends ChestBlockEntity>> p_51491_) {
-        super(p_51490_, p_51491_);
+    public MixinVaultChestBlock(Properties pProperties, Supplier<BlockEntityType<? extends ChestBlockEntity>> pBlockEntityType) {
+        super(pProperties, pBlockEntityType);
     }
 
     /**
