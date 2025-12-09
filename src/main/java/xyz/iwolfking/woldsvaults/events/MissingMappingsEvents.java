@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.events;
 
+import architectspalette.core.event.MissingMappingsEventHandler;
+import blusunrize.immersiveengineering.common.util.MissingMappingsHelper;
 import iskallia.vault.VaultMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
@@ -14,7 +16,6 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class MissingMappingsEvents {
     @SubscribeEvent
     public static void onMissingMappings(RegistryEvent.MissingMappings<Block> event) {
@@ -62,6 +63,21 @@ public class MissingMappingsEvents {
             else if(mapping.key.equals(VaultMod.id("vault_plating_block_1"))) {
                 mapping.remap(ModCompressibleBlocks.getCompressed("vault_plating_block", 1));
             }
+            else if(mapping.key.equals(VaultMod.id("vault_diamond_block_1"))) {
+                mapping.remap(ModCompressibleBlocks.getCompressed("vault_diamond_block", 1));
+            }
+            else if(mapping.key.equals(VaultMod.id("silver_scrap_2"))) {
+                mapping.remap(ModCompressibleBlocks.getCompressed("silver_scrap_block", 2));
+            }
+            else if(mapping.key.equals(VaultMod.id("vault_cobblestone_2"))) {
+                mapping.remap(ModCompressibleBlocks.getCompressed("vault_cobblestone", 2));
+            }
+            else if(mapping.key.equals(VaultMod.id("vault_essence_2"))) {
+                mapping.remap(ModCompressibleBlocks.getCompressed("vault_essence_block", 2));
+            }
+            else if(mapping.key.equals(VaultMod.id("vault_stone_2"))) {
+                mapping.remap(ModCompressibleBlocks.getCompressed("vault_stone", 2));
+            }
             else if(mapping.key.equals(VaultMod.id("vault_plating_block"))) {
                 mapping.remap(ModBlocks.VAULT_PLATING_BLOCK);
             }
@@ -71,18 +87,19 @@ public class MissingMappingsEvents {
             else if(mapping.key.equals(new ResourceLocation("kubejs", "rainbow_unobtanium_block"))) {
                 mapping.remap(ModBlocks.RAINBOW_UNOBTANIUM);
             }
-            remapUnobtaniumBlock(mapping);
-            remapOldCompressedBlock(mapping, VaultMod.id("vault_essence_1"), ModBlocks.VAULT_ESSENCE_BLOCK, ModCompressibleBlocks.getCompressed("vault_essence_block", 1));
-            remapOldCompressedBlock(mapping, VaultMod.id("silver_scrap_1"), ModBlocks.SILVER_SCRAP_BLOCK, ModCompressibleBlocks.getCompressed("silver_scrap_block", 1));
-            remapOldCompressedBlock(mapping, VaultMod.id("vault_ingot_1"), ModBlocks.VAULT_INGOT_BLOCK, ModCompressibleBlocks.getCompressed("vault_ingot_block", 1));
-            remapOldCompressedBlock(mapping, VaultMod.id("vault_stone_1"), ModCompressibleBlocks.getCompressed("vault_stone", 1), ModCompressibleBlocks.getCompressed("vault_stone", 2));
-            remapOldCompressedBlock(mapping, VaultMod.id("vault_cobblestone_1"), ModCompressibleBlocks.getCompressed("vault_cobblestone", 1), ModCompressibleBlocks.getCompressed("vault_cobblestone", 2));
+            else {
+                remapUnobtaniumBlock(mapping);
+                remapOldCompressedBlock(mapping, VaultMod.id("vault_essence_1"), ModBlocks.VAULT_ESSENCE_BLOCK, ModCompressibleBlocks.getCompressed("vault_essence_block", 1));
+                remapOldCompressedBlock(mapping, VaultMod.id("silver_scrap_1"), ModBlocks.SILVER_SCRAP_BLOCK, ModCompressibleBlocks.getCompressed("silver_scrap_block", 1));
+                remapOldCompressedBlock(mapping, VaultMod.id("vault_ingot_1"), ModBlocks.VAULT_INGOT_BLOCK, ModCompressibleBlocks.getCompressed("vault_ingot_block", 1));
+                remapOldCompressedBlock(mapping, VaultMod.id("vault_stone_1"), ModCompressibleBlocks.getCompressed("vault_stone", 1), ModCompressibleBlocks.getCompressed("vault_stone", 2));
+                remapOldCompressedBlock(mapping, VaultMod.id("vault_cobblestone_1"), ModCompressibleBlocks.getCompressed("vault_cobblestone", 1), ModCompressibleBlocks.getCompressed("vault_cobblestone", 2));
+            }
         }
     }
 
     @SubscribeEvent
     public static void onMissingMappingsItem(RegistryEvent.MissingMappings<Item> event) {
-
         for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
             if (mapping.key.equals(VaultMod.id("chromatic_gold_ingot"))) {
                 mapping.remap(ModItems.CHROMATIC_GOLD_INGOT);
@@ -104,9 +121,6 @@ public class MissingMappingsEvents {
             }
             else if (mapping.key.equals(VaultMod.id("crystal_seal_titan"))) {
                 mapping.remap(ModItems.CRYSTAL_SEAL_TITAN);
-            }
-            else if (mapping.key.equals(VaultMod.id("crystal_seal_doomsayer"))) {
-                mapping.remap(ModItems.CRYSTAL_SEAL_DOOMSAYER);
             }
             else if (mapping.key.equals(VaultMod.id("crystal_seal_doomsayer"))) {
                 mapping.remap(ModItems.CRYSTAL_SEAL_DOOMSAYER);
@@ -151,13 +165,13 @@ public class MissingMappingsEvents {
                 mapping.remap(ModItems.GEM_REAGENT_TUBIUM);
             }
             else if (mapping.key.equals(VaultMod.id("gem_reagent_upaline"))) {
-                mapping.remap(ModItems.GEM_REAGENT_GORGINITE);
+                mapping.remap(ModItems.GEM_REAGENT_UPALINE);
             }
             else if (mapping.key.equals(VaultMod.id("gem_reagent_xenium"))) {
-                mapping.remap(ModItems.GEM_REAGENT_BOMIGNITE);
+                mapping.remap(ModItems.GEM_REAGENT_XENIUM);
             }
             else if (mapping.key.equals(VaultMod.id("gem_reagent_sparkletine"))) {
-                mapping.remap(ModItems.GEM_REAGENT_PETEZANITE);
+                mapping.remap(ModItems.GEM_REAGENT_SPARKLETINE);
             }
             else if (mapping.key.equals(VaultMod.id("smashed_vault_gem"))) {
                 mapping.remap(ModItems.SMASHED_VAULT_GEM);
@@ -216,6 +230,9 @@ public class MissingMappingsEvents {
             else if(mapping.key.equals(VaultMod.id("vault_plating_block_1"))) {
                 mapping.remap(ModCompressibleBlocks.getCompressed("vault_plating_block", 1).asItem());
             }
+            else if(mapping.key.equals(VaultMod.id("vault_diamond_block_1"))) {
+                mapping.remap(ModCompressibleBlocks.getCompressed("vault_diamond_block", 1).asItem());
+            }
             else if(mapping.key.equals(VaultMod.id("vault_plating_block"))) {
                 mapping.remap(ModBlocks.VAULT_PLATING_BLOCK.asItem());
             }
@@ -228,13 +245,15 @@ public class MissingMappingsEvents {
             else if(mapping.key.equals(new ResourceLocation("kubejs", "rainbow_unobtanium"))) {
                 mapping.remap(ModItems.RAINBOW_UNOBTANIUM);
             }
-            remapUnobtaniumItem(mapping);
-            remapUnobtaniumBlockItem(mapping);
-            remapOldCompressedItem(mapping, VaultMod.id("vault_essence_1"), ModBlocks.VAULT_ESSENCE_BLOCK.asItem(), ModCompressibleBlocks.getCompressed("vault_essence_block", 1).asItem());
-            remapOldCompressedItem(mapping, VaultMod.id("silver_scrap_1"), ModBlocks.SILVER_SCRAP_BLOCK.asItem(), ModCompressibleBlocks.getCompressed("silver_scrap_block", 1).asItem());
-            remapOldCompressedItem(mapping, VaultMod.id("vault_ingot_1"), ModBlocks.VAULT_INGOT_BLOCK.asItem(), ModCompressibleBlocks.getCompressed("vault_ingot_block", 1).asItem());
-            remapOldCompressedItem(mapping, VaultMod.id("vault_stone_1"), ModCompressibleBlocks.getCompressed("vault_stone", 1).asItem(), ModCompressibleBlocks.getCompressed("vault_stone", 2).asItem());
-            remapOldCompressedItem(mapping, VaultMod.id("vault_cobblestone_1"), ModCompressibleBlocks.getCompressed("vault_cobblestone", 1).asItem(), ModCompressibleBlocks.getCompressed("vault_cobblestone", 2).asItem());
+            else {
+                remapUnobtaniumItem(mapping);
+                remapUnobtaniumBlockItem(mapping);
+                remapOldCompressedItem(mapping, VaultMod.id("vault_essence_1"), ModBlocks.VAULT_ESSENCE_BLOCK.asItem(), ModCompressibleBlocks.getCompressed("vault_essence_block", 1).asItem());
+                remapOldCompressedItem(mapping, VaultMod.id("silver_scrap_1"), ModBlocks.SILVER_SCRAP_BLOCK.asItem(), ModCompressibleBlocks.getCompressed("silver_scrap_block", 1).asItem());
+                remapOldCompressedItem(mapping, VaultMod.id("vault_ingot_1"), ModBlocks.VAULT_INGOT_BLOCK.asItem(), ModCompressibleBlocks.getCompressed("vault_ingot_block", 1).asItem());
+                remapOldCompressedItem(mapping, VaultMod.id("vault_stone_1"), ModCompressibleBlocks.getCompressed("vault_stone", 1).asItem(), ModCompressibleBlocks.getCompressed("vault_stone", 2).asItem());
+                remapOldCompressedItem(mapping, VaultMod.id("vault_cobblestone_1"), ModCompressibleBlocks.getCompressed("vault_cobblestone", 1).asItem(), ModCompressibleBlocks.getCompressed("vault_cobblestone", 2).asItem());
+            }
         }
     }
 
@@ -251,7 +270,7 @@ public class MissingMappingsEvents {
         if(mapping.key.equals(old)) {
             mapping.remap(blockOne);
         }
-        if(mapping.key.equals(new ResourceLocation(old.getPath().replace("_1", "_2")))) {
+        if(mapping.key.equals(new ResourceLocation(old.getNamespace(), old.getPath().replace("_1", "_2")))) {
             mapping.remap(blockTwo);
         }
     }

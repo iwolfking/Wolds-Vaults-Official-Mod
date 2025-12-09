@@ -52,6 +52,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CRYSTAL_SEAL_SPIRITS);
         simpleItem(ModItems.CRYSTAL_SEAL_TITAN);
         simpleItem(ModItems.CRYSTAL_SEAL_ALCHEMY);
+        simpleItem(ModItems.CRYSTAL_SEAL_UNHINGED);
         simpleItem(ModItems.ECCENTRIC_FOCUS);
         simpleItem(ModItems.ENIGMA_EGG);
         simpleItem(ModItems.EXPERTISE_ORB_ITEM);

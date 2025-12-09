@@ -24,7 +24,6 @@ public class MixinCompressium {
 
     @Inject(method = "registerBlocks", at = @At("HEAD"))
     private void addVHCompressiumBlocks(RegistryEvent.Register<Block> event, CallbackInfo ci) {
-        ModCompressibleBlocks.addBuiltInBlocks();
         COMPRESSIUM_BLOCKS.putAll(ModCompressibleBlocks.ADDITIONAL_COMPRESSIBLE_BLOCKS);
     }
 }

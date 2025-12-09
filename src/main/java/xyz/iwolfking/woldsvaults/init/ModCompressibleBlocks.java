@@ -54,11 +54,15 @@ public class ModCompressibleBlocks {
 
     public static Block getCompressed(String blockName, int compressionLevel) {
         if(compressionLevel <= 0) {
-            return Blocks.AIR;
+            return Blocks.STONE;
+        }
+
+        if(ADDITIONAL_COMPRESSIBLE_BLOCKS.get(blockName) == null) {
+            return Blocks.STONE;
         }
 
         CompressibleBlock block = ADDITIONAL_COMPRESSIBLE_BLOCKS.get(blockName);
         int maxDepth = block.getNestedDepth();
-        return REGISTERED_BLOCKS.get(block).get(Math.min(compressionLevel - 1, maxDepth)).get();
+        return getRegisteredBlocks().get(block).get(Math.min(compressionLevel - 1, maxDepth)).get();
     }
 }
