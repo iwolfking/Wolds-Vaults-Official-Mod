@@ -1,10 +1,19 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.VaultDiffuserConfig;
+import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultDiffuserProvider;
+import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
+import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ModVaultDiffuserProvider extends AbstractVaultDiffuserProvider {
     protected ModVaultDiffuserProvider(DataGenerator generator) {
@@ -13,6 +22,7 @@ public class ModVaultDiffuserProvider extends AbstractVaultDiffuserProvider {
 
     @Override
     public void registerConfigs() {
+        ModConfigs.VAULT_DIFFUSER = new VaultDiffuserConfig().readConfig();
         add("wolds_items", builder -> {
             builder.add(ModItems.CHUNK_OF_POWER.getRegistryName(), 2048)
                     .add(ModItems.SOUL_ICHOR.getRegistryName(), 128)
@@ -33,23 +43,53 @@ public class ModVaultDiffuserProvider extends AbstractVaultDiffuserProvider {
                     .add(ModItems.HASTY_POMEGRANATE.getRegistryName(), 486)
                     .add(ModItems.POLTERGEIST_PLUM.getRegistryName(), 666)
                     .add(iskallia.vault.init.ModItems.MYSTIC_PEAR.getRegistryName(), 4096)
-                    .add(VaultMod.id("silver_scrap_1"), 54)
-                    .add(VaultMod.id("silver_scrap_2"), 486)
-                    .add(VaultMod.id("velvet_block_1"), 36)
-                    .add(VaultMod.id("ornate_block_1"), 36)
-                    .add(VaultMod.id("gilded_block_1"), 36)
-                    .add(VaultMod.id("living_rock_block_cobble_1"), 36)
-                    .add(VaultMod.id("sandy_block_1"), 36)
-                    .add(VaultMod.id("rotten_meat_block"), 36)
-                    .add(VaultMod.id("magic_silk_block_1"), 405)
-                    .add(VaultMod.id("vault_diamond_block"), 1152)
-                    .add(VaultMod.id("vault_diamond_block_1"), 10368)
-                    .add(VaultMod.id("vault_essence_1"), 99)
-                    .add(VaultMod.id("vault_essence_2"), 891)
-                    .add(VaultMod.id("vault_plating_block"), 36)
-                    .add(VaultMod.id("vault_plating_block_1"), 486)
-                    .add(VaultMod.id("ancient_copper_block_1"), 81)
-                    .build();
+                    .add(ModBlocks.VAULT_ESSENCE_BLOCK.getRegistryName(), 99)
+                    .add(ModBlocks.CHROMATIC_GOLD_BLOCK.getRegistryName(), 936)
+                    .add(ModBlocks.SILVER_SCRAP_BLOCK.getRegistryName(), 54)
+                    .add(ModBlocks.VAULT_PLATING_BLOCK.getRegistryName(), 36)
+                    .add(ModBlocks.CARBON_BLOCK.getRegistryName(), 162);
+                    ModCompressibleBlocks.getRegisteredBlocks().forEach(((compressibleBlock, suppliers) -> {
+                        compressed(compressibleBlock.name(), compressibleBlock.name(), compressibleBlock.getNestedDepth(), builder);
+                    }));
+                    builder.build();
         });
+    }
+
+    private static void compressed(int baseValue, String baseName, int maxDepth, Builder builder) {
+        for(int i = 0; i < maxDepth + 1; i++) {
+            if(i == 0) {
+                builder.add(WoldsVaults.id(baseName), baseValue);
+            }
+            else {
+                builder.add(new ResourceLocation("compressium", baseName + "_" + i), (int) (baseValue * Math.pow(9, i)));
+            }
+        }
+    }
+
+    private static void compressed(String baseItem, String baseName, int maxDepth, Builder builder) {
+        int baseValue = 0;
+
+        if(builder.get(WoldsVaults.id(baseItem)) != 0) {
+            baseValue = builder.get(WoldsVaults.id(baseItem));
+        }
+        else if(ModConfigs.VAULT_DIFFUSER.getDiffuserOutputMap().containsKey(WoldsVaults.id(baseItem))) {
+            baseValue = ModConfigs.VAULT_DIFFUSER.getDiffuserOutputMap().get(WoldsVaults.id(baseItem));
+        }
+        else if(ModConfigs.VAULT_DIFFUSER.getDiffuserOutputMap().containsKey(VaultMod.id(baseItem))) {
+            baseValue = ModConfigs.VAULT_DIFFUSER.getDiffuserOutputMap().get(VaultMod.id(baseItem));
+        }
+
+        if(baseValue == 0) {
+            return;
+        }
+
+        for(int i = 0; i < maxDepth + 1; i++) {
+            if(i == 0) {
+                builder.add(WoldsVaults.id(baseName), baseValue * 9);
+            }
+            else {
+                builder.add(new ResourceLocation("compressium", baseName + "_" + i), (int) (baseValue * Math.pow(9, i)));
+            }
+        }
     }
 }

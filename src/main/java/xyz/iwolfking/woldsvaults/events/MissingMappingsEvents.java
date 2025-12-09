@@ -67,13 +67,13 @@ public class MissingMappingsEvents {
                 mapping.remap(ModCompressibleBlocks.getCompressed("vault_diamond_block", 1));
             }
             else if(mapping.key.equals(VaultMod.id("silver_scrap_2"))) {
-                mapping.remap(ModCompressibleBlocks.getCompressed("silver_scrap_block", 2));
+                mapping.remap(ModCompressibleBlocks.getCompressed("silver_scrap_block", 1));
             }
             else if(mapping.key.equals(VaultMod.id("vault_cobblestone_2"))) {
                 mapping.remap(ModCompressibleBlocks.getCompressed("vault_cobblestone", 2));
             }
             else if(mapping.key.equals(VaultMod.id("vault_essence_2"))) {
-                mapping.remap(ModCompressibleBlocks.getCompressed("vault_essence_block", 2));
+                mapping.remap(ModCompressibleBlocks.getCompressed("vault_essence_block", 1));
             }
             else if(mapping.key.equals(VaultMod.id("vault_stone_2"))) {
                 mapping.remap(ModCompressibleBlocks.getCompressed("vault_stone", 2));
