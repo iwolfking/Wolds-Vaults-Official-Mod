@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 import iskallia.vault.util.StringUtils;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
+import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.*;
 
@@ -12,8 +13,16 @@ public class ModLanguageProvider extends LanguageProvider {
         super(gen, WoldsVaults.MOD_ID, "en_us");
     }
 
+    public void add(CustomObjectiveRegistryEntry entry, String text) {
+        add("vault_objective." + entry.getRegistryName().getNamespace() + "." + entry.getRegistryName().getPath(), text);
+    }
+
     @Override
     protected void addTranslations() {
+        ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {
+            add(customObjectiveRegistryEntry, customObjectiveRegistryEntry.getName());
+        });
+        add("util.woldsvaults.objective_text", "Objective: ");
         add("item.woldsvaults.rotten_heart", "Rotten Heart");
         add("item.woldsvaults.rotten_apple", "Rotten Apple");
         add("item.woldsvaults.verdant_globule", "Verdant Globule");

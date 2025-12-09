@@ -53,12 +53,12 @@ public class ModItems {
 
 
     public static VaultBattleStaffItem BATTLESTAFF;
-    //public static VaultBowItem BOW;
     public static VaultTridentItem TRIDENT;
     public static VaultPlushieItem PLUSHIE;
     public static VaultLootSackItem LOOT_SACK;
-
-    //public static VaultAmuletItem VAULT_AMULET;
+    public static VaultRangItem RANG;
+    public static VaultMapItem MAP;
+    //public static VaultBowItem BOW;
 
     public static LootableItem GEM_BOX;
     public static LootableItem SUPPLY_BOX;
@@ -180,8 +180,7 @@ public class ModItems {
     //Backpack?
     public static BackpackItem XL_BACKPACK;
 
-    public static VaultRangItem RANG;
-    public static VaultMapItem MAP;
+
 
 
     public static BasicItem GREEDY_VAULT_ROCK;

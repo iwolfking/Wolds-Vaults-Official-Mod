@@ -6,13 +6,9 @@ import iskallia.vault.dynamodel.model.armor.ArmorModel;
 import iskallia.vault.dynamodel.model.item.HandHeldModel;
 import iskallia.vault.dynamodel.model.item.PlainItemModel;
 import iskallia.vault.dynamodel.model.item.shield.ShieldModel;
-import iskallia.vault.dynamodel.registry.DynamicModelRegistries;
-import iskallia.vault.gear.renderer.VaultArmorRenderProperties;
 import iskallia.vault.init.ModDynamicModels;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.vhapi.VHAPI;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -54,6 +50,9 @@ public class AdditionalModels {
     public static final PlainItemModel CAT_WAND;
     public static final PlainItemModel MUSTARD;
     public static final PlainItemModel TINKERS_TANKARD;
+
+    //public static final ArmorModel HEATWAVE = ((ArmorModel)(new ArmorModel(WoldsVaults.id("gear/armor/heatwave"), "Heatwave")).properties((new DynamicModelProperties()).allowTransmogrification().discoverOnRoll())).usingLayers(new HeatwaveArmorModel()).addSlot(EquipmentSlot.HEAD).addSlot(EquipmentSlot.CHEST).addSlot(EquipmentSlot.LEGS).addSlot(EquipmentSlot.FEET);
+
     //public static final ArmorModel HEATWAVE;
 
     static {

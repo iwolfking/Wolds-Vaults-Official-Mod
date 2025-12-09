@@ -525,6 +525,15 @@
   "the_vault.gear_modification.tab.mythical": "Mythical",
   "the_vault.gear_modification.unfreeze_all.description": "Unfreeze all Frozen modifiers",
   "the_vault.gear_modification.unfreeze_all.no_modifiers": "There are no frozen modifiers to unfreeze",
+  "util.woldsvaults.objective_text": "Objective: ",
+  "vault_objective.woldsvaults.alchemy": "Alchemy",
+  "vault_objective.woldsvaults.ballistic_bingo": "Ballistic Bingo",
+  "vault_objective.woldsvaults.brutal_bosses": "Brutal Bosses",
+  "vault_objective.woldsvaults.corrupted": "Corrupted",
+  "vault_objective.woldsvaults.enchanted_elixir": "Enchanted Elixir",
+  "vault_objective.woldsvaults.haunted_braziers": "Haunted Braziers",
+  "vault_objective.woldsvaults.unhinged_scavenger": "Unhinged Scavenger Hunt",
+  "vault_objective.woldsvaults.zealot": "Zealot",
   "woldsvaults.key.cherish_item": "Cherish Item",
   "woldsvaults.subtitle.saferspaces_proc": "Safer Spaces activated!"
 }

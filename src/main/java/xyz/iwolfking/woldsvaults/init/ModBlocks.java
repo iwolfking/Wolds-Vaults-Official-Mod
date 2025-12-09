@@ -395,7 +395,6 @@ public class ModBlocks {
     public static VaultCrateBlock getCrateFor(String objective) {
         String lowerCaseObj = objective.toLowerCase();
 
-        System.out.println(CUSTOM_VAULT_CRATES);
         if(!CUSTOM_VAULT_CRATES.containsKey(lowerCaseObj)) {
             return iskallia.vault.init.ModBlocks.VAULT_CRATE;
         }

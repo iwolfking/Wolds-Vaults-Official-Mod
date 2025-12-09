@@ -155,7 +155,7 @@ public class VaultBowItem extends BowItem implements VaultGearItem, DyeableLeath
     @NotNull
     @Override
     public VaultGearType getGearType(ItemStack itemStack) {
-        return null;
+        return VaultGearType.AXE;
     }
 
     @Override

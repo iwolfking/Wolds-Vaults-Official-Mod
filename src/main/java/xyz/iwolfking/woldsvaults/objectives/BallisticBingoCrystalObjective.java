@@ -19,13 +19,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import java.util.List;
 import java.util.Optional;
 
-public class BallisticBingoCrystalObjective extends CrystalObjective {
+public class BallisticBingoCrystalObjective extends WoldCrystalObjective {
     protected float objectiveProbability;
 
     public BallisticBingoCrystalObjective() {
@@ -47,11 +50,6 @@ public class BallisticBingoCrystalObjective extends CrystalObjective {
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
         });
-    }
-
-    @Override
-    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add((new TextComponent("Objective: ")).append((new TextComponent("Ballistic Bingo")).withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
     }
 
     public Optional<Integer> getColor(float time) {
@@ -80,5 +78,10 @@ public class BallisticBingoCrystalObjective extends CrystalObjective {
     @Override
     public void readJson(JsonObject json) {
         this.objectiveProbability = Adapters.FLOAT.readJson(json.get("objective_probability")).orElse(0.0F);
+    }
+
+    @Override
+    ResourceLocation getObjectiveId() {
+        return ModCustomVaultObjectiveEntries.BALLISTIC_BINGO.getRegistryName();
     }
 }

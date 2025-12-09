@@ -4,6 +4,7 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
+import iskallia.vault.gear.attribute.custom.effect.EffectTrialAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeType;
 import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.UniqueEffectGearAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.ParticleTrailAttribute;
 
 import javax.annotation.Nullable;
 
@@ -107,7 +109,7 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<String> STATIC_PLACEHOLDER_MODIFIER = attr("static_modifier", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.staticPlaceholderReader("Unknown Crystal Modifier", 14706614, "%s"));
     public static final VaultGearAttribute<Float> INSCRIPTION = attr("inscription", VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.inscriptionReader("Guaranteed Special Rooms", 8833629, "%s"), VaultGearAttributeComparator.floatComparator());
 
-
+    public static final VaultGearAttribute<ParticleTrailAttribute> PARTICLE_TRAIL =  attr("particle_trail", ParticleTrailAttribute.type(), ParticleTrailAttribute.generator(), ParticleTrailAttribute.reader(), ParticleTrailAttribute.comparator());
 
     //Deprecated
     @Deprecated
@@ -179,6 +181,7 @@ public class ModGearAttributes {
                       registry.register(BONUS_BEDROCK);
                       registry.register(BONUS_COIN_PILES);
                       registry.register(INCREASED_EFFECT_CLOUD_CHANCE);
+                      registry.register(PARTICLE_TRAIL);
        }
   
     public static void registerVanillaAssociations() {
