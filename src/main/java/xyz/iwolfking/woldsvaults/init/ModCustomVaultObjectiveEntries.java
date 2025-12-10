@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.init;
 
-import iskallia.vault.init.ModBlocks;
 import iskallia.vault.util.data.LazySet;
 import net.minecraftforge.event.RegistryEvent;
 import org.lwjgl.openal.ALC;
@@ -22,6 +21,7 @@ public class ModCustomVaultObjectiveEntries {
     public static final CustomObjectiveRegistryEntry ZEALOT = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("zealot", "Zealot", ZealotCrystalObjective.class, ZealotCrystalObjective::new, ZealotObjective.KEY, ZealotObjective.class).setCrateItem(() -> xyz.iwolfking.woldsvaults.init.ModBlocks.CUSTOM_VAULT_CRATES.get("zealot").asItem()).build();
     public static final CustomObjectiveRegistryEntry CORRUPTED = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("corrupted", "Corrupted", CorruptedCrystalObjective.class, CorruptedCrystalObjective::new, CorruptedObjective.S_KEY, CorruptedObjective.class).setCrateItem(() -> xyz.iwolfking.woldsvaults.init.ModBlocks.CUSTOM_VAULT_CRATES.get("corrupt").asItem()).build();
     public static final CustomObjectiveRegistryEntry ALCHEMY = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("alchemy", "Alchemy", AlchemyCrystalObjective.class, AlchemyCrystalObjective::new, AlchemyObjective.KEY, AlchemyObjective.class).setCrateItem(() -> xyz.iwolfking.woldsvaults.init.ModBlocks.CUSTOM_VAULT_CRATES.get("alchemy").asItem()).build();
+    public static final CustomObjectiveRegistryEntry SURVIVAL = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("survival", "Survival", SurvivalCrystalObjective.class, SurvivalCrystalObjective::new, SurvivalObjective.KEY, SurvivalObjective.class).setCrateItem(() -> ModBlocks.CUSTOM_VAULT_CRATES.get("survival").asItem()).build();
 
 
     public static void registerCustomObjectives(RegistryEvent.Register<CustomObjectiveRegistryEntry> event) {
@@ -43,6 +43,7 @@ public class ModCustomVaultObjectiveEntries {
         ENTRIES.add(ZEALOT);
         ENTRIES.add(CORRUPTED);
         ENTRIES.add(ALCHEMY);
+        //ENTRIES.add(SURVIVAL);
         return ENTRIES.stream().toList();
     }
 }

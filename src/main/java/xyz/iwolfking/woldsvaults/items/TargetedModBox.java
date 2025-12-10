@@ -50,7 +50,7 @@ public class TargetedModBox extends BasicItem {
             }
 
             ItemStack stack = ItemStack.EMPTY;
-            WeightedList<ProductEntry> productEntryList = ModConfigs.MOD_BOX.POOL.get(researchName);
+            WeightedList<ProductEntry> productEntryList = ModConfigs.MOD_BOX.POOL.get(researchName).entries;
             ProductEntry productEntry = productEntryList.getRandom(world.random);
 
             if (productEntry != null) {

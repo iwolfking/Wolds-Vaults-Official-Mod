@@ -7,57 +7,53 @@ import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.*;
+import iskallia.vault.core.vault.time.TickTimer;
 import iskallia.vault.item.crystal.CrystalData;
-import iskallia.vault.item.crystal.objective.CrystalObjective;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
-import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Optional;
 
-public class AlchemyCrystalObjective extends WoldCrystalObjective {
+public class SurvivalCrystalObjective extends WoldCrystalObjective {
     protected float objectiveProbability;
     protected float requiredProgress;
 
-    public AlchemyCrystalObjective(float objectiveProbability, float requiredProgress) {
+    public SurvivalCrystalObjective(float objectiveProbability, float requiredProgress) {
         this.objectiveProbability = objectiveProbability;
         this.requiredProgress = requiredProgress;
     }
 
-    public AlchemyCrystalObjective() {
+    public SurvivalCrystalObjective() {
     }
 
     @Override
     public Optional<Integer> getColor(float v) {
-        return Optional.of(0xB68CFF);
+        return Optional.of(0x334324);
     }
 
     @Override
-    public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
+    public void configure(Vault vault, RandomSource random, String sigil) {
         int level = vault.get(Vault.LEVEL).get();
 
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
 
-            objectives.add(AlchemyObjective.of(this.objectiveProbability, level, requiredProgress)
+            objectives.add(SurvivalObjective.of(12000)
                     .add(FindExitObjective.create(ClassicPortalLogic.EXIT))
-                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ALCHEMY"), "alchemy", level, true)));
-
+                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("SURVIVAL"), "survival", level, true)));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
+        });
+
+        vault.ifPresent(Vault.CLOCK, tickClock -> {
+            tickClock.set(TickTimer.DISPLAY_TIME, 1200);
         });
     }
 
     @Override
     ResourceLocation getObjectiveId() {
-        return ModCustomVaultObjectiveEntries.ALCHEMY.getRegistryName();
+        return ModCustomVaultObjectiveEntries.SURVIVAL.getRegistryName();
     }
 
     @Override

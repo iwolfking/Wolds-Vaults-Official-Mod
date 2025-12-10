@@ -1,7 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.recipes;
 
-import iskallia.vault.item.crystal.recipe.AnvilRecipe;
-import iskallia.vault.item.crystal.recipe.AnvilRecipes;
+import iskallia.vault.recipe.anvil.AnvilRecipe;
+import iskallia.vault.recipe.anvil.AnvilRecipes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;

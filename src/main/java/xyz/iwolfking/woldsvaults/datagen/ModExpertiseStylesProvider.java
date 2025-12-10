@@ -24,12 +24,12 @@ public class ModExpertiseStylesProvider extends AbstractExpertiseStyleProvider {
     public void registerConfigs() {
         ModConfigs.EXPERTISES_GUI = new ExpertisesGUIConfig().readConfig();
         add("wolds_expertises", builder -> {
-            addInDirection(ExpertiseStyleDirection.ABOVE, "Companion_Loyalty", "ShopReroll", VaultMod.id("gui/skills/negotiator"), builder);
-            addInDirection(ExpertiseStyleDirection.LEFT, "Unbreakable", "Grave_Insurance", VaultMod.id("gui/skills/grave_insurance"), builder);
-            addInDirection(ExpertiseStyleDirection.RIGHT, "Jeweler", "Augmentation_Luck", VaultMod.id("gui/skills/augmentation_luck"), builder);
-            addInDirection(ExpertiseStyleDirection.BELOW, "Lucky_Altar", "Craftsman", VaultMod.id("gui/skills/reroll"), builder);
-            addInDirection(ExpertiseStyleDirection.BELOW, "Craftsman", "Pylon_Pilferer", VaultMod.id("gui/skills/pylon_pilferer"), builder);
             builder.addStyle("Surprise_Favors", new SkillStyle(210, 70, VaultMod.id("gui/skills/ward"), SkillFrame.STAR));
+            builder.addStyle("ShopReroll", new SkillStyle(210, -140, VaultMod.id("gui/skills/negotiator"), SkillFrame.STAR));
+            builder.addStyle("Grave_Insurance", new SkillStyle(0, 70, VaultMod.id("gui/skills/grave_insurance"), SkillFrame.STAR));
+            builder.addStyle("Augmentation_Luck", new SkillStyle(420, 70, VaultMod.id("gui/skills/augmentation_luck"), SkillFrame.STAR));
+            builder.addStyle("Craftsman", new SkillStyle(210, 210, VaultMod.id("gui/skills/reroll"), SkillFrame.STAR));
+            builder.addStyle("Pylon_Pilferer", new SkillStyle(210, 280, VaultMod.id("gui/skills/pylon_pilferer"), SkillFrame.STAR));
         });
     }
 

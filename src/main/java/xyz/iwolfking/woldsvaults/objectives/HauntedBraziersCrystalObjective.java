@@ -23,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class HauntedBraziersCrystalObjective extends WoldCrystalObjective {
     }
 
     @Override
-    public void configure(Vault vault, RandomSource random) {
+    public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
             objectives.add(HauntedBraziersObjective.of(this.target.get(random), this.objectiveProbability, xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackLootTable(level)).add(FindExitObjective.create(ClassicPortalLogic.EXIT).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("HAUNTED_BRAZIERS"), "haunted_braziers", level, true))));

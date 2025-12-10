@@ -40,32 +40,32 @@ public class MixinUniqueGearCommand {
         return ModConfigs.UNIQUE_GEAR.getEntry(id);
     }
 
-    @Inject(method = "determineItemStackForUnique", at = @At("HEAD"), cancellable = true)
-    private void addAdditionalItemStacksForUniques(UniqueGearConfig.Entry uniqueEntry, CallbackInfoReturnable<ItemStack> cir) {
-        ResourceLocation model = uniqueEntry.getModel();
-        if(model != null) {
-            String modelPath = model.getPath();
-            if(modelPath.contains("jewel")) {
-                cir.setReturnValue(new ItemStack(ModItems.JEWEL));
-            }
-            else if(modelPath.contains("magnet")) {
-                cir.setReturnValue(new ItemStack(ModItems.MAGNET));
-            }
-            else if(modelPath.contains("battlestaff")) {
-                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.BATTLESTAFF));
-            }
-            else if(modelPath.contains("trident")) {
-                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.TRIDENT));
-            }
-            else if(modelPath.contains("rang")) {
-                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.RANG));
-            }
-            else if(modelPath.contains("plushie")) {
-                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.PLUSHIE));
-            }
-            else if(modelPath.contains("loot_sack")) {
-                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.LOOT_SACK));
-            }
-        }
-    }
+//    @Inject(method = "determineItemStackForUnique", at = @At("HEAD"), cancellable = true)
+//    private void addAdditionalItemStacksForUniques(UniqueGearConfig.Entry uniqueEntry, CallbackInfoReturnable<ItemStack> cir) {
+//        ResourceLocation model = uniqueEntry.getModel();
+//        if(model != null) {
+//            String modelPath = model.getPath();
+//            if(modelPath.contains("jewel")) {
+//                cir.setReturnValue(new ItemStack(ModItems.JEWEL));
+//            }
+//            else if(modelPath.contains("magnet")) {
+//                cir.setReturnValue(new ItemStack(ModItems.MAGNET));
+//            }
+//            else if(modelPath.contains("battlestaff")) {
+//                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.BATTLESTAFF));
+//            }
+//            else if(modelPath.contains("trident")) {
+//                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.TRIDENT));
+//            }
+//            else if(modelPath.contains("rang")) {
+//                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.RANG));
+//            }
+//            else if(modelPath.contains("plushie")) {
+//                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.PLUSHIE));
+//            }
+//            else if(modelPath.contains("loot_sack")) {
+//                cir.setReturnValue(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.LOOT_SACK));
+//            }
+//        }
+// }
 }

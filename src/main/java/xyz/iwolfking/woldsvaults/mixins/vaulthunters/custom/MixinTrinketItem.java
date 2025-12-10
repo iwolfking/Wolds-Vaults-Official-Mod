@@ -8,6 +8,7 @@ import iskallia.vault.item.BasicItem;
 import iskallia.vault.item.core.DataTransferItem;
 import iskallia.vault.item.gear.RecyclableItem;
 import iskallia.vault.item.gear.TrinketItem;
+import iskallia.vault.item.gear.VaultUsesHelper;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -59,13 +60,15 @@ public abstract class MixinTrinketItem extends BasicItem implements ICurioItem, 
         }
     }
 
-    @Redirect(method = "canUnequip", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"))
-    public boolean allowUnequip(Optional<Vault> vault, @Local(argsOnly = true) ItemStack stack) {
-        return vault.isPresent() && !TrinketItem.isUsableInVault(stack, vault.get().get(Vault.ID));
-    }
-
-    @Redirect(method = "canEquip", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"))
-    public boolean allowReequip(Optional<Vault> vault, @Local(argsOnly = true) ItemStack stack) {
-        return vault.isPresent() && !TrinketItem.isUsableInVault(stack, vault.get().get(Vault.ID));
-    }
+//    @Redirect(method = "canUnequip", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"))
+//    public boolean allowUnequip(Optional<Vault> vault, @Local(argsOnly = true) ItemStack stack) {
+//        if(stack.getItem() instanceof TrinketItem ) {
+//            return vault.isPresent() && !VaultUsesHelper.isUsable(stack, vault.get().get(Vault.ID));
+//        }
+//    }
+//
+//    @Redirect(method = "canEquip", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z"))
+//    public boolean allowReequip(Optional<Vault> vault, @Local(argsOnly = true) ItemStack stack) {
+//        return vault.isPresent() && !TrinketItem.isUsableInVault(stack, vault.get().get(Vault.ID));
+//    }
 }

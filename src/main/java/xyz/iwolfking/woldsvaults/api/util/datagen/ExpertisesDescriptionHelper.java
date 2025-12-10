@@ -76,7 +76,7 @@ public class ExpertisesDescriptionHelper {
 
                 if (tier instanceof ArtisanExpertise artisanExpertise) {
                     jsonElements.add(JsonDescription.simple(i + 1 + " "));
-                    jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", (artisanExpertise.getChanceToNotConsumePotential() * 100)) + "%\n", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", (artisanExpertise.getPotentialReduction() * 100)) + "%\n", "#FFD700"));
                 }
 
                 if (tier instanceof GearAttributeTalent gearAttributeSkill) {

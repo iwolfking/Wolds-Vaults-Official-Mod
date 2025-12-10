@@ -37,21 +37,21 @@ public class SpeedrunCrystalObjective extends CrystalObjective {
         this.objectiveProbability = objectiveProbability;
     }
 
-    @Override
-    public void configure(Vault vault, RandomSource random) {
-        vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            objectives.add(BrutalBossesObjective.of(this.target.get(random), () -> this.wave.get(random), this.objectiveProbability).add(VictoryObjective.of(300)));
-            objectives.add(DeathObjective.create(false));
-            objectives.add(TrackSpeedrunObjective.create());
-            objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
-            objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
-        });
-    }
-
-    @Override
-    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add((new TextComponent("Objective: ")).append((new TextComponent("Brutal Bosses Speedrun")).withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
-    }
+//    @Override
+//    public void configure(Vault vault, RandomSource random) {
+//        vault.ifPresent(Vault.OBJECTIVES, objectives -> {
+//            objectives.add(BrutalBossesObjective.of(this.target.get(random), () -> this.wave.get(random), this.objectiveProbability).add(VictoryObjective.of(300)));
+//            objectives.add(DeathObjective.create(false));
+//            objectives.add(TrackSpeedrunObjective.create());
+//            objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
+//            objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
+//        });
+//    }
+//
+//    @Override
+//    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
+//        tooltip.add((new TextComponent("Objective: ")).append((new TextComponent("Brutal Bosses Speedrun")).withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
+//    }
 
     public Optional<Integer> getColor(float time) {
         return Optional.ofNullable(ChatFormatting.AQUA.getColor());

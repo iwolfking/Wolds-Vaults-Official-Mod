@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import iskallia.vault.init.ModGearAttributes;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractTalentProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;

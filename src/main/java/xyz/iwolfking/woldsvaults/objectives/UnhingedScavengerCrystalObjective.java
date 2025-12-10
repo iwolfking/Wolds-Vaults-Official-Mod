@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.objectives;
 
 import com.google.gson.JsonObject;
+import iskallia.vault.VaultMod;
 import iskallia.vault.block.VaultCrateBlock;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.random.RandomSource;
@@ -22,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,12 +38,12 @@ public class UnhingedScavengerCrystalObjective extends WoldCrystalObjective {
     }
 
     @Override
-    public void configure(Vault vault, RandomSource random) {
+    public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
 
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
             objectives.add(
-                UnhingedScavengerObjective.of(this.objectiveProbability, UnhingedScavengerObjective.Config.DEFAULT)
+                UnhingedScavengerObjective.of(this.objectiveProbability, UnhingedScavengerObjective.Config.DEFAULT, VaultMod.id("default"))
                     .add(
                         AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("UNHINGED_SCAVENGER"), "unhinged_scavenger", level, true))
                     .add(VictoryObjective.of(300)));

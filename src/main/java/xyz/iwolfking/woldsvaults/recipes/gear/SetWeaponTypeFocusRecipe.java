@@ -1,21 +1,8 @@
 package xyz.iwolfking.woldsvaults.recipes.gear;
 
-import iskallia.vault.gear.attribute.VaultGearModifier;
-import iskallia.vault.gear.data.ToolGearData;
-import iskallia.vault.gear.data.VaultGearData;
-import iskallia.vault.gear.item.VaultGearItem;
-import iskallia.vault.item.crystal.recipe.AnvilContext;
-import iskallia.vault.item.crystal.recipe.VanillaAnvilRecipe;
-import iskallia.vault.item.tool.ToolItem;
-import iskallia.vault.util.StringUtils;
+import iskallia.vault.recipe.anvil.AnvilContext;
+import iskallia.vault.recipe.anvil.VanillaAnvilRecipe;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
-import xyz.iwolfking.woldsvaults.init.ModConfigs;
-import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
-import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.items.WeaponTypeSettingItem;
 
 import java.util.List;
 

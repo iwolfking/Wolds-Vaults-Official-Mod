@@ -19,24 +19,24 @@ public class ModAbilityStylesProvider extends AbstractAbilityGUIStylesProvider {
         ModConfigs.ABILITIES_GUI = new AbilitiesGUIConfig().readConfig();
         add("wolds_abilities", builder -> {
             displayToRightOf("Rampage", "Colossus", builder, styleBuilder -> {
-                styleBuilder.specialization("Colossus_Base", VaultMod.id("gui/abilities/colossus"), AbilitiesGUIConfig.Type.UTILITY);
-                styleBuilder.specialization("Sneaky_Getaway", VaultMod.id("gui/abilities/sneaky_getaway"), AbilitiesGUIConfig.Type.UTILITY);
+                styleBuilder.specialization("Colossus_Base", VaultMod.id("gui/abilities/colossus"));
+                styleBuilder.specialization("Sneaky_Getaway", VaultMod.id("gui/abilities/sneaky_getaway"));
             });
             displayToRightOf("Taunt", "Expunge", builder, styleBuilder -> {
-                styleBuilder.specialization("Expunge_Base", VaultMod.id("gui/abilities/expunge"), AbilitiesGUIConfig.Type.UTILITY);
-                styleBuilder.specialization("Concentrate_Base", VaultMod.id("gui/abilities/concentrate"), AbilitiesGUIConfig.Type.UTILITY);
+                styleBuilder.specialization("Expunge_Base", VaultMod.id("gui/abilities/expunge"));
+                styleBuilder.specialization("Concentrate_Base", VaultMod.id("gui/abilities/concentrate"));
             });
         });
 
         add("add_spec/levitate", builder -> {
             displayToRightOf("Hunter", "Mega_Jump", builder, styleBuilder -> {
-                styleBuilder.specialization("Levitate", VaultMod.id("gui/abilities/levitate"), AbilitiesGUIConfig.Type.UTILITY);
+                styleBuilder.specialization("Levitate", VaultMod.id("gui/abilities/levitate"));
             });
         });
 
         add("add_spec/chain_miner", builder -> {
             builder.add("Vein_Miner", 0, -100, styleBuilder -> {
-                styleBuilder.specialization("Vein_Miner_Chain", VaultMod.id("gui/abilities/vein_miner_chain"), AbilitiesGUIConfig.Type.UTILITY);
+                styleBuilder.specialization("Vein_Miner_Chain", VaultMod.id("gui/abilities/vein_miner_chain"));
             });
         });
     }

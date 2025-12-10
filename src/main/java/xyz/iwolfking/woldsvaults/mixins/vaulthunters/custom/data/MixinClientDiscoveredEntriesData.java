@@ -1,6 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom.data;
 
-import iskallia.vault.client.ClientDiscoveredEntriesData;
+import iskallia.vault.client.data.ClientDiscoveredEntriesData;
 import iskallia.vault.network.message.transmog.DiscoveredEntriesMessage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

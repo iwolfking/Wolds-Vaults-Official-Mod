@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class WoldCrystalObjective extends CrystalObjective {
 
     @Override
-    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
+    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level) {
         MutableComponent objectiveTooltip = new TranslatableComponent("util.woldsvaults.objective_text")
                 .withStyle(ChatFormatting.WHITE);
 

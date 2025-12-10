@@ -2,7 +2,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.VaultMod;
-import iskallia.vault.client.ClientExpertiseData;
+import iskallia.vault.client.data.ClientExpertiseData;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.attribute.VaultGearAttribute;

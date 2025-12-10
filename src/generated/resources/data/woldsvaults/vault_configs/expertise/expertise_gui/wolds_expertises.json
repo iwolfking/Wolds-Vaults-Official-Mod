@@ -1,26 +1,26 @@
 {
   "styles": {
-    "Craftsman": {
-      "x": 210,
-      "y": 70,
-      "frameType": "STAR",
-      "icon": "the_vault:gui/skills/reroll"
-    },
     "Surprise_Favors": {
       "x": 210,
       "y": 70,
       "frameType": "STAR",
       "icon": "the_vault:gui/skills/ward"
     },
+    "Craftsman": {
+      "x": 210,
+      "y": 210,
+      "frameType": "STAR",
+      "icon": "the_vault:gui/skills/reroll"
+    },
     "Pylon_Pilferer": {
       "x": 210,
-      "y": 140,
+      "y": 280,
       "frameType": "STAR",
       "icon": "the_vault:gui/skills/pylon_pilferer"
     },
     "ShopReroll": {
       "x": 210,
-      "y": 0,
+      "y": -140,
       "frameType": "STAR",
       "icon": "the_vault:gui/skills/negotiator"
     },

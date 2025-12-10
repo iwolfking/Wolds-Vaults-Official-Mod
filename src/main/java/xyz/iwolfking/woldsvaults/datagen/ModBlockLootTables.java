@@ -99,14 +99,6 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
 
     }
 
-//    @Override
-//    protected @NotNull Iterable<Block> getKnownBlocks() {
-//        return ForgeRegistries.BLOCKS.getValues().stream()
-//                .filter(b -> ForgeRegistries.BLOCKS.getKey(b) != null)
-//                .filter(b -> ForgeRegistries.BLOCKS.getKey(b).getNamespace().equals(WoldsVaults.MOD_ID))
-//                .collect(Collectors.toList());
-//    }
-
     protected LootTable.Builder noDrop() {
         return LootTable.lootTable();
     }

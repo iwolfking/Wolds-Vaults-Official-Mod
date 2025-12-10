@@ -23,6 +23,7 @@ public class MixinVaultCrateType {
     private static final VaultCrateBlock.Type HAUNTED_BRAZIERS = enumExpansion$addVariant("HAUNTED_BRAZIERS");
     private static final VaultCrateBlock.Type BALLISTIC_BINGO = enumExpansion$addVariant("BALLISTIC_BINGO");
     private static final VaultCrateBlock.Type ZEALOT = enumExpansion$addVariant("ZEALOT");
+    private static final VaultCrateBlock.Type SURVIVAL = enumExpansion$addVariant("SURVIVAL");
 
 
     @Invoker("<init>")

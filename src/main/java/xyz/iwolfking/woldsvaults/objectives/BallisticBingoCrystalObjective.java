@@ -25,6 +25,7 @@ import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class BallisticBingoCrystalObjective extends WoldCrystalObjective {
     }
 
     @Override
-    public void configure(Vault vault, RandomSource random) {
+    public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
             ModConfigs.BALLISTIC_BINGO_CONFIG.generate(VaultMod.id("default"), level).ifPresent(task ->

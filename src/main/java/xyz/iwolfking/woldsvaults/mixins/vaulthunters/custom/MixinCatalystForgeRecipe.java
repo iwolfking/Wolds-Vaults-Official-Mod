@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
-import iskallia.vault.client.ClientDiscoveredEntriesData;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.gear.crafting.recipe.CatalystForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;

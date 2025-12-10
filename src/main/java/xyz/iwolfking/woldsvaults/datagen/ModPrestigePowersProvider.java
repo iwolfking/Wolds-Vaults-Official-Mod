@@ -21,27 +21,27 @@ public class ModPrestigePowersProvider extends AbstractPrestigePowerProvider {
 
     @Override
     public void registerConfigs() {
-        add("wolds_powers", builder -> {
-            builder.add("PrismaticPouch", "Prism Possessor", 25, 1250, 100, 1, 7, 6, 1, tier -> {
-               return new CraftingRecipePower(WoldsVaults.id("prismatic_trinket_pouch"));
-            });
-
-            builder.add("SpiritsHand", "Spirit's Hand", 25, 1250, 100, 1,7, 6, 3, tier -> {
-               return new ReachPrestigePower(0.5F + (0.25F * tier));
-            });
-
-            builder.add("BarrierOfResilience", "Barrier of Resilience", 25, 1250, 100, 1,7, 6, 3, tier -> {
-                return new GearAttributePrestigePower(100, 25, 1250, 1, ModGearAttributes.RESISTANCE_CAP, 0.05F + (0.025F * tier));
-            });
-
-            builder.add("ShieldOfLastingGuard", "Shield of Lasting Guard", 25, 1250, 100, 1,7, 6, 3, tier -> {
-                return new GearAttributePrestigePower(100, 25, 1250, 1, ModGearAttributes.BLOCK_CAP, 0.05F + (0.025F * tier));
-            });
-
-            builder.add("WeaverOfTime", "Weaver of Time", 25, 1250, 100, 1,7, 6, 3, tier -> {
-                return new GearAttributePrestigePower(100, 25, 1250, 1, ModGearAttributes.COOLDOWN_REDUCTION_CAP, 0.05F + (0.025F * tier));
-            });
-        });
+//        add("wolds_powers", builder -> {
+//            builder.add("PrismaticPouch", "Prism Possessor", 25, 1250, 100, 1, 7, 6, 1, tier -> {
+//               return new CraftingRecipePower(WoldsVaults.id("prismatic_trinket_pouch"));
+//            });
+//
+//            builder.add("SpiritsHand", "Spirit's Hand", 25, 1250, 100, 1,7, 6, 3, tier -> {
+//               return new ReachPrestigePower(0.5F + (0.25F * tier));
+//            });
+//
+//            builder.add("BarrierOfResilience", "Barrier of Resilience", 25, 1250, 100, 1,7, 6, 3, tier -> {
+//                return new GearAttributePrestigePower(100, 25, 1250, 1, ModGearAttributes.RESISTANCE_CAP, 0.05F + (0.025F * tier));
+//            });
+//
+//            builder.add("ShieldOfLastingGuard", "Shield of Lasting Guard", 25, 1250, 100, 1,7, 6, 3, tier -> {
+//                return new GearAttributePrestigePower(100, 25, 1250, 1, ModGearAttributes.BLOCK_CAP, 0.05F + (0.025F * tier));
+//            });
+//
+//            builder.add("WeaverOfTime", "Weaver of Time", 25, 1250, 100, 1,7, 6, 3, tier -> {
+//                return new GearAttributePrestigePower(100, 25, 1250, 1, ModGearAttributes.COOLDOWN_REDUCTION_CAP, 0.05F + (0.025F * tier));
+//            });
+//        });
     }
 
     public TieredSkill createTieredSkill(int unlockLevel, int learnPointCost, int regretPointCost, int numberOfTiers, IntFunction<? extends PrestigePower> tiers) {
