@@ -17,12 +17,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import java.util.List;
 import java.util.Optional;
 
-public class UnhingedScavengerCrystalObjective extends CrystalObjective {
+public class UnhingedScavengerCrystalObjective extends WoldCrystalObjective {
     public UnhingedScavengerCrystalObjective(float objectiveProbability) {
         this.objectiveProbability = objectiveProbability;
     }
@@ -40,7 +43,7 @@ public class UnhingedScavengerCrystalObjective extends CrystalObjective {
             objectives.add(
                 UnhingedScavengerObjective.of(this.objectiveProbability, UnhingedScavengerObjective.Config.DEFAULT)
                     .add(
-                        AwardCrateObjective.ofConfig(VaultCrateBlock.Type.SCAVENGER, "unhinged_scavenger", level, true))
+                        AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("UNHINGED_SCAVENGER"), "unhinged_scavenger", level, true))
                     .add(VictoryObjective.of(300)));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
@@ -51,8 +54,8 @@ public class UnhingedScavengerCrystalObjective extends CrystalObjective {
 
     public void addText(List<Component> tooltip, TooltipFlag flag, float time) {
         tooltip.add((new TextComponent("Objective: "))
-            .append(new TextComponent("Unhinged Scavenger Hunt")
-                .withStyle(Style.EMPTY.withColor(getColor(time).orElseThrow()))));
+            .append(new TranslatableComponent("vault_objective.woldsvaults.unhinged_scavenger"))
+                .withStyle(Style.EMPTY.withColor(getColor(time).orElseThrow())));
     }
 
 
@@ -87,8 +90,7 @@ public class UnhingedScavengerCrystalObjective extends CrystalObjective {
     }
 
     @Override
-    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add((new TextComponent("Objective: ")).append((new TextComponent("Unhinged Scavenger Hunt")).withStyle(
-            Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
+    ResourceLocation getObjectiveId() {
+        return ModCustomVaultObjectiveEntries.UNHINGED_SCAVENGER_HUNT.getRegistryName();
     }
 }

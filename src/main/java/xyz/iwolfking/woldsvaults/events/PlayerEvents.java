@@ -1,6 +1,9 @@
 package xyz.iwolfking.woldsvaults.events;
 
+import iskallia.ispawner.ISpawner;
+import iskallia.ispawner.init.ModBlocks;
 import iskallia.vault.block.SkillAltarBlock;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.item.KnowledgeBrewItem;
 import iskallia.vault.item.MentorsBrewItem;
 import iskallia.vault.item.VaultDollItem;
@@ -9,6 +12,7 @@ import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -24,6 +28,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -69,23 +74,13 @@ public class PlayerEvents {
         }
     }
 
-    //TODO: Refactor this into something more dynamic
+    private static final ResourceLocation SPAWNER = new ResourceLocation("ispawner", "spawner");
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
-        if(event.getCrafting().getItem() instanceof VaultDollItem && !GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULT_DOLLS, event.getPlayer().getLevel())) {
-            cancelCraft(event, event.getCrafting());
-        }
-        else if(event.getCrafting().getItem() instanceof KnowledgeBrewItem && !GameruleHelper.isEnabled(iskallia.vault.init.ModGameRules.ALLOW_KNOWLEDGE_BREW, event.getPlayer().getLevel())) {
-            cancelCraft(event, event.getCrafting());
-        }
-        else if(event.getCrafting().getItem() instanceof MentorsBrewItem && !GameruleHelper.isEnabled(iskallia.vault.init.ModGameRules.ALLOW_MENTOR_BREW, event.getPlayer().getLevel())) {
-            cancelCraft(event, event.getCrafting());
-        }
-        else if(event.getCrafting().getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof DollDismantlingBlock && !GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULT_DOLLS, event.getPlayer().getLevel())) {
-            cancelCraft(event, event.getCrafting());
-        }
-        else if(event.getCrafting().getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof SkillAltarBlock && !GameruleHelper.isEnabled(ModGameRules.ENABLE_SKILL_ALTARS, event.getPlayer().getLevel())) {
-            cancelCraft(event, event.getCrafting());
+    public static void onBreakSpawnerInVault(BlockEvent.BreakEvent event) {
+        if(event.getState().getBlock().getRegistryName().equals(SPAWNER) && VaultUtils.getVault(event.getPlayer().getLevel()).isPresent()) {
+            event.getPlayer().displayClientMessage(new TextComponent("Breaking Spawners in Vaults is ").withStyle(ChatFormatting.WHITE).append(new TextComponent("Disabled").withStyle(ChatFormatting.RED)).append(" in this world!").withStyle(ChatFormatting.WHITE), true);
+            event.setCanceled(true);
         }
     }
 

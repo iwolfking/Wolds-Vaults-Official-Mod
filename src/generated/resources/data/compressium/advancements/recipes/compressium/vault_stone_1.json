@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "compressium:vault_stone_1"
+    ]
+  },
+  "criteria": {
+    "has_vault_stone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:vault_stone"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "compressium:vault_stone_1"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_vault_stone",
+      "has_the_recipe"
+    ]
+  ]
+}

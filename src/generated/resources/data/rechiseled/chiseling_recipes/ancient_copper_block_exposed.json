@@ -1,0 +1,18 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:ancient_copper_block_exposed"
+    },
+    {
+      "item": "the_vault:ancient_copper_bricks_exposed"
+    },
+    {
+      "item": "the_vault:ancient_copper_small_bricks_exposed"
+    },
+    {
+      "item": "the_vault:ancient_copper_block_pillar_exposed"
+    }
+  ],
+  "overwrite": false
+}

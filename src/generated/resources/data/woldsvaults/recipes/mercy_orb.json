@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XTX",
+    "TOT",
+    "XTX"
+  ],
+  "key": {
+    "X": {
+      "item": "the_vault:gem_painite"
+    },
+    "O": {
+      "item": "the_vault:cluster_gorginite"
+    },
+    "T": {
+      "item": "minecraft:pink_wool"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:mercy_orb"
+  }
+}

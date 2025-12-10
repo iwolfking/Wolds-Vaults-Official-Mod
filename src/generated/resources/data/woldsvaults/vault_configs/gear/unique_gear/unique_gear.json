@@ -1,0 +1,31 @@
+{
+  "registry": {
+    "woldsvaults:ocean_current": {
+      "name": "Ocean Current",
+      "model": "woldsvaults:gear/trident/ocean_current",
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability",
+          "the_vault:u_living"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:jester_lucky_hit",
+          "the_vault:base_lucky_hit_chance",
+          "the_vault:base_lucky_hit_chance"
+        ],
+        "PREFIX": [],
+        "SUFFIX": [
+          "the_vault:u_item_rarity"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    }
+  },
+  "pools": {
+    "woldsvaults:ocean_current": {
+      "woldsvaults:ocean_current": 1
+    }
+  }
+}

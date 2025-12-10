@@ -13,10 +13,7 @@ import iskallia.vault.core.world.roll.IntRoll;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
@@ -45,13 +42,12 @@ public class CorruptedCrystalObjective extends CrystalObjective {
 
     @Override
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        MutableComponent cmp1 = ComponentUtils.corruptComponent(new TextComponent("Objective: "));
+        MutableComponent cmp1 = ComponentUtils.corruptComponent(new TranslatableComponent("util.woldsvaults.objective_text"));
         tooltip.add((cmp1)
-                .append(new TextComponent("Corrupted")
+                .append(new TranslatableComponent("vault_objective.woldsvaults.corrupted"))
                         .withStyle(
                                 Style.EMPTY.withColor(7995392).withObfuscated(true)
                         )
-                )
         );
     }
 

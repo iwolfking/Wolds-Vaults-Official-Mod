@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -12,6 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 
 import java.util.HashSet;
@@ -21,7 +23,7 @@ import java.util.UUID;
 
 public class AirMobilityItem extends BasicItem implements ICurioItem {
     public AirMobilityItem(ResourceLocation id) {
-        super(id);
+        super(id, new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
     }
 
     // modify base player attributes :3

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:rotten_meat_block_2"
+    }
+  ],
+  "result": {
+    "item": "compressium:rotten_meat_block_1",
+    "count": 9
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "MODELS": [
+    {
+      "id": "woldsvaults:gear/trident/ocean_current",
+      "displayName": "Ocean Current",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}

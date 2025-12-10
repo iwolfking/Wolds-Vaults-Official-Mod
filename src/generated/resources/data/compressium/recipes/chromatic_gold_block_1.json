@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "woldsvaults:chromatic_gold_block"
+    }
+  },
+  "result": {
+    "item": "compressium:chromatic_gold_block_1"
+  }
+}

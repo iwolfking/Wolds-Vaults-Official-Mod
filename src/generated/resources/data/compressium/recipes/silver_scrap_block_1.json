@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "woldsvaults:silver_scrap_block"
+    }
+  },
+  "result": {
+    "item": "compressium:silver_scrap_block_1"
+  }
+}

@@ -19,13 +19,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.IntSupplier;
 
-public class BrutalBossesCrystalObjective extends CrystalObjective {
+public class BrutalBossesCrystalObjective extends WoldCrystalObjective {
     protected IntRoll target;
     protected IntRoll wave;
     protected float objectiveProbability;
@@ -48,7 +51,7 @@ public class BrutalBossesCrystalObjective extends CrystalObjective {
             int obelisks = random.nextInt(3) + 3;
 
             objectives.add(BrutalBossesObjective.of(obelisks, limitedWave, this.objectiveProbability)
-                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.BOSS, "brutal_bosses", level, true))
+                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("BRUTAL_BOSSES"), "brutal_bosses", level, true))
                     .add(VictoryObjective.of(300)));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
@@ -57,8 +60,8 @@ public class BrutalBossesCrystalObjective extends CrystalObjective {
     }
 
     @Override
-    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add((new TextComponent("Objective: ")).append((new TextComponent("Slay the Brutal Bosses")).withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
+    ResourceLocation getObjectiveId() {
+        return ModCustomVaultObjectiveEntries.BRUTAL_BOSSES.getRegistryName();
     }
 
     public Optional<Integer> getColor(float time) {

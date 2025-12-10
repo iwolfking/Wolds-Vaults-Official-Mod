@@ -11,6 +11,14 @@ import java.util.Optional;
 public class EclecticGearExpertise extends LearnableSkill {
     private float increasedChance;
 
+    public EclecticGearExpertise(int unlockLevel, int learnPointCost, int regretCost, float increasedChance) {
+        super(unlockLevel, learnPointCost, regretCost);
+        this.increasedChance = increasedChance;
+    }
+
+    public EclecticGearExpertise() {
+    }
+
     public void writeBits(BitBuffer buffer) {
         super.writeBits(buffer);
         Adapters.FLOAT.writeBits(this.increasedChance, buffer);

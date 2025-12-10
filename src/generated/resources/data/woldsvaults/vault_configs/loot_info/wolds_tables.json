@@ -1,0 +1,229 @@
+{
+  "excludeFromTooltip": [],
+  "info": {
+    "the_vault:completion_crate_unhinged_scavenger": {
+      "display": "Completion Crate Unhinged Scavenger",
+      "lootTableKeys": {
+        "the_vault:base_crate_cursed_2_50": {
+          "level": 50
+        },
+        "the_vault:base_crate_cursed_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        },
+        "the_vault:base_crate_cursed_2_100": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:completion_crate_ballistic_bingo": {
+      "display": "Completion Crate Ballistic Bingo",
+      "lootTableKeys": {
+        "the_vault:base_crate_cursed_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        },
+        "the_vault:base_crate_cursed_50": {
+          "level": 50
+        }
+      }
+    },
+    "the_vault:dungeon_pedestal": {
+      "display": "Dungeon Pedestal",
+      "lootTableKeys": {
+        "the_vault:dungeon_pedestal_lvl50": {
+          "level": 50
+        },
+        "the_vault:dungeon_pedestal_lvl75": {
+          "level": 75
+        }
+      }
+    },
+    "the_vault:completion_crate_brutal_bosses": {
+      "display": "Completion Crate Brutal Bosses",
+      "lootTableKeys": {
+        "the_vault:base_crate_cursed_3_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_cursed_3_50": {
+          "level": 50
+        },
+        "the_vault:base_crate_cursed_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        }
+      }
+    },
+    "the_vault:tombstone": {
+      "display": "Tombstone",
+      "lootTableKeys": {
+        "the_vault:tombstone_loot": {
+          "level": 50
+        }
+      }
+    },
+    "the_vault:gilded_chest_map": {
+      "display": "Gilded Chests (Map)",
+      "lootTableKeys": {
+        "the_vault:gilded_chest_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:completion_crate_ballistic_bingo_full": {
+      "display": "Completion Crate Ballistic Bingo Full",
+      "lootTableKeys": {
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        },
+        "the_vault:bingo_bonus_cursed": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:hellish_sand": {
+      "display": "Hellish Sand",
+      "lootTableKeys": {
+        "the_vault:hellish_sand": {
+          "level": 30
+        }
+      }
+    },
+    "the_vault:treasure_chest_map": {
+      "display": "Treasure Chests (Map)",
+      "lootTableKeys": {
+        "the_vault:treasure_chest_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:completion_crate_zealot": {
+      "display": "Completion Crate Zealot",
+      "lootTableKeys": {
+        "the_vault:zealot_crate_50": {
+          "level": 50
+        },
+        "the_vault:zealot_crate_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_20": {
+          "level": 20
+        }
+      }
+    },
+    "the_vault:completion_crate_corrupted": {
+      "display": "Completion Crate Corrupted",
+      "lootTableKeys": {
+        "the_vault:corrupted_crate_0": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:wooden_chest_map": {
+      "display": "Wooden Chests (Map)",
+      "lootTableKeys": {
+        "the_vault:wooden_chest_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:enigma_chest_map": {
+      "display": "Enigma Chests (Map)",
+      "lootTableKeys": {
+        "the_vault:enigma_chest_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:completion_crate_haunted_braziers": {
+      "display": "Completion Crate Haunted Braziers",
+      "lootTableKeys": {
+        "the_vault:haunted_braziers_crate_50": {
+          "level": 50
+        },
+        "the_vault:haunted_braziers_crate_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_cursed_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        }
+      }
+    },
+    "the_vault:living_chest_map": {
+      "display": "Living Chests (Map)",
+      "lootTableKeys": {
+        "the_vault:living_chest_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:iskallian_leaves": {
+      "display": "Iskallian Leaves",
+      "lootTableKeys": {
+        "the_vault:iskallian_leaves": {
+          "level": 40
+        }
+      }
+    },
+    "the_vault:completion_crate_alchemy": {
+      "display": "Completion Crate Alchemy",
+      "lootTableKeys": {
+        "the_vault:base_crate_cursed_3_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_cursed_3_50": {
+          "level": 50
+        },
+        "the_vault:base_crate_cursed_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        }
+      }
+    },
+    "the_vault:ornate_chest_map": {
+      "display": "Ornate Chests (Map)",
+      "lootTableKeys": {
+        "the_vault:ornate_chest_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:completion_crate_enchanted_elixir": {
+      "display": "Completion Crate Enchanted Elixir",
+      "lootTableKeys": {
+        "the_vault:base_crate_cursed_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_cursed_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        },
+        "the_vault:base_crate_cursed_50": {
+          "level": 50
+        }
+      }
+    }
+  }
+}

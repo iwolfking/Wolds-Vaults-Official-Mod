@@ -11,6 +11,14 @@ import java.util.Optional;
 public class PylonPilfererExpertise extends LearnableSkill {
     private float chanceIncrease;
 
+    public PylonPilfererExpertise(int unlockLevel, int learnPointCost, int regretCost, float chanceIncrease) {
+        super(unlockLevel, learnPointCost, regretCost);
+        this.chanceIncrease = chanceIncrease;
+    }
+
+    public PylonPilfererExpertise() {
+    }
+
     public void writeBits(BitBuffer buffer) {
         super.writeBits(buffer);
         Adapters.FLOAT.writeBits(this.chanceIncrease, buffer);

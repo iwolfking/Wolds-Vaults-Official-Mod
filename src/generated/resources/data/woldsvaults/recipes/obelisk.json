@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GXG",
+    "GRG",
+    "GXG"
+  ],
+  "key": {
+    "X": {
+      "item": "the_vault:gem_painite"
+    },
+    "G": {
+      "item": "the_vault:living_rock_block_cobble"
+    },
+    "R": {
+      "item": "woldsvaults:general_decor_scroll"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:obelisk"
+  }
+}

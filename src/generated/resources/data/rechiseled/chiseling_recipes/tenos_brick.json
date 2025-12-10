@@ -1,0 +1,21 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:tenos_brick"
+    },
+    {
+      "item": "the_vault:tenos_brick_chiseled"
+    },
+    {
+      "item": "the_vault:tenos_dark_smooth_brick"
+    },
+    {
+      "item": "the_vault:tenos_light_smooth_brick"
+    },
+    {
+      "item": "the_vault:tenos_gem_block"
+    }
+  ],
+  "overwrite": false
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:vault_rock_candy"
+    ]
+  },
+  "criteria": {
+    "has_sweets": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:vault_sweets"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:vault_rock_candy"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_sweets",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:mercy_orb"
+    ]
+  },
+  "criteria": {
+    "has_gorginite_cluster": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:cluster_gorginite"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:mercy_orb"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gorginite_cluster",
+      "has_the_recipe"
+    ]
+  ]
+}

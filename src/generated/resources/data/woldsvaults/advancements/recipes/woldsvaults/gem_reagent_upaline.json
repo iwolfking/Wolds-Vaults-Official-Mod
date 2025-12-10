@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:gem_reagent_upaline"
+    ]
+  },
+  "criteria": {
+    "has_gem_upaline": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:gem_upaline"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:gem_reagent_upaline"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gem_upaline",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:arcane_shard"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:arcane_essence",
+    "count": 9
+  }
+}

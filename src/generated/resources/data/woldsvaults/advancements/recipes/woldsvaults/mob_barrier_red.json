@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:mob_barrier_red"
+    ]
+  },
+  "criteria": {
+    "has_painite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:gem_painite"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:mob_barrier_red"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_painite",
+      "has_the_recipe"
+    ]
+  ]
+}

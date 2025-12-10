@@ -1,0 +1,9 @@
+{
+  "parent": "woldsvaults:block/vault_crate",
+  "textures": {
+    "1": "the_vault:block/loot_crate_frame",
+    "2": "the_vault:block/loot_crate_top",
+    "3": "woldsvaults:block/vault_crate_alchemy",
+    "particle": "woldsvaults:block/vault_crate_alchemy"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:living_rock_block_cobble_4"
+    }
+  ],
+  "result": {
+    "item": "compressium:living_rock_block_cobble_3",
+    "count": 9
+  }
+}

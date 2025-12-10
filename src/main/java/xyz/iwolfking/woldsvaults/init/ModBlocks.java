@@ -8,11 +8,9 @@ import iskallia.vault.init.ModDecorativeBlocks;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.CoinBlockItem;
 import iskallia.vault.item.VaultChestBlockItem;
+import iskallia.vault.item.crystal.objective.CrystalObjective;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DoubleHighBlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -20,15 +18,20 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlockEntity;
+import vazkii.quark.addons.oddities.block.CrateBlock;
+import xyz.iwolfking.vhapi.api.registry.VaultObjectiveRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
 import xyz.iwolfking.woldsvaults.blocks.tiles.*;
 import xyz.iwolfking.woldsvaults.client.renderers.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class ModBlocks {
@@ -48,12 +51,21 @@ public class ModBlocks {
     public static final GatewayChannelingBlock GATEWAY_CHANNELING_BLOCK;
     public static final FracturedObelisk FRACTURED_OBELISK;
     public static final MonolithControllerBlock MONOLITH_CONTROLLER;
-    public static final VaultCrateBlock VAULT_CRATE_CORRUPTED;
-    public static final VaultCrateBlock VAULT_CRATE_ALCHEMY;
+
     public static final BrewingAltar BREWING_ALTAR;
     public static final Block DOLL_DISMANTLING_BLOCK;
 
     public static final Block PRISMATIC_FIBER_BLOCK;
+    public static final Block CHROMATIC_GOLD_BLOCK;
+    public static final Block SILVER_SCRAP_BLOCK;
+    public static final Block VAULT_ESSENCE_BLOCK;
+    public static final Block CARBON_BLOCK;
+    public static final Block VAULT_INGOT_BLOCK;
+    public static final Block OMEGA_POG_BLOCK;
+    public static final Block POG_BLOCK;
+    public static final Block ECHO_POG_BLOCK;
+    public static final Block VAULT_PLATING_BLOCK;
+
     public static final CoinPileDecorBlock VAULT_PALLADIUM_PILE;
     public static final CoinPileDecorBlock VAULT_IRIDIUM_PILE;
     public static BlockItem VAULT_PALLADIUM;
@@ -102,6 +114,13 @@ public class ModBlocks {
     public static final VaultGemStairsBlock WUTODIE_STAIRS;
     public static final VaultGemSlabBlock WUTODIE_SLAB;
     public static final VaultGemWallBlock WUTODIE_WALL;
+    public static final VaultGemBlock WUTODIE;
+
+    public static final Map<DyeColor, Block> COLORED_UNOBTANIUMS = new HashMap<>();
+    public static final Block RAINBOW_UNOBTANIUM;
+
+    public static final Map<String, VaultCrateBlock> CUSTOM_VAULT_CRATES = new HashMap<>();
+
 
     static {
         INFUSED_DRIFTWOOD_PLANKS = new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS));
@@ -127,15 +146,23 @@ public class ModBlocks {
         MOD_BOX_WORKSTATION = new ModBoxWorkstationBlock();
         WEAVING_STATION = new WeavingStationBlock();
         PRISMATIC_FIBER_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.GREEN_WOOL).lightLevel((state) -> 8));
+        CHROMATIC_GOLD_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK));
+        CARBON_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.COAL_BLOCK));
+        SILVER_SCRAP_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK));
+        VAULT_ESSENCE_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.SAND));
+        VAULT_INGOT_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK));
+        VAULT_PLATING_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK));
+        OMEGA_POG_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK));
+        ECHO_POG_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK));
+        POG_BLOCK = new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK));
         GATEWAY_CHANNELING_BLOCK = new GatewayChannelingBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
         FRACTURED_OBELISK = new FracturedObelisk();
-        VAULT_CRATE_CORRUPTED = new VaultCrateBlock();
-        VAULT_CRATE_ALCHEMY = new VaultCrateBlock();
         MONOLITH_CONTROLLER = new MonolithControllerBlock();
         BREWING_ALTAR = new BrewingAltar();
         WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
         WUTODIE_WALL = new VaultGemWallBlock(ModItems.WUTODIE_GEM);
         WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
+        WUTODIE = new VaultGemBlock(ModItems.WUTODIE_GEM);
         DOLL_DISMANTLING_BLOCK = new DollDismantlingBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), DollDismantlingBlock.DOLL_DISMANTLING_SHAPE);
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
@@ -156,10 +183,23 @@ public class ModBlocks {
         WEAVING_STATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(WeavingStationTileEntity::new, new Block[]{WEAVING_STATION}).build(null);
         BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(BrewingAltarTileEntity::new, new Block[]{BREWING_ALTAR}).build(null);
         DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DollDismantlingTileEntity::new, new Block[]{DOLL_DISMANTLING_BLOCK}).build(null);
+        for(DyeColor color : DyeColor.values()) {
+            Block dyedUnobtanium = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL, color).strength(50F).requiresCorrectToolForDrops());
+            COLORED_UNOBTANIUMS.put(color, dyedUnobtanium);
+        }
+        RAINBOW_UNOBTANIUM = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL).strength(50F).requiresCorrectToolForDrops());
+        ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {
+            if(customObjectiveRegistryEntry.getId().equals("corrupted")) {
+                CUSTOM_VAULT_CRATES.put("corrupt", new VaultCrateBlock());
+            }
+            else {
+                CUSTOM_VAULT_CRATES.put(customObjectiveRegistryEntry.getId(), new VaultCrateBlock());
+            }
+        });
     }
 
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        registerBlock(event, VAULT_SALVAGER_BLOCK, VaultMod.id("vault_salvager"));
+        registerBlock(event, VAULT_SALVAGER_BLOCK, WoldsVaults.id("vault_salvager"));
         registerBlock(event, ISKALLIAN_LEAVES_BLOCK, WoldsVaults.id("iskallian_leaves"));
         registerBlock(event, HELLISH_SAND_BLOCK, WoldsVaults.id("hellish_sand"));
         registerBlock(event, GRAVEYARD_LOOT_BLOCK, WoldsVaults.id("tombstone"));
@@ -173,6 +213,15 @@ public class ModBlocks {
         registerBlock(event, VAULT_IRIDIUM_PILE, VaultMod.id("vault_iridium"));
         registerBlock(event, XL_BACKPACK, WoldsVaults.id("xl_backpack"));
         registerBlock(event, PRISMATIC_FIBER_BLOCK, WoldsVaults.id("prismatic_fiber_block"));
+        registerBlock(event, CHROMATIC_GOLD_BLOCK, WoldsVaults.id("chromatic_gold_block"));
+        registerBlock(event, CARBON_BLOCK, WoldsVaults.id("carbon_block"));
+        registerBlock(event, VAULT_ESSENCE_BLOCK, WoldsVaults.id("vault_essence_block"));
+        registerBlock(event, SILVER_SCRAP_BLOCK, WoldsVaults.id("silver_scrap_block"));
+        registerBlock(event, VAULT_INGOT_BLOCK, WoldsVaults.id("vault_ingot_block"));
+        registerBlock(event, VAULT_PLATING_BLOCK, WoldsVaults.id("vault_plating_block"));
+        registerBlock(event, POG_BLOCK, WoldsVaults.id("pog_block"));
+        registerBlock(event, ECHO_POG_BLOCK, WoldsVaults.id("echo_pog_block"));
+        registerBlock(event, OMEGA_POG_BLOCK, WoldsVaults.id("omega_pog_block"));
         registerBlock(event, AUGMENT_CRAFTING_TABLE, WoldsVaults.id("augment_crafting_table"));
         registerBlock(event, MOD_BOX_WORKSTATION, WoldsVaults.id("mod_box_workstation"));
         registerBlock(event, WEAVING_STATION, WoldsVaults.id("weaving_station"));
@@ -183,8 +232,6 @@ public class ModBlocks {
         registerBlock(event, GATEWAY_CHANNELING_BLOCK, WoldsVaults.id("gateway_channeling_block"));
         registerBlock(event, ETCHING_PEDESTAL, WoldsVaults.id("etching_shop_pedestal"));
         registerBlock(event, FRACTURED_OBELISK, WoldsVaults.id("fractured_obelisk"));
-        registerBlock(event, VAULT_CRATE_CORRUPTED, WoldsVaults.id("vault_crate_corrupt"));
-        registerBlock(event, VAULT_CRATE_ALCHEMY, WoldsVaults.id("vault_crate_alchemy"));
         registerBlock(event, MONOLITH_CONTROLLER, WoldsVaults.id("monolith_controller"));
         registerBlock(event, BLACKSMITH_VENDOR_PEDESTAL, WoldsVaults.id("blacksmith_shop_pedestal"));
         registerBlock(event, RARE_VENDOR_PEDESTAL, WoldsVaults.id("rare_shop_pedestal"));
@@ -195,10 +242,18 @@ public class ModBlocks {
         registerBlock(event, WUTODIE_SLAB, VaultMod.id("block_gem_wutodie_slab"));
         registerBlock(event, WUTODIE_STAIRS, VaultMod.id("block_gem_wutodie_stairs"));
         registerBlock(event, WUTODIE_WALL, VaultMod.id("block_gem_wutodie_wall"));
+        registerBlock(event, WUTODIE, VaultMod.id("block_gem_wutodie"));
         registerBlock(event, BREWING_ALTAR, WoldsVaults.id("brewing_altar"));
         registerBlock(event, DOLL_DISMANTLING_BLOCK, WoldsVaults.id("doll_dismantler"));
-
+        COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
+            registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
+        }));
+        registerBlock(event, RAINBOW_UNOBTANIUM, WoldsVaults.id("rainbow_unobtanium_block"));
+        CUSTOM_VAULT_CRATES.forEach((objective, crateBlock) -> {
+            registerBlock(event, crateBlock, WoldsVaults.id("vault_crate_" + objective));
+        });
     }
+
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
         registerTileEntity(event, VAULT_SALVAGER_ENTITY, VaultMod.id("vault_salvager_tile_entity"));
         registerTileEntity(event, ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("iskallian_leaves_tile_entity"));
@@ -221,43 +276,58 @@ public class ModBlocks {
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
-        registerBlockItem(event, VAULT_SALVAGER_BLOCK);
-        registerBlockItem(event, ISKALLIAN_LEAVES_BLOCK);
-        registerBlockItem(event, HELLISH_SAND_BLOCK);
-        registerBlockItem(event, GRAVEYARD_LOOT_BLOCK);
-        registerBlockItem(event, DUNGEON_PEDESTAL_BLOCK);
-        registerBlockItem(event, DECO_SCAVENGER_ALTAR_BLOCK);
-        registerBlockItem(event, DECO_OBELISK_BLOCK);
-        registerBlockItem(event, DECO_LODESTONE_BLOCK);
-        registerBlockItem(event, DECO_MONOLITH_BLOCK);
-        registerBlockItem(event, SURVIVAL_MOB_BARRIER);
-        registerBlockItem(event, AUGMENT_CRAFTING_TABLE);
-        registerBlockItem(event, MOD_BOX_WORKSTATION);
-        registerBlockItem(event, WEAVING_STATION);
-        registerBlockItem(event, INFUSED_DRIFTWOOD_PLANKS);
-        registerBlockItem(event, NULLITE_ORE);
-        registerBlockItem(event, VAULT_INFUSER_BLOCK);
-        registerBlockItem(event, CHROMATIC_STEEL_INFUSER_BLOCK);
-        registerBlockItem(event, GATEWAY_CHANNELING_BLOCK);
-        registerBlockItem(event, ETCHING_PEDESTAL);
-        registerBlockItem(event, GOD_VENDOR_PEDESTAL);
-        registerBlockItem(event, BLACKSMITH_VENDOR_PEDESTAL);
-        registerBlockItem(event, RARE_VENDOR_PEDESTAL);
-        registerBlockItem(event, OMEGA_VENDOR_PEDESTAL);
-        registerBlockItem(event, SPOOKY_VENDOR_PEDESTAL);
-        registerBlockItem(event, CARD_VENDOR_PEDESTAL);
-        registerBlockItem(event, PRISMATIC_FIBER_BLOCK);
+        registerBlockItem(event, VAULT_SALVAGER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, ISKALLIAN_LEAVES_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, HELLISH_SAND_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, GRAVEYARD_LOOT_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, DUNGEON_PEDESTAL_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, DECO_SCAVENGER_ALTAR_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, DECO_OBELISK_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, DECO_LODESTONE_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, DECO_MONOLITH_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, SURVIVAL_MOB_BARRIER, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, AUGMENT_CRAFTING_TABLE, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, MOD_BOX_WORKSTATION, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, WEAVING_STATION, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, INFUSED_DRIFTWOOD_PLANKS, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, NULLITE_ORE, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, VAULT_INFUSER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, CHROMATIC_STEEL_INFUSER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, GATEWAY_CHANNELING_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, ETCHING_PEDESTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, GOD_VENDOR_PEDESTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, BLACKSMITH_VENDOR_PEDESTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, RARE_VENDOR_PEDESTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, OMEGA_VENDOR_PEDESTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, SPOOKY_VENDOR_PEDESTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, CARD_VENDOR_PEDESTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, PRISMATIC_FIBER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, CHROMATIC_GOLD_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, SILVER_SCRAP_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, CARBON_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, VAULT_ESSENCE_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, VAULT_INGOT_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, VAULT_PLATING_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, OMEGA_POG_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, ECHO_POG_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, POG_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, VAULT_PALLADIUM_PILE, VAULT_PALLADIUM);
         registerBlockItem(event, VAULT_IRIDIUM_PILE, VAULT_IRIDIUM);
-        registerBlockItem(event, FRACTURED_OBELISK);
-        registerBlockItem(event, VAULT_CRATE_CORRUPTED, 1, Item.Properties::fireResistant);
-        registerBlockItem(event, VAULT_CRATE_ALCHEMY, 1, Item.Properties::fireResistant);
-        registerBlockItem(event, MONOLITH_CONTROLLER);
-        registerBlockItem(event, WUTODIE_STAIRS);
-        registerBlockItem(event, WUTODIE_SLAB);
-        registerBlockItem(event, WUTODIE_WALL);
-        registerBlockItem(event, BREWING_ALTAR);
-        registerBlockItem(event, DOLL_DISMANTLING_BLOCK);
+        registerBlockItem(event, FRACTURED_OBELISK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, MONOLITH_CONTROLLER, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, WUTODIE_STAIRS, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, WUTODIE_SLAB, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, WUTODIE_WALL, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, WUTODIE, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, BREWING_ALTAR, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, DOLL_DISMANTLING_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
+            registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        }));
+        registerBlockItem(event, RAINBOW_UNOBTANIUM, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        CUSTOM_VAULT_CRATES.forEach((objective, crateBlock) -> {
+            registerBlockItem(event, crateBlock, 1, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS).fireResistant());
+        });
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -268,7 +338,6 @@ public class ModBlocks {
         event.registerBlockEntityRenderer(MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, MonolithControllerRenderer::new);
         event.registerBlockEntityRenderer(BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, BrewingAltarRenderer::new);
         event.registerBlockEntityRenderer(DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, DollDismantlingRenderer::new);
-        //event.registerBlockEntityRenderer(DECO_LODESTONE_TILE_ENTITY_BLOCK_ENTITY_TYPE, DecoLodestoneRenderer::new);
     }
 
 
@@ -321,5 +390,19 @@ public class ModBlocks {
         DoubleHighBlockItem tallBlockItem = new DoubleHighBlockItem(block, (new Item.Properties()).tab(ModItems.VAULT_MOD_GROUP).stacksTo(64));
         tallBlockItem.setRegistryName(block.getRegistryName());
         event.getRegistry().register(tallBlockItem);
+    }
+
+    public static VaultCrateBlock getCrateFor(String objective) {
+        String lowerCaseObj = objective.toLowerCase();
+
+        if(!CUSTOM_VAULT_CRATES.containsKey(lowerCaseObj)) {
+            return iskallia.vault.init.ModBlocks.VAULT_CRATE;
+        }
+
+        if(lowerCaseObj.equals("corrupted")) {
+            return CUSTOM_VAULT_CRATES.get("corrupt");
+        }
+
+        return CUSTOM_VAULT_CRATES.get(lowerCaseObj);
     }
 }

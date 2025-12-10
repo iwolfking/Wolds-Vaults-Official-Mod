@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:vault_plating_block"
+    }
+  ],
+  "result": {
+    "item": "the_vault:vault_plating",
+    "count": 9
+  }
+}

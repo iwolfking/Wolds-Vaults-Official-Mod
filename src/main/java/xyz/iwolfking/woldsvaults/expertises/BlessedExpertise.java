@@ -14,7 +14,15 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class BlessedExpertise extends LearnableSkill implements GearAttributeSkill {
-    private float affinityIncrease;
+    public float affinityIncrease;
+
+    public BlessedExpertise(int unlockLevel, int learnPointCost, int regretCost, float affinityIncrease) {
+        super(unlockLevel, learnPointCost, regretCost);
+        this.affinityIncrease = affinityIncrease;
+    }
+
+    public BlessedExpertise() {
+    }
 
     public void writeBits(BitBuffer buffer) {
         super.writeBits(buffer);

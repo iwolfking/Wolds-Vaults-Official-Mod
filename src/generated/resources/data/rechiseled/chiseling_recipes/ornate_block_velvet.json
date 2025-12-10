@@ -1,0 +1,15 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:ornate_block_velvet"
+    },
+    {
+      "item": "the_vault:ornate_block_velvet_chiseled"
+    },
+    {
+      "item": "the_vault:ornate_block_velvet_pillar"
+    }
+  ],
+  "overwrite": false
+}

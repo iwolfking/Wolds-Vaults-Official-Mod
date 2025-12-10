@@ -1,0 +1,13 @@
+{
+  "costs": {
+    "supplementaries:stasis": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 1
+    }
+  }
+}

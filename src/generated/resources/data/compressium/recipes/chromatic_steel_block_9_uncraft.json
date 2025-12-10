@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:chromatic_steel_block_9"
+    }
+  ],
+  "result": {
+    "item": "compressium:chromatic_steel_block_8",
+    "count": 9
+  }
+}

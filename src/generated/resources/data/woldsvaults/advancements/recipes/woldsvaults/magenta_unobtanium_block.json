@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:magenta_unobtanium_block"
+    ]
+  },
+  "criteria": {
+    "has_magenta_unobtanium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:magenta_unobtanium"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:magenta_unobtanium_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_magenta_unobtanium",
+      "has_the_recipe"
+    ]
+  ]
+}

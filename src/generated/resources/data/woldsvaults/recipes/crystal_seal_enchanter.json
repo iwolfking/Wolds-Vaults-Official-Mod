@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XGX",
+    "XOX",
+    "XBX"
+  ],
+  "key": {
+    "X": {
+      "item": "woldsvaults:vault_essence_block"
+    },
+    "O": {
+      "item": "the_vault:crystal_seal_sage"
+    },
+    "G": {
+      "item": "minecraft:enchanting_table"
+    },
+    "B": {
+      "item": "the_vault:extraordinary_alexandrite"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:crystal_seal_enchanter"
+  }
+}

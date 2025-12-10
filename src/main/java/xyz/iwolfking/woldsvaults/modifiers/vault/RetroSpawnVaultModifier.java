@@ -3,6 +3,8 @@ package xyz.iwolfking.woldsvaults.modifiers.vault;
 import com.google.gson.annotations.Expose;
 import iskallia.vault.config.CustomEntitySpawnerConfig;
 import iskallia.vault.core.event.CommonEvents;
+import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.registries.ForgeRegistries;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -52,7 +55,7 @@ public class RetroSpawnVaultModifier extends VaultModifier<RetroSpawnVaultModifi
                             return;
                         }
 
-                        doSpawn((VirtualWorld) event.player.level, event.player.getOnPos(), event.player.getRandom());
+                        doSpawn((VirtualWorld) event.player.level, event.player.getOnPos(), ChunkRandom.ofNanoTime());
                     }
                 }
             }
@@ -102,27 +105,33 @@ public class RetroSpawnVaultModifier extends VaultModifier<RetroSpawnVaultModifi
 
     }
 
-    public LivingEntity doSpawn(VirtualWorld world, BlockPos pos, Random random) {
-        double min = 20.0;
-        double max = 30.0;
+    public Entity doSpawn(VirtualWorld world, BlockPos pos, RandomSource random) {
+        double min = 20;
+        double max = 30;
 
-        LivingEntity spawned;
-        int x;
-        int z;
-        int y;
+        Entity spawned = null;
+        int attempts = 0;
+        int maxAttempts = 50; // stop after 50 tries
 
-        for(spawned = null; spawned == null; spawned = spawnMob(world, pos.getX() + x, pos.getY() + y, pos.getZ() + z, random)) {
+        while (spawned == null && attempts++ < maxAttempts) {
             double angle = 2 * Math.PI * random.nextDouble();
             double distance = Math.sqrt(random.nextDouble() * (max * max - min * min) + min * min);
-            x = (int)Math.ceil(distance * Math.cos(angle));
-            z = (int)Math.ceil(distance * Math.sin(angle));
+            int x = (int)Math.ceil(distance * Math.cos(angle));
+            int z = (int)Math.ceil(distance * Math.sin(angle));
             double xzRadius = Math.sqrt(x * x + z * z);
             double yRange = Math.sqrt(max * max - xzRadius * xzRadius);
-            y = random.nextInt((int)Math.ceil(yRange) * 2 + 1) - (int)Math.ceil(yRange);
+            int y = random.nextInt((int)Math.ceil(yRange) * 2 + 1) - (int)Math.ceil(yRange);
+
+            spawned = spawnMob(world, pos.getX() + x, pos.getY() + y, pos.getZ() + z, new Random());
+        }
+
+        if (spawned == null) {
+            WoldsVaults.LOGGER.warn("Failed to spawn mob after {} attempts at {} in {}", maxAttempts, pos, world.getLevel().dimension());
         }
 
         return spawned;
     }
+
 
     @Nullable
     public LivingEntity spawnMob(VirtualWorld world, int x, int y, int z, Random random) {

@@ -1,0 +1,244 @@
+{
+  "data": {
+    "Colossus": {
+      "description": [
+        {
+          "text": "Makes you considerably bigger, giving you ",
+          "color": "$text"
+        },
+        {
+          "text": "knockback immunity ",
+          "color": "$knockback"
+        },
+        {
+          "text": "and a boost in ",
+          "color": "$text"
+        },
+        {
+          "text": "resistance ",
+          "color": "$radius"
+        },
+        {
+          "text": "for a limited duration. ",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "additionalResistance",
+        "size",
+        "cooldown",
+        "manaCost",
+        "duration"
+      ],
+      "next": [
+        "additionalResistance",
+        "size",
+        "cooldown",
+        "manaCost",
+        "duration"
+      ]
+    },
+    "Concentrate_Base": {
+      "description": [
+        {
+          "text": "Drains all ",
+          "color": "$text"
+        },
+        {
+          "text": "Potion Effects ",
+          "color": "$heal"
+        },
+        {
+          "text": "from nearby enemies in a ",
+          "color": "$text"
+        },
+        {
+          "text": "radius",
+          "color": "$areaOfEffect"
+        },
+        {
+          "text": ". Negative effects are converted into positive ones, and the same effect will always correspond with up to a couple of different effects.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "If you would receive multiple of the same effect, the base duration will be added onto the existing duration for each.\n\n ",
+          "color": "$text"
+        },
+        {
+          "text": "Depending on your ability level, the level of the effect will also randomly be boosted, making it more potent.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "adjustedRadius",
+        "adjustedDuration",
+        "baseAmplitude",
+        "amplitudeScaleChance",
+        "cooldown",
+        "manaCost"
+      ],
+      "next": [
+        "adjustedRadius",
+        "adjustedDuration",
+        "baseAmplitude",
+        "amplitudeScaleChance",
+        "cooldown",
+        "manaCost"
+      ]
+    },
+    "Expunge_Base": {
+      "description": [
+        {
+          "text": "Activates all ",
+          "color": "$text"
+        },
+        {
+          "text": "Effect Cloud ",
+          "color": "$heal"
+        },
+        {
+          "text": "modifiers you have on your equipped gear where you are standing, and increases their  ",
+          "color": "$text"
+        },
+        {
+          "text": "duration",
+          "color": "$duration"
+        },
+        {
+          "text": "and ",
+          "color": "$text"
+        },
+        {
+          "text": "radius ",
+          "color": "$areaOfEffect"
+        },
+        {
+          "text": ".",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "durationMultiplier",
+        "radiusMultiplier",
+        "cooldown",
+        "manaCost"
+      ],
+      "next": [
+        "durationMultiplier",
+        "radiusMultiplier",
+        "cooldown",
+        "manaCost"
+      ]
+    },
+    "Levitate": {
+      "description": [
+        {
+          "text": "Changes Mega Jump into an on-demand levitation effect.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n● Hold Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "manaCostPerSecond",
+        "levitateSpeed"
+      ],
+      "next": [
+        "manaCostPerSecond",
+        "levitateSpeed"
+      ]
+    },
+    "Sneaky_Getaway": {
+      "description": [
+        {
+          "text": "Makes you considerably smaller and increases your ",
+          "color": "$text"
+        },
+        {
+          "text": "knockback immunity ",
+          "color": "$knockback"
+        },
+        {
+          "text": "and a boost in ",
+          "color": "$text"
+        },
+        {
+          "text": "resistance ",
+          "color": "$radius"
+        },
+        {
+          "text": "for a limited duration. ",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "speed",
+        "size",
+        "cooldown",
+        "manaCost",
+        "duration"
+      ],
+      "next": [
+        "speed",
+        "size",
+        "cooldown",
+        "manaCost",
+        "duration"
+      ]
+    },
+    "Vein_Miner_Chain": {
+      "description": [
+        {
+          "text": "Changes Vein Miner to mine blocks that are ",
+          "color": "$text"
+        },
+        {
+          "text": "further apart ",
+          "color": "$distance"
+        },
+        {
+          "text": "at the cost of number of ",
+          "color": "$text"
+        },
+        {
+          "text": "blocks mined",
+          "color": "$blocks"
+        },
+        {
+          "text": ".",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n● Hold Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "blocks",
+        "distance"
+      ],
+      "next": [
+        "blocks",
+        "distance"
+      ]
+    }
+  }
+}

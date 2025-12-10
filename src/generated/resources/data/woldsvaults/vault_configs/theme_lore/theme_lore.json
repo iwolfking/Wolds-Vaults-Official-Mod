@@ -1,0 +1,395 @@
+{
+  "series": {
+    "Astral": {
+      "displayName": "Astral",
+      "colour": 3,
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "This is a test description.\n",
+              "color": "white"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Hordes: : ",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": "Enderman",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 1",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 1",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ ☣",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "gray"
+            },
+            {
+              "text": "Test",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ ☣",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "gray"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Assassins: : ",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": "Enderman",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 1",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 1",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ ☣",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "gray"
+            },
+            {
+              "text": "Test",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ ☣",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "gray"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Tanks: : ",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": "Enderman",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 1",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 1",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ ☣",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "gray"
+            },
+            {
+              "text": "Test",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ ☣",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "gray"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Dwellers:",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░",
+              "color": "gray"
+            },
+            {
+              "text": "░░░",
+              "color": "$darkgray"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "augments": {
+    "Astral": [
+      "woldsvaults:eclipse"
+    ]
+  }
+}

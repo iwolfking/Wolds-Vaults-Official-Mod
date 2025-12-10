@@ -15,7 +15,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
-import xyz.iwolfking.woldsvaults.api.util.NormalizedHelper;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
@@ -44,7 +44,7 @@ public class EnchantedElixirObjective extends ElixirObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault, world);
+        ObjectiveHelper.handleAddingNormalizedToVault(vault, world);
         super.initServer(world, vault);
     }
 

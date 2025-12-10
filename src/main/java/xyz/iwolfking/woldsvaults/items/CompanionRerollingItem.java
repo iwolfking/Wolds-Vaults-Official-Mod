@@ -14,11 +14,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import javax.annotation.Nullable;
@@ -26,7 +28,7 @@ import java.util.List;
 
 public class CompanionRerollingItem extends BasicItem {
     public CompanionRerollingItem(ResourceLocation id) {
-        super(id);
+        super(id, new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
     }
 
     public static InteractionResult rerollCompanionModifier(Level level, ItemStack stackInHand, Player player, BlockPos pos) {

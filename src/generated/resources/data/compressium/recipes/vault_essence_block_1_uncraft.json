@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:vault_essence_block_1"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:vault_essence_block",
+    "count": 9
+  }
+}

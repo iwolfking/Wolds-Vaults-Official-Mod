@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:orange_unobtanium_block"
+    ]
+  },
+  "criteria": {
+    "has_orange_unobtanium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:orange_unobtanium"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:orange_unobtanium_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_orange_unobtanium",
+      "has_the_recipe"
+    ]
+  ]
+}

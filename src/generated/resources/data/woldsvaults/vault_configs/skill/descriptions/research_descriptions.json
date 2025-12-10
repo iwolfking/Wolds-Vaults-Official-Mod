@@ -1,0 +1,1102 @@
+{
+  "descriptions": {
+    "ComputerCraft": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "ComputerCraft",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod provides you with the amazing power of computing! Conquer the world and improve your automation with this Lua-based machine!... or just have some fun messing around!",
+        "color": "$text"
+      }
+    ],
+    "Scanner": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Scannable",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Which offers an FE powered device that can scan for entities, blocks, and in this pack, a special Vault Ores module! Consider it like Hunter in a device!",
+        "color": "$text"
+      }
+    ],
+    "Extra Storage": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Extra Storage",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds massive disks for storing all your items and fluids in, as well as enhanced importers, exporters, and crafters for your Refined Storage setup!",
+        "color": "$text"
+      }
+    ],
+    "Mega Cells": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Mega Cells",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds massive item and fluid cells, crafting storages and units, as well as adding Chemical and Radioactive Chemical cells for Mekanism!",
+        "color": "$text"
+      }
+    ],
+    "QuarryPlus": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "QuarryPlus",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "⚠",
+        "color": "red"
+      },
+      {
+        "text": "Disabled In Vaults!\n\n",
+        "color": "dark_red"
+      },
+      {
+        "text": "After mastering mining, you can create the ultimate mining machines with the QuarryPlus mod! This adds Quarries that work much like a Buildcraft Quarry and can be enchanted to enhance them. You can also create the coveted Chunk Destroyer that can flatten an entire chunk!",
+        "color": "$text"
+      }
+    ],
+    "Create Ore Excavation": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Create Ore Excavation",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds drilling machines for fluids and ores, search for the randomly generated ore veins and generate ores to your hearts content!",
+        "color": "$text"
+      }
+    ],
+    "Functional Storage": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Functional Storage",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Functional Storage is an alternative take on the storage solution of Storage Drawers, with an updated look and additional functionalities.",
+        "color": "$text"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Adds rewards to ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Boxes ",
+        "color": "aqua"
+      },
+      {
+        "text": "!",
+        "color": "$text"
+      }
+    ],
+    "Super Factory Manager": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Super Factory Manager",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "SFM is a powerful mod that gives you the Factory Manager block, cables to connect to your manager, and a disk you can program scripts into to control your base!",
+        "color": "$text"
+      }
+    ],
+    "Bonsai Pots": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Bonsai Pots",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "These pots can automate any tree in the game very easily by growing them in tiny pots.\n\n",
+        "color": "$text"
+      }
+    ],
+    "Time in a Bottle": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Time in a Bottle",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "⚠",
+        "color": "red"
+      },
+      {
+        "text": "Disabled In Vaults!\n\n",
+        "color": "dark_red"
+      },
+      {
+        "text": "This mod adds an amazing item called the Time in a Bottle that stores time as you play, then you can right-click on a block to speed up its tick time using your stored time! Nifty!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Also unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Weather Control ",
+        "color": "yellow"
+      },
+      {
+        "text": "mod! ",
+        "color": "$text"
+      },
+      {
+        "text": "Which lets you control the time of day and the weather!",
+        "color": "$text"
+      }
+    ],
+    "Cable Tiers": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Cable Tiers",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds enhanced versions of the importer, exporter, disk manipulation, constructor, destructor, and requester. They come in 3 different tiers and are progressively faster and have more filter slots.",
+        "color": "$text"
+      }
+    ],
+    "Cloud Storage": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Cloud Storage",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "An easy to use storage solution that adds searchable chests that can hold up to 4096 items after floating some storage up to the cloud!",
+        "color": "$text"
+      }
+    ],
+    "Advanced Peripherals": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Advanced Peripherals",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds lots of new blocks that integrate with ComputerCraft such as the Chat Box and Environmental Scanner, among many more! Take your computing to the next level.",
+        "color": "$text"
+      }
+    ],
+    "Integrated Dynamics": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Integrated Dynamics",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This is a real bang for your buck buy right here, adding cables that you can move items, fluid, and energy with. A terminal you can connect to your storage solution.",
+        "color": "$text"
+      },
+      {
+        "text": "and a plethora of other features! This one takes some brain power to make the most use of as you'll need to work with variables and operators to get the most value out of",
+        "color": "$text"
+      },
+      {
+        "text": " Integrated Dynamics",
+        "color": "yellow"
+      },
+      {
+        "text": ".",
+        "color": "$text"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Adds rewards to ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Boxes ",
+        "color": "aqua"
+      },
+      {
+        "text": "!",
+        "color": "$text"
+      }
+    ],
+    "Botanical Machinery": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Botanical Machinery",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "For the lazy botanist, this mod adds one-block automation solutions for things like the Runic Altar, Agglomeration Plate, Alfheim Portal, etc. \n\n",
+        "color": "$text"
+      }
+    ],
+    "Hostile Neural Networks": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Hostile Neural Networks",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Hostile Neural Networks is a server-friendly mob looting system. Use a Data Model on a mob to make it's Model, then evolve your Data Model using Spawn Eggs of the corresponding type. Very powerful mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Note, HNN works differently in this pack! Your models won't upgrade in Simulation Chambers or gain data from kills, you need to evolve them using spawn eggs (Check JEI!)! Also needs power to work.",
+        "color": "$text"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Adds rewards to ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Boxes ",
+        "color": "aqua"
+      },
+      {
+        "text": "!",
+        "color": "$text"
+      }
+    ],
+    "Industrial Foregoing": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Industrial Foregoing",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod contains a ton of useful blocks, useful for mob farming and crop farming. Comes with it's own power solution and storage for items and fluids. Some features of the mod have been disabled such as the ",
+        "color": "$text"
+      },
+      {
+        "text": "Mob Duplicator, Infinity Hammer, Nuke, Launcher, and Backpack ",
+        "color": "gold"
+      },
+      {
+        "text": "have been ",
+        "color": "$text"
+      },
+      {
+        "text": "disabled",
+        "color": "red"
+      },
+      {
+        "text": "! ",
+        "color": "$text"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Adds rewards to ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Boxes ",
+        "color": "aqua"
+      },
+      {
+        "text": "!",
+        "color": "$text"
+      }
+    ],
+    "Mystical Agriculture": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Mystical Agriculture",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "After mastering the botanical arts, you can now harness the power of mystically infused seeds with this mod. The end-all-be-all production mod, you can create seeds for almost any resource!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Items such as tools and armor are disabled!",
+        "color": "$text"
+      }
+    ],
+    "Ars Nouveau": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Ars Nouveau",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "⚠",
+        "color": "red"
+      },
+      {
+        "text": "Disabled In Vaults!\n\n",
+        "color": "dark_red"
+      },
+      {
+        "text": "Ars Nouveau is a magic mod inspired by Ars Magicka that allows players to craft their own spells, create magical artifacts, perform rituals, and much more!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Documentation is provided entirely in-game by Patchouli. To get started with this mod, craft the Worn Notebook using a book and 1 Lapis Lazuli.\n\n",
+        "color": "$text"
+      }
+    ],
+    "Applied Compatability": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Applied Botanics and Applied Mekanistics",
+        "color": "$yellow"
+      },
+      {
+        "text": " addons!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds mana cells and P2P tunnels for storing and interacting with Botania mana, and chemical cells for storing and interacting with Mekanism chemicals!\n\n",
+        "color": "$text"
+      }
+    ],
+    "Mod Box Tinkering": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Box Tinkering",
+        "color": "$yellow"
+      },
+      {
+        "text": " workstation!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "The Mod Box Workstation will allow you to craft Targeted Mod Boxes that only drop items and blocks for a certain mod!",
+        "color": "$text"
+      },
+      {
+        "text": "You have to have the corresponding research first before you can craft a particular box. The cost for each is dependent on the mod.",
+        "color": "$text"
+      }
+    ],
+    "Toms Simple Storage": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Toms Simple Storage",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Tom's Simple Storage, is a mod that lets you connect up several inventories and browse their content from a central interface digitally, with a search function.\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "You can perform rituals to summon Familiars and Demons to help you. Mine random ores using a dimensional mineshaft, and crush ores to massively increase the value of them!",
+        "color": "$text"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Adds rewards to ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Boxes ",
+        "color": "aqua"
+      },
+      {
+        "text": "!",
+        "color": "$text"
+      }
+    ],
+    "Occultism": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Occultism",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "⚠",
+        "color": "red"
+      },
+      {
+        "text": "Disabled In Vaults!\n\n",
+        "color": "dark_red"
+      },
+      {
+        "text": "Occultism is a mod inspired by the world of Jonathan Stroud's Bartimaeus. \nWith the help of occult rituals you will summon spirits, also known as demons, from \"The Other Place\" to aid you in your adventures.\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "You can perform rituals to summon Familiars and Demons to help you. Mine random ores using a dimensional mineshaft, and crush ores to massively increase the value of them!",
+        "color": "$text"
+      }
+    ],
+    "RFTools Storage": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "RFTools Storage",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This is a semi basic digital storage solution, that allows you to search items and store them on disk drives. It is far more limiting than it's similarities, Applied Energistics and Refined Storage, but is cheaper to manage early and mid game.",
+        "color": "$text"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Adds rewards to ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Boxes ",
+        "color": "aqua"
+      },
+      {
+        "text": "!",
+        "color": "$text"
+      }
+    ],
+    "PneumaticCraft": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "PneumaticCraft",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "PneumaticCraft is a tech mod that is based around air pressure and heat. You can use PneumaticCraft as your mob farm system, plant harvesting, item transferring, and more!",
+        "color": "$text"
+      },
+      {
+        "text": "It also has some useful tools and armor, although some of the modules have been disabled!",
+        "color": "$text"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Adds rewards to ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Boxes ",
+        "color": "aqua"
+      },
+      {
+        "text": "!",
+        "color": "$text"
+      }
+    ],
+    "Immersive Engineering": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Immersive Engineering",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod can both produce power, process ores and generate some resources. It uses big multistructures that all consume power (FE) to run.",
+        "color": "$text"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Adds rewards to ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Boxes ",
+        "color": "aqua"
+      },
+      {
+        "text": "!",
+        "color": "$text"
+      }
+    ],
+    "Augment Crafting": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Augment Assembly Pedestal",
+        "color": "$yellow"
+      },
+      {
+        "text": " workstation!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "The Augment Assembly Pedestal will allow you to craft Augments using Augment Pieces and other materials, depending on the theme. \n\n",
+        "color": "$text"
+      },
+      {
+        "text": "You first have to unlock a theme before you can craft it in the Assembly Pedestal. You will automatically do that the first time you enter a theme, you may have seen the messages pop up in chat! Certain themes that are not normally obtainable will be unlocked when doing certain tasks in the vault...",
+        "color": "$text"
+      }
+    ],
+    "Oops, All Iron Mods": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Iron Generators, Iron Furnaces, and Iron Chests",
+        "color": "$yellow"
+      },
+      {
+        "text": " mods!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Iron Generators are a great entry point to",
+        "color": "$text"
+      },
+      {
+        "text": "Forge Energy (FE)",
+        "color": "aqua"
+      },
+      {
+        "text": " that is required by other mods to run. While Iron Generators is fairly basic, it can certainly be the best choice for early to mid game power generation!",
+        "color": "$text"
+      },
+      {
+        "text": "\n\nIron Chests is a simple way to expand your storage with some upgraded chests.",
+        "color": "$text"
+      },
+      {
+        "text": "\n\nIron Furnaces provides you with upgraded furnaces, making your smelting processing much quicker.",
+        "color": "$text"
+      }
+    ],
+    "Misc Bag Upgrades": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Everlasting, Tool Swapper, Tank, Pump, XP Pump, and Battery Upgrade",
+        "color": "$yellow"
+      },
+      {
+        "text": " from Sophisticated Backpacks!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "These will come in handy for utilizing your bag in more non-conventional ways... Note: the Tool Swapper upgrade functionality is disabled while in a vault.",
+        "color": "$text"
+      }
+    ],
+    "Hexcasting": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Hexcasting",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      [
+        {
+          "text": "⚠",
+          "color": "red"
+        },
+        {
+          "text": "Disabled In Vaults!\n\n",
+          "color": "dark_red"
+        }
+      ],
+      {
+        "text": "This mod adds stack-based programmable spellcasting. Complicated mod, but you can do some cool stuff with it!",
+        "color": "$text"
+      }
+    ],
+    "Psi": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Psi",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "⚠",
+        "color": "red"
+      },
+      {
+        "text": "Disabled In Vaults!\n\n",
+        "color": "dark_red"
+      },
+      {
+        "text": "Psi is a magical tech spell programming mod inspired by Mahouka Kokou no Rettousei. Don't worry if that doesn't make any sense. The core of Psi is a system where you can create action sequences (\\\"Spells\\\") to be executed in the world. This system is followed by a leveling system containing ingame documentation and tutorials of the various concepts and pieces you'll get. The mod makes use of basic mathematical concepts, such as Vectors in its systems, which allows for great flexibility on what spells can do.",
+        "color": "$text"
+      }
+    ],
+    "Create Diesel Generators": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Create Diesel Generators",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds new blocks and items used to dig up oil from the ground using Pumpjacks. Useful for getting oil for PneumaticCraft or getting kinetic energy in a more interesting way!",
+        "color": "$text"
+      }
+    ],
+    "Better Wallets": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Gold, Emerald, Diamond, and Netherite Wallets",
+        "color": "$yellow"
+      },
+      {
+        "text": " for Lightman's Currency!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "These wallets store even more currency and have some extra features such as magneting coins into them, exchanging between currencies, and accessing your ATM remotely!\n\n",
+        "color": "$text"
+      }
+    ],
+    "Incorporeal": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Incorporeal",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds new ways of interacting with your Corporea system, some decorative blocks, and some other nifty and fun little things.",
+        "color": "$text"
+      }
+    ],
+    "RFTools Utility": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "RFTools Utility",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod provides you with some good infrastructural options and most importantly it supports wireless redstone signals using infinite different channels. Very useful for making your contraptions neater and more efficient.",
+        "color": "$text"
+      }
+    ],
+    "Create Mechanical Extruder": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Create Mechanical Extruder",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds a new block powered by kinetic energy that can be used to generate cobblestone, obsidian, and other stones. Very useful addition for automation!",
+        "color": "$text"
+      }
+    ],
+    "Compressed Creativity": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Compressed Creativity",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds some new blocks and items that add better integration between Create and PneumaticCraft, such as letting you convert air pressure into SU/RPM.",
+        "color": "$text"
+      }
+    ],
+    "Dave's Potioneering": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Dave's Potioneering",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Dave's Potioneering is a mod that adds an upgraded Brewing Stand that's faster and has double potion output, a new Reinforced Cauldron that allows you to coat your weapons or tools with potion effects, and a Potioneer Gauntlet that can store up to 6 potion effects and apply them on attack.",
+        "color": "$text"
+      }
+    ],
+    "RFTools Power": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "RFTools Power",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod generates power through a few different options using fuel.",
+        "color": "$text"
+      }
+    ],
+    "Create Crafts and Additions": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Create Crafts and Additions",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod acts as a bridge between electricity and Create's kinetic energy by adding an electric motor that generates kinetic energy from Forge energy and an alternator that can do the opposite. Also adds a few other useful features!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Also unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Create Enchantment Industry ",
+        "color": "yellow"
+      },
+      {
+        "text": "mod! ",
+        "color": "$text"
+      },
+      {
+        "text": "That lets you enchant and disenchant items with Create!",
+        "color": "$text"
+      }
+    ],
+    "LaserIO": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "LaserIO",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "LaserIO is a useful mod that seeks to replicate the mechanics of EnderIO - allowing you to interact with items, fluids, energy, and redstone - all from the same block face! There is limitless potential for logistics around transportation of resources.",
+        "color": "$text"
+      }
+    ],
+    "Inception Upgrade": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Inception Upgrade",
+        "color": "$yellow"
+      },
+      {
+        "text": " from Sophisticated Backpacks!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "With your mastery of looting, your accumulation of knowledge, and insane willpower, you finally have the brilliant idea, wondering why it hasn't hit you all this time, to simply put your backpacks inside of other backpacks. A peculiar thought...",
+        "color": "$text"
+      }
+    ],
+    "Sophisticated Storage": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Sophisticated Storage",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "The ultimate bulk storage mod with massively upgradeable storage and chests and barrels that can be chained together to create an array of storage.",
+        "color": "$text"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Adds rewards to ",
+        "color": "$text"
+      },
+      {
+        "text": "Mod Boxes ",
+        "color": "aqua"
+      },
+      {
+        "text": "!",
+        "color": "$text"
+      }
+    ],
+    "Little Logistics": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Little Logistics",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod is focused on efficient, affordable, long-distance transport. It adds vessels and locomotives you can use to move item, fluids, and energy around great distances. Additionally, comes with a faster version of hoppers, and a fluid version of hoppers",
+        "color": "$text"
+      },
+      {
+        "text": "\\n\\nThe mod also comes with Create support so you can put Create contraptions on top of your barges or train cars!",
+        "color": "$text"
+      }
+    ]
+  }
+}

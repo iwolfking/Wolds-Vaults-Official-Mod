@@ -1,0 +1,16 @@
+{
+  "styles": {
+    "Mega_Jump": {
+      "x": 175,
+      "y": -100,
+      "specializationStyles": {
+        "Levitate": {
+          "type": "UTILITY",
+          "icon": "the_vault:gui/abilities/levitate"
+        }
+      }
+    }
+  },
+  "labels": [],
+  "lines": []
+}

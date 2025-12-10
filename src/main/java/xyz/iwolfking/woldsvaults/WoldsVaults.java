@@ -3,9 +3,12 @@ package xyz.iwolfking.woldsvaults;
 import com.mojang.logging.LogUtils;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.world.data.PlayerGreedData;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -30,6 +33,7 @@ import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.data.recipes.CachedInfuserRecipeData;
 import xyz.iwolfking.woldsvaults.events.LivingEntityEvents;
+import xyz.iwolfking.woldsvaults.events.MissingMappingsEvents;
 import xyz.iwolfking.woldsvaults.events.RegisterCommandEventHandler;
 import xyz.iwolfking.woldsvaults.events.ServerKiller;
 import xyz.iwolfking.woldsvaults.init.*;
@@ -65,6 +69,8 @@ public class WoldsVaults {
 
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, this::onLevelLoad);
+        MinecraftForge.EVENT_BUS.addGenericListener(Block.class, MissingMappingsEvents::onMissingMappings);
+        MinecraftForge.EVENT_BUS.addGenericListener(Item.class, MissingMappingsEvents::onMissingMappingsItem);
         MinecraftForge.EVENT_BUS.addListener(RegisterCommandEventHandler::woldsvaults_registerCommandsEvent);
 
         ModParticles.REGISTRY.register(modEventBus);
@@ -75,6 +81,7 @@ public class WoldsVaults {
         ModInscriptionModels.registerModels();
         ModFTBQuestsTaskTypes.init();
         MinecraftForge.EVENT_BUS.addListener(WoldDataLoaders::initProcessors);
+        ModCompressibleBlocks.addBuiltInBlocks();
     }
 
     private void setup(final FMLCommonSetupEvent event) {

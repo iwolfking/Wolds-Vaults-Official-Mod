@@ -1,0 +1,508 @@
+{
+  "descriptions": {
+    "Shielded": [
+      {
+        "text": "Grants you an "
+      },
+      {
+        "text": "Absorption shield ",
+        "color": "#FFD700"
+      },
+      {
+        "text": "when entering a vault, equal to a percentage of your "
+      },
+      {
+        "text": "max health. ",
+        "color": "green"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+150.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "ChampionsDamage": [
+      {
+        "text": "Doubles the loot dropped by "
+      },
+      {
+        "text": "Champions",
+        "color": "#F4467E"
+      },
+      {
+        "text": ".\n\n"
+      },
+      {
+        "text": "Additionally, increases all your "
+      },
+      {
+        "text": "damage dealt ",
+        "color": "#B22222"
+      },
+      {
+        "text": "to "
+      },
+      {
+        "text": "Champions",
+        "color": "#F4467E"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "OriginalWardPower": [
+      {
+        "text": "While not taking or dealing damage for a certain "
+      },
+      {
+        "text": "duration ",
+        "color": "#FFD700"
+      },
+      {
+        "text": "you will generate an "
+      },
+      {
+        "text": "Absorption shield ",
+        "color": "#FFD700"
+      },
+      {
+        "text": "equal to your "
+      },
+      {
+        "text": "max health",
+        "color": "#32CD32"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+60 wear-off time\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+45 wear-off time\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30 wear-off time\n",
+        "color": "#FFD700"
+      }
+    ],
+    "PickupRange": [
+      {
+        "text": "The effect of "
+      },
+      {
+        "text": "Copiously",
+        "color": "#F4467E"
+      },
+      {
+        "text": "on your "
+      },
+      {
+        "text": "Magnet ",
+        "color": "aqua"
+      },
+      {
+        "text": "is "
+      },
+      {
+        "text": "doubled",
+        "color": "yellow"
+      },
+      {
+        "text": ".\n\n"
+      },
+      {
+        "text": "Additionally, your "
+      },
+      {
+        "text": "Magnet ",
+        "color": "aqua"
+      },
+      {
+        "text": "gains additional "
+      },
+      {
+        "text": "Pickup Range ",
+        "color": "yellow"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+26.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+51.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "TemporalShardChance": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "chance ",
+        "color": "yellow"
+      },
+      {
+        "text": "of finding ",
+        "color": "yellow"
+      },
+      {
+        "text": "Temporal Relics ",
+        "color": "#00FFFF"
+      },
+      {
+        "text": "when breaking "
+      },
+      {
+        "text": "Pylons",
+        "color": "#FFD700"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+75.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "CommanderPower": [
+      {
+        "text": "Increases the duration of your "
+      },
+      {
+        "text": "Companion's ",
+        "color": "#FFD700"
+      },
+      {
+        "text": " "
+      },
+      {
+        "text": "Temporal Modifier",
+        "color": "#00FFFF"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+150.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+300.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Fruity": [
+      {
+        "text": "Increases the time granted by any "
+      },
+      {
+        "text": "Vault Fruit",
+        "color": "#FFD700"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+125.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "TreasureHunterPower": [
+      {
+        "text": "Looting a chest increases your "
+      },
+      {
+        "text": "Item Quantity ",
+        "color": "#FFA500"
+      },
+      {
+        "text": "and "
+      },
+      {
+        "text": "Item Rarity",
+        "color": "#FFD700"
+      },
+      {
+        "text": ".\n\n"
+      },
+      {
+        "text": "This effect can stack up to 20 times and wears off while not looting a chest or taking damage."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20 max stacks, 5.0 bonus per stack\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20 max stacks, 10.0 bonus per stack\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20 max stacks, 15.0 bonus per stack\n",
+        "color": "#FFD700"
+      }
+    ],
+    "BlackMarketRerolls": [
+      {
+        "text": "Makes the "
+      },
+      {
+        "text": "special slot ",
+        "color": "#8000A8"
+      },
+      {
+        "text": "in the "
+      },
+      {
+        "text": "Black Market ",
+        "color": "#8000A8"
+      },
+      {
+        "text": "contain new "
+      },
+      {
+        "text": "rare items ",
+        "color": "#FFD700"
+      },
+      {
+        "text": ", and adds a  "
+      },
+      {
+        "text": "25% ",
+        "color": "#8000A8"
+      },
+      {
+        "text": "chance to consume no "
+      },
+      {
+        "text": "Soul Ichor ",
+        "color": "#8000A8"
+      },
+      {
+        "text": "when rerolling."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "SuperCrystals": [
+      {
+        "text": "Increases the capacity of any "
+      },
+      {
+        "text": "Vault Crystals",
+        "color": "aqua"
+      },
+      {
+        "text": "you craft, allowing you to modify them further."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50 extra capacity\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100 extra capacity\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+150 extra capacity\n",
+        "color": "#FFD700"
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:heart_of_chaos"
+    ]
+  },
+  "criteria": {
+    "has_sublime_elixir": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:sublime_vault_elixir"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:heart_of_chaos"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_sublime_elixir",
+      "has_the_recipe"
+    ]
+  ]
+}

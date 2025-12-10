@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "YXY",
+    "BOB",
+    "YSY"
+  ],
+  "key": {
+    "Y": {
+      "item": "woldsvaults:chroma_core"
+    },
+    "X": {
+      "item": "the_vault:omega_pog"
+    },
+    "B": {
+      "item": "the_vault:black_chromatic_steel_block"
+    },
+    "O": {
+      "item": "woldsvaults:wold_star_chunk"
+    },
+    "S": {
+      "item": "woldsvaults:chunk_of_power"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:crystal_reinforcement"
+  }
+}

@@ -29,16 +29,16 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenericLootableBoxCategory implements IRecipeCategory<GenericLootableConfig> {
+public class GenericLootableBoxCategory implements IRecipeCategory<GenericLootableBoxCategory.GenericLootableConfigPage> {
     private static final ResourceLocation TEXTURE = VaultMod.id("textures/gui/jei/loot_info.png");
     private final IDrawable background;
     private final IDrawable icon;
     private final GenericLootableConfig configInstance;
     private final TextComponent title;
-    private final RecipeType<GenericLootableConfig> recipeType;
+    private final RecipeType<GenericLootableConfigPage> recipeType;
 
 
-    public GenericLootableBoxCategory(IGuiHelper guiHelper, GenericLootableConfig configInstance, TextComponent title, Item itemForIcon, RecipeType<GenericLootableConfig> recipeType) {
+    public GenericLootableBoxCategory(IGuiHelper guiHelper, GenericLootableConfig configInstance, TextComponent title, Item itemForIcon, RecipeType<GenericLootableConfigPage> recipeType) {
         this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 162, 108);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, itemForIcon.getDefaultInstance());
         this.configInstance = configInstance;
@@ -63,7 +63,7 @@ public class GenericLootableBoxCategory implements IRecipeCategory<GenericLootab
 
     @Nonnull
     @Override
-    public RecipeType<GenericLootableConfig> getRecipeType() {
+    public RecipeType<GenericLootableConfigPage> getRecipeType() {
         return this.recipeType;
     }
 
@@ -73,27 +73,36 @@ public class GenericLootableBoxCategory implements IRecipeCategory<GenericLootab
     }
 
     @Nonnull @SuppressWarnings("removal")
-    public Class<? extends GenericLootableConfig> getRecipeClass() {
+    public Class<? extends GenericLootableConfigPage> getRecipeClass() {
         return this.getRecipeType().getRecipeClass();
     }
 
     @Override
-    @ParametersAreNonnullByDefault
-    public void setRecipe(IRecipeLayoutBuilder builder, GenericLootableConfig recipe, IFocusGroup focuses) {
-        List<ItemStack> itemList = new ArrayList<>();
-        recipe.POOL.forEach((productEntry, aDouble) -> {
-            var stack = productEntry.generateItemStack();
+    public void setRecipe(IRecipeLayoutBuilder builder, GenericLootableConfigPage page, IFocusGroup focuses) {
+
+        GenericLootableConfig recipe = page.config();
+        int pageIndex = page.pageIndex();
+
+        List<ItemStack> all = new ArrayList<>();
+        recipe.POOL.forEach((productEntry, weight) -> {
+            ItemStack stack = productEntry.generateItemStack();
             stack.setCount(((ProductEntryAccessor) productEntry).getAmountMax());
-            itemList.add(stack);
+            all.add(stack);
         });
 
-        int count = itemList.size();
+        final int maxPerPage = 54; // 9x6 grid
+        int start = pageIndex * maxPerPage;
+        int end = Math.min(start + maxPerPage, all.size());
+        List<ItemStack> sub = all.subList(start, end);
 
-        for(int i = 0; i < count; ++i) {
-            builder.addSlot(RecipeIngredientRole.OUTPUT, 1 + 18 * (i % 9), 1 + 18 * (i / 9)).addItemStack(addChanceTooltip(itemList.get(i)));
+        for (int i = 0; i < sub.size(); i++) {
+            int x = 1 + 18 * (i % 9);
+            int y = 1 + 18 * (i / 9);
+            builder.addSlot(RecipeIngredientRole.OUTPUT, x, y)
+                    .addItemStack(addChanceTooltip(sub.get(i)));
         }
-
     }
+
 
     public ItemStack addChanceTooltip(ItemStack stack)
     {
@@ -122,4 +131,8 @@ public class GenericLootableBoxCategory implements IRecipeCategory<GenericLootab
 
         return stack;
     }
+
+    public record GenericLootableConfigPage(GenericLootableConfig config, int pageIndex) {}
+
+
 }

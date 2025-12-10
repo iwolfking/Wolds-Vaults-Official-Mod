@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "woldsvaults:block/pink_unobtanium_block"
+  }
+}

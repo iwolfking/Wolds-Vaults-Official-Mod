@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:omega_pog_block"
+    }
+  ],
+  "result": {
+    "item": "the_vault:omega_pog",
+    "count": 9
+  }
+}

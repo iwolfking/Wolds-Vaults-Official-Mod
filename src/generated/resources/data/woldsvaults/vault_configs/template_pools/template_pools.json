@@ -1,0 +1,24 @@
+{
+  "keys": [
+    {
+      "id": "woldsvaults:eclipse_common_rooms",
+      "name": "Eclipse Common Rooms",
+      "1.0": "woldsvaults:eclipse_common_rooms"
+    },
+    {
+      "id": "woldsvaults:eclipse_tunnels",
+      "name": "Eclipse Tunnels",
+      "1.0": "woldsvaults:eclipse_tunnels"
+    },
+    {
+      "id": "woldsvaults:eclipse_starts",
+      "name": "Eclipse Starts",
+      "1.0": "woldsvaults:eclipse_starts"
+    },
+    {
+      "id": "woldsvaults:eclipse_rooms",
+      "name": "Eclipse Rooms",
+      "1.0": "woldsvaults:eclipse_rooms"
+    }
+  ]
+}

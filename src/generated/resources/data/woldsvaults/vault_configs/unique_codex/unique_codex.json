@@ -1,0 +1,36 @@
+{
+  "introduction": {
+    "index": {
+      "SWORD": [
+        "woldsvaults:ocean_current"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "title": {
+        "description": {
+          "text": "Ocean Current",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This is a test unique!!!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nIt is very testy",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Nowhere",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:ocean_current"
+    }
+  ]
+}

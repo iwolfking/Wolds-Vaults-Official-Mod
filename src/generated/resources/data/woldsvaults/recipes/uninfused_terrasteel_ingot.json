@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "botania:manasteel_ingot"
+    },
+    {
+      "item": "botania:mana_pearl"
+    },
+    {
+      "item": "botania:mana_diamond"
+    },
+    {
+      "item": "the_vault:vault_essence"
+    },
+    {
+      "item": "the_vault:vault_diamond"
+    },
+    {
+      "item": "the_vault:chromatic_steel_ingot"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:uninfused_terrasteel_ingot"
+  }
+}

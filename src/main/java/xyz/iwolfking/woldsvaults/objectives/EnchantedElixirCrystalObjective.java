@@ -18,12 +18,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import java.util.List;
 import java.util.Optional;
 
-public class EnchantedElixirCrystalObjective extends CrystalObjective {
+public class EnchantedElixirCrystalObjective extends WoldCrystalObjective {
     protected float objectiveProbability;
 
     public EnchantedElixirCrystalObjective() {
@@ -33,7 +36,7 @@ public class EnchantedElixirCrystalObjective extends CrystalObjective {
     public void configure(Vault vault, RandomSource random) {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            objectives.add(EnchantedElixirObjective.create().add(LodestoneObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.ELIXIR, "enchanted_elixir", level, true)).add(VictoryObjective.of(300))));
+            objectives.add(EnchantedElixirObjective.create().add(LodestoneObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ENCHANTED_ELIXIR"), "enchanted_elixir", level, true)).add(VictoryObjective.of(300))));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
@@ -41,8 +44,8 @@ public class EnchantedElixirCrystalObjective extends CrystalObjective {
     }
 
     @Override
-    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add((new TextComponent("Objective: ")).append((new TextComponent("Enchanted Elixir")).withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
+    ResourceLocation getObjectiveId() {
+        return ModCustomVaultObjectiveEntries.ENCHANTED_ELIXIR.getRegistryName();
     }
 
     public Optional<Integer> getColor(float time) {

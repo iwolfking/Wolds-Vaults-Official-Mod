@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:vault_essence_block"
+    }
+  ],
+  "result": {
+    "item": "the_vault:vault_essence",
+    "count": 9
+  }
+}

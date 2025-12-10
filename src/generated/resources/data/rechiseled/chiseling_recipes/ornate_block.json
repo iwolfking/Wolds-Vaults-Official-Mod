@@ -1,0 +1,30 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:ornate_block"
+    },
+    {
+      "item": "the_vault:ornate_block_chiseled"
+    },
+    {
+      "item": "the_vault:ornate_block_pillar"
+    },
+    {
+      "item": "the_vault:ornate_block_tiled"
+    },
+    {
+      "item": "the_vault:ornate_bricks"
+    },
+    {
+      "item": "the_vault:ornate_bricks_chipped"
+    },
+    {
+      "item": "the_vault:ornate_bricks_cracked"
+    },
+    {
+      "item": "the_vault:ornate_bricks_rusty"
+    }
+  ],
+  "overwrite": false
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "woldsvaults:vault_essence_block"
+    },
+    {
+      "item": "the_vault:magic_silk"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:chromatic_gold_ingot"
+  }
+}

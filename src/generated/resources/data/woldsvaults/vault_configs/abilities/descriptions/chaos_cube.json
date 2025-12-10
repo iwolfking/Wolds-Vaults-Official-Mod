@@ -1,0 +1,60 @@
+{
+  "data": {
+    "Grenade_Base": {
+      "description": [
+        {
+          "text": "Throw a mysterious, powerful ",
+          "color": "$text"
+        },
+        {
+          "text": "Chaos Cube ",
+          "color": "$qhighlight"
+        },
+        {
+          "text": "that explodes after a little while, dealing ",
+          "color": "$text"
+        },
+        {
+          "text": "Attack Damage ",
+          "color": "$damage"
+        },
+        {
+          "text": "scaled damage in a ",
+          "color": "$text"
+        },
+        {
+          "text": "radius ",
+          "color": "$radius"
+        },
+        {
+          "text": "and activating all ",
+          "color": "$text"
+        },
+        {
+          "text": "Effect Cloud ",
+          "color": "$heal"
+        },
+        {
+          "text": "attributes you have equipped.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "damage",
+        "adjustedRadius",
+        "manaCost",
+        "duration"
+      ],
+      "next": [
+        "damage",
+        "adjustedRadius",
+        "manaCost",
+        "duration"
+      ]
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:monolith"
+    ]
+  },
+  "criteria": {
+    "has_deco_scroll": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:general_decor_scroll"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:monolith"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_deco_scroll",
+      "has_the_recipe"
+    ]
+  ]
+}

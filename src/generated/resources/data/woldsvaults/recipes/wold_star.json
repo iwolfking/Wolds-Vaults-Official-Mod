@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "COC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "woldsvaults:wold_star_chunk"
+    },
+    "O": {
+      "item": "the_vault:omega_pog"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:wold_star"
+  }
+}

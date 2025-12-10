@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "the_vault:chromatic_iron_block"
+    }
+  },
+  "result": {
+    "item": "compressium:chromatic_iron_block_1"
+  }
+}

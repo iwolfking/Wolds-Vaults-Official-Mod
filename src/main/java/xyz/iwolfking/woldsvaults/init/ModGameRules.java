@@ -13,23 +13,23 @@ import xyz.iwolfking.woldsvaults.mixins.GameRulesBooleanValueAccessor;
 public class ModGameRules {
 
     public static GameRules.Key<GameRules.BooleanValue> ALLOW_FLIGHT_IN_VAULTS;
+    public static GameRules.Key<GameRules.BooleanValue> ALLOW_BREAKING_SPAWNERS_IN_VAULT;
     public static GameRules.Key<GameRules.BooleanValue> NORMALIZED_ENABLED;
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_OLD_AFFINITY_HANDLING;
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_PLACING_VAULT_DOLLS;
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_VAULT_DOLLS;
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_VAULTS;
-    //public static GameRules.Key<GameRules.BooleanValue> UNLIMITED_RUNE_BOSS;
     public static GameRules.Key<GameRules.BooleanValue> UNLIMITED_ALCHEMY_OVERSTACKING;
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_SKILL_ALTARS;
 
     public static void initialize() {
         ALLOW_FLIGHT_IN_VAULTS = GameRules.register("enableFlightInVaults", GameRules.Category.PLAYER, booleanRule(false));
+        ALLOW_BREAKING_SPAWNERS_IN_VAULT = GameRules.register("enableSpawnerBreakingInVaults", GameRules.Category.PLAYER, booleanRule(false));
         NORMALIZED_ENABLED = GameRules.register("enableDifficultyLockModifiers", GameRules.Category.PLAYER, booleanRule(true));
         ENABLE_OLD_AFFINITY_HANDLING = GameRules.register("enableLegacyGodAffinityHandling", GameRules.Category.PLAYER, booleanRule(false));
         ENABLE_PLACING_VAULT_DOLLS = GameRules.register("enablePlacingVaultDolls", GameRules.Category.PLAYER, booleanRule(false));
         ENABLE_VAULT_DOLLS = GameRules.register("enableVaultDolls", GameRules.Category.PLAYER, booleanRule(true));
         ENABLE_VAULTS = GameRules.register("enableVaults", GameRules.Category.PLAYER, booleanRule(true));
-        //UNLIMITED_RUNE_BOSS = GameRules.register("unlimitedRuneBoss", GameRules.Category.PLAYER, booleanRule(false));
         UNLIMITED_ALCHEMY_OVERSTACKING = GameRules.register("unlimitedAlchemyOverflow", GameRules.Category.PLAYER, booleanRule(false));
         ENABLE_SKILL_ALTARS = GameRules.register("enableSkillAltars", GameRules.Category.PLAYER, booleanRule(false));
     }

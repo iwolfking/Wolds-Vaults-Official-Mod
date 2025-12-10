@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:pog_block"
+    }
+  ],
+  "result": {
+    "item": "the_vault:gem_pog",
+    "count": 9
+  }
+}

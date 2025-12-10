@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:arcane_shard"
+    ]
+  },
+  "criteria": {
+    "arcane_essence": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:arcane_essence"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:arcane_shard"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "arcane_essence",
+      "has_the_recipe"
+    ]
+  ]
+}

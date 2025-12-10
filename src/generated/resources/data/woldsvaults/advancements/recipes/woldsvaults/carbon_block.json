@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:carbon_block"
+    ]
+  },
+  "criteria": {
+    "has_carbon": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:carbon"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:carbon_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_carbon",
+      "has_the_recipe"
+    ]
+  ]
+}

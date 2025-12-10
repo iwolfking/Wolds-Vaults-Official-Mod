@@ -18,12 +18,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import java.util.List;
 import java.util.Optional;
 
-public class HauntedBraziersCrystalObjective extends CrystalObjective {
+public class HauntedBraziersCrystalObjective extends WoldCrystalObjective {
     protected IntRoll target;
     protected float objectiveProbability;
 
@@ -39,7 +42,7 @@ public class HauntedBraziersCrystalObjective extends CrystalObjective {
     public void configure(Vault vault, RandomSource random) {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            objectives.add(HauntedBraziersObjective.of(this.target.get(random), this.objectiveProbability, xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackLootTable(level)).add(FindExitObjective.create(ClassicPortalLogic.EXIT).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.MONOLITH, "haunted_braziers", level, true))));
+            objectives.add(HauntedBraziersObjective.of(this.target.get(random), this.objectiveProbability, xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackModifierPool(level),  xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getOverStackLootTable(level)).add(FindExitObjective.create(ClassicPortalLogic.EXIT).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("HAUNTED_BRAZIERS"), "haunted_braziers", level, true))));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
@@ -47,10 +50,9 @@ public class HauntedBraziersCrystalObjective extends CrystalObjective {
     }
 
     @Override
-    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add((new TextComponent("Objective: ")).append((new TextComponent("Light the Haunted Braziers")).withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
+    ResourceLocation getObjectiveId() {
+        return ModCustomVaultObjectiveEntries.HAUNTED_BRAZIERS.getRegistryName();
     }
-
 
     @Override
     public Optional<Integer> getColor(float time) {

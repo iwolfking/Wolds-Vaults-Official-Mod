@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:silver_scrap_block_3"
+    }
+  ],
+  "result": {
+    "item": "compressium:silver_scrap_block_2",
+    "count": 9
+  }
+}

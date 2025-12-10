@@ -1,0 +1,131 @@
+{
+  "excludeFromTooltip": [],
+  "info": {
+    "the_vault:completion_crate_scavenger": {
+      "display": "Completion Crate Scavenger",
+      "lootTableKeys": {
+        "the_vault:base_crate_3_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_3_50": {
+          "level": 50
+        },
+        "the_vault:base_crate_2_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_2_20": {
+          "level": 20
+        }
+      }
+    },
+    "the_vault:completion_crate_boss": {
+      "display": "Completion Crate Boss",
+      "lootTableKeys": {
+        "the_vault:base_crate_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_50": {
+          "level": 50
+        },
+        "the_vault:base_crate_20": {
+          "level": 20
+        }
+      }
+    },
+    "the_vault:completion_crate_elixir": {
+      "display": "Completion Crate Elixir",
+      "lootTableKeys": {
+        "the_vault:base_crate_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_50": {
+          "level": 50
+        },
+        "the_vault:base_crate_20": {
+          "level": 20
+        }
+      }
+    },
+    "the_vault:completion_crate_rune_boss": {
+      "display": "Completion Crate Rune Boss",
+      "lootTableKeys": {
+        "the_vault:base_crate_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_0": {
+          "level": 50
+        }
+      }
+    },
+    "the_vault:completion_crate_cake": {
+      "display": "Completion Crate Cake",
+      "lootTableKeys": {
+        "the_vault:cake_crate": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:completion_crate_bingo_full": {
+      "display": "Completion Crate Bingo Full",
+      "lootTableKeys": {
+        "the_vault:bingo_bonus": {
+          "level": 100
+        },
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_20": {
+          "level": 20
+        }
+      }
+    },
+    "the_vault:completion_crate_paradox": {
+      "display": "Completion Crate Paradox",
+      "lootTableKeys": {
+        "the_vault:completion_paradox": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:completion_crate_bingo": {
+      "display": "Completion Crate Bingo",
+      "lootTableKeys": {
+        "the_vault:base_crate_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_50": {
+          "level": 50
+        },
+        "the_vault:base_crate_20": {
+          "level": 20
+        }
+      }
+    },
+    "the_vault:completion_crate_monolith": {
+      "display": "Completion Crate Monolith",
+      "lootTableKeys": {
+        "the_vault:base_crate_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_50": {
+          "level": 50
+        },
+        "the_vault:base_crate_20": {
+          "level": 20
+        }
+      }
+    }
+  }
+}

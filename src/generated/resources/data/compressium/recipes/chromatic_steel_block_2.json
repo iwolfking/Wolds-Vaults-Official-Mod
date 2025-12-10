@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "compressium:chromatic_steel_block_1"
+    }
+  },
+  "result": {
+    "item": "compressium:chromatic_steel_block_2"
+  }
+}

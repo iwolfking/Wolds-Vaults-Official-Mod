@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BMB",
+    "EXE",
+    "BUB"
+  ],
+  "key": {
+    "B": {
+      "item": "the_vault:black_chromatic_steel_ingot"
+    },
+    "M": {
+      "item": "the_vault:memory_crystal"
+    },
+    "E": {
+      "item": "the_vault:sublime_vault_elixir"
+    },
+    "X": {
+      "item": "the_vault:sublime_vault_substance"
+    },
+    "U": {
+      "item": "woldsvaults:pog_prism"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:heart_of_chaos"
+  }
+}

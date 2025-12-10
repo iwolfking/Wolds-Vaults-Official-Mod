@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "the_vault:memory_powder"
+    ]
+  },
+  "criteria": {
+    "has_perfect_beni": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:perfect_benitoite"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "the_vault:memory_powder"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_perfect_beni",
+      "has_the_recipe"
+    ]
+  ]
+}

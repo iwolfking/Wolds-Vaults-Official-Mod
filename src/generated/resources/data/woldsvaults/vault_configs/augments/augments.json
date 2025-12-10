@@ -1,0 +1,8 @@
+{
+  "dropChance": 0.2,
+  "drops": {
+    "woldsvaults:eclipse": {
+      "the_vault:augment{theme:\"woldsvaults:eclipse\"}": 1
+    }
+  }
+}

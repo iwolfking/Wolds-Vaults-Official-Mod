@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CDC",
+    "DOD",
+    "CDC"
+  ],
+  "key": {
+    "C": {
+      "item": "the_vault:mystical_powder"
+    },
+    "D": {
+      "item": "the_vault:dreamstone"
+    },
+    "O": {
+      "item": "woldsvaults:pog_prism"
+    }
+  },
+  "result": {
+    "item": "the_vault:sublime_vault_vision"
+  }
+}

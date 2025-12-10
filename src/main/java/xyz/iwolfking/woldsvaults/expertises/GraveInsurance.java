@@ -11,6 +11,14 @@ import java.util.Optional;
 public class GraveInsurance extends LearnableSkill {
     private float costReduction;
 
+    public GraveInsurance(int unlockLevel, int learnPointCost, int regretCost, float costReduction) {
+        super(unlockLevel, learnPointCost, regretCost);
+        this.costReduction = costReduction;
+    }
+
+    public GraveInsurance() {
+    }
+
     public void writeBits(BitBuffer buffer) {
         super.writeBits(buffer);
         Adapters.FLOAT.writeBits(this.costReduction, buffer);

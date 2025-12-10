@@ -1,0 +1,85 @@
+{
+  "TRINKETS": {
+    "the_vault:vibrating_stone": {
+      "weight": 10,
+      "name": "Vibrating Stone",
+      "effectText": "Gives your attacks a 10% chance to echo, your echoed attacks do 25% more damage",
+      "color": 16534066,
+      "minUses": 20,
+      "maxUses": 30,
+      "minCraftedUses": 12,
+      "maxCraftedUses": 30,
+      "config": {
+        "keys": [
+          "the_vault:echoing_chance",
+          "the_vault:echoing_damage"
+        ],
+        "values": [
+          0.1,
+          0.25
+        ],
+        "curiosSlot": "red_trinket"
+      }
+    },
+    "the_vault:swift_amulet": {
+      "weight": 10,
+      "name": "Swift Amulet",
+      "effectText": "Gives you a 15% chance to dodge attacks",
+      "color": 3304444,
+      "minUses": 20,
+      "maxUses": 30,
+      "minCraftedUses": 12,
+      "maxCraftedUses": 30,
+      "config": {
+        "key": "the_vault:dodge_percent",
+        "value": 0.15000000596046448,
+        "curiosSlot": "blue_trinket"
+      }
+    },
+    "the_vault:running_shoes": {
+      "weight": 0,
+      "name": "Running Shoes",
+      "effectText": "Parkour uses no energy",
+      "color": 3304444,
+      "minUses": 20,
+      "maxUses": 30,
+      "minCraftedUses": 12,
+      "maxCraftedUses": 30,
+      "config": {
+        "effect": "parcool:inexhaustible",
+        "addedAmplifier": 1,
+        "curiosSlot": "blue_trinket"
+      }
+    },
+    "the_vault:chromatic_diffuser": {
+      "weight": 10,
+      "name": "Chromatic Diffuser",
+      "effectText": "Adds an additional 10% chance to trigger Effect Clouds",
+      "color": 16534066,
+      "minUses": 20,
+      "maxUses": 30,
+      "minCraftedUses": 12,
+      "maxCraftedUses": 30,
+      "config": {
+        "key": "the_vault:effect_cloud_chance_additive",
+        "value": 0.10000000149011612,
+        "curiosSlot": "red_trinket"
+      }
+    },
+    "the_vault:miners_headlamp": {
+      "weight": 10,
+      "name": "Miner's Headlamp",
+      "effectText": "Grants night vision, +25% Copiously",
+      "color": 3120128,
+      "minUses": 20,
+      "maxUses": 30,
+      "minCraftedUses": 12,
+      "maxCraftedUses": 30,
+      "config": {
+        "effect": "minecraft:night_vision",
+        "addedAmplifier": 1,
+        "curiosSlot": "green_trinket"
+      }
+    }
+  }
+}

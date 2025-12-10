@@ -4,9 +4,9 @@ import io.iridium.vaultarhud.util.Point;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
 import xyz.iwolfking.woldsvaults.init.ModVaultarHudScreenRegistry;
 import xyz.iwolfking.woldsvaults.lib.vaultarhud.screens.*;
-import xyz.iwolfking.woldsvaults.api.util.ConditionalModUtils;
 
 import java.util.List;
 
