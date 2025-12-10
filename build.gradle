@@ -48,7 +48,7 @@ minecraft {
     //
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'parchment', version: '2022.08.07-1.18.2'
+    mappings channel: mapping_channel, version: mapping_version
 
     // When true, this property will have all Eclipse/IntelliJ IDEA run configurations run the "prepareX" task for the given run configuration before launching the game.
     // enableEclipsePrepareRuns = true
@@ -305,9 +305,9 @@ dependencies {
 //    }
 
     // mixins
-    compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.3")
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.3.3")) {
-        jarJar.ranged(it, "[0.3.3,)")
+    compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1")
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
+        jarJar.ranged(it, "[0.4.1,)")
     }
     implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.2.0"))
     implementation(jarJar("com.github.bawnorton.mixinsquared:mixinsquared-forge:0.2.0")) {
