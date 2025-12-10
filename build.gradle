@@ -210,7 +210,7 @@ dependencies {
     implementation fg.deobf("curse.maven:thermal-expansion-69163:4782927") //enchanted event
     implementation fg.deobf('curse.maven:cofh-core-69162:4801048') // enchanted event
     implementation fg.deobf("curse.maven:vault-filters-952507:6927578") // new attributes
-    implementation fg.deobf("curse.maven:black-market-tweaks-1168437:6880977") // hopper support and expertise
+    compileOnly fg.deobf("curse.maven:black-market-tweaks-1168437:6880977") // hopper support and expertise
     implementation fg.deobf("curse.maven:cucumber-272335:4831151") // wv tile entities
     implementation fg.deobf("curse.maven:ftb-quests-forge-289412:6113498") // quests
     implementation fg.deobf("curse.maven:configured-457570:4462832") // config keybind
@@ -285,7 +285,7 @@ dependencies {
     implementation fg.deobf("curse.maven:patchouli-306770:3846086")
     runtimeOnly fg.deobf("curse.maven:tropicraft-254794:4616839") // kept for backwards compat with worlds (adds dimension type)
     runtimeOnly fg.deobf("curse.maven:storage-drawers-223852:5636643")
-    runtimeOnly fg.deobf("curse.maven:qol-hunters-1093452:7189491")
+    compileOnly fg.deobf("curse.maven:qol-hunters-1093452:7189491")
     runtimeOnly fg.deobf("curse.maven:jade-324717:5079263")
     runtimeOnly fg.deobf("curse.maven:open-loader-354339:3697234")
 

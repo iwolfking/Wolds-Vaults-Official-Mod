@@ -40,9 +40,9 @@ public abstract class MixinClassicLootLogic extends LootLogic {
         data.getTileEntity().setChanged();
         world.sendBlockUpdated(data.getPos(), data.getState(), data.getState(), 3);
     }
-
-    @Redirect(method = "generateCatalystFragments", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 0))
-    protected boolean generateCatalystFragments(List instance) {
-        return true;
-    }
+//
+//    @Redirect(method = "generateCatalystFragments", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 0))
+//    protected boolean generateCatalystFragments(List instance) {
+//        return true;
+//    }
 }
