@@ -205,8 +205,8 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
                 int j = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_RIPTIDE, VaultGearAttributeTypeMerger.intSum());
                 if (true) {
                     if (!level.isClientSide) {
-                        stack.hurtAndBreak(1, player, (p_43388_) -> {
-                            p_43388_.broadcastBreakEvent(entity.getUsedItemHand());
+                        stack.hurtAndBreak(1, player, (pEntity) -> {
+                            pEntity.broadcastBreakEvent(entity.getUsedItemHand());
                         });
                         if (j == 0) {
                             ThrownTrident throwntrident;

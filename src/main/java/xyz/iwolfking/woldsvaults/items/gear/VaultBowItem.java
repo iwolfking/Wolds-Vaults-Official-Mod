@@ -101,8 +101,8 @@ public class VaultBowItem extends BowItem implements VaultGearItem, DyeableLeath
                             abstractarrow.setSecondsOnFire(100);
                         }
 
-                        pStack.hurtAndBreak(1, player, (p_40665_) -> {
-                            p_40665_.broadcastBreakEvent(player.getUsedItemHand());
+                        pStack.hurtAndBreak(1, player, (pEntity) -> {
+                            pEntity.broadcastBreakEvent(player.getUsedItemHand());
                         });
                         if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW))) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
