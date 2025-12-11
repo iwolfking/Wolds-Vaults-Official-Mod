@@ -39,6 +39,7 @@ public class AlchemyCrystalObjective extends WoldCrystalObjective {
         return Optional.of(0xB68CFF);
     }
 
+    //TODO: Add Sigil support
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();

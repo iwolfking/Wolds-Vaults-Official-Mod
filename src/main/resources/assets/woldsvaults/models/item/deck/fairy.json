@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "the_vault:item/deck/snake"
+    "layer0": "woldsvaults:item/deck/fairy"
   }
 }

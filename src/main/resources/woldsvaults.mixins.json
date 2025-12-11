@@ -86,7 +86,6 @@
     "scannable.MixinScannerEnergyStorage",
     "scannable.ScannerModuleItemAccessor",
     "secretroomsmod.MixinDelegateWorld",
-    "serverportals.MixinVaultEventHandler",
     "sophisticatedbackpacks.MixinModBlocks",
     "sophisticatedbackpacks.MixinToolSwapperWrapper",
     "sophisticatedstorage.MixinPackingTape",

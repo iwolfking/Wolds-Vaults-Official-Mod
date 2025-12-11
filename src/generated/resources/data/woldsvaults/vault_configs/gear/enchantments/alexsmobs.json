@@ -1,6 +1,6 @@
 {
   "costs": {
-    "alexsmobs:serpentfriend": {
+    "alexsmobs:board_return": {
       "items": [
         {
           "id": "emerald",
@@ -9,7 +9,7 @@
       ],
       "levels": 1
     },
-    "alexsmobs:board_return": {
+    "alexsmobs:lavawax": {
       "items": [
         {
           "id": "emerald",
@@ -27,7 +27,7 @@
       ],
       "levels": 1
     },
-    "alexsmobs:lavawax": {
+    "alexsmobs:serpentfriend": {
       "items": [
         {
           "id": "emerald",

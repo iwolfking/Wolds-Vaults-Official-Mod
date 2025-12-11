@@ -43,6 +43,7 @@ public class BrutalBossesCrystalObjective extends WoldCrystalObjective {
         this.objectiveProbability = objectiveProbability;
     }
 
+    //TODO: Add Sigil Support
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();

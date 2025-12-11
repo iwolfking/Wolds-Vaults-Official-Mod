@@ -3,17 +3,14 @@ package xyz.iwolfking.woldsvaults.objectives;
 import com.google.gson.JsonObject;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.VaultCrateBlock;
+import iskallia.vault.config.sigil.SigilConfig;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.objective.AwardCrateObjective;
-import iskallia.vault.core.vault.objective.BailObjective;
-import iskallia.vault.core.vault.objective.DeathObjective;
-import iskallia.vault.core.vault.objective.GridGatewayObjective;
-import iskallia.vault.core.vault.objective.Objectives;
-import iskallia.vault.core.vault.objective.VictoryObjective;
+import iskallia.vault.core.vault.objective.*;
 import iskallia.vault.item.crystal.CrystalData;
+import iskallia.vault.item.crystal.objective.BingoCrystalObjective;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -42,11 +39,9 @@ public class BallisticBingoCrystalObjective extends WoldCrystalObjective {
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
+        Optional<SigilConfig.LevelEntry> entry = SigilConfig.getConfig(sigil).map((config) -> config.getLevel(level));
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            ModConfigs.BALLISTIC_BINGO_CONFIG.generate(VaultMod.id("default"), level).ifPresent(task ->
-                objectives.add(BallisticBingoObjective.of(task).add(GridGatewayObjective.of(this.objectiveProbability)
-                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("BALLISTIC_BINGO"), "bingo", level, true))
-                    .add(VictoryObjective.of(300)))));
+            ModConfigs.BALLISTIC_BINGO_CONFIG.generate(entry.map(SigilConfig.LevelEntry::getBingoPool).orElse(VaultMod.id("default")), level).ifPresent((task) -> objectives.add(BingoObjective.of(task, 5, 5).add(GridGatewayObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("BALLISTIC_BINGO"), "ballistic_bingo", level, true)).add(VictoryObjective.of(300)))));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
