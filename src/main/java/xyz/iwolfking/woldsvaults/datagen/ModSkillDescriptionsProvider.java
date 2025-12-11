@@ -60,7 +60,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                  .addDescription("Auto Feeding", jsonElements -> {
                      modDesc("Auto Feeding, Refill, Compacting, and Auto-Smelting, Smoking, Blasting", "upgrades",  innerDesc -> {
                          innerDesc.add(JsonDescription.simple("Feeding Upgrades\n\n", "yellow"));
-                         innerDesc.add(JsonDescription.simple("can automatically feed you directly from your pouches, belts & backpacks and removes the need to eat food manually.\\n\\n"));
+                         innerDesc.add(JsonDescription.simple("can automatically feed you directly from your pouches, belts & backpacks and removes the need to eat food manually.\n\n"));
                          innerDesc.add(JsonDescription.simple("Refill, Compacting, and Auto-Smelting, Smoking, and Blasting", "yellow"));
                          innerDesc.add(JsonDescription.simple("upgrades will let you refill items in your hand from your backpack automatically, compacting items in 2x2 and 3x3 recipes, and automatically process items in your bag!", "yellow"));
                      }).forEach(jsonElements::add);;

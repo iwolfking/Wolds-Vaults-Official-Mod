@@ -1,46 +1,19 @@
 {
   "costs": {
-    "ensorcellation:vitality": {
+    "ensorcellation:damage_ender": {
       "items": [
         {
-          "id": "golden_apple",
-          "count": 64
-        }
-      ],
-      "levels": 3
-    },
-    "ensorcellation:air_affinity": {
-      "items": [
-        {
-          "id": "the_vault:phoenix_feather",
-          "count": 1
+          "id": "ender_eye",
+          "count": 32
         }
       ],
       "levels": 1
     },
-    "ensorcellation:gourmand": {
-      "items": [
-        {
-          "id": "pumpkin_pie",
-          "count": 64
-        }
-      ],
-      "levels": 2
-    },
-    "ensorcellation:volley": {
+    "ensorcellation:angler": {
       "items": [
         {
           "id": "emerald",
-          "count": 45
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:trueshot": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 45
+          "count": 5
         }
       ],
       "levels": 2
@@ -54,32 +27,32 @@
       ],
       "levels": 3
     },
-    "ensorcellation:exp_boost": {
-      "items": [
-        {
-          "id": "the_vault:wutodic_mass",
-          "count": 8
-        }
-      ],
-      "levels": 3
-    },
-    "ensorcellation:hunter": {
+    "ensorcellation:trueshot": {
       "items": [
         {
           "id": "emerald",
-          "count": 5
+          "count": 45
         }
       ],
       "levels": 2
     },
-    "ensorcellation:damage_ender": {
+    "ensorcellation:volley": {
       "items": [
         {
-          "id": "ender_eye",
-          "count": 32
+          "id": "emerald",
+          "count": 45
         }
       ],
       "levels": 1
+    },
+    "ensorcellation:gourmand": {
+      "items": [
+        {
+          "id": "pumpkin_pie",
+          "count": 64
+        }
+      ],
+      "levels": 2
     },
     "ensorcellation:soulbound": {
       "items": [
@@ -90,7 +63,7 @@
       ],
       "levels": 1
     },
-    "ensorcellation:angler": {
+    "ensorcellation:hunter": {
       "items": [
         {
           "id": "emerald",
@@ -98,6 +71,33 @@
         }
       ],
       "levels": 2
+    },
+    "ensorcellation:air_affinity": {
+      "items": [
+        {
+          "id": "the_vault:phoenix_feather",
+          "count": 1
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:vitality": {
+      "items": [
+        {
+          "id": "golden_apple",
+          "count": 64
+        }
+      ],
+      "levels": 3
+    },
+    "ensorcellation:exp_boost": {
+      "items": [
+        {
+          "id": "the_vault:wutodic_mass",
+          "count": 8
+        }
+      ],
+      "levels": 3
     }
   }
 }

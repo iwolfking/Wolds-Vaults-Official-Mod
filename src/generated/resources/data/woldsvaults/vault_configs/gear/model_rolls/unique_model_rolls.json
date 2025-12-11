@@ -7,6 +7,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "WAND_MODEL_ROLLS": {
@@ -17,6 +18,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "SWORD_MODEL_ROLLS": {
@@ -27,6 +29,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "ARMOR_MODEL_ROLLS": {
@@ -37,6 +40,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "SHIELD_MODEL_ROLLS": {
@@ -47,6 +51,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "FOCUS_MODEL_ROLLS": {
@@ -57,6 +62,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "MAGNETS_MODEL_ROLLS": {
@@ -67,6 +73,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "TRIDENT_MODEL_ROLLS": {
@@ -79,6 +86,7 @@
       "woldsvaults:gear/trident/ocean_current"
     ],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "BATTLESTAFF_MODEL_ROLLS": {
@@ -89,6 +97,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "PLUSHIE_MODEL_ROLLS": {
@@ -99,6 +108,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   },
   "LOOT_SACK_MODEL_ROLLS": {
@@ -109,6 +119,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
+    "CHAOTIC": [],
     "MYTHIC": []
   }
 }

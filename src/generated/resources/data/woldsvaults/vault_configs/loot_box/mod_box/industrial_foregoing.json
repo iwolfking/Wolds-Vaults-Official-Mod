@@ -1,0 +1,193 @@
+{
+  "POOL": {
+    "Industrial Foregoing": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "industrialforegoing:pink_slime",
+            "amountMin": 2,
+            "amountMax": 8
+          },
+          "weight": 50
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:machine_frame_pity",
+            "amountMin": 1,
+            "amountMax": 2
+          },
+          "weight": 40
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:machine_frame_simple",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 30
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:machine_frame_advanced",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:machine_frame_supreme",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:conveyor",
+            "amountMin": 8,
+            "amountMax": 16
+          },
+          "weight": 16
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:common_black_hole_tank",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:common_black_hole_unit",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:black_hole_controller",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 1
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:marine_fisher",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 6
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:fluid_collector",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:washing_factory",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 6
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:material_stonework_factory",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:mechanical_dirt",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:block_breaker",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:block_placer",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:fluid_placer",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:laser_drill",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:advanced_black_hole_tank",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 6
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:advanced_black_hole_unit",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 6
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:supreme_black_hole_tank",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:supreme_black_hole_unit",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        },
+        {
+          "value": {
+            "id": "industrialforegoing:ether_gas_bucket",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        }
+      ]
+    }
+  }
+}

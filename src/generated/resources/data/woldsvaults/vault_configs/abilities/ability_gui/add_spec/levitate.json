@@ -5,7 +5,6 @@
       "y": -100,
       "specializationStyles": {
         "Levitate": {
-          "type": "UTILITY",
           "icon": "the_vault:gui/abilities/levitate"
         }
       }

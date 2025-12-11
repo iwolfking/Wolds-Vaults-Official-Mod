@@ -1,0 +1,97 @@
+{
+  "POOL": {
+    "Toms Simple Storage": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "toms_storage:ts.inventory_connector",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 40
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.open_crate",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.inventory_cable_connector",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.level_emitter",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.trim",
+            "amountMin": 8,
+            "amountMax": 8
+          },
+          "weight": 30
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.inventory_cable",
+            "amountMin": 8,
+            "amountMax": 8
+          },
+          "weight": 50
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.inventory_hopper_basic",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 30
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.wireless_terminal",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 3
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.adv_wireless_terminal",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 1
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.storage_terminal",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "toms_storage:ts.crafting_terminal",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        }
+      ]
+    }
+  }
+}

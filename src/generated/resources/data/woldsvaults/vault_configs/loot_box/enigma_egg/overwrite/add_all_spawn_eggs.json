@@ -666,214 +666,6 @@
     },
     {
       "value": {
-        "id": "woldsvaults:wold_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "woldsvaults:boogieman_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "woldsvaults:robot_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "woldsvaults:monster_eye_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "woldsvaults:blue_blaze_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "supplementaries:red_merchant_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "thermal:basalz_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "thermal:blizz_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "thermal:blitz_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "ars_nouveau:starbuncle_se",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "ars_nouveau:whirlisprig_se",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "ars_nouveau:wilden_hunter_se",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "ars_nouveau:wilden_guardian_se",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "ars_nouveau:wilden_stalker_se",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "ecologics:coconut_crab_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "ecologics:camel_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "ecologics:penguin_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "ecologics:squirrel_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:foxhound_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:frog_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:stoneling_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:toretoise_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:crab_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:wraith_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:shiba_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
-        "id": "quark:forgotten_spawn_egg",
-        "amountMin": 1,
-        "amountMax": 1
-      },
-      "weight": 1
-    },
-    {
-      "value": {
         "id": "naturalist:snail_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
@@ -1035,6 +827,214 @@
     {
       "value": {
         "id": "naturalist:boar_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "woldsvaults:wold_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "woldsvaults:boogieman_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "woldsvaults:robot_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "woldsvaults:monster_eye_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "woldsvaults:blue_blaze_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "ars_nouveau:starbuncle_se",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "ars_nouveau:whirlisprig_se",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "ars_nouveau:wilden_hunter_se",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "ars_nouveau:wilden_guardian_se",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "ars_nouveau:wilden_stalker_se",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "supplementaries:red_merchant_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "thermal:basalz_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "thermal:blizz_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "thermal:blitz_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "ecologics:coconut_crab_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "ecologics:camel_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "ecologics:penguin_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "ecologics:squirrel_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:toretoise_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:foxhound_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:crab_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:frog_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:wraith_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:stoneling_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:forgotten_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "quark:shiba_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -2027,6 +2027,30 @@
     {
       "value": {
         "id": "the_vault:t5_cave_skeleton_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:yeti_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:grinch_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:santa_egg",
         "amountMin": 1,
         "amountMax": 1
       },

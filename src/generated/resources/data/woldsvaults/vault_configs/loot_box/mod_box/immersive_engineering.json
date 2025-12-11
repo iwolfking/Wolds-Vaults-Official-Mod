@@ -1,0 +1,113 @@
+{
+  "POOL": {
+    "Immersive Engineering": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "immersiveengineering:light_engineering",
+            "amountMin": 1,
+            "amountMax": 4
+          },
+          "weight": 25
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:rs_engineering",
+            "amountMin": 1,
+            "amountMax": 4
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:heavy_engineering",
+            "amountMin": 1,
+            "amountMax": 4
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:fluid_pump",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:storage_steel",
+            "amountMin": 1,
+            "amountMax": 3
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:fluid_pipe",
+            "amountMin": 8,
+            "amountMax": 16
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:capacitor_lv",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:capacitor_mv",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:capacitor_hv",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:tesla_coil",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:cloche",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:wooden_barrel",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "immersiveengineering:treated_wood_horizontal",
+            "amountMin": 16,
+            "amountMax": 32
+          },
+          "weight": 25
+        }
+      ]
+    }
+  }
+}

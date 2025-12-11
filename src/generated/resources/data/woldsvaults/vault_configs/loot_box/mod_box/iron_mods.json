@@ -1,0 +1,121 @@
+{
+  "POOL": {
+    "Oops, All Iron Mods": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "ironchest:copper_chest",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 75
+        },
+        {
+          "value": {
+            "id": "ironchest:iron_chest",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 50
+        },
+        {
+          "value": {
+            "id": "ironchest:gold_chest",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 25
+        },
+        {
+          "value": {
+            "id": "ironchest:diamond_chest",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "ironchest:crystal_chest",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "ironchest:obsidian_chest",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "ironfurnaces:iron_furnace",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 25
+        },
+        {
+          "value": {
+            "id": "ironfurnaces:gold_furnace",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "ironfurnaces:diamond_furnace",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "ironfurnaces:obsidian_furnace",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 1
+        },
+        {
+          "value": {
+            "id": "irongenerators:gold_generator",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 25
+        },
+        {
+          "value": {
+            "id": "irongenerators:diamond_generator",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "irongenerators:obsidian_generator",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "irongenerators:iron_generator",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 35
+        }
+      ]
+    }
+  }
+}

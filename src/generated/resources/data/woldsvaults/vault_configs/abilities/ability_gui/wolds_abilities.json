@@ -1,15 +1,13 @@
 {
   "styles": {
     "Expunge": {
-      "x": 275,
+      "x": 280,
       "y": -100,
       "specializationStyles": {
         "Expunge_Base": {
-          "type": "UTILITY",
           "icon": "the_vault:gui/abilities/expunge"
         },
         "Concentrate_Base": {
-          "type": "UTILITY",
           "icon": "the_vault:gui/abilities/concentrate"
         }
       }
@@ -19,11 +17,9 @@
       "y": 134,
       "specializationStyles": {
         "Colossus_Base": {
-          "type": "UTILITY",
           "icon": "the_vault:gui/abilities/colossus"
         },
         "Sneaky_Getaway": {
-          "type": "UTILITY",
           "icon": "the_vault:gui/abilities/sneaky_getaway"
         }
       }

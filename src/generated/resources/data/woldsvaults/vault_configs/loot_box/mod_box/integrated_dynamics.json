@@ -1,0 +1,297 @@
+{
+  "POOL": {
+    "Integrated Dynamics": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "integrateddynamics:variable",
+            "amountMin": 32,
+            "amountMax": 64
+          },
+          "weight": 50
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:cable",
+            "amountMin": 6,
+            "amountMax": 12
+          },
+          "weight": 50
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:variablestore",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_interface_item",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_exporter_item",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_importer_item",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_interface_energy",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_exporter_energy",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_importer_energy",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_interface_fluid",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_exporter_fluid",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_importer_fluid",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_player_simulator",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 2
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_exporter_world_block",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_exporter_world_energy",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_exporter_world_item",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_exporter_fluid",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_importer_world_energy",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_importer_world_fluid",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_importer_world_block",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integratedtunnels:part_importer_world_item",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_inventory_reader",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_block_reader",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_extradimensional_reader",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_world_reader",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_audio_writer",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_effect_writer",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_network_reader",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_redstone_reader",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_redstone_writer",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_connector_mono_directional",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:part_connector_omni_directional",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:energy_battery",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "integratedterminals:part_terminal_storage",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 1
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:crystalized_menril_block",
+            "amountMin": 16,
+            "amountMax": 16
+          },
+          "weight": 30
+        },
+        {
+          "value": {
+            "id": "integrateddynamics:crystalized_chorus_block",
+            "amountMin": 4,
+            "amountMax": 4
+          },
+          "weight": 15
+        }
+      ]
+    }
+  }
+}

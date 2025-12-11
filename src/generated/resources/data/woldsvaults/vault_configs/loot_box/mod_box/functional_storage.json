@@ -1,0 +1,113 @@
+{
+  "POOL": {
+    "Functional Storage": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "functionalstorage:compacting_drawer",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "functionalstorage:fluid_1",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "functionalstorage:storage_controller",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 1
+        },
+        {
+          "value": {
+            "id": "functionalstorage:controller_extension",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "functionalstorage:collector_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "functionalstorage:puller_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "functionalstorage:void_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "functionalstorage:ender_drawer",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 4
+        },
+        {
+          "value": {
+            "id": "functionalstorage:copper_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 40
+        },
+        {
+          "value": {
+            "id": "functionalstorage:gold_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "functionalstorage:diamond_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "functionalstorage:netherite_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "functionalstorage:compacting_framed_drawer",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        }
+      ]
+    }
+  }
+}

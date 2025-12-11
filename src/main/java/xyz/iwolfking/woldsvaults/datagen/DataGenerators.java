@@ -75,6 +75,7 @@ public class DataGenerators {
             gen.addProvider(new ModVaultBlacklistProvider(gen));
             gen.addProvider(new ModVaultItemsProvider(gen));
             gen.addProvider(new ModVaultMapIconsProvider(gen));
+            gen.addProvider(new ModModBoxProvider(gen));
             gen.addProvider(new RechiseledDataProvider(gen));
 
             //gen.addProvider(new ModVaultCrystalProvider(gen));

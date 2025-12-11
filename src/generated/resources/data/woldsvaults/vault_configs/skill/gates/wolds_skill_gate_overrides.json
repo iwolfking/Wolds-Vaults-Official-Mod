@@ -348,6 +348,10 @@
             "type": "constant"
           },
           {
+            "id": "Vault Decks",
+            "type": "constant"
+          },
+          {
             "id": "Belts",
             "type": "constant"
           },

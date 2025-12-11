@@ -132,22 +132,6 @@
       {
         "text": "Functional Storage is an alternative take on the storage solution of Storage Drawers, with an updated look and additional functionalities.",
         "color": "$text"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Adds rewards to ",
-        "color": "$text"
-      },
-      {
-        "text": "Mod Boxes ",
-        "color": "aqua"
-      },
-      {
-        "text": "!",
-        "color": "$text"
       }
     ],
     "Super Factory Manager": [
@@ -310,22 +294,6 @@
       {
         "text": ".",
         "color": "$text"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Adds rewards to ",
-        "color": "$text"
-      },
-      {
-        "text": "Mod Boxes ",
-        "color": "aqua"
-      },
-      {
-        "text": "!",
-        "color": "$text"
       }
     ],
     "Botanical Machinery": [
@@ -366,22 +334,6 @@
       {
         "text": "Note, HNN works differently in this pack! Your models won't upgrade in Simulation Chambers or gain data from kills, you need to evolve them using spawn eggs (Check JEI!)! Also needs power to work.",
         "color": "$text"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Adds rewards to ",
-        "color": "$text"
-      },
-      {
-        "text": "Mod Boxes ",
-        "color": "aqua"
-      },
-      {
-        "text": "!",
-        "color": "$text"
       }
     ],
     "Industrial Foregoing": [
@@ -415,22 +367,6 @@
       },
       {
         "text": "! ",
-        "color": "$text"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Adds rewards to ",
-        "color": "$text"
-      },
-      {
-        "text": "Mod Boxes ",
-        "color": "aqua"
-      },
-      {
-        "text": "!",
         "color": "$text"
       }
     ],
@@ -546,22 +482,6 @@
       {
         "text": "You can perform rituals to summon Familiars and Demons to help you. Mine random ores using a dimensional mineshaft, and crush ores to massively increase the value of them!",
         "color": "$text"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Adds rewards to ",
-        "color": "$text"
-      },
-      {
-        "text": "Mod Boxes ",
-        "color": "aqua"
-      },
-      {
-        "text": "!",
-        "color": "$text"
       }
     ],
     "Occultism": [
@@ -610,22 +530,6 @@
       {
         "text": "This is a semi basic digital storage solution, that allows you to search items and store them on disk drives. It is far more limiting than it's similarities, Applied Energistics and Refined Storage, but is cheaper to manage early and mid game.",
         "color": "$text"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Adds rewards to ",
-        "color": "$text"
-      },
-      {
-        "text": "Mod Boxes ",
-        "color": "aqua"
-      },
-      {
-        "text": "!",
-        "color": "$text"
       }
     ],
     "PneumaticCraft": [
@@ -648,22 +552,6 @@
       {
         "text": "It also has some useful tools and armor, although some of the modules have been disabled!",
         "color": "$text"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Adds rewards to ",
-        "color": "$text"
-      },
-      {
-        "text": "Mod Boxes ",
-        "color": "aqua"
-      },
-      {
-        "text": "!",
-        "color": "$text"
       }
     ],
     "Immersive Engineering": [
@@ -681,22 +569,6 @@
       },
       {
         "text": "This mod can both produce power, process ores and generate some resources. It uses big multistructures that all consume power (FE) to run.",
-        "color": "$text"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Adds rewards to ",
-        "color": "$text"
-      },
-      {
-        "text": "Mod Boxes ",
-        "color": "aqua"
-      },
-      {
-        "text": "!",
         "color": "$text"
       }
     ],
@@ -1057,22 +929,6 @@
       },
       {
         "text": "The ultimate bulk storage mod with massively upgradeable storage and chests and barrels that can be chained together to create an array of storage.",
-        "color": "$text"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Adds rewards to ",
-        "color": "$text"
-      },
-      {
-        "text": "Mod Boxes ",
-        "color": "aqua"
-      },
-      {
-        "text": "!",
         "color": "$text"
       }
     ],
