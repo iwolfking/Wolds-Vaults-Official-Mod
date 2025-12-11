@@ -65,14 +65,14 @@ public class ModCardDecksProvider extends AbstractDeckProvider {
                 deckBuilder.add("OOOOOOOO");
             }), new IntRangeEntry(1, 1));
 
-            builder.addEntry("skull", "woldsvaults:deck/skull#inventory", "The Skull Deck", new IntRangeEntry(4, 4), deck(deckBuilder -> {
-                deckBuilder.add("XXOOOXXX");
-                deckBuilder.add("XOXXXOXX");
-                deckBuilder.add("OXAXAXOX");
-                deckBuilder.add("OXAXAXOX");
-                deckBuilder.add("XOXXXOXX");
-                deckBuilder.add("XXOOOXXX");
-            }), new IntRangeEntry(3, 3));
+//            builder.addEntry("skull", "woldsvaults:deck/skull#inventory", "The Skull Deck", new IntRangeEntry(4, 4), deck(deckBuilder -> {
+//                deckBuilder.add("XXOOOXXX");
+//                deckBuilder.add("XOXXXOXX");
+//                deckBuilder.add("OXAXAXOX");
+//                deckBuilder.add("OXAXAXOX");
+//                deckBuilder.add("XOXXXOXX");
+//                deckBuilder.add("XXOOOXXX");
+//            }), new IntRangeEntry(3, 3));
         });
 
 

@@ -78,6 +78,7 @@ public class DataGenerators {
             gen.addProvider(new ModModBoxProvider(gen));
             gen.addProvider(new ModBoosterPackProvider(gen));
             gen.addProvider(new ModCardDecksProvider(gen));
+            gen.addProvider(new ModDeckRecipesProvider(gen));
             gen.addProvider(new RechiseledDataProvider(gen));
 
             //gen.addProvider(new ModVaultCrystalProvider(gen));
