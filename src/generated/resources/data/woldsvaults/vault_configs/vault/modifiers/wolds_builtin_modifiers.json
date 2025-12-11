@@ -176,7 +176,11 @@
         "properties": {
           "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"champion_vex\"}",
           "attemptsPerChunk": 1,
-          "requiresConditions": false
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
         },
         "display": {
           "name": "Vexation",
@@ -190,7 +194,11 @@
         "properties": {
           "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"all_ghosts\"}",
           "attemptsPerChunk": 2,
-          "requiresConditions": false
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
         },
         "display": {
           "name": "Ghost City",
@@ -204,7 +212,11 @@
         "properties": {
           "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"all_ghosts\"}",
           "attemptsPerChunk": 1,
-          "requiresConditions": false
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
         },
         "display": {
           "name": "Ghost Town",
@@ -218,7 +230,11 @@
         "properties": {
           "output": "the_vault:wild_spawner",
           "attemptsPerChunk": 16,
-          "requiresConditions": false
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
         },
         "display": {
           "name": "Spooky",
@@ -232,7 +248,11 @@
         "properties": {
           "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"fungal\"}",
           "attemptsPerChunk": 7,
-          "requiresConditions": false
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
         },
         "display": {
           "name": "Fungal",
@@ -246,7 +266,11 @@
         "properties": {
           "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"winter\"}",
           "attemptsPerChunk": 7,
-          "requiresConditions": false
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
         },
         "display": {
           "name": "Winter",
@@ -260,7 +284,11 @@
         "properties": {
           "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"electric\"}",
           "attemptsPerChunk": 6,
-          "requiresConditions": false
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
         },
         "display": {
           "name": "Electric",
@@ -274,7 +302,11 @@
         "properties": {
           "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"safari\"}",
           "attemptsPerChunk": 2,
-          "requiresConditions": false
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
         },
         "display": {
           "name": "Safari",

@@ -1,0 +1,16 @@
+{
+  "MODELS": [
+    {
+      "id": "the_vault:gear/plushie/witch",
+      "displayName": "The Wicked Witch",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/plushie/safer_spaces",
+      "displayName": "Safer Spaces",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}

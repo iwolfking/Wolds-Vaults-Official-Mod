@@ -1,0 +1,33 @@
+{
+  "POOL": {
+    "Create": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "create:rotation_speed_controller",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "create:potato_cannon",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 3
+        },
+        {
+          "value": {
+            "id": "create:wand_of_symmetry",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        }
+      ]
+    }
+  }
+}

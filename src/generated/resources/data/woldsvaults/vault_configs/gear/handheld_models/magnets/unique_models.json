@@ -1,0 +1,22 @@
+{
+  "MODELS": [
+    {
+      "id": "the_vault:magnets/heart_magnet",
+      "displayName": "Chonknet",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:magnets/treasure_magnet",
+      "displayName": "Treasure Hunter's Magnet",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:magnets/bloody_magnet",
+      "displayName": "Bloodfetcher",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}
