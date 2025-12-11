@@ -1,0 +1,152 @@
+{
+  "values": {
+    "wold": {
+      "model": "woldsvaults:deck/wold#inventory",
+      "name": "The Wold Deck",
+      "essence": {
+        "min": 4,
+        "max": 4
+      },
+      "layout": [
+        {
+          "value": [
+            "AXAAOXA",
+            "OXOOOXO",
+            "OXOOOXO",
+            "OXOOOXO",
+            "OOOOOOO"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "socketCount": {
+        "min": 4,
+        "max": 4
+      }
+    },
+    "snake": {
+      "model": "woldsvaults:deck/snake#inventory",
+      "name": "The Snake Deck",
+      "essence": {
+        "min": 4,
+        "max": 4
+      },
+      "layout": [
+        {
+          "value": [
+            "XXXXXXXXA",
+            "OOOOOOOOO",
+            "OXXXXXXXX",
+            "OOOOOOOOO",
+            "XXXXXXXXO",
+            "AOOOOOOOO"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "socketCount": {
+        "min": 3,
+        "max": 3
+      }
+    },
+    "crate": {
+      "model": "woldsvaults:deck/crate#inventory",
+      "name": "The Crate Deck",
+      "essence": {
+        "min": 4,
+        "max": 4
+      },
+      "layout": [
+        {
+          "value": [
+            "OOOOOOOO",
+            "OXOXXOXO",
+            "OAOOOOAO",
+            "OXOXXOXO",
+            "OOOOOOOO"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "socketCount": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    "skull": {
+      "model": "woldsvaults:deck/skull#inventory",
+      "name": "The Skull Deck",
+      "essence": {
+        "min": 4,
+        "max": 4
+      },
+      "layout": [
+        {
+          "value": [
+            "XXOOOXXX",
+            "XOXXXOXX",
+            "OXAXAXOX",
+            "OXAXAXOX",
+            "XOXXXOXX",
+            "XXOOOXXX"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "socketCount": {
+        "min": 3,
+        "max": 3
+      }
+    },
+    "wall": {
+      "model": "woldsvaults:deck/wall#inventory",
+      "name": "The Rook Deck",
+      "essence": {
+        "min": 4,
+        "max": 4
+      },
+      "layout": [
+        {
+          "value": [
+            "AXOXAXOXA",
+            "OXOXOXOXO",
+            "OXOXOXOXO",
+            "OXOXOXOXO",
+            "OXOXOXOXO",
+            "OXOXOXOXO"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "socketCount": {
+        "min": 2,
+        "max": 2
+      }
+    },
+    "fairy": {
+      "model": "woldsvaults:deck/fairy#inventory",
+      "name": "The Fairy Deck",
+      "essence": {
+        "min": 4,
+        "max": 4
+      },
+      "layout": [
+        {
+          "value": [
+            "AXXOXOXXA",
+            "XOXXAXXOX",
+            "XXOOXOOXX",
+            "XXAXXXAXX",
+            "XOXOXOXOX",
+            "AXXXOXXXA"
+          ],
+          "weight": 1.0
+        }
+      ],
+      "socketCount": {
+        "min": 2,
+        "max": 2
+      }
+    }
+  }
+}
