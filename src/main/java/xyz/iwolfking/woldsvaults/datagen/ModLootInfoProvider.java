@@ -69,6 +69,21 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
            completionCrate("rune_boss", builder);
            completionCrate("scavenger", builder);
         });
+
+        add("missing", builder -> {
+            builder.lootInfo(VaultMod.id("dungeon_mobs"), "Dungeon Mobs", map -> {
+                map.put(VaultMod.id("dungeon_mobs"), 0);
+            });
+            builder.lootInfo(VaultMod.id("dungeon_boss"), "Dungeon Boss", map -> {
+                map.put(VaultMod.id("dungeon_boss"), 0);
+            });
+            builder.lootInfo(VaultMod.id("cardboard_box"), "Cardboard Box", map -> {
+                map.put(VaultMod.id("cardboard_box"), 0);
+            });
+            builder.lootInfo(VaultMod.id("cardboard_box_dull"), "Cardboard Box (Dull)", map -> {
+                map.put(VaultMod.id("cardboard_box_dull"), 0);
+            });
+        });
     }
 
     public void godAltar(String god, Builder builder) {

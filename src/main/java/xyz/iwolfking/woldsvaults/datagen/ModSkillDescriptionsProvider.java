@@ -376,9 +376,11 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("on items sold in shopping pedestals inside a vault."));
                 })
                 .addDescription("Artisan", jsonElements -> {
-                    jsonElements.add(JsonDescription.simple("Gain a "));
-                    jsonElements.add(JsonDescription.simple("chance ", "yellow"));
-                    jsonElements.add(JsonDescription.simple("to not consume crafting potential when reforging gear in the Artisan Station."));
+                    jsonElements.add(JsonDescription.simple("Reduce the cost of "));
+                    jsonElements.add(JsonDescription.simple("Crafting Potential ", "aqua"));
+                    jsonElements.add(JsonDescription.simple("by a "));
+                    jsonElements.add(JsonDescription.simple("percentage ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("when modifying gear in the Artisan Station. "));
                 })
                 .addDescription("Bounty_Hunter", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("Become a master at Bounty Hunting.\n\n"));

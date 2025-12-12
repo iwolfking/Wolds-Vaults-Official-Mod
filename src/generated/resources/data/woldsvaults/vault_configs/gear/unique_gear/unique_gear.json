@@ -2,6 +2,7 @@
   "registry": {
     "woldsvaults:ocean_current": {
       "name": "Ocean Current",
+      "item": "the_vault:trident",
       "models": [
         {
           "value": "woldsvaults:gear/trident/ocean_current",
@@ -28,6 +29,7 @@
     },
     "woldsvaults:shattering_jewel": {
       "name": "Shatterering Jewel",
+      "item": "the_vault:jewel",
       "models": [
         {
           "value": "the_vault:gear/jewel/treasure",
@@ -49,6 +51,7 @@
     },
     "woldsvaults:eternal_stella": {
       "name": "Eternal Stella",
+      "item": "the_vault:jewel",
       "models": [
         {
           "value": "the_vault:gear/jewel/stella",
@@ -70,6 +73,7 @@
     },
     "woldsvaults:treasure_jewel": {
       "name": "Treasured Jewel",
+      "item": "the_vault:jewel",
       "models": [
         {
           "value": "the_vault:gear/jewel/treasure",
@@ -91,6 +95,7 @@
     },
     "woldsvaults:wicked_witch": {
       "name": "The Wicked Witch",
+      "item": "the_vault:plushie",
       "models": [
         {
           "value": "the_vault:gear/plushie/witch",
@@ -115,6 +120,7 @@
     },
     "woldsvaults:chonknet": {
       "name": "Chonknet",
+      "item": "the_vault:magnet",
       "models": [
         {
           "value": "the_vault:magnets/heart_magnet",
@@ -143,6 +149,7 @@
     },
     "woldsvaults:treasure_magnet": {
       "name": "Treasure Hunter's Magnet",
+      "item": "the_vault:magnet",
       "models": [
         {
           "value": "the_vault:magnets/treasure_magnet",
@@ -171,6 +178,7 @@
     },
     "woldsvaults:bloodseeking_magnet": {
       "name": "Bloodfetcher",
+      "item": "the_vault:magnet",
       "models": [
         {
           "value": "the_vault:magnets/bloody_magnet",
@@ -199,6 +207,7 @@
     },
     "woldsvaults:leviathan": {
       "name": "Leviathan",
+      "item": "the_vault:axe",
       "models": [
         {
           "value": "the_vault:gear/axe/leviathan",
@@ -223,6 +232,7 @@
     },
     "woldsvaults:zombie_horse_axe": {
       "name": "Zombie Horse Axe",
+      "item": "the_vault:axe",
       "models": [
         {
           "value": "the_vault:gear/axe/zombie_horse",
@@ -250,6 +260,7 @@
     },
     "woldsvaults:trirang": {
       "name": "Tri-Rang",
+      "item": "the_vault:rang",
       "models": [
         {
           "value": "the_vault:gear/rang/trirang",
@@ -282,6 +293,7 @@
     },
     "woldsvaults:everfrost": {
       "name": "Everfrost",
+      "item": "the_vault:sword",
       "models": [
         {
           "value": "the_vault:gear/sword/everfrost",
@@ -310,6 +322,7 @@
     },
     "woldsvaults:everflame": {
       "name": "Everflame",
+      "item": "the_vault:sword",
       "models": [
         {
           "value": "the_vault:gear/sword/everflame",
@@ -338,6 +351,7 @@
     },
     "woldsvaults:hexblade": {
       "name": "Hexblade",
+      "item": "the_vault:sword",
       "models": [
         {
           "value": "the_vault:gear/sword/hexblade",
@@ -366,6 +380,7 @@
     },
     "woldsvaults:mineral_greatsword": {
       "name": "Mineral Greatsword",
+      "item": "the_vault:sword",
       "models": [
         {
           "value": "the_vault:gear/sword/mineral_greatsword",
@@ -393,6 +408,7 @@
     },
     "woldsvaults:grass_sword": {
       "name": "Grass Sword",
+      "item": "the_vault:sword",
       "models": [
         {
           "value": "the_vault:gear/sword/grass_blade",
@@ -420,6 +436,7 @@
     },
     "woldsvaults:aurora_scissors": {
       "name": "Aurora Scissors",
+      "item": "the_vault:sword",
       "models": [
         {
           "value": "the_vault:gear/sword/aurora_scissors",
@@ -448,6 +465,7 @@
     },
     "woldsvaults:young_kitsune": {
       "name": "Young Kitsune Blade",
+      "item": "the_vault:sword",
       "models": [
         {
           "value": "the_vault:gear/sword/young_kitsune",
@@ -474,6 +492,7 @@
     },
     "woldsvaults:safer_spaces": {
       "name": "Safer Spaces",
+      "item": "the_vault:plushie",
       "models": [
         {
           "value": "the_vault:gear/plushie/safer_spaces",
@@ -497,6 +516,7 @@
     },
     "woldsvaults:bamboo_fightstick": {
       "name": "Bamboo Fightstick",
+      "item": "the_vault:battlestaff",
       "models": [
         {
           "value": "the_vault:gear/battlestaff/bamboo_fightstick",

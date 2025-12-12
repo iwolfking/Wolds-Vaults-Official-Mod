@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.config.UniqueCodexConfig;
+import iskallia.vault.init.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.vhapi.api.datagen.AbstractUniqueGearProvider;
@@ -16,7 +17,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
 
     @Override
     protected void addGear(Consumer<AbstractUniqueGearProvider.GeneratedEntry> consumer) {
-        consumer.accept(entry("woldsvaults:ocean_current", new UniqueGearBuilder("Ocean Current")
+        consumer.accept(entry("woldsvaults:ocean_current", new UniqueGearBuilder("Ocean Current", xyz.iwolfking.woldsvaults.init.ModItems.TRIDENT)
                 .model("woldsvaults:gear/trident/ocean_current")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_armor",
@@ -32,7 +33,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:shattering_jewel", new UniqueGearBuilder("Shatterering Jewel")
+        consumer.accept(entry("woldsvaults:shattering_jewel", new UniqueGearBuilder("Shatterering Jewel", ModItems.JEWEL)
                 .model("the_vault:gear/jewel/treasure")
                 .implicit("the_vault:u_jewel_size_stella")
                 .prefix("the_vault:breaching_jewel")
@@ -47,7 +48,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:eternal_stella", new UniqueGearBuilder("Eternal Stella")
+        consumer.accept(entry("woldsvaults:eternal_stella", new UniqueGearBuilder("Eternal Stella", ModItems.JEWEL)
                 .model("the_vault:gear/jewel/stella")
                 .implicit("the_vault:u_jewel_size_stella")
                 .prefix("the_vault:u_immortality")
@@ -62,7 +63,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:treasure_jewel", new UniqueGearBuilder("Treasured Jewel")
+        consumer.accept(entry("woldsvaults:treasure_jewel", new UniqueGearBuilder("Treasured Jewel", ModItems.JEWEL)
                 .model("the_vault:gear/jewel/treasure")
                 .implicit("the_vault:u_jewel_size_treasure")
                 .prefix("the_vault:u_treasure_affinity")
@@ -75,7 +76,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:wicked_witch", new UniqueGearBuilder("The Wicked Witch")
+        consumer.accept(entry("woldsvaults:wicked_witch", new UniqueGearBuilder("The Wicked Witch", xyz.iwolfking.woldsvaults.init.ModItems.PLUSHIE)
                 .model("the_vault:gear/plushie/witch")
                 .base("the_vault:base_durability")
                 .prefix("the_vault:u_witch_effect_duration", "the_vault:u_witch_cooldown_reduction")
@@ -92,7 +93,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:chonknet", new UniqueGearBuilder("Chonknet")
+        consumer.accept(entry("woldsvaults:chonknet", new UniqueGearBuilder("Chonknet", ModItems.MAGNET)
                 .model("the_vault:magnets/heart_magnet")
                 .base("the_vault:base_magnet_durability")
                 .implicit("the_vault:u_base_magnet_range", "the_vault:base_endergized")
@@ -112,7 +113,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:treasure_magnet", new UniqueGearBuilder("Treasure Hunter's Magnet")
+        consumer.accept(entry("woldsvaults:treasure_magnet", new UniqueGearBuilder("Treasure Hunter's Magnet", ModItems.MAGNET)
                 .model("the_vault:magnets/treasure_magnet")
                 .base("the_vault:base_magnet_durability")
                 .implicit("the_vault:u_base_magnet_range", "the_vault:base_endergized")
@@ -132,7 +133,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:bloodseeking_magnet", new UniqueGearBuilder("Bloodfetcher")
+        consumer.accept(entry("woldsvaults:bloodseeking_magnet", new UniqueGearBuilder("Bloodfetcher", ModItems.MAGNET)
                 .model("the_vault:magnets/bloody_magnet")
                 .base("the_vault:base_magnet_durability")
                 .implicit("the_vault:u_base_magnet_range", "the_vault:base_endergized")
@@ -149,7 +150,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:leviathan", new UniqueGearBuilder("Leviathan")
+        consumer.accept(entry("woldsvaults:leviathan", new UniqueGearBuilder("Leviathan", ModItems.AXE)
                 .model("the_vault:gear/axe/leviathan")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:u_leviathan_attack_damage", "the_vault:u_leviathan_attack_speed")
@@ -162,7 +163,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:zombie_horse_axe", new UniqueGearBuilder("Zombie Horse Axe")
+        consumer.accept(entry("woldsvaults:zombie_horse_axe", new UniqueGearBuilder("Zombie Horse Axe", ModItems.AXE)
                 .model("the_vault:gear/axe/zombie_horse")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:u_leviathan_attack_damage", "the_vault:base_attack_speed_axe")
@@ -175,7 +176,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:trirang", new UniqueGearBuilder("Tri-Rang")
+        consumer.accept(entry("woldsvaults:trirang", new UniqueGearBuilder("Tri-Rang", xyz.iwolfking.woldsvaults.init.ModItems.RANG)
                 .model("the_vault:gear/rang/trirang")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:rang_standard_attack_speed", "the_vault:rang_standard_attack_damage",  "the_vault:rang_standard_range",  "the_vault:rang_standard_velocity")
@@ -188,7 +189,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:everfrost", new UniqueGearBuilder("Everfrost")
+        consumer.accept(entry("woldsvaults:everfrost", new UniqueGearBuilder("Everfrost", ModItems.SWORD)
                 .model("the_vault:gear/sword/everfrost")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
@@ -201,7 +202,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:everflame", new UniqueGearBuilder("Everflame")
+        consumer.accept(entry("woldsvaults:everflame", new UniqueGearBuilder("Everflame", ModItems.SWORD)
                 .model("the_vault:gear/sword/everflame")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
@@ -214,7 +215,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:hexblade", new UniqueGearBuilder("Hexblade")
+        consumer.accept(entry("woldsvaults:hexblade", new UniqueGearBuilder("Hexblade", ModItems.SWORD)
                 .model("the_vault:gear/sword/hexblade")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
@@ -227,7 +228,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:mineral_greatsword", new UniqueGearBuilder("Mineral Greatsword")
+        consumer.accept(entry("woldsvaults:mineral_greatsword", new UniqueGearBuilder("Mineral Greatsword", ModItems.SWORD)
                 .model("the_vault:gear/sword/mineral_greatsword")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed_greatsword")
@@ -240,7 +241,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:grass_sword", new UniqueGearBuilder("Grass Sword")
+        consumer.accept(entry("woldsvaults:grass_sword", new UniqueGearBuilder("Grass Sword", ModItems.SWORD)
                 .model("the_vault:gear/sword/grass_blade")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
@@ -253,7 +254,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:aurora_scissors", new UniqueGearBuilder("Aurora Scissors")
+        consumer.accept(entry("woldsvaults:aurora_scissors", new UniqueGearBuilder("Aurora Scissors", ModItems.SWORD)
                 .model("the_vault:gear/sword/aurora_scissors")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
@@ -266,7 +267,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:young_kitsune", new UniqueGearBuilder("Young Kitsune Blade")
+        consumer.accept(entry("woldsvaults:young_kitsune", new UniqueGearBuilder("Young Kitsune Blade", ModItems.SWORD)
                 .model("the_vault:gear/sword/young_kitsune")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
@@ -279,7 +280,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:safer_spaces", new UniqueGearBuilder("Safer Spaces")
+        consumer.accept(entry("woldsvaults:safer_spaces", new UniqueGearBuilder("Safer Spaces", xyz.iwolfking.woldsvaults.init.ModItems.PLUSHIE)
                 .model("the_vault:gear/plushie/safer_spaces")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:saferspaceeffect", "the_vault:u_safer_block", "the_vault:u_safer_block")
@@ -290,7 +291,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
-        consumer.accept(entry("woldsvaults:bamboo_fightstick", new UniqueGearBuilder("Bamboo Fightstick")
+        consumer.accept(entry("woldsvaults:bamboo_fightstick", new UniqueGearBuilder("Bamboo Fightstick", xyz.iwolfking.woldsvaults.init.ModItems.BATTLESTAFF)
                 .model("the_vault:gear/battlestaff/bamboo_fightstick")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage_battlestaff_stick", "the_vault:base_lucky_hit_battlestaff_stick", "the_vault:base_attack_speed_battlestaff_stick", "the_vault:base_attack_range_battlestaff_stick")
