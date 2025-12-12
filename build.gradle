@@ -213,7 +213,7 @@ dependencies {
     implementation fg.deobf("curse.maven:thermal-expansion-69163:4782927") //enchanted event
     implementation fg.deobf('curse.maven:cofh-core-69162:4801048') // enchanted event
     implementation fg.deobf("curse.maven:vault-filters-952507:6927578") // new attributes
-    compileOnly fg.deobf("curse.maven:black-market-tweaks-1168437:6880977") // hopper support and expertise
+    //compileOnly fg.deobf("curse.maven:black-market-tweaks-1168437:6880977") // hopper support and expertise
     implementation fg.deobf("curse.maven:cucumber-272335:4831151") // wv tile entities
     implementation fg.deobf("curse.maven:ftb-quests-forge-289412:6113498") // quests
     implementation fg.deobf("curse.maven:configured-457570:4462832") // config keybind
@@ -253,7 +253,7 @@ dependencies {
     implementation fg.deobf("curse.maven:travel-anchors-413234:3741307")
     compileOnly fg.deobf("curse.maven:vault-hunters-item-sorting-1341046:6963298")
     compileOnly fg.deobf("curse.maven:vaultarhud-1011085:5706845")
-    compileOnly fg.deobf("curse.maven:vaultmapper-1099126:7031447")
+    //implementation fg.deobf("curse.maven:vaultmapper-1099126:7031447")
     compileOnly fg.deobf("curse.maven:xaeros-minimap-263420:3778436")
     compileOnly fg.deobf('curse.maven:alexs-cloud-storage-606618:3757407')
     compileOnly fg.deobf('curse.maven:atomicstrykers-infernal-mobs-227875:4149699')
@@ -350,6 +350,16 @@ dependencies {
     implementation fg.deobf('local:vhapi:4.0')
     jarJar(group: 'xyz.iwolfking', name: 'vhapi', version: '[4.0,)') {
         jarJar.pin(it, '4.0')
+    }
+
+    implementation fg.deobf('local:vaultmapper:1.10.0')
+    jarJar(group: 'com.nodiumhosting', name: 'vaultmapper', version: '[1.10.0,)') {
+        jarJar.pin(it, '1.10.0')
+    }
+
+    implementation fg.deobf('local:BlackMarketTweaks:1.6')
+    jarJar(group: 'dev.attackeight', name: 'black_market_tweaks', version: '[1.6,)') {
+        jarJar.pin(it, '1.6')
     }
 
     // mixins
