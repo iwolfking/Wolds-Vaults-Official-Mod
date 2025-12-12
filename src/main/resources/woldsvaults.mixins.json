@@ -192,6 +192,7 @@
     "vaulthunters.custom.MixinInscriptionData",
     "vaulthunters.custom.MixinInventoryHudRenderer",
     "vaulthunters.custom.MixinInventoryUtil",
+    "vaulthunters.custom.MixinItemHudModule",
     "vaulthunters.custom.MixinItemVaultCrystal",
     "vaulthunters.custom.MixinJewelItem",
     "vaulthunters.custom.MixinJewelPouchItem",

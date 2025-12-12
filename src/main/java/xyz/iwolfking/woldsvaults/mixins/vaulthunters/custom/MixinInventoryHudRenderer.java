@@ -35,14 +35,18 @@ public abstract class MixinInventoryHudRenderer {
         return null;
     }
 
-    @Inject(method = "initModules", at = @At("HEAD"))
+    @Inject(method = "initModules", at = @At("TAIL"))
     private static void registerWoldsModules(CallbackInfo ci) {
         MODULES.add(new ItemHudModule("trinket_3", () -> getCurioSlotByName(Minecraft.getInstance().player, "green_trinket"), ModOptions.GREEN_TRINKET));
+        MODULES.add(new ItemHudModule("trinket_pouch", () -> getCurioSlotByName(Minecraft.getInstance().player, "trinket_pouch"), ModOptions.TRINKET_POUCH));
+        MODULES.add(new ItemHudModule("shard_pouch", () -> getCurioSlotByName(Minecraft.getInstance().player, "shard_pouch"), ModOptions.SHARD_POUCH));
     }
 
     static {
         List<String> hudKeys = new ArrayList<>(HUD_KEYS);
         hudKeys.add("trinket_3");
+        hudKeys.add("trinket_pouch");
+        hudKeys.add("shard_pouch");
         HUD_KEYS = hudKeys;
     }
 }

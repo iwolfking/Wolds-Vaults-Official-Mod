@@ -8,5 +8,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModOptions {
     public static final VaultOption<InventoryHudElementOptions> GREEN_TRINKET = VaultOptionsRegistry.registerInventoryHudElementOptions(WoldsVaults.id("inv_hud_trinket_green"), InventoryHudElementOptions.createDefault(new HudPosition(0.058333334F, 0.46640316F)).setDisplayMode(InventoryHudElementOptions.DisplayMode.DURABILITY_LOW));
+    public static final VaultOption<InventoryHudElementOptions> TRINKET_POUCH = VaultOptionsRegistry.registerInventoryHudElementOptions(WoldsVaults.id("inv_hud_trinket_pouch"), InventoryHudElementOptions.createDefault(new HudPosition(0.058333334F, 0.46640316F)).setDisplayMode(InventoryHudElementOptions.DisplayMode.NEVER));
+    public static final VaultOption<InventoryHudElementOptions> SHARD_POUCH = VaultOptionsRegistry.registerInventoryHudElementOptions(WoldsVaults.id("inv_hud_shard_pouch"), InventoryHudElementOptions.createDefault(new HudPosition(0.058333334F, 0.46640316F)).setDisplayMode(InventoryHudElementOptions.DisplayMode.ALWAYS));
 
 }
