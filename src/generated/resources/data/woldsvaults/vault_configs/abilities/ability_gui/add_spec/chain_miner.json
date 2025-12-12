@@ -5,7 +5,7 @@
       "y": -100,
       "specializationStyles": {
         "Vein_Miner_Chain": {
-          "icon": "the_vault:gui/abilities/vein_miner_chain"
+          "icon": "woldsvaults:gui/abilities/vein_miner_chain"
         }
       }
     }

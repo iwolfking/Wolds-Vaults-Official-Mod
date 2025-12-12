@@ -1,14 +1,14 @@
 {
   "styles": {
     "Expunge": {
-      "x": 275,
+      "x": 280,
       "y": -100,
       "specializationStyles": {
         "Expunge_Base": {
-          "icon": "the_vault:gui/abilities/expunge"
+          "icon": "woldsvaults:gui/abilities/expunge"
         },
         "Concentrate_Base": {
-          "icon": "the_vault:gui/abilities/concentrate"
+          "icon": "woldsvaults:gui/abilities/concentrate"
         }
       }
     },
@@ -17,10 +17,10 @@
       "y": 134,
       "specializationStyles": {
         "Colossus_Base": {
-          "icon": "the_vault:gui/abilities/colossus"
+          "icon": "woldsvaults:gui/abilities/colossus"
         },
         "Sneaky_Getaway": {
-          "icon": "the_vault:gui/abilities/sneaky_getaway"
+          "icon": "woldsvaults:gui/abilities/sneaky_getaway"
         }
       }
     }

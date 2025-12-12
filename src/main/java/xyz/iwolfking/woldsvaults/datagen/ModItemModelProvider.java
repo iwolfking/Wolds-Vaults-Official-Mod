@@ -254,7 +254,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/skills/" + skillId).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
-                        new ResourceLocation(VaultMod.MOD_ID, "gui/abilities/" + skillId));
+                        new ResourceLocation(WoldsVaults.MOD_ID, "gui/abilities/" + skillId));
     }
 
     public ItemModelBuilder researchToken(ResourceLocation icon) {

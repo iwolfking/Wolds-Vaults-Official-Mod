@@ -5,7 +5,7 @@
       "y": -100,
       "specializationStyles": {
         "Levitate": {
-          "icon": "the_vault:gui/abilities/levitate"
+          "icon": "woldsvaults:gui/abilities/levitate"
         }
       }
     }

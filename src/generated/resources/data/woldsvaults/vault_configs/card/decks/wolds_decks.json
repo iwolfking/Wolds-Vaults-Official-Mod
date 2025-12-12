@@ -73,31 +73,6 @@
         "max": 1
       }
     },
-    "skull": {
-      "model": "woldsvaults:deck/skull#inventory",
-      "name": "The Skull Deck",
-      "essence": {
-        "min": 4,
-        "max": 4
-      },
-      "layout": [
-        {
-          "value": [
-            "XXOOOXXX",
-            "XOXXXOXX",
-            "OXAXAXOX",
-            "OXAXAXOX",
-            "XOXXXOXX",
-            "XXOOOXXX"
-          ],
-          "weight": 1.0
-        }
-      ],
-      "socketCount": {
-        "min": 3,
-        "max": 3
-      }
-    },
     "wall": {
       "model": "woldsvaults:deck/wall#inventory",
       "name": "The Rook Deck",
