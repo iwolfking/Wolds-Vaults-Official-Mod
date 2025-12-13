@@ -213,7 +213,7 @@ dependencies {
     implementation fg.deobf("curse.maven:thermal-expansion-69163:4782927") //enchanted event
     implementation fg.deobf('curse.maven:cofh-core-69162:4801048') // enchanted event
     implementation fg.deobf("curse.maven:vault-filters-952507:6927578") // new attributes
-    //compileOnly fg.deobf("curse.maven:black-market-tweaks-1168437:6880977") // hopper support and expertise
+    implementation fg.deobf("curse.maven:black-market-tweaks-1168437:7326769")// hopper support and expertise
     implementation fg.deobf("curse.maven:cucumber-272335:4831151") // wv tile entities
     implementation fg.deobf("curse.maven:ftb-quests-forge-289412:6113498") // quests
     implementation fg.deobf("curse.maven:configured-457570:4462832") // config keybind
@@ -253,7 +253,7 @@ dependencies {
     implementation fg.deobf("curse.maven:travel-anchors-413234:3741307")
     compileOnly fg.deobf("curse.maven:vault-hunters-item-sorting-1341046:6963298")
     compileOnly fg.deobf("curse.maven:vaultarhud-1011085:5706845")
-    //implementation fg.deobf("curse.maven:vaultmapper-1099126:7031447")
+    implementation fg.deobf("curse.maven:vaultmapper-1099126:7326513")
     compileOnly fg.deobf("curse.maven:xaeros-minimap-263420:3778436")
     compileOnly fg.deobf('curse.maven:alexs-cloud-storage-606618:3757407')
     compileOnly fg.deobf('curse.maven:atomicstrykers-infernal-mobs-227875:4149699')
@@ -267,7 +267,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:vaultlootbeams-1313069:6882936")
     compileOnly fg.deobf("curse.maven:legendary-tooltips-532127:4035921")
     compileOnly fg.deobf("curse.maven:incorporeal-3-616485:3944433")
-
+    implementation fg.deobf("curse.maven:vault-curios-enhancements-967059:7113362")
 
     // deps needed for runtime debug
     runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382") // quark
@@ -352,14 +352,9 @@ dependencies {
         jarJar.pin(it, '4.0')
     }
 
-    implementation fg.deobf('local:vaultmapper:1.10.0')
-    jarJar(group: 'com.nodiumhosting', name: 'vaultmapper', version: '[1.10.0,)') {
-        jarJar.pin(it, '1.10.0')
-    }
-
-    implementation fg.deobf('local:BlackMarketTweaks:1.6')
-    jarJar(group: 'dev.attackeight', name: 'black_market_tweaks', version: '[1.6,)') {
-        jarJar.pin(it, '1.6')
+    implementation fg.deobf('local:VaultarHUD:1.4.0-1.18.2')
+    jarJar(group: 'io.iridium.', name: 'VaultarHUD', version: '[1.4.0-1.18.2]') {
+        jarJar.pin(it, '1.4.0-1.18.2')
     }
 
     // mixins

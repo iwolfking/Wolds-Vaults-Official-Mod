@@ -6,6 +6,7 @@ import net.minecraftforge.common.data.LanguageProvider;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.*;
+import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
 
 public class ModLanguageProvider extends LanguageProvider {
 
@@ -22,6 +23,7 @@ public class ModLanguageProvider extends LanguageProvider {
         ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {
             add(customObjectiveRegistryEntry, customObjectiveRegistryEntry.getName());
         });
+        add("key.woldsvaults.open_inventory_hud", "Open Inventory HUD Edit Screen");
         add("util.woldsvaults.objective_text", "Objective: ");
         add("item.woldsvaults.rotten_heart", "Rotten Heart");
         add("item.woldsvaults.rotten_apple", "Rotten Apple");

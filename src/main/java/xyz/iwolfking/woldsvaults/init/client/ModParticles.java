@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.client.init;
+package xyz.iwolfking.woldsvaults.init.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleEngine;
