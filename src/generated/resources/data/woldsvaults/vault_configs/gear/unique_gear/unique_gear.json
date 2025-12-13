@@ -538,6 +538,57 @@
       },
       "modifierTags": [],
       "weight": 1
+    },
+    "the_vault:chainlash": {
+      "name": "Chainlash",
+      "item": "the_vault:wand",
+      "models": [
+        {
+          "value": "the_vault:gear/wand/chaining_wand",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:offhand_base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:u_chaining"
+        ],
+        "PREFIX": [
+          "the_vault:u_chaining_damage"
+        ],
+        "SUFFIX": [
+          "the_vault:unique_area_of_effect"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "the_vault:baguette": {
+      "name": "The Baguette",
+      "item": "the_vault:wand",
+      "models": [
+        {
+          "value": "the_vault:gear/wand/baguette",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:u_saturation",
+          "the_vault:u_regeneration"
+        ],
+        "PREFIX": [],
+        "SUFFIX": [
+          "the_vault:u_baguette_healingeff"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
     }
   },
   "pools": {
@@ -601,6 +652,12 @@
     "woldsvaults:bamboo_fightstick": {
       "woldsvaults:bamboo_fightstick": 1
     },
+    "the_vault:chainlash": {
+      "the_vault:chainlash": 1
+    },
+    "the_vault:baguette": {
+      "the_vault:baguette": 1
+    },
     "the_vault:crafted": {
       "woldsvaults:ocean_current": 1,
       "woldsvaults:shattering_jewel": 1,
@@ -621,7 +678,9 @@
       "woldsvaults:aurora_scissors": 1,
       "woldsvaults:young_kitsune": 1,
       "woldsvaults:safer_spaces": 1,
-      "woldsvaults:bamboo_fightstick": 1
+      "woldsvaults:bamboo_fightstick": 1,
+      "the_vault:chainlash": 1,
+      "the_vault:baguette": 1
     }
   }
 }

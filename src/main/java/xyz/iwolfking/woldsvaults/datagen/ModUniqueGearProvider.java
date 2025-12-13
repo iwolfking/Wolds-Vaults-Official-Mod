@@ -301,6 +301,38 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .slotType(UniqueCodexConfig.IntroductionPage.SlotType.SWORD)
                 .build()
         ));
+
+        consumer.accept(entry("the_vault:chainlash", new UniqueGearBuilder("Chainlash", ModItems.WAND)
+                .model("the_vault:gear/wand/chaining_wand")
+                .base("the_vault:offhand_base_durability")
+                .implicit("the_vault:u_chaining")
+                .prefix("the_vault:u_chaining_damage")
+                .suffix("the_vault:unique_area_of_effect")
+                .dropLocation("The Laboratory")
+                .description("This weird wand empowers your on-hit attacks by ", "$text")
+                .description("chaining ", "$chains")
+                .description("them, increasing your reach greatly. ", "$text")
+                .description("It also decreases the amount of damage loss that ", "$text")
+                .description("chaining ", "$chains")
+                .description("usually entails. ", "$text")
+                .modelType("WAND")
+                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.WAND)
+                .build()
+        ));
+
+        consumer.accept(entry("the_vault:baguette", new UniqueGearBuilder("The Baguette", ModItems.WAND)
+                .model("the_vault:gear/wand/baguette")
+                .base("the_vault:base_durability")
+                .implicit("the_vault:u_saturation", "the_vault:u_regeneration")
+                .suffix("the_vault:u_baguette_healingeff")
+                .dropLocation("The Laboratory")
+                .description("Hungry? This freshly baked ", "$text")
+                .description("Baguette ", "#7D520E")
+                .description("will taste good at any time. ", "$text")
+                .modelType("WAND")
+                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.WAND)
+                .build()
+        ));
     }
 
     private GeneratedEntry entry(String id, UniqueGearEntry data) {

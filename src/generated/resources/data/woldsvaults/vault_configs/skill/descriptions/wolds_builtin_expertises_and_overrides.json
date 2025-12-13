@@ -353,14 +353,21 @@
     ],
     "Artisan": [
       {
-        "text": "Gain a "
+        "text": "Reduce the cost of "
       },
       {
-        "text": "chance ",
+        "text": "Crafting Potential ",
+        "color": "aqua"
+      },
+      {
+        "text": "by a "
+      },
+      {
+        "text": "percentage ",
         "color": "yellow"
       },
       {
-        "text": "to not consume crafting potential when reforging gear in the Artisan Station."
+        "text": "when modifying gear in the Artisan Station. "
       },
       {
         "text": "\n\n",

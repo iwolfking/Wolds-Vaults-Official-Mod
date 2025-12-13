@@ -30,6 +30,10 @@
       "AXE": [
         "woldsvaults:leviathan",
         "woldsvaults:zombie_horse_axe"
+      ],
+      "WAND": [
+        "the_vault:chainlash",
+        "the_vault:baguette"
       ]
     }
   },
@@ -593,6 +597,76 @@
         ]
       },
       "uniqueId": "woldsvaults:bamboo_fightstick"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Chainlash",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This weird wand empowers your on-hit attacks by ",
+            "color": "$text"
+          },
+          {
+            "text": "chaining ",
+            "color": "$chains"
+          },
+          {
+            "text": "them, increasing your reach greatly. ",
+            "color": "$text"
+          },
+          {
+            "text": "It also decreases the amount of damage loss that ",
+            "color": "$text"
+          },
+          {
+            "text": "chaining ",
+            "color": "$chains"
+          },
+          {
+            "text": "usually entails. ",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: The Laboratory",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "the_vault:chainlash"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "The Baguette",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Hungry? This freshly baked ",
+            "color": "$text"
+          },
+          {
+            "text": "Baguette ",
+            "color": "#7D520E"
+          },
+          {
+            "text": "will taste good at any time. ",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: The Laboratory",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "the_vault:baguette"
     }
   ]
 }

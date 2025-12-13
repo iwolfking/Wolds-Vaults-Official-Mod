@@ -513,6 +513,7 @@
   "key.the_vault.quickselect.expunge": "Select and use ability: Diffuse",
   "key.woldsvaults.cherish_item": "Cherish Item",
   "key.woldsvaults.is_feather_fixed": "Toggle Prismatic Feather Fix",
+  "key.woldsvaults.open_inventory_hud": "Open Inventory HUD Edit Screen",
   "key.woldsvaults.open_wolds_vaults_config": "Open Wold's Vaults Config Screen",
   "key.woldsvaults.toggle_better_combat": "Toggle Better Combat",
   "the_vault.gear_modification.add_unusual_modifier.description": "Add unusual modifier",

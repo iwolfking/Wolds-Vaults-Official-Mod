@@ -1,0 +1,16 @@
+{
+  "MODELS": [
+    {
+      "id": "the_vault:gear/wand/chaining_wand",
+      "displayName": "Chainlash",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/wand/baguette",
+      "displayName": "The Baguette",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}

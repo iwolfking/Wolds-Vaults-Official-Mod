@@ -19,7 +19,10 @@
     "RARE": [],
     "EPIC": [],
     "OMEGA": [],
-    "UNIQUE": [],
+    "UNIQUE": [
+      "the_vault:gear/wand/chaining_wand",
+      "the_vault:gear/wand/baguette"
+    ],
     "SPECIAL": [],
     "CHAOTIC": [],
     "MYTHIC": []
