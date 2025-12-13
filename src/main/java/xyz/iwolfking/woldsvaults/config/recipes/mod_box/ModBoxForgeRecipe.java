@@ -48,7 +48,7 @@ public class ModBoxForgeRecipe extends VaultForgeRecipe {
     }
 
     @Override
-    public boolean canCraft(Player player) {
+    public boolean canCraft(Player player, int level) {
         String research = this.output.getOrCreateTag().getString("research");
         if (player instanceof ServerPlayer sPlayer) {
             PlayerResearchesData data = PlayerResearchesData.get(sPlayer.getLevel());

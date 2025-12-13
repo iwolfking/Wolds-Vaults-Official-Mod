@@ -46,7 +46,7 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
      * @reason Lock etching crafting behind Herald completion.
      */
     @Override
-    public boolean canCraft(Player player) {
+    public boolean canCraft(Player player, int level) {
         if(!this.getId().equals(ETCHING_LOCATION) && !this.getId().equals(MAP_LOCATION) && !this.getId().equals(ZEPHYR_LOCATION)) {
             return true;
         }

@@ -48,7 +48,7 @@ public abstract class MixinJewelCraftingRecipe extends VaultForgeRecipe {
     }
 
     @Override
-    public boolean canCraft(Player player) {
+    public boolean canCraft(Player player, int level) {
         if(this.getId().equals(VaultMod.id("random"))) {
             if(player instanceof ServerPlayer serverPlayer) {
                 ExpertiseTree tree = PlayerExpertisesData.get(serverPlayer.server).getExpertises(player);

@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.gear.crafting.recipe.CatalystForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
-import iskallia.vault.world.data.DiscoveredTrinketsData;
 import iskallia.vault.world.data.PlayerGreedData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,7 +19,7 @@ public abstract class MixinCatalystForgeRecipe extends VaultForgeRecipe {
     }
 
     @Override
-    public boolean canCraft(Player player) {
+    public boolean canCraft(Player player, int level) {
         if(this.getId().equals(WoldsVaults.id("greed_rock"))) {
             if (player instanceof ServerPlayer sPlayer) {
                 PlayerGreedData greedData = PlayerGreedData.get(sPlayer.server);
