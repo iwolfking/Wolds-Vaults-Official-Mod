@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.api.inventory_hud.ShardPouchHudModule;
 import xyz.iwolfking.woldsvaults.init.ModOptions;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public abstract class MixinInventoryHudRenderer {
     private static void registerWoldsModules(CallbackInfo ci) {
         MODULES.add(new ItemHudModule("trinket_3", () -> getCurioSlotByName(Minecraft.getInstance().player, "green_trinket"), ModOptions.GREEN_TRINKET));
         MODULES.add(new ItemHudModule("trinket_pouch", () -> getCurioSlotByName(Minecraft.getInstance().player, "trinket_pouch"), ModOptions.TRINKET_POUCH));
-        MODULES.add(new ItemHudModule("shard_pouch", () -> getCurioSlotByName(Minecraft.getInstance().player, "shard_pouch"), ModOptions.SHARD_POUCH));
+        MODULES.add(new ShardPouchHudModule(() -> getCurioSlotByName(Minecraft.getInstance().player, "shard_pouch"), ModOptions.SHARD_POUCH));
     }
 
     static {

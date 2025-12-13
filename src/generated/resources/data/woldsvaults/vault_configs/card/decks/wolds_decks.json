@@ -1,4 +1,5 @@
 {
+  "minimumDeckLevel": 50,
   "values": {
     "wold": {
       "model": "woldsvaults:deck/wold#inventory",

@@ -227,6 +227,7 @@ dependencies {
     implementation fg.deobf("curse.maven:botania-225643:3936568") // datagen
     implementation fg.deobf("curse.maven:compressium-342929:4034865")
     implementation fg.deobf("curse.maven:rechiseled-558998:5286275")
+    implementation fg.deobf("curse.maven:vault-hunters-api-1118899:7329048")
 
     // transitive WV deps
     implementation fg.deobf("curse.maven:placebo-283644:4500363") // gateways
@@ -347,10 +348,10 @@ dependencies {
 //        jarJar.pin(it, '1.18.2-1.5')
 //    }
 
-    implementation fg.deobf('local:vhapi:4.0')
-    jarJar(group: 'xyz.iwolfking', name: 'vhapi', version: '[4.0,)') {
-        jarJar.pin(it, '4.0')
-    }
+//    implementation fg.deobf('local:vhapi:4.0')
+//    jarJar(group: 'xyz.iwolfking', name: 'vhapi', version: '[4.0,)') {
+//        jarJar.pin(it, '4.0')
+//    }
 
     implementation fg.deobf('local:VaultarHUD:1.4.0-1.18.2')
     jarJar(group: 'io.iridium.', name: 'VaultarHUD', version: '[1.4.0-1.18.2]') {

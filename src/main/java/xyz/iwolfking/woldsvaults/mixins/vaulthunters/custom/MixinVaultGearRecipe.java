@@ -7,22 +7,17 @@ import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.world.data.PlayerGreedData;
-import iskallia.vault.world.data.PlayerStatsData;
-import iskallia.vault.world.data.PlayerVaultStatsData;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.data.discovery.ClientPlayerGreedData;
-import xyz.iwolfking.woldsvaults.data.discovery.ClientRecipeDiscoveryData;
-import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.items.AirMobilityItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 
@@ -45,18 +40,18 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
      * @author iwolfking
      * @reason Lock etching crafting behind Herald completion.
      */
-    @Override
-    public boolean canCraft(Player player, int level) {
+    @Inject(method = "canCraft", at = @At("HEAD"), cancellable = true)
+    public void canCraft(Player player, int level, CallbackInfoReturnable<Boolean> cir) {
         if(!this.getId().equals(ETCHING_LOCATION) && !this.getId().equals(MAP_LOCATION) && !this.getId().equals(ZEPHYR_LOCATION)) {
-            return true;
+            cir.setReturnValue(true);
         }
 
         if (player instanceof ServerPlayer sPlayer) {
-                PlayerGreedData greedData = PlayerGreedData.get(sPlayer.server);
-                return greedData.get(player).hasCompletedHerald();
+            PlayerGreedData greedData = PlayerGreedData.get(sPlayer.server);
+            cir.setReturnValue(greedData.get(player).hasCompletedHerald());
         }
         else {
-            return !ClientPlayerGreedData.getArtifactData().isEmpty();
+            cir.setReturnValue(!ClientPlayerGreedData.getArtifactData().isEmpty());
         }
     }
 
@@ -78,12 +73,10 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
         return out;
     }
 
-    @Override
-    public List<Component> getDisabledText() {
+    @Inject(method = "getDisabledText", at = @At("HEAD"), cancellable = true)
+    public void getDisabledText(CallbackInfoReturnable<List<Component>> cir) {
         if(this.output.getItem() instanceof AirMobilityItem || this.output.getItem() instanceof VaultMapItem) {
-            return List.of(new TextComponent("Defeat The Herald by collecting all 25 Artifacts to unlock."));
+            cir.setReturnValue(List.of(new TextComponent("Defeat The Herald by collecting all 25 Artifacts to unlock.")));
         }
-
-        return List.of((new TextComponent("Undiscovered")).withStyle(ChatFormatting.ITALIC));
     }
 }

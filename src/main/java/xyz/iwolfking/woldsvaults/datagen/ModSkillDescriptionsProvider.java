@@ -479,7 +479,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("to break blocks."));
                 })
                 .addDescription("Jeweler", jsonElements -> {
-                    jsonElements.add(JsonDescription.simple("Allows the ability to craft random jewels in the Jewel Crafting Station using gemstones and other materials."));
+                    jsonElements.add(JsonDescription.simple("Allows the ability to craft random jewels in the Jewel Crafting Station using gemstones and other materials. Adds an additional jewel choice when opening Jewel Pouches."));
                 })
                 .addDescription("Marketer", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("Unlock an additional "));

@@ -82,21 +82,7 @@ public class ModVaultAltarProvider extends AbstractVaultAltarProvider {
                         crystalData.setTheme(new PoolCrystalTheme(VaultMod.id("infinite_raid_hard")));
                         crystalData.setModifiers(modifiers);
                         crystalData.setProperties(properties);
-                    })))
-             .add(new VaultAltarConfig.Interface(ItemPredicate.of(Items.ACACIA_BOAT.getRegistryName().toString(), true).orElse(null), VaultCrystalItem.create(crystalData -> {
-                CrystalModifiers modifiers = new DefaultCrystalModifiers();
-                modifiers.add(new VaultModifierStack(VaultModifierRegistry.get(VaultMod.id("raid")), 1));
-
-                CapacityCrystalProperties properties = new CapacityCrystalProperties();
-                properties.setVolume(0);
-                properties.setUnmodifiable(true);
-
-                crystalData.setObjective(new RaidCrystalObjective());
-                crystalData.setTheme(new PoolCrystalTheme(VaultMod.id("infinite_raid_hard")));
-                crystalData.setModifiers(modifiers);
-                crystalData.setProperties(properties);
-            })));
-
+                    })));
         });
     }
 

@@ -60,14 +60,6 @@
         "nbt": "{CrystalData:{Modifiers:{Clarity:0b,List:[{id:\"the_vault:raid\",size:1}],RandomModifiers:1b,type:\"default\"},Objective:{type:\"raid\"},Properties:{exhausted:1b,seed:0b,size:0b,type:\"capacity\",volume:0b},Theme:{id:\"the_vault:infinite_raid_hard\",type:\"pool\"},Version:3b}}",
         "count": 1
       }
-    },
-    {
-      "input": "minecraft:acacia_boat",
-      "output": {
-        "id": "the_vault:vault_crystal",
-        "nbt": "{CrystalData:{Modifiers:{Clarity:0b,List:[{id:\"the_vault:raid\",size:1}],RandomModifiers:1b,type:\"default\"},Objective:{type:\"raid\"},Properties:{exhausted:1b,seed:0b,size:0b,type:\"capacity\",volume:0b},Theme:{id:\"the_vault:infinite_raid_hard\",type:\"pool\"},Version:3b}}",
-        "count": 1
-      }
     }
   ]
 }
