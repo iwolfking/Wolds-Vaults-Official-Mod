@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.core.Version;
 import iskallia.vault.core.util.ThemeBlockRetriever;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.init.ModConfigs;
@@ -40,7 +41,11 @@ public class MixinTagLoader {
     @Unique private static void woldsVaults$genCrucibleTag(Map<ResourceLocation, Tag.Builder> pBuilders) {
         Set<ResourceLocation> allItems = new HashSet<>(ModConfigs.VOID_CRUCIBLE_CUSTOM_ROOMS.getAllItems());
         for (var theme : VaultRegistry.THEME.getKeys()) {
-            allItems.addAll(ThemeBlockRetriever.getBlocksForTheme(theme.getId()));
+            try {
+                allItems.addAll(ThemeBlockRetriever.getBlocksForTheme(theme.getId()));
+            } catch (Exception e) {
+                WoldsVaults.LOGGER.error(e.toString());
+            }
         }
 
         List<ResourceLocation> holders =

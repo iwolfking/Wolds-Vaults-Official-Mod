@@ -1,14 +1,3 @@
 {
-  "keys": [
-    {
-      "id": "woldsvaults:universal_eclipse",
-      "name": "Universal Eclipse",
-      "1.0": "woldsvaults:universal_eclipse"
-    },
-    {
-      "id": "woldsvaults:spawners_group_standard",
-      "name": "Spawners Group Standard",
-      "1.0": "woldsvaults:spawners_group_standard"
-    }
-  ]
+  "keys": []
 }
