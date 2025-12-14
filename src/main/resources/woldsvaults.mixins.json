@@ -129,8 +129,6 @@
     "vaulthunters.accessors.ProductEntryAccessor",
     "vaulthunters.accessors.ScheduledModifiersAccessor",
     "vaulthunters.accessors.ServerboundRoyaleSelectTrinketMessageAccessor",
-    "vaulthunters.accessors.ShopEntryAccessor",
-    "vaulthunters.accessors.ShopTierAccessor",
     "vaulthunters.accessors.StackingGearAttributeTalentAccessor",
     "vaulthunters.accessors.SweepingLuckyHitTalentAccessor",
     "vaulthunters.accessors.TemplateProcessorModifierPropertiesAccessor",

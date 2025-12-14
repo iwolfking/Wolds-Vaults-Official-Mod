@@ -209,10 +209,10 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             chestBreakBomb(modifierBuilder, VaultMod.id("armed_chest"),0.04F, weightedBuilder -> {
                 weightedBuilder.add(1, 1);
             }, spawnerEntityWeightedListBuilder -> {
-                    spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "slime_grenade"), null, true), 1);
-                    spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "explosive_grenade"), null, true), 1);
-                    spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "fire_grenade"), null, true), 1);
-                    spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "lightning_grenade"), null, true), 1);
+                    spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "slime_grenade"), null, true), 1);
+                    spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "explosive_grenade"), null, true), 1);
+                    spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "fire_grenade"), null, true), 1);
+                    spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "lightning_grenade"), null, true), 1);
 
                 }, "Armed", "#33691E", "4% chance for grenades to drop from chests upon looting them", "Chance for grenades to drop from chests upon looting them", VaultMod.id("gui/modifiers/armed"));
 
@@ -220,28 +220,28 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             chestBreakBomb(modifierBuilder, VaultMod.id("bingo_slime_grenade_chest"),0.05F, weightedBuilder -> {
                 weightedBuilder.add(1, 1);
             }, spawnerEntityWeightedListBuilder -> {
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "slime_grenade"), null, true), 1);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "slime_grenade"), null, true), 1);
 
             }, "Boing Traps", "#33691E", "5% chance for Slime grenades to drop from chests upon looting them", "Chance for Slime grenades to drop from chests upon looting them", VaultMod.id("gui/modifiers/slime_grenade"));
 
             chestBreakBomb(modifierBuilder, VaultMod.id("bingo_lightning_grenade_chest"),0.05F, weightedBuilder -> {
                 weightedBuilder.add(1, 1);
             }, spawnerEntityWeightedListBuilder -> {
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "lightning_grenade"), null, true), 1);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "lightning_grenade"), null, true), 1);
 
             }, "Electric Traps", "#33691E", "5% chance for Lightning grenades to drop from chests upon looting them", "Chance for Lightning grenades to drop from chests upon looting them", VaultMod.id("gui/modifiers/lightning_grenade"));
 
             chestBreakBomb(modifierBuilder, VaultMod.id("bingo_fire_grenade_chest"),0.05F, weightedBuilder -> {
                 weightedBuilder.add(1, 1);
             }, spawnerEntityWeightedListBuilder -> {
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "fire_grenade"), null, true), 1);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "fire_grenade"), null, true), 1);
 
             }, "Fire Traps", "#33691E", "5% chance for Fire grenades to drop from chests upon looting them", "Chance for Fire grenades to drop from chests upon looting them", VaultMod.id("gui/modifiers/fire_grenade"));
 
             chestBreakBomb(modifierBuilder, VaultMod.id("bingo_ice_grenade_chest"),0.05F, weightedBuilder -> {
                 weightedBuilder.add(1, 1);
             }, spawnerEntityWeightedListBuilder -> {
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "ice_grenade"), null, true), 1);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "ice_grenade"), null, true), 1);
 
             }, "Ice Traps", "#33691E", "5% chance for Ice grenades to drop from chests upon looting them", "Chance for Ice grenades to drop from chests upon looting them", VaultMod.id("gui/modifiers/fire_grenade"));
 
@@ -261,10 +261,10 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(VaultMod.id("mummy_t2"), null, false), 2);
                 spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(VaultMod.id("t3_husk"), null, false), 2);
                 spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(VaultMod.id("dungeon_black_widow_spider"), null, false), 1);
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("minecraft", "shulker"), null, false), 4);
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("minecraft", "witch"), null, false), 6);
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("minecraft", "vindicator"), null, false), 9);
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("alexsmobs", "tiger"), null, false), 1);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.withDefaultNamespace("shulker"), null, false), 4);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.withDefaultNamespace("witch"), null, false), 6);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.withDefaultNamespace("vindicator"), null, false), 9);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("alexsmobs", "tiger"), null, false), 1);
 
             }, "Surprise Boxes", "#33691E", "7.5% chance for enemies to spawn from chests upon looting them", "Chance for enemies to spawn from chests upon looting them", VaultMod.id("gui/modifiers/surprise_boxes"));
 
@@ -274,7 +274,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 weightedBuilder.add(3, 6);
                 weightedBuilder.add(4, 1);
             }, spawnerEntityWeightedListBuilder -> {
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("minecraft", "witch"), null, false), 6);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.withDefaultNamespace("witch"), null, false), 6);
                 spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ModEntities.DUNGEON_WITCH.getRegistryName(), null, false), 6);
             }, "Witch Party", "#33691E", "20% chance to spawn Witches every 20 seconds", "Chance to spawn Witches every 20 seconds", VaultMod.id("gui/modifiers/witch_party"));
 
@@ -306,8 +306,8 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ModEntities.VAULT_GREEN_GUMMY_SOLDIER.getRegistryName(), null, false), 16);
                 spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ModEntities.VAULT_RED_GUMMY_SOLDIER.getRegistryName(), null, false), 4);
                 spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ModEntities.VAULT_YELLOW_GUMMY_SOLDIER.getRegistryName(), null, false), 8);
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("auxiliaryblocks", "gingerbread_man"), null, false), 2);
-                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("auxiliaryblocks", "gingerbread_man_small"), null, false), 4);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("auxiliaryblocks", "gingerbread_man"), null, false), 2);
+                spawnerEntityWeightedListBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("auxiliaryblocks", "gingerbread_man_small"), null, false), 4);
             }, "Candy Party", "#33691E", "10% chance to spawn Candy mobs every 10 seconds", "Chance to spawn Candy mobs every 10 seconds", VaultMod.id("gui/modifiers/candy"));
 
             retroSpawn(modifierBuilder, VaultMod.id("classic_retro"),0.16F, 200, 6, weightedBuilder -> {
@@ -366,31 +366,31 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 mobDeathBomb(modifierBuilder, VaultMod.id("bingo_slime_grenade_mob"), EMPTY_ENTITY_PREDICATE, false, 0.04F,  integerWeightedListBuilder -> {
                     integerWeightedListBuilder.add(1, 1);
                 }, weightedBuilder -> {
-                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "slime_grenade"), null, true), 1);
+                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "slime_grenade"), null, true), 1);
                 }, "Armed Mobs (Slime Grenade)", "#33691E", "4% chance to spawn Slime Grenade on mob death", "Chance to spawn Smolcaps on mob death", VaultMod.id("gui/modifiers/slime_grenade"));
 
                 mobDeathBomb(modifierBuilder, VaultMod.id("bingo_ice_grenade_mob"), EMPTY_ENTITY_PREDICATE, true, 0.04F, integerWeightedListBuilder -> {
                     integerWeightedListBuilder.add(1, 1);
                 }, weightedBuilder -> {
-                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "ice_grenade"), null, true), 1);
+                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "ice_grenade"), null, true), 1);
                 }, "Armed Mobs (Ice Grenade)", "#33691E", "4% chance to spawn Ice Grenade on mob death", "Chance to spawn Ice Grenade on mob death", VaultMod.id("gui/modifiers/ice_grenade"));
 
                 mobDeathBomb(modifierBuilder, VaultMod.id("bingo_fire_grenade_mob"), EMPTY_ENTITY_PREDICATE, true, 0.04F, integerWeightedListBuilder -> {
                     integerWeightedListBuilder.add(1, 1);
                 }, weightedBuilder -> {
-                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "fire_grenade"), null, true), 1);
+                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "fire_grenade"), null, true), 1);
                 }, "Armed Mobs (Fire Grenade)", "#33691E", "4% chance to spawn Fire Grenade on mob death", "Chance to spawn Fire Grenade on mob death", VaultMod.id("gui/modifiers/fire_grenade"));
 
                 mobDeathBomb(modifierBuilder, VaultMod.id("bingo_lightning_grenade_mob"), EMPTY_ENTITY_PREDICATE, true, 0.04F, integerWeightedListBuilder -> {
                     integerWeightedListBuilder.add(1, 1);
                 }, weightedBuilder -> {
-                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("thermal", "lightning_grenade"), null, true), 1);
+                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("thermal", "lightning_grenade"), null, true), 1);
                 }, "Armed Mobs (Lightning Grenade)", "#33691E", "4% chance to spawn Lightning Grenade on mob death", "Chance to spawn Lightning Grenade on mob death", VaultMod.id("gui/modifiers/lightning_grenade"));
 
                 mobDeathBomb(modifierBuilder, VaultMod.id("bingo_spore_grenade_mob"), EMPTY_ENTITY_PREDICATE, true, 0.04F, integerWeightedListBuilder -> {
                     integerWeightedListBuilder.add(1, 1);
                 }, weightedBuilder -> {
-                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(new ResourceLocation("archers_paradox", "spore_arrow"), null, true), 1);
+                    weightedBuilder.add(new CustomEntitySpawnerConfig.SpawnerEntity(ResourceLocation.fromNamespaceAndPath("archers_paradox", "spore_arrow"), null, true), 1);
                 }, "Armed Mobs (Spore Grenade)", "#33691E", "4% chance to spawn Spore Grenade on mob death", "Chance to spawn Spore Grenade on mob death", VaultMod.id("gui/modifiers/lightning_grenade"));
 
             } catch (Exception ignored) {

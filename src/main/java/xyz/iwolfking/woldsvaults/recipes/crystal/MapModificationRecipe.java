@@ -105,11 +105,11 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
             String objectiveId = mapData.getFirstValue(ModGearAttributes.OBJECTIVE).orElse(null);
 
             if(themeId != null) {
-                CrystalTheme theme = new ValueCrystalTheme(new ResourceLocation(themeId));
+                CrystalTheme theme = new ValueCrystalTheme(ResourceLocation.parse(themeId));
                 data.setTheme(theme);
             }
             else if(themePoolId != null) {
-                CrystalTheme theme = new PoolCrystalTheme(new ResourceLocation(themePoolId));
+                CrystalTheme theme = new PoolCrystalTheme(ResourceLocation.parse(themePoolId));
                 data.setTheme(theme);
             }
             else {

@@ -99,7 +99,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                                 this.models().nested().parent(this.models().getExistingFile(k.baseBlockModel())))
                         .submodel(RenderType.translucent(),
                                 this.models().nested().parent(this.models().getExistingFile(mcLoc("block/cube_all")))
-                                        .texture("all", new ResourceLocation(Compressium.MODID, "block/layer_" + (i + 1))))
+                                        .texture("all", ResourceLocation.fromNamespaceAndPath(Compressium.MODID, "block/layer_" + (i + 1))))
                         .end());
             }
         });
@@ -318,7 +318,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .texture("particle", crateTex);
 
         // Assign the blockstate to use this model
-        simpleBlock(block, models().getExistingFile(new ResourceLocation(block.getRegistryName().getNamespace(), "block/" + block.getRegistryName().getPath())));
+        simpleBlock(block, models().getExistingFile(ResourceLocation.fromNamespaceAndPath(block.getRegistryName().getNamespace(), "block/" + block.getRegistryName().getPath())));
         itemModels().withExistingParent(block.getRegistryName().getPath(), model.getLocation());
     }
 

@@ -11,10 +11,10 @@ public class ModVaultInscriptionsProvider extends AbstractInscriptionProvider {
 
     @Override
     protected void build() {
-        mapModel( "the_vault:vault/rooms/omega/digsite2", 6);
-        mapModel( "the_vault:vault/rooms/omega/cube", 105);
-        mapModel( "the_vault:vault/rooms/omega/comet_observatory", 106);
-        mapModel( "the_vault:vault/rooms/omega/wolds_dinner", 107);
-        mapModel( "the_vault:vault/rooms/omega/wardens_garden", 108);
+        mapModel("the_vault:vault/rooms/omega/digsite2", 6);
+        mapModel("the_vault:vault/rooms/omega/cube", 105);
+        mapModel("the_vault:vault/rooms/omega/comet_observatory", 106);
+        mapModel("the_vault:vault/rooms/omega/wolds_dinner", 107);
+        mapModel("the_vault:vault/rooms/omega/wardens_garden", 108);
     }
 }

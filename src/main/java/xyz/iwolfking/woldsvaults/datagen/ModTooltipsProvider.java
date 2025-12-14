@@ -23,7 +23,7 @@ public class ModTooltipsProvider extends AbstractTooltipProvider {
 
         add("supplementaries_cage", builder -> {
             builder
-                    .addTooltipEntry(new ResourceLocation("supplementaries", "mob_cage"), "Can capture any mob below 10% health.");
+                    .addTooltipEntry(ResourceLocation.fromNamespaceAndPath("supplementaries", "mob_cage"), "Can capture any mob below 10% health.");
         });
 
         add("wolds_items", builder -> {

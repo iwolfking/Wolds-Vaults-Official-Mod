@@ -154,7 +154,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "windcaller"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "windcaller"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("illagers"))
                     .xpValue(40)
                     .attributeSimple("the_vault:generic.crit_chance", 0.25, 0.25, "set", 1.0, 0.0, -1)
@@ -171,7 +171,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "royal_guard"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "royal_guard"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("illagers"))
                     .xpValue(40)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -189,7 +189,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "mountaineer"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "mountaineer"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("illagers"))
                     .xpValue(40)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -207,7 +207,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "geomancer"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "geomancer"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("illagers"))
                     .xpValue(40)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -225,7 +225,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "mage"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "mage"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("illagers"))
                     .xpValue(40)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -242,7 +242,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "incinerator"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "incinerator"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("illagers")).entityGroup(VaultMod.id("tank"))
                     .xpValue(40)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -259,7 +259,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "inquisitor"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "inquisitor"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("illagers"))
                     .xpValue(40)
                     .attributeSimple("the_vault:generic.crit_chance", 0.25, 0.25, "set", 1.0, 0.0, -1)
@@ -276,7 +276,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "iceologer"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "iceologer"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("illagers"))
                     .xpValue(40)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -293,7 +293,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "matango"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "matango"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -309,7 +309,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "selkie"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "selkie"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -325,7 +325,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "yuki_onna"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "yuki_onna"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -342,7 +342,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "succubus"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "succubus"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -360,7 +360,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
         });
 
 
-        add(new ResourceLocation("grimoireofgaia", "cecaelia"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "cecaelia"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -377,7 +377,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("wildbackport", "warden"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("wildbackport", "warden"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(250)
                     .attributeSimple("the_vault:generic.crit_chance", 0.05, 0.05, "set", 1.0, 0.0, -1)
@@ -395,7 +395,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "sharko"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "sharko"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -412,7 +412,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "toad"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "toad"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -429,7 +429,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "oni"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "oni"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -446,7 +446,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "siren"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "siren"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -463,7 +463,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "naga"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "naga"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(150)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -480,7 +480,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "kobold"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "kobold"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -497,7 +497,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "mermaid"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "mermaid"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -514,7 +514,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "werecat"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "werecat"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -531,7 +531,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "anubis"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "anubis"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -548,7 +548,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "sphinx"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "sphinx"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -565,7 +565,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "ant"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "ant"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(90)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -582,7 +582,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "mandragora"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "mandragora"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -599,7 +599,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "bone_knight"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "bone_knight"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(95)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -640,7 +640,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("minecraft", "zombie_villager"), vaultMobBuilder -> {
+        add(ResourceLocation.withDefaultNamespace("zombie_villager"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(90)
                     .attributeSimple("the_vault:generic.crit_chance", 0.05, 0.05, "set", 1.0, 0.0, -1)
@@ -738,7 +738,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "goblin_feral"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "goblin_feral"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(85)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -756,7 +756,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("tropicraft", "ashen"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("tropicraft", "ashen"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(80)
                     .attributeSimple("the_vault:generic.crit_chance", 0.75, 0.75, "set", 1.0, 0.0, -1)
@@ -780,7 +780,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
         });
 
 
-        add(new ResourceLocation("tropicraft", "tropi_spider"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("tropicraft", "tropi_spider"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -803,7 +803,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "flesh_lich"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "flesh_lich"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -827,7 +827,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "cobblestone_golem"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "cobblestone_golem"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.25, 0.25, "set", 1.0, 0.0, -1)
@@ -851,7 +851,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "cobble_golem"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "cobble_golem"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.25, 0.25, "set", 1.0, 0.0, -1)
@@ -875,7 +875,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("tropicraft", "tropiskelly"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("tropicraft", "tropiskelly"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -892,7 +892,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("tropicraft", "eih"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("tropicraft", "eih"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.0, 0.0, "set", 1.0, 0.0, -1)
@@ -915,7 +915,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "minotaurus"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "minotaurus"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -932,7 +932,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "minotaur"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "minotaur"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.05, 0.05, "set", 1.0, 0.0, -1)
@@ -950,7 +950,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
         });
 
 
-        add(new ResourceLocation("alexsmobs", "centipede_head"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "centipede_head"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -974,7 +974,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
         });
 
 
-        add(new ResourceLocation("cloudstorage", "bloviator"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("cloudstorage", "bloviator"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.0, 0.0, "set", 1.0, 0.0, -1)
@@ -997,7 +997,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "crocodile"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "crocodile"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(80)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -1020,7 +1020,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "gorilla"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "gorilla"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(80)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1043,7 +1043,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "tiger"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "tiger"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(110)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -1066,7 +1066,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "dropbear"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "dropbear"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(110)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -1089,7 +1089,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "snow_leopard"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "snow_leopard"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1112,7 +1112,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "soul_vulture"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "soul_vulture"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(85)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1135,7 +1135,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "komodo_dragon"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "komodo_dragon"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(80)
                     .attributeSimple("the_vault:generic.crit_chance", 0.35, 0.35, "set", 1.0, 0.0, -1)
@@ -1158,7 +1158,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "enderiophage"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "enderiophage"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1181,7 +1181,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "mungus"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "mungus"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1470,7 +1470,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
         });
 
 
-        add(new ResourceLocation("dungeons_mobs", "redstone_cube"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "redstone_cube"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(100)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1487,7 +1487,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "redstone_golem"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "redstone_golem"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1505,7 +1505,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "skeleton_vanguard"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "skeleton_vanguard"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(110)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -1522,7 +1522,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "leapleaf"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "leapleaf"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(115)
                     .attributeSimple("the_vault:generic.crit_chance", 0.25, 0.25, "set", 1.0, 0.0, -1)
@@ -1539,7 +1539,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "sunken_skeleton"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "sunken_skeleton"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(80)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1556,7 +1556,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "mossy_skeleton"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "mossy_skeleton"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(80)
                     .attributeSimple("the_vault:generic.crit_chance", 0.35, 0.35, "set", 1.0, 0.0, -1)
@@ -1573,7 +1573,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "whisperer"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "whisperer"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(120)
                     .attributeSimple("the_vault:generic.crit_chance", 0.25, 0.25, "set", 1.0, 0.0, -1)
@@ -1590,7 +1590,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "jungle_zombie"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "jungle_zombie"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(80)
                     .attributeSimple("the_vault:generic.crit_chance", 0.25, 0.25, "set", 1.0, 0.0, -1)
@@ -1607,7 +1607,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "frozen_zombie"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "frozen_zombie"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(90)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1624,7 +1624,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "drowned_necromancer"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "drowned_necromancer"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1640,7 +1640,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("dungeons_mobs", "necromancer"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "necromancer"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -1664,7 +1664,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "banshee"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "banshee"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.2, 0.2, "set", 1.0, 0.0, -1)
@@ -1687,7 +1687,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "mummy"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "mummy"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.0, 0.0, "set", 1.0, 0.0, -1)
@@ -1703,7 +1703,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("rottencreatures", "frostbitten"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("rottencreatures", "frostbitten"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(80)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -1720,7 +1720,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "wither_cow"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "wither_cow"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(80)
                     .attributeSimple("the_vault:generic.crit_chance", 0.15, 0.15, "set", 1.0, 0.0, -1)
@@ -1740,7 +1740,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
         });
 
 
-        add(new ResourceLocation("dungeons_mobs", "icy_creeper"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("dungeons_mobs", "icy_creeper"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1760,7 +1760,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "creep"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "creep"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.25, 0.25, "set", 1.0, 0.0, -1)
@@ -1798,7 +1798,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("tropicraft", "tropicreeper"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("tropicraft", "tropicreeper"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1814,7 +1814,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("minecraft", "guardian"), vaultMobBuilder -> {
+        add(ResourceLocation.withDefaultNamespace("guardian"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("guardian"))
                     .xpValue(85)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1834,7 +1834,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "frilled_shark"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "frilled_shark"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1853,7 +1853,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "orca"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "orca"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(120)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1872,7 +1872,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("alexsmobs", "guster"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("alexsmobs", "guster"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("minecraft:generic.attack_damage", 2.0, 3.5, "set", 1.0, 0.0, -1)
@@ -1889,7 +1889,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("thermal", "basalz"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("thermal", "basalz"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("minecraft:generic.attack_damage", 2.0, 3.5, "set", 1.0, 0.0, -1)
@@ -1906,7 +1906,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("thermal", "blitz"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("thermal", "blitz"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("minecraft:generic.attack_damage", 2.0, 3.5, "set", 1.0, 0.0, -1)
@@ -1923,7 +1923,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("thermal", "blizz"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("thermal", "blizz"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(65)
                     .attributeSimple("minecraft:generic.attack_damage", 2.0, 3.5, "set", 1.0, 0.0, -1)
@@ -1940,7 +1940,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "behender"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "behender"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(150)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1958,7 +1958,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "deathword"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "deathword"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("horde"))
                     .xpValue(65)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
@@ -1975,7 +1975,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     });
         });
 
-        add(new ResourceLocation("grimoireofgaia", "witch"), vaultMobBuilder -> {
+        add(ResourceLocation.fromNamespaceAndPath("grimoireofgaia", "witch"), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(125)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)

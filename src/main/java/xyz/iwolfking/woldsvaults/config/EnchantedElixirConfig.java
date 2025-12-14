@@ -45,7 +45,7 @@ public class EnchantedElixirConfig extends Config {
         }
 
         this.mobGroups = new LinkedHashMap<>();
-        this.mobGroups.put(new ResourceLocation("main"), EntityPredicate.of("minecraft:zombie", true).orElseThrow());
+        this.mobGroups.put(ResourceLocation.parse("main"), EntityPredicate.of("minecraft:zombie", true).orElseThrow());
         this.entries = new LevelEntryList<>();
         List<ElixirTask.Config<?>> tasks = new ArrayList<>();
         tasks.add(new ChestElixirTask.Config((new WeightedList<IntRoll>()).add(IntRoll.ofUniform(1, 10), 1), VaultChestType.WOODEN));
@@ -54,7 +54,7 @@ public class EnchantedElixirConfig extends Config {
         tasks.add(new ChestElixirTask.Config((new WeightedList<IntRoll>()).add(IntRoll.ofUniform(1, 10), 1), VaultChestType.ORNATE));
         tasks.add(new CoinStacksElixirTask.Config((new WeightedList<IntRoll>()).add(IntRoll.ofUniform(1, 10), 1)));
         tasks.add(new OreElixirTask.Config((new WeightedList<IntRoll>()).add(IntRoll.ofUniform(1, 10), 1)));
-        tasks.add(new MobElixirTask.Config((new WeightedList<IntRoll>()).add(IntRoll.ofUniform(1, 10), 1), new ResourceLocation("main")));
+        tasks.add(new MobElixirTask.Config((new WeightedList<IntRoll>()).add(IntRoll.ofUniform(1, 10), 1), ResourceLocation.parse("main")));
         this.entries.add(new EnchantedElixirConfig.Entry(0, (new WeightedList<IntRoll>()).add(IntRoll.ofUniform(80, 100), 1), tasks));
     }
 

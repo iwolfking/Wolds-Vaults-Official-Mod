@@ -61,7 +61,7 @@ public class ModVaultDiffuserProvider extends AbstractVaultDiffuserProvider {
                 builder.add(WoldsVaults.id(baseName), baseValue);
             }
             else {
-                builder.add(new ResourceLocation("compressium", baseName + "_" + i), (int) (baseValue * Math.pow(9, i)));
+                builder.add(ResourceLocation.fromNamespaceAndPath("compressium", baseName + "_" + i), (int) (baseValue * Math.pow(9, i)));
             }
         }
     }
@@ -88,7 +88,7 @@ public class ModVaultDiffuserProvider extends AbstractVaultDiffuserProvider {
                 builder.add(WoldsVaults.id(baseName), baseValue * 9);
             }
             else {
-                builder.add(new ResourceLocation("compressium", baseName + "_" + i), (int) (baseValue * Math.pow(9, i)));
+                builder.add(ResourceLocation.fromNamespaceAndPath("compressium", baseName + "_" + i), (int) (baseValue * Math.pow(9, i)));
             }
         }
     }

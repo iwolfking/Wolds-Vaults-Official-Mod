@@ -9,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -21,7 +20,7 @@ public class GroupedSettableModifier extends SettableValueVaultModifier<GroupedS
 
 
     public Stream<Modifiers.Entry> flatten(boolean display, RandomSource random) {
-        return Stream.concat(((GroupedSettableModifier.Properties)this.properties).getChildren().stream().map((modifier) -> {
+        return Stream.concat((this.properties).getChildren().stream().map((modifier) -> {
             return new Modifiers.Entry(modifier, false);
         }), Stream.of(new Modifiers.Entry(this, true)));
     }
@@ -35,18 +34,15 @@ public class GroupedSettableModifier extends SettableValueVaultModifier<GroupedS
         }
 
         public List<VaultModifier<?>> getChildren() {
-            List<VaultModifier<?>> result = new ArrayList();
-            Iterator var2 = this.children.entrySet().iterator();
+            List<VaultModifier<?>> result = new ArrayList<>();
 
-            while(var2.hasNext()) {
-                Map.Entry<String, Integer> entry = (Map.Entry)var2.next();
-                VaultModifierRegistry.getOpt(new ResourceLocation((String)entry.getKey())).ifPresent((modifier) -> {
-                    for(int i = 0; i < (Integer)entry.getValue(); ++i) {
-                        if(modifier instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
+            for (Map.Entry<String, Integer> entry : this.children.entrySet()) {
+                VaultModifierRegistry.getOpt(ResourceLocation.parse(entry.getKey())).ifPresent((modifier) -> {
+                    for (int i = 0; i < entry.getValue(); ++i) {
+                        if (modifier instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
                             settableValueVaultModifier.properties().setValue(getValue());
                             result.add(settableValueVaultModifier);
-                        }
-                        else {
+                        } else {
                             result.add(modifier);
                         }
                     }

@@ -24,7 +24,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         super(pGenerator, WoldsVaults.MOD_ID, existingFileHelper);
     }
 
-    public static final TagKey<Block> WUTODIE_STORAGE_BLOCK = BlockTags.create(new ResourceLocation("forge", "storage_blocks/wutodie"));
+    public static final TagKey<Block> WUTODIE_STORAGE_BLOCK = BlockTags.create(ResourceLocation.fromNamespaceAndPath("forge", "storage_blocks/wutodie"));
 
     @Override
     protected void addTags() {

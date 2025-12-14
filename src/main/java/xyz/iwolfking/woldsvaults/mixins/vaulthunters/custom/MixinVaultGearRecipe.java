@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.crafting.recipe.GearForgeRecipe;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.data.discovery.ClientPlayerGreedData;
 import xyz.iwolfking.woldsvaults.items.AirMobilityItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
@@ -27,10 +29,10 @@ import java.util.List;
 public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
 
     @Unique
-    private static final ResourceLocation ETCHING_LOCATION = new ResourceLocation("the_vault", "etching");
+    private static final ResourceLocation ETCHING_LOCATION = VaultMod.id("etching");
     @Unique
-    private static final ResourceLocation MAP_LOCATION = new ResourceLocation("the_vault", "map");
-    private static final ResourceLocation ZEPHYR_LOCATION = new ResourceLocation("woldsvaults", "zephyr_charm");
+    private static final ResourceLocation MAP_LOCATION = VaultMod.id("map");
+    private static final ResourceLocation ZEPHYR_LOCATION = WoldsVaults.id("zephyr_charm");
 
     protected MixinVaultGearRecipe(ForgeRecipeType type, ResourceLocation id, ItemStack output) {
         super(type, id, output);

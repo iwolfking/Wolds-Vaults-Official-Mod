@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.lib.models;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.dynamodel.DynamicModel;
 import iskallia.vault.init.ModDynamicModels;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -185,15 +186,15 @@ public class BowModel extends DynamicModel<BowModel> {
 
         String modelName = resourceLocation.toString().substring(resourceLocation.toString().lastIndexOf('/') + 1);
         if(ModDynamicModels.jsonModelExists(resourceManager, appendToId(resourceLocation, "_pulling_0"))) {
-            textures.put("bow_pulling_model_0", new ResourceLocation("the_vault", "models/item/gear/bow/" + modelName + "_pulling_0"));
+            textures.put("bow_pulling_model_0", VaultMod.id("models/item/gear/bow/" + modelName + "_pulling_0"));
         }
 
         if(ModDynamicModels.jsonModelExists(resourceManager, appendToId(resourceLocation, "_pulling_1"))) {
-            textures.put("bow_pulling_model_1", new ResourceLocation("the_vault", "models/item/gear/bow/" + modelName + "_pulling_1"));
+            textures.put("bow_pulling_model_1", VaultMod.id("models/item/gear/bow/" + modelName + "_pulling_1"));
         }
 
         if(ModDynamicModels.jsonModelExists(resourceManager, appendToId(resourceLocation, "_pulling_2"))) {
-            textures.put("bow_pulling_model_2", new ResourceLocation("the_vault", "models/item/gear/bow/" + modelName + "_pulling_2"));
+            textures.put("bow_pulling_model_2", VaultMod.id("models/item/gear/bow/" + modelName + "_pulling_2"));
         }
 
         return textures;

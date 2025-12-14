@@ -336,6 +336,6 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
     }
 
     private GeneratedEntry entry(String id, UniqueGearEntry data) {
-        return new GeneratedEntry(new ResourceLocation(id), data);
+        return new GeneratedEntry(ResourceLocation.parse(id), data);
     }
 }

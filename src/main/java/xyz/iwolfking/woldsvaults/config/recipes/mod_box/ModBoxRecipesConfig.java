@@ -7,6 +7,7 @@ import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class ModBoxRecipesConfig extends ForgeRecipesConfig<ConfigModBoxRecipe, 
             if(key.equals("None")) {
                 continue;
             }
-            ConfigModBoxRecipe recipe = new ConfigModBoxRecipe(new ResourceLocation("woldsvaults", key.replaceAll("[^A-Za-z0-9]", "").toLowerCase(Locale.ENGLISH)), key);
+            ConfigModBoxRecipe recipe = new ConfigModBoxRecipe(WoldsVaults.id(key.replaceAll("[^A-Za-z0-9]", "").toLowerCase(Locale.ENGLISH)), key);
             recipe.addInput(new ItemStack(ModItems.MOD_BOX));
             recipe.addInput(new ItemStack(ModItems.MYSTICAL_POWDER));
             modBoxRecipes.add(recipe);
