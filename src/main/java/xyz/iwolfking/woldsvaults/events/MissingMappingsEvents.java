@@ -110,6 +110,21 @@ public class MissingMappingsEvents {
                 remapUnobtaniumBlockItem(mapping);
             }
         });
+        event.getMappings("botania").forEach(mapping -> {
+            if (mapping.key.equals(new ResourceLocation("botania", "uninfused_terrasteel_ingot"))) {
+                mapping.remap(ModItems.UNINFUSED_TERRASTEEL_INGOT);
+            }
+        });
+
+        event.getMappings("mysticalagriculture").forEach(mapping -> {
+            if (mapping.key.equals(new ResourceLocation("mysticalagriculture", "pogging_seed_base"))) {
+                mapping.remap(ModItems.POGGING_SEED_BASE);
+            }
+            else if (mapping.key.equals(new ResourceLocation("mysticalagriculture", "echoing_seed_base"))) {
+                mapping.remap(ModItems.ECHOING_SEED_BASE);
+            }
+        });
+
         event.getMappings(VaultMod.MOD_ID).forEach(mapping -> {
                 if (mapping.key.equals(VaultMod.id("chromatic_gold_ingot"))) {
                     mapping.remap(ModItems.CHROMATIC_GOLD_INGOT);
@@ -188,15 +203,6 @@ public class MissingMappingsEvents {
                 }
                 else if (mapping.key.equals(VaultMod.id("smashed_vault_gem_cluster"))) {
                     mapping.remap(ModItems.SMASHED_VAULT_GEM_CLUSTER);
-                }
-                else if (mapping.key.equals(new ResourceLocation("botania", "uninfused_terrasteel_ingot"))) {
-                    mapping.remap(ModItems.UNINFUSED_TERRASTEEL_INGOT);
-                }
-                else if (mapping.key.equals(new ResourceLocation("mysticalagriculture", "pogging_seed_base"))) {
-                    mapping.remap(ModItems.POGGING_SEED_BASE);
-                }
-                else if (mapping.key.equals(new ResourceLocation("mysticalagriculture", "echoing_seed_base"))) {
-                    mapping.remap(ModItems.ECHOING_SEED_BASE);
                 }
                 else if (mapping.key.equals(VaultMod.id("chromatic_gold_block"))) {
                     mapping.remap(ModBlocks.CHROMATIC_GOLD_BLOCK.asItem());
