@@ -613,18 +613,27 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("mining speed ", "#47B8F5"));
                     jsonElements.add(JsonDescription.simple("by applying the "));
                     jsonElements.add(JsonDescription.simple("Haste ", "green"));
-                    jsonElements.add(JsonDescription.simple("effect permanently\n\n "));
+                    jsonElements.add(JsonDescription.simple("effect permanently\n\n"));
                     jsonElements.add(JsonDescription.simple("Every level of the Haste effect increases mining speed by "));
                     jsonElements.add(JsonDescription.simple("20%", "#47B8F5"));
                 })
-                .addDescription("Strength", jsonElements -> {
+                .addDescription("Speed", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("Increases your "));
                     jsonElements.add(JsonDescription.simple("movement speed ", "#F6CD0E"));
                     jsonElements.add(JsonDescription.simple("by applying the "));
                     jsonElements.add(JsonDescription.simple("Speed ", "green"));
-                    jsonElements.add(JsonDescription.simple("effect permanently\n\n "));
+                    jsonElements.add(JsonDescription.simple("effect permanently\n\n"));
                     jsonElements.add(JsonDescription.simple("Every level of the Speed effect increases movement speed by "));
                     jsonElements.add(JsonDescription.simple("20%", "#F6CD0E"));
+                })
+                .addDescription("Strength", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases your "));
+                    jsonElements.add(JsonDescription.simple("attack damage ", "#F6CD0E"));
+                    jsonElements.add(JsonDescription.simple("by applying the "));
+                    jsonElements.add(JsonDescription.simple("Strength ", "green"));
+                    jsonElements.add(JsonDescription.simple("effect permanently\n\n"));
+                    jsonElements.add(JsonDescription.simple("Every level of the Strength effect increases attack damage by "));
+                    jsonElements.add(JsonDescription.simple("+3", "#F6CD0E"));
                 })
                 .addDescription("Purist", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("Deal "));

@@ -202,7 +202,7 @@ public class TalentDescriptionsHelper {
                 }
 
                 if(i + 1 == tieredSkill.getMaxLearnableTier() && tieredSkill.getTiers().size() != tieredSkill.getMaxLearnableTier()) {
-                    jsonElements.add(JsonDescription.simple("Overlevels\n", "#EFBF04"));
+                    jsonElements.add(JsonDescription.simple("\n\nOverlevels\n", "#EFBF04"));
                     jsonElements.add(JsonDescription.simple("------------", "#EFBF04"));
                     jsonElements.add(JsonDescription.simple("\n"));
                 }
