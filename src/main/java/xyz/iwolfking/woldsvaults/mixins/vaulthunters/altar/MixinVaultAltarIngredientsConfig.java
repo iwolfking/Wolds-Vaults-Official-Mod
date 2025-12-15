@@ -60,8 +60,6 @@ public class MixinVaultAltarIngredientsConfig {
         new AbstractMap.SimpleEntry<>("mysticalagriculture", "Mystical Agriculture"),
         new AbstractMap.SimpleEntry<>("fluxnetworks", "Flux Networks"),
         new AbstractMap.SimpleEntry<>("botanicalmachinery", "Botanical Machinery")
-
-
     );
 
 

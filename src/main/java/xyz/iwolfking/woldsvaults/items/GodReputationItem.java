@@ -66,6 +66,10 @@ public class GodReputationItem extends BasicItem {
         return stack;
     }
 
+    public static ItemStack create(VaultGod god) {
+        return create(god.name());
+    }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack heldStack = player.getMainHandItem();

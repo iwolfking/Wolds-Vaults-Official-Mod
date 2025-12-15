@@ -111,7 +111,6 @@
           "COMPLETED"
         ],
         "objective": [
-          "haunted_braziers",
           "brutal_bosses",
           "ballistic_bingo",
           "scavenger",
@@ -120,7 +119,8 @@
           "rune_boss",
           "enchanted_elixir",
           "monolith",
-          "alchemy"
+          "alchemy",
+          "haunted_braziers"
         ],
         "counter": {
           "variables": {},

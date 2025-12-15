@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import com.simibubi.create.AllItems;
 import iskallia.vault.VaultMod;
+import iskallia.vault.core.vault.influence.VaultGod;
+import iskallia.vault.item.AugmentItem;
 import iskallia.vault.tags.ModItemTags;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.core.Registry;
@@ -27,6 +29,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.items.GodReputationItem;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
 import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe;
 import xyz.iwolfking.woldsvaults.recipes.lib.UncheckedRecipe;
@@ -58,6 +61,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         CompoundTag colossus = new CompoundTag();
         colossus.putString("Ability", "Colossus");
+
         ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.RESPEC_FLASK)
                 .define('A', iskallia.vault.init.ModItems.VAULT_ESSENCE)
                 .define('D', Blocks.GRANITE)
@@ -88,14 +92,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B', ModBlocks.VAULT_INFUSER_BLOCK)
                 .define('C', ModItems.CHROMA_CORE)
                 .define('D', iskallia.vault.init.ModBlocks.VAULT_DIAMOND_BLOCK)
-                .define('V', iskallia.vault.init.ModItems.ERROR_ITEM) // placeholder
+                .define('V', ModBlocks.VAULT_ESSENCE_BLOCK)
                 .pattern("ADA")
                 .pattern("VBV")
                 .pattern("ACA")
                 .unlockedBy("has_infuser", has(ModBlocks.VAULT_INFUSER_BLOCK))
-                .save(recipeCosumer -> pFinishedRecipeConsumer.accept(new UncheckedRecipe(recipeCosumer, Map.of(
-                        'V', new ResourceLocation("the_vault", "vault_essence_1")
-                ))));
+                .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(ModBlocks.VAULT_INFUSER_BLOCK)
                 .define('A', iskallia.vault.init.ModItems.CHROMATIC_IRON_INGOT)
@@ -121,7 +123,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         ShapedRecipeBuilder.shaped(ModItems.CHROMA_CORE)
                 .define('L', iskallia.vault.init.ModItems.PERFECT_LARIMAR)
-                .define('G', Registry.ITEM.get(new ResourceLocation("the_vault", "chromatic_gold_nugget")))
+                .define('G', ModItems.CHROMATIC_GOLD_NUGGET)
                 .define('B', iskallia.vault.init.ModItems.PERFECT_BENITOITE)
                 .define('A', iskallia.vault.init.ModItems.PERFECT_ALEXANDRITE)
                 .define('W', iskallia.vault.init.ModItems.PERFECT_WUTODIE)
@@ -133,7 +135,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(ModBlocks.AUGMENT_CRAFTING_TABLE)
-                .define('N', Registry.ITEM.get(new ResourceLocation("the_vault", "pog_prism")))
+                .define('N', ModItems.POG_PRISM)
                 .define('I', iskallia.vault.init.ModItems.VAULT_INGOT)
                 .define('L', Blocks.LECTERN)
                 .define('C', iskallia.vault.init.ModItems.AUGMENT)
@@ -145,7 +147,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
         ShapedRecipeBuilder.shaped(ModBlocks.MOD_BOX_WORKSTATION)
-                .define('N', Registry.ITEM.get(new ResourceLocation("the_vault", "pog_prism")))
+                .define('N', ModItems.POG_PRISM)
                 .define('I', iskallia.vault.init.ModItems.VAULT_INGOT)
                 .define('L', Blocks.CRAFTING_TABLE) // placeholder
                 .define('C', iskallia.vault.init.ModItems.MOD_BOX)
@@ -225,13 +227,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', iskallia.vault.init.ModItems.VAULT_ROCK)
                 .define('E', iskallia.vault.init.ModItems.WUTODIC_MASS)
                 .define('A', iskallia.vault.init.ModItems.AUGMENT)
-                .define('S', iskallia.vault.init.ModItems.GOD_TOKEN)
+                .define('S', ModItems.GOD_OFFERING)
                 .define('M', iskallia.vault.init.ModItems.MEMORY_SHARD)
+
                 .unlockedBy("has_memory_shard", has(iskallia.vault.init.ModItems.MEMORY_SHARD))
                 .save(recipeConsumer -> pFinishedRecipeConsumer.accept(new NbtAwareRecipe(recipeConsumer, Map.of(
-                        'A', new NbtAwareRecipe.IngredientWithNBT("the_vault:augment", "{\"theme\":\"the_vault:classic_vault_idona_normal\"}"),
-                        'S', new NbtAwareRecipe.IngredientWithNBT("the_vault:god_token", "{\"type\":\"idona\"}")
-                ))));
+                        'A', new NbtAwareRecipe.IngredientWithNBT(AugmentItem.create(VaultMod.id("classic_vault_idona_normal"))),
+                        'S', new NbtAwareRecipe.IngredientWithNBT(GodReputationItem.create(VaultGod.IDONA)
+                )))));
 
         ShapedRecipeBuilder.shaped(ModItems.TOME_OF_TENOS)
                 .pattern("M#M")
@@ -240,12 +243,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', iskallia.vault.init.ModItems.VAULT_ROCK)
                 .define('E', iskallia.vault.init.ModItems.WUTODIC_MASS)
                 .define('A', iskallia.vault.init.ModItems.AUGMENT)
-                .define('S', iskallia.vault.init.ModItems.GOD_TOKEN)
+                .define('S', ModItems.GOD_OFFERING)
                 .define('M', iskallia.vault.init.ModItems.MEMORY_SHARD)
                 .unlockedBy("has_memory_shard", has(iskallia.vault.init.ModItems.MEMORY_SHARD))
                 .save(recipeConsumer -> pFinishedRecipeConsumer.accept(new NbtAwareRecipe(recipeConsumer, Map.of(
-                        'A', new NbtAwareRecipe.IngredientWithNBT("the_vault:augment", "{\"theme\":\"the_vault:classic_vault_tenos_normal\"}"),
-                        'S', new NbtAwareRecipe.IngredientWithNBT("the_vault:god_token", "{\"type\":\"tenos\"}")
+                        'A', new NbtAwareRecipe.IngredientWithNBT(AugmentItem.create(VaultMod.id("classic_vault_tenos_normal"))),
+                        'S', new NbtAwareRecipe.IngredientWithNBT(GodReputationItem.create(VaultGod.TENOS))
                 ))));
 
         ShapedRecipeBuilder.shaped(ModItems.VELARA_APPLE)
@@ -255,12 +258,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', iskallia.vault.init.ModItems.VAULT_ROCK)
                 .define('E', iskallia.vault.init.ModItems.WUTODIC_MASS)
                 .define('A', iskallia.vault.init.ModItems.AUGMENT)
-                .define('S', iskallia.vault.init.ModItems.GOD_TOKEN)
+                .define('S', ModItems.GOD_OFFERING)
                 .define('M', iskallia.vault.init.ModItems.MEMORY_SHARD)
                 .unlockedBy("has_memory_shard", has(iskallia.vault.init.ModItems.MEMORY_SHARD))
                 .save(recipeConsumer -> pFinishedRecipeConsumer.accept(new NbtAwareRecipe(recipeConsumer, Map.of(
-                        'A', new NbtAwareRecipe.IngredientWithNBT("the_vault:augment", "{\"theme\":\"the_vault:classic_vault_velara_normal\"}"),
-                        'S', new NbtAwareRecipe.IngredientWithNBT("the_vault:god_token", "{\"type\":\"velara\"}")
+                        'A', new NbtAwareRecipe.IngredientWithNBT(AugmentItem.create(VaultMod.id("classic_vault_velara_normal"))),
+                        'S', new NbtAwareRecipe.IngredientWithNBT(GodReputationItem.create(VaultGod.VELARA))
                 ))));
 
         ShapedRecipeBuilder.shaped(ModItems.WENDARR_GEM)
@@ -270,12 +273,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', iskallia.vault.init.ModItems.VAULT_ROCK)
                 .define('E', iskallia.vault.init.ModItems.WUTODIC_MASS)
                 .define('A', iskallia.vault.init.ModItems.AUGMENT)
-                .define('S', iskallia.vault.init.ModItems.GOD_TOKEN)
+                .define('S', ModItems.GOD_OFFERING)
                 .define('M', iskallia.vault.init.ModItems.MEMORY_SHARD)
                 .unlockedBy("has_memory_shard", has(iskallia.vault.init.ModItems.MEMORY_SHARD))
                 .save(recipeConsumer -> pFinishedRecipeConsumer.accept(new NbtAwareRecipe(recipeConsumer, Map.of(
-                        'A', new NbtAwareRecipe.IngredientWithNBT("the_vault:augment", "{\"theme\":\"the_vault:classic_vault_wendarr_normal\"}"),
-                        'S', new NbtAwareRecipe.IngredientWithNBT("the_vault:god_token", "{\"type\":\"wendarr\"}")
+                        'A', new NbtAwareRecipe.IngredientWithNBT(AugmentItem.create(VaultMod.id("classic_vault_wendarr_normal"))),
+                        'S', new NbtAwareRecipe.IngredientWithNBT(GodReputationItem.create(VaultGod.WENDARR))
                 ))));
 
 

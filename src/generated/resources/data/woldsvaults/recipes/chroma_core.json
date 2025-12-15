@@ -9,7 +9,9 @@
     "L": {
       "item": "the_vault:perfect_larimar"
     },
-    "G": [],
+    "G": {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    },
     "B": {
       "item": "the_vault:perfect_benitoite"
     },

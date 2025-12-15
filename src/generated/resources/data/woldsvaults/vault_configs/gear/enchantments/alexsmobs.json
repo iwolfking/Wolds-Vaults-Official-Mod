@@ -1,6 +1,6 @@
 {
   "costs": {
-    "alexsmobs:board_return": {
+    "alexsmobs:lavawax": {
       "items": [
         {
           "id": "emerald",
@@ -27,7 +27,7 @@
       ],
       "levels": 1
     },
-    "alexsmobs:lavawax": {
+    "alexsmobs:board_return": {
       "items": [
         {
           "id": "emerald",

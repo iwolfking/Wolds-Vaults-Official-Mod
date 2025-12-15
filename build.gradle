@@ -353,10 +353,10 @@ dependencies {
 //        jarJar.pin(it, '4.0')
 //    }
 
-    implementation fg.deobf('local:VaultarHUD:1.4.0-1.18.2')
-    jarJar(group: 'io.iridium.', name: 'VaultarHUD', version: '[1.4.0-1.18.2]') {
-        jarJar.pin(it, '1.4.0-1.18.2')
-    }
+//    implementation fg.deobf('local:VaultarHUD:1.4.0-1.18.2')
+//    jarJar(group: 'io.iridium.', name: 'VaultarHUD', version: '[1.4.0-1.18.2]') {
+//        jarJar.pin(it, '1.4.0-1.18.2')
+//    }
 
     // mixins
     compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1")

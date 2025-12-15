@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.Map;
@@ -47,7 +48,19 @@ public class NbtAwareRecipe implements FinishedRecipe {
         return base.getAdvancementId();
     }
 
-    public record IngredientWithNBT(String itemId, String nbtJson) {
+    public static class IngredientWithNBT {
+        private final String itemId;
+        private final String nbtJson;
+
+        public IngredientWithNBT(String itemId, String nbtJson) {
+            this.itemId = itemId;
+            this.nbtJson = nbtJson;
+        }
+
+        public IngredientWithNBT(ItemStack stack) {
+            itemId = stack.getItem().getRegistryName().toString();
+            nbtJson = stack.getOrCreateTag().toString();
+        }
 
         public JsonObject toJson() {
             JsonObject obj = new JsonObject();

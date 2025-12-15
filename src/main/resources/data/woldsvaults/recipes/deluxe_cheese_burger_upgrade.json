@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "the_vault:cheese_burger"
+    },
+    {
+      "item": "the_vault:burger_tomato"
+    }
+  ],
+  "result": {
+    "item": "the_vault:deluxe_cheese_burger"
+  }
+}

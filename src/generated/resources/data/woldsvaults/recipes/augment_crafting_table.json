@@ -6,7 +6,9 @@
     "III"
   ],
   "key": {
-    "N": [],
+    "N": {
+      "item": "woldsvaults:pog_prism"
+    },
     "I": {
       "item": "the_vault:vault_ingot"
     },
