@@ -349,7 +349,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("."));
                 })
                 .addDescription("Augmentation_Luck", jsonElements -> {
-                    jsonElements.add(JsonDescription.simple("Improves your luck with rolling special gear modifiers like  "));
+                    jsonElements.add(JsonDescription.simple("Improves your luck with rolling special gear modifiers like "));
                     jsonElements.add(JsonDescription.simple("Corrupted", "#A31500"));
                     jsonElements.add(JsonDescription.simple(", "));
                     jsonElements.add(JsonDescription.simple("Frozen", "#0392C4"));
@@ -388,23 +388,23 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("Reduce the "));
                     jsonElements.add(JsonDescription.simple("Bounty wait period ", "#FCF5C5"));
                     jsonElements.add(JsonDescription.simple("to "));
-                    jsonElements.add(JsonDescription.simple("30 minutes ", "#CBE6FE"));
+                    jsonElements.add(JsonDescription.simple("30 minutes", "#CBE6FE"));
                     jsonElements.add(JsonDescription.simple(".\n"));
                     jsonElements.add(JsonDescription.simple("2 "));
                     jsonElements.add(JsonDescription.simple("Reduce the "));
                     jsonElements.add(JsonDescription.simple("abandon penalty ", "#FCF5C5"));
                     jsonElements.add(JsonDescription.simple("to "));
-                    jsonElements.add(JsonDescription.simple("30 minutes ", "#CBE6FE"));
+                    jsonElements.add(JsonDescription.simple("30 minutes", "#CBE6FE"));
                     jsonElements.add(JsonDescription.simple(".\n"));
                     jsonElements.add(JsonDescription.simple("3 "));
                     jsonElements.add(JsonDescription.simple("Have "));
                     jsonElements.add(JsonDescription.simple("2 active bounties ", "#FFEB07"));
-                    jsonElements.add(JsonDescription.simple("at a time "));
+                    jsonElements.add(JsonDescription.simple("at a time"));
                     jsonElements.add(JsonDescription.simple(".\n"));
                     jsonElements.add(JsonDescription.simple("4 "));
                     jsonElements.add(JsonDescription.simple("Have "));
                     jsonElements.add(JsonDescription.simple("3 active bounties ", "#FFEB07"));
-                    jsonElements.add(JsonDescription.simple("at a time "));
+                    jsonElements.add(JsonDescription.simple("at a time"));
                     jsonElements.add(JsonDescription.simple(".\n"));
                 })
                 .addDescription("Unbreakable", jsonElements -> {

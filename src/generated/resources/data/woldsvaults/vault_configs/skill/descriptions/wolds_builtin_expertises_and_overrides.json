@@ -478,7 +478,7 @@
     ],
     "Augmentation_Luck": [
       {
-        "text": "Improves your luck with rolling special gear modifiers like  "
+        "text": "Improves your luck with rolling special gear modifiers like "
       },
       {
         "text": "Corrupted",
@@ -539,7 +539,7 @@
         "text": "to "
       },
       {
-        "text": "30 minutes ",
+        "text": "30 minutes",
         "color": "#CBE6FE"
       },
       {
@@ -559,7 +559,7 @@
         "text": "to "
       },
       {
-        "text": "30 minutes ",
+        "text": "30 minutes",
         "color": "#CBE6FE"
       },
       {
@@ -576,7 +576,7 @@
         "color": "#FFEB07"
       },
       {
-        "text": "at a time "
+        "text": "at a time"
       },
       {
         "text": ".\n"
@@ -592,7 +592,7 @@
         "color": "#FFEB07"
       },
       {
-        "text": "at a time "
+        "text": "at a time"
       },
       {
         "text": ".\n"

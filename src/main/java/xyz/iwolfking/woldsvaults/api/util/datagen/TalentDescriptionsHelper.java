@@ -131,8 +131,8 @@ public class TalentDescriptionsHelper {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", ((HealthLeechLuckyHitTalentAccessor)healthLeechLuckyHitTalent).getMaxHealthPercentage() * 100) + "%\n", "#90FF00"));
                 }
                 else if(tier instanceof SweepingLuckyHitTalent sweepingLuckyHitTalent) {
-                    jsonElements.add(JsonDescription.simple("+" + String.format("%f", ((SweepingLuckyHitTalentAccessor)sweepingLuckyHitTalent).getRange() * 100) + " range ", "#90FF00"));
-                    jsonElements.add(JsonDescription.simple(String.format("%.1f", ((SweepingLuckyHitTalentAccessor)sweepingLuckyHitTalent).getDamage() * 100) + " damage\n", "#90FF00"));
+                    jsonElements.add(JsonDescription.simple("+" + String.format("%.0f", ((SweepingLuckyHitTalentAccessor)sweepingLuckyHitTalent).getRange()) + " range ", "#90FF00"));
+                    jsonElements.add(JsonDescription.simple(String.format("%.1f", ((SweepingLuckyHitTalentAccessor)sweepingLuckyHitTalent).getDamage() * 100) + "% damage\n", "#90FF00"));
                 }
                 else if(tier instanceof PrudentTalent prudentTalent) {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", prudentTalent.getProbability() * 100) + "%\n", "#90FF00"));
@@ -149,7 +149,11 @@ public class TalentDescriptionsHelper {
                 else if(tier instanceof CastOnHitTalent castOnHitTalent) {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", ((CastOnHitTalentAccessor)castOnHitTalent).getProbability() * 100) + "%", "#90FF00"));
                     Skill ability = ModConfigs.ABILITIES.getAbilityById(((CastOnHitTalentAccessor)castOnHitTalent).getAbilityName()).orElse(null);
-                    if(ability != null) {
+                    System.out.println(((CastOnHitTalentAccessor) castOnHitTalent).getAbilityName());
+                    if(((CastOnHitTalentAccessor) castOnHitTalent).getAbilityName() != null && ((CastOnHitTalentAccessor) castOnHitTalent).getAbilityName().startsWith("nova_frost")) {
+                        jsonElements.add(JsonDescription.simple(" - " + "Frost Nova" + "\n", "#90FF00"));
+                    }
+                    else if(ability != null) {
                         jsonElements.add(JsonDescription.simple(" - " + ability.getName() + "\n", "#90FF00"));
                     }
                     else {

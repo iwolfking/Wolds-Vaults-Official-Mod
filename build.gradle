@@ -202,7 +202,6 @@ dependencies {
     implementation fg.deobf("curse.maven:citadel4-331936:3783096") // alex's mobs dep
 
     // core WV integrations
-    //implementation fg.deobf("curse.maven:vault-hunters-api-1118899:6803115")
     implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") // jei integration
     implementation fg.deobf("curse.maven:just-enough-vh-1035310:7318869") // jei integration
     implementation fg.deobf("curse.maven:parcool-482378:6189392") // trinket
@@ -348,9 +347,9 @@ dependencies {
 //        jarJar.pin(it, '1.18.2-1.5')
 //    }
 
-//    implementation fg.deobf('local:vhapi:4.0')
-//    jarJar(group: 'xyz.iwolfking', name: 'vhapi', version: '[4.0,)') {
-//        jarJar.pin(it, '4.0')
+//    implementation fg.deobf('local:vhapi:4.1.2')
+//    jarJar(group: 'xyz.iwolfking', name: 'vhapi', version: '[4.1.2,)') {
+//        jarJar.pin(it, '4.1.2')
 //    }
 
 //    implementation fg.deobf('local:VaultarHUD:1.4.0-1.18.2')

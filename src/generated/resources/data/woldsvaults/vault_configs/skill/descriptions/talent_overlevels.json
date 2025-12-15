@@ -1463,7 +1463,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -2258,11 +2258,11 @@
         "color": "$text"
       },
       {
-        "text": "+200.000000 range ",
+        "text": "+2 range ",
         "color": "#90FF00"
       },
       {
-        "text": "50.0 damage\n",
+        "text": "50.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2270,11 +2270,11 @@
         "color": "$text"
       },
       {
-        "text": "+200.000000 range ",
+        "text": "+2 range ",
         "color": "#90FF00"
       },
       {
-        "text": "65.0 damage\n",
+        "text": "65.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2282,11 +2282,11 @@
         "color": "$text"
       },
       {
-        "text": "+200.000000 range ",
+        "text": "+2 range ",
         "color": "#90FF00"
       },
       {
-        "text": "80.0 damage\n",
+        "text": "80.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2306,11 +2306,11 @@
         "color": "$text"
       },
       {
-        "text": "+200.000000 range ",
+        "text": "+2 range ",
         "color": "#90FF00"
       },
       {
-        "text": "85.0 damage\n",
+        "text": "85.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2318,11 +2318,11 @@
         "color": "$text"
       },
       {
-        "text": "+200.000000 range ",
+        "text": "+2 range ",
         "color": "#90FF00"
       },
       {
-        "text": "90.0 damage\n",
+        "text": "90.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2330,11 +2330,11 @@
         "color": "$text"
       },
       {
-        "text": "+200.000000 range ",
+        "text": "+2 range ",
         "color": "#90FF00"
       },
       {
-        "text": "95.0 damage\n",
+        "text": "95.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2342,11 +2342,11 @@
         "color": "$text"
       },
       {
-        "text": "+200.000000 range ",
+        "text": "+2 range ",
         "color": "#90FF00"
       },
       {
-        "text": "100.0 damage\n",
+        "text": "100.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2354,11 +2354,11 @@
         "color": "$text"
       },
       {
-        "text": "+250.000000 range ",
+        "text": "+3 range ",
         "color": "#90FF00"
       },
       {
-        "text": "100.0 damage\n",
+        "text": "100.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2366,11 +2366,11 @@
         "color": "$text"
       },
       {
-        "text": "+300.000000 range ",
+        "text": "+3 range ",
         "color": "#90FF00"
       },
       {
-        "text": "100.0 damage\n",
+        "text": "100.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2378,11 +2378,11 @@
         "color": "$text"
       },
       {
-        "text": "+350.000000 range ",
+        "text": "+4 range ",
         "color": "#90FF00"
       },
       {
-        "text": "100.0 damage\n",
+        "text": "100.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2390,11 +2390,11 @@
         "color": "$text"
       },
       {
-        "text": "+400.000000 range ",
+        "text": "+4 range ",
         "color": "#90FF00"
       },
       {
-        "text": "100.0 damage\n",
+        "text": "100.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2402,11 +2402,11 @@
         "color": "$text"
       },
       {
-        "text": "+450.000000 range ",
+        "text": "+5 range ",
         "color": "#90FF00"
       },
       {
-        "text": "100.0 damage\n",
+        "text": "100.0% damage\n",
         "color": "#90FF00"
       },
       {
@@ -2414,11 +2414,11 @@
         "color": "$text"
       },
       {
-        "text": "+500.000000 range ",
+        "text": "+5 range ",
         "color": "#90FF00"
       },
       {
-        "text": "100.0 damage\n",
+        "text": "100.0% damage\n",
         "color": "#90FF00"
       }
     ],
@@ -8306,7 +8306,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8318,7 +8318,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8330,7 +8330,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8342,7 +8342,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8366,7 +8366,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8378,7 +8378,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8390,7 +8390,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8402,7 +8402,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8414,7 +8414,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8426,7 +8426,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8438,7 +8438,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8450,7 +8450,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8462,7 +8462,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8474,7 +8474,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8486,7 +8486,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8498,7 +8498,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8510,7 +8510,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       },
       {
@@ -8522,7 +8522,7 @@
         "color": "#90FF00"
       },
       {
-        "text": " - null\n",
+        "text": " - Frost Nova\n",
         "color": "#90FF00"
       }
     ]
