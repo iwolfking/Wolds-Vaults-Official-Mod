@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.client.data.ClientGreedData;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.crafting.recipe.GearForgeRecipe;

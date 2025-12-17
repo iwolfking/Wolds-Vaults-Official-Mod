@@ -7,7 +7,7 @@ import groovy.json.JsonSlurper
  * move build/temp-vault-assets/config to run/config and build/temp-vault-assets/defaultconfigs to run/defaultconfigs
  */
 
-def zipUrl = "https://codeload.github.com/iwolfking/Wolds-Vaults/zip/refs/heads/update25"
+def zipUrl = "https://github.com/iwolfking/Wolds-Vaults/archive/refs/heads/master.zip"
 def zipFile = file("build/temp-vault-assets/archive.zip")
 def outputDir = file("build/temp-vault-assets/unzipped")
 def runDir = file("run")
@@ -70,8 +70,8 @@ tasks.register("moveToRun") {
     dependsOn 'removeModdedItemsFromConfig'
     finalizedBy 'cleanupVaultAssets'
     doLast {
-        def overridesConfig = file("${outputDir}/Wolds-Vaults-update25/config")
-        def overridesDefaults = file("${outputDir}/Wolds-Vaults-update25/defaultconfigs")
+        def overridesConfig = file("${outputDir}/Wolds-Vaults-master/config")
+        def overridesDefaults = file("${outputDir}/Wolds-Vaults-master/defaultconfigs")
 
         def runConfig = file("${runDir}/config")
         def runDefaults = file("${runDir}/defaultconfigs")
@@ -130,7 +130,7 @@ def filterByAllowedNamespaces = inputMap -> {
 tasks.register('removeModdedItemsEnchantments') {
     dependsOn 'unzip'
     doLast {
-        def inputFile = file("${outputDir}/Wolds-Vaults-update25/config/the_vault/gear_enchantment.json")
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/gear_enchantment.json")
         def json = new JsonSlurper().parseText(inputFile.text)
 
 
@@ -148,7 +148,7 @@ tasks.register('removeModdedItemsEnchantments') {
 tasks.register('removeModdedItemsPaxel') {
     dependsOn 'unzip'
     doLast {
-        def inputFile = file("${outputDir}/Wolds-Vaults-update25/config/the_vault/paxel.json")
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/paxel.json")
         def json = new JsonSlurper().parseText(inputFile.text)
 
         if (json.PULVERIZING_MAP instanceof Map) {
@@ -176,7 +176,7 @@ tasks.register('removeModdedItemsPaxel') {
 tasks.register('removeModdedItemsOmegaShopPedestal') {
     dependsOn 'unzip'
     doLast {
-        def inputFile = file("${outputDir}/Wolds-Vaults-update25/config/the_vault/omega_shop_pedestal.json")
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/omega_shop_pedestal.json")
         def json = new JsonSlurper().parseText(inputFile.text)
 
         if (json.LEVELS instanceof List) {
@@ -201,7 +201,7 @@ tasks.register('removeModdedItemsOmegaShopPedestal') {
 tasks.register('removeModdedItemsSpookyShopPedestal') {
     dependsOn 'unzip'
     doLast {
-        def inputFile = file("${outputDir}/Wolds-Vaults-update25/config/the_vault/spooky_shop_pedestal.json")
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/spooky_shop_pedestal.json")
         def json = new JsonSlurper().parseText(inputFile.text)
 
         if (json.LEVELS instanceof List) {
@@ -226,7 +226,7 @@ tasks.register('removeModdedItemsSpookyShopPedestal') {
 tasks.register('removeModdedItemsSpirit') {
     dependsOn 'unzip'
     doLast {
-        def inputFile = file("${outputDir}/Wolds-Vaults-update25/config/the_vault/spirit.json")
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/spirit.json")
         def json = new JsonSlurper().parseText(inputFile.text)
 
 
@@ -264,7 +264,7 @@ tasks.register('removeModdedItemsSpirit') {
 tasks.register('removeModdedItemsAltar') {
     dependsOn 'unzip'
     doLast {
-        def inputFile = file("${outputDir}/Wolds-Vaults-update25/config/the_vault/vault_altar/vault_altar_ingredients.json")
+        def inputFile = file("${outputDir}/Wolds-Vaults-master/config/the_vault/vault_altar/vault_altar_ingredients.json")
         def json = new JsonSlurper().parseText(inputFile.text)
 
 
