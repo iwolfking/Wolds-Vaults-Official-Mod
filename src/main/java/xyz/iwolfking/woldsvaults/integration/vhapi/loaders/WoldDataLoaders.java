@@ -18,7 +18,6 @@ public class WoldDataLoaders {
     public static final WeightedProductEntryConfigLoader GEM_BOX_LOADER;
     public static final WeightedProductEntryConfigLoader SUPPLY_BOX_LOADER;
     public static final WeightedProductEntryConfigLoader ENIGMA_EGG_LOADER;
-    public static final EnchantedElixirEventLoader ENCHANTED_ELIXIR_EVENT_LOADER;
     public static final AugmentRecipesLoader AUGMENT_RECIPES_LOADER;
 
     static {
@@ -53,7 +52,6 @@ public class WoldDataLoaders {
         ENIGMA_EGG_LOADER = new WeightedProductEntryConfigLoader(() -> {
             return ModConfigs.ENIGMA_EGG.POOL;
         }, "enigma_egg");
-        ENCHANTED_ELIXIR_EVENT_LOADER = new EnchantedElixirEventLoader();
         AUGMENT_RECIPES_LOADER = new AugmentRecipesLoader();
     }
 
@@ -68,7 +66,6 @@ public class WoldDataLoaders {
         LoaderRegistry.addConfigProcessor(GEM_BOX_LOADER);
         LoaderRegistry.addConfigProcessor(SUPPLY_BOX_LOADER);
         LoaderRegistry.addConfigProcessor(ENIGMA_EGG_LOADER);
-        LoaderRegistry.addConfigProcessor(ENCHANTED_ELIXIR_EVENT_LOADER);
         LoaderRegistry.addConfigProcessor(AUGMENT_RECIPES_LOADER);
         VHAPIModules.init();
     }
