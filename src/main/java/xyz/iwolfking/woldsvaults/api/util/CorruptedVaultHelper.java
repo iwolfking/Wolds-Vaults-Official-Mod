@@ -38,10 +38,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -221,13 +218,13 @@ public class CorruptedVaultHelper {
                 world.addFreshEntity(new FireworkRocketEntity(world, player.getX(), player.getY(), player.getZ(), new ItemStack(Items.FIREWORK_ROCKET)));
                 world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundSource.MASTER, 0.6F, 0.8F);
 
-                TextComponent title = new TextComponent("Vault Completed!");
+                TranslatableComponent title = new TranslatableComponent("vault_objective.woldsvaults.corrupted_complete");
                 title.setStyle(Style.EMPTY.withColor(TextColor.fromRgb(14536734)));
                 player.connection.send(new ClientboundSetTitleTextPacket(title));
             }
 
             if (time >= 100 && time < 320 && time % 5 == 0) {
-                String jumbled = jumbleCharacters("Vault Completed!", world.random);
+                String jumbled = jumbleCharacters(new TranslatableComponent("vault_objective.woldsvaults.corrupted_complete"), world.random);
                 Component corrupted = ComponentUtils.corruptComponentServerSide(new TextComponent(jumbled).setStyle(Style.EMPTY.withColor(TextColor.parseColor("#870c03"))));
                 player.connection.send(new ClientboundSetTitleTextPacket(corrupted));
 
@@ -251,7 +248,9 @@ public class CorruptedVaultHelper {
     }
 
 
-
+    public static String jumbleCharacters(Component input, Random random) {
+        return jumbleCharacters(input.getString(), random);
+    }
 
 
     public static String jumbleCharacters(String input, Random random) {
@@ -564,7 +563,7 @@ public class CorruptedVaultHelper {
 
 
                         player.sendMessage(
-                                new TextComponent("You sense a portal shattering")
+                                new TranslatableComponent("vault_objective.woldsvaults.corrupted_shatter")
                                         .withStyle(Style.EMPTY.withItalic(true).withColor(11141120)),
                                 Util.NIL_UUID
                         );
@@ -589,7 +588,7 @@ public class CorruptedVaultHelper {
             Vault playerVault = VaultUtils.getVault(data.getPlayer().getLevel()).orElse(null);
             if(playerVault != null && playerVault.equals(vault)) {
                 data.setTime(0);
-                data.getPlayer().displayClientMessage(new TextComponent("Seems pointless...").withStyle(ChatFormatting.RED), true);
+                data.getPlayer().displayClientMessage(new TranslatableComponent("vault_objective.woldsvaults.corrupted_fruit_disable").withStyle(ChatFormatting.RED), true);
             }
         });
     }

@@ -4,6 +4,7 @@ import com.github.alexthe666.alexsmobs.effect.AMEffectRegistry;
 import iskallia.vault.core.vault.ClientVaults;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -63,42 +64,6 @@ public class TickEvents {
             ModNetwork.sendToClient(new StopFlightMessage(serverPlayer.getUUID()), serverPlayer);
         }
         sendFlightNotice(player);
-    }
-
-    public static void punish(Player player) {
-        Random random = new Random();
-
-        if(random.nextBoolean()) {
-            int r = random.nextInt(0, 101);
-            if(r >= 90) {
-                player.displayClientMessage(new TextComponent("You have been shrunk for trying to fly in the vault!"), true);
-                player.addEffect(new MobEffectInstance(ModEffects.SHRINKING, 500, 2));
-            }
-            else if(r >= 75) {
-                player.displayClientMessage(new TextComponent("You have been mining fatigue from trying to fly in the vault!"), true);
-                player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 500, 3));
-            }
-            else if(r >= 60) {
-                player.displayClientMessage(new TextComponent("You have been slowed from trying to fly in the vault!"), true);
-                player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 500, 3));
-            }
-            else if(r >= 40) {
-                player.displayClientMessage(new TextComponent("You have been withered from trying to fly in the vault!"), true);
-                player.addEffect(new MobEffectInstance(MobEffects.WITHER, 500, 1));
-            }
-            else if(r >= 26) {
-                player.displayClientMessage(new TextComponent("You have been blinded from trying to fly in the vault!"), true);
-                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 500, 1));
-            }
-            else if(r >= 10) {
-                player.displayClientMessage(new TextComponent("You have been cursed from trying to fly in the vault!"), true);
-                player.addEffect(new MobEffectInstance(AMEffectRegistry.SUNBIRD_CURSE, 700, 1));
-            }
-            else if(r >= 0) {
-                player.displayClientMessage(new TextComponent("You have been weakened from trying to fly in the vault!"), true);
-                player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600, 4));
-            }
-        }
     }
 
     public static void sendFlightNotice(Player player) {

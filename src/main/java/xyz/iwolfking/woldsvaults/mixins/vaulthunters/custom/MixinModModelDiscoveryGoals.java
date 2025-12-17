@@ -8,6 +8,7 @@ import iskallia.vault.init.ModModelDiscoveryGoals;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,7 +38,7 @@ public abstract class MixinModModelDiscoveryGoals {
             DiscoveredThemesData discoversData = DiscoveredThemesData.get(player.getLevel());
             ResourceLocation themeId = VaultMod.id("classic_vault_idona_normal");
             if (!discoversData.getDiscoveredThemes(player.getUUID()).contains(themeId)) {
-                MutableComponent info = (new TextComponent("Idona shares insight on entering their domain with you.")).withStyle(ChatFormatting.RED);
+                MutableComponent info = (new TranslatableComponent("unlock_goal.woldsvaults.idona_theme")).withStyle(ChatFormatting.RED);
                 if(VaultRegistry.THEME.getKey(themeId) != null) {
                     player.displayClientMessage(info, false);
                     discoversData.discoverThemeAndBroadcast(VaultRegistry.THEME.getKey(themeId), player);
@@ -49,7 +50,7 @@ public abstract class MixinModModelDiscoveryGoals {
             DiscoveredThemesData discoversData = DiscoveredThemesData.get(player.getLevel());
             ResourceLocation themeId = VaultMod.id("classic_vault_tenos_normal");
             if (!discoversData.getDiscoveredThemes(player.getUUID()).contains(themeId)) {
-                MutableComponent info = (new TextComponent("Tenos shares insight on entering their domain with you.")).withStyle(ChatFormatting.AQUA);
+                MutableComponent info = (new TranslatableComponent("unlock_goal.woldsvaults.tenos_theme")).withStyle(ChatFormatting.AQUA);
                 if(VaultRegistry.THEME.getKey(themeId) != null) {
                     player.displayClientMessage(info, false);
                     discoversData.discoverThemeAndBroadcast(VaultRegistry.THEME.getKey(themeId), player);
@@ -62,7 +63,7 @@ public abstract class MixinModModelDiscoveryGoals {
             DiscoveredThemesData discoversData = DiscoveredThemesData.get(player.getLevel());
             ResourceLocation themeId = VaultMod.id("classic_vault_velara_normal");
             if (!discoversData.getDiscoveredThemes(player.getUUID()).contains(themeId)) {
-                MutableComponent info = (new TextComponent("Velara shares insight on entering their domain with you.")).withStyle(ChatFormatting.GREEN);
+                MutableComponent info = (new TranslatableComponent("unlock_goal.woldsvaults.velara_theme")).withStyle(ChatFormatting.GREEN);
                 if(VaultRegistry.THEME.getKey(themeId) != null) {
                     player.displayClientMessage(info, false);
                     discoversData.discoverThemeAndBroadcast(VaultRegistry.THEME.getKey(themeId), player);
@@ -74,7 +75,7 @@ public abstract class MixinModModelDiscoveryGoals {
             DiscoveredThemesData discoversData = DiscoveredThemesData.get(player.getLevel());
             ResourceLocation themeId = VaultMod.id("classic_vault_wendarr_normal");
             if (!discoversData.getDiscoveredThemes(player.getUUID()).contains(themeId)) {
-                MutableComponent info = (new TextComponent("Wendarr shares insight on entering their domain with you.")).withStyle(ChatFormatting.GOLD);
+                MutableComponent info = (new TranslatableComponent("unlock_goal.woldsvaults.wendarr_theme")).withStyle(ChatFormatting.GOLD);
                 if(VaultRegistry.THEME.getKey(themeId) != null) {
                     player.displayClientMessage(info, false);
                     discoversData.discoverThemeAndBroadcast(VaultRegistry.THEME.getKey(themeId), player);
@@ -86,7 +87,7 @@ public abstract class MixinModModelDiscoveryGoals {
             DiscoveredRecipesData data = DiscoveredRecipesData.get(player.getLevel());
             ResourceLocation unlock = WoldsVaults.id("wizard_trinket_pouch");
             if(!data.hasDiscovered(player, unlock)) {
-                MutableComponent info = (new TextComponent("Your arcane energy has enlightened you!")).withStyle(ChatFormatting.BLUE);
+                MutableComponent info = (new TranslatableComponent("unlock_goal.woldsvaults.wizard_trinket_pouch")).withStyle(ChatFormatting.BLUE);
                 player.displayClientMessage(info, false);
                 data.discoverRecipeAndBroadcast(unlock, player);
             }
@@ -96,7 +97,7 @@ public abstract class MixinModModelDiscoveryGoals {
             DiscoveredRecipesData data = DiscoveredRecipesData.get(player.getLevel());
             ResourceLocation unlock = WoldsVaults.id("looters_trinket_pouch");
             if(!data.hasDiscovered(player, unlock)) {
-                MutableComponent info = (new TextComponent("You are enlightened with a beautiful dream of boundless loot!")).withStyle(ChatFormatting.GOLD);
+                MutableComponent info = (new TranslatableComponent("unlock_goal.woldsvaults.looters_trinket_pouch")).withStyle(ChatFormatting.GOLD);
                 player.displayClientMessage(info, false);
                 data.discoverRecipeAndBroadcast(unlock, player);
             }
@@ -106,7 +107,7 @@ public abstract class MixinModModelDiscoveryGoals {
             DiscoveredRecipesData data = DiscoveredRecipesData.get(player.getLevel());
             ResourceLocation unlock = WoldsVaults.id("treasure_jewel");
             if(!data.hasDiscovered(player, unlock)) {
-                MutableComponent info = (new TextComponent("You envision a better way of opening Treasure Chests!")).withStyle(ChatFormatting.GOLD);
+                MutableComponent info = (new TranslatableComponent("unlock_goal.woldsvaults.treasure_jewel")).withStyle(ChatFormatting.GOLD);
                 player.displayClientMessage(info, false);
                 data.discoverRecipeAndBroadcast(unlock, player);
             }

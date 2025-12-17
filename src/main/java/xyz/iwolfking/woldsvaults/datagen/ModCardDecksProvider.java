@@ -23,12 +23,12 @@ public class ModCardDecksProvider extends AbstractDeckProvider {
     public void registerConfigs() {
         add("wolds_decks", builder -> {
             builder.addEntry("wold", "woldsvaults:deck/wold#inventory", "The Wold Deck", new IntRangeEntry(4, 4), deck(deckBuilder -> {
-                deckBuilder.add("AXAAOXA");
+                deckBuilder.add("AXAAAXA");
                 deckBuilder.add("OXOOOXO");
                 deckBuilder.add("OXOOOXO");
                 deckBuilder.add("OXOOOXO");
                 deckBuilder.add("OOOOOOO");
-            }), new IntRangeEntry(4, 4));
+            }), new IntRangeEntry(3, 3));
 
             builder.addEntry("snake", "woldsvaults:deck/snake#inventory", "The Snake Deck", new IntRangeEntry(4, 4), deck(deckBuilder -> {
                 deckBuilder.add("XXXXXXXXA");
@@ -37,7 +37,7 @@ public class ModCardDecksProvider extends AbstractDeckProvider {
                 deckBuilder.add("OOOOOOOOO");
                 deckBuilder.add("XXXXXXXXO");
                 deckBuilder.add("AOOOOOOOO");
-            }), new IntRangeEntry(3, 3));
+            }), new IntRangeEntry(1, 1));
 
             builder.addEntry("fairy", "woldsvaults:deck/fairy#inventory", "The Fairy Deck", new IntRangeEntry(4, 4), deck(deckBuilder -> {
                 deckBuilder.add("AXXOXOXXA");

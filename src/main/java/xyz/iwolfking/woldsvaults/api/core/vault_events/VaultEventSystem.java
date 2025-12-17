@@ -6,17 +6,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
+import xyz.iwolfking.woldsvaults.datagen.ModLanguageProvider;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class VaultEventSystem {
-    private static final HashMap<ResourceLocation, VaultEvent> VAULT_EVENT_REGISTRY = new HashMap<>();
+    private static final LinkedHashMap<ResourceLocation, VaultEvent> VAULT_EVENT_REGISTRY = new LinkedHashMap<>();
 
     public static VaultEvent register(ResourceLocation id, VaultEvent event) {
+        event.setId(id);
         VAULT_EVENT_REGISTRY.put(id, event);
         return event;
     }
@@ -37,6 +40,10 @@ public class VaultEventSystem {
 
     public static Set<ResourceLocation> getAllEventIds() {
         return VAULT_EVENT_REGISTRY.keySet();
+    }
+
+    public static LinkedHashMap<ResourceLocation, VaultEvent> getAllEvents() {
+        return VAULT_EVENT_REGISTRY;
     }
 
 

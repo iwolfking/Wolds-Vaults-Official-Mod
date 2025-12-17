@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.SaferSpacePotionEffect;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 
@@ -43,10 +44,10 @@ public class UniqueEffectGearAttribute {
             if(value.getEffect() instanceof SaferSpacePotionEffect) {
                 return WoldActiveFlags.IS_USING_SAFER_SPACE.isSet()
                         ? WoldTexFX.corruptedEffect(
-                        new TextComponent("Recharging Barrier"))
+                        new TranslatableComponent("vault_gear_modifiers.woldsvaults.safer_spaces_recharging_barrier"))
                         .withStyle(Style.EMPTY.withColor(14889348).withBold(true))
 
-                        : new TextComponent("Improved Block").withStyle(Style.EMPTY.withColor(16109454));
+                        :  new TranslatableComponent("vault_gear_modifiers.woldsvaults.safer_spaces_improved_block").withStyle(Style.EMPTY.withColor(16109454));
             }
 
             return new TextComponent(value.toString()).append(" not formatted");

@@ -11,6 +11,7 @@ import iskallia.vault.init.ModEntities;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
@@ -835,11 +836,11 @@ public class EnchantedEventsRegistry {
                 .task(new WeightedTask.Builder()
                         .task(new TaskGroup.Builder()
                                 .task(new ExecuteEventsTask(() -> POSITIVE_ENCHANTED_EVENTS, 3))
-                                .task(new MessageTask(VaultEvent.EventDisplayType.CHAT_MESSAGE_TARGET, (TextComponent) new TextComponent("The dancing cockroaches are fond towards you and bless each player with 3 random positive events!").withStyle(ChatFormatting.GOLD)))
+                                .task(new MessageTask(VaultEvent.EventDisplayType.CHAT_MESSAGE_TARGET, new TranslatableComponent("vault_event.woldsvaults.cockroach_celebrate").withStyle(ChatFormatting.GOLD)))
                                 .build(), 1)
                         .task(new TaskGroup.Builder()
                                 .task(new ExecuteEventsTask(() -> NEGATIVE_ENCHANTED_EVENTS, 3))
-                                .task(new MessageTask(VaultEvent.EventDisplayType.CHAT_MESSAGE_TARGET, (TextComponent) new TextComponent("The dancing cockroaches hate your guts and curse everyone in the vault with 3 random negative events!").withStyle(ChatFormatting.RED)))
+                                .task(new MessageTask(VaultEvent.EventDisplayType.CHAT_MESSAGE_TARGET, new TranslatableComponent("vault_event.woldsvaults.cockroach_hate").withStyle(ChatFormatting.RED)))
                                 .build(), 1)
                         .build()
                 )

@@ -2,11 +2,17 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.util.StringUtils;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.LanguageProvider;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
+import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
+
+import java.util.LinkedHashMap;
 
 public class ModLanguageProvider extends LanguageProvider {
 
@@ -18,13 +24,50 @@ public class ModLanguageProvider extends LanguageProvider {
         add("vault_objective." + entry.getRegistryName().getNamespace() + "." + entry.getRegistryName().getPath(), text);
     }
 
+    public void add(ResourceLocation id, VaultEvent event) {
+        add("vault_event." + id.getNamespace() + "." + id.getPath() + "_description", event.getEventDescriptor().getString());
+        add("vault_event." + id.getNamespace() + "." + id.getPath() + "_message", event.getEventMessage().getString());
+    }
+
     @Override
     protected void addTranslations() {
         ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {
             add(customObjectiveRegistryEntry, customObjectiveRegistryEntry.getName());
         });
+        add("vault_event.woldsvaults.swap_task", "You have been swapped with %1$s.");
+        add("vault_event.woldsvaults.legacy_event_message", "%1$s encountered a %2$s Event!");
+        add("vault_event.woldsvaults.event_cascade", "%1$s %2$s Event has cascaded onto you!");
+        add("vault_event.woldsvaults.tombstone_elite", "An undead Elite has arisen!");
+        add("vault_event.woldsvaults.tombstone_wither", "You feel your body start to decay...");
+        add("vault_event.woldsvaults.tombstone_weaken", "Your muscles grow tense!");
+        add("vault_event.woldsvaults.tombstone_explode", "The grave was rigged to explode!");
+        add("vault_event.woldsvaults.tombstone_soul_shard_increase", "You feel the Soul Shard drop rate increase.");
+        add("vault_event.woldsvaults.tombstone_haunted", "The Vault feels a bit more haunted now...");
+        add("vault_event.woldsvaults.tombstone_ethereal", "A wave of phantasmal energy echoes throughout the vault.");
+        add("vault_event.woldsvaults.tombstone_spirits", "A wave of ghosts assaults you!");
+        add("vault_event.woldsvaults.tombstone_zombie", "A zombie is unearthed!");
+        add("vault_event.woldsvaults.tombstone_skeleton", "Skeletons are unearthed!");
+        add("vault_event.woldsvaults.tombstone_horse", "A horse is unearthed?!");
+        add("vault_event.woldsvaults.cockroach_celebrate", "The dancing cockroaches are fond towards you and bless each player with 3 random positive events!");
+        add("vault_event.woldsvaults.cockroach_hate", "The dancing cockroaches hate your guts and curse everyone in the vault with 3 random negative events!");
+        add("misc.woldsvaults.flight_block_0", "You cannot fly inside the Vault!");
+        add("vault_objective.woldsvaults.corrupted_exit", "Find an escape.");
+        add("vault_objective.woldsvaults.corrupted_shatter", "You sense a portal shattering");
+        add("vault_objective.woldsvaults.corrupted_complete", "Vault Completed!");
+        add("vault_objective.woldsvaults.corrupted_fruit_disable", "Seems pointless...");
+        add("unlock_goal.woldsvaults.idona_theme", "Idona shares insight on entering their domain with you.");
+        add("unlock_goal.woldsvaults.velara_theme", "Velara shares insight on entering their domain with you.");
+        add("unlock_goal.woldsvaults.wendarr_theme", "Wendarr shares insight on entering their domain with you.");
+        add("unlock_goal.woldsvaults.tenos_theme", "Tenos shares insight on entering their domain with you.");
+        add("unlock_goal.woldsvaults.wizard_trinket_pouch", "Your arcane energy has enlightened you!");
+        add("unlock_goal.woldsvaults.looters_trinket_pouch", "You are enlightened with a beautiful dream of boundless loot!");
+        add("unlock_goal.woldsvaults.treasure_jewel", "You envision a better way of opening Treasure Chests!");
+        add("vault_gear_modifiers.woldsvaults.safer_spaces_recharging_barrier", "Recharging Barrier");
+        add("vault_gear_modifiers.woldsvaults.safer_spaces_improved_block", "Improved Block");
         add("key.woldsvaults.open_inventory_hud", "Open Inventory HUD Edit Screen");
         add("util.woldsvaults.objective_text", "Objective: ");
+        add("util.woldsvaults.vault_modifier_added", "%1$s was added to the Vault!");
+        add("util.woldsvaults.timed_modifier_added", "%1$s added %2$s to the Vault for %3$s seconds!");
         add("item.woldsvaults.rotten_heart", "Rotten Heart");
         add("item.woldsvaults.rotten_apple", "Rotten Apple");
         add("item.woldsvaults.verdant_globule", "Verdant Globule");
@@ -33,6 +76,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.woldsvaults.auric_crystal", "Auric Crystal");
         add("curios.identifier.shard_pouch", "Shard Pouch");
         add("curios.identifier.trinket_pouch", "Trinket Pouch");
+        add("item.woldsvaults.trinket_pouch_stored_trinkets", "Stored Trinkets: ");
         add("curios.identifier.green_trinket", "Green Trinket");
         add("curios.modifiers.trinket_pouch", "Pouch Modifiers");
         add("ftbquests.task.woldsvaults.vault_level", "Vault Level");
@@ -78,6 +122,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("jei.the_vault.completion_crate_bingo_wold_full_loot", "Bingo Crate (Full)");
         add("jei.the_vault.completion_crate_brutal_bosses_loot", "Brutal Bosses Crate");
         add("jei.the_vault.completion_crate_corrupted_loot", "Corrupted Crate");
+        add("jei.the_vault.dungeon_mobs_loot", "Dungeon Mobs");
+        add("jei.the_vault.dungeon_boss_loot", "Dungeon Boss");
         add("jei.the_vault.enigma_chest_map_loot", "Enigma Chest (Map)");
         add("jei.the_vault.gilded_chest_map_loot", "Gilded Chest (Map)");
         add("jei.the_vault.living_chest_map_loot", "Living Chest (Map)");
@@ -360,6 +406,11 @@ public class ModLanguageProvider extends LanguageProvider {
 
         add(ModBlocks.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium Block");
         add(ModItems.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium");
+        EnchantedEventsRegistry.registerAllBuiltInEvents();
+        ModVaultEvents.init();
+        VaultEventSystem.getAllEvents().forEach(this::add);
+
+        REGISTERED_LANGUAGE_KEYS.forEach(this::add);
 
         ModBlocks.CUSTOM_VAULT_CRATES.forEach((s, crateBlock) -> {
             add(crateBlock, StringUtils.convertToTitleCase(s) + " Vault Crate");
@@ -370,5 +421,8 @@ public class ModLanguageProvider extends LanguageProvider {
                 add(v.get(i).get(), "Compressed " + (k.isBlockOf() ? "Block of " : "") + StringUtils.convertToTitleCase(k.name()) + " ("+(i+1)+"x)");
             }
         });
+
     }
+
+    public static final LinkedHashMap<String, String> REGISTERED_LANGUAGE_KEYS = new LinkedHashMap<>();
 }

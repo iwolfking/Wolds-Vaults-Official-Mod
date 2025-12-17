@@ -15,6 +15,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -25,9 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class VaultModifierUtils {
-    private static final TextComponent MODIFIER_ADDED_SUFFIX = new TextComponent(" was added to the vault.");
     public static void sendModifierAddedMessage(ServerPlayer player, VaultModifier<?> modifier, Integer stackSize) {
-        player.displayClientMessage(modifier.getChatDisplayNameComponent(stackSize).copy().append(MODIFIER_ADDED_SUFFIX), false);
+        player.displayClientMessage(new TranslatableComponent("util.woldsvaults.vault_modifier_added", modifier.getChatDisplayNameComponent(stackSize)), false);
     }
 
     public static void addModifier(Vault vault, ResourceLocation modifier, int count) {
@@ -44,9 +44,7 @@ public class VaultModifierUtils {
                     context.set(ModifierContext.TICKS_LEFT, duration);
                 }
             });
-            Component text;
-            MutableComponent modifierMessage = (new TextComponent("")).append(player.getDisplayName()).append((new TextComponent(" added ")).withStyle(ChatFormatting.GRAY)).append(modifier.getChatDisplayNameComponent(count)).append((new TextComponent(" for ")).withStyle(ChatFormatting.GRAY));
-            text = modifierMessage.append(new TextComponent(duration / 20 + " seconds")).append((new TextComponent(".")).withStyle(ChatFormatting.GRAY));
+            Component text = new TranslatableComponent("util.woldsvaults.timed_modifier_added", player.getDisplayName(), modifier.getChatDisplayNameComponent(count), duration / 20);
             for (Listener listener : ((Listeners) vault.get(Vault.LISTENERS)).getAll()) {
                 listener.getPlayer().ifPresent((other) -> {
                     player.getLevel().playSound((Player) null, other.getX(), other.getY(), other.getZ(), SoundEvents.NOTE_BLOCK_BELL, SoundSource.PLAYERS, 0.9F, 1.2F);

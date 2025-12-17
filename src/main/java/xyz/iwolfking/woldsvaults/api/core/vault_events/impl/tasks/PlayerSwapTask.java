@@ -4,6 +4,7 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.player.Listener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
@@ -45,6 +46,6 @@ public class PlayerSwapTask implements VaultEventTask {
     }
 
     private void sendSwapMessage(ServerPlayer player, ServerPlayer target) {
-        player.displayClientMessage(new TextComponent("You have been swapped with ").append(target.getDisplayName()), false);
+        player.displayClientMessage(new TranslatableComponent("vault_events.woldsvaults.swap_task", target.getDisplayName()), false);
     }
 }

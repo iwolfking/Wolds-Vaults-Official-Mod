@@ -181,7 +181,8 @@ public class CorruptedVaultClientHelper {
     }
 
     public static void renderEscapePrompt(CorruptedObjective obj, PoseStack poseStack, Font font, int centerX) {
-        MutableComponent msg1 = new TextComponent("Find an escape.").withStyle(ChatFormatting.RED);
+
+        MutableComponent msg1 = new TranslatableComponent("vault_objective.woldsvaults.corrupted_exit").withStyle(ChatFormatting.RED);
         MutableComponent msg2 = new TextComponent("?? / " + obj.get(CorruptedObjective.DATA).get(CorruptedObjective.CData.SECONDARY_TARGET)).withStyle(ChatFormatting.RED);
 
         MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());

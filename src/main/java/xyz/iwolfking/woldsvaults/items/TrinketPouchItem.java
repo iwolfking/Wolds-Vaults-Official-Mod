@@ -159,7 +159,7 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
         if (tag.contains("StoredCurios", Tag.TAG_LIST)) {
             ListTag storedList = tag.getList("StoredCurios", Tag.TAG_COMPOUND);
             if (!storedList.isEmpty()) {
-                tooltip.add(new TextComponent("Stored Trinkets:").withStyle(ChatFormatting.GRAY));
+                tooltip.add(new TranslatableComponent("item.woldsvaults.trinket_pouch_stored_trinkets").withStyle(ChatFormatting.GRAY));
 
                 for (int i = 0; i < storedList.size(); i++) {
                     CompoundTag itemTag = storedList.getCompound(i);

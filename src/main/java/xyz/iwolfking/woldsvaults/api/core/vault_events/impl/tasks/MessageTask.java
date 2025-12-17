@@ -4,23 +4,37 @@ import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.player.Listener;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
+import xyz.iwolfking.woldsvaults.datagen.ModLanguageProvider;
 
 import java.util.function.Supplier;
 
 public class MessageTask implements VaultEventTask {
 
     private final VaultEvent.EventDisplayType displayType;
-    private final TextComponent message;
+    private final TranslatableComponent message;
 
-    public MessageTask(VaultEvent.EventDisplayType displayType, TextComponent message) {
+    public MessageTask(VaultEvent.EventDisplayType displayType, TranslatableComponent message) {
         this.displayType = displayType;
         this.message = message;
+    }
+
+    public MessageTask(VaultEvent.EventDisplayType displayType, MutableComponent message) {
+        this.displayType = displayType;
+        this.message = (TranslatableComponent) message;
+    }
+
+    public MessageTask(VaultEvent.EventDisplayType displayType, String key, String message) {
+        this.displayType = displayType;
+        this.message = new TranslatableComponent("vault_event.woldsvaults." + key);
+        ModLanguageProvider.REGISTERED_LANGUAGE_KEYS.put("vault_event.woldsvaults." + key, message);
     }
 
 

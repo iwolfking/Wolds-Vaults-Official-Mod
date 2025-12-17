@@ -12,9 +12,5 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = CompanionEggHunt.class, remap = false, priority = 15000)
 public class MixinCompanionEggHunt {
-//
-//    @Inject(method = "createHunt", at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/companion/HuntInstance;set(Liskallia/vault/core/data/key/FieldKey;Ljava/lang/Object;)Liskallia/vault/core/data/DataObject;", ordinal = 1))
-//    private void companionEggHuntNotification(ServerPlayer player, Vault vault, CallbackInfo ci) {
-//        player.displayClientMessage(new TextComponent("A companion is watching you!").withStyle(ChatFormatting.GREEN), false);
-//    }
+
 }
