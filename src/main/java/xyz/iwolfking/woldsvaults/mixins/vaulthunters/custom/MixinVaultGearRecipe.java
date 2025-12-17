@@ -7,6 +7,7 @@ import iskallia.vault.gear.crafting.recipe.GearForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
+import iskallia.vault.util.SidedHelper;
 import iskallia.vault.world.data.PlayerGreedData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -44,16 +45,16 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
      */
     @Inject(method = "canCraft", at = @At("HEAD"), cancellable = true)
     public void canCraft(Player player, int level, CallbackInfoReturnable<Boolean> cir) {
-        if(!this.getId().equals(ETCHING_LOCATION) && !this.getId().equals(MAP_LOCATION) && !this.getId().equals(ZEPHYR_LOCATION)) {
-            cir.setReturnValue(true);
-        }
+        if(this.getId().equals(MAP_LOCATION) || this.getId().equals(ZEPHYR_LOCATION)) {
+            if (player instanceof ServerPlayer sPlayer) {
+                PlayerGreedData greedData = PlayerGreedData.get(sPlayer.server);
+                cir.setReturnValue(greedData.get(player).hasCompletedHerald());
+            }
+            else if(ClientGreedData.isCompletedHerald()) {
+                cir.setReturnValue(true);
+            }
 
-        if (player instanceof ServerPlayer sPlayer) {
-            PlayerGreedData greedData = PlayerGreedData.get(sPlayer.server);
-            cir.setReturnValue(greedData.get(player).hasCompletedHerald());
-        }
-        else {
-            cir.setReturnValue(!ClientPlayerGreedData.getArtifactData().isEmpty());
+            cir.setReturnValue(false);
         }
     }
 
