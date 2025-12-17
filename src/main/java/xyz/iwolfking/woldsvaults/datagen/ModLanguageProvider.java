@@ -25,8 +25,9 @@ public class ModLanguageProvider extends LanguageProvider {
     }
 
     public void add(ResourceLocation id, VaultEvent event) {
-        add("vault_event." + id.getNamespace() + "." + id.getPath() + "_description", event.getEventDescriptor().getString());
-        add("vault_event." + id.getNamespace() + "." + id.getPath() + "_message", event.getEventMessage().getString());
+        add("vault_event." + id.getNamespace() + "." + id.getPath(), event.eventName);
+        add("vault_event." + id.getNamespace() + "." + id.getPath() + "_description", event.eventDescription.getString());
+        add("vault_event." + id.getNamespace() + "." + id.getPath() + "_message", event.eventMessage.getString());
     }
 
     @Override
@@ -395,6 +396,20 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.the_vault.block_gem_wutodie_wall", "Wutodie Wall");
         add("block.the_vault.block_gem_wutodie_stairs", "Wutodie Stairs");
         add("item.woldsvaults.crystal_seal_alchemy", "Seal of the Alchemist");
+        add("trinket_pouch.woldsvaults.standard", "Standard Trinket Pouch");
+        add("trinket_pouch.woldsvaults.basic_alt_r", "Beginner's Trinket Pouch (Alt)");
+        add("trinket_pouch.woldsvaults.basic_alt_g", "Beginner's Trinket Pouch (Alt)");
+        add("trinket_pouch.woldsvaults.basic_classic", "Beginner's Trinket Pouch");
+        add("trinket_pouch.woldsvaults.explorer", "Explorer's Trinket Pouch");
+        add("trinket_pouch.woldsvaults.light", "Arcane Trinket Pouch");
+        add("trinket_pouch.woldsvaults.wizard", "Wizard Trinket Pouch");
+        add("trinket_pouch.woldsvaults.heavy", "Mercenary Trinket Pouch");
+        add("trinket_pouch.woldsvaults.slayer", "Slayer Trinket Pouch");
+        add("trinket_pouch.woldsvaults.looters_dream", "Looter's Dream Trinket Pouch");
+        add("trinket_pouch.woldsvaults.warrior", "Warrior's Trinket Pouch");
+        add("trinket_pouch.woldsvaults.hyper", "Hyper Trinket Pouch");
+        add("trinket_pouch.woldsvaults.prismatic", "Prismatic Trinket Pouch");
+        add("item.woldsvaults.trinket_pouch_slot_count", "+%1$s %2$s Slots");
 
         ModItems.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
             add(basicItem, StringUtils.convertToTitleCase(dyeColor.getSerializedName()) + " Unobtanium");
@@ -406,8 +421,10 @@ public class ModLanguageProvider extends LanguageProvider {
 
         add(ModBlocks.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium Block");
         add(ModItems.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium");
+
         EnchantedEventsRegistry.registerAllBuiltInEvents();
         ModVaultEvents.init();
+
         VaultEventSystem.getAllEvents().forEach(this::add);
 
         REGISTERED_LANGUAGE_KEYS.forEach(this::add);

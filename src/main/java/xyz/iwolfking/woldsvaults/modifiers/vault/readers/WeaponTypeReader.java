@@ -4,14 +4,8 @@ import com.google.gson.Gson;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
-import net.bettercombat.config.FallbackConfig;
-import net.bettercombat.logic.WeaponAttributesFallback;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
-import xyz.iwolfking.woldsvaults.config.WeaponTypesConfig;
-import xyz.iwolfking.woldsvaults.init.ModConfigs;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

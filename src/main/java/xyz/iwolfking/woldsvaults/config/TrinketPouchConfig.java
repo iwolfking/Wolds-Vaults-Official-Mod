@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import iskallia.vault.config.Config;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 

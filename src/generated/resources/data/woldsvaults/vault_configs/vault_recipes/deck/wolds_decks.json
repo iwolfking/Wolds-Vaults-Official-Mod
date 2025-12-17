@@ -111,16 +111,16 @@
           "COMPLETED"
         ],
         "objective": [
-          "haunted_braziers",
-          "brutal_bosses",
-          "ballistic_bingo",
-          "scavenger",
           "elixir",
-          "bingo",
-          "rune_boss",
-          "enchanted_elixir",
+          "scavenger",
+          "ballistic_bingo",
+          "brutal_bosses",
+          "haunted_braziers",
+          "alchemy",
           "monolith",
-          "alchemy"
+          "enchanted_elixir",
+          "rune_boss",
+          "bingo"
         ],
         "counter": {
           "variables": {},

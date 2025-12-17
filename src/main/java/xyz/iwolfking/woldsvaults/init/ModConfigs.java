@@ -34,8 +34,6 @@ public class ModConfigs {
 
     public static CustomVaultRecyclerConfig CUSTOM_RECYCLER_CONFIG;
 
-    public static EternalAttributesConfig ETERNAL_ATTRIBUTES;
-
     public static GenericShopPedestalConfig ETCHING_SHOP_PEDESTAL;
     public static GenericShopPedestalConfig GOD_SHOP_PEDESTAL;
     public static GenericShopPedestalConfig BLACKSMITH_SHOP_PEDESTAL;
@@ -69,7 +67,6 @@ public class ModConfigs {
         MOD_BOX_RECIPES_CONFIG = new ModBoxRecipesConfig().readConfig();
         CUSTOM_RECYCLER_CONFIG = new CustomVaultRecyclerConfig().readConfig();
         CustomRecyclerOutputs.CUSTOM_OUTPUTS.putAll(CUSTOM_RECYCLER_CONFIG.getOutputs());
-        ETERNAL_ATTRIBUTES = new EternalAttributesConfig().readConfig();
         GREED_VAULT_ALTAR_INGREDIENTS = new GreedVaultAltarIngredientsConfig().readConfig();
         ETCHING_SHOP_PEDESTAL = new GenericShopPedestalConfig("etching_shop_pedestal").readConfig();
         GOD_SHOP_PEDESTAL = new GenericShopPedestalConfig("god_shop_pedestal").readConfig();

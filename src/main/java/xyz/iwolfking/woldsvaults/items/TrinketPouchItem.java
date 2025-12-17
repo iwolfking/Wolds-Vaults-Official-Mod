@@ -150,7 +150,7 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
         if(isTemporary(stack)) {
-            tooltip.add(new TextComponent("This is a temporary pouch to hold your temporary stuffs!").withStyle(ChatFormatting.AQUA));
+            tooltip.add(new TranslatableComponent("item.woldsvaults.trinket_pouch_temporary").withStyle(ChatFormatting.AQUA));
             tooltip.add(new TextComponent(""));
         }
         if (!stack.hasTag()) return;
@@ -175,7 +175,7 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
     @Override
     public Component getName(ItemStack stack) {
         TrinketPouchConfig.TrinketPouchConfigEntry pouchConfigEntry = getPouchConfigFor(stack);
-        return new TextComponent(pouchConfigEntry.NAME).withStyle(Style.EMPTY.withColor(pouchConfigEntry.COLOR));
+        return new TranslatableComponent(pouchConfigEntry.NAME).withStyle(Style.EMPTY.withColor(pouchConfigEntry.COLOR));
     }
 
     @Override

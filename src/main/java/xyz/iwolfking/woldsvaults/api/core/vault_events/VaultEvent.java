@@ -20,9 +20,9 @@ public class VaultEvent {
     private ResourceLocation id;
     private final EventDisplayType eventDisplayType;
     private final Set<EventTag> eventTags;
-    private final TextComponent eventMessage;
-    private final String eventName;
-    private final TextComponent eventDescription;
+    public final TextComponent eventMessage;
+    public final String eventName;
+    public final TextComponent eventDescription;
     private final TextColor nameColor;
     private final List<VaultEventTask> eventTasks;
 
@@ -97,11 +97,11 @@ public class VaultEvent {
     }
 
     public Component getLegacyEventMessage(ServerPlayer target) {
-        return new TranslatableComponent("vault_event.woldsvaults.legacy_event_message", target.getDisplayName(), new TextComponent(eventName).withStyle(Style.EMPTY.withColor(nameColor)).withStyle(getHoverDescription()));
+        return new TranslatableComponent("vault_event.woldsvaults.legacy_event_message", target.getDisplayName(), getEventName()).withStyle(getHoverDescription());
     }
 
     public Component getCascadingEventMessage(ServerPlayer originator) {
-        return new TranslatableComponent("vault_event.woldsvaults.event_cascade", originator.getDisplayName().copy().append("'s").withStyle(originator.getDisplayName().getStyle()), new TextComponent(eventName).withStyle(Style.EMPTY.withColor(nameColor)).withStyle(getHoverDescription()));
+        return new TranslatableComponent("vault_event.woldsvaults.event_cascade", originator.getDisplayName().copy().append("'s").withStyle(originator.getDisplayName().getStyle()), getEventName()).withStyle(getHoverDescription());
     }
 
     public void sendEventMessages(Vault vault, ServerPlayer originator, EventDisplayType type) {
@@ -168,6 +168,14 @@ public class VaultEvent {
 
     public Style getHoverDescription() {
         return Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, getEventDescriptor()));
+    }
+
+    public Component getEventName() {
+        if(this.id != null) {
+            return new TranslatableComponent("vault_event." + id.getNamespace() + "." + id.getPath()).withStyle(Style.EMPTY.withColor(nameColor));
+        }
+
+        return new TextComponent(eventName).withStyle(Style.EMPTY.withColor(nameColor));
     }
 
     public Set<EventTag> getEventTags() {

@@ -55,8 +55,6 @@ public class MixinModConfigs {
     @Inject(method = "register", at = @At("TAIL"), remap = false)
     private static void onReloadConfigs(CallbackInfo ci) {
         xyz.iwolfking.woldsvaults.init.ModConfigs.register();
-        //Fix eternal attributes config
-        ModConfigs.ETERNAL_ATTRIBUTES = xyz.iwolfking.woldsvaults.init.ModConfigs.ETERNAL_ATTRIBUTES;
 
         //Initialize unusual modifier values
         for(ResourceLocation config : ModConfigs.VAULT_GEAR_CONFIG.keySet()) {

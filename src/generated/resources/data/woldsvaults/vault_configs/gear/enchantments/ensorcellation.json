@@ -1,5 +1,41 @@
 {
   "costs": {
+    "ensorcellation:vitality": {
+      "items": [
+        {
+          "id": "golden_apple",
+          "count": 64
+        }
+      ],
+      "levels": 3
+    },
+    "ensorcellation:exp_boost": {
+      "items": [
+        {
+          "id": "the_vault:wutodic_mass",
+          "count": 8
+        }
+      ],
+      "levels": 3
+    },
+    "ensorcellation:trueshot": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 45
+        }
+      ],
+      "levels": 2
+    },
+    "ensorcellation:soulbound": {
+      "items": [
+        {
+          "id": "the_vault:echo_pog",
+          "count": 1
+        }
+      ],
+      "levels": 1
+    },
     "ensorcellation:hunter": {
       "items": [
         {
@@ -18,47 +54,20 @@
       ],
       "levels": 2
     },
-    "ensorcellation:vitality": {
+    "ensorcellation:air_affinity": {
       "items": [
         {
-          "id": "golden_apple",
-          "count": 64
+          "id": "the_vault:phoenix_feather",
+          "count": 1
         }
       ],
-      "levels": 3
+      "levels": 1
     },
     "ensorcellation:quick_draw": {
       "items": [
         {
           "id": "emerald",
           "count": 5
-        }
-      ],
-      "levels": 3
-    },
-    "ensorcellation:trueshot": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 45
-        }
-      ],
-      "levels": 2
-    },
-    "ensorcellation:volley": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 45
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:exp_boost": {
-      "items": [
-        {
-          "id": "the_vault:wutodic_mass",
-          "count": 8
         }
       ],
       "levels": 3
@@ -72,24 +81,6 @@
       ],
       "levels": 1
     },
-    "ensorcellation:air_affinity": {
-      "items": [
-        {
-          "id": "the_vault:phoenix_feather",
-          "count": 1
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:soulbound": {
-      "items": [
-        {
-          "id": "the_vault:echo_pog",
-          "count": 1
-        }
-      ],
-      "levels": 1
-    },
     "ensorcellation:angler": {
       "items": [
         {
@@ -98,6 +89,15 @@
         }
       ],
       "levels": 2
+    },
+    "ensorcellation:volley": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 45
+        }
+      ],
+      "levels": 1
     }
   }
 }
