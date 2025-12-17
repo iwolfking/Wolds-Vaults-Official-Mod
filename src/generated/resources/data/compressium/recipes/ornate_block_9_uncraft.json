@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:ornate_block_9"
+    }
+  ],
+  "result": {
+    "item": "compressium:ornate_block_8",
+    "count": 9
+  }
+}

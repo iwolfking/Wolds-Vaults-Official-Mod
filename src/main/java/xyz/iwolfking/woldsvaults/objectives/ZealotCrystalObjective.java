@@ -17,12 +17,17 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class ZealotCrystalObjective extends CrystalObjective {
+public class ZealotCrystalObjective extends WoldCrystalObjective {
     public IntRoll target;
 
     public ZealotCrystalObjective() {
@@ -32,10 +37,10 @@ public class ZealotCrystalObjective extends CrystalObjective {
     }
 
     @Override
-    public void configure(Vault vault, RandomSource random) {
+    public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = (vault.get(Vault.LEVEL)).get();
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            objectives.add(ZealotObjective.of(this.target.get(random), 0).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.MONOLITH, "zealot", level, true)));
+            objectives.add(ZealotObjective.of(this.target.get(random), 0).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ZEALOT"), "zealot", level, true)));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
@@ -43,8 +48,8 @@ public class ZealotCrystalObjective extends CrystalObjective {
     }
 
     @Override
-    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add((new TextComponent("Objective: ")).append((new TextComponent("Zealot")).withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
+    ResourceLocation getObjectiveId() {
+        return ModCustomVaultObjectiveEntries.ZEALOT.getRegistryName();
     }
 
     public Optional<Integer> getColor(float time) {

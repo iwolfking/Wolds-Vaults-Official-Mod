@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "compressium:silver_scrap_block_8"
+    ]
+  },
+  "criteria": {
+    "has_compressed_silver_scrap_block_x7": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "compressium:silver_scrap_block_7"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "compressium:silver_scrap_block_8"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_compressed_silver_scrap_block_x7",
+      "has_the_recipe"
+    ]
+  ]
+}

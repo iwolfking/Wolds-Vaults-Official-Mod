@@ -64,7 +64,7 @@ public class WeavingForgeRecipe extends VaultForgeRecipe {
     }
 
     @Override
-    public boolean canCraft(Player player) {
+    public boolean canCraft(Player player, int level) {
         if(ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.containsKey(this.getId())) {
             if (player instanceof ServerPlayer sPlayer) {
                 return player.isCreative() || DiscoveredRecipesData.get(sPlayer.server).hasDiscovered(player, this.getId());

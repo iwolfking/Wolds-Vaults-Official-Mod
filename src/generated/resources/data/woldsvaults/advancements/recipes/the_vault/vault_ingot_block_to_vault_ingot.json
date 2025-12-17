@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:vault_ingot_block_to_vault_ingot"
+    ]
+  },
+  "criteria": {
+    "has_vault_ingot_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:vault_ingot_block"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:vault_ingot_block_to_vault_ingot"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_vault_ingot_block",
+      "has_the_recipe"
+    ]
+  ]
+}

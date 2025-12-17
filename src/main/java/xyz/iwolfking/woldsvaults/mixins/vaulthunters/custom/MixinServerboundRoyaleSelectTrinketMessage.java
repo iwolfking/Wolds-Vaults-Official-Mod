@@ -5,6 +5,7 @@ import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.gear.trinket.TrinketEffectRegistry;
 import iskallia.vault.integration.IntegrationCurios;
 import iskallia.vault.item.gear.TrinketItem;
+import iskallia.vault.item.gear.VaultUsesHelper;
 import iskallia.vault.network.message.ServerboundRoyaleSelectTrinketMessage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,8 +37,8 @@ public class MixinServerboundRoyaleSelectTrinketMessage {
             ServerPlayer player = context.getSender();
             if (player != null) {
                 ItemStack stack = TrinketItem.createBaseTrinket(TrinketEffectRegistry.getEffect(((ServerboundRoyaleSelectTrinketMessageAccessor)message).getTrinket()));
-                TrinketItem.setUses(stack, 2);
-                VaultUtils.getVault(player.level).ifPresent((vault) -> TrinketItem.addUsedVault(stack, (UUID) vault.get(Vault.ID)));
+                VaultUsesHelper.setUses(stack, 2);
+                VaultUtils.getVault(player.level).ifPresent((vault) -> VaultUsesHelper.addUsedVault(stack, (UUID) vault.get(Vault.ID)));
                 TrinketItem.getSlotIdentifier(stack).ifPresent((slot) -> {
                     if(IntegrationCurios.getCurioItemStack(player, slot, 0).isEmpty()) {
                         IntegrationCurios.setCurioItemStack(player, stack, slot, 0);

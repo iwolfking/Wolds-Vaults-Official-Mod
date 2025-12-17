@@ -1,0 +1,46 @@
+{
+  "MODELS": [
+    {
+      "id": "the_vault:gear/sword/everfrost",
+      "displayName": "Everfrost",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/sword/everflame",
+      "displayName": "Everflame",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/sword/hexblade",
+      "displayName": "Hexblade",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/sword/mineral_greatsword",
+      "displayName": "Mineral Greatsword",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/sword/grass_blade",
+      "displayName": "Grass Sword",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/sword/aurora_scissors",
+      "displayName": "Aurora Scissors",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/sword/young_kitsune",
+      "displayName": "Young Kitsune Blade",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}

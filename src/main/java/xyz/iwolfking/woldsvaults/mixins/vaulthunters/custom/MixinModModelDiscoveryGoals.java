@@ -35,7 +35,7 @@ public abstract class MixinModModelDiscoveryGoals {
     static {
         IDONA_UNLOCK = registerGoal(WoldsVaults.id("complete_idona_altar"), (new GodThemesDiscoveryGoal(1.0F, VaultGod.IDONA)).setReward((player, goal) -> {
             DiscoveredThemesData discoversData = DiscoveredThemesData.get(player.getLevel());
-            ResourceLocation themeId = new ResourceLocation(VaultMod.MOD_ID, "classic_vault_idona_normal");
+            ResourceLocation themeId = VaultMod.id("classic_vault_idona_normal");
             if (!discoversData.getDiscoveredThemes(player.getUUID()).contains(themeId)) {
                 MutableComponent info = (new TextComponent("Idona shares insight on entering their domain with you.")).withStyle(ChatFormatting.RED);
                 if(VaultRegistry.THEME.getKey(themeId) != null) {
@@ -47,7 +47,7 @@ public abstract class MixinModModelDiscoveryGoals {
 
         TENOS_UNLOCK = registerGoal(WoldsVaults.id("complete_tenos_altar"), (new GodThemesDiscoveryGoal(1.0F, VaultGod.TENOS)).setReward((player, goal) -> {
             DiscoveredThemesData discoversData = DiscoveredThemesData.get(player.getLevel());
-            ResourceLocation themeId = new ResourceLocation(VaultMod.MOD_ID, "classic_vault_tenos_normal");
+            ResourceLocation themeId = VaultMod.id("classic_vault_tenos_normal");
             if (!discoversData.getDiscoveredThemes(player.getUUID()).contains(themeId)) {
                 MutableComponent info = (new TextComponent("Tenos shares insight on entering their domain with you.")).withStyle(ChatFormatting.AQUA);
                 if(VaultRegistry.THEME.getKey(themeId) != null) {
@@ -60,7 +60,7 @@ public abstract class MixinModModelDiscoveryGoals {
 
         VELARA_UNLOCK = registerGoal(WoldsVaults.id("complete_velara_altar"), (new GodThemesDiscoveryGoal(1.0F, VaultGod.VELARA)).setReward((player, goal) -> {
             DiscoveredThemesData discoversData = DiscoveredThemesData.get(player.getLevel());
-            ResourceLocation themeId = new ResourceLocation(VaultMod.MOD_ID, "classic_vault_velara_normal");
+            ResourceLocation themeId = VaultMod.id("classic_vault_velara_normal");
             if (!discoversData.getDiscoveredThemes(player.getUUID()).contains(themeId)) {
                 MutableComponent info = (new TextComponent("Velara shares insight on entering their domain with you.")).withStyle(ChatFormatting.GREEN);
                 if(VaultRegistry.THEME.getKey(themeId) != null) {
@@ -72,7 +72,7 @@ public abstract class MixinModModelDiscoveryGoals {
 
         WENDARR_UNLOCK = registerGoal(WoldsVaults.id("complete_wendarr_altar"), (new GodThemesDiscoveryGoal(1.0F, VaultGod.WENDARR)).setReward((player, goal) -> {
             DiscoveredThemesData discoversData = DiscoveredThemesData.get(player.getLevel());
-            ResourceLocation themeId = new ResourceLocation(VaultMod.MOD_ID, "classic_vault_wendarr_normal");
+            ResourceLocation themeId = VaultMod.id("classic_vault_wendarr_normal");
             if (!discoversData.getDiscoveredThemes(player.getUUID()).contains(themeId)) {
                 MutableComponent info = (new TextComponent("Wendarr shares insight on entering their domain with you.")).withStyle(ChatFormatting.GOLD);
                 if(VaultRegistry.THEME.getKey(themeId) != null) {

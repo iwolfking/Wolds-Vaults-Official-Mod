@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import iskallia.vault.client.util.ClientScheduler;
 import iskallia.vault.util.TextComponentUtils;
 import net.minecraft.client.Minecraft;
@@ -148,5 +150,44 @@ public class ComponentUtils {
         }
 
         return result;
+    }
+
+    /**
+     * Converts a Component to a JsonArray
+     *
+     * @param component base Component
+     * @return a JsonArray containing the pieces that make up the Component
+     */
+    public static JsonArray toJsonArray(Component component) {
+        JsonArray array = new JsonArray();
+        collectParts(component, array);
+        return array;
+    }
+
+    /**
+     * Helper method for toJsonArray that generates the JSON from a Component
+     *
+     * @param component base Component
+     * @param array the array to insert JsonObjects into
+     */
+    private static void collectParts(Component component, JsonArray array) {
+
+        String ownText = component.getContents();
+
+        if (!ownText.isEmpty()) {
+            JsonObject obj = new JsonObject();
+            obj.addProperty("text", ownText);
+
+            TextColor color = component.getStyle().getColor();
+            if (color != null) {
+                obj.addProperty("color", color.serialize());
+            }
+
+            array.add(obj);
+        }
+
+        for (Component child : component.getSiblings()) {
+            collectParts(child, array);
+        }
     }
 }

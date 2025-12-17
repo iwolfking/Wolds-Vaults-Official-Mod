@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:repair_augmenter"
+    ]
+  },
+  "criteria": {
+    "has_resilient_focus": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:resilient_focus"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:repair_augmenter"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_resilient_focus",
+      "has_the_recipe"
+    ]
+  ]
+}

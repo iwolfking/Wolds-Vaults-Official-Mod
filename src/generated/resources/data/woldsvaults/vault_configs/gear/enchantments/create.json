@@ -1,0 +1,22 @@
+{
+  "costs": {
+    "create:capacity": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 1
+    },
+    "create:potato_recovery": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 1
+    }
+  }
+}

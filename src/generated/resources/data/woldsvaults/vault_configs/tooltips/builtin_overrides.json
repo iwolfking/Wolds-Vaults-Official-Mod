@@ -1,0 +1,12 @@
+{
+  "tooltips": [
+    {
+      "item": "the_vault:coin_pouch",
+      "value": "It is recommended to use the wallet from Lightman's Currency instead!"
+    },
+    {
+      "item": "the_vault:relic_booster_pack",
+      "value": "Legacy Item"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "descriptions": {
+    "Easy Villagers": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Easy Villagers and Easy Piglins",
+        "color": "$yellow"
+      },
+      {
+        "text": " mods!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Grants Transmog!\n",
+        "color": "#90FF00"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod allows you to store, and interact, with villagers in block form, making it easy and fun to set up trading halls. It can also be used to farm resources with villagers, including iron.",
+        "color": "$text"
+      },
+      {
+        "text": "You will also be able to craft a Barterer to make trading with Piglins much easier!",
+        "color": "$text"
+      },
+      {
+        "text": "\nOnly the auto blocks will be locked behind this unlock now, you can make normal Traders cheap and easy, enjoy!",
+        "color": "$text"
+      },
+      [
+        {
+          "text": "\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Adds rewards to ",
+          "color": "$text"
+        },
+        {
+          "text": "Mod Boxes ",
+          "color": "aqua"
+        },
+        {
+          "text": "!",
+          "color": "$text"
+        }
+      ]
+    ],
+    "Auto Feeding": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Auto Feeding, Refill, Compacting, and Auto-Smelting, Smoking, Blasting",
+        "color": "$yellow"
+      },
+      {
+        "text": " upgrades!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Feeding Upgrades\n\n",
+        "color": "yellow"
+      },
+      {
+        "text": "can automatically feed you directly from your pouches, belts & backpacks and removes the need to eat food manually.\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Refill, Compacting, and Auto-Smelting, Smoking, and Blasting",
+        "color": "yellow"
+      },
+      {
+        "text": "upgrades will let you refill items in your hand from your backpack automatically, compacting items in 2x2 and 3x3 recipes, and automatically process items in your bag!",
+        "color": "yellow"
+      }
+    ],
+    "Elevators": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Elevators and Travel Anchors",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod provides you with ways of travelling vertically. The basic Elevators, when placed vertically from one another within a certain distance gives you the ability to SHIFT / JUMP on them to go DOWN / UP.",
+        "color": "$text"
+      },
+      {
+        "text": "\n\nThere are also a Travel Staff and Travel Anchors that let you travel to any Travel Anchor you are looking at! Note, the Teleportation Enchantment is disabled in vaults should you find a way of accessing it...",
+        "color": "$text"
+      }
+    ],
+    "Junk Management": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Junk Management",
+        "color": "$yellow"
+      },
+      {
+        "text": " research!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "The Void Crucible will let you configure what blocks you don't want to void when using the Void + Pickup Mode on your ",
+        "color": "$text"
+      },
+      {
+        "text": "Magnet",
+        "color": "aqua"
+      },
+      {
+        "text": ". The Void Crucible also offers a theme selector, where you can specify items based on themes to not void\n\nThis is a must have for any inventory enjoyer!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Additionally, unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Filter Necklace ",
+        "color": "yellow"
+      },
+      {
+        "text": "that lets you use the power of Vault Filters to automatically void items that match the Attribute or List filters in your necklace. ",
+        "color": "$text"
+      },
+      {
+        "text": "\n\nFurthermore, your ",
+        "color": "$text"
+      },
+      {
+        "text": "Magnet",
+        "color": "aqua"
+      },
+      {
+        "text": " will no longer take durability damage from picking up Vault Junk, lucky you!",
+        "color": "$text"
+      }
+    ]
+  }
+}

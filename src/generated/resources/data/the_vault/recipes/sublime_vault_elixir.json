@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CDC",
+    "DOD",
+    "CDC"
+  ],
+  "key": {
+    "C": {
+      "item": "the_vault:vault_diamond_block"
+    },
+    "D": {
+      "item": "the_vault:hardened_wutodic_mass"
+    },
+    "O": {
+      "item": "minecraft:glass_bottle"
+    }
+  },
+  "result": {
+    "item": "the_vault:sublime_vault_elixir"
+  }
+}

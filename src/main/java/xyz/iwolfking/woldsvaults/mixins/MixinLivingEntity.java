@@ -1,7 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import iskallia.vault.client.ClientPrestigePowersData;
+import iskallia.vault.client.data.ClientPrestigePowersData;
 import iskallia.vault.core.vault.ClientVaults;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.prestige.TreasureHunterPrestigePower;

@@ -27,7 +27,7 @@ public class ThemePoolModifierReader extends VaultGearModifierReader<String> {
 
     @Nonnull
     public MutableComponent getValueDisplay(String value) {
-        return new TextComponent("Theme: ").append(new TextComponent(StringUtils.convertToTitleCase(new ResourceLocation(value).getPath())).withStyle(Style.EMPTY.withColor(this.getRgbColor())));
+        return new TextComponent("Theme: ").append(new TextComponent(StringUtils.convertToTitleCase(ResourceLocation.parse(value).getPath())).withStyle(Style.EMPTY.withColor(this.getRgbColor())));
 
     }
 

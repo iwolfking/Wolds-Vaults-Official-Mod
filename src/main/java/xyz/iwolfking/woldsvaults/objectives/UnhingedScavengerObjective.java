@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.objectives;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.block.DivineAltarBlock;
 import iskallia.vault.block.entity.ScavengerAltarTileEntity;
 import iskallia.vault.core.Version;
@@ -22,9 +23,10 @@ import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.GodBlessingItem;
 import iskallia.vault.item.KeystoneItem;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
-import xyz.iwolfking.woldsvaults.api.util.NormalizedHelper;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.config.UnhingedScavengerConfig;
 
 import java.util.List;
@@ -35,29 +37,30 @@ public class UnhingedScavengerObjective extends ScavengerObjective {
     public static final FieldKey<UnhingedScavengerObjective.Config> CONFIG = FieldKey.of("config", UnhingedScavengerObjective.Config.class).with(Version.v1_19, Adapters.ofEnum(UnhingedScavengerObjective.Config.class, EnumAdapter.Mode.ORDINAL), DISK.all()).register(FIELDS);
 
     public static final SupplierKey<Objective> E_KEY = SupplierKey.of("unhinged_scavenger", Objective.class).with(Version.v1_12, UnhingedScavengerObjective::new);
-
+    public static final FieldKey<ResourceLocation> ENTRY_POOL;
     @Override
     public SupplierKey<Objective> getKey() {
         return E_KEY;
     }
-    public UnhingedScavengerObjective(float objectiveProbability, Config config) {
+    public UnhingedScavengerObjective(float objectiveProbability, Config config, ResourceLocation pool) {
         this.set(GOALS, new GoalMap());
         this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
         this.set(CONFIG, config);
+        this.set(ENTRY_POOL, pool);
     }
 
     public UnhingedScavengerObjective() {
         this.set(GOALS, new GoalMap());
     }
 
-    public static UnhingedScavengerObjective of(float objectiveProbability, UnhingedScavengerObjective.Config config) {
-        return new UnhingedScavengerObjective(objectiveProbability, config);
+    public static UnhingedScavengerObjective of(float objectiveProbability, UnhingedScavengerObjective.Config config, ResourceLocation pool) {
+        return new UnhingedScavengerObjective(objectiveProbability, config, pool);
     }
 
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault, world);
+        ObjectiveHelper.handleAddingNormalizedToVault(vault, world);
 
 
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
@@ -123,7 +126,11 @@ public class UnhingedScavengerObjective extends ScavengerObjective {
         ScavengerGoal.ObjList list = new ScavengerGoal.ObjList();
         this.get(GOALS).put(listener.get(Listener.ID), list);
         JavaRandom random = JavaRandom.ofInternal(vault.get(Vault.SEED) ^ listener.get(Listener.ID).getMostSignificantBits());
-        list.addAll((this.getOr(CONFIG, UnhingedScavengerObjective.Config.DEFAULT)).get().generateGoals(vault.get(Vault.LEVEL).get(), random));
+        list.addAll((this.getOr(CONFIG, UnhingedScavengerObjective.Config.DEFAULT)).get().generateGoals(this.getOr(ENTRY_POOL, VaultMod.id("default")), vault.get(Vault.LEVEL).get(), random));
+    }
+
+    static {
+        ENTRY_POOL = FieldKey.of("entry_pool", ResourceLocation.class).with(Version.v1_46, Adapters.IDENTIFIER, DISK.all()).register(FIELDS);
     }
 
 

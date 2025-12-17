@@ -1,28 +1,26 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.crafting.recipe.GearForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
+import iskallia.vault.util.SidedHelper;
 import iskallia.vault.world.data.PlayerGreedData;
-import iskallia.vault.world.data.PlayerStatsData;
-import iskallia.vault.world.data.PlayerVaultStatsData;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.data.discovery.ClientPlayerGreedData;
-import xyz.iwolfking.woldsvaults.data.discovery.ClientRecipeDiscoveryData;
-import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.items.AirMobilityItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 
@@ -32,10 +30,10 @@ import java.util.List;
 public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
 
     @Unique
-    private static final ResourceLocation ETCHING_LOCATION = new ResourceLocation("the_vault", "etching");
+    private static final ResourceLocation ETCHING_LOCATION = VaultMod.id("etching");
     @Unique
-    private static final ResourceLocation MAP_LOCATION = new ResourceLocation("the_vault", "map");
-    private static final ResourceLocation ZEPHYR_LOCATION = new ResourceLocation("woldsvaults", "zephyr_charm");
+    private static final ResourceLocation MAP_LOCATION = VaultMod.id("map");
+    private static final ResourceLocation ZEPHYR_LOCATION = WoldsVaults.id("zephyr_charm");
 
     protected MixinVaultGearRecipe(ForgeRecipeType type, ResourceLocation id, ItemStack output) {
         super(type, id, output);
@@ -45,18 +43,18 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
      * @author iwolfking
      * @reason Lock etching crafting behind Herald completion.
      */
-    @Override
-    public boolean canCraft(Player player) {
-        if(!this.getId().equals(ETCHING_LOCATION) && !this.getId().equals(MAP_LOCATION) && !this.getId().equals(ZEPHYR_LOCATION)) {
-            return true;
-        }
-
-        if (player instanceof ServerPlayer sPlayer) {
+    @Inject(method = "canCraft", at = @At("HEAD"), cancellable = true)
+    public void canCraft(Player player, int level, CallbackInfoReturnable<Boolean> cir) {
+        if(this.getId().equals(MAP_LOCATION) || this.getId().equals(ZEPHYR_LOCATION)) {
+            if (player instanceof ServerPlayer sPlayer) {
                 PlayerGreedData greedData = PlayerGreedData.get(sPlayer.server);
-                return greedData.get(player).hasCompletedHerald();
-        }
-        else {
-            return !ClientPlayerGreedData.getArtifactData().isEmpty();
+                cir.setReturnValue(greedData.get(player).hasCompletedHerald());
+            }
+            else if(ClientGreedData.isCompletedHerald()) {
+                cir.setReturnValue(true);
+            }
+
+            cir.setReturnValue(false);
         }
     }
 
@@ -78,12 +76,10 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
         return out;
     }
 
-    @Override
-    public List<Component> getDisabledText() {
+    @Inject(method = "getDisabledText", at = @At("HEAD"), cancellable = true)
+    public void getDisabledText(CallbackInfoReturnable<List<Component>> cir) {
         if(this.output.getItem() instanceof AirMobilityItem || this.output.getItem() instanceof VaultMapItem) {
-            return List.of(new TextComponent("Defeat The Herald by collecting all 25 Artifacts to unlock."));
+            cir.setReturnValue(List.of(new TextComponent("Defeat The Herald by collecting all 25 Artifacts to unlock.")));
         }
-
-        return List.of((new TextComponent("Undiscovered")).withStyle(ChatFormatting.ITALIC));
     }
 }

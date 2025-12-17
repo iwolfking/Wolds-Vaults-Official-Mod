@@ -1,0 +1,21 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:wendarr_brick"
+    },
+    {
+      "item": "the_vault:wendarr_brick_chiseled"
+    },
+    {
+      "item": "the_vault:wendarr_brick"
+    },
+    {
+      "item": "the_vault:wendarr_light_smooth_brick"
+    },
+    {
+      "item": "the_vault:wendarr_gem_block"
+    }
+  ],
+  "overwrite": false
+}

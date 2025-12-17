@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:black_unobtanium_block"
+    ]
+  },
+  "criteria": {
+    "has_black_unobtanium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:black_unobtanium"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:black_unobtanium_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_black_unobtanium",
+      "has_the_recipe"
+    ]
+  ]
+}

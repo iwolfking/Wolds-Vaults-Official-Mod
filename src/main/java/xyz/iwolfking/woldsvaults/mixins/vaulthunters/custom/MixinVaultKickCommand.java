@@ -14,7 +14,7 @@ import xyz.iwolfking.woldsvaults.api.util.TrinketHelper;
 
 @Mixin(value = VaultCommand.class, remap = false)
 public class MixinVaultKickCommand {
-    @Inject(method = "lambda$kickFromVault$15", at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/Listeners;remove(Liskallia/vault/core/world/storage/VirtualWorld;Liskallia/vault/core/vault/Vault;Liskallia/vault/core/vault/player/Listener;)Liskallia/vault/core/vault/player/Listeners;"))
+    @Inject(method = "lambda$kickFromVault$18", at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/Listeners;remove(Liskallia/vault/core/world/storage/VirtualWorld;Liskallia/vault/core/vault/Vault;Liskallia/vault/core/vault/player/Listener;)Liskallia/vault/core/vault/player/Listeners;"))
     private static void clearCuriosWhenRoyaleVault(Listener listener, Vault vault, boolean complete, Listeners listeners, VirtualWorld world, CallbackInfo ci) {
         if(listener.getPlayer().isPresent() && VaultUtils.isRoyaleVault(vault)) {
             TrinketHelper.clearCurios(listener.getPlayer().get());

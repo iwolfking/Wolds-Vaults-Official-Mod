@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CAC",
+    "DOD",
+    "CAC"
+  ],
+  "key": {
+    "C": {
+      "item": "the_vault:extraordinary_painite"
+    },
+    "A": {
+      "item": "the_vault:extraordinary_alexandrite"
+    },
+    "D": {
+      "item": "woldsvaults:vault_essence_block"
+    },
+    "O": {
+      "item": "the_vault:packed_vault_meat_block"
+    }
+  },
+  "result": {
+    "item": "the_vault:sublime_vault_substance"
+  }
+}

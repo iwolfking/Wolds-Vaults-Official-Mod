@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "the_vault:ancient_copper_block"
+    }
+  },
+  "result": {
+    "item": "compressium:ancient_copper_block_1"
+  }
+}

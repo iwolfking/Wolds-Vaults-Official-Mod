@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_nugget"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:chromatic_gold_ingot"
+  }
+}

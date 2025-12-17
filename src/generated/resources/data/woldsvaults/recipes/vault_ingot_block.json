@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "the_vault:vault_ingot"
+    },
+    {
+      "item": "the_vault:vault_ingot"
+    },
+    {
+      "item": "the_vault:vault_ingot"
+    },
+    {
+      "item": "the_vault:vault_ingot"
+    },
+    {
+      "item": "the_vault:vault_ingot"
+    },
+    {
+      "item": "the_vault:vault_ingot"
+    },
+    {
+      "item": "the_vault:vault_ingot"
+    },
+    {
+      "item": "the_vault:vault_ingot"
+    },
+    {
+      "item": "the_vault:vault_ingot"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:vault_ingot_block"
+  }
+}

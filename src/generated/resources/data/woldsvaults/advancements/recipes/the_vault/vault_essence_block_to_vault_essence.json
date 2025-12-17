@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:vault_essence_block_to_vault_essence"
+    ]
+  },
+  "criteria": {
+    "has_vault_essence_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:vault_essence_block"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:vault_essence_block_to_vault_essence"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_vault_essence_block",
+      "has_the_recipe"
+    ]
+  ]
+}

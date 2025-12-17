@@ -1,0 +1,65 @@
+{
+  "PULL_SPEED": 0.0,
+  "PLAYER_RANGE_CHECK": 0.0,
+  "ITEM_RANGE_CHECK": 0.0,
+  "INFUSION_TIME": 0,
+  "GROUP_DISPLAY_TICKS": 0,
+  "INTERFACES": [
+    {
+      "input": "woldsvaults:greedy_vault_rock",
+      "output": {
+        "id": "the_vault:vault_crystal",
+        "nbt": "{CrystalData:{Modifiers:{Clarity:0b,List:[{id:\"the_vault:greedy\",size:1}],RandomModifiers:1b,type:\"default\"},Properties:{exhausted:0b,seed:0b,size:0b,type:\"capacity\",volume:0b},Version:3b}}",
+        "count": 1
+      }
+    },
+    {
+      "input": "woldsvaults:idona_dagger",
+      "output": {
+        "id": "the_vault:vault_crystal",
+        "nbt": "{CrystalData:{Modifiers:{Clarity:0b,List:[{id:\"the_vault:idona_hunter\",size:1}],RandomModifiers:1b,type:\"default\"},Objective:{target:{max:6b,min:4b,type:\"uniform\"},type:\"zealot\"},Properties:{exhausted:0b,seed:0b,size:0b,type:\"capacity\",volume:50b},Theme:{id:\"the_vault:classic_vault_idona_normal\",type:\"value\"},Version:3b}}",
+        "count": 1
+      }
+    },
+    {
+      "input": "woldsvaults:tome_of_tenos",
+      "output": {
+        "id": "the_vault:vault_crystal",
+        "nbt": "{CrystalData:{Modifiers:{Clarity:0b,List:[{id:\"the_vault:tenos_hunter\",size:1}],RandomModifiers:1b,type:\"default\"},Objective:{target:{max:6b,min:4b,type:\"uniform\"},type:\"zealot\"},Properties:{exhausted:0b,seed:0b,size:0b,type:\"capacity\",volume:50b},Theme:{id:\"the_vault:classic_vault_tenos_normal\",type:\"value\"},Version:3b}}",
+        "count": 1
+      }
+    },
+    {
+      "input": "woldsvaults:velara_apple",
+      "output": {
+        "id": "the_vault:vault_crystal",
+        "nbt": "{CrystalData:{Modifiers:{Clarity:0b,List:[{id:\"the_vault:velara_hunter\",size:1}],RandomModifiers:1b,type:\"default\"},Objective:{target:{max:6b,min:4b,type:\"uniform\"},type:\"zealot\"},Properties:{exhausted:0b,seed:0b,size:0b,type:\"capacity\",volume:50b},Theme:{id:\"the_vault:classic_vault_velara_normal\",type:\"value\"},Version:3b}}",
+        "count": 1
+      }
+    },
+    {
+      "input": "woldsvaults:wendarr_gem",
+      "output": {
+        "id": "the_vault:vault_crystal",
+        "nbt": "{CrystalData:{Modifiers:{Clarity:0b,List:[{id:\"the_vault:wendarr_hunter\",size:1}],RandomModifiers:1b,type:\"default\"},Objective:{target:{max:6b,min:4b,type:\"uniform\"},type:\"zealot\"},Properties:{exhausted:0b,seed:0b,size:0b,type:\"capacity\",volume:50b},Theme:{id:\"the_vault:classic_vault_wendarr_normal\",type:\"value\"},Version:3b}}",
+        "count": 1
+      }
+    },
+    {
+      "input": "woldsvaults:uber_chaos_catalyst",
+      "output": {
+        "id": "the_vault:vault_crystal",
+        "nbt": "{CrystalData:{Modifiers:{Clarity:0b,List:[{id:\"the_vault:unhinged\",size:1}],RandomModifiers:1b,type:\"default\"},Objective:{id:\"the_vault:unhinged_default\",type:\"pool\"},Properties:{exhausted:1b,seed:0b,size:0b,type:\"capacity\",volume:0b},Theme:{id:\"the_vault:classic_vault_chaos\",type:\"value\"},Version:3b}}",
+        "count": 1
+      }
+    },
+    {
+      "input": "woldsvaults:crystal_seal_raid_rock_infinite_hard",
+      "output": {
+        "id": "the_vault:vault_crystal",
+        "nbt": "{CrystalData:{Modifiers:{Clarity:0b,List:[{id:\"the_vault:raid\",size:1}],RandomModifiers:1b,type:\"default\"},Objective:{type:\"raid\"},Properties:{exhausted:1b,seed:0b,size:0b,type:\"capacity\",volume:0b},Theme:{id:\"the_vault:infinite_raid_hard\",type:\"pool\"},Version:3b}}",
+        "count": 1
+      }
+    }
+  ]
+}

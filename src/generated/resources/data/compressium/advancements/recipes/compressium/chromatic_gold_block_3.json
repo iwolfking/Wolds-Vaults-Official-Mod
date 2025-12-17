@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "compressium:chromatic_gold_block_3"
+    ]
+  },
+  "criteria": {
+    "has_compressed_chromatic_gold_block_x2": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "compressium:chromatic_gold_block_2"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "compressium:chromatic_gold_block_3"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_compressed_chromatic_gold_block_x2",
+      "has_the_recipe"
+    ]
+  ]
+}

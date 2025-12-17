@@ -1,0 +1,10 @@
+{
+  "MODELS": [
+    {
+      "id": "the_vault:gear/battlestaff/bamboo_fightstick",
+      "displayName": "Bamboo Fightstick",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}

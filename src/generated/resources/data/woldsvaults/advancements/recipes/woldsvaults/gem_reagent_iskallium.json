@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:gem_reagent_iskallium"
+    ]
+  },
+  "criteria": {
+    "has_gem_iskallium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:gem_iskallium"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:gem_reagent_iskallium"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gem_iskallium",
+      "has_the_recipe"
+    ]
+  ]
+}

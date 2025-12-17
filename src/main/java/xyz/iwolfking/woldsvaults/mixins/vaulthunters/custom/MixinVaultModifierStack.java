@@ -38,7 +38,7 @@ public class MixinVaultModifierStack {
      */
     @Overwrite
     public void deserializeNBT(CompoundTag nbt) {
-        ResourceLocation id = new ResourceLocation(nbt.getString("id"));
+        ResourceLocation id = ResourceLocation.parse(nbt.getString("id"));
         this.modifier = VaultModifierRegistry.getOrDefault(id, EmptyModifier.INSTANCE);
         if(modifier instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
             settableValueVaultModifier.properties().setValue(nbt.getFloat("value"));

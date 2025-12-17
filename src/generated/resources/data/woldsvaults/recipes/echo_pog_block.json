@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "the_vault:echo_pog"
+    },
+    {
+      "item": "the_vault:echo_pog"
+    },
+    {
+      "item": "the_vault:echo_pog"
+    },
+    {
+      "item": "the_vault:echo_pog"
+    },
+    {
+      "item": "the_vault:echo_pog"
+    },
+    {
+      "item": "the_vault:echo_pog"
+    },
+    {
+      "item": "the_vault:echo_pog"
+    },
+    {
+      "item": "the_vault:echo_pog"
+    },
+    {
+      "item": "the_vault:echo_pog"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:echo_pog_block"
+  }
+}

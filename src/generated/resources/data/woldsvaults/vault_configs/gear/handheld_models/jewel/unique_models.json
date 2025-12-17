@@ -1,0 +1,22 @@
+{
+  "MODELS": [
+    {
+      "id": "the_vault:gear/jewel/treasure",
+      "displayName": "Shatterering Jewel",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/jewel/stella",
+      "displayName": "Eternal Stella",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/jewel/treasure",
+      "displayName": "Treasured Jewel",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}

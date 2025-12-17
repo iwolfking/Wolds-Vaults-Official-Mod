@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.integration.jei.lootinfo.LootInfoGroupDefinitionRegistry;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
@@ -31,6 +32,10 @@ public abstract class MixinLootInfoGroupDefinitionRegistry {
         register("god_altar_tenos", () -> new ItemStack(ModItems.TOME_OF_TENOS));
         register("god_altar_idona", () -> new ItemStack(ModItems.IDONA_DAGGER));
         register("god_altar_wendarr", () -> new ItemStack(ModItems.WENDARR_GEM));
+        register("dungeon_mobs", () -> new ItemStack(Blocks.ZOMBIE_HEAD));
+        register("dungeon_boss", () -> new ItemStack(Blocks.WITHER_SKELETON_SKULL));
+        register("cardboard_box", () -> new ItemStack(iskallia.vault.init.ModBlocks.CARDBOARD_BOX));
+        register("cardboard_box_dull", () -> new ItemStack(iskallia.vault.init.ModBlocks.CARDBOARD_BOX));
     }
 
     @Shadow

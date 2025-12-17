@@ -1,0 +1,41 @@
+{
+  "POOL": {
+    "Hostile Neural Networks": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "hostilenetworks:empty_prediction",
+            "amountMin": 32,
+            "amountMax": 64
+          },
+          "weight": 120
+        },
+        {
+          "value": {
+            "id": "hostilenetworks:blank_data_model",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 60
+        },
+        {
+          "value": {
+            "id": "hostilenetworks:sim_chamber",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "hostilenetworks:loot_fabricator",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        }
+      ]
+    }
+  }
+}

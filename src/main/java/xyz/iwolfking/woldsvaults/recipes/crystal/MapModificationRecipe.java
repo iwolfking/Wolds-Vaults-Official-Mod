@@ -15,8 +15,8 @@ import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.VaultCrystalItem;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
-import iskallia.vault.item.crystal.recipe.AnvilContext;
-import iskallia.vault.item.crystal.recipe.VanillaAnvilRecipe;
+import iskallia.vault.recipe.anvil.AnvilContext;
+import iskallia.vault.recipe.anvil.VanillaAnvilRecipe;
 import iskallia.vault.item.crystal.theme.CrystalTheme;
 import iskallia.vault.item.crystal.theme.PoolCrystalTheme;
 import iskallia.vault.item.crystal.theme.ValueCrystalTheme;
@@ -105,11 +105,11 @@ public class MapModificationRecipe extends VanillaAnvilRecipe {
             String objectiveId = mapData.getFirstValue(ModGearAttributes.OBJECTIVE).orElse(null);
 
             if(themeId != null) {
-                CrystalTheme theme = new ValueCrystalTheme(new ResourceLocation(themeId));
+                CrystalTheme theme = new ValueCrystalTheme(ResourceLocation.parse(themeId));
                 data.setTheme(theme);
             }
             else if(themePoolId != null) {
-                CrystalTheme theme = new PoolCrystalTheme(new ResourceLocation(themePoolId));
+                CrystalTheme theme = new PoolCrystalTheme(ResourceLocation.parse(themePoolId));
                 data.setTheme(theme);
             }
             else {

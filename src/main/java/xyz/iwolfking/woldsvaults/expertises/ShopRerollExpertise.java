@@ -11,6 +11,14 @@ import java.util.Optional;
 public class ShopRerollExpertise extends LearnableSkill {
     private int rerollTimeout;
 
+    public ShopRerollExpertise(int unlockLevel, int learnPointCost, int regretCost, int rerollTimeout) {
+        super(unlockLevel, learnPointCost, regretCost);
+        this.rerollTimeout = rerollTimeout;
+    }
+
+    public ShopRerollExpertise() {
+    }
+
     public void writeBits(BitBuffer buffer) {
         super.writeBits(buffer);
         Adapters.INT.writeBits(this.rerollTimeout, buffer);

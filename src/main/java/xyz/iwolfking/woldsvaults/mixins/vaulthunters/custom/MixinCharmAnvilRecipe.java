@@ -1,9 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.item.crystal.CrystalData;
-import iskallia.vault.item.crystal.recipe.AnvilContext;
-import iskallia.vault.item.crystal.recipe.CatalystAnvilRecipe;
-import iskallia.vault.item.crystal.recipe.CharmAnvilRecipe;
+import iskallia.vault.recipe.anvil.CharmAnvilRecipe;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

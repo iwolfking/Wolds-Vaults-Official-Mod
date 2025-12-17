@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:gem_reagent_sparkletine"
+    },
+    {
+      "tag": "the_vault:gems"
+    }
+  ],
+  "result": {
+    "item": "the_vault:gem_sparkletine",
+    "count": 2
+  }
+}

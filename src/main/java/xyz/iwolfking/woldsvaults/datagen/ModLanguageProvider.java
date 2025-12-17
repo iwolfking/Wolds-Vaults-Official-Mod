@@ -1,9 +1,12 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import iskallia.vault.util.StringUtils;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
+import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.init.*;
+import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
 
 public class ModLanguageProvider extends LanguageProvider {
 
@@ -11,8 +14,17 @@ public class ModLanguageProvider extends LanguageProvider {
         super(gen, WoldsVaults.MOD_ID, "en_us");
     }
 
+    public void add(CustomObjectiveRegistryEntry entry, String text) {
+        add("vault_objective." + entry.getRegistryName().getNamespace() + "." + entry.getRegistryName().getPath(), text);
+    }
+
     @Override
     protected void addTranslations() {
+        ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {
+            add(customObjectiveRegistryEntry, customObjectiveRegistryEntry.getName());
+        });
+        add("key.woldsvaults.open_inventory_hud", "Open Inventory HUD Edit Screen");
+        add("util.woldsvaults.objective_text", "Objective: ");
         add("item.woldsvaults.rotten_heart", "Rotten Heart");
         add("item.woldsvaults.rotten_apple", "Rotten Apple");
         add("item.woldsvaults.verdant_globule", "Verdant Globule");
@@ -43,12 +55,14 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.scannable.vault_dungeon_doors_module", "Scanner Module: Dungeon Doors");
         add("item.scannable.vault_vendoors_module", "Scanner Module: Vendoors");
         add("item.scannable.vault_pylon_module", "Scanner Module: Pylons");
-        add("item.the_vault.crystal_seal_unhinged", "Seal of the Psychopath");
-        add("item.the_vault.crystal_seal_doomsayer", "Seal of the Doomsayer");
-        add("item.the_vault.crystal_seal_spirits", "Seal of the Exorcist");
-        add("item.the_vault.crystal_seal_enchanter", "Seal of the Enchanter");
-        add("item.the_vault.crystal_seal_titan", "Seal of the Titan");
-        add("item.the_vault.crystal_seal_monolith", "Seal of the Searcher");
+        add(ModItems.CRYSTAL_SEAL_UNHINGED, "Seal of the Psychopath");
+        add(ModItems.CRYSTAL_SEAL_DOOMSAYER, "Seal of the Doomsayer");
+        add(ModItems.CRYSTAL_SEAL_SPIRITS, "Seal of the Exorcist");
+        add(ModItems.CRYSTAL_SEAL_ENCHANTER, "Seal of the Enchanter");
+        add(ModItems.CRYSTAL_SEAL_TITAN, "Seal of the Titan");
+        add(ModItems.UNINFUSED_TERRASTEEL_INGOT, "Uninfused Terrasteel Ingot");
+        add(ModItems.POGGING_SEED_BASE, "Pogging Seed Base");
+        add(ModItems.ECHOING_SEED_BASE, "Echoing Seed Base");
         add("item.the_vault.plushie", "Vault Plushie");
         add("item.the_vault.loot_sack", "Vault Sack");
         add("item.the_vault.rang", "Vaultarang");
@@ -97,18 +111,20 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.the_vault.tool.ravager", "Ravager");
         add("item.the_vault.tool.raker", "Raker");
         add("item.the_vault.tool.none", "Stick");
-        add("block.the_vault.vault_salvager", "Vault Salvager");
+        add(ModBlocks.VAULT_SALVAGER_BLOCK, "Vault Salvager");
+        add(ModBlocks.WUTODIE, "Block of Wutodie Gem");
         add("block.woldsvaults.dungeon_pedestal", "Dungeon Pedestal");
         add("block.woldsvaults.iskallian_leaves", "Woldian Leaves");
         add("block.woldsvaults.hellish_sand", "Hellish Sand");
         add("block.woldsvaults.brewing_altar", "Brewing Altar");
-        add("item.the_vault.gem_box", "Gem Box");
-        add("item.the_vault.supply_box", "Supply Box");
-        add("item.the_vault.augment_box", "Augment Box");
-        add("item.woldsvaults.inscription_box", "Inscription Box");
-        add("item.woldsvaults.omega_box", "Omega Box");
-        add("item.woldsvaults.catalyst_box", "Catalyst Box");
-        add("item.woldsvaults.enigma_egg", "Enigma Egg");
+        add(ModItems.GEM_BOX, "Gem Box");
+        add(ModItems.SUPPLY_BOX, "Supply Box");
+        add(ModItems.AUGMENT_BOX, "Augment Box");
+        add(ModItems.INSCRIPTION_BOX, "Inscription Box");
+        add(ModItems.OMEGA_BOX, "Omega Box");
+        add(ModItems.CATALYST_BOX, "Catalyst Box");
+        add(ModItems.ENIGMA_EGG, "Enigma Egg");
+        add("itemGroup.woldsvaults", "Wold's Vaults");
         add("item.woldsvaults.zephyr_charm", "Zephyr Charm");
         add("item.woldsvaults.augment_piece", "Augment Piece");
         add("item.the_vault.scavenger_benitoite_gemstone", "Benitoite Gemstone");
@@ -119,7 +135,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.the_vault.scavenger_enderman_eye", "Enderman Eye");
         add("item.the_vault.scavenger_ender_crystal", "Ender Crystal");
         add("item.the_vault.scavenger_ender_artifact", "Ender Artifact");
-        add("item.the_vault.altar_recatalyzer", "Altar Recatalyzer");
+        add(ModItems.ALTAR_DECATALYZER, "Altar Recatalyzer");
         add("item.woldsvaults.expertise_orb", "Expertise Orb");
         add("item.woldsvaults.skill_orb", "Skill Orb");
         add("item.woldsvaults.chromatic_iron_angel_ring", "Chromatic Iron Angel Ring");
@@ -139,12 +155,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.woldsvaults.mob_barrier_red", "Mob Barrier");
         add("block.woldsvaults.fractured_obelisk", "Fractured Obelisk");
         add("block.woldsvaults.monolith_controller", "Monolith Controller");
-        add("block.woldsvaults.vault_crate_corrupt", "Corrupted Vault Crate");
-        add("block.woldsvaults.vault_crate_alchemy", "Alchemy Vault Crate");
         add("block.woldsvaults.nullite_ore", "Nullite Ore");
         add("block.woldsvaults.doll_dismantler", "Doll Blender");
         add("block.woldsvaults.tombstone", "Tombstone");
-        add("entity.the_vault.wold", "Wold");
+        add(ModEntities.WOLD, "Wold");
         add("entity.woldsvaults.green_ghost", "Toxic Ghost");
         add("entity.woldsvaults.black_ghost", "Unholy Ghost");
         add("entity.woldsvaults.blue_ghost", "Chilly Ghost");
@@ -189,28 +203,28 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.woldsvaults.heart_of_chaos", "Heart of Chaos");
         add("item.woldsvaults.arcane_essence", "Arcane Essence");
         add("item.woldsvaults.arcane_shard", "Arcane Shard");
-        add("item.the_vault.pog_prism", "Pog Prism");
-        add("item.the_vault.chromatic_gold_nugget", "Chromatic Gold Nugget");
-        add("item.the_vault.chromatic_gold_ingot", "Chromatic Gold Ingot");
-        add("item.the_vault.smashed_vault_gem", "Smashed Vault Gem");
-        add("item.the_vault.smashed_vault_gem_cluster", "Smashed Vault Gem Cluster");
-        add("item.the_vault.wold_star_chunk", "Wold Star Chunk");
-        add("item.the_vault.wold_star", "Wold Star");
-        add("item.the_vault.gem_reagent_ashium", "Gem Reagent: Ashium");
-        add("item.the_vault.gem_reagent_bomignite", "Gem Reagent: Bomignite");
-        add("item.the_vault.gem_reagent_iskallium", "Gem Reagent: Woldium");
-        add("item.the_vault.gem_reagent_xenium", "Gem Reagent: Xeenium");
-        add("item.the_vault.gem_reagent_sparkletine", "Gem Reagent: Sparkletine");
-        add("item.the_vault.gem_reagent_gorginite", "Gem Reagent: Gorginite");
-        add("item.the_vault.gem_reagent_tubium", "Gem Reagent: Tubium");
-        add("item.the_vault.gem_reagent_petzanite", "Gem Reagent: Petezanite");
-        add("item.the_vault.gem_reagent_upaline", "Gem Reagent: Upaline");
+        add(ModItems.POG_PRISM, "Pog Prism");
+        add(ModItems.CHROMATIC_GOLD_NUGGET, "Chromatic Gold Nugget");
+        add(ModItems.CHROMATIC_GOLD_INGOT, "Chromatic Gold Ingot");
+        add(ModItems.SMASHED_VAULT_GEM, "Smashed Vault Gem");
+        add(ModItems.SMASHED_VAULT_GEM_CLUSTER, "Smashed Vault Gem Cluster");
+        add(ModItems.WOLD_STAR_CHUNK, "Wold Star Chunk");
+        add(ModItems.WOLD_STAR, "Wold Star");
+        add(ModItems.GEM_REAGENT_ASHIUM, "Gem Reagent: Ashium");
+        add(ModItems.GEM_REAGENT_BOMIGNITE, "Gem Reagent: Bomignite");
+        add(ModItems.GEM_REAGENT_ISKALLIUM, "Gem Reagent: Woldium");
+        add(ModItems.GEM_REAGENT_XENIUM, "Gem Reagent: Xeenium");
+        add(ModItems.GEM_REAGENT_SPARKLETINE, "Gem Reagent: Sparkletine");
+        add(ModItems.GEM_REAGENT_GORGINITE, "Gem Reagent: Gorginite");
+        add(ModItems.GEM_REAGENT_TUBIUM, "Gem Reagent: Tubium");
+        add(ModItems.GEM_REAGENT_PETEZANITE, "Gem Reagent: Petezanite");
+        add(ModItems.GEM_REAGENT_UPALINE, "Gem Reagent: Upaline");
         add("item.woldsvaults.idona_dagger", "Idonian Sacrificial Dagger");
         add("item.woldsvaults.velara_apple", "Velaran Emerald Apple");
         add("item.woldsvaults.wendarr_gem", "Wendarrian Focus Gem");
         add("item.woldsvaults.tome_of_tenos", "Tome of Tenos");
-        add("block.the_vault.vault_palladium", "Vault Palladium");
-        add("block.the_vault.vault_iridium", "Vault Iridium");
+        add(ModBlocks.VAULT_PALLADIUM, "Vault Palladium");
+        add(ModBlocks.VAULT_IRIDIUM, "Vault Iridium");
         add("block.woldsvaults.augment_crafting_table", "Augment Assembly Pedestal");
         add("item.woldsvaults.poltergeist_plum", "Poltergeist Plum");
         add("item.woldsvaults.crystal_seal_zealot", "Seal of the Zealot");
@@ -231,6 +245,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("effect.woldsvaults.safer_space", "Safer Space");
         add("effect.woldsvaults.levitateii", "Levitate II");
         add("effect.woldsvaults.rerolled", "Reroll Cooldown");
+        add("effect.the_vault.glacial_shatter", "Glacial Shatter");
         add("woldsvaults.key.cherish_item", "Cherish Item");
         add("key.woldsvaults.cherish_item", "Cherish Item");
         add("key.woldsvaults.open_wolds_vaults_config", "Open Wold's Vaults Config Screen");
@@ -313,6 +328,15 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.woldsvaults.unidentified_gateway_pearl", "Unidentified Gateway Pearl");
         add("item.woldsvaults.prismatic_fiber", "Prismatic Fiber");
         add("block.woldsvaults.prismatic_fiber_block", "Block of Prismatic Fiber");
+        add(ModBlocks.CHROMATIC_GOLD_BLOCK, "Block of Chromatic Gold");
+        add(ModBlocks.SILVER_SCRAP_BLOCK, "Block of Silver Scrap");
+        add(ModBlocks.VAULT_ESSENCE_BLOCK, "Block of Vault Essence");
+        add(ModBlocks.CARBON_BLOCK, "Block of Carbon");
+        add(ModBlocks.VAULT_INGOT_BLOCK, "Block of Vault Ingot");
+        add(ModBlocks.VAULT_PLATING_BLOCK, "Block of Vault Plating");
+        add(ModBlocks.OMEGA_POG_BLOCK, "Block of Omega Pog");
+        add(ModBlocks.ECHO_POG_BLOCK, "Block of Echo Pog");
+        add(ModBlocks.POG_BLOCK, "Block of Pog");
         add("block.woldsvaults.card_shop_pedestal", "Card Vendor Pedestal");
         add("block.woldsvaults.weaving_station", "Weaving Station");
         add("item.woldsvaults.recipe_blueprint", "Recipe Blueprint");
@@ -325,5 +349,26 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.the_vault.block_gem_wutodie_wall", "Wutodie Wall");
         add("block.the_vault.block_gem_wutodie_stairs", "Wutodie Stairs");
         add("item.woldsvaults.crystal_seal_alchemy", "Seal of the Alchemist");
+
+        ModItems.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
+            add(basicItem, StringUtils.convertToTitleCase(dyeColor.getSerializedName()) + " Unobtanium");
+        }));
+
+        ModBlocks.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
+            add(basicItem, StringUtils.convertToTitleCase(dyeColor.getSerializedName()) + " Unobtanium Block");
+        }));
+
+        add(ModBlocks.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium Block");
+        add(ModItems.RAINBOW_UNOBTANIUM, "Rainbow Unobtanium");
+
+        ModBlocks.CUSTOM_VAULT_CRATES.forEach((s, crateBlock) -> {
+            add(crateBlock, StringUtils.convertToTitleCase(s) + " Vault Crate");
+        });
+
+        ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
+            for (int i = 0; i < v.size(); i ++) {
+                add(v.get(i).get(), "Compressed " + (k.isBlockOf() ? "Block of " : "") + StringUtils.convertToTitleCase(k.name()) + " ("+(i+1)+"x)");
+            }
+        });
     }
 }

@@ -1,0 +1,30 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:sandy_block"
+    },
+    {
+      "item": "the_vault:sandy_block_bumbo"
+    },
+    {
+      "item": "the_vault:sandy_block_chiseled"
+    },
+    {
+      "item": "the_vault:sandy_block_polished"
+    },
+    {
+      "item": "the_vault:sandy_bricks"
+    },
+    {
+      "item": "the_vault:sandy_bricks_cracked"
+    },
+    {
+      "item": "the_vault:sandy_small_bricks"
+    },
+    {
+      "item": "the_vault:sandy_small_bricks_cracked"
+    }
+  ],
+  "overwrite": false
+}

@@ -1,6 +1,6 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
-import iskallia.vault.client.ClientExpertiseData;
+import iskallia.vault.client.data.ClientExpertiseData;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;

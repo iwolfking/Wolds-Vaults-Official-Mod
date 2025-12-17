@@ -1,0 +1,187 @@
+{
+  "descriptions": {
+    "ShieldOfLastingGuard": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Block Chance ",
+        "color": "#00F5B2"
+      },
+      {
+        "text": "Cap."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+7.5%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "SpiritsHand": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Reach ",
+        "color": "#82D4FC"
+      },
+      {
+        "text": "Cap inside vaults."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+75.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "BarrierOfResilience": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Resistance ",
+        "color": "#FEDD00"
+      },
+      {
+        "text": "Cap."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+7.5%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "PrismaticPouch": [
+      {
+        "text": "Unlocks the "
+      },
+      {
+        "text": "Prismatic Trinket Pouch ",
+        "color": "#82D4FC"
+      },
+      {
+        "text": "for crafting inside the "
+      },
+      {
+        "text": "Weaving Station",
+        "color": "aqua"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "WeaverOfTime": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Cooldown Reduction ",
+        "color": "#F2CC8C"
+      },
+      {
+        "text": "Cap."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5.0%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+7.5%\n",
+        "color": "#FFD700"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      }
+    ]
+  }
+}

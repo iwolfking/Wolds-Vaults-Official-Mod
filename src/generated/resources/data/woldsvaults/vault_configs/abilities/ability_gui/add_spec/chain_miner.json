@@ -1,0 +1,15 @@
+{
+  "styles": {
+    "Vein_Miner": {
+      "x": 0,
+      "y": -100,
+      "specializationStyles": {
+        "Vein_Miner_Chain": {
+          "icon": "woldsvaults:gui/abilities/vein_miner_chain"
+        }
+      }
+    }
+  },
+  "labels": [],
+  "lines": []
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "the_vault:sublime_vault_elixir"
+    ]
+  },
+  "criteria": {
+    "has_hardened_wutodic_mass": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:hardened_wutodic_mass"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "the_vault:sublime_vault_elixir"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_hardened_wutodic_mass",
+      "has_the_recipe"
+    ]
+  ]
+}

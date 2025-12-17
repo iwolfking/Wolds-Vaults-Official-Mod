@@ -51,7 +51,7 @@ public class CraftingRecipePower extends PrestigePower {
     public void readNbt(CompoundTag nbt) {
         super.readNbt(nbt);
         String recipeUnlockString = nbt.getString("recipeUnlock");
-        this.recipeUnlock = new ResourceLocation(recipeUnlockString);
+        this.recipeUnlock = ResourceLocation.parse(recipeUnlockString);
     }
 
     public Optional<JsonObject> writeJson() {
@@ -64,7 +64,7 @@ public class CraftingRecipePower extends PrestigePower {
     public void readJson(JsonObject json) {
         super.readJson(json);
         String recipeUnlockString = json.get("recipeUnlock").getAsString();
-        this.recipeUnlock = new ResourceLocation(recipeUnlockString);
+        this.recipeUnlock = ResourceLocation.parse(recipeUnlockString);
     }
 
     public void writeBits(BitBuffer buffer) {
@@ -74,6 +74,6 @@ public class CraftingRecipePower extends PrestigePower {
 
     public void readBits(BitBuffer buffer) {
         super.readBits(buffer);
-        this.recipeUnlock = new ResourceLocation(buffer.readString());
+        this.recipeUnlock = ResourceLocation.parse(buffer.readString());
     }
 }

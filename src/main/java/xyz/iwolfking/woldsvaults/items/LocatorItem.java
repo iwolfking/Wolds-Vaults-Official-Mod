@@ -20,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
 
 import java.util.List;
 import java.util.Random;
@@ -30,7 +31,7 @@ public class LocatorItem extends BasicItem {
     private final int yLevelFilter;
 
     public LocatorItem(ResourceLocation id, Block blockToLocate, int yLevelFilter) {
-        super(id);
+        super(id, new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         this.blockToLocate = blockToLocate;
         this.yLevelFilter = yLevelFilter;
     }

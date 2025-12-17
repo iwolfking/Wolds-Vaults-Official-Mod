@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:magic_silk_block_1"
+    }
+  ],
+  "result": {
+    "item": "the_vault:magic_silk_block",
+    "count": 9
+  }
+}

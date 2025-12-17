@@ -1,0 +1,62 @@
+{
+  "roomIcons": {
+    "the_vault:gui/map/arcade": [
+      "the_vault:vault/rooms/omega/arcade"
+    ],
+    "the_vault:gui/map/end_raw": [
+      "the_vault:vault/rooms/raw/end1"
+    ],
+    "the_vault:gui/map/vm_nether": [
+      "the_vault:vault/rooms/raw/nether1"
+    ],
+    "the_vault:gui/map/gateway": [
+      "the_vault:map/rooms/gateway_channeling/gateway"
+    ],
+    "the_vault:gui/map/trove": [
+      "the_vault:vault/rooms/omega/trove"
+    ],
+    "the_vault:gui/map/graveyard": [
+      "the_vault:vault/rooms/challenge/graveyard"
+    ],
+    "the_vault:gui/map/wardens_garden": [
+      "the_vault:vault/rooms/omega/wardens_garden"
+    ],
+    "the_vault:gui/map/woldian_garden": [
+      "the_vault:vault/rooms/omega/iskallian_garden"
+    ],
+    "the_vault:gui/map/comet_observatory": [
+      "the_vault:vault/rooms/omega/comet_observatory"
+    ],
+    "the_vault:gui/map/aquarium": [
+      "the_vault:vault/rooms/challenge/aquarium"
+    ],
+    "the_vault:gui/map/pirate_cave": [
+      "the_vault:vault/rooms/challenge/pirate_cave1"
+    ],
+    "the_vault:gui/map/nether_raw": [
+      "the_vault:vault/rooms/raw/nether1"
+    ],
+    "the_vault:gui/map/playzone": [
+      "the_vault:vault/rooms/omega/playzone",
+      "the_vault:vault/rooms/omega/playzone1"
+    ],
+    "the_vault:gui/map/labyrinth": [
+      "the_vault:vault/rooms/challenge/labyrinth"
+    ],
+    "the_vault:gui/map/vm_end": [
+      "the_vault:vault/rooms/raw/end1"
+    ],
+    "the_vault:gui/map/hellish_digsite": [
+      "the_vault:vault/rooms/omega/hellish_digsite"
+    ],
+    "the_vault:gui/map/wolds_dinner": [
+      "the_vault:vault/rooms/omega/wolds_dinner"
+    ],
+    "the_vault:gui/map/vm_quarry": [
+      "the_vault:vault/rooms/raw/quarry1"
+    ],
+    "the_vault:gui/map/vm_cube": [
+      "the_vault:vault/rooms/raw/cube1"
+    ]
+  }
+}

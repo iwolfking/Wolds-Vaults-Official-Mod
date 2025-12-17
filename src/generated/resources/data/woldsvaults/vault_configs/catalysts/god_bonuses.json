@@ -1,0 +1,273 @@
+{
+  "pools": {
+    "the_vault:idona_bonus": [
+      {
+        "level": 0,
+        "pool": [
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:ornate",
+                "the_vault:idona_challenge"
+              ],
+              "model": 12
+            },
+            "weight": 9.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:champion_chance",
+                "the_vault:idona_challenge"
+              ],
+              "model": 21
+            },
+            "weight": 3.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:ornate_cascade",
+                "the_vault:ornate_cascade",
+                "the_vault:ornate_cascade",
+                "the_vault:idona_challenge"
+              ],
+              "model": 4
+            },
+            "weight": 9.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:copiously",
+                "the_vault:copiously",
+                "the_vault:copiously",
+                "the_vault:idona_challenge"
+              ],
+              "model": 20
+            },
+            "weight": 9.0
+          }
+        ]
+      }
+    ],
+    "the_vault:velara_bonus": [
+      {
+        "level": 0,
+        "pool": [
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:living",
+                "the_vault:velara_challenge"
+              ],
+              "model": 11
+            },
+            "weight": 9.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:living_cascade",
+                "the_vault:living_cascade",
+                "the_vault:living_cascade",
+                "the_vault:velara_challenge"
+              ],
+              "model": 3
+            },
+            "weight": 9.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:soul_boost",
+                "the_vault:soul_boost",
+                "the_vault:soul_boost",
+                "the_vault:velara_challenge"
+              ],
+              "model": 9
+            },
+            "weight": 9.0
+          }
+        ]
+      }
+    ],
+    "the_vault:tenos_bonus": [
+      {
+        "level": 0,
+        "pool": [
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:plentiful",
+                "the_vault:plentiful",
+                "the_vault:tenos_challenge"
+              ],
+              "model": 8
+            },
+            "weight": 9.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:pristine",
+                "the_vault:pristine",
+                "the_vault:pristine",
+                "the_vault:tenos_challenge"
+              ],
+              "model": 17
+            },
+            "weight": 9.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:energizing",
+                "the_vault:energizing",
+                "the_vault:energizing",
+                "the_vault:tenos_challenge"
+              ],
+              "model": 2
+            },
+            "weight": 9.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:extended",
+                "the_vault:extended",
+                "the_vault:tenos_challenge"
+              ],
+              "model": 6
+            },
+            "weight": 9.0
+          }
+        ]
+      }
+    ],
+    "the_vault:wendarr_bonus": [
+      {
+        "level": 0,
+        "pool": [
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:gilded",
+                "the_vault:wendarr_challenge"
+              ],
+              "model": 11
+            },
+            "weight": 9.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:coin_pile",
+                "the_vault:wendarr_challenge"
+              ],
+              "model": 11
+            },
+            "weight": 9.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 10,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:hoard",
+                "the_vault:wendarr_challenge"
+              ],
+              "model": 11
+            },
+            "weight": 3.0
+          },
+          {
+            "value": {
+              "size": {
+                "min": 5,
+                "max": 10,
+                "type": "uniform"
+              },
+              "modifiers": [
+                "the_vault:gilded_cascade",
+                "the_vault:gilded_cascade",
+                "the_vault:gilded_cascade",
+                "the_vault:wendarr_challenge"
+              ],
+              "model": 3
+            },
+            "weight": 9.0
+          }
+        ]
+      }
+    ]
+  }
+}

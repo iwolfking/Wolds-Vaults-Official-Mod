@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "the_vault:burger_bun"
+    },
+    {
+      "item": "the_vault:burger_tomato"
+    },
+    {
+      "item": "the_vault:burger_patty"
+    },
+    {
+      "item": "the_vault:burger_cheese"
+    },
+    {
+      "item": "the_vault:burger_lettuce"
+    },
+    {
+      "item": "the_vault:burger_pickles"
+    },
+    {
+      "item": "the_vault:burger_sauce"
+    }
+  ],
+  "result": {
+    "item": "the_vault:cheese_burger_feast"
+  }
+}

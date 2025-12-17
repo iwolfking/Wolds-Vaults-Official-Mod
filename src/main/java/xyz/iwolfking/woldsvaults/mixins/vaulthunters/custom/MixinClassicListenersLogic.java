@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Mixin(value = ClassicListenersLogic.class, remap = false)
 public class MixinClassicListenersLogic {
-    @Redirect(method = "lambda$onJoin$11", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/VaultNecklaceItem;addUsedVault(Lnet/minecraft/world/item/ItemStack;Ljava/util/UUID;)V"))
+    @Redirect(method = "lambda$onJoin$11", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/VaultUsesHelper;addUsedVault(Lnet/minecraft/world/item/ItemStack;Ljava/util/UUID;)V"))
     private void trinketerEffectsNecklaces(ItemStack stack, UUID vaultId, @Local(argsOnly = true) ServerPlayer player) {
         double damageAvoidanceChance = PlayerExpertisesData.get(player.getLevel())
                 .getExpertises(player)
@@ -28,13 +28,17 @@ public class MixinClassicListenersLogic {
                 .mapToDouble(TrinketerExpertise::getDamageAvoidanceChance)
                 .sum();
         if (player.level.random.nextDouble() < damageAvoidanceChance) {
-            VaultNecklaceItem.addFreeUsedVault(stack, vaultId);
+            if(stack.getItem() instanceof VaultNecklaceItem vaultNecklaceItem) {
+                vaultNecklaceItem.addFreeUsedVault(stack, vaultId);
+            }
         } else {
-            VaultNecklaceItem.addUsedVault(stack, vaultId);
+            if(stack.getItem() instanceof VaultNecklaceItem vaultNecklaceItem) {
+                vaultNecklaceItem.addUsedVault(stack, vaultId);
+            }
         }
     }
 
-    @Redirect(method = "lambda$onJoin$12", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/VaultCharmItem;addUsedVault(Lnet/minecraft/world/item/ItemStack;Ljava/util/UUID;)V"))
+    @Redirect(method = "lambda$onJoin$12", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/VaultUsesHelper;addUsedVault(Lnet/minecraft/world/item/ItemStack;Ljava/util/UUID;)V"))
     private void trinketerEffectsGodCharms(ItemStack stack, UUID vaultId, @Local(argsOnly = true) ServerPlayer player) {
         double damageAvoidanceChance = PlayerExpertisesData.get(player.getLevel())
                 .getExpertises(player)
@@ -43,9 +47,13 @@ public class MixinClassicListenersLogic {
                 .mapToDouble(TrinketerExpertise::getDamageAvoidanceChance)
                 .sum();
         if (player.level.random.nextDouble() < damageAvoidanceChance) {
-            VaultCharmItem.addFreeUsedVault(stack, vaultId);
+            if(stack.getItem() instanceof VaultCharmItem vaultCharmItem) {
+                vaultCharmItem.addFreeUsedVault(stack, vaultId);
+            }
         } else {
-            VaultCharmItem.addUsedVault(stack, vaultId);
+            if(stack.getItem() instanceof VaultCharmItem vaultCharmItem) {
+                vaultCharmItem.addUsedVault(stack, vaultId);
+            }
         }
     }
 }

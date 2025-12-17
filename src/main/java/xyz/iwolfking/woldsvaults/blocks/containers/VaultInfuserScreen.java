@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VaultInfuserScreen extends BaseContainerScreen<VaultInfuserContainer> {
-    public static final ResourceLocation BACKGROUND = new ResourceLocation(WoldsVaults.MOD_ID, "textures/gui/infuser.png");
+    public static final ResourceLocation BACKGROUND = WoldsVaults.id("textures/gui/infuser.png");
     private VaultInfuserTileEntity tile;
 
     public VaultInfuserScreen(VaultInfuserContainer container, Inventory inventory, Component title) {

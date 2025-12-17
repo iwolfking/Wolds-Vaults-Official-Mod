@@ -128,7 +128,7 @@ public class DiscoveredRecipesData extends SavedData
         for (int i = 0; i < playerRecipes.size(); i++) {
             CompoundTag playerTag = playerRecipes.getCompound(i);
             UUID playerId = playerTag.getUUID("player");
-            Set<ResourceLocation> themes = NBTHelper.readSet(playerTag, "recipes", StringTag.class, strTag -> new ResourceLocation(strTag.getAsString()));
+            Set<ResourceLocation> themes = NBTHelper.readSet(playerTag, "recipes", StringTag.class, strTag -> ResourceLocation.parse(strTag.getAsString()));
             this.collectedRecipes.put(playerId, themes);
         }
     }

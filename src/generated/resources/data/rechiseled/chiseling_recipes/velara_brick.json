@@ -1,0 +1,21 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:velara_brick"
+    },
+    {
+      "item": "the_vault:velara_brick_chiseled"
+    },
+    {
+      "item": "the_vault:velara_dark_smooth_brick"
+    },
+    {
+      "item": "the_vault:velara_light_smooth_brick"
+    },
+    {
+      "item": "the_vault:velara_gem_block"
+    }
+  ],
+  "overwrite": false
+}

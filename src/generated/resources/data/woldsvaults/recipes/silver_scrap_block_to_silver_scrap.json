@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:silver_scrap_block"
+    }
+  ],
+  "result": {
+    "item": "the_vault:silver_scrap",
+    "count": 9
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "MODELS": [
+    {
+      "id": "the_vault:gear/axe/leviathan",
+      "displayName": "Leviathan",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/axe/zombie_horse",
+      "displayName": "Zombie Horse Axe",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}

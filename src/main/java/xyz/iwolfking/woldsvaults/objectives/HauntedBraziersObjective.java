@@ -60,7 +60,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.PacketDistributor;
 import vazkii.quark.content.mobs.entity.Wraith;
-import xyz.iwolfking.woldsvaults.api.util.NormalizedHelper;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -96,7 +97,12 @@ public class HauntedBraziersObjective extends MonolithObjective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        NormalizedHelper.handleAddingNormalizedToVault(vault, world);
+        ObjectiveHelper.handleAddingNormalizedToVault(vault, world);
+
+        ObjectiveHelper.addInitModifiersToVault(vault, resourceLocations -> {
+            resourceLocations.add(WoldsVaults.id("ghost_town"));
+            resourceLocations.add(VaultMod.id("haunting"));
+        });
 
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
             this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability));

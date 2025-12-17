@@ -1,0 +1,15 @@
+{
+  "styles": {
+    "Mega_Jump": {
+      "x": 175,
+      "y": -100,
+      "specializationStyles": {
+        "Levitate": {
+          "icon": "woldsvaults:gui/abilities/levitate"
+        }
+      }
+    }
+  },
+  "labels": [],
+  "lines": []
+}

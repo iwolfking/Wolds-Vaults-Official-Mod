@@ -1,0 +1,13 @@
+{
+  "costs": {
+    "wildbackport:swift_sneak": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 20
+        }
+      ],
+      "levels": 1
+    }
+  }
+}

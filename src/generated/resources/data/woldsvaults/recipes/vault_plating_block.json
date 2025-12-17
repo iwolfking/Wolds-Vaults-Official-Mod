@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "the_vault:vault_plating"
+    },
+    {
+      "item": "the_vault:vault_plating"
+    },
+    {
+      "item": "the_vault:vault_plating"
+    },
+    {
+      "item": "the_vault:vault_plating"
+    },
+    {
+      "item": "the_vault:vault_plating"
+    },
+    {
+      "item": "the_vault:vault_plating"
+    },
+    {
+      "item": "the_vault:vault_plating"
+    },
+    {
+      "item": "the_vault:vault_plating"
+    },
+    {
+      "item": "the_vault:vault_plating"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:vault_plating_block"
+  }
+}

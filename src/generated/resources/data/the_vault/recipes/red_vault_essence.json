@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "COC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "the_vault:vault_essence"
+    },
+    "O": {
+      "item": "the_vault:perfect_painite"
+    }
+  },
+  "result": {
+    "item": "the_vault:red_vault_essence"
+  }
+}

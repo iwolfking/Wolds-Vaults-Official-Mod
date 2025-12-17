@@ -1,0 +1,672 @@
+{
+  "introduction": {
+    "index": {
+      "SWORD": [
+        "woldsvaults:ocean_current",
+        "woldsvaults:trirang",
+        "woldsvaults:everfrost",
+        "woldsvaults:everflame",
+        "woldsvaults:hexblade",
+        "woldsvaults:mineral_greatsword",
+        "woldsvaults:grass_sword",
+        "woldsvaults:aurora_scissors",
+        "woldsvaults:young_kitsune",
+        "woldsvaults:bamboo_fightstick"
+      ],
+      "JEWEL": [
+        "woldsvaults:shattering_jewel",
+        "woldsvaults:eternal_stella",
+        "woldsvaults:treasure_jewel"
+      ],
+      "OFFHAND": [
+        "woldsvaults:wicked_witch",
+        "woldsvaults:safer_spaces"
+      ],
+      "MAGNET": [
+        "woldsvaults:chonknet",
+        "woldsvaults:treasure_magnet",
+        "woldsvaults:bloodseeking_magnet"
+      ],
+      "AXE": [
+        "woldsvaults:leviathan",
+        "woldsvaults:zombie_horse_axe"
+      ],
+      "WAND": [
+        "the_vault:chainlash",
+        "the_vault:baguette"
+      ]
+    }
+  },
+  "pages": [
+    {
+      "title": {
+        "description": {
+          "text": "Ocean Current",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This is a test unique!!!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nIt is very testy",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Nowhere",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:ocean_current"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Shatterering Jewel",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "A very special jewel that makes all ",
+            "color": "$text"
+          },
+          {
+            "text": "sliceable",
+            "color": "$titleLine"
+          },
+          {
+            "text": "chests be broken the same way as ",
+            "color": "$text"
+          },
+          {
+            "text": "Wooden ",
+            "color": "$wooden"
+          },
+          {
+            "text": "chests (break in one go)",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Gateways",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:shattering_jewel"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Eternal Stella",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This lovely jewel gives your ",
+            "color": "$text"
+          },
+          {
+            "text": "Vault Tool ",
+            "color": "$titleLine"
+          },
+          {
+            "text": "100% ",
+            "color": "$text"
+          },
+          {
+            "text": "Vanilla Immortality",
+            "color": "$impossible"
+          },
+          {
+            "text": ", making it no longer take durability in the overworld.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Black Market",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:eternal_stella"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Treasured Jewel",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This jewel gives your tool affinity towards ",
+            "color": "$text"
+          },
+          {
+            "text": "Treasure Chests ",
+            "color": "$titleLine"
+          },
+          {
+            "text": "allowing you to mine them instead of having to open them by hand!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Craftable",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:treasure_jewel"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "The Wicked Witch",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This funky Plushie gives you much greater ",
+            "color": "$text"
+          },
+          {
+            "text": "Effect Duration ",
+            "color": "$duration"
+          },
+          {
+            "text": "and ",
+            "color": "$text"
+          },
+          {
+            "text": "Effect Avoidance ",
+            "color": "$ethereal"
+          },
+          {
+            "text": "with the downside of lowering your ",
+            "color": "$text"
+          },
+          {
+            "text": "Cooldown Reduction",
+            "color": "$cooldown"
+          },
+          {
+            "text": "\n\nDrops in: Laboratory",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:wicked_witch"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Chonknet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This thick Magnet gives you much greater ",
+            "color": "$text"
+          },
+          {
+            "text": "Max Health ",
+            "color": "$healthPoints"
+          },
+          {
+            "text": "and ",
+            "color": "$text"
+          },
+          {
+            "text": "Healing Efficiency ",
+            "color": "$heal"
+          },
+          {
+            "text": "with the downside of lowering your ",
+            "color": "$text"
+          },
+          {
+            "text": "Item Quantity ",
+            "color": "$itemQuantity"
+          },
+          {
+            "text": "and ",
+            "color": "$text"
+          },
+          {
+            "text": "Item Rarity ",
+            "color": "$itemRarity"
+          },
+          {
+            "text": "\n\nDrops in: Bounty Reward",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:chonknet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Treasure Hunter's Magnet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This powerful Magnet gives you much greater ",
+            "color": "$text"
+          },
+          {
+            "text": "Item Quantity ",
+            "color": "$itemQuantity"
+          },
+          {
+            "text": "and ",
+            "color": "$text"
+          },
+          {
+            "text": "Item Rarity",
+            "color": "$itemRarity"
+          },
+          {
+            "text": "with the downside of lowering your ",
+            "color": "$text"
+          },
+          {
+            "text": "Max Health ",
+            "color": "$healthPoints"
+          },
+          {
+            "text": "and ",
+            "color": "$text"
+          },
+          {
+            "text": "Max Mana ",
+            "color": "$manaCost"
+          },
+          {
+            "text": "\n\nDrops in: Bounty Reward",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:treasure_magnet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Bloodfetcher",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This deadly Magnet gives you hit harder and leech life back on hit ",
+            "color": "$text"
+          },
+          {
+            "text": "with the downside of lowering your ",
+            "color": "$text"
+          },
+          {
+            "text": "Trap Disarm ",
+            "color": "$duration"
+          },
+          {
+            "text": "and ",
+            "color": "$text"
+          },
+          {
+            "text": "Mana Regen ",
+            "color": "$manaCost"
+          },
+          {
+            "text": "\n\nDrops in: Bounty Reward",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:bloodseeking_magnet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Leviathan",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This heavy hitter of an Axe hits for massive max health damage ",
+            "color": "$text"
+          },
+          {
+            "text": "but is extremely slow! ",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Bounty Reward",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:leviathan"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Zombie Horse Axe",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This spooky Axe can put out extremely deadly Poison clouds and makes you move faster!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Graveyard Room",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:zombie_horse_axe"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Tri-Rang",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This numeric obsessed Vaultarang can do quite a bit of damage!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Bounty Reward",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:trirang"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Everfrost",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This frozen Sword boosts the power of your Glacial Blast!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Vendoors",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:everfrost"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Everflame",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This flaming Sword gives you the ability to shoot TWO fireballs!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Vendoors",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:everflame"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Hexblade",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This Sword can apply a myriad of negative effects to your foes!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Vendoors",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:hexblade"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Mineral Greatsword",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This colossal Sword can hit hard and stun your foes!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Vendoors",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:mineral_greatsword"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Grass Sword",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This lovely Sword can use your Thorns Damage to deal additional damage on-hit!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Vendoors",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:grass_sword"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Aurora Scissors",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This lovely Sword can use your Ability Power to deal additional damage on-hit!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Black Market",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:aurora_scissors"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Young Kitsune Blade",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "The weaker they are, the harder they fall!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Vendoors",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:young_kitsune"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Safer Spaces",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "???",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Black Market",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:safer_spaces"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Bamboo Fightstick",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Trigger Lucky Hits extremely often with this weak stick!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Vendoors",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:bamboo_fightstick"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Chainlash",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "This weird wand empowers your on-hit attacks by ",
+            "color": "$text"
+          },
+          {
+            "text": "chaining ",
+            "color": "$chains"
+          },
+          {
+            "text": "them, increasing your reach greatly. ",
+            "color": "$text"
+          },
+          {
+            "text": "It also decreases the amount of damage loss that ",
+            "color": "$text"
+          },
+          {
+            "text": "chaining ",
+            "color": "$chains"
+          },
+          {
+            "text": "usually entails. ",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: The Laboratory",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "the_vault:chainlash"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "The Baguette",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Hungry? This freshly baked ",
+            "color": "$text"
+          },
+          {
+            "text": "Baguette ",
+            "color": "#7D520E"
+          },
+          {
+            "text": "will taste good at any time. ",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: The Laboratory",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "the_vault:baguette"
+    }
+  ]
+}

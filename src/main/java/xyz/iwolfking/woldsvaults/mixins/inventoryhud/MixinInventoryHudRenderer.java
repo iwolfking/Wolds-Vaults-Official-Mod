@@ -18,10 +18,4 @@ import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 )
 @Mixin(value = InventoryGui.class, remap = false)
 public class MixinInventoryHudRenderer {
-    @Inject(method = "onPreRenderGui", at = @At("HEAD"), cancellable = true)
-    private void disableInventoryGUIWhenVHIsEnabled(RenderGameOverlayEvent.Pre event, CallbackInfo ci) {
-        if(WoldsVaultsConfig.CLIENT.showVanillaVaultHud.get()) {
-            ci.cancel();
-        }
-    }
 }

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "XOX",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "the_vault:gem_wutodie"
+    },
+    "O": {
+      "item": "the_vault:chromatic_iron_block"
+    }
+  },
+  "result": {
+    "item": "the_vault:block_gem_wutodie"
+  }
+}

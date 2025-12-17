@@ -1,7 +1,7 @@
 package xyz.iwolfking.woldsvaults.events.client;
 
-import com.mrcrayfish.configured.Configured;
 import com.mrcrayfish.configured.api.util.ConfigScreenHelper;
+import iskallia.vault.client.gui.screen.accessibility.InventoryHudEditScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -12,9 +12,7 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.loading.LoadingModList;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.compat.bettercombat.BetterCombatToggleHelper;
 import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
@@ -23,7 +21,7 @@ import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
 public class KeyInputEvents {
     public static boolean isFeatherFixEnabled = true;
 
-    private static final ResourceLocation BACKGROUND = new ResourceLocation("minecraft", "textures/block/stone");
+    private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/block/stone");
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.KeyInputEvent event) {
@@ -47,6 +45,10 @@ public class KeyInputEvents {
 
         if(ModKeybinds.toggleBetterCombat.consumeClick()) {
             BetterCombatToggleHelper.toggleBetterCombat();
+        }
+
+        if(ModKeybinds.openInventoryHUD.consumeClick()) {
+            Minecraft.getInstance().setScreen(new InventoryHudEditScreen(Minecraft.getInstance().screen));
         }
     }
 }

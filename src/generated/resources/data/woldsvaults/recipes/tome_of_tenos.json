@@ -21,9 +21,9 @@
     },
     "S": {
       "type": "forge:nbt",
-      "item": "the_vault:god_token",
+      "item": "woldsvaults:god_offering",
       "nbt": {
-        "type": "tenos"
+        "god": "TENOS"
       }
     },
     "M": {

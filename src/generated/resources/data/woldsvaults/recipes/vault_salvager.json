@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "X X",
+    "GBG"
+  ],
+  "key": {
+    "X": {
+      "item": "the_vault:vault_recycler"
+    },
+    "G": {
+      "item": "the_vault:black_chromatic_steel_ingot"
+    },
+    "B": {
+      "item": "the_vault:echo_pog"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:vault_salvager"
+  }
+}

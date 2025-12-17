@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "compressium:velvet_block_5_uncraft"
+    ]
+  },
+  "criteria": {
+    "has_compressed_velvet_block_x5": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "compressium:velvet_block_5"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "compressium:velvet_block_5_uncraft"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_compressed_velvet_block_x5",
+      "has_the_recipe"
+    ]
+  ]
+}

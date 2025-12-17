@@ -5,7 +5,9 @@ import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.world.data.PlayerGreedData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -16,6 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.LoadingModList;
@@ -24,12 +27,13 @@ import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.api.vhapi.loaders.WoldDataLoaders;
-import xyz.iwolfking.woldsvaults.client.init.ModParticles;
+import xyz.iwolfking.woldsvaults.init.client.ModParticles;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.data.recipes.CachedInfuserRecipeData;
 import xyz.iwolfking.woldsvaults.events.LivingEntityEvents;
+import xyz.iwolfking.woldsvaults.events.MissingMappingsEvents;
 import xyz.iwolfking.woldsvaults.events.RegisterCommandEventHandler;
 import xyz.iwolfking.woldsvaults.events.ServerKiller;
 import xyz.iwolfking.woldsvaults.init.*;
@@ -55,6 +59,7 @@ public class WoldsVaults {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, WoldsVaultsConfig.SERVER_SPEC, "woldsvaults-server.toml");
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -65,6 +70,8 @@ public class WoldsVaults {
 
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, this::onLevelLoad);
+        MinecraftForge.EVENT_BUS.addGenericListener(Block.class, MissingMappingsEvents::onMissingMappings);
+        MinecraftForge.EVENT_BUS.addGenericListener(Item.class, MissingMappingsEvents::onMissingMappingsItem);
         MinecraftForge.EVENT_BUS.addListener(RegisterCommandEventHandler::woldsvaults_registerCommandsEvent);
 
         ModParticles.REGISTRY.register(modEventBus);
@@ -75,6 +82,12 @@ public class WoldsVaults {
         ModInscriptionModels.registerModels();
         ModFTBQuestsTaskTypes.init();
         MinecraftForge.EVENT_BUS.addListener(WoldDataLoaders::initProcessors);
+        ModCompressibleBlocks.addBuiltInBlocks();
+    }
+
+    private void clientSetup(final FMLClientSetupEvent event) {
+        //MinecraftForge.EVENT_BUS.addListener(this::textureStitch);
+        ModOptions.init();
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -132,7 +145,7 @@ public class WoldsVaults {
 
 
     public static ResourceLocation id(String name) {
-        return new ResourceLocation("woldsvaults", name);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
     }
 
     public static String sId(String name) {

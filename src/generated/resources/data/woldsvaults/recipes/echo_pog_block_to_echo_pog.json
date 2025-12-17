@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:echo_pog_block"
+    }
+  ],
+  "result": {
+    "item": "the_vault:echo_pog",
+    "count": 9
+  }
+}

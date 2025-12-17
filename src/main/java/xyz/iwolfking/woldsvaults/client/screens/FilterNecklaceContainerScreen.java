@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 import xyz.iwolfking.woldsvaults.gui.menus.FilterNecklaceMenu;
 
 public class FilterNecklaceContainerScreen extends AbstractContainerScreen<FilterNecklaceMenu> {
-    public static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation("textures/gui/container/generic_54.png");
+    public static final ResourceLocation CONTAINER_BACKGROUND = ResourceLocation.parse("textures/gui/container/generic_54.png");
 
     public FilterNecklaceContainerScreen(FilterNecklaceMenu menu, Inventory playerInv, Component title) {
         super(menu, playerInv, title);

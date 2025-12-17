@@ -1,0 +1,13 @@
+{
+  "costs": {
+    "travel_anchors:range": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 1
+    }
+  }
+}

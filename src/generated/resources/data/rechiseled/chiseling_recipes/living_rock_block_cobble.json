@@ -1,0 +1,30 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:living_rock_block_cobble"
+    },
+    {
+      "item": "the_vault:living_rock_block_polished"
+    },
+    {
+      "item": "the_vault:living_rock_block_stacked"
+    },
+    {
+      "item": "the_vault:living_rock_bricks"
+    },
+    {
+      "item": "the_vault:mossy_living_rock_block_cobble"
+    },
+    {
+      "item": "the_vault:mossy_living_rock_block_polished"
+    },
+    {
+      "item": "the_vault:mossy_living_rock_block_stacked"
+    },
+    {
+      "item": "the_vault:mossy_living_rock_bricks"
+    }
+  ],
+  "overwrite": false
+}

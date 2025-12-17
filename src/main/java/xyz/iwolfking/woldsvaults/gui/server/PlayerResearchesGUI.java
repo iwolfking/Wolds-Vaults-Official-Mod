@@ -66,35 +66,35 @@ public class PlayerResearchesGUI extends SimpleGui {
     public static Item getItemByMod(String modName) {
         switch(modName) {
             case "Easy Villagers":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("easy_villagers:auto_trader"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("easy_villagers:auto_trader"));
             case "Botania Flux Field":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("botania:mana_fluxfield"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("botania:mana_fluxfield"));
             case "Soul Harvester":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("the_vault:vault_harvester"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("the_vault:vault_harvester"));
             case "Big Backpacks":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("sophisticatedbackpacks:netherite_backpack"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("sophisticatedbackpacks:netherite_backpack"));
             case "Backpacks":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("sophisticatedbackpacks:diamond_backpack"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("sophisticatedbackpacks:diamond_backpack"));
             case "Belts":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("sophisticatedbackpacks:gold_backpack"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("sophisticatedbackpacks:gold_backpack"));
             case "Double Pouches":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("sophisticatedbackpacks:iron_backpack"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("sophisticatedbackpacks:iron_backpack"));
             case "Better Wallets":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("lightmanscurrency:wallet_netherite"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("lightmanscurrency:wallet_netherite"));
             case "Auto Feeding":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("sophisticatedbackpacks:feeding_upgrade"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("sophisticatedbackpacks:feeding_upgrade"));
             case "Auto Refill":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("sophisticatedbackpacks:refill_upgrade"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("sophisticatedbackpacks:refill_upgrade"));
             case "Stack Upgrading":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("sophisticatedbackpacks:stack_upgrade_tier_4"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("sophisticatedbackpacks:stack_upgrade_tier_4"));
             case "Pouches":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("sophisticatedbackpacks:backpack"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("sophisticatedbackpacks:backpack"));
             case "Junk Management":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("the_vault:vault_charm_controller"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("the_vault:vault_charm_controller"));
             case "Phytogenic Insulator":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:machine_insolator"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("thermal:machine_insolator"));
             case "Digital Miner":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanism:digital_miner"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("mekanism:digital_miner"));
             case "Brews":
                 return Items.BREWING_STAND;
             case "Mixtures":
@@ -102,115 +102,115 @@ public class PlayerResearchesGUI extends SimpleGui {
             case "Potions":
                 return Items.GLASS_BOTTLE;
             case "Thermal Dynamos":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:dynamo_gourmand"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("thermal:dynamo_gourmand"));
             case "Altar Automation":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("vaultintegrations:altar_conduit"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("vaultintegrations:altar_conduit"));
             case "Vault Compass":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("the_vault:vault_compass"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("the_vault:vault_compass"));
             case "Mekanism QIO":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanism:qio_drive_hyper_dense"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("mekanism:qio_drive_hyper_dense"));
             case "Create Ore Excavation":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("createoreexcavation:netherite_drill"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("createoreexcavation:netherite_drill"));
             case "Automatic Genius":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrastorage:netherite_crafter"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("extrastorage:netherite_crafter"));
             case "Mekanism Generators":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanismgenerators:gas_burning_generator"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("mekanismgenerators:gas_burning_generator"));
             case "Iron Generators":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("irongenerators:iron_generator"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("irongenerators:iron_generator"));
             case "Powah":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("powah:charged_snowball"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("powah:charged_snowball"));
             case "Thermal Expansion":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:machine_furnace"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("thermal:machine_furnace"));
             case "Flux Networks":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("fluxnetworks:flux_plug"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("fluxnetworks:flux_plug"));
             case "Botany Pots":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("botanypots:terracotta_botany_pot"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("botanypots:terracotta_botany_pot"));
             case "Bonsai Pots":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("bonsaitrees3:bonsai_pot"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("bonsaitrees3:bonsai_pot"));
             case "Cagerium":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("cagerium:cage"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("cagerium:cage"));
             case "Create Mechanical Extruder":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("create_mechanical_extruder:mechanical_extruder"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("create_mechanical_extruder:mechanical_extruder"));
             case "Create":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:cogwheel"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("create:cogwheel"));
             case "Dark Utilities":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("darkutils:vector_plate"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("darkutils:vector_plate"));
             case "Industrial Foregoing":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("industrialforegoing:machine_frame_supreme"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("industrialforegoing:machine_frame_supreme"));
             case "Mekanism":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("mekanism:energy_tablet"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("mekanism:energy_tablet"));
             case "PneumaticCraft":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("pneumaticcraft:pressure_tube"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("pneumaticcraft:pressure_tube"));
             case "Botania":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("botania:apothecary_default"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("botania:apothecary_default"));
             case "Mob Spawners":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("ispawner:spawner"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("ispawner:spawner"));
             case "ComputerCraft":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("computercraft:computer_normal"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("computercraft:computer_normal"));
             case "Pipez":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("pipez:item_pipe"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("pipez:item_pipe"));
             case "Modular Routers":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("modularrouters:modular_router"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("modularrouters:modular_router"));
             case "Hexcasting":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("hexcasting:wand_oak"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("hexcasting:wand_oak"));
             case "LaserIO":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("laserio:laser_node"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("laserio:laser_node"));
             case "Xnet":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("xnet:router"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("xnet:router"));
             case "Elevators":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("elevatorid:elevator_white"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("elevatorid:elevator_white"));
             case "Iron Furnaces":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("ironfurnaces:iron_furnace"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("ironfurnaces:iron_furnace"));
             case "Applied Energistics":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("ae2:controller"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("ae2:controller"));
             case "Integrated Dynamics":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("integrateddynamics:variable"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("integrateddynamics:variable"));
             case "Refined Storage":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("refinedstorage:improved_processor"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("refinedstorage:improved_processor"));
             case "Iron Chests":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("ironchests:iron_chest"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("ironchests:iron_chest"));
             case "Drawers":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("storagedrawers:oak_full_drawers_1"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("storagedrawers:oak_full_drawers_1"));
             case "Sophisticated Storage":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("sophisticatedstorage:controller"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("sophisticatedstorage:controller"));
             case "Mining Gadgets":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("mininggadgets:mininggadget_simple"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("mininggadgets:mininggadget_simple"));
             case "Building Gadgets":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("buildinggadgets:gadget_building"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("buildinggadgets:gadget_building"));
             case "Trashcans":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("trashcans:item_trash_can"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("trashcans:item_trash_can"));
             case "Torch Master":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("torchmaster:mega_torch"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("torchmaster:mega_torch"));
             case "Waystones":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("waystones:waystone"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("waystones:waystone"));
             case "Toms Simple Storage":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("toms_storage:ts.storage_terminal"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("toms_storage:ts.storage_terminal"));
             case "Cloud Storage":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("cloudstorage:cloud_chest"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("cloudstorage:cloud_chest"));
             case "RFTools Storage":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("rftoolsstorage:modular_storage"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("rftoolsstorage:modular_storage"));
             case "Colossal Chests":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("colossalchests:chest_wall_wood"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("colossalchests:chest_wall_wood"));
             case "Mega Cells":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("megacells:item_storage_cell_1m"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("megacells:item_storage_cell_1m"));
             case "Extra Storage":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("extrastorage:neural_processor"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("extrastorage:neural_processor"));
             case "Botanical Machinery":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("botanicalmachinery:mana_battery"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("botanicalmachinery:mana_battery"));
             case "Applied Mekanistics":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("appmek:chemical_cell_housing"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("appmek:chemical_cell_housing"));
             case "Applied Botanics":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("appbot:mana_cell_housing"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("appbot:mana_cell_housing"));
             case "Create Crafts and Additions":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("createaddition:electric_motor"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("createaddition:electric_motor"));
             case "Create Diesel Generators":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("createdieselgenerators:diesel_engine"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("createdieselgenerators:diesel_engine"));
             case "Time in a Bottle":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("tiab:time_in_a_bottle"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("tiab:time_in_a_bottle"));
             case "RFTools Utility":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("rftoolsutility:charged_porter"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("rftoolsutility:charged_porter"));
             case "Hostile Neural Networks":
-                return ForgeRegistries.ITEMS.getValue(new ResourceLocation("hostilenetworks:deep_learner"));
+                return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("hostilenetworks:deep_learner"));
             default:
                 return Items.GREEN_CONCRETE;
         }

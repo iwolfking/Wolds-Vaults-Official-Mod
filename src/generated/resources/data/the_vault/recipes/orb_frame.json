@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SXE",
+    "XRX",
+    "VXM"
+  ],
+  "key": {
+    "S": {
+      "item": "the_vault:sublime_vault_substance"
+    },
+    "X": {
+      "item": "the_vault:extraordinary_black_opal"
+    },
+    "E": {
+      "item": "the_vault:sublime_vault_elixir"
+    },
+    "V": {
+      "item": "the_vault:sublime_vault_vision"
+    },
+    "M": {
+      "item": "the_vault:memory_crystal"
+    },
+    "R": {
+      "item": "the_vault:omega_pog"
+    }
+  },
+  "result": {
+    "item": "the_vault:orb_frame"
+  }
+}

@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins;
 
 import iskallia.vault.VaultMod;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 
 @Mixin(ThrownTridentRenderer.class)
@@ -28,7 +30,7 @@ public abstract class MixinThrownTridentRenderer extends EntityRenderer<ThrownTr
         if(((ThrownTridentAccessor)trident).callGetPickupItem().getItem()  instanceof VaultTridentItem item)  {
             ItemStack tridentStack = ((ThrownTridentAccessor) trident).callGetPickupItem();
             if(item.getDynamicModelId(tridentStack).isPresent()) {
-                cir.setReturnValue(ResourceLocation.tryParse(item.getDynamicModelId(tridentStack).get().toString() + ".png"));
+                cir.setReturnValue(ResourceLocUtils.prependToId("textures/item/", ResourceLocation.tryParse(item.getDynamicModelId(tridentStack).get() + ".png")));
             }
         }
     }

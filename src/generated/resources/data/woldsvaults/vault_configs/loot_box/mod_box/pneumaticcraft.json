@@ -1,0 +1,137 @@
+{
+  "POOL": {
+    "PneumaticCraft": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "pneumaticcraft:amadron_tablet",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 1
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:transistor",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:capacitor",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:upgrade_matrix",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 30
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:spawner_core_shell",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:printed_circuit_board",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:reinforced_pressure_tube",
+            "amountMin": 4,
+            "amountMax": 4
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:air_compressor",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:advanced_air_compressor",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:advanced_liquid_compressor",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:charging_station",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:empty_spawner",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:vortex_tube",
+            "amountMin": 4,
+            "amountMax": 4
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:advanced_pressure_tube",
+            "amountMin": 4,
+            "amountMax": 4
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:heat_sink",
+            "amountMin": 4,
+            "amountMax": 4
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "pneumaticcraft:heat_pipe",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        }
+      ]
+    }
+  }
+}

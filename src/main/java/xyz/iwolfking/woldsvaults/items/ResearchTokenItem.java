@@ -1,11 +1,16 @@
 package xyz.iwolfking.woldsvaults.items;
 
+import iskallia.vault.config.ResearchesGUIConfig;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.BasicItem;
+import iskallia.vault.item.render.core.IManualModelLoading;
+import iskallia.vault.item.render.core.SpecialItemRenderer;
 import iskallia.vault.research.ResearchTree;
 import iskallia.vault.research.type.Research;
 import iskallia.vault.world.data.PlayerResearchesData;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -26,12 +31,14 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.woldsvaults.client.renderers.ResearchTokenRenderer;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class ResearchTokenItem extends BasicItem {
+public class ResearchTokenItem extends BasicItem implements IManualModelLoading {
 
     public ResearchTokenItem(ResourceLocation id, Properties properties) {
         super(id, properties);
@@ -116,4 +123,26 @@ public class ResearchTokenItem extends BasicItem {
         }
     }
 
+
+    @Override
+    public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.IItemRenderProperties> consumer) {
+        consumer.accept(new net.minecraftforge.client.IItemRenderProperties() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                return ResearchTokenRenderer.INSTANCE;
+            }
+        });
+    }
+
+    @Override
+    public void loadModels(Consumer<ModelResourceLocation> consumer) {
+        consumer.accept(new ModelResourceLocation("woldsvaults:research_token_base#inventory"));
+        ResearchesGUIConfig config = new ResearchesGUIConfig().readConfig();
+        ModConfigs.CONFIGS.remove(config);
+        config.getStyles().forEach((name, style) -> {
+            String[] split = style.icon.toString().split("/");
+            String last = split[split.length - 1];
+            consumer.accept(new ModelResourceLocation("woldsvaults:researches/" + last + "#inventory"));
+        });
+    }
 }

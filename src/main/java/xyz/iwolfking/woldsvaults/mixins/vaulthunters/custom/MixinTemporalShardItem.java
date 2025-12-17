@@ -14,7 +14,7 @@ import xyz.iwolfking.woldsvaults.modifiers.vault.PlayerNoTemporalShardModifier;
 
 @Mixin(value = TemporalShardItem.class, remap = false)
 public class MixinTemporalShardItem {
-    @Inject(method = "lambda$use$2", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "lambda$use$4", at = @At("HEAD"), cancellable = true)
     private static void preventUse(ItemStack stack, Player player, Level level, Vault vault, CallbackInfo ci) {
         if(vault.get(Vault.MODIFIERS).getModifiers().stream().anyMatch(vaultModifier -> vaultModifier instanceof PlayerNoTemporalShardModifier)) {
             player.displayClientMessage(new TextComponent("The relic does not respond."), true);

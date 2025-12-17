@@ -1,0 +1,161 @@
+{
+  "POOL": {
+    "Sophisticated Storage": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "sophisticatedstorage:basic_to_iron_tier_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 30
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:basic_to_gold_tier_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:basic_to_diamond_tier_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:basic_to_netherite_tier_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:stack_upgrade_tier_2",
+            "amountMin": 2,
+            "amountMax": 2
+          },
+          "weight": 60
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:stack_upgrade_tier_3",
+            "amountMin": 1,
+            "amountMax": 2
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:stack_upgrade_tier_4",
+            "amountMin": 1,
+            "amountMax": 2
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:void_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 30
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:compression_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 30
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:hopper_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 30
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:feeding_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:crafting_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:jukebox_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:auto_smelting_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:magnet_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:advanced_magnet_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:advanced_hopper_upgrade",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:controller",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "sophisticatedstorage:storage_link",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        }
+      ]
+    }
+  }
+}

@@ -15,6 +15,11 @@ public class CraftsmanExpertise extends LearnableSkill {
     public CraftsmanExpertise() {
     }
 
+    public CraftsmanExpertise(int unlockLevel, int learnPointCost, int regretCost, int craftsmanLevel) {
+        super(unlockLevel, learnPointCost, regretCost);
+        this.craftsmanLevel = craftsmanLevel;
+    }
+
     @Override
     public void writeBits(BitBuffer buffer) {
         super.writeBits(buffer);

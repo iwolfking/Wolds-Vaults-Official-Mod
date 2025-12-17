@@ -1,5 +1,9 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import iskallia.vault.VaultMod;
+import iskallia.vault.config.ResearchesGUIConfig;
+import iskallia.vault.init.ModConfigs;
+import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -7,7 +11,11 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import xyz.iwolfking.vhapi.api.registry.CustomCatalystModelRegistry;
+import xyz.iwolfking.vhapi.api.registry.CustomInscriptionModelRegistry;
+import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 
@@ -39,6 +47,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CRYSTAL_SEAL_CORRUPT);
         simpleItem(ModItems.CRYSTAL_SEAL_WARRIOR);
         simpleItem(ModItems.CRYSTAL_SEAL_ZEALOT);
+        simpleItem(ModItems.CRYSTAL_SEAL_ENCHANTER);
+        simpleItem(ModItems.CRYSTAL_SEAL_DOOMSAYER);
+        simpleItem(ModItems.CRYSTAL_SEAL_SPIRITS);
+        simpleItem(ModItems.CRYSTAL_SEAL_TITAN);
+        simpleItem(ModItems.CRYSTAL_SEAL_ALCHEMY);
+        simpleItem(ModItems.CRYSTAL_SEAL_UNHINGED);
         simpleItem(ModItems.ECCENTRIC_FOCUS);
         simpleItem(ModItems.ENIGMA_EGG);
         simpleItem(ModItems.EXPERTISE_ORB_ITEM);
@@ -57,12 +71,25 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.NULLITE_FRAGMENT);
         simpleItem(ModItems.OBELISK_RESONATOR);
         simpleItem(ModItems.OMEGA_BOX);
+        simpleItem(ModItems.SUPPLY_BOX);
+        simpleItem(ModItems.AUGMENT_BOX);
+        simpleItem(ModItems.ALTAR_DECATALYZER);
+        simpleItem(ModItems.CHROMATIC_GOLD_INGOT);
+        simpleItem(ModItems.CHROMATIC_GOLD_NUGGET);
+        simpleItem(ModItems.SMASHED_VAULT_GEM);
+        simpleItem(ModItems.SMASHED_VAULT_GEM_CLUSTER);
+        simpleItem(ModItems.POG_PRISM);
         simpleItem(ModItems.POGOMINIUM_INGOT);
         simpleItem(ModItems.POLTERGEIST_PLUM);
         simpleItem(ModItems.PRISMATIC_ANGEL_RING);
         simpleItem(ModItems.PRISMATIC_FIBER);
         simpleItem(ModItems.RECIPE_BLUEPRINT);
         simpleItem(ModItems.REPAIR_AUGMENTER);
+        getBuilder(ModItems.RESEARCH_TOKEN.getRegistryName().getPath())
+                .parent(new ModelFile.UncheckedModelFile(
+                        ResourceLocation.parse("builtin/entity")
+                ));
+        singleTexture("research_token_base", ResourceLocation.withDefaultNamespace("item/generated"), WoldsVaults.id("item/research_token"));
         simpleItem(ModItems.RESEARCH_TOKEN);
         simpleItem(ModItems.RESONATING_REINFORCEMENT);
         simpleItem(ModItems.RUINED_ESSENCE);
@@ -76,6 +103,18 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.VAULT_DIAMOND_NUGGET);
         simpleItem(ModItems.VAULT_ROCK_CANDY);
         simpleItem(ModItems.VAULTAR_BOX);
+        simpleItem(ModItems.GEM_BOX);
+        simpleItem(ModItems.WOLD_STAR);
+        simpleItem(ModItems.WOLD_STAR_CHUNK);
+        simpleItem(ModItems.GEM_REAGENT_ASHIUM);
+        simpleItem(ModItems.GEM_REAGENT_BOMIGNITE);
+        simpleItem(ModItems.GEM_REAGENT_GORGINITE);
+        simpleItem(ModItems.GEM_REAGENT_ISKALLIUM);
+        simpleItem(ModItems.GEM_REAGENT_PETEZANITE);
+        simpleItem(ModItems.GEM_REAGENT_SPARKLETINE);
+        simpleItem(ModItems.GEM_REAGENT_UPALINE);
+        simpleItem(ModItems.GEM_REAGENT_TUBIUM);
+        simpleItem(ModItems.GEM_REAGENT_XENIUM);
         simpleItem(ModItems.VELARA_APPLE);
         simpleItem(ModItems.WANING_AUGMENTER);
         simpleItem(ModItems.WAXING_AUGMENTER);
@@ -96,6 +135,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CATALYST_UNSTABLE);
         simpleItem(ModItems.CRYSTAL_SEAL_ALCHEMY);
         simpleItem(ModItems.COMPANION_REROLLER);
+        simpleItem(ModItems.POGGING_SEED_BASE);
+        simpleItem(ModItems.ECHOING_SEED_BASE);
+        simpleItem(ModItems.UNINFUSED_TERRASTEEL_INGOT);
         //simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         spawnEgg(ModItems.BLUE_BLAZE_EGG);
@@ -142,49 +184,157 @@ public class ModItemModelProvider extends ItemModelProvider {
         itemWithTexture(ModItems.TRINKET_POUCH, "standard_trinket_pouch");
         itemWithTexture(ModItems.GOD_OFFERING, "god_blessing_idona");
 
+        //Vault Modifier icon models
+        vaultModifier(VaultMod.id("orematic"), "oremania");
+        vaultModifier(VaultMod.id("resistant_mobs"));
+        vaultModifier(VaultMod.id("phantasmal_mobs"));
+        vaultModifier(VaultMod.id("fleet_footed_mobs"), "fleetfooted_mobs");
+        vaultModifier(VaultMod.id("witch_party"));
+        vaultModifier(VaultMod.id("ghost_party"));
+        vaultModifier(VaultMod.id("ghost_town"));
+        vaultModifier(VaultMod.id("blinding"));
+        vaultModifier(VaultMod.id("corrosive"));
+        vaultModifier(VaultMod.id("mildly_enchanted"));
+        vaultModifier(VaultMod.id("enchanted"));
+        vaultModifier(VaultMod.id("armed"));
+        vaultModifier(VaultMod.id("surprise_boxes"));
+        vaultModifier(VaultMod.id("fungal"));
+        vaultModifier(VaultMod.id("fungal_infestation"));
+        vaultModifier(VaultMod.id("safari"));
+        vaultModifier(VaultMod.id("winter"));
+        vaultModifier(VaultMod.id("retro"));
+        vaultModifier(VaultMod.id("sweet_retro"), "candy");
+        vaultModifier(VaultMod.id("explosive"));
+        vaultModifier(VaultMod.id("electric"));
+        vaultModifier(VaultMod.id("acidic"));
+        vaultModifier(VaultMod.id("infernal"));
+        vaultModifier(VaultMod.id("springy"));
+        vaultModifier(VaultMod.id("jumpy_deluxe"));
+        vaultModifier(VaultMod.id("plated"));
+        vaultModifier(VaultMod.id("stunning"), "hex_stunning");
+        vaultModifier(VaultMod.id("blinding"), "hex_blinding");
+        vaultModifier(VaultMod.id("raging"));
+        vaultModifier(VaultMod.id("spooky"));
+        vaultModifier(VaultMod.id("levitation"));
+        vaultModifier(VaultMod.id("ghost_town"), "ghost_city");
+        vaultModifier(VaultMod.id("vexation"), "vexation");
+
+        skillScroll("colossus");
+        skillScroll("expunge");
+        ModConfigs.RESEARCHES_GUI = new ResearchesGUIConfig().readConfig();
+        ModConfigs.RESEARCHES_GUI.getStyles().forEach((name, s) -> {
+            researchToken(ModConfigs.RESEARCHES_GUI.getStyles().get(name).icon);
+        });
+
+        CustomInscriptionModelRegistry.getModelMap().forEach(this::vaultInscription);
+        CustomCatalystModelRegistry.getModelMap().forEach(this::vaultCatalyst);
+
+        ModItems.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
+            simpleItem(basicItem);
+        }));
+        simpleItem(ModItems.RAINBOW_UNOBTANIUM);
+
+        ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
+            for (int i = 0; i < v.size(); i ++) {
+                var name = k.name().toLowerCase();
+                withExistingParent(Compressium.MODID + ":" + name + "_" + (i + 1), ResourceLocation.fromNamespaceAndPath(Compressium.MODID, "block/" + name + "_" + (i + 1)));
+            }
+        });
 
     }
 
 
     private ItemModelBuilder simpleItem(Item item) {
         return withExistingParent(item.getRegistryName().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + item.getRegistryName().getPath()));
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                WoldsVaults.id("item/" + item.getRegistryName().getPath()));
+    }
+
+    public ItemModelBuilder skillScroll(String skillId) {
+        return getBuilder(VaultMod.id("item/skills/" + skillId).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        WoldsVaults.id("gui/abilities/" + skillId));
+    }
+
+    public ItemModelBuilder researchToken(ResourceLocation icon) {
+        return getBuilder(WoldsVaults.id("item/researches/" + ResourceLocUtils.getStrippedPath(icon)).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("gui/researches/" + ResourceLocUtils.getStrippedPath(icon)));
+    }
+
+    private ItemModelBuilder vaultModifier(ResourceLocation modifierId) {
+        return getBuilder(VaultMod.id("item/modifiers/" + modifierId.getPath()).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("item/modifiers/" + modifierId.getPath()));
+    }
+
+    private ItemModelBuilder vaultInscription(int modelNumber) {
+        return getBuilder(VaultMod.id("item/inscription/" + modelNumber).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("item/inscription/" + modelNumber));
+    }
+
+    private ItemModelBuilder vaultInscription(int modelNumber, String modelNameOverride) {
+        return getBuilder(VaultMod.id("item/inscription/" + modelNumber).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("item/inscription/" + modelNameOverride));
+    }
+
+
+    private ItemModelBuilder vaultCatalyst(int modelNumber, String modelNameOverride) {
+        return getBuilder(VaultMod.id("item/catalyst/" + modelNumber).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("item/catalyst/" + modelNameOverride));
+    }
+
+
+
+    private ItemModelBuilder vaultModifier(ResourceLocation modifierId, String modifierNameOverride) {
+        return getBuilder(VaultMod.id("item/modifiers/" + modifierNameOverride).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("item/modifiers/" + modifierId.getPath()));
     }
 
     private ItemModelBuilder simpleResource(String resource) {
         return withExistingParent(resource,
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + resource));
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                WoldsVaults.id("item/" + resource));
     }
 
     private ItemModelBuilder simpleLayeredResource(String modelName, String base, String overlay) {
-        return withExistingParent(modelName, new ResourceLocation("item/generated"))
-                .texture("layer0", new ResourceLocation(WoldsVaults.MOD_ID, "item/" + base))
-                .texture("layer1", new ResourceLocation(WoldsVaults.MOD_ID, "item/" + overlay));
+        return withExistingParent(modelName, ResourceLocation.parse("item/generated"))
+                .texture("layer0", WoldsVaults.id("item/" + base))
+                .texture("layer1", WoldsVaults.id("item/" + overlay));
     }
 
     private ItemModelBuilder charm(String resource) {
         return withExistingParent("charm/" + resource,
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + resource));
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                WoldsVaults.id("item/" + resource));
     }
 
 
     private ItemModelBuilder handheldItem(Item item) {
         return withExistingParent(item.getRegistryName().getPath(),
-                new ResourceLocation("item/handheld")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + item.getRegistryName().getPath()));
+                ResourceLocation.parse("item/handheld")).texture("layer0",
+                WoldsVaults.id("item/" + item.getRegistryName().getPath()));
     }
 
     private void spawnEgg(Item item) {
-        withExistingParent(item.getRegistryName().getPath(), new ResourceLocation("item/template_spawn_egg"));
+        withExistingParent(item.getRegistryName().getPath(), ResourceLocation.parse("item/template_spawn_egg"));
     }
 
     private ItemModelBuilder itemWithTexture(Item item, String texture) {
         return withExistingParent(item.getRegistryName().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + texture));
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                WoldsVaults.id("item/" + texture));
     }
 
 

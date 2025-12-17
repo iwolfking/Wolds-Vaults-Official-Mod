@@ -5,7 +5,7 @@ import dev.attackeight.just_enough_vh.jei.JEIRecipeProvider;
 import dev.attackeight.just_enough_vh.jei.RecyclerRecipe;
 import dev.attackeight.just_enough_vh.jei.TheVaultJEIPlugin;
 import dev.attackeight.just_enough_vh.jei.category.ForgeItemRecipeCategory;
-import iskallia.vault.config.VaultRecyclerConfig;
+import iskallia.vault.config.ShopPedestalConfig;
 import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import mezz.jei.api.IModPlugin;
@@ -30,7 +30,6 @@ import xyz.iwolfking.woldsvaults.init.ModRecipeTypes;
 import xyz.iwolfking.woldsvaults.integration.jei.category.*;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.GenericLootableBoxCategory;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.ShopTierCategory;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ShopTierAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,23 +38,23 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class WoldsVaultsJeiPlugin implements IModPlugin {
 
-    public static final RecipeType<GenericLootableConfig> CATALYST_BOX = RecipeType.create(WoldsVaults.MOD_ID, "catalyst_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> INSCRIPTION_BOX = RecipeType.create(WoldsVaults.MOD_ID, "inscription_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> AUGMENT_BOX = RecipeType.create(WoldsVaults.MOD_ID, "augment_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> SUPPLY_BOX = RecipeType.create(WoldsVaults.MOD_ID, "supply_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> GEM_BOX = RecipeType.create(WoldsVaults.MOD_ID, "gem_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> OMEGA_BOX = RecipeType.create(WoldsVaults.MOD_ID, "omega_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> ENIGMA_EGG = RecipeType.create(WoldsVaults.MOD_ID, "enigma_egg", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> VAULTAR_BOX = RecipeType.create(WoldsVaults.MOD_ID, "vaultar_box", GenericLootableConfig.class);
-    public static final RecipeType<GenericLootableConfig> GATEWAY_PEARL = RecipeType.create(WoldsVaults.MOD_ID, "gateway_pearl", GenericLootableConfig.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> CATALYST_BOX = RecipeType.create(WoldsVaults.MOD_ID, "catalyst_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> INSCRIPTION_BOX = RecipeType.create(WoldsVaults.MOD_ID, "inscription_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> AUGMENT_BOX = RecipeType.create(WoldsVaults.MOD_ID, "augment_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> SUPPLY_BOX = RecipeType.create(WoldsVaults.MOD_ID, "supply_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> GEM_BOX = RecipeType.create(WoldsVaults.MOD_ID, "gem_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> OMEGA_BOX = RecipeType.create(WoldsVaults.MOD_ID, "omega_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> ENIGMA_EGG = RecipeType.create(WoldsVaults.MOD_ID, "enigma_egg", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> VAULTAR_BOX = RecipeType.create(WoldsVaults.MOD_ID, "vaultar_box", GenericLootableBoxCategory.GenericLootableConfigPage.class);
+    public static final RecipeType<GenericLootableBoxCategory.GenericLootableConfigPage> GATEWAY_PEARL = RecipeType.create(WoldsVaults.MOD_ID, "gateway_pearl", GenericLootableBoxCategory.GenericLootableConfigPage.class);
 
-    public static final RecipeType<ShopTierAccessor> ETCHING_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "etching_shop_pedestal", ShopTierAccessor.class);
-    public static final RecipeType<ShopTierAccessor> GOD_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "god_shop_pedestal", ShopTierAccessor.class);
-    public static final RecipeType<ShopTierAccessor> BLACKSMITH_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "blacksmith_shop_pedestal", ShopTierAccessor.class);
-    public static final RecipeType<ShopTierAccessor> RARE_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "rare_shop_pedestal", ShopTierAccessor.class);
-    public static final RecipeType<ShopTierAccessor> OMEGA_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "omega_shop_pedestal", ShopTierAccessor.class);
-    public static final RecipeType<ShopTierAccessor> SPOOKY_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "spooky_shop_pedestal", ShopTierAccessor.class);
-    public static final RecipeType<ShopTierAccessor> CARD_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "card_shop_pedestal", ShopTierAccessor.class);
+    public static final RecipeType<ShopPedestalConfig.ShopTier> ETCHING_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "etching_shop_pedestal", ShopPedestalConfig.ShopTier.class);
+    public static final RecipeType<ShopPedestalConfig.ShopTier> GOD_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "god_shop_pedestal", ShopPedestalConfig.ShopTier.class);
+    public static final RecipeType<ShopPedestalConfig.ShopTier> BLACKSMITH_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "blacksmith_shop_pedestal", ShopPedestalConfig.ShopTier.class);
+    public static final RecipeType<ShopPedestalConfig.ShopTier> RARE_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "rare_shop_pedestal", ShopPedestalConfig.ShopTier.class);
+    public static final RecipeType<ShopPedestalConfig.ShopTier> OMEGA_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "omega_shop_pedestal", ShopPedestalConfig.ShopTier.class);
+    public static final RecipeType<ShopPedestalConfig.ShopTier> SPOOKY_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "spooky_shop_pedestal", ShopPedestalConfig.ShopTier.class);
+    public static final RecipeType<ShopPedestalConfig.ShopTier> CARD_SHOP_PEDESTAL = RecipeType.create(WoldsVaults.MOD_ID, "card_shop_pedestal", ShopPedestalConfig.ShopTier.class);
 
     // requires vault jei mod
     public static final RecipeType<ForgeItem> MOD_BOX_WORKSTATION = RecipeType.create(WoldsVaults.MOD_ID, "mod_box_workstation", ForgeItem.class);
@@ -134,15 +133,15 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         }
 
 
-        registration.addRecipes(ENIGMA_EGG, List.of(ModConfigs.ENIGMA_EGG));
-        registration.addRecipes(OMEGA_BOX, List.of(ModConfigs.OMEGA_BOX));
-        registration.addRecipes(GEM_BOX, List.of(ModConfigs.GEM_BOX));
-        registration.addRecipes(SUPPLY_BOX, List.of(ModConfigs.SUPPLY_BOX));
-        registration.addRecipes(AUGMENT_BOX, List.of(ModConfigs.AUGMENT_BOX));
-        registration.addRecipes(INSCRIPTION_BOX, List.of(ModConfigs.INSCRIPTION_BOX));
-        registration.addRecipes(CATALYST_BOX, List.of(ModConfigs.CATALYST_BOX));
-        registration.addRecipes(VAULTAR_BOX, List.of(ModConfigs.VAULTAR_BOX));
-        registration.addRecipes(GATEWAY_PEARL, List.of(ModConfigs.GATEWAY_PEARL));
+        registration.addRecipes(ENIGMA_EGG, makePages(ModConfigs.ENIGMA_EGG));
+        registration.addRecipes(OMEGA_BOX, makePages(ModConfigs.OMEGA_BOX));
+        registration.addRecipes(GEM_BOX, makePages(ModConfigs.GEM_BOX));
+        registration.addRecipes(SUPPLY_BOX, makePages(ModConfigs.SUPPLY_BOX));
+        registration.addRecipes(AUGMENT_BOX, makePages(ModConfigs.AUGMENT_BOX));
+        registration.addRecipes(INSCRIPTION_BOX, makePages(ModConfigs.INSCRIPTION_BOX));
+        registration.addRecipes(CATALYST_BOX, makePages(ModConfigs.CATALYST_BOX));
+        registration.addRecipes(VAULTAR_BOX, makePages(ModConfigs.VAULTAR_BOX));
+        registration.addRecipes(GATEWAY_PEARL, makePages(ModConfigs.GATEWAY_PEARL));
 
         registerShopPedestalRecipes(registration, ModConfigs.ETCHING_SHOP_PEDESTAL, ETCHING_SHOP_PEDESTAL);
         registerShopPedestalRecipes(registration, ModConfigs.GOD_SHOP_PEDESTAL, GOD_SHOP_PEDESTAL);
@@ -159,10 +158,9 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     }
 
 
-    private void registerShopPedestalRecipes(IRecipeRegistration registration, GenericShopPedestalConfig configInstance, RecipeType<ShopTierAccessor> recipeType) {
-        for (Object tier : configInstance.LEVELS) {
-            var shopTier = (ShopTierAccessor) tier;
-            registration.addRecipes(recipeType, List.of(shopTier));
+    private void registerShopPedestalRecipes(IRecipeRegistration registration, GenericShopPedestalConfig configInstance, RecipeType<ShopPedestalConfig.ShopTier> recipeType) {
+        for (ShopPedestalConfig.ShopTier tier : configInstance.LEVELS) {
+            registration.addRecipes(recipeType, List.of(tier));
         }
     }
 
@@ -178,5 +176,17 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
             recipes.add(JEIRecipeProvider.getRecyclerRecipe(new ItemStack(Registry.ITEM.get(rec.getKey())), rec.getValue()));
         }
         registration.addRecipes(TheVaultJEIPlugin.VAULT_RECYCLER, recipes);
+    }
+
+    private List<GenericLootableBoxCategory.GenericLootableConfigPage> makePages(GenericLootableConfig cfg) {
+        int max = 54;
+        int size = cfg.POOL.size();
+        int pageCount = (int)Math.ceil((double) size / max);
+
+        List<GenericLootableBoxCategory.GenericLootableConfigPage> out = new ArrayList<>();
+        for (int i = 0; i < pageCount; i++) {
+            out.add(new GenericLootableBoxCategory.GenericLootableConfigPage(cfg, i));
+        }
+        return out;
     }
 }

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:carbon_block_5"
+    }
+  ],
+  "result": {
+    "item": "compressium:carbon_block_4",
+    "count": 9
+  }
+}

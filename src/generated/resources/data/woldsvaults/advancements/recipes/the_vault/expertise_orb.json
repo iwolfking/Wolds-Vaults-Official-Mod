@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:expertise_orb"
+    ]
+  },
+  "criteria": {
+    "has_orb_frame": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:orb_frame"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:expertise_orb"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_orb_frame",
+      "has_the_recipe"
+    ]
+  ]
+}

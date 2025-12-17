@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "the_vault:chromatic_iron_ingot"
+    },
+    {
+      "item": "the_vault:chromatic_steel_ingot"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_ingot"
+    },
+    {
+      "item": "woldsvaults:smashed_vault_gem_cluster"
+    }
+  ],
+  "result": {
+    "item": "the_vault:vault_ingot"
+  }
+}

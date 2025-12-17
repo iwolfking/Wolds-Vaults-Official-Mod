@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:inscription_box"
+    ]
+  },
+  "criteria": {
+    "has_inscription": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:inscription"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:inscription_box"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_inscription",
+      "has_the_recipe"
+    ]
+  ]
+}

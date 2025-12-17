@@ -5,8 +5,8 @@ import iskallia.vault.core.vault.modifier.VaultModifierStack;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.crystal.CrystalData;
-import iskallia.vault.item.crystal.recipe.AnvilContext;
-import iskallia.vault.item.crystal.recipe.VanillaAnvilRecipe;
+import iskallia.vault.recipe.anvil.AnvilContext;
+import iskallia.vault.recipe.anvil.VanillaAnvilRecipe;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.world.item.ItemStack;
 

@@ -37,12 +37,4 @@ public class MixinIntegrationMinimap { // fix not being able to disable minimap 
             return false;
         }
     }
-
-    @Redirect(method = "lambda$onClientTick$0", at = @At(value = "INVOKE", target = "Lxaero/common/settings/ModSettings;getOptionValue(Lxaero/common/settings/ModOptions;)Ljava/lang/Object;", ordinal = 1),
-        slice = @Slice(
-            from = @At(value = "FIELD", target = "Lxaero/common/settings/ModOptions;SIZE:Lxaero/common/settings/ModOptions;")
-        ))
-    private static Object dontEnableMinimapInOverworld(ModSettings instance, ModOptions par1EnumOptions) {
-        return true;
-    }
 }

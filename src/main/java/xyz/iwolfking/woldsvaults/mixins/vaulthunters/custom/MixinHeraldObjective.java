@@ -18,7 +18,7 @@ import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
 
 @Mixin(value = HeraldObjective.class, remap = false)
 public class MixinHeraldObjective {
-    @Inject(method = "lambda$initServer$5", at = @At(value = "INVOKE", target = "Liskallia/vault/block/item/HeraldTrophyItem;create(Ljava/util/UUID;Ljava/lang/String;Liskallia/vault/block/HeraldTrophyBlock$Variant;I)Lnet/minecraft/world/item/ItemStack;"))
+    @Inject(method = "lambda$initServer$5", at = @At(value = "INVOKE", target = "Liskallia/vault/block/item/HeraldTrophyItem;create(Ljava/util/UUID;Ljava/lang/String;Liskallia/vault/block/HeraldTrophyBlock$Variant;ILiskallia/vault/world/VaultDifficulty;)Lnet/minecraft/world/item/ItemStack;"))
     private void unlockHyperTrinketPouch(VirtualWorld world, Vault vault, LivingDeathEvent event, CallbackInfo ci, @Local int time, @Local Listener listener) {
         if(ModConfigs.HERALD_TROPHY.getTrophy(time).equals(HeraldTrophyBlock.Variant.PLATINUM)) {
             if(listener.getPlayer().isPresent()) {

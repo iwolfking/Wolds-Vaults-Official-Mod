@@ -38,6 +38,7 @@ import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.ISlotType;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import xyz.iwolfking.woldsvaults.gui.menus.FilterNecklaceMenu;
+import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.mixins.create.accessors.FilterItemAccessor;
 
@@ -50,7 +51,7 @@ public class FilterNecklaceItem extends BasicItem implements ICurioItem {
     private final int slotCount;
 
     public FilterNecklaceItem(ResourceLocation id, int slotCount) {
-        super(id, new Properties().stacksTo(1).tab(VAULT_MOD_GROUP));
+        super(id, new Properties().stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS));
         this.slotCount = slotCount;
     }
 

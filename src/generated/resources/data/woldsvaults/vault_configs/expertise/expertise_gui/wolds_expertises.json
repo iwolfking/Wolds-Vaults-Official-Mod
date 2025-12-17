@@ -1,0 +1,40 @@
+{
+  "styles": {
+    "Surprise_Favors": {
+      "x": 210,
+      "y": 70,
+      "frameType": "STAR",
+      "icon": "the_vault:gui/skills/ward"
+    },
+    "Craftsman": {
+      "x": 210,
+      "y": 210,
+      "frameType": "STAR",
+      "icon": "the_vault:gui/skills/reroll"
+    },
+    "Pylon_Pilferer": {
+      "x": 210,
+      "y": 280,
+      "frameType": "STAR",
+      "icon": "the_vault:gui/skills/pylon_pilferer"
+    },
+    "ShopReroll": {
+      "x": 210,
+      "y": -140,
+      "frameType": "STAR",
+      "icon": "the_vault:gui/skills/negotiator"
+    },
+    "Grave_Insurance": {
+      "x": 0,
+      "y": 70,
+      "frameType": "STAR",
+      "icon": "the_vault:gui/skills/grave_insurance"
+    },
+    "Augmentation_Luck": {
+      "x": 420,
+      "y": 70,
+      "frameType": "STAR",
+      "icon": "the_vault:gui/skills/augmentation_luck"
+    }
+  }
+}

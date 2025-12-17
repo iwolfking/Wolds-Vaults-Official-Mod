@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:block_gem_wutodie"
+    ]
+  },
+  "criteria": {
+    "has_gem_wutodie": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:gem_wutodie"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:block_gem_wutodie"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gem_wutodie",
+      "has_the_recipe"
+    ]
+  ]
+}

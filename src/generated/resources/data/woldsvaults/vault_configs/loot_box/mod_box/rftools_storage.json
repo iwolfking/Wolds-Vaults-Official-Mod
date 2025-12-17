@@ -1,0 +1,49 @@
+{
+  "POOL": {
+    "RFTools Storage": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "rftoolsstorage:storage_scanner",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 10
+        },
+        {
+          "value": {
+            "id": "rftoolsstorage:modular_storage",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 50
+        },
+        {
+          "value": {
+            "id": "rftoolsstorage:storage_module0",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 200
+        },
+        {
+          "value": {
+            "id": "rftoolsstorage:storage_module1",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 100
+        },
+        {
+          "value": {
+            "id": "rftoolsstorage:storage_module3",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 25
+        }
+      ]
+    }
+  }
+}

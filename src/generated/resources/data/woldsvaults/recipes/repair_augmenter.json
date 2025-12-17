@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XTX",
+    "TOT",
+    "XTX"
+  ],
+  "key": {
+    "X": {
+      "item": "woldsvaults:arcane_shard"
+    },
+    "O": {
+      "item": "the_vault:orb_frame"
+    },
+    "T": {
+      "item": "the_vault:black_chromatic_steel_ingot"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:repair_augmenter"
+  }
+}

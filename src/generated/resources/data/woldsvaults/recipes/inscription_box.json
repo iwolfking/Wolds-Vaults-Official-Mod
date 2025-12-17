@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GXG",
+    "XRX",
+    "GXG"
+  ],
+  "key": {
+    "X": {
+      "item": "the_vault:wutodic_mass"
+    },
+    "R": {
+      "item": "the_vault:gem_pog"
+    },
+    "G": {
+      "item": "the_vault:inscription"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:inscription_box"
+  }
+}

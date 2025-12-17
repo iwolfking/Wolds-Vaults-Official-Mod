@@ -8,6 +8,7 @@ import iskallia.vault.container.slot.TabSlot;
 import iskallia.vault.item.InfusedCatalystItem;
 import iskallia.vault.item.InscriptionItem;
 import iskallia.vault.item.gear.CharmItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
@@ -28,15 +29,16 @@ public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotConta
         super(menuType, id, player);
     }
 
-    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Liskallia/vault/container/CrystalWorkbenchContainer;addSlot(Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;", ordinal = 3, remap = true))
-    private Slot addManipulator(CrystalWorkbenchContainer instance, Slot slot, @Local(ordinal = 1) int slotIndex, @Local(ordinal = 0) int finalSlotIndex) {
-        return this.addSlot(new TabSlot(this.entity.getIngredients(), slotIndex * 3 + finalSlotIndex, -999 + finalSlotIndex * 18, 50 + slotIndex * 18) {
-            @Override
+    @Redirect(method = "<init>", at = @At(value = "TAIL"))
+    private Slot addManipulator(CrystalWorkbenchContainer instance, Slot slot, @Local(ordinal = 1) int slotIndex, @Local(ordinal = 0, argsOnly = true) int finalSlotIndex) {
+        return this.addSlot((new CrystalWorkbenchContainer.CrystalWorkbenchSlot(this.entity.getUniqueIngredients(), slotIndex + 1, 250, 250) {
             public boolean mayPlace(ItemStack stack) {
-                return stack.getItem() instanceof InfusedCatalystItem || stack.getItem() instanceof InscriptionItem || stack.getItem() instanceof CharmItem || stack.getItem() instanceof LayoutModificationItem;
+                return entity.getUniqueIngredients().canPlaceItem(slotIndex + 1, stack);
             }
-        });
+        }).setBackground(this.getUniqueSlotBackground(42)));
     }
 
 
+    @Shadow
+    protected abstract ResourceLocation getUniqueSlotBackground(int index);
 }

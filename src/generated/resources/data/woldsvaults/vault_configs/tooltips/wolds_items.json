@@ -1,0 +1,356 @@
+{
+  "tooltips": [
+    {
+      "item": "woldsvaults:mod_box_workstation",
+      "value": "Used to create Targeted Mod Boxes that will only give items from a particular mod."
+    },
+    {
+      "item": "woldsvaults:soul_ichor",
+      "value": "Used in the Black Market to reroll the offers."
+    },
+    {
+      "item": "woldsvaults:augment_piece",
+      "value": "Used in the Augment Assembly Pedestal to craft Augments, can be obtained by recycling Augments."
+    },
+    {
+      "item": "woldsvaults:mercy_orb",
+      "value": "Combine in anvil with a weapon to enchant it with Curse of Mercy, preventing it from killing mobs."
+    },
+    {
+      "item": "woldsvaults:tome_of_tenos",
+      "value": "Place on Vault Altar to create a Tenos Zealot Vault."
+    },
+    {
+      "item": "woldsvaults:wendarr_gem",
+      "value": "Place on Vault Altar to create a Wendarr Zealot Vault."
+    },
+    {
+      "item": "woldsvaults:velara_apple",
+      "value": "Place on Vault Altar to create a Velara Zealot Vault."
+    },
+    {
+      "item": "woldsvaults:idona_dagger",
+      "value": "Place on Vault Altar to create a Idona Zealot Vault."
+    },
+    {
+      "item": "woldsvaults:eccentric_focus",
+      "value": "Use with Vault Gear in the Artisan Station to add an unusual modifier."
+    },
+    {
+      "item": "woldsvaults:suspension_focus",
+      "value": "Use with Vault Gear in the Artisan Station to freeze a Legendary, Greater, Corrupted, or Unusual modifier."
+    },
+    {
+      "item": "woldsvaults:blazing_focus",
+      "value": "Use with Vault Gear in the Artisan Station to unfreeze all frozen modifiers."
+    },
+    {
+      "item": "woldsvaults:stylish_focus",
+      "value": "Use with Vault Tool in an anvil to add Stylish, causing it to rotate through all tool types visually."
+    },
+    {
+      "item": "woldsvaults:crystal_reinforcement",
+      "value": "Use with Vault Tool in an anvil to add 10 capacity."
+    },
+    {
+      "item": "woldsvaults:resonating_reinforcement",
+      "value": "Use with Vault Tool in an anvil to add 10 capacity. (can be used a limited number of times)"
+    },
+    {
+      "item": "woldsvaults:repair_augmenter",
+      "value": "Use with Vault Gear in an anvil to add a repair slot."
+    },
+    {
+      "item": "woldsvaults:waning_augmenter",
+      "value": "Use with Vault Gear in an anvil to add a suffix slot. (Legacy)"
+    },
+    {
+      "item": "woldsvaults:waxing_augmenter",
+      "value": "Use with Vault Gear in an anvil to add a prefix slot. (Legacy)"
+    },
+    {
+      "item": "woldsvaults:layout_manipulator",
+      "value": "Combine with Vault Crystal in Anvil to set the Vault's Layout"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_doomsayer",
+      "value": "Use in the Crystal Workbench to set the objective to 'Ballistic Bingo'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_warrior",
+      "value": "Use in the Crystal Workbench to set the objective to 'Slay the Guardians'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_unhinged",
+      "value": "Use in the Crystal Workbench to set the objective to 'Unhinged Scavenger Hunt'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_titan",
+      "value": "Use in the Crystal Workbench to set the objective to 'Slay the Brutal Bosses'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_enchanter",
+      "value": "Use in the Crystal Workbench to set the objective to 'Enchanted Elixir'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_spirits",
+      "value": "Use in the Crystal Workbench to set the objective to 'Haunted Braziers'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_corrupt",
+      "value": "Use in the Crystal Workbench to set the objective to 'Corrupted'"
+    },
+    {
+      "item": "woldsvaults:capstone_vendoors",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Vendoor Hunter' modifier."
+    },
+    {
+      "item": "woldsvaults:capstone_enchanted",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Enchanted' modifier."
+    },
+    {
+      "item": "woldsvaults:capstone_frenzy",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Frenzy' curse."
+    },
+    {
+      "item": "woldsvaults:capstone_prosperous",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Prosperous' modifier, guaranteeing an artifact"
+    },
+    {
+      "item": "woldsvaults:capstone_all_seeing_eye",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'All Seeing Eye' modifier."
+    },
+    {
+      "item": "woldsvaults:expertise_orb",
+      "value": "Requires Vault Level 100 to use, adds 1 Expertise point unless you are maxed."
+    },
+    {
+      "item": "woldsvaults:altar_recatalyzer",
+      "value": "Sneak and right-click on your Vault Altar to reroll the recipe."
+    },
+    {
+      "item": "woldsvaults:obelisk",
+      "value": "Decorative version of the Obelisk. Right-click the base to summon lightning!"
+    },
+    {
+      "item": "woldsvaults:lodestone",
+      "value": "Decorative version of the Lodestone. Sneak and right-click to get a message!"
+    },
+    {
+      "item": "woldsvaults:monolith",
+      "value": "Decorative version of the Brazier. Right-click to cycle through display options."
+    },
+    {
+      "item": "woldsvaults:scavenger_altar",
+      "value": "Decorative version of the Scavenger Altar."
+    },
+    {
+      "item": "woldsvaults:general_decor_scroll",
+      "value": "Used to create decorative versions of the Vault Objective blocks."
+    },
+    {
+      "item": "woldsvaults:pog_prism",
+      "value": "Ingredient for mid-tier crafting recipes."
+    },
+    {
+      "item": "woldsvaults:extraordinary_pog_prism",
+      "value": "Ingredient for high-end crafting recipes."
+    },
+    {
+      "item": "woldsvaults:inscription_box",
+      "value": "Use to create a random Inscription, including some special ones."
+    },
+    {
+      "item": "woldsvaults:omega_box",
+      "value": "Use to create a random valuable item."
+    },
+    {
+      "item": "woldsvaults:wold_star_chunk",
+      "value": "An extremely rare item used in crafting a Wold Star."
+    },
+    {
+      "item": "woldsvaults:wold_star",
+      "value": "Used in crafting Creative items."
+    },
+    {
+      "item": "woldsvaults:smashed_vault_gem",
+      "value": "Obtained when a vault ore would normally drop nothing."
+    },
+    {
+      "item": "woldsvaults:mod_box_workstation",
+      "value": "Used to create Targeted Mod Boxes that will only give items from a particular mod."
+    },
+    {
+      "item": "woldsvaults:soul_ichor",
+      "value": "Used in the Black Market to reroll the offers."
+    },
+    {
+      "item": "woldsvaults:augment_piece",
+      "value": "Used in the Augment Assembly Pedestal to craft Augments, can be obtained by recycling Augments."
+    },
+    {
+      "item": "woldsvaults:mercy_orb",
+      "value": "Combine in anvil with a weapon to enchant it with Curse of Mercy, preventing it from killing mobs."
+    },
+    {
+      "item": "woldsvaults:tome_of_tenos",
+      "value": "Place on Vault Altar to create a Tenos Zealot Vault."
+    },
+    {
+      "item": "woldsvaults:wendarr_gem",
+      "value": "Place on Vault Altar to create a Wendarr Zealot Vault."
+    },
+    {
+      "item": "woldsvaults:velara_apple",
+      "value": "Place on Vault Altar to create a Velara Zealot Vault."
+    },
+    {
+      "item": "woldsvaults:idona_dagger",
+      "value": "Place on Vault Altar to create a Idona Zealot Vault."
+    },
+    {
+      "item": "woldsvaults:eccentric_focus",
+      "value": "Use with Vault Gear in the Artisan Station to add an unusual modifier."
+    },
+    {
+      "item": "woldsvaults:suspension_focus",
+      "value": "Use with Vault Gear in the Artisan Station to freeze a Legendary, Greater, Corrupted, or Unusual modifier."
+    },
+    {
+      "item": "woldsvaults:blazing_focus",
+      "value": "Use with Vault Gear in the Artisan Station to unfreeze all frozen modifiers."
+    },
+    {
+      "item": "woldsvaults:stylish_focus",
+      "value": "Use with Vault Tool in an anvil to add Stylish, causing it to rotate through all tool types visually."
+    },
+    {
+      "item": "woldsvaults:crystal_reinforcement",
+      "value": "Use with Vault Tool in an anvil to add 10 capacity."
+    },
+    {
+      "item": "woldsvaults:resonating_reinforcement",
+      "value": "Use with Vault Tool in an anvil to add 10 capacity. (can be used a limited number of times)"
+    },
+    {
+      "item": "woldsvaults:repair_augmenter",
+      "value": "Use with Vault Gear in an anvil to add a repair slot."
+    },
+    {
+      "item": "woldsvaults:waning_augmenter",
+      "value": "Use with Vault Gear in an anvil to add a suffix slot. (Legacy)"
+    },
+    {
+      "item": "woldsvaults:waxing_augmenter",
+      "value": "Use with Vault Gear in an anvil to add a prefix slot. (Legacy)"
+    },
+    {
+      "item": "woldsvaults:layout_manipulator",
+      "value": "Combine with Vault Crystal in Anvil to set the Vault's Layout"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_doomsayer",
+      "value": "Use in the Crystal Workbench to set the objective to 'Ballistic Bingo'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_warrior",
+      "value": "Use in the Crystal Workbench to set the objective to 'Slay the Guardians'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_unhinged",
+      "value": "Use in the Crystal Workbench to set the objective to 'Unhinged Scavenger Hunt'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_titan",
+      "value": "Use in the Crystal Workbench to set the objective to 'Slay the Brutal Bosses'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_enchanter",
+      "value": "Use in the Crystal Workbench to set the objective to 'Enchanted Elixir'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_spirits",
+      "value": "Use in the Crystal Workbench to set the objective to 'Haunted Braziers'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_corrupt",
+      "value": "Use in the Crystal Workbench to set the objective to 'Corrupted'"
+    },
+    {
+      "item": "woldsvaults:capstone_vendoors",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Vendoor Hunter' modifier."
+    },
+    {
+      "item": "woldsvaults:capstone_enchanted",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Enchanted' modifier."
+    },
+    {
+      "item": "woldsvaults:capstone_frenzy",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Frenzy' curse."
+    },
+    {
+      "item": "woldsvaults:capstone_prosperous",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Prosperous' modifier, guaranteeing an artifact"
+    },
+    {
+      "item": "woldsvaults:capstone_all_seeing_eye",
+      "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'All Seeing Eye' modifier."
+    },
+    {
+      "item": "woldsvaults:expertise_orb",
+      "value": "Requires Vault Level 100 to use, adds 1 Expertise point unless you are maxed."
+    },
+    {
+      "item": "woldsvaults:altar_recatalyzer",
+      "value": "Sneak and right-click on your Vault Altar to reroll the recipe."
+    },
+    {
+      "item": "woldsvaults:obelisk",
+      "value": "Decorative version of the Obelisk. Right-click the base to summon lightning!"
+    },
+    {
+      "item": "woldsvaults:lodestone",
+      "value": "Decorative version of the Lodestone. Sneak and right-click to get a message!"
+    },
+    {
+      "item": "woldsvaults:monolith",
+      "value": "Decorative version of the Brazier. Right-click to cycle through display options."
+    },
+    {
+      "item": "woldsvaults:scavenger_altar",
+      "value": "Decorative version of the Scavenger Altar."
+    },
+    {
+      "item": "woldsvaults:general_decor_scroll",
+      "value": "Used to create decorative versions of the Vault Objective blocks."
+    },
+    {
+      "item": "woldsvaults:pog_prism",
+      "value": "Ingredient for mid-tier crafting recipes."
+    },
+    {
+      "item": "woldsvaults:extraordinary_pog_prism",
+      "value": "Ingredient for high-end crafting recipes."
+    },
+    {
+      "item": "woldsvaults:inscription_box",
+      "value": "Use to create a random Inscription, including some special ones."
+    },
+    {
+      "item": "woldsvaults:omega_box",
+      "value": "Use to create a random valuable item."
+    },
+    {
+      "item": "woldsvaults:wold_star_chunk",
+      "value": "An extremely rare item used in crafting a Wold Star."
+    },
+    {
+      "item": "woldsvaults:wold_star",
+      "value": "Used in crafting Creative items."
+    },
+    {
+      "item": "woldsvaults:smashed_vault_gem",
+      "value": "Obtained when a vault ore would normally drop nothing."
+    }
+  ]
+}

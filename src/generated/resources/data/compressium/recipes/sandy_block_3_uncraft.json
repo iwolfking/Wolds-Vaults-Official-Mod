@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "compressium:sandy_block_3"
+    }
+  ],
+  "result": {
+    "item": "compressium:sandy_block_2",
+    "count": 9
+  }
+}

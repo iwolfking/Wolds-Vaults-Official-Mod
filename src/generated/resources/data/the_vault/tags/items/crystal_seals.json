@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "woldsvaults:crystal_seal_unhinged",
+    "woldsvaults:crystal_seal_spirits",
+    "woldsvaults:crystal_seal_enchanter",
+    "woldsvaults:crystal_seal_titan",
+    "woldsvaults:crystal_seal_doomsayer",
+    "woldsvaults:crystal_seal_zealot",
+    "woldsvaults:crystal_seal_warrior",
+    "woldsvaults:crystal_seal_corrupt",
+    "woldsvaults:crystal_seal_alchemy",
+    "woldsvaults:crystal_seal_raid_rock_infinite_hard"
+  ]
+}

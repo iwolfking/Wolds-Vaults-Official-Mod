@@ -1,0 +1,34 @@
+{
+  "PLAIN_BURGER": {
+    "minExp": 100,
+    "maxExp": 200
+  },
+  "CHEESE_BURGER": {
+    "minExp": 200,
+    "maxExp": 400
+  },
+  "DOUBLE_CHEESE_BURGER": {
+    "minExp": 400,
+    "maxExp": 600
+  },
+  "DELUXE_CHEESE_BURGER": {
+    "minExp": 600,
+    "maxExp": 1200
+  },
+  "CRISPY_DELUXE_CHEESE_BURGER": {
+    "minExp": 1200,
+    "maxExp": 2000
+  },
+  "SALTY_DELUXE_CHEESE_BURGER": {
+    "minExp": 2000,
+    "maxExp": 3000
+  },
+  "CHEESE_BURGER_FEAST": {
+    "minExp": 3600,
+    "maxExp": 4200
+  },
+  "SPICY_HEARTY_BURGER": {
+    "minExp": 20000,
+    "maxExp": 40000
+  }
+}

@@ -53,7 +53,7 @@ public class AugmentForgeRecipe extends VaultForgeRecipe {
     }
 
     @Override
-    public boolean canCraft(Player player) {
+    public boolean canCraft(Player player, int level) {
         if (player instanceof ServerPlayer sPlayer) {
             DiscoveredThemesData themesData = DiscoveredThemesData.get(sPlayer.getLevel());
             return themesData.hasDiscovered(sPlayer, this.getId());

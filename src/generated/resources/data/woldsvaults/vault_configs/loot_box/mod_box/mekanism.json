@@ -1,0 +1,73 @@
+{
+  "POOL": {
+    "Mekanism": {
+      "weight": 1,
+      "entries": [
+        {
+          "value": {
+            "id": "mekanism:ultimate_energy_cube",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 3
+        },
+        {
+          "value": {
+            "id": "mekanism:block_steel",
+            "amountMin": 4,
+            "amountMax": 8
+          },
+          "weight": 15
+        },
+        {
+          "value": {
+            "id": "mekanism:flamethrower",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        },
+        {
+          "value": {
+            "id": "mekanism:ultimate_tier_installer",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        },
+        {
+          "value": {
+            "id": "mekanism:alloy_atomic",
+            "amountMin": 2,
+            "amountMax": 8
+          },
+          "weight": 5
+        },
+        {
+          "value": {
+            "id": "mekanism:alloy_reinforced",
+            "amountMin": 4,
+            "amountMax": 12
+          },
+          "weight": 20
+        },
+        {
+          "value": {
+            "id": "mekanism:alloy_infused",
+            "amountMin": 16,
+            "amountMax": 16
+          },
+          "weight": 35
+        },
+        {
+          "value": {
+            "id": "mekanism:free_runners",
+            "amountMin": 1,
+            "amountMax": 1
+          },
+          "weight": 2
+        }
+      ]
+    }
+  }
+}

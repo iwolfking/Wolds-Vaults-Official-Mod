@@ -1,0 +1,30 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "the_vault:vault_stone"
+    },
+    {
+      "item": "the_vault:vault_cobblestone"
+    },
+    {
+      "item": "the_vault:chiseled_vault_stone"
+    },
+    {
+      "item": "the_vault:polished_vault_stone"
+    },
+    {
+      "item": "the_vault:vault_stone_bricks"
+    },
+    {
+      "item": "the_vault:vault_stone_bricks_cracked"
+    },
+    {
+      "item": "the_vault:vault_stone_pillar"
+    },
+    {
+      "item": "the_vault:bumbo_polished_vault_stone"
+    }
+  ],
+  "overwrite": false
+}

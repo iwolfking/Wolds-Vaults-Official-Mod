@@ -1,0 +1,10 @@
+{
+  "MODELS": [
+    {
+      "id": "the_vault:gear/rang/trirang",
+      "displayName": "Tri-Rang",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}

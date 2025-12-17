@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:arcane_essence"
+    },
+    {
+      "item": "woldsvaults:arcane_essence"
+    },
+    {
+      "item": "woldsvaults:arcane_essence"
+    },
+    {
+      "item": "woldsvaults:arcane_essence"
+    },
+    {
+      "item": "woldsvaults:arcane_essence"
+    },
+    {
+      "item": "woldsvaults:arcane_essence"
+    },
+    {
+      "item": "woldsvaults:arcane_essence"
+    },
+    {
+      "item": "woldsvaults:arcane_essence"
+    },
+    {
+      "item": "woldsvaults:arcane_essence"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:arcane_shard"
+  }
+}

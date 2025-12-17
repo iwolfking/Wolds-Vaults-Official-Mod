@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "the_vault:gem_gorginite"
+    ]
+  },
+  "criteria": {
+    "has_gem_reagent_gorginite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:gem_reagent_gorginite"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "the_vault:gem_gorginite"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gem_reagent_gorginite",
+      "has_the_recipe"
+    ]
+  ]
+}

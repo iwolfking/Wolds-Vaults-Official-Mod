@@ -29,7 +29,8 @@ public class WeaponTypeReader extends VaultGearModifierReader<String> {
 
     @Nonnull
     public MutableComponent getValueDisplay(String value) {
-        return new TextComponent("Weapon Type: ").append(new TextComponent(value).withStyle(Style.EMPTY.withColor(ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.get(value).COLOR)));
+        return new TextComponent("Unimplemented");
+        //return new TextComponent("Weapon Type: ").append(new TextComponent(value).withStyle(Style.EMPTY.withColor(ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.get(value).COLOR)));
     }
 
     @Override

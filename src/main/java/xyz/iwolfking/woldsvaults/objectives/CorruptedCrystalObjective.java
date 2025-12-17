@@ -13,13 +13,12 @@ import iskallia.vault.core.world.roll.IntRoll;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
+
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,19 +43,18 @@ public class CorruptedCrystalObjective extends CrystalObjective {
     }
 
     @Override
-    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        MutableComponent cmp1 = ComponentUtils.corruptComponent(new TextComponent("Objective: "));
+    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level) {
+        MutableComponent cmp1 = ComponentUtils.corruptComponent(new TranslatableComponent("util.woldsvaults.objective_text"));
         tooltip.add((cmp1)
-                .append(new TextComponent("Corrupted")
+                .append(new TranslatableComponent("vault_objective.woldsvaults.corrupted"))
                         .withStyle(
                                 Style.EMPTY.withColor(7995392).withObfuscated(true)
                         )
-                )
         );
     }
 
     @Override
-    public void configure(Vault vault, RandomSource random) {
+    public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
         if (vault.get(Vault.LISTENERS).get(Listeners.LOGIC) instanceof ClassicListenersLogic classic) {
             classic.set(ClassicListenersLogic.MIN_LEVEL, 100);
