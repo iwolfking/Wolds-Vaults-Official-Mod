@@ -2,10 +2,7 @@ package xyz.iwolfking.woldsvaults.config.recipes.weaving;
 
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.container.oversized.OverSizedItemStack;
-import iskallia.vault.gear.crafting.recipe.TrinketForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
-import iskallia.vault.research.StageManager;
-import iskallia.vault.world.data.PlayerResearchesData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -14,13 +11,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.ISlotType;
 import xyz.iwolfking.woldsvaults.config.TrinketPouchConfig;
-import xyz.iwolfking.woldsvaults.data.discovery.ClientRecipeDiscoveryData;
-import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
+import xyz.iwolfking.woldsvaults.api.data.discovery.ClientRecipeDiscoveryData;
+import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
-import xyz.iwolfking.woldsvaults.items.TargetedModBox;
 import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 
 import java.util.List;

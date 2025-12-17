@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
+import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.VaultLevelTask;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

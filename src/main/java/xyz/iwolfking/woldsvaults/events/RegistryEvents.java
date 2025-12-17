@@ -14,8 +14,9 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import xyz.iwolfking.woldsvaults.client.init.ModModels;
 import xyz.iwolfking.woldsvaults.init.*;
-import xyz.iwolfking.woldsvaults.lib.CustomScaleTypes;
+import xyz.iwolfking.woldsvaults.integration.pehkui.CustomScaleTypes;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
@@ -67,7 +68,7 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void onModelRegister(ModelRegistryEvent event) {
-        xyz.iwolfking.woldsvaults.init.client.ModModels.setupRenderLayers();
+        ModModels.setupRenderLayers();
     }
 
     @SubscribeEvent

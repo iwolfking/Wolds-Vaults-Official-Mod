@@ -34,7 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
+import xyz.iwolfking.woldsvaults.api.data.enchantments.AllowedEnchantmentsData;
 
 import javax.annotation.Nullable;
 import java.util.List;

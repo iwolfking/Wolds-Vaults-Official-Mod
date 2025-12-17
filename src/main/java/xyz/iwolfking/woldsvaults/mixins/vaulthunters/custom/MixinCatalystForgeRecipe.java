@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.data.discovery.ClientPlayerGreedData;
+import xyz.iwolfking.woldsvaults.api.data.discovery.ClientPlayerGreedData;
 
 @Mixin(value = CatalystForgeRecipe.class, remap = false)
 public abstract class MixinCatalystForgeRecipe extends VaultForgeRecipe {

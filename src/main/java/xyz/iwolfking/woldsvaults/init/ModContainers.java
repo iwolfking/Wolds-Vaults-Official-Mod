@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.event.RegistryEvent;
 import xyz.iwolfking.woldsvaults.blocks.containers.*;
-import xyz.iwolfking.woldsvaults.gui.menus.FilterNecklaceMenu;
+import xyz.iwolfking.woldsvaults.items.filter_necklace.menus.FilterNecklaceMenu;
 
 public class ModContainers {
 

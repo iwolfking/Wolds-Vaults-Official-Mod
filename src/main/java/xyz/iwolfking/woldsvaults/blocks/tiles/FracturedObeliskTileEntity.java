@@ -2,13 +2,8 @@ package xyz.iwolfking.woldsvaults.blocks.tiles;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.Connection;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -18,11 +13,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
+import xyz.iwolfking.woldsvaults.events.vault.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class FracturedObeliskTileEntity extends BlockEntity {

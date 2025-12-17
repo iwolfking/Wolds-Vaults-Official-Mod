@@ -8,7 +8,6 @@ import iskallia.vault.gear.crafting.recipe.GearForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
-import iskallia.vault.util.SidedHelper;
 import iskallia.vault.world.data.PlayerGreedData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -21,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.data.discovery.ClientPlayerGreedData;
 import xyz.iwolfking.woldsvaults.items.AirMobilityItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 

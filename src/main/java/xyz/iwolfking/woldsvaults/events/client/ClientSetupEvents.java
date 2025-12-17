@@ -9,10 +9,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import xyz.iwolfking.woldsvaults.init.ModVaultarHudScreenRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.init.client.ModScreens;
+import xyz.iwolfking.woldsvaults.client.init.ModScreens;
 import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.init.client.ModEntityRenderers;
-import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
+import xyz.iwolfking.woldsvaults.client.init.ModEntityRenderers;
+import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT})

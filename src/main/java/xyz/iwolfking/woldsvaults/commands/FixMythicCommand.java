@@ -12,7 +12,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.gui.server.ClaimBlockCategoryGui;
 
 public class FixMythicCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {

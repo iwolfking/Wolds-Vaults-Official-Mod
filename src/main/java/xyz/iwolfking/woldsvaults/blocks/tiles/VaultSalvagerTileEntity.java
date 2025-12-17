@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.blocks.tiles;
 
 import com.google.common.collect.Lists;
-import iskallia.vault.block.entity.VaultRecyclerTileEntity;
 import iskallia.vault.config.VaultRecyclerConfig;
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
@@ -40,7 +39,7 @@ import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.vhapi.api.data.api.CustomRecyclerOutputs;
 import xyz.iwolfking.woldsvaults.blocks.containers.VaultSalvagerContainer;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
-import xyz.iwolfking.woldsvaults.lib.SimpleOversizedSidedContainer;
+import xyz.iwolfking.woldsvaults.api.lib.SimpleOversizedSidedContainer;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;

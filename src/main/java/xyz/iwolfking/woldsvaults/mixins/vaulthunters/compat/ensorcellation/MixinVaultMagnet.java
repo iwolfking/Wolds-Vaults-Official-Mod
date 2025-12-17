@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.compat.ensorcellation;
 
 
-import cofh.ensorcellation.init.EnsorcEnchantments;
 import iskallia.vault.gear.item.CuriosGearItem;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.item.MagnetItem;
@@ -12,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import org.spongepowered.asm.mixin.Mixin;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
-import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
+import xyz.iwolfking.woldsvaults.api.data.enchantments.AllowedEnchantmentsData;
 
 @Restriction(
         require = {

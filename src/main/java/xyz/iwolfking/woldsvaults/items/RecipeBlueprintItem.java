@@ -21,7 +21,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.config.RecipeUnlocksConfig;
-import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
+import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 

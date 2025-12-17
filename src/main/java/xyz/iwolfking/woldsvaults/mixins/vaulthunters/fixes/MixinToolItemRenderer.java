@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import xyz.iwolfking.woldsvaults.lib.ExtendedToolType;
+import xyz.iwolfking.woldsvaults.api.lib.ExtendedToolType;
 
 @Mixin(value = ToolItemRenderer.class, remap = false)
 public abstract class MixinToolItemRenderer extends SpecialItemRenderer {

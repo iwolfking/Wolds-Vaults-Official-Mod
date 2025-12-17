@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
-import xyz.iwolfking.woldsvaults.events.vaultevents.BrewingAltarBrewEvent;
+import xyz.iwolfking.woldsvaults.events.vault.BrewingAltarBrewEvent;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.objectives.AlchemyObjective;
 import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;

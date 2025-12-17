@@ -30,8 +30,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.data.discovery.ClientRecipeDiscoveryData;
-import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
+import xyz.iwolfking.woldsvaults.api.data.discovery.ClientRecipeDiscoveryData;
+import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import java.util.List;

@@ -1,13 +1,12 @@
 package xyz.iwolfking.woldsvaults.init;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.lib.network.packets.StopFlightMessage;
+import xyz.iwolfking.woldsvaults.network.packets.StopFlightMessage;
 import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage;
 import xyz.iwolfking.woldsvaults.network.message.ElixirParticleMessage;

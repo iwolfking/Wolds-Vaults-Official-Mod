@@ -9,18 +9,13 @@ import iskallia.vault.core.vault.VaultUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.common.UsernameCache;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.api.util.MessageFunctions;
-import xyz.iwolfking.woldsvaults.gui.server.PlayerResearchesGUI;
 
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class TriggerVaultEventCommand {

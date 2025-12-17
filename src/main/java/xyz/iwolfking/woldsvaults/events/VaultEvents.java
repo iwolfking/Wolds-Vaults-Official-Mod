@@ -22,11 +22,10 @@ import net.minecraftforge.fml.common.Mod;
 import org.spongepowered.asm.mixin.Unique;
 import virtuoel.pehkui.api.ScaleTypes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredRecipesData;
-import xyz.iwolfking.woldsvaults.data.discovery.DiscoveredThemesData;
+import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
+import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.CompleteBountyTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.EnterVaultTask;
-import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.VaultLevelTask;
 import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
 
 import java.util.List;

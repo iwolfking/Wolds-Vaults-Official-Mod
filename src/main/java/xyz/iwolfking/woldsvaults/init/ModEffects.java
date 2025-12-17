@@ -1,15 +1,13 @@
 package xyz.iwolfking.woldsvaults.init;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraftforge.common.extensions.IForgeMobEffect;
 import net.minecraftforge.event.RegistryEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.ColossusAbility;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.*;
-import xyz.iwolfking.woldsvaults.lib.CustomScaleTypes;
+import xyz.iwolfking.woldsvaults.integration.pehkui.CustomScaleTypes;
 
 public class ModEffects {
     public static final MobEffect GROWING = new GrowingPotionEffect(MobEffectCategory.NEUTRAL, 0xc90000, CustomScaleTypes.SIZE, WoldsVaults.id("growing"));

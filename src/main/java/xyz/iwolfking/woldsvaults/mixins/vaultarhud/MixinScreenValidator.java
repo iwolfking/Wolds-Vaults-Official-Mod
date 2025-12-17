@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.iwolfking.woldsvaults.lib.vaultarhud.WoldScreenValidator;
+import xyz.iwolfking.woldsvaults.integration.vaultarhud.WoldScreenValidator;
 @Restriction(
         require = {
                 @Condition(type = Condition.Type.MOD, value = "vaultarhud")

@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import xyz.iwolfking.woldsvaults.blocks.containers.lib.infuser.CatalystSlot;
 import xyz.iwolfking.woldsvaults.blocks.containers.lib.infuser.InfuserIngredientSlot;
 import xyz.iwolfking.woldsvaults.blocks.tiles.VaultInfuserTileEntity;
-import xyz.iwolfking.woldsvaults.data.recipes.CachedInfuserRecipeData;
+import xyz.iwolfking.woldsvaults.api.data.recipes.CachedInfuserRecipeData;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
 
 import java.util.function.Function;

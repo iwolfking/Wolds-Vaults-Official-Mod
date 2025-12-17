@@ -9,7 +9,6 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.init.*;
-import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import java.util.LinkedHashMap;

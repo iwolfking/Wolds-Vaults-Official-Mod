@@ -24,7 +24,6 @@ import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.util.EntityHelper;
 import iskallia.vault.util.SidedHelper;
 import iskallia.vault.world.data.DiscoveredModelsData;
-import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -59,8 +58,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.LoadingModList;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
-import xyz.iwolfking.woldsvaults.compat.bettertridents.BetterThrownTrident;
-import xyz.iwolfking.woldsvaults.data.enchantments.AllowedEnchantmentsData;
+import xyz.iwolfking.woldsvaults.integration.bettertridents.BetterThrownTrident;
+import xyz.iwolfking.woldsvaults.api.data.enchantments.AllowedEnchantmentsData;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.models.Tridents;
 

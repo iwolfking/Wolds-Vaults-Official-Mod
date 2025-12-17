@@ -6,7 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
-import xyz.iwolfking.woldsvaults.gui.server.ClaimBlockCategoryGui;
+import xyz.iwolfking.woldsvaults.integration.opac.ClaimBlockCategoryGui;
 
 public class ClaimPurchaseCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {

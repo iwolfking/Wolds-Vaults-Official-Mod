@@ -10,13 +10,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.compat.bettercombat.NoBetterCombatTester;
-import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Mixin(value = VaultGearTooltipItem.class, remap = false)
 public interface MixinVaultGearTooltipItem{

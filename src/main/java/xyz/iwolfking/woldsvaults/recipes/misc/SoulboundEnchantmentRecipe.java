@@ -19,7 +19,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import xyz.iwolfking.woldsvaults.items.FilterNecklaceItem;
+import xyz.iwolfking.woldsvaults.items.filter_necklace.FilterNecklaceItem;
 
 import java.util.ArrayList;
 import java.util.List;

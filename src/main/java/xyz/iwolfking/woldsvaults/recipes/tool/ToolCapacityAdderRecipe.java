@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.recipes.tool;
 
-import cofh.ensorcellation.init.EnsorcEnchantments;
 import iskallia.vault.gear.data.ToolGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.init.ModGearAttributes;
@@ -14,14 +13,10 @@ import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.lib.ExtendedToolType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ToolCapacityAdderRecipe extends VanillaAnvilRecipe {
 

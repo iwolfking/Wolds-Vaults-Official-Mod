@@ -25,8 +25,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.client.sfx.LoopSoundHandler;
-import xyz.iwolfking.woldsvaults.data.compound.FloatList;
-import xyz.iwolfking.woldsvaults.events.vaultevents.client.WoldClientEvents;
+import xyz.iwolfking.woldsvaults.api.data.compound.FloatList;
+import xyz.iwolfking.woldsvaults.events.client.WoldClientEvents;
 import xyz.iwolfking.woldsvaults.api.util.CorruptedVaultClientHelper;
 import xyz.iwolfking.woldsvaults.api.util.CorruptedVaultHelper;
 

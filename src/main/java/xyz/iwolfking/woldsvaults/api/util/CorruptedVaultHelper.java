@@ -70,7 +70,7 @@ import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.blocks.MonolithControllerBlock;
 import xyz.iwolfking.woldsvaults.blocks.tiles.FracturedObeliskTileEntity;
-import xyz.iwolfking.woldsvaults.events.vaultevents.WoldCommonEvents;
+import xyz.iwolfking.woldsvaults.events.vault.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.items.LocatorItem;
 import xyz.iwolfking.woldsvaults.modifiers.clock.KillMobTimeExtension;
 import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;

@@ -1,9 +1,7 @@
 package xyz.iwolfking.woldsvaults.models;
 
-import iskallia.vault.dynamodel.DynamicModelProperties;
 import iskallia.vault.dynamodel.registry.DynamicModelRegistry;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.lib.models.BowModel;
+import xyz.iwolfking.woldsvaults.models.lib.BowModel;
 
 public class Bows {
     public static final DynamicModelRegistry<BowModel> REGISTRY = new DynamicModelRegistry<>();

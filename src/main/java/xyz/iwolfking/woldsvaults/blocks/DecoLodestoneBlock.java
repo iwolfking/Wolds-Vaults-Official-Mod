@@ -26,7 +26,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.blocks.tiles.DecoLodestoneTileEntity;
-import xyz.iwolfking.woldsvaults.data.DecoLodestoneStrings;
+import xyz.iwolfking.woldsvaults.api.data.DecoLodestoneStrings;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 import javax.annotation.Nonnull;

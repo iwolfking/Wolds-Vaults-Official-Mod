@@ -23,7 +23,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import xyz.iwolfking.woldsvaults.blocks.VaultInfuserBlock;
 import xyz.iwolfking.woldsvaults.blocks.containers.VaultInfuserContainer;
-import xyz.iwolfking.woldsvaults.data.recipes.CachedInfuserRecipeData;
+import xyz.iwolfking.woldsvaults.api.data.recipes.CachedInfuserRecipeData;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModRecipeTypes;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipe;

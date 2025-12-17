@@ -1,7 +1,5 @@
 package xyz.iwolfking.woldsvaults.events;
 
-import iskallia.ispawner.ISpawner;
-import iskallia.ispawner.init.ModBlocks;
 import iskallia.vault.block.SkillAltarBlock;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.item.KnowledgeBrewItem;
@@ -36,7 +34,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.blocks.DollDismantlingBlock;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
-import xyz.iwolfking.woldsvaults.items.FilterNecklaceItem;
+import xyz.iwolfking.woldsvaults.items.filter_necklace.FilterNecklaceItem;
 
 @Mod.EventBusSubscriber(
         modid = WoldsVaults.MOD_ID
