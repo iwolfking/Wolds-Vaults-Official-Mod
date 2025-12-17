@@ -20,7 +20,7 @@ public class ModVaultEntitiesProvider extends AbstractVaultEntitiesProvider {
     public void registerConfigs() {
         add("wold_mobs", builder -> {
             builder.addDeathEffect(EntityPredicate.of(ModEntities.CRANBERRY_SLIME.getRegistryName().toString(), true).orElse(null), deathEffectBuilder -> {
-                deathEffectBuilder.add(0, "", VaultMod.id(""), 100, 3, 5177344, true, 0.5F, new ResourceLocation("immersiveengineering", "sticky"), 100, 1);
+                deathEffectBuilder.add(0, "", VaultMod.id(""), 100, 3, 5177344, true, 0.5F, ResourceLocation.fromNamespaceAndPath("immersiveengineering", "sticky"), 100, 1);
             });
         });
     }

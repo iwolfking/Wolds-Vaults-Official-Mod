@@ -62,8 +62,8 @@ public class ModGearEnchantmentsProvider extends AbstractGearEnchantmentProvider
         });
 
         add("create", builder -> {
-            builder.addEnchantment(new ResourceLocation(Create.ID, "potato_recovery"), 5, 1);
-            builder.addEnchantment(new ResourceLocation(Create.ID, "capacity"), 5, 1);
+            builder.addEnchantment(ResourceLocation.fromNamespaceAndPath(Create.ID, "potato_recovery"), 5, 1);
+            builder.addEnchantment(ResourceLocation.fromNamespaceAndPath(Create.ID, "capacity"), 5, 1);
         });
 
         add("ars_nouveau", builder -> {

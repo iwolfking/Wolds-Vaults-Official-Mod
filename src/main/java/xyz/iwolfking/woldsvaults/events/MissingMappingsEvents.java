@@ -18,7 +18,7 @@ public class MissingMappingsEvents {
         WoldsVaults.LOGGER.info("Running remapping event for blocks");
             event.getMappings("kubejs").forEach(mapping -> {
                 remapUnobtaniumBlock(mapping);
-                if(mapping.key.equals(new ResourceLocation("kubejs", "rainbow_unobtanium_block"))) {
+                if(mapping.key.equals(ResourceLocation.fromNamespaceAndPath("kubejs", "rainbow_unobtanium_block"))) {
                     mapping.remap(ModBlocks.RAINBOW_UNOBTANIUM);
                 }
             });
@@ -99,10 +99,10 @@ public class MissingMappingsEvents {
     public static void onMissingMappingsItem(RegistryEvent.MissingMappings<Item> event) {
         WoldsVaults.LOGGER.info("Running remapping event for items");
         event.getMappings("kubejs").forEach(mapping -> {
-            if(mapping.key.equals(new ResourceLocation("kubejs", "rainbow_unobtanium_block"))) {
+            if(mapping.key.equals(ResourceLocation.fromNamespaceAndPath("kubejs", "rainbow_unobtanium_block"))) {
                 mapping.remap(ModBlocks.RAINBOW_UNOBTANIUM.asItem());
             }
-            else if(mapping.key.equals(new ResourceLocation("kubejs", "rainbow_unobtanium"))) {
+            else if(mapping.key.equals(ResourceLocation.fromNamespaceAndPath("kubejs", "rainbow_unobtanium"))) {
                 mapping.remap(ModItems.RAINBOW_UNOBTANIUM);
             }
             else {
@@ -111,16 +111,16 @@ public class MissingMappingsEvents {
             }
         });
         event.getMappings("botania").forEach(mapping -> {
-            if (mapping.key.equals(new ResourceLocation("botania", "uninfused_terrasteel_ingot"))) {
+            if (mapping.key.equals(ResourceLocation.fromNamespaceAndPath("botania", "uninfused_terrasteel_ingot"))) {
                 mapping.remap(ModItems.UNINFUSED_TERRASTEEL_INGOT);
             }
         });
 
         event.getMappings("mysticalagriculture").forEach(mapping -> {
-            if (mapping.key.equals(new ResourceLocation("mysticalagriculture", "pogging_seed_base"))) {
+            if (mapping.key.equals(ResourceLocation.fromNamespaceAndPath("mysticalagriculture", "pogging_seed_base"))) {
                 mapping.remap(ModItems.POGGING_SEED_BASE);
             }
-            else if (mapping.key.equals(new ResourceLocation("mysticalagriculture", "echoing_seed_base"))) {
+            else if (mapping.key.equals(ResourceLocation.fromNamespaceAndPath("mysticalagriculture", "echoing_seed_base"))) {
                 mapping.remap(ModItems.ECHOING_SEED_BASE);
             }
         });
@@ -267,7 +267,7 @@ public class MissingMappingsEvents {
         if(mapping.key.equals(old)) {
             mapping.remap(blockOne);
         }
-        if(mapping.key.equals(new ResourceLocation(old.getPath().replace("_1", "_2")))) {
+        if(mapping.key.equals(ResourceLocation.parse(old.getPath().replace("_1", "_2")))) {
             mapping.remap(blockTwo);
         }
     }
@@ -276,14 +276,14 @@ public class MissingMappingsEvents {
         if(mapping.key.equals(old)) {
             mapping.remap(blockOne);
         }
-        if(mapping.key.equals(new ResourceLocation(old.getNamespace(), old.getPath().replace("_1", "_2")))) {
+        if(mapping.key.equals(ResourceLocation.fromNamespaceAndPath(old.getNamespace(), old.getPath().replace("_1", "_2")))) {
             mapping.remap(blockTwo);
         }
     }
 
     private static void remapUnobtaniumBlock(RegistryEvent.MissingMappings.Mapping<Block> mapping) {
         for(DyeColor color : DyeColor.values()) {
-            if(mapping.key.equals(new ResourceLocation("kubejs", color.getSerializedName() + "_unobtanium_block"))) {
+            if(mapping.key.equals(ResourceLocation.fromNamespaceAndPath("kubejs", color.getSerializedName() + "_unobtanium_block"))) {
                 mapping.remap(ModBlocks.COLORED_UNOBTANIUMS.get(color));
             }
         }
@@ -291,7 +291,7 @@ public class MissingMappingsEvents {
 
     private static void remapUnobtaniumBlockItem(RegistryEvent.MissingMappings.Mapping<Item> mapping) {
         for(DyeColor color : DyeColor.values()) {
-            if(mapping.key.equals(new ResourceLocation("kubejs", color.getSerializedName() + "_unobtanium_block"))) {
+            if(mapping.key.equals(ResourceLocation.fromNamespaceAndPath("kubejs", color.getSerializedName() + "_unobtanium_block"))) {
                 mapping.remap(ModBlocks.COLORED_UNOBTANIUMS.get(color).asItem());
             }
         }
@@ -299,7 +299,7 @@ public class MissingMappingsEvents {
 
     private static void remapUnobtaniumItem(RegistryEvent.MissingMappings.Mapping<Item> mapping) {
         for(DyeColor color : DyeColor.values()) {
-            if(mapping.key.equals(new ResourceLocation("kubejs", color.getSerializedName() + "_unobtanium"))) {
+            if(mapping.key.equals(ResourceLocation.fromNamespaceAndPath("kubejs", color.getSerializedName() + "_unobtanium"))) {
                 mapping.remap(ModItems.COLORED_UNOBTANIUMS.get(color));
             }
         }

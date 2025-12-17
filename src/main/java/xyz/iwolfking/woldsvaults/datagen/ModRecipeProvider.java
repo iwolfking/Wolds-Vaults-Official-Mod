@@ -48,15 +48,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
 //        ShapedRecipeBuilder.shaped(ModItems.XL_BACKPACK)
 //                .define('I', ModItems.PRISMATIC_FIBER)
-//                .define('L', Registry.ITEM.get(new ResourceLocation("the_vault", "wold_star_chunk")))
+//                .define('L', Registry.ITEM.get(VaultMod.id("wold_star_chunk")))
 //                .define('P', ModItems.CHROMA_CORE)
-//                .define('B', Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack")))
+//                .define('B', Registry.ITEM.get(ResourceLocation.fromNamespaceAndPath("sophisticatedbackpacks", "netherite_backpack")))
 //                .define('S', iskallia.vault.init.ModBlocks.BLACK_CHROMATIC_STEEL_BLOCK)
 //                .define('M', iskallia.vault.init.ModItems.OMEGA_POG)
 //                .pattern("ILI")
 //                .pattern("PBP")
 //                .pattern("SMS")
-//                .unlockedBy("has_netherite_backpack", has(Registry.ITEM.get(new ResourceLocation("sophisticatedbackpacks", "netherite_backpack"))))
+//                .unlockedBy("has_netherite_backpack", has(Registry.ITEM.get(ResourceLocation.fromNamespaceAndPath("sophisticatedbackpacks", "netherite_backpack"))))
 //                .save(pFinishedRecipeConsumer);
 
         CompoundTag colossus = new CompoundTag();
@@ -156,7 +156,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("III")
                 .unlockedBy("has_modbox", has(iskallia.vault.init.ModItems.MOD_BOX))
                 .save(recipeCosumer -> pFinishedRecipeConsumer.accept(new UncheckedRecipe(recipeCosumer, Map.of(
-                        'L', new ResourceLocation("craftingstation", "crafting_station")
+                        'L', ResourceLocation.fromNamespaceAndPath("craftingstation", "crafting_station")
                 ))));
 
         ShapedRecipeBuilder.shaped(ModBlocks.WEAVING_STATION)
@@ -171,13 +171,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(ModItems.FILTER_NECKLACE)
-                .define('F', Registry.ITEM.get(new ResourceLocation("create", "attribute_filter")))
+                .define('F', Registry.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "attribute_filter")))
                 .define('P', ModItems.POG_PRISM)
                 .define('I', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
                 .pattern(" II")
                 .pattern(" PI")
                 .pattern("F  ")
-                .unlockedBy("has_attribute_filter", has(Registry.ITEM.get(new ResourceLocation("create", "attribute_filter"))))
+                .unlockedBy("has_attribute_filter", has(Registry.ITEM.get(ResourceLocation.fromNamespaceAndPath("create", "attribute_filter"))))
                 .save(pFinishedRecipeConsumer);
 
         CompoundTag basicVanilla = new CompoundTag();
@@ -901,14 +901,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         if(blockForm != ModBlocks.RAINBOW_UNOBTANIUM) {
             ShapelessRecipeBuilder.shapeless(blockForm, 8)
-                    .requires(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("architects_palette", "unobtanium_block")), 8)
+                    .requires(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath("architects_palette", "unobtanium_block")), 8)
                     .requires(ForgeRegistries.ITEMS.getValue(ResourceLocUtils.replace(ResourceLocUtils.swapNamespace(itemForm.getRegistryName(), "minecraft"), "unobtanium", "dye")), 1)
-                    .unlockedBy("has_unobtanium", has(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("architects_palette", "unobtanium_block"))))
+                    .unlockedBy("has_unobtanium", has(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath("architects_palette", "unobtanium_block"))))
                     .save(finishedRecipeConsumer, WoldsVaults.id(blockForm.getRegistryName().getPath() + "_from_dye"));
         }
         else {
             ShapelessRecipeBuilder.shapeless(blockForm, 1)
-                    .requires(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("architects_palette", "unobtanium_block")), 1)
+                    .requires(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath("architects_palette", "unobtanium_block")), 1)
                     .requires(Items.GREEN_DYE)
                     .requires(Items.RED_DYE)
                     .requires(Items.BLUE_DYE)
@@ -917,7 +917,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                     .requires(Items.ORANGE_DYE)
                     .requires(Items.CYAN_DYE)
                     .requires(Items.WHITE_DYE)
-                    .unlockedBy("has_unobtanium", has(ForgeRegistries.BLOCKS.getValue(new ResourceLocation("architects_palette", "unobtanium_block"))))
+                    .unlockedBy("has_unobtanium", has(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath("architects_palette", "unobtanium_block"))))
                     .save(finishedRecipeConsumer, WoldsVaults.id(blockForm.getRegistryName().getPath() + "_from_dye"));
         }
 

@@ -46,7 +46,7 @@ public class CompanionRerollingItem extends BasicItem {
                 VaultModifier<?> modifier;
                 if(stackInHand.hasTag() && stackInHand.getOrCreateTag().contains("modifier")) {
                     String modifierId = stackInHand.getOrCreateTag().getString("modifier");
-                    modifier = VaultModifierRegistry.get(new ResourceLocation(modifierId));
+                    modifier = VaultModifierRegistry.get(ResourceLocation.parse(modifierId));
                 }
                 else {
                     modifier = CompanionItem.getRandomTemporalModifier();
@@ -66,7 +66,7 @@ public class CompanionRerollingItem extends BasicItem {
         if(stack.hasTag()) {
             if(stack.getOrCreateTag().contains("modifier")) {
                 String modifierId = stack.getOrCreateTag().getString("modifier");
-                VaultModifier<?> modifier = VaultModifierRegistry.get(new ResourceLocation(modifierId));
+                VaultModifier<?> modifier = VaultModifierRegistry.get(ResourceLocation.parse(modifierId));
                 if(modifier != null) {
                     return modifier.getNameComponent();
                 }

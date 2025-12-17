@@ -87,9 +87,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.REPAIR_AUGMENTER);
         getBuilder(ModItems.RESEARCH_TOKEN.getRegistryName().getPath())
                 .parent(new ModelFile.UncheckedModelFile(
-                        new ResourceLocation("builtin/entity")
+                        ResourceLocation.parse("builtin/entity")
                 ));
-        singleTexture("research_token_base", new ResourceLocation("minecraft", "item/generated"), WoldsVaults.id("item/research_token"));
+        singleTexture("research_token_base", ResourceLocation.withDefaultNamespace("item/generated"), WoldsVaults.id("item/research_token"));
         simpleItem(ModItems.RESEARCH_TOKEN);
         simpleItem(ModItems.RESONATING_REINFORCEMENT);
         simpleItem(ModItems.RUINED_ESSENCE);
@@ -237,7 +237,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
             for (int i = 0; i < v.size(); i ++) {
                 var name = k.name().toLowerCase();
-                withExistingParent(Compressium.MODID + ":" + name + "_" + (i + 1), new ResourceLocation(Compressium.MODID, "block/" + name + "_" + (i + 1)));
+                withExistingParent(Compressium.MODID + ":" + name + "_" + (i + 1), ResourceLocation.fromNamespaceAndPath(Compressium.MODID, "block/" + name + "_" + (i + 1)));
             }
         });
 
@@ -246,95 +246,95 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     private ItemModelBuilder simpleItem(Item item) {
         return withExistingParent(item.getRegistryName().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + item.getRegistryName().getPath()));
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                WoldsVaults.id("item/" + item.getRegistryName().getPath()));
     }
 
     public ItemModelBuilder skillScroll(String skillId) {
-        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/skills/" + skillId).toString())
+        return getBuilder(VaultMod.id("item/skills/" + skillId).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
-                        new ResourceLocation(WoldsVaults.MOD_ID, "gui/abilities/" + skillId));
+                        WoldsVaults.id("gui/abilities/" + skillId));
     }
 
     public ItemModelBuilder researchToken(ResourceLocation icon) {
-        return getBuilder(new ResourceLocation(WoldsVaults.MOD_ID, "item/researches/" + ResourceLocUtils.getStrippedPath(icon)).toString())
+        return getBuilder(WoldsVaults.id("item/researches/" + ResourceLocUtils.getStrippedPath(icon)).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
-                        new ResourceLocation(VaultMod.MOD_ID, "gui/researches/" + ResourceLocUtils.getStrippedPath(icon)));
+                        VaultMod.id("gui/researches/" + ResourceLocUtils.getStrippedPath(icon)));
     }
 
     private ItemModelBuilder vaultModifier(ResourceLocation modifierId) {
-        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierId.getPath()).toString())
+        return getBuilder(VaultMod.id("item/modifiers/" + modifierId.getPath()).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
-                        new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierId.getPath()));
+                        VaultMod.id("item/modifiers/" + modifierId.getPath()));
     }
 
     private ItemModelBuilder vaultInscription(int modelNumber) {
-        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/inscription/" + modelNumber).toString())
+        return getBuilder(VaultMod.id("item/inscription/" + modelNumber).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
-                        new ResourceLocation(VaultMod.MOD_ID, "item/inscription/" + modelNumber));
+                        VaultMod.id("item/inscription/" + modelNumber));
     }
 
     private ItemModelBuilder vaultInscription(int modelNumber, String modelNameOverride) {
-        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/inscription/" + modelNumber).toString())
+        return getBuilder(VaultMod.id("item/inscription/" + modelNumber).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
-                        new ResourceLocation(VaultMod.MOD_ID, "item/inscription/" + modelNameOverride));
+                        VaultMod.id("item/inscription/" + modelNameOverride));
     }
 
 
     private ItemModelBuilder vaultCatalyst(int modelNumber, String modelNameOverride) {
-        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/catalyst/" + modelNumber).toString())
+        return getBuilder(VaultMod.id("item/catalyst/" + modelNumber).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
-                        new ResourceLocation(VaultMod.MOD_ID, "item/catalyst/" + modelNameOverride));
+                        VaultMod.id("item/catalyst/" + modelNameOverride));
     }
 
 
 
     private ItemModelBuilder vaultModifier(ResourceLocation modifierId, String modifierNameOverride) {
-        return getBuilder(new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierNameOverride).toString())
+        return getBuilder(VaultMod.id("item/modifiers/" + modifierNameOverride).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
-                        new ResourceLocation(VaultMod.MOD_ID, "item/modifiers/" + modifierId.getPath()));
+                        VaultMod.id("item/modifiers/" + modifierId.getPath()));
     }
 
     private ItemModelBuilder simpleResource(String resource) {
         return withExistingParent(resource,
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + resource));
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                WoldsVaults.id("item/" + resource));
     }
 
     private ItemModelBuilder simpleLayeredResource(String modelName, String base, String overlay) {
-        return withExistingParent(modelName, new ResourceLocation("item/generated"))
-                .texture("layer0", new ResourceLocation(WoldsVaults.MOD_ID, "item/" + base))
-                .texture("layer1", new ResourceLocation(WoldsVaults.MOD_ID, "item/" + overlay));
+        return withExistingParent(modelName, ResourceLocation.parse("item/generated"))
+                .texture("layer0", WoldsVaults.id("item/" + base))
+                .texture("layer1", WoldsVaults.id("item/" + overlay));
     }
 
     private ItemModelBuilder charm(String resource) {
         return withExistingParent("charm/" + resource,
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + resource));
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                WoldsVaults.id("item/" + resource));
     }
 
 
     private ItemModelBuilder handheldItem(Item item) {
         return withExistingParent(item.getRegistryName().getPath(),
-                new ResourceLocation("item/handheld")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + item.getRegistryName().getPath()));
+                ResourceLocation.parse("item/handheld")).texture("layer0",
+                WoldsVaults.id("item/" + item.getRegistryName().getPath()));
     }
 
     private void spawnEgg(Item item) {
-        withExistingParent(item.getRegistryName().getPath(), new ResourceLocation("item/template_spawn_egg"));
+        withExistingParent(item.getRegistryName().getPath(), ResourceLocation.parse("item/template_spawn_egg"));
     }
 
     private ItemModelBuilder itemWithTexture(Item item, String texture) {
         return withExistingParent(item.getRegistryName().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(WoldsVaults.MOD_ID, "item/" + texture));
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                WoldsVaults.id("item/" + texture));
     }
 
 

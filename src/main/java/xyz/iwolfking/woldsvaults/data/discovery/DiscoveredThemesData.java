@@ -130,7 +130,7 @@ public class DiscoveredThemesData extends SavedData
         for (int i = 0; i < playerThemes.size(); i++) {
             CompoundTag playerTag = playerThemes.getCompound(i);
             UUID playerId = playerTag.getUUID("player");
-            Set<ResourceLocation> themes = NBTHelper.readSet(playerTag, "themes", StringTag.class, strTag -> new ResourceLocation(strTag.getAsString()));
+            Set<ResourceLocation> themes = NBTHelper.readSet(playerTag, "themes", StringTag.class, strTag -> ResourceLocation.parse(strTag.getAsString()));
             this.collectedThemes.put(playerId, themes);
         }
     }

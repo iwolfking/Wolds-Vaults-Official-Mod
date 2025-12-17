@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class InfuserCraftingCategory implements IRecipeCategory<InfuserRecipe> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(WoldsVaults.MOD_ID, "textures/gui/jei/infuser.png");
-    public static final ResourceLocation UID = new ResourceLocation(WoldsVaults.MOD_ID, "infuser");
+    private static final ResourceLocation TEXTURE = WoldsVaults.id("textures/gui/jei/infuser.png");
+    public static final ResourceLocation UID = WoldsVaults.id("infuser");
 
     private final IDrawable background;
     private final IDrawable icon;

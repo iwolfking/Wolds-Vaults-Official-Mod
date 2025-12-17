@@ -57,7 +57,7 @@ public class InfuserRecipeBuilder implements RecipeBuilder {
     public void save(Consumer<FinishedRecipe> pFinishedRecipeConsumer, ResourceLocation pRecipeId) {
         this.ensureValid(pRecipeId);
 
-        this.advancement.parent(new ResourceLocation("recipes/root"))
+        this.advancement.parent(ResourceLocation.parse("recipes/root"))
                 .addCriterion("has_the_recipe",
                         RecipeUnlockedTrigger.unlocked(pRecipeId))
                 .rewards(AdvancementRewards.Builder.recipe(pRecipeId)).requirements(RequirementsStrategy.OR);
@@ -71,7 +71,7 @@ public class InfuserRecipeBuilder implements RecipeBuilder {
                         catalyst,
                         result,
                         advancement,
-                        new ResourceLocation(pRecipeId.getNamespace(), "recipes/" + this.result.getItemCategory().getRecipeFolderName() + "/" + pRecipeId.getPath())
+                        ResourceLocation.fromNamespaceAndPath(pRecipeId.getNamespace(), "recipes/" + this.result.getItemCategory().getRecipeFolderName() + "/" + pRecipeId.getPath())
                 )
         );
     }

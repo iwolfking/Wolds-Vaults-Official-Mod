@@ -74,7 +74,7 @@ public class PlayerEvents {
         }
     }
 
-    private static final ResourceLocation SPAWNER = new ResourceLocation("ispawner", "spawner");
+    private static final ResourceLocation SPAWNER = ResourceLocation.fromNamespaceAndPath("ispawner", "spawner");
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onBreakSpawnerInVault(BlockEvent.BreakEvent event) {

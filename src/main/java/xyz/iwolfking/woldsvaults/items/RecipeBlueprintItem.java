@@ -38,7 +38,7 @@ public class RecipeBlueprintItem extends BasicItem {
     public static ResourceLocation getRecipeUnlock(ItemStack stack) {
         if (!stack.isEmpty() && stack.getItem() instanceof RecipeBlueprintItem) {
             String tagStr = stack.getOrCreateTag().getString("recipe");
-            return new ResourceLocation(tagStr);
+            return ResourceLocation.parse(tagStr);
         } else {
             return null;
         }
@@ -48,7 +48,7 @@ public class RecipeBlueprintItem extends BasicItem {
     public static String getRecipeName(ItemStack stack) {
         if (!stack.isEmpty() && stack.getItem() instanceof RecipeBlueprintItem) {
             String tagStr = stack.getOrCreateTag().getString("recipe");
-            String name = ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.getOrDefault(new ResourceLocation(tagStr), new RecipeUnlocksConfig.Entry("Unknown Recipe Unlock", "")).NAME;
+            String name = ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.getOrDefault(ResourceLocation.parse(tagStr), new RecipeUnlocksConfig.Entry("Unknown Recipe Unlock", "")).NAME;
             if(name != null) {
                 return name;
             }
@@ -62,7 +62,7 @@ public class RecipeBlueprintItem extends BasicItem {
     public static String getRecipeDescription(ItemStack stack) {
         if (!stack.isEmpty() && stack.getItem() instanceof RecipeBlueprintItem) {
             String tagStr = stack.getOrCreateTag().getString("recipe");
-            String name = ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.getOrDefault(new ResourceLocation(tagStr), new RecipeUnlocksConfig.Entry("Unknown Recipe Unlock", "")).DESCRIPTION;
+            String name = ModConfigs.RECIPE_UNLOCKS.RECIPE_UNLOCKS.getOrDefault(ResourceLocation.parse(tagStr), new RecipeUnlocksConfig.Entry("Unknown Recipe Unlock", "")).DESCRIPTION;
             if(name != null) {
                 return name;
             }

@@ -28,40 +28,40 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
 //                        replacementBlocks.put(Blocks.BLACKSTONE.getRegistryName(), 3);
 //                        replacementBlocks.put(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.getRegistryName(), 1);
 //                    })
-//                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, new ResourceLocation("blackstone_bricks"), 1)
-//                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, new ResourceLocation("black_stained_glass"), 1)
-//                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, new ResourceLocation("black_wool"), 1)
+//                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, ResourceLocation.parse("blackstone_bricks"), 1)
+//                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, ResourceLocation.parse("black_stained_glass"), 1)
+//                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, ResourceLocation.parse("black_wool"), 1)
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
-//                        resourceLocationIntegerMap.put(new ResourceLocation("rechiseled", "obsidian_dark"), 1);
+//                        resourceLocationIntegerMap.put(ResourceLocation.fromNamespaceAndPath("rechiseled", "obsidian_dark"), 1);
 //                    })
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
 //                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 1);
 //                    })
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SLAB, resourceLocationIntegerMap -> {
-//                        resourceLocationIntegerMap.put(new ResourceLocation("regions_unexplored", "black_painted_slab"), 1);
+//                        resourceLocationIntegerMap.put(ResourceLocation.fromNamespaceAndPath("regions_unexplored", "black_painted_slab"), 1);
 //                    })
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
-//                        resourceLocationIntegerMap.put(new ResourceLocation("davebuildingmod", "vanta_black"), 1);
+//                        resourceLocationIntegerMap.put((ResourceLocation.fromNamespaceAndPath("davebuildingmod", "vanta_black"), 1);
 //                    })
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {
-//                        resourceLocationIntegerMap.put(new ResourceLocation("regions_unexplored", "sculk_grass_block"), 1);
+//                        resourceLocationIntegerMap.put(ResourceLocation.fromNamespaceAndPath("regions_unexplored", "sculk_grass_block"), 1);
 //                    })
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION, resourceLocationIntegerMap -> {
-//                        resourceLocationIntegerMap.put(new ResourceLocation("minecraft", "wither_rose"), 4);
-//                        resourceLocationIntegerMap.put(new ResourceLocation("regions_unexplored", "dorcel"), 2);
+//                        resourceLocationIntegerMap.put(ResourceLocation.withDefaultNamespace("wither_rose"), 4);
+//                        resourceLocationIntegerMap.put((ResourceLocation.fromNamespaceAndPath("regions_unexplored", "dorcel"), 2);
 //                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 10);
 //                    })
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, Blocks.OBSIDIAN.getRegistryName(), 1)
-//                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, new ResourceLocation("architects_palette", "onyx_pillar"), 1)
-//                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, new ResourceLocation("create", "cut_scorchia_wall"), 1)
+//                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.fromNamespaceAndPath("architects_palette", "onyx_pillar"), 1)
+//                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, ResourceLocation.fromNamespaceAndPath("create", "cut_scorchia_wall"), 1)
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, Blocks.POLISHED_BLACKSTONE_BRICK_STAIRS.getRegistryName(), 1)
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR, Blocks.OBSIDIAN.getRegistryName(), 1)
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR_ACCENT, Blocks.CRYING_OBSIDIAN.getRegistryName(), 1)
-//                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, new ResourceLocation("regions_unexplored", "sculkwood_leaves"), 1)
-//                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, new ResourceLocation("regions_unexplored", "sculkwood_log_dark"), 1)
+//                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, ResourceLocation.fromNamespaceAndPath("regions_unexplored", "sculkwood_leaves"), 1)
+//                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, ResourceLocation.fromNamespaceAndPath("regions_unexplored", "sculkwood_log_dark"), 1)
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_LIGHT, Blocks.AIR.getRegistryName(), 1)
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, Blocks.AIR.getRegistryName(), 1)
-//                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, new ResourceLocation("minecraft", "blackstone_slab"), 1)
+//                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.withDefaultNamespace("blackstone_slab"), 1)
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
 //                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, Blocks.AIR.getRegistryName(), 1)

@@ -119,15 +119,15 @@ public class EntityAttributeModifierSettable<P extends SettableValueVaultModifie
 
     public enum ModifierType {
         @SerializedName("max_health_additive")
-        MAX_HEALTH_ADDITIVE(List.of(new ResourceLocation("generic.max_health")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_INT),
+        MAX_HEALTH_ADDITIVE(List.of(ResourceLocation.parse("generic.max_health")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_INT),
         @SerializedName("max_health_additive_percentile")
-        MAX_HEALTH_ADDITIVE_PERCENTILE(List.of(new ResourceLocation("generic.max_health")), AttributeModifier.Operation.MULTIPLY_BASE, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_PERCENTILE),
+        MAX_HEALTH_ADDITIVE_PERCENTILE(List.of(ResourceLocation.parse("generic.max_health")), AttributeModifier.Operation.MULTIPLY_BASE, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_PERCENTILE),
         @SerializedName("max_health_multiplicative_percentile")
-        MAX_HEALTH_MULTIPLICATIVE_PERCENTILE(List.of(new ResourceLocation("generic.max_health")), AttributeModifier.Operation.MULTIPLY_TOTAL, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_MULTIPLICATIVE_PERCENTILE),
+        MAX_HEALTH_MULTIPLICATIVE_PERCENTILE(List.of(ResourceLocation.parse("generic.max_health")), AttributeModifier.Operation.MULTIPLY_TOTAL, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_MULTIPLICATIVE_PERCENTILE),
         @SerializedName("attack_damage_additive_percentile")
-        ATTACK_DAMAGE_ADDITIVE_PERCENTILE(List.of(new ResourceLocation("generic.attack_damage")), AttributeModifier.Operation.MULTIPLY_BASE, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_PERCENTILE),
+        ATTACK_DAMAGE_ADDITIVE_PERCENTILE(List.of(ResourceLocation.parse("generic.attack_damage")), AttributeModifier.Operation.MULTIPLY_BASE, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_PERCENTILE),
         @SerializedName("speed_additive_percentile")
-        SPEED_ADDITIVE_PERCENTILE(List.of(new ResourceLocation("generic.movement_speed"), new ResourceLocation("generic.flying_speed")), AttributeModifier.Operation.MULTIPLY_BASE, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_PERCENTILE),
+        SPEED_ADDITIVE_PERCENTILE(List.of(ResourceLocation.parse("generic.movement_speed"), ResourceLocation.parse("generic.flying_speed")), AttributeModifier.Operation.MULTIPLY_BASE, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE_PERCENTILE),
         @SerializedName("mana_max_additive")
         MANA_MAX_ADDITIVE(List.of(VaultMod.id("generic.mana_max")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE),
         @SerializedName("mana_max_additive_percentile")
@@ -139,9 +139,9 @@ public class EntityAttributeModifierSettable<P extends SettableValueVaultModifie
         @SerializedName("crit_chance_additive")
         CRIT_CHANCE_ADDITIVE(List.of(VaultMod.id("generic.crit_chance")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE),
         @SerializedName("knockback_resistance_additive")
-        KNOCKBACK_RESISTANCE_ADDITIVE(List.of(new ResourceLocation("generic.knockback_resistance")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE),
+        KNOCKBACK_RESISTANCE_ADDITIVE(List.of(ResourceLocation.parse("generic.knockback_resistance")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE),
         @SerializedName("durability_wear_reduction_cap_additive")
-        DURABILITY_WEAR_REDUCTION_CAP_ADDITIVE(List.of(new ResourceLocation("generic.durability_wear_reduction_cap")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE);
+        DURABILITY_WEAR_REDUCTION_CAP_ADDITIVE(List.of(ResourceLocation.parse("generic.durability_wear_reduction_cap")), AttributeModifier.Operation.ADDITION, EntityAttributeModifierSettable.ModifierType.Constants.DESCRIPTION_FORMATTER_ADDITIVE);
 
         private final List<ResourceLocation> attributeResourceLocations;
         private final AttributeModifier.Operation attributeModifierOperation;

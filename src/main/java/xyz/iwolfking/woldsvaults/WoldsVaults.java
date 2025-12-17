@@ -145,7 +145,7 @@ public class WoldsVaults {
 
 
     public static ResourceLocation id(String name) {
-        return new ResourceLocation("woldsvaults", name);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
     }
 
     public static String sId(String name) {

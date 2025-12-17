@@ -23,13 +23,13 @@ public class StaticPlaceholderReader extends VaultGearModifierReader<String> {
     }
 
     public @Nullable MutableComponent getDisplay(VaultGearAttributeInstance<String> instance, VaultGearModifier.AffixType type) {
-        return this.getValueDisplay((String)instance.getValue());
+        return this.getValueDisplay(instance.getValue());
     }
 
     @Nonnull
     public MutableComponent getValueDisplay(String value) {
-        if(VaultModifierRegistry.get(new ResourceLocation(value)) != null) {
-            return new TextComponent("").append(new TextComponent(VaultModifierRegistry.get(new ResourceLocation(value)).getDisplayDescription()).withStyle(Style.EMPTY.withColor(VaultModifierRegistry.get(new ResourceLocation(value)).getDisplayTextColor())));
+        if(VaultModifierRegistry.get(ResourceLocation.parse(value)) != null) {
+            return new TextComponent("").append(new TextComponent(VaultModifierRegistry.get(ResourceLocation.parse(value)).getDisplayDescription()).withStyle(Style.EMPTY.withColor(VaultModifierRegistry.get(ResourceLocation.parse(value)).getDisplayTextColor())));
         }
         else {
             return new TextComponent("Invalid Vault Modifier").withStyle(ChatFormatting.RED);

@@ -115,7 +115,7 @@ public class ParticleTrailAttribute {
             buf.writeFloat(attribute.getSpeed());
         }, buf -> new ParticleTrailAttribute(NetcodeUtils.readIdentifier(buf), buf.readInt(), buf.readFloat()), VaultGearAttributeType.GSON::toJsonTree, tag -> {
             CompoundTag ctag = new CompoundTag();
-            ResourceLocation effectId = new ResourceLocation(ctag.getString("particleId"));
+            ResourceLocation effectId = ResourceLocation.parse(ctag.getString("particleId"));
             int count = ctag.getInt("count");
             float speed = ctag.getFloat("speed");
             return new ParticleTrailAttribute(effectId, count, speed);

@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +23,7 @@ public class MixinUniqueGearCommand {
     @Inject(method = "findPoolForUniqueItem", at = @At("HEAD"), cancellable = true)
     private void fixUniqueNameHandling(ResourceLocation uniqueId, CallbackInfoReturnable<ResourceLocation> cir) {
         Map<ResourceLocation, WeightedList<ResourceLocation>> pools = ModConfigs.UNIQUE_GEAR.getPools();
-        ResourceLocation dedicatedPool = new ResourceLocation("woldsvaults", uniqueId.getPath());
+        ResourceLocation dedicatedPool = WoldsVaults.id(uniqueId.getPath());
         if (pools.containsKey(dedicatedPool)) {
             cir.setReturnValue(dedicatedPool);
         }

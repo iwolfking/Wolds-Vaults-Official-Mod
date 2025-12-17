@@ -15,7 +15,7 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
 
     @Override
     protected void registerThemes() {
-//        add(new ResourceLocation("woldsvaults", "eclipse"), t -> {
+//        add(WoldsVaults.id("eclipse"), t -> {
 //            t.type("classic_vault")
 //                    .starts(WoldsVaults.id("eclipse_starts").toString())
 //                    .rooms(WoldsVaults.id("eclipse_rooms").toString())

@@ -21,7 +21,7 @@ import xyz.iwolfking.woldsvaults.init.client.ModKeybinds;
 public class KeyInputEvents {
     public static boolean isFeatherFixEnabled = true;
 
-    private static final ResourceLocation BACKGROUND = new ResourceLocation("minecraft", "textures/block/stone");
+    private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/block/stone");
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.KeyInputEvent event) {

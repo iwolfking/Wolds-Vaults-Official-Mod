@@ -33,7 +33,7 @@ import xyz.iwolfking.woldsvaults.api.util.CorruptedVaultHelper;
 public class CorruptedObjective extends Objective {
 
     public static final SupplierKey<Objective> S_KEY = SupplierKey.of("corrupted", Objective.class).with(Version.v1_31, CorruptedObjective::new);
-    private static final ResourceLocation SHADER = new ResourceLocation("shaders/post/sobel.json");
+    private static final ResourceLocation SHADER = ResourceLocation.parse("shaders/post/sobel.json");
     private static boolean queuedRefresh = true; // used for shader
     private static boolean showedToggleShaderMessage = false;
 

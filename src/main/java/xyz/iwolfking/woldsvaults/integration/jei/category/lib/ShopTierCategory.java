@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.integration.jei.category.lib;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.ShopPedestalConfig;
 import iskallia.vault.util.LootInitialization;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -25,8 +26,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ShopEntryAccessor;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ShopTierAccessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -34,15 +33,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
+public class ShopTierCategory implements IRecipeCategory<ShopPedestalConfig.ShopTier> {
     private static final ResourceLocation TEXTURE = VaultMod.id("textures/gui/jei/loot_info.png");
     private final IDrawable background;
     private final IDrawable icon;
     private final TextComponent title;
-    private final RecipeType<ShopTierAccessor> recipeType;
+    private final RecipeType<ShopPedestalConfig.ShopTier> recipeType;
 
 
-    public ShopTierCategory(IGuiHelper guiHelper, TextComponent title, Item itemForIcon, RecipeType<ShopTierAccessor> recipeType) {
+    public ShopTierCategory(IGuiHelper guiHelper, TextComponent title, Item itemForIcon, RecipeType<ShopPedestalConfig.ShopTier> recipeType) {
         this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 162, 108);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, itemForIcon.getDefaultInstance());
         this.title = title;
@@ -66,7 +65,7 @@ public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
 
     @Nonnull
     @Override
-    public RecipeType<ShopTierAccessor> getRecipeType() {
+    public RecipeType<ShopPedestalConfig.ShopTier> getRecipeType() {
         return this.recipeType;
     }
 
@@ -76,22 +75,22 @@ public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
     }
 
     @Nonnull @SuppressWarnings("removal")
-    public Class<? extends ShopTierAccessor> getRecipeClass() {
+    public Class<? extends ShopPedestalConfig.ShopTier> getRecipeClass() {
         return this.getRecipeType().getRecipeClass();
     }
 
     @Override
     @ParametersAreNonnullByDefault
-    public void setRecipe(IRecipeLayoutBuilder builder, ShopTierAccessor recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, ShopPedestalConfig.ShopTier recipe, IFocusGroup focuses) {
         AtomicDouble totalWeight = new AtomicDouble();
-        List<Map.Entry<ShopEntryAccessor, Double>> entries = new ArrayList<>();
+        List<Map.Entry<ShopPedestalConfig.ShopEntry, Double>> entries = new ArrayList<>();
 
-        var tierEntries = recipe.getTradePool().entrySet();
-        for (Map.Entry<ShopEntryAccessor, Double> entry : tierEntries) {
+        var tierEntries = recipe.TRADE_POOL.entrySet();
+        for (Map.Entry<ShopPedestalConfig.ShopEntry, Double> entry : tierEntries) {
             var shopEntry = entry.getKey();
             var weight = entry.getValue();
             totalWeight.addAndGet(weight);
-            ItemStack offer = shopEntry.getOffer();
+            ItemStack offer = shopEntry.OFFER;
 
             if (!offer.isEmpty() && weight > 0) {
                 entries.add(entry);
@@ -100,13 +99,13 @@ public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
         int count = entries.size();
 
         for(int i = 0; i < count; ++i) {
-            Map.Entry<ShopEntryAccessor, Double> entry = entries.get(i);
-            ShopEntryAccessor shopEntry = entry.getKey();
+            Map.Entry<ShopPedestalConfig.ShopEntry, Double> entry = entries.get(i);
+            ShopPedestalConfig.ShopEntry shopEntry = entry.getKey();
             double weight = entry.getValue();
-            ItemStack offer = shopEntry.getOffer().copy();
-            var currency = shopEntry.getCurrency();
-            var minCost = shopEntry.getMinCost();
-            var maxCost = shopEntry.getMaxCost();
+            ItemStack offer = shopEntry.OFFER.copy();
+            var currency = shopEntry.CURRENCY;
+            var minCost = shopEntry.MIN_COST;
+            var maxCost = shopEntry.MAX_COST;
             CompoundTag nbt = offer.getOrCreateTagElement("display");
             ListTag list = nbt.getList("Lore", 8);
             MutableComponent component = new TextComponent("Chance: ");
@@ -137,8 +136,8 @@ public class ShopTierCategory implements IRecipeCategory<ShopTierAccessor> {
 
     }
 
-    @Override public void draw(ShopTierAccessor recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        Minecraft.getInstance().font.draw(stack, new TextComponent("Level " + recipe.getMinLevel() + "+"), 0, -12, -16777216);
+    @Override public void draw(ShopPedestalConfig.ShopTier recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
+        Minecraft.getInstance().font.draw(stack, new TextComponent("Level " + recipe.getLevel() + "+"), 0, -12, -16777216);
     }
 
 }
