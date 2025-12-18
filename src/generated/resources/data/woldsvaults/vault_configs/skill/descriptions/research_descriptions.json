@@ -1008,6 +1008,32 @@
         "color": "$text"
       }
     ],
+    "Companion Workstation": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Companion Workstation",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "The Companion Workstation will allow you to craft Companions, Companion Relics, and Companion Particle Trails from materials acquired from recycling! ",
+        "color": "$text"
+      },
+      {
+        "text": "You will need to use the Companion Recycler to obtain Companion Fragments and Companion Essence for crafting.\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Additionally, unlocks the Companion Locker, a useful block to store and search through all your Companions!",
+        "color": "$text"
+      }
+    ],
     "Inception Upgrade": [
       {
         "text": "Unlocks the ",

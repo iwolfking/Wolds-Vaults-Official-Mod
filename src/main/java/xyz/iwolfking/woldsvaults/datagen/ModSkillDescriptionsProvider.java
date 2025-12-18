@@ -91,6 +91,12 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     innerDesc.add(JsonDescription.simple("You first have to unlock a theme before you can craft it in the Assembly Pedestal. You will automatically do that the first time you enter a theme, you may have seen the messages pop up in chat! Certain themes that are not normally obtainable will be unlocked when doing certain tasks in the vault...", "$text"));
                 }).forEach(jsonElements::add))
 
+                .addDescription("Companion Workstation", jsonElements -> modDesc("Companion Workstation", "mod", innerDesc -> {
+                    innerDesc.add(JsonDescription.simple("The Companion Workstation will allow you to craft Companions, Companion Relics, and Companion Particle Trails from materials acquired from recycling! ", "$text"));
+                    innerDesc.add(JsonDescription.simple("You will need to use the Companion Recycler to obtain Companion Fragments and Companion Essence for crafting.\n\n"));
+                    innerDesc.add(JsonDescription.simple("Additionally, unlocks the Companion Locker, a useful block to store and search through all your Companions!"));
+                }).forEach(jsonElements::add))
+
                 .addDescription("Mod Box Tinkering", jsonElements -> modDesc("Mod Box Tinkering", "workstation", innerDesc -> {
                     innerDesc.add(JsonDescription.simple("The Mod Box Workstation will allow you to craft Targeted Mod Boxes that only drop items and blocks for a certain mod!", "$text"));
                     innerDesc.add(JsonDescription.simple("You have to have the corresponding research first before you can craft a particular box. The cost for each is dependent on the mod."));

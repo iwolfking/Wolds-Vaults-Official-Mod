@@ -178,8 +178,8 @@
           "attemptsPerChunk": 1,
           "requiresConditions": false,
           "roomTypeWhitelist": [
-            "ORE",
-            "COMMON"
+            "COMMON",
+            "ORE"
           ]
         },
         "display": {
@@ -196,8 +196,8 @@
           "attemptsPerChunk": 2,
           "requiresConditions": false,
           "roomTypeWhitelist": [
-            "ORE",
-            "COMMON"
+            "COMMON",
+            "ORE"
           ]
         },
         "display": {
@@ -214,8 +214,8 @@
           "attemptsPerChunk": 1,
           "requiresConditions": false,
           "roomTypeWhitelist": [
-            "ORE",
-            "COMMON"
+            "COMMON",
+            "ORE"
           ]
         },
         "display": {
@@ -232,8 +232,8 @@
           "attemptsPerChunk": 16,
           "requiresConditions": false,
           "roomTypeWhitelist": [
-            "ORE",
-            "COMMON"
+            "COMMON",
+            "ORE"
           ]
         },
         "display": {
@@ -250,8 +250,8 @@
           "attemptsPerChunk": 7,
           "requiresConditions": false,
           "roomTypeWhitelist": [
-            "ORE",
-            "COMMON"
+            "COMMON",
+            "ORE"
           ]
         },
         "display": {
@@ -268,8 +268,8 @@
           "attemptsPerChunk": 7,
           "requiresConditions": false,
           "roomTypeWhitelist": [
-            "ORE",
-            "COMMON"
+            "COMMON",
+            "ORE"
           ]
         },
         "display": {
@@ -286,8 +286,8 @@
           "attemptsPerChunk": 6,
           "requiresConditions": false,
           "roomTypeWhitelist": [
-            "ORE",
-            "COMMON"
+            "COMMON",
+            "ORE"
           ]
         },
         "display": {
@@ -304,8 +304,8 @@
           "attemptsPerChunk": 2,
           "requiresConditions": false,
           "roomTypeWhitelist": [
-            "ORE",
-            "COMMON"
+            "COMMON",
+            "ORE"
           ]
         },
         "display": {
