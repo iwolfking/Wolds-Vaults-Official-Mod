@@ -10,12 +10,4 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(value = AttributeGearData.class, remap = false)
 public class MixinAttributeGearData<T> {
-    @Redirect(method = "createOrReplaceAttributeValue", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/AttributeGearData;isModifiable()Z", ordinal = 0))
-    private boolean allowModificationOfTransmogsOnCorrupted(AttributeGearData instance, @Local(argsOnly = true) VaultGearAttribute<T> attribute) {
-        if(attribute.equals(ModGearAttributes.GEAR_MODEL)) {
-            return true;
-        }
-
-        return instance.isModifiable();
-    }
 }
