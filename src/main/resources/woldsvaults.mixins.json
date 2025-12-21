@@ -292,6 +292,7 @@
     "vaulthunters.fixes.MixinVaultChestTileEntity",
     "vaulthunters.fixes.MixinVaultGearModifierHelper",
     "vaulthunters.fixes.MixinVaultGearRarity",
+    "vaulthunters.fixes.MixinVaultUtils",
     "vaulthunters.fixes.MixinWardrobeTileEntity",
     "vaulthunters.fixes.bettercombat.MixinAttributeSnapshotCalculatorNoBC",
     "vaulthunters.fixes.bettercombat.MixinGearAttributeEvents",

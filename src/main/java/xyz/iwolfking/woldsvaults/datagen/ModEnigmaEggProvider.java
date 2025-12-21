@@ -6,6 +6,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractEnigmaEggProvider;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class ModEnigmaEggProvider extends AbstractEnigmaEggProvider {
@@ -30,6 +31,7 @@ public class ModEnigmaEggProvider extends AbstractEnigmaEggProvider {
         return ForgeRegistries.ITEMS.getValues().stream()
                 .filter(b -> b instanceof SpawnEggItem)
                 .filter(b -> b.getRegistryName() != null && !NAMESPACES_TO_FILTER.contains(b.getRegistryName().getNamespace()))
+                .sorted(Comparator.comparing( b -> b.getRegistryName() != null ? b.getRegistryName().toString() : ""))
                 .map(b -> (SpawnEggItem) b)
                 .toList();
     }
