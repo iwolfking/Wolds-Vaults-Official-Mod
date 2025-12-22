@@ -8,14 +8,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class ModCompressibleBlocks {
-    public static final Map<String, CompressibleBlock> ADDITIONAL_COMPRESSIBLE_BLOCKS = new HashMap<>();
-    private static final Map<CompressibleBlock, List<Supplier<Block>>> REGISTERED_BLOCKS = new HashMap<>();
+    public static final Map<String, CompressibleBlock> ADDITIONAL_COMPRESSIBLE_BLOCKS = new LinkedHashMap<>();
+    private static final Map<CompressibleBlock, List<Supplier<Block>>> REGISTERED_BLOCKS = new LinkedHashMap<>();
 
     public static void addBuiltInBlocks() {
         ADDITIONAL_COMPRESSIBLE_BLOCKS.put("vault_stone", new CompressibleBlock("vault_stone", VaultMod.id("vault_stone"), VaultMod.id("block/vault_stone"), VaultMod.id("block/vault_stone"), CompressibleType.BLOCK, 9, true));
@@ -40,10 +38,12 @@ public class ModCompressibleBlocks {
 
     public static Map<CompressibleBlock, List<Supplier<Block>>> getRegisteredBlocks() {
         if(REGISTERED_BLOCKS.isEmpty()) {
-            Compressium.REGISTERED_BLOCKS.forEach((compressibleBlock, suppliers) -> {
+            Compressium.REGISTERED_BLOCKS.entrySet().stream().sorted(
+                Comparator.comparing((Map.Entry<CompressibleBlock, List<Supplier<Block>>> n) -> n.getKey().name())
+            ).forEach((compressibleBlock) -> {
                 ADDITIONAL_COMPRESSIBLE_BLOCKS.forEach((string, compressibleBlock1) -> {
-                    if(compressibleBlock1.equals(compressibleBlock)) {
-                        REGISTERED_BLOCKS.put(compressibleBlock, suppliers);
+                    if(compressibleBlock1.equals(compressibleBlock.getKey())) {
+                        REGISTERED_BLOCKS.put(compressibleBlock.getKey(), compressibleBlock.getValue());
                     }
                 });
             });

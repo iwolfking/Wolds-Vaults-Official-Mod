@@ -9,6 +9,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.init.ModTags;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -27,6 +28,16 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(getItemsOfClass(ItemVaultCrystalSeal.class, () -> new ItemVaultCrystalSeal[]{}));
         tag(iskallia.vault.init.ModItems.CRYSTAL_CAPSTONES_TAG)
                 .add(getItemsContaining("CAPSTONE", () -> new BasicItem[]{}));
+        tag(ModTags.PLAYER_GEMS)
+                .add(iskallia.vault.init.ModItems.ISKALLIUM_GEM)
+                .add(iskallia.vault.init.ModItems.UPALINE_GEM)
+                .add(iskallia.vault.init.ModItems.ASHIUM_GEM)
+                .add(iskallia.vault.init.ModItems.XENIUM_GEM)
+                .add(iskallia.vault.init.ModItems.GORGINITE_GEM)
+                .add(iskallia.vault.init.ModItems.BOMIGNITE_GEM)
+                .add(iskallia.vault.init.ModItems.SPARKLETINE_GEM)
+                .add(iskallia.vault.init.ModItems.PETZANITE_GEM)
+                .add(iskallia.vault.init.ModItems.TUBIUM_GEM);
     }
 
     public static <T> T[] getItemsOfClass(Class<T> type, Supplier<T[]> instance) {

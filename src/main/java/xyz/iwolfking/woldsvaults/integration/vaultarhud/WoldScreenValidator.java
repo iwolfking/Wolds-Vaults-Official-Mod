@@ -35,25 +35,22 @@ public class WoldScreenValidator {
             y = ((screenHeight + 166) / 2) - offset.getY();
         }
 
-        AbstractContainerScreen<?> gs;
-        if (ConditionalModUtils.isModPresent("sophisticatedbackpacks") && isScreenInList(screen, SophisticatedBackpacksScreens.SCREENS)) {
-            gs = (AbstractContainerScreen<?>)screen;
-            x = ((screenWidth - 176) / 2) - offset.getX();
-            y = ((screenHeight + gs.getYSize()) / 2) - offset.getY();
-        }
+        if (screen instanceof AbstractContainerScreen<?> gs){
+            if (ConditionalModUtils.isModPresent("sophisticatedbackpacks") && isScreenInList(screen, SophisticatedBackpacksScreens.SCREENS)) {
+                x = ((screenWidth - 176) / 2) - offset.getX();
+                y = ((screenHeight + gs.getYSize()) / 2) - offset.getY();
+            }
 
-        else if (ConditionalModUtils.isModPresent("refinedstorage") && isScreenInList(screen, RefinedStorageScreens.SCREENS)) {
-            gs = (AbstractContainerScreen)screen;
-            x = ((screenWidth - gs.getXSize()) / 2) - offset.getX();
-            y = ((screenHeight + gs.getYSize()) / 2) - offset.getY() - 1.0;
-        }
+            else if (ConditionalModUtils.isModPresent("refinedstorage") && isScreenInList(screen, RefinedStorageScreens.SCREENS)) {
+                x = ((screenWidth - gs.getXSize()) / 2) - offset.getX();
+                y = ((screenHeight + gs.getYSize()) / 2) - offset.getY() - 1.0;
+            }
 
-        else {
-            gs = (AbstractContainerScreen)screen;
-            x = ((screenWidth - gs.getXSize()) / 2) - offset.getX();
-            y = ((screenHeight + gs.getYSize()) / 2) - offset.getY();
+            else {
+                x = ((screenWidth - gs.getXSize()) / 2) - offset.getX();
+                y = ((screenHeight + gs.getYSize()) / 2) - offset.getY();
+            }
         }
-
         return new Point(x, y);
     }
 }

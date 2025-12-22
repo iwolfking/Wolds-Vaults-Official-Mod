@@ -10,6 +10,11 @@ public class EtchedLayoutTunnelAttribute extends IntAttribute {
     }
 
     @Override
+    protected NumComparator getComparator() {
+        return NumComparator.EQUAL;
+    }
+
+    @Override
     public Integer getValue(ItemStack itemStack) {
         if(itemStack.getItem() instanceof LayoutModificationItem) {
             if(itemStack.getOrCreateTag().contains("tunnel")) {

@@ -43,7 +43,7 @@ public class PrestigePowersDescriptionsHelper {
 
                 if (tier instanceof MagnetMasteryPrestigePower) {
                     jsonElements.add(JsonDescription.simple(i + 1 + " "));
-                    jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", (1.0 + (i * 0.25) * 100)) + "%\n", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", 100F + (25F * i)) + "%\n", "#FFD700"));
                 }
 
                 if (tier instanceof ShieldedPrestigePower shieldedPrestigePower) {

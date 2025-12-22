@@ -23,6 +23,8 @@ import xyz.iwolfking.vhapi.api.datagen.recipes.AbstractDeckRecipesProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
@@ -35,7 +37,7 @@ public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
         LootChestTask fairyTask = new LootChestTask(new LootChestTask.Config(PartialBlockState.of(ModBlocks.LIVING_STRONGBOX)), TargetTaskCounter.ofTargetInt(IntRoll.ofConstant(500), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
         KillEntityTask woldTask = new KillEntityTask(new KillEntityTask.Config(PartialEntityGroup.of(VaultMod.id("elite"), PartialCompoundNbt.empty())), TargetTaskCounter.ofTargetInt(IntRoll.ofConstant(150), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
         FindVaultRoomTask snakeTask = new FindVaultRoomTask(new FindVaultRoomTask.Config(new ResourceLocation[]{VaultMod.id("vault/rooms/challenge/dragon1"), VaultMod.id("vault/rooms/challenge/dragon2")}), TargetTaskCounter.ofTargetInt(IntRoll.ofConstant(10), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
-        FinishVaultTask crateTask = new FinishVaultTask(new FinishVaultTask.Config(Set.of(Completion.COMPLETED), Set.of("elixir", "bingo", "monolith", "scavenger", "rune_boss", "alchemy", "enchanted_elixir", "brutal_bosses", "haunted_braziers", "ballistic_bingo")), TargetTaskCounter.ofTargetInt(IntRoll.ofConstant(100), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
+        FinishVaultTask crateTask = new FinishVaultTask(new FinishVaultTask.Config(Set.of(Completion.COMPLETED), new LinkedHashSet<>(List.of("elixir", "bingo", "monolith", "scavenger", "rune_boss", "alchemy", "enchanted_elixir", "brutal_bosses", "haunted_braziers", "ballistic_bingo"))), TargetTaskCounter.ofTargetInt(IntRoll.ofConstant(100), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
         TakeDamageTask wallTask = new TakeDamageTask(new TakeDamageTask.Config(PartialEntityGroup.of(VaultMod.id("horde"), PartialCompoundNbt.empty()), DamagePhase.PRE_MITIGATION), TargetTaskCounter.ofTargetFloat(FloatRoll.ofConstant(25000F), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
 
         add("wolds_decks", builder -> {

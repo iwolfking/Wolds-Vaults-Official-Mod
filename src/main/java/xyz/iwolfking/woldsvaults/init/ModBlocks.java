@@ -31,6 +31,7 @@ import xyz.iwolfking.woldsvaults.blocks.tiles.*;
 import xyz.iwolfking.woldsvaults.client.renderers.*;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -118,7 +119,7 @@ public class ModBlocks {
     public static final VaultGemWallBlock WUTODIE_WALL;
     public static final VaultGemBlock WUTODIE;
 
-    public static final Map<DyeColor, Block> COLORED_UNOBTANIUMS = new HashMap<>();
+    public static final Map<DyeColor, Block> COLORED_UNOBTANIUMS = new LinkedHashMap<>();
     public static final Block RAINBOW_UNOBTANIUM;
 
     public static final Map<String, VaultCrateBlock> CUSTOM_VAULT_CRATES = new HashMap<>();

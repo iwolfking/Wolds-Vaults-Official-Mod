@@ -14,6 +14,11 @@ public class GatePearlWavesAttribute extends IntAttribute {
     }
 
     @Override
+    protected NumComparator getComparator() {
+        return NumComparator.EQUAL;
+    }
+
+    @Override
     public Integer getValue(ItemStack itemStack) {
         if(itemStack.getItem() instanceof GatePearlItem) {
             Gateway gate = GatePearlItem.getGate(itemStack);

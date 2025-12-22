@@ -60,6 +60,9 @@
         },
         "the_vault:base_crate_0": {
           "level": 50
+        },
+        "the_vault:base_crate_20": {
+          "level": 20
         }
       }
     },

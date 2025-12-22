@@ -48,9 +48,11 @@ public abstract class MixinVaultGearRecipe extends VaultForgeRecipe {
             if (player instanceof ServerPlayer sPlayer) {
                 PlayerGreedData greedData = PlayerGreedData.get(sPlayer.server);
                 cir.setReturnValue(greedData.get(player).hasCompletedHerald());
+                return;
             }
             else if(ClientGreedData.isCompletedHerald()) {
                 cir.setReturnValue(true);
+                return;
             }
 
             cir.setReturnValue(false);
