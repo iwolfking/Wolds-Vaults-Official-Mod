@@ -52,7 +52,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.POG_BLOCK)
                 .add(ModBlocks.VAULT_PLATING_BLOCK)
                 .add(ModBlocks.COLORED_UNOBTANIUMS.values().toArray(new Block[]{}))
-                .add(ModBlocks.RAINBOW_UNOBTANIUM);
+                .add(ModBlocks.RAINBOW_UNOBTANIUM)
+                .add(ModBlocks.PUZZLE_CUBE_BLOCK);
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(ModBlocks.ISKALLIAN_LEAVES_BLOCK)
                 .add(ModBlocks.PRISMATIC_FIBER_BLOCK);

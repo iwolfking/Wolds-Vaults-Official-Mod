@@ -409,6 +409,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("trinket_pouch.woldsvaults.hyper", "Hyper Trinket Pouch");
         add("trinket_pouch.woldsvaults.prismatic", "Prismatic Trinket Pouch");
         add("item.woldsvaults.trinket_pouch_slot_count", "+%1$s %2$s Slots");
+        add(ModBlocks.PUZZLE_CUBE_BLOCK, "Puzzle Cube Block");
 
         ModItems.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
             add(basicItem, StringUtils.convertToTitleCase(dyeColor.getSerializedName()) + " Unobtanium");

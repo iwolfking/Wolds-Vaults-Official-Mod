@@ -92,6 +92,7 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         add(ModBlocks.XL_BACKPACK, LootTable.lootTable().withPool(LootPool.lootPool().name("main").setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ModItems.XL_BACKPACK))).apply(new CopyBackpackDataFunction.Builder()));
         dropWhenSilkTouch(ModBlocks.ISKALLIAN_LEAVES_BLOCK);
         dropWhenSilkTouch(ModBlocks.HELLISH_SAND_BLOCK);
+        dropWhenSilkTouch(ModBlocks.PUZZLE_CUBE_BLOCK);
         ModBlocks.COLORED_UNOBTANIUMS.forEach((dyeColor, block) -> {
             dropSelf(block);
         });

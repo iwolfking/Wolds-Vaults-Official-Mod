@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "color=blue": {
+      "model": "the_vault:block/cube_block_blue"
+    },
+    "color=green": {
+      "model": "the_vault:block/cube_block_green"
+    },
+    "color=red": {
+      "model": "the_vault:block/cube_block_red"
+    },
+    "color=yellow": {
+      "model": "the_vault:block/cube_block_yellow"
+    }
+  }
+}
