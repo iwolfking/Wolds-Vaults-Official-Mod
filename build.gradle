@@ -211,7 +211,7 @@ dependencies {
     implementation fg.deobf("curse.maven:thermal-foundation-222880:4788649") // enchanted event
     implementation fg.deobf("curse.maven:thermal-expansion-69163:4782927") //enchanted event
     implementation fg.deobf('curse.maven:cofh-core-69162:4801048') // enchanted event
-    implementation fg.deobf("curse.maven:vault-filters-952507:6927578") // new attributes
+    implementation fg.deobf("curse.maven:vault-filters-952507:7318439") // new attributes
     implementation fg.deobf("curse.maven:black-market-tweaks-1168437:7326769")// hopper support and expertise
     implementation fg.deobf("curse.maven:cucumber-272335:4831151") // wv tile entities
     implementation fg.deobf("curse.maven:ftb-quests-forge-289412:6113498") // quests
@@ -247,7 +247,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:dungeons-mobs-428883:4344582")
     compileOnly fg.deobf("curse.maven:hexal-824725:5099219")
     compileOnly fg.deobf("curse.maven:inventory-hud-forge-357540:5639943")
-    compileOnly fg.deobf("curse.maven:modular-routers-250294:4984984")
+    implementation fg.deobf("curse.maven:modular-routers-250294:4984984")
     compileOnly fg.deobf("curse.maven:occultism-361026:4729072")
     compileOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
     implementation fg.deobf("curse.maven:travel-anchors-413234:3741307")

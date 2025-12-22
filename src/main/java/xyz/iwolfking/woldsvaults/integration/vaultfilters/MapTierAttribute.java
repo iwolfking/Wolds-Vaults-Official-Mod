@@ -15,6 +15,11 @@ public class MapTierAttribute extends IntAttribute {
     }
 
     @Override
+    protected NumComparator getComparator() {
+        return NumComparator.AT_LEAST;
+    }
+
+    @Override
     public Integer getValue(ItemStack itemStack) {
         if (!(itemStack.getItem() instanceof VaultGearItem)) {
             return null;

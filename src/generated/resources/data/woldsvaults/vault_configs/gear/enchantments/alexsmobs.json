@@ -1,14 +1,5 @@
 {
   "costs": {
-    "alexsmobs:straddle_jump": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 1
-    },
     "alexsmobs:serpentfriend": {
       "items": [
         {
@@ -19,6 +10,15 @@
       "levels": 1
     },
     "alexsmobs:lavawax": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 1
+    },
+    "alexsmobs:straddle_jump": {
       "items": [
         {
           "id": "emerald",

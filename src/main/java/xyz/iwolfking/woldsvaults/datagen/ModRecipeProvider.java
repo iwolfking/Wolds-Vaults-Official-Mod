@@ -29,6 +29,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.init.ModTags;
 import xyz.iwolfking.woldsvaults.items.GodReputationItem;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
 import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe;
@@ -300,7 +301,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(iskallia.vault.init.ModItems.VAULT_DIAMOND)
                 .requires(ModItems.VAULT_DIAMOND_NUGGET, 9)
                 .unlockedBy("has_vault_diamond_nugget", has(ModItems.VAULT_DIAMOND_NUGGET))
-                .save(pFinishedRecipeConsumer);
+                .save(pFinishedRecipeConsumer, WoldsVaults.id("vd_nugget_to_diamond"));
 
         new InfuserRecipeBuilder(
                 iskallia.vault.init.ModItems.GRAPES,
@@ -788,7 +789,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         REAGENT_TYPES.forEach(type -> {
             ShapelessRecipeBuilder.shapeless(ForgeRegistries.ITEMS.getValue(VaultMod.id("gem_" + type)), 2)
                     .requires(ForgeRegistries.ITEMS.getValue(WoldsVaults.id("gem_reagent_" + type)), 1)
-                    .requires(Ingredient.of(ModItemTags.GEMS), 1)
+                    .requires(Ingredient.of(ModTags.PLAYER_GEMS), 1)
                     .unlockedBy("has_gem_reagent_" + type, has(ForgeRegistries.ITEMS.getValue(WoldsVaults.id("gem_reagent_" + type))))
                     .save(pFinishedRecipeConsumer);
 

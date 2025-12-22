@@ -1,5 +1,14 @@
 {
   "costs": {
+    "ensorcellation:volley": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 45
+        }
+      ],
+      "levels": 1
+    },
     "ensorcellation:air_affinity": {
       "items": [
         {
@@ -18,24 +27,6 @@
       ],
       "levels": 3
     },
-    "ensorcellation:soulbound": {
-      "items": [
-        {
-          "id": "the_vault:echo_pog",
-          "count": 1
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:quick_draw": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 3
-    },
     "ensorcellation:trueshot": {
       "items": [
         {
@@ -45,29 +36,11 @@
       ],
       "levels": 2
     },
-    "ensorcellation:volley": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 45
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:hunter": {
+    "ensorcellation:angler": {
       "items": [
         {
           "id": "emerald",
           "count": 5
-        }
-      ],
-      "levels": 2
-    },
-    "ensorcellation:gourmand": {
-      "items": [
-        {
-          "id": "pumpkin_pie",
-          "count": 64
         }
       ],
       "levels": 2
@@ -81,7 +54,25 @@
       ],
       "levels": 3
     },
-    "ensorcellation:angler": {
+    "ensorcellation:quick_draw": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 3
+    },
+    "ensorcellation:soulbound": {
+      "items": [
+        {
+          "id": "the_vault:echo_pog",
+          "count": 1
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:hunter": {
       "items": [
         {
           "id": "emerald",
@@ -98,6 +89,15 @@
         }
       ],
       "levels": 1
+    },
+    "ensorcellation:gourmand": {
+      "items": [
+        {
+          "id": "pumpkin_pie",
+          "count": 64
+        }
+      ],
+      "levels": 2
     }
   }
 }
