@@ -68,8 +68,8 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         dropSelf(ModBlocks.VAULT_INFUSER_BLOCK);
         dropSelf(ModBlocks.CHROMATIC_STEEL_INFUSER_BLOCK);
         dropSelf(ModBlocks.DOLL_DISMANTLING_BLOCK);
+        dropSelf(ModBlocks.VAULT_SALVAGER_BLOCK);
         dropOther(ModBlocks.NULLITE_ORE, ModItems.NULLITE_FRAGMENT);
-        add(ModBlocks.VAULT_SALVAGER_BLOCK, noDrop());
         add(ModBlocks.GRAVEYARD_LOOT_BLOCK, noDrop());
         add(ModBlocks.GATEWAY_CHANNELING_BLOCK, noDrop());
         add(ModBlocks.FRACTURED_OBELISK, noDrop());
