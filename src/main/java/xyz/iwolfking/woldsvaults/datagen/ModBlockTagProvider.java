@@ -89,6 +89,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         addTagFromList(RequiresPick.values(), BlockTags.MINEABLE_WITH_PICKAXE);
         addTagFromList(RequiresWood.values(), Tags.Blocks.NEEDS_WOOD_TOOL);
         addTagFromList(RequiresHoe.values(), BlockTags.MINEABLE_WITH_HOE);
+        addTagFromList(RequiresHoe.values(), BlockTags.MINEABLE_WITH_SHOVEL);
         addTagFromList(RequiresShovel.values(), BlockTags.MINEABLE_WITH_SHOVEL);
     }
 

@@ -72,6 +72,7 @@
     "jewelsorting.MixinSortingHelper",
     "legendarytooltips.MixinLegendaryTooltips",
     "lightmanscurrency.MixinCurioHelper",
+    "mekanism.MixinVirtualCraftingOutputSlot",
     "occultism.MixinFamiliarEventHandler",
     "occultism.MixinFamiliarRingItemCurio",
     "occultism.MixinFamiliarUtils",
