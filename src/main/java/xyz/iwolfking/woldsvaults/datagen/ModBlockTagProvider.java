@@ -83,7 +83,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
             VAULT_ESSENCE_BLOCK, SANDY_BLOCK, ROTTEN_MEAT_BLOCK
         }
         enum RequiresHoe {
-            MAGIC_SILK_BLOCK
+            MAGIC_SILK_BLOCK, VELVET_BLOCK
         }
 
         addTagFromList(RequiresPick.values(), BlockTags.MINEABLE_WITH_PICKAXE);
