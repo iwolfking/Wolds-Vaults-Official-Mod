@@ -2,6 +2,13 @@
   "deckRecipes": [
     {
       "discoveryTask": {
+        "id": "fairy_deck_task",
+        "renderer": {
+          "title": {
+            "text": "Loot Living Strongboxes"
+          },
+          "type": "named"
+        },
         "children": [],
         "operating": false,
         "filter": "the_vault:living_strongbox",
@@ -48,6 +55,13 @@
     },
     {
       "discoveryTask": {
+        "id": "snake_deck_task",
+        "renderer": {
+          "title": {
+            "text": "Discover Dragon Rooms"
+          },
+          "type": "named"
+        },
         "children": [],
         "operating": false,
         "filter": [
@@ -105,6 +119,13 @@
     },
     {
       "discoveryTask": {
+        "id": "crate_deck_task",
+        "renderer": {
+          "title": {
+            "text": "Complete Vaults"
+          },
+          "type": "named"
+        },
         "children": [],
         "operating": false,
         "completion": [
@@ -165,6 +186,13 @@
     },
     {
       "discoveryTask": {
+        "id": "wall_deck_task",
+        "renderer": {
+          "title": {
+            "text": "Take Damage From Horde Mobs"
+          },
+          "type": "named"
+        },
         "children": [],
         "operating": false,
         "filter": "@the_vault:horde",
@@ -212,6 +240,13 @@
     },
     {
       "discoveryTask": {
+        "id": "wold_deck_task",
+        "renderer": {
+          "title": {
+            "text": "Kill Elite Mobs"
+          },
+          "type": "named"
+        },
         "children": [],
         "operating": false,
         "filter": "@the_vault:elite",

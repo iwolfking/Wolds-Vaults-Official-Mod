@@ -13,8 +13,10 @@ import iskallia.vault.init.ModItems;
 import iskallia.vault.task.*;
 import iskallia.vault.task.counter.TargetTaskCounter;
 import iskallia.vault.task.counter.TaskCounterPredicate;
+import iskallia.vault.task.renderer.NamedTaskRenderer;
 import iskallia.vault.task.util.DamagePhase;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -41,28 +43,28 @@ public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
         TakeDamageTask wallTask = new TakeDamageTask(new TakeDamageTask.Config(PartialEntityGroup.of(VaultMod.id("horde"), PartialCompoundNbt.empty()), DamagePhase.PRE_MITIGATION), TargetTaskCounter.ofTargetFloat(FloatRoll.ofConstant(25000F), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
 
         add("wolds_decks", builder -> {
-            builder.addRecipe(WoldsVaults.id("fairy_deck"), "fairy", fairyTask, "advanced", list -> {
+            builder.addRecipe(WoldsVaults.id("fairy_deck"), "fairy", fairyTask.setRenderer(new NamedTaskRenderer(new TextComponent("Loot Living Strongboxes"))).setId("fairy_deck_task"), "advanced", list -> {
                 list.add(new ItemStack(ModItems.OMEGA_POG, 1));
                 list.add(new ItemStack(ModItems.EXTRAORDINARY_BLACK_OPAL, 16));
                 list.add(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.PRISMATIC_FIBER, 1));
                 list.add(new ItemStack(ModBlocks.VAULT_PLATINUM, 16));
             });
 
-            builder.addRecipe(WoldsVaults.id("snake_deck"), "snake", snakeTask, "advanced", list -> {
+            builder.addRecipe(WoldsVaults.id("snake_deck"), "snake", snakeTask.setRenderer(new NamedTaskRenderer(new TextComponent("Discover Dragon Rooms"))).setId("snake_deck_task"), "advanced", list -> {
                 list.add(new ItemStack(ModItems.OMEGA_POG, 1));
                 list.add(new ItemStack(ModItems.EXTRAORDINARY_BLACK_OPAL, 16));
                 list.add(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.PRISMATIC_FIBER, 1));
                 list.add(new ItemStack(ModBlocks.VAULT_PLATINUM, 16));
             });
 
-            builder.addRecipe(WoldsVaults.id("crate_deck"), "crate", crateTask, "advanced", list -> {
+            builder.addRecipe(WoldsVaults.id("crate_deck"), "crate", crateTask.setRenderer(new NamedTaskRenderer(new TextComponent("Complete Vaults"))).setId("crate_deck_task"), "advanced", list -> {
                 list.add(new ItemStack(ModItems.OMEGA_POG, 1));
                 list.add(new ItemStack(ModItems.EXTRAORDINARY_BLACK_OPAL, 16));
                 list.add(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.PRISMATIC_FIBER, 1));
                 list.add(new ItemStack(ModBlocks.VAULT_PLATINUM, 16));
             });
 
-            builder.addRecipe(WoldsVaults.id("wall_deck"), "wall", wallTask, "advanced", list -> {
+            builder.addRecipe(WoldsVaults.id("wall_deck"), "wall", wallTask.setRenderer(new NamedTaskRenderer(new TextComponent("Take Damage From Horde Mobs"))).setId("wall_deck_task"), "advanced", list -> {
                 list.add(new ItemStack(ModItems.OMEGA_POG, 1));
                 list.add(new ItemStack(ModItems.EXTRAORDINARY_BLACK_OPAL, 16));
                 list.add(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.PRISMATIC_FIBER, 1));
@@ -70,7 +72,7 @@ public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
             });
 
 
-            builder.addRecipe(WoldsVaults.id("wold_deck"), "wold", woldTask, "advanced", list -> {
+            builder.addRecipe(WoldsVaults.id("wold_deck"), "wold", woldTask.setRenderer(new NamedTaskRenderer(new TextComponent("Kill Elite Mobs"))).setId("wold_deck_task"), "advanced", list -> {
                 list.add(new ItemStack(ModItems.ECHO_POG, 1));
                 list.add(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.WOLD_STAR_CHUNK, 1));
                 list.add(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.PRISMATIC_FIBER, 8));
