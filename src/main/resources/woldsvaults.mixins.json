@@ -52,7 +52,6 @@
     "dungeons_mobs.MixinVanguardShield",
     "dyenamicsandfriends.MixinComputerCraftCompatModule",
     "dyenamicsandfriends.MixinIncBootstrapForge",
-    "effortlessbuilding.MixinEventHandler",
     "ensorcellation.MixinCommonEvents",
     "ensorcellation.MixinCurseMercyEnchantment",
     "ensorcellation.MixinEnsorcEnchantments",
