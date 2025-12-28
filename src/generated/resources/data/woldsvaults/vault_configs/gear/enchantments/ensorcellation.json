@@ -1,5 +1,14 @@
 {
   "costs": {
+    "ensorcellation:gourmand": {
+      "items": [
+        {
+          "id": "pumpkin_pie",
+          "count": 64
+        }
+      ],
+      "levels": 2
+    },
     "ensorcellation:exp_boost": {
       "items": [
         {
@@ -9,20 +18,11 @@
       ],
       "levels": 3
     },
-    "ensorcellation:damage_ender": {
+    "ensorcellation:angler": {
       "items": [
         {
-          "id": "ender_eye",
-          "count": 32
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:gourmand": {
-      "items": [
-        {
-          "id": "pumpkin_pie",
-          "count": 64
+          "id": "emerald",
+          "count": 5
         }
       ],
       "levels": 2
@@ -45,33 +45,6 @@
       ],
       "levels": 2
     },
-    "ensorcellation:quick_draw": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 3
-    },
-    "ensorcellation:air_affinity": {
-      "items": [
-        {
-          "id": "the_vault:phoenix_feather",
-          "count": 1
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:volley": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 45
-        }
-      ],
-      "levels": 1
-    },
     "ensorcellation:vitality": {
       "items": [
         {
@@ -90,14 +63,41 @@
       ],
       "levels": 2
     },
-    "ensorcellation:angler": {
+    "ensorcellation:damage_ender": {
+      "items": [
+        {
+          "id": "ender_eye",
+          "count": 32
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:volley": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 45
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:quick_draw": {
       "items": [
         {
           "id": "emerald",
           "count": 5
         }
       ],
-      "levels": 2
+      "levels": 3
+    },
+    "ensorcellation:air_affinity": {
+      "items": [
+        {
+          "id": "the_vault:phoenix_feather",
+          "count": 1
+        }
+      ],
+      "levels": 1
     }
   }
 }
