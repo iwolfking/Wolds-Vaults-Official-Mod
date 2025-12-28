@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = EventHandler.class, remap = false)
 public abstract class MixinEventHandler {
 
-    @Inject(method = "onBlockPlaced", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;getItemInHand(Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)
+    @Inject(method = "onBlockPlaced", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;getItemInHand(Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true, remap = true)
     private static void preventPlacingRetainerBlocks(BlockEvent.EntityPlaceEvent event, CallbackInfo ci) {
         if(event.getPlacedBlock().getBlock() instanceof InventoryRetainerBlock<?>) {
             ci.cancel();

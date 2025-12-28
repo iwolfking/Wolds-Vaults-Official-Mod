@@ -41,6 +41,11 @@ public class MixinModConfigs {
   
     private static final int TOTAL_MAP_TIERS = 6;
 
+    @Inject(method = "register", at = @At("HEAD"), remap = false)
+    private static void wtf(CallbackInfo ci) {
+
+    }
+
     @Inject(method = "register", at = @At("TAIL"), remap = false)
     private static void onReloadConfigs(CallbackInfo ci) {
         xyz.iwolfking.woldsvaults.init.ModConfigs.register();
