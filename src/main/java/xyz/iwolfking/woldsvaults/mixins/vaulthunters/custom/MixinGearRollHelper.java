@@ -121,13 +121,6 @@ public class MixinGearRollHelper {
         else if(itemLevel >= 40 && rand.nextFloat() <= 0.01F + increasedSpecialRollsChance) {
             VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.GREATER));
         }
-        //Randomly improve gear rarity (if not a jewel)
-        else if(rand.nextFloat() <= 0.04F + increasedSpecialRollsChance) {
-            if(stack.getItem() instanceof JewelItem) {
-                return;
-            }
-            VaultGearModifierHelper.improveGearRarity(stack, rand);
-        }
     }
 
     @Inject(method = "initializeGear(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At("TAIL"))
