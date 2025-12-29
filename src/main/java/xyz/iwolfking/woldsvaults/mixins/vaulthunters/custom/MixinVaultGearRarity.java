@@ -20,6 +20,9 @@ public abstract class MixinVaultGearRarity {
      */
     @Inject(method = "getNextTier", at = @At("HEAD"), cancellable = true)
     public void getNextTier(CallbackInfoReturnable<VaultGearRarity> cir) {
+        if(this.equals(VaultGearRarity.CHAOTIC)) {
+            cir.setReturnValue(null);
+        }
         if(this.equals(VaultGearRarity.valueOf("MYTHIC"))) {
             cir.setReturnValue(null);
         }
