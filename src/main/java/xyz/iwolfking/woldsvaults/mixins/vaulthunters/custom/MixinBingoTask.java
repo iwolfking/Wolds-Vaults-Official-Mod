@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.config.entry.LevelEntryList;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.task.BingoTask;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.objectives.BallisticBingoObjective;
 
 import java.util.Iterator;
@@ -26,24 +28,12 @@ public abstract class MixinBingoTask extends ConfiguredTask<ConfiguredTask.Confi
             return;
         }
 
-        BallisticBingoObjective obj = null;
-        for(Listener listener:  vault.get(Vault.LISTENERS).getAll()) {
-            Iterator<Objective> objIterator = listener.getObjectives(vault);
-            while(objIterator.hasNext()) {
-                if(objIterator.next() instanceof BallisticBingoObjective ballisticBingoObjective) {
-                    obj = ballisticBingoObjective;
-                    break;
-                }
-            }
-            if(obj != null) {
-                break;
-            }
-        }
-        if(obj == null) {
-            return;
+        Objective objective = WoldVaultUtils.getObjective(vault, BallisticBingoObjective.class);
+
+        if(objective instanceof BallisticBingoObjective ballisticBingoObjective) {
+            ballisticBingoObjective.addBingoTaskModifier(vault, "bingo_task_modifiers");
+            ballisticBingoObjective.addBingoTaskModifier(vault, "bingo_task_modifiers_bad");
         }
 
-        obj.addBingoTaskModifier(vault, "bingo_task_modifiers");
-        obj.addBingoTaskModifier(vault, "bingo_task_modifiers_bad");
     }
 }

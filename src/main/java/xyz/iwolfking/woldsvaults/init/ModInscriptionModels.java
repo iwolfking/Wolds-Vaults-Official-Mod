@@ -19,5 +19,6 @@ public class ModInscriptionModels {
         CustomInscriptionModelRegistry.addModel(106, "comet_observatory");
         CustomInscriptionModelRegistry.addModel(107, "wolds_dinner");
         CustomInscriptionModelRegistry.addModel(108, "wardens_garden");
+        CustomInscriptionModelRegistry.addModel(109, "warehouse");
     }
 }
