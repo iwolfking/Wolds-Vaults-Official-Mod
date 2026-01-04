@@ -1,11 +1,42 @@
 {
-  "pools": {},
+  "pools": {
+    "the_vault:warehouse": [
+      {
+        "level": 0,
+        "pool": [
+          {
+            "value": {
+              "model": {
+                "type": "uniform",
+                "min": 109,
+                "max": 109
+              },
+              "size": {
+                "type": "uniform",
+                "min": 10,
+                "max": 10
+              },
+              "entries": [
+                {
+                  "pool": "the_vault:vault/rooms/omega/warehouse",
+                  "color": 7012096,
+                  "count": 1
+                }
+              ]
+            },
+            "weight": 1
+          }
+        ]
+      }
+    ]
+  },
   "poolToModel": {
     "the_vault:vault/rooms/omega/digsite2": 6,
     "the_vault:vault/rooms/omega/cube": 105,
     "the_vault:vault/rooms/omega/comet_observatory": 106,
     "the_vault:vault/rooms/omega/wolds_dinner": 107,
-    "the_vault:vault/rooms/omega/wardens_garden": 108
+    "the_vault:vault/rooms/omega/wardens_garden": 108,
+    "the_vault:vault/rooms/omega/warehouse": 109
   },
   "ringWeights": []
 }

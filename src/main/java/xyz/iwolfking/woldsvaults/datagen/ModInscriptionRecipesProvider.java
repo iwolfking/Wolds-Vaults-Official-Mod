@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.core.world.generator.layout.ArchitectRoomEntry;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.data.InscriptionData;
@@ -17,18 +18,21 @@ public class ModInscriptionRecipesProvider extends AbstractInscriptionRecipesPro
     @Override
     public void registerConfigs() {
 
-//        add("test", builder -> {
-//            InscriptionData data = InscriptionData.empty();
-//            data.setSize(10);
-//            data.setModel(5);
-//            data.setColor(3);
-//            data.add(ArchitectRoomEntry.Type.OMEGA, 1, 3);
-//            ItemStack inscription = new ItemStack(ModItems.INSCRIPTION);
-//            data.write(inscription);
-//            builder.addRecipe(WoldsVaults.id("test_recipe"), inscription, inputs -> {
-//                inputs.add(new ItemStack(Items.APPLE, 3));
-//            });
-//        });
+        add("warehouse", builder -> {
+            InscriptionData data = InscriptionData.empty();
+            data.setSize(10);
+            data.setModel(109);
+            data.setColor(7012096);
+            data.add(new InscriptionData.Entry(VaultMod.id("warehouse"), ArchitectRoomEntry.Type.OMEGA, 1, 7012096));
+            ItemStack inscription = new ItemStack(ModItems.INSCRIPTION);
+            data.write(inscription);
+            builder.addRecipe(WoldsVaults.id("warehouse"), inscription, inputs -> {
+                inputs.add(new ItemStack(ModItems.CARD_JUICE, 24));
+                inputs.add(new ItemStack(ModItems.ECHO_GEM, 16));
+                inputs.add(new ItemStack(ModItems.INSCRIPTION_PIECE, 64));
+                inputs.add(new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.WOLD_STAR_CHUNK, 1));
+            });
+        });
     }
 }
 
