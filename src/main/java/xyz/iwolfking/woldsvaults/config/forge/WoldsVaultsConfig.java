@@ -9,11 +9,13 @@ public class WoldsVaultsConfig
 {
     public static class Client {
         public final ForgeConfigSpec.ConfigValue<Boolean> showVanillaVaultMap;
+        public final ForgeConfigSpec.ConfigValue<Boolean> hideXaerosMinimapInVaults;
         public final ForgeConfigSpec.ConfigValue<Boolean> playVaultMusic;
         public final ForgeConfigSpec.ConfigValue<Boolean> weaponsShouldntBeBetter;
         public Client(ForgeConfigSpec.Builder builder)
         {
             this.showVanillaVaultMap = builder.comment("Whether to show the built-in Vault Map in the HUD").define("showVanillaVaultMap", false);
+            this.hideXaerosMinimapInVaults = builder.comment("Whether to hide Xaero's Minimap while in Vaults.").define("hideXaerosMinimapInVaults", false);
             this.playVaultMusic = builder.comment("Whether to play special tracks while inside the Vault").define("playVaultMusic", false);
             this.weaponsShouldntBeBetter = builder.comment("Whether to enable Better Combat or not (default: false)").define("weaponsShouldntBeBetter", false);
         }
