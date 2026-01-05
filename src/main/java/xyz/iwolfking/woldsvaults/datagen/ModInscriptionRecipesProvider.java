@@ -23,7 +23,7 @@ public class ModInscriptionRecipesProvider extends AbstractInscriptionRecipesPro
             data.setSize(10);
             data.setModel(109);
             data.setColor(7012096);
-            data.add(new InscriptionData.Entry(VaultMod.id("warehouse"), ArchitectRoomEntry.Type.OMEGA, 1, 7012096));
+            data.add(new InscriptionData.Entry(VaultMod.id("vault/rooms/omega/warehouse"), ArchitectRoomEntry.Type.OMEGA, 1, 7012096));
             ItemStack inscription = new ItemStack(ModItems.INSCRIPTION);
             data.write(inscription);
             builder.addRecipe(WoldsVaults.id("warehouse"), inscription, inputs -> {

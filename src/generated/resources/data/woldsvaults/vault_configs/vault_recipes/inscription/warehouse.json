@@ -5,7 +5,7 @@
       "output": {
         "AMOUNT": 1,
         "ITEM": "the_vault:inscription",
-        "NBT": "{data:{color:7012096,entries:[{color:7012096,count:1,pool:\"the_vault:warehouse\",type:2}],isSuper:0b,model:109,size:10}}"
+        "NBT": "{data:{color:7012096,entries:[{color:7012096,count:1,pool:\"the_vault:vault/rooms/omega/warehouse\",type:2}],isSuper:0b,model:109,size:10}}"
       },
       "inputs": [
         {
