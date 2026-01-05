@@ -208,6 +208,7 @@
     "vaulthunters.custom.MixinModDynamicModelsArmor",
     "vaulthunters.custom.MixinModGearAttributes",
     "vaulthunters.custom.MixinModifierContext",
+    "vaulthunters.custom.MixinModifierWorkbenchBlock",
     "vaulthunters.custom.MixinModModelDiscoveryGoals",
     "vaulthunters.custom.MixinObjectiveTemplates",
     "vaulthunters.custom.MixinPlayerGreedData",

@@ -2,9 +2,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.config.entry.LevelEntryList;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.objective.Objective;
-import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.task.BingoTask;
 import iskallia.vault.task.ConfiguredTask;
 import iskallia.vault.task.Task;
@@ -15,8 +13,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.objectives.BallisticBingoObjective;
-
-import java.util.Iterator;
 
 @Mixin(value = BingoTask.class, remap = false)
 public abstract class MixinBingoTask extends ConfiguredTask<ConfiguredTask.Config> implements LevelEntryList.ILevelEntry {

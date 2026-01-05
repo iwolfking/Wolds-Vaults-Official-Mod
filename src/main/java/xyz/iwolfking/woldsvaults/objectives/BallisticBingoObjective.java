@@ -55,7 +55,7 @@ public class BallisticBingoObjective extends BingoObjective {
     public static final FieldKey<Task> TASK;
     public static final FieldKey<TaskSource> TASK_SOURCE;
     public static final FieldKey<Integer> JOINED;
-    public static final FieldKey<TaskMap> TASKS;
+    public static final FieldKey<BingoObjective.TaskMap> TASKS;
     private boolean pvp;
     private int lastScaledJoined = -1;
 
@@ -64,6 +64,11 @@ public class BallisticBingoObjective extends BingoObjective {
 
     public static BallisticBingoObjective of(BingoTask task) {
         return (BallisticBingoObjective)(new BallisticBingoObjective()).set(TASK, task);
+    }
+
+    public static BallisticBingoObjective of(BingoTask task, int width, int height) {
+        task.getConfig().setSize(width, height);
+        return (BallisticBingoObjective) (new BallisticBingoObjective()).set(TASK, task).set(TASKS, new TaskMap());
     }
 
     public TaskContext getContext(VirtualWorld world, Vault vault) {
@@ -143,10 +148,10 @@ public class BallisticBingoObjective extends BingoObjective {
                 if (patt4799$temp instanceof Runner) {
                     Runner runner = (Runner)patt4799$temp;
                     if (this.pvp) {
-                        if (!((TaskMap)this.get(TASKS)).containsKey(runner.getId())) {
+                        if (!((BingoObjective.TaskMap)this.get(TASKS)).containsKey(runner.getId())) {
                             BingoTask board = (BingoTask)((BingoTask)this.get(TASK)).copy();
                             board.onAttach(((BingoObjectiveAccessor)this).getContext(world, vault, runner.getId()));
-                            ((TaskMap)this.get(TASKS)).put(runner.getId(), board);
+                            ((BingoObjective.TaskMap)this.get(TASKS)).put(runner.getId(), board);
                         }
                     } else {
                         Object patt5225$temp = this.get(TASK_SOURCE);
@@ -167,7 +172,7 @@ public class BallisticBingoObjective extends BingoObjective {
                 if (patt5575$temp instanceof Runner) {
                     Runner runner = (Runner)patt5575$temp;
                     if (this.pvp) {
-                        BingoTask board = (BingoTask)((TaskMap)this.get(TASKS)).remove(runner.getId());
+                        BingoTask board = (BingoTask)((BingoObjective.TaskMap)this.get(TASKS)).remove(runner.getId());
                         if (board != null) {
                             board.onDetach();
                         }
@@ -187,7 +192,7 @@ public class BallisticBingoObjective extends BingoObjective {
             for(Runner runner : ((Listeners)vault.get(Vault.LISTENERS)).getAll(Runner.class)) {
                 BingoTask board = (BingoTask)((BingoTask)this.get(TASK)).copy();
                 board.onAttach(((BingoObjectiveAccessor)this).getContext(world, vault, runner.getId()));
-                ((TaskMap)this.get(TASKS)).put(runner.getId(), board);
+                ((BingoObjective.TaskMap)this.get(TASKS)).put(runner.getId(), board);
             }
 
             ((Task)this.get(TASK)).onDetach();
@@ -211,7 +216,7 @@ public class BallisticBingoObjective extends BingoObjective {
         }
 
         if (this.pvp) {
-            ((TaskMap)this.get(TASKS)).forEach((uuid, task) -> {
+            ((BingoObjective.TaskMap)this.get(TASKS)).forEach((uuid, task) -> {
                 if (task instanceof BingoTask bingo) {
                     bingo.onTick(((BingoObjectiveAccessor)this).getContext(world, vault, uuid));
                 }
@@ -228,7 +233,7 @@ public class BallisticBingoObjective extends BingoObjective {
         if (world.getTickCount() % 20 == 0) {
             int joined = (Integer)this.getOr(JOINED, 0);
             if (this.pvp) {
-                ((TaskMap)this.get(TASKS)).values().forEach((task) -> {
+                (this.get(TASKS)).values().forEach((task) -> {
                     if (task instanceof BingoTask root) {
                         for(int index = 0; index < root.getWidth() * root.getHeight(); ++index) {
                             if (!root.isCompleted(index)) {
@@ -307,7 +312,7 @@ public class BallisticBingoObjective extends BingoObjective {
 
         if (listener instanceof Runner runner) {
             if (this.pvp) {
-                BingoTask task = (BingoTask)((TaskMap)this.get(TASKS)).get(runner.getId());
+                BingoTask task = (BingoTask)((BingoObjective.TaskMap)this.get(TASKS)).get(runner.getId());
                 if (task != null && task.getCompletedBingos() > 0) {
                     (this.get(CHILDREN)).forEach(child -> child.tickListener(world, vault, listener));
                 }
@@ -342,7 +347,7 @@ public class BallisticBingoObjective extends BingoObjective {
                 TaskRendererContext context = new TaskRendererContext((PoseStack)null, 0.0F, MultiBufferSource.immediate(Tesselator.getInstance().getBuilder()), Minecraft.getInstance().font);
                 UUID uuid = Minecraft.getInstance().player != null ? Minecraft.getInstance().player.getUUID() : null;
                 context.setUuid(uuid);
-                Task task = this.pvp && uuid != null ? (Task)((TaskMap)this.get(TASKS)).get(uuid) : (Task)this.get(TASK);
+                Task task = this.pvp && uuid != null ? (Task)((BingoObjective.TaskMap)this.get(TASKS)).get(uuid) : (Task)this.get(TASK);
                 if (task != null && task.onMouseScrolled(event.getScrollDelta(), context)) {
                     event.setCanceled(true);
                 }
@@ -374,7 +379,7 @@ public class BallisticBingoObjective extends BingoObjective {
             }
         }
 
-        Task task = this.pvp ? (Task)((TaskMap)this.get(TASKS)).get(player.getUUID()) : (Task)this.get(TASK);
+        Task task = this.pvp ? (this.get(TASKS)).get(player.getUUID()) : (Task)this.get(TASK);
         if (task == null) {
             return true;
         } else {
@@ -409,8 +414,8 @@ public class BallisticBingoObjective extends BingoObjective {
 
     public void onScroll(Player player, double delta) {
         if (this.pvp) {
-            if (((TaskMap)this.get(TASKS)).containsKey(player.getUUID())) {
-                Task t = (Task)((TaskMap)this.get(TASKS)).get(player.getUUID());
+            if ((this.get(TASKS)).containsKey(player.getUUID())) {
+                Task t = (Task)(this.get(TASKS)).get(player.getUUID());
                 if (t instanceof BingoTask board) {
                     board.progressBingoLine(player.getUUID(), delta < (double)0.0F ? 1 : -1);
                 }
@@ -453,6 +458,6 @@ public class BallisticBingoObjective extends BingoObjective {
         TASK = FieldKey.of("task", Task.class).with(Version.v1_27, Adapters.TASK_NBT, DISK.all().or(CLIENT.all())).register(FIELDS);
         TASK_SOURCE = FieldKey.of("task_source", TaskSource.class).with(Version.v1_27, Adapters.TASK_SOURCE_NBT, DISK.all().or(CLIENT.all())).register(FIELDS);
         JOINED = FieldKey.of("joined", Integer.class).with(Version.v1_27, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
-        TASKS = FieldKey.of("tasks", TaskMap.class).with(Version.v1_38, CompoundAdapter.of(TaskMap::new), DISK.all().or(CLIENT.all())).register(FIELDS);
+        TASKS = FieldKey.of("tasks", BingoObjective.TaskMap.class).with(Version.v1_38, CompoundAdapter.of(BingoObjective.TaskMap::new), DISK.all().or(CLIENT.all())).register(FIELDS);
     }
 }
