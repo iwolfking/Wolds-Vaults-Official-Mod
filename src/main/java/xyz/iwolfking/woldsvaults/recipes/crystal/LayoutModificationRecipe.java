@@ -2,7 +2,9 @@ package xyz.iwolfking.woldsvaults.recipes.crystal;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.modifier.VaultModifierStack;
+import iskallia.vault.core.vault.modifier.modifier.GroupedModifier;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
+import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.IdentifiableItem;
@@ -18,6 +20,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
+import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.GreedyVaultModifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,19 @@ public class LayoutModificationRecipe extends VanillaAnvilRecipe {
 
             if(LayoutModificationItem.getLayout(secondary).isEmpty()) {
                 return false;
+            }
+
+            for(VaultModifierStack modStack : data.getModifiers().getList()) {
+                if(modStack.getModifier() instanceof GreedyVaultModifier) {
+                    return false;
+                }
+                else if(modStack.getModifier() instanceof GroupedModifier groupedModifier) {
+                    for(VaultModifier<?> mod : groupedModifier.properties().getChildren()) {
+                        if(mod instanceof GreedyVaultModifier) {
+                            return false;
+                        }
+                    }
+                }
             }
 
             CrystalLayout layout =  LayoutModificationItem.getLayout(secondary).get();

@@ -1,17 +1,31 @@
 package xyz.iwolfking.woldsvaults.items.gear;
 
 import com.google.common.collect.Multimap;
+import iskallia.vault.VaultMod;
+import iskallia.vault.config.VaultCrystalConfig;
+import iskallia.vault.core.vault.modifier.VaultModifierStack;
+import iskallia.vault.core.vault.modifier.modifier.GroupedModifier;
+import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
+import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.gear.VaultGearClassification;
 import iskallia.vault.gear.VaultGearHelper;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.VaultGearType;
+import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.crafting.ProficiencyType;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.BasicItem;
+import iskallia.vault.item.crystal.CrystalData;
+import iskallia.vault.item.crystal.objective.CrystalObjective;
+import iskallia.vault.item.crystal.theme.CrystalTheme;
+import iskallia.vault.item.crystal.theme.PoolCrystalTheme;
+import iskallia.vault.item.crystal.theme.ValueCrystalTheme;
+import iskallia.vault.item.data.InscriptionData;
 import iskallia.vault.item.tool.JewelItem;
+import iskallia.vault.recipe.anvil.AnvilContext;
 import iskallia.vault.world.data.DiscoveredModelsData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -35,11 +49,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
+import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
+import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.GreedyVaultModifier;
+import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.InscriptionCrystalModifierSettable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
-public class VaultMapItem extends BasicItem implements VaultGearItem {
+public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrystalModifier {
 
     Random rand = new Random();
 
@@ -71,30 +90,26 @@ public class VaultMapItem extends BasicItem implements VaultGearItem {
         EquipmentSlot intendedSlot = this.getGearType(stack).getEquipmentSlot();
         return ModConfigs.GEAR_MODEL_ROLL_RARITIES.getRandomRoll(stack, gearData, intendedSlot, random, player, discoveredModelsData);
     }
+
     @Override
     public void tickRoll(ItemStack stack, @Nullable Player player) {
         VaultGearData data = VaultGearData.read(stack);
         int tier;
         if (data.getState() != VaultGearState.IDENTIFIED) {
             tier = data.getFirstValue(ModGearAttributes.MAP_TIER).orElse(-1);
-            if(tier == -1) {
+            if (tier == -1) {
                 float randChance = rand.nextFloat();
-                if(randChance <= 0.05F) {
+                if (randChance <= 0.05F) {
                     data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 5);
-                }
-                else if(randChance <= 0.15F) {
+                } else if (randChance <= 0.15F) {
                     data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 4);
-                }
-                else if(randChance <= 0.35F) {
+                } else if (randChance <= 0.35F) {
                     data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 3);
-                }
-                else if(randChance <= 0.6F) {
+                } else if (randChance <= 0.6F) {
                     data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 2);
-                }
-                else if(randChance <= 0.75F) {
+                } else if (randChance <= 0.75F) {
                     data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 1);
-                }
-                else {
+                } else {
                     data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 0);
                 }
             }
@@ -168,24 +183,20 @@ public class VaultMapItem extends BasicItem implements VaultGearItem {
 
     @Override
     public void addTooltipItemLevel(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state) {
-        if(data.hasAttribute(ModGearAttributes.MAP_TIER)) {
+        if (data.hasAttribute(ModGearAttributes.MAP_TIER)) {
             int tier = data.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0);
             tooltip.add(new TextComponent("Tier: ").append(new TextComponent(String.valueOf(tier)).withStyle(Style.EMPTY.withColor(getTierColor(tier)))));
-        }
-        else if(stack.getOrCreateTag().contains("the_vault:map_tier")) {
+        } else if (stack.getOrCreateTag().contains("the_vault:map_tier")) {
             int tier = stack.getOrCreateTag().getInt("the_vault:map_tier");
-            if(tier == -1) {
+            if (tier == -1) {
                 tooltip.add(new TextComponent("Tier: ").append(new TextComponent("???").withStyle(Style.EMPTY.withColor(7247291))));
-            }
-            else {
+            } else {
                 tooltip.add(new TextComponent("Tier: ").append(new TextComponent(String.valueOf(tier)).withStyle(Style.EMPTY.withColor(getTierColor(tier)))));
             }
-        }
-        else {
+        } else {
             tooltip.add(new TextComponent("Tier: ").append(new TextComponent("???").withStyle(Style.EMPTY.withColor(7247291))));
         }
     }
-
 
     public int getTierColor(int tier) {
         return switch (tier) {
@@ -200,5 +211,129 @@ public class VaultMapItem extends BasicItem implements VaultGearItem {
             case 1 -> 9240575;
             default -> 14352383;
         };
+    }
+
+    public boolean applyCrystalRecipe(AnvilContext context, CrystalData data, ItemStack ingredientStack, ItemStack output) {
+        boolean hasGreedy = false;
+
+        for (VaultModifierStack modifierStack : data.getModifiers()) {
+            if (modifierStack.getModifier() instanceof GroupedModifier groupedModifier) {
+                for (VaultModifier<?> childMod : groupedModifier.properties().getChildren()) {
+                    if (childMod instanceof GreedyVaultModifier) {
+                        hasGreedy = true;
+                        break;
+                    }
+                }
+            } else if (modifierStack.getModifier() instanceof GreedyVaultModifier) {
+                hasGreedy = true;
+                break;
+            }
+        }
+
+        if (data.getProperties().getLevel().isPresent() && data.getProperties().getLevel().get() < 100) {
+            return false;
+        }
+
+        if (!hasGreedy) {
+            return false;
+        }
+
+        VaultGearData mapData = VaultGearData.read(ingredientStack);
+
+        Optional<Integer> prefixSlots = mapData.getFirstValue(iskallia.vault.init.ModGearAttributes.PREFIXES);
+        Optional<Integer> suffixSlots = mapData.getFirstValue(iskallia.vault.init.ModGearAttributes.SUFFIXES);
+
+        if (prefixSlots.isEmpty() || suffixSlots.isEmpty()) {
+            return false;
+        }
+
+        int numberOfPrefixes = mapData.getModifiers(VaultGearModifier.AffixType.PREFIX).size();
+        int numberOfSuffixes = mapData.getModifiers(VaultGearModifier.AffixType.SUFFIX).size();
+
+        boolean unfinishedMap = false;
+
+        if (prefixSlots.get() != numberOfPrefixes || suffixSlots.get() != numberOfSuffixes) {
+            unfinishedMap = true;
+        }
+
+        String themeId = mapData.getFirstValue(ModGearAttributes.THEME).orElse(null);
+        String themePoolId = mapData.getFirstValue(ModGearAttributes.THEME_POOL).orElse(null);
+        String objectiveId = mapData.getFirstValue(ModGearAttributes.OBJECTIVE).orElse(null);
+
+        if (themeId != null) {
+            CrystalTheme theme = new ValueCrystalTheme(ResourceLocation.parse(themeId));
+            data.setTheme(theme);
+        } else if (themePoolId != null) {
+            CrystalTheme theme = new PoolCrystalTheme(ResourceLocation.parse(themePoolId));
+            data.setTheme(theme);
+        } else {
+            return false;
+        }
+
+        if (objectiveId != null) {
+            if (CrystalData.OBJECTIVE.getValue(objectiveId) != null) {
+                CrystalObjective objective = CrystalData.OBJECTIVE.getValue(objectiveId);
+                if (ModConfigs.VAULT_CRYSTAL.OBJECTIVES.containsKey(VaultMod.id(objectiveId))) {
+                    VaultCrystalConfig.ObjectiveEntry entry = ModConfigs.VAULT_CRYSTAL.OBJECTIVES.get(VaultMod.id(objectiveId)).getForLevel(data.getProperties().getLevel().orElse(0)).orElse(null);
+                    if (entry != null) {
+                        CrystalObjective obj = entry.pool.getRandom().orElse(null);
+                        if (obj != null) {
+                            objective = obj;
+                        }
+                    }
+                }
+                data.setObjective(objective);
+
+            }
+        } else {
+            return false;
+        }
+
+        applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.PREFIX, context, output, unfinishedMap);
+        applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.SUFFIX, context, output, unfinishedMap);
+        applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output, unfinishedMap);
+
+
+        data.getProperties().setUnmodifiable(true);
+        data.write(output);
+        context.setOutput(output);
+
+        context.onTake(context.getTake().append(() -> {
+            context.getInput()[0].shrink(1);
+            context.getInput()[1].shrink(1);
+        }));
+        return true;
+    }
+
+    public static boolean applySpecialModifiers(CrystalData data, VaultGearData mapData, VaultGearModifier.AffixType affixType, AnvilContext context, ItemStack output, boolean shouldReduceValues) {
+        for (VaultGearModifier<?> mod : mapData.getModifiers(affixType)) {
+            VaultModifier<?> vaultMod = VaultModifierRegistry.get(mod.getModifierIdentifier());
+            if (vaultMod instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
+                float value;
+                if (mod.getValue() instanceof Integer integerValue) {
+                    value = Float.valueOf(integerValue);
+                } else {
+                    value = (float) mod.getValue();
+                }
+
+                if (shouldReduceValues) {
+                    value *= 0.25F;
+                }
+                settableValueVaultModifier.properties().setValue(value);
+
+                if (vaultMod instanceof InscriptionCrystalModifierSettable inscriptionCrystalModifierSettable) {
+                    InscriptionData inscriptionData = inscriptionCrystalModifierSettable.properties().getData();
+                    inscriptionData.apply(context.getPlayer().orElse(null), output, data);
+                } else {
+                    VaultModifierStack stack = new VaultModifierStack(settableValueVaultModifier, 1);
+                    data.getModifiers().add(stack);
+                }
+
+            } else if (vaultMod != null) {
+                VaultModifierStack stack = new VaultModifierStack(vaultMod, 1);
+                data.getModifiers().add(stack);
+            }
+        }
+        return true;
     }
 }

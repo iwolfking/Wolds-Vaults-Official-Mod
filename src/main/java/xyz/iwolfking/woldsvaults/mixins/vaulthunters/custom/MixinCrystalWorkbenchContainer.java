@@ -17,28 +17,26 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.client.init.ModSlotIcons;
 import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
 
 @Mixin(value = CrystalWorkbenchContainer.class, remap = false)
 public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotContainer {
 
-    @Shadow @Final private CrystalWorkbenchTileEntity entity;
-
     protected MixinCrystalWorkbenchContainer(MenuType<?> menuType, int id, Player player) {
         super(menuType, id, player);
     }
 
-    @Redirect(method = "<init>", at = @At(value = "TAIL"))
-    private Slot addManipulator(CrystalWorkbenchContainer instance, Slot slot, @Local(ordinal = 1) int slotIndex, @Local(ordinal = 0, argsOnly = true) int finalSlotIndex) {
-        return this.addSlot((new CrystalWorkbenchContainer.CrystalWorkbenchSlot(this.entity.getUniqueIngredients(), slotIndex + 1, 250, 250) {
-            public boolean mayPlace(ItemStack stack) {
-                return entity.getUniqueIngredients().canPlaceItem(slotIndex + 1, stack);
-            }
-        }).setBackground(this.getUniqueSlotBackground(42)));
+    @Inject(method = "getUniqueSlotBackground", at = @At("HEAD"), cancellable = true)
+    private void addAdditionalSlotBackgrounds(int index, CallbackInfoReturnable<ResourceLocation> cir) {
+        if(index == 4) {
+            cir.setReturnValue(ModSlotIcons.LAYOUT_NO_ITEM);
+        }
+        else if(index == 5) {
+            cir.setReturnValue(ModSlotIcons.PLACEHOLDER_NO_ITEM);
+        }
     }
-
-
-    @Shadow
-    protected abstract ResourceLocation getUniqueSlotBackground(int index);
 }
