@@ -278,6 +278,7 @@
     "vaulthunters.fixes.MixinEntityGroupsConfig",
     "vaulthunters.fixes.MixinFloatingItem",
     "vaulthunters.fixes.MixinGearScoreHelper",
+    "vaulthunters.fixes.MixinGrayscaleRenderHook",
     "vaulthunters.fixes.MixinImmortalityEffect",
     "vaulthunters.fixes.MixinIntegrationCurios",
     "vaulthunters.fixes.MixinJewelCraftingRecipe",
