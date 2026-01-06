@@ -10,6 +10,7 @@ import xyz.iwolfking.woldsvaults.network.packets.StopFlightMessage;
 import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage;
 import xyz.iwolfking.woldsvaults.network.message.ElixirParticleMessage;
+import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
 
 public class ModNetwork {
     private static int id = 0;
@@ -24,6 +25,7 @@ public class ModNetwork {
 
     public static void init() {
         CHANNEL.registerMessage(id++, StopFlightMessage.class, StopFlightMessage::encode, StopFlightMessage::decode, StopFlightMessage::handle);
+        CHANNEL.registerMessage(id++, UpdateFloatingTextPacket.class, UpdateFloatingTextPacket::encode, UpdateFloatingTextPacket::decode, UpdateFloatingTextPacket::handle);
         CHANNEL.registerMessage(id++, BrewingAltarParticleMessage.class, BrewingAltarParticleMessage::encode, BrewingAltarParticleMessage::decode, BrewingAltarParticleMessage::handle);
         CHANNEL.registerMessage(id++, ClientboundSyncGamerulesMessage.class, ClientboundSyncGamerulesMessage::encode, ClientboundSyncGamerulesMessage::decode, ClientboundSyncGamerulesMessage::handle);
         CHANNEL.registerMessage(id++, ElixirParticleMessage.class, ElixirParticleMessage::encode, ElixirParticleMessage::decode, ElixirParticleMessage::handle);

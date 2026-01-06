@@ -122,6 +122,9 @@ public class ModBlocks {
     public static final Map<DyeColor, Block> COLORED_UNOBTANIUMS = new LinkedHashMap<>();
     public static final Block RAINBOW_UNOBTANIUM;
 
+    public static final ConfigurableFloatingTextBlock CONFIGURABLE_FLOATING_TEXT_BLOCK;
+    public static final BlockEntityType<ConfigurableFloatingTextTileEntity> CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY;
+
     public static final Map<String, VaultCrateBlock> CUSTOM_VAULT_CRATES = new HashMap<>();
 
 
@@ -168,6 +171,7 @@ public class ModBlocks {
         WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
         WUTODIE = new VaultGemBlock(ModItems.WUTODIE_GEM);
         DOLL_DISMANTLING_BLOCK = new DollDismantlingBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), DollDismantlingBlock.DOLL_DISMANTLING_SHAPE);
+        CONFIGURABLE_FLOATING_TEXT_BLOCK = new ConfigurableFloatingTextBlock();
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
         HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(HellishSandTileEntity::new, HELLISH_SAND_BLOCK).build(null);
@@ -188,6 +192,7 @@ public class ModBlocks {
         WEAVING_STATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(WeavingStationTileEntity::new, new Block[]{WEAVING_STATION}).build(null);
         BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(BrewingAltarTileEntity::new, new Block[]{BREWING_ALTAR}).build(null);
         DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DollDismantlingTileEntity::new, new Block[]{DOLL_DISMANTLING_BLOCK}).build(null);
+        CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY = BlockEntityType.Builder.of(ConfigurableFloatingTextTileEntity::new, new Block[]{CONFIGURABLE_FLOATING_TEXT_BLOCK}).build(null);
         for(DyeColor color : DyeColor.values()) {
             Block dyedUnobtanium = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL, color).strength(50F).requiresCorrectToolForDrops());
             COLORED_UNOBTANIUMS.put(color, dyedUnobtanium);
@@ -251,6 +256,7 @@ public class ModBlocks {
         registerBlock(event, WUTODIE, VaultMod.id("block_gem_wutodie"));
         registerBlock(event, BREWING_ALTAR, WoldsVaults.id("brewing_altar"));
         registerBlock(event, DOLL_DISMANTLING_BLOCK, WoldsVaults.id("doll_dismantler"));
+        registerBlock(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, WoldsVaults.id("configurable_floating_text"));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
         }));
@@ -280,6 +286,7 @@ public class ModBlocks {
         registerTileEntity(event, MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, WoldsVaults.id("monolith_controller_tile_entity"));
         registerTileEntity(event, BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("brewing_altar_tile_entity"));
         registerTileEntity(event, DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("doll_dismantler_tile_entity"));
+        registerTileEntity(event, CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY, WoldsVaults.id("configurable_floating_text_entity"));
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
@@ -329,6 +336,7 @@ public class ModBlocks {
         registerBlockItem(event, WUTODIE, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
         registerBlockItem(event, BREWING_ALTAR, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, DOLL_DISMANTLING_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         }));
@@ -346,6 +354,7 @@ public class ModBlocks {
         event.registerBlockEntityRenderer(MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, MonolithControllerRenderer::new);
         event.registerBlockEntityRenderer(BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, BrewingAltarRenderer::new);
         event.registerBlockEntityRenderer(DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, DollDismantlingRenderer::new);
+        event.registerBlockEntityRenderer(CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY, ConfigurableFloatingTextRenderer::new);
     }
 
 
