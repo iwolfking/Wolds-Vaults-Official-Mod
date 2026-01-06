@@ -39,7 +39,7 @@ public class MixinCorruptGearModification {
         }
 
         if(stack.getItem() instanceof VaultMapItem) {
-            if(JavaRandom.ofNanoTime().nextFloat() <= 0.1F) {
+            if(JavaRandom.ofNanoTime().nextFloat() <= 0.25F) {
                     VaultGearModifier<?> objModifier = null;
                     VaultGearModifier<?> themeModifier = null;
                     for(VaultGearModifier<?> mod : data.getModifiers(VaultGearModifier.AffixType.IMPLICIT)) {

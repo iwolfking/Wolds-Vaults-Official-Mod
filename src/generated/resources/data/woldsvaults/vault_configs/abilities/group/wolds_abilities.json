@@ -1,0 +1,14 @@
+{
+  "types": {
+    "POWERUP": [
+      "Colossus_Base",
+      "Sneaky_Getaway"
+    ],
+    "UTILITY": [
+      "Expunge_Base",
+      "Concentrate_Base",
+      "Levitate",
+      "Vein_Miner_Chain"
+    ]
+  }
+}
