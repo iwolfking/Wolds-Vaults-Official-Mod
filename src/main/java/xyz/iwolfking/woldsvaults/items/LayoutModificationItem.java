@@ -24,7 +24,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
-import xyz.iwolfking.woldsvaults.api.vault.layout.ClassicStarCrystalLayout;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicCircleCrystalLayoutAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicInfiniteCrystalLayoutAccessor;
@@ -66,9 +65,6 @@ public class LayoutModificationItem extends Item implements VaultLevelItem, Data
                 tooltip.add(new TextComponent("Tunnel Span: ").append(new TextComponent(String.valueOf(((ClassicInfiniteCrystalLayoutAccessor)crystalLayout).getTunnelSpan())).withStyle(ChatFormatting.GOLD)));
                 tooltip.add(new TextComponent("Half Length: ").append(new TextComponent(String.valueOf(((ClassicSpiralCrystalLayoutAccessor)crystalLayout).getHalfLength())).withStyle(ChatFormatting.GOLD)));
             }
-            else if(key instanceof ClassicStarCrystalLayout) {
-                tooltip.add((new TextComponent("Layout: ")).append((new TextComponent("Star")).withStyle(Style.EMPTY.withColor(3191296))));
-            }
             else if(key instanceof ClassicInfiniteCrystalLayout crystalLayout) {
                 tooltip.add((new TextComponent("Layout: ")).append((new TextComponent("Infinite")).withStyle(Style.EMPTY.withColor(16730880))));
                 tooltip.add(new TextComponent("Tunnel Span: ").append(new TextComponent(String.valueOf(((ClassicInfiniteCrystalLayoutAccessor)crystalLayout).getTunnelSpan())).withStyle(ChatFormatting.GOLD)));
@@ -95,7 +91,6 @@ public class LayoutModificationItem extends Item implements VaultLevelItem, Data
                     case "circle" -> Optional.of(new ClassicCircleCrystalLayout(tunnel, value));
                     case "polygon" -> Optional.of(new ClassicPolygonCrystalLayout(tunnel, new int[]{-1 * value, value, value, value, value, -1 * value, -1 * value, -1 * value}));
                     case "spiral" -> Optional.of(new ClassicSpiralCrystalLayout(tunnel, value, Rotation.CLOCKWISE_90));
-                    case "star" -> Optional.of(new ClassicStarCrystalLayout(tunnel, value, 3, 4));
                     default -> Optional.empty();
                 };
             }
@@ -124,9 +119,6 @@ public class LayoutModificationItem extends Item implements VaultLevelItem, Data
         }
         else if(key instanceof ClassicSpiralCrystalLayout) {
           return "spiral";
-        }
-        else if(key instanceof ClassicStarCrystalLayout) {
-            return "star";
         }
         else if(key instanceof ClassicInfiniteCrystalLayout) {
             return "infinite";
