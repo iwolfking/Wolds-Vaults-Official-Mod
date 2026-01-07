@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.blocks.tiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -10,6 +11,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -143,7 +145,46 @@ public class ConfigurableFloatingTextTileEntity extends BlockEntity {
         return previewLines != null ? previewLines : lines;
     }
 
+    public CompoundTag saveToItem() {
+        CompoundTag tag = new CompoundTag();
 
+        ListTag linesTag = new ListTag();
+        for (TextLine line : this.getLines()) {
+            CompoundTag lineTag = new CompoundTag();
+            lineTag.putString("text", line.text);
+            lineTag.putInt("color", line.color);
+            lineTag.putBoolean("bold", line.bold);
+            lineTag.putBoolean("italic", line.italic);
+            lineTag.putBoolean("underlined", line.underlined);
+            linesTag.add(lineTag);
+        }
+        tag.put("lines", linesTag);
+        tag.putFloat("scale", this.getScale());
+
+        return tag;
+    }
+
+
+    public void loadFromItem(CompoundTag tag) {
+        if (tag.contains("lines")) {
+            ListTag linesTag = tag.getList("lines", Tag.TAG_COMPOUND);
+            List<TextLine> loadedLines = new ArrayList<>();
+            for (Tag t : linesTag) {
+                CompoundTag lineTag = (CompoundTag) t;
+                TextLine line = new TextLine(lineTag.getString("text"));
+                line.color = lineTag.getInt("color");
+                line.bold = lineTag.getBoolean("bold");
+                line.italic = lineTag.getBoolean("italic");
+                line.underlined = lineTag.getBoolean("underlined");
+                loadedLines.add(line);
+            }
+            this.setLines(loadedLines);
+        }
+
+        if (tag.contains("scale")) {
+            this.setScale(tag.getFloat("scale"));
+        }
+    }
 
 
 

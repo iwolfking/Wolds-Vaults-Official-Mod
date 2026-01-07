@@ -1,5 +1,7 @@
 {
-  "textures": {
-    "particle": "minecraft:item/barrier"
+  "variants": {
+    "": {
+      "model": "minecraft:block/barrier"
+    }
   }
 }

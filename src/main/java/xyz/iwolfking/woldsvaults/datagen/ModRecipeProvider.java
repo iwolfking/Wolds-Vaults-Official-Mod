@@ -63,6 +63,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         CompoundTag colossus = new CompoundTag();
         colossus.putString("Ability", "Colossus");
 
+
+        ShapedRecipeBuilder.shaped(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK)
+                .define('A', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
+                .define('D', Items.WRITABLE_BOOK)
+                .define('B', iskallia.vault.init.ModItems.POG)
+                .pattern(" D ")
+                .pattern(" A ")
+                .pattern(" B ")
+                .unlockedBy("has_magic_silk_block", has(iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK))
+                .save(pFinishedRecipeConsumer);
+
+
         ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.RESPEC_FLASK)
                 .define('A', iskallia.vault.init.ModItems.VAULT_ESSENCE)
                 .define('D', Blocks.GRANITE)

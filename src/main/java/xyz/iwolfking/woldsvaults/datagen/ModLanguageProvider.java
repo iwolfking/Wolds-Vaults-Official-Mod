@@ -1,6 +1,8 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import com.simibubi.create.content.logistics.filter.ItemAttribute;
 import iskallia.vault.util.StringUtils;
+import net.joseph.vaultfilters.attributes.abstracts.BooleanAttribute;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -9,6 +11,9 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.init.*;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyIngredientTypeAttribute;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyItemAttribute;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.CatalystItemAttribute;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import java.util.LinkedHashMap;
@@ -29,11 +34,20 @@ public class ModLanguageProvider extends LanguageProvider {
         add("vault_event." + id.getNamespace() + "." + id.getPath() + "_message", event.eventMessage.getString());
     }
 
+    public void add(ItemAttribute attribute, String text, String invertedText) {
+        add("create.item_attributes." + attribute.getTranslationKey(), text);
+        add("create.item_attributes." + attribute.getTranslationKey() + ".inverted", invertedText);
+    }
+
     @Override
     protected void addTranslations() {
         ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {
             add(customObjectiveRegistryEntry, customObjectiveRegistryEntry.getName());
         });
+        add(new AlchemyItemAttribute(false), "is an Alchemy ingredient", "is not an Alchemy ingredient");
+        add(new CatalystItemAttribute(false), "is an Alchemy catalyst", "is not an Alchemy catalyst");
+        add(new AlchemyIngredientTypeAttribute(""), "is an Alchemy ingredient of type \"%1$s\"", "is not an Alchemy ingredient of type \"%1$s\"");
+        add(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, "Magic Text");
         add("vault_event.woldsvaults.swap_task", "You have been swapped with %1$s.");
         add("vault_event.woldsvaults.legacy_event_message", "%1$s encountered a %2$s Event!");
         add("vault_event.woldsvaults.event_cascade", "%1$s %2$s Event has cascaded onto you!");
