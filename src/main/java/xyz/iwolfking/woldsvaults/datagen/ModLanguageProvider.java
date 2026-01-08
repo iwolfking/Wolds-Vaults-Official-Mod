@@ -48,6 +48,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(new CatalystItemAttribute(false), "is an Alchemy catalyst", "is not an Alchemy catalyst");
         add(new AlchemyIngredientTypeAttribute(""), "is an Alchemy ingredient of type \"%1$s\"", "is not an Alchemy ingredient of type \"%1$s\"");
         add(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, "Magic Text");
+        add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
         add("vault_event.woldsvaults.swap_task", "You have been swapped with %1$s.");
         add("vault_event.woldsvaults.legacy_event_message", "%1$s encountered a %2$s Event!");
         add("vault_event.woldsvaults.event_cascade", "%1$s %2$s Event has cascaded onto you!");

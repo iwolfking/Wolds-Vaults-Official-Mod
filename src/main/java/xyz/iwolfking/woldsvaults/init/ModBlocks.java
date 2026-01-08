@@ -3,12 +3,8 @@ package xyz.iwolfking.woldsvaults.init;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.*;
 import iskallia.vault.block.render.ScavengerAltarRenderer;
-import iskallia.vault.core.vault.stat.VaultChestType;
-import iskallia.vault.init.ModDecorativeBlocks;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.CoinBlockItem;
-import iskallia.vault.item.VaultChestBlockItem;
-import iskallia.vault.item.crystal.objective.CrystalObjective;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
@@ -18,13 +14,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlockEntity;
-import vazkii.quark.addons.oddities.block.CrateBlock;
-import xyz.iwolfking.vhapi.api.registry.VaultObjectiveRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
 import xyz.iwolfking.woldsvaults.blocks.tiles.*;
@@ -55,7 +48,9 @@ public class ModBlocks {
     public static final MonolithControllerBlock MONOLITH_CONTROLLER;
 
     public static final BrewingAltar BREWING_ALTAR;
+
     public static final Block DOLL_DISMANTLING_BLOCK;
+    public static final Block CRATE_CRACKER_BLOCK;
 
     public static final Block PRISMATIC_FIBER_BLOCK;
     public static final Block CHROMATIC_GOLD_BLOCK;
@@ -87,6 +82,7 @@ public class ModBlocks {
     public static final BlockEntityType<BackpackBlockEntity> SOPHISTICATED_BACKPACK;
     public static final BlockEntityType<VaultInfuserTileEntity> VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<DollDismantlingTileEntity> DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<CrateCrackerTileEntity> CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
 
     //Workstations
     public static final AugmentCraftingTableBlock AUGMENT_CRAFTING_TABLE;
@@ -171,6 +167,7 @@ public class ModBlocks {
         WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
         WUTODIE = new VaultGemBlock(ModItems.WUTODIE_GEM);
         DOLL_DISMANTLING_BLOCK = new DollDismantlingBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), DollDismantlingBlock.DOLL_DISMANTLING_SHAPE);
+        CRATE_CRACKER_BLOCK = new CrateCrackerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), CrateCrackerBlock.CRATE_CRACKER_SHAPE);
         CONFIGURABLE_FLOATING_TEXT_BLOCK = new ConfigurableFloatingTextBlock();
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
@@ -192,6 +189,7 @@ public class ModBlocks {
         WEAVING_STATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(WeavingStationTileEntity::new, new Block[]{WEAVING_STATION}).build(null);
         BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(BrewingAltarTileEntity::new, new Block[]{BREWING_ALTAR}).build(null);
         DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DollDismantlingTileEntity::new, new Block[]{DOLL_DISMANTLING_BLOCK}).build(null);
+        CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(CrateCrackerTileEntity::new, new Block[]{CRATE_CRACKER_BLOCK}).build(null);
         CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY = BlockEntityType.Builder.of(ConfigurableFloatingTextTileEntity::new, new Block[]{CONFIGURABLE_FLOATING_TEXT_BLOCK}).build(null);
         for(DyeColor color : DyeColor.values()) {
             Block dyedUnobtanium = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL, color).strength(50F).requiresCorrectToolForDrops());
@@ -256,6 +254,7 @@ public class ModBlocks {
         registerBlock(event, WUTODIE, VaultMod.id("block_gem_wutodie"));
         registerBlock(event, BREWING_ALTAR, WoldsVaults.id("brewing_altar"));
         registerBlock(event, DOLL_DISMANTLING_BLOCK, WoldsVaults.id("doll_dismantler"));
+        registerBlock(event, CRATE_CRACKER_BLOCK, WoldsVaults.id("crate_cracker"));
         registerBlock(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, WoldsVaults.id("configurable_floating_text"));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
@@ -286,6 +285,7 @@ public class ModBlocks {
         registerTileEntity(event, MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, WoldsVaults.id("monolith_controller_tile_entity"));
         registerTileEntity(event, BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("brewing_altar_tile_entity"));
         registerTileEntity(event, DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("doll_dismantler_tile_entity"));
+        registerTileEntity(event, CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("crate_cracker_tile_entity"));
         registerTileEntity(event, CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY, WoldsVaults.id("configurable_floating_text_entity"));
     }
 
@@ -336,6 +336,7 @@ public class ModBlocks {
         registerBlockItem(event, WUTODIE, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
         registerBlockItem(event, BREWING_ALTAR, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, DOLL_DISMANTLING_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, CRATE_CRACKER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.CONFIGURABLE_FLOATING_TEXT);
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
@@ -355,6 +356,7 @@ public class ModBlocks {
         event.registerBlockEntityRenderer(BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, BrewingAltarRenderer::new);
         event.registerBlockEntityRenderer(DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, DollDismantlingRenderer::new);
         event.registerBlockEntityRenderer(CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY, ConfigurableFloatingTextRenderer::new);
+        event.registerBlockEntityRenderer(CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE, CrateCrackerRenderer::new);
     }
 
 

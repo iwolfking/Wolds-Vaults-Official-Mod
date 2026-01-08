@@ -202,6 +202,7 @@
     "vaulthunters.custom.MixinItemVaultCrystal",
     "vaulthunters.custom.MixinJewelItem",
     "vaulthunters.custom.MixinJewelPouchItem",
+    "vaulthunters.custom.MixinLightningOrbEntity",
     "vaulthunters.custom.MixinLootInfoGroupDefinitionRegistry",
     "vaulthunters.custom.MixinMagnetItem",
     "vaulthunters.custom.MixinManaPylonBuff",

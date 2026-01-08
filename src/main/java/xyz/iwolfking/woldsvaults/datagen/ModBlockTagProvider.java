@@ -41,6 +41,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.WUTODIE_WALL)
                 .add(ModBlocks.WUTODIE)
                 .add(ModBlocks.DOLL_DISMANTLING_BLOCK)
+                .add(ModBlocks.CRATE_CRACKER_BLOCK)
                 .add(ModBlocks.CHROMATIC_GOLD_BLOCK)
                 .add(ModBlocks.SILVER_SCRAP_BLOCK)
                 .add(ModBlocks.SILVER_SCRAP_BLOCK)
