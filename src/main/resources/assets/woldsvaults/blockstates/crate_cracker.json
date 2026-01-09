@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=east": {
-      "model": "woldsvaults:block/doll_dismantling_block",
+      "model": "woldsvaults:block/crate_cracker",
       "y": 90
     },
     "facing=north": {
-      "model": "woldsvaults:block/doll_dismantling_block"
+      "model": "woldsvaults:block/crate_cracker"
     },
     "facing=south": {
-      "model": "woldsvaults:block/doll_dismantling_block",
+      "model": "woldsvaults:block/crate_cracker",
       "y": 180
     },
     "facing=west": {
-      "model": "woldsvaults:block/doll_dismantling_block",
+      "model": "woldsvaults:block/crate_cracker",
       "y": 270
     }
   }

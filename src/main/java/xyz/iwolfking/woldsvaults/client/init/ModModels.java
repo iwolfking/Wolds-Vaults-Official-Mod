@@ -27,6 +27,7 @@ public class ModModels {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GATEWAY_CHANNELING_BLOCK, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.BREWING_ALTAR, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.DOLL_DISMANTLING_BLOCK, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.CRATE_CRACKER_BLOCK, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.DECO_MONOLITH_BLOCK, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GRAVEYARD_LOOT_BLOCK, RenderType.cutout());
     }

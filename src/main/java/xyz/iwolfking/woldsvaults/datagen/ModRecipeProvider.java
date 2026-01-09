@@ -14,12 +14,14 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -63,6 +65,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         CompoundTag colossus = new CompoundTag();
         colossus.putString("Ability", "Colossus");
 
+
+        ShapedRecipeBuilder.shaped(ModBlocks.CRATE_CRACKER_BLOCK)
+                .define('G', Ingredient.of(Tags.Items.GLASS))
+                .define('P', iskallia.vault.init.ModItems.POG)
+                .define('C', ModItems.CHROMATIC_GOLD_INGOT)
+                .define('B', iskallia.vault.init.ModItems.CHROMATIC_STEEL_INGOT)
+                .define('O', iskallia.vault.init.ModBlocks.POLISHED_VAULT_STONE)
+                .pattern("CBC")
+                .pattern("GCG")
+                .pattern("OPO")
+                .unlockedBy("has_pog", has(iskallia.vault.init.ModItems.POG))
+                .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK)
                 .define('A', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)

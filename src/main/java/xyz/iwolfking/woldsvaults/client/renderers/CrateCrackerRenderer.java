@@ -5,9 +5,11 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -38,17 +40,22 @@ public class CrateCrackerRenderer
     )
     {
         ItemStack crate = tile.getCrate();
-        if (crate.isEmpty())
+        if (crate.isEmpty()) {
             return;
+        }
 
-        if (!(crate.getItem() instanceof BlockItem blockItem))
+        if (!(crate.getItem() instanceof BlockItem blockItem)) {
             return;
+        }
 
         int initial = tile.getInitialItemsInCrate();
         int remaining = tile.getTotalItemsInCrate();
 
-        if (initial <= 0)
+
+        if (initial <= 0) {
             return;
+        }
+
 
         float progress = 1.0F - (remaining / (float) initial);
         progress = Mth.clamp(progress, 0.0F, 1.0F);
@@ -57,32 +64,36 @@ public class CrateCrackerRenderer
 
         poseStack.pushPose();
 
-        // Center inside block
-        poseStack.translate(0.5D, 0.1D, 0.5D);
 
-        // Sink as it gets consumed
-        poseStack.translate(0.0D, -progress * 0.3D, 0.0D);
+        poseStack.translate(0.5D, 0.75D, 0.5D);
 
-        // Shrink as it empties
+
+        poseStack.translate(0.0D, -progress * 0.35D, 0.0D);
+
+
         float scale = 0.6F * (1.0F - progress * 0.6F);
         poseStack.scale(scale, scale, scale);
 
-        // Slow rotation
+
         long time = tile.getLevel().getGameTime();
         poseStack.mulPose(Vector3f.YP.rotationDegrees((time + partialTicks) * 3F));
+
 
         int light = LevelRenderer.getLightColor(
             tile.getLevel(),
             tile.getBlockPos().above()
         );
 
-        blockRenderer.renderSingleBlock(
-            state,
-            poseStack,
-            buffer,
-            light,
-            packedOverlay
+        blockRenderer.getModelRenderer().renderModel(
+                poseStack.last(),
+                buffer.getBuffer(RenderType.entitySolid(TextureAtlas.LOCATION_BLOCKS)),
+                state,
+                blockRenderer.getBlockModel(state),
+                1.0F, 1.0F, 1.0F,
+                packedLight,
+                packedOverlay
         );
+
 
         poseStack.popPose();
     }

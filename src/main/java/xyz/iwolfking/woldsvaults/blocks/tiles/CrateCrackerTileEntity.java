@@ -127,6 +127,7 @@ public class CrateCrackerTileEntity extends BlockEntity
     public void updateCrate(ItemStack itemStack)
     {
         this.inventory.setStackInSlot(0, itemStack);
+        initialItemsInCrate = 0;
 
         if(itemStack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof VaultCrateBlock) {
             List<OverSizedItemStack> items = getItems(itemStack);
@@ -135,10 +136,23 @@ public class CrateCrackerTileEntity extends BlockEntity
                 total += stack.overSizedStack().getCount();
             }
             CrateCrackerTileEntity.this.totalItemsInCrate = total;
+            CrateCrackerTileEntity.this.initialItemsInCrate = total;
             CrateCrackerTileEntity.this.extractionHandler.setCrateLootData(items);
             if(items.isEmpty()) {
                 CrateCrackerTileEntity.this.removeVaultCrate();
             }
+        }
+
+        this.setChanged();
+
+        if (this.level instanceof ServerLevel server)
+        {
+            server.sendBlockUpdated(
+                    this.worldPosition,
+                    this.getBlockState(),
+                    this.getBlockState(),
+                    Block.UPDATE_CLIENTS
+            );
         }
     }
 
@@ -148,9 +162,10 @@ public class CrateCrackerTileEntity extends BlockEntity
      */
     public void removeVaultCrate()
     {
-        this.inventory.setStackInSlot(0, ItemStack.EMPTY);
+        updateCrate(ItemStack.EMPTY);
         this.extractionHandler.setCrateLootData(null);
         this.totalItemsInCrate = 0;
+        this.initialItemsInCrate = 0;
     }
 
 
@@ -203,16 +218,17 @@ public class CrateCrackerTileEntity extends BlockEntity
     {
         super.load(tag);
 
-        if (tag.contains(CrateCrackerTileEntity.CRATE))
+        if (tag.contains(CRATE))
         {
-            CompoundTag crate = tag.getCompound(CrateCrackerTileEntity.CRATE);
-            this.totalItemsInCrate = crate.getInt(CrateCrackerTileEntity.SIZE);
-            this.inventory.deserializeNBT(crate.getCompound(CrateCrackerTileEntity.ITEM));
+            CompoundTag crate = tag.getCompound(CRATE);
+            this.totalItemsInCrate = crate.getInt(SIZE);
+            this.initialItemsInCrate = crate.getInt("initial");
+            this.inventory.deserializeNBT(crate.getCompound(ITEM));
         }
 
-        // Load energy data from NBT
-        this.energyStorage.receiveEnergy(tag.getInt(CrateCrackerTileEntity.ENERGY), false);
+        this.energyStorage.receiveEnergy(tag.getInt(ENERGY), false);
     }
+
 
 
     /**
@@ -226,13 +242,12 @@ public class CrateCrackerTileEntity extends BlockEntity
         super.saveAdditional(tag);
 
         CompoundTag crate = new CompoundTag();
-        crate.putInt(CrateCrackerTileEntity.SIZE, this.totalItemsInCrate);
-        crate.put(CrateCrackerTileEntity.ITEM, this.inventory.serializeNBT());
+        crate.putInt(SIZE, this.totalItemsInCrate);
+        crate.putInt("initial", this.initialItemsInCrate);
+        crate.put(ITEM, this.inventory.serializeNBT());
 
-        tag.put(CrateCrackerTileEntity.CRATE, crate);
-
-        // Put energy storing in tile entity
-        tag.putInt(CrateCrackerTileEntity.ENERGY, this.energyStorage.getEnergyStored());
+        tag.put(CRATE, crate);
+        tag.putInt(ENERGY, this.energyStorage.getEnergyStored());
     }
 
 

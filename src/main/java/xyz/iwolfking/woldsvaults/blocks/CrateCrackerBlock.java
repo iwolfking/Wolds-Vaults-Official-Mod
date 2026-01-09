@@ -35,29 +35,24 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 import java.util.Objects;
 
-/**
- * The Doll Dissecting table block.
- * Absolutely full credit to BONNe for the original code, this is a port out of the abandoned More Vault Tables Mod that was never released to Curseforge.
- * Original licensing is GPLv3.
- */
+
 public class CrateCrackerBlock extends HorizontalDirectionalBlock implements EntityBlock
 {
     /**
-     * The shape of doll dismantling table.
+     * The shape crate cracker table.
      */
-    public static VoxelShape CRATE_CRACKER_SHAPE = Shapes.or(
-            Block.box(2.0, 0.0, 2.0, 14.0, 8.0, 14.0),
-            Block.box(4.0, 8.0, 4.0, 12.0, 10.0, 12.0),
-            Block.box(3.0, 10.0, 3.0, 13.0, 20.0, 13.0),
-            Block.box(2.0, 20.0, 2.0, 14.0, 21.0, 14.0),
-            Block.box(3.0, 21.0, 3.0, 13.0, 23.0, 13.0),
-            Block.box(6.0, 23.0, 6.0, 10.0, 24.0, 10.0));
+    public static final VoxelShape CRATE_CRACKER_SHAPE = Shapes.or(
+            Block.box(0, 0, 0, 16, 4, 16),
+            Block.box(2, 4, 2, 14, 5, 14),
+            Block.box(1, 5, 1, 15, 16, 15)
+    );
+
     /**
      * Instantiates a new Crate Cracker table block.
      */
     public CrateCrackerBlock(Properties properties, VoxelShape shape)
     {
-        super(properties);
+        super(properties.noOcclusion());
         this.registerDefaultState(this.getStateDefinition().any().
                 setValue(FACING, Direction.NORTH));
         SHAPE = shape;
