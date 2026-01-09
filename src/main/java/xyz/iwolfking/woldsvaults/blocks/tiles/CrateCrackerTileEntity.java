@@ -78,6 +78,12 @@ public class CrateCrackerTileEntity extends BlockEntity
         return this.inventory.getStackInSlot(0);
     }
 
+    public boolean isRedstonePowered() {
+        if (this.level == null) return false;
+        return this.level.hasNeighborSignal(this.worldPosition);
+    }
+
+
     private static List<OverSizedItemStack> getItems(ItemStack crate) {
         CompoundTag tag = crate.getTag();
         if (tag == null)
@@ -166,6 +172,15 @@ public class CrateCrackerTileEntity extends BlockEntity
         this.extractionHandler.setCrateLootData(null);
         this.totalItemsInCrate = 0;
         this.initialItemsInCrate = 0;
+    }
+
+    public void extractVaultCrate()
+    {
+        CrateCrackerTileEntity.this.triggerUpdate();
+        getBelowItemHandler().ifPresent(belowInventory -> {
+            transferStack(belowInventory, inventory.getStackInSlot(0));
+        });
+        removeVaultCrate();
     }
 
 
@@ -281,71 +296,71 @@ public class CrateCrackerTileEntity extends BlockEntity
 // Section: Private methods
 // ---------------------------------------------------------------------
 
+    private LazyOptional<IItemHandler> getBelowItemHandler() {
+        BlockPos belowPos = this.getBlockPos().below();
+
+        // Get the BlockEntity below (if any)
+        BlockEntity belowBlockEntity = this.getLevel().getBlockEntity(belowPos);
+
+        if(belowBlockEntity != null) {
+            return belowBlockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP);
+        }
+
+        return LazyOptional.empty();
+    }
+
 
     /**
      * This method ejects items from tile entity into block bellow it.
      */
     private void autoEjectItems()
     {
-        BlockPos belowPos = this.getBlockPos().below();
+        getBelowItemHandler().ifPresent(belowHandler -> {
+            // Try to transfer items from this block's inventory to the inventory below
+            for (int slot = 0; slot < this.extractionHandler.getSlots(); slot++)
+            {
+                ItemStack stackInSlot = this.extractionHandler.getStackInSlot(slot);
 
-        // Get the BlockEntity below (if any)
-        BlockEntity belowBlockEntity = this.getLevel().getBlockEntity(belowPos);
+                if (!stackInSlot.isEmpty())
+                {
+                    int count = stackInSlot.getCount();
+                    boolean repopulate = count > stackInSlot.getMaxStackSize();
 
-        if (belowBlockEntity != null)
-        {
-
-            // Check if the block below has an IItemHandler capability (i.e., it can accept items)
-            belowBlockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP).
-                    ifPresent(belowHandler ->
+                    if  (repopulate)
                     {
-                        // Try to transfer items from this block's inventory to the inventory below
-                        for (int slot = 0; slot < this.extractionHandler.getSlots(); slot++)
+                        // Adjust the size of stack to be max stack size.
+                        stackInSlot = stackInSlot.copy();
+                        stackInSlot.setCount(stackInSlot.getMaxStackSize());
+                        count -= stackInSlot.getMaxStackSize();
+                    }
+
+                    // Attempt to move the stack to the below inventory
+                    ItemStack remainingStack = this.transferStack(belowHandler, stackInSlot);
+
+                    if (repopulate)
+                    {
+                        // Add missing stack count to remainingStack item.
+                        if (remainingStack.isEmpty())
                         {
-
-                            ItemStack stackInSlot = this.extractionHandler.getStackInSlot(slot);
-
-                            if (!stackInSlot.isEmpty())
-                            {
-                                int count = stackInSlot.getCount();
-                                boolean repopulate = count > stackInSlot.getMaxStackSize();
-
-                                if  (repopulate)
-                                {
-                                    // Adjust the size of stack to be max stack size.
-                                    stackInSlot = stackInSlot.copy();
-                                    stackInSlot.setCount(stackInSlot.getMaxStackSize());
-                                    count -= stackInSlot.getMaxStackSize();
-                                }
-
-                                // Attempt to move the stack to the below inventory
-                                ItemStack remainingStack = this.transferStack(belowHandler, stackInSlot);
-
-                                if (repopulate)
-                                {
-                                    // Add missing stack count to remainingStack item.
-                                    if (remainingStack.isEmpty())
-                                    {
-                                        remainingStack = stackInSlot.copy();
-                                        remainingStack.setCount(count);
-                                    }
-                                    else
-                                    {
-                                        remainingStack.setCount(remainingStack.getCount() + count);
-                                    }
-                                }
-
-                                if (this.extractionHandler.transferStack(slot, stackInSlot, remainingStack))
-                                {
-                                    // Only move 1 stack per tick.
-                                    break;
-                                }
-                            }
+                            remainingStack = stackInSlot.copy();
+                            remainingStack.setCount(count);
                         }
+                        else
+                        {
+                            remainingStack.setCount(remainingStack.getCount() + count);
+                        }
+                    }
 
-                        this.setChanged(); // Mark the block entity as changed to save its state
-                    });
-        }
+                    if (this.extractionHandler.transferStack(slot, stackInSlot, remainingStack))
+                    {
+                        // Only move 1 stack per tick.
+                        break;
+                    }
+                }
+            }
+
+            this.setChanged(); // Mark the block entity as changed to save its state
+        });
     }
 
 
@@ -454,7 +469,7 @@ public class CrateCrackerTileEntity extends BlockEntity
     {
         if (this.getLevel() != null && !this.getLevel().isClientSide)
         {
-            // If doll is present and not air, trigger the sound loop
+            // If crate is present and not air, trigger the sound loop
             if (!this.getCrate().isEmpty())
             {
                 // Process item ejecting and energy consumption
@@ -722,8 +737,14 @@ public class CrateCrackerTileEntity extends BlockEntity
                     CrateCrackerTileEntity.this.totalItemsInCrate -= stackInSlot.getCount();
 
                     if (loot.isEmpty()) {
-                        // Remove doll item itself. It triggers update!
-                        CrateCrackerTileEntity.this.removeVaultCrate();
+                        // Remove crate item itself. It triggers update!
+                        //If the block is redstone powered, keep the empty crate instead of deleting it.
+                        if(isRedstonePowered()) {
+                            CrateCrackerTileEntity.this.extractVaultCrate();
+                        }
+                        else {
+                            CrateCrackerTileEntity.this.removeVaultCrate();
+                        }
                     } else {
                         CrateCrackerTileEntity.this.triggerUpdate();
                     }
@@ -741,8 +762,14 @@ public class CrateCrackerTileEntity extends BlockEntity
                     }
 
                     if (loot.isEmpty()) {
-                        // Remove doll item itself. It triggers update!
-                        CrateCrackerTileEntity.this.removeVaultCrate();
+                        // Remove crate item itself. It triggers update!
+                        //If the block is redstone powered, keep the empty crate instead of deleting it.
+                        if(isRedstonePowered()) {
+                            CrateCrackerTileEntity.this.extractVaultCrate();
+                        }
+                        else {
+                            CrateCrackerTileEntity.this.removeVaultCrate();
+                        }
                     } else {
                         CrateCrackerTileEntity.this.triggerUpdate();
                     }
@@ -784,8 +811,14 @@ public class CrateCrackerTileEntity extends BlockEntity
 
             totalItemsInCrate -= delta;
 
-            if (crateLootData.isEmpty())
-                CrateCrackerTileEntity.this.removeVaultCrate();
+            if (crateLootData.isEmpty()) {
+                if(isRedstonePowered()) {
+                    CrateCrackerTileEntity.this.extractVaultCrate();
+                }
+                else {
+                    CrateCrackerTileEntity.this.removeVaultCrate();
+                }
+            }
             else
                 CrateCrackerTileEntity.this.triggerUpdate();
 
