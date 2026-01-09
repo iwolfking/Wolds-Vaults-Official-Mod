@@ -221,6 +221,16 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         skillScroll("colossus");
         skillScroll("expunge");
+
+        deckCore(WoldsVaults.id("void_deck_core"));
+        deckCore(WoldsVaults.id("tool_deck_core"));
+        deckCore(WoldsVaults.id("nitwit_deck_core"));
+        deckCore(WoldsVaults.id("natural_deck_core"));
+        deckCore(WoldsVaults.id("fae_deck_core"));
+        deckCore(WoldsVaults.id("bazaar_deck_core"));
+        deckCore(WoldsVaults.id("arsenal_deck_core"));
+        deckCore(WoldsVaults.id("aegis_deck_core"));
+
         ModConfigs.RESEARCHES_GUI = new ResearchesGUIConfig().readConfig();
         ModConfigs.RESEARCHES_GUI.getStyles().forEach((name, s) -> {
             researchToken(ModConfigs.RESEARCHES_GUI.getStyles().get(name).icon);
@@ -269,6 +279,13 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
                         VaultMod.id("item/modifiers/" + modifierId.getPath()));
+    }
+
+    private ItemModelBuilder deckCore(ResourceLocation deckCoreId) {
+        return getBuilder(WoldsVaults.id("item/deck_cores/" + deckCoreId.getPath()).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        WoldsVaults.id("item/deck_cores/" + deckCoreId.getPath()));
     }
 
     private ItemModelBuilder vaultInscription(int modelNumber) {

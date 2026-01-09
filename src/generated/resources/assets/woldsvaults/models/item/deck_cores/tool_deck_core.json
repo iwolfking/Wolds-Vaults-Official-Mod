@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "woldsvaults:item/deck_cores/tool_deck_core"
+  }
+}

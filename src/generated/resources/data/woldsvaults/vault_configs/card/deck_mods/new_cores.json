@@ -1,0 +1,302 @@
+{
+  "values": {
+    "void": {
+      "modifierValue": {
+        "min": 0.05,
+        "max": 0.1,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.05,
+            "max": 0.1,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/lesser_pure_deck_core#inventory",
+          "name": "Lesser Void Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.25,
+            "max": 0.5,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/greater_pure_deck_core#inventory",
+          "name": "Greater Void Core",
+          "colour": 16769382
+        }
+      },
+      "modelId": "woldsvaults:deck_cores/void_deck_core#inventory",
+      "name": "Void Core",
+      "colour": 13618375,
+      "id": "void",
+      "type": "empty_slot_efficiency"
+    },
+    "natural": {
+      "modifierValue": {
+        "min": 0.1,
+        "max": 0.25,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.05,
+            "max": 0.1,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/lesser_pure_deck_core#inventory",
+          "name": "Lesser Natural Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.25,
+            "max": 0.5,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/greater_pure_deck_core#inventory",
+          "name": "Greater Natural Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Physical"
+      ],
+      "requiredColors": [],
+      "modelId": "woldsvaults:deck_cores/natural_deck_core#inventory",
+      "name": "Natural Core",
+      "colour": 13618375,
+      "id": "natural",
+      "type": "global"
+    },
+    "nitwit": {
+      "modifierValue": {
+        "min": 0.35,
+        "max": 0.5,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.02,
+            "max": 0.35,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/lesser_pure_deck_core#inventory",
+          "name": "Lesser Nitwit Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.5,
+            "max": 1.0,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/greater_pure_deck_core#inventory",
+          "name": "Greater Nitwit Core",
+          "colour": 16769382
+        }
+      },
+      "modelId": "woldsvaults:deck_cores/nitwit_deck_core#inventory",
+      "name": "Nitwit Core",
+      "colour": 13618375,
+      "id": "nitwit",
+      "type": "no_arcane_efficiency"
+    },
+    "aegis": {
+      "modifierValue": {
+        "min": 0.1,
+        "max": 0.25,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.05,
+            "max": 0.1,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/lesser_pure_deck_core#inventory",
+          "name": "Lesser Aegis Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.25,
+            "max": 0.5,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/greater_pure_deck_core#inventory",
+          "name": "Greater Aegis Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Defensive"
+      ],
+      "requiredColors": [],
+      "modelId": "woldsvaults:deck_cores/aegis_deck_core#inventory",
+      "name": "Aegis Core",
+      "colour": 13618375,
+      "id": "aegis",
+      "type": "global"
+    },
+    "fae": {
+      "modifierValue": {
+        "min": 0.1,
+        "max": 0.25,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.05,
+            "max": 0.1,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/lesser_pure_deck_core#inventory",
+          "name": "Lesser Fae Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.25,
+            "max": 0.5,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/greater_pure_deck_core#inventory",
+          "name": "Greater Fae Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Magical"
+      ],
+      "requiredColors": [],
+      "modelId": "woldsvaults:deck_cores/fae_deck_core#inventory",
+      "name": "Fae Core",
+      "colour": 13618375,
+      "id": "fae",
+      "type": "global"
+    },
+    "bazaar": {
+      "modifierValue": {
+        "min": 0.1,
+        "max": 0.2,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.02,
+            "max": 0.35,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/lesser_pure_deck_core#inventory",
+          "name": "Lesser Bazaar Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.5,
+            "max": 1.0,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/greater_pure_deck_core#inventory",
+          "name": "Greater Bazaar Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Resource"
+      ],
+      "forEachAdjacent": false,
+      "adjacencyType": "SURROUNDING",
+      "modelId": "woldsvaults:deck_cores/bazaar_deck_core#inventory",
+      "name": "Bazaar Core",
+      "colour": 13618375,
+      "id": "bazaar",
+      "type": "group_adjacency_efficiency"
+    },
+    "tool": {
+      "modifierValue": {
+        "min": 0.1,
+        "max": 0.25,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.05,
+            "max": 0.1,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/lesser_pure_deck_core#inventory",
+          "name": "Lesser Tool Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.25,
+            "max": 0.5,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/greater_pure_deck_core#inventory",
+          "name": "Greater Tool Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Utility"
+      ],
+      "requiredColors": [],
+      "modelId": "woldsvaults:deck_cores/tool_deck_core#inventory",
+      "name": "Tool Core",
+      "colour": 13618375,
+      "id": "tool",
+      "type": "global"
+    },
+    "arsenal": {
+      "modifierValue": {
+        "min": 0.1,
+        "max": 0.25,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.05,
+            "max": 0.1,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/lesser_pure_deck_core#inventory",
+          "name": "Lesser Arsenal Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.25,
+            "max": 0.5,
+            "type": "uniform"
+          },
+          "modelId": "the_vault:deck_cores/greater_pure_deck_core#inventory",
+          "name": "Greater Arsenal Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Offensive"
+      ],
+      "requiredColors": [],
+      "modelId": "woldsvaults:deck_cores/arsenal_deck_core#inventory",
+      "name": "Arsenal Core",
+      "colour": 13618375,
+      "id": "arsenal",
+      "type": "global"
+    }
+  },
+  "pools": {}
+}

@@ -1,0 +1,21 @@
+{
+  "deckRecipes": [
+    {
+      "tab": "cores",
+      "id": "woldsvaults:void_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"void\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 1,
+          "ITEM": "minecraft:diorite",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ],
+  "tabs": []
+}

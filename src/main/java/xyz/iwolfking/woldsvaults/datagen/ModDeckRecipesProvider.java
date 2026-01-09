@@ -19,6 +19,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import xyz.iwolfking.vhapi.api.datagen.AbstractTooltipProvider;
 import xyz.iwolfking.vhapi.api.datagen.recipes.AbstractDeckRecipesProvider;
@@ -36,6 +37,15 @@ public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
 
     @Override
     public void registerConfigs() {
+        add("wolds_cores", builder -> {
+           builder.addRecipe(WoldsVaults.id("void_core"), "void", "lesser", itemStacks -> {
+               itemStacks.add(new ItemStack(Blocks.DIORITE));
+           });
+        });
+    }
+
+//    @Override
+//    public void registerConfigs() {
 //        LootChestTask fairyTask = new LootChestTask(new LootChestTask.Config(PartialBlockState.of(ModBlocks.LIVING_STRONGBOX)), TargetTaskCounter.ofTargetInt(IntRoll.ofConstant(500), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
 //        KillEntityTask woldTask = new KillEntityTask(new KillEntityTask.Config(PartialEntityGroup.of(VaultMod.id("elite"), PartialCompoundNbt.empty())), TargetTaskCounter.ofTargetInt(IntRoll.ofConstant(150), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
 //        FindVaultRoomTask snakeTask = new FindVaultRoomTask(new FindVaultRoomTask.Config(new ResourceLocation[]{VaultMod.id("vault/rooms/challenge/dragon1"), VaultMod.id("vault/rooms/challenge/dragon2")}), TargetTaskCounter.ofTargetInt(IntRoll.ofConstant(10), TaskCounterPredicate.GREATER_OR_EQUAL_TO));
@@ -79,5 +89,5 @@ public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
 //                list.add(new ItemStack(ModBlocks.VAULT_PLATINUM, 32));
 //            });
 //        });
-    }
+//    }
 }
