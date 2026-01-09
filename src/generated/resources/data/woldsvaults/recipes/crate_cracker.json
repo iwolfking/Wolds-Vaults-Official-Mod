@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CBC",
+    "GCG",
+    "OPO"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:glass"
+    },
+    "P": {
+      "item": "the_vault:gem_pog"
+    },
+    "C": {
+      "item": "woldsvaults:chromatic_gold_ingot"
+    },
+    "B": {
+      "item": "the_vault:chromatic_steel_ingot"
+    },
+    "O": {
+      "item": "the_vault:polished_vault_stone"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:crate_cracker"
+  }
+}

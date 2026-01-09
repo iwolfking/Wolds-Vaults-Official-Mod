@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:crate_cracker"
+    ]
+  },
+  "criteria": {
+    "has_pog": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:gem_pog"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:crate_cracker"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_pog",
+      "has_the_recipe"
+    ]
+  ]
+}
