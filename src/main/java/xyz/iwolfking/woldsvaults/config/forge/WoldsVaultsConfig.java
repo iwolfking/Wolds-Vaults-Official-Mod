@@ -12,12 +12,19 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.ConfigValue<Boolean> hideXaerosMinimapInVaults;
         public final ForgeConfigSpec.ConfigValue<Boolean> playVaultMusic;
         public final ForgeConfigSpec.ConfigValue<Boolean> weaponsShouldntBeBetter;
+
+        public final ForgeConfigSpec.ConfigValue<OutputFormat> tooltipOutputFormat;
+
         public Client(ForgeConfigSpec.Builder builder)
         {
             this.showVanillaVaultMap = builder.comment("Whether to show the built-in Vault Map in the HUD").define("showVanillaVaultMap", false);
             this.hideXaerosMinimapInVaults = builder.comment("Whether to hide Xaero's Minimap while in Vaults.").define("hideXaerosMinimapInVaults", false);
             this.playVaultMusic = builder.comment("Whether to play special tracks while inside the Vault").define("playVaultMusic", false);
             this.weaponsShouldntBeBetter = builder.comment("Whether to enable Better Combat or not (default: false)").define("weaponsShouldntBeBetter", false);
+            builder.push("Mining Speedometer");
+            this.tooltipOutputFormat = builder.comment("The Output Format for the speedometer jade tooltip")
+                    .defineEnum("Jade Output Format", OutputFormat.NEXT_MINING_SPEED_BREAKPOINT);
+            builder.pop();
         }
     }
     public static class Common
@@ -98,5 +105,12 @@ public class WoldsVaultsConfig
     public static String getConfigString(String categoryName, String keyName) {
         ForgeConfigSpec.ConfigValue<String> value = COMMON_SPEC.getValues().get(Arrays.asList(categoryName, keyName));
         return value.get();
+    }
+
+    public enum OutputFormat {
+        TOTAL_MINING_SPEED_WITHBASE,
+        TOTAL_MINING_SPEED_WITHOUTBASE,
+        ADDITIONAL_MINING_SPEED,
+        NEXT_MINING_SPEED_BREAKPOINT
     }
 }
