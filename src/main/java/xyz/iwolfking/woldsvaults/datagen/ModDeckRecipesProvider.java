@@ -26,9 +26,8 @@ import xyz.iwolfking.vhapi.api.datagen.recipes.AbstractDeckRecipesProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
     protected ModDeckRecipesProvider(DataGenerator generator) {
@@ -38,11 +37,58 @@ public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
     @Override
     public void registerConfigs() {
         add("wolds_cores", builder -> {
+            builder.addRecipe(WoldsVaults.id("arsenal_core"), "arsenal", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
+            builder.addRecipe(WoldsVaults.id("aegis_core"), "aegis", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
+            builder.addRecipe(WoldsVaults.id("tool_core"), "tool", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
+            builder.addRecipe(WoldsVaults.id("natural_core"), "natural", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
+            builder.addRecipe(WoldsVaults.id("fae_core"), "fae", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
+            builder.addRecipe(WoldsVaults.id("nitwit_core"), "nitwit", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
+            builder.addRecipe(WoldsVaults.id("bazaar_core"), "bazaar", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
            builder.addRecipe(WoldsVaults.id("void_core"), "void", "lesser", itemStacks -> {
-               itemStacks.add(new ItemStack(Blocks.DIORITE));
+               itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+               itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+               itemStacks.add(new ItemStack(ModItems.ECHO_GEM, 4));
+               itemStacks.add(new ItemStack(ModItems.POG, 1));
            });
         });
     }
+
+
 
 //    @Override
 //    public void registerConfigs() {

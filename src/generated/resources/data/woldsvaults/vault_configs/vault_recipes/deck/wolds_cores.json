@@ -2,6 +2,223 @@
   "deckRecipes": [
     {
       "tab": "cores",
+      "id": "woldsvaults:arsenal_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"arsenal\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:aegis_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"aegis\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:tool_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"tool\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:natural_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"natural\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:fae_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"fae\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:nitwit_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"nitwit\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:bazaar_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"bazaar\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
       "id": "woldsvaults:void_core",
       "output": {
         "AMOUNT": 1,
@@ -10,8 +227,23 @@
       },
       "inputs": [
         {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 4,
+          "ITEM": "the_vault:gem_echo",
+          "NBT": "{}"
+        },
+        {
           "AMOUNT": 1,
-          "ITEM": "minecraft:diorite",
+          "ITEM": "the_vault:gem_pog",
           "NBT": "{}"
         }
       ]

@@ -149,7 +149,6 @@ public class TalentDescriptionsHelper {
                 else if(tier instanceof CastOnHitTalent castOnHitTalent) {
                     jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", ((CastOnHitTalentAccessor)castOnHitTalent).getProbability() * 100) + "%", "#90FF00"));
                     Skill ability = ModConfigs.ABILITIES.getAbilityById(((CastOnHitTalentAccessor)castOnHitTalent).getAbilityName()).orElse(null);
-                    System.out.println(((CastOnHitTalentAccessor) castOnHitTalent).getAbilityName());
                     if(((CastOnHitTalentAccessor) castOnHitTalent).getAbilityName() != null && ((CastOnHitTalentAccessor) castOnHitTalent).getAbilityName().startsWith("nova_frost")) {
                         jsonElements.add(JsonDescription.simple(" - " + "Frost Nova" + "\n", "#90FF00"));
                     }

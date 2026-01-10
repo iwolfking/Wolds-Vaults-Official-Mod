@@ -3,7 +3,9 @@ package xyz.iwolfking.woldsvaults.datagen;
 import iskallia.vault.config.card.DeckModifiersConfig;
 import iskallia.vault.core.card.modifier.deck.DeckModifier;
 import iskallia.vault.core.card.modifier.deck.GlobalDeckModifier;
+import iskallia.vault.core.card.modifier.deck.SlotDeckModifier;
 import iskallia.vault.core.world.roll.FloatRoll;
+import iskallia.vault.core.world.roll.IntRoll;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.vhapi.api.datagen.AbstractTooltipProvider;
@@ -12,6 +14,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.modifiers.deck.AdjacencyBonusDeckModifier;
+import xyz.iwolfking.woldsvaults.modifiers.deck.CreateGroupSlotDeckModifier;
 import xyz.iwolfking.woldsvaults.modifiers.deck.EmptySlotDeckModifier;
 import xyz.iwolfking.woldsvaults.modifiers.deck.NitwitDeckModifier;
 
@@ -71,6 +74,12 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             bazaarDeckModifier.modifierRolls.put("lesser", variant("Lesser Bazaar Core", FloatRoll.ofUniform(0.02F, 0.35F), 13618375, "woldsvaults:deck_cores/bazaar_deck_core#inventory"));
             bazaarDeckModifier.modifierRolls.put("greater", variant("Greater Bazaar Core", FloatRoll.ofUniform(0.5F, 1.0F), 16769382, "woldsvaults:deck_cores/bazaar_deck_core#inventory"));
 
+            CreateGroupSlotDeckModifier.Config arcaneDeckModifier = new CreateGroupSlotDeckModifier.Config("Arcane");
+            arcaneDeckModifier.slotRoll = IntRoll.ofUniform(1, 3);
+            arcaneDeckModifier.modifierRoll = FloatRoll.ofConstant(0);
+            arcaneDeckModifier.modifierRolls.put("lesser", variant("Lesser Arcane Core", FloatRoll.ofConstant(0), 13618375, "woldsvaults:deck_cores/arcane_deck_core#inventory"));
+            arcaneDeckModifier.modifierRolls.put("greater", variant("Greater Arcane Core", FloatRoll.ofConstant(0), 16769382, "woldsvaults:deck_cores/arcane_deck_core#inventory"));
+
 
             builder.addCore("arsenal", GlobalDeckModifier::new, arsenalModifierConfig, "Arsenal Core", 13618375,"woldsvaults:deck_cores/arsenal_deck_core#inventory");
             builder.addCore("aegis", GlobalDeckModifier::new, aegisModifierConfig,"Aegis Core", 13618375,"woldsvaults:deck_cores/aegis_deck_core#inventory");
@@ -80,6 +89,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             builder.addCore("void", EmptySlotDeckModifier::new, voidModifierConfig,"Void Core", 13618375,"woldsvaults:deck_cores/void_deck_core#inventory");
             builder.addCore("nitwit", NitwitDeckModifier::new, nitwitModifierConfig,"Nitwit Core", 13618375,"woldsvaults:deck_cores/nitwit_deck_core#inventory");
             builder.addCore("bazaar", AdjacencyBonusDeckModifier::new, bazaarDeckModifier,"Bazaar Core", 13618375,"woldsvaults:deck_cores/bazaar_deck_core#inventory");
+            builder.addCore("arcane", CreateGroupSlotDeckModifier::new, arcaneDeckModifier,"Bazaar Core", 13618375,"woldsvaults:deck_cores/arcane_deck_core#inventory");
         });
     }
 
