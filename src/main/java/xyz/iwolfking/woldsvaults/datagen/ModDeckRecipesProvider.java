@@ -103,6 +103,24 @@ public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
                 itemStacks.add(new ItemStack(ModItems.TEMPORAL_SHARD, 3));
                 itemStacks.add(new ItemStack(ModItems.POG, 1));
             });
+            builder.addRecipe(WoldsVaults.id("talent_core"), "talent", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
+            builder.addRecipe(WoldsVaults.id("jupiter_core"), "jupiter", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
+            builder.addRecipe(WoldsVaults.id("pluto_core"), "pluto", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
         });
     }
 

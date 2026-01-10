@@ -170,6 +170,12 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
                 case SURROUNDING -> {
                     return new TranslatableComponent("deck.woldsvaults.adjacency_type_surrounding");
                 }
+                case WITHIN_TWO -> {
+                    return new TranslatableComponent("deck.woldsvaults.adjacency_type_surrounding_2");
+                }
+                case STARCROSS -> {
+                    return new TranslatableComponent("deck.woldsvaults.adjacency_type_starcross");
+                }
             }
 
             return new TranslatableComponent("deck.woldsvaults.adjacency_type_failure");
@@ -196,7 +202,28 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
         SURROUNDING(new int[][]{
                 {  0, -1 }, {  0,  1 }, { -1,  0 }, {  1,  0 },
                 { -1, -1 }, {  1, -1 }, { -1,  1 }, {  1,  1 }
+        }),
+        WITHIN_TWO(new int[][]{
+                {  0, -1 }, {  0,  1 }, { -1,  0 }, {  1,  0 },
+                { -1, -1 }, {  1, -1 }, { -1,  1 }, {  1,  1 }
+        }),
+        STARCROSS(new int[][]{
+                {  1,  0 },
+                { -1,  0 },
+                {  0,  1 },
+                {  0, -1 },
+
+                {  2,  0 },
+                { -2,  0 },
+                {  0,  2 },
+                {  0, -2 },
+
+                {  1,  1 },
+                {  1, -1 },
+                { -1,  1 },
+                { -1, -1 }
         });
+
 
         private final int[][] offsets;
 
@@ -207,5 +234,17 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
         public int[][] getOffsets() {
             return offsets;
         }
+
+        private static int[][] surroundingRadius(int r) {
+            List<int[]> offsets = new ArrayList<>();
+            for (int x = -r; x <= r; x++) {
+                for (int y = -r; y <= r; y++) {
+                    if (x == 0 && y == 0) continue;
+                    offsets.add(new int[]{x, y});
+                }
+            }
+            return offsets.toArray(new int[0][]);
+        }
+
     }
 }

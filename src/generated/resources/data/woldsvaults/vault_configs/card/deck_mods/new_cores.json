@@ -2,14 +2,14 @@
   "values": {
     "void": {
       "modifierValue": {
-        "min": 0.05,
-        "max": 0.1,
+        "min": 0.1,
+        "max": 0.2,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.05,
+            "min": 0.1,
             "max": 0.1,
             "type": "uniform"
           },
@@ -19,8 +19,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.25,
-            "max": 0.5,
+            "min": 0.2,
+            "max": 0.4,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/void_deck_core_greater#inventory",
@@ -36,7 +36,7 @@
     },
     "adept": {
       "modifierValue": {
-        "min": 1.0,
+        "min": 2.0,
         "max": 4.0,
         "step": 1.0,
         "type": "uniformed_step"
@@ -44,7 +44,7 @@
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 1.0,
+            "min": 2.0,
             "max": 2.0,
             "step": 1.0,
             "type": "uniformed_step"
@@ -55,8 +55,8 @@
         },
         "greater": {
           "value": {
-            "min": 3.0,
-            "max": 5.0,
+            "min": 4.0,
+            "max": 6.0,
             "step": 1.0,
             "type": "uniformed_step"
           },
@@ -79,14 +79,14 @@
     },
     "natural": {
       "modifierValue": {
-        "min": 0.1,
-        "max": 0.25,
+        "min": 0.2,
+        "max": 0.35,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.05,
+            "min": 0.1,
             "max": 0.1,
             "type": "uniform"
           },
@@ -96,7 +96,7 @@
         },
         "greater": {
           "value": {
-            "min": 0.25,
+            "min": 0.35,
             "max": 0.5,
             "type": "uniform"
           },
@@ -118,14 +118,14 @@
     "pluto": {
       "modifierValue": {
         "min": 0.25,
-        "max": 0.35,
+        "max": 0.5,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.15,
-            "max": 0.3,
+            "min": 0.2,
+            "max": 0.2,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/pluto_deck_core_lesser#inventory",
@@ -135,7 +135,7 @@
         "greater": {
           "value": {
             "min": 0.5,
-            "max": 1.0,
+            "max": 0.75,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/pluto_deck_core_greater#inventory",
@@ -143,6 +143,9 @@
           "colour": 16769382
         }
       },
+      "excludedGroups": [
+        "Stat"
+      ],
       "mode": "MINORITY",
       "modelId": "woldsvaults:deck_cores/pluto_deck_core#inventory",
       "name": "Pluto Core",
@@ -152,15 +155,15 @@
     },
     "jupiter": {
       "modifierValue": {
-        "min": 0.1,
-        "max": 0.2,
+        "min": 0.15,
+        "max": 0.3,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.15,
-            "max": 0.3,
+            "min": 0.1,
+            "max": 0.1,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/jupiter_deck_core_lesser#inventory",
@@ -169,8 +172,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.5,
-            "max": 1.0,
+            "min": 0.3,
+            "max": 0.5,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/jupiter_deck_core_greater#inventory",
@@ -178,6 +181,9 @@
           "colour": 16769382
         }
       },
+      "excludedGroups": [
+        "Stat"
+      ],
       "mode": "DOMINANT",
       "modelId": "woldsvaults:deck_cores/jupiter_deck_core#inventory",
       "name": "Jupiter Core",
@@ -187,14 +193,14 @@
     },
     "aegis": {
       "modifierValue": {
-        "min": 0.1,
-        "max": 0.25,
+        "min": 0.2,
+        "max": 0.35,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.05,
+            "min": 0.1,
             "max": 0.1,
             "type": "uniform"
           },
@@ -204,7 +210,7 @@
         },
         "greater": {
           "value": {
-            "min": 0.25,
+            "min": 0.35,
             "max": 0.5,
             "type": "uniform"
           },
@@ -225,14 +231,14 @@
     },
     "fae": {
       "modifierValue": {
-        "min": 0.1,
-        "max": 0.25,
+        "min": 0.2,
+        "max": 0.35,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.05,
+            "min": 0.1,
             "max": 0.1,
             "type": "uniform"
           },
@@ -242,7 +248,7 @@
         },
         "greater": {
           "value": {
-            "min": 0.25,
+            "min": 0.35,
             "max": 0.5,
             "type": "uniform"
           },
@@ -263,14 +269,14 @@
     },
     "tool": {
       "modifierValue": {
-        "min": 0.1,
-        "max": 0.25,
+        "min": 0.2,
+        "max": 0.35,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.05,
+            "min": 0.1,
             "max": 0.1,
             "type": "uniform"
           },
@@ -280,7 +286,7 @@
         },
         "greater": {
           "value": {
-            "min": 0.25,
+            "min": 0.35,
             "max": 0.5,
             "type": "uniform"
           },
@@ -301,15 +307,15 @@
     },
     "talent": {
       "modifierValue": {
-        "min": 0.3,
-        "max": 0.5,
+        "min": 0.1,
+        "max": 0.2,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.15,
-            "max": 0.3,
+            "min": 0.1,
+            "max": 0.1,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/talent_deck_core_lesser#inventory",
@@ -318,8 +324,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.5,
-            "max": 1.0,
+            "min": 0.2,
+            "max": 0.4,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/talent_deck_core_greater#inventory",
@@ -340,14 +346,14 @@
     },
     "nitwit": {
       "modifierValue": {
-        "min": 0.35,
-        "max": 0.5,
+        "min": 0.5,
+        "max": 1.0,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.02,
+            "min": 0.35,
             "max": 0.35,
             "type": "uniform"
           },
@@ -357,8 +363,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.5,
-            "max": 1.0,
+            "min": 1.0,
+            "max": 1.5,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/nitwit_deck_core_greater#inventory",
@@ -374,15 +380,15 @@
     },
     "bazaar": {
       "modifierValue": {
-        "min": 0.1,
-        "max": 0.2,
+        "min": 0.2,
+        "max": 0.35,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.02,
-            "max": 0.35,
+            "min": 0.15,
+            "max": 0.15,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/bazaar_deck_core_lesser#inventory",
@@ -391,8 +397,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.5,
-            "max": 1.0,
+            "min": 0.35,
+            "max": 0.5,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/bazaar_deck_core_greater#inventory",
@@ -424,7 +430,13 @@
           },
           "modelId": "woldsvaults:deck_cores/arcane_deck_core_lesser#inventory",
           "name": "Lesser Arcane Core",
-          "colour": 13618375
+          "colour": 13618375,
+          "slotRoll": {
+            "count": 1,
+            "type": "constant"
+          },
+          "requiredGroups": [],
+          "requiredColors": []
         },
         "greater": {
           "value": {
@@ -433,13 +445,20 @@
           },
           "modelId": "woldsvaults:deck_cores/arcane_deck_core_greater#inventory",
           "name": "Greater Arcane Core",
-          "colour": 16769382
+          "colour": 16769382,
+          "slotRoll": {
+            "min": 3,
+            "max": 5,
+            "type": "uniform"
+          },
+          "requiredGroups": [],
+          "requiredColors": []
         }
       },
       "requiredGroups": [],
       "requiredColors": [],
       "slotRoll": {
-        "min": 1,
+        "min": 2,
         "max": 3,
         "type": "uniform"
       },
@@ -452,15 +471,15 @@
     },
     "temporal": {
       "modifierValue": {
-        "min": 0.3,
+        "min": 0.35,
         "max": 0.5,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.15,
-            "max": 0.3,
+            "min": 0.25,
+            "max": 0.25,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/temporal_deck_core_lesser#inventory",
@@ -482,7 +501,7 @@
         "Temporal"
       ],
       "forEachAdjacent": false,
-      "adjacencyType": "DIAGONAL",
+      "adjacencyType": "STARCROSS",
       "modelId": "woldsvaults:deck_cores/temporal_deck_core#inventory",
       "name": "Temporal Core",
       "colour": 13618375,
@@ -491,14 +510,14 @@
     },
     "arsenal": {
       "modifierValue": {
-        "min": 0.1,
-        "max": 0.25,
+        "min": 0.2,
+        "max": 0.35,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.05,
+            "min": 0.1,
             "max": 0.1,
             "type": "uniform"
           },
@@ -508,7 +527,7 @@
         },
         "greater": {
           "value": {
-            "min": 0.25,
+            "min": 0.35,
             "max": 0.5,
             "type": "uniform"
           },
@@ -528,5 +547,112 @@
       "type": "global"
     }
   },
-  "pools": {}
+  "pools": {
+    "default": [
+      {
+        "value": "arsenal",
+        "weight": 1.0
+      },
+      {
+        "value": "aegis",
+        "weight": 1.0
+      },
+      {
+        "value": "tool",
+        "weight": 1.0
+      },
+      {
+        "value": "natural",
+        "weight": 1.0
+      },
+      {
+        "value": "fae",
+        "weight": 1.0
+      },
+      {
+        "value": "void",
+        "weight": 1.0
+      },
+      {
+        "value": "nitwit",
+        "weight": 1.0
+      },
+      {
+        "value": "bazaar",
+        "weight": 1.0
+      },
+      {
+        "value": "arcane",
+        "weight": 1.0
+      },
+      {
+        "value": "temporal",
+        "weight": 1.0
+      },
+      {
+        "value": "adept",
+        "weight": 1.0
+      },
+      {
+        "value": "jupiter",
+        "weight": 1.0
+      },
+      {
+        "value": "pluto",
+        "weight": 1.0
+      }
+    ],
+    "champions": [
+      {
+        "value": "nitwit",
+        "weight": 2.0
+      },
+      {
+        "value": "natural",
+        "weight": 2.0
+      },
+      {
+        "value": "arsenal",
+        "weight": 2.0
+      },
+      {
+        "value": "aegis",
+        "weight": 2.0
+      }
+    ],
+    "dungeon_boss": [
+      {
+        "value": "adept",
+        "weight": 1.0
+      }
+    ],
+    "treasure_sand": [
+      {
+        "value": "temporal",
+        "weight": 1.0
+      },
+      {
+        "value": "adept",
+        "weight": 1.0
+      },
+      {
+        "value": "fae",
+        "weight": 1.0
+      },
+      {
+        "value": "tool",
+        "weight": 1.0
+      },
+      {
+        "value": "arcane",
+        "weight": 1.0
+      }
+    ],
+    "completion_crate": [
+      {
+        "value": "bazaar",
+        "weight": 1.0
+      }
+    ]
+  }
 }

@@ -64,10 +64,13 @@ public class ModLanguageProvider extends LanguageProvider {
         add("deck.woldsvaults.adjacency_type_orthogonal", "orthogonal");
         add("deck.woldsvaults.adjacency_type_diagonal", "diagonal");
         add("deck.woldsvaults.adjacency_type_surrounding", "adjacent");
+        add("deck.woldsvaults.adjacency_type_surrounding_2", "within 2 spaces");
+        add("deck.woldsvaults.adjacency_type_starcross", "within two orthogonal or one diagonal");
         add("deck.woldsvaults.adjacency_type_failure", "invalid configuration");
         add("deck.woldsvaults.dominance_deck_modifier_current", "Currently: %1$s");
-        add("deck.woldsvaults.dominance_deck_modifier_dominant", "%1$s card efficiency to cards with the most dominant group in the deck");
-        add("deck.woldsvaults.dominance_deck_modifier_minority", "%1$s card efficiency to cards with the least dominant group in the deck");
+        add("deck.woldsvaults.dominance_deck_modifier_dominant", "+%1$s card efficiency to cards with the most dominant group in the deck (%2$s)");
+        add("deck.woldsvaults.dominance_deck_modifier_minority", "+%1$s card efficiency to cards with the least dominant group in the deck (%2$s)");
+        add("deck.woldsvaults.dominance_deck_modifier_exclusion", "Excludes %1$s group");
         add("command.woldsvaults.give_loot", "Given a %1$s");
         add("vault_event.woldsvaults.swap_task", "You have been swapped with %1$s.");
         add("vault_event.woldsvaults.legacy_event_message", "%1$s encountered a %2$s Event!");
