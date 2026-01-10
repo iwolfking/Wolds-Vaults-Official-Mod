@@ -18,6 +18,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
+import javax.annotation.Nullable;
+
 
 public class ModItemModelProvider extends ItemModelProvider {
 
@@ -281,11 +283,17 @@ public class ModItemModelProvider extends ItemModelProvider {
                         VaultMod.id("item/modifiers/" + modifierId.getPath()));
     }
 
-    private ItemModelBuilder deckCore(ResourceLocation deckCoreId) {
-        return getBuilder(WoldsVaults.id("item/deck_cores/" + deckCoreId.getPath()).toString())
+    private ItemModelBuilder deckCore(ResourceLocation deckCoreId, @Nullable String type) {
+        return getBuilder(WoldsVaults.id("item/deck_cores/" + deckCoreId.getPath()).toString() + ((type != null) ? "_" + type : ""))
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
-                        WoldsVaults.id("item/deck_cores/" + deckCoreId.getPath()));
+                        WoldsVaults.id("item/deck_cores/" + deckCoreId.getPath() + ((type != null) ? "_" + type : "")));
+    }
+
+    private ItemModelBuilder deckCore(ResourceLocation deckCoreId) {
+        deckCore(deckCoreId, "lesser");
+        deckCore(deckCoreId, null);
+        return deckCore(deckCoreId, "greater");
     }
 
     private ItemModelBuilder vaultInscription(int modelNumber) {
