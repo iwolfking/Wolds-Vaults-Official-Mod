@@ -6,10 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.modifiers.deck.AdjacencyBonusDeckModifier;
-import xyz.iwolfking.woldsvaults.modifiers.deck.CreateGroupSlotDeckModifier;
-import xyz.iwolfking.woldsvaults.modifiers.deck.EmptySlotDeckModifier;
-import xyz.iwolfking.woldsvaults.modifiers.deck.NitwitDeckModifier;
+import xyz.iwolfking.woldsvaults.modifiers.deck.*;
 
 @Mixin(value = DeckModifier.Adapter.class, remap = false)
 public class MixinDeckModifierAdapter extends TypeSupplierAdapter<DeckModifier<?>> {
@@ -23,5 +20,6 @@ public class MixinDeckModifierAdapter extends TypeSupplierAdapter<DeckModifier<?
         this.register("no_arcane_efficiency", NitwitDeckModifier.class, NitwitDeckModifier::new);
         this.register("group_adjacency_efficiency", AdjacencyBonusDeckModifier.class, AdjacencyBonusDeckModifier::new);
         this.register("create_group_slots", CreateGroupSlotDeckModifier.class, CreateGroupSlotDeckModifier::new);
+        this.register("arcane_slot_boost", ArcaneSlotDeckModifier.class, ArcaneSlotDeckModifier::new);
     }
 }

@@ -41,12 +41,17 @@ public class ArcaneSlotDeckModifier extends SlotDeckModifier {
         List<CardPos> availablePositions = new ArrayList<>(deck.getSlots());
         availablePositions.removeIf((pos) -> !pos.allowedGroups.contains("Arcane"));
 
-        for(int i = 0; i < Math.max(((SlotDeckModifierAccessor)this).getSlotRoll(), availablePositions.size()); ++i) {
-            CardPos position = availablePositions.isEmpty() ? null : (CardPos)availablePositions.get(rand.nextInt(availablePositions.size()));
+        for(int i = 0; i < ((SlotDeckModifierAccessor)this).getSlotRoll(); ++i) {
+            CardPos position = availablePositions.isEmpty() ? null : availablePositions.get(rand.nextInt(availablePositions.size()));
             if (position != null) {
                 this.getAffectedSlots().add(position);
                 availablePositions.remove(position);
             }
         }
+    }
+
+    @Override
+    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
+        tooltip.add(new TextComponent(((SlotDeckModifierAccessor)this).getSlotRoll() + " Arcane slots gain " + Math.round(this.getModifierValue()) + " additional levels"));
     }
 }

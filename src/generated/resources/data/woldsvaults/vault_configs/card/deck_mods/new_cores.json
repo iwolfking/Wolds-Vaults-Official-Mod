@@ -34,6 +34,49 @@
       "id": "void",
       "type": "empty_slot_efficiency"
     },
+    "adept": {
+      "modifierValue": {
+        "min": 1.0,
+        "max": 4.0,
+        "step": 1.0,
+        "type": "uniformed_step"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 1.0,
+            "max": 2.0,
+            "step": 1.0,
+            "type": "uniformed_step"
+          },
+          "modelId": "woldsvaults:deck_cores/adept_deck_core#inventory",
+          "name": "Lesser Adept Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 3.0,
+            "max": 5.0,
+            "step": 1.0,
+            "type": "uniformed_step"
+          },
+          "modelId": "woldsvaults:deck_cores/adept_deck_core#inventory",
+          "name": "Greater Adept Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [],
+      "requiredColors": [],
+      "slotRoll": {
+        "count": 1,
+        "type": "constant"
+      },
+      "modelId": "woldsvaults:deck_cores/adept_deck_core#inventory",
+      "name": "Adept Core",
+      "colour": 13618375,
+      "id": "adept",
+      "type": "arcane_slot_boost"
+    },
     "natural": {
       "modifierValue": {
         "min": 0.1,
