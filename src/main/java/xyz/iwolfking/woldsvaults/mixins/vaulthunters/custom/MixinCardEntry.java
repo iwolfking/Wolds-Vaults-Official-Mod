@@ -42,6 +42,7 @@ public class MixinCardEntry {
                        if(attributeInstance.getAttribute().equals(ModGearAttributes.ABILITY_LEVEL)) {
                             VaultGearAttributeInstance<AbilityLevelAttribute> attributeVaultGearAttributeInstance = (VaultGearAttributeInstance<AbilityLevelAttribute>) attributeInstance;
                             attributeVaultGearAttributeInstance.setValue(new AbilityLevelAttribute(attributeVaultGearAttributeInstance.getValue().getAbility(), attributeVaultGearAttributeInstance.getValue().getLevelChange() + Math.round(modifier.getModifierValue())));
+                            cir.setReturnValue(List.of(attributeVaultGearAttributeInstance));
                        }
                    }
                }
