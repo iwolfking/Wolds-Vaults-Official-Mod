@@ -1,23 +1,5 @@
 {
   "costs": {
-    "alexsmobs:serpentfriend": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 1
-    },
-    "alexsmobs:board_return": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 1
-    },
     "alexsmobs:lavawax": {
       "items": [
         {
@@ -27,7 +9,25 @@
       ],
       "levels": 1
     },
+    "alexsmobs:serpentfriend": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 1
+    },
     "alexsmobs:straddle_jump": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 1
+    },
+    "alexsmobs:board_return": {
       "items": [
         {
           "id": "emerald",

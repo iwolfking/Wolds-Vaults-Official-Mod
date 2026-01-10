@@ -247,6 +247,161 @@
           "NBT": "{}"
         }
       ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:arcane_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"arcane\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 128,
+          "ITEM": "the_vault:gem_wutodie",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:adept_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"arcane\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 32,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:temporal_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"temporal\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 3,
+          "ITEM": "the_vault:temporal_shard",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:jupiter_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"jupiter\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:pluto_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"pluto\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
     }
   ],
   "tabs": []

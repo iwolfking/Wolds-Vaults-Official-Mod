@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 import iskallia.vault.core.card.CardDeck;
 import iskallia.vault.core.card.CardEntry;
 import iskallia.vault.core.card.CardPos;
+import iskallia.vault.core.card.CardScaler;
 import iskallia.vault.core.card.modifier.card.CardModifier;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.ability.AbilityLevelAttribute;
@@ -17,14 +18,19 @@ import xyz.iwolfking.woldsvaults.modifiers.deck.ArcaneSlotDeckModifier;
 import xyz.iwolfking.woldsvaults.modifiers.deck.NitwitDeckModifier;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @Mixin(value = CardEntry.class, remap = false)
-public class MixinCardEntry {
+public abstract class MixinCardEntry {
     @Shadow
     private Set<String> groups;
     @Shadow
     private CardModifier<?> modifier;
+
+    @Shadow
+    private CardScaler scaler;
 
     @Inject(method = "getSnapshotAttributes", at = @At(value = "INVOKE", target = "Liskallia/vault/core/card/modifier/card/CardModifier;getSnapshotAttributes(I)Ljava/util/List;"), cancellable = true)
     private void disableArcaneInNitwitDecks(int tier, CardPos pos, CardDeck deck, CallbackInfoReturnable<List<VaultGearAttributeInstance<?>>> cir) {

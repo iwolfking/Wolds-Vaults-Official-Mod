@@ -71,7 +71,7 @@ public class CrateCrackerRenderer
         poseStack.translate(0.0D, -progress * 0.35D, 0.0D);
 
 
-        float scale = 0.6F * (1.0F - progress * 0.6F);
+        float scale = 0.5F * (1.0F - progress * 0.6F);
         poseStack.scale(scale, scale, scale);
 
 

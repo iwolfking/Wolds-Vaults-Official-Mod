@@ -49,6 +49,13 @@ public class ModLanguageProvider extends LanguageProvider {
         add(new AlchemyIngredientTypeAttribute(""), "is an Alchemy ingredient of type \"%1$s\"", "is not an Alchemy ingredient of type \"%1$s\"");
         add(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, "Magic Text");
         add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
+        add("config.waila.plugin_miningspeedometer.speedometer", "Enable Speedometer Tooltip");
+        add("vaultobjectiveblocks.jade.tooltip.brewing_altar", "%1$s brews remaining");
+        add("vaultobjectiveblocks.jade.tooltip.rune_boss_pillar", "%1$s runes inserted");
+        add("speedometer.jade.tooltip.instamine", "Instaminable ✔");
+        add("speedometer.jade.tooltip.speed_needed", "+%s Mining Speed to Instamine %s");
+        add("speedometer.jade.tooltip.speed_additional", "+%s more Mining Speed to Instamine %s");
+        add("speedometer.jade.tooltip.speed_for_breakpoint", "+%1$s more Mining Speed to break in %2$s ticks");
         add("deck.woldsvaults.nitwit_modifier", "increased card efficiency inside Arcane slots (Arcane slots may only have non-Arcane slots inserted)");
         add("deck.woldsvaults.void_modifier", "increased card efficiency per empty card slot");
         add("deck.woldsvaults.adjacency_modifier", "increased card efficiency %2$s %1$s card");
@@ -58,6 +65,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add("deck.woldsvaults.adjacency_type_diagonal", "diagonal");
         add("deck.woldsvaults.adjacency_type_surrounding", "adjacent");
         add("deck.woldsvaults.adjacency_type_failure", "invalid configuration");
+        add("deck.woldsvaults.dominance_deck_modifier_current", "Currently: %1$s");
+        add("deck.woldsvaults.dominance_deck_modifier_dominant", "%1$s card efficiency to cards with the most dominant group in the deck");
+        add("deck.woldsvaults.dominance_deck_modifier_minority", "%1$s card efficiency to cards with the least dominant group in the deck");
+        add("command.woldsvaults.give_loot", "Given a %1$s");
         add("vault_event.woldsvaults.swap_task", "You have been swapped with %1$s.");
         add("vault_event.woldsvaults.legacy_event_message", "%1$s encountered a %2$s Event!");
         add("vault_event.woldsvaults.event_cascade", "%1$s %2$s Event has cascaded onto you!");

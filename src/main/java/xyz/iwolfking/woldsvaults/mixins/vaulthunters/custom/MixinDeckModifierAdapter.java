@@ -21,5 +21,6 @@ public class MixinDeckModifierAdapter extends TypeSupplierAdapter<DeckModifier<?
         this.register("group_adjacency_efficiency", AdjacencyBonusDeckModifier.class, AdjacencyBonusDeckModifier::new);
         this.register("create_group_slots", CreateGroupSlotDeckModifier.class, CreateGroupSlotDeckModifier::new);
         this.register("arcane_slot_boost", ArcaneSlotDeckModifier.class, ArcaneSlotDeckModifier::new);
+        this.register("dominance_boost", DominanceDeckModifier.class, DominanceDeckModifier::new);
     }
 }
