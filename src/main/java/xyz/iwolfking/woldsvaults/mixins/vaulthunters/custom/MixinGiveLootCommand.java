@@ -1,25 +1,35 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import iskallia.vault.VaultMod;
 import iskallia.vault.block.PlaceholderBlock;
 import iskallia.vault.block.VaultGlobeBlock;
 import iskallia.vault.command.GiveLootCommand;
+import iskallia.vault.config.CatalystConfig;
+import iskallia.vault.config.InscriptionConfig;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
+import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.BoosterPackItem;
 import iskallia.vault.item.CardDeckItem;
+import iskallia.vault.item.InfusedCatalystItem;
+import iskallia.vault.item.InscriptionItem;
+import iskallia.vault.item.data.InscriptionData;
+import iskallia.vault.util.SidedHelper;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +39,10 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.vhapi.mixin.accessors.CatalystConfigEntryAccessor;
+import xyz.iwolfking.vhapi.mixin.accessors.CatalystConfigPoolAccessor;
+import xyz.iwolfking.vhapi.mixin.accessors.InscriptionConfigEntryAccessor;
+import xyz.iwolfking.vhapi.mixin.accessors.InscriptionConfigPoolAccessor;
 import xyz.iwolfking.woldsvaults.items.*;
 
 import java.util.Arrays;
@@ -82,7 +96,7 @@ public class MixinGiveLootCommand {
         builder.then(
                 Commands.literal("recipe_blueprint")
                         .then(
-                                Commands.argument("id", StringArgumentType.string())
+                                Commands.argument("id", ResourceLocationArgument.id())
                                         .suggests((ctx, sb) -> {
                                             xyz.iwolfking.woldsvaults.init.ModConfigs.RECIPE_UNLOCKS
                                                     .RECIPE_UNLOCKS
@@ -99,7 +113,7 @@ public class MixinGiveLootCommand {
                         .then(
                                 Commands.argument("research", StringArgumentType.string())
                                         .suggests((ctx, sb) -> {
-                                            ModConfigs.RESEARCHES.getAll().stream().map(research -> sb.suggest(research.getName()));
+                                            ModConfigs.RESEARCHES.getAll().forEach(research -> sb.suggest(research.getName()));
                                             return sb.buildFuture();
                                         })
                                         .executes(this::woldsVaults$giveResearchToken)
@@ -111,7 +125,7 @@ public class MixinGiveLootCommand {
                         .then(
                                 Commands.argument("type", StringArgumentType.string())
                                         .suggests((ctx, sb) -> {
-                                            Arrays.stream(VaultGlobeBlock.VaultGlobeType.values()).map(type -> sb.suggest(type.name()));
+                                            Arrays.stream(VaultGlobeBlock.VaultGlobeType.values()).forEach(type -> sb.suggest(type.name()));
                                             return sb.buildFuture();
                                         })
                                         .executes(this::woldsVaults$giveVaultGlobe)
@@ -123,7 +137,7 @@ public class MixinGiveLootCommand {
                         .then(
                                 Commands.argument("type", StringArgumentType.string())
                                         .suggests((ctx, sb) -> {
-                                            Arrays.stream(PlaceholderBlock.Type.values()).map(type -> sb.suggest(type.name()));
+                                            Arrays.stream(PlaceholderBlock.Type.values()).forEach(type -> sb.suggest(type.name()));
                                             return sb.buildFuture();
                                         })
                                         .executes(this::woldsVaults$givePlaceholder)
@@ -136,7 +150,7 @@ public class MixinGiveLootCommand {
                         .then(
                                 Commands.argument("god", StringArgumentType.string())
                                         .suggests((ctx, sb) -> {
-                                            Arrays.stream(VaultGod.values()).map(type -> sb.suggest(type.name()));
+                                            Arrays.stream(VaultGod.values()).forEach(type -> sb.suggest(type.name()));
                                             return sb.buildFuture();
                                         })
                                         .executes(this::woldsVaults$giveGodOffering)
@@ -146,14 +160,49 @@ public class MixinGiveLootCommand {
         builder.then(
                 Commands.literal("chiseling_focus")
                         .then(
-                                Commands.argument("modifier", ResourceLocationArgument.id())
+                                Commands.argument("modifier", StringArgumentType.word())
                                         .suggests((ctx, sb) -> {
-                                            ToolModifierNullifyingItem.CHISELING_MODIFIER_TYPES.forEach(type -> sb.suggest(VaultMod.id(type).toString()));
+                                            ToolModifierNullifyingItem.CHISELING_MODIFIER_TYPES.forEach(sb::suggest);
                                             return sb.buildFuture();
                                         })
                                         .executes(this::woldsVaults$giveChiselingFocus)
                         )
         );
+
+        builder.then(
+                Commands.literal("catalyst")
+                        .then(
+                                Commands.argument("pool", ResourceLocationArgument.id())
+                                        .suggests((ctx, sb) -> {
+                                            ModConfigs.CATALYST.pools.forEach((id, pools) ->
+                                                    sb.suggest(id.toString())
+                                            );
+                                            return sb.buildFuture();
+                                        })
+                                        .then(
+                                                Commands.argument("size", IntegerArgumentType.integer())
+                                                        .executes(this::woldsVaults$giveCatalyst)
+                                        )
+                        )
+        );
+
+        builder.then(
+                Commands.literal("inscription")
+                        .then(
+                                Commands.argument("pool", ResourceLocationArgument.id())
+                                        .suggests((ctx, sb) -> {
+                                            ModConfigs.INSCRIPTION.pools.forEach((id, pools) ->
+                                                    sb.suggest(id.toString())
+                                            );
+                                            return sb.buildFuture();
+                                        })
+                                        .then(
+                                                Commands.argument("size", IntegerArgumentType.integer())
+                                                        .executes(this::woldsVaults$giveInscription)
+                                        )
+                        )
+        );
+
     }
 
 
@@ -190,7 +239,7 @@ public class MixinGiveLootCommand {
     private int woldsVaults$giveRecipeBlueprint(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
         RandomSource random = JavaRandom.ofNanoTime();
-        ItemStack blueprint =  RecipeBlueprintItem.create(StringArgumentType.getString(context, "id"));
+        ItemStack blueprint =  RecipeBlueprintItem.create(ResourceLocationArgument.getId(context, "id").toString());
         woldsvaults$giveStack(player, blueprint);
         return 1;
     }
@@ -200,7 +249,7 @@ public class MixinGiveLootCommand {
     private int woldsVaults$giveResearchToken(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
         RandomSource random = JavaRandom.ofNanoTime();
-        ItemStack researchToken =  ResearchTokenItem.create(StringArgumentType.getString(context, "id"));
+        ItemStack researchToken =  ResearchTokenItem.create(StringArgumentType.getString(context, "research"));
         woldsvaults$giveStack(player, researchToken);
         return 1;
     }
@@ -210,7 +259,18 @@ public class MixinGiveLootCommand {
         ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
         RandomSource random = JavaRandom.ofNanoTime();
         ItemStack vaultGlobe = new ItemStack(ModBlocks.VAULT_GLOBE_BLOCK);
-        vaultGlobe.getOrCreateTag().putString("Type", StringArgumentType.getString(context, "type"));
+
+        CompoundTag tag = vaultGlobe.getOrCreateTag();
+
+        CompoundTag stateTag = new CompoundTag();
+        tag.put("BlockStateTag", stateTag);
+
+        stateTag.putString(
+                "type",
+                StringArgumentType.getString(context, "type").toLowerCase()
+        );
+
+
         woldsvaults$giveStack(player, vaultGlobe);
         return 1;
     }
@@ -220,7 +280,18 @@ public class MixinGiveLootCommand {
         ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
         RandomSource random = JavaRandom.ofNanoTime();
         ItemStack placeholder = new ItemStack(ModBlocks.PLACEHOLDER);
-        placeholder.getOrCreateTag().putString("Type", StringArgumentType.getString(context, "type"));
+        CompoundTag tag = placeholder.getOrCreateTag();
+
+        CompoundTag stateTag = new CompoundTag();
+        tag.put("BlockStateTag", stateTag);
+
+        stateTag.putString(
+                "type",
+                StringArgumentType.getString(context, "type").toLowerCase()
+        );
+
+        tag.putString("type", StringArgumentType.getString(context, "type").toLowerCase());
+
         woldsvaults$giveStack(player, placeholder);
         return 1;
     }
@@ -238,10 +309,60 @@ public class MixinGiveLootCommand {
     private int woldsVaults$giveChiselingFocus(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
         RandomSource random = JavaRandom.ofNanoTime();
-        ItemStack chiselingFocus =  ToolModifierNullifyingItem.create(ResourceLocationArgument.getId(context, "modifier").toString());
+        ItemStack chiselingFocus =  ToolModifierNullifyingItem.create(StringArgumentType.getString(context, "modifier"));
         woldsvaults$giveStack(player, chiselingFocus);
         return 1;
     }
+
+    @Unique
+    private int woldsVaults$giveCatalyst(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
+        RandomSource random = JavaRandom.ofNanoTime();
+        ResourceLocation pool = ResourceLocationArgument.getId(context, "pool");
+        CatalystConfig.Pool poolEntry = ModConfigs.CATALYST.pools.get(pool).getForLevel(SidedHelper.getVaultLevel(player)).orElse(null);
+        if(poolEntry == null) {
+            return 0;
+        }
+        WeightedList<CatalystConfig.Entry> entryList = ((CatalystConfigPoolAccessor)poolEntry).getPool();
+        CatalystConfig.Entry entry = entryList.getRandom().orElse(null);
+        if(entry == null) {
+            return 0;
+        }
+
+        ItemStack catalyst =  InfusedCatalystItem.create(IntegerArgumentType.getInteger(context, "size"), ((CatalystConfigEntryAccessor)entry).getModifiers());
+
+        woldsvaults$giveStack(player, catalyst);
+        return 1;
+    }
+
+    @Unique
+    private int woldsVaults$giveInscription(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
+        RandomSource random = JavaRandom.ofNanoTime();
+        ResourceLocation pool = ResourceLocationArgument.getId(context, "pool");
+        InscriptionConfig.Pool poolEntry = ModConfigs.INSCRIPTION.pools.get(pool).getForLevel(SidedHelper.getVaultLevel(player)).orElse(null);
+        if(poolEntry == null) {
+            return 0;
+        }
+        WeightedList<InscriptionConfig.Entry> entryList = ((InscriptionConfigPoolAccessor)poolEntry).getPool();
+        InscriptionConfig.Entry entry = entryList.getRandom().orElse(null);
+        if(entry == null) {
+            return 0;
+        }
+
+        ItemStack inscription = new ItemStack(ModItems.INSCRIPTION);
+
+        InscriptionData inscriptionData = InscriptionData.from(inscription);
+        ((InscriptionConfigEntryAccessor)entry).getEntries().forEach(inscriptionData::add);
+        inscriptionData.setSize(IntegerArgumentType.getInteger(context, "size"));
+        inscriptionData.setColor(((InscriptionConfigEntryAccessor) entry).getColor());
+        inscriptionData.setModel(((InscriptionConfigEntryAccessor) entry).getModel().getMin());
+        inscriptionData.write(inscription);
+
+        woldsvaults$giveStack(player, inscription);
+        return 1;
+    }
+
 
 
 
