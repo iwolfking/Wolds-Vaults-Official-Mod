@@ -1,0 +1,30 @@
+{
+  "OUTPUTS": {
+    "the_vault:deck_socket": {
+      "mainOutput": {
+        "stack": {
+          "item": "the_vault:silver_scrap"
+        },
+        "minCount": 6,
+        "maxCount": 12,
+        "chance": 0.8
+      },
+      "extraOutput1": {
+        "stack": {
+          "item": "the_vault:gem_black_opal"
+        },
+        "minCount": 1,
+        "maxCount": 1,
+        "chance": 0.2
+      },
+      "extraOutput2": {
+        "stack": {
+          "item": "the_vault:card_juice"
+        },
+        "minCount": 1,
+        "maxCount": 1,
+        "chance": 0.2
+      }
+    }
+  }
+}
