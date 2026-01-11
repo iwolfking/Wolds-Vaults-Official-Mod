@@ -113,7 +113,14 @@ public class MixinGiveLootCommand {
                         .then(
                                 Commands.argument("research", StringArgumentType.string())
                                         .suggests((ctx, sb) -> {
-                                            ModConfigs.RESEARCHES.getAll().forEach(research -> sb.suggest(research.getName()));
+                                            ModConfigs.RESEARCHES.getAll().forEach(research -> {
+                                                String name = research.getName();
+                                                if (name.contains(" ")) {
+                                                    sb.suggest("\"" + name + "\"");
+                                                } else {
+                                                    sb.suggest(name);
+                                                }
+                                            });
                                             return sb.buildFuture();
                                         })
                                         .executes(this::woldsVaults$giveResearchToken)

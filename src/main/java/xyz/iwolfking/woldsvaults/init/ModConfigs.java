@@ -8,6 +8,7 @@ import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
+import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 public class ModConfigs {
     public static GenericLootableConfig GEM_BOX;
@@ -27,6 +28,7 @@ public class ModConfigs {
     public static EnchantedElixirConfig ENCHANTED_ELIXIR;
     public static CorruptedObjectiveConfig CORRUPTED_OBJECTIVE;
     public static AlchemyObjectiveConfig ALCHEMY_OBJECTIVE;
+    public static SurvivalObjectiveConfig SURVIVAL_OBJECTIVE;
 
     public static AugmentRecipesConfig AUGMENT_RECIPES;
     public static ModBoxRecipesConfig MOD_BOX_RECIPES_CONFIG;
@@ -63,6 +65,7 @@ public class ModConfigs {
         ENCHANTED_ELIXIR = new EnchantedElixirConfig().readConfig();
         CORRUPTED_OBJECTIVE = new CorruptedObjectiveConfig().readConfig();
         ALCHEMY_OBJECTIVE = new AlchemyObjectiveConfig().readConfig();
+        SURVIVAL_OBJECTIVE = new SurvivalObjectiveConfig().readConfig();
         AUGMENT_RECIPES = new AugmentRecipesConfig().readConfig();
         MOD_BOX_RECIPES_CONFIG = new ModBoxRecipesConfig().readConfig();
         CUSTOM_RECYCLER_CONFIG = new CustomVaultRecyclerConfig().readConfig();

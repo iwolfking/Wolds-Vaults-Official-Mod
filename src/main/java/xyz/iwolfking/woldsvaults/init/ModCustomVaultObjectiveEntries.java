@@ -43,7 +43,7 @@ public class ModCustomVaultObjectiveEntries {
         ENTRIES.add(ZEALOT);
         ENTRIES.add(CORRUPTED);
         ENTRIES.add(ALCHEMY);
-        //ENTRIES.add(SURVIVAL);
+        ENTRIES.add(SURVIVAL);
         return ENTRIES.stream().toList();
     }
 }
