@@ -58,7 +58,7 @@ public class ClassicTunnelLayout extends ClassicInfiniteLayout {
         return FIELDS;
     }
 
-    protected boolean isRoomAllowed(int x, int z) {
+    public boolean isRoomAllowed(int x, int z) {
 
         int width  = this.get(WIDTH);
         int length = this.get(HEIGHT);

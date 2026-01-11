@@ -3,16 +3,19 @@ package xyz.iwolfking.woldsvaults.client.events;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import xyz.iwolfking.woldsvaults.init.ModVaultarHudScreenRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.client.init.ModScreens;
-import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipClientComponent;
+import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
 import xyz.iwolfking.woldsvaults.client.init.ModEntityRenderers;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
+import xyz.iwolfking.woldsvaults.client.init.ModScreens;
+import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.init.ModVaultarHudScreenRegistry;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT})
@@ -24,6 +27,7 @@ public class ClientSetupEvents {
         ModKeybinds.registerKeyBinds();
         ModVaultarHudScreenRegistry.init();
         registerItemProperties(event);
+        registerClientTooltips();
     }
 
 
@@ -43,5 +47,9 @@ public class ClientSetupEvents {
                     }
             );
         });
+    }
+
+    private static void registerClientTooltips() {
+        MinecraftForgeClient.registerTooltipComponentFactory(LayoutTooltipComponent.class, LayoutTooltipClientComponent::new);
     }
 }

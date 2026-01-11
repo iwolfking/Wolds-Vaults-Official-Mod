@@ -5,13 +5,16 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicRingsCrystalLayout;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicWaveCrystalLayout;
-import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicWaveLayout;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
+import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.WaveLayoutTooltip;
+import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicInfiniteCrystalLayoutAccessor;
 
+import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Optional;
 
 public class WaveLayoutDefinition implements LayoutDefinition {
 
@@ -72,5 +75,15 @@ public class WaveLayoutDefinition implements LayoutDefinition {
         data.putInt("amplitude", root.getInt("value"));
         data.putDouble("frequency", root.getInt("value"));
         return data;
+    }
+
+    @Override
+    public @Nonnull Optional<LayoutTooltipComponent> getTooltipImage(CompoundTag data) {
+        try {
+            return WaveLayoutTooltip.getTooltipImage(data);
+        } catch (Exception e) {
+            WoldsVaults.LOGGER.error("Failed to create wave layout manipulator preview.", e);
+            return Optional.empty();
+        }
     }
 }

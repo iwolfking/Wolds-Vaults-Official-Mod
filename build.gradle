@@ -253,7 +253,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:occultism-361026:4729072")
     compileOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
     implementation fg.deobf("curse.maven:travel-anchors-413234:3741307")
-    compileOnly fg.deobf("curse.maven:vault-hunters-item-sorting-1341046:6963298")
+    implementation fg.deobf("curse.maven:vault-hunters-item-sorting-1341046:7443511")
     //compileOnly fg.deobf("curse.maven:vaultarhud-1011085:5706845")
     implementation fg.deobf("curse.maven:vaultmapper-1099126:7326513")
     compileOnly fg.deobf("curse.maven:xaeros-minimap-263420:3778436")
@@ -335,7 +335,7 @@ dependencies {
     implementation fg.deobf("curse.maven:architects-palette-433862:4957984")
 
     // perf in dev
-    runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")
+    runtimeOnly fg.deobf("curse.maven:lazy-dfu-forge-460819:3544496")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5322305")
     runtimeOnly fg.deobf("curse.maven:fastload-630620:4706140")
 
