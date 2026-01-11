@@ -44,7 +44,7 @@ public class DominanceDeckModifier extends DeckModifier<DominanceDeckModifier.Co
 
     @Override
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add(new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_" + config.mode.toString().toLowerCase(), String.format("%.1f%%", this.getModifierValue(), new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_exclusion", String.join(", ", this.config.excludedGroups)))));
+        tooltip.add(new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_" + config.mode.toString().toLowerCase(), String.format("%.1f%%", this.getModifierValue() * 100, new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_exclusion", String.join(", ", this.config.excludedGroups)))));
         super.addText(tooltip, minIndex, flag, time);
     }
 

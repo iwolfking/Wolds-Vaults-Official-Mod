@@ -52,6 +52,6 @@ public class ArcaneSlotDeckModifier extends SlotDeckModifier {
 
     @Override
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add(new TextComponent(((SlotDeckModifierAccessor)this).getSlotRoll() + " Arcane slots gain " + Math.round(this.getModifierValue()) + " additional levels"));
+        tooltip.add(new TextComponent(((SlotDeckModifierAccessor)this).getSlotRoll() + " Arcane slots gains " + Math.round(this.getModifierValue()) + " additional levels"));
     }
 }

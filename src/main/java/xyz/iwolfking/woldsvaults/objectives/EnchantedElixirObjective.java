@@ -1,6 +1,12 @@
 package xyz.iwolfking.woldsvaults.objectives;
 
+import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.vertex.PoseStack;
+import iskallia.vault.client.render.IVaultOptions;
 import iskallia.vault.core.Version;
+import iskallia.vault.core.data.adapter.Adapters;
+import iskallia.vault.core.data.adapter.vault.CompoundAdapter;
+import iskallia.vault.core.data.key.FieldKey;
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
@@ -12,23 +18,27 @@ import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
+import xyz.iwolfking.woldsvaults.objectives.enchanted_elixir.ElixirBreakpointMap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class EnchantedElixirObjective extends ElixirObjective {
+    public static final FieldKey<ElixirBreakpointMap> ELIXIR_BREAKPOINTS = FieldKey.of("elixir_breakpoints", ElixirBreakpointMap.class).with(Version.v1_0, CompoundAdapter.of(ElixirBreakpointMap::new), DISK.all().or(CLIENT.all())).register(FIELDS);
 
     protected EnchantedElixirObjective() {
         this.set(GOALS, new GoalMap());
+        this.set(ELIXIR_BREAKPOINTS, new ElixirBreakpointMap());
     }
 
     public static final SupplierKey<Objective> E_KEY = SupplierKey.of("enchanted_elixir", Objective.class).with(Version.v1_12, EnchantedElixirObjective::new);
@@ -49,14 +59,10 @@ public class EnchantedElixirObjective extends ElixirObjective {
     }
 
 
-    private Map<ServerPlayer, Integer> elixirCollectionMap = new HashMap<>();
+    private final Map<ServerPlayer, Integer> elixirCollectionMap = new HashMap<>();
 
-    private Map<ServerPlayer, List<Float>> elixirBreakpointsMap = new HashMap<>();
+    private final List<Listener> completedListeners = new ArrayList<>();
 
-    private List<Listener> completedListeners = new ArrayList<>();
-
-    private boolean shouldCascadeRandomly = false;
-    private boolean shouldCascade = true;
     private float cascadeIncrease = 0.0F;
 
     @Override
@@ -79,12 +85,12 @@ public class EnchantedElixirObjective extends ElixirObjective {
             return;
         }
         ElixirGoal goal = this.get(GOALS).get(listener.get(Listener.ID));
-        if(elixirBreakpointsMap != null && elixirBreakpointsMap.get(listener.getPlayer().get()) == null) {
+        if(this.get(ELIXIR_BREAKPOINTS) != null && this.get(ELIXIR_BREAKPOINTS).get(listener.getPlayer().get()) == null) {
             generateElixirBreakpointsMap(listener, false);
             Integer currentElixir = goal.get(ElixirGoal.CURRENT);
-            for(int i = 0; i < elixirBreakpointsMap.get(listenerPlayer).size() - 1; i++) {
-                if(elixirBreakpointsMap.get(listenerPlayer).get(i) >= currentElixir) {
-                    if(i + 1 >= elixirBreakpointsMap.get(listenerPlayer).size()) {
+            for(int i = 0; i < this.get(ELIXIR_BREAKPOINTS).get(listenerPlayer).size() - 1; i++) {
+                if(this.get(ELIXIR_BREAKPOINTS).get(listenerPlayer).get(i) >= currentElixir) {
+                    if(i + 1 >= this.get(ELIXIR_BREAKPOINTS).get(listenerPlayer).size()) {
                         completedListeners.add(listener);
                     }
                     elixirCollectionMap.put(listenerPlayer, i);
@@ -96,7 +102,7 @@ public class EnchantedElixirObjective extends ElixirObjective {
 
         if(!goal.isCompleted()) {
             ServerPlayer objPlayer = listener.getPlayer().get();
-            if(goal.get(ElixirGoal.CURRENT) >= elixirBreakpointsMap.get(objPlayer).get(elixirCollectionMap.get(objPlayer))) {
+            if(goal.get(ElixirGoal.CURRENT) >= this.get(ELIXIR_BREAKPOINTS).get(objPlayer).get(elixirCollectionMap.get(objPlayer))) {
                 elixirCollectionMap.put(objPlayer, elixirCollectionMap.get(objPlayer) + 1);
                     triggerRandomEvent(objPlayer, vault);
             }
@@ -126,17 +132,18 @@ public class EnchantedElixirObjective extends ElixirObjective {
     }
 
     private void generateElixirBreakpointsMap(Listener listener, boolean sendMessage) {
+
         Random random = new Random();
         int numberOfBreakpoints = random.nextInt(10, 25);
         if(listener.getPlayer().isPresent()) {
             ElixirGoal goal = this.get(GOALS).get(listener.get(Listener.ID));
             List<Float> elixirBreakPointsList = new ArrayList<>();
-            Float elixirTarget = goal.get(ElixirGoal.TARGET).floatValue();
+            float elixirTarget = goal.get(ElixirGoal.TARGET).floatValue();
             for(int i = 0; i < numberOfBreakpoints; i++) {
                 float decimalModifier = (i + 1.0F) / (numberOfBreakpoints);
                 elixirBreakPointsList.add(elixirTarget * decimalModifier);
             }
-            elixirBreakpointsMap.put(listener.getPlayer().get(), elixirBreakPointsList);
+            this.get(ELIXIR_BREAKPOINTS).put(listener.getPlayer().get().getUUID(), elixirBreakPointsList);
             if(!sendMessage) {
                 return;
             }
@@ -171,12 +178,37 @@ public class EnchantedElixirObjective extends ElixirObjective {
         }
     }
 
-    public void setShouldCascadeRandomly(boolean bool) {
-        shouldCascadeRandomly = bool;
-    }
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
 
-    public void setShouldCascade(boolean bool) {
-        shouldCascade = bool;
+        boolean rendered = super.render(vault, matrixStack, window, partialTicks, player);
+        int midX = window.getGuiScaledWidth() / 2;
+
+        ElixirGoal goal = (ElixirGoal)((GoalMap)this.get(GOALS)).get(player.getUUID());
+        List<Float> breakpoints = this.get(ELIXIR_BREAKPOINTS).get(player.getUUID());
+        if (breakpoints != null) {
+            matrixStack.pushPose();
+
+            matrixStack.translate(midX - 80, 8.0, 101.0);
+            float barWidth = 130.0F;
+            float barOffsetX = 13.0F;
+
+            int lineHeight = 10;
+            int color = 0x80B19CD9;
+
+            for (Float bp : breakpoints) {
+                float progressPoint = bp / (float)goal.get(ElixirGoal.TARGET);
+                int x = (int) (barOffsetX + (int)(barWidth * progressPoint));
+
+                GuiComponent.fill(matrixStack, x, 0, x + 1, lineHeight, color);
+            }
+
+            matrixStack.popPose();
+        }
+
+
+        return true;
     }
 
     public void setCascadeIncrease(float value) {
