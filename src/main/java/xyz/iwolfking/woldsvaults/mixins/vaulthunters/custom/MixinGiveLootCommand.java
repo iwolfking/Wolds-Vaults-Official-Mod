@@ -221,7 +221,7 @@ public class MixinGiveLootCommand {
                                         })
                                         .then(
                                                 Commands.argument("value", IntegerArgumentType.integer())
-                                                        .executes(this::woldsVaults$giveInscription)
+                                                        .executes(this::woldsVaults$giveLayoutManipulator)
                                         )
                         )
         );
@@ -340,8 +340,7 @@ public class MixinGiveLootCommand {
     @Unique
     private int woldsVaults$giveLayoutManipulator(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
-        RandomSource random = JavaRandom.ofNanoTime();
-        ItemStack layoutModifier =  LayoutModificationItem.create(StringArgumentType.getString(context, "modifier"), IntegerArgumentType.getInteger(context, "value"));
+        ItemStack layoutModifier =  LayoutModificationItem.create(StringArgumentType.getString(context, "layout"), IntegerArgumentType.getInteger(context, "value"));
         woldsvaults$giveStack(player, layoutModifier);
         return 1;
     }
