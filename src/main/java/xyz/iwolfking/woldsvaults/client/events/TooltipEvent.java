@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.events.client;
+package xyz.iwolfking.woldsvaults.client.events;
 
 import iskallia.vault.core.event.ForgeEvent;
 import net.minecraftforge.common.MinecraftForge;

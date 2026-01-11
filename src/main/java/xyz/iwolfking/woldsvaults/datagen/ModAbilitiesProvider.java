@@ -1,10 +1,11 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.HashCache;
 import xyz.iwolfking.vhapi.api.datagen.AbstractAbilityProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.abilities.ConcentrateAbility;
-import xyz.iwolfking.woldsvaults.abilities.ExpungeAbility;
+
+import java.io.IOException;
 
 public class ModAbilitiesProvider extends AbstractAbilityProvider {
     protected ModAbilitiesProvider(DataGenerator generator) {

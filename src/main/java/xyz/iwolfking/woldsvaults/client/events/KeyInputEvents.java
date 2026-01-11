@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.events.client;
+package xyz.iwolfking.woldsvaults.client.events;
 
 import com.mrcrayfish.configured.api.util.ConfigScreenHelper;
 import iskallia.vault.client.gui.screen.accessibility.InventoryHudEditScreen;

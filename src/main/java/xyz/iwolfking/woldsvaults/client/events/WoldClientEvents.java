@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.events.client;
+package xyz.iwolfking.woldsvaults.client.events;
 
 import iskallia.vault.core.event.Event;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClientEventsAccessor;

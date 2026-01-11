@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.core.layout;
+package xyz.iwolfking.woldsvaults.api.core.layout.lib;
 
 import iskallia.vault.item.crystal.layout.CrystalLayout;
 import net.minecraft.nbt.CompoundTag;

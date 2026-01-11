@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.events.client.music;
+package xyz.iwolfking.woldsvaults.client.events.music;
 
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;

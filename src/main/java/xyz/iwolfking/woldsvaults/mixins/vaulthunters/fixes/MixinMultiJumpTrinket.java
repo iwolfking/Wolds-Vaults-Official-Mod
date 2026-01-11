@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.events.client.KeyInputEvents;
+import xyz.iwolfking.woldsvaults.client.events.KeyInputEvents;
 
 @Mixin(value = MultiJumpTrinket.class, remap = false)
 public class MixinMultiJumpTrinket {

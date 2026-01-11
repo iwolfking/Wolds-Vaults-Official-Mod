@@ -15,6 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicTestCrystalLayout;
 import xyz.iwolfking.woldsvaults.models.crystal.UnhingedCrystalModel;
 
 @Mixin(value = CrystalData.class, remap = false)
@@ -32,6 +33,7 @@ public abstract class MixinCrystalData extends CrystalEntry implements ISerializ
 
     static {
         MODEL.register("unhinged", UnhingedCrystalModel.class, UnhingedCrystalModel::new);
+        LAYOUT.register("testing", ClassicTestCrystalLayout.class, ClassicTestCrystalLayout::new);
     }
 
     /**

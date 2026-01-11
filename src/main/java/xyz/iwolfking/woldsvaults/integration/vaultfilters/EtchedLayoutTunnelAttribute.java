@@ -1,11 +1,8 @@
 package xyz.iwolfking.woldsvaults.integration.vaultfilters;
 
-import iskallia.vault.item.crystal.layout.ClassicInfiniteCrystalLayout;
 import iskallia.vault.item.crystal.layout.CrystalLayout;
 import net.joseph.vaultfilters.attributes.abstracts.IntAttribute;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinition;
-import xyz.iwolfking.woldsvaults.api.core.layout.LayoutRegistry;
 import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicInfiniteCrystalLayoutAccessor;
 

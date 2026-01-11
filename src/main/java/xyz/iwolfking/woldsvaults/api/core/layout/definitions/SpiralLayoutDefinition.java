@@ -1,6 +1,5 @@
-package xyz.iwolfking.woldsvaults.api.core.layout;
+package xyz.iwolfking.woldsvaults.api.core.layout.definitions;
 
-import iskallia.vault.item.crystal.layout.ClassicCircleCrystalLayout;
 import iskallia.vault.item.crystal.layout.ClassicSpiralCrystalLayout;
 import iskallia.vault.item.crystal.layout.CrystalLayout;
 import net.minecraft.ChatFormatting;
@@ -8,7 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.level.block.Rotation;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicCircleCrystalLayoutAccessor;
+import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicInfiniteCrystalLayoutAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicSpiralCrystalLayoutAccessor;
 

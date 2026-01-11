@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.events.client;
+package xyz.iwolfking.woldsvaults.client.events;
 
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraftforge.api.distmarker.Dist;

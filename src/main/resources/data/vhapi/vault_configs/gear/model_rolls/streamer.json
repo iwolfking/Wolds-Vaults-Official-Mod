@@ -69,5 +69,18 @@
       "the_vault:gear/sword/leaf_blade",
       "the_vault:gear/sword/aurora_scissors"
     ]
+  },
+  "MAGNETS_MODEL_ROLLS": {
+    "SCRAPPY": [],
+    "COMMON": [],
+    "RARE": [],
+    "EPIC": [],
+    "OMEGA": [
+    ],
+    "MYTHIC": [
+      "the_vault:gear/magnet/magnet_error"
+    ],
+    "UNIQUE": [
+    ]
   }
 }

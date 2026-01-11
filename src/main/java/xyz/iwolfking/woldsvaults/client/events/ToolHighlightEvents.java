@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.events.client;
+package xyz.iwolfking.woldsvaults.client.events;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.block.entity.DehammerizerTileEntity;

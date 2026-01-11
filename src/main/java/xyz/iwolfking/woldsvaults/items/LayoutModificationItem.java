@@ -16,8 +16,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinition;
-import xyz.iwolfking.woldsvaults.api.core.layout.LayoutRegistry;
+import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
+import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import javax.annotation.Nullable;
@@ -45,7 +45,7 @@ public class LayoutModificationItem extends Item
         CompoundTag root = stack.getTag();
         if (root == null || !root.contains(TAG_LAYOUT)) return;
 
-        LayoutRegistry.get(root.getString(TAG_LAYOUT)).ifPresent(def -> {
+        LayoutDefinitionRegistry.get(root.getString(TAG_LAYOUT)).ifPresent(def -> {
             CompoundTag data = getOrUpgradeLayoutData(root, def);
             def.addTooltip(data, tooltip);
         });
@@ -55,7 +55,7 @@ public class LayoutModificationItem extends Item
         CompoundTag root = stack.getTag();
         if (root == null || !root.contains(TAG_LAYOUT)) return Optional.empty();
 
-        return LayoutRegistry.get(root.getString(TAG_LAYOUT))
+        return LayoutDefinitionRegistry.get(root.getString(TAG_LAYOUT))
                 .map(def -> def.create(getOrUpgradeLayoutData(root, def)));
     }
 
@@ -122,7 +122,7 @@ public class LayoutModificationItem extends Item
 
         CrystalLayout layout = rolled.get();
 
-        LayoutRegistry.getForLayout(layout).ifPresent(def -> {
+        LayoutDefinitionRegistry.getForLayout(layout).ifPresent(def -> {
             CompoundTag data = new CompoundTag();
             def.writeFromLayout(layout, data);
 

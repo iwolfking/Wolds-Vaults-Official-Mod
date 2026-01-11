@@ -20,14 +20,12 @@ import iskallia.vault.init.ModItems;
 import iskallia.vault.item.BoosterPackItem;
 import iskallia.vault.item.CardDeckItem;
 import iskallia.vault.item.InfusedCatalystItem;
-import iskallia.vault.item.InscriptionItem;
 import iskallia.vault.item.data.InscriptionData;
 import iskallia.vault.util.SidedHelper;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,7 +41,7 @@ import xyz.iwolfking.vhapi.mixin.accessors.CatalystConfigEntryAccessor;
 import xyz.iwolfking.vhapi.mixin.accessors.CatalystConfigPoolAccessor;
 import xyz.iwolfking.vhapi.mixin.accessors.InscriptionConfigEntryAccessor;
 import xyz.iwolfking.vhapi.mixin.accessors.InscriptionConfigPoolAccessor;
-import xyz.iwolfking.woldsvaults.api.core.layout.LayoutRegistry;
+import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
 import xyz.iwolfking.woldsvaults.items.*;
 
 import java.util.Arrays;
@@ -216,7 +214,7 @@ public class MixinGiveLootCommand {
                         .then(
                                 Commands.argument("layout", StringArgumentType.word())
                                         .suggests((ctx, sb) -> {
-                                            LayoutRegistry.getDefinitions().keySet().forEach(sb::suggest);
+                                            LayoutDefinitionRegistry.getDefinitions().keySet().forEach(sb::suggest);
                                             return sb.buildFuture();
                                         })
                                         .then(

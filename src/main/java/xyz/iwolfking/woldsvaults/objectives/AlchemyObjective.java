@@ -50,7 +50,7 @@ import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vault.BrewingAltarBrewEvent;
 import xyz.iwolfking.woldsvaults.events.vault.WoldCommonEvents;
-import xyz.iwolfking.woldsvaults.events.client.WoldClientEvents;
+import xyz.iwolfking.woldsvaults.client.events.WoldClientEvents;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
