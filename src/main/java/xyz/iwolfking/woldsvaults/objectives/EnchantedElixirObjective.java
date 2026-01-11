@@ -30,15 +30,18 @@ import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 import xyz.iwolfking.woldsvaults.objectives.enchanted_elixir.ElixirBreakpointMap;
+import xyz.iwolfking.woldsvaults.objectives.enchanted_elixir.ElixirCollectionMap;
 
 import java.util.*;
 
 public class EnchantedElixirObjective extends ElixirObjective {
     public static final FieldKey<ElixirBreakpointMap> ELIXIR_BREAKPOINTS = FieldKey.of("elixir_breakpoints", ElixirBreakpointMap.class).with(Version.v1_0, CompoundAdapter.of(ElixirBreakpointMap::new), DISK.all().or(CLIENT.all())).register(FIELDS);
+    public static final FieldKey<ElixirCollectionMap> ELIXIR_COLLECTION = FieldKey.of("elixir_collection", ElixirCollectionMap.class).with(Version.v1_0, CompoundAdapter.of(ElixirCollectionMap::new), DISK.all().or(CLIENT.all())).register(FIELDS);
 
     protected EnchantedElixirObjective() {
         this.set(GOALS, new GoalMap());
         this.set(ELIXIR_BREAKPOINTS, new ElixirBreakpointMap());
+        this.set(ELIXIR_COLLECTION, new ElixirCollectionMap());
     }
 
     public static final SupplierKey<Objective> E_KEY = SupplierKey.of("enchanted_elixir", Objective.class).with(Version.v1_12, EnchantedElixirObjective::new);
@@ -58,9 +61,6 @@ public class EnchantedElixirObjective extends ElixirObjective {
         super.initServer(world, vault);
     }
 
-
-    private final Map<ServerPlayer, Integer> elixirCollectionMap = new HashMap<>();
-
     private final List<Listener> completedListeners = new ArrayList<>();
 
     private float cascadeIncrease = 0.0F;
@@ -75,7 +75,7 @@ public class EnchantedElixirObjective extends ElixirObjective {
                 listener.addObjective(vault, this);
                 this.generateGoal(world, vault, runner);
                 if(listener.getPlayer().isPresent()) {
-                    elixirCollectionMap.put(listener.getPlayer().get(), 0);
+                    this.get(ELIXIR_COLLECTION).put(listener.getPlayer().get(), 0);
                     generateElixirBreakpointsMap(listener, true);
                 }
             }
@@ -93,7 +93,7 @@ public class EnchantedElixirObjective extends ElixirObjective {
                     if(i + 1 >= this.get(ELIXIR_BREAKPOINTS).get(listenerPlayer).size()) {
                         completedListeners.add(listener);
                     }
-                    elixirCollectionMap.put(listenerPlayer, i);
+                    this.get(ELIXIR_COLLECTION).put(listenerPlayer, i);
                     break;
                 }
             }
@@ -102,8 +102,8 @@ public class EnchantedElixirObjective extends ElixirObjective {
 
         if(!goal.isCompleted()) {
             ServerPlayer objPlayer = listener.getPlayer().get();
-            if(goal.get(ElixirGoal.CURRENT) >= this.get(ELIXIR_BREAKPOINTS).get(objPlayer).get(elixirCollectionMap.get(objPlayer))) {
-                elixirCollectionMap.put(objPlayer, elixirCollectionMap.get(objPlayer) + 1);
+            if(goal.get(ElixirGoal.CURRENT) >= this.get(ELIXIR_BREAKPOINTS).get(objPlayer).get(this.get(ELIXIR_COLLECTION).get(objPlayer))) {
+                this.get(ELIXIR_COLLECTION).put(objPlayer, this.get(ELIXIR_COLLECTION).get(objPlayer) + 1);
                     triggerRandomEvent(objPlayer, vault);
             }
         }
@@ -190,7 +190,7 @@ public class EnchantedElixirObjective extends ElixirObjective {
         if (breakpoints != null) {
             matrixStack.pushPose();
 
-            matrixStack.translate(midX - 80, 8.0, 101.0);
+            matrixStack.translate(midX - 80, 16.0, 101.0);
             float barWidth = 130.0F;
             float barOffsetX = 13.0F;
 

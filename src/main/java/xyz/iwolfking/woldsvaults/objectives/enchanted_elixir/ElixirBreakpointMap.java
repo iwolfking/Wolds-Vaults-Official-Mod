@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.objectives.enchanted_elixir;
 
 import iskallia.vault.core.data.DataMap;
 import iskallia.vault.core.data.adapter.IBitAdapter;
+import iskallia.vault.core.data.adapter.basic.UuidAdapter;
 import iskallia.vault.core.data.sync.context.SyncContext;
 import iskallia.vault.core.net.BitBuffer;
 import net.minecraft.world.entity.player.Player;
@@ -13,24 +14,7 @@ public class ElixirBreakpointMap extends DataMap<ElixirBreakpointMap, UUID, List
 
 
     public ElixirBreakpointMap() {
-        super(new ConcurrentHashMap<>(), new UUIDAdapter(), new FloatListAdapter());
-    }
-
-
-    public static class UUIDAdapter implements IBitAdapter<UUID, SyncContext> {
-
-        @Override
-        public Optional<UUID> readBits(BitBuffer buffer, SyncContext context) {
-            long most = buffer.readLong();
-            long least = buffer.readLong();
-            return Optional.of(new UUID(most, least));
-        }
-
-        @Override
-        public void writeBits(UUID value, BitBuffer buffer, SyncContext context) {
-            buffer.writeLong(value.getMostSignificantBits());
-            buffer.writeLong(value.getLeastSignificantBits());
-        }
+        super(new ConcurrentHashMap<>(), new UuidAdapter(false), new FloatListAdapter());
     }
 
     public static class FloatListAdapter implements IBitAdapter<List<Float>, SyncContext> {
