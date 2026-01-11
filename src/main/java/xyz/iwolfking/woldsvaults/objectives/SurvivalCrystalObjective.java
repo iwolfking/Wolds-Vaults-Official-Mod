@@ -7,6 +7,7 @@ import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.*;
+import iskallia.vault.core.vault.time.TickClock;
 import iskallia.vault.core.vault.time.TickTimer;
 import iskallia.vault.item.crystal.CrystalData;
 import net.minecraft.nbt.CompoundTag;
@@ -47,7 +48,7 @@ public class SurvivalCrystalObjective extends WoldCrystalObjective {
         });
 
         vault.ifPresent(Vault.CLOCK, tickClock -> {
-            tickClock.set(TickTimer.DISPLAY_TIME, 1200);
+            tickClock.set(TickClock.DISPLAY_TIME, 2400);
         });
     }
 

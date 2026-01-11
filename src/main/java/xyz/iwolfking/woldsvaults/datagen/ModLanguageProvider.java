@@ -93,6 +93,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("vault_objective.woldsvaults.corrupted_shatter", "You sense a portal shattering");
         add("vault_objective.woldsvaults.corrupted_complete", "Vault Completed!");
         add("vault_objective.woldsvaults.corrupted_fruit_disable", "Seems pointless...");
+        add("vault_objective.woldsvaults.survival_fruit_disable", "A mysterious force prevents you from eating the fruit.");
         add("unlock_goal.woldsvaults.idona_theme", "Idona shares insight on entering their domain with you.");
         add("unlock_goal.woldsvaults.velara_theme", "Velara shares insight on entering their domain with you.");
         add("unlock_goal.woldsvaults.wendarr_theme", "Wendarr shares insight on entering their domain with you.");

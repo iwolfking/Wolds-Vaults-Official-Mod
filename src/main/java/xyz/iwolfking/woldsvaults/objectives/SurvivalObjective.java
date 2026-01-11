@@ -34,7 +34,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import xyz.iwolfking.vhapi.api.events.vault.VaultEvents;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalSpawnManager;
+import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalVaultHelper;
 
 public class SurvivalObjective extends Objective {
     public static final ResourceLocation HUD = WoldsVaults.id("textures/gui/survival/hud.png");
@@ -88,11 +90,9 @@ public class SurvivalObjective extends Objective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
-        CommonEvents.ENTITY_DEATH.register(this, data -> {
-            if (!(data.getEntity() instanceof Mob)) return;
-
-            float chance = 0.15F;
-        });
+        SurvivalVaultHelper.handleKillTimeExtensions(this, world, vault);
+        SurvivalVaultHelper.preventFruits(this, vault);
+        SurvivalVaultHelper.setBaseVaultTimer(vault);
 
         spawnManager = new SurvivalSpawnManager(vault, world, this);
 
@@ -129,15 +129,6 @@ public class SurvivalObjective extends Objective {
         if (this.get(TIME_SURVIVED) >= this.get(TIME_REQUIRED)) {
             completeObjective(world, vault);
         }
-    }
-
-    private void handleMobSpawning(VirtualWorld world, Vault vault) {
-
-    }
-
-    private void updateDifficulty(VirtualWorld world, Vault vault) {
-        int stage = this.get(TIME_SURVIVED) / (20 * 60);
-        this.set(DIFFICULTY_STAGE, stage);
     }
 
     private void completeObjective(VirtualWorld world, Vault vault) {
