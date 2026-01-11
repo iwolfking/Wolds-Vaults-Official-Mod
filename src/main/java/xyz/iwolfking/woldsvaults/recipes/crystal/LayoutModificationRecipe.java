@@ -1,13 +1,8 @@
 package xyz.iwolfking.woldsvaults.recipes.crystal;
 
-import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.modifier.VaultModifierStack;
 import iskallia.vault.core.vault.modifier.modifier.GroupedModifier;
-import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
-import iskallia.vault.gear.attribute.VaultGearModifier;
-import iskallia.vault.gear.data.VaultGearData;
-import iskallia.vault.gear.item.IdentifiableItem;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.VaultCrystalItem;
 import iskallia.vault.item.crystal.layout.ClassicInfiniteCrystalLayout;
@@ -83,10 +78,10 @@ public class LayoutModificationRecipe extends VanillaAnvilRecipe {
 
         List<ItemStack> secondaries = new ArrayList<>();
 
-        secondaries.add(LayoutModificationItem.create("infinite", 1, 1));
-        secondaries.add(LayoutModificationItem.create("circle", 1, 8));
-        secondaries.add(LayoutModificationItem.create("polygon", 1, 12));
-        secondaries.add(LayoutModificationItem.create("spiral", 1, 4));
+        secondaries.add(LayoutModificationItem.create("infinite", 1));
+        secondaries.add(LayoutModificationItem.create("circle", 8));
+        secondaries.add(LayoutModificationItem.create("polygon", 12));
+        secondaries.add(LayoutModificationItem.create("spiral", 4));
 
         for(ItemStack secondary : secondaries) {
             ItemStack crystalOutput = VaultCrystalItem.create(crystalData -> {

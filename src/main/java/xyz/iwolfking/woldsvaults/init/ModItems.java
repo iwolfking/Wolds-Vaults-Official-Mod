@@ -8,7 +8,6 @@ import iskallia.vault.item.ItemVaultCrystalSeal;
 import iskallia.vault.item.LootableItem;
 import iskallia.vault.item.VaultBasicFoodItem;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;

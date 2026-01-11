@@ -41,6 +41,7 @@ import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
 import xyz.iwolfking.woldsvaults.models.AdditionalModels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
+import xyz.iwolfking.woldsvaults.objectives.CompoundCrystalObjective;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 import xyz.iwolfking.woldsvaults.objectives.speedrun.SpeedrunCrystalObjective;
@@ -101,9 +102,11 @@ public class WoldsVaults {
         new AdditionalModels();
         ModVaultFilterAttributes.initAttributes();
         ModGameRules.initialize();
+        ModLayoutDefinitions.init();
         NetworkHandler.onCommonSetup();
         DelayedExecutionHelper.init();
         CrystalData.OBJECTIVE.register("brb_speedrun", SpeedrunCrystalObjective.class, SpeedrunCrystalObjective::new);
+        CrystalData.OBJECTIVE.register("compound", CompoundCrystalObjective.class, CompoundCrystalObjective::new);
         BETTER_COMBAT_PRESENT = LoadingModList.get().getModFileById("bettercombat") != null;
     }
 

@@ -43,6 +43,7 @@ import xyz.iwolfking.vhapi.mixin.accessors.CatalystConfigEntryAccessor;
 import xyz.iwolfking.vhapi.mixin.accessors.CatalystConfigPoolAccessor;
 import xyz.iwolfking.vhapi.mixin.accessors.InscriptionConfigEntryAccessor;
 import xyz.iwolfking.vhapi.mixin.accessors.InscriptionConfigPoolAccessor;
+import xyz.iwolfking.woldsvaults.api.core.layout.LayoutRegistry;
 import xyz.iwolfking.woldsvaults.items.*;
 
 import java.util.Arrays;
@@ -210,6 +211,21 @@ public class MixinGiveLootCommand {
                         )
         );
 
+        builder.then(
+                Commands.literal("layout_manipulator")
+                        .then(
+                                Commands.argument("layout", StringArgumentType.word())
+                                        .suggests((ctx, sb) -> {
+                                            LayoutRegistry.getDefinitions().keySet().forEach(sb::suggest);
+                                            return sb.buildFuture();
+                                        })
+                                        .then(
+                                                Commands.argument("value", IntegerArgumentType.integer())
+                                                        .executes(this::woldsVaults$giveInscription)
+                                        )
+                        )
+        );
+
     }
 
 
@@ -318,6 +334,15 @@ public class MixinGiveLootCommand {
         RandomSource random = JavaRandom.ofNanoTime();
         ItemStack chiselingFocus =  ToolModifierNullifyingItem.create(StringArgumentType.getString(context, "modifier"));
         woldsvaults$giveStack(player, chiselingFocus);
+        return 1;
+    }
+
+    @Unique
+    private int woldsVaults$giveLayoutManipulator(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
+        RandomSource random = JavaRandom.ofNanoTime();
+        ItemStack layoutModifier =  LayoutModificationItem.create(StringArgumentType.getString(context, "modifier"), IntegerArgumentType.getInteger(context, "value"));
+        woldsvaults$giveStack(player, layoutModifier);
         return 1;
     }
 
