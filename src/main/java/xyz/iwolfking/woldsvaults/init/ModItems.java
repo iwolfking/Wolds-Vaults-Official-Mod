@@ -7,6 +7,7 @@ import iskallia.vault.item.BasicScavengerItem;
 import iskallia.vault.item.ItemVaultCrystalSeal;
 import iskallia.vault.item.LootableItem;
 import iskallia.vault.item.VaultBasicFoodItem;
+
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -48,6 +49,7 @@ public class ModItems {
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_ZEALOT;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_WARRIOR;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_CORRUPT;
+
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_ALCHEMY;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD;
 
