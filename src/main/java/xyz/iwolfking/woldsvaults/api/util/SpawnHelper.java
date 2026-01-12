@@ -35,10 +35,6 @@ public class SpawnHelper {
             spawned = spawnMob(world, entities, heldStack, effects, pos.getX() + x, pos.getY() + y, pos.getZ() + z, random);
         }
 
-        if (spawned == null) {
-            WoldsVaults.LOGGER.warn("Failed to spawn mob after {} attempts at {} in {}", maxAttempts, pos, world.getLevel().dimension());
-        }
-
         return spawned;
     }
 

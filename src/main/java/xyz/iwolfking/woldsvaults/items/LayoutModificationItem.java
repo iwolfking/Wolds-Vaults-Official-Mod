@@ -87,7 +87,7 @@ public class LayoutModificationItem extends Item
 
         tag.putString(TAG_LAYOUT, layoutId);
         tag.putInt(LEGACY_TUNNEL, 1);
-        tag.putInt(LEGACY_VALUE, 1);
+        tag.putInt(LEGACY_VALUE, value);
 
         return stack;
     }

@@ -9,6 +9,8 @@ public class ModLayoutDefinitions {
         LayoutDefinitionRegistry.register(new SpiralLayoutDefinition());
         LayoutDefinitionRegistry.register(new PolygonLayoutDefinition());
         LayoutDefinitionRegistry.register(new InfiniteLayoutDefinition());
-        LayoutDefinitionRegistry.register(new TestLayoutDefinition());
+        LayoutDefinitionRegistry.register(new TunnelLayoutDefinition());
+        LayoutDefinitionRegistry.register(new RingsLayoutDefinition());
+        LayoutDefinitionRegistry.register(new WaveLayoutDefinition());
     }
 }

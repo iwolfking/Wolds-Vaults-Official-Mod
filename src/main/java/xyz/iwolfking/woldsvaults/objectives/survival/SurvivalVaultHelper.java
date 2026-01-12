@@ -13,19 +13,21 @@ import net.minecraft.world.entity.player.Player;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 public class SurvivalVaultHelper {
+
     public static void setBaseVaultTimer(Vault vault) {
         vault.ifPresent(Vault.CLOCK, clock -> {
             if(clock instanceof TickClock && clock.get(TickClock.GLOBAL_TIME) < 5) {
-                clock.set(TickClock.DISPLAY_TIME, 600);
+                clock.set(TickClock.DISPLAY_TIME, 1200);
             }
         });
     }
 
 
+    //TODO: Use values from config
     public static void handleKillTimeExtensions(SurvivalObjective obj, VirtualWorld world, Vault vault) {
         CommonEvents.ENTITY_DEATH.register(obj, event -> {
             if(event.getEntity().level != world) return;
-            if(event.getSource().getEntity() instanceof Player) {
+            if(event.getSource().getEntity() instanceof Player player) {
                 int timeLeft = vault.get(Vault.CLOCK).get(TickClock.DISPLAY_TIME);
                 int increase = 60;
                 TickClock clock = vault.get(Vault.CLOCK);

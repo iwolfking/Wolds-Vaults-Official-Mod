@@ -11,7 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicSerpentineLayout;
+import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicRingsLayout;
+import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicTunnelLayout;
+import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicWaveLayout;
 import xyz.iwolfking.woldsvaults.modifiers.clock.KillMobTimeExtension;
 
 @Mixin(value = VaultRegistry.class, remap = false)
@@ -27,9 +29,8 @@ public class MixinVaultRegistry {
     @Inject(method = "<clinit>", at = @At(value = "TAIL"))
     private static void injectRegistries(CallbackInfo ci) {
         CLOCK_MODIFIER.add(KillMobTimeExtension.KEY);
-        GRID_LAYOUT.add(ClassicSerpentineLayout.KEY);
-        GRID_LAYOUT.getKeys().forEach(supplierKey -> {
-            WoldsVaults.LOGGER.info(supplierKey.getId().toString());
-        });
+        GRID_LAYOUT.add(ClassicTunnelLayout.KEY);
+        GRID_LAYOUT.add(ClassicRingsLayout.KEY);
+        GRID_LAYOUT.add(ClassicWaveLayout.KEY);
     }
 }

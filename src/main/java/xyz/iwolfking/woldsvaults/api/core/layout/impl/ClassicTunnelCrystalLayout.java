@@ -5,7 +5,7 @@ import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.WorldManager;
 import iskallia.vault.core.world.generator.GridGenerator;
-import iskallia.vault.core.world.generator.layout.ClassicCircleLayout;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,18 +16,18 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.TooltipFlag;
 
-public class ClassicTestCrystalLayout extends ClassicInfiniteCrystalLayout {
+public class ClassicTunnelCrystalLayout extends ClassicInfiniteCrystalLayout {
    protected int width;
-   protected int rowStep;
+   protected int height;
    protected int branchInterval;
 
-   public ClassicTestCrystalLayout() {
+   public ClassicTunnelCrystalLayout() {
    }
 
-   public ClassicTestCrystalLayout(int tunnelSpan, int width, int rowStep, int branchInterval) {
+   public ClassicTunnelCrystalLayout(int tunnelSpan, int width, int height, int branchInterval) {
       super(tunnelSpan);
       this.width = width;
-      this.rowStep= rowStep;
+      this.height = height;
       this.branchInterval = branchInterval;
    }
 
@@ -35,23 +35,23 @@ public class ClassicTestCrystalLayout extends ClassicInfiniteCrystalLayout {
    public void configure(Vault vault, RandomSource random, String sigil) {
       vault.getOptional(Vault.WORLD).map(world -> world.get(WorldManager.GENERATOR)).ifPresent(generator -> {
          if (generator instanceof GridGenerator grid) {
-            grid.set(GridGenerator.LAYOUT, new ClassicSerpentineLayout(this.tunnelSpan, this.width, this.rowStep, this.branchInterval));
+            grid.set(GridGenerator.LAYOUT, new ClassicTunnelLayout(this.tunnelSpan, this.width, this.height, this.branchInterval));
          }
       });
    }
 
    @Override
    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level) {
-      tooltip.add(new TextComponent("Layout: ").append(new TextComponent("Serpentine").withStyle(ChatFormatting.GREEN)));
+      tooltip.add(new TextComponent("Layout: ").append(new TextComponent("Tunnels").withStyle(ChatFormatting.GREEN)));
    }
 
    @Override
    public Optional<CompoundTag> writeNbt() {
       return super.writeNbt().map(nbt -> {
          nbt.putInt("width", this.width);
-         nbt.putInt("rowStep", this.rowStep);
+         nbt.putInt("height", this.height);
          nbt.putInt("branchInterval", this.branchInterval);
-         return (CompoundTag)nbt;
+         return nbt;
       });
    }
 
@@ -59,7 +59,7 @@ public class ClassicTestCrystalLayout extends ClassicInfiniteCrystalLayout {
    public void readNbt(CompoundTag nbt) {
       super.readNbt(nbt);
       this.width = nbt.getInt("width");
-      this.rowStep = nbt.getInt("rowStep");
+      this.height = nbt.getInt("height");
       this.branchInterval = nbt.getInt("branchInterval");
    }
 
@@ -67,9 +67,9 @@ public class ClassicTestCrystalLayout extends ClassicInfiniteCrystalLayout {
    public Optional<JsonObject> writeJson() {
       return super.writeJson().map(json -> {
          json.addProperty("width", this.width);
-         json.addProperty("rowStep", this.width);
-         json.addProperty("branchInterval", this.width);
-         return (JsonObject)json;
+         json.addProperty("height", this.height);
+         json.addProperty("branchInterval", this.branchInterval);
+         return json;
       });
    }
 
@@ -77,16 +77,16 @@ public class ClassicTestCrystalLayout extends ClassicInfiniteCrystalLayout {
    public void readJson(JsonObject json) {
       super.readJson(json);
       this.width = json.get("width").getAsInt();
-      this.width = json.get("rowStep").getAsInt();
-      this.width = json.get("branchInterval").getAsInt();
+      this.height = json.get("height").getAsInt();
+      this.branchInterval = json.get("branchInterval").getAsInt();
    }
 
    public int getWidth() {
       return width;
    }
 
-   public int getRowStep() {
-      return rowStep;
+   public int getHeight() {
+      return height;
    }
 
    public int getBranchInterval() {

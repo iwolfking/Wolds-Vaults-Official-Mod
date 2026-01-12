@@ -26,17 +26,9 @@ public class CompoundCrystalObjective extends WoldCrystalObjective{
 
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
-        int level = vault.get(Vault.LEVEL).get();
+        int level = (vault.get(Vault.LEVEL)).get();
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            IntSupplier limitedWave = () -> random.nextInt(3) + 1;
-
-            int obelisks = random.nextInt(3) + 3;
-
-            objectives.add(BrutalBossesObjective.of(obelisks, limitedWave, 0.25F)
-                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("BRUTAL_BOSSES"), "brutal_bosses", level, true))
-                    .add(VictoryObjective.of(300)));
-//            ElixirObjective elixirObjective = ElixirObjective.create().withTargetMultiplier(1.0F);
-//            objectives.add(elixirObjective.add(LodestoneObjective.of(0.25F).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.ELIXIR, "elixir", level, true)).add(VictoryObjective.of(300))));
+            objectives.add(ZealotObjective.of(10, 0).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ZEALOT"), "zealot", level, true)));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));

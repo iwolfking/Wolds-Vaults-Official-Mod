@@ -26,6 +26,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -34,6 +35,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import xyz.iwolfking.vhapi.api.events.vault.VaultEvents;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalSpawnManager;
 import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalVaultHelper;
@@ -110,13 +112,13 @@ public class SurvivalObjective extends Objective {
 
     @Override
     public void tickServer(VirtualWorld world, Vault vault) {
-        if (this.get(COMPLETED)) {
-            handlePostCompletion(world, vault);
+        //Do nothing while vault is paused.
+        if(vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
             return;
         }
 
-        //Do nothing while vault is paused.
-        if(vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
+        if (this.get(COMPLETED)) {
+            handlePostCompletion(world, vault);
             return;
         }
 
@@ -133,6 +135,8 @@ public class SurvivalObjective extends Objective {
 
     private void completeObjective(VirtualWorld world, Vault vault) {
         this.set(COMPLETED, true);
+
+        WoldVaultUtils.sendMessageToAllRunners(vault, new TranslatableComponent("vault_objective.woldsvaults.survival_completion"), true);
 
         this.get(CHILDREN).forEach(child -> child.tickServer(world, vault));
     }

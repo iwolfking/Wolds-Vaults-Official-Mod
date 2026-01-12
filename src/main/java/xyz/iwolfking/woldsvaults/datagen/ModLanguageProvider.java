@@ -89,6 +89,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("vault_event.woldsvaults.cockroach_celebrate", "The dancing cockroaches are fond towards you and bless each player with 3 random positive events!");
         add("vault_event.woldsvaults.cockroach_hate", "The dancing cockroaches hate your guts and curse everyone in the vault with 3 random negative events!");
         add("misc.woldsvaults.flight_block_0", "You cannot fly inside the Vault!");
+        add("vault_objective.woldsvaults.survival_completion", "You are now able to leave the vault at any time to reap your current rewards.");
         add("vault_objective.woldsvaults.corrupted_exit", "Find an escape.");
         add("vault_objective.woldsvaults.corrupted_shatter", "You sense a portal shattering");
         add("vault_objective.woldsvaults.corrupted_complete", "Vault Completed!");
