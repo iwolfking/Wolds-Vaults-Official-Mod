@@ -9,7 +9,6 @@ import iskallia.vault.core.util.RegionPos;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.world.generator.layout.ClassicInfiniteLayout;
 import iskallia.vault.core.world.generator.layout.GridLayout;
-import iskallia.vault.core.world.generator.layout.VaultLayout;
 
 public class ClassicSerpentineLayout extends ClassicInfiniteLayout {
 
@@ -59,89 +58,90 @@ public class ClassicSerpentineLayout extends ClassicInfiniteLayout {
         return FIELDS;
     }
 
+    protected boolean isRoomAllowed(Vault vault, int x, int z) {
 
-    private boolean isSnakeRoom(int x, int z, int unit) {
-        int rowStep = this.get(ROW_STEP) * unit;
+        // Start room always allowed
+        if (x == 0 && z == 0) {
+            return true;
+        }
 
-        if (Math.floorMod(z, rowStep) != 0) {
+        int width  = this.get(WIDTH);
+
+        if (z < 0 || z >= width) {
             return false;
         }
 
-        int row = Math.floorDiv(z, rowStep);
-        int maxX = this.get(WIDTH) * unit;
+        boolean leftToRight = (z % 2 == 0);
 
-        if ((row & 1) == 0) {
-            return x >= -maxX && x <= maxX;
-        } else {
-            return x >= -maxX && x <= maxX;
+        int minX = leftToRight ? 0 : -(width - 1);
+        int maxX = leftToRight ? (width - 1) : 0;
+
+        // === Spine ===
+        if (x >= minX && x <= maxX) {
+            return true;
         }
-    }
 
-    private boolean isBranchRoom(int x, int z, int unit) {
-        int rowStep = this.get(ROW_STEP) * unit;
+        // === Branches ===
+        int branchSpacing = this.get(ROW_STEP);
+        int branchLength  = this.get(BRANCH_INTERVAL);
 
-        if (Math.floorMod(z, rowStep) != 0) {
+        // Only branch off at regular spine intervals
+        int localX = leftToRight ? x : -x;
+        if (localX < 0 || localX >= width) {
             return false;
         }
 
-        int row = Math.floorDiv(z, rowStep);
-        int interval = this.get(BRANCH_INTERVAL);
-
-        if (interval <= 0 || Math.abs(row) % interval != 0) {
+        if (localX % branchSpacing != 0) {
             return false;
         }
 
-        int maxX = this.get(WIDTH) * unit;
-        return x == maxX + unit || x == -maxX - unit;
-    }
+        // Branch direction alternates by row
+        int branchDir = (z % 4 < 2) ? 1 : -1;
 
-    private boolean isBridgeRoom(int x, int z, int unit) {
-        int rowStep = this.get(ROW_STEP) * unit;
+        int dz = z + branchDir;
 
-        // Middle room between snake rows
-        if (Math.floorMod(z, rowStep) != unit) {
+        // Prevent branch collision with adjacent rows
+        if (dz < 0 || dz >= width) {
             return false;
         }
 
-        int maxX = this.get(WIDTH) * unit;
-        return x >= -maxX && x <= maxX;
+        int distance = Math.abs(z - dz);
+        return distance <= branchLength;
     }
-
-
-    private boolean isValidRoom(int x, int z, int unit) {
-        return isSnakeRoom(x, z, unit)
-                || isBridgeRoom(x, z, unit)
-                || isBranchRoom(x, z, unit);
-    }
-
 
     @Override
-    public VaultLayout.PieceType getType(Vault vault, RegionPos region) {
+    public PieceType getType(Vault vault, RegionPos region) {
+        int unit = this.get(TUNNEL_SPAN) + 1;
         int x = region.getX();
         int z = region.getZ();
-        int unit = this.get(TUNNEL_SPAN) + 1;
 
-        if (!isValidRoom(x, z, unit)) {
-            return VaultLayout.PieceType.NONE;
+        if (!isRoomAllowed(vault, x / unit, z / unit)) {
+            return PieceType.NONE;
         }
 
-        VaultLayout.PieceType type = super.getType(vault, region);
+        PieceType type = super.getType(vault, region);
 
-        if (type.isTunnel()) {
-            int nx = x;
-            int nz = z;
-
-            if (type == VaultLayout.PieceType.TUNNEL_X) {
-                nx += unit;
-            } else if (type == VaultLayout.PieceType.TUNNEL_Z) {
-                nz += unit;
+        if (type == PieceType.TUNNEL_X) {
+            int xRoom1 = x - Math.floorMod(x, unit);
+            int xRoom2 = xRoom1 + unit;
+            if (!this.getType(vault, region.with(xRoom1, z)).connectsToTunnel()) {
+                return PieceType.NONE;
             }
 
-            if (!isValidRoom(nx, nz, unit)) {
-                return VaultLayout.PieceType.NONE;
+            if (!this.getType(vault, region.with(xRoom2, z)).connectsToTunnel()) {
+                return PieceType.NONE;
+            }
+        } else if (type == PieceType.TUNNEL_Z) {
+            int zRoom1 = z - Math.floorMod(z, unit);
+            int zRoom2 = zRoom1 + unit;
+            if (!this.getType(vault, region.with(x, zRoom1)).connectsToTunnel()) {
+                return PieceType.NONE;
+            }
+
+            if (!this.getType(vault, region.with(x, zRoom2)).connectsToTunnel()) {
+                return PieceType.NONE;
             }
         }
-
         return type;
     }
 }
