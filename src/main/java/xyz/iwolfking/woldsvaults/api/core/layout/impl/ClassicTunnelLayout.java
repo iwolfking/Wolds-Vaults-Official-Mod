@@ -99,14 +99,12 @@ public class ClassicTunnelLayout extends ClassicInfiniteLayout {
         int rx = region.getX() / unit;
         int rz = region.getZ() / unit;
 
-        // Only allow rooms that actually exist
         if (!isRoomAllowed(rx, rz)) {
             return PieceType.NONE;
         }
 
         PieceType type = super.getType(vault, region);
 
-        // Check horizontal neighbors if this is a horizontal tunnel
         if (type == PieceType.TUNNEL_X) {
             int x1 = region.getX() - Math.floorMod(region.getX(), unit);
             int x2 = x1 + unit;
@@ -120,7 +118,6 @@ public class ClassicTunnelLayout extends ClassicInfiniteLayout {
                 return PieceType.NONE;
         }
 
-        // Check vertical neighbors if this is a vertical tunnel
         if (type == PieceType.TUNNEL_Z) {
             int z1 = region.getZ() - Math.floorMod(region.getZ(), unit);
             int z2 = z1 + unit;

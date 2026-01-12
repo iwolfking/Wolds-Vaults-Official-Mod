@@ -4,12 +4,13 @@ import iskallia.vault.item.crystal.layout.CrystalLayout;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public final class LayoutDefinitionRegistry {
 
-    private static final Map<String, LayoutDefinition> DEFINITIONS = new HashMap<>();
+    private static final Map<String, LayoutDefinition> DEFINITIONS = new LinkedHashMap<>();
 
     public static void register(LayoutDefinition def) {
         DEFINITIONS.put(def.id(), def);

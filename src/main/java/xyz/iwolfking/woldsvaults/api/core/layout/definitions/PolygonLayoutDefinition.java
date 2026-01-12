@@ -30,9 +30,12 @@ public class PolygonLayoutDefinition implements LayoutDefinition {
     @Override
     public void writeFromLayout(CrystalLayout layout, CompoundTag data) {
         ClassicPolygonCrystalLayout poly = (ClassicPolygonCrystalLayout) layout;
-        data.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) poly).getTunnelSpan());
-        data.putIntArray("vertices",
+        data.putString("layout", id());
+        CompoundTag layoutData = new CompoundTag();
+        layoutData.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) poly).getTunnelSpan());
+        layoutData.putIntArray("vertices",
                 ((ClassicPolygonCrystalLayoutAccessor) poly).getVertices());
+        data.put("layout_data", layoutData);
     }
     
 

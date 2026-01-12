@@ -6,7 +6,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicCircleCrystalLayoutAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicInfiniteCrystalLayoutAccessor;
 
 import java.util.List;
@@ -27,7 +29,10 @@ public class InfiniteLayoutDefinition implements LayoutDefinition {
     @Override
     public void writeFromLayout(CrystalLayout layout, CompoundTag data) {
         ClassicInfiniteCrystalLayout infinite = (ClassicInfiniteCrystalLayout) layout;
+        data.putString("layout", id());
+        CompoundTag layoutData = new CompoundTag();
         data.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) infinite).getTunnelSpan());
+        data.put("layout_data", layoutData);
     }
 
     @Override
@@ -41,7 +46,7 @@ public class InfiniteLayoutDefinition implements LayoutDefinition {
 
     @Override
     public boolean supports(CrystalLayout layout) {
-        return layout instanceof ClassicInfiniteCrystalLayout;
+        return layout.getClass().equals(ClassicInfiniteCrystalLayout.class);
     }
 
     @Override

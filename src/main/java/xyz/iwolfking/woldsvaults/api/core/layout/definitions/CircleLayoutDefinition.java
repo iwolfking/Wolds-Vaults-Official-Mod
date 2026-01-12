@@ -29,8 +29,11 @@ public class CircleLayoutDefinition implements LayoutDefinition {
     @Override
     public void writeFromLayout(CrystalLayout layout, CompoundTag data) {
         ClassicCircleCrystalLayout circle = (ClassicCircleCrystalLayout) layout;
-        data.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) circle).getTunnelSpan());
-        data.putInt("radius", ((ClassicCircleCrystalLayoutAccessor) circle).getRadius());
+        data.putString("layout", id());
+        CompoundTag layoutData = new CompoundTag();
+        layoutData.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) circle).getTunnelSpan());
+        layoutData.putInt("radius", ((ClassicCircleCrystalLayoutAccessor) circle).getRadius());
+        data.put("layout_data", layoutData);
     }
 
     @Override

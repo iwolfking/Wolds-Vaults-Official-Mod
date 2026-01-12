@@ -5,21 +5,41 @@ import dev.attackeight.just_enough_vh.jei.JEIRecipeProvider;
 import dev.attackeight.just_enough_vh.jei.RecyclerRecipe;
 import dev.attackeight.just_enough_vh.jei.TheVaultJEIPlugin;
 import dev.attackeight.just_enough_vh.jei.category.ForgeItemRecipeCategory;
+import iskallia.vault.VaultMod;
 import iskallia.vault.config.ShopPedestalConfig;
 import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.fml.loading.LoadingModList;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
+import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfo;
+import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfoRecipeCategory;
+import xyz.iwolfking.vhapi.integration.the_vault.VaultSealHelper;
+import xyz.iwolfking.vhapi.integration.wolds.WoldsSealHelper;
+import xyz.iwolfking.vhapi.mixin.accessors.TemporalShardConfigAccessor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
@@ -30,9 +50,15 @@ import xyz.iwolfking.woldsvaults.init.ModRecipeTypes;
 import xyz.iwolfking.woldsvaults.integration.jei.category.*;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.GenericLootableBoxCategory;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.ShopTierCategory;
+import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
+import static mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT;
 
 @JeiPlugin
 @SuppressWarnings("unused")
@@ -60,6 +86,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<ForgeItem> MOD_BOX_WORKSTATION = RecipeType.create(WoldsVaults.MOD_ID, "mod_box_workstation", ForgeItem.class);
     public static final RecipeType<ForgeItem> AUGMENTS_ASSEMBLY = RecipeType.create(WoldsVaults.MOD_ID, "augment_assembly", ForgeItem.class);
     public static final RecipeType<ForgeItem> WEAVING = RecipeType.create(WoldsVaults.MOD_ID, "weaving", ForgeItem.class);
+    public static final RecipeType<LabeledLootInfo> LAYOUTS = RecipeType.create(WoldsVaults.MOD_ID, "layouts", LabeledLootInfo.class);
 
     public WoldsVaultsJeiPlugin() {}
     @Override
@@ -94,6 +121,9 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MOD_BOX_WORKSTATION), MOD_BOX_WORKSTATION);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.AUGMENT_CRAFTING_TABLE), AUGMENTS_ASSEMBLY);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.WEAVING_STATION), WEAVING);
+
+        registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModItems.VAULT_CRYSTAL), LAYOUTS);
+        registration.addRecipeCatalyst(new ItemStack(ModItems.LAYOUT_MANIPULATOR), LAYOUTS);
     }
 
     @Override
@@ -121,6 +151,8 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, MOD_BOX_WORKSTATION, new ItemStack(ModBlocks.MOD_BOX_WORKSTATION.asItem())));
         registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, AUGMENTS_ASSEMBLY, new ItemStack(ModBlocks.AUGMENT_CRAFTING_TABLE.asItem())));
         registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, WEAVING, new ItemStack(ModBlocks.WEAVING_STATION.asItem())));
+
+        registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, LAYOUTS, ModItems.LAYOUT_MANIPULATOR, new TextComponent("Vault Layouts")));
     }
 
     @Override @SuppressWarnings("removal")
@@ -154,6 +186,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(MOD_BOX_WORKSTATION, getForgeRecipes(ModConfigs.MOD_BOX_RECIPES_CONFIG.getConfigRecipes()));
         registration.addRecipes(AUGMENTS_ASSEMBLY, getForgeRecipes(ModConfigs.AUGMENT_RECIPES.getConfigRecipes()));
         registration.addRecipes(WEAVING, getForgeRecipes(ModConfigs.WEAVING_RECIPES_CONFIG.getConfigRecipes()));
+        registration.addRecipes(LAYOUTS, getLayoutsPerLevel());
         addCustomRecyclerRecipes(registration);
     }
 
@@ -189,4 +222,74 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         }
         return out;
     }
+
+
+    public static List<LabeledLootInfo> getLayoutsPerLevel() {
+        List<LabeledLootInfo> lootInfo = new ArrayList<>();
+        iskallia.vault.init.ModConfigs.VAULT_CRYSTAL.LAYOUTS.forEach((layouts) -> {
+            List<ItemStack> layoutStacks = new ArrayList<>();
+            int totalWeight = (int) layouts.pool.getTotalWeight();
+            int level = layouts.level;
+            layouts.pool.forEach((layout, aDouble) -> {
+                ItemStack layoutStack = LayoutModificationItem.create(layout);
+                layoutStacks.add(formatItemStack(layoutStack, 1, 1, aDouble, totalWeight, 1));
+            });
+            lootInfo.add(LabeledLootInfo.of(layoutStacks, new TextComponent( "Layouts - Level " + level), null));
+        });
+
+        return lootInfo;
+    }
+
+
+    protected static ItemStack formatItemStack(ItemStack item, int amountMin, int amountMax, double weight, double totalWeight, @Nullable Integer amount) {
+        return formatItemStack(item, amountMin, amountMax, weight, totalWeight, amount, (String)null);
+    }
+
+    private static ItemStack formatItemStack(ItemStack item, int amountMin, int amountMax, double weight, double totalWeight, @Nullable Integer amount, @Nullable String rollText) {
+        ItemStack result = item.copy();
+        if (item.isEmpty()) {
+            result = new ItemStack(Items.BARRIER);
+            result.setHoverName(new TextComponent("Nothing"));
+        }
+        else if(item.getItem() instanceof BlockItem blockItem && blockItem.getBlock().equals(Blocks.BARRIER)) {
+            result.setHoverName(new TextComponent("Invalid Entry"));
+        }
+
+        result.setCount(amount == null ? amountMax : amount);
+        double chance = weight / totalWeight * (double)100.0F;
+        CompoundTag nbt = result.getOrCreateTagElement("display");
+        ListTag list = nbt.getList("Lore", 8);
+        MutableComponent chanceLabel = new TextComponent("Chance: ");
+        chanceLabel.append(String.format("%.2f", chance));
+        chanceLabel.append("%");
+        list.add(StringTag.valueOf(Component.Serializer.toJson(chanceLabel.withStyle(ChatFormatting.YELLOW))));
+        if (amountMin != amountMax) {
+            MutableComponent countLabel = new TextComponent(amount == null ? "Count: " : "Cost: ");
+            countLabel.append(amountMin + " - " + amountMax);
+            list.add(StringTag.valueOf(Component.Serializer.toJson(countLabel)));
+        }
+
+        if (rollText != null) {
+            MutableComponent rollLabel = new TextComponent(rollText);
+            list.add(StringTag.valueOf(Component.Serializer.toJson(rollLabel.withStyle(ChatFormatting.DARK_AQUA))));
+        }
+
+        nbt.put("Lore", list);
+        return result;
+    }
+
+    public static LabeledLootInfoRecipeCategory makeLabeledLootInfoCategory(IGuiHelper guiHelper, RecipeType<LabeledLootInfo> recipeType, ItemLike icon) {
+        return new LabeledLootInfoRecipeCategory(guiHelper, recipeType, new ItemStack(icon), OUTPUT);
+    }
+
+    public static LabeledLootInfoRecipeCategory makeLabeledLootInfoCategory(IGuiHelper guiHelper, RecipeType<LabeledLootInfo> recipeType, ItemLike icon, Component title) {
+        return new LabeledLootInfoRecipeCategory(guiHelper, recipeType, new ItemStack(icon), title, OUTPUT);
+    }
+
+    public static LabeledLootInfoRecipeCategory makeLabeledIngredientPoolCategory(IGuiHelper guiHelper, RecipeType<LabeledLootInfo> recipeType, ItemLike icon) {
+        return new LabeledLootInfoRecipeCategory(guiHelper, recipeType, new ItemStack(icon), INPUT);
+    }
+
+
+
 }

@@ -71,6 +71,20 @@ public class LayoutModificationItem extends Item
         return upgraded;
     }
 
+    public static ItemStack create(CrystalLayout layout) {
+        ItemStack stack = new ItemStack(ModItems.LAYOUT_MANIPULATOR);
+        CompoundTag tag = stack.getOrCreateTag();
+        LayoutDefinition definition = LayoutDefinitionRegistry.getForLayout(layout).orElse(null);
+
+        if(definition == null) {
+            return ItemStack.EMPTY;
+        }
+
+        definition.writeFromLayout(layout, tag);
+
+        return stack;
+    }
+
     public static ItemStack create(String layoutId, CompoundTag layoutData) {
         ItemStack stack = new ItemStack(ModItems.LAYOUT_MANIPULATOR);
         CompoundTag tag = stack.getOrCreateTag();

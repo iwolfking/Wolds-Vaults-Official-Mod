@@ -8,6 +8,7 @@ import net.minecraft.network.chat.TextComponent;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicTunnelCrystalLayout;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicInfiniteCrystalLayoutAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicSpiralCrystalLayoutAccessor;
 
 import java.util.List;
 
@@ -30,10 +31,13 @@ public class TunnelLayoutDefinition implements LayoutDefinition {
     @Override
     public void writeFromLayout(CrystalLayout layout, CompoundTag data) {
         ClassicTunnelCrystalLayout tunnelLayout = (ClassicTunnelCrystalLayout) layout;
-        data.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) tunnelLayout).getTunnelSpan());
-        data.putInt("width",  tunnelLayout.getWidth());
-        data.putInt("height",  tunnelLayout.getHeight());
-        data.putInt("branchInterval",  tunnelLayout.getBranchInterval());
+        data.putString("layout", id());
+        CompoundTag layoutData = new CompoundTag();
+        layoutData.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) tunnelLayout).getTunnelSpan());
+        layoutData.putInt("width",  tunnelLayout.getWidth());
+        layoutData.putInt("height",  tunnelLayout.getHeight());
+        layoutData.putInt("branchInterval",  tunnelLayout.getBranchInterval());
+        data.put("layout_data", layoutData);
     }
 
     @Override

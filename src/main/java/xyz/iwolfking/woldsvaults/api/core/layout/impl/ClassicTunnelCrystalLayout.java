@@ -42,7 +42,7 @@ public class ClassicTunnelCrystalLayout extends ClassicInfiniteCrystalLayout {
 
    @Override
    public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level) {
-      tooltip.add(new TextComponent("Layout: ").append(new TextComponent("Tunnels").withStyle(ChatFormatting.GREEN)));
+      tooltip.add(new TextComponent("Layout: ").append(new TextComponent("Tunnels").withStyle(ChatFormatting.DARK_PURPLE)));
    }
 
    @Override

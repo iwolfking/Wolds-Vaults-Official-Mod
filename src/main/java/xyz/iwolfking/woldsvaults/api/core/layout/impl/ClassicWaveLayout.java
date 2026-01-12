@@ -65,37 +65,19 @@ public class ClassicWaveLayout extends ClassicInfiniteLayout {
         int amplitude = this.get(AMPLITUDE);
         double frequency = this.get(FREQUENCY);
 
-        if (x == 0 && z == 0) return true; // start room
+        if (x == 0 && z == 0) return true;
 
-        for (Direction dir : Direction.values()) { // NESW
-            int forward = 0, perpendicular = 0;
+        int northWave = (int) Math.round(amplitude * Math.sin(frequency * (length - z)));
+        if (z >= 0 && z <= length && Math.abs(x - northWave) <= 1) return true;
 
-            perpendicular = switch (dir) {
-                case NORTH -> {
-                    forward = -z;
-                    yield x;
-                }
-                case SOUTH -> {
-                    forward = z;
-                    yield x;
-                }
-                case EAST -> {
-                    forward = x;
-                    yield z;
-                }
-                case WEST -> {
-                    forward = -x;
-                    yield z;
-                }
-                default -> perpendicular;
-            };
+        int southWave = (int) Math.round(amplitude * Math.sin(frequency * (length + z)));
+        if (z <= 0 && z >= -length && Math.abs(x - southWave) <= 1) return true;
 
-            if (forward < 0 || forward > length) continue;
+        int eastWave = (int) Math.round(amplitude * Math.sin(frequency * (length + x)));
+        if (x <= 0 && x >= -length && Math.abs(z - eastWave) <= 1) return true;
 
-            int wave = (int) Math.round(amplitude * Math.sin(frequency * forward));
-            if (perpendicular == wave) return true;          // wave path
-            if (perpendicular == wave + 1 || perpendicular == wave - 1) return true; // side branch
-        }
+        int westWave = (int) Math.round(amplitude * Math.sin(frequency * (length - x)));
+        if (x >= 0 && x <= length && Math.abs(z - westWave) <= 1) return true;
 
         return false;
     }
@@ -111,7 +93,6 @@ public class ClassicWaveLayout extends ClassicInfiniteLayout {
 
         PieceType type = super.getType(vault, region);
 
-        // check neighbors along X
         if (type == PieceType.TUNNEL_X) {
             int x1 = region.getX() - Math.floorMod(region.getX(), unit);
             int x2 = x1 + unit;
@@ -122,7 +103,6 @@ public class ClassicWaveLayout extends ClassicInfiniteLayout {
                 !super.getType(vault, region.with(x2, region.getZ())).connectsToTunnel()) return PieceType.NONE;
         }
 
-        // check neighbors along Z
         if (type == PieceType.TUNNEL_Z) {
             int z1 = region.getZ() - Math.floorMod(region.getZ(), unit);
             int z2 = z1 + unit;

@@ -10,6 +10,7 @@ import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicRingsCrystalLayout;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicCircleCrystalLayoutAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicInfiniteCrystalLayoutAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicPolygonCrystalLayoutAccessor;
 
 import java.util.List;
 
@@ -30,16 +31,19 @@ public class RingsLayoutDefinition implements LayoutDefinition {
 
     @Override
     public void writeFromLayout(CrystalLayout layout, CompoundTag data) {
-        ClassicRingsCrystalLayout circle = (ClassicRingsCrystalLayout) layout;
-        data.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) circle).getTunnelSpan());
-        data.putInt("radius", circle.getRadius());
-        data.putInt("ringInterval", circle.getRingInterval());
+        ClassicRingsCrystalLayout rings = (ClassicRingsCrystalLayout) layout;
+        data.putString("layout", id());
+        CompoundTag layoutData = new CompoundTag();
+        layoutData.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) rings).getTunnelSpan());
+        layoutData.putInt("radius", rings.getRadius());
+        layoutData.putInt("ringInterval", rings.getRingInterval());
+        data.put("layout_data", layoutData);
     }
 
     @Override
     public void addTooltip(CompoundTag data, List<Component> tooltip) {
         tooltip.add(new TextComponent("Layout: ")
-                .append(new TextComponent("Rings").withStyle(s -> s.withColor(0x30B3F2))));
+                .append(new TextComponent("Rings").withStyle(s -> s.withColor(0xab73c7))));
         tooltip.add(new TextComponent("Tunnel Span: ")
                 .append(new TextComponent(String.valueOf(data.getInt("tunnel")))
                         .withStyle(ChatFormatting.GOLD)));

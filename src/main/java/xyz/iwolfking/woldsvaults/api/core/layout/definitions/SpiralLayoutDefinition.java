@@ -30,9 +30,12 @@ public class SpiralLayoutDefinition implements LayoutDefinition {
     @Override
     public void writeFromLayout(CrystalLayout layout, CompoundTag data) {
         ClassicSpiralCrystalLayout spiral = (ClassicSpiralCrystalLayout) layout;
-        data.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) spiral).getTunnelSpan());
-        data.putInt("halfLength", ((ClassicSpiralCrystalLayoutAccessor) spiral).getHalfLength());
-        data.putString("rotation", ((ClassicSpiralCrystalLayoutAccessor) spiral).getRotation().name());
+        data.putString("layout", id());
+        CompoundTag layoutData = new CompoundTag();
+        layoutData.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) spiral).getTunnelSpan());
+        layoutData.putInt("halfLength", ((ClassicSpiralCrystalLayoutAccessor) spiral).getHalfLength());
+        layoutData.putString("rotation", ((ClassicSpiralCrystalLayoutAccessor) spiral).getRotation().name());
+        data.put("layout_data", layoutData);
     }
 
     @Override

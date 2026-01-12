@@ -31,17 +31,20 @@ public class WaveLayoutDefinition implements LayoutDefinition {
 
     @Override
     public void writeFromLayout(CrystalLayout layout, CompoundTag data) {
+        data.putString("layout", id());
         ClassicWaveCrystalLayout wave = (ClassicWaveCrystalLayout) layout;
-        data.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) wave).getTunnelSpan());
-        data.putInt("length", wave.getLength());
-        data.putInt("amplitude", wave.getAmplitude());
-        data.putDouble("frequency", wave.getFrequency());
+        CompoundTag layoutData = new CompoundTag();
+        layoutData.putInt("tunnel", ((ClassicInfiniteCrystalLayoutAccessor) wave).getTunnelSpan());
+        layoutData.putInt("length", wave.getLength());
+        layoutData.putInt("amplitude", wave.getAmplitude());
+        layoutData.putDouble("frequency", wave.getFrequency());
+        data.put("layout_data", layoutData);
     }
 
     @Override
     public void addTooltip(CompoundTag data, List<Component> tooltip) {
         tooltip.add(new TextComponent("Layout: ")
-                .append(new TextComponent("Rings").withStyle(s -> s.withColor(0x30B3F2))));
+                .append(new TextComponent("Wave").withStyle(s -> s.withColor(0x30B3F2))));
         tooltip.add(new TextComponent("Tunnel Span: ")
                 .append(new TextComponent(String.valueOf(data.getInt("tunnel")))
                         .withStyle(ChatFormatting.GOLD)));
