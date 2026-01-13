@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "XCX",
+    "CCC",
     "COC",
-    "XCX"
+    "CCC"
   ],
   "key": {
     "C": {
@@ -11,9 +11,6 @@
     },
     "O": {
       "item": "woldsvaults:heart_of_chaos"
-    },
-    "X": {
-      "item": "the_vault:gem_black_opal"
     }
   },
   "result": {

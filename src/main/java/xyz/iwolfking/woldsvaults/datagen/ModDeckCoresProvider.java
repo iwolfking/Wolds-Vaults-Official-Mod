@@ -101,6 +101,10 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             plutoDeckModifier.modifierRolls.put("lesser", variant("Lesser Pluto Core", FloatRoll.ofUniform(0.2F, 0.2F), 13618375, "woldsvaults:deck_cores/pluto_deck_core_lesser#inventory"));
             plutoDeckModifier.modifierRolls.put("greater", variant("Greater Pluto Core", FloatRoll.ofUniform(0.5F, 0.75F), 16769382, "woldsvaults:deck_cores/pluto_deck_core_greater#inventory"));
 
+            GroupSynergyDeckModifier.Config premiumCoreModifier = new GroupSynergyDeckModifier.Config(FloatRoll.ofUniform(0.1F, 0.2F), List.of("Deluxe"), List.of(), true);
+            premiumCoreModifier.modifierRolls.put("lesser", variant("Lesser Premium Core", FloatRoll.ofUniform(0.1F, 0.1F), 13618375, "woldsvaults:deck_cores/premium_deck_core_lesser#inventory"));
+            premiumCoreModifier.modifierRolls.put("greater", variant("Greater Premium Core", FloatRoll.ofUniform(0.2F, 0.4F), 16769382, "woldsvaults:deck_cores/premium_deck_core_greater#inventory"));
+
 
             builder.addCore("arsenal", GlobalDeckModifier::new, arsenalModifierConfig, "Arsenal Core", 13618375,"woldsvaults:deck_cores/arsenal_deck_core#inventory");
             builder.addCore("aegis", GlobalDeckModifier::new, aegisModifierConfig,"Aegis Core", 13618375,"woldsvaults:deck_cores/aegis_deck_core#inventory");
@@ -116,6 +120,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             builder.addCore("adept", ArcaneSlotDeckModifier::new, adeptDeckModifier,"Adept Core", 13618375,"woldsvaults:deck_cores/adept_deck_core#inventory");
             builder.addCore("jupiter", DominanceDeckModifier::new, jupiterDeckModifier,"Jupiter Core", 13618375,"woldsvaults:deck_cores/jupiter_deck_core#inventory");
             builder.addCore("pluto", DominanceDeckModifier::new, plutoDeckModifier,"Pluto Core", 13618375,"woldsvaults:deck_cores/pluto_deck_core#inventory");
+            builder.addCore("premium", GroupSynergyDeckModifier::new, premiumCoreModifier,"Premium Core", 13618375,"woldsvaults:deck_cores/premium_deck_core#inventory");
             builder.addPool("default", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("arsenal", 1);
                 stringWeightedListBuilder.add("aegis", 1);
@@ -130,6 +135,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
                 stringWeightedListBuilder.add("adept", 1);
                 stringWeightedListBuilder.add("jupiter", 1);
                 stringWeightedListBuilder.add("pluto", 1);
+                stringWeightedListBuilder.add("premium", 1);
             });
             builder.addPool("treasure_sand", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("temporal", 1);
@@ -146,6 +152,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             });
             builder.addPool("completion_crate", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("bazaar", 1);
+                stringWeightedListBuilder.add("premium", 1);
             });
             builder.addPool("dungeon_boss", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("adept", 1);

@@ -305,6 +305,45 @@
       "id": "tool",
       "type": "global"
     },
+    "premium": {
+      "modifierValue": {
+        "min": 0.1,
+        "max": 0.2,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.1,
+            "max": 0.1,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/premium_deck_core_lesser#inventory",
+          "name": "Lesser Premium Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.2,
+            "max": 0.4,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/premium_deck_core_greater#inventory",
+          "name": "Greater Premium Core",
+          "colour": 16769382
+        }
+      },
+      "synergyGroups": [
+        "Deluxe"
+      ],
+      "boostGroups": [],
+      "forEveryCardInGroup": true,
+      "modelId": "woldsvaults:deck_cores/premium_deck_core#inventory",
+      "name": "Premium Core",
+      "colour": 13618375,
+      "id": "premium",
+      "type": "group_synergy"
+    },
     "talent": {
       "modifierValue": {
         "min": 0.1,

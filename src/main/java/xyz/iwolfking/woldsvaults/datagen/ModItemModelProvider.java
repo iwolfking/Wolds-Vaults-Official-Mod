@@ -238,6 +238,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         deckCore(WoldsVaults.id("pluto_deck_core"));
         deckCore(WoldsVaults.id("adept_deck_core"));
         deckCore(WoldsVaults.id("arcane_deck_core"));
+        deckCore(WoldsVaults.id("premium_deck_core"));
 
         ModConfigs.RESEARCHES_GUI = new ResearchesGUIConfig().readConfig();
         ModConfigs.RESEARCHES_GUI.getStyles().forEach((name, s) -> {

@@ -224,6 +224,14 @@
           "level": 50
         }
       }
+    },
+    "the_vault:time_trial_reward_crate": {
+      "display": "Time Trial Reward Crate",
+      "lootTableKeys": {
+        "the_vault:time_trial_reward_crate": {
+          "level": 0
+        }
+      }
     }
   }
 }

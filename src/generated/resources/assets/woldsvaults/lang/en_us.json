@@ -301,6 +301,7 @@
   "deck.woldsvaults.dominance_deck_modifier_dominant": "+%1$s card efficiency to cards with the most dominant group in the deck (%2$s)",
   "deck.woldsvaults.dominance_deck_modifier_exclusion": "Excludes %1$s group",
   "deck.woldsvaults.dominance_deck_modifier_minority": "+%1$s card efficiency to cards with the least dominant group in the deck (%2$s)",
+  "deck.woldsvaults.group_synergy_modifier": "card efficiency for %2$s cards %3$s %1$s cards in your deck",
   "deck.woldsvaults.nitwit_modifier": "increased card efficiency inside Arcane slots (Arcane slots may only have non-Arcane slots inserted)",
   "deck.woldsvaults.void_modifier": "increased card efficiency per empty card slot",
   "effect.the_vault.glacial_shatter": "Glacial Shatter",

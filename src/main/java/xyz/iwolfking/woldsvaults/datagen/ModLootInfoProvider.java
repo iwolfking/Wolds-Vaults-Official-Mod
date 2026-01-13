@@ -39,6 +39,8 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
                 map.put(VaultMod.id("dungeon_pedestal_lvl75"), 75);
             });
 
+            genericSingleton("Time Trial Reward Crate", VaultMod.id("time_trial_reward_crate"), 0, builder);
+
             mapChest("Enigma", builder);
             mapChest("Wooden", builder);
             mapChest("Living", builder);
