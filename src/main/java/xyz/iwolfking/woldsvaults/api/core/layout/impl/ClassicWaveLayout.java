@@ -60,7 +60,7 @@ public class ClassicWaveLayout extends ClassicInfiniteLayout {
         return FIELDS;
     }
 
-    boolean isRoomAllowed(int x, int z) {
+    public boolean isRoomAllowed(int x, int z) {
         int length = this.get(LENGTH);
         int amplitude = this.get(AMPLITUDE);
         double frequency = this.get(FREQUENCY);

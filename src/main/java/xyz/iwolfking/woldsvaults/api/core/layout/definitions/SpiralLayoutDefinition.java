@@ -7,11 +7,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.level.block.Rotation;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
+import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.SpiralLayoutTooltip;
+import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicInfiniteCrystalLayoutAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ClassicSpiralCrystalLayoutAccessor;
 
+import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Optional;
 
 public class SpiralLayoutDefinition implements LayoutDefinition {
 
@@ -66,4 +71,15 @@ public class SpiralLayoutDefinition implements LayoutDefinition {
         data.putString("rotation", Rotation.NONE.name());
         return data;
     }
+
+    @Override
+    public @Nonnull Optional<LayoutTooltipComponent> getTooltipImage(CompoundTag data) {
+        try { // don't crash
+            return SpiralLayoutTooltip.getTooltipImage(data);
+        } catch (Exception e) {
+            WoldsVaults.LOGGER.error("Failed to create spiral layout manipulator preview.", e);
+            return Optional.empty();
+        }
+    }
+
 }

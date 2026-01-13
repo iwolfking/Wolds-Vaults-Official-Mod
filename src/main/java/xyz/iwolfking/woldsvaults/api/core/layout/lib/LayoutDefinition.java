@@ -3,8 +3,11 @@ package xyz.iwolfking.woldsvaults.api.core.layout.lib;
 import iskallia.vault.item.crystal.layout.CrystalLayout;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
 
+import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Optional;
 
 public interface LayoutDefinition {
 
@@ -25,4 +28,9 @@ public interface LayoutDefinition {
         data.putInt("value", root.getInt("value"));
         return data;
     }
+
+    default @Nonnull Optional<LayoutTooltipComponent> getTooltipImage(CompoundTag data) {
+        return Optional.empty();
+    }
+
 }

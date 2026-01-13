@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +21,7 @@ import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
@@ -143,5 +145,16 @@ public class LayoutModificationItem extends Item
             tag.putString(TAG_LAYOUT, def.id());
             tag.put(TAG_LAYOUT_DATA, data);
         });
+    }
+
+    @Override
+    public @Nonnull Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
+
+        CompoundTag root = stack.getTag();
+        if (root == null || !root.contains(TAG_LAYOUT)) {return Optional.empty();}
+
+        return LayoutDefinitionRegistry
+            .get(root.getString(TAG_LAYOUT))
+            .flatMap(def -> def.getTooltipImage(getOrUpgradeLayoutData(root, def)));
     }
 }
