@@ -231,6 +231,10 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
             int totalWeight = (int) layouts.pool.getTotalWeight();
             int level = layouts.level;
             layouts.pool.forEach((layout, aDouble) -> {
+                if(aDouble <= 0) {
+                    return;
+                }
+
                 ItemStack layoutStack = LayoutModificationItem.create(layout);
                 layoutStacks.add(formatItemStack(layoutStack, 1, 1, aDouble, totalWeight, 1));
             });

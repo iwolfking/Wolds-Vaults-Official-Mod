@@ -97,7 +97,7 @@ public class LayoutModificationItem extends Item
         return stack;
     }
 
-    public static ItemStack create(String layoutId, int value) {
+    public static ItemStack createLegacy(String layoutId, int value) {
         ItemStack stack = new ItemStack(ModItems.LAYOUT_MANIPULATOR);
         CompoundTag tag = stack.getOrCreateTag();
 
@@ -141,9 +141,6 @@ public class LayoutModificationItem extends Item
         LayoutDefinitionRegistry.getForLayout(layout).ifPresent(def -> {
             CompoundTag data = new CompoundTag();
             def.writeFromLayout(layout, data);
-
-            tag.putString(TAG_LAYOUT, def.id());
-            tag.put(TAG_LAYOUT_DATA, data);
         });
     }
 
