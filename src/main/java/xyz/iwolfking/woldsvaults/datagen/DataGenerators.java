@@ -84,8 +84,7 @@ public class DataGenerators {
             gen.addProvider(new ModDeckRecipesProvider(gen));
             gen.addProvider(new ModEtchedVaultLayoutsProvider(gen));
             gen.addProvider(new RechiseledDataProvider(gen));
-
-            //gen.addProvider(new ModVaultCrystalProvider(gen));
+            gen.addProvider(new ModVaultCrystalProvider(gen));
         }
     }
 

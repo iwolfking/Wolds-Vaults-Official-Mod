@@ -1,0 +1,177 @@
+{
+  "THEMES": {},
+  "LAYOUTS": [
+    {
+      "level": 10,
+      "pool": [
+        {
+          "value": {
+            "tunnel_span": 1,
+            "width": 6,
+            "height": 7,
+            "branchInterval": 6,
+            "type": "tunnels"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 6,
+            "amplitude": 1,
+            "frequency": 1.2,
+            "type": "wave"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "radius": 12,
+            "ringInterval": 2,
+            "type": "rings"
+          },
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "level": 25,
+      "pool": [
+        {
+          "value": {
+            "tunnel_span": 1,
+            "width": 8,
+            "height": 8,
+            "branchInterval": 6,
+            "type": "tunnels"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 8,
+            "amplitude": 1,
+            "frequency": 1.2,
+            "type": "wave"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "radius": 12,
+            "ringInterval": 2,
+            "type": "rings"
+          },
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "level": 50,
+      "pool": [
+        {
+          "value": {
+            "tunnel_span": 1,
+            "width": 11,
+            "height": 8,
+            "branchInterval": 1,
+            "type": "tunnels"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 12,
+            "amplitude": 1,
+            "frequency": 1.2,
+            "type": "wave"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "radius": 14,
+            "ringInterval": 2,
+            "type": "rings"
+          },
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "level": 65,
+      "pool": [
+        {
+          "value": {
+            "tunnel_span": 1,
+            "width": 11,
+            "height": 8,
+            "branchInterval": 1,
+            "type": "tunnels"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 12,
+            "amplitude": 1,
+            "frequency": 1.2,
+            "type": "wave"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "radius": 14,
+            "ringInterval": 2,
+            "type": "rings"
+          },
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "level": 100,
+      "pool": [
+        {
+          "value": {
+            "tunnel_span": 1,
+            "width": 13,
+            "height": 11,
+            "branchInterval": 2,
+            "type": "tunnels"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 14,
+            "amplitude": 1,
+            "frequency": 1.4,
+            "type": "wave"
+          },
+          "weight": 1.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "radius": 16,
+            "ringInterval": 2,
+            "type": "rings"
+          },
+          "weight": 1.0
+        }
+      ]
+    }
+  ],
+  "OBJECTIVES": {},
+  "SEALS": {}
+}

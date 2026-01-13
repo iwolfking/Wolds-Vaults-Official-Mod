@@ -270,7 +270,15 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
                     ItemStack etchedLayout = LayoutModificationItem.create(layout);
                     layoutStacks.add(formatItemStack(etchedLayout, 1, 1, aDouble, totalWeight, 1));
                 });
-                lootInfo.add(LabeledLootInfo.of(layoutStacks, new TextComponent(StringUtils.convertToTitleCase(pool) + " - Level " + layoutEntry.level), null));
+                lootInfo.add(
+                        LabeledLootInfo.of(
+                                layoutStacks,
+                                new TextComponent(
+                                        StringUtils.convertToTitleCase(pool) + " (Level " + layoutEntry.level + ")"
+                                ),
+                                null
+                        )
+                );
             });
         });
 
