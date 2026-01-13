@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "the_vault:item/floating_text"
+    "layer0": "woldsvaults:item/magic_text"
   }
 }
