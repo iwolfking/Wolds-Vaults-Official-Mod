@@ -78,10 +78,10 @@ public class LayoutModificationRecipe extends VanillaAnvilRecipe {
 
         List<ItemStack> secondaries = new ArrayList<>();
 
-        secondaries.add(LayoutModificationItem.create("infinite", 1));
-        secondaries.add(LayoutModificationItem.create("circle", 8));
-        secondaries.add(LayoutModificationItem.create("polygon", 12));
-        secondaries.add(LayoutModificationItem.create("spiral", 4));
+        secondaries.add(LayoutModificationItem.createLegacy("infinite", 1));
+        secondaries.add(LayoutModificationItem.createLegacy("circle", 8));
+        secondaries.add(LayoutModificationItem.createLegacy("polygon", 12));
+        secondaries.add(LayoutModificationItem.createLegacy("spiral", 4));
 
         for(ItemStack secondary : secondaries) {
             ItemStack crystalOutput = VaultCrystalItem.create(crystalData -> {

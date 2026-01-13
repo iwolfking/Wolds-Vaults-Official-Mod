@@ -47,6 +47,7 @@ public class ModConfigs {
     public static GreedVaultAltarIngredientsConfig GREED_VAULT_ALTAR_INGREDIENTS;
     public static TrinketPouchConfig TRINKET_POUCH = new TrinketPouchConfig();
     public static RecipeUnlocksConfig RECIPE_UNLOCKS = new RecipeUnlocksConfig();
+    public static EtchedVaultLayoutConfig ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig();
 
     public static TimeTrialCompetitionConfig TIME_TRIAL_COMPETITION = new TimeTrialCompetitionConfig();
 
@@ -84,5 +85,6 @@ public class ModConfigs {
         RECIPE_UNLOCKS = new RecipeUnlocksConfig().readConfig();
         WEAVING_RECIPES_CONFIG = new WeavingRecipesConfig().readConfig();
         TIME_TRIAL_COMPETITION = new TimeTrialCompetitionConfig().readConfig();
+        ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
     }
 }

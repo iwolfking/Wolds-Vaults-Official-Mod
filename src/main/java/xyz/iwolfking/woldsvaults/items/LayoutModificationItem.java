@@ -1,16 +1,18 @@
 package xyz.iwolfking.woldsvaults.items;
 
+import iskallia.vault.config.VaultCrystalConfig;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.core.DataTransferItem;
 import iskallia.vault.item.core.VaultLevelItem;
 import iskallia.vault.item.crystal.layout.CrystalLayout;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,8 +20,10 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +32,8 @@ public class LayoutModificationItem extends Item
         implements VaultLevelItem, DataTransferItem {
 
     public static final String TAG_LAYOUT = "layout";
+    public static final String TAG_POOL = "pool";
+    public static final String TAG_LEVEL = "level";
     public static final String LEGACY_TUNNEL = "tunnel";
     public static final String LEGACY_VALUE = "value";
     public static final String TAG_LAYOUT_DATA = "layout_data";
@@ -95,7 +101,7 @@ public class LayoutModificationItem extends Item
         return stack;
     }
 
-    public static ItemStack create(String layoutId, int value) {
+    public static ItemStack createLegacy(String layoutId, int value) {
         ItemStack stack = new ItemStack(ModItems.LAYOUT_MANIPULATOR);
         CompoundTag tag = stack.getOrCreateTag();
 
@@ -111,37 +117,75 @@ public class LayoutModificationItem extends Item
     public void initializeVaultLoot(
             int level, ItemStack stack,
             @Nullable BlockPos pos, @Nullable Vault vault) {
-
-        rollLayoutFromLevel(level, stack);
+        if(stack.hasTag() && stack.getTag().contains("pool")) {
+            if(stack.getTag().get("pool") instanceof IntTag) {
+                rollLayoutFromLevel(level, stack);
+            }
+            else {
+                rollLayoutFromLevel(stack.getTag().getString("pool"), level, stack);
+            }
+        }
+        else {
+            rollLayoutFromLevel(level, stack);
+        }
     }
 
     @Override
     public ItemStack convertStack(ItemStack stack, RandomSource random) {
         CompoundTag tag = stack.getTag();
-        if (tag == null || !tag.contains("pool")) return stack;
+        if (tag == null || !tag.contains(TAG_POOL)) {
+            if(!tag.contains(TAG_LEVEL)) {
+                return stack;
+            }
 
-        rollLayoutFromLevel(tag.getInt("pool"), stack);
+            rollLayoutFromLevel("default", tag.getInt(TAG_LEVEL), stack);
+            return stack;
+        }
+
+        if(tag.contains(TAG_LEVEL)) {
+            rollLayoutFromLevel(tag.getString(TAG_POOL), 0, stack);
+        }
+        else {
+            rollLayoutFromLevel(tag.getString(TAG_POOL), tag.getInt(TAG_LEVEL), stack);
+        }
+
         return stack;
     }
 
+    //Handles legacy items
     private static void rollLayoutFromLevel(int level, ItemStack stack) {
+        rollLayoutFromLevel("default", level, stack);
+    }
+
+    private static void rollLayoutFromLevel(String pool, int level, ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         if (tag.contains(TAG_LAYOUT)) return;
 
-        Optional<CrystalLayout> rolled =
-                ModConfigs.VAULT_CRYSTAL.getRandomLayout(
-                        level, JavaRandom.ofNanoTime());
+        Optional<VaultCrystalConfig.LayoutEntry> rolled =
+                ModConfigs.ETCHED_VAULT_LAYOUT.ETCHED_VAULT_LAYOUTS.get(pool).getForLevel(level);
+        rolled.flatMap(layoutEntry -> layoutEntry.pool.getRandom()).ifPresent(crystalLayout -> {
+            LayoutDefinitionRegistry.getForLayout(crystalLayout).ifPresent(def -> {
+                def.writeFromLayout(crystalLayout, tag);
 
-        if (rolled.isEmpty()) return;
-
-        CrystalLayout layout = rolled.get();
-
-        LayoutDefinitionRegistry.getForLayout(layout).ifPresent(def -> {
-            CompoundTag data = new CompoundTag();
-            def.writeFromLayout(layout, data);
-
-            tag.putString(TAG_LAYOUT, def.id());
-            tag.put(TAG_LAYOUT_DATA, data);
+                if(tag.contains(TAG_POOL)) {
+                    tag.remove(TAG_POOL);
+                }
+                if(tag.contains(TAG_LEVEL)) {
+                    tag.remove(TAG_LEVEL);
+                }
+            });
         });
+
+    }
+
+    @Override
+    public @Nonnull Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
+
+        CompoundTag root = stack.getTag();
+        if (root == null || !root.contains(TAG_LAYOUT)) {return Optional.empty();}
+
+        return LayoutDefinitionRegistry
+            .get(root.getString(TAG_LAYOUT))
+            .flatMap(def -> def.getTooltipImage(getOrUpgradeLayoutData(root, def)));
     }
 }

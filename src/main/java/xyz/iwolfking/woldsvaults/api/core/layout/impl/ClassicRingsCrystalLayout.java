@@ -62,7 +62,7 @@ public class ClassicRingsCrystalLayout extends ClassicInfiniteCrystalLayout {
    public Optional<JsonObject> writeJson() {
       return super.writeJson().map(json -> {
          json.addProperty("radius", this.radius);
-         json.addProperty("branchInterval", this.ringInterval);
+         json.addProperty("ringInterval", this.ringInterval);
          return json;
       });
    }

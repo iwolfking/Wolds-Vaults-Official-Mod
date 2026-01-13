@@ -71,6 +71,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("deck.woldsvaults.dominance_deck_modifier_dominant", "+%1$s card efficiency to cards with the most dominant group in the deck (%2$s)");
         add("deck.woldsvaults.dominance_deck_modifier_minority", "+%1$s card efficiency to cards with the least dominant group in the deck (%2$s)");
         add("deck.woldsvaults.dominance_deck_modifier_exclusion", "Excludes %1$s group");
+        add("deck.woldsvaults.group_synergy_modifier", "card efficiency for %2$s cards %3$s %1$s cards in your deck");
         add("command.woldsvaults.give_loot", "Given a %1$s");
         add("vault_event.woldsvaults.swap_task", "You have been swapped with %1$s.");
         add("vault_event.woldsvaults.legacy_event_message", "%1$s encountered a %2$s Event!");

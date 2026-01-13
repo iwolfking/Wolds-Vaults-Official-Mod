@@ -338,7 +338,7 @@ public class MixinGiveLootCommand {
     @Unique
     private int woldsVaults$giveLayoutManipulator(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = ((CommandSourceStack)context.getSource()).getPlayerOrException();
-        ItemStack layoutModifier =  LayoutModificationItem.create(StringArgumentType.getString(context, "layout"), IntegerArgumentType.getInteger(context, "value"));
+        ItemStack layoutModifier =  LayoutModificationItem.createLegacy(StringArgumentType.getString(context, "layout"), IntegerArgumentType.getInteger(context, "value"));
         woldsvaults$giveStack(player, layoutModifier);
         return 1;
     }

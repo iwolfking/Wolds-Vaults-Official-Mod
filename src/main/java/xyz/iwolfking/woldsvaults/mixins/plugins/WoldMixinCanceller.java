@@ -54,6 +54,11 @@ public class WoldMixinCanceller implements MixinCanceller {
             return true;
         }
 
+        if(s.equals("org.valkyrienskies.mod.mixin.feature.container_distance_check.MixinRandomizableContainerBlockEntity")) {
+            return true;
+        }
+
+
 
 
         return false;
