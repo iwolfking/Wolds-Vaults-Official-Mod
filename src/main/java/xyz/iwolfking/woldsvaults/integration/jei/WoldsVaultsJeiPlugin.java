@@ -15,6 +15,7 @@ import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.world.loot.LootPool;
 import iskallia.vault.core.world.loot.entry.LootEntry;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
+import iskallia.vault.util.StringUtils;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -94,6 +95,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<ForgeItem> AUGMENTS_ASSEMBLY = RecipeType.create(WoldsVaults.MOD_ID, "augment_assembly", ForgeItem.class);
     public static final RecipeType<ForgeItem> WEAVING = RecipeType.create(WoldsVaults.MOD_ID, "weaving", ForgeItem.class);
     public static final RecipeType<LabeledLootInfo> LAYOUTS = RecipeType.create(WoldsVaults.MOD_ID, "layouts", LabeledLootInfo.class);
+    public static final RecipeType<LabeledLootInfo> ETCHED_LAYOUTS = RecipeType.create(WoldsVaults.MOD_ID, "etched_layouts", LabeledLootInfo.class);
     public static final RecipeType<LabeledLootInfo> RESOURCE_CARDS_LOOT = RecipeType.create(WoldsVaults.MOD_ID, "resource_cards_loot", LabeledLootInfo.class);
 
     public WoldsVaultsJeiPlugin() {}
@@ -132,6 +134,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
 
         registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModItems.VAULT_CRYSTAL), LAYOUTS);
         registration.addRecipeCatalyst(new ItemStack(ModItems.LAYOUT_MANIPULATOR), LAYOUTS);
+        registration.addRecipeCatalyst(new ItemStack(ModItems.LAYOUT_MANIPULATOR), ETCHED_LAYOUTS);
         registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModItems.BOOSTER_PACK), RESOURCE_CARDS_LOOT);
     }
 
@@ -162,6 +165,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, WEAVING, new ItemStack(ModBlocks.WEAVING_STATION.asItem())));
 
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, LAYOUTS, ModItems.LAYOUT_MANIPULATOR, new TextComponent("Vault Layouts")));
+        registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, ETCHED_LAYOUTS, ModItems.LAYOUT_MANIPULATOR, new TextComponent("Etched Vault Layout Pools")));
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, RESOURCE_CARDS_LOOT, iskallia.vault.init.ModItems.BOOSTER_PACK, new TextComponent("Resource Card Rewards")));
     }
 
@@ -197,6 +201,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(AUGMENTS_ASSEMBLY, getForgeRecipes(ModConfigs.AUGMENT_RECIPES.getConfigRecipes()));
         registration.addRecipes(WEAVING, getForgeRecipes(ModConfigs.WEAVING_RECIPES_CONFIG.getConfigRecipes()));
         registration.addRecipes(LAYOUTS, getLayoutsPerLevel());
+        registration.addRecipes(ETCHED_LAYOUTS, getEtchedLayoutsPerLevel());
         registration.addRecipes(RESOURCE_CARDS_LOOT, getResourceCardLoot());
         addCustomRecyclerRecipes(registration);
     }
@@ -250,6 +255,23 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
                 layoutStacks.add(formatItemStack(layoutStack, 1, 1, aDouble, totalWeight, 1));
             });
             lootInfo.add(LabeledLootInfo.of(layoutStacks, new TextComponent( "Layouts - Level " + level), null));
+        });
+
+        return lootInfo;
+    }
+
+    public static List<LabeledLootInfo> getEtchedLayoutsPerLevel() {
+        List<LabeledLootInfo> lootInfo = new ArrayList<>();
+        ModConfigs.ETCHED_VAULT_LAYOUT.ETCHED_VAULT_LAYOUTS.forEach((pool, layouts) -> {
+            layouts.forEach(layoutEntry -> {
+                List<ItemStack> layoutStacks = new ArrayList<>();
+                int totalWeight = (int) layoutEntry.pool.getTotalWeight();
+                layoutEntry.pool.forEach((layout, aDouble) -> {
+                    ItemStack etchedLayout = LayoutModificationItem.create(layout);
+                    layoutStacks.add(formatItemStack(etchedLayout, 1, 1, aDouble, totalWeight, 1));
+                });
+                lootInfo.add(LabeledLootInfo.of(layoutStacks, new TextComponent(StringUtils.convertToTitleCase(pool) + " - Level " + layoutEntry.level), null));
+            });
         });
 
         return lootInfo;
