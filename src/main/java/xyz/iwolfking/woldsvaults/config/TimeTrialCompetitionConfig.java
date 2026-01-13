@@ -36,7 +36,7 @@ public class TimeTrialCompetitionConfig extends Config {
         RESET_DAY_OF_WEEK = DayOfWeek.MONDAY;
         OBJECTIVE_WEIGHTS.add("elixir", 1);
         OBJECTIVE_ENTRIES.put("elixir", new ElixirCrystalObjective());
-        REWARD_CRATE_LOOT_TABLE = VaultMod.id("time_trial_crate");
+        REWARD_CRATE_LOOT_TABLE = VaultMod.id("time_trial_reward_crate");
     }
 
     public String getRandomObjective() {

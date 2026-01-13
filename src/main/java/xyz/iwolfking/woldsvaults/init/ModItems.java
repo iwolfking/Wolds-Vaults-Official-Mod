@@ -219,7 +219,7 @@ public class ModItems {
     public static Map<DyeColor, BasicItem> COLORED_UNOBTANIUMS = new HashMap<>();
     public static BasicItem RAINBOW_UNOBTANIUM;
 
-    public static ConfigurableFloatingTextBlockItem CONFIGURABLE_FLOATING_TEXT;
+    //public static ConfigurableFloatingTextBlockItem CONFIGURABLE_FLOATING_TEXT;
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -365,7 +365,13 @@ public class ModItems {
             registry.register(bi);
         });
         registry.register(RAINBOW_UNOBTANIUM);
-        registry.register(CONFIGURABLE_FLOATING_TEXT);
+
+//        CONFIGURABLE_FLOATING_TEXT = new ConfigurableFloatingTextBlockItem(
+//                () -> ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK,
+//                new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS)
+//        );
+//        registry.register(CONFIGURABLE_FLOATING_TEXT);
+
     }
 
     static {
@@ -527,6 +533,5 @@ public class ModItems {
         }
         RAINBOW_UNOBTANIUM = new BasicItem(WoldsVaults.id("rainbow_unobtanium"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
-        CONFIGURABLE_FLOATING_TEXT = new ConfigurableFloatingTextBlockItem(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
     }
 }

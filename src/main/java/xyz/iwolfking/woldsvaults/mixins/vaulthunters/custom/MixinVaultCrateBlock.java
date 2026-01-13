@@ -21,7 +21,7 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 @Mixin(value = VaultCrateBlock.class, remap = false)
 public abstract class MixinVaultCrateBlock {
 
-    @Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getBlockEntity(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/entity/BlockEntity;"), cancellable = true)
+    @Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getBlockEntity(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/entity/BlockEntity;"), cancellable = true, remap = true)
     private void preventDestroyingCrateWhenEmpty(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit, CallbackInfoReturnable<InteractionResult> cir) {
         if(world.getBlockEntity(pos) instanceof VaultCrateTileEntity vaultCrateTileEntity) {
             if(vaultCrateTileEntity.getItems().isEmpty()) {
