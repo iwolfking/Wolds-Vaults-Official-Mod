@@ -803,6 +803,8 @@
   "vault_objective.woldsvaults.enchanted_elixir": "Enchanted Elixir",
   "vault_objective.woldsvaults.haunted_braziers": "Haunted Braziers",
   "vault_objective.woldsvaults.survival": "Survival",
+  "vault_objective.woldsvaults.survival_completion": "You are now able to leave the vault at any time to reap your current rewards.",
+  "vault_objective.woldsvaults.survival_fruit_disable": "A mysterious force prevents you from eating the fruit.",
   "vault_objective.woldsvaults.unhinged_scavenger": "Unhinged Scavenger Hunt",
   "vault_objective.woldsvaults.zealot": "Zealot",
   "vaultobjectiveblocks.jade.tooltip.brewing_altar": "%1$s brews remaining",

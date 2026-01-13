@@ -1,0 +1,21 @@
+{
+  "ETCHED_VAULT_LAYOUTS": {
+    "default": [
+      {
+        "level": 0,
+        "pool": [
+          {
+            "value": {
+              "tunnel_span": 1,
+              "width": 10,
+              "height": 6,
+              "branchInterval": 10,
+              "type": "tunnels"
+            },
+            "weight": 1.0
+          }
+        ]
+      }
+    ]
+  }
+}

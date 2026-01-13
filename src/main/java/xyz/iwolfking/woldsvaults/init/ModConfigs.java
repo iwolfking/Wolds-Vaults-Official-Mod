@@ -47,6 +47,7 @@ public class ModConfigs {
     public static GreedVaultAltarIngredientsConfig GREED_VAULT_ALTAR_INGREDIENTS;
     public static TrinketPouchConfig TRINKET_POUCH = new TrinketPouchConfig();
     public static RecipeUnlocksConfig RECIPE_UNLOCKS = new RecipeUnlocksConfig();
+    public static EtchedVaultLayoutConfig ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig();
 
     public static void register() {
         GEM_BOX = new GenericLootableConfig("gem_box").readConfig();
@@ -81,5 +82,6 @@ public class ModConfigs {
         TRINKET_POUCH = new TrinketPouchConfig().readConfig();
         RECIPE_UNLOCKS = new RecipeUnlocksConfig().readConfig();
         WEAVING_RECIPES_CONFIG = new WeavingRecipesConfig().readConfig();
+        ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
     }
 }
