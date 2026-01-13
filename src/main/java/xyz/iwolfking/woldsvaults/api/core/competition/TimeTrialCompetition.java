@@ -1,14 +1,18 @@
-package xyz.iwolfking.woldsvaults.competition;
+package xyz.iwolfking.woldsvaults.api.core.competition;
 
+import iskallia.vault.block.VaultCrateBlock;
 import iskallia.vault.core.Version;
+import iskallia.vault.core.data.key.LootTableKey;
+import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultRegistry;
-import iskallia.vault.core.vault.objective.TimeTrialObjective;
+import iskallia.vault.core.world.loot.LootTable;
+import iskallia.vault.core.world.loot.generator.LootTableGenerator;
 import iskallia.vault.init.ModBlocks;
-import iskallia.vault.init.ModItems;
-import iskallia.vault.item.crystal.CrystalData;
+import iskallia.vault.util.calc.ItemQuantityHelper;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
@@ -17,16 +21,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.competition.lib.RewardBundle;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
@@ -87,7 +91,7 @@ public class TimeTrialCompetition extends SavedData {
         playerNames.put(playerId, playerName);
         setDirty();
     }
-    
+
     public Map<UUID, Long> getLeaderboard() {
         Map<UUID, Long> sorted = new LinkedHashMap<>();
         playerTimes.entrySet().stream()
@@ -95,7 +99,14 @@ public class TimeTrialCompetition extends SavedData {
                 .forEachOrdered(entry -> sorted.put(entry.getKey(), entry.getValue()));
         return sorted;
     }
-    
+
+    public Map.Entry<UUID, Long> getBestTime() {
+        if(getLeaderboard().isEmpty()) {
+            return Map.entry(UUID.randomUUID(), Long.MAX_VALUE);
+        }
+        return getLeaderboard().entrySet().iterator().next();
+    }
+
     public String getPlayerName(UUID playerId) {
         return playerNames.getOrDefault(playerId, "Unknown");
     }
@@ -108,7 +119,7 @@ public class TimeTrialCompetition extends SavedData {
         return Math.max(0, endTime - System.currentTimeMillis());
     }
     
-    private void endCompetition(MinecraftServer server) {
+    public void endCompetition(MinecraftServer server) {
         if (playerTimes.isEmpty()) {
             resetCompetition();
             return;
@@ -121,11 +132,7 @@ public class TimeTrialCompetition extends SavedData {
         if (winner != null) {
             ServerPlayer player = server.getPlayerList().getPlayer(winner.getKey());
             if (player != null) {
-                ItemStack trophy = new ItemStack(ModBlocks.HERALD_TROPHY_BLOCK_ITEM);
-                if (!player.addItem(trophy)) {
-                    player.drop(trophy, false);
-                }
-
+                awardWinner(player);
                 String message = String.format("§6§l[Weekly Time Trial] §e%s §6won this week's Time Trial with a time of §e%.2f seconds§6! The objective was: §e%s",
                         player.getDisplayName().getString(),
                         winner.getValue() / 20.0,
@@ -136,8 +143,39 @@ public class TimeTrialCompetition extends SavedData {
 
         resetCompetition();
     }
-    
-    private void resetCompetition() {
+
+    private void awardWinner(ServerPlayer player) {
+        MinecraftServer server = player.getServer();
+        PlayerRewardStorage rewards = PlayerRewardStorage.get(server);
+
+        if(ModConfigs.TIME_TRIAL_COMPETITION.REWARD_CRATE_LOOT_TABLE != null) {
+            LootTableKey lootTableKey = VaultRegistry.LOOT_TABLE.getKey(ModConfigs.TIME_TRIAL_COMPETITION.REWARD_CRATE_LOOT_TABLE);
+
+            NonNullList<ItemStack> loot = NonNullList.create();
+            LootTableGenerator generator = new LootTableGenerator(
+                    Version.latest(),
+                    lootTableKey,
+                    0.0F
+            );
+            generator.generate(ChunkRandom.any());
+            generator.getItems().forEachRemaining(loot::add);
+
+            ItemStack crate = VaultCrateBlock.getCrateWithLoot(VaultCrateBlock.Type.valueOf("TIME_TRIAL_REWARD"), loot);
+
+            rewards.addReward(
+                    player.getUUID(),
+                    new RewardBundle(List.of(crate))
+            );
+        }
+
+        player.sendMessage(
+                new TextComponent("§6You earned a Time Trial reward! Use /timetrial rewards to claim it."),
+                player.getUUID()
+        );
+    }
+
+
+    public void resetCompetition() {
         currentObjective = ModConfigs.TIME_TRIAL_COMPETITION.getRandomObjective();
         playerTimes.clear();
         playerNames.clear();

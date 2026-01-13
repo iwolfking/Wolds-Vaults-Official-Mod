@@ -10,10 +10,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.server.ServerLifecycleHooks;
+import xyz.iwolfking.woldsvaults.api.core.competition.PlayerRewardStorage;
+import xyz.iwolfking.woldsvaults.api.core.competition.lib.RewardBundle;
 import xyz.iwolfking.woldsvaults.client.screens.TimeTrialLeaderboardEntry;
-import xyz.iwolfking.woldsvaults.competition.TimeTrialCompetition;
+import xyz.iwolfking.woldsvaults.api.core.competition.TimeTrialCompetition;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
-import xyz.iwolfking.woldsvaults.network.NetworkHandler;
+import xyz.iwolfking.woldsvaults.menu.TimeTrialRewardsGui;
 import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 
 import java.util.List;
@@ -23,17 +27,77 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeTrialCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("timetrial")
-                .requires(source -> source.hasPermission(0))
-                .then(Commands.literal("leaderboard")
-                        .executes(TimeTrialCommand::showLeaderboard))
-                .then(Commands.literal("status")
-                        .executes(TimeTrialCommand::showStatus))
-                .executes(context -> {
-                    context.getSource().sendFailure(new TextComponent("Usage: /timetrial <leaderboard|status>"));
-                    return 0;
-                }));
+        dispatcher.register(
+                Commands.literal("timetrial")
+                        .requires(source -> source.hasPermission(0))
+
+                        .then(Commands.literal("leaderboard")
+                                .executes(TimeTrialCommand::showLeaderboard))
+
+                        .then(Commands.literal("status")
+                                .executes(TimeTrialCommand::showStatus))
+
+                        .then(Commands.literal("end")
+                                .requires(src -> src.hasPermission(2))
+                                .executes(TimeTrialCommand::endCompetition))
+
+                        .then(Commands.literal("reset")
+                                .requires(src -> src.hasPermission(2))
+                                .executes(TimeTrialCommand::resetCompetition))
+
+                        .then(Commands.literal("rewards_menu")
+                                .executes(ctx -> {
+                                    ServerPlayer player = ctx.getSource().getPlayerOrException();
+                                    new TimeTrialRewardsGui(player).open();
+                                    return 1;
+                                })
+                        )
+
+                        .then(Commands.literal("rewards")
+                                .executes(ctx -> {
+                                    ServerPlayer player = ctx.getSource().getPlayerOrException();
+                                    PlayerRewardStorage storage =
+                                            PlayerRewardStorage.get(player.getServer());
+
+                                    List<RewardBundle> bundles =
+                                            storage.getRewards(player.getUUID());
+
+                                    if (bundles.isEmpty()) {
+                                        player.sendMessage(
+                                                new TextComponent("§7You have no unclaimed rewards."),
+                                                player.getUUID()
+                                        );
+                                        return 0;
+                                    }
+
+                                    for (RewardBundle bundle : bundles) {
+                                        for (ItemStack stack : bundle.getItems()) {
+                                            if (!player.addItem(stack.copy())) {
+                                                player.drop(stack.copy(), false);
+                                            }
+                                        }
+                                    }
+
+                                    storage.clearRewards(player.getUUID());
+
+                                    player.sendMessage(
+                                            new TextComponent("§aAll rewards claimed!"),
+                                            player.getUUID()
+                                    );
+                                    return 1;
+                                }))
+
+                        .executes(context -> {
+                            context.getSource().sendFailure(
+                                    new TextComponent("Usage: /timetrial <leaderboard|status|end|reset|rewards>")
+                            );
+                            return 0;
+                        })
+        );
     }
+
+
+
 
     private static int showLeaderboard(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         TimeTrialCompetition competition = TimeTrialCompetition.get();
@@ -123,6 +187,18 @@ public class TimeTrialCommand {
                         competition.getLeaderboard().size())));
         
         context.getSource().sendSuccess(message, false);
+        return 1;
+    }
+
+    private static int endCompetition(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        TimeTrialCompetition competition = TimeTrialCompetition.get();
+        competition.endCompetition(ServerLifecycleHooks.getCurrentServer());
+        return 1;
+    }
+
+    private static int resetCompetition(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        TimeTrialCompetition competition = TimeTrialCompetition.get();
+        competition.resetCompetition();
         return 1;
     }
 }

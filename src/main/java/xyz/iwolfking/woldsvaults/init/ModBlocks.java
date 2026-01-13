@@ -204,6 +204,7 @@ public class ModBlocks {
                 CUSTOM_VAULT_CRATES.put(customObjectiveRegistryEntry.getId(), new VaultCrateBlock());
             }
         });
+        CUSTOM_VAULT_CRATES.put("time_trial_reward", new VaultCrateBlock());
     }
 
     public static void registerBlocks(RegistryEvent.Register<Block> event) {

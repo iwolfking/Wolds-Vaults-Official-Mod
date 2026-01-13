@@ -15,7 +15,7 @@ import java.util.UUID;
 public class TimeTrialLeaderboardScreen extends Screen {
 
     private static final ResourceLocation BG =
-            new ResourceLocation("woldsvaults", "textures/gui/timetrial_leaderboard.png");
+            ResourceLocation.fromNamespaceAndPath("woldsvaults", "textures/gui/timetrial_leaderboard.png");
 
     private final String objective;
     private final long timeRemaining;
