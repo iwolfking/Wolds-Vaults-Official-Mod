@@ -241,6 +241,7 @@
     "vaulthunters.custom.MixinToolStationHelper",
     "vaulthunters.custom.MixinTransmogTableBlock",
     "vaulthunters.custom.MixinTrinketItem",
+    "vaulthunters.custom.MixinVaultAltarConfig",
     "vaulthunters.custom.MixinVaultCrateBlock",
     "vaulthunters.custom.MixinVaultCrystalItem",
     "vaulthunters.custom.MixinVaultDollItem",

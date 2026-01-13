@@ -9,8 +9,14 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.client.screens.TimeTrialLeaderboardEntry;
 import xyz.iwolfking.woldsvaults.competition.TimeTrialCompetition;
+import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
+import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +41,27 @@ public class TimeTrialCommand {
             context.getSource().sendFailure(new TextComponent("Time Trial competition is not available right now."));
             return 0;
         }
+
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        TimeTrialCompetition comp = TimeTrialCompetition.get();
+
+        List<TimeTrialLeaderboardEntry> entries =
+                comp.getLeaderboard().entrySet().stream()
+                        .limit(28)
+                        .map(e -> new TimeTrialLeaderboardEntry(
+                                e.getKey(),
+                                comp.getPlayerName(e.getKey()),
+                                e.getValue()
+                        ))
+                        .toList();
+
+        ModNetwork.sendToClient(
+                new TimeTrialLeaderboardS2CPacket(
+                        comp.getCurrentObjective(),
+                        comp.getTimeRemaining(),
+                        entries
+                ), player);
+
 
         Map<UUID, Long> leaderboard = competition.getLeaderboard();
         if (leaderboard.isEmpty()) {

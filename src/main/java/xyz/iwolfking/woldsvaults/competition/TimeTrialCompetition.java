@@ -1,8 +1,11 @@
 package xyz.iwolfking.woldsvaults.competition;
 
+import iskallia.vault.core.Version;
+import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.objective.TimeTrialObjective;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModItems;
+import iskallia.vault.item.crystal.CrystalData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -15,11 +18,13 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -31,7 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TimeTrialCompetition extends SavedData {
     private static final String DATA_NAME = WoldsVaults.MOD_ID + "_time_trial_competition";
     private static TimeTrialCompetition instance;
-    private static final long WEEK_IN_TICKS = 168000; // 7 days in minecraft time (20 ticks per second * 60 seconds * 60 minutes * 24 hours * 7 days)
+    private static final long WEEK_IN_TICKS = 168000;
     
     private String currentObjective;
     private long endTime;
@@ -39,11 +44,11 @@ public class TimeTrialCompetition extends SavedData {
     private final Map<UUID, String> playerNames = new ConcurrentHashMap<>();
     
     public TimeTrialCompetition() {
-        // Set competition to end at next Monday 00:00
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime nextMonday = now.with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+        LocalDateTime endTime = now.with(TemporalAdjusters.next(ModConfigs.TIME_TRIAL_COMPETITION.RESET_DAY_OF_WEEK))
                 .toLocalDate().atStartOfDay();
-        this.endTime = nextMonday.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
+        this.endTime = endTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
+        currentObjective = ModConfigs.TIME_TRIAL_COMPETITION.getRandomObjective();
     }
     
     public static TimeTrialCompetition get() {
@@ -55,7 +60,7 @@ public class TimeTrialCompetition extends SavedData {
     }
 
     @SubscribeEvent
-    public static void onServerAboutToStart(ServerAboutToStartEvent event) {
+    public static void onServerAboutToStart(ServerStartingEvent event) {
         MinecraftServer server = event.getServer();
         DimensionDataStorage storage = server.overworld().getDataStorage();
         instance = storage.computeIfAbsent(TimeTrialCompetition::load, TimeTrialCompetition::new, DATA_NAME);
@@ -74,21 +79,16 @@ public class TimeTrialCompetition extends SavedData {
     }
     
     public void recordTime(UUID playerId, String playerName, long time, String objective) {
-        if (!objective.equals(currentObjective)) {
-            // New objective, reset competition
-            currentObjective = objective;
-            playerTimes.clear();
-            playerNames.clear();
-            setDirty();
+        if(!objective.equals(currentObjective)) {
+            return;
         }
-        
+
         playerTimes.merge(playerId, time, Math::min);
         playerNames.put(playerId, playerName);
         setDirty();
     }
     
     public Map<UUID, Long> getLeaderboard() {
-        // Return a sorted map of player times (fastest first)
         Map<UUID, Long> sorted = new LinkedHashMap<>();
         playerTimes.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue())
@@ -110,12 +110,10 @@ public class TimeTrialCompetition extends SavedData {
     
     private void endCompetition(MinecraftServer server) {
         if (playerTimes.isEmpty()) {
-            // No participants, just reset
             resetCompetition();
             return;
         }
-        
-        // Find winner
+
         Map.Entry<UUID, Long> winner = playerTimes.entrySet().stream()
                 .min(Map.Entry.comparingByValue())
                 .orElse(null);
@@ -123,14 +121,11 @@ public class TimeTrialCompetition extends SavedData {
         if (winner != null) {
             ServerPlayer player = server.getPlayerList().getPlayer(winner.getKey());
             if (player != null) {
-                // Award the winner
                 ItemStack trophy = new ItemStack(ModBlocks.HERALD_TROPHY_BLOCK_ITEM);
                 if (!player.addItem(trophy)) {
-                    // Drop at player's feet if inventory is full
                     player.drop(trophy, false);
                 }
-                
-                // Broadcast winner
+
                 String message = String.format("§6§l[Weekly Time Trial] §e%s §6won this week's Time Trial with a time of §e%.2f seconds§6! The objective was: §e%s",
                         player.getDisplayName().getString(),
                         winner.getValue() / 20.0,
@@ -138,21 +133,20 @@ public class TimeTrialCompetition extends SavedData {
                 MessageUtils.broadcastMessage(player.getLevel(), new TextComponent(message));
             }
         }
-        
-        // Reset for next week
+
         resetCompetition();
     }
     
     private void resetCompetition() {
-        currentObjective = null;
+        currentObjective = ModConfigs.TIME_TRIAL_COMPETITION.getRandomObjective();
         playerTimes.clear();
         playerNames.clear();
-        
-        // Set new end time (next Monday 00:00)
+
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime nextMonday = now.with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+
+        LocalDateTime endTime = now.with(TemporalAdjusters.next(ModConfigs.TIME_TRIAL_COMPETITION.RESET_DAY_OF_WEEK))
                 .toLocalDate().atStartOfDay();
-        this.endTime = nextMonday.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
+        this.endTime = endTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
         
         setDirty();
     }
