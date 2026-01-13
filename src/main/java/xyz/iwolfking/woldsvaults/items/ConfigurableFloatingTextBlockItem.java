@@ -25,7 +25,7 @@ public class ConfigurableFloatingTextBlockItem extends BlockItem {
         if (stack.hasTag()) {
             CompoundTag tag = stack.getTag();
             ListTag linesTag = tag.getList("lines", Tag.TAG_COMPOUND);
-            for (int i = 0; i < linesTag.size(); i++) {
+            for (int i = linesTag.size() - 1; i >= 0; i--) {
                 CompoundTag lineTag = linesTag.getCompound(i);
                 String text = lineTag.getString("text");
                 int color = lineTag.getInt("color");

@@ -138,6 +138,7 @@
     "vaulthunters.accessors.SlotDeckModifierAccessor",
     "vaulthunters.accessors.StackingGearAttributeTalentAccessor",
     "vaulthunters.accessors.SweepingLuckyHitTalentAccessor",
+    "vaulthunters.accessors.TaskLootCardModifierConfigAccessor",
     "vaulthunters.accessors.TemplateProcessorModifierPropertiesAccessor",
     "vaulthunters.accessors.TrinketerExpertiseAccessor",
     "vaulthunters.accessors.VanillaAttributeTalentAccessor",

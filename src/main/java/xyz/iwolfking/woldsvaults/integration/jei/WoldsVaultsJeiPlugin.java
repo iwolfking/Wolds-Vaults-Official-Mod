@@ -8,6 +8,12 @@ import dev.attackeight.just_enough_vh.jei.category.ForgeItemRecipeCategory;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.ShopPedestalConfig;
 import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
+import iskallia.vault.core.card.CardEntry;
+import iskallia.vault.core.card.modifier.card.CardModifier;
+import iskallia.vault.core.card.modifier.card.TaskLootCardModifier;
+import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.world.loot.LootPool;
+import iskallia.vault.core.world.loot.entry.LootEntry;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -51,6 +57,7 @@ import xyz.iwolfking.woldsvaults.integration.jei.category.*;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.GenericLootableBoxCategory;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.ShopTierCategory;
 import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TaskLootCardModifierConfigAccessor;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -87,6 +94,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<ForgeItem> AUGMENTS_ASSEMBLY = RecipeType.create(WoldsVaults.MOD_ID, "augment_assembly", ForgeItem.class);
     public static final RecipeType<ForgeItem> WEAVING = RecipeType.create(WoldsVaults.MOD_ID, "weaving", ForgeItem.class);
     public static final RecipeType<LabeledLootInfo> LAYOUTS = RecipeType.create(WoldsVaults.MOD_ID, "layouts", LabeledLootInfo.class);
+    public static final RecipeType<LabeledLootInfo> RESOURCE_CARDS_LOOT = RecipeType.create(WoldsVaults.MOD_ID, "resource_cards_loot", LabeledLootInfo.class);
 
     public WoldsVaultsJeiPlugin() {}
     @Override
@@ -124,6 +132,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
 
         registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModItems.VAULT_CRYSTAL), LAYOUTS);
         registration.addRecipeCatalyst(new ItemStack(ModItems.LAYOUT_MANIPULATOR), LAYOUTS);
+        registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModItems.BOOSTER_PACK), RESOURCE_CARDS_LOOT);
     }
 
     @Override
@@ -153,6 +162,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new ForgeItemRecipeCategory(guiHelper, WEAVING, new ItemStack(ModBlocks.WEAVING_STATION.asItem())));
 
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, LAYOUTS, ModItems.LAYOUT_MANIPULATOR, new TextComponent("Vault Layouts")));
+        registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, RESOURCE_CARDS_LOOT, iskallia.vault.init.ModItems.BOOSTER_PACK, new TextComponent("Resource Card Rewards")));
     }
 
     @Override @SuppressWarnings("removal")
@@ -187,6 +197,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(AUGMENTS_ASSEMBLY, getForgeRecipes(ModConfigs.AUGMENT_RECIPES.getConfigRecipes()));
         registration.addRecipes(WEAVING, getForgeRecipes(ModConfigs.WEAVING_RECIPES_CONFIG.getConfigRecipes()));
         registration.addRecipes(LAYOUTS, getLayoutsPerLevel());
+        registration.addRecipes(RESOURCE_CARDS_LOOT, getResourceCardLoot());
         addCustomRecyclerRecipes(registration);
     }
 
@@ -240,6 +251,41 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
             });
             lootInfo.add(LabeledLootInfo.of(layoutStacks, new TextComponent( "Layouts - Level " + level), null));
         });
+
+        return lootInfo;
+    }
+
+    public static List<LabeledLootInfo> getResourceCardLoot() {
+        List<LabeledLootInfo> lootInfo = new ArrayList<>();
+        List<ItemStack> resourceCardStacks = new ArrayList<>();
+        List<ItemStack> deluxeResourceCardStacks = new ArrayList<>();
+
+        iskallia.vault.init.ModConfigs.CARD_MODIFIERS.getPools().get("resource").forEach(((s, aDouble) -> {
+            CardEntry.Config cardConfig = iskallia.vault.init.ModConfigs.CARD_MODIFIERS.getValues().get(s);
+            if(cardConfig.value instanceof TaskLootCardModifier taskLootCardModifier) {
+                LootPool pool = ((TaskLootCardModifierConfigAccessor)taskLootCardModifier.getConfig()).getLoot();
+                pool.getChildren().forEach((lootEntry, aDouble1) -> {
+                    if(lootEntry instanceof LootEntry) {
+                        resourceCardStacks.addAll(((LootEntry) lootEntry).getStack(ChunkRandom.any()));
+                    }
+                });
+            }
+        }));
+        iskallia.vault.init.ModConfigs.CARD_MODIFIERS.getPools().get("deluxe_resource").forEach(((s, aDouble) -> {
+            CardEntry.Config cardConfig = iskallia.vault.init.ModConfigs.CARD_MODIFIERS.getValues().get(s);
+            if(cardConfig.value instanceof TaskLootCardModifier taskLootCardModifier) {
+                LootPool pool = ((TaskLootCardModifierConfigAccessor)taskLootCardModifier.getConfig()).getLoot();
+                pool.getChildren().forEach((lootEntry, aDouble1) -> {
+                    if(lootEntry instanceof LootEntry) {
+                        deluxeResourceCardStacks.addAll(((LootEntry) lootEntry).getStack(ChunkRandom.any()));
+                    }
+                });
+            }
+        }));
+
+        lootInfo.add(LabeledLootInfo.of(resourceCardStacks, new TextComponent( "Resource Cards"), null));
+        lootInfo.add(LabeledLootInfo.of(deluxeResourceCardStacks, new TextComponent( "Deluxe Resource Cards"), null));
+
 
         return lootInfo;
     }
