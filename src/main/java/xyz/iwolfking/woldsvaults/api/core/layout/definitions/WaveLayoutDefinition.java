@@ -60,6 +60,7 @@ public class WaveLayoutDefinition implements LayoutDefinition {
         tooltip.add(new TextComponent("Frequency: ")
                 .append(new TextComponent(String.valueOf(data.getDouble("frequency")))
                         .withStyle(ChatFormatting.GOLD)));
+
     }
 
     @Override

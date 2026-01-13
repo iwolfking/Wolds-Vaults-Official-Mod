@@ -49,6 +49,8 @@ public class ModConfigs {
     public static RecipeUnlocksConfig RECIPE_UNLOCKS = new RecipeUnlocksConfig();
     public static EtchedVaultLayoutConfig ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig();
 
+    public static TimeTrialCompetitionConfig TIME_TRIAL_COMPETITION = new TimeTrialCompetitionConfig();
+
     public static void register() {
         GEM_BOX = new GenericLootableConfig("gem_box").readConfig();
         SUPPLY_BOX = new GenericLootableConfig("supply_box").readConfig();
@@ -82,6 +84,7 @@ public class ModConfigs {
         TRINKET_POUCH = new TrinketPouchConfig().readConfig();
         RECIPE_UNLOCKS = new RecipeUnlocksConfig().readConfig();
         WEAVING_RECIPES_CONFIG = new WeavingRecipesConfig().readConfig();
+        TIME_TRIAL_COMPETITION = new TimeTrialCompetitionConfig().readConfig();
         ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
     }
 }

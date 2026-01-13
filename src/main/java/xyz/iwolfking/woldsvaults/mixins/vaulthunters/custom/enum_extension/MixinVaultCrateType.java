@@ -24,6 +24,7 @@ public class MixinVaultCrateType {
     private static final VaultCrateBlock.Type BALLISTIC_BINGO = enumExpansion$addVariant("BALLISTIC_BINGO");
     private static final VaultCrateBlock.Type ZEALOT = enumExpansion$addVariant("ZEALOT");
     private static final VaultCrateBlock.Type SURVIVAL = enumExpansion$addVariant("SURVIVAL");
+    private static final VaultCrateBlock.Type TIME_TRIAL_REWARD = enumExpansion$addVariant("TIME_TRIAL_REWARD");
 
 
     @Invoker("<init>")

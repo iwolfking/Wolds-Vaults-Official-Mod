@@ -21,11 +21,11 @@
     "ensorcellation:angler": {
       "items": [
         {
-          "id": "emerald",
-          "count": 5
+          "id": "the_vault:wutodic_mass",
+          "count": 8
         }
       ],
-      "levels": 2
+      "levels": 3
     },
     "ensorcellation:damage_ender": {
       "items": [
@@ -45,14 +45,14 @@
       ],
       "levels": 2
     },
-    "ensorcellation:vitality": {
+    "ensorcellation:air_affinity": {
       "items": [
         {
-          "id": "golden_apple",
-          "count": 64
+          "id": "the_vault:phoenix_feather",
+          "count": 1
         }
       ],
-      "levels": 3
+      "levels": 1
     },
     "ensorcellation:hunter": {
       "items": [
@@ -70,7 +70,7 @@
           "count": 5
         }
       ],
-      "levels": 3
+      "levels": 2
     },
     "ensorcellation:air_affinity": {
       "items": [
@@ -85,16 +85,16 @@
       "items": [
         {
           "id": "emerald",
-          "count": 45
+          "count": 5
         }
       ],
       "levels": 1
     },
-    "ensorcellation:gourmand": {
+    "ensorcellation:soulbound": {
       "items": [
         {
-          "id": "pumpkin_pie",
-          "count": 64
+          "id": "the_vault:echo_pog",
+          "count": 1
         }
       ],
       "levels": 2
