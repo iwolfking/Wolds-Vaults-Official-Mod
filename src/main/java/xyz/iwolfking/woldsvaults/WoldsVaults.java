@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults;
 import com.mojang.logging.LogUtils;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.world.data.PlayerGreedData;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
@@ -25,6 +26,7 @@ import net.minecraftforge.fml.loading.LoadingModList;
 import org.slf4j.Logger;
 import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
+import xyz.iwolfking.woldsvaults.api.core.competition.PlayerRewardStorage;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.WoldDataLoaders;
 import xyz.iwolfking.woldsvaults.client.init.ModParticles;
@@ -140,6 +142,10 @@ public class WoldsVaults {
         DiscoveredRecipesData.get(((ServerPlayer) event.getPlayer()).getLevel()).syncTo((ServerPlayer) event.getPlayer());
         PlayerGreedData greedData = PlayerGreedData.get(((ServerPlayer) event.getPlayer()).server);
         ((PlayerGreedDataExtension)greedData).syncTo((ServerPlayer) event.getPlayer());
+
+        if(PlayerRewardStorage.get(event.getPlayer().getServer()).hasRewards(event.getPlayer().getUUID())) {
+            event.getPlayer().displayClientMessage(new TranslatableComponent("rewards.woldsvaults.unclaimed_rewards"), false);
+        }
     }
 
 

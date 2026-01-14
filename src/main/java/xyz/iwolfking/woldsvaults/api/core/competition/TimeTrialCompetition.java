@@ -40,8 +40,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TimeTrialCompetition extends SavedData {
     private static final String DATA_NAME = WoldsVaults.MOD_ID + "_time_trial_competition";
     private static TimeTrialCompetition instance;
-    private static final long WEEK_IN_TICKS = 168000;
-    
+
     private String currentObjective;
     private long endTime;
     private final Map<UUID, Long> playerTimes = new ConcurrentHashMap<>();
@@ -66,6 +65,12 @@ public class TimeTrialCompetition extends SavedData {
     @SubscribeEvent
     public static void onServerAboutToStart(ServerStartingEvent event) {
         MinecraftServer server = event.getServer();
+
+        if(!isCompetitionEnabled(server)) {
+            instance = null;
+            return;
+        }
+
         DimensionDataStorage storage = server.overworld().getDataStorage();
         instance = storage.computeIfAbsent(TimeTrialCompetition::load, TimeTrialCompetition::new, DATA_NAME);
         instance.setDirty();
@@ -76,8 +81,10 @@ public class TimeTrialCompetition extends SavedData {
         if (event.phase != TickEvent.Phase.END) return;
 
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+
+        if (!isCompetitionEnabled(server) || instance == null) return;
         
-        if (server != null && instance != null && System.currentTimeMillis() >= instance.endTime) {
+        if (System.currentTimeMillis() >= instance.endTime) {
             instance.endCompetition(server);
         }
     }
@@ -112,7 +119,7 @@ public class TimeTrialCompetition extends SavedData {
     }
     
     public String getCurrentObjective() {
-        return currentObjective != null ? currentObjective : "None";
+        return currentObjective != null ? currentObjective : null;
     }
     
     public long getTimeRemaining() {
@@ -188,7 +195,12 @@ public class TimeTrialCompetition extends SavedData {
         
         setDirty();
     }
-    
+
+    public static boolean isCompetitionEnabled(MinecraftServer server) {
+        return server != null && server.isDedicatedServer();
+    }
+
+
     @Override
     public CompoundTag save(CompoundTag tag) {
         tag.putString("objective", currentObjective != null ? currentObjective : "");

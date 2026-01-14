@@ -78,15 +78,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_pog", has(iskallia.vault.init.ModItems.POG))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK)
-                .define('A', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
-                .define('D', Items.WRITABLE_BOOK)
-                .define('B', iskallia.vault.init.ModItems.POG)
-                .pattern(" D ")
-                .pattern(" A ")
-                .pattern(" B ")
-                .unlockedBy("has_magic_silk_block", has(iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK))
-                .save(pFinishedRecipeConsumer);
+//        ShapedRecipeBuilder.shaped(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK)
+//                .define('A', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
+//                .define('D', Items.WRITABLE_BOOK)
+//                .define('B', iskallia.vault.init.ModItems.POG)
+//                .pattern(" D ")
+//                .pattern(" A ")
+//                .pattern(" B ")
+//                .unlockedBy("has_magic_silk_block", has(iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK))
+//                .save(pFinishedRecipeConsumer);
 
 
         ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.RESPEC_FLASK)
