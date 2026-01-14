@@ -219,8 +219,6 @@ public class ModItems {
     public static Map<DyeColor, BasicItem> COLORED_UNOBTANIUMS = new HashMap<>();
     public static BasicItem RAINBOW_UNOBTANIUM;
 
-    //public static ConfigurableFloatingTextBlockItem CONFIGURABLE_FLOATING_TEXT;
-
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
@@ -365,12 +363,6 @@ public class ModItems {
             registry.register(bi);
         });
         registry.register(RAINBOW_UNOBTANIUM);
-
-//        CONFIGURABLE_FLOATING_TEXT = new ConfigurableFloatingTextBlockItem(
-//                () -> ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK,
-//                new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS)
-//        );
-//        registry.register(CONFIGURABLE_FLOATING_TEXT);
 
     }
 
