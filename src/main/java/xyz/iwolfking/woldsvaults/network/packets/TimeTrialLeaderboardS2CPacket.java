@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.network.packets;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import xyz.iwolfking.woldsvaults.client.screens.TimeTrialLeaderboardEntry;
 import xyz.iwolfking.woldsvaults.client.screens.TimeTrialLeaderboardScreen;
@@ -56,15 +58,18 @@ public class TimeTrialLeaderboardS2CPacket {
     }
 
     public static void handle(TimeTrialLeaderboardS2CPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            Minecraft.getInstance().setScreen(
-                    new TimeTrialLeaderboardScreen(
-                            msg.objective,
-                            msg.timeRemaining,
-                            msg.entries
-                    )
-            );
-        });
+        ctx.get().enqueueWork(() -> openTimeTrialLeaderboardScreen(msg));
         ctx.get().setPacketHandled(true);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void openTimeTrialLeaderboardScreen(TimeTrialLeaderboardS2CPacket msg) {
+        Minecraft.getInstance().setScreen(
+            new TimeTrialLeaderboardScreen(
+                msg.objective,
+                msg.timeRemaining,
+                msg.entries
+            )
+        );
     }
 }

@@ -338,7 +338,7 @@ public class ModBlocks {
         registerBlockItem(event, BREWING_ALTAR, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, DOLL_DISMANTLING_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, CRATE_CRACKER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
-        //registerBlockItem(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.CONFIGURABLE_FLOATING_TEXT);
+        registerBlockItem(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         }));

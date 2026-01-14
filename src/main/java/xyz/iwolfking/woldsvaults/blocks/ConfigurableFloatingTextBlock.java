@@ -23,6 +23,8 @@ import java.util.Random;
 
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.blocks.containers.FloatingTextEditScreen;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ConfigurableFloatingTextTileEntity;
@@ -94,14 +96,17 @@ public class ConfigurableFloatingTextBlock extends BarrierBlock implements Entit
         if (level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof ConfigurableFloatingTextTileEntity tile) {
-                Minecraft.getInstance().setScreen(
-                        new FloatingTextEditScreen(tile)
-                );
+                openConfigurableFloatingTextEditScreen(tile);
             }
         }
         return InteractionResult.SUCCESS;
     }
 
-
+    @OnlyIn(Dist.CLIENT)
+    private void openConfigurableFloatingTextEditScreen(ConfigurableFloatingTextTileEntity tile) {
+        Minecraft.getInstance().setScreen(
+            new FloatingTextEditScreen(tile)
+        );
+    }
 
 }
