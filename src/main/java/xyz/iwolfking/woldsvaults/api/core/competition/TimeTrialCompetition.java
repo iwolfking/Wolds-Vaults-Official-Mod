@@ -121,6 +121,11 @@ public class TimeTrialCompetition extends SavedData {
     public String getCurrentObjective() {
         return currentObjective != null ? currentObjective : null;
     }
+
+    public void setCurrentObjective(String objectiveId) {
+        currentObjective = objectiveId;
+        this.setDirty();
+    }
     
     public long getTimeRemaining() {
         return Math.max(0, endTime - System.currentTimeMillis());
@@ -197,8 +202,7 @@ public class TimeTrialCompetition extends SavedData {
     }
 
     public static boolean isCompetitionEnabled(MinecraftServer server) {
-        return true;
-        //return server != null && server.isDedicatedServer() && !ModConfigs.TIME_TRIAL_COMPETITION.enabled;
+        return server != null && server.isDedicatedServer() && !ModConfigs.TIME_TRIAL_COMPETITION.enabled;
     }
 
 

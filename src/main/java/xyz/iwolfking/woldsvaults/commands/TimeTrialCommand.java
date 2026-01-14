@@ -1,19 +1,25 @@
 package xyz.iwolfking.woldsvaults.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import iskallia.vault.item.crystal.CrystalData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.api.core.competition.PlayerRewardStorage;
 import xyz.iwolfking.woldsvaults.api.core.competition.lib.RewardBundle;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.client.screens.TimeTrialLeaderboardEntry;
 import xyz.iwolfking.woldsvaults.api.core.competition.TimeTrialCompetition;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
@@ -23,6 +29,7 @@ import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class TimeTrialCommand {
@@ -30,22 +37,37 @@ public class TimeTrialCommand {
         dispatcher.register(
                 Commands.literal("timetrial")
                         .requires(source -> source.hasPermission(0))
+                        .requires(TimeTrialCommand::isCompetitionEnabled)
 
                         .then(Commands.literal("leaderboard")
-                                .executes(TimeTrialCommand::showLeaderboard))
+                                .executes(TimeTrialCommand::showLeaderboardScreen)
+                        )
+
+                        .then(Commands.literal("leaderboard_text")
+                                .executes(TimeTrialCommand::showLeaderboardText)
+                        )
 
                         .then(Commands.literal("status")
-                                .executes(TimeTrialCommand::showStatus))
+                                .executes(TimeTrialCommand::showStatus)
+                        )
 
                         .then(Commands.literal("end")
                                 .requires(src -> src.hasPermission(2))
-                                .executes(TimeTrialCommand::endCompetition))
+                                .executes(TimeTrialCommand::endCompetition)
+                        )
 
                         .then(Commands.literal("reset")
                                 .requires(src -> src.hasPermission(2))
-                                .executes(TimeTrialCommand::resetCompetition))
+                                .executes(TimeTrialCommand::resetCompetition)
+                        )
 
-                        .then(Commands.literal("rewards_menu")
+                        .then(Commands.literal("set_objective")
+                                .then(Commands.argument("objective", StringArgumentType.word()).suggests(TimeTrialCommand::suggestObjectiveIds)
+                                .requires(src -> src.hasPermission(2))
+                                .executes(TimeTrialCommand::setObjective))
+                        )
+
+                        .then(Commands.literal("rewards")
                                 .executes(ctx -> {
                                     ServerPlayer player = ctx.getSource().getPlayerOrException();
                                     new TimeTrialRewardsGui(player).open();
@@ -53,7 +75,7 @@ public class TimeTrialCommand {
                                 })
                         )
 
-                        .then(Commands.literal("rewards")
+                        .then(Commands.literal("quick_claim_rewards")
                                 .executes(ctx -> {
                                     ServerPlayer player = ctx.getSource().getPlayerOrException();
                                     PlayerRewardStorage storage =
@@ -97,9 +119,7 @@ public class TimeTrialCommand {
     }
 
 
-
-
-    private static int showLeaderboard(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    private static int showLeaderboardScreen(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         TimeTrialCompetition competition = TimeTrialCompetition.get();
         if (competition == null) {
             context.getSource().sendFailure(new TextComponent("Time Trial competition is not available right now."));
@@ -126,6 +146,16 @@ public class TimeTrialCommand {
                         entries
                 ), player);
 
+        return 1;
+    }
+
+
+    private static int showLeaderboardText(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        TimeTrialCompetition competition = TimeTrialCompetition.get();
+        if (competition == null) {
+            context.getSource().sendFailure(new TextComponent("Time Trial competition is not available right now."));
+            return 0;
+        }
 
         Map<UUID, Long> leaderboard = competition.getLeaderboard();
         if (leaderboard.isEmpty()) {
@@ -200,5 +230,23 @@ public class TimeTrialCommand {
         TimeTrialCompetition competition = TimeTrialCompetition.get();
         competition.resetCompetition();
         return 1;
+    }
+
+    private static int setObjective(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        TimeTrialCompetition competition = TimeTrialCompetition.get();
+        competition.setCurrentObjective(StringArgumentType.getString(context, "objective"));
+        return 1;
+    }
+
+    private static boolean isCompetitionEnabled(CommandSourceStack source) {
+        return TimeTrialCompetition.isCompetitionEnabled(source.getServer());
+    }
+
+    public static CompletableFuture<Suggestions> suggestObjectiveIds(CommandContext<CommandSourceStack> context,SuggestionsBuilder builder) {
+        for(String key : CrystalData.OBJECTIVE.keys()) {
+            builder.suggest(key);
+        }
+
+        return builder.buildFuture();
     }
 }
