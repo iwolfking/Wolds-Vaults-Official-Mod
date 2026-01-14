@@ -31,6 +31,7 @@
   ],
   "textures": {
     "base": "minecraft:block/stone",
-    "gold": "minecraft:block/gold_block"
+    "gold": "minecraft:block/gold_block",
+    "particle": "minecraft:block/stone"
   }
 }
