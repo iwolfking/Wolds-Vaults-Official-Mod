@@ -182,6 +182,21 @@ public class ColossusAbility extends InstantManaAbility {
             }
             return resistancePercentage;
         }
+
+        public static float getColossusAOE(LivingEntity entity) {
+            float aoePercentage = 0.0f;
+            if (entity instanceof ServerPlayer player) {
+                if (!player.hasEffect(ModEffects.COLOSSUS)) {
+                    return aoePercentage;
+                }
+                AbilityTree abilities = PlayerAbilitiesData.get((ServerLevel) player.level).getAbilities(player);
+                for (ColossusAbility ability : abilities.getAll(ColossusAbility.class, Skill::isUnlocked)) {
+                    aoePercentage += ability.getAdditionalResistance();
+                }
+                return aoePercentage;
+            }
+            return aoePercentage;
+        }
     }
 }
 
