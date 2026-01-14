@@ -9,6 +9,7 @@
     "GameRulesBooleanValueAccessor",
     "LivingEntityAccessor",
     "MixinBlockStateBase",
+    "MixinCreeperEntity",
     "MixinEnchantmentHelper",
     "MixinFortuneOreDropFormula",
     "MixinGameRuleCommand",
