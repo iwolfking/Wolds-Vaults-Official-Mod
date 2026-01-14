@@ -4,9 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import iskallia.vault.client.util.ClientScheduler;
 import iskallia.vault.util.TextComponentUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.Collections;
 import java.util.List;
@@ -132,7 +133,7 @@ public class ComponentUtils {
      * @return a MutableComponent with waving colors
      */
     public static MutableComponent wavingComponent(MutableComponent base, int color, float frequency, float amplitude) {
-        if (Minecraft.getInstance().level == null) return base;
+        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) return base;
 
         String text = base.getString();
 
