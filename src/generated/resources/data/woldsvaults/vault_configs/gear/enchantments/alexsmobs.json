@@ -1,6 +1,15 @@
 {
   "costs": {
-    "alexsmobs:straddle_jump": {
+    "alexsmobs:board_return": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 1
+    },
+    "alexsmobs:lavawax": {
       "items": [
         {
           "id": "emerald",
@@ -18,16 +27,7 @@
       ],
       "levels": 1
     },
-    "alexsmobs:board_return": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 1
-    },
-    "alexsmobs:lavawax": {
+    "alexsmobs:straddle_jump": {
       "items": [
         {
           "id": "emerald",

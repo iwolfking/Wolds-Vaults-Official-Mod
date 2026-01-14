@@ -244,6 +244,7 @@
   "block.woldsvaults.yellow_unobtanium_block": "Yellow Unobtanium Block",
   "command.woldsvaults.give_loot": "Given a %1$s",
   "config.waila.plugin_miningspeedometer.speedometer": "Enable Speedometer Tooltip",
+  "config.waila.plugin_woldsvaults.jade_plugin": "Wold's Plugins",
   "container.woldsvaults.infuser": "Vault Infuser",
   "create.item_attributes.alchemy_ingredient_type": "is an Alchemy ingredient of type \"%1$s\"",
   "create.item_attributes.alchemy_ingredient_type.inverted": "is not an Alchemy ingredient of type \"%1$s\"",
