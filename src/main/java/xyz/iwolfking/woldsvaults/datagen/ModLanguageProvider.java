@@ -91,9 +91,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("vault_event.woldsvaults.cockroach_celebrate", "The dancing cockroaches are fond towards you and bless each player with 3 random positive events!");
         add("vault_event.woldsvaults.cockroach_hate", "The dancing cockroaches hate your guts and curse everyone in the vault with 3 random negative events!");
         add("misc.woldsvaults.flight_block_0", "You cannot fly inside the Vault!");
-        add("vault_objective.woldsvaults.time_trial_player_best", "%1$s just finished a %2$s vault with a new best time of %3$s (previously: %4$s)");
-        add("vault_objective.woldsvaults.time_trial_new_competition_best", "%1$s just beat the Weekly Time Trial best of %2$s with a time of %3$s");
-        add("vault_objective.woldsvaults.time_trial_new_competition_first", "%1$s just beat the Weekly Time Trial with a time of %2$s");
+        add("vault_objective.woldsvaults.time_trial_player_best", "%1$s just finished a §d%2$s§r vault with a new best time of §6%3$s§r (previously: §6%4$s§r)");
+        add("vault_objective.woldsvaults.time_trial_new_competition_best", "%1$s just beat the §6Weekly Time Trial§r best of §6%2$s§r with a time of §6%3$s§r");
+        add("vault_objective.woldsvaults.time_trial_new_competition_first", "%1$s just set the first §6Weekly Time Trial§r entry to beat with a time of §6%2$s§r!");
         add("vault_objective.woldsvaults.survival_completion", "You are now able to leave the vault at any time to reap your current rewards.");
         add("vault_objective.woldsvaults.corrupted_exit", "Find an escape.");
         add("vault_objective.woldsvaults.corrupted_shatter", "You sense a portal shattering");

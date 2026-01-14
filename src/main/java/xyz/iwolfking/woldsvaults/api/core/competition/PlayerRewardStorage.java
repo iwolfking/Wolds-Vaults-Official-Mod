@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 import xyz.iwolfking.woldsvaults.api.core.competition.lib.RewardBundle;
 
@@ -42,6 +43,28 @@ public class PlayerRewardStorage extends SavedData {
     public boolean hasRewards(UUID player) {
         return rewards.containsKey(player) && !rewards.get(player).isEmpty();
     }
+
+    public boolean claimItem(UUID player, RewardBundle bundle, ItemStack stack) {
+        List<RewardBundle> bundles = rewards.get(player);
+        if (bundles == null) return false;
+
+        if (!bundles.contains(bundle)) return false;
+
+        boolean removed = bundle.remove(stack);
+        if (!removed) return false;
+
+        if (bundle.getItems().isEmpty()) {
+            bundles.remove(bundle);
+        }
+
+        if (bundles.isEmpty()) {
+            rewards.remove(player);
+        }
+
+        setDirty();
+        return true;
+    }
+
 
     public void clearRewards(UUID player) {
         rewards.remove(player);

@@ -19,6 +19,9 @@ public class RewardBundle {
         return items;
     }
 
+    public boolean remove(ItemStack stack) {
+       return items.removeIf(itemStack -> itemStack.equals(stack));
+    }
 
     public CompoundTag save() {
         CompoundTag tag = new CompoundTag();

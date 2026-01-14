@@ -109,7 +109,7 @@ public class TimeTrialCompetition extends SavedData {
 
     public Map.Entry<UUID, Long> getBestTime() {
         if(getLeaderboard().isEmpty()) {
-            return Map.entry(UUID.randomUUID(), Long.MAX_VALUE);
+            return null;
         }
         return getLeaderboard().entrySet().iterator().next();
     }
@@ -197,7 +197,8 @@ public class TimeTrialCompetition extends SavedData {
     }
 
     public static boolean isCompetitionEnabled(MinecraftServer server) {
-        return server != null && server.isDedicatedServer() && !ModConfigs.TIME_TRIAL_COMPETITION.enabled;
+        return true;
+        //return server != null && server.isDedicatedServer() && !ModConfigs.TIME_TRIAL_COMPETITION.enabled;
     }
 
 

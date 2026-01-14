@@ -16,10 +16,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.struct.InjectorGroupInfo;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.TimeUtils;
 import xyz.iwolfking.woldsvaults.api.core.competition.TimeTrialCompetition;
+
+import java.util.Map;
+import java.util.UUID;
 
 @Mixin(TimeTrialObjective.class)
 public abstract class MixinTimeTrialObjective {
@@ -62,15 +66,14 @@ public abstract class MixinTimeTrialObjective {
                         TimeTrialCompetition competition = TimeTrialCompetition.get();
                         if (competition != null) {
 
-                            long competitionBest = competition.getBestTime().getValue();
+                            Map.Entry<UUID, Long> competitionBestEntry = competition.getBestTime();
 
-                            if(completionTime < competitionBest) {
-                                if(competitionBest == Long.MAX_VALUE) {
-                                    MessageUtils.broadcastMessage(serverPlayer.getLevel(), new TranslatableComponent("vault_objective.woldsvaults.time_trial_new_competition_best", serverPlayer.getDisplayName(), TimeUtils.formatTime(competitionBest), TimeUtils.formatTime(completionTime)));
-                                }
-                                else {
-                                    MessageUtils.broadcastMessage(serverPlayer.getLevel(), new TranslatableComponent("vault_objective.woldsvaults.time_trial_new_competition_first", serverPlayer.getDisplayName(), TimeUtils.formatTime(completionTime)));
-                                }
+                            if(competitionBestEntry == null) {
+                                MessageUtils.broadcastMessage(serverPlayer.getLevel(), new TranslatableComponent("vault_objective.woldsvaults.time_trial_new_competition_first", serverPlayer.getDisplayName(), TimeUtils.formatTime(completionTime)));
+                            }
+
+                            if(competitionBestEntry != null && competitionBestEntry.getValue() != null && completionTime < competitionBestEntry.getValue()) {
+                                MessageUtils.broadcastMessage(serverPlayer.getLevel(), new TranslatableComponent("vault_objective.woldsvaults.time_trial_new_competition_best", serverPlayer.getDisplayName(), TimeUtils.formatTime(competitionBestEntry.getValue()), TimeUtils.formatTime(completionTime)));
                             }
 
                             competition.recordTime(

@@ -47,8 +47,7 @@ public class TimeTrialRewardsGui extends SimpleGui {
                 this.setSlot(slot++, new GuiElement(
                         stack.copy(),
                         (index, type, action, gui) -> {
-                            giveItem(stack);
-                            bundle.getItems().remove(stack);
+                            storage.claimItem(player.getUUID(), bundle, stack);
                             update();
                         }
                 ));
