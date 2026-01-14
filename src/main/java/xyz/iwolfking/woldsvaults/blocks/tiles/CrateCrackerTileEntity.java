@@ -55,10 +55,10 @@ public class CrateCrackerTileEntity extends BlockEntity
         this.extractionCapability = LazyOptional.of(() -> this.extractionHandler);
 
         // Energy related stuff.
-        int energyStorage = WoldsVaultsConfig.SERVER.dollDismantlerEnergyStorage.get();
-        int energyTransfer = WoldsVaultsConfig.SERVER.dollDismantlerEnergyTransfer.get();
+        int energyStorage = WoldsVaultsConfig.SERVER.crateCrackerEnergyStorage.get();
+        int energyTransfer = WoldsVaultsConfig.SERVER.crateCrackerEnergyTransfer.get();
 
-        this.energyConsumption = WoldsVaultsConfig.SERVER.dollDismantlerEnergyConsumption.get();
+        this.energyConsumption = WoldsVaultsConfig.SERVER.crateCrackerEnergyConsumption.get();
         this.energyStorage = new EnergyStorage(energyStorage, energyTransfer, energyTransfer);
 
         this.energyCapability = LazyOptional.of(() -> this.energyStorage);
@@ -502,7 +502,7 @@ public class CrateCrackerTileEntity extends BlockEntity
                     if (this.extractionTick <= 0)
                     {
                         this.autoEjectItems();
-                        this.extractionTick = WoldsVaultsConfig.SERVER.dollDismantlerExtractionSpeed.get();
+                        this.extractionTick = WoldsVaultsConfig.SERVER.crateCrackerExtractionSpeed.get();
                     }
 
                     this.consumeEnergy();

@@ -14,6 +14,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+
 @Restriction(
     require = {
         @Condition(type = Condition.Type.MOD, value = "scannable")
@@ -43,6 +46,6 @@ public abstract class MixinScannableItem extends ModItem {
 
     @Redirect(method = "finishUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemCooldowns;addCooldown(Lnet/minecraft/world/item/Item;I)V"), remap = true)
     private void adjustCooldown(ItemCooldowns instance, Item pItem, int pTicks) {
-        instance.addCooldown(pItem, 1200);
+        instance.addCooldown(pItem, WoldsVaultsConfig.SERVER.scannableScannerCooldown.get());
     }
 }

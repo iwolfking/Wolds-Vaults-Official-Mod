@@ -62,7 +62,12 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerEnergyConsumption;
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerEnergyTransfer;
         public final ForgeConfigSpec.ConfigValue<Integer> dollDismantlerExtractionSpeed;
+        public final ForgeConfigSpec.ConfigValue<Integer> crateCrackerEnergyStorage;
+        public final ForgeConfigSpec.ConfigValue<Integer> crateCrackerEnergyConsumption;
+        public final ForgeConfigSpec.ConfigValue<Integer> crateCrackerEnergyTransfer;
+        public final ForgeConfigSpec.ConfigValue<Integer> crateCrackerExtractionSpeed;
         public final ForgeConfigSpec.ConfigValue<Boolean> enableNormalGatewayPearls;
+        public final ForgeConfigSpec.ConfigValue<Integer> scannableScannerCooldown;
         public final ForgeConfigSpec.ConfigValue<Boolean> enableServerKiller;
 
         public Server(ForgeConfigSpec.Builder builder) {
@@ -70,10 +75,17 @@ public class WoldsVaultsConfig
             this.dollDismantlerEnergyStorage = builder.comment("Controls how much energy the Doll Dismantler can store inside the block. (default: 1000)").defineInRange("dollDismantlerEnergyStorage", 1000, 0, Integer.MAX_VALUE);
             this.dollDismantlerEnergyConsumption = builder.comment("Controls how much energy the Doll Dismantler uses while blending. (default: 16)").defineInRange("dollDismantlerEnergyConsumption", 16, 0, Integer.MAX_VALUE);
             this.dollDismantlerEnergyTransfer = builder.comment("Controls how much energy the Doll Dismantler can receive/extract (default: 100)").defineInRange("dollDismantlerEnergyTransfer", 100, 0, Integer.MAX_VALUE);
-            this.dollDismantlerExtractionSpeed = builder.comment("Controls how many stacks per tick the doll dismantler extracts (default: 5)").defineInRange("dollDismantlerEnergyTransfer", 5, 1, 100);
+            this.dollDismantlerExtractionSpeed = builder.comment("Controls how many stacks per tick the doll dismantler extracts (default: 5)").defineInRange("dollDismantlerExtractionSpeed", 5, 1, 100);
+            builder.pop();
+            builder.push("Crate Cracker Settings");
+            this.crateCrackerEnergyStorage = builder.comment("Controls how much energy the Crate Cracker can store inside the block. (default: 1000)").defineInRange("crateCrackerEnergyStorage", 1000, 0, Integer.MAX_VALUE);
+            this.crateCrackerEnergyConsumption = builder.comment("Controls how much energy the Crate Cracker uses while extracting. (default: 16)").defineInRange("crateCrackerEnergyConsumption", 16, 0, Integer.MAX_VALUE);
+            this.crateCrackerEnergyTransfer = builder.comment("Controls how much energy the Crate Cracker can receive/extract (default: 100)").defineInRange("crateCrackerEnergyTransfer", 100, 0, Integer.MAX_VALUE);
+            this.crateCrackerExtractionSpeed = builder.comment("Controls how many stacks per tick the Crate Cracker extracts (default: 5)").defineInRange("crateCrackerExtractionSpeed", 5, 1, 100);
             builder.pop();
             builder.push("Gameplay Settings");
             this.enableNormalGatewayPearls = builder.comment("Whether Gateway Pearls should be able to be used normally (right-clicking to use them on ground) (default: false)").define("enableNormalGatewayPearls", false);
+            this.scannableScannerCooldown = builder.comment("How long the cooldown for Scannable scanner should be, in ticks (default: 1200)").define("scannableScannerCooldown", 1200);
             builder.pop();
             builder.push("Admin Settings");
             this.enableServerKiller = builder.comment("Whether to enable Server Killer that will automatically shut down server after 30 seconds, useful if your server is hanging on shutdown. (default: false)").define("enableServerKiller", false);
