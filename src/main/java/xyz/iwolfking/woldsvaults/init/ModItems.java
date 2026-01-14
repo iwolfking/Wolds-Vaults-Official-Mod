@@ -219,6 +219,9 @@ public class ModItems {
     public static Map<DyeColor, BasicItem> COLORED_UNOBTANIUMS = new HashMap<>();
     public static BasicItem RAINBOW_UNOBTANIUM;
 
+    public static ConfigurableFloatingTextBlockItem CONFIGURABLE_FLOATING_TEXT;
+    public static TimeTrialTrophyItem TIME_TRIAL_TROPHY;
+
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
@@ -525,5 +528,11 @@ public class ModItems {
         }
         RAINBOW_UNOBTANIUM = new BasicItem(WoldsVaults.id("rainbow_unobtanium"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
+        CONFIGURABLE_FLOATING_TEXT = new ConfigurableFloatingTextBlockItem(
+                ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK,
+                new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS)
+        );
+
+        TIME_TRIAL_TROPHY = new TimeTrialTrophyItem(ModBlocks.TIME_TRIAL_TROPHY_BLOCK, new Item.Properties().stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS));
     }
 }

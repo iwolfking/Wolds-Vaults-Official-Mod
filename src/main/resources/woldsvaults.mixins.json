@@ -87,7 +87,6 @@
     "openpac.MixinHostileEntityProtectionHelper",
     "pnc.MixinDisenchantingPressureRecipe",
     "quark.MixinAncientTomesModule",
-    "quark.MixinInventoryTransferHandler",
     "scannable.MixinRangeScannerModule",
     "scannable.MixinScannableItem",
     "scannable.MixinScannableItems",

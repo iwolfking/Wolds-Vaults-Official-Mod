@@ -28,8 +28,10 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.competition.lib.RewardBundle;
+import xyz.iwolfking.woldsvaults.blocks.tiles.TimeTrialTrophyBlockEntity;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.items.TimeTrialTrophyItem;
 
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
@@ -172,6 +174,8 @@ public class TimeTrialCompetition extends SavedData {
             generator.generate(ChunkRandom.any());
             generator.getItems().forEachRemaining(loot::add);
 
+            ItemStack trophyStack = TimeTrialTrophyItem.create(new TimeTrialTrophyBlockEntity.TrophyData(player.getDisplayName().getString(), player.getUUID(), currentObjective, LocalDateTime.now().toString(), getBestTime().getValue()));
+            loot.add(trophyStack);
             ItemStack crate = VaultCrateBlock.getCrateWithLoot(VaultCrateBlock.Type.valueOf("TIME_TRIAL_REWARD"), loot);
 
             rewards.addReward(
@@ -202,7 +206,8 @@ public class TimeTrialCompetition extends SavedData {
     }
 
     public static boolean isCompetitionEnabled(MinecraftServer server) {
-        return server != null && server.isDedicatedServer() && !ModConfigs.TIME_TRIAL_COMPETITION.enabled;
+        return true;
+        //return server != null && server.isDedicatedServer() && !ModConfigs.TIME_TRIAL_COMPETITION.enabled;
     }
 
 

@@ -119,7 +119,9 @@ public class ModBlocks {
     public static final Block RAINBOW_UNOBTANIUM;
 
     public static final ConfigurableFloatingTextBlock CONFIGURABLE_FLOATING_TEXT_BLOCK;
+    public static final TimeTrialTrophyBlock TIME_TRIAL_TROPHY_BLOCK;
     public static final BlockEntityType<ConfigurableFloatingTextTileEntity> CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY;
+    public static final BlockEntityType<TimeTrialTrophyBlockEntity> TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE;
 
     public static final Map<String, VaultCrateBlock> CUSTOM_VAULT_CRATES = new HashMap<>();
 
@@ -169,6 +171,7 @@ public class ModBlocks {
         DOLL_DISMANTLING_BLOCK = new DollDismantlingBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), DollDismantlingBlock.DOLL_DISMANTLING_SHAPE);
         CRATE_CRACKER_BLOCK = new CrateCrackerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), CrateCrackerBlock.CRATE_CRACKER_SHAPE);
         CONFIGURABLE_FLOATING_TEXT_BLOCK = new ConfigurableFloatingTextBlock();
+        TIME_TRIAL_TROPHY_BLOCK = new TimeTrialTrophyBlock(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK));
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
         HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(HellishSandTileEntity::new, HELLISH_SAND_BLOCK).build(null);
@@ -191,6 +194,7 @@ public class ModBlocks {
         DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DollDismantlingTileEntity::new, new Block[]{DOLL_DISMANTLING_BLOCK}).build(null);
         CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(CrateCrackerTileEntity::new, new Block[]{CRATE_CRACKER_BLOCK}).build(null);
         CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY = BlockEntityType.Builder.of(ConfigurableFloatingTextTileEntity::new, new Block[]{CONFIGURABLE_FLOATING_TEXT_BLOCK}).build(null);
+        TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(TimeTrialTrophyBlockEntity::new, new Block[]{TIME_TRIAL_TROPHY_BLOCK}).build(null);
         for(DyeColor color : DyeColor.values()) {
             Block dyedUnobtanium = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL, color).strength(50F).requiresCorrectToolForDrops());
             COLORED_UNOBTANIUMS.put(color, dyedUnobtanium);
@@ -257,6 +261,7 @@ public class ModBlocks {
         registerBlock(event, DOLL_DISMANTLING_BLOCK, WoldsVaults.id("doll_dismantler"));
         registerBlock(event, CRATE_CRACKER_BLOCK, WoldsVaults.id("crate_cracker"));
         registerBlock(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, WoldsVaults.id("configurable_floating_text"));
+        registerBlock(event, TIME_TRIAL_TROPHY_BLOCK, WoldsVaults.id("time_trial_trophy"));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
         }));
@@ -288,6 +293,7 @@ public class ModBlocks {
         registerTileEntity(event, DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("doll_dismantler_tile_entity"));
         registerTileEntity(event, CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("crate_cracker_tile_entity"));
         registerTileEntity(event, CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY, WoldsVaults.id("configurable_floating_text_entity"));
+        registerTileEntity(event, TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("time_trial_trophy_entity"));
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
@@ -338,7 +344,8 @@ public class ModBlocks {
         registerBlockItem(event, BREWING_ALTAR, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, DOLL_DISMANTLING_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, CRATE_CRACKER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
-        registerBlockItem(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.CONFIGURABLE_FLOATING_TEXT);
+        registerBlockItem(event, TIME_TRIAL_TROPHY_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.TIME_TRIAL_TROPHY);
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         }));

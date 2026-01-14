@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "format_version": "4.8",
+    "model_format": "java_block",
+    "box_uv": false
+  },
+  "elements": [
+    {
+      "from": [4, 0, 4],
+      "to": [12, 4, 12],
+      "faces": {
+        "north": {"uv": [0, 0, 8, 4], "texture": "#base"},
+        "south": {"uv": [0, 0, 8, 4], "texture": "#base"},
+        "east": {"uv": [0, 0, 8, 4], "texture": "#base"},
+        "west": {"uv": [0, 0, 8, 4], "texture": "#base"},
+        "up": {"uv": [0, 0, 8, 8], "texture": "#base"},
+        "down": {"uv": [0, 0, 8, 8], "texture": "#base"}
+      }
+    },
+    {
+      "from": [6, 4, 6],
+      "to": [10, 10, 10],
+      "faces": {
+        "north": {"uv": [0, 0, 4, 6], "texture": "#gold"},
+        "south": {"uv": [0, 0, 4, 6], "texture": "#gold"},
+        "east": {"uv": [0, 0, 4, 6], "texture": "#gold"},
+        "west": {"uv": [0, 0, 4, 6], "texture": "#gold"},
+        "up": {"uv": [0, 0, 4, 4], "texture": "#gold"}
+      }
+    }
+  ],
+  "textures": {
+    "base": "minecraft:block/stone",
+    "gold": "minecraft:block/gold_block"
+  }
+}

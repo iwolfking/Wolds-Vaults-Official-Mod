@@ -119,6 +119,35 @@
         "color": "#FFD700"
       }
     ],
+    "Gambler": [
+      {
+        "text": "Just one more choice and it will solve everything... just one more!\n\n"
+      },
+      {
+        "text": "1 "
+      },
+      {
+        "text": "Add an additional "
+      },
+      {
+        "text": "choice ",
+        "color": "gold"
+      },
+      {
+        "text": "when opening "
+      },
+      {
+        "text": "Booster Packs",
+        "color": "green"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
     "Surprise_Favors": [
       {
         "text": "Gain a "

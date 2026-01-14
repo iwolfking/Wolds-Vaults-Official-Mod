@@ -460,6 +460,15 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("Legendary Modifiers ", "gold"));
                     jsonElements.add(JsonDescription.simple("."));
                 })
+                .addDescription("Gambler", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Just one more choice and it will solve everything... just one more!\n\n"));
+                    jsonElements.add(JsonDescription.simple("1 "));
+                    jsonElements.add(JsonDescription.simple("Add an additional "));
+                    jsonElements.add(JsonDescription.simple("choice ", "gold"));
+                    jsonElements.add(JsonDescription.simple("when opening "));
+                    jsonElements.add(JsonDescription.simple("Booster Packs", "green"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
                 .addDescription("Infuser", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("When applying an "));
                     jsonElements.add(JsonDescription.simple("Infused Vault Catalyst ", "#B90061"));

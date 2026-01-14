@@ -56,6 +56,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("speedometer.jade.tooltip.speed_needed", "+%s Mining Speed to Instamine %s");
         add("speedometer.jade.tooltip.speed_additional", "+%s more Mining Speed to Instamine %s");
         add("speedometer.jade.tooltip.speed_for_breakpoint", "+%1$s more Mining Speed to break in %2$s ticks");
+        add("config.waila.plugin_woldsvaults.jade_plugin", "Wold's Plugins");
         add("deck.woldsvaults.nitwit_modifier", "increased card efficiency inside Arcane slots (Arcane slots may only have non-Arcane slots inserted)");
         add("deck.woldsvaults.void_modifier", "increased card efficiency per empty card slot");
         add("deck.woldsvaults.adjacency_modifier", "increased card efficiency %2$s %1$s card");

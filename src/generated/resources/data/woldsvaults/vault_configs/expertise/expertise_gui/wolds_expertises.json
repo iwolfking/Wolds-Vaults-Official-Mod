@@ -1,5 +1,11 @@
 {
   "styles": {
+    "Gambler": {
+      "x": 210,
+      "y": 350,
+      "frameType": "STAR",
+      "icon": "the_vault:gui/skills/gambler"
+    },
     "Surprise_Favors": {
       "x": 210,
       "y": 70,
