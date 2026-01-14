@@ -197,7 +197,7 @@ public class TimeTrialCompetition extends SavedData {
     }
 
     public static boolean isCompetitionEnabled(MinecraftServer server) {
-        return server != null && server.isDedicatedServer();
+        return server != null && server.isDedicatedServer() && !ModConfigs.TIME_TRIAL_COMPETITION.enabled;
     }
 
 
