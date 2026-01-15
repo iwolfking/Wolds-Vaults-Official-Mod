@@ -28,6 +28,7 @@ import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.woldsvaults.api.core.competition.PlayerRewardStorage;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
+import xyz.iwolfking.woldsvaults.integration.cctweaked.CCTweakedSetup;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.WoldDataLoaders;
 import xyz.iwolfking.woldsvaults.client.init.ModParticles;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
@@ -84,6 +85,10 @@ public class WoldsVaults {
         ModCatalystModels.registerModels();
         ModInscriptionModels.registerModels();
         ModFTBQuestsTaskTypes.init();
+        if(LoadingModList.get().getModFileById("computercraft") != null) {
+            CCTweakedSetup.init();
+        }
+
         MinecraftForge.EVENT_BUS.addListener(WoldDataLoaders::initProcessors);
         ModCompressibleBlocks.addBuiltInBlocks();
     }

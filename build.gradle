@@ -228,6 +228,7 @@ dependencies {
     implementation fg.deobf("curse.maven:rechiseled-558998:5286275")
     implementation fg.deobf("curse.maven:jade-324717:5079263")
     implementation fg.deobf("curse.maven:cit-reforged-910362:4739782")
+    implementation fg.deobf("curse.maven:cc-tweaked-282001:4630521")
     //implementation fg.deobf("curse.maven:vault-hunters-api-1118899:7394193")
 
     // transitive WV deps

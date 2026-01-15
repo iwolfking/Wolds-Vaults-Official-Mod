@@ -97,7 +97,7 @@ public record LayoutTooltipClientComponent(LayoutTooltipComponent tooltipCompone
                 int color;
                 switch (type) {
                     case ROOM -> color = 0xFFDDDDDD;
-                    case INSCRIPTION -> color = 0xFF666666;
+                    case INSCRIPTION -> color = 0xFF006600;
                     case PORTAL -> color = 0xFFFF0000;
                     default -> color = 0xFFFF00FF;
                 }
