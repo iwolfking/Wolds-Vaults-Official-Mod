@@ -1,8 +1,8 @@
 {
   "styles": {
     "Gambler": {
-      "x": 210,
-      "y": 350,
+      "x": 490,
+      "y": 70,
       "frameType": "STAR",
       "icon": "the_vault:gui/skills/gambler"
     },
@@ -17,6 +17,12 @@
       "y": 210,
       "frameType": "STAR",
       "icon": "the_vault:gui/skills/reroll"
+    },
+    "Deck_Master": {
+      "x": -70,
+      "y": 70,
+      "frameType": "STAR",
+      "icon": "the_vault:gui/skills/deck_master"
     },
     "Pylon_Pilferer": {
       "x": 210,

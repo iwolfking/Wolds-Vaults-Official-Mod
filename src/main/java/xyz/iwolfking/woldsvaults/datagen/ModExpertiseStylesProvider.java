@@ -31,6 +31,7 @@ public class ModExpertiseStylesProvider extends AbstractExpertiseStyleProvider {
             builder.addStyle("Craftsman", new SkillStyle(210, 210, VaultMod.id("gui/skills/reroll"), SkillFrame.STAR));
             builder.addStyle("Pylon_Pilferer", new SkillStyle(210, 280, VaultMod.id("gui/skills/pylon_pilferer"), SkillFrame.STAR));
             builder.addStyle("Gambler", new SkillStyle(490, 70, VaultMod.id("gui/skills/gambler"), SkillFrame.STAR));
+            builder.addStyle("Deck_Master", new SkillStyle(-70, 70, VaultMod.id("gui/skills/deck_master"), SkillFrame.STAR));
         });
     }
 

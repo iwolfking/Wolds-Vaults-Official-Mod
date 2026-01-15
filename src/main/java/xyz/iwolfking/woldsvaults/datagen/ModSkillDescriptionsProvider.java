@@ -469,6 +469,18 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("Booster Packs", "green"));
                     jsonElements.add(JsonDescription.simple("."));
                 })
+                .addDescription("Deck_Master", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Become a master at handling decks!\n\n"));
+                    jsonElements.add(JsonDescription.simple("1 "));
+                    jsonElements.add(JsonDescription.simple("Add a random "));
+                    jsonElements.add(JsonDescription.simple("Lesser ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("deck modifier "));
+                    jsonElements.add(JsonDescription.simple("when crafting "));
+                    jsonElements.add(JsonDescription.simple("Card Decks ", "gold"));
+                    jsonElements.add(JsonDescription.simple("in the "));
+                    jsonElements.add(JsonDescription.simple("Deck Station ", "aqua"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
                 .addDescription("Infuser", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("When applying an "));
                     jsonElements.add(JsonDescription.simple("Infused Vault Catalyst ", "#B90061"));
