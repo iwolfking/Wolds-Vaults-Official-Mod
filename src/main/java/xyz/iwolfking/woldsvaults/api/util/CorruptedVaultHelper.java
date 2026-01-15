@@ -236,7 +236,7 @@ public class CorruptedVaultHelper {
                 player.teleportTo(0, 64, 0);
                 player.connection.teleport(0, 64, 0, 0, 0);
 
-                vault.get(Vault.MODIFIERS).addModifier(VaultModifierRegistry.get(VaultMod.id("crowded")), 10, true, ChunkRandom.any());
+                vault.get(Vault.MODIFIERS).addModifier(VaultModifierRegistry.get(VaultMod.id("crowded")), 10, true, ChunkRandom.ofNanoTime());
                 vault.ifPresent(Vault.CLOCK, (clock) -> clock.set(TickClock.VISIBLE));
 
                 FloatingItemEntity floatingItem = FloatingItemEntity.create(world, new BlockPos(0, 65, 5), new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.OBELISK_RESONATOR));
@@ -872,7 +872,7 @@ public class CorruptedVaultHelper {
                 );
 
                 for (VaultModifier<?> mod : modifiers) {
-                    vault.get(Vault.MODIFIERS).addModifier(mod, 1, true, ChunkRandom.any());
+                    vault.get(Vault.MODIFIERS).addModifier(mod, 1, true, ChunkRandom.ofNanoTime());
                     world.players().forEach(player ->
                             player.sendMessage(
                                     mod.getChatDisplayNameComponent(1).copy().append(new TextComponent(" has been applied.").withStyle(ChatFormatting.RED)),

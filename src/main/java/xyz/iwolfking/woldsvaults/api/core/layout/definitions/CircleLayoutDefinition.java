@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.CircleLayoutTooltip;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
@@ -67,7 +68,7 @@ public class CircleLayoutDefinition implements LayoutDefinition {
     }
 
     @Override
-    public @Nonnull Optional<LayoutTooltipComponent> getTooltipImage(CompoundTag data) {
+    public @Nonnull Optional<TooltipComponent> getTooltipImage(CompoundTag data) {
         try {
             return CircleLayoutTooltip.getTooltipImage(data);
         } catch (Exception e) {

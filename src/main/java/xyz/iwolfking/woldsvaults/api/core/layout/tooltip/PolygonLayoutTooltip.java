@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.api.core.layout.tooltip;
 
 import iskallia.vault.core.world.generator.layout.ClassicPolygonLayout;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
 
 import javax.annotation.Nonnull;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 public class PolygonLayoutTooltip {
 
-    public static @Nonnull Optional<LayoutTooltipComponent> getTooltipImage(CompoundTag data) {
+    public static @Nonnull Optional<TooltipComponent> getTooltipImage(CompoundTag data) {
         int[] vertices = data.getIntArray("vertices");
         int tunnelSpan = data.getInt("tunnel");
 

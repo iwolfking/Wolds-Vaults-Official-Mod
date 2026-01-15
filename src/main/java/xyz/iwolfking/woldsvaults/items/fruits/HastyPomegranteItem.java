@@ -89,7 +89,7 @@ public class HastyPomegranteItem extends ItemVaultFruit {
             VaultModifier<?> modifier = VaultModifierRegistry.get(VaultMod.id("infuriated_mobs"));
             if(modifier != null) {
                 VaultModifierUtils.sendModifierAddedMessage(sPlayer, modifier, 2);
-                vault.get(Vault.MODIFIERS).addModifier(modifier, 2, true, ChunkRandom.any());
+                vault.get(Vault.MODIFIERS).addModifier(modifier, 2, true, ChunkRandom.ofNanoTime());
             }
 
         }

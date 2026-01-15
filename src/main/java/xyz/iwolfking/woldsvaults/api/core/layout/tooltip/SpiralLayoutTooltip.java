@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.api.core.layout.tooltip;
 
 import iskallia.vault.core.world.generator.layout.ClassicSpiralLayout;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.level.block.Rotation;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
 
@@ -14,7 +15,7 @@ public class SpiralLayoutTooltip {
     /**
      * {@link ClassicSpiralLayout} wtf
      */
-    public static @Nonnull Optional<LayoutTooltipComponent> getTooltipImage(CompoundTag data) {
+    public static @Nonnull Optional<TooltipComponent> getTooltipImage(CompoundTag data) {
         int halfLength = data.getInt("halfLength");
         int tunnelSpan = data.getInt("tunnel");
 

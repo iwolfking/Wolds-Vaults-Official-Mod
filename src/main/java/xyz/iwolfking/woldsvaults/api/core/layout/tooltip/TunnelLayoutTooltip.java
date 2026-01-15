@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.api.core.layout.tooltip;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicTunnelLayout;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
@@ -9,7 +10,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class TunnelLayoutTooltip {
-    public static @NotNull Optional<LayoutTooltipComponent> getTooltipImage(CompoundTag data) {
+
+    public static @NotNull Optional<TooltipComponent> getTooltipImage(CompoundTag data) {
         int width = data.getInt("width");
         int height = data.getInt("height");
         int branchInterval = data.getInt("branchInterval");

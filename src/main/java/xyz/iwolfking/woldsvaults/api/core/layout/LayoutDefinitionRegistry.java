@@ -1,12 +1,13 @@
 package xyz.iwolfking.woldsvaults.api.core.layout;
 
+import iskallia.vault.item.crystal.CrystalEntry;
+import iskallia.vault.item.crystal.layout.CompoundCrystalLayout;
 import iskallia.vault.item.crystal.layout.CrystalLayout;
+import xyz.iwolfking.woldsvaults.api.core.layout.definitions.CompoundLayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public final class LayoutDefinitionRegistry {
 

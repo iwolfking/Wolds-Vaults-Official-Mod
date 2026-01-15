@@ -33,7 +33,7 @@ public class VaultModifierUtils {
     public static void addModifier(Vault vault, ResourceLocation modifier, int count) {
         VaultModifier<?> vaultModifier = VaultModifierRegistry.get(modifier);
         if(vaultModifier != null) {
-            vault.get(Vault.MODIFIERS).addModifier(vaultModifier, count, true, ChunkRandom.any());
+            vault.get(Vault.MODIFIERS).addModifier(vaultModifier, count, true, ChunkRandom.ofNanoTime());
         }
     }
 
@@ -65,7 +65,7 @@ public class VaultModifierUtils {
             while(modIter.hasNext()) {
                 VaultModifier<?> mod = modIter.next();
                 modifier = mod;
-                (vault.get(Vault.MODIFIERS)).addModifier(mod, 1, true, ChunkRandom.any());
+                (vault.get(Vault.MODIFIERS)).addModifier(mod, 1, true, ChunkRandom.ofNanoTime());
             }
 
             if(modifier.getId().equals(VaultMod.id("empty"))) {

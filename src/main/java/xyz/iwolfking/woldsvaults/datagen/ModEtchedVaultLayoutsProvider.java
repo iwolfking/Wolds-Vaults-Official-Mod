@@ -49,13 +49,13 @@ public class ModEtchedVaultLayoutsProvider extends AbstractEtchedVaultLayoutProv
                     crystalLayoutWeightedListBuilder.add(new ClassicWaveCrystalLayout(1, 12, 1, 1.2), 1);
                 });
                 layoutEntries.add(65, crystalLayoutWeightedListBuilder -> {
-                    crystalLayoutWeightedListBuilder.add(new ClassicTunnelCrystalLayout(1, 11, 9, 3), 1);
-                    crystalLayoutWeightedListBuilder.add(new ClassicCircleCrystalLayout(1, 14), 1);
-                    crystalLayoutWeightedListBuilder.add(new ClassicCircleCrystalLayout(1, 9), 1);
-                    crystalLayoutWeightedListBuilder.add(new ClassicPolygonCrystalLayout(1, new int[] {-12,  12, 12,  12, 12, -12, -12, -12}), 1);
-                    crystalLayoutWeightedListBuilder.add(new ClassicPolygonCrystalLayout(1, new int[] {-12,  0, 0,  12, 12, 0, 0, -12}), 1);
-                    crystalLayoutWeightedListBuilder.add(new ClassicPolygonCrystalLayout(1, new int[] {-9,  0, 0,  9, 9, 0, 0, -9}), 1);
-                    crystalLayoutWeightedListBuilder.add(new ClassicWaveCrystalLayout(1, 14, 1, 1.2), 1);
+                    crystalLayoutWeightedListBuilder.add(new ClassicTunnelCrystalLayout(1, 11, 9, 3), 2);
+                    crystalLayoutWeightedListBuilder.add(new ClassicCircleCrystalLayout(1, 14), 2);
+                    crystalLayoutWeightedListBuilder.add(new ClassicCircleCrystalLayout(1, 9), 3);
+                    crystalLayoutWeightedListBuilder.add(new ClassicPolygonCrystalLayout(1, new int[] {-12,  12, 12,  12, 12, -12, -12, -12}), 3);
+                    crystalLayoutWeightedListBuilder.add(new ClassicPolygonCrystalLayout(1, new int[] {-12,  0, 0,  12, 12, 0, 0, -12}), 2);
+                    crystalLayoutWeightedListBuilder.add(new ClassicPolygonCrystalLayout(1, new int[] {-9,  0, 0,  9, 9, 0, 0, -9}), 2);
+                    crystalLayoutWeightedListBuilder.add(new ClassicWaveCrystalLayout(1, 14, 1, 1.2), 3);
                 });
                 layoutEntries.add(100, crystalLayoutWeightedListBuilder -> {
                     crystalLayoutWeightedListBuilder.add(new ClassicTunnelCrystalLayout(1, 12, 10, 3), 1);

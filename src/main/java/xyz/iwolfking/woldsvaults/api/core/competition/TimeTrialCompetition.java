@@ -171,7 +171,7 @@ public class TimeTrialCompetition extends SavedData {
                     lootTableKey,
                     0.0F
             );
-            generator.generate(ChunkRandom.any());
+            generator.generate(ChunkRandom.ofNanoTime());
             generator.getItems().forEachRemaining(loot::add);
 
             ItemStack trophyStack = TimeTrialTrophyItem.create(new TimeTrialTrophyBlockEntity.TrophyData(player.getDisplayName().getString(), player.getUUID(), currentObjective, LocalDateTime.now().toString(), getBestTime().getValue()));

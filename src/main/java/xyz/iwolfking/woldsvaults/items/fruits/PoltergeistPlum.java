@@ -97,7 +97,7 @@ public class PoltergeistPlum extends ItemVaultFruit {
             VaultModifier<?> vexationMod = VaultModifierRegistry.get(VaultMod.id("vexation"));
             if(vexationMod != null) {
                 VaultModifierUtils.sendModifierAddedMessage(sPlayer, vexationMod, 1);
-                vault.get(Vault.MODIFIERS).addModifier(VaultModifierRegistry.get(VaultMod.id("vexation")), 1, true, ChunkRandom.any());
+                vault.get(Vault.MODIFIERS).addModifier(VaultModifierRegistry.get(VaultMod.id("vexation")), 1, true, ChunkRandom.ofNanoTime());
             }
 
         }

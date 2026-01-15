@@ -29,6 +29,7 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("augmentation_luck", EclecticGearExpertise.class, EclecticGearExpertise::new);
         this.register("surprise_favors", SurpriseModifiersExpertise.class, SurpriseModifiersExpertise::new);
         this.register("gambler", GamblerExpertise.class, GamblerExpertise::new);
+        this.register("deck_master", DeckMasterExpertise.class, DeckMasterExpertise::new);
         this.register("colossus", ColossusAbility.class,ColossusAbility::new);
         this.register("sneaky_getaway", SneakyGetawayAbility.class,SneakyGetawayAbility::new);
         this.register("vein_miner_chain", VeinMinerChainAbility.class, VeinMinerChainAbility::new);

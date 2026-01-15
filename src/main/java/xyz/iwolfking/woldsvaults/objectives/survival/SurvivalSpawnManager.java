@@ -38,7 +38,7 @@ public class SurvivalSpawnManager {
                     ServerPlayer player = listener.getPlayer().get();
 
                     for(int i = 0; i < ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_SPAWNS.getForLevel(0).get().getSpawnAmount(); i++) {
-                        SpawnHelper.doSpawn(world, MIN_SPAWN_RADIUS, MAX_SPAWN_RADIUS, player.getOnPos(), ChunkRandom.any(), ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_SPAWNS.getForLevel(0).get().getEntities(), null, null);
+                        SpawnHelper.doSpawn(world, MIN_SPAWN_RADIUS, MAX_SPAWN_RADIUS, player.getOnPos(), ChunkRandom.ofNanoTime(), ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_SPAWNS.getForLevel(0).get().getEntities(), null, null);
                     }
                 }
             });

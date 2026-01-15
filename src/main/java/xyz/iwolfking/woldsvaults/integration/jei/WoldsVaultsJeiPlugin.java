@@ -296,7 +296,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
                 LootPool pool = ((TaskLootCardModifierConfigAccessor)taskLootCardModifier.getConfig()).getLoot();
                 pool.getChildren().forEach((lootEntry, aDouble1) -> {
                     if(lootEntry instanceof LootEntry) {
-                        resourceCardStacks.addAll(((LootEntry) lootEntry).getStack(ChunkRandom.any()));
+                        resourceCardStacks.addAll(((LootEntry) lootEntry).getStack(ChunkRandom.ofNanoTime()));
                     }
                 });
             }
@@ -307,7 +307,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
                 LootPool pool = ((TaskLootCardModifierConfigAccessor)taskLootCardModifier.getConfig()).getLoot();
                 pool.getChildren().forEach((lootEntry, aDouble1) -> {
                     if(lootEntry instanceof LootEntry) {
-                        deluxeResourceCardStacks.addAll(((LootEntry) lootEntry).getStack(ChunkRandom.any()));
+                        deluxeResourceCardStacks.addAll(((LootEntry) lootEntry).getStack(ChunkRandom.ofNanoTime()));
                     }
                 });
             }

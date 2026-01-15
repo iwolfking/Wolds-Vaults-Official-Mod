@@ -12,5 +12,7 @@ public class ModLayoutDefinitions {
         LayoutDefinitionRegistry.register(new RingsLayoutDefinition());
         LayoutDefinitionRegistry.register(new WaveLayoutDefinition());
         LayoutDefinitionRegistry.register(new InfiniteLayoutDefinition());
+        LayoutDefinitionRegistry.register(new CompoundLayoutDefinition());
+        LayoutDefinitionRegistry.register(new ArchitectLayoutDefinition());
     }
 }

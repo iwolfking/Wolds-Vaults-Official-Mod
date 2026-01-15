@@ -64,12 +64,12 @@ public class WisdomFruitItem extends ItemVaultFruit {
             List<VaultModifier<?>> hunter_modifier = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(VaultMod.id("hunters_enchanted_random"), 0, JavaRandom.ofNanoTime());
             List<VaultModifier<?>> negative_modifier = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(VaultMod.id("medium_negative"), 0, JavaRandom.ofNanoTime());
             for(VaultModifier<?> mod : hunter_modifier) {
-                vault.get(Vault.MODIFIERS).addModifier(mod, 1, true, ChunkRandom.any());
+                vault.get(Vault.MODIFIERS).addModifier(mod, 1, true, ChunkRandom.ofNanoTime());
                 VaultModifierUtils.sendModifierAddedMessage(sPlayer, mod, 1);
             }
 
             for(VaultModifier<?> mod : negative_modifier) {
-                vault.get(Vault.MODIFIERS).addModifier(mod, 1, true, ChunkRandom.any());
+                vault.get(Vault.MODIFIERS).addModifier(mod, 1, true, ChunkRandom.ofNanoTime());
                 VaultModifierUtils.sendModifierAddedMessage(sPlayer, mod, 1);
             }
 
