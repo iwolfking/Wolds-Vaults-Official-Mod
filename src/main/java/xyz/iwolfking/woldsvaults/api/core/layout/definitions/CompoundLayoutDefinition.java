@@ -9,6 +9,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CompoundLayoutDefinition implements LayoutDefinition {
+
 
     @Override
     public String id() {
@@ -87,7 +89,7 @@ public class CompoundLayoutDefinition implements LayoutDefinition {
         }
     }
 
-    public static Optional<Pair<LayoutDefinition, CompoundTag>> getFirstNestedDefinition(CompoundTag data) {
+    public static Optional<Pair<LayoutDefinition, CompoundTag>> getFirstNonArchitect(CompoundTag data) {
         ListTag nestedLayouts = data.getList("layouts", Tag.TAG_COMPOUND);
         for(int i = 0; i < nestedLayouts.size(); i++) {
             CompoundTag nestedLayout = nestedLayouts.getCompound(i);
@@ -99,6 +101,25 @@ public class CompoundLayoutDefinition implements LayoutDefinition {
                     }
 
                     if(nestedLayout.contains("layout_data")) {
+                        return Optional.of(Pair.of(layoutDefinition, nestedLayout.getCompound("layout_data")));
+                    }
+                }
+            }
+        }
+
+        return Optional.empty();
+    }
+
+
+    public static Optional<Pair<LayoutDefinition, CompoundTag>> getNestedLayoutOfType(String type, CompoundTag data) {
+        ListTag nestedLayouts = data.getList("layouts", Tag.TAG_COMPOUND);
+        for(int i = 0; i < nestedLayouts.size(); i++) {
+            CompoundTag nestedLayout = nestedLayouts.getCompound(i);
+            if(nestedLayout.contains("layout")) {
+                LayoutDefinition layoutDefinition = LayoutDefinitionRegistry.get(nestedLayout.getString("layout")).orElse(null);
+                if(layoutDefinition != null) {
+                    if(layoutDefinition.id().equals(type)) {
+                        if(!nestedLayout.contains("layout_data")) return Optional.empty();
                         return Optional.of(Pair.of(layoutDefinition, nestedLayout.getCompound("layout_data")));
                     }
                 }
@@ -120,8 +141,12 @@ public class CompoundLayoutDefinition implements LayoutDefinition {
 
     @Override
     public @Nonnull Optional<TooltipComponent> getTooltipImage(CompoundTag data) {
+        return getTooltipImage(data, 0L);
+    }
+
+    public @Nonnull Optional<TooltipComponent> getTooltipImage(CompoundTag data, long seed) {
         try {
-            return CompoundLayoutTooltip.getTooltipImage(data);
+            return CompoundLayoutTooltip.getTooltipImage(data, seed);
         } catch (Exception e) {
             WoldsVaults.LOGGER.error("Failed to create compound layout manipulator preview.", e);
             return Optional.empty();

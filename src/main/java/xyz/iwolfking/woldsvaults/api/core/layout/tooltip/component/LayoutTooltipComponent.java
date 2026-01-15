@@ -3,14 +3,15 @@ package xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component;
 
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
-public record LayoutTooltipComponent(RoomType[][] rooms, Tunnel[][] horizontalTunnels, Tunnel[][] verticalTunnels, int tunnelSpan) implements TooltipComponent {
+public record LayoutTooltipComponent(RoomType[][] rooms, Tunnel[][] horizontalTunnels, Tunnel[][] verticalTunnels, int tunnelSpan, Long seed) implements TooltipComponent {
 
-    public LayoutTooltipComponent(RoomType[][] rooms, Tunnel[][] horizontalTunnels, Tunnel[][] verticalTunnels, int tunnelSpan) {
+    public LayoutTooltipComponent(RoomType[][] rooms, Tunnel[][] horizontalTunnels, Tunnel[][] verticalTunnels, int tunnelSpan, Long seed) {
         Bounds b = findRoomBounds(rooms);
         this.rooms = trimEmptyRooms(rooms, b);
         this.horizontalTunnels = trimEmptyHorizontalTunnels(horizontalTunnels, b);
         this.verticalTunnels = trimEmptyVerticalTunnels(verticalTunnels, b);
         this.tunnelSpan = tunnelSpan;
+        this.seed = seed;
     }
 
     /**
@@ -96,6 +97,7 @@ public record LayoutTooltipComponent(RoomType[][] rooms, Tunnel[][] horizontalTu
 
     public enum RoomType {
         ROOM,
+        INSCRIPTION,
         PORTAL,
         EMPTY
     }

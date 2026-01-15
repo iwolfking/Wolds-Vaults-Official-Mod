@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
+import xyz.iwolfking.woldsvaults.api.core.layout.definitions.CompoundLayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 
 import java.util.Optional;
@@ -36,6 +37,9 @@ public abstract class MixinItemVaultCrystal extends Item implements IManualModel
             if(layoutDefinition.isPresent()) {
                 CompoundTag layoutData = new CompoundTag();
                 layoutDefinition.get().writeFlatLayout(layout, layoutData);
+                if(layoutDefinition.get() instanceof CompoundLayoutDefinition compoundLayoutDefinition) {
+                    return compoundLayoutDefinition.getTooltipImage(layoutData, data.getProperties().getCustomSeed());
+                }
                 return layoutDefinition.get().getTooltipImage(layoutData);
             }
         }

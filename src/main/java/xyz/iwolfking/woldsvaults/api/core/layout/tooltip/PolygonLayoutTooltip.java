@@ -76,6 +76,6 @@ public class PolygonLayoutTooltip {
                 }
             }
         }
-        return Optional.of(new LayoutTooltipComponent(rooms, hTunnels, vTunnels, tunnelSpan));
+        return Optional.of(new LayoutTooltipComponent(rooms, hTunnels, vTunnels, tunnelSpan, null));
     }
 }

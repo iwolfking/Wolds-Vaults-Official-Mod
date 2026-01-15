@@ -20,9 +20,12 @@ public record LayoutTooltipClientComponent(LayoutTooltipComponent tooltipCompone
         if (!Screen.hasShiftDown()) {
             return 9 + 2;
         }
+
         int cellSize = ROOM_SIZE + GAP_SIZE * tooltipComponent.tunnelSpan();
 
-        return tooltipComponent.rooms().length * cellSize + 2;
+        int heightAddition = hasInscriptions() ? 10 : 0;
+
+        return tooltipComponent.rooms().length * cellSize + 2 + heightAddition;
     }
 
     @Override public int getWidth(Font pFont) {
@@ -48,11 +51,32 @@ public record LayoutTooltipClientComponent(LayoutTooltipComponent tooltipCompone
             renderRooms(poseStack, lines, cellSize);
             renderHorizontalTunnels(poseStack, cellSize);
             renderVerticalTunnels(poseStack, cellSize);
+
+
+
+            // If there are inscriptions and no seed is set, display a note
+            if (hasInscriptions()) {
+                String note = "Inscriptions are approximations";
+                int textY = lines.length * cellSize + GAP_SIZE;
+                font.draw(poseStack, note, 0, textY, ChatFormatting.GRAY.getColor());
+            }
         } else {
             font.draw(poseStack, "SHIFT for preview", 0, 0, ChatFormatting.DARK_GRAY.getColor());
         }
 
         poseStack.popPose();
+    }
+
+    public boolean hasInscriptions() {
+        for (RoomType[] row : tooltipComponent.rooms()) {
+            for (RoomType type : row) {
+                if (type == RoomType.INSCRIPTION) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 
@@ -73,6 +97,7 @@ public record LayoutTooltipClientComponent(LayoutTooltipComponent tooltipCompone
                 int color;
                 switch (type) {
                     case ROOM -> color = 0xFFDDDDDD;
+                    case INSCRIPTION -> color = 0xFF666666;
                     case PORTAL -> color = 0xFFFF0000;
                     default -> color = 0xFFFF00FF;
                 }
