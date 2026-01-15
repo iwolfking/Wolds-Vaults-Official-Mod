@@ -31,10 +31,12 @@ public class MixinDeckForgeRecipe {
 
             float randomModChance = 0.0F;
             String forcedRollid = null;
+            String poolId = "@default";
 
             for(DeckMasterExpertise expertise : tree.getAll(DeckMasterExpertise.class, DeckMasterExpertise::isUnlocked)) {
                 randomModChance += expertise.getChance();
                 forcedRollid = expertise.getForcedRollId();
+                poolId = expertise.getPoolId();
             }
 
             if(randomModChance >= random.nextFloat()) {
@@ -44,7 +46,7 @@ public class MixinDeckForgeRecipe {
                     return;
                 }
 
-                DeckModifier<?> modifier = ModConfigs.DECK_MODIFIERS.getRandom("@default", ChunkRandom.ofNanoTime()).orElse(null);
+                DeckModifier<?> modifier = ModConfigs.DECK_MODIFIERS.getRandom(poolId, ChunkRandom.ofNanoTime()).orElse(null);
 
                 if(modifier == null) {
                     System.out.println("Modifier was null");
