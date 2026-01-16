@@ -27,10 +27,12 @@ public class SurvivalSpawnManager {
 
     private int ticks;
 
+    private final int level;
     public SurvivalSpawnManager(Vault vault, VirtualWorld world, SurvivalObjective objective) {
         this.vault = vault;
         this.world = world;
         this.objective = objective;
+        this.level = vault.get(Vault.LEVEL).get();
     }
 
 
@@ -39,11 +41,12 @@ public class SurvivalSpawnManager {
             vault.get(Vault.LISTENERS).getAll().forEach(listener -> {
                 if(listener.getPlayer().isPresent()) {
                     ServerPlayer player = listener.getPlayer().get();
-                    SurvivalObjectiveConfig.SurvivalSpawnsEntry spawnsEntry = ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_SPAWNS.get("default").getForLevel(0).get();
-                    Pair<EntityType<?>, Integer> spawnEntry = spawnsEntry.getRandomSpawn();
-                    for(int i = 0; i < spawnEntry.second; i++) {
-                        SpawnHelper.doSpawn(world, MIN_SPAWN_RADIUS, MAX_SPAWN_RADIUS, player.getOnPos(), ChunkRandom.ofNanoTime(), spawnEntry.first, null, null);
-                    }
+                    ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_SPAWNS.get("default").getForLevel(level).ifPresent(survivalSpawnsEntry -> {
+                        Pair<EntityType<?>, Integer> spawnEntry = survivalSpawnsEntry.getRandomSpawn();
+                        for(int i = 0; i < spawnEntry.second; i++) {
+                            SpawnHelper.doSpawn(world, MIN_SPAWN_RADIUS, MAX_SPAWN_RADIUS, player.getOnPos(), ChunkRandom.ofNanoTime(), spawnEntry.first, null, null);
+                        }
+                    });
                 }
             });
         }

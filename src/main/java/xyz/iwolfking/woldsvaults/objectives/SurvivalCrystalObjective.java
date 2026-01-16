@@ -14,11 +14,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class SurvivalCrystalObjective extends WoldCrystalObjective {
     protected float objectiveProbability;
     protected float requiredProgress;
+    protected List<String> waveGroups = new ArrayList<>();
 
     public SurvivalCrystalObjective(float objectiveProbability, float requiredProgress) {
         this.objectiveProbability = objectiveProbability;

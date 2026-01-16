@@ -7,18 +7,15 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import iskallia.vault.client.gui.helper.LightmapHelper;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.data.adapter.Adapters;
+import iskallia.vault.core.data.adapter.vault.CompoundAdapter;
 import iskallia.vault.core.data.key.FieldKey;
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.data.key.registry.FieldRegistry;
-import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.objective.AwardCrateObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
-import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.vault.time.TickClock;
 import iskallia.vault.core.world.storage.VirtualWorld;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
@@ -28,17 +25,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.TickEvent;
-import xyz.iwolfking.vhapi.api.events.vault.VaultEvents;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
-import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.objectives.enchanted_elixir.StringList;
 import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalSpawnManager;
 import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalVaultHelper;
+import java.util.List;
 
 public class SurvivalObjective extends Objective {
     public static final ResourceLocation HUD = WoldsVaults.id("textures/gui/survival/hud.png");
@@ -55,9 +50,14 @@ public class SurvivalObjective extends Objective {
                     .with(Version.v1_0, Adapters.INT, DISK.all().or(CLIENT.all()))
                     .register(FIELDS);
 
-    public static final FieldKey<Integer> DIFFICULTY_STAGE =
-            FieldKey.of("difficulty_stage", Integer.class)
+    public static final FieldKey<Integer> WAVE_INDEX =
+            FieldKey.of("wave_index", Integer.class)
                     .with(Version.v1_0, Adapters.INT, DISK.all())
+                    .register(FIELDS);
+
+    public static final FieldKey<StringList> WAVE_GROUPS =
+            FieldKey.of("wave_groups", StringList.class)
+                    .with(Version.v1_0, CompoundAdapter.of(StringList::new), DISK.all())
                     .register(FIELDS);
 
     public static final FieldKey<Boolean> COMPLETED =
@@ -70,19 +70,23 @@ public class SurvivalObjective extends Objective {
     protected SurvivalObjective() {
         this.set(TIME_REQUIRED, 600 * 20);
         this.set(TIME_SURVIVED, 0);
-        this.set(DIFFICULTY_STAGE, 0);
+        this.set(WAVE_INDEX, 0);
         this.set(COMPLETED, false);
+        this.set(WAVE_GROUPS, new StringList());
     }
 
-    protected SurvivalObjective(int target) {
+    protected SurvivalObjective(int target, List<String> waveGroups) {
         this.set(TIME_REQUIRED, target * 20);
         this.set(TIME_SURVIVED, 0);
-        this.set(DIFFICULTY_STAGE, 0);
+        this.set(WAVE_INDEX, 0);
         this.set(COMPLETED, false);
+        StringList waves = new StringList();
+        waves.addAll(waveGroups);
+        this.set(WAVE_GROUPS, waves);
     }
 
     public static SurvivalObjective of(int target) {
-        return new SurvivalObjective(target * 60);
+        return new SurvivalObjective(target * 60, List.of());
     }
 
     @Override
