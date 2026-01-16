@@ -19,7 +19,7 @@ public abstract class WoldCrystalObjective extends CrystalObjective {
                 .withStyle(ChatFormatting.WHITE);
 
         Component objectiveName = new TranslatableComponent(
-                "vault_objective." + getObjectiveId().toString().replace(":", "."))
+                "objective." + getObjectiveId().toString().replace(":", "."))
                 .withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()));
 
         tooltip.add(objectiveTooltip.append(objectiveName));

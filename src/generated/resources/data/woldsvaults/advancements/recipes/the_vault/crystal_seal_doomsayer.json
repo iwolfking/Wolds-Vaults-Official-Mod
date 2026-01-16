@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:crystal_seal_doomsayer"
+    ]
+  },
+  "criteria": {
+    "has_prophet_seal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:crystal_seal_prophet"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:crystal_seal_doomsayer"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_prophet_seal",
+      "has_the_recipe"
+    ]
+  ]
+}

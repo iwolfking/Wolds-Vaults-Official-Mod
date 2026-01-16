@@ -13,7 +13,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.UUID;
 
@@ -54,6 +56,17 @@ public class MixinClassicListenersLogic {
             if(stack.getItem() instanceof VaultCharmItem vaultCharmItem) {
                 vaultCharmItem.addUsedVault(stack, vaultId);
             }
+        }
+    }
+
+    @Inject(
+            method = {"getVaultObjective"},
+            at = {@At("HEAD")},
+            cancellable = true
+    )
+    private void addCustomObjectiveNames(String key, CallbackInfoReturnable<String> cir) {
+        if(key.equals("scaling_ballistic_bingo")) {
+            cir.setReturnValue("Ballistic Bingo");
         }
     }
 }

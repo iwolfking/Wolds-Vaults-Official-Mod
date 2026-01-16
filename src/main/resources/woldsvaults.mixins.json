@@ -248,6 +248,7 @@
     "vaulthunters.custom.MixinTrinketItem",
     "vaulthunters.custom.MixinVaultAltarConfig",
     "vaulthunters.custom.MixinVaultCrateBlock",
+    "vaulthunters.custom.MixinVaultCrystalConfig",
     "vaulthunters.custom.MixinVaultCrystalItem",
     "vaulthunters.custom.MixinVaultDollItem",
     "vaulthunters.custom.MixinVaultFireball",

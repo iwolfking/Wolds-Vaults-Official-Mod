@@ -45,6 +45,7 @@ import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
 import xyz.iwolfking.woldsvaults.models.AdditionalModels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.objectives.CompoundCrystalObjective;
+import xyz.iwolfking.woldsvaults.objectives.ScalingBallisticBingoCrystalObjective;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 import xyz.iwolfking.woldsvaults.objectives.speedrun.SpeedrunCrystalObjective;
@@ -84,6 +85,7 @@ public class WoldsVaults {
         MinecraftForge.EVENT_BUS.register(this);
         ModCatalystModels.registerModels();
         ModInscriptionModels.registerModels();
+        ModCrystalObjectives.init();
         ModFTBQuestsTaskTypes.init();
         if(LoadingModList.get().getModFileById("computercraft") != null) {
             CCTweakedSetup.init();
@@ -104,7 +106,6 @@ public class WoldsVaults {
             LOGGER.debug("Initializing FMLCommonSetup events!");
         }
         ModNetwork.init();
-
         LivingEntityEvents.init();
         new AdditionalModels();
         ModVaultFilterAttributes.initAttributes();
@@ -112,8 +113,6 @@ public class WoldsVaults {
         ModLayoutDefinitions.init();
         NetworkHandler.onCommonSetup();
         DelayedExecutionHelper.init();
-        CrystalData.OBJECTIVE.register("brb_speedrun", SpeedrunCrystalObjective.class, SpeedrunCrystalObjective::new);
-        CrystalData.OBJECTIVE.register("compound", CompoundCrystalObjective.class, CompoundCrystalObjective::new);
         BETTER_COMBAT_PRESENT = LoadingModList.get().getModFileById("bettercombat") != null;
     }
 

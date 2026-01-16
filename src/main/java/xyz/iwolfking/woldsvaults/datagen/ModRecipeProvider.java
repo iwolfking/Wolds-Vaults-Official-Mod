@@ -500,6 +500,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_executioner_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_EXECUTIONER))
                 .save(pFinishedRecipeConsumer);
 
+        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_DOOMSAYER)
+                .define('X', ModBlocks.VAULT_ESSENCE_BLOCK)
+                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_PROPHET)
+                .define('G', Items.ENDER_EYE)
+                .define('B', iskallia.vault.init.ModBlocks.VAULT_DIAMOND_BLOCK)
+                .pattern("XGX")
+                .pattern("XOX")
+                .pattern("XBX")
+                .unlockedBy("has_prophet_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_PROPHET))
+                .save(pFinishedRecipeConsumer);
+
         ShapedRecipeBuilder.shaped(ModItems.INSCRIPTION_BOX)
                 .define('X', iskallia.vault.init.ModItems.WUTODIC_MASS)
                 .define('R', iskallia.vault.init.ModItems.POG)

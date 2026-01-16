@@ -1,0 +1,26 @@
+{
+  "THEMES": {},
+  "LAYOUTS": [],
+  "OBJECTIVES": {},
+  "SEALS": {
+    "woldsvaults:crystal_seal_doomsayer": [
+      {
+        "level": 0,
+        "input": [
+          "the_vault:vault_crystal"
+        ],
+        "objective": {
+          "objective_probability": 0.25,
+          "sealCount": 1,
+          "type": "scaling_ballistic_bingo"
+        },
+        "modifiers": {
+          "list": [],
+          "random_modifiers": true,
+          "clarity": false,
+          "type": "default"
+        }
+      }
+    ]
+  }
+}

@@ -25,7 +25,7 @@ public class ModLanguageProvider extends LanguageProvider {
     }
 
     public void add(CustomObjectiveRegistryEntry entry, String text) {
-        add("vault_objective." + entry.getRegistryName().getNamespace() + "." + entry.getRegistryName().getPath(), text);
+        add("objective." + entry.getRegistryName().getNamespace() + "." + entry.getRegistryName().getPath(), text);
     }
 
     public void add(ResourceLocation id, VaultEvent event) {
@@ -153,11 +153,14 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.UNINFUSED_TERRASTEEL_INGOT, "Uninfused Terrasteel Ingot");
         add(ModItems.POGGING_SEED_BASE, "Pogging Seed Base");
         add(ModItems.ECHOING_SEED_BASE, "Echoing Seed Base");
+        add("menu.woldsvaults.rewards_menu", "Rewards Menu");
         add("item.the_vault.plushie", "Vault Plushie");
         add("item.the_vault.loot_sack", "Vault Sack");
         add("item.the_vault.rang", "Vaultarang");
         add("item.woldsvaults.weapon_augmenter", "Weapon Augmenter");
         add("item.woldsvaults.greedy_vault_rock", "Greedy Vault Rock");
+        add("jei.the_vault.wooden_dungeon_barrel_loot", "Wooden Dungeon Barrel");
+        add("jei.the_vault.time_trial_reward_crate_loot", "Time Trial Reward Crate");
         add("jei.the_vault.completion_crate_unhinged_scavenger_loot", "Unhinged Scavenger Crate");
         add("jei.the_vault.completion_crate_haunted_braziers_loot", "Haunted Braziers Crate");
         add("jei.the_vault.completion_crate_enchanted_elixir_loot", "Enchanted Elixir Crate");

@@ -586,5 +586,120 @@
       "type": "global"
     }
   },
-  "pools": {}
+  "pools": {
+    "default": [
+      {
+        "value": "arsenal",
+        "weight": 1.0
+      },
+      {
+        "value": "aegis",
+        "weight": 1.0
+      },
+      {
+        "value": "tool",
+        "weight": 1.0
+      },
+      {
+        "value": "natural",
+        "weight": 1.0
+      },
+      {
+        "value": "fae",
+        "weight": 1.0
+      },
+      {
+        "value": "void",
+        "weight": 1.0
+      },
+      {
+        "value": "nitwit",
+        "weight": 1.0
+      },
+      {
+        "value": "bazaar",
+        "weight": 1.0
+      },
+      {
+        "value": "arcane",
+        "weight": 1.0
+      },
+      {
+        "value": "temporal",
+        "weight": 1.0
+      },
+      {
+        "value": "adept",
+        "weight": 1.0
+      },
+      {
+        "value": "jupiter",
+        "weight": 1.0
+      },
+      {
+        "value": "pluto",
+        "weight": 1.0
+      },
+      {
+        "value": "premium",
+        "weight": 1.0
+      }
+    ],
+    "champions": [
+      {
+        "value": "nitwit",
+        "weight": 2.0
+      },
+      {
+        "value": "natural",
+        "weight": 2.0
+      },
+      {
+        "value": "arsenal",
+        "weight": 2.0
+      },
+      {
+        "value": "aegis",
+        "weight": 2.0
+      }
+    ],
+    "dungeon_boss": [
+      {
+        "value": "adept",
+        "weight": 1.0
+      }
+    ],
+    "treasure_sand": [
+      {
+        "value": "temporal",
+        "weight": 1.0
+      },
+      {
+        "value": "adept",
+        "weight": 1.0
+      },
+      {
+        "value": "fae",
+        "weight": 1.0
+      },
+      {
+        "value": "tool",
+        "weight": 1.0
+      },
+      {
+        "value": "arcane",
+        "weight": 1.0
+      }
+    ],
+    "completion_crate": [
+      {
+        "value": "bazaar",
+        "weight": 1.0
+      },
+      {
+        "value": "premium",
+        "weight": 1.0
+      }
+    ]
+  }
 }

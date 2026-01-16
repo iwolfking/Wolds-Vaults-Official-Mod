@@ -20,8 +20,16 @@ public class RewardBundle {
     }
 
     public boolean remove(ItemStack stack) {
-       return items.removeIf(itemStack -> itemStack.equals(stack));
+        for (int i = 0; i < items.size(); i++) {
+            ItemStack item = items.get(i);
+            if (ItemStack.isSame(item, stack)) {
+                items.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
+
 
     public CompoundTag save() {
         CompoundTag tag = new CompoundTag();

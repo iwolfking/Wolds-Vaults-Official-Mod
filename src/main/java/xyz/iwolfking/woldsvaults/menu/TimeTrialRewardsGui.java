@@ -5,6 +5,7 @@ import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -26,7 +27,7 @@ public class TimeTrialRewardsGui extends SimpleGui {
         this.player = player;
         this.storage = PlayerRewardStorage.get(player.getServer());
 
-        this.setTitle(new TextComponent("Time Trial Rewards"));
+        this.setTitle(new TranslatableComponent("menu.woldsvaults.rewards_menu"));
         this.setLockPlayerInventory(true);
 
         update();
@@ -47,7 +48,9 @@ public class TimeTrialRewardsGui extends SimpleGui {
                 this.setSlot(slot++, new GuiElement(
                         stack.copy(),
                         (index, type, action, gui) -> {
-                            storage.claimItem(player.getUUID(), bundle, stack);
+                            if(storage.claimItem(player.getUUID(), bundle, stack)) {
+                                giveItem(stack);
+                            }
                             update();
                         }
                 ));

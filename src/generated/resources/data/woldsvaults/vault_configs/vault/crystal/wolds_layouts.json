@@ -12,7 +12,7 @@
             "branchInterval": 6,
             "type": "tunnels"
           },
-          "weight": 1.0
+          "weight": 25.0
         },
         {
           "value": {
@@ -22,7 +22,7 @@
             "frequency": 1.2,
             "type": "wave"
           },
-          "weight": 1.0
+          "weight": 50.0
         },
         {
           "value": {
@@ -31,7 +31,264 @@
             "ringInterval": 2,
             "type": "rings"
           },
-          "weight": 1.0
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 0,
+                "z": -6
+              },
+              {
+                "x": 5,
+                "z": -3
+              },
+              {
+                "x": 5,
+                "z": 3
+              },
+              {
+                "x": 0,
+                "z": 6
+              },
+              {
+                "x": -5,
+                "z": 3
+              },
+              {
+                "x": -5,
+                "z": -3
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -2,
+                "z": -6
+              },
+              {
+                "x": 4,
+                "z": -5
+              },
+              {
+                "x": 7,
+                "z": -1
+              },
+              {
+                "x": 5,
+                "z": 4
+              },
+              {
+                "x": 1,
+                "z": 6
+              },
+              {
+                "x": -4,
+                "z": 3
+              },
+              {
+                "x": -6,
+                "z": -1
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -3,
+                "z": -6
+              },
+              {
+                "x": 3,
+                "z": -6
+              },
+              {
+                "x": 6,
+                "z": -2
+              },
+              {
+                "x": 6,
+                "z": 2
+              },
+              {
+                "x": 3,
+                "z": 6
+              },
+              {
+                "x": -3,
+                "z": 6
+              },
+              {
+                "x": -6,
+                "z": 2
+              },
+              {
+                "x": -6,
+                "z": -2
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -6,
+                "z": -4
+              },
+              {
+                "x": -2,
+                "z": -6
+              },
+              {
+                "x": 4,
+                "z": -5
+              },
+              {
+                "x": 6,
+                "z": -1
+              },
+              {
+                "x": 4,
+                "z": 4
+              },
+              {
+                "x": -1,
+                "z": 6
+              },
+              {
+                "x": -5,
+                "z": 3
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 4,
+                "z": -4
+              },
+              {
+                "x": 4,
+                "z": -4
+              },
+              {
+                "x": 4,
+                "z": 4
+              },
+              {
+                "x": -4,
+                "z": 4
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -5,
+                "z": -3
+              },
+              {
+                "x": 0,
+                "z": -3
+              },
+              {
+                "x": 0,
+                "z": 3
+              },
+              {
+                "x": 5,
+                "z": 3
+              },
+              {
+                "x": 5,
+                "z": 5
+              },
+              {
+                "x": -5,
+                "z": 5
+              },
+              {
+                "x": -5,
+                "z": -3
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -3,
+                "z": -5
+              },
+              {
+                "x": 3,
+                "z": -5
+              },
+              {
+                "x": 5,
+                "z": -2
+              },
+              {
+                "x": 3,
+                "z": 3
+              },
+              {
+                "x": -3,
+                "z": 5
+              },
+              {
+                "x": -5,
+                "z": 2
+              },
+              {
+                "x": -3,
+                "z": -3
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 3,
+            "amplitude": 0,
+            "frequency": 15.0,
+            "type": "wave"
+          },
+          "weight": 50.0
         }
       ]
     },
@@ -46,7 +303,7 @@
             "branchInterval": 6,
             "type": "tunnels"
           },
-          "weight": 1.0
+          "weight": 25.0
         },
         {
           "value": {
@@ -56,7 +313,7 @@
             "frequency": 1.2,
             "type": "wave"
           },
-          "weight": 1.0
+          "weight": 50.0
         },
         {
           "value": {
@@ -65,7 +322,162 @@
             "ringInterval": 2,
             "type": "rings"
           },
-          "weight": 1.0
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -5,
+                "z": -3
+              },
+              {
+                "x": 0,
+                "z": -3
+              },
+              {
+                "x": 0,
+                "z": 3
+              },
+              {
+                "x": 5,
+                "z": 3
+              },
+              {
+                "x": 5,
+                "z": 5
+              },
+              {
+                "x": -5,
+                "z": 5
+              },
+              {
+                "x": -5,
+                "z": -3
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -3,
+                "z": -5
+              },
+              {
+                "x": 3,
+                "z": -5
+              },
+              {
+                "x": 5,
+                "z": -2
+              },
+              {
+                "x": 3,
+                "z": 3
+              },
+              {
+                "x": -3,
+                "z": 5
+              },
+              {
+                "x": -5,
+                "z": 2
+              },
+              {
+                "x": -3,
+                "z": -3
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 0,
+                "z": -5
+              },
+              {
+                "x": 2,
+                "z": -2
+              },
+              {
+                "x": 5,
+                "z": -1
+              },
+              {
+                "x": 2,
+                "z": 2
+              },
+              {
+                "x": 0,
+                "z": 5
+              },
+              {
+                "x": -2,
+                "z": 2
+              },
+              {
+                "x": -5,
+                "z": 1
+              },
+              {
+                "x": -2,
+                "z": -2
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 8,
+            "amplitude": 2,
+            "frequency": 0.5,
+            "type": "wave"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 4,
+            "amplitude": 0,
+            "frequency": 15.0,
+            "type": "wave"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 4,
+            "amplitude": 1,
+            "frequency": 42.0,
+            "type": "wave"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 4,
+            "amplitude": 2,
+            "frequency": 50.0,
+            "type": "wave"
+          },
+          "weight": 50.0
         }
       ]
     },
@@ -80,7 +492,7 @@
             "branchInterval": 1,
             "type": "tunnels"
           },
-          "weight": 1.0
+          "weight": 25.0
         },
         {
           "value": {
@@ -90,7 +502,7 @@
             "frequency": 1.2,
             "type": "wave"
           },
-          "weight": 1.0
+          "weight": 50.0
         },
         {
           "value": {
@@ -99,7 +511,123 @@
             "ringInterval": 2,
             "type": "rings"
           },
-          "weight": 1.0
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 11,
+            "amplitude": 1,
+            "frequency": 1.2,
+            "type": "wave"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 5,
+            "amplitude": 2,
+            "frequency": 0.1,
+            "type": "wave"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 5,
+            "amplitude": 4,
+            "frequency": 18.2,
+            "type": "wave"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 4,
+                "z": -3
+              },
+              {
+                "x": -1,
+                "z": -5
+              },
+              {
+                "x": 2,
+                "z": -4
+              },
+              {
+                "x": 5,
+                "z": 0
+              },
+              {
+                "x": 3,
+                "z": 3
+              },
+              {
+                "x": 0,
+                "z": 5
+              },
+              {
+                "x": -3,
+                "z": 3
+              },
+              {
+                "x": -5,
+                "z": 0
+              },
+              {
+                "x": -3,
+                "z": -2
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 0,
+                "z": -9
+              },
+              {
+                "x": 4,
+                "z": -5
+              },
+              {
+                "x": 7,
+                "z": 0
+              },
+              {
+                "x": 4,
+                "z": 5
+              },
+              {
+                "x": 0,
+                "z": 9
+              },
+              {
+                "x": -4,
+                "z": 5
+              },
+              {
+                "x": -7,
+                "z": 0
+              },
+              {
+                "x": -4,
+                "z": -5
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
         }
       ]
     },
@@ -114,7 +642,7 @@
             "branchInterval": 1,
             "type": "tunnels"
           },
-          "weight": 1.0
+          "weight": 25.0
         },
         {
           "value": {
@@ -124,7 +652,7 @@
             "frequency": 1.2,
             "type": "wave"
           },
-          "weight": 1.0
+          "weight": 50.0
         },
         {
           "value": {
@@ -133,7 +661,214 @@
             "ringInterval": 2,
             "type": "rings"
           },
-          "weight": 1.0
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 12,
+            "amplitude": 1,
+            "frequency": 10.0,
+            "type": "wave"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 0,
+                "z": -9
+              },
+              {
+                "x": 4,
+                "z": -5
+              },
+              {
+                "x": 7,
+                "z": 0
+              },
+              {
+                "x": 4,
+                "z": 5
+              },
+              {
+                "x": 0,
+                "z": 9
+              },
+              {
+                "x": -4,
+                "z": 5
+              },
+              {
+                "x": -7,
+                "z": 0
+              },
+              {
+                "x": -4,
+                "z": -5
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -7,
+                "z": -3
+              },
+              {
+                "x": -2,
+                "z": -6
+              },
+              {
+                "x": 4,
+                "z": -6
+              },
+              {
+                "x": 8,
+                "z": -2
+              },
+              {
+                "x": 4,
+                "z": 6
+              },
+              {
+                "x": -2,
+                "z": 6
+              },
+              {
+                "x": -7,
+                "z": 3
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -6,
+                "z": -5
+              },
+              {
+                "x": 4,
+                "z": -6
+              },
+              {
+                "x": 7,
+                "z": -2
+              },
+              {
+                "x": 6,
+                "z": 5
+              },
+              {
+                "x": -3,
+                "z": 6
+              },
+              {
+                "x": -7,
+                "z": 2
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -6,
+                "z": -2
+              },
+              {
+                "x": -2,
+                "z": -6
+              },
+              {
+                "x": 4,
+                "z": -4
+              },
+              {
+                "x": 6,
+                "z": 2
+              },
+              {
+                "x": 2,
+                "z": 6
+              },
+              {
+                "x": -4,
+                "z": 4
+              },
+              {
+                "x": -6,
+                "z": 2
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 0,
+                "z": -7
+              },
+              {
+                "x": 3,
+                "z": -4
+              },
+              {
+                "x": 7,
+                "z": -3
+              },
+              {
+                "x": 4,
+                "z": 0
+              },
+              {
+                "x": 7,
+                "z": 3
+              },
+              {
+                "x": 3,
+                "z": 4
+              },
+              {
+                "x": 0,
+                "z": 7
+              },
+              {
+                "x": -3,
+                "z": 4
+              },
+              {
+                "x": -7,
+                "z": 3
+              },
+              {
+                "x": -4,
+                "z": 0
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
         }
       ]
     },
@@ -148,7 +883,7 @@
             "branchInterval": 2,
             "type": "tunnels"
           },
-          "weight": 1.0
+          "weight": 25.0
         },
         {
           "value": {
@@ -158,7 +893,7 @@
             "frequency": 1.4,
             "type": "wave"
           },
-          "weight": 1.0
+          "weight": 50.0
         },
         {
           "value": {
@@ -167,7 +902,397 @@
             "ringInterval": 2,
             "type": "rings"
           },
-          "weight": 1.0
+          "weight": 25.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 24,
+            "amplitude": 3,
+            "frequency": 0.4,
+            "type": "wave"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "length": 25,
+            "amplitude": 3,
+            "frequency": 0.15,
+            "type": "wave"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -8,
+                "z": -6
+              },
+              {
+                "x": 0,
+                "z": -8
+              },
+              {
+                "x": 8,
+                "z": -6
+              },
+              {
+                "x": 8,
+                "z": 0
+              },
+              {
+                "x": 4,
+                "z": 6
+              },
+              {
+                "x": 0,
+                "z": 8
+              },
+              {
+                "x": -4,
+                "z": 6
+              },
+              {
+                "x": -8,
+                "z": 0
+              },
+              {
+                "x": -8,
+                "z": -2
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 0,
+                "z": -7
+              },
+              {
+                "x": 3,
+                "z": -4
+              },
+              {
+                "x": 7,
+                "z": -3
+              },
+              {
+                "x": 4,
+                "z": 0
+              },
+              {
+                "x": 7,
+                "z": 3
+              },
+              {
+                "x": 3,
+                "z": 4
+              },
+              {
+                "x": 0,
+                "z": 7
+              },
+              {
+                "x": -3,
+                "z": 4
+              },
+              {
+                "x": -7,
+                "z": 3
+              },
+              {
+                "x": -4,
+                "z": 0
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -8,
+                "z": -6
+              },
+              {
+                "x": 0,
+                "z": -8
+              },
+              {
+                "x": 8,
+                "z": -6
+              },
+              {
+                "x": 8,
+                "z": 0
+              },
+              {
+                "x": 6,
+                "z": 8
+              },
+              {
+                "x": 0,
+                "z": 8
+              },
+              {
+                "x": -6,
+                "z": 6
+              },
+              {
+                "x": -8,
+                "z": 0
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": -8,
+                "z": -8
+              },
+              {
+                "x": 8,
+                "z": -8
+              },
+              {
+                "x": 8,
+                "z": 8
+              },
+              {
+                "x": 0,
+                "z": 12
+              },
+              {
+                "x": -8,
+                "z": 8
+              },
+              {
+                "x": -12,
+                "z": 0
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 0,
+                "z": -9
+              },
+              {
+                "x": 3,
+                "z": -6
+              },
+              {
+                "x": 6,
+                "z": -6
+              },
+              {
+                "x": 6,
+                "z": -3
+              },
+              {
+                "x": 9,
+                "z": 0
+              },
+              {
+                "x": 6,
+                "z": 3
+              },
+              {
+                "x": 6,
+                "z": 6
+              },
+              {
+                "x": 3,
+                "z": 6
+              },
+              {
+                "x": 0,
+                "z": 9
+              },
+              {
+                "x": -3,
+                "z": 6
+              },
+              {
+                "x": -6,
+                "z": 6
+              },
+              {
+                "x": -6,
+                "z": 3
+              },
+              {
+                "x": -9,
+                "z": 0
+              },
+              {
+                "x": -6,
+                "z": -3
+              },
+              {
+                "x": -6,
+                "z": -6
+              },
+              {
+                "x": -3,
+                "z": -6
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
+        },
+        {
+          "value": {
+            "tunnel_span": 1,
+            "vertices": [
+              {
+                "x": 0,
+                "z": -9
+              },
+              {
+                "x": 2,
+                "z": -9
+              },
+              {
+                "x": 2,
+                "z": -7
+              },
+              {
+                "x": 5,
+                "z": -7
+              },
+              {
+                "x": 5,
+                "z": -5
+              },
+              {
+                "x": 2,
+                "z": -5
+              },
+              {
+                "x": 2,
+                "z": -2
+              },
+              {
+                "x": 4,
+                "z": -2
+              },
+              {
+                "x": 4,
+                "z": 2
+              },
+              {
+                "x": 2,
+                "z": 2
+              },
+              {
+                "x": 2,
+                "z": 5
+              },
+              {
+                "x": 5,
+                "z": 5
+              },
+              {
+                "x": 5,
+                "z": 7
+              },
+              {
+                "x": 2,
+                "z": 7
+              },
+              {
+                "x": 2,
+                "z": 9
+              },
+              {
+                "x": 0,
+                "z": 9
+              },
+              {
+                "x": -2,
+                "z": 9
+              },
+              {
+                "x": -2,
+                "z": 7
+              },
+              {
+                "x": -5,
+                "z": 7
+              },
+              {
+                "x": -5,
+                "z": 5
+              },
+              {
+                "x": -2,
+                "z": 5
+              },
+              {
+                "x": -2,
+                "z": 2
+              },
+              {
+                "x": -4,
+                "z": 2
+              },
+              {
+                "x": -4,
+                "z": -2
+              },
+              {
+                "x": -2,
+                "z": -2
+              },
+              {
+                "x": -2,
+                "z": -5
+              },
+              {
+                "x": -5,
+                "z": -5
+              },
+              {
+                "x": -5,
+                "z": -7
+              },
+              {
+                "x": -2,
+                "z": -7
+              },
+              {
+                "x": -2,
+                "z": -9
+              }
+            ],
+            "type": "polygon"
+          },
+          "weight": 50.0
         }
       ]
     }
