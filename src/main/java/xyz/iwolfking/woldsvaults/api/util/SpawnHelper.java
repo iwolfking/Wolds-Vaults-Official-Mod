@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
 import com.github.alexthe666.alexsmobs.entity.EntityCockroach;
+import com.ibm.icu.impl.Pair;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.core.world.storage.VirtualWorld;
@@ -18,7 +19,7 @@ import xyz.iwolfking.woldsvaults.api.util.ref.Effect;
 import javax.annotation.Nullable;
 
 public class SpawnHelper {
-    public static Entity doSpawn(VirtualWorld world, double min, double max, BlockPos pos, RandomSource random, WeightedList<EntityType<?>> entities, @Nullable WeightedList<Effect> effects, @Nullable ItemStack heldStack) {
+    public static Entity doSpawn(VirtualWorld world, double min, double max, BlockPos pos, RandomSource random, EntityType<?> spawnEntry, @Nullable WeightedList<Effect> effects, @Nullable ItemStack heldStack) {
         Entity spawned = null;
         int attempts = 0;
         int maxAttempts = 100;
@@ -32,19 +33,16 @@ public class SpawnHelper {
             double yRange = Math.sqrt(max * max - xzRadius * xzRadius);
             int y = random.nextInt((int)Math.ceil(yRange) * 2 + 1) - (int)Math.ceil(yRange);
 
-            spawned = spawnMob(world, entities, heldStack, effects, pos.getX() + x, pos.getY() + y, pos.getZ() + z, random);
+            spawned = spawnMob(world, spawnEntry, heldStack, effects, pos.getX() + x, pos.getY() + y, pos.getZ() + z, random);
         }
 
         return spawned;
     }
 
     @Nullable
-    private static Entity spawnMob(VirtualWorld world, WeightedList<EntityType<?>> entities, @Nullable ItemStack heldStack, @Nullable WeightedList<Effect> effects, int x, int y, int z, RandomSource random) {
+    private static Entity spawnMob(VirtualWorld world, EntityType<?> spawnEntry, @Nullable ItemStack heldStack, @Nullable WeightedList<Effect> effects, int x, int y, int z, RandomSource random) {
         Entity entity;
-        EntityType<?> type = null;
-        if(entities.getRandom().isPresent()) {
-            type = entities.getRandom().get();
-        }
+        EntityType<?> type = spawnEntry;
 
         if(type != null) {
             entity = type.create(world);

@@ -1,10 +1,13 @@
 package xyz.iwolfking.woldsvaults.objectives.survival;
 
+import com.ibm.icu.impl.Pair;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
 import xyz.iwolfking.woldsvaults.api.util.SpawnHelper;
+import xyz.iwolfking.woldsvaults.config.SurvivalObjectiveConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
@@ -36,9 +39,10 @@ public class SurvivalSpawnManager {
             vault.get(Vault.LISTENERS).getAll().forEach(listener -> {
                 if(listener.getPlayer().isPresent()) {
                     ServerPlayer player = listener.getPlayer().get();
-
-                    for(int i = 0; i < ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_SPAWNS.getForLevel(0).get().getSpawnAmount(); i++) {
-                        SpawnHelper.doSpawn(world, MIN_SPAWN_RADIUS, MAX_SPAWN_RADIUS, player.getOnPos(), ChunkRandom.ofNanoTime(), ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_SPAWNS.getForLevel(0).get().getEntities(), null, null);
+                    SurvivalObjectiveConfig.SurvivalSpawnsEntry spawnsEntry = ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_SPAWNS.get("default").getForLevel(0).get();
+                    Pair<EntityType<?>, Integer> spawnEntry = spawnsEntry.getRandomSpawn();
+                    for(int i = 0; i < spawnEntry.second; i++) {
+                        SpawnHelper.doSpawn(world, MIN_SPAWN_RADIUS, MAX_SPAWN_RADIUS, player.getOnPos(), ChunkRandom.ofNanoTime(), spawnEntry.first, null, null);
                     }
                 }
             });
