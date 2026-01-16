@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 
 import java.util.HashMap;
@@ -46,12 +45,25 @@ public class SurvivalObjectiveConfig extends Config {
         spawnsEntries.add(new SurvivalSpawnsEntry(0, IntRoll.ofConstant(1), spawnIds));
         SURVIVAL_SPAWNS.put("default", spawnsEntries);
         SurvivalTimeEntry entry = new SurvivalTimeEntry(0);
-        entry.baseTicks = 60;
+        entry.timeAdded = IntRoll.ofUniform(20, 40);
         SURVIVAL_TIME.add(new SurvivalTimeEntry(0));
     }
 
-    public int getTimeRewardFor(Entity entity) {
-        return 60;
+    public int getTimeRewardFor(int level, Entity entity) {
+        SurvivalTimeEntry timeEntry = SURVIVAL_TIME.getForLevel(level).orElse(null);
+        if(timeEntry == null) {
+            return 0;
+        }
+
+        int timeRoll = timeEntry.timeAdded.get(ChunkRandom.ofNanoTime());
+        for(EntityPredicate predicate : timeEntry.entityTypeTimeScaling.keySet()) {
+            if(predicate.test(entity)) {
+                return (int) (timeRoll * timeEntry.entityTypeTimeScaling.get(predicate));
+            }
+        }
+
+        return timeRoll;
+
     }
 
     public static class SurvivalSpawnsEntry implements LevelEntryList.ILevelEntry {
@@ -92,12 +104,6 @@ public class SurvivalObjectiveConfig extends Config {
 
             return Pair.of(EntityType.PIG, 1);
         }
-
-        public WeightedList<EntityType<?>> getEntities() {
-            WeightedList<EntityType<?>> entityTypeWeightedList = new WeightedList<>();
-            entityTypeWeightedList.add(ModEntities.HATURKIN, 1);
-            return entityTypeWeightedList;
-        }
     }
 
     public static class SurvivalTimeEntry implements LevelEntryList.ILevelEntry {
@@ -105,13 +111,24 @@ public class SurvivalObjectiveConfig extends Config {
         private final int level;
 
         @Expose
-        private int baseTicks;
+        private IntRoll timeAdded;
 
         @Expose
-        private Map<EntityPredicate, Float> ENTITY_TYPE_TO_TIME_SCALING = new HashMap<>();
+        private Map<EntityPredicate, Float> entityTypeTimeScaling = new HashMap<>();
 
         public SurvivalTimeEntry(int level) {
             this.level = level;
+        }
+
+        public SurvivalTimeEntry(int level, IntRoll timeAddedRoll) {
+            this.level = level;
+            this.timeAdded = timeAddedRoll;
+        }
+
+        public SurvivalTimeEntry(int level, IntRoll timeAddedRoll, Map<EntityPredicate, Float> entityTypeToTimeScalingMap) {
+            this.level = level;
+            this.timeAdded = timeAddedRoll;
+            this.entityTypeTimeScaling = entityTypeToTimeScalingMap;
         }
 
         @Override
@@ -119,12 +136,8 @@ public class SurvivalObjectiveConfig extends Config {
             return this.level;
         }
 
-        public int getBaseTicks() {
-            return baseTicks;
-        }
-
-        public Map<EntityPredicate, Float> getEntityTypeToTimeScalingMap() {
-            return ENTITY_TYPE_TO_TIME_SCALING;
+        public IntRoll getTimeAdded() {
+            return timeAdded;
         }
     }
 }

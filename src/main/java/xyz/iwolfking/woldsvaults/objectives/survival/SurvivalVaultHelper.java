@@ -10,6 +10,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 public class SurvivalVaultHelper {
@@ -22,19 +23,13 @@ public class SurvivalVaultHelper {
         });
     }
 
-
-    //TODO: Use values from config
     public static void handleKillTimeExtensions(SurvivalObjective obj, VirtualWorld world, Vault vault) {
         CommonEvents.ENTITY_DEATH.register(obj, event -> {
             if(event.getEntity().level != world) return;
-            if(event.getSource().getEntity() instanceof Player player) {
-                int timeLeft = vault.get(Vault.CLOCK).get(TickClock.DISPLAY_TIME);
-                int increase = 60;
+            if(event.getSource().getEntity() instanceof Player) {
+                int increase = ModConfigs.SURVIVAL_OBJECTIVE.getTimeRewardFor(vault.get(Vault.LEVEL).get(), event.getEntity());
                 TickClock clock = vault.get(Vault.CLOCK);
-                clock.set(TickClock.DISPLAY_TIME, clock.get(TickClock.DISPLAY_TIME) + 60);
-
-            } else {
-                event.getEntity().level.playSound(null, event.getEntity().blockPosition(), ModSounds.ARTIFACT_BOSS_CATALYST_HIT_WRONG, SoundSource.HOSTILE, 1.2F, 0.75F * world.random.nextFloat() + 0.65F);
+                clock.set(TickClock.DISPLAY_TIME, clock.get(TickClock.DISPLAY_TIME) + increase);
             }
         });
     }
