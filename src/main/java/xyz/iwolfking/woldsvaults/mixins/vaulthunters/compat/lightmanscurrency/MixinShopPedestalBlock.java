@@ -6,6 +6,7 @@ import iskallia.vault.block.ShopPedestalBlock;
 import iskallia.vault.block.entity.ShopPedestalBlockTile;
 import iskallia.vault.config.ShopPedestalConfig;
 import iskallia.vault.container.oversized.OverSizedItemStack;
+import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.Objective;
@@ -184,6 +185,7 @@ public abstract class MixinShopPedestalBlock extends Block implements EntityBloc
                                 BlockState inactiveState = state.setValue(ACTIVE, false);
                                 tile.setRemoved();
                                 worldIn.setBlockAndUpdate(pos, inactiveState);
+                                CommonEvents.SHOP_PEDESTAL_PURCHASE_ITEM.invoke(worldIn, player, c.copy(), currency);
                             }
 
                             popResource(worldIn, player.getOnPos().above(), c.copy());
