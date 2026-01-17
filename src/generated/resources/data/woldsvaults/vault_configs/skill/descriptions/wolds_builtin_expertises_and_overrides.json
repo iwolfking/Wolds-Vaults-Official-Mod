@@ -119,35 +119,6 @@
         "color": "#FFD700"
       }
     ],
-    "Gambler": [
-      {
-        "text": "Just one more choice and it will solve everything... just one more!\n\n"
-      },
-      {
-        "text": "1 "
-      },
-      {
-        "text": "Add an additional "
-      },
-      {
-        "text": "choice ",
-        "color": "gold"
-      },
-      {
-        "text": "when opening "
-      },
-      {
-        "text": "Booster Packs",
-        "color": "green"
-      },
-      {
-        "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
     "Surprise_Favors": [
       {
         "text": "Gain a "
@@ -839,45 +810,6 @@
       {
         "text": "Legendary Modifiers ",
         "color": "gold"
-      },
-      {
-        "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
-    "Deck_Master": [
-      {
-        "text": "Become a master at handling decks!\n\n"
-      },
-      {
-        "text": "1 "
-      },
-      {
-        "text": "Add a random "
-      },
-      {
-        "text": "Lesser ",
-        "color": "yellow"
-      },
-      {
-        "text": "deck modifier "
-      },
-      {
-        "text": "when crafting "
-      },
-      {
-        "text": "Card Decks ",
-        "color": "gold"
-      },
-      {
-        "text": "in the "
-      },
-      {
-        "text": "Deck Station ",
-        "color": "aqua"
       },
       {
         "text": "."

@@ -1,46 +1,10 @@
 {
   "costs": {
-    "ensorcellation:volley": {
+    "ensorcellation:trueshot": {
       "items": [
         {
           "id": "emerald",
           "count": 45
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:quick_draw": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 3
-    },
-    "ensorcellation:soulbound": {
-      "items": [
-        {
-          "id": "the_vault:echo_pog",
-          "count": 1
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:hunter": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
-        }
-      ],
-      "levels": 2
-    },
-    "ensorcellation:angler": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
         }
       ],
       "levels": 2
@@ -54,20 +18,11 @@
       ],
       "levels": 3
     },
-    "ensorcellation:air_affinity": {
+    "ensorcellation:soulbound": {
       "items": [
         {
-          "id": "the_vault:phoenix_feather",
+          "id": "the_vault:echo_pog",
           "count": 1
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:damage_ender": {
-      "items": [
-        {
-          "id": "ender_eye",
-          "count": 32
         }
       ],
       "levels": 1
@@ -81,14 +36,23 @@
       ],
       "levels": 2
     },
-    "ensorcellation:trueshot": {
+    "ensorcellation:quick_draw": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 3
+    },
+    "ensorcellation:volley": {
       "items": [
         {
           "id": "emerald",
           "count": 45
         }
       ],
-      "levels": 2
+      "levels": 1
     },
     "ensorcellation:exp_boost": {
       "items": [
@@ -98,6 +62,42 @@
         }
       ],
       "levels": 3
+    },
+    "ensorcellation:damage_ender": {
+      "items": [
+        {
+          "id": "ender_eye",
+          "count": 32
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:angler": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 2
+    },
+    "ensorcellation:air_affinity": {
+      "items": [
+        {
+          "id": "the_vault:phoenix_feather",
+          "count": 1
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:hunter": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 2
     }
   }
 }

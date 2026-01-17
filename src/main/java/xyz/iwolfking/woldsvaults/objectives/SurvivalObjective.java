@@ -12,10 +12,12 @@ import iskallia.vault.core.data.key.FieldKey;
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.data.key.registry.FieldRegistry;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.time.TickClock;
 import iskallia.vault.core.world.storage.VirtualWorld;
+import iskallia.vault.util.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
@@ -30,10 +32,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
+import xyz.iwolfking.woldsvaults.config.SurvivalObjectiveConfig;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.enchanted_elixir.StringList;
 import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalSpawnManager;
 import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalVaultHelper;
 import java.util.List;
+import java.util.Optional;
 
 public class SurvivalObjective extends Objective {
     public static final ResourceLocation HUD = WoldsVaults.id("textures/gui/survival/hud.png");
@@ -85,8 +90,8 @@ public class SurvivalObjective extends Objective {
         this.set(WAVE_GROUPS, waves);
     }
 
-    public static SurvivalObjective of(int target) {
-        return new SurvivalObjective(target * 60, List.of());
+    public static SurvivalObjective of(int target, List<String> waveGroups) {
+        return new SurvivalObjective(target * 60, waveGroups);
     }
 
     @Override
@@ -240,6 +245,22 @@ public class SurvivalObjective extends Objective {
         return true;
     }
 
+    public Optional<SurvivalObjectiveConfig.SurvivalSpawnsEntry> getCurrentWaveEntry(int level) {
+        String currentWavePool = this.get(WAVE_GROUPS).get(this.get(WAVE_INDEX));
+        return ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_SPAWNS.get(currentWavePool).getForLevel(level);
+    }
+
+    public void incrementWave(Vault vault) {
+        int currentWave = this.get(WAVE_INDEX);
+        this.set(WAVE_INDEX, Math.min(currentWave + 1, this.get(WAVE_GROUPS).size()));
+        if(this.get(WAVE_INDEX).equals(currentWave)) {
+            spawnManager.WAVE_TIMER.disable();
+            return;
+        }
+        else {
+            WoldVaultUtils.sendMessageToAllRunners(vault, new TranslatableComponent("vault_objective.woldsvaults.survival_wave_increment", StringUtils.convertToTitleCase(this.get(WAVE_GROUPS).get(this.get(WAVE_INDEX)))));
+        }
+    }
 
 
     @Override
