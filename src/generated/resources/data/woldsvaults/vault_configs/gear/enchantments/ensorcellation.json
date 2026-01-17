@@ -1,19 +1,19 @@
 {
   "costs": {
-    "ensorcellation:vitality": {
+    "ensorcellation:damage_ender": {
       "items": [
         {
-          "id": "golden_apple",
-          "count": 64
+          "id": "ender_eye",
+          "count": 32
         }
       ],
-      "levels": 3
+      "levels": 1
     },
-    "ensorcellation:gourmand": {
+    "ensorcellation:angler": {
       "items": [
         {
-          "id": "pumpkin_pie",
-          "count": 64
+          "id": "emerald",
+          "count": 5
         }
       ],
       "levels": 2
@@ -27,32 +27,14 @@
       ],
       "levels": 1
     },
-    "ensorcellation:damage_ender": {
-      "items": [
-        {
-          "id": "ender_eye",
-          "count": 32
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:volley": {
+    "ensorcellation:trueshot": {
       "items": [
         {
           "id": "emerald",
           "count": 45
         }
       ],
-      "levels": 1
-    },
-    "ensorcellation:air_affinity": {
-      "items": [
-        {
-          "id": "the_vault:phoenix_feather",
-          "count": 1
-        }
-      ],
-      "levels": 1
+      "levels": 2
     },
     "ensorcellation:hunter": {
       "items": [
@@ -63,14 +45,23 @@
       ],
       "levels": 2
     },
-    "ensorcellation:angler": {
+    "ensorcellation:volley": {
       "items": [
         {
           "id": "emerald",
-          "count": 5
+          "count": 45
         }
       ],
-      "levels": 2
+      "levels": 1
+    },
+    "ensorcellation:vitality": {
+      "items": [
+        {
+          "id": "golden_apple",
+          "count": 64
+        }
+      ],
+      "levels": 3
     },
     "ensorcellation:exp_boost": {
       "items": [
@@ -81,11 +72,20 @@
       ],
       "levels": 3
     },
-    "ensorcellation:trueshot": {
+    "ensorcellation:air_affinity": {
       "items": [
         {
-          "id": "emerald",
-          "count": 45
+          "id": "the_vault:phoenix_feather",
+          "count": 1
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:gourmand": {
+      "items": [
+        {
+          "id": "pumpkin_pie",
+          "count": 64
         }
       ],
       "levels": 2
