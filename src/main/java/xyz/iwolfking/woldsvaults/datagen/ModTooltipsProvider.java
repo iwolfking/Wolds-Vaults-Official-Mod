@@ -53,6 +53,7 @@ public class ModTooltipsProvider extends AbstractTooltipProvider {
                     .addTooltipEntry(ModItems.CRYSTAL_SEAL_ENCHANTER.getRegistryName(), "Use in the Crystal Workbench to set the objective to 'Enchanted Elixir'")
                     .addTooltipEntry(ModItems.CRYSTAL_SEAL_SPIRITS.getRegistryName(), "Use in the Crystal Workbench to set the objective to 'Haunted Braziers'")
                     .addTooltipEntry(ModItems.CRYSTAL_SEAL_CORRUPT.getRegistryName(), "Use in the Crystal Workbench to set the objective to 'Corrupted'")
+                    .addTooltipEntry(ModItems.CRYSTAL_SEAL_SURVIVOR.getRegistryName(), "Use in the Crystal Workbench to set the objective to 'Survival'")
                     .addTooltipEntry(ModItems.VENDOOR_CAPSTONE.getRegistryName(), "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Vendoor Hunter' modifier.")
                     .addTooltipEntry(ModItems.ENCHANTED_CAPSTONE.getRegistryName(), "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Enchanted' modifier.")
                     .addTooltipEntry(ModItems.FRENZY_CAPSTONE.getRegistryName(), "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Frenzy' curse.")

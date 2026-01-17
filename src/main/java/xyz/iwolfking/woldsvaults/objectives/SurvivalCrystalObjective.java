@@ -48,7 +48,7 @@ public class SurvivalCrystalObjective extends WoldCrystalObjective {
 
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
 
-            objectives.add(SurvivalObjective.of(target, waveGroups)
+            objectives.add(SurvivalObjective.of(this.objectiveProbability, target, waveGroups)
                     .add(FindExitObjective.create(ClassicPortalLogic.EXIT))
                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("SURVIVAL"), "survival", level, true)));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));

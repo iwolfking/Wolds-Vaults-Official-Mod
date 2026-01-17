@@ -7,5 +7,8 @@ public enum EventTag {
     CASCADE,
     SPAWN_MOB,
     ADDS_MODIFIER,
-    TOMBSTONE
+    TOMBSTONE,
+    LONG_COOLDOWN,
+    SHORT_COOLDOWN,
+    SURVIVAL
 }

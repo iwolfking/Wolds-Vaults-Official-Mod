@@ -48,15 +48,21 @@ public class SurvivalObjectiveConfig extends Config {
     protected void reset() {
         LevelEntryList<SurvivalSpawnsEntry> spawnsEntries = new LevelEntryList<>();
         WeightedList<ResourceLocation> spawnIds = new WeightedList<>();
+        WeightedList<ResourceLocation> rewardEventIds = new WeightedList<>();
+        WeightedList<ResourceLocation> challengeEventIds = new WeightedList<>();
         spawnIds.put(ModEntities.BLACK_GHOST.getRegistryName(), 1);
         spawnIds.put(ModEntities.BLUE_GHOST.getRegistryName(), 1);
         spawnIds.put(ModEntities.GREEN_GHOST.getRegistryName(), 1);
         spawnIds.put(ModEntities.YELLOW_GHOST.getRegistryName(), 1);
         spawnsEntries.add(new SurvivalSpawnsEntry(0, IntRoll.ofConstant(1), spawnIds));
         SURVIVAL_SPAWNS.put("default", spawnsEntries);
-        SurvivalTimeEntry entry = new SurvivalTimeEntry(0);
-        entry.timeAdded = IntRoll.ofUniform(20, 40);
-        SURVIVAL_TIME.add(new SurvivalTimeEntry(0));
+        SURVIVAL_TIME.add(new SurvivalTimeEntry(0, IntRoll.ofUniform(20, 60)));
+        SURVIVAL_TIME.add(new SurvivalTimeEntry(0, IntRoll.ofUniform(20, 60)));
+        rewardEventIds.add(WoldsVaults.id("crate_tier"), 1);
+        SURVIVAL_REWARDS.add(new SurvivalRewardEntry(0, rewardEventIds));
+        challengeEventIds.add(WoldsVaults.id("survival_mob_buff"), 1);
+        challengeEventIds.add(WoldsVaults.id("survival_player_nerf"), 1);
+        SURVIVAL_CHALLENGES.add(new SurvivalChallengeEntry(0, challengeEventIds));
     }
 
     public int getTimeRewardFor(int level, Entity entity) {

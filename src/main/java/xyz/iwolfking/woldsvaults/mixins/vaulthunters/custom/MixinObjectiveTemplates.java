@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.init.ModObjectiveTemplates;
 import xyz.iwolfking.woldsvaults.objectives.AlchemyObjective;
 import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
+import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 @Mixin(value = ObjectiveTemplateEvent.class, remap = false)
 public class MixinObjectiveTemplates {
@@ -19,6 +20,9 @@ public class MixinObjectiveTemplates {
             cir.setReturnValue(ModObjectiveTemplates.CORRUPTED_OBJECTIVE_TEMPLATE);
         } else if (objective instanceof AlchemyObjective) {
             cir.setReturnValue(ModObjectiveTemplates.ALCHEMY_OBJECTIVE_TEMPLATE);
+        }
+        else if(objective instanceof SurvivalObjective) {
+            cir.setReturnValue(ModObjectiveTemplates.SURVIVAL_OBJECTIVE_TEMPLATE);
         }
     }
 }

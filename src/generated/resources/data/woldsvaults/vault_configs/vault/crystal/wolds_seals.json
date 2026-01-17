@@ -30,7 +30,7 @@
         ],
         "objective": {
           "objective_probability": 0.5,
-          "target": 10,
+          "target": 1,
           "waveGroups": [
             "default",
             "default",

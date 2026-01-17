@@ -11,8 +11,8 @@ import iskallia.vault.core.data.adapter.vault.CompoundAdapter;
 import iskallia.vault.core.data.key.FieldKey;
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.data.key.registry.FieldRegistry;
+import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.time.TickClock;
@@ -47,6 +47,11 @@ public class SurvivalObjective extends Objective {
 
     public static final SupplierKey<Objective> KEY = SupplierKey.of("survival", Objective.class).with(Version.latest(), SurvivalObjective::new);
     public static final FieldRegistry FIELDS = Objective.FIELDS.merge(new FieldRegistry());
+    public static final FieldKey<Float> OBJECTIVE_PROBABILITY = FieldKey.of("objective_probability", Float.class)
+            .with(Version.v1_2,
+                    Adapters.FLOAT,
+                    DISK.all())
+            .register(FIELDS);
     public static final FieldKey<Integer> TIME_REQUIRED =
             FieldKey.of("time_required", Integer.class)
                     .with(Version.v1_0, Adapters.INT, DISK.all().or(CLIENT.all()))
@@ -77,6 +82,7 @@ public class SurvivalObjective extends Objective {
     private SurvivalChallengeManager challengeManager;
 
     protected SurvivalObjective() {
+        this.set(OBJECTIVE_PROBABILITY, 1.0F);
         this.set(TIME_REQUIRED, 600 * 20);
         this.set(TIME_SURVIVED, 0);
         this.set(WAVE_INDEX, 0);
@@ -84,7 +90,8 @@ public class SurvivalObjective extends Objective {
         this.set(WAVE_GROUPS, new StringList());
     }
 
-    protected SurvivalObjective(int target, List<String> waveGroups) {
+    protected SurvivalObjective(float objectiveProbability, int target, List<String> waveGroups) {
+        this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
         this.set(TIME_REQUIRED, target * 20);
         this.set(TIME_SURVIVED, 0);
         this.set(WAVE_INDEX, 0);
@@ -94,8 +101,8 @@ public class SurvivalObjective extends Objective {
         this.set(WAVE_GROUPS, waves);
     }
 
-    public static SurvivalObjective of(int target, List<String> waveGroups) {
-        return new SurvivalObjective(target * 60, waveGroups);
+    public static SurvivalObjective of(float objectiveProbabiltiy, int target, List<String> waveGroups) {
+        return new SurvivalObjective(objectiveProbabiltiy, target * 60, waveGroups);
     }
 
     @Override
@@ -108,6 +115,12 @@ public class SurvivalObjective extends Objective {
         SurvivalVaultHelper.handleKillTimeExtensions(this, world, vault);
         SurvivalVaultHelper.preventFruits(this, vault);
         SurvivalVaultHelper.setBaseVaultTimer(vault);
+        CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this,
+                (data) -> this.ifPresent(SurvivalObjective.OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability))
+        );
+
+        this.registerObjectiveTemplate(world, vault);
+
 
         spawnManager = new SurvivalSpawnManager(vault, world, this);
         bonusManager = new SurvivalBonusManager(vault, world, this);
@@ -139,12 +152,12 @@ public class SurvivalObjective extends Objective {
             challengeManager.tick();
         }
 
+        this.set(TIME_SURVIVED, this.get(TIME_SURVIVED) + 1);
+
         if (this.get(COMPLETED)) {
             handlePostCompletion(world, vault);
             return;
         }
-
-        this.set(TIME_SURVIVED, this.get(TIME_SURVIVED) + 1);
 
         if (this.get(TIME_SURVIVED) >= this.get(TIME_REQUIRED)) {
             completeObjective(world, vault);
@@ -155,7 +168,7 @@ public class SurvivalObjective extends Objective {
         this.set(COMPLETED, true);
 
         WoldVaultUtils.sendMessageToAllRunners(vault, new TranslatableComponent("vault_objective.woldsvaults.survival_completion"), true);
-
+        this.set(TIME_SURVIVED, 0);
         this.get(CHILDREN).forEach(child -> child.tickServer(world, vault));
     }
 
@@ -185,8 +198,7 @@ public class SurvivalObjective extends Objective {
             progress = (float) this.get(TIME_SURVIVED) / (float) this.get(TIME_REQUIRED);
             label = new TextComponent("Survive");
         } else {
-            int untilNextReward = 2400 - ((this.get(TIME_SURVIVED) - this.get(TIME_REQUIRED)) % 2400);
-            progress = 1.0F - (untilNextReward / 2400F);
+            progress = (float) this.get(TIME_SURVIVED) / SurvivalBonusManager.TICKS_PER_ACTION;
             label = new TextComponent("Next Reward");
         }
 
@@ -198,7 +210,7 @@ public class SurvivalObjective extends Objective {
         int requiredSeconds = this.get(TIME_REQUIRED) / 20;
 
         Component timeText = new TextComponent(
-                String.format("%d / %d s", survivedSeconds, requiredSeconds)
+                String.format("%d / %d s", survivedSeconds, this.get(COMPLETED) ? SurvivalBonusManager.TICKS_PER_ACTION : requiredSeconds)
         );
 
         matrixStack.pushPose();
@@ -262,13 +274,13 @@ public class SurvivalObjective extends Objective {
     }
 
     public void incrementWave(Vault vault) {
+        adjustWave(vault, 1);
+    }
+
+    public void adjustWave(Vault vault, int amount) {
         int currentWave = this.get(WAVE_INDEX);
-        this.set(WAVE_INDEX, Math.min(currentWave + 1, this.get(WAVE_GROUPS).size() - 1));
-        if(this.get(WAVE_INDEX).equals(currentWave)) {
-            spawnManager.WAVE_TIMER.disable();
-            return;
-        }
-        else {
+        this.set(WAVE_INDEX, Math.min(currentWave + amount, this.get(WAVE_GROUPS).size() - 1));
+        if(currentWave != this.get(WAVE_INDEX)) {
             WoldVaultUtils.sendMessageToAllRunners(vault, new TranslatableComponent("vault_objective.woldsvaults.survival_wave_increment", StringUtils.convertToTitleCase(this.get(WAVE_GROUPS).get(this.get(WAVE_INDEX)))));
         }
     }

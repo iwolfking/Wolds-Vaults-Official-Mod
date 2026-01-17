@@ -9,9 +9,7 @@ import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 import xyz.iwolfking.woldsvaults.objectives.survival.lib.TickTimer;
 
 public class SurvivalBonusManager extends ObjectiveManager<SurvivalObjective> {
-    private static final int TICKS_PER_ACTION = 2400;
-
-    public final TickTimer REWARD_TIMER = new TickTimer(TICKS_PER_ACTION);
+    public static final int TICKS_PER_ACTION = 120;
 
     public SurvivalBonusManager(Vault vault, VirtualWorld world, SurvivalObjective objective) {
         super(vault, world, objective);
@@ -19,9 +17,10 @@ public class SurvivalBonusManager extends ObjectiveManager<SurvivalObjective> {
 
 
     public void tick() {
-        if(REWARD_TIMER.ready()) {
+        if(objective.get(SurvivalObjective.TIME_SURVIVED) >= TICKS_PER_ACTION) {
             ModConfigs.SURVIVAL_OBJECTIVE.SURVIVAL_REWARDS.getForLevel(level).flatMap(SurvivalObjectiveConfig.SurvivalRewardEntry::getRandomRewardEvent).ifPresent(vaultEvent -> {
                 vaultEvent.triggerEvent(vault);
+                objective.set(SurvivalObjective.TIME_SURVIVED, 0);
             });
         }
     }

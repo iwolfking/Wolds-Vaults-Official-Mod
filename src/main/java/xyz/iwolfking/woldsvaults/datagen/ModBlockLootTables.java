@@ -84,6 +84,7 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
             add(crateBlock, noDrop());
         });
         add(ModBlocks.BREWING_ALTAR, noDrop());
+        add(ModBlocks.SURVIVAL_OBJECTIVE_BLOCK, noDrop());
         add(ModBlocks.WEAVING_STATION, noDrop());
         add(ModBlocks.ETCHING_PEDESTAL, noDrop());
         add(ModBlocks.GOD_VENDOR_PEDESTAL, noDrop());

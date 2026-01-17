@@ -49,6 +49,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(new AlchemyIngredientTypeAttribute(""), "is an Alchemy ingredient of type \"%1$s\"", "is not an Alchemy ingredient of type \"%1$s\"");
         add(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, "Magic Text");
         add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
+        add(ModBlocks.SURVIVAL_OBJECTIVE_BLOCK, "Survival Helper");
         add(ModItems.CRYSTAL_SEAL_SURVIVOR, "Seal of the Survivor");
         add("config.waila.plugin_miningspeedometer.speedometer", "Enable Speedometer Tooltip");
         add("vaultobjectiveblocks.jade.tooltip.brewing_altar", "%1$s brews remaining");
@@ -96,7 +97,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("vault_objective.woldsvaults.time_trial_player_best", "%1$s just finished a §d%2$s§r vault with a new best time of §6%3$s§r (previously: §6%4$s§r)");
         add("vault_objective.woldsvaults.time_trial_new_competition_best", "%1$s just beat the §6Weekly Time Trial§r best of §6%2$s§r with a time of §6%3$s§r");
         add("vault_objective.woldsvaults.time_trial_new_competition_first", "%1$s just set the first §6Weekly Time Trial§r entry to beat with a time of §6%2$s§r!");
-        add("vault_objective.woldsvaults.survival_completion", "You are now able to leave the vault at any time to reap your current rewards.");
+        add("vault_objective.woldsvaults.survival_completion", "You are now able to leave the vault at any time to complete or continue surviving to accumulate rewards.");
         add("vault_objective.woldsvaults.corrupted_exit", "Find an escape.");
         add("vault_objective.woldsvaults.corrupted_shatter", "You sense a portal shattering");
         add("vault_objective.woldsvaults.corrupted_complete", "Vault Completed!");

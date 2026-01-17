@@ -8,10 +8,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.datagen.ModLanguageProvider;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -52,5 +49,15 @@ public class VaultEventSystem {
 
     public static Set<VaultEvent> getEventsByTags(Set<EventTag> tags) {
         return VAULT_EVENT_REGISTRY.values().stream().filter(vaultEvent -> !vaultEvent.getEventTags().stream().filter(tags::contains).toList().isEmpty()).collect(Collectors.toSet());
+    }
+
+    private static final Random RANDOM = new Random();
+
+    public static VaultEvent getRandomEventByTags(Set<EventTag> tags) {
+        Set<VaultEvent> events = VaultEventSystem.getEventsByTags(tags);
+        if (events.isEmpty()) return null;
+
+        List<VaultEvent> list = events.stream().toList();
+        return list.get(RANDOM.nextInt(list.size()));
     }
 }

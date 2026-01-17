@@ -1,28 +1,10 @@
 {
   "costs": {
-    "ensorcellation:volley": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 45
-        }
-      ],
-      "levels": 1
-    },
     "ensorcellation:vitality": {
       "items": [
         {
           "id": "golden_apple",
           "count": 64
-        }
-      ],
-      "levels": 3
-    },
-    "ensorcellation:quick_draw": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 5
         }
       ],
       "levels": 3
@@ -54,14 +36,14 @@
       ],
       "levels": 1
     },
-    "ensorcellation:angler": {
+    "ensorcellation:volley": {
       "items": [
         {
           "id": "emerald",
-          "count": 5
+          "count": 45
         }
       ],
-      "levels": 2
+      "levels": 1
     },
     "ensorcellation:air_affinity": {
       "items": [
@@ -72,15 +54,6 @@
       ],
       "levels": 1
     },
-    "ensorcellation:exp_boost": {
-      "items": [
-        {
-          "id": "the_vault:wutodic_mass",
-          "count": 8
-        }
-      ],
-      "levels": 3
-    },
     "ensorcellation:hunter": {
       "items": [
         {
@@ -90,6 +63,24 @@
       ],
       "levels": 2
     },
+    "ensorcellation:angler": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 2
+    },
+    "ensorcellation:exp_boost": {
+      "items": [
+        {
+          "id": "the_vault:wutodic_mass",
+          "count": 8
+        }
+      ],
+      "levels": 3
+    },
     "ensorcellation:trueshot": {
       "items": [
         {
@@ -98,6 +89,15 @@
         }
       ],
       "levels": 2
+    },
+    "ensorcellation:quick_draw": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 5
+        }
+      ],
+      "levels": 3
     }
   }
 }

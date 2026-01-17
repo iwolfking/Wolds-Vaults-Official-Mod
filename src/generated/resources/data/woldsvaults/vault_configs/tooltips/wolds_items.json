@@ -101,6 +101,10 @@
       "value": "Use in the Crystal Workbench to set the objective to 'Corrupted'"
     },
     {
+      "item": "woldsvaults:crystal_seal_survivor",
+      "value": "Use in the Crystal Workbench to set the objective to 'Survival'"
+    },
+    {
       "item": "woldsvaults:capstone_vendoors",
       "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Vendoor Hunter' modifier."
     },
@@ -275,6 +279,10 @@
     {
       "item": "woldsvaults:crystal_seal_corrupt",
       "value": "Use in the Crystal Workbench to set the objective to 'Corrupted'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_survivor",
+      "value": "Use in the Crystal Workbench to set the objective to 'Survival'"
     },
     {
       "item": "woldsvaults:capstone_vendoors",
