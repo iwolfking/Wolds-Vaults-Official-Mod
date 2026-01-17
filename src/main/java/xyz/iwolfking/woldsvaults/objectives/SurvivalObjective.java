@@ -252,7 +252,7 @@ public class SurvivalObjective extends Objective {
 
     public void incrementWave(Vault vault) {
         int currentWave = this.get(WAVE_INDEX);
-        this.set(WAVE_INDEX, Math.min(currentWave + 1, this.get(WAVE_GROUPS).size()));
+        this.set(WAVE_INDEX, Math.min(currentWave + 1, this.get(WAVE_GROUPS).size() - 1));
         if(this.get(WAVE_INDEX).equals(currentWave)) {
             spawnManager.WAVE_TIMER.disable();
             return;

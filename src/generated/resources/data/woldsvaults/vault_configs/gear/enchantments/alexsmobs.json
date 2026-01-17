@@ -1,6 +1,6 @@
 {
   "costs": {
-    "alexsmobs:straddle_jump": {
+    "alexsmobs:serpentfriend": {
       "items": [
         {
           "id": "emerald",
@@ -9,7 +9,7 @@
       ],
       "levels": 1
     },
-    "alexsmobs:serpentfriend": {
+    "alexsmobs:straddle_jump": {
       "items": [
         {
           "id": "emerald",
