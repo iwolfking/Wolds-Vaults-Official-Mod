@@ -40,17 +40,15 @@ public class ModItems {
 
     public static final Random rand = new Random();
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_UNHINGED;
-
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_SPIRITS;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_ENCHANTER;
-
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_TITAN;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_DOOMSAYER;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_ZEALOT;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_WARRIOR;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_CORRUPT;
-
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_ALCHEMY;
+    public static ItemVaultCrystalSeal CRYSTAL_SEAL_SURVIVOR;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD;
 
 
@@ -233,6 +231,7 @@ public class ModItems {
         registry.register(CRYSTAL_SEAL_WARRIOR);
         registry.register(CRYSTAL_SEAL_CORRUPT);
         registry.register(CRYSTAL_SEAL_ALCHEMY);
+        registry.register(CRYSTAL_SEAL_SURVIVOR);
         registry.register(CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD);
         registry.register(BATTLESTAFF);
         registry.register(TRIDENT);
@@ -379,6 +378,7 @@ public class ModItems {
         CRYSTAL_SEAL_WARRIOR = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_warrior"));
         CRYSTAL_SEAL_CORRUPT = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_corrupt"));
         CRYSTAL_SEAL_ALCHEMY = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_alchemy"));
+        CRYSTAL_SEAL_SURVIVOR = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_survivor"));
 
         CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD = new ItemVaultCrystalSeal(WoldsVaults.id("crystal_seal_raid_rock_infinite_hard"));
         UBER_CHAOS_CATALYST = new BasicItem(WoldsVaults.id("uber_chaos_catalyst"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));

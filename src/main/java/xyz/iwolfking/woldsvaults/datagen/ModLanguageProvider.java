@@ -49,6 +49,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(new AlchemyIngredientTypeAttribute(""), "is an Alchemy ingredient of type \"%1$s\"", "is not an Alchemy ingredient of type \"%1$s\"");
         add(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, "Magic Text");
         add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
+        add(ModItems.CRYSTAL_SEAL_SURVIVOR, "Seal of the Survivor");
         add("config.waila.plugin_miningspeedometer.speedometer", "Enable Speedometer Tooltip");
         add("vaultobjectiveblocks.jade.tooltip.brewing_altar", "%1$s brews remaining");
         add("vaultobjectiveblocks.jade.tooltip.rune_boss_pillar", "%1$s runes inserted");
@@ -101,6 +102,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("vault_objective.woldsvaults.corrupted_complete", "Vault Completed!");
         add("vault_objective.woldsvaults.corrupted_fruit_disable", "Seems pointless...");
         add("vault_objective.woldsvaults.survival_fruit_disable", "A mysterious force prevents you from eating the fruit.");
+        add("vault_objective.woldsvaults.survival_wave_increment", "The hordes keep coming... next wave is %1$s.");
         add("unlock_goal.woldsvaults.idona_theme", "Idona shares insight on entering their domain with you.");
         add("unlock_goal.woldsvaults.velara_theme", "Velara shares insight on entering their domain with you.");
         add("unlock_goal.woldsvaults.wendarr_theme", "Wendarr shares insight on entering their domain with you.");
