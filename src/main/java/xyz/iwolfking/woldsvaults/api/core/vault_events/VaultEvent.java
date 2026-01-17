@@ -69,6 +69,14 @@ public class VaultEvent {
         triggerEvent(pos, player, vault, false, null);
     }
 
+    public void triggerEvent(Vault vault) {
+        Collection<Listener> listeners = vault.get(Vault.LISTENERS).getAll();
+
+        listeners.stream().findFirst().flatMap(Listener::getPlayer).ifPresent(player -> {
+            triggerEvent(player::getOnPos, player, vault);
+        });
+    }
+
     public void cascadeEvent(Vault vault, ServerPlayer originator) {
         Random random = new Random();
         for(Listener listener: vault.get(Vault.LISTENERS).getAll()) {

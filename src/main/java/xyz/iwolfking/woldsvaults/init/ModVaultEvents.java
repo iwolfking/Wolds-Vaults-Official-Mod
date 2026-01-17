@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.init;
 
 import iskallia.vault.VaultMod;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
@@ -21,6 +22,13 @@ public class ModVaultEvents {
 
 
     public static void init() {
+        VaultEventSystem.register(WoldsVaults.id("crate_tier"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .tag(EventTag.ADDS_MODIFIER)
+                .displayType(VaultEvent.EventDisplayType.NONE)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new VaultModifierTask(VaultMod.id("crate_tier"), 1))
+                .build("Crate Tier", new TextComponent("Adds a crate tier to the vault.")));
         VaultEventSystem.register(WoldsVaults.id("tombstone_event"), new VaultEvent.Builder()
                 .tag(EventTag.TOMBSTONE)
                 .displayType(VaultEvent.EventDisplayType.NONE)

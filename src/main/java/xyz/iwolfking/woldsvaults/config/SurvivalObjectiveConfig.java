@@ -12,11 +12,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.registries.ForgeRegistries;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class SurvivalObjectiveConfig extends Config {
     @Expose
@@ -24,6 +28,12 @@ public class SurvivalObjectiveConfig extends Config {
 
     @Expose
     public LevelEntryList<SurvivalTimeEntry> SURVIVAL_TIME = new LevelEntryList<>();
+
+    @Expose
+    public LevelEntryList<SurvivalRewardEntry> SURVIVAL_REWARDS = new LevelEntryList<>();
+
+    @Expose
+    public LevelEntryList<SurvivalChallengeEntry> SURVIVAL_CHALLENGES = new LevelEntryList<>();
 
     public SurvivalObjectiveConfig() {
     }
@@ -138,6 +148,76 @@ public class SurvivalObjectiveConfig extends Config {
 
         public IntRoll getTimeAdded() {
             return timeAdded;
+        }
+    }
+
+    public static class SurvivalRewardEntry implements LevelEntryList.ILevelEntry {
+        @Expose
+        private final int level;
+
+        @Expose
+        private WeightedList<ResourceLocation> possibleRewardEvents;
+
+        public SurvivalRewardEntry(int level) {
+            this.level = level;
+            this.possibleRewardEvents = WeightedList.empty();
+        }
+
+        public SurvivalRewardEntry(int level, WeightedList<ResourceLocation> possibleRewardEvents) {
+            this.level = level;
+            this.possibleRewardEvents = possibleRewardEvents;
+        }
+
+        @Override
+        public int getLevel() {
+            return this.level;
+        }
+
+        public Optional<VaultEvent> getRandomRewardEvent() {
+            ResourceLocation eventId = possibleRewardEvents.getRandom(ChunkRandom.ofNanoTime()).orElse(null);
+            VaultEvent event = VaultEventSystem.getEventById(eventId);
+
+            if(event == null) {
+                WoldsVaults.LOGGER.warn("Attempted to activate an invalid Vault Event id: {}", eventId);
+                return Optional.empty();
+            }
+
+            return Optional.of(event);
+        }
+    }
+
+    public static class SurvivalChallengeEntry implements LevelEntryList.ILevelEntry {
+        @Expose
+        private final int level;
+
+        @Expose
+        private WeightedList<ResourceLocation> possibleChallengeEvents;
+
+        public SurvivalChallengeEntry(int level) {
+            this.level = level;
+            this.possibleChallengeEvents = WeightedList.empty();
+        }
+
+        public SurvivalChallengeEntry(int level, WeightedList<ResourceLocation> possibleChallengeEvents) {
+            this.level = level;
+            this.possibleChallengeEvents = possibleChallengeEvents;
+        }
+
+        @Override
+        public int getLevel() {
+            return this.level;
+        }
+
+        public Optional<VaultEvent> getRandomChallengeEvent() {
+            ResourceLocation eventId = possibleChallengeEvents.getRandom(ChunkRandom.ofNanoTime()).orElse(null);
+            VaultEvent event = VaultEventSystem.getEventById(eventId);
+
+            if(event == null) {
+                WoldsVaults.LOGGER.warn("Attempted to activate an invalid Vault Event id: {}", eventId);
+                return Optional.empty();
+            }
+
+            return Optional.of(event);
         }
     }
 }

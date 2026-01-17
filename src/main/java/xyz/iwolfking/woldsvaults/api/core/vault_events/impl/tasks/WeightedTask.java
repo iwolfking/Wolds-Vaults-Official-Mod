@@ -4,12 +4,8 @@ import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.core.vault.Vault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 public class WeightedTask implements VaultEventTask {

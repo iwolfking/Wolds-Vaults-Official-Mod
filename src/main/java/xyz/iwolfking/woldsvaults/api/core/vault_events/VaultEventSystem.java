@@ -35,6 +35,9 @@ public class VaultEventSystem {
 
 
     public static VaultEvent getEventById(ResourceLocation id) {
+        if(id == null || !VAULT_EVENT_REGISTRY.containsKey(id)) {
+            return null;
+        }
         return VAULT_EVENT_REGISTRY.get(id);
     }
 

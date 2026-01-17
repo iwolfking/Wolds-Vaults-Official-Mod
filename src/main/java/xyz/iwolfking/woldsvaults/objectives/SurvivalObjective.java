@@ -35,6 +35,8 @@ import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.config.SurvivalObjectiveConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.enchanted_elixir.StringList;
+import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalBonusManager;
+import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalChallengeManager;
 import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalSpawnManager;
 import xyz.iwolfking.woldsvaults.objectives.survival.SurvivalVaultHelper;
 import java.util.List;
@@ -71,6 +73,8 @@ public class SurvivalObjective extends Objective {
                     .register(FIELDS);
 
     private SurvivalSpawnManager spawnManager;
+    private SurvivalBonusManager bonusManager;
+    private SurvivalChallengeManager challengeManager;
 
     protected SurvivalObjective() {
         this.set(TIME_REQUIRED, 600 * 20);
@@ -106,6 +110,7 @@ public class SurvivalObjective extends Objective {
         SurvivalVaultHelper.setBaseVaultTimer(vault);
 
         spawnManager = new SurvivalSpawnManager(vault, world, this);
+        bonusManager = new SurvivalBonusManager(vault, world, this);
 
         super.initServer(world, vault);
     }
@@ -126,16 +131,20 @@ public class SurvivalObjective extends Objective {
             return;
         }
 
+        if(spawnManager != null) {
+            spawnManager.tick();
+        }
+
+        if(challengeManager != null && this.get(TIME_SURVIVED) >= 4800) {
+            challengeManager.tick();
+        }
+
         if (this.get(COMPLETED)) {
             handlePostCompletion(world, vault);
             return;
         }
 
         this.set(TIME_SURVIVED, this.get(TIME_SURVIVED) + 1);
-
-        if(spawnManager != null) {
-            spawnManager.tick();
-        }
 
         if (this.get(TIME_SURVIVED) >= this.get(TIME_REQUIRED)) {
             completeObjective(world, vault);
@@ -151,7 +160,9 @@ public class SurvivalObjective extends Objective {
     }
 
     private void handlePostCompletion(VirtualWorld world, Vault vault) {
-        int extraStages = (this.get(TIME_SURVIVED) - this.get(TIME_REQUIRED)) / (20 * 120);
+        if(bonusManager != null) {
+            bonusManager.tick();
+        }
     }
 
 

@@ -8,12 +8,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import xyz.iwolfking.woldsvaults.api.util.SpawnHelper;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
+import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 import xyz.iwolfking.woldsvaults.objectives.survival.lib.TickTimer;
 
-public class SurvivalSpawnManager {
-    private static final int MOB_CAP_NEARBY = 50;
-    private static final float NEARBY_RADIUS = 10.0F;
-
+public class SurvivalSpawnManager extends ObjectiveManager<SurvivalObjective> {
     private static final double MIN_SPAWN_RADIUS = 8;
     private static final double MAX_SPAWN_RADIUS = 48;
 
@@ -21,20 +19,11 @@ public class SurvivalSpawnManager {
     private static final int TICKS_PER_NEXT_WAVE = 1200;
 
 
-    private final Vault vault;
-    private final VirtualWorld world;
-    private final SurvivalObjective objective;
-
-    private final int level;
-
     public final TickTimer SPAWN_TIMER = new TickTimer(TICKS_PER_ACTION);
     public final TickTimer WAVE_TIMER = new TickTimer(TICKS_PER_NEXT_WAVE);
 
     public SurvivalSpawnManager(Vault vault, VirtualWorld world, SurvivalObjective objective) {
-        this.vault = vault;
-        this.world = world;
-        this.objective = objective;
-        this.level = vault.get(Vault.LEVEL).get();
+        super(vault, world, objective);
     }
 
 
