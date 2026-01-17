@@ -10,6 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModTags;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -38,6 +40,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(iskallia.vault.init.ModItems.SPARKLETINE_GEM)
                 .add(iskallia.vault.init.ModItems.PETZANITE_GEM)
                 .add(iskallia.vault.init.ModItems.TUBIUM_GEM);
+        tag(ModTags.ALCHEMY_INGREDIENT).add(getItemsOfClass(AlchemyIngredientItem.class, () -> new AlchemyIngredientItem[]{}));
+        tag(ModTags.ALCHEMY_CATALYST).add(getItemsOfClass(CatalystItem.class, () -> new CatalystItem[]{}));
     }
 
     public static <T> T[] getItemsOfClass(Class<T> type, Supplier<T[]> instance) {

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "woldsvaults:catalyst_stability",
+    "woldsvaults:catalyst_amplifying",
+    "woldsvaults:catalyst_focusing",
+    "woldsvaults:catalyst_temporal",
+    "woldsvaults:catalyst_unstable"
+  ]
+}
