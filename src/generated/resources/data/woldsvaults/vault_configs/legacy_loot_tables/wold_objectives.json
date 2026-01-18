@@ -1,0 +1,39 @@
+{
+  "LEVELS": [
+    {
+      "MIN_LEVEL": 0,
+      "COMPLETION_CRATE": {
+        "survival": "the_vault:base_crate_0"
+      },
+      "ARTIFACT_CHANCE": 0.0
+    },
+    {
+      "MIN_LEVEL": 5,
+      "COMPLETION_CRATE": {
+        "survival": "the_vault:base_crate_0"
+      },
+      "ARTIFACT_CHANCE": 0.0
+    },
+    {
+      "MIN_LEVEL": 20,
+      "COMPLETION_CRATE": {
+        "survival": "the_vault:base_crate_20"
+      },
+      "ARTIFACT_CHANCE": 0.0
+    },
+    {
+      "MIN_LEVEL": 50,
+      "COMPLETION_CRATE": {
+        "survival": "the_vault:base_crate_50"
+      },
+      "ARTIFACT_CHANCE": 0.0
+    },
+    {
+      "MIN_LEVEL": 100,
+      "COMPLETION_CRATE": {
+        "survival": "the_vault:base_crate_100"
+      },
+      "ARTIFACT_CHANCE": 0.0
+    }
+  ]
+}

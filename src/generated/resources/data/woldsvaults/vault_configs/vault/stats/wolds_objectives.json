@@ -1,0 +1,16 @@
+{
+  "chests": {},
+  "barrels": {},
+  "blocksMined": {},
+  "treasureRoomsOpened": 0.0,
+  "mobsKilled": {},
+  "completion": {
+    "survival": {
+      "BAILED": 0.0,
+      "COMPLETED": 20000.0,
+      "FAILED": 0.0
+    }
+  },
+  "percentOfExperienceDealtAsDurabilityDamage": 0.0,
+  "freeExperienceNotDealtAsDurabilityDamage": 0
+}
