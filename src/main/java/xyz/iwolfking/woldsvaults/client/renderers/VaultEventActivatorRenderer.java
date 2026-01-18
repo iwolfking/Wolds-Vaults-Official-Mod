@@ -82,25 +82,11 @@ public class VaultEventActivatorRenderer implements BlockEntityRenderer<VaultEve
 
     private void renderTextWithShadow(PoseStack poseStack, Component line, float y, MultiBufferSource buffer) {
         font.drawInBatch(
-                new TextComponent("").append(line.getString())
-                        .withStyle(Style.EMPTY.withColor(net.minecraft.ChatFormatting.BLACK)),
-                -font.width(line) / 2f + 1f,
-                y + 1f,
-                0x000000,
-                false,
-                poseStack.last().pose(),
-                buffer,
-                false,
-                0,
-                LightmapHelper.getPackedFullbrightCoords()
-        );
-
-        font.drawInBatch(
                 line,
                 -font.width(line) / 2f,
                 y,
                 0xFFFFFF,
-                false,
+                true,
                 poseStack.last().pose(),
                 buffer,
                 false,
