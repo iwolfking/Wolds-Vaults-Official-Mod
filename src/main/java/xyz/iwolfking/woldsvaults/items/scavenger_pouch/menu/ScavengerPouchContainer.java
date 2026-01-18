@@ -16,6 +16,7 @@ import javax.annotation.Nonnull;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -24,6 +25,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
+import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
 import xyz.iwolfking.woldsvaults.items.ItemScavengerPouch;
 
@@ -65,7 +67,7 @@ public class ScavengerPouchContainer extends OverSizedSlotContainer {
     }
 
     private void initPlayerSlots(IItemHandler playerInventory) {
-        int invStartY = getPlayerInventoryStartY() + 26;
+        int invStartY = getPlayerInventoryStartY() + 112;
 
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
@@ -137,6 +139,61 @@ public class ScavengerPouchContainer extends OverSizedSlotContainer {
             this.addScavSlot(buffer, new ItemStack(scavItem), index, x, y);
         }
     }
+
+    @Override
+    public ItemStack quickMoveStack(Player player, int index) {
+        ItemStack result = ItemStack.EMPTY;
+        var slot = this.slots.get(index);
+
+        if (slot.hasItem()) {
+            ItemStack stack = slot.getItem();
+            result = stack.copy();
+
+            if (scavItemSlots.contains(slot)) {
+                ScavengerItemSlot scavSlot = (ScavengerItemSlot) slot;
+                OverSizedInventory inventory = (OverSizedInventory) scavSlot.container;
+
+                OverSizedItemStack stored = inventory.getOverSizedContents().get(slot.index);
+                if (stored.isEmpty() || stored.amount() <= 0) return ItemStack.EMPTY;
+
+                int giveAmount = Math.min(stack.getMaxStackSize(), stored.amount());
+
+                ItemStack out = stack.copy();
+                out.setCount(giveAmount);
+
+                if (!this.moveItemStackTo(out, 0, player.getInventory().items.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+
+                OverSizedItemStack updated = new OverSizedItemStack(stored.stack(), stored.amount() - giveAmount);
+                inventory.setOverSizedStack(slot.index, updated);
+
+                slot.set(stack);
+                return out;
+            }
+
+            boolean moved = false;
+            for (ScavengerItemSlot scavSlot : scavItemSlots) {
+                if (scavSlot.mayPlace(stack)) {
+                    moved = this.moveItemStackTo(stack, scavSlot.index, scavSlot.index + 1, false);
+                    if (moved) break;
+                }
+            }
+
+            if (!moved) return ItemStack.EMPTY;
+
+            if (stack.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+        }
+
+        return result;
+    }
+
+
+
 
 
     private void addScavSlot(Container container, ItemStack keyType, int index, int x, int y) {

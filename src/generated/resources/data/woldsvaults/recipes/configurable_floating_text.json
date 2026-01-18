@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    " A ",
+    " B "
+  ],
+  "key": {
+    "A": {
+      "item": "the_vault:magic_silk_block"
+    },
+    "D": {
+      "item": "minecraft:writable_book"
+    },
+    "B": {
+      "item": "the_vault:gem_pog"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:configurable_floating_text"
+  }
+}

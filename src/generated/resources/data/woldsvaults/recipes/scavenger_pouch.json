@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " s ",
+    "sPs",
+    "SGS"
+  ],
+  "key": {
+    "G": {
+      "item": "the_vault:vault_diamond"
+    },
+    "P": {
+      "item": "the_vault:crystal_seal_hunter"
+    },
+    "s": {
+      "item": "the_vault:magic_silk"
+    },
+    "S": {
+      "item": "the_vault:magic_silk_block"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:scavenger_pouch"
+  }
+}

@@ -49,19 +49,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
-//        ShapedRecipeBuilder.shaped(ModItems.XL_BACKPACK)
-//                .define('I', ModItems.PRISMATIC_FIBER)
-//                .define('L', Registry.ITEM.get(VaultMod.id("wold_star_chunk")))
-//                .define('P', ModItems.CHROMA_CORE)
-//                .define('B', Registry.ITEM.get(ResourceLocation.fromNamespaceAndPath("sophisticatedbackpacks", "netherite_backpack")))
-//                .define('S', iskallia.vault.init.ModBlocks.BLACK_CHROMATIC_STEEL_BLOCK)
-//                .define('M', iskallia.vault.init.ModItems.OMEGA_POG)
-//                .pattern("ILI")
-//                .pattern("PBP")
-//                .pattern("SMS")
-//                .unlockedBy("has_netherite_backpack", has(Registry.ITEM.get(ResourceLocation.fromNamespaceAndPath("sophisticatedbackpacks", "netherite_backpack"))))
-//                .save(pFinishedRecipeConsumer);
-
         CompoundTag colossus = new CompoundTag();
         colossus.putString("Ability", "Colossus");
 
@@ -78,15 +65,26 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_pog", has(iskallia.vault.init.ModItems.POG))
                 .save(pFinishedRecipeConsumer);
 
-//        ShapedRecipeBuilder.shaped(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK)
-//                .define('A', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
-//                .define('D', Items.WRITABLE_BOOK)
-//                .define('B', iskallia.vault.init.ModItems.POG)
-//                .pattern(" D ")
-//                .pattern(" A ")
-//                .pattern(" B ")
-//                .unlockedBy("has_magic_silk_block", has(iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK))
-//                .save(pFinishedRecipeConsumer);
+        ShapedRecipeBuilder.shaped(ModItems.SCAVENGER_POUCH_ITEM)
+                .define('G', iskallia.vault.init.ModItems.VAULT_DIAMOND)
+                .define('P', iskallia.vault.init.ModItems.CRYSTAL_SEAL_HUNTER)
+                .define('s', iskallia.vault.init.ModItems.MAGIC_SILK)
+                .define('S', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
+                .pattern(" s ")
+                .pattern("sPs")
+                .pattern("SGS")
+                .unlockedBy("has_pog", has(iskallia.vault.init.ModItems.POG))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK)
+                .define('A', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
+                .define('D', Items.WRITABLE_BOOK)
+                .define('B', iskallia.vault.init.ModItems.POG)
+                .pattern(" D ")
+                .pattern(" A ")
+                .pattern(" B ")
+                .unlockedBy("has_magic_silk_block", has(iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK))
+                .save(pFinishedRecipeConsumer);
 
 
         ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.RESPEC_FLASK)
