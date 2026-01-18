@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.integration.jei;
 
+import com.simibubi.create.AllItems;
 import dev.attackeight.just_enough_vh.jei.ForgeItem;
 import dev.attackeight.just_enough_vh.jei.JEIRecipeProvider;
 import dev.attackeight.just_enough_vh.jei.RecyclerRecipe;
@@ -14,7 +15,16 @@ import iskallia.vault.core.card.modifier.card.TaskLootCardModifier;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.world.loot.LootPool;
 import iskallia.vault.core.world.loot.entry.LootEntry;
+import iskallia.vault.gear.VaultGearRarity;
+import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
+import iskallia.vault.gear.data.AttributeGearData;
+import iskallia.vault.gear.data.GearDataCache;
+import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.IdentifiableItem;
+import iskallia.vault.gear.item.VaultGearItem;
+import iskallia.vault.item.gear.VaultArmorItem;
+import iskallia.vault.tags.ModItemTags;
 import iskallia.vault.util.StringUtils;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -34,12 +44,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fml.loading.LoadingModList;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.tags.ITagManager;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfo;
@@ -50,10 +64,7 @@ import xyz.iwolfking.vhapi.mixin.accessors.TemporalShardConfigAccessor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
-import xyz.iwolfking.woldsvaults.init.ModBlocks;
-import xyz.iwolfking.woldsvaults.init.ModConfigs;
-import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.init.ModRecipeTypes;
+import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.jei.category.*;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.GenericLootableBoxCategory;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.ShopTierCategory;
@@ -63,6 +74,7 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TaskLootCardModif
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
@@ -97,6 +109,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<LabeledLootInfo> LAYOUTS = RecipeType.create(WoldsVaults.MOD_ID, "layouts", LabeledLootInfo.class);
     public static final RecipeType<LabeledLootInfo> ETCHED_LAYOUTS = RecipeType.create(WoldsVaults.MOD_ID, "etched_layouts", LabeledLootInfo.class);
     public static final RecipeType<LabeledLootInfo> RESOURCE_CARDS_LOOT = RecipeType.create(WoldsVaults.MOD_ID, "resource_cards_loot", LabeledLootInfo.class);
+    public static final RecipeType<LabeledLootInfo> USEFUL_FILTER_ITEMS = RecipeType.create(WoldsVaults.MOD_ID, "useful_filter_items", LabeledLootInfo.class);
 
     public WoldsVaultsJeiPlugin() {}
     @Override
@@ -136,6 +149,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModItems.LAYOUT_MANIPULATOR), LAYOUTS);
         registration.addRecipeCatalyst(new ItemStack(ModItems.LAYOUT_MANIPULATOR), ETCHED_LAYOUTS);
         registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModItems.BOOSTER_PACK), RESOURCE_CARDS_LOOT);
+        registration.addRecipeCatalyst(new ItemStack(AllItems.ATTRIBUTE_FILTER.get()), USEFUL_FILTER_ITEMS);
     }
 
     @Override
@@ -167,6 +181,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, LAYOUTS, ModItems.LAYOUT_MANIPULATOR, new TextComponent("Vault Layouts")));
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, ETCHED_LAYOUTS, ModItems.LAYOUT_MANIPULATOR, new TextComponent("Etched Vault Layout Pools")));
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, RESOURCE_CARDS_LOOT, iskallia.vault.init.ModItems.BOOSTER_PACK, new TextComponent("Resource Card Rewards")));
+        registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, USEFUL_FILTER_ITEMS, AllItems.ATTRIBUTE_FILTER.get(), new TextComponent("Useful Filter Items")));
     }
 
     @Override @SuppressWarnings("removal")
@@ -203,6 +218,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(LAYOUTS, getLayoutsPerLevel());
         registration.addRecipes(ETCHED_LAYOUTS, getEtchedLayoutsPerLevel());
         registration.addRecipes(RESOURCE_CARDS_LOOT, getResourceCardLoot());
+        registration.addRecipes(USEFUL_FILTER_ITEMS, getUsefulFilterItems());
         addCustomRecyclerRecipes(registration);
     }
 
@@ -318,6 +334,36 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
 
 
         return lootInfo;
+    }
+
+    public static List<LabeledLootInfo> getUsefulFilterItems() {
+        List<LabeledLootInfo> lootInfo = new ArrayList<>();
+        List<ItemStack> rarityGearPieces = new ArrayList<>();
+        List<ItemStack> specialGearPieces = new ArrayList<>();
+
+        for(VaultGearRarity rarity : VaultGearRarity.values()) {
+            rarityGearPieces.add(generatePieceStack(iskallia.vault.init.ModItems.CHESTPLATE, rarity, false, 100));
+        }
+
+        lootInfo.add(LabeledLootInfo.of(rarityGearPieces, new TextComponent("Filter - Rarity"), null));
+
+        specialGearPieces.add(generatePieceStack(iskallia.vault.init.ModItems.CHESTPLATE, VaultGearRarity.SCRAPPY, true, 100));
+
+        lootInfo.add(LabeledLootInfo.of(specialGearPieces, new TextComponent("Filter - Special Gear States"), null));
+
+
+        return lootInfo;
+    }
+
+    public static ItemStack generatePieceStack(VaultGearItem item, VaultGearRarity rarity, boolean legendary, int level) {
+        ItemStack itemStack = item.defaultItem();
+        String rollType = StringUtils.convertToTitleCase(rarity.toString());
+        VaultGearData data = VaultGearData.read(itemStack);
+        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.GEAR_ROLL_TYPE, rollType);
+        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_LEGENDARY, legendary);
+        data.write(itemStack);
+
+        return itemStack;
     }
 
 

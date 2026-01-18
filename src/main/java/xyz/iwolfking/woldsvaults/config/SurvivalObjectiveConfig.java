@@ -54,7 +54,7 @@ public class SurvivalObjectiveConfig extends Config {
         spawnIds.put(ModEntities.BLUE_GHOST.getRegistryName(), 1);
         spawnIds.put(ModEntities.GREEN_GHOST.getRegistryName(), 1);
         spawnIds.put(ModEntities.YELLOW_GHOST.getRegistryName(), 1);
-        spawnsEntries.add(new SurvivalSpawnsEntry(0, IntRoll.ofConstant(1), spawnIds));
+        spawnsEntries.add(new SurvivalSpawnsEntry(0, IntRoll.ofConstant(1), spawnIds, IntRoll.ofConstant(20)));
         SURVIVAL_SPAWNS.put("default", spawnsEntries);
         SURVIVAL_TIME.add(new SurvivalTimeEntry(0, IntRoll.ofUniform(20, 60)));
         SURVIVAL_TIME.add(new SurvivalTimeEntry(0, IntRoll.ofUniform(20, 60)));
@@ -92,15 +92,20 @@ public class SurvivalObjectiveConfig extends Config {
         @Expose
         private final IntRoll spawnAmounts;
 
-        public SurvivalSpawnsEntry(int level, IntRoll spawnAmounts) {
+        @Expose
+        private final IntRoll spawnTimer;
+
+        public SurvivalSpawnsEntry(int level, IntRoll spawnAmounts, IntRoll spawnTimer) {
             this.level = level;
             this.spawnAmounts = spawnAmounts;
+            this.spawnTimer = spawnTimer;
         }
 
-        public SurvivalSpawnsEntry(int level, IntRoll spawnAmounts, WeightedList<ResourceLocation> entityIds) {
+        public SurvivalSpawnsEntry(int level, IntRoll spawnAmounts, WeightedList<ResourceLocation> entityIds, IntRoll spawnTimer) {
             this.level = level;
             this.spawnAmounts = spawnAmounts;
             this.entityIds = entityIds;
+            this.spawnTimer = spawnTimer;
         }
 
         @Override

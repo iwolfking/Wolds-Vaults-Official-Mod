@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.core.vault_events.impl.tasks;
+package xyz.iwolfking.woldsvaults.api.core.vault_events.impl.tasks.survival;
 
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.Objective;
@@ -20,13 +20,12 @@ public class SurvivalWaveAdjustmentTask implements VaultEventTask {
 
     @Override
     public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
-        Objective objective = WoldVaultUtils.getObjective(vault, SurvivalObjective.class);
+        SurvivalObjective objective = WoldVaultUtils.getObjective(vault, SurvivalObjective.class);
         if(objective == null) {
             return;
         }
 
-        if(objective instanceof SurvivalObjective survivalObjective) {
-            survivalObjective.adjustWave(vault, waveAdjustment);
-        }
+        objective.adjustWave(vault, waveAdjustment);
+
     }
 }

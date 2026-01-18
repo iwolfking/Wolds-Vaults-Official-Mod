@@ -24,11 +24,11 @@ public abstract class MixinBingoTask extends ConfiguredTask<ConfiguredTask.Confi
             return;
         }
 
-        Objective objective = WoldVaultUtils.getObjective(vault, BallisticBingoObjective.class);
+        BallisticBingoObjective objective = WoldVaultUtils.getObjective(vault, BallisticBingoObjective.class);
 
-        if(objective instanceof BallisticBingoObjective ballisticBingoObjective) {
-            ballisticBingoObjective.addBingoTaskModifier(vault, "bingo_task_modifiers");
-            ballisticBingoObjective.addBingoTaskModifier(vault, "bingo_task_modifiers_bad");
+        if(objective != null) {
+            objective.addBingoTaskModifier(vault, "bingo_task_modifiers");
+            objective.addBingoTaskModifier(vault, "bingo_task_modifiers_bad");
         }
 
     }

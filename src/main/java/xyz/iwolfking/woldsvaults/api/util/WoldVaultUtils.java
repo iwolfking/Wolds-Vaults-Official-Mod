@@ -8,7 +8,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.NotNull;
 
 public class WoldVaultUtils {
-    public static Objective getObjective(Vault vault, Class<? extends Objective> objectiveClass) {
+    public static <O extends Objective> O getObjective(Vault vault, Class<O> objectiveClass) {
         if (vault == null) {
             return null;
         } else {
@@ -19,7 +19,7 @@ public class WoldVaultUtils {
 
             for(Objective objective : objectives.get(Objectives.LIST)) {
                 if(objective.getClass().equals(objectiveClass)) {
-                    return objective;
+                    return (O) objective;
                 }
             }
         }
