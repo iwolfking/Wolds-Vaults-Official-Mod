@@ -64,9 +64,9 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             artifactChance(modifierBuilder, VaultMod.id("more_artifact_chance"), 0.01F, "Increased Artifact Chance", "#EBFF8D", "Every stack increases the artifact chance by 1 percent.", "+%d%% Artifact Chance", VaultMod.id("gui/modifiers/more_artifact1"));
             artifactChance(modifierBuilder, VaultMod.id("pogging"), 0.05F, "Pogging", "#EBFF8D", "Every stack increases the artifact chance by 5 percent.", "+%d%% Artifact Chance", VaultMod.id("gui/modifiers/more_artifact1"));
 
-            catalystChacne(modifierBuilder, VaultMod.id("more_catalysts"), 0.01F, "More Catalyst Fragments", "#FC00E3", "+1% Catalyst Fragments", "+%d%% Catalyst Fragments", VaultMod.id("gui/modifiers/more_catalyst"));
-            catalystChacne(modifierBuilder, VaultMod.id("sparkling"), 0.05F, "Sparkling", "#FC00E3", "+5% Catalyst Fragments", "+%d%% Catalyst Fragments", VaultMod.id("gui/modifiers/more_catalyst"));
-            catalystChacne(modifierBuilder, VaultMod.id("iridescent"), 1.0F, "Iridescent", "#FC00E3", "+100% Catalyst Fragments", "+%d%% Catalyst Fragments", VaultMod.id("gui/modifiers/more_catalyst"));
+            catalystChance(modifierBuilder, VaultMod.id("more_catalysts"), 0.01F, "More Catalyst Fragments", "#FC00E3", "+1% Catalyst Fragments", "+%d%% Catalyst Fragments", VaultMod.id("gui/modifiers/more_catalyst"));
+            catalystChance(modifierBuilder, VaultMod.id("sparkling"), 0.05F, "Sparkling", "#FC00E3", "+5% Catalyst Fragments", "+%d%% Catalyst Fragments", VaultMod.id("gui/modifiers/more_catalyst"));
+            catalystChance(modifierBuilder, VaultMod.id("iridescent"), 1.0F, "Iridescent", "#FC00E3", "+100% Catalyst Fragments", "+%d%% Catalyst Fragments", VaultMod.id("gui/modifiers/more_catalyst"));
 
             soulShardChance(modifierBuilder, VaultMod.id("exorcising"), 0.5F, "Exorcising", "#6410A1", "+50% Soul Shard Drop Rate", "+%d%% Soul Shards", VaultMod.id("gui/modifiers/soul_shard_increase_pink"));
 
@@ -154,6 +154,9 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             decoratorCascade(modifierBuilder, VaultMod.id("super_ornate_cascade"), PartialBlock.of(ModBlocks.ORNATE_CHEST),0.75F, "Super Ornate", "#c90d73", "+75% Ornate Chests", "+%d%% Ornate Chests", VaultMod.id("gui/modifiers/ornate"));
             decoratorCascade(modifierBuilder, VaultMod.id("super_wooden_cascade"), PartialBlock.of(ModBlocks.WOODEN_CHEST),0.75F, "Super Wooden", "#c7b281", "+75% Wooden Chests", "+%d%% Wooden Chests", VaultMod.id("gui/modifiers/wooden"));
             decoratorCascade(modifierBuilder, VaultMod.id("super_coin_cascade"), PartialBlock.of(ModBlocks.COIN_PILE),0.75F, "Super Wealthy", "#ffae00", "+75% Coin Piles", "+%d%% Coin Piles", VaultMod.id("gui/modifiers/wealthy"));
+
+            decoratorCascade(modifierBuilder, WoldsVaults.id("flesh"), PartialBlock.of(ModBlocks.FLESH_CHEST),0.25F, "Flesh", "#bd6d68", "+25% Flesh Chests", "+%d%% Flesh Chests", WoldsVaults.id("gui/modifiers/flesh"));
+            decoratorCascade(modifierBuilder, WoldsVaults.id("hardened"), PartialBlock.of(ModBlocks.HARDENED_CHEST),0.25F, "Hardened", "#635858", "+25% Hardened Chests", "+%d%% Hardened Chests", WoldsVaults.id("gui/modifiers/hardened"));
 
             championChance(modifierBuilder, VaultMod.id("champions_realm"), 0.25F, "Champion's Realm", "#bbf333", "+25% Champions", "+%d%% Champions", VaultMod.id("gui/modifiers/champions_abode"));
 

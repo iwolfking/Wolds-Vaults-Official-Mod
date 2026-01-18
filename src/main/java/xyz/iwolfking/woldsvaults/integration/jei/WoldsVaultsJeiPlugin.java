@@ -6,30 +6,22 @@ import dev.attackeight.just_enough_vh.jei.JEIRecipeProvider;
 import dev.attackeight.just_enough_vh.jei.RecyclerRecipe;
 import dev.attackeight.just_enough_vh.jei.TheVaultJEIPlugin;
 import dev.attackeight.just_enough_vh.jei.category.ForgeItemRecipeCategory;
-import iskallia.vault.VaultMod;
 import iskallia.vault.config.ShopPedestalConfig;
 import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
 import iskallia.vault.core.card.CardEntry;
-import iskallia.vault.core.card.modifier.card.CardModifier;
 import iskallia.vault.core.card.modifier.card.TaskLootCardModifier;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.world.loot.LootPool;
 import iskallia.vault.core.world.loot.entry.LootEntry;
 import iskallia.vault.gear.VaultGearRarity;
-import iskallia.vault.gear.VaultGearState;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
-import iskallia.vault.gear.data.AttributeGearData;
-import iskallia.vault.gear.data.GearDataCache;
 import iskallia.vault.gear.data.VaultGearData;
-import iskallia.vault.gear.item.IdentifiableItem;
 import iskallia.vault.gear.item.VaultGearItem;
-import iskallia.vault.item.gear.VaultArmorItem;
-import iskallia.vault.tags.ModItemTags;
 import iskallia.vault.util.StringUtils;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -44,23 +36,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.fml.loading.LoadingModList;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.tags.ITagManager;
 import org.jetbrains.annotations.NotNull;
-import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfo;
 import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfoRecipeCategory;
-import xyz.iwolfking.vhapi.integration.the_vault.VaultSealHelper;
-import xyz.iwolfking.vhapi.integration.wolds.WoldsSealHelper;
-import xyz.iwolfking.vhapi.mixin.accessors.TemporalShardConfigAccessor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
@@ -70,12 +53,9 @@ import xyz.iwolfking.woldsvaults.integration.jei.category.lib.GenericLootableBox
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.ShopTierCategory;
 import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TaskLootCardModifierConfigAccessor;
-
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
 import static mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT;
@@ -342,12 +322,14 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         List<ItemStack> specialGearPieces = new ArrayList<>();
 
         for(VaultGearRarity rarity : VaultGearRarity.values()) {
-            rarityGearPieces.add(generatePieceStack(iskallia.vault.init.ModItems.CHESTPLATE, rarity, false, 100));
+            rarityGearPieces.add(generateVaultGear(iskallia.vault.init.ModItems.CHESTPLATE, rarity, 100));
         }
 
         lootInfo.add(LabeledLootInfo.of(rarityGearPieces, new TextComponent("Filter - Rarity"), null));
 
-        specialGearPieces.add(generatePieceStack(iskallia.vault.init.ModItems.CHESTPLATE, VaultGearRarity.SCRAPPY, true, 100));
+        specialGearPieces.add(gearWithLegendary(iskallia.vault.init.ModItems.CHESTPLATE, VaultGearRarity.SCRAPPY, 100));
+        specialGearPieces.add(corruptedGear(iskallia.vault.init.ModItems.CHESTPLATE, VaultGearRarity.SCRAPPY, 100));
+        specialGearPieces.add(imbuedGear(iskallia.vault.init.ModItems.CHESTPLATE, VaultGearRarity.SCRAPPY, 100));
 
         lootInfo.add(LabeledLootInfo.of(specialGearPieces, new TextComponent("Filter - Special Gear States"), null));
 
@@ -355,15 +337,32 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         return lootInfo;
     }
 
-    public static ItemStack generatePieceStack(VaultGearItem item, VaultGearRarity rarity, boolean legendary, int level) {
+    public static <V> ItemStack generateVaultGear(VaultGearItem item, VaultGearRarity rarity, @Nullable VaultGearAttribute<V> attribute, @Nullable V value, int level) {
         ItemStack itemStack = item.defaultItem();
         String rollType = StringUtils.convertToTitleCase(rarity.toString());
         VaultGearData data = VaultGearData.read(itemStack);
         data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.GEAR_ROLL_TYPE, rollType);
-        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_LEGENDARY, legendary);
+        if(attribute != null) {
+            data.createOrReplaceAttributeValue(attribute, value);
+        }
         data.write(itemStack);
-
         return itemStack;
+    }
+
+    public static <V> ItemStack generateVaultGear(VaultGearItem item, VaultGearRarity rarity, int level) {
+        return generateVaultGear(item, rarity, null ,null, level);
+    }
+
+    public static ItemStack gearWithLegendary(VaultGearItem item, VaultGearRarity rarity, int level) {
+        return generateVaultGear(item, rarity, iskallia.vault.init.ModGearAttributes.IS_LEGENDARY, true, level);
+    }
+
+    public static ItemStack corruptedGear(VaultGearItem item, VaultGearRarity rarity, int level) {
+        return generateVaultGear(item, rarity, iskallia.vault.init.ModGearAttributes.IS_CORRUPTED, true, level);
+    }
+
+    public static ItemStack imbuedGear(VaultGearItem item, VaultGearRarity rarity, int level) {
+        return generateVaultGear(item, rarity, iskallia.vault.init.ModGearAttributes.IS_DUNGEONED, true, level);
     }
 
 

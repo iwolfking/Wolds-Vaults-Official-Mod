@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
@@ -72,7 +74,12 @@ public abstract class MixinRunner extends Listener {
             }
             if(surpriseModifiersExpertiseLevel > 0) {
                 if(world.getRandom().nextFloat() < (surpriseModifiersExpertiseLevel * 0.2F)) {
-                    VaultModifierUtils.addModifierFromPool(vault, VaultMod.id("random_positive"));
+                    if(VaultUtils.isSpecialVault(vault) || VaultUtils.isRawVault(vault) || VaultUtils.isTrialVault(vault)) {
+                        return;
+                    }
+                    else {
+                        VaultModifierUtils.addModifierFromPool(vault, VaultMod.id("random_positive"));
+                    }
                 }
             }
         }
