@@ -37,50 +37,50 @@ public class VaultEventActivatorRenderer implements BlockEntityRenderer<VaultEve
         VaultEvent event = tile.getEvent();
         if (event == null) return;
 
+        List<Component> lines = new ArrayList<>();
+        if (tile.isOnCooldown()) {
+            lines.add(formatCooldown(tile.getCooldownTicks()));
+        } else {
+            lines.add(event.getEventName());
+            lines.addAll(splitComponent(event.getEventDescriptor(), 180));
+        }
+
+        float totalHeight = lines.size() * LINE_HEIGHT;
+
         Minecraft mc = Minecraft.getInstance();
 
         matrixStack.pushPose();
 
-        double floatOffset = Math.sin((tile.getLevel().getGameTime() + partialTicks) / 10.0) * 0.05;
-        matrixStack.translate(0.5D, 1.6D + floatOffset, 0.5D);
+        double floatOffset =
+                Math.sin((tile.getLevel().getGameTime() + partialTicks) / 10.0) * 0.05;
+
+        double baseHeight = 1.8D;
+        double textWorldOffset = (totalHeight * TEXT_SCALE) / 2.0;
+
+        matrixStack.translate(
+                0.5D,
+                baseHeight + floatOffset + textWorldOffset,
+                0.5D
+        );
 
         matrixStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
         matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
-
         matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
         RenderSystem.disableDepthTest();
 
-        float yOffset = 10;
-
-
-
-        if (tile.isOnCooldown()) {
-            Component cooldown = formatCooldown(tile.getCooldownTicks());
-            renderTextWithShadow(matrixStack, cooldown, yOffset, buffer);
-            yOffset += LINE_HEIGHT;
+        float y = 0;
+        for (Component line : lines) {
+            renderTextWithShadow(matrixStack, line, y, buffer);
+            y += LINE_HEIGHT;
         }
-        else {
-            Component name = event.getEventName();
-            renderTextWithShadow(matrixStack, name, yOffset, buffer);
-            yOffset += LINE_HEIGHT;
-
-            List<Component> descriptionLines = splitComponent(event.getEventDescriptor(), 180);
-            for (Component line : descriptionLines) {
-                renderTextWithShadow(matrixStack, line, yOffset, buffer);
-                yOffset += LINE_HEIGHT;
-            }
-        }
-
-
-
 
         RenderSystem.enableDepthTest();
         matrixStack.popPose();
     }
 
+
     private void renderTextWithShadow(PoseStack poseStack, Component line, float y, MultiBufferSource buffer) {
-        // Shadow (black, offset by 1px)
         font.drawInBatch(
                 new TextComponent("").append(line.getString())
                         .withStyle(Style.EMPTY.withColor(net.minecraft.ChatFormatting.BLACK)),

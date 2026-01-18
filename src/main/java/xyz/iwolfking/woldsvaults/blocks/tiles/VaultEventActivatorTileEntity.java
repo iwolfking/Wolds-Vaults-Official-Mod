@@ -13,6 +13,7 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 
 public class VaultEventActivatorTileEntity extends BlockEntity {
@@ -40,9 +41,12 @@ public class VaultEventActivatorTileEntity extends BlockEntity {
     public static void tick(Level level, BlockPos pos, BlockState state, VaultEventActivatorTileEntity blockEntity) {
         if (blockEntity.cooldownTicks > 0) {
             blockEntity.cooldownTicks--;
-            blockEntity.setChanged();
-            blockEntity.sync();
+            if (blockEntity.cooldownTicks % 20 == 0) {
+                blockEntity.setChanged();
+                blockEntity.sync();
+            }
         }
+
     }
 
     public void resolveEvent() {
@@ -78,6 +82,27 @@ public class VaultEventActivatorTileEntity extends BlockEntity {
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = super.getUpdateTag();
+        saveAdditional(tag);
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        load(tag);
+    }
+
+    @Override
+    public void onDataPacket(net.minecraft.network.Connection net,
+                             ClientboundBlockEntityDataPacket packet) {
+        load(packet.getTag());
+    }
+
+
+
 
     public void sync() {
         if (level instanceof ServerLevel serverLevel) {
