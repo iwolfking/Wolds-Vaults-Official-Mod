@@ -14,7 +14,7 @@ public class HexColorField extends EditBox {
     public HexColorField(Font font, int x, int y, int width, IntConsumer setter) {
         super(font, x, y, width, 18, new TextComponent("#RRGGBB"));
         this.colorSetter = setter;
-        setMaxLength(7); // # + 6 hex digits
+        setMaxLength(7);
     }
 
     @Override

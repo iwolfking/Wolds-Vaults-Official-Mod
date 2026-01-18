@@ -80,6 +80,7 @@ public class ModItems {
     public static BasicScavengerItem ENDER_EYE;
     public static BasicScavengerItem ENDER_CRYSTAL;
     public static BasicScavengerItem ENDER_ARTIFACT;
+    public static ItemScavengerPouch SCAVENGER_POUCH_ITEM;
 
     public static final BasicMobEggItem WOLD_EGG = new BasicMobEggItem(WoldsVaults.id("wold_spawn_egg"), () -> ModEntities.WOLD, 1447446, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
     public static final BasicMobEggItem BOOGIEMAN_EGG = new BasicMobEggItem(WoldsVaults.id("boogieman_spawn_egg"), () -> iskallia.vault.init.ModEntities.BOOGIEMAN, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
@@ -361,6 +362,7 @@ public class ModItems {
         registry.register(POGGING_SEED_BASE);
         registry.register(ECHOING_SEED_BASE);
         registry.register(UNINFUSED_TERRASTEEL_INGOT);
+        registry.register(SCAVENGER_POUCH_ITEM);
         COLORED_UNOBTANIUMS.forEach((s, bi) -> {
             registry.register(bi);
         });
@@ -534,5 +536,6 @@ public class ModItems {
         );
 
         TIME_TRIAL_TROPHY = new TimeTrialTrophyItem(ModBlocks.TIME_TRIAL_TROPHY_BLOCK, new Item.Properties().stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS));
+        SCAVENGER_POUCH_ITEM = new ItemScavengerPouch(WoldsVaults.id("scavenger_pouch"));
     }
 }

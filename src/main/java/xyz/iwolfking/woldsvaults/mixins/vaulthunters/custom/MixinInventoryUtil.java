@@ -14,7 +14,9 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.items.ItemScavengerPouch;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.InventoryUtilItemAccessAccessor;
 
 import java.util.ArrayList;
@@ -128,6 +130,13 @@ public abstract class MixinInventoryUtil {
             }
 
             return success;
+        }
+    }
+
+    @Inject(method = "makeItemsRotten(Lnet/minecraft/world/entity/player/Player;)V", at = @At(value = "INVOKE", target = "Liskallia/vault/util/InventoryUtil;doesRotten(Lnet/minecraft/world/item/ItemStack;)Z"))
+    private static void clearScavPouch(Player player, CallbackInfo ci, @Local ItemStack stack) {
+        if(stack.getItem() instanceof ItemScavengerPouch) {
+            ItemScavengerPouch.setStoredStacks(stack, new ArrayList<>());
         }
     }
 }

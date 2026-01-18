@@ -1099,6 +1099,32 @@
           "descriptionFormatted": "+%d%% Coin Piles",
           "icon": "the_vault:gui/modifiers/wealthy"
         }
+      },
+      "woldsvaults:flesh": {
+        "properties": {
+          "filter": "the_vault:flesh_chest",
+          "chance": 0.25
+        },
+        "display": {
+          "name": "Flesh",
+          "color": "#bd6d68",
+          "description": "+25% Flesh Chests",
+          "descriptionFormatted": "+%d%% Flesh Chests",
+          "icon": "woldsvaults:gui/modifiers/flesh"
+        }
+      },
+      "woldsvaults:hardened": {
+        "properties": {
+          "filter": "the_vault:hardened_chest",
+          "chance": 0.25
+        },
+        "display": {
+          "name": "Hardened",
+          "color": "#635858",
+          "description": "+25% Hardened Chests",
+          "descriptionFormatted": "+%d%% Hardened Chests",
+          "icon": "woldsvaults:gui/modifiers/hardened"
+        }
       }
     },
     "the_vault:modifier_type/chance_champion": {

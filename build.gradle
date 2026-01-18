@@ -265,7 +265,7 @@ dependencies {
     compileOnly fg.deobf('curse.maven:better-combat-by-daedelus-639842:4428885')
     compileOnly fg.deobf('curse.maven:cooking-for-blockheads-231484:4065856')
     implementation fg.deobf('curse.maven:ensorcellation-349447:4782920')
-    compileOnly fg.deobf('curse.maven:lightmans-currency-472521:4977514')
+    implementation fg.deobf('curse.maven:lightmans-currency-472521:4977514')
     compileOnly fg.deobf('curse.maven:open-parties-and-claims-636608:4982642')
     compileOnly fg.deobf('curse.maven:scannable-266784:3738448')
     compileOnly fg.deobf('curse.maven:secretroomsmod-59652:3764897')

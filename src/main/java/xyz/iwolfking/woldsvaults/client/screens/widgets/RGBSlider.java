@@ -27,7 +27,6 @@ public class RGBSlider extends AbstractWidget {
 
     @Override
     public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
-        // Draw gradient background for this channel
         for (int i = 0; i < width; i++) {
             int value = (int) ((i / (float) width) * 255);
             int color = 0xFF000000;
@@ -39,10 +38,8 @@ public class RGBSlider extends AbstractWidget {
             fill(stack, x + i, y + 6, x + i + 1, y + 14, color);
         }
 
-        // Draw slider track border
         fill(stack, x - 1, y + 5, x + width + 1, y + 15, 0xFFAAAAAA);
 
-        // Draw handle
         int value = getter.getAsInt();
         int handleX = x + (int) ((value / 255f) * width);
         int handleY = y + 6;

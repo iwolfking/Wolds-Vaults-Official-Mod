@@ -22,7 +22,7 @@ import java.util.function.Function;
 @Mixin(value = InventoryUtil.class, remap = false)
 public abstract class MixinInventoryUtil {
     @Shadow @Final @Mutable
-    private static Set<Function<InventoryUtil.ItemAccess, List<InventoryUtil.ItemAccess>>> CONTENT_ACCESSORS = Set.of(IntegrationSB::getBackpackItemAccess, MixinInventoryUtil::getShulkerBoxAccess, MixinInventoryUtil::getBundleItemAccess, MixinInventoryUtil::getSatchelItemAccess, MixinInventoryUtil::getSupplementariesSafeAccess, MixinInventoryUtil::getSupplementariesSackAccess, MixinInventoryUtil::getBotaniaBaubleBoxAccess, InventoryUtil::getKeyringItemAccess, InventoryUtil::getCoinPouchItemAccess, WoldInventoryUtil::getCoinPouchItemAccess);
+    private static Set<Function<InventoryUtil.ItemAccess, List<InventoryUtil.ItemAccess>>> CONTENT_ACCESSORS = Set.of(IntegrationSB::getBackpackItemAccess, MixinInventoryUtil::getShulkerBoxAccess, MixinInventoryUtil::getBundleItemAccess, MixinInventoryUtil::getSatchelItemAccess, MixinInventoryUtil::getSupplementariesSafeAccess, MixinInventoryUtil::getSupplementariesSackAccess, MixinInventoryUtil::getBotaniaBaubleBoxAccess, InventoryUtil::getKeyringItemAccess, InventoryUtil::getCoinPouchItemAccess, WoldInventoryUtil::getCoinPouchItemAccess, WoldInventoryUtil::getScavPouchAccess);
 
     @Shadow
     private static List<InventoryUtil.ItemAccess> getBotaniaBaubleBoxAccess(InventoryUtil.ItemAccess containerAccess) {
