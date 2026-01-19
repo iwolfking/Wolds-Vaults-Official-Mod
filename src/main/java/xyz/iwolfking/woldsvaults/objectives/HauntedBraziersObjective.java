@@ -308,8 +308,4 @@ public class HauntedBraziersObjective extends MonolithObjective {
             return true;
         }
     }
-
-    static {
-        //H_KEY = SupplierKey.of("haunted_braziers", Objective.class).with(Version.v1_2, HauntedBraziersObjective::new);
-    }
 }

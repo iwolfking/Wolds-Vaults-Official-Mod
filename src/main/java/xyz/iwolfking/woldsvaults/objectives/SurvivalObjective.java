@@ -166,7 +166,6 @@ public class SurvivalObjective extends Objective {
 
     private void completeObjective(VirtualWorld world, Vault vault) {
         this.set(COMPLETED, true);
-
         WoldVaultUtils.sendMessageToAllRunners(vault, new TranslatableComponent("vault_objective.woldsvaults.survival_completion"), true);
         this.set(TIME_SURVIVED, 0);
         this.get(CHILDREN).forEach(child -> child.tickServer(world, vault));
