@@ -22,6 +22,13 @@ public class ModVaultEvents {
 
 
     public static void init() {
+        VaultEventSystem.register(WoldsVaults.id("survival_crate_reward_placeholder"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .message((TextComponent) new TextComponent("You feel your reward crate grow heavier!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new AddCrateItemTask(VaultMod.id("royale_loot_trinket")))
+                .build("Trinkets and Baubles", new TextComponent("Adds a Trinket to your Vault Crate!")));
         VaultEventSystem.register(WoldsVaults.id("crate_tier"), new VaultEvent.Builder()
                 .tag(EventTag.POSITIVE)
                 .tag(EventTag.ADDS_MODIFIER)

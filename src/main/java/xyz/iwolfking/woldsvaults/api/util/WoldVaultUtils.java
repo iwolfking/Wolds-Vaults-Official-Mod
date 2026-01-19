@@ -3,9 +3,10 @@ package xyz.iwolfking.woldsvaults.api.util;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.objective.Objectives;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class WoldVaultUtils {
     public static <O extends Objective> O getObjective(Vault vault, Class<O> objectiveClass) {
@@ -18,13 +19,35 @@ public class WoldVaultUtils {
             }
 
             for(Objective objective : objectives.get(Objectives.LIST)) {
-                if(objective.getClass().equals(objectiveClass)) {
-                    return (O) objective;
+                if(objective.getClass() == objectiveClass) {
+                    return objectiveClass.cast(objective);
+                }
+
+                Optional<O> result = getObjective(objective, objectiveClass);
+
+                if(result.isPresent()) {
+                    return result.get();
                 }
             }
         }
 
         return null;
+    }
+
+    public static <O extends Objective> Optional<O> getObjective(Objective objective, Class<O> objectiveClass) {
+        for(Objective childObj : objective.get(Objective.CHILDREN)) {
+            if(childObj.getClass() == objectiveClass) {
+                return Optional.of(objectiveClass.cast(childObj));
+            }
+
+            Optional<O> result = getObjective(childObj, objectiveClass);
+
+            if(result.isPresent()) {
+                return result;
+            }
+        }
+
+        return Optional.empty();
     }
 
     public static void sendMessageToAllRunners(@NotNull Vault vault, TranslatableComponent message, boolean useActionBar) {
