@@ -13,6 +13,7 @@ import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.data.key.registry.FieldRegistry;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.objective.ElixirObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.time.TickClock;
@@ -284,10 +285,19 @@ public class SurvivalObjective extends Objective {
         }
     }
 
-
     @Override
     public boolean isActive(VirtualWorld world, Vault vault, Objective objective) {
-        return true;
+        if (!this.get(COMPLETED)) {
+            return objective == this;
+        } else {
+            for(Objective child : (Objective.ObjList)this.get(CHILDREN)) {
+                if (child.isActive(world, vault, objective)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
     @Override
