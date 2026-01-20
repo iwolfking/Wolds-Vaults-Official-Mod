@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults;
 
 import com.mojang.logging.LogUtils;
-import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.world.data.PlayerGreedData;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -44,11 +43,8 @@ import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
 import xyz.iwolfking.woldsvaults.models.AdditionalModels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
-import xyz.iwolfking.woldsvaults.objectives.CompoundCrystalObjective;
-import xyz.iwolfking.woldsvaults.objectives.ScalingBallisticBingoCrystalObjective;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
-import xyz.iwolfking.woldsvaults.objectives.speedrun.SpeedrunCrystalObjective;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("woldsvaults")

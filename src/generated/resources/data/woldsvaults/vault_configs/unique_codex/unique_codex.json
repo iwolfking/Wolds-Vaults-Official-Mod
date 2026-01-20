@@ -298,7 +298,7 @@
             "color": "$manaCost"
           },
           {
-            "text": "\n\nDrops in: Bounty Reward",
+            "text": "\n\nDrops in: Treasure Pedestal",
             "color": "#7D520E"
           }
         ]
@@ -335,7 +335,7 @@
             "color": "$manaCost"
           },
           {
-            "text": "\n\nDrops in: Bounty Reward",
+            "text": "\n\nDrops in: Dungeon Pedestal",
             "color": "#7D520E"
           }
         ]
