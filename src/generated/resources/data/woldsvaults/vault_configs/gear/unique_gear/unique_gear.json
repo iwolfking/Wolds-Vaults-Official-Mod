@@ -1,7 +1,7 @@
 {
   "registry": {
     "woldsvaults:ocean_current": {
-      "name": "Ocean Current",
+      "name": "Zeus's Fury",
       "item": "the_vault:trident",
       "models": [
         {
@@ -14,14 +14,18 @@
           "the_vault:base_durability"
         ],
         "IMPLICIT": [
-          "the_vault:base_armor",
-          "the_vault:jester_lucky_hit",
-          "the_vault:base_lucky_hit_chance",
-          "the_vault:base_lucky_hit_chance"
+          "the_vault:trident_damage_low",
+          "the_vault:trident_loyalty_zeus",
+          "the_vault:trident_channeling"
         ],
-        "PREFIX": [],
+        "PREFIX": [
+          "the_vault:channeling_chance_zeus",
+          "the_vault:second_judgement_zeus",
+          "the_vault:windup_time_zeus"
+        ],
         "SUFFIX": [
-          "the_vault:u_item_rarity"
+          "the_vault:shocking_hit_zeus",
+          "the_vault:slowness_cloud_zeus"
         ]
       },
       "modifierTags": [],
@@ -660,7 +664,9 @@
     },
     "the_vault:crafted": {
       "woldsvaults:ocean_current": 1,
+      "woldsvaults:shattering_jewel": 1,
       "woldsvaults:eternal_stella": 1,
+      "woldsvaults:treasure_jewel": 1,
       "woldsvaults:wicked_witch": 1,
       "woldsvaults:chonknet": 1,
       "woldsvaults:treasure_magnet": 1,

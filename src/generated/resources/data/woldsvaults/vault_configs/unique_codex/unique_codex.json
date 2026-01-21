@@ -41,22 +41,22 @@
     {
       "title": {
         "description": {
-          "text": "Ocean Current",
+          "text": "Zeus's Fury",
           "color": "#7D520E"
         }
       },
       "description": {
         "description": [
           {
-            "text": "This is a test unique!!!",
+            "text": "The fury of the gods embodied within a Trident",
             "color": "$text"
           },
           {
-            "text": "\n\nIt is very testy",
+            "text": "\n\nChannel their rage into fierce lightning.",
             "color": "$text"
           },
           {
-            "text": "\n\nDrops in: Nowhere",
+            "text": "\n\nDrops in: Survival",
             "color": "#7D520E"
           }
         ]

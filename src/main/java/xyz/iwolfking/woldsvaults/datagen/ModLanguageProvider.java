@@ -49,7 +49,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(new AlchemyIngredientTypeAttribute(""), "is an Alchemy ingredient of type \"%1$s\"", "is not an Alchemy ingredient of type \"%1$s\"");
         add(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, "Magic Text");
         add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
-        add(ModBlocks.SURVIVAL_OBJECTIVE_BLOCK, "Survival Helper");
+        add(ModBlocks.SURVIVAL_OBJECTIVE_BLOCK, "Survival Pylon");
         add(ModItems.CRYSTAL_SEAL_SURVIVOR, "Seal of the Survivor");
         add(ModItems.SCAVENGER_POUCH_ITEM, "Scavenger Pouch");
         add("config.waila.plugin_miningspeedometer.speedometer", "Enable Speedometer Tooltip");

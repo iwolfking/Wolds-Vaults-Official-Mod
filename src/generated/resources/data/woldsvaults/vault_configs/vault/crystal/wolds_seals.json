@@ -29,12 +29,16 @@
           "the_vault:vault_crystal"
         ],
         "objective": {
-          "objective_probability": 0.5,
-          "target": 1,
+          "objective_probability": 0.1,
+          "target": 10,
           "waveGroups": [
-            "default",
-            "default",
-            "default"
+            "t1",
+            "t1_t2",
+            "t2",
+            "t2_t3",
+            "t3",
+            "t3_t4",
+            "t4"
           ],
           "type": "survival"
         },

@@ -1,0 +1,433 @@
+{
+  "modifierGroup": {
+    "IMPLICIT": [
+      {
+        "attribute": "the_vault:attack_damage",
+        "group": "BaseDamage",
+        "identifier": "the_vault:trident_damage_low",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 15,
+            "weight": 10,
+            "value": {
+              "min": 8.0,
+              "max": 14.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 10,
+            "maxLevel": 47,
+            "weight": 10,
+            "value": {
+              "min": 14.0,
+              "max": 16.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 16,
+            "maxLevel": 57,
+            "weight": 10,
+            "value": {
+              "min": 16.0,
+              "max": 20.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": 63,
+            "weight": 10,
+            "value": {
+              "min": 20.0,
+              "max": 30.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 36,
+            "maxLevel": 71,
+            "weight": 10,
+            "value": {
+              "min": 30.0,
+              "max": 34.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 48,
+            "maxLevel": 82,
+            "weight": 10,
+            "value": {
+              "min": 34.0,
+              "max": 40.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 58,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 40.0,
+              "max": 45.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 68,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 45.0,
+              "max": 50.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 50.0,
+              "max": 55.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 90,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 55.0,
+              "max": 65.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 95,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 65.0,
+              "max": 70.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 100,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 70.0,
+              "max": 80.0,
+              "step": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:trident_loyalty",
+        "group": "BaseLoyalty",
+        "identifier": "the_vault:trident_loyalty_zeus",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 40,
+            "weight": 10,
+            "value": {
+              "min": 1,
+              "max": 2,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 2,
+              "max": 4,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 70,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 4,
+              "max": 6,
+              "step": 1
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:trident_channeling",
+        "group": "BaseChanneling",
+        "identifier": "the_vault:trident_channeling",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 40,
+            "weight": 10,
+            "value": {
+              "flag": true
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:effect_cloud_chance_additive",
+        "group": "BaseEffectCloudChance",
+        "identifier": "the_vault:mod_effect_cloud_chance",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 20,
+            "weight": 10,
+            "value": {
+              "min": 0.01,
+              "max": 0.02,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 20,
+            "maxLevel": 40,
+            "weight": 10,
+            "value": {
+              "min": 0.02,
+              "max": 0.03,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.03,
+              "max": 0.04,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 101,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.05,
+              "max": 0.09,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 102,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.09,
+              "max": 0.12,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:trident_wind_up_percent",
+        "group": "ModTridentWindup",
+        "identifier": "the_vault:windup_time_zeus",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 64,
+            "weight": 10,
+            "value": {
+              "min": 0.5,
+              "max": 0.5,
+              "step": 0.0
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.5,
+              "max": 0.75,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:second_judgement",
+        "group": "ModSecondJudgement",
+        "identifier": "the_vault:second_judgement_zeus",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.25,
+              "max": 0.5,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.5,
+              "max": 0.75,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:trident_channeling_chance",
+        "group": "ModChannelingChance",
+        "identifier": "the_vault:channeling_chance_zeus",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.25,
+              "max": 0.5,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.5,
+              "max": 0.75,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 90,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.75,
+              "max": 1.0,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
+    "SUFFIX": [
+      {
+        "attribute": "the_vault:shocking_hit_chance",
+        "group": "ModShockingHit",
+        "identifier": "the_vault:shocking_hit_zeus",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.25,
+              "max": 0.25,
+              "step": 0.0
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud",
+        "identifier": "the_vault:slowness_cloud_zeus",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Slowness Cloud I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:slowness",
+                  "duration": 140,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Slowness Cloud II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:slowness",
+                  "duration": 140,
+                  "amplifier": 1
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Slowness Cloud III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:slowness",
+                  "duration": 140,
+                  "amplifier": 2
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -147,7 +147,7 @@ public class ModVaultCrystalProvider extends AbstractVaultCrystalConfigProvider 
             builder.addSeal(ModItems.CRYSTAL_SEAL_SURVIVOR.getRegistryName(), sealListBuilder -> {
                 sealListBuilder.add(0, sealEntryBuilder -> {
                     sealEntryBuilder.input(iskallia.vault.init.ModItems.VAULT_CRYSTAL.getRegistryName());
-                    sealEntryBuilder.objective(new SurvivalCrystalObjective(0.5F, 10, List.of("default", "default", "default")));
+                    sealEntryBuilder.objective(new SurvivalCrystalObjective(0.1F, 10, List.of("t1", "t1_t2", "t2", "t2_t3", "t3", "t3_t4", "t4")));
                 });
             });
         });

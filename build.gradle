@@ -230,6 +230,7 @@ dependencies {
     implementation fg.deobf("curse.maven:cit-reforged-910362:4739782")
     implementation fg.deobf("curse.maven:cc-tweaked-282001:4630521")
     implementation fg.deobf("curse.maven:vh-scaling-bingo-seals-1132651:7469976")
+    implementation fg.deobf("curse.maven:vh-companion-workstation-1330831:7353979")
     //implementation fg.deobf("curse.maven:vh-scaling-bingo-seals-1132651:7316939")
     //implementation fg.deobf("curse.maven:vault-hunters-api-1118899:7394193")
 

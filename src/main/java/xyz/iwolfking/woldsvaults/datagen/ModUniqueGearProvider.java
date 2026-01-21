@@ -17,17 +17,20 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
 
     @Override
     protected void addGear(Consumer<AbstractUniqueGearProvider.GeneratedEntry> consumer) {
-        consumer.accept(entry("woldsvaults:ocean_current", new UniqueGearBuilder("Ocean Current", xyz.iwolfking.woldsvaults.init.ModItems.TRIDENT)
+        consumer.accept(entry("woldsvaults:ocean_current", new UniqueGearBuilder("Zeus's Fury", xyz.iwolfking.woldsvaults.init.ModItems.TRIDENT)
                 .model("woldsvaults:gear/trident/ocean_current")
                 .base("the_vault:base_durability")
-                .implicit("the_vault:base_armor",
-                        "the_vault:jester_lucky_hit",
-                        "the_vault:base_lucky_hit_chance",
-                        "the_vault:base_lucky_hit_chance")
-                .suffix("the_vault:u_item_rarity")
-                .dropLocation("Nowhere")
-                .description("This is a test unique!!!", "$text")
-                .description("\n\nIt is very testy", "$text")
+                .implicit("the_vault:trident_damage_low",
+                        "the_vault:trident_loyalty_zeus",
+                        "the_vault:trident_channeling")
+                .prefix("the_vault:channeling_chance_zeus")
+                .prefix("the_vault:second_judgement_zeus")
+                .prefix("the_vault:windup_time_zeus")
+                .suffix("the_vault:shocking_hit_zeus")
+                .suffix("the_vault:slowness_cloud_zeus")
+                .dropLocation("Survival")
+                .description("The fury of the gods embodied within a Trident", "$text")
+                .description("\n\nChannel their rage into fierce lightning.", "$text")
                 .modelType("TRIDENT")
                 .slotType(UniqueCodexConfig.IntroductionPage.SlotType.SWORD)
                 .build()
