@@ -31,6 +31,67 @@
       "modifierTags": [],
       "weight": 1
     },
+    "woldsvaults:fork_of_the_glutton": {
+      "name": "Fork of the Glutton",
+      "item": "the_vault:trident",
+      "models": [
+        {
+          "value": "woldsvaults:gear/trident/fork",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:trident_damage",
+          "the_vault:trident_loyalty"
+        ],
+        "PREFIX": [
+          "the_vault:mod_hit_hearts_fork",
+          "the_vault:mod_tank_damage_fork",
+          "the_vault:mod_soul_quantity_fork"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_healing_cloud_fork",
+          "the_vault:jester_lucky_hit"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:aural_magnet": {
+      "name": "Aural Magnet",
+      "item": "the_vault:magnet",
+      "models": [
+        {
+          "value": "woldsvaults:gear/magnet/aural",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_magnet_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:u_base_magnet_range",
+          "the_vault:base_endergized"
+        ],
+        "PREFIX": [
+          "the_vault:mod_prime_amp_level",
+          "the_vault:mod_empower_level",
+          "the_vault:mod_nova_level"
+        ],
+        "SUFFIX": [
+          "the_vault:unique_area_of_effect",
+          "the_vault:mod_ability_increase",
+          "the_vault:mod_mana_regen"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
     "woldsvaults:shattering_jewel": {
       "name": "Shatterering Jewel",
       "item": "the_vault:jewel",
@@ -599,6 +660,12 @@
     "woldsvaults:ocean_current": {
       "woldsvaults:ocean_current": 1
     },
+    "woldsvaults:fork_of_the_glutton": {
+      "woldsvaults:fork_of_the_glutton": 1
+    },
+    "woldsvaults:aural_magnet": {
+      "woldsvaults:aural_magnet": 1
+    },
     "woldsvaults:shattering_jewel": {
       "woldsvaults:shattering_jewel": 1
     },
@@ -664,6 +731,8 @@
     },
     "the_vault:crafted": {
       "woldsvaults:ocean_current": 1,
+      "woldsvaults:fork_of_the_glutton": 1,
+      "woldsvaults:aural_magnet": 1,
       "woldsvaults:shattering_jewel": 1,
       "woldsvaults:eternal_stella": 1,
       "woldsvaults:treasure_jewel": 1,

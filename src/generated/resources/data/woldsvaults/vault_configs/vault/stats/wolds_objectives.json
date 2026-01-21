@@ -7,8 +7,8 @@
   "completion": {
     "survival": {
       "FAILED": 0.0,
-      "BAILED": 0.0,
-      "COMPLETED": 20000.0
+      "COMPLETED": 20000.0,
+      "BAILED": 0.0
     }
   },
   "percentOfExperienceDealtAsDurabilityDamage": 0.0,

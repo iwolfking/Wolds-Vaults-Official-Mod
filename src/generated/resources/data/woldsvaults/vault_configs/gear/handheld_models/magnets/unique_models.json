@@ -1,6 +1,12 @@
 {
   "MODELS": [
     {
+      "id": "woldsvaults:gear/magnet/aural",
+      "displayName": "Aural Magnet",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
       "id": "the_vault:magnets/heart_magnet",
       "displayName": "Chonknet",
       "discoverOnRoll": true,

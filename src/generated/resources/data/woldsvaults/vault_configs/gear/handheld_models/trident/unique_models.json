@@ -5,6 +5,12 @@
       "displayName": "Zeus's Fury",
       "discoverOnRoll": true,
       "allowTransmogrification": true
+    },
+    {
+      "id": "woldsvaults:gear/trident/fork",
+      "displayName": "Fork of the Glutton",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
     }
   ]
 }

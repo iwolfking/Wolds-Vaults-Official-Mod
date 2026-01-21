@@ -3,6 +3,7 @@
     "index": {
       "SWORD": [
         "woldsvaults:ocean_current",
+        "woldsvaults:fork_of_the_glutton",
         "woldsvaults:trirang",
         "woldsvaults:everfrost",
         "woldsvaults:everflame",
@@ -13,6 +14,12 @@
         "woldsvaults:young_kitsune",
         "woldsvaults:bamboo_fightstick"
       ],
+      "MAGNET": [
+        "woldsvaults:aural_magnet",
+        "woldsvaults:chonknet",
+        "woldsvaults:treasure_magnet",
+        "woldsvaults:bloodseeking_magnet"
+      ],
       "JEWEL": [
         "woldsvaults:shattering_jewel",
         "woldsvaults:eternal_stella",
@@ -21,11 +28,6 @@
       "OFFHAND": [
         "woldsvaults:wicked_witch",
         "woldsvaults:safer_spaces"
-      ],
-      "MAGNET": [
-        "woldsvaults:chonknet",
-        "woldsvaults:treasure_magnet",
-        "woldsvaults:bloodseeking_magnet"
       ],
       "AXE": [
         "woldsvaults:leviathan",
@@ -62,6 +64,48 @@
         ]
       },
       "uniqueId": "woldsvaults:ocean_current"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Fork of the Glutton",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Feast upon your foes!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Survival",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:fork_of_the_glutton"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Aural Magnet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "The top choice for aura farmers!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Survival",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:aural_magnet"
     },
     {
       "title": {

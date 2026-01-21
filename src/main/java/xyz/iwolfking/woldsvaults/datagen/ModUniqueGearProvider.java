@@ -36,6 +36,41 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
+        consumer.accept(entry("woldsvaults:fork_of_the_glutton", new UniqueGearBuilder("Fork of the Glutton", xyz.iwolfking.woldsvaults.init.ModItems.TRIDENT)
+                .model("woldsvaults:gear/trident/fork")
+                .base("the_vault:base_durability")
+                .implicit("the_vault:trident_damage",
+                        "the_vault:trident_loyalty")
+                .prefix("the_vault:mod_hit_hearts_fork")
+                .prefix("the_vault:mod_tank_damage_fork")
+                .prefix("the_vault:mod_soul_quantity_fork")
+                .suffix("the_vault:mod_healing_cloud_fork")
+                .suffix("the_vault:jester_lucky_hit")
+                .dropLocation("Survival")
+                .description("Feast upon your foes!", "$text")
+                .modelType("TRIDENT")
+                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.SWORD)
+                .build()
+        ));
+
+        consumer.accept(entry("woldsvaults:aural_magnet", new UniqueGearBuilder("Aural Magnet", ModItems.MAGNET)
+                .model("woldsvaults:gear/magnet/aural")
+                .base("the_vault:base_magnet_durability")
+                .implicit("the_vault:u_base_magnet_range",
+                        "the_vault:base_endergized")
+                .prefix("the_vault:mod_prime_amp_level")
+                .prefix("the_vault:mod_empower_level")
+                .prefix("the_vault:mod_nova_level")
+                .suffix("the_vault:unique_area_of_effect")
+                .suffix("the_vault:mod_ability_increase")
+                .suffix("the_vault:mod_mana_regen")
+                .dropLocation("Survival")
+                .description("The top choice for aura farmers!", "$text")
+                .modelType("MAGNETS")
+                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.MAGNET)
+                .build()
+        ));
+
         consumer.accept(entry("woldsvaults:shattering_jewel", new UniqueGearBuilder("Shatterering Jewel", ModItems.JEWEL)
                 .model("the_vault:gear/jewel/treasure")
                 .implicit("the_vault:u_jewel_size_stella")

@@ -130,6 +130,134 @@
         ]
       },
       {
+        "attribute": "the_vault:attack_damage",
+        "group": "BaseDamage",
+        "identifier": "the_vault:trident_damage",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 15,
+            "weight": 10,
+            "value": {
+              "min": 10.0,
+              "max": 16.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 10,
+            "maxLevel": 47,
+            "weight": 10,
+            "value": {
+              "min": 16.0,
+              "max": 20.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 16,
+            "maxLevel": 57,
+            "weight": 10,
+            "value": {
+              "min": 20.0,
+              "max": 24.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": 63,
+            "weight": 10,
+            "value": {
+              "min": 24.0,
+              "max": 32.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 36,
+            "maxLevel": 71,
+            "weight": 10,
+            "value": {
+              "min": 32.0,
+              "max": 38.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 48,
+            "maxLevel": 82,
+            "weight": 10,
+            "value": {
+              "min": 38.0,
+              "max": 44.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 58,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 44.0,
+              "max": 54.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 68,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 54.0,
+              "max": 68.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 68.0,
+              "max": 74.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 90,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 74.0,
+              "max": 84.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 95,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 84.0,
+              "max": 95.0,
+              "step": 0.5
+            }
+          },
+          {
+            "minLevel": 100,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 95.0,
+              "max": 115.0,
+              "step": 0.5
+            }
+          }
+        ]
+      },
+      {
         "attribute": "the_vault:trident_loyalty",
         "group": "BaseLoyalty",
         "identifier": "the_vault:trident_loyalty_zeus",
@@ -162,6 +290,44 @@
             "value": {
               "min": 4,
               "max": 6,
+              "step": 1
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:trident_loyalty",
+        "group": "BaseLoyalty",
+        "identifier": "the_vault:trident_loyalty",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 1,
+              "max": 2,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 2,
+              "max": 3,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 70,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 3,
+              "max": 4,
               "step": 1
             }
           }
@@ -239,6 +405,178 @@
               "min": 0.09,
               "max": 0.12,
               "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_talent_level",
+        "group": "ModPrimeAmpLevel",
+        "identifier": "the_vault:mod_prime_amp_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "talentKey": "Prime_Amplification",
+              "levelChange": 1
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "talentKey": "Prime_Amplification",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModEmpowerLevel",
+        "identifier": "the_vault:mod_empower_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Empower",
+              "levelChange": 1
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Empower",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModNovaLevel",
+        "identifier": "the_vault:mod_nova_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Nova",
+              "levelChange": 1
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Nova",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:hit_hearts",
+        "group": "ModHitHearts",
+        "identifier": "the_vault:mod_hit_hearts_fork",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 20,
+            "weight": 10,
+            "value": {
+              "min": 0.1,
+              "max": 0.25,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 20,
+            "maxLevel": 40,
+            "weight": 10,
+            "value": {
+              "min": 0.2,
+              "max": 0.35,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.3,
+              "max": 0.45,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.4,
+              "max": 0.55,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 85,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.5,
+              "max": 0.75,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:damage_tank",
+        "group": "ModTankDamage",
+        "identifier": "the_vault:mod_tank_damage_fork",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.5,
+              "max": 1.0,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:soul_chance_percentile",
+        "group": "ModSoulQuantity",
+        "identifier": "the_vault:mod_soul_quantity_fork",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.25,
+              "max": 0.25,
+              "step": 0.0
             }
           }
         ]
@@ -422,6 +760,77 @@
               "duration": 200,
               "radius": 4.0,
               "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud",
+        "identifier": "the_vault:mod_healing_cloud_fork",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing Cloud I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 80,
+              "radius": 4.0,
+              "color": 16262179,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing Cloud II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 16262179,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing Cloud III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 16262179,
               "affectsOwner": false,
               "triggerChance": 0.05
             }

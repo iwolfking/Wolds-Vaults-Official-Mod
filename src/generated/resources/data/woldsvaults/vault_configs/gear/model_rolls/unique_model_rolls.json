@@ -86,6 +86,7 @@
     "EPIC": [],
     "OMEGA": [],
     "UNIQUE": [
+      "woldsvaults:gear/magnet/aural",
       "the_vault:magnets/heart_magnet",
       "the_vault:magnets/treasure_magnet",
       "the_vault:magnets/bloody_magnet"
@@ -101,7 +102,8 @@
     "EPIC": [],
     "OMEGA": [],
     "UNIQUE": [
-      "woldsvaults:gear/trident/ocean_current"
+      "woldsvaults:gear/trident/ocean_current",
+      "woldsvaults:gear/trident/fork"
     ],
     "SPECIAL": [],
     "CHAOTIC": [],
