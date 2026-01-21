@@ -33,11 +33,12 @@ public class FlexibleImplode extends ImplodeAbility {
             if (!entity.isInvulnerableTo(damageSource)) {
                 float damageModifier = this.getDamageModifier(ability.getRadius(target), target.distanceTo(entity));
                 float damage = health * ability.getPercentManaDealt() * damageModifier;
+                entity.invulnerableDuration
                 Log.info("Imploding " + entity + " with " + damage + " damage");
                 ActiveFlags.IS_AOE_ATTACKING.runIfNotSet(() -> entity.hurt(damageSource, damage));
             }
         }
-        ((ServerPlayer) player).getLevel().sendParticles(new SphericalParticleOptions((ParticleType) ModParticles.IMPLODE.get(), ability.getRadius(player), new Vector3f(0.0F, 1.0F, 1.0F)), target.getX(), target.getY(), target.getZ(), 400, (double) 0.0F, (double) 0.0F, (double) 0.0F, (double) 0.0F);
+        ((ServerPlayer) player).getLevel().sendParticles(new SphericalParticleOptions(ModParticles.IMPLODE.get(), ability.getRadius(player), new Vector3f(0.0F, 1.0F, 1.0F)), target.getX(), target.getY(), target.getZ(), 400, (double) 0.0F, (double) 0.0F, (double) 0.0F, (double) 0.0F);
         player.level.playSound((Player) null, target.getX(), target.getY(), target.getZ(), ModSounds.MANA_SHIELD, SoundSource.PLAYERS, 0.2F, 0.2F);
         player.playNotifySound(ModSounds.MANA_SHIELD, SoundSource.PLAYERS, 0.2F, 0.2F);
 

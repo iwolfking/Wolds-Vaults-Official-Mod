@@ -1,6 +1,12 @@
 {
   "MODELS": [
     {
+      "id": "woldsvaults:gear/plushie/pocket_penguin",
+      "displayName": "Pocket Penguin",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
       "id": "the_vault:gear/plushie/witch",
       "displayName": "The Wicked Witch",
       "discoverOnRoll": true,

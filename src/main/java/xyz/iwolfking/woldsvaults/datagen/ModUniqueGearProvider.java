@@ -71,6 +71,23 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
+        consumer.accept(entry("woldsvaults:pocket_penguin", new UniqueGearBuilder("Pocket Penguin", xyz.iwolfking.woldsvaults.init.ModItems.PLUSHIE)
+                .model("woldsvaults:gear/plushie/pocket_penguin")
+                .base("the_vault:base_durability")
+                .implicit("the_vault:mod_max_mana")
+                .prefix("the_vault:mod_javelin_base_level")
+                .prefix("the_vault:mod_implode_level")
+                .prefix("the_vault:mod_imploding_javelin")
+                .suffix("the_vault:javelin_mana_cost")
+                .suffix("the_vault:javelin_cooldown_increase")
+                .suffix("the_vault:mod_mana_regen")
+                .dropLocation("Survival")
+                .description("Imploding javelin!", "$text")
+                .modelType("PLUSHIE")
+                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.OFFHAND)
+                .build()
+        ));
+
         consumer.accept(entry("woldsvaults:shattering_jewel", new UniqueGearBuilder("Shatterering Jewel", ModItems.JEWEL)
                 .model("the_vault:gear/jewel/treasure")
                 .implicit("the_vault:u_jewel_size_stella")

@@ -341,7 +341,7 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 40,
+            "maxLevel": -1,
             "weight": 10,
             "value": {
               "flag": true
@@ -483,6 +483,112 @@
             "value": {
               "abilityKey": "Nova",
               "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModJavelinLevel",
+        "identifier": "the_vault:mod_javelin_base_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Javelin_Base",
+              "levelChange": 1
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Javelin_Base",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModImplodeLevel",
+        "identifier": "the_vault:mod_implode_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Implode",
+              "levelChange": 1
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Implode",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:javelin_implode",
+        "group": "ModImplodingJavelin",
+        "identifier": "the_vault:mod_imploding_javelin",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "flag": true
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ability_cooldown_percent",
+        "group": "ModJavelinCooldownIncrease",
+        "identifier": "the_vault:javelin_cooldown_increase",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 12.0,
+              "max": 16.0,
+              "step": 0.5,
+              "abilityKey": "Javelin_Base"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ability_mana_cost_percent",
+        "group": "ModJavelinManaIncrease",
+        "identifier": "the_vault:javelin_mana_cost",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 1.5,
+              "max": 3.0,
+              "step": 0.01,
+              "abilityKey": "Javelin_Base"
             }
           }
         ]

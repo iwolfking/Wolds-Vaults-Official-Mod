@@ -20,14 +20,15 @@
         "woldsvaults:treasure_magnet",
         "woldsvaults:bloodseeking_magnet"
       ],
+      "OFFHAND": [
+        "woldsvaults:pocket_penguin",
+        "woldsvaults:wicked_witch",
+        "woldsvaults:safer_spaces"
+      ],
       "JEWEL": [
         "woldsvaults:shattering_jewel",
         "woldsvaults:eternal_stella",
         "woldsvaults:treasure_jewel"
-      ],
-      "OFFHAND": [
-        "woldsvaults:wicked_witch",
-        "woldsvaults:safer_spaces"
       ],
       "AXE": [
         "woldsvaults:leviathan",
@@ -106,6 +107,27 @@
         ]
       },
       "uniqueId": "woldsvaults:aural_magnet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Pocket Penguin",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Imploding javelin!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Survival",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:pocket_penguin"
     },
     {
       "title": {

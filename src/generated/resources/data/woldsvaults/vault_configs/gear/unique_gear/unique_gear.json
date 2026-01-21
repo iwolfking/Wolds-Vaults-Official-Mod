@@ -92,6 +92,36 @@
       "modifierTags": [],
       "weight": 1
     },
+    "woldsvaults:pocket_penguin": {
+      "name": "Pocket Penguin",
+      "item": "the_vault:plushie",
+      "models": [
+        {
+          "value": "woldsvaults:gear/plushie/pocket_penguin",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:mod_max_mana"
+        ],
+        "PREFIX": [
+          "the_vault:mod_javelin_base_level",
+          "the_vault:mod_implode_level",
+          "the_vault:mod_imploding_javelin"
+        ],
+        "SUFFIX": [
+          "the_vault:javelin_mana_cost",
+          "the_vault:javelin_cooldown_increase",
+          "the_vault:mod_mana_regen"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
     "woldsvaults:shattering_jewel": {
       "name": "Shatterering Jewel",
       "item": "the_vault:jewel",
@@ -666,6 +696,9 @@
     "woldsvaults:aural_magnet": {
       "woldsvaults:aural_magnet": 1
     },
+    "woldsvaults:pocket_penguin": {
+      "woldsvaults:pocket_penguin": 1
+    },
     "woldsvaults:shattering_jewel": {
       "woldsvaults:shattering_jewel": 1
     },
@@ -733,6 +766,7 @@
       "woldsvaults:ocean_current": 1,
       "woldsvaults:fork_of_the_glutton": 1,
       "woldsvaults:aural_magnet": 1,
+      "woldsvaults:pocket_penguin": 1,
       "woldsvaults:shattering_jewel": 1,
       "woldsvaults:eternal_stella": 1,
       "woldsvaults:treasure_jewel": 1,

@@ -52,6 +52,8 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Float> INCREASED_EFFECT_CLOUD_CHANCE = attr("effect_cloud_chance_additive", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Effect Cloud Chance", 3109217), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> SECOND_JUDGEMENT = attr("second_judgement", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Second Judgement", 3085471), VaultGearAttributeComparator.floatComparator());
 
+    public static final VaultGearAttribute<Boolean> IMPLODING_JAVELIN = attr("javelin_implode", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Imploding Javelin", 3085471), VaultGearAttributeComparator.booleanComparator());
+
     //Extended Vanilla Modifiers
     public static final VaultGearAttribute<EffectGearAttribute> UNIQUE_EFFECT = attr("unique_effect", EffectGearAttribute.type(), EffectGearAttribute.generator(), UniqueEffectGearAttribute.reader());
 
@@ -184,6 +186,7 @@ public class ModGearAttributes {
                       registry.register(INCREASED_EFFECT_CLOUD_CHANCE);
                       registry.register(PARTICLE_TRAIL);
                       registry.register(SECOND_JUDGEMENT);
+                      registry.register(IMPLODING_JAVELIN);
        }
   
     public static void registerVanillaAssociations() {

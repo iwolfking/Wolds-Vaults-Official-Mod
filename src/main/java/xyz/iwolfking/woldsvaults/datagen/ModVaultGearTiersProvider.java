@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.gear.VaultGearTierConfig;
+import iskallia.vault.gear.attribute.ability.AbilityFloatValueAttribute;
 import iskallia.vault.gear.attribute.ability.AbilityLevelAttribute;
 import iskallia.vault.gear.attribute.custom.effect.EffectCloudAttribute;
 import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
@@ -67,7 +68,7 @@ public class ModVaultGearTiersProvider extends AbstractVaultGearConfigProvider {
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(ModGearAttributes.TRIDENT_CHANNELING, "BaseChanneling", "trident_channeling", List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0, 40, 10, true);
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, true);
                         });
             }).build();
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
@@ -93,6 +94,28 @@ public class ModVaultGearTiersProvider extends AbstractVaultGearConfigProvider {
                         .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModNovaLevel", "mod_nova_level", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, new AbilityLevelAttribute.Config("Nova", 1));
                             vaultGearModifierTiersBuilder.add(0, -1, 10, new AbilityLevelAttribute.Config("Nova", 2));
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModJavelinLevel", "mod_javelin_base_level", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, new AbilityLevelAttribute.Config("Javelin_Base", 1));
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, new AbilityLevelAttribute.Config("Javelin_Base", 2));
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModImplodeLevel", "mod_implode_level", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, new AbilityLevelAttribute.Config("Implode", 1));
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, new AbilityLevelAttribute.Config("Implode", 2));
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(ModGearAttributes.IMPLODING_JAVELIN, "ModImplodingJavelin", "mod_imploding_javelin", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_COOLDOWN_PERCENT, "ModJavelinCooldownIncrease", "javelin_cooldown_increase", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.addPercentAbilityCooldown(0, -1, 10, new AbilityFloatValueAttribute.Config("Javelin_Base", 12F, 16F, 0.5F));
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_MANACOST_PERCENT, "ModJavelinManaIncrease", "javelin_mana_cost", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.addPercentManaCost(0, -1, 10, new AbilityFloatValueAttribute.Config("Javelin_Base", 1.5F, 3F, 0.01F));
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.HIT_HEARTS, "ModHitHearts", "mod_hit_hearts_fork", List.of(), vaultGearModifierTiersBuilder -> {
