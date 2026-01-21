@@ -36,6 +36,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
+import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 
@@ -71,6 +72,9 @@ public class BrutalBossesObjective extends ObeliskObjective {
                     data.setProbability((double)probability);
                 });
         });
+
+        SigilUtils.addStacksFromSigil(vault);
+
 
 
         CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.OBELISK).register(this, (data) -> {

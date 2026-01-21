@@ -104,7 +104,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("vault_objective.woldsvaults.corrupted_complete", "Vault Completed!");
         add("vault_objective.woldsvaults.corrupted_fruit_disable", "Seems pointless...");
         add("vault_objective.woldsvaults.survival_fruit_disable", "A mysterious force prevents you from eating the fruit.");
-        add("vault_objective.woldsvaults.survival_wave_increment", "The hordes keep coming... next wave is %1$s.");
+        add("vault_objective.woldsvaults.survival_wave_increment", "§4Survival Wave Tier increased!");
         add("unlock_goal.woldsvaults.idona_theme", "Idona shares insight on entering their domain with you.");
         add("unlock_goal.woldsvaults.velara_theme", "Velara shares insight on entering their domain with you.");
         add("unlock_goal.woldsvaults.wendarr_theme", "Wendarr shares insight on entering their domain with you.");

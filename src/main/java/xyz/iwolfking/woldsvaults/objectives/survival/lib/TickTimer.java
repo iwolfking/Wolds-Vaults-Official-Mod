@@ -13,6 +13,14 @@ public class TickTimer {
         timer++;
     }
 
+    public int time() {
+        return timer;
+    }
+
+    public int completionTime() {
+        return ticksPerAction;
+    }
+
     public void disable() {
         disabled = true;
     }

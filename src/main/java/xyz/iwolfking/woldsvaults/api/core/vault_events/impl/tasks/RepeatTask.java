@@ -28,7 +28,9 @@ public class RepeatTask implements VaultEventTask {
 
         for(int i = 0; i < repeatCount; i++) {
             taskList.add(task);
-            taskList.add(new DelayTask(repeatDelay));
+            if(repeatDelay != 0) {
+                taskList.add(new DelayTask(repeatDelay));
+            }
         }
 
         DelayedSequenceHandler.startSequence(taskList, pos, player, vault);

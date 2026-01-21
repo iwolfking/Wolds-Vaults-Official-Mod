@@ -32,6 +32,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.LoadingModList;
 import xyz.iwolfking.vhapi.api.events.vault.VaultEvents;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 
 import java.util.Objects;
 
@@ -75,6 +76,8 @@ public class ZealotObjective extends Objective {
                 this.modify(COUNT, count -> count + 1);
             }
         });
+        SigilUtils.addStacksFromSigil(vault);
+
         super.initServer(world, vault);
     }
 

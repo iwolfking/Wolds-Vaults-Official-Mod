@@ -46,6 +46,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
+import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vault.BrewingAltarBrewEvent;
@@ -163,6 +164,8 @@ public class AlchemyObjective extends Objective {
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, (data) -> this.ifPresent(OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability)));
         CommonEvents.ENTITY_DROPS.register(this, (data) -> {handleChampionDeath(data, vault, world);});
         WoldCommonEvents.BREWING_ALTAR_BREW_EVENT.register(this, (data -> handleBrewEvent(data, vault, world)));
+
+        SigilUtils.addStacksFromSigil(vault);
 
         // Call super.tickListener() on listener leave, to generate a crate at the end so we can process all the crate quantity modifier at the end
         // there is probably a better way, but i am lazy, lmao

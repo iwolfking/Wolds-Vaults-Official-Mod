@@ -6,7 +6,6 @@ import xyz.iwolfking.woldsvaults.config.SurvivalObjectiveConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
-import xyz.iwolfking.woldsvaults.objectives.survival.lib.TickTimer;
 
 public class SurvivalBonusManager extends ObjectiveManager<SurvivalObjective> {
     public static final int TICKS_PER_ACTION = 120;

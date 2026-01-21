@@ -14,17 +14,80 @@ import net.minecraft.world.level.block.Blocks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.tasks.*;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.impl.tasks.survival.SurvivalWaveAdjustmentTask;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.util.ref.Effect;
 
 public class ModVaultEvents {
 
-
     public static void init() {
-        VaultEventSystem.register(WoldsVaults.id("survival_crate_reward_placeholder"), new VaultEvent.Builder()
+        VaultEventSystem.register(WoldsVaults.id("xp_boost"), new VaultEvent.Builder()
                 .tag(EventTag.POSITIVE)
-                .message((TextComponent) new TextComponent("You feel your reward crate grow heavier!"))
+                .tag(EventTag.ADDS_MODIFIER)
+                .message(new TextComponent("Increased §eVault Experience§r gain by 20%!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new VaultModifierTask(VaultMod.id("xp_gain"), 1))
+                .build("XP Boost", new TextComponent("Gain 20% more Vault Experience!")));
+        VaultEventSystem.register(WoldsVaults.id("survival_restore"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .tag(EventTag.ADDS_MODIFIER)
+                .message(new TextComponent("You feel a wave of restoration wash over you!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new VaultModifierTask(VaultMod.id("ultimate_regeneration"), 1, 900))
+                .build("Ultimate Regeneration", new TextComponent("Grants Ultimate Regeneration for 45 seconds!")));
+        VaultEventSystem.register(WoldsVaults.id("loot_boost"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .tag(EventTag.ADDS_MODIFIER)
+                .message(new TextComponent("§6Loot Boost§r! Catalyst Fragment Chance, Item Quantity, Item Rarity and Soul Shard Chance increased!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new VaultModifierTask(VaultMod.id("sparkling"), 1))
+                .task(new VaultModifierTask(VaultMod.id("item_quantity2"), 1))
+                .task(new VaultModifierTask(VaultMod.id("pristine"), 1))
+                .task(new VaultModifierTask(VaultMod.id("soul_boost"), 1))
+                .build("Loot Boost", new TextComponent("Increase catalyst fragment chance, item quantity, item rarity, and soul shard chance!")));
+        VaultEventSystem.register(WoldsVaults.id("artifact_boost"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .tag(EventTag.ADDS_MODIFIER)
+                .message(new TextComponent("You feel your chance at an §eArtifact§r in your §6Reward Crate§r grow!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new VaultModifierTask(VaultMod.id("serendipitous"), 1))
+                .build("Artifact Boost", new TextComponent("Increases chance for an Artifact this Vault!")));
+        VaultEventSystem.register(WoldsVaults.id("fruit_cache"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .message(new TextComponent("You feel your §6Reward Crate§r grow heavier with §4Fruit§r!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new AddCrateItemTask(VaultMod.id("dragon_goblin/fruit")))
+                .build("Fruit Cache", new TextComponent("Adds Fruit to your Vault Crate!")));
+        VaultEventSystem.register(WoldsVaults.id("treasure_cache"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .message(new TextComponent("You feel your §6Reward Crate§r grow heavier with §6Treasure Loot§r!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new RepeatTask(LeveledTask.of(taskMap -> {
+                    taskMap.put(0, new AddCrateItemTask(VaultMod.id("treasure_sand_lvl0")));
+                    taskMap.put(50, new AddCrateItemTask(VaultMod.id("treasure_chest_stand_lvl50")));
+                }), 0, 2))
+                .build("Champion Cache", new TextComponent("Adds 3 Champion Loot items to your Vault Crate!")));
+        VaultEventSystem.register(WoldsVaults.id("champion_cache"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .message(new TextComponent("You feel your §6Reward Crate§r grow heavier with §3Champion Loot§r!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                        .task(new RepeatTask(LeveledTask.of(taskMap -> {
+                            taskMap.put(0, new AddCrateItemTask(VaultMod.id("champion_loot_lvl0")));
+                            taskMap.put(20, new AddCrateItemTask(VaultMod.id("champion_loot_lvl20")));
+                            taskMap.put(50, new AddCrateItemTask(VaultMod.id("champion_loot_lvl50")));
+                        }), 0, 3))
+                .build("Champion Cache", new TextComponent("Adds 3 Champion Loot items to your Vault Crate!")));
+        VaultEventSystem.register(WoldsVaults.id("trinket_cache"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .message(new TextComponent("You feel your §6Reward Crate§r grow heavier with a shiny §dTrinket§r!"))
                 .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
                 .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
                 .task(new AddCrateItemTask(VaultMod.id("royale_loot_trinket")))
@@ -37,20 +100,48 @@ public class ModVaultEvents {
                 .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
                 .task(new VaultModifierTask(VaultMod.id("crate_tier"), 1))
                 .build("Crate Tier", new TextComponent("Adds a crate tier to the vault.")));
+        VaultEventSystem.register(WoldsVaults.id("survival_mob_crit"), new VaultEvent.Builder()
+                .tag(EventTag.NEGATIVE)
+                .tag(EventTag.ADDS_MODIFIER)
+                .message(new TextComponent("The mobs become more §6critical§r of you."))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new VaultModifierTask(VaultMod.id("critical_mobs"), 1))
+                .build("Survival Mob Crit", new TextComponent("Increases mob critical strike chance.")));
+        VaultEventSystem.register(WoldsVaults.id("survival_mob_onhits"), new VaultEvent.Builder()
+                .tag(EventTag.NEGATIVE)
+                .tag(EventTag.ADDS_MODIFIER)
+                .message(new TextComponent("Chemicals stir in the air..."))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new VaultModifierFromPoolTask(VaultMod.id("mob_onhits")))
+                .build("Survival Mob On-Hits", new TextComponent("Adds a random effect on hit modifier to mobs.")));
         VaultEventSystem.register(WoldsVaults.id("survival_mob_buff"), new VaultEvent.Builder()
                 .tag(EventTag.NEGATIVE)
                 .tag(EventTag.ADDS_MODIFIER)
-                .tag(EventTag.SURVIVAL)
                 .message(new TextComponent("You feel the mobs get stronger..."))
                 .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
                 .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
                 .task(new VaultModifierTask(VaultMod.id("challenge_stack"), 1))
-                .build("Survival Buff", new TextComponent("Makes mobs healthier and hit harder.")));
+                .build("Survival Mob Buff", new TextComponent("Makes mobs healthier, hit harder, and move faster.")));
+        VaultEventSystem.register(WoldsVaults.id("survival_mob_effect"), new VaultEvent.Builder()
+                .tag(EventTag.NEGATIVE)
+                .tag(EventTag.ADDS_MODIFIER)
+                .message(new TextComponent("You feel the mobs augment their abilities..."))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new WeightedTask.Builder()
+                        .task(new VaultModifierTask(WoldsVaults.id("regenerating_mobs"), 1), 1)
+                        .task(new VaultModifierTask(WoldsVaults.id("resistant_mobs"), 1), 4)
+                        .task(new VaultModifierTask(WoldsVaults.id("phantasmal_mobs"), 1), 2)
+                        .task(new VaultModifierTask(WoldsVaults.id("fleet_footed_mobs"), 1), 4)
+                        .build()
+                )
+                .build("Survival Mob Effect", new TextComponent("Adds a random Mob Effect modifier to the Vault.")));
         VaultEventSystem.register(WoldsVaults.id("survival_player_nerf"), new VaultEvent.Builder()
                 .tag(EventTag.NEGATIVE)
                 .tag(EventTag.ADDS_MODIFIER)
-                .tag(EventTag.SURVIVAL)
-                .message(new TextComponent("You feel yourself get weaker..."))
+                .message(new TextComponent("You feel yourself get weaker... cooldown reduction, resistance, healing effectiveness, and mana regeneration decreased..."))
                 .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
                 .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
                 .task(new VaultModifierTask(VaultMod.id("inert"), 1))
@@ -58,6 +149,20 @@ public class ModVaultEvents {
                 .task(new VaultModifierTask(VaultMod.id("antiheal"), 1))
                 .task(new VaultModifierTask(VaultMod.id("draining"), 1))
                 .build("Survival Nerf", new TextComponent("Decreases your mana regen, cooldown reduction, resistance, and healing effectiveness.")));
+        VaultEventSystem.register(WoldsVaults.id("survival_wave_decrease"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .message(new TextComponent("The tier of §2Survival§r mob spawns has been lowered!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                .task(new SurvivalWaveAdjustmentTask(-1))
+                .build("Wave Tier Decrease", new TextComponent("Lowers the tier of §2Survival§r mob spawns by 1.")));
+        VaultEventSystem.register(WoldsVaults.id("survival_wave_increase"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .message(new TextComponent("The tier of §2Survival§r mob spawns has been increased!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                .task(new SurvivalWaveAdjustmentTask(1))
+                .build("Wave Tier Increase", new TextComponent("Increases the tier of §2Survival§r mob spawns by 1.")));
         VaultEventSystem.register(WoldsVaults.id("tombstone_event"), new VaultEvent.Builder()
                 .tag(EventTag.TOMBSTONE)
                 .displayType(VaultEvent.EventDisplayType.NONE)

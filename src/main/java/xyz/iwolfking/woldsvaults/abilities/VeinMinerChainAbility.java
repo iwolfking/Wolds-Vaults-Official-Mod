@@ -71,7 +71,7 @@ public class VeinMinerChainAbility extends AbstractVeinMinerAbility implements D
     public Optional<JsonObject> writeJson() {
         return super.writeJson().map(json -> {
             Adapters.INT.writeJson(Integer.valueOf(this.range)).ifPresent(element -> json.add("range", element));
-            return (JsonObject)json;
+            return json;
         });
     }
 

@@ -13,7 +13,6 @@ import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.data.key.registry.FieldRegistry;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.objective.ElixirObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.time.TickClock;
@@ -32,6 +31,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.config.SurvivalObjectiveConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
@@ -116,6 +116,8 @@ public class SurvivalObjective extends Objective {
         SurvivalVaultHelper.handleKillTimeExtensions(this, world, vault);
         SurvivalVaultHelper.preventFruits(this, vault);
         SurvivalVaultHelper.setBaseVaultTimer(vault);
+        SigilUtils.addStacksFromSigil(vault);
+
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this,
                 (data) -> this.ifPresent(SurvivalObjective.OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability))
         );
@@ -125,6 +127,7 @@ public class SurvivalObjective extends Objective {
 
         spawnManager = new SurvivalSpawnManager(vault, world, this);
         bonusManager = new SurvivalBonusManager(vault, world, this);
+        challengeManager = new SurvivalChallengeManager(vault, world, this);
 
         super.initServer(world, vault);
     }
@@ -149,14 +152,10 @@ public class SurvivalObjective extends Objective {
             spawnManager.tick();
         }
 
-        if(challengeManager != null && this.get(TIME_SURVIVED) >= 4800) {
-            challengeManager.tick();
-        }
-
         this.set(TIME_SURVIVED, this.get(TIME_SURVIVED) + 1);
 
         if (this.get(COMPLETED)) {
-            handlePostCompletion(world, vault);
+            handlePostCompletion();
             return;
         }
 
@@ -172,9 +171,13 @@ public class SurvivalObjective extends Objective {
         this.get(CHILDREN).forEach(child -> child.tickServer(world, vault));
     }
 
-    private void handlePostCompletion(VirtualWorld world, Vault vault) {
+    private void handlePostCompletion() {
         if(bonusManager != null) {
             bonusManager.tick();
+        }
+
+        if(challengeManager != null) {
+            challengeManager.tick();
         }
     }
 
@@ -195,11 +198,13 @@ public class SurvivalObjective extends Objective {
         Component label;
 
         if (!this.get(COMPLETED)) {
+            Component waveIncreaseText = new TextComponent(
+                    String.format("%d / %d s", spawnManager.WAVE_TIMER.time(), spawnManager.WAVE_TIMER.completionTime()));
             progress = (float) this.get(TIME_SURVIVED) / (float) this.get(TIME_REQUIRED);
-            label = new TextComponent("Survive");
+            label = new TextComponent("Survive! Next Wave Tier Increase: ").append(waveIncreaseText);
         } else {
             progress = (float) this.get(TIME_SURVIVED) / SurvivalBonusManager.TICKS_PER_ACTION;
-            label = new TextComponent("Next Reward");
+            label = new TextComponent("Survive for Rewards!");
         }
 
         progress = Math.min(1.0F, Math.max(0.0F, progress));
@@ -210,7 +215,7 @@ public class SurvivalObjective extends Objective {
         int requiredSeconds = this.get(TIME_REQUIRED) / 20;
 
         Component timeText = new TextComponent(
-                String.format("%d / %d s", survivedSeconds, this.get(COMPLETED) ? SurvivalBonusManager.TICKS_PER_ACTION : requiredSeconds)
+                String.format("%d / %d s", survivedSeconds, this.get(COMPLETED) ? (SurvivalBonusManager.TICKS_PER_ACTION / 20) : requiredSeconds)
         );
 
         matrixStack.pushPose();
@@ -290,7 +295,7 @@ public class SurvivalObjective extends Objective {
         if (!this.get(COMPLETED)) {
             return objective == this;
         } else {
-            for(Objective child : (Objective.ObjList)this.get(CHILDREN)) {
+            for(Objective child : this.get(CHILDREN)) {
                 if (child.isActive(world, vault, objective)) {
                     return true;
                 }
