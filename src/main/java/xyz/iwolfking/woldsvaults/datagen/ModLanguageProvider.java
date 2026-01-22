@@ -52,6 +52,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.SURVIVAL_OBJECTIVE_BLOCK, "Survival Pylon");
         add(ModItems.CRYSTAL_SEAL_SURVIVOR, "Seal of the Survivor");
         add(ModItems.SCAVENGER_POUCH_ITEM, "Scavenger Pouch");
+        add(ModEffects.BURN, "Burning");
         add("config.waila.plugin_miningspeedometer.speedometer", "Enable Speedometer Tooltip");
         add("vaultobjectiveblocks.jade.tooltip.brewing_altar", "%1$s brews remaining");
         add("vaultobjectiveblocks.jade.tooltip.rune_boss_pillar", "%1$s runes inserted");

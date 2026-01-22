@@ -107,6 +107,23 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
+        consumer.accept(entry("woldsvaults:lava_chicken_sword", new UniqueGearBuilder("Lava Chicken Sword", ModItems.SWORD)
+                .model("woldsvaults:gear/sword/lava_chicken_sword")
+                .base("the_vault:base_durability")
+                .implicit("the_vault:base_attack_damage")
+                .implicit("the_vault:base_attack_speed")
+                .prefix("the_vault:mod_burning_hit_lava_chicken")
+                .prefix("the_vault:mod_dripping_lava")
+                .prefix("the_vault:u_on_hit_aoe")
+                .suffix("the_vault:jester_lucky_hit")
+                .suffix("the_vault:u_stun_hit")
+                .dropLocation("Survival")
+                .description("L-l-l-lava, ch-ch-ch-chicken, this lava chicken drumstick will burn the hell out of yourself and your enemies", "$text")
+                .modelType("SWORD")
+                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.SWORD)
+                .build()
+        ));
+
         consumer.accept(entry("woldsvaults:shattering_jewel", new UniqueGearBuilder("Shatterering Jewel", ModItems.JEWEL)
                 .model("the_vault:gear/jewel/treasure")
                 .implicit("the_vault:u_jewel_size_stella")

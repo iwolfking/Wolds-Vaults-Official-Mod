@@ -154,6 +154,36 @@
       "modifierTags": [],
       "weight": 1
     },
+    "woldsvaults:lava_chicken_sword": {
+      "name": "Lava Chicken Sword",
+      "item": "the_vault:sword",
+      "models": [
+        {
+          "value": "woldsvaults:gear/sword/lava_chicken_sword",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_attack_damage",
+          "the_vault:base_attack_speed"
+        ],
+        "PREFIX": [
+          "the_vault:mod_burning_hit_lava_chicken",
+          "the_vault:mod_dripping_lava",
+          "the_vault:u_on_hit_aoe"
+        ],
+        "SUFFIX": [
+          "the_vault:jester_lucky_hit",
+          "the_vault:u_stun_hit"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
     "woldsvaults:shattering_jewel": {
       "name": "Shatterering Jewel",
       "item": "the_vault:jewel",
@@ -734,6 +764,9 @@
     "woldsvaults:chroma_brew": {
       "woldsvaults:chroma_brew": 1
     },
+    "woldsvaults:lava_chicken_sword": {
+      "woldsvaults:lava_chicken_sword": 1
+    },
     "woldsvaults:shattering_jewel": {
       "woldsvaults:shattering_jewel": 1
     },
@@ -803,6 +836,7 @@
       "woldsvaults:aural_magnet": 1,
       "woldsvaults:pocket_penguin": 1,
       "woldsvaults:chroma_brew": 1,
+      "woldsvaults:lava_chicken_sword": 1,
       "woldsvaults:shattering_jewel": 1,
       "woldsvaults:eternal_stella": 1,
       "woldsvaults:treasure_jewel": 1,

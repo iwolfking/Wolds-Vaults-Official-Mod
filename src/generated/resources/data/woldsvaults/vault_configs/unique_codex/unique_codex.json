@@ -4,6 +4,7 @@
       "SWORD": [
         "woldsvaults:ocean_current",
         "woldsvaults:fork_of_the_glutton",
+        "woldsvaults:lava_chicken_sword",
         "woldsvaults:trirang",
         "woldsvaults:everfrost",
         "woldsvaults:everflame",
@@ -150,6 +151,27 @@
         ]
       },
       "uniqueId": "woldsvaults:chroma_brew"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lava Chicken Sword",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "L-l-l-lava, ch-ch-ch-chicken, this lava chicken drumstick will burn the hell out of yourself and your enemies",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Survival",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lava_chicken_sword"
     },
     {
       "title": {

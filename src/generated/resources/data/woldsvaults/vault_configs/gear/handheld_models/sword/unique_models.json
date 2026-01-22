@@ -1,6 +1,12 @@
 {
   "MODELS": [
     {
+      "id": "woldsvaults:gear/sword/lava_chicken_sword",
+      "displayName": "Lava Chicken Sword",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
       "id": "the_vault:gear/sword/everfrost",
       "displayName": "Everfrost",
       "discoverOnRoll": true,

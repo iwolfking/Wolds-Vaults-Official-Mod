@@ -102,6 +102,10 @@ public class ModVaultGearTiersProvider extends AbstractVaultGearConfigProvider {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, true);
                         });
                 vaultGearAttributeGroupBuilder
+                        .addModifier(ModGearAttributes.DRIPPING_LAVA, "ModDrippingLava", "mod_dripping_lava", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                        });
+                vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_COOLDOWN_PERCENT, "ModJavelinCooldownIncrease", "javelin_cooldown_increase", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.addPercentAbilityCooldown(0, -1, 10, new AbilityFloatValueAttribute.Config("Javelin_Base", 12F, 16F, 0.5F));
                         });
@@ -134,6 +138,13 @@ public class ModVaultGearTiersProvider extends AbstractVaultGearConfigProvider {
                         .addModifier(ModGearAttributes.SECOND_JUDGEMENT, "ModSecondJudgement", "second_judgement_zeus", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, 0.25F, 0.5F, 0.01F);
                             vaultGearModifierTiersBuilder.add(65, -1, 10, 0.5F, 0.75F, 0.01F);
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(ModGearAttributes.BURNING_HIT_CHANCE, "ModBurningHit", "mod_burning_hit_lava_chicken", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, 40, 10, 0.06F, 0.12F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(25, 65, 10, 0.12F, 0.14F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(50, -1, 10, 0.14F, 0.16F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(75, -1, 10, 0.16F, 0.2F, 0.01F);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(ModGearAttributes.CHANNELING_CHANCE, "ModChannelingChance", "channeling_chance_zeus", List.of(), vaultGearModifierTiersBuilder -> {

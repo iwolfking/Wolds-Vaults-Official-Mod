@@ -22,6 +22,7 @@ public class ModEffects {
     public static final MobEffect REROLLED_TIMEOUT = new RerolledPotionEffect(MobEffectCategory.BENEFICIAL,0xceffff, WoldsVaults.id("rerolled"));
     public static final MobEffect EMPOWER = new EmpowerEffect();
     public static final MobEffect QUICKENING = new QuickeningEffect();
+    public static final MobEffect BURN = new PercentBurnEffect();
 
     public static void register(RegistryEvent.Register<MobEffect> event) {
         event.getRegistry().registerAll(  SHRINKING
@@ -35,6 +36,7 @@ public class ModEffects {
                                         , REROLLED_TIMEOUT
                                         , EMPOWER
                                         , QUICKENING
+                                        , BURN
                                         );
     }
 }

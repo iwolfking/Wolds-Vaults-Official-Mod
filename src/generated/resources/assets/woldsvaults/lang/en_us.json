@@ -308,6 +308,7 @@
   "deck.woldsvaults.nitwit_modifier": "increased card efficiency inside Arcane slots (Arcane slots may only have non-Arcane slots inserted)",
   "deck.woldsvaults.void_modifier": "increased card efficiency per empty card slot",
   "effect.the_vault.glacial_shatter": "Glacial Shatter",
+  "effect.woldsvaults.burn": "Burning",
   "effect.woldsvaults.growing": "Growing",
   "effect.woldsvaults.levitateii": "Levitate II",
   "effect.woldsvaults.reaving": "Reaved",
