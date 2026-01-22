@@ -19,6 +19,8 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.util.ref.Effect;
 
+import java.util.List;
+
 public class ModVaultEvents {
 
     public static void init() {
@@ -151,18 +153,125 @@ public class ModVaultEvents {
                 .build("Survival Nerf", new TextComponent("Decreases your mana regen, cooldown reduction, resistance, and healing effectiveness.")));
         VaultEventSystem.register(WoldsVaults.id("survival_wave_decrease"), new VaultEvent.Builder()
                 .tag(EventTag.SURVIVAL)
+                .tag(EventTag.EXTRA_LONG_COOLDOWN)
                 .message(new TextComponent("The tier of §2Survival§r mob spawns has been lowered!"))
                 .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
                 .color(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
                 .task(new SurvivalWaveAdjustmentTask(-1))
-                .build("Wave Tier Decrease", new TextComponent("Lowers the tier of §2Survival§r mob spawns by 1.")));
+                .task(new AddVaultTimeTask(-1200))
+                .build("Time Trade - Decrease", new TextComponent("Lowers the tier of §2Survival§r mob spawns by 1, removes a minute from the Vault Timer")));
         VaultEventSystem.register(WoldsVaults.id("survival_wave_increase"), new VaultEvent.Builder()
                 .tag(EventTag.SURVIVAL)
+                .tag(EventTag.LONG_COOLDOWN)
                 .message(new TextComponent("The tier of §2Survival§r mob spawns has been increased!"))
                 .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
                 .color(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
                 .task(new SurvivalWaveAdjustmentTask(1))
-                .build("Wave Tier Increase", new TextComponent("Increases the tier of §2Survival§r mob spawns by 1.")));
+                .task(new AddVaultTimeTask(1200))
+                .build("Time Trade - Increase", new TextComponent("Increases the tier of §2Survival§r mob spawns by 1, adds a minute to the Vault Timer")));
+        VaultEventSystem.register(WoldsVaults.id("survival_time_increase"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.LONG_COOLDOWN)
+                .message(new TextComponent("30 seconds was added to the Vault Timer!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                .task(new AddVaultTimeTask(600))
+                .build("Timer Bump", new TextComponent("Adds 30 seconds to the Vault Timer.")));
+        VaultEventSystem.register(WoldsVaults.id("survival_resistance"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.SHORT_COOLDOWN)
+                .displayType(VaultEvent.EventDisplayType.NONE)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                .task(new PlayerMobEffectTask(List.of(new Effect(MobEffects.DAMAGE_RESISTANCE, 4, 600), new Effect(MobEffects.REGENERATION, 1, 600))))
+                .build("Recovery", new TextComponent("Gives you Resistance 5 and Regeneration 2 for 30 seconds.")));
+        VaultEventSystem.register(WoldsVaults.id("survival_lunar"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .message(new TextComponent("Activated Lunar gravity for mobs!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                .task(new VaultModifierTask(VaultMod.id("lunar"), 1, 900))
+                .build("Respite", new TextComponent("Sends mobs to the sky for a while!")));
+        VaultEventSystem.register(WoldsVaults.id("survival_loot_beacon"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.LONG_COOLDOWN)
+                .message(new TextComponent("Item Quantity and Rarity increased, Mob Health, Damage, and Speed increased!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                        .task(new VaultModifierTask(VaultMod.id("item_quantity2"), 1))
+                        .task(new VaultModifierTask(VaultMod.id("pristine"), 1))
+                        .task(new VaultModifierTask(VaultMod.id("challenge_stack"), 2))
+                .build("Loot Beacon", new TextComponent("Increases Item Quantity and Item Rarity, Increases Mob health, damage, and speed.")));
+        VaultEventSystem.register(WoldsVaults.id("midas_beacon"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.EXTRA_LONG_COOLDOWN)
+                .message(new TextComponent("Coins are exploding out of mobs for a brief period!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                .task(new VaultModifierTask(VaultMod.id("bronze_nuke"), 1, 600))
+                .task(new VaultModifierTask(VaultMod.id("fading"), 1, 600))
+                .build("Midas Beacon", new TextComponent("Activates Coin Explosion and Fading for 30 seconds!")));
+        VaultEventSystem.register(WoldsVaults.id("nova_beacon"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.LONG_COOLDOWN)
+                .message(new TextComponent("Mobs explode into Novas for a while!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.LIGHT_PURPLE))
+                .task(new VaultModifierTask(VaultMod.id("kill_nova"), 1, 900))
+                .build("Nova Beacon", new TextComponent("Activates Nova Explosion for 45 seconds!")));
+        VaultEventSystem.register(WoldsVaults.id("frost_nova_beacon"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.LONG_COOLDOWN)
+                .message(new TextComponent("Mobs explode into Frost Novas for a while!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.LIGHT_PURPLE))
+                .task(new VaultModifierTask(VaultMod.id("kill_frostnova"), 1, 900))
+                .build("Frost Nova Beacon", new TextComponent("Activates Nova Explosion for 45 seconds!")));
+        VaultEventSystem.register(WoldsVaults.id("glued_mobs"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.LONG_COOLDOWN)
+                .message(new TextComponent("Mobs are glued into place for a while!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.AQUA))
+                .task(new VaultModifierTask(VaultMod.id("glued_mobs"), 1, 900))
+                .build("Glue Beacon", new TextComponent("Activates Glued Mobs for 45 seconds!")));
+        VaultEventSystem.register(WoldsVaults.id("nerf_beacon"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.EXTRA_LONG_COOLDOWN)
+                .message(new TextComponent("Mobs are made easier but loot is sad :("))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.YELLOW))
+                .task(new VaultModifierTask(VaultMod.id("unlucky"), 1))
+                .task(new VaultModifierTask(VaultMod.id("poor"), 1))
+                .task(new VaultModifierTask(VaultMod.id("unchallenge_stack"), 1))
+                .build("Nerf Beacon", new TextComponent("Item Quantity and Item Rarity reduced, mobs are made easier!")));
+        VaultEventSystem.register(WoldsVaults.id("fruit_beacon"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.SHORT_COOLDOWN)
+                .message(new TextComponent("Player health has been reduced in return for some added time!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.RED))
+                .task(new AddVaultTimeTask(900))
+                .task(new VaultModifierTask(VaultMod.id("fading"), 1, 600))
+                .task(new VaultModifierTask(VaultMod.id("injured_percent"), 1))
+                .build("Fruit Beacon", new TextComponent("Adds 45 seconds but removes 10% of all player's health.")));
+        VaultEventSystem.register(WoldsVaults.id("phoenix_beacon"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.INFINITE_COOLDOWN)
+                .message(new TextComponent("All players gain one revive, mobs are harder from here on out!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.DARK_RED))
+                .task(new VaultModifierTask(VaultMod.id("phoenix"), 1))
+                .task(new VaultModifierTask(VaultMod.id("challenge_stack"), 4))
+                .build("Phoenix Beacon", new TextComponent("Adds a Phoenix stack to the Vault, adds 4 Challenge Stacks.")));
+        VaultEventSystem.register(WoldsVaults.id("artifact_beacon"), new VaultEvent.Builder()
+                .tag(EventTag.SURVIVAL)
+                .tag(EventTag.SUPER_LONG_COOLDOWN)
+                .message(new TextComponent("Artifact chance slightly increased!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new VaultModifierTask(VaultMod.id("pogging"), 1))
+                .task(new VaultModifierTask(VaultMod.id("challenge_stack"), 1))
+                .build("Ancient Beacon", new TextComponent("Increases Artifact Chance slightly, makes mobs slightly harder.")));
         VaultEventSystem.register(WoldsVaults.id("tombstone_event"), new VaultEvent.Builder()
                 .tag(EventTag.TOMBSTONE)
                 .displayType(VaultEvent.EventDisplayType.NONE)

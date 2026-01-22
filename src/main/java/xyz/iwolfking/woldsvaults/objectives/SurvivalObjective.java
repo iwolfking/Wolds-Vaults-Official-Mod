@@ -198,10 +198,8 @@ public class SurvivalObjective extends Objective {
         Component label;
 
         if (!this.get(COMPLETED)) {
-            Component waveIncreaseText = new TextComponent(
-                    String.format("%d / %d s", spawnManager.WAVE_TIMER.time(), spawnManager.WAVE_TIMER.completionTime()));
             progress = (float) this.get(TIME_SURVIVED) / (float) this.get(TIME_REQUIRED);
-            label = new TextComponent("Survive! Next Wave Tier Increase: ").append(waveIncreaseText);
+            label = new TextComponent("Survive!");
         } else {
             progress = (float) this.get(TIME_SURVIVED) / SurvivalBonusManager.TICKS_PER_ACTION;
             label = new TextComponent("Survive for Rewards!");
