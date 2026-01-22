@@ -115,6 +115,7 @@ public class SurvivalObjective extends Objective {
     public void initServer(VirtualWorld world, Vault vault) {
         SurvivalVaultHelper.handleKillTimeExtensions(this, world, vault);
         SurvivalVaultHelper.preventFruits(this, vault);
+        SurvivalVaultHelper.preventTemporalRelics(vault);
         SurvivalVaultHelper.setBaseVaultTimer(vault);
         SigilUtils.addStacksFromSigil(vault);
 

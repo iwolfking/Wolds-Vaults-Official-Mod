@@ -8,7 +8,7 @@ import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 
 public class SurvivalBonusManager extends ObjectiveManager<SurvivalObjective> {
-    public static final int TICKS_PER_ACTION = 120;
+    public static final int TICKS_PER_ACTION = 3000;
 
     public SurvivalBonusManager(Vault vault, VirtualWorld world, SurvivalObjective objective) {
         super(vault, world, objective);
