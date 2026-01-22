@@ -9,6 +9,24 @@
       ],
       "levels": 2
     },
+    "ensorcellation:vitality": {
+      "items": [
+        {
+          "id": "golden_apple",
+          "count": 64
+        }
+      ],
+      "levels": 3
+    },
+    "ensorcellation:damage_ender": {
+      "items": [
+        {
+          "id": "ender_eye",
+          "count": 32
+        }
+      ],
+      "levels": 1
+    },
     "ensorcellation:gourmand": {
       "items": [
         {
@@ -17,15 +35,6 @@
         }
       ],
       "levels": 2
-    },
-    "ensorcellation:soulbound": {
-      "items": [
-        {
-          "id": "the_vault:echo_pog",
-          "count": 1
-        }
-      ],
-      "levels": 1
     },
     "ensorcellation:angler": {
       "items": [
@@ -36,14 +45,14 @@
       ],
       "levels": 2
     },
-    "ensorcellation:quick_draw": {
+    "ensorcellation:trueshot": {
       "items": [
         {
           "id": "emerald",
-          "count": 5
+          "count": 45
         }
       ],
-      "levels": 3
+      "levels": 2
     },
     "ensorcellation:volley": {
       "items": [
@@ -54,23 +63,14 @@
       ],
       "levels": 1
     },
-    "ensorcellation:trueshot": {
+    "ensorcellation:quick_draw": {
       "items": [
         {
           "id": "emerald",
-          "count": 45
+          "count": 5
         }
       ],
-      "levels": 2
-    },
-    "ensorcellation:damage_ender": {
-      "items": [
-        {
-          "id": "ender_eye",
-          "count": 32
-        }
-      ],
-      "levels": 1
+      "levels": 3
     },
     "ensorcellation:exp_boost": {
       "items": [
@@ -90,14 +90,14 @@
       ],
       "levels": 1
     },
-    "ensorcellation:vitality": {
+    "ensorcellation:soulbound": {
       "items": [
         {
-          "id": "golden_apple",
-          "count": 64
+          "id": "the_vault:echo_pog",
+          "count": 1
         }
       ],
-      "levels": 3
+      "levels": 1
     }
   }
 }

@@ -59,6 +59,13 @@ public class ModVaultEvents {
                 .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
                 .task(new VaultModifierTask(VaultMod.id("serendipitous"), 1))
                 .build("Artifact Boost", new TextComponent("Increases chance for an Artifact this Vault!")));
+        VaultEventSystem.register(WoldsVaults.id("gear_cache"), new VaultEvent.Builder()
+                .tag(EventTag.POSITIVE)
+                .message(new TextComponent("You feel your §6Reward Crate§r grow heavier with §4eVault Gear§r!"))
+                .displayType(VaultEvent.EventDisplayType.CHAT_MESSAGE_ALL)
+                .color(TextColor.fromLegacyFormat(ChatFormatting.GOLD))
+                .task(new AddCrateItemTask(VaultMod.id("survival_gear_cache")))
+                .build("Fruit Cache", new TextComponent("Adds Fruit to your Vault Crate!")));
         VaultEventSystem.register(WoldsVaults.id("fruit_cache"), new VaultEvent.Builder()
                 .tag(EventTag.POSITIVE)
                 .message(new TextComponent("You feel your §6Reward Crate§r grow heavier with §4Fruit§r!"))

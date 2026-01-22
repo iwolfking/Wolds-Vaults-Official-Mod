@@ -509,6 +509,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_prophet_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_PROPHET))
                 .save(pFinishedRecipeConsumer);
 
+        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_SURVIVOR)
+                .define('R', iskallia.vault.init.ModItems.RED_VAULT_ESSENCE)
+                .define('X', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_EMPTY)
+                .define('G', iskallia.vault.init.ModItems.POG)
+                .define('B', iskallia.vault.init.ModBlocks.VAULT_DIAMOND_BLOCK)
+                .pattern("RGR")
+                .pattern("XOX")
+                .pattern("XBX")
+                .unlockedBy("has_red_essence", has(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE))
+                .save(pFinishedRecipeConsumer);
+
         ShapedRecipeBuilder.shaped(ModItems.INSCRIPTION_BOX)
                 .define('X', iskallia.vault.init.ModItems.WUTODIC_MASS)
                 .define('R', iskallia.vault.init.ModItems.POG)
@@ -770,9 +782,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE)
                 .define('C', iskallia.vault.init.ModItems.VAULT_ESSENCE)
                 .define('O', iskallia.vault.init.ModItems.PERFECT_PAINITE)
-                .pattern("CCC")
                 .pattern("COC")
-                .pattern("CCC")
+                .pattern("OOO")
+                .pattern("COC")
                 .unlockedBy("has_perfect_painite", has(iskallia.vault.init.ModItems.PERFECT_PAINITE))
                 .save(pFinishedRecipeConsumer);
 

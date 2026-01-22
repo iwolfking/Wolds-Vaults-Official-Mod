@@ -61,7 +61,7 @@
             "color": "$text"
           },
           {
-            "text": "\n\nDrops in: Survival",
+            "text": "\n\nDrops in: Bounty",
             "color": "#7D520E"
           }
         ]
@@ -82,7 +82,7 @@
             "color": "$text"
           },
           {
-            "text": "\n\nDrops in: Survival",
+            "text": "\n\nDrops in: Survival Gear Reward",
             "color": "#7D520E"
           }
         ]
@@ -103,7 +103,7 @@
             "color": "$text"
           },
           {
-            "text": "\n\nDrops in: Survival",
+            "text": "\n\nDrops in: Survival Gear Reward",
             "color": "#7D520E"
           }
         ]
@@ -120,11 +120,11 @@
       "description": {
         "description": [
           {
-            "text": "Imploding javelin!",
+            "text": "What an aggressive little penguin!",
             "color": "$text"
           },
           {
-            "text": "\n\nDrops in: Survival",
+            "text": "\n\nDrops in: Laboratory",
             "color": "#7D520E"
           }
         ]
@@ -145,7 +145,7 @@
             "color": "$text"
           },
           {
-            "text": "\n\nDrops in: Survival",
+            "text": "\n\nDrops in: Laboratory",
             "color": "#7D520E"
           }
         ]

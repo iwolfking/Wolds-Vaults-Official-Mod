@@ -46,6 +46,14 @@
         }
       }
     },
+    "the_vault:survival_gear_cache": {
+      "display": "Survival Gear Cache",
+      "lootTableKeys": {
+        "the_vault:survival_gear_cache": {
+          "level": 0
+        }
+      }
+    },
     "the_vault:completion_crate_brutal_bosses": {
       "display": "Completion Crate Brutal Bosses",
       "lootTableKeys": {

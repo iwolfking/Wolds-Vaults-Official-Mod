@@ -164,6 +164,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.the_vault.rang", "Vaultarang");
         add("item.woldsvaults.weapon_augmenter", "Weapon Augmenter");
         add("item.woldsvaults.greedy_vault_rock", "Greedy Vault Rock");
+        add("jei.the_vault.survival_gear_cache_loot", "Survival Gear Cache");
         add("jei.the_vault.wooden_dungeon_barrel_loot", "Wooden Dungeon Barrel");
         add("jei.the_vault.time_trial_reward_crate_loot", "Time Trial Reward Crate");
         add("jei.the_vault.completion_crate_unhinged_scavenger_loot", "Unhinged Scavenger Crate");

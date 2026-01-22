@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:crystal_seal_survivor"
+    ]
+  },
+  "criteria": {
+    "has_red_essence": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:red_vault_essence"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:crystal_seal_survivor"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_red_essence",
+      "has_the_recipe"
+    ]
+  ]
+}

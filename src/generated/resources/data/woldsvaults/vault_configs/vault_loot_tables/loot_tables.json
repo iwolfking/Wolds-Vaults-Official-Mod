@@ -1,3 +1,9 @@
 {
-  "keys": []
+  "keys": [
+    {
+      "id": "the_vault:survival_gear_cache",
+      "name": "Survival Gear Cache",
+      "1.0": "the_vault:survival_gear_cache"
+    }
+  ]
 }

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RGR",
+    "XOX",
+    "XBX"
+  ],
+  "key": {
+    "R": {
+      "item": "the_vault:red_vault_essence"
+    },
+    "X": {
+      "item": "the_vault:vault_essence"
+    },
+    "O": {
+      "item": "the_vault:crystal_seal_empty"
+    },
+    "G": {
+      "item": "the_vault:gem_pog"
+    },
+    "B": {
+      "item": "the_vault:vault_diamond_block"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:crystal_seal_survivor"
+  }
+}

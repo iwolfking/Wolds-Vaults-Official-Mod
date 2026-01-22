@@ -41,6 +41,7 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
 
             genericSingleton("Time Trial Reward Crate", VaultMod.id("time_trial_reward_crate"), 0, builder);
             genericSingleton("Wooden Dungeon Barrel", VaultMod.id("wooden_dungeon_barrel"), 0, builder);
+            genericSingleton("Survival Gear Cache", VaultMod.id("survival_gear_cache"), 0, builder);
 
             mapChest("Enigma", builder);
             mapChest("Wooden", builder);
