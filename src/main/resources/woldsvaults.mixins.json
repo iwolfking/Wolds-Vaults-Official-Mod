@@ -285,6 +285,7 @@
     "vaulthunters.custom.enum_extension.MixinVaultRarityEnum",
     "vaulthunters.custom.recycler.MixinVaultCatalystItem",
     "vaulthunters.custom.recycler.MixinVaultGearItem",
+    "vaulthunters.fixes.MixinAbilityCooldownPercentAttributeReader",
     "vaulthunters.fixes.MixinAscensionObjective",
     "vaulthunters.fixes.MixinAttributeGearData",
     "vaulthunters.fixes.MixinBailObjective",
