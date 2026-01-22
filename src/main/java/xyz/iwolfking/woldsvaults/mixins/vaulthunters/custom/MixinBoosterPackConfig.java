@@ -26,7 +26,7 @@ public abstract class MixinBoosterPackConfig implements IPlayerOutcomeHandler {
     public abstract List<Card> getOutcomes(String id, RandomSource random);
 
     @Unique
-    Player woldsVaults$playerRef = null;
+    private static Player woldsVaults$playerRef = null;
 
     @Override
     public List<Card> woldsVaults$getOutcomes(Player player, String id, RandomSource random) {

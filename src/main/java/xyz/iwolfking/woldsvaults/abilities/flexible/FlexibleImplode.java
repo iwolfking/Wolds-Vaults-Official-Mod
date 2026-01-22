@@ -33,7 +33,7 @@ public class FlexibleImplode extends ImplodeAbility {
             if (!entity.isInvulnerableTo(damageSource)) {
                 float damageModifier = this.getDamageModifier(ability.getRadius(target), target.distanceTo(entity));
                 float damage = health * ability.getPercentManaDealt() * damageModifier;
-                Log.info("Imploding " + entity + " with " + damage + " damage");
+                //Log.info("Imploding " + entity + " with " + damage + " damage");
                 ActiveFlags.IS_AOE_ATTACKING.runIfNotSet(() -> entity.hurt(damageSource, damage));
             }
         }

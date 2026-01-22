@@ -30,10 +30,7 @@ public abstract class MixinVaultAltarConfig {
     @Inject(method = "getOutput", at = @At("HEAD"), cancellable = true)
     private void setTimeTrialObjective(CallbackInfoReturnable<Optional<ItemStack>> cir, @Local(argsOnly = true) ItemStack input) {
         if(input.getItem().equals(ModItems.CRYSTAL_SEAL_TIME_TRIAL)) {
-            System.out.println("Was partial item");
-                System.out.println("Was Time Trial Seal");
                 if(TimeTrialCompetition.get().getCurrentObjective() != null) {
-                    System.out.println("Current Obj not null");
                     ItemStack output = null;
                     for(VaultAltarConfig.Interface element : this.INTERFACES) {
                         if (element.matchesInput(input)) {

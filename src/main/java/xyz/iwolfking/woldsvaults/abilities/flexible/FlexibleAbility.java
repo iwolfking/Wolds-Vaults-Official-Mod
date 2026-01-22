@@ -34,7 +34,7 @@ public class FlexibleAbility {
 
     protected float castAbility(String ability, Ability abilityToCast, Player player, Entity target) {
         float durabilityDamage = 0;
-        Log.info("Ability: " + abilityToCast);
+        //Log.info("Ability: " + abilityToCast);
         switch (ability) {
             case "Nova":
                 FlexibleNova novaAbility = new FlexibleNova();

@@ -26,7 +26,7 @@ public abstract class MixinCardDeckContainerMenu extends Slot {
         super(pContainer, pSlot, pX, pY);
     }
 
-    @Inject(method = "mayPlace", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "mayPlace", at = @At(value = "HEAD"), cancellable = true, remap = true)
     private void specialArcanePlacementForNitwit(ItemStack stack, CallbackInfoReturnable<Boolean> cir, @Local(argsOnly = true) ItemStack heldStack) {
         if(container instanceof CardDeckContainer cardDeckContainerMenu) {
             CardDeck deck = cardDeckContainerMenu.getDeck();

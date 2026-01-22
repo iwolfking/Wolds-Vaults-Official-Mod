@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import com.simibubi.create.content.logistics.filter.ItemAttribute;
+import iskallia.vault.VaultMod;
 import iskallia.vault.util.StringUtils;
 import net.joseph.vaultfilters.attributes.abstracts.BooleanAttribute;
 import net.minecraft.data.DataGenerator;
@@ -26,6 +27,7 @@ public class ModLanguageProvider extends LanguageProvider {
 
     public void add(CustomObjectiveRegistryEntry entry, String text) {
         add("objective." + entry.getRegistryName().getNamespace() + "." + entry.getRegistryName().getPath(), text);
+        add("objective." + VaultMod.MOD_ID + "." + entry.getRegistryName().getPath(), text);
     }
 
     public void add(ResourceLocation id, VaultEvent event) {

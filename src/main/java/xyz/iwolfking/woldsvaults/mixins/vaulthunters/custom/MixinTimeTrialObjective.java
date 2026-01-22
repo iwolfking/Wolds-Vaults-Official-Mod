@@ -54,7 +54,7 @@ public abstract class MixinTimeTrialObjective {
                         int bestEverTime = PlayerTimeTrialData.get().getBestTime(serverPlayer, objectiveName);
                         if(bestEverTime > completionTime) {
                             if(bestEverTime == Integer.MAX_VALUE) {
-                                MessageUtils.broadcastMessage(serverPlayer.getLevel(), new TranslatableComponent("vault_objective.woldsvaults.time_trial_player_best", serverPlayer.getDisplayName(), objectiveName, "No time recorded", TimeUtils.formatTime(bestEverTime)));
+                                MessageUtils.broadcastMessage(serverPlayer.getLevel(), new TranslatableComponent("vault_objective.woldsvaults.time_trial_player_best", serverPlayer.getDisplayName(), objectiveName, TimeUtils.formatTime(bestEverTime), "No time recorded"));
                             }
                             else {
                                 MessageUtils.broadcastMessage(serverPlayer.getLevel(), new TranslatableComponent("vault_objective.woldsvaults.time_trial_player_best", serverPlayer.getDisplayName(), objectiveName,  TimeUtils.formatTime(completionTime), TimeUtils.formatTime(bestEverTime)));

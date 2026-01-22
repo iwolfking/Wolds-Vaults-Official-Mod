@@ -178,7 +178,7 @@ public class VaultPortalPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public List<String> getPlayers() {
+    public final List<String> getPlayers() {
         List<String> names = new ArrayList<>();
         Optional<Vault> vaultOpt = getVault();
         if(vaultOpt.isPresent()) {
@@ -209,7 +209,7 @@ public class VaultPortalPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public List<UUID> getPlayerUUIDs() {
+    public final List<UUID> getPlayerUUIDs() {
         List<UUID> names = new ArrayList<>();
         Optional<Vault> vaultOpt = getVault();
         if(vaultOpt.isPresent()) {
@@ -240,7 +240,7 @@ public class VaultPortalPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public List<String> getObjectives() {
+    public final List<String> getObjectives() {
         Optional<Vault> vaultOpt = getVault();
         if(vaultOpt.isPresent()) {
             Vault vault = vaultOpt.get();

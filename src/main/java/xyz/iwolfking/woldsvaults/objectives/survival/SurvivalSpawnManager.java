@@ -1,6 +1,6 @@
 package xyz.iwolfking.woldsvaults.objectives.survival;
 
-import com.ibm.icu.impl.Pair;
+import com.mojang.datafixers.util.Pair;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.world.storage.VirtualWorld;
@@ -34,8 +34,8 @@ public class SurvivalSpawnManager extends ObjectiveManager<SurvivalObjective> {
                     ServerPlayer player = listener.getPlayer().get();
                     objective.getCurrentWaveEntry(level).ifPresent(survivalSpawnsEntry -> {
                         Pair<EntityType<?>, Integer> spawnEntry = survivalSpawnsEntry.getRandomSpawn();
-                        for(int i = 0; i < spawnEntry.second; i++) {
-                            SpawnHelper.doSpawn(world, MIN_SPAWN_RADIUS, MAX_SPAWN_RADIUS, player.getOnPos(), ChunkRandom.ofNanoTime(), spawnEntry.first, null, null);
+                        for(int i = 0; i < spawnEntry.getSecond(); i++) {
+                            SpawnHelper.doSpawn(world, MIN_SPAWN_RADIUS, MAX_SPAWN_RADIUS, player.getOnPos(), ChunkRandom.ofNanoTime(), spawnEntry.getFirst(), null, null);
                         }
                     });
                 }

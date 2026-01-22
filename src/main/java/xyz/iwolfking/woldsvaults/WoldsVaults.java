@@ -109,16 +109,14 @@ public class WoldsVaults {
         ModLayoutDefinitions.init();
         NetworkHandler.onCommonSetup();
         DelayedExecutionHelper.init();
+        ModVaultEvents.init();
         BETTER_COMBAT_PRESENT = LoadingModList.get().getModFileById("bettercombat") != null;
     }
 
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         BrutalBossesRegistry.init();
         EnchantedEventsRegistry.registerAllBuiltInEvents();
-        ModVaultEvents.init();
         if(WoldsVaultsConfig.SERVER.enableServerKiller.get()) {
             ServerKiller.register();
         }

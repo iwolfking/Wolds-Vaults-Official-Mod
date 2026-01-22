@@ -1,8 +1,7 @@
 package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
-import com.ibm.icu.impl.Pair;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.datafixers.util.Pair;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.Config;
 import iskallia.vault.config.entry.LevelEntryList;
@@ -10,7 +9,6 @@ import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.core.world.data.entity.EntityPredicate;
 import iskallia.vault.core.world.data.entity.PartialCompoundNbt;
-import iskallia.vault.core.world.data.entity.PartialEntity;
 import iskallia.vault.core.world.data.entity.PartialEntityGroup;
 import iskallia.vault.core.world.roll.IntRoll;
 import net.minecraft.resources.ResourceLocation;

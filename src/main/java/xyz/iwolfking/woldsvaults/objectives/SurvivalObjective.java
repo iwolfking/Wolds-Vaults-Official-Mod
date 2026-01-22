@@ -155,6 +155,7 @@ public class SurvivalObjective extends Objective {
 
         this.set(TIME_SURVIVED, this.get(TIME_SURVIVED) + 1);
 
+
         if (this.get(COMPLETED)) {
             handlePostCompletion();
             return;
@@ -191,6 +192,7 @@ public class SurvivalObjective extends Objective {
     }
 
 
+
     @OnlyIn(Dist.CLIENT)
     public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
         int midX = window.getGuiScaledWidth() / 2;
@@ -214,7 +216,7 @@ public class SurvivalObjective extends Objective {
         int requiredSeconds = this.get(TIME_REQUIRED) / 20;
 
         Component timeText = new TextComponent(
-                String.format("%d / %d s", survivedSeconds, this.get(COMPLETED) ? (SurvivalBonusManager.TICKS_PER_ACTION / 20) : requiredSeconds)
+                String.format("%d / %d s", survivedSeconds, this.get(COMPLETED) ? 150 : requiredSeconds)
         );
 
         matrixStack.pushPose();

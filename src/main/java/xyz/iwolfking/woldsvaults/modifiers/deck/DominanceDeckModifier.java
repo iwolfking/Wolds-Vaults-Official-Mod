@@ -34,7 +34,6 @@ public class DominanceDeckModifier extends DeckModifier<DominanceDeckModifier.Co
         String selectedGroup = this.config.mode == Mode.DOMINANT
                 ? getMostCommonGroup(deck, config.excludedGroups)
                 : getLeastCommonGroup(deck, config.excludedGroups);
-        System.out.println(selectedGroup);
         if(card.getGroups().contains(selectedGroup)) {
             return 1.0F + this.getModifierValue();
         }

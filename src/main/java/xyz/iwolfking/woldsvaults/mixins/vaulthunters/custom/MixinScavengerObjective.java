@@ -57,7 +57,6 @@ public abstract class MixinScavengerObjective extends Objective {
 
                 if(!temp.getTag().getString("VaultId").equals(vault.get(Vault.ID).toString())) {
                     if(!listener.getPlayer().map(ServerPlayer::isCreative).orElse(false)) {
-                        System.out.println("Not creative and ID doesn't match!");
                         continue;
                     }
                 }
@@ -69,14 +68,12 @@ public abstract class MixinScavengerObjective extends Objective {
 
                 int consumed = before - temp.getCount();
                 if (consumed > 0) {
-                    System.out.println("Item was consumed!");
                     ItemScavengerPouch.getInventory(pouch).removeItem(i, consumed);
                     changed = true;
                 }
             }
 
             if (changed) {
-                System.out.println("Saving inventory!");
                 ItemScavengerPouch.getInventory(pouch).save();
             }
         });
