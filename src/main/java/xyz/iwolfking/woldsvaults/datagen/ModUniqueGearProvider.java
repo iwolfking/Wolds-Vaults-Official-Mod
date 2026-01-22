@@ -88,6 +88,25 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
+        consumer.accept(entry("woldsvaults:chroma_brew", new UniqueGearBuilder("Chroma Brew", ModItems.FOCUS)
+                .model("woldsvaults:gear/focus/chroma_brew")
+                .base("the_vault:base_durability")
+                .implicit("the_vault:mod_max_mana")
+                .prefix("the_vault:mod_healing_cloud_brew")
+                .prefix("the_vault:mod_wither_cloud_brew")
+                .prefix("the_vault:mod_bleed_cloud_brew")
+                .prefix("the_vault:mod_poison_cloud_brew")
+                .suffix("the_vault:mod_slowness_cloud_brew")
+                .suffix("the_vault:mod_weakness_cloud_brew")
+                .suffix("the_vault:mod_effect_cloud_chance")
+                .suffix("the_vault:mod_diffuse_level")
+                .dropLocation("Survival")
+                .description("A nasty brew of chemicals to boost you and inflict upon your foes!", "$text")
+                .modelType("FOCUS")
+                .slotType(UniqueCodexConfig.IntroductionPage.SlotType.OFFHAND)
+                .build()
+        ));
+
         consumer.accept(entry("woldsvaults:shattering_jewel", new UniqueGearBuilder("Shatterering Jewel", ModItems.JEWEL)
                 .model("the_vault:gear/jewel/treasure")
                 .implicit("the_vault:u_jewel_size_stella")

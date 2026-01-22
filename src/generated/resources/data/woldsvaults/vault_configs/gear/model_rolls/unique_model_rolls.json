@@ -74,7 +74,9 @@
     "RARE": [],
     "EPIC": [],
     "OMEGA": [],
-    "UNIQUE": [],
+    "UNIQUE": [
+      "woldsvaults:gear/focus/chroma_brew"
+    ],
     "SPECIAL": [],
     "CHAOTIC": [],
     "MYTHIC": []

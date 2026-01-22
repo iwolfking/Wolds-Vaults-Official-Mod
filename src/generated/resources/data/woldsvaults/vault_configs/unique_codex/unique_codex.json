@@ -22,6 +22,7 @@
       ],
       "OFFHAND": [
         "woldsvaults:pocket_penguin",
+        "woldsvaults:chroma_brew",
         "woldsvaults:wicked_witch",
         "woldsvaults:safer_spaces"
       ],
@@ -128,6 +129,27 @@
         ]
       },
       "uniqueId": "woldsvaults:pocket_penguin"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Chroma Brew",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "A nasty brew of chemicals to boost you and inflict upon your foes!",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Survival",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:chroma_brew"
     },
     {
       "title": {

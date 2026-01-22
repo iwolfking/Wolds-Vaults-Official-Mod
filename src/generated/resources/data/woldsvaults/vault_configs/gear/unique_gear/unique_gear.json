@@ -122,6 +122,38 @@
       "modifierTags": [],
       "weight": 1
     },
+    "woldsvaults:chroma_brew": {
+      "name": "Chroma Brew",
+      "item": "the_vault:focus",
+      "models": [
+        {
+          "value": "woldsvaults:gear/focus/chroma_brew",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:mod_max_mana"
+        ],
+        "PREFIX": [
+          "the_vault:mod_healing_cloud_brew",
+          "the_vault:mod_wither_cloud_brew",
+          "the_vault:mod_bleed_cloud_brew",
+          "the_vault:mod_poison_cloud_brew"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_slowness_cloud_brew",
+          "the_vault:mod_weakness_cloud_brew",
+          "the_vault:mod_effect_cloud_chance",
+          "the_vault:mod_diffuse_level"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
     "woldsvaults:shattering_jewel": {
       "name": "Shatterering Jewel",
       "item": "the_vault:jewel",
@@ -699,6 +731,9 @@
     "woldsvaults:pocket_penguin": {
       "woldsvaults:pocket_penguin": 1
     },
+    "woldsvaults:chroma_brew": {
+      "woldsvaults:chroma_brew": 1
+    },
     "woldsvaults:shattering_jewel": {
       "woldsvaults:shattering_jewel": 1
     },
@@ -767,6 +802,7 @@
       "woldsvaults:fork_of_the_glutton": 1,
       "woldsvaults:aural_magnet": 1,
       "woldsvaults:pocket_penguin": 1,
+      "woldsvaults:chroma_brew": 1,
       "woldsvaults:shattering_jewel": 1,
       "woldsvaults:eternal_stella": 1,
       "woldsvaults:treasure_jewel": 1,

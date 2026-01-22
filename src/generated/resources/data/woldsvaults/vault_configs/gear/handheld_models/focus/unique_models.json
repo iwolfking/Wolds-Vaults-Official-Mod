@@ -1,0 +1,10 @@
+{
+  "MODELS": [
+    {
+      "id": "woldsvaults:gear/focus/chroma_brew",
+      "displayName": "Chroma Brew",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    }
+  ]
+}

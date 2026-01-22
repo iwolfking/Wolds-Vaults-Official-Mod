@@ -352,64 +352,6 @@
     ],
     "PREFIX": [
       {
-        "attribute": "the_vault:effect_cloud_chance_additive",
-        "group": "BaseEffectCloudChance",
-        "identifier": "the_vault:mod_effect_cloud_chance",
-        "tags": [],
-        "tiers": [
-          {
-            "minLevel": 0,
-            "maxLevel": 20,
-            "weight": 10,
-            "value": {
-              "min": 0.01,
-              "max": 0.02,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 20,
-            "maxLevel": 40,
-            "weight": 10,
-            "value": {
-              "min": 0.02,
-              "max": 0.03,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 40,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.03,
-              "max": 0.04,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 101,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.05,
-              "max": 0.09,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 102,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.09,
-              "max": 0.12,
-              "step": 0.01
-            }
-          }
-        ]
-      },
-      {
         "attribute": "the_vault:added_talent_level",
         "group": "ModPrimeAmpLevel",
         "identifier": "the_vault:mod_prime_amp_level",
@@ -780,6 +722,1136 @@
             }
           }
         ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud1",
+        "identifier": "the_vault:mod_regen_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Regeneration I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:regeneration",
+                  "duration": 120,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 13458603,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Regeneration II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:regeneration",
+                  "duration": 140,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 13458603,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Regeneration III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:regeneration",
+                  "duration": 160,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 13458603,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Regeneration IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:regeneration",
+                  "duration": 180,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 13458603,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Regeneration V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:regeneration",
+                  "duration": 200,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 13458603,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud1",
+        "identifier": "the_vault:mod_healing_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 80,
+              "radius": 4.0,
+              "color": 16262179,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 16262179,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 16262179,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 1
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 16262179,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 2
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 16262179,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud1",
+        "identifier": "the_vault:mod_resistance_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Resistance I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:resistance",
+                  "duration": 120,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 80,
+              "radius": 4.0,
+              "color": 10044730,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Resistance II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:resistance",
+                  "duration": 160,
+                  "amplifier": 1
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 10044730,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Resistance III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:resistance",
+                  "duration": 200,
+                  "amplifier": 2
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 10044730,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Resistance IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:resistance",
+                  "duration": 240,
+                  "amplifier": 3
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 10044730,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Resistance V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:resistance",
+                  "duration": 300,
+                  "amplifier": 4
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 10044730,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud2",
+        "identifier": "the_vault:mod_wither_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Wither I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:wither",
+                  "duration": 120,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 3484199,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Wither II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:wither",
+                  "duration": 140,
+                  "amplifier": 1
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 3484199,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Wither III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:wither",
+                  "duration": 160,
+                  "amplifier": 2
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 3484199,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Wither IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:wither",
+                  "duration": 180,
+                  "amplifier": 3
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 3484199,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Wither V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:wither",
+                  "duration": 200,
+                  "amplifier": 4
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 3484199,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud2",
+        "identifier": "the_vault:mod_bleed_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Bleed I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:bleed",
+                  "duration": 120,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 16711680,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Bleed II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:bleed",
+                  "duration": 140,
+                  "amplifier": 1
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 16711680,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Bleed III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:bleed",
+                  "duration": 160,
+                  "amplifier": 2
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 16711680,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Bleed IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:bleed",
+                  "duration": 180,
+                  "amplifier": 3
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 16711680,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Bleed V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:bleed",
+                  "duration": 200,
+                  "amplifier": 4
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 16711680,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud2",
+        "identifier": "the_vault:mod_poison_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Poison I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:poison",
+                  "duration": 120,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 5149489,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Poison II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:poison",
+                  "duration": 140,
+                  "amplifier": 1
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 5149489,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Poison III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:poison",
+                  "duration": 160,
+                  "amplifier": 2
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 5149489,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Poison IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:poison",
+                  "duration": 180,
+                  "amplifier": 3
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 5149489,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Poison V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:poison",
+                  "duration": 200,
+                  "amplifier": 4
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 5149489,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud3",
+        "identifier": "the_vault:mod_slowness_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Slowness I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:slowness",
+                  "duration": 120,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Slowness II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:slowness",
+                  "duration": 140,
+                  "amplifier": 1
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Slowness III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:slowness",
+                  "duration": 160,
+                  "amplifier": 2
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Slowness IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:slowness",
+                  "duration": 180,
+                  "amplifier": 3
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Slowness V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:slowness",
+                  "duration": 200,
+                  "amplifier": 4
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud3",
+        "identifier": "the_vault:mod_unluck_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Unluck I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:unluck",
+                  "duration": 120,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 12624973,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Unluck II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:unluck",
+                  "duration": 160,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 12624973,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Unluck III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:unluck",
+                  "duration": 200,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 12624973,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Unluck IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:unluck",
+                  "duration": 240,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 12624973,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Unluck V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:unluck",
+                  "duration": 300,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 12624973,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud3",
+        "identifier": "the_vault:mod_chilling_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Chilling I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:chilled",
+                  "duration": 120,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 65526,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Chilling II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:chilled",
+                  "duration": 140,
+                  "amplifier": 1
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 65526,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Chilling III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:chilled",
+                  "duration": 160,
+                  "amplifier": 2
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 65526,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Chilling IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:chilled",
+                  "duration": 180,
+                  "amplifier": 3
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 65526,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Chilling V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:chilled",
+                  "duration": 200,
+                  "amplifier": 4
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 65526,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud3",
+        "identifier": "the_vault:mod_weakness_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Weakness I",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:weakness",
+                  "duration": 120,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 120,
+              "radius": 4.0,
+              "color": 4738376,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Weakness II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:weakness",
+                  "duration": 160,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 160,
+              "radius": 4.0,
+              "color": 4738376,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Weakness III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:weakness",
+                  "duration": 200,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 4738376,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Weakness IV",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:weakness",
+                  "duration": 240,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 4738376,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Weakness V",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:weakness",
+                  "duration": 300,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 4738376,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
       }
     ],
     "SUFFIX": [
@@ -812,7 +1884,7 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "tooltipDisplayName": "Slowness Cloud I",
+              "tooltipDisplayName": "Slowness I",
               "potion": "minecraft:empty",
               "additionalEffects": [
                 {
@@ -833,7 +1905,7 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "tooltipDisplayName": "Slowness Cloud II",
+              "tooltipDisplayName": "Slowness II",
               "potion": "minecraft:empty",
               "additionalEffects": [
                 {
@@ -854,7 +1926,7 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "tooltipDisplayName": "Slowness Cloud III",
+              "tooltipDisplayName": "Slowness III",
               "potion": "minecraft:empty",
               "additionalEffects": [
                 {
@@ -883,7 +1955,7 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "tooltipDisplayName": "Healing Cloud I",
+              "tooltipDisplayName": "Healing I",
               "potion": "minecraft:empty",
               "additionalEffects": [
                 {
@@ -895,7 +1967,7 @@
               "duration": 80,
               "radius": 4.0,
               "color": 16262179,
-              "affectsOwner": false,
+              "affectsOwner": true,
               "triggerChance": 0.05
             }
           },
@@ -904,7 +1976,7 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "tooltipDisplayName": "Healing Cloud II",
+              "tooltipDisplayName": "Healing II",
               "potion": "minecraft:empty",
               "additionalEffects": [
                 {
@@ -916,7 +1988,7 @@
               "duration": 120,
               "radius": 4.0,
               "color": 16262179,
-              "affectsOwner": false,
+              "affectsOwner": true,
               "triggerChance": 0.05
             }
           },
@@ -925,7 +1997,7 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "tooltipDisplayName": "Healing Cloud III",
+              "tooltipDisplayName": "Healing III",
               "potion": "minecraft:empty",
               "additionalEffects": [
                 {
@@ -937,8 +2009,110 @@
               "duration": 160,
               "radius": 4.0,
               "color": 16262179,
-              "affectsOwner": false,
+              "affectsOwner": true,
               "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud_chance_additive",
+        "group": "ModEffectCloudChance",
+        "identifier": "the_vault:mod_effect_cloud_chance",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 20,
+            "weight": 10,
+            "value": {
+              "min": 0.01,
+              "max": 0.02,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 20,
+            "maxLevel": 40,
+            "weight": 10,
+            "value": {
+              "min": 0.02,
+              "max": 0.03,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.03,
+              "max": 0.04,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.05,
+              "max": 0.09,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 85,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.09,
+              "max": 0.12,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModDiffuseLevel",
+        "identifier": "the_vault:mod_diffuse_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Expunge_Base",
+              "levelChange": 1
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Expunge_Base",
+              "levelChange": 2
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Expunge_Base",
+              "levelChange": 3
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Expunge_Base",
+              "levelChange": 4
             }
           }
         ]
