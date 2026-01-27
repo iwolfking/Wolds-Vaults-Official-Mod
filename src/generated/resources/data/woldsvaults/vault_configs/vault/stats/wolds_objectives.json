@@ -6,8 +6,8 @@
   "mobsKilled": {},
   "completion": {
     "survival": {
-      "BAILED": 0.0,
       "COMPLETED": 20000.0,
+      "BAILED": 0.0,
       "FAILED": 0.0
     }
   },
