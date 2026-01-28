@@ -48,7 +48,14 @@ minecraft {
     //
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: mapping_channel, version: mapping_version
+
+    if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+        // windows can't handle parchment mappings with so many dependencies, because the launch cmd is too long
+        mappings channel: 'official', version: '1.18.2'
+    } else {
+        mappings channel: mapping_channel, version: mapping_version
+    }
+
 
     // When true, this property will have all Eclipse/IntelliJ IDEA run configurations run the "prepareX" task for the given run configuration before launching the game.
     // enableEclipsePrepareRuns = true
