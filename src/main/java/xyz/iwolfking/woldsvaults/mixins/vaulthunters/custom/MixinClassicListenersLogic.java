@@ -1,14 +1,20 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import iskallia.vault.VaultMod;
+import iskallia.vault.config.entry.LevelEntryList;
+import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.WorldManager;
 import iskallia.vault.core.vault.player.ClassicListenersLogic;
-import iskallia.vault.item.gear.TrinketItem;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.gear.VaultCharmItem;
 import iskallia.vault.item.gear.VaultNecklaceItem;
-import iskallia.vault.item.gear.VoidStoneItem;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.expertise.type.TrinketerExpertise;
 import iskallia.vault.world.data.PlayerExpertisesData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +23,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Mixin(value = ClassicListenersLogic.class, remap = false)
 public class MixinClassicListenersLogic {
@@ -68,5 +77,39 @@ public class MixinClassicListenersLogic {
         if(key.equals("scaling_ballistic_bingo")) {
             cir.setReturnValue("Ballistic Bingo");
         }
+    }
+
+    @WrapOperation(method = {"printJoinMessage", "lambda$initServer$1"/*leave*/}, at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/ClassicListenersLogic;getVaultObjective(Ljava/lang/String;)Ljava/lang/String;"))
+    private String improveRaidChatMessage(ClassicListenersLogic instance, String key, Operation<String> original, @Local(argsOnly = true) Vault vault){
+        if (!"raid".equals(key)) {
+            return original.call(instance, key);
+        }
+        Set<ResourceLocation> infRaidThemes =
+            Optional.ofNullable(ModConfigs.VAULT_CRYSTAL.THEMES.get(VaultMod.id("infinite_raid")))
+                .orElse(new LevelEntryList<>())
+                .stream()
+                .map(themeEntry -> themeEntry.pool.keySet())
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+
+        Set<ResourceLocation> infBrutalRaidThemes =
+            Optional.ofNullable(ModConfigs.VAULT_CRYSTAL.THEMES.get(VaultMod.id("infinite_raid_hard")))
+            .orElse(new LevelEntryList<>())
+            .stream()
+            .map(themeEntry -> themeEntry.pool.keySet())
+            .flatMap(Set::stream)
+            .collect(Collectors.toSet());
+
+        ResourceLocation themeReg = vault.get(Vault.WORLD).get(WorldManager.THEME);
+        if (themeReg != null) {
+            if (infRaidThemes.contains(themeReg)) {
+                return "∞ Raid";
+            }
+            if (infBrutalRaidThemes.contains(themeReg)) {
+                return "∞ Brutal Raid";
+            }
+        }
+
+        return original.call(instance, key);
     }
 }

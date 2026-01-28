@@ -380,7 +380,8 @@
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
-    "vaulthunters.fixes.MixinUniqueCodexScreen"
+    "vaulthunters.fixes.MixinUniqueCodexScreen",
+    "vaulthunters.objectives.MixinClientCrystalData"
   ],
   "injectors": {
     "defaultRequire": 1
