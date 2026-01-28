@@ -17,7 +17,7 @@ import java.util.List;
 
 @Mixin(value = BoosterPackItem.class, remap = false)
 public class MixinBoosterPackItem {
-    @Redirect(method = "use", at = @At(value = "INVOKE", target = "Liskallia/vault/config/card/BoosterPackConfig;getOutcomes(Ljava/lang/String;Liskallia/vault/core/random/RandomSource;)Ljava/util/List;"), remap = true)
+    @Redirect(method = "use", at = @At(value = "INVOKE", target = "Liskallia/vault/config/card/BoosterPackConfig;getOutcomes(Ljava/lang/String;Liskallia/vault/core/random/RandomSource;)Ljava/util/List;", remap = false), remap = true)
     private List<Card> passPlayerToOutcomes(BoosterPackConfig instance, String id, RandomSource random, @Local(argsOnly = true) Player player) {
         return ((IPlayerOutcomeHandler)instance).woldsVaults$getOutcomes(player, id, random);
     }
