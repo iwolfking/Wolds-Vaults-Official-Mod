@@ -19,7 +19,7 @@ public abstract class MixinJavelinAbility {
     @Shadow
     public abstract Player getThrower();
 
-    @Inject(method = "doPostHurtEffects", at = @At(value = "INVOKE", target = "Liskallia/vault/util/EntityHelper;knockbackIgnoreResist(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/LivingEntity;F)V"), remap = true)
+    @Inject(method = "doPostHurtEffects", at = @At(value = "INVOKE", target = "Liskallia/vault/util/EntityHelper;knockbackIgnoreResist(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/LivingEntity;F)V", remap = false), remap = true)
     private void implodeJavelin(LivingEntity pLiving, CallbackInfo ci) {
         AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(this.getThrower());
         if(snapshot.getAttributeValue(ModGearAttributes.IMPLODING_JAVELIN, VaultGearAttributeTypeMerger.anyTrue())) {
