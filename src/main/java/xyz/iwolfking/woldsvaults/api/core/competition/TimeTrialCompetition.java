@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -153,13 +154,22 @@ public class TimeTrialCompetition extends SavedData {
                         currentObjective);
                 MessageUtils.broadcastMessage(player.getLevel(), new TextComponent(message));
             }
+            else {
+                awardWinner(winner.getKey(), server);
+                String message = String.format("§6§l[Weekly Time Trial] §e%s §6won this week's Time Trial with a time of §e%.2f seconds§6! The objective was: §e%s",
+                        UsernameCache.getMap().getOrDefault(winner.getKey(), "Player"),
+                        winner.getValue() / 20.0,
+                        currentObjective);
+                server.getPlayerList().getPlayers().forEach(player1 -> {
+                    MessageUtils.sendMessage(player1, new TextComponent(message));
+                });
+            }
         }
 
         resetCompetition();
     }
 
-    private void awardWinner(ServerPlayer player) {
-        MinecraftServer server = player.getServer();
+    private void awardWinner(UUID playerUUID, MinecraftServer server) {
         PlayerRewardStorage rewards = PlayerRewardStorage.get(server);
 
         if(ModConfigs.TIME_TRIAL_COMPETITION.REWARD_CRATE_LOOT_TABLE != null) {
@@ -174,16 +184,19 @@ public class TimeTrialCompetition extends SavedData {
             generator.generate(ChunkRandom.ofNanoTime());
             generator.getItems().forEachRemaining(loot::add);
 
-            ItemStack trophyStack = TimeTrialTrophyItem.create(new TimeTrialTrophyBlockEntity.TrophyData(player.getDisplayName().getString(), player.getUUID(), currentObjective, LocalDateTime.now().toString(), getBestTime().getValue()));
+            ItemStack trophyStack = TimeTrialTrophyItem.create(new TimeTrialTrophyBlockEntity.TrophyData(UsernameCache.getMap().getOrDefault(playerUUID, "Player"), playerUUID, currentObjective, LocalDateTime.now().toString(), getBestTime().getValue()));
             loot.add(trophyStack);
             ItemStack crate = VaultCrateBlock.getCrateWithLoot(VaultCrateBlock.Type.valueOf("TIME_TRIAL_REWARD"), loot);
 
             rewards.addReward(
-                    player.getUUID(),
+                    playerUUID,
                     new RewardBundle(List.of(crate))
             );
         }
+    }
 
+    private void awardWinner(ServerPlayer player) {
+        awardWinner(player.getUUID(), player.getServer());
         player.sendMessage(
                 new TextComponent("§6You earned a Time Trial reward! Use /timetrial rewards to claim it."),
                 player.getUUID()
@@ -206,8 +219,7 @@ public class TimeTrialCompetition extends SavedData {
     }
 
     public static boolean isCompetitionEnabled(MinecraftServer server) {
-        return true;
-        //return server != null && server.isDedicatedServer() && !ModConfigs.TIME_TRIAL_COMPETITION.enabled;
+        return server != null && server.isDedicatedServer() && !ModConfigs.TIME_TRIAL_COMPETITION.enabled;
     }
 
 
