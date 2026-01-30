@@ -46,6 +46,7 @@ public class TimeTrialCompetition extends SavedData {
 
     private String currentObjective;
     private long endTime;
+    private long currentSeed;
     private final Map<UUID, Long> playerTimes = new ConcurrentHashMap<>();
     private final Map<UUID, String> playerNames = new ConcurrentHashMap<>();
     
@@ -55,6 +56,7 @@ public class TimeTrialCompetition extends SavedData {
                 .toLocalDate().atStartOfDay();
         this.endTime = endTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
         currentObjective = ModConfigs.TIME_TRIAL_COMPETITION.getRandomObjective();
+        this.currentSeed = new Random().nextLong();
     }
     
     public static TimeTrialCompetition get() {
@@ -123,6 +125,10 @@ public class TimeTrialCompetition extends SavedData {
     
     public String getCurrentObjective() {
         return currentObjective != null ? currentObjective : null;
+    }
+
+    public long getSeed() {
+        return currentSeed;
     }
 
     public void setCurrentObjective(String objectiveId) {
@@ -214,7 +220,7 @@ public class TimeTrialCompetition extends SavedData {
         LocalDateTime endTime = now.with(TemporalAdjusters.next(ModConfigs.TIME_TRIAL_COMPETITION.RESET_DAY_OF_WEEK))
                 .toLocalDate().atStartOfDay();
         this.endTime = endTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
-        
+        this.currentSeed = new Random().nextLong();
         setDirty();
     }
 
@@ -227,6 +233,7 @@ public class TimeTrialCompetition extends SavedData {
     public CompoundTag save(CompoundTag tag) {
         tag.putString("objective", currentObjective != null ? currentObjective : "");
         tag.putLong("endTime", endTime);
+        tag.putLong("seed", currentSeed);
         
         ListTag timesList = new ListTag();
         playerTimes.forEach((id, time) -> {
@@ -248,6 +255,7 @@ public class TimeTrialCompetition extends SavedData {
             competition.currentObjective = null;
         }
         competition.endTime = tag.getLong("endTime");
+        competition.currentSeed = tag.getLong("seed");
         
         ListTag timesList = tag.getList("times", Tag.TAG_COMPOUND);
         for (int i = 0; i < timesList.size(); i++) {

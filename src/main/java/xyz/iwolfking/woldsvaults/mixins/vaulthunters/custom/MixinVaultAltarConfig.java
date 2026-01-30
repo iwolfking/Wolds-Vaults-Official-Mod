@@ -47,6 +47,7 @@ public abstract class MixinVaultAltarConfig {
                     if(data.getProperties() instanceof CapacityCrystalProperties capacityCrystalProperties) {
                         capacityCrystalProperties.setVolume(0);
                         capacityCrystalProperties.setSize(0);
+                        capacityCrystalProperties.setCustomSeed(TimeTrialCompetition.get().getSeed());
                     }
 
                     data.write(output);
