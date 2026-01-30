@@ -5,6 +5,7 @@ import iskallia.vault.config.VaultAltarConfig;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.objective.TimeTrialCrystalObjective;
+import iskallia.vault.item.crystal.properties.CapacityCrystalProperties;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,13 +17,9 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Mixin(value = VaultAltarConfig.class, remap = false)
 public abstract class MixinVaultAltarConfig {
-
-    @Shadow
-    public abstract Optional<ItemStack> getOutput(ItemStack input, UUID uuid);
 
     @Shadow
     public List<VaultAltarConfig.Interface> INTERFACES;
@@ -44,9 +41,14 @@ public abstract class MixinVaultAltarConfig {
 
                     CrystalData data = CrystalData.read(output);
                     if(data.getObjective() instanceof TimeTrialCrystalObjective timeTrialObjective) {
-                        System.out.println("Obj is TT");
                         timeTrialObjective.setObjective(ModConfigs.TIME_TRIAL_COMPETITION.OBJECTIVE_ENTRIES.get(TimeTrialCompetition.get().getCurrentObjective()));
                     }
+
+                    if(data.getProperties() instanceof CapacityCrystalProperties capacityCrystalProperties) {
+                        capacityCrystalProperties.setVolume(0);
+                        capacityCrystalProperties.setSize(0);
+                    }
+
                     data.write(output);
                     cir.setReturnValue(Optional.of(output));
                 }
