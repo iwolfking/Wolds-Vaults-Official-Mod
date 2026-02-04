@@ -20,24 +20,24 @@ import java.util.function.Consumer;
 
 @Mixin(value = Modifiers.class, remap = false)
 public abstract class MixinModifiers extends DataObject<Modifiers> {
-    @Shadow
-    @Final
-    protected static FieldKey<Modifiers.Entry.List> ENTRIES;
-
-    @Inject(method = "addModifier(Liskallia/vault/core/vault/modifier/spi/VaultModifier;IZLiskallia/vault/core/random/RandomSource;Ljava/util/function/Consumer;)Liskallia/vault/core/vault/Modifiers;", at = @At("HEAD"), cancellable = true)
-    private void preventAddingMultipleHunterModifiers(VaultModifier<?> modifier, int amount, boolean display, RandomSource random, Consumer<ModifierContext> configurator, CallbackInfoReturnable<Modifiers> cir) {
-        if(modifier instanceof HunterModifier || modifier.getId().equals(VaultMod.id("kill_hunter"))) {
-            if(this.get(ENTRIES).stream().anyMatch(entry -> {
-                VaultModifier<?> existingMod = entry.getModifier().orElse(null);
-
-                if(existingMod == null) {
-                    return false;
-                }
-
-                return modifier.getId().equals(existingMod.getId());
-            })) {
-                cir.setReturnValue((Modifiers)(Object)this);
-            }
-        }
-    }
+//    @Shadow
+//    @Final
+//    protected static FieldKey<Modifiers.Entry.List> ENTRIES;
+//
+//    @Inject(method = "addModifier(Liskallia/vault/core/vault/modifier/spi/VaultModifier;IZLiskallia/vault/core/random/RandomSource;Ljava/util/function/Consumer;)Liskallia/vault/core/vault/Modifiers;", at = @At("HEAD"), cancellable = true)
+//    private void preventAddingMultipleHunterModifiers(VaultModifier<?> modifier, int amount, boolean display, RandomSource random, Consumer<ModifierContext> configurator, CallbackInfoReturnable<Modifiers> cir) {
+//        if(modifier instanceof HunterModifier || modifier.getId().equals(VaultMod.id("kill_hunter"))) {
+//            if(this.get(ENTRIES).stream().anyMatch(entry -> {
+//                VaultModifier<?> existingMod = entry.getModifier().orElse(null);
+//
+//                if(existingMod == null) {
+//                    return false;
+//                }
+//
+//                return modifier.getId().equals(existingMod.getId());
+//            })) {
+//                cir.setReturnValue((Modifiers)(Object)this);
+//            }
+//        }
+//    }
 }
