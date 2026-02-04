@@ -6,12 +6,14 @@ import iskallia.vault.client.render.hud.module.ItemHudModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.client.invhud.LightmanWalletHudModule;
 import xyz.iwolfking.woldsvaults.init.ModOptions;
 
 import java.util.ArrayList;
@@ -38,6 +40,9 @@ public abstract class MixinInventoryHudRenderer {
     private static void registerWoldsModules(CallbackInfo ci) {
         MODULES.add(new ItemHudModule("trinket_3", () -> getCurioSlotByName(Minecraft.getInstance().player, "green_trinket"), ModOptions.GREEN_TRINKET));
         MODULES.add(new ItemHudModule("trinket_pouch", () -> getCurioSlotByName(Minecraft.getInstance().player, "trinket_pouch"), ModOptions.TRINKET_POUCH));
+        if (ModList.get().isLoaded("lightmanscurrency")) {
+            MODULES.add(new LightmanWalletHudModule("lightman_wallet", ModOptions.LIGHTMAN_WALLET));
+        }
     }
 
     static {
