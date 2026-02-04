@@ -83,13 +83,8 @@ public class ModVaultDiffuserProvider extends AbstractVaultDiffuserProvider {
             return;
         }
 
-        for(int i = 0; i < maxDepth + 1; i++) {
-            if(i == 0) {
-                builder.add(WoldsVaults.id(baseName), baseValue * 9);
-            }
-            else {
-                builder.add(ResourceLocation.fromNamespaceAndPath("compressium", baseName + "_" + i), (int) (baseValue * Math.pow(9, i)));
-            }
+        for(int i = 1; i < maxDepth + 1; i++) {
+            builder.add(ResourceLocation.fromNamespaceAndPath("compressium", baseName + "_" + i), (int) (baseValue * Math.pow(9, i)));
         }
     }
 }
