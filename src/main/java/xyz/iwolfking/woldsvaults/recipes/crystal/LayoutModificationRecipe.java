@@ -45,18 +45,18 @@ public class LayoutModificationRecipe extends VanillaAnvilRecipe {
                 return false;
             }
 
-            for(VaultModifierStack modStack : data.getModifiers().getList()) {
-                if(modStack.getModifier() instanceof GreedyVaultModifier) {
-                    return false;
-                }
-                else if(modStack.getModifier() instanceof GroupedModifier groupedModifier) {
-                    for(VaultModifier<?> mod : groupedModifier.properties().getChildren()) {
-                        if(mod instanceof GreedyVaultModifier) {
-                            return false;
-                        }
-                    }
-                }
-            }
+//            for(VaultModifierStack modStack : data.getModifiers().getList()) {
+//                if(modStack.getModifier() instanceof GreedyVaultModifier) {
+//                    return false;
+//                }
+//                else if(modStack.getModifier() instanceof GroupedModifier groupedModifier) {
+//                    for(VaultModifier<?> mod : groupedModifier.properties().getChildren()) {
+//                        if(mod instanceof GreedyVaultModifier) {
+//                            return false;
+//                        }
+//                    }
+//                }
+//            }
 
             CrystalLayout newLayout = LayoutModificationItem.getLayout(secondary).get();
 
