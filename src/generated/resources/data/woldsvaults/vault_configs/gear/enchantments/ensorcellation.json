@@ -1,5 +1,14 @@
 {
   "costs": {
+    "ensorcellation:gourmand": {
+      "items": [
+        {
+          "id": "pumpkin_pie",
+          "count": 64
+        }
+      ],
+      "levels": 2
+    },
     "ensorcellation:soulbound": {
       "items": [
         {
@@ -18,41 +27,23 @@
       ],
       "levels": 3
     },
-    "ensorcellation:vitality": {
+    "ensorcellation:damage_ender": {
       "items": [
         {
-          "id": "golden_apple",
-          "count": 64
+          "id": "ender_eye",
+          "count": 32
         }
       ],
-      "levels": 3
+      "levels": 1
     },
-    "ensorcellation:trueshot": {
+    "ensorcellation:angler": {
       "items": [
         {
           "id": "emerald",
-          "count": 45
+          "count": 5
         }
       ],
       "levels": 2
-    },
-    "ensorcellation:air_affinity": {
-      "items": [
-        {
-          "id": "the_vault:phoenix_feather",
-          "count": 1
-        }
-      ],
-      "levels": 1
-    },
-    "ensorcellation:volley": {
-      "items": [
-        {
-          "id": "emerald",
-          "count": 45
-        }
-      ],
-      "levels": 1
     },
     "ensorcellation:hunter": {
       "items": [
@@ -63,24 +54,6 @@
       ],
       "levels": 2
     },
-    "ensorcellation:gourmand": {
-      "items": [
-        {
-          "id": "pumpkin_pie",
-          "count": 64
-        }
-      ],
-      "levels": 2
-    },
-    "ensorcellation:damage_ender": {
-      "items": [
-        {
-          "id": "ender_eye",
-          "count": 32
-        }
-      ],
-      "levels": 1
-    },
     "ensorcellation:exp_boost": {
       "items": [
         {
@@ -90,14 +63,41 @@
       ],
       "levels": 3
     },
-    "ensorcellation:angler": {
+    "ensorcellation:vitality": {
+      "items": [
+        {
+          "id": "golden_apple",
+          "count": 64
+        }
+      ],
+      "levels": 3
+    },
+    "ensorcellation:air_affinity": {
+      "items": [
+        {
+          "id": "the_vault:phoenix_feather",
+          "count": 1
+        }
+      ],
+      "levels": 1
+    },
+    "ensorcellation:trueshot": {
       "items": [
         {
           "id": "emerald",
-          "count": 5
+          "count": 45
         }
       ],
       "levels": 2
+    },
+    "ensorcellation:volley": {
+      "items": [
+        {
+          "id": "emerald",
+          "count": 45
+        }
+      ],
+      "levels": 1
     }
   }
 }
