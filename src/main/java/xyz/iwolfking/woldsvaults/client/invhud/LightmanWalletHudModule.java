@@ -12,10 +12,12 @@ import iskallia.vault.client.render.HudPosition;
 import iskallia.vault.client.render.hud.InventoryHudHelper;
 import iskallia.vault.client.render.hud.module.AbstractHudModule;
 import iskallia.vault.client.render.hud.module.context.ModuleRenderContext;
+import iskallia.vault.client.render.hud.module.settings.ConditionalModuleSetting;
 import iskallia.vault.client.render.hud.module.settings.ModuleSetting;
 import iskallia.vault.client.render.hud.module.settings.SliderSetting;
 import iskallia.vault.client.render.hud.module.settings.ToggleButtonSetting;
 import iskallia.vault.options.VaultOption;
+import iskallia.vault.util.Alignment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.player.LocalPlayer;
@@ -47,6 +49,7 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
 
     @Override
     protected void renderModule(ModuleRenderContext context) {
+
         PoseStack poseStack = context.getPoseStack();
         LocalPlayer player = Minecraft.getInstance().player;
 
@@ -56,9 +59,7 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
 
         LightmanWalletHudOptions opts = this.option.getValue();
         ItemStack wallet = LightmansCurrency.getWalletStack(player);
-
         CoinValue walletValue = MoneyUtil.getCoinValue(WalletItem.getWalletInventory(wallet));
-
 
         if (context.isEditing() && wallet.isEmpty()) {
             wallet = new ItemStack(ModItems.WALLET_COPPER.get());
@@ -70,15 +71,12 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
             }
             walletValue = MoneyUtil.getCoinValue(coins);
         }
-
-        String valueString = walletValue.getString();
-        Font font = Minecraft.getInstance().font;
-        String text = String.valueOf(valueString);
-
-        int iconX = 0;
+        boolean left = opts.getAlignment() == LightmanWalletHudOptions.Alignment.LEFT;
+        int iconX = left ? 0 : baseWidth(context);
         int iconY = 0;
 
-        if (opts.shouldShowWalletIcon()) {
+        if (opts.getShowWalletIcon()) {
+            iconX += left ? 0 : -16;
             InventoryHudHelper.renderScaledGuiItem(
                 poseStack,
                 wallet,
@@ -86,12 +84,14 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
                 iconY,
                 false
             );
-            iconX += 18;
+            iconX += left ? 18 : 0;
         }
 
-
         if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS) {
-            int offsetAmount = opts.getItemGap();
+            int offsetAmount = opts.getItemGap() * (left ? 1 : -1);
+            if (!left) {
+                iconX -= 18;
+            }
             for (ItemStack coin : walletValue.getAsItemList()) {
                 InventoryHudHelper.renderScaledGuiItem(
                     poseStack,
@@ -104,9 +104,16 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
             }
         }
         if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TEXT) {
+            String valueString = walletValue.getString();
+            Font font = Minecraft.getInstance().font;
+            String text = String.valueOf(valueString);
+
             poseStack.pushPose();
             poseStack.translate(0.0, 0.0, 999.0);
 
+            if (!left) {
+                iconX -= font.width(text);
+            }
             font.drawShadow(
                 poseStack,
                 text,
@@ -149,7 +156,7 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
         current.setDisplayMode(def.getDisplayMode());
         current.setEnabled(def.isEnabled());
         current.setSize(def.getSize());
-        current.setShowWalletIcon(def.shouldShowWalletIcon());
+        current.setShowWalletIcon(def.getShowWalletIcon());
 
         this.option.setValue(current);
     }
@@ -176,8 +183,15 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
                 "wallet_icon",
                 new TextComponent("Wallet Icon"),
                 new TextComponent("Display wallet icon."),
-                () -> opts.shouldShowWalletIcon() ? "ON" : "OFF",
-                () -> opts.setShowWalletIcon(!opts.shouldShowWalletIcon())
+                () -> opts.getShowWalletIcon() ? "ON" : "OFF",
+                () -> opts.setShowWalletIcon(!opts.getShowWalletIcon())
+            ),
+            new ToggleButtonSetting( // left or right
+                "alignment",
+                new TextComponent("Alignment"),
+                new TextComponent("Controls alignment"),
+                () -> opts.getAlignment().toString(),
+                () -> opts.setAlignment(opts.getAlignment().next())
             ),
             new ToggleButtonSetting( // items or text
                 "display_type",
@@ -186,21 +200,24 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
                 () -> opts.getDisplayMode().toString(),
                 () -> opts.setDisplayMode(opts.getDisplayMode().next())
             ),
-            new SliderSetting(
-                "itemGap",
-                new TextComponent("Item Gap"),
-                new TextComponent("Controls the size of the gap between coin items."),
-                () -> new TextComponent("Item Gap: " + opts.getItemGap()),
-                () -> opts.getItemGap() / 30F,
-                (value) -> this.option.setValue(opts.setItemGap(Math.round(value*30)))
-            ) {
-                @Override // this is pretty stupid, but there is no int slider
-                public AbstractSpatialElement<?> createElement(int x, int y, int width, final Runnable onChange) {
-                    AbstractSpatialElement<?> el = super.createElement(x,y,width,onChange);
-                    if (el instanceof SliderElement slider) slider.hidePercentage(true);
-                    return el;
-                }
-            }
+            new ConditionalModuleSetting(
+                new SliderSetting(
+                    "itemGap",
+                    new TextComponent("Item Gap"),
+                    new TextComponent("Controls the size of the gap between coin items."),
+                    () -> new TextComponent("Item Gap: " + opts.getItemGap()),
+                    () -> opts.getItemGap() / 30F,
+                    (value) -> this.option.setValue(opts.setItemGap(Math.round(value*30)))
+                ) {
+                    @Override // this is pretty stupid, but there is no int slider
+                    public AbstractSpatialElement<?> createElement(int x, int y, int width, final Runnable onChange) {
+                        AbstractSpatialElement<?> el = super.createElement(x,y,width,onChange);
+                        if (el instanceof SliderElement slider) slider.hidePercentage(true);
+                        return el;
+                    }
+                },
+                () -> opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS
+            )
         );
     }
 
@@ -236,17 +253,21 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
             textWidth = font.width(text);
         }
 
-        int walletWidth = opts.shouldShowWalletIcon() ? 18 : 0;
+        int walletWidth = opts.getShowWalletIcon() ? 16 : 0;
 
         if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS) {
             return walletWidth + opts.getItemGap() * gapCount + (isEmpty ? 0 : 18);
         }
 
         if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TEXT) {
-            return walletWidth + textWidth + 2;
+            return walletWidth + 2 + textWidth;
         }
         return 16;
 
+    }
+
+    @Override protected Alignment getAnchorPoint() {
+        return this.option.getValue().getAlignment().toVanilla();
     }
 
     @Override
