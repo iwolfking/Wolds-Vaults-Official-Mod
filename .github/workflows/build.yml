@@ -17,11 +17,15 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Compute Short Commit Hash
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       - name: Build with Gradle
         run: ./gradlew build
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: wolds-mod-build-${{ steps.vars.outputs.sha_short }}
           path: build/libs/*.jar
