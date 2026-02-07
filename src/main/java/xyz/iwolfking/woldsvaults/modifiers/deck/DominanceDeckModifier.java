@@ -10,12 +10,15 @@ import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.data.adapter.basic.EnumAdapter;
 import iskallia.vault.core.net.BitBuffer;
 import iskallia.vault.core.world.roll.FloatRoll;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.TooltipFlag;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,7 +46,13 @@ public class DominanceDeckModifier extends DeckModifier<DominanceDeckModifier.Co
 
     @Override
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add(new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_" + config.mode.toString().toLowerCase(), String.format("%.1f%%", this.getModifierValue() * 100), new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_exclusion", String.join(", ", this.config.excludedGroups))));
+        MutableComponent comp = (new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_" + config.mode.toString().toLowerCase(), String.format("%.1f%%", this.getModifierValue() * 100), new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_exclusion", String.join(", ", this.config.excludedGroups))));
+        if (Screen.hasShiftDown()) {
+            DecimalFormat df = new DecimalFormat("#.##");
+            String var10001 = df.format((double)(((DominanceDeckModifier.Config)this.getConfig()).modifierRoll.getMin() * 100.0F));
+            comp.append(" (" + var10001 + "%-" + df.format((double)(((DominanceDeckModifier.Config)this.getConfig()).modifierRoll.getMax() * 100.0F)) + "%)");
+        }
+        tooltip.add(comp);
         super.addText(tooltip, minIndex, flag, time);
     }
 
