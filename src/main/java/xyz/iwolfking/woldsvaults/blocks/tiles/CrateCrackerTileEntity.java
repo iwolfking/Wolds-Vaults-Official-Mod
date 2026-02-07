@@ -17,6 +17,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -137,6 +138,7 @@ public class CrateCrackerTileEntity extends BlockEntity
 
         if(itemStack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof VaultCrateBlock) {
             List<OverSizedItemStack> items = getItems(itemStack);
+            normalizeLoot(items);
             int total = 0;
             for(OverSizedItemStack stack : items) {
                 total += stack.overSizedStack().getCount();
@@ -310,58 +312,37 @@ public class CrateCrackerTileEntity extends BlockEntity
     }
 
 
-    /**
-     * This method ejects items from tile entity into block bellow it.
-     */
-    private void autoEjectItems()
-    {
-        getBelowItemHandler().ifPresent(belowHandler -> {
-            // Try to transfer items from this block's inventory to the inventory below
-            for (int slot = 0; slot < this.extractionHandler.getSlots(); slot++)
-            {
-                ItemStack stackInSlot = this.extractionHandler.getStackInSlot(slot);
+    private void autoEjectItems() {
+        getBelowItemHandler().ifPresent(below -> {
+            for (int slot = 0; slot < extractionHandler.getSlots(); slot++) {
+                ItemStack toMove = extractionHandler.getStackInSlot(slot);
 
-                if (!stackInSlot.isEmpty())
-                {
-                    int count = stackInSlot.getCount();
-                    boolean repopulate = count > stackInSlot.getMaxStackSize();
+                if (toMove.isEmpty() || toMove.getItem() == Blocks.AIR.asItem())
+                    continue;
 
-                    if  (repopulate)
-                    {
-                        // Adjust the size of stack to be max stack size.
-                        stackInSlot = stackInSlot.copy();
-                        stackInSlot.setCount(stackInSlot.getMaxStackSize());
-                        count -= stackInSlot.getMaxStackSize();
-                    }
+                ItemStack remaining = ItemHandlerHelper.insertItem(below, toMove, false);
 
-                    // Attempt to move the stack to the below inventory
-                    ItemStack remainingStack = this.transferStack(belowHandler, stackInSlot);
-
-                    if (repopulate)
-                    {
-                        // Add missing stack count to remainingStack item.
-                        if (remainingStack.isEmpty())
-                        {
-                            remainingStack = stackInSlot.copy();
-                            remainingStack.setCount(count);
-                        }
-                        else
-                        {
-                            remainingStack.setCount(remainingStack.getCount() + count);
-                        }
-                    }
-
-                    if (this.extractionHandler.transferStack(slot, stackInSlot, remainingStack))
-                    {
-                        // Only move 1 stack per tick.
-                        break;
-                    }
+                if (remaining.getCount() != toMove.getCount()) {
+                    extractionHandler.transferStack(slot, toMove, remaining);
+                    break;
                 }
             }
 
-            this.setChanged(); // Mark the block entity as changed to save its state
+            setChanged();
         });
     }
+
+    private static void normalizeLoot(List<OverSizedItemStack> loot) {
+        if (loot == null) return;
+
+        loot.removeIf(it ->
+                it == null ||
+                        it.amount() <= 0 ||
+                        it.stack().isEmpty() ||
+                        it.stack().getItem() == Blocks.AIR.asItem()
+        );
+    }
+
 
 
     /**
@@ -428,6 +409,7 @@ public class CrateCrackerTileEntity extends BlockEntity
             }
             CompoundTag cmp = tag.getCompound("BlockEntityTag");
             List<OverSizedItemStack> items = CrateCrackerTileEntity.this.extractionHandler.crateLootData;
+            normalizeLoot(items);
             NBTHelper.writeCollection(cmp, "items", items, CompoundTag.class, OverSizedItemStack::serialize);
         }
     }
@@ -469,6 +451,11 @@ public class CrateCrackerTileEntity extends BlockEntity
     {
         if (this.getLevel() != null && !this.getLevel().isClientSide)
         {
+            if (!this.getCrate().isEmpty() && this.totalItemsInCrate <= 0) {
+                removeVaultCrate();
+                return;
+            }
+
             // If crate is present and not air, trigger the sound loop
             if (!this.getCrate().isEmpty())
             {
@@ -658,24 +645,23 @@ public class CrateCrackerTileEntity extends BlockEntity
         }
 
 
-        /**
-         * This method returns item stack in given slot.
-         *
-         * @param slot Slot to query
-         * @return ItemStack in given slot inside doll loot data file.
-         */
         @Override
         @NotNull
-        public ItemStack getStackInSlot(int slot)
-        {
+        public ItemStack getStackInSlot(int slot) {
             if (crateLootData == null || slot >= crateLootData.size())
                 return ItemStack.EMPTY;
 
             OverSizedItemStack data = crateLootData.get(slot);
-            ItemStack stack = data.stack().copy();
+            ItemStack base = data.stack();
+
+            if (base.isEmpty() || base.getItem() == Blocks.AIR.asItem())
+                return ItemStack.EMPTY;
+
+            ItemStack stack = base.copy();
             stack.setCount(Math.min(stack.getMaxStackSize(), data.amount()));
             return stack;
         }
+
 
 
 
