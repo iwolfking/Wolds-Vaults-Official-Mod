@@ -118,5 +118,4 @@ run-data/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
-!forgified-sgui-1.0.2.jar
-!conditional-mixin-forge-0.6.2.jar
+!libs/*jar
