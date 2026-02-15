@@ -111,7 +111,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "the_vault:supply_box",
+          "name": "woldsvaults:supply_box",
           "weight": 8,
           "functions": [
             {
