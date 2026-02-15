@@ -284,6 +284,7 @@ dependencies {
     implementation fg.deobf("curse.maven:vault-curios-enhancements-967059:7113362")
     implementation fg.deobf("curse.maven:effortless-building-302113:4369816")
     compileOnly fg.deobf("curse.maven:valkyrien-skies-258371:4991985")
+    compileOnly fg.deobf("curse.maven:just-enough-resources-jer-240630:4445746")
 
     // deps needed for runtime debug
     runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382") // quark

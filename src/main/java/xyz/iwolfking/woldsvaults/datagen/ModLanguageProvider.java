@@ -470,6 +470,23 @@ public class ModLanguageProvider extends LanguageProvider {
         add("trinket_pouch.woldsvaults.prismatic", "Prismatic Trinket Pouch");
         add("item.woldsvaults.trinket_pouch_slot_count", "+%1$s %2$s Slots");
         add(ModBlocks.PUZZLE_CUBE_BLOCK, "Puzzle Cube Block");
+        add("woldsvaults.dweller_gate", "Dweller Duel");
+        add("woldsvaults.medium_dweller_gate", "Dweller Invasion");
+        add("woldsvaults.big_dweller_gate", "Dweller Apocalypse");
+        add("woldsvaults.raid_gate", "Illager Incursion");
+        add("woldsvaults.fungal_gate", "Fungal Infestation");
+        add("woldsvaults.ghost_gate", "Haunted");
+        add("woldsvaults.pirate_gate", "Pirate Brigade");
+        add("woldsvaults.big_pirate_gate", "Pirate Apocalypse");
+        add("woldsvaults.witch_gate", "Cruel Coven");
+        add("woldsvaults.dungeon_gate", "Dungeon Incursion");
+        add("woldsvaults.elite_gate", "Standard Elite Incursion");
+        add("woldsvaults.guardian_gate", "Guardian Gauntlet");
+        add("woldsvaults.thermal_gate", "Thermal Expansion");
+        add("woldsvaults.glitch_gate", "§k??? ??? ???? ????");
+        add("woldsvaults.tropical_gate", "Tropical Getaway");
+        add("woldsvaults.cloud_gate", "Cloudy Day");
+
 
         ModItems.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
             add(basicItem, StringUtils.convertToTitleCase(dyeColor.getSerializedName()) + " Unobtanium");
