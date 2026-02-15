@@ -7,6 +7,7 @@ import dev.attackeight.just_enough_vh.jei.RecyclerRecipe;
 import dev.attackeight.just_enough_vh.jei.TheVaultJEIPlugin;
 import dev.attackeight.just_enough_vh.jei.category.ForgeItemRecipeCategory;
 import iskallia.vault.config.ShopPedestalConfig;
+import iskallia.vault.config.entry.IntRangeEntry;
 import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
 import iskallia.vault.core.card.CardEntry;
 import iskallia.vault.core.card.modifier.card.TaskLootCardModifier;
@@ -19,6 +20,7 @@ import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.util.StringUtils;
+import jeresources.util.LootTableHelper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -41,7 +43,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
+import shadows.gateways.gate.Gateway;
+import shadows.gateways.gate.GatewayManager;
+import shadows.gateways.gate.Reward;
 import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfo;
 import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfoRecipeCategory;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -54,8 +60,8 @@ import xyz.iwolfking.woldsvaults.integration.jei.category.lib.ShopTierCategory;
 import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TaskLootCardModifierConfigAccessor;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
 import static mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT;
@@ -90,6 +96,9 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<LabeledLootInfo> ETCHED_LAYOUTS = RecipeType.create(WoldsVaults.MOD_ID, "etched_layouts", LabeledLootInfo.class);
     public static final RecipeType<LabeledLootInfo> RESOURCE_CARDS_LOOT = RecipeType.create(WoldsVaults.MOD_ID, "resource_cards_loot", LabeledLootInfo.class);
     public static final RecipeType<LabeledLootInfo> USEFUL_FILTER_ITEMS = RecipeType.create(WoldsVaults.MOD_ID, "useful_filter_items", LabeledLootInfo.class);
+    public static final RecipeType<LabeledLootInfo> GATEWAY_REWARDS = RecipeType.create(WoldsVaults.MOD_ID, "gateway_rewards", LabeledLootInfo.class);
+    public static final RecipeType<LabeledLootInfo> GREED_VAULT_ALTAR = RecipeType.create(WoldsVaults.MOD_ID, "greed_vault_altar", LabeledLootInfo.class);
+
 
     public WoldsVaultsJeiPlugin() {}
     @Override
@@ -130,6 +139,8 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModItems.LAYOUT_MANIPULATOR), ETCHED_LAYOUTS);
         registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModItems.BOOSTER_PACK), RESOURCE_CARDS_LOOT);
         registration.addRecipeCatalyst(new ItemStack(AllItems.ATTRIBUTE_FILTER.get()), USEFUL_FILTER_ITEMS);
+        registration.addRecipeCatalyst(new ItemStack(ModItems.UNIDENTIFIED_GATEWAY_PEARL), GATEWAY_REWARDS);
+        registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModBlocks.VAULT_ALTAR), GREED_VAULT_ALTAR);
     }
 
     @Override
@@ -162,6 +173,8 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, ETCHED_LAYOUTS, ModItems.LAYOUT_MANIPULATOR, new TextComponent("Etched Vault Layout Pools")));
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, RESOURCE_CARDS_LOOT, iskallia.vault.init.ModItems.BOOSTER_PACK, new TextComponent("Resource Card Rewards")));
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, USEFUL_FILTER_ITEMS, AllItems.ATTRIBUTE_FILTER.get(), new TextComponent("Useful Filter Items")));
+        registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, GATEWAY_REWARDS, ModItems.UNIDENTIFIED_GATEWAY_PEARL, new TextComponent("Gateway Rewards")));
+        registration.addRecipeCategories(makeLabeledIngredientPoolCategory(guiHelper, GREED_VAULT_ALTAR, iskallia.vault.init.ModBlocks.VAULT_ALTAR, new TextComponent("Greed Vault Altar")));
     }
 
     @Override @SuppressWarnings("removal")
@@ -199,6 +212,8 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(ETCHED_LAYOUTS, getEtchedLayoutsPerLevel());
         registration.addRecipes(RESOURCE_CARDS_LOOT, getResourceCardLoot());
         registration.addRecipes(USEFUL_FILTER_ITEMS, getUsefulFilterItems());
+        registration.addRecipes(GATEWAY_REWARDS, getGatewayRewards());
+        registration.addRecipes(GREED_VAULT_ALTAR, getGreedVaultAltarIngredients());
         addCustomRecyclerRecipes(registration);
     }
 
@@ -337,6 +352,87 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         return lootInfo;
     }
 
+    public static List<LabeledLootInfo> getGatewayRewards() {
+        Collection<Gateway> gateways = new ArrayList<>();
+        var gwPearlPool = ModConfigs.GATEWAY_PEARL.POOL;
+        for (var gwPearl : gwPearlPool) {
+            var gwPearlStack = gwPearl.value.generateItemStack();
+            var gwPearlNbt = gwPearlStack.getTag();
+            if (gwPearlNbt != null) {
+                var gatewayId = gwPearlNbt.getString("gateway");
+                var gw = GatewayManager.INSTANCE.getValue(ResourceLocation.parse(gatewayId));
+                if (gw != null) {
+                    gateways.add(gw);
+                }
+            }
+        }
+
+        List<LabeledLootInfo> lootInfo = new ArrayList<>();
+        LinkedHashMap<ResourceLocation, String> loottableRewards = new LinkedHashMap<>();
+        for (var gw : gateways) {
+            var gwRewards = gw.getRewards();
+            for (var reward : gwRewards) {
+                var name = reward.getName();
+                if (reward instanceof Reward.LootTableReward lootTableReward) {
+                    loottableRewards.put(lootTableReward.table(), lootTableReward.desc());
+                } else if (reward instanceof Reward.StackReward stackReward) {
+                    // the stack is visible in the tooltip, I won't bother with jei
+                } else {
+                    WoldsVaults.LOGGER.warn("[JEI] UNSUPPORTED GATEWAY REWARD " + reward.getClass());
+                }
+            }
+        }
+
+        for (var table : loottableRewards.entrySet()) {
+            List<ItemStack> rewards;
+            if (ModList.get().isLoaded("jeresources")) {
+                rewards = JERHelper.loottableToDrops(table.getKey());
+            } else {
+                rewards = new ArrayList<>();
+            }
+            lootInfo.add(LabeledLootInfo.of(rewards, new TextComponent(table.getValue()), null));
+        }
+
+        return lootInfo;
+    }
+    private static class JERHelper {
+        private static List<ItemStack> loottableToDrops(ResourceLocation loottableKey) {
+            ArrayList<ItemStack> drops = new ArrayList<>();
+            var jerTable = LootTableHelper.toDrops(loottableKey);
+            for (var ld : jerTable) {
+                drops.add(formatItemStack(ld.item, ld.minDrop, ld.maxDrop, ld.chance, 1, null));
+            }
+            return drops;
+        }
+    }
+
+    public static List<LabeledLootInfo> getGreedVaultAltarIngredients() {
+        List<LabeledLootInfo> toReturn = new ArrayList<>();
+        TreeMap<Integer, List<LabeledLootInfo>> lootInfo = new TreeMap<>();
+        ModConfigs.GREED_VAULT_ALTAR_INGREDIENTS.LEVELS.forEach((minLevel, entry) -> {
+            List<LabeledLootInfo> pool = new ArrayList<>();
+            entry.forEach((slot, rewards) -> {
+                AtomicInteger totalWeight = new AtomicInteger();
+                List<List<ItemStack>> results = new ArrayList<>();
+                rewards.forEach((stack) -> totalWeight.addAndGet(stack.weight));
+                rewards.forEach((stack) -> {
+                    IntRangeEntry amounts = (stack.value).amount;
+                    List<ItemStack> stacks = new ArrayList<>();
+
+                    for(ItemStack stackInGroup : (stack.value).getItems()) {
+                        stacks.add(formatItemStack(stackInGroup, amounts.getMin(), amounts.getMax(), stack.weight, totalWeight.get(), null));
+                    }
+
+                    results.add(stacks);
+                });
+                pool.add(new LabeledLootInfo(results, new TextComponent("Reward Pool: " + slot + " Level: " + minLevel + "+")));
+            });
+            lootInfo.put(minLevel, pool);
+        });
+        lootInfo.forEach((i, n) -> toReturn.addAll(n));
+        return toReturn;
+    }
+
     public static <V> ItemStack generateVaultGear(VaultGearItem item, VaultGearRarity rarity, @Nullable VaultGearAttribute<V> attribute, @Nullable V value, int level) {
         ItemStack itemStack = item.defaultItem();
         String rollType = StringUtils.convertToTitleCase(rarity.toString());
@@ -367,7 +463,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
 
 
     protected static ItemStack formatItemStack(ItemStack item, int amountMin, int amountMax, double weight, double totalWeight, @Nullable Integer amount) {
-        return formatItemStack(item, amountMin, amountMax, weight, totalWeight, amount, (String)null);
+        return formatItemStack(item, amountMin, amountMax, weight, totalWeight, amount, null);
     }
 
     private static ItemStack formatItemStack(ItemStack item, int amountMin, int amountMax, double weight, double totalWeight, @Nullable Integer amount, @Nullable String rollText) {
@@ -415,6 +511,9 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         return new LabeledLootInfoRecipeCategory(guiHelper, recipeType, new ItemStack(icon), INPUT);
     }
 
+    public static LabeledLootInfoRecipeCategory makeLabeledIngredientPoolCategory(IGuiHelper guiHelper, RecipeType<LabeledLootInfo> recipeType, ItemLike icon, Component title) {
+        return new LabeledLootInfoRecipeCategory(guiHelper, recipeType, new ItemStack(icon), title, INPUT);
+    }
 
 
 }

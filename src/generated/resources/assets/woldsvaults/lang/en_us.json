@@ -924,6 +924,22 @@
   "vault_objective.woldsvaults.time_trial_player_best": "%1$s just finished a \u00A7d%2$s\u00A7r vault with a new best time of \u00A76%3$s\u00A7r (previously: \u00A76%4$s\u00A7r)",
   "vaultobjectiveblocks.jade.tooltip.brewing_altar": "%1$s brews remaining",
   "vaultobjectiveblocks.jade.tooltip.rune_boss_pillar": "%1$s runes inserted",
+  "woldsvaults.big_dweller_gate": "Dweller Apocalypse",
+  "woldsvaults.big_pirate_gate": "Pirate Apocalypse",
+  "woldsvaults.cloud_gate": "Cloudy Day",
+  "woldsvaults.dungeon_gate": "Dungeon Incursion",
+  "woldsvaults.dweller_gate": "Dweller Duel",
+  "woldsvaults.elite_gate": "Standard Elite Incursion",
+  "woldsvaults.fungal_gate": "Fungal Infestation",
+  "woldsvaults.ghost_gate": "Haunted",
+  "woldsvaults.glitch_gate": "\u00A7k??? ??? ???? ????",
+  "woldsvaults.guardian_gate": "Guardian Gauntlet",
   "woldsvaults.key.cherish_item": "Cherish Item",
-  "woldsvaults.subtitle.saferspaces_proc": "Safer Spaces activated!"
+  "woldsvaults.medium_dweller_gate": "Dweller Invasion",
+  "woldsvaults.pirate_gate": "Pirate Brigade",
+  "woldsvaults.raid_gate": "Illager Incursion",
+  "woldsvaults.subtitle.saferspaces_proc": "Safer Spaces activated!",
+  "woldsvaults.thermal_gate": "Thermal Expansion",
+  "woldsvaults.tropical_gate": "Tropical Getaway",
+  "woldsvaults.witch_gate": "Cruel Coven"
 }
