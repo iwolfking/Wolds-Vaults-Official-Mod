@@ -35,7 +35,7 @@ import java.util.Optional;
 
 public class GreedVaultAltarIngredientsConfig extends Config {
     @Expose
-    private LevelEntryMap<Map<String, WeightedList<AltarIngredientEntry>>> LEVELS = new LevelEntryMap<>();
+    public LevelEntryMap<Map<String, WeightedList<AltarIngredientEntry>>> LEVELS = new LevelEntryMap<>();
 
     public GreedVaultAltarIngredientsConfig() {
     }
