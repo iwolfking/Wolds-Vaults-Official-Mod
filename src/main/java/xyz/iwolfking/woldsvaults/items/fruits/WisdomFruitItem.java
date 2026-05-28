@@ -25,11 +25,9 @@ import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 import java.util.List;
-import java.util.Random;
 
 public class WisdomFruitItem extends ItemVaultFruit implements IRottenFruit {
 
-    private static final Random rand = new Random();
     public WisdomFruitItem(ResourceLocation id) {
         super(id, 0);
     }
@@ -37,7 +35,7 @@ public class WisdomFruitItem extends ItemVaultFruit implements IRottenFruit {
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag tooltipFlag) {
 
-        MutableComponent cmp = (new TextComponent("Adds ")).withStyle(ChatFormatting.GRAY).append((new TextComponent("a random Hunter modifier ")).withStyle(ChatFormatting.GREEN)).append(" to the Vault");
+        MutableComponent cmp = (new TextComponent("Adds ")).withStyle(ChatFormatting.GRAY).append((new TextComponent("a random Hunter modifier")).withStyle(ChatFormatting.GREEN)).append(" to the Vault");
         tooltip.add(TextComponent.EMPTY);
         tooltip.add((new TextComponent("Adds")).withStyle(ChatFormatting.GRAY).append((new TextComponent(" 1x Random Harsh Negative")).withStyle(ChatFormatting.RED)).append(new TextComponent(" to the Vault").withStyle(ChatFormatting.GRAY)));
         tooltip.add(cmp);
