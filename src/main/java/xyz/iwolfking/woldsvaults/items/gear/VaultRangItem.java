@@ -164,6 +164,7 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
         if (isInFlight(itemstack)) {
             return InteractionResultHolder.fail(itemstack);
         }
+
         if(VaultGearHelper.rightClick(worldIn, playerIn, handIn, super.use(worldIn, playerIn, handIn)).getResult().equals(InteractionResult.FAIL)) {
             return InteractionResultHolder.fail(itemstack);
         }
@@ -171,6 +172,10 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
         VaultGearData data = VaultGearData.read(itemstack);
         if(data.getItemLevel() > SidedHelper.getVaultLevel(playerIn)) {
             return new InteractionResultHolder<>(InteractionResult.FAIL, itemstack);
+        }
+
+        if(itemstack.isDamageableItem() && itemstack.getDamageValue() >= itemstack.getMaxDamage()) {
+            return InteractionResultHolder.fail(itemstack);
         }
 
         float velocity = data.getFirstValue(ModGearAttributes.VELOCITY).orElse(1F);
