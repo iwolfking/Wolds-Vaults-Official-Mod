@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.items.fruits;
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.item.ItemVaultFruit;
@@ -25,10 +26,8 @@ import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 import java.util.List;
-import java.util.Random;
 
 public class HastyPomegranteItem extends ItemVaultFruit implements IRottenFruit {
-    private static final Random rand = new Random();
     public HastyPomegranteItem(ResourceLocation id, int extraVaultTicks) {
         super(id, extraVaultTicks);
     }
@@ -45,8 +44,39 @@ public class HastyPomegranteItem extends ItemVaultFruit implements IRottenFruit 
         MutableComponent cmp = (new TextComponent("Adds ")).withStyle(ChatFormatting.GRAY).append((new TextComponent(timeText)).withStyle(ChatFormatting.GREEN)).append(" to the Vault timer");
         tooltip.add(TextComponent.EMPTY);
         tooltip.add((new TextComponent("Adds")).withStyle(ChatFormatting.GRAY).append((new TextComponent(" 2x Rapid Mobs")).withStyle(ChatFormatting.RED)).append(new TextComponent(" to the Vault (max 6)").withStyle(ChatFormatting.GRAY)));
-        tooltip.add((new TextComponent("Removes")).withStyle(ChatFormatting.GRAY).append((new TextComponent(" 10% max health")).withStyle(ChatFormatting.RED)).append(new TextComponent(" after 6 stacks have been added.").withStyle(ChatFormatting.GRAY)));
+
+        boolean dynamicTT = false;
+        var vault = VaultUtils.getVault(worldIn).orElse(null);
+        if (vault != null) {
+            int rapidMobsCount = 0;
+
+            for(VaultModifier<?> mod : vault.get(Vault.MODIFIERS).getModifiers()) {
+                if(mod.getId().equals(VaultMod.id("infuriated_mobs"))) {
+                    rapidMobsCount += 1;
+                }
+            }
+
+            if(rapidMobsCount >= 6 && worldIn.isClientSide) {
+                var hpTT = FruitTooltips.getHPTooltip();
+                if (hpTT != null) {
+                    tooltip.add(hpTT);
+                    dynamicTT = true;
+                }
+            }
+        }
+
+        if (!dynamicTT) {
+            tooltip.add((new TextComponent("Removes")).withStyle(ChatFormatting.GRAY)
+                .append(new TextComponent(" XX").withStyle(ChatFormatting.RED).withStyle(ChatFormatting.OBFUSCATED))
+                .append((new TextComponent(" ❤ from max health")).withStyle(ChatFormatting.RED))
+                .append(new TextComponent(" after 6 stacks have been added.").withStyle(ChatFormatting.GRAY)));
+        }
+
         tooltip.add(cmp);
+        var fruitCount = FruitTooltips.getFruitCountTooltip();
+        if (fruitCount != null) {
+            tooltip.add(fruitCount);
+        }
         tooltip.add(TextComponent.EMPTY);
         tooltip.add((new TextComponent("Only edible inside a Vault")).withStyle(ChatFormatting.RED));
     }
