@@ -272,7 +272,7 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
                     () -> opts.getItemGap() / 30F,
                     (value) -> this.option.setValue(opts.setItemGap(Math.round(value*30)))
                 ),
-                () -> opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS
+                () -> opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS || opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_BRONZE || opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_GOLD
             )
         );
     }
