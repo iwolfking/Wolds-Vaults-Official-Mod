@@ -257,7 +257,11 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
                 new TextComponent("Display"),
                 new TextComponent("Controls how is the coin value displayed."),
                 () -> opts.getDisplayMode().toString(),
-                () -> opts.setDisplayMode(opts.getDisplayMode().next())
+                () -> {
+                    LightmanWalletHudOptions.DisplayMode mode = opts.getDisplayMode().next();
+                    opts.setDisplayMode(mode);
+                    this.option.setValue(opts.setDisplayMode(mode));
+                }
             ),
             new ConditionalModuleSetting(
                 new SliderSettingWithoutPercentage(
