@@ -136,6 +136,8 @@ public class LightmanWalletHudOptions {
 
     public enum DisplayMode {
         ITEMS,
+        TOTAL_BRONZE,
+        TOTAL_GOLD,
         TEXT;
 
         public String serializedName() {

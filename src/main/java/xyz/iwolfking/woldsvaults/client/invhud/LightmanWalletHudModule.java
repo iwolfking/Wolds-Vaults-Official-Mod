@@ -26,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderContext> {
@@ -85,36 +86,82 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
             iconX += left ? 18 : 0;
         }
 
+        List<ItemStack> coinsToRender = new ArrayList<>();
+        List<Item> allCoins = new ArrayList<>(MoneyUtil.getAllCoins(false));
+        Collections.reverse(allCoins);
+
         if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS) {
-            int offsetAmount = opts.getItemGap() * (left ? 1 : -1);
+            coinsToRender = walletValue.getAsItemList();
+        } else if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_BRONZE && !allCoins.isEmpty()) {
+            Item bronzeCoin = allCoins.get(0);
+            long unitVal = MoneyUtil.getCoinValue(new ItemStack(bronzeCoin)).getValueNumber();
+            if (unitVal > 0) {
+                long totalCount = walletValue.getValueNumber() / unitVal;
+                if (totalCount > 0) {
+                    ItemStack coinStack = new ItemStack(bronzeCoin);
+                    coinStack.setCount((int) Math.min(totalCount, 64));
+                    coinStack.getOrCreateTag().putLong("TrueTotalCount", totalCount);
+                    coinsToRender.add(coinStack);
+                }
+            }
+        } else if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_GOLD && allCoins.size() >= 3) {
+            Item goldCoin = allCoins.get(2);
+            long unitVal = MoneyUtil.getCoinValue(new ItemStack(goldCoin)).getValueNumber();
+            if (unitVal > 0) {
+                long totalCount = walletValue.getValueNumber() / unitVal;
+                if (totalCount > 0) {
+                    ItemStack coinStack = new ItemStack(goldCoin);
+                    coinStack.setCount((int) Math.min(totalCount, 64));
+                    coinStack.getOrCreateTag().putLong("TrueTotalCount", totalCount);
+                    coinsToRender.add(coinStack);
+                }
+            }
+        }
+
+        boolean isItemMode = opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS ||
+                opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_BRONZE ||
+                opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_GOLD;
+
+        if (isItemMode) {
+            Font font = Minecraft.getInstance().font;
+            int offsetAmount = (18 + opts.getItemGap()) * (left ? 1 : -1);
             if (!left) {
                 iconX -= 18;
             }
-            for (ItemStack coin : walletValue.getAsItemList()) {
+
+            for (ItemStack coin : coinsToRender) {
                 InventoryHudHelper.renderScaledGuiItem(
-                    poseStack,
-                    coin,
-                    iconX,
-                    iconY,
-                    false // decorations are bugged since vh 21.5
+                        poseStack,
+                        coin,
+                        iconX,
+                        iconY,
+                        false
                 );
-                // render the stack size manually until it's fixed
+
+                long displayCount = coin.getOrCreateTag().contains("TrueTotalCount")
+                        ? coin.getOrCreateTag().getLong("TrueTotalCount")
+                        : coin.getCount();
+
+                String text = String.valueOf(displayCount);
+
+                int textX = iconX + 8 - (font.width(text) / 2);
+                int textY = iconY + 16;
+
                 poseStack.pushPose();
                 poseStack.translate(0.0, 0.0, 999.0);
-                Font font = Minecraft.getInstance().font;
                 font.drawShadow(
-                    poseStack,
-                    coin.getCount() +"",
-                    iconX + 11,
-                    iconY + 9,
-                    0xFFFFFFFF
+                        poseStack,
+                        text,
+                        textX,
+                        textY,
+                        0xFFFFFFFF
                 );
                 poseStack.popPose();
-
 
                 iconX += offsetAmount;
             }
         }
+
         if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TEXT) {
             String valueString = walletValue.getString();
             Font font = Minecraft.getInstance().font;
@@ -249,9 +296,26 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
                 walletValue = MoneyUtil.getCoinValue(coins);
             }
 
-            List<ItemStack> coinItems = walletValue.getAsItemList();
-            gapCount = coinItems.isEmpty() ? 0 : coinItems.size() - 1;
-            isEmpty = coinItems.isEmpty();
+            int itemSize = 0;
+            List<Item> allCoins = new ArrayList<>(MoneyUtil.getAllCoins(false));
+            java.util.Collections.reverse(allCoins);
+
+            if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS) {
+                itemSize = walletValue.getAsItemList().size();
+            } else if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_BRONZE && !allCoins.isEmpty()) {
+                long unitVal = MoneyUtil.getCoinValue(new ItemStack(allCoins.get(0))).getValueNumber();
+                if (unitVal > 0 && walletValue.getValueNumber() / unitVal > 0) {
+                    itemSize = 1;
+                }
+            } else if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_GOLD && allCoins.size() >= 3) {
+                long unitVal = MoneyUtil.getCoinValue(new ItemStack(allCoins.get(2))).getValueNumber();
+                if (unitVal > 0 && walletValue.getValueNumber() / unitVal > 0) {
+                    itemSize = 1;
+                }
+            }
+
+            gapCount = itemSize == 0 ? 0 : itemSize - 1;
+            isEmpty = (itemSize == 0);
 
             String valueString = walletValue.getString();
             String text = String.valueOf(valueString);
@@ -260,15 +324,37 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
 
         int walletWidth = opts.getShowWalletIcon() ? 16 : 0;
 
-        if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS) {
-            return walletWidth + opts.getItemGap() * gapCount + (isEmpty ? 0 : 18);
+        boolean isItemMode = opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS ||
+                opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_BRONZE ||
+                opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_GOLD;
+
+        if (isItemMode) {
+            if (isEmpty) {
+                return walletWidth;
+            }
+            int totalItemsCount = gapCount + 1;
+            return walletWidth + (totalItemsCount * 18) + (gapCount * opts.getItemGap());
         }
 
         if (opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TEXT) {
             return walletWidth + 2 + textWidth;
         }
         return 16;
+    }
 
+    @Override
+    protected int baseHeight(ModuleRenderContext context) {
+        LightmanWalletHudOptions opts = this.option.getValue();
+
+        boolean isItemMode = opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.ITEMS ||
+                opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_BRONZE ||
+                opts.getDisplayMode() == LightmanWalletHudOptions.DisplayMode.TOTAL_GOLD;
+
+        if (isItemMode) {
+            return 26;
+        }
+
+        return 16;
     }
 
     @Override protected Alignment getAnchorPoint() {
