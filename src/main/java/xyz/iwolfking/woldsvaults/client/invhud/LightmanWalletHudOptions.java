@@ -32,7 +32,7 @@ public class LightmanWalletHudOptions {
     }
 
     public static LightmanWalletHudOptions createDefault(HudPosition hudPosition) {
-        return new LightmanWalletHudOptions(hudPosition, 1f, true, true, Alignment.RIGHT, DisplayMode.ITEMS, 17);
+        return new LightmanWalletHudOptions(hudPosition, 1f, true, true, Alignment.RIGHT, DisplayMode.ITEMS, 0);
     }
 
     //<editor-fold desc="Getters/Setters" >
