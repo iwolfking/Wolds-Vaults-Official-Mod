@@ -1361,6 +1361,16 @@
       }
     },
     {
+      "id": "princess_prefix",
+      "display": "Princess ",
+      "color": "#EBDEF0",
+      "cost": 2,
+      "requirement": {
+        "level": 15,
+        "type": "vault_level"
+      }
+    },
+    {
       "id": "cat_eyed_prefix",
       "display": "Cat-Eyed",
       "color": "#9EA637",
