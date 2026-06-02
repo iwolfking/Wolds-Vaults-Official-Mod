@@ -297,6 +297,7 @@
     "vaulthunters.custom.MixinPlayerVaultStats",
     "vaulthunters.custom.MixinPlayerVaultStatsData",
     "vaulthunters.custom.MixinPylonBlock",
+    "vaulthunters.custom.MixinRaritySymbols",
     "vaulthunters.custom.MixinRecoveryCost",
     "vaulthunters.custom.MixinResearchTree",
     "vaulthunters.custom.MixinRewardConfig",
