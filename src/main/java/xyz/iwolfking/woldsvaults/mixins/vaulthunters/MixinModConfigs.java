@@ -81,7 +81,7 @@ public class MixinModConfigs {
 
         //Add new gear roll types
         VaultGearTypeConfig.RollType mythicRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.valueOf("MYTHIC"), 1)));
-        ((VaultGearRollTypeConfigRollTypeAccessor)mythicRoll).setColor(15597727);
+        ((VaultGearRollTypeConfigRollTypeAccessor)mythicRoll).setColor(12000284);
 
         VaultGearTypeConfig.RollType omegaPlusRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.OMEGA, 96, VaultGearRarity.valueOf("MYTHIC"), 4)));
         ((VaultGearRollTypeConfigRollTypeAccessor)omegaPlusRoll).setColor(3125022);
