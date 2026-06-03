@@ -49,5 +49,6 @@ public class MixinVaultModifierTypeRegistry {
         MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/brazier_pool_modification"), VaultModifierType.of(BrazierPoolsModifier.class, BrazierPoolsModifier.Properties.class, BrazierPoolsModifier::new));
         MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/enchanted_elixir_tags"), VaultModifierType.of(EnchantedElixirPoolModifier.class, EnchantedElixirPoolModifier.Properties.class, EnchantedElixirPoolModifier::new));
         MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/enchanted_elixir_event_count"), VaultModifierType.of(EnchantedElixirEventAmountModifier.class, EnchantedElixirEventAmountModifier.Properties.class, EnchantedElixirEventAmountModifier::new));
+        MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/overpower"), VaultModifierType.of(OverpowerModifier.class, OverpowerModifier.Properties.class, OverpowerModifier::new));
     }
 }
