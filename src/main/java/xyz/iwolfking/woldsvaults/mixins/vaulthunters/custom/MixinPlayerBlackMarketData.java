@@ -16,6 +16,7 @@ public class MixinPlayerBlackMarketData {
     private void resetGreedShop(MinecraftServer server, ServerPlayer player, CallbackInfo ci) {
         if(PlayerGreedTreeData.get(player.getLevel()).getGreedTier(player) > 0) {
             PlayerGreedTraderData.get(player.getLevel()).rerollOffers(player);
+            PlayerGreedTraderData.get(player.getLevel()).resetPenaltyOnTierUp(player.getUUID());
         }
     }
 }
