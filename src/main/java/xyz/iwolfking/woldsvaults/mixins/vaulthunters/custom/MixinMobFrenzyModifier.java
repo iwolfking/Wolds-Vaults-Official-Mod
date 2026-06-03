@@ -1,5 +1,8 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.Event;
 import iskallia.vault.core.event.common.EntityTickEvent;
@@ -13,9 +16,9 @@ import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
+import xyz.iwolfking.woldsvaults.init.ModGameRules;
 
 import java.util.function.Consumer;
 
@@ -25,13 +28,21 @@ public abstract class MixinMobFrenzyModifier extends VaultModifier<MobFrenzyModi
         super(id, properties, display);
     }
 
-    @Redirect(method = "initServer", at = @At(value = "INVOKE", target = "Liskallia/vault/core/event/common/EntityTickEvent;register(Ljava/lang/Object;Ljava/util/function/Consumer;)Liskallia/vault/core/event/Event;"))
-    private Event dontRegisterTickMethod(EntityTickEvent instance, Object o, Consumer consumer) {
+    @WrapOperation(method = "initServer", at = @At(value = "INVOKE", target = "Liskallia/vault/core/event/common/EntityTickEvent;register(Ljava/lang/Object;Ljava/util/function/Consumer;)Liskallia/vault/core/event/Event;"))
+    private Event dontRegisterTickMethod(EntityTickEvent instance, Object o, Consumer consumer, Operation<Event> original, @Local(argsOnly = true) VirtualWorld world) {
+        if(GameruleHelper.isEnabled(ModGameRules.OLD_OVERPOWER_MECHANIC, world)) {
+            return original.call(instance, o, consumer);
+        }
+
         return instance;
     }
 
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addIncreasedDamageEffect(VirtualWorld world, Vault vault, ModifierContext context, CallbackInfo ci) {
+        if(GameruleHelper.isEnabled(ModGameRules.OLD_OVERPOWER_MECHANIC, world)) {
+            return;
+        }
+
         CommonEvents.ENTITY_DAMAGE.register(context.getUUID(), livingDamageEvent -> {
             if(world.getLevel().equals(livingDamageEvent.getEntity().getLevel())) {
                 if(livingDamageEvent.getSource().getEntity() instanceof ServerPlayer) {
