@@ -52,7 +52,7 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .particleProbability(0.002f)
                     .levelEntry("the_vault:default", 30)
                     .levelEntry("the_vault:default", 50)
-                    .themeWeight(5)
+                    .themeWeight(8)
                     .themeGroup("Astral")
                     .themeLore("Astral", 3112412, themeLoreDescriptionBuilder -> {
                         themeLoreDescriptionBuilder
@@ -84,7 +84,7 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .particleProbability(0.002f)
                     .levelEntry("the_vault:default", 30)
                     .levelEntry("the_vault:default", 50)
-                    .themeWeight(5)
+                    .themeWeight(8)
                     .themeGroup("Astral");
         });
     }

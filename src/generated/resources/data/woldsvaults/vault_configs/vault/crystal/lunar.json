@@ -6,7 +6,7 @@
         "pool": [
           {
             "value": "woldsvaults:lunar",
-            "weight": 5
+            "weight": 8
           }
         ]
       },
@@ -15,7 +15,7 @@
         "pool": [
           {
             "value": "woldsvaults:lunar",
-            "weight": 5
+            "weight": 8
           }
         ]
       }
