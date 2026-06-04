@@ -424,7 +424,7 @@
           "name": "Sharpened Mobs",
           "color": "#FFEA00",
           "description": "+7.5% Mob Critical Strike Chance",
-          "descriptionFormatted": "+%d%% Mob Critical Strike Chance",
+          "descriptionFormatted": "+7.5 Mob Critical Strike Chance",
           "icon": "the_vault:gui/modifiers/destructive"
         }
       },
@@ -438,7 +438,7 @@
           "name": "Sharpened Mobs",
           "color": "#FFEA00",
           "description": "+15% Mob Critical Strike Chance",
-          "descriptionFormatted": "+%d%% Mob Critical Strike Chance",
+          "descriptionFormatted": "+15 Mob Critical Strike Chance",
           "icon": "the_vault:gui/modifiers/destructive"
         }
       },
@@ -452,7 +452,7 @@
           "name": "Non-Lethal",
           "color": "#dc693c",
           "description": "-1000% Mob Critical Strike Chance",
-          "descriptionFormatted": "+%d%% Mob Critical Strike Chance",
+          "descriptionFormatted": "-1000 Mob Critical Strike Chance",
           "icon": "the_vault:gui/modifiers/destructive"
         }
       },

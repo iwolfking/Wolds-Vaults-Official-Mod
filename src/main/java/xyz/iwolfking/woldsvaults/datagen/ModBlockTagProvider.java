@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import me.dinnerbeef.compressium.Compressium;
+import net.mcreator.buildingmod.init.DavebuildingmodModBlocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -58,6 +59,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.TIME_TRIAL_TROPHY_BLOCK)
                 .add(ModBlocks.TRINKET_FUSION_BLOCK)
                 .add(iskallia.vault.init.ModBlocks.CRYSTAL_BLOCK)
+                .add(DavebuildingmodModBlocks.VANTA_BLACK.get())
+                .add(DavebuildingmodModBlocks.STARS.get())
 
                 .add(ModBlocks.TENOS_BRICKS_SLAB)
                 .add(ModBlocks.TENOS_BRICK_CHISELED_SLAB)
