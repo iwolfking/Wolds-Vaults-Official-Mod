@@ -265,7 +265,7 @@ public class ModItemModelProvider extends ItemModelProvider {
             researchToken(ModConfigs.RESEARCHES_GUI.getStyles().get(name).icon);
         });
 
-        CustomInscriptionModelRegistry.getModelMap().forEach(this::vaultInscription);
+        CustomInscriptionModelRegistry.getModelMap().forEach(this::allInscription);
         CustomCatalystModelRegistry.getModelMap().forEach(this::vaultCatalyst);
 
         ModItems.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
@@ -364,8 +364,20 @@ public class ModItemModelProvider extends ItemModelProvider {
                         VaultMod.id("item/inscription/" + modelNumber));
     }
 
+    private void allInscription(int modelNumber, String modelNameOverride) {
+        vaultInscription(modelNumber, modelNameOverride);
+        vaultSuperInscription(modelNumber, modelNameOverride);
+    }
+
     private ItemModelBuilder vaultInscription(int modelNumber, String modelNameOverride) {
         return getBuilder(VaultMod.id("item/inscription/" + modelNumber).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("item/inscription/" + modelNameOverride));
+    }
+
+    private ItemModelBuilder vaultSuperInscription(int modelNumber, String modelNameOverride) {
+        return getBuilder(VaultMod.id("item/inscription/super/" + modelNumber).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
                         VaultMod.id("item/inscription/" + modelNameOverride));
