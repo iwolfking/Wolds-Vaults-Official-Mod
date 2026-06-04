@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.lib.ICardDeckCache;
 import xyz.iwolfking.woldsvaults.modifiers.deck.EmptySlotDeckModifier;
+import xyz.iwolfking.woldsvaults.modifiers.deck.lib.IMultiplicativeDeckModifier;
 import xyz.iwolfking.woldsvaults.modifiers.deck.lib.IRemovableSlotModifier;
 
 import java.util.List;
@@ -165,6 +166,9 @@ public abstract class MixinCardDeck implements ICardDeckCache {
             if(modifier instanceof EmptySlotDeckModifier emptySlotDeckModifier) {
                 wv$recomputeSlotCache();
                 value += (emptySlotDeckModifier.getModifierValue(card, pos, (CardDeck)(Object)this) - 1.0F);
+            }
+            if(modifier instanceof IMultiplicativeDeckModifier multiplicativeDeckModifier) {
+                value *= multiplicativeDeckModifier.getMultiplierValue(card, pos, (CardDeck)(Object)this);
             }
             else {
                 float modValue = modifier.getModifierValue(card, pos, (CardDeck)(Object)this);

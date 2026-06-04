@@ -191,6 +191,41 @@
       "id": "jupiter",
       "type": "dominance_boost"
     },
+    "archive": {
+      "modifierValue": {
+        "min": 0.05,
+        "max": 0.1,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.05,
+            "max": 0.05,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/archive_deck_core_lesser#inventory",
+          "name": "Lesser Archive Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.15,
+            "max": 0.2,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/archive_deck_core_greater#inventory",
+          "name": "Greater Archive Core",
+          "colour": 16769382
+        }
+      },
+      "groupName": "Arcane",
+      "modelId": "woldsvaults:deck_cores/archive_deck_core#inventory",
+      "name": "Archive Core",
+      "colour": 13618375,
+      "id": "archive",
+      "type": "group_synergy_multiplier"
+    },
     "aegis": {
       "modifierValue": {
         "min": 0.3,
@@ -747,6 +782,10 @@
       {
         "value": "sparkling",
         "weight": 1.0
+      },
+      {
+        "value": "archive",
+        "weight": 1.0
       }
     ],
     "champions": [
@@ -874,6 +913,10 @@
       },
       {
         "value": "construction",
+        "weight": 1.0
+      },
+      {
+        "value": "archive",
         "weight": 1.0
       }
     ],

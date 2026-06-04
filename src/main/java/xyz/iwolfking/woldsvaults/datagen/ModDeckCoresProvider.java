@@ -117,6 +117,10 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             premiumCoreModifier.modifierRolls.put("lesser", variant("Lesser Premium Core", FloatRoll.ofUniform(0.05F, 0.05F), 13618375, "woldsvaults:deck_cores/premium_deck_core_lesser#inventory"));
             premiumCoreModifier.modifierRolls.put("greater", variant("Greater Premium Core", FloatRoll.ofUniform(0.15F, 0.2F), 16769382, "woldsvaults:deck_cores/premium_deck_core_greater#inventory"));
 
+            GroupSynergyMultiplierModifier.Config archiveCoreModifier = new GroupSynergyMultiplierModifier.Config(FloatRoll.ofUniform(0.05F, 0.1F), "Arcane");
+            archiveCoreModifier.modifierRolls.put("lesser", variant("Lesser Archive Core", FloatRoll.ofUniform(0.05F, 0.05F), 13618375, "woldsvaults:deck_cores/archive_deck_core_lesser#inventory"));
+            archiveCoreModifier.modifierRolls.put("greater", variant("Greater Archive Core", FloatRoll.ofUniform(0.15F, 0.2F), 16769382, "woldsvaults:deck_cores/archive_deck_core_greater#inventory"));
+
 
             builder.addCore("arsenal", GlobalDeckModifier::new, arsenalModifierConfig, "Arsenal Core", 13618375,"woldsvaults:deck_cores/arsenal_deck_core#inventory");
             builder.addCore("aegis", GlobalDeckModifier::new, aegisModifierConfig,"Aegis Core", 13618375,"woldsvaults:deck_cores/aegis_deck_core#inventory");
@@ -135,6 +139,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             builder.addCore("premium", GroupSynergyDeckModifier::new, premiumCoreModifier,"Premium Core", 13618375,"woldsvaults:deck_cores/premium_deck_core#inventory");
             builder.addCore("sparkling", GlobalDeckModifier::new, sparklingDeckCore,"Sparkling Core", 13618375,"woldsvaults:deck_cores/sparkling_deck_core#inventory");
             builder.addCore("construction", CreateSlotDeckModifier::new, constructionCoreModifier,"Construction Core", 13618375,"woldsvaults:deck_cores/construction_deck_core#inventory");
+            builder.addCore("archive", GroupSynergyMultiplierModifier::new, archiveCoreModifier,"Archive Core", 13618375,"woldsvaults:deck_cores/archive_deck_core#inventory");
             builder.addPool("default", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("arsenal", 1);
                 stringWeightedListBuilder.add("aegis", 1);
@@ -151,6 +156,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
                 stringWeightedListBuilder.add("pluto", 1);
                 stringWeightedListBuilder.add("premium", 1);
                 stringWeightedListBuilder.add("sparkling", 1);
+                stringWeightedListBuilder.add("archive", 1);
             });
             builder.addPool("greed", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("arsenal", 1);
@@ -169,6 +175,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
                 stringWeightedListBuilder.add("premium", 1);
                 stringWeightedListBuilder.add("sparkling", 1);
                 stringWeightedListBuilder.add("construction", 1);
+                stringWeightedListBuilder.add("archive", 1);
             });
             builder.addPool("treasure_sand", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("temporal", 1);
