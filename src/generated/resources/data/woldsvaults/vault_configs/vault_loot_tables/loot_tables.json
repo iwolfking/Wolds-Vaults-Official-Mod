@@ -1,9 +1,74 @@
 {
   "keys": [
     {
-      "id": "the_vault:survival_gear_cache",
-      "name": "Survival Gear Cache",
-      "1.0": "the_vault:survival_gear_cache"
+      "id": "woldsvaults:greed_crate_bonus_scavenger",
+      "name": "Greed Crate Bonus Scavenger",
+      "1.0": "woldsvaults:greed_crate_bonus_scavenger"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_zealot",
+      "name": "Greed Crate Bonus Zealot",
+      "1.0": "woldsvaults:greed_crate_bonus_zealot"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_unhinged_scavenger",
+      "name": "Greed Crate Bonus Unhinged Scavenger",
+      "1.0": "woldsvaults:greed_crate_bonus_unhinged_scavenger"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_survival",
+      "name": "Greed Crate Bonus Survival",
+      "1.0": "woldsvaults:greed_crate_bonus_survival"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_ballistic_bingo",
+      "name": "Greed Crate Bonus Ballistic Bingo",
+      "1.0": "woldsvaults:greed_crate_bonus_ballistic_bingo"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_bingo",
+      "name": "Greed Crate Bonus Bingo",
+      "1.0": "woldsvaults:greed_crate_bonus_bingo"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_elixir",
+      "name": "Greed Crate Bonus Elixir",
+      "1.0": "woldsvaults:greed_crate_bonus_elixir"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_enchanted_elixir",
+      "name": "Greed Crate Bonus Enchanted Elixir",
+      "1.0": "woldsvaults:greed_crate_bonus_enchanted_elixir"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_brutal_bosses",
+      "name": "Greed Crate Bonus Brutal Bosses",
+      "1.0": "woldsvaults:greed_crate_bonus_brutal_bosses"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_rune_boss",
+      "name": "Greed Crate Bonus Rune Boss",
+      "1.0": "woldsvaults:greed_crate_bonus_rune_boss"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_scavenger_bingo",
+      "name": "Greed Crate Bonus Scavenger Bingo",
+      "1.0": "woldsvaults:greed_crate_bonus_scavenger_bingo"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_vault_royale",
+      "name": "Greed Crate Bonus Vault Royale",
+      "1.0": "woldsvaults:greed_crate_bonus_vault_royale"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_alchemy",
+      "name": "Greed Crate Bonus Alchemy",
+      "1.0": "woldsvaults:greed_crate_bonus_alchemy"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_obelisk",
+      "name": "Greed Crate Bonus Obelisk",
+      "1.0": "woldsvaults:greed_crate_bonus_obelisk"
     }
   ]
 }
