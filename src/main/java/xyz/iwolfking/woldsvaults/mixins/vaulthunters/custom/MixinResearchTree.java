@@ -16,16 +16,16 @@ import java.util.List;
 
 @Mixin(value = ResearchTree.class, remap = false)
 public abstract class MixinResearchTree {
-    @Inject(method = "restrictedBy(Lnet/minecraft/world/item/ItemStack;Liskallia/vault/research/Restrictions$Type;)Ljava/lang/String;", at = @At("HEAD"), cancellable = true)
-    private void dontRestrictDyedBackpackCrafting(ItemStack item, Restrictions.Type restrictionType, CallbackInfoReturnable<String> cir) {
-        if(restrictionType.equals(Restrictions.Type.CRAFTABILITY)) {
-            if(item.getItem() instanceof BackpackItem) {
-                if(item.hasTag()) {
-                    if(item.getTag() != null && (item.getTag().contains("clothColor") || item.getTag().contains("borderColor"))) {
-                        cir.setReturnValue(null);
-                    }
-                }
-            }
-        }
-    }
+//    @Inject(method = "restrictedBy(Lnet/minecraft/world/item/ItemStack;Liskallia/vault/research/Restrictions$Type;)Ljava/lang/String;", at = @At("HEAD"), cancellable = true)
+//    private void dontRestrictDyedBackpackCrafting(ItemStack item, Restrictions.Type restrictionType, CallbackInfoReturnable<String> cir) {
+//        if(restrictionType.equals(Restrictions.Type.CRAFTABILITY)) {
+//            if(item.getItem() instanceof BackpackItem) {
+//                if(item.hasTag()) {
+//                    if(item.getTag() != null && (item.getTag().contains("clothColor") || item.getTag().contains("borderColor"))) {
+//                        cir.setReturnValue(null);
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
