@@ -8,6 +8,7 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.objective.BingoObjective;
 import iskallia.vault.core.vault.objective.Objective;
+import iskallia.vault.core.vault.objective.ScavengerBingoObjective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.task.BingoTask;
 import org.spongepowered.asm.mixin.Mixin;
@@ -49,7 +50,7 @@ public abstract class MixinVaultObjectivesModule {
         else if(objective instanceof UnhingedScavengerObjective) {
             cir.setReturnValue("scavenger");
         }
-        else if(objective instanceof BallisticBingoObjective) {
+        else if(objective instanceof BallisticBingoObjective || objective instanceof ScavengerBingoObjective) {
             cir.setReturnValue("bingo");
         }
         else if(objective instanceof HauntedBraziersObjective) {
@@ -101,7 +102,30 @@ public abstract class MixinVaultObjectivesModule {
                         cir.setReturnValue(Pair.of(width, height));
                     }
                 }
+
+            if (obj instanceof ScavengerBingoObjective bingo) {
+                boolean isExpanded = context.getCustomData("expanded", false);
+                if (isExpanded) {
+                    float cellSize = 42.0F;
+                    float gridWidth = cellSize * bingo.getWidth();
+                    float gridHeight = cellSize * bingo.getHeight();
+                    float maxGridWidth = 294.0F;
+                    float maxGridHeight = 210.0F;
+                    float scale = Math.min(maxGridWidth / gridWidth, maxGridHeight / gridHeight);
+                    int width = (int) (gridWidth * scale) + 4;
+                    int height = (int) (gridHeight * scale) + 10;
+                    cir.setReturnValue(Pair.of(width, height));
+                }
+
+                int lineSize = Math.max(bingo.getWidth(), bingo.getHeight());
+                int itemsWidth = 30 * lineSize;
+                float miniGridHeight = 45.0F;
+                float miniGridWidth = miniGridHeight / bingo.getHeight() * bingo.getWidth();
+                int width = (int) (itemsWidth + 14 + miniGridWidth);
+                int height = 55;
+                cir.setReturnValue(Pair.of(width, height));
             }
+        }
 
         }
     }
