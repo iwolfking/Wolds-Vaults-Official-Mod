@@ -149,6 +149,7 @@
     "vaulthunters.accessors.ClassicSpiralCrystalLayoutAccessor",
     "vaulthunters.accessors.ClientEventsAccessor",
     "vaulthunters.accessors.CompoundCrystalLayoutAccessor",
+    "vaulthunters.accessors.CrateLootGeneratorAccessor",
     "vaulthunters.accessors.DamageOnHitTalentAccessor",
     "vaulthunters.accessors.DeckContainerWrapperAccessor",
     "vaulthunters.accessors.DynamicModelAccessor",

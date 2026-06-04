@@ -1,26 +1,35 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.core.Version;
+import iskallia.vault.core.data.compound.ItemStackList;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.FruitEatenEvent;
+import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultLevel;
+import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
+import iskallia.vault.core.vault.objective.AwardCrateObjective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
+import iskallia.vault.core.world.loot.generator.LootTableGenerator;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.init.ModItems;
 import iskallia.vault.skill.base.LearnableSkill;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.ExpertiseTree;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.InventoryUtil;
-import iskallia.vault.util.calc.PlayerStat;
 import iskallia.vault.world.data.PlayerExpertisesData;
+import iskallia.vault.world.data.PlayerGreedTreeData;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -35,15 +44,39 @@ import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.CrateLootGeneratorAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Mixin(value = Runner.class, remap = false)
 public abstract class MixinRunner extends Listener {
+
+
+    @Inject(method = "initServer", at = @At("TAIL"))
+    private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
+        CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
+            if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100 && PlayerGreedTreeData.get(event.getPlayer().getLevel()).getGreedTier(event.getPlayer().getUUID()) > 0) {
+                ResourceLocation lootTableKey = WoldsVaults.id("greed_crate_bonus_" + VaultUtils.getMainObjectiveKey(vault));
+
+                if(!VaultRegistry.LOOT_TABLE.contains(lootTableKey)) {
+                    return;
+                }
+
+                LootTableGenerator generator =
+                        new LootTableGenerator(Version.latest(), VaultRegistry.LOOT_TABLE.getKey(lootTableKey), 0F);
+                generator.generate(ChunkRandom.ofNanoTime());
+
+                Iterator<ItemStack> rewardIterator = generator.getItems();
+                while (rewardIterator.hasNext()) {
+                    ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(rewardIterator.next());
+                }
+            }
+        });
+    }
 
     @Inject(method = "lambda$initServer$3", at = @At("TAIL"))
     private void handleFruitRotting(VirtualWorld world, Vault vault, FruitEatenEvent.Data data, CallbackInfo ci) {
