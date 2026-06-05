@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.effect.mobeffects;
 
+import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.util.damage.DamageUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -25,9 +26,14 @@ public class EchoingPotionEffect extends MobEffect {
     public void applyEffectTick(LivingEntity affected, int pAmplifier) {
 
         if(affected.getEffect(ModEffects.ECHOING) instanceof EchoingEffectInstance echo
-        && !(echo.getAttacker() != null && WoldEtchingHelper.hasEtching(echo.getAttacker(), ModEtchingGearAttributes.REVERBERATION)))
-            WoldActiveFlags.IS_ECHOING_ATTACKING.runIfNotSet(() -> {
-                DamageUtil.shotgunAttack(affected, e -> e.hurt(echo.source, echo.damage));
-            });
+        && !(echo.getAttacker() != null && WoldEtchingHelper.hasEtching(echo.getAttacker(), ModEtchingGearAttributes.REVERBERATION))) {
+            WoldActiveFlags.IS_AOE2_ATTACK.maybeRunWithFlag(echo.noCleave, () ->
+                WoldActiveFlags.IS_UNLUCKY_ATTACK.maybeRunWithFlag(echo.noLuckyhit, () ->
+                    WoldActiveFlags.IS_ECHOING_ATTACKING.runWithFlag(() ->
+                        DamageUtil.shotgunAttack(affected, e -> e.hurt(echo.source, echo.damage))
+                    )
+                )
+            );
+        }
     }
 }

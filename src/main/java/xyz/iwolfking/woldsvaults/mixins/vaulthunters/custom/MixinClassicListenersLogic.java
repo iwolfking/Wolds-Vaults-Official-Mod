@@ -77,6 +77,9 @@ public class MixinClassicListenersLogic {
         if(key.equals("scaling_ballistic_bingo")) {
             cir.setReturnValue("Ballistic Bingo");
         }
+        if(key.equals("scaling_scavenger_bingo")) {
+            cir.setReturnValue("Collector");
+        }
     }
 
     @WrapOperation(method = {"printJoinMessage", "lambda$initServer$1"/*leave*/}, at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/ClassicListenersLogic;getVaultObjective(Ljava/lang/String;)Ljava/lang/String;"))

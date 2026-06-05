@@ -18,9 +18,7 @@ import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicTunnelCrystalLayout
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicWaveCrystalLayout;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.objectives.HauntedBraziersCrystalObjective;
-import xyz.iwolfking.woldsvaults.objectives.ScalingBallisticBingoCrystalObjective;
-import xyz.iwolfking.woldsvaults.objectives.SurvivalCrystalObjective;
+import xyz.iwolfking.woldsvaults.objectives.*;
 
 import java.util.List;
 
@@ -166,6 +164,12 @@ public class ModVaultCrystalProvider extends AbstractVaultCrystalConfigProvider 
                 sealListBuilder.add(0, sealEntryBuilder -> {
                     sealEntryBuilder.input(iskallia.vault.init.ModItems.VAULT_CRYSTAL.getRegistryName());
                     sealEntryBuilder.objective(new SurvivalCrystalObjective(0.1F, 10, List.of("t1", "t1_t2", "t2", "t2_t3", "t3", "t3_t4", "t4")));
+                });
+            });
+            builder.addSeal(ModItems.CRYSTAL_SEAL_UNHINGED_SCAVINGO.getRegistryName(), sealListBuilder -> {
+                sealListBuilder.add(0, sealEntryBuilder -> {
+                    sealEntryBuilder.input(iskallia.vault.init.ModItems.VAULT_CRYSTAL.getRegistryName());
+                    sealEntryBuilder.objective(new ScalingUnhingedScavengerBingoCrystalObjective(0.25F, 0));
                 });
             });
         });

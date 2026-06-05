@@ -22,6 +22,7 @@ import iskallia.vault.entity.entity.elite.EliteWitchEntity;
 import iskallia.vault.entity.entity.elite.EliteWitherSkeleton;
 import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
+import iskallia.vault.event.ActiveFlagsCheck;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.etching.EtchingHelper;
@@ -29,12 +30,16 @@ import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.gear.trinket.effects.MultiJumpTrinket;
 import iskallia.vault.item.gear.TrinketItem;
+import iskallia.vault.skill.base.Skill;
+import iskallia.vault.skill.talent.type.JavelinConductTalent;
+import iskallia.vault.skill.tree.TalentTree;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.calc.EffectDurationHelper;
 import iskallia.vault.util.calc.PlayerStat;
 import iskallia.vault.util.calc.ThornsHelper;
 import iskallia.vault.util.damage.DamageUtil;
+import iskallia.vault.world.data.PlayerTalentsData;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -483,31 +488,42 @@ public class LivingEntityEvents {
             return;
         }
 
-        if(WoldActiveFlags.IS_ECHOING_ATTACKING.isSet() && (ActiveFlags.IS_AOE_ATTACKING.isSet() || ActiveFlags.IS_CHAINING_ATTACKING.isSet())){
-            return;
-        }
-
-
         if(ActiveFlags.IS_DOT_ATTACKING.isSet()
         || ActiveFlags.IS_LEECHING.isSet()
-//        || ActiveFlags.IS_AOE_ATTACKING.isSet()
+        || ActiveFlags.IS_AOE_ATTACKING.isSet()
         || ActiveFlags.IS_REFLECT_ATTACKING.isSet()
 //        || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
         || ActiveFlags.IS_CHARMED_ATTACKING.isSet()
         || ActiveFlags.IS_EFFECT_ATTACKING.isSet()
 //        || ActiveFlags.IS_JAVELIN_ATTACKING.isSet()
-        || ActiveFlags.IS_SMITE_ATTACKING.isSet()
+//        || ActiveFlags.IS_SMITE_ATTACKING.isSet()
 //        || ActiveFlags.IS_SMITE_BASE_ATTACKING.isSet()
 //        || ActiveFlags.IS_CHAINING_ATTACKING.isSet()
 //        || ActiveFlags.IS_THORNS_REFLECTING.isSet()
-//        || ActiveFlags.IS_FIRESHOT_ATTACKING.isSet()
 //        || ActiveFlags.IS_GLACIAL_SHATTER_ATTACKING.isSet()
-//        || ActiveFlags.IS_AP_ATTACKING.isSet()
+        || (ActiveFlags.IS_AP_ATTACKING.isSet()
+            && !(ActiveFlags.IS_FIRESHOT_ATTACKING.isSet()
+                || ActiveFlags.IS_ARCANE_RAIL_ATTACKING.isSet()
+                || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
+                || ActiveFlags.IS_SMITE_BASE_ATTACKING.isSet()))
         ){
             return;
         }
 
         if(event.getSource().getEntity() instanceof Player player) {
+            if(ActiveFlags.IS_JAVELIN_ATTACKING.isSet()) {
+                if (player instanceof ServerPlayer sPlayer) {
+                    TalentTree talents = PlayerTalentsData.get(sPlayer.getLevel()).getTalents(sPlayer);
+
+                    boolean hasConduct = false;
+                    for (JavelinConductTalent talent : talents.getAll(JavelinConductTalent.class, Skill::isUnlocked)) {
+                        hasConduct = true;
+                    }
+                    if (!hasConduct)
+                        return;
+                }
+            }
+
             float echoingChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
             float echoingDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
             if(echoingChance != 0) {
@@ -547,6 +563,8 @@ public class LivingEntityEvents {
 
                     //only activate on big enough hits
                     if(newDamage > 1.0f) {
+                        boolean noLuck = ActiveFlagsCheck.isAnyFlagActiveLuckyHit();
+                        boolean noCleave = ActiveFlags.IS_TOTEM_ATTACKING.isSet();
                         if(oldInstance != null
                         && WoldEtchingHelper.hasEtching(player, ModEtchingGearAttributes.REVERBERATION)) {
 
@@ -561,17 +579,17 @@ public class LivingEntityEvents {
 //                                //[[DEBUG]]
 //                                WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Reverberated {} damage.", oDamage);
 
-                                if (WoldActiveFlags.IS_ECHOING_ATTACKING.isSet())
-                                    DamageUtil.shotgunAttack(target, e -> e.hurt(oSource, oDamage));
-                                else {
-                                    WoldActiveFlags.IS_ECHOING_ATTACKING.push();
-                                    DamageUtil.shotgunAttack(target, e -> e.hurt(oSource, oDamage));
-                                    WoldActiveFlags.IS_ECHOING_ATTACKING.pop();
-                                }
+                                WoldActiveFlags.IS_AOE2_ATTACK.maybeRunWithFlag(noCleave, () ->
+                                    WoldActiveFlags.IS_UNLUCKY_ATTACK.maybeRunWithFlag(noLuck, () ->
+                                        WoldActiveFlags.IS_ECHOING_ATTACKING.runWithFlag(() ->
+                                            DamageUtil.shotgunAttack(target, e -> e.hurt(oSource, oDamage))
+                                        )
+                                    )
+                                );
                             }
                         }
 
-                        target.addEffect(new EchoingEffectInstance(player, newDamage, newSource, newDuration, newDecay));
+                        target.addEffect(new EchoingEffectInstance(player, newDamage, newSource, newDuration, newDecay, noLuck, noCleave));
 
 //                        //[[DEBUG]]
 //                        WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Added a {} damage echo to attack.", newDamage);

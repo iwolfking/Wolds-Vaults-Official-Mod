@@ -48,6 +48,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModSounds;
 import xyz.iwolfking.woldsvaults.mixins.LivingEntityAccessor;
@@ -171,11 +172,28 @@ public class MixinGearAttributeEvents {
      */
     @Inject(method = "triggerAoEAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/damagesource/DamageSource;getEntity()Lnet/minecraft/world/entity/Entity;", shift = At.Shift.AFTER), cancellable = true, remap = true)
     private static void triggerAoEAttack(LivingHurtEvent event, CallbackInfo ci) {
-        if((ActiveFlags.IS_SMITE_ATTACKING.isSet() && !ActiveFlags.IS_SMITE_BASE_ATTACKING.isSet()) || ActiveFlags.IS_AP_ATTACKING.isSet() || ActiveFlags.IS_THORNS_REFLECTING.isSet() || ActiveFlags.IS_REFLECT_ATTACKING.isSet()) {
+        if(ActiveFlags.IS_AOE_ATTACKING.isSet()
+        || ActiveFlags.IS_SMITE_ATTACKING.isSet()
+        || ActiveFlags.IS_THORNS_REFLECTING.isSet()
+        || ActiveFlags.IS_EFFECT_ATTACKING.isSet()
+        || ActiveFlags.IS_REFLECT_ATTACKING.isSet()
+        || ActiveFlags.IS_DOT_ATTACKING.isSet()
+        || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
+        || WoldActiveFlags.IS_AOE2_ATTACK.isSet()
+        ) {
             ci.cancel();
         }
     }
 
+    /**
+     * @author aida
+     * @reason block echoing from re-activating chaining
+     */
+    @Inject(method = "triggerChainAttack", at = @At(value = "INVOKE", target = "Liskallia/vault/event/ActiveFlags;isSet()Z", shift = At.Shift.BEFORE, ordinal = 0), cancellable = true)
+    private static void triggerChainAttack(LivingHurtEvent event, CallbackInfo ci) {
+        if(WoldActiveFlags.IS_ECHOING_ATTACKING.isSet() || ActiveFlags.IS_TOTEM_ATTACKING.isSet())
+            ci.cancel();
+    }
 
     /**
      * @author aida

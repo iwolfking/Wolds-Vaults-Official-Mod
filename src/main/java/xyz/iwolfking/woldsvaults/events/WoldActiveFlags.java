@@ -3,7 +3,9 @@ package xyz.iwolfking.woldsvaults.events;
 public enum WoldActiveFlags {
     IS_REAVING_ATTACKING,
     IS_ECHOING_ATTACKING,
-    IS_USING_SAFER_SPACE;
+    IS_USING_SAFER_SPACE,
+    IS_UNLUCKY_ATTACK,
+    IS_AOE2_ATTACK;
 
     private final ThreadLocal<Integer> activeReferences = ThreadLocal.withInitial(() -> 0);
 
@@ -21,6 +23,22 @@ public enum WoldActiveFlags {
                 this.pop();
             }
         }
+    }
+
+    public synchronized void runWithFlag(Runnable run) {
+        this.push();
+        try {
+            run.run();
+        } finally {
+            this.pop();
+        }
+    }
+
+    public synchronized void maybeRunWithFlag(boolean bool, Runnable run) {
+        if(bool)
+            this.runWithFlag(run);
+        else
+            run.run();
     }
 
     public synchronized void push() {
