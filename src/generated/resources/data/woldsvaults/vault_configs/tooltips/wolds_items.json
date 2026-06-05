@@ -195,6 +195,10 @@
     {
       "item": "woldsvaults:trinket_fusion_forge",
       "value": "Combines <light_purple>Trinkets into <gold>Fusion Trinkets<gray> using the power of <light_purple>Prismatic Glue"
+    },
+    {
+      "item": "woldsvaults:concealed_chaos",
+      "value": "Use in the <aqua>Crystal Workbench<gray> to add random modifiers to your <yellow>Vault Crystal<gray>, has a chance to backfire! Consumes 50 capacity."
     }
   ]
 }

@@ -22,36 +22,16 @@ import xyz.iwolfking.vhapi.integration.jevh.lib.CrystalWorkbenchRecipe;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
+import xyz.iwolfking.woldsvaults.recipes.crystal.lib.AbstractCrystalModificationRecipe;
+
 import java.util.List;
 
 import static xyz.iwolfking.woldsvaults.items.gear.VaultMapItem.applySpecialModifiers;
 
-public class MapModificationRecipe extends VanillaAnvilRecipe {
+public class MapModificationRecipe extends AbstractCrystalModificationRecipe<VaultMapItem> {
     @Override
-    public boolean onSimpleCraft(AnvilContext context) {
-        if (context.getBlockState().map((state) -> state.getBlock() instanceof AnvilBlock).orElse(false)) {
-            return false;
-        }
-
-        ItemStack primary = context.getInput()[0];
-        ItemStack secondary = context.getInput()[1];
-        if (primary.getItem() instanceof VaultCrystalItem && secondary.getItem() == ModItems.MAP) {
-            ItemStack output = primary.copy();
-            CrystalData data = CrystalData.read(output);
-
-            if (data.getProperties().isUnmodifiable()) {
-                return false;
-            }
-
-            if (!(secondary.getItem() instanceof VaultMapItem vaultMapItem)) {
-                return false;
-            }
-            else {
-                return vaultMapItem.applyCrystalRecipe(context, data, secondary, output);
-            }
-        }
-
-        return false;
+    protected VaultMapItem getCraftingIngredient() {
+        return ModItems.MAP;
     }
 
     @Override

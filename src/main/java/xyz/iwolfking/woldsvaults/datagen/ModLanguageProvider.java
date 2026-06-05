@@ -62,6 +62,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.PRISMATIC_GLUE_BLOCK, "Prismatic Glue");
         add(ModBlocks.MOLTEN_TRINKET_BLOCK, "Molten Trinket");
         add(ModItems.DUST_OF_POWER, "Dust of Power");
+        add(ModItems.CONCEALED_CHAOS, "Concealed Chaos");
         add(ModEntities.LOGINAR, "Alien");
         add(ModEntities.ASTRAL_STALKER, "Astral Stalker");
         add(ModEntities.NEBULA_SENTINEL, "Nebula Sentinel");

@@ -131,6 +131,7 @@ public class ModItems {
     public static BasicItem PROSPEROUS_CAPSTONE;
     public static BasicItem ALL_SEEING_EYE_CAPSTONE;
     public static BasicItem ENCHANTED_CAPSTONE;
+    public static ConcealedChaosItem CONCEALED_CHAOS;
     public static BasicItem COMMUNITY_TOKEN;
     public static BasicItem RESEARCH_TOKEN;
 
@@ -383,6 +384,7 @@ public class ModItems {
         registry.register(PRISMATIC_GLUE_BUCKET);
         registry.register(MOLTEN_TRINKET_BUCKET);
         registry.register(GREED_TREE_RESET_ITEM);
+        registry.register(CONCEALED_CHAOS);
         COLORED_UNOBTANIUMS.forEach((s, bi) -> {
             registry.register(bi);
         });
@@ -564,5 +566,6 @@ public class ModItems {
         TIME_TRIAL_TROPHY = new TimeTrialTrophyItem(ModBlocks.TIME_TRIAL_TROPHY_BLOCK, new Item.Properties().stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS));
         SCAVENGER_POUCH_ITEM = new ItemScavengerPouch(WoldsVaults.id("scavenger_pouch"));
         GREED_TREE_RESET_ITEM = new GreedTreeResetItem(WoldsVaults.id("greed_neuralizer"));
+        CONCEALED_CHAOS = new ConcealedChaosItem(WoldsVaults.id("concealed_chaos"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
     }
 }

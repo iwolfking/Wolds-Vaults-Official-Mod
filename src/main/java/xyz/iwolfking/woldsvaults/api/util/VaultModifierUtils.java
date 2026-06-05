@@ -78,6 +78,10 @@ public class VaultModifierUtils {
         }
     }
 
+    public static List<VaultModifier<?>> getModifiersFromPool(ResourceLocation modifierPool, int level) {
+        return ModConfigs.VAULT_MODIFIER_POOLS.getRandom(modifierPool, level, JavaRandom.ofNanoTime());
+    }
+
     public static <T extends VaultModifier<?>> List<T> getModifiersOfType(Vault vault, Class<T> type) {
         return vault.get(Vault.MODIFIERS)
                 .getModifiers()

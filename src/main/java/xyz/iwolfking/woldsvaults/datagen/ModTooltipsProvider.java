@@ -76,7 +76,8 @@ public class ModTooltipsProvider extends AbstractTooltipProvider {
                     .addTooltipEntry(ModItems.SMASHED_VAULT_GEM.getRegistryName(), "Obtained when a vault ore would normally drop nothing.")
                     .addTooltipEntry(ModItems.GREED_TREE_RESET_ITEM.getRegistryName(), "Use to reset your Greed Tree unlocks!")
                     .addTooltipEntry(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK.getRegistryName(), "Use with <aqua>Integrated Dynamics's<yellow> Crafting Interface<white> when you want to utilize research locked recipes!")
-                    .addTooltipEntry(ModBlocks.TRINKET_FUSION_BLOCK.getRegistryName(), "Combines <light_purple>Trinkets into <gold>Fusion Trinkets<gray> using the power of <light_purple>Prismatic Glue");
+                    .addTooltipEntry(ModBlocks.TRINKET_FUSION_BLOCK.getRegistryName(), "Combines <light_purple>Trinkets into <gold>Fusion Trinkets<gray> using the power of <light_purple>Prismatic Glue")
+                    .addTooltipEntry(ModItems.CONCEALED_CHAOS.getRegistryName(), "Use in the <aqua>Crystal Workbench<gray> to add random modifiers to your <yellow>Vault Crystal<gray>, has a chance to backfire! Consumes 50 capacity.");
         });
     }
 }
