@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearModifierHelperAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -237,6 +238,35 @@ public class WoldGearModifierHelper {
             }
         } else {
             return GearModification.Result.errorInternal();
+        }
+    }
+
+    public static GearModification.Result reforgeModifiersForNewLevelForced(ItemStack stack, int newLevel, Random random, boolean takeRepairSlot) {
+        VaultGearData data = VaultGearData.read(stack);
+        if (data.getUsedRepairSlots() >= data.getRepairSlots() && takeRepairSlot) {
+            return GearModification.Result.makeActionError("no_repair_slots");
+        } else {
+            newLevel = Math.min(100, newLevel);
+            if (newLevel <= data.getItemLevel()) {
+                return GearModification.Result.errorUnmodifiable();
+            } else {
+                VaultGearTierConfig cfg = VaultGearTierConfig.getConfig(stack).orElse(null);
+                if (cfg == null) {
+                    return GearModification.Result.errorUnmodifiable();
+                } else {
+                    data.setItemLevel(newLevel);
+                    if (takeRepairSlot) {
+                        data.setUsedRepairSlots(data.getUsedRepairSlots() + 1);
+                    }
+
+                    VaultGearModifierHelperAccessor.callReforgeBaseAttributesForNewLevel(data, cfg, newLevel, random);
+                    VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.IMPLICIT, newLevel, random);
+                    VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.PREFIX, newLevel, random);
+                    VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.SUFFIX, newLevel, random);
+                    data.write(stack);
+                    return GearModification.Result.makeSuccess();
+                }
+            }
         }
     }
 
