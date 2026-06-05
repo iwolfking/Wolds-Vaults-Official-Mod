@@ -105,6 +105,10 @@
       "value": "Use in the Crystal Workbench to set the objective to 'Survival'"
     },
     {
+      "item": "woldsvaults:crystal_seal_unhinged_scavingo",
+      "value": "Use in the Crystal Workbench to set the objective to 'Unhinged Collector'"
+    },
+    {
       "item": "woldsvaults:capstone_vendoors",
       "value": "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Vendoor Hunter' modifier."
     },
