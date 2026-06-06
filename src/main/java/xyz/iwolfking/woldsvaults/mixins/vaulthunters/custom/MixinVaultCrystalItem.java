@@ -5,15 +5,25 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.api.crystal.tasks.ConcealedChaosBackfireTask;
 import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 
+import java.util.Map;
+
 @Mixin(value = VaultCrystalItem.class)
 public class MixinVaultCrystalItem {
+    @Shadow
+    @Final
+    private static Map<String, VaultCrystalItem.IScheduledTaskDeserializer> SCHEDULED_TASK_DESERIALIZER_MAP;
+
     @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
     private void useOn(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
         if(!GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULTS, context.getLevel())) {
@@ -22,5 +32,10 @@ public class MixinVaultCrystalItem {
             }
             cir.setReturnValue(InteractionResult.FAIL);
         }
+    }
+
+    @Inject(method = "<clinit>", at = @At("TAIL"))
+    private static void addNewCrystalTask(CallbackInfo ci) {
+        SCHEDULED_TASK_DESERIALIZER_MAP.put(ConcealedChaosBackfireTask.ID, ConcealedChaosBackfireTask::deserializeNBT);
     }
 }

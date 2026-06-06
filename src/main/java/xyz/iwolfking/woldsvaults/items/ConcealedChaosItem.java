@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.crystal.tasks.ConcealedChaosBackfireTask;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
 import java.util.Random;
 
@@ -39,8 +40,7 @@ public class ConcealedChaosItem extends Item implements IVaultCrystalModifier {
 
         Random random = new Random();
         if(random.nextFloat() <= 0.5F) {
-            VaultCrystalItem.scheduleTask(new VaultCrystalItem.AddModifiersTask(WoldsVaults.id("concealed_chaos_backfire"), 1), output);
-            data.getProperties().setUnmodifiable(true);
+            VaultCrystalItem.scheduleTask(ConcealedChaosBackfireTask.INSTANCE, output);
         }
         else {
             VaultCrystalItem.scheduleTask(new VaultCrystalItem.AddModifiersTask(WoldsVaults.id("concealed_chaos"), 1), output);
