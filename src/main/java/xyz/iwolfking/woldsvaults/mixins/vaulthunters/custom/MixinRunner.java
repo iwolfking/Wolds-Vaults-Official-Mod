@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.Version;
-import iskallia.vault.core.data.compound.ItemStackList;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.FruitEatenEvent;
 import iskallia.vault.core.random.ChunkRandom;
@@ -11,7 +10,6 @@ import iskallia.vault.core.vault.VaultLevel;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
-import iskallia.vault.core.vault.objective.AwardCrateObjective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.loot.generator.LootTableGenerator;
@@ -59,7 +57,8 @@ public abstract class MixinRunner extends Listener {
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
         CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
-            if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100 && PlayerGreedTreeData.get(event.getPlayer().getLevel()).getGreedTier(event.getPlayer().getUUID()) > 0) {
+            int greedTier = PlayerGreedTreeData.get(event.getPlayer().getLevel()).getGreedTier(event.getPlayer().getUUID());
+            if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100 && greedTier > 0) {
                 ResourceLocation lootTableKey = WoldsVaults.id("greed_crate_bonus_" + VaultUtils.getMainObjectiveKey(vault));
 
                 if(!VaultRegistry.LOOT_TABLE.contains(lootTableKey)) {
@@ -72,6 +71,10 @@ public abstract class MixinRunner extends Listener {
 
                 Iterator<ItemStack> rewardIterator = generator.getItems();
                 while (rewardIterator.hasNext()) {
+                    ItemStack reward = rewardIterator.next();
+                    if(reward.getItem().equals(ModItems.GREED_COIN)) {
+                        reward.setCount(reward.getCount() + (greedTier - 1));
+                    }
                     ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(rewardIterator.next());
                 }
             }
