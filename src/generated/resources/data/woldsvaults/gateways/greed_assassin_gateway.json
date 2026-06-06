@@ -70,9 +70,9 @@
       "rewards": [
         {
           "type": "loot_table",
-          "loot_table": "woldsvaults:gateway_rare",
+          "loot_table": "woldsvaults:gateway_greed_coins",
           "rolls": 1,
-          "desc": "Rare Rewards"
+          "desc": "Greed Coins"
         }
       ]
     },
@@ -137,9 +137,9 @@
       "rewards": [
         {
           "type": "loot_table",
-          "loot_table": "woldsvaults:gateway_rare",
+          "loot_table": "woldsvaults:gateway_greed_coins",
           "rolls": 1,
-          "desc": "Rare Rewards"
+          "desc": "Greed Coins"
         }
       ]
     },
@@ -204,9 +204,9 @@
       "rewards": [
         {
           "type": "loot_table",
-          "loot_table": "woldsvaults:gateway_rare",
+          "loot_table": "woldsvaults:gateway_greed_coins",
           "rolls": 1,
-          "desc": "Rare Rewards"
+          "desc": "Greed Coins"
         }
       ]
     }
