@@ -848,6 +848,10 @@
       {
         "value": "premium",
         "weight": 1.0
+      },
+      {
+        "value": "archive",
+        "weight": 1.0
       }
     ],
     "greed": [

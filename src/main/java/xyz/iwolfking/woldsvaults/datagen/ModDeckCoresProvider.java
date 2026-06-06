@@ -196,6 +196,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             builder.addPool("completion_crate", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("bazaar", 1);
                 stringWeightedListBuilder.add("premium", 1);
+                stringWeightedListBuilder.add("archive", 1);
             });
             builder.addPool("dungeon_boss", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("adept", 1);
