@@ -1,12 +1,18 @@
 package xyz.iwolfking.woldsvaults.recipes.gear;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.client.gui.overlay.VaultBarOverlay;
+import iskallia.vault.command.give.GiveCommand;
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.IdentifiableItem;
 import iskallia.vault.gear.item.VaultGearItem;
+import iskallia.vault.init.ModConfigs;
+import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.recipe.anvil.AnvilContext;
 import iskallia.vault.recipe.anvil.VanillaAnvilRecipe;
+import iskallia.vault.util.LootInitialization;
 import iskallia.vault.world.data.PlayerVaultStatsData;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
@@ -14,6 +20,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.WoldGearModifierHelper;
 
 import java.util.*;
@@ -32,20 +39,20 @@ public class AdaptiveFocusUniqueGearRecipe extends VanillaAnvilRecipe {
             }
 
             Player player = context.getPlayer().get();
+            Random random = new Random();
 
             if(player instanceof ServerPlayer serverPlayer) {
                 int playerLevel = PlayerVaultStatsData.get(serverPlayer.getLevel()).getVaultStats(serverPlayer).getVaultLevel();
-                if(!WoldGearModifierHelper.reforgeModifiersForNewLevelForced(output, Math.min(100, playerLevel), new Random(), true).success()) {
+                if(!WoldGearModifierHelper.reforgeModifiersForNewLevelForced(output, Math.min(100, playerLevel), random, true).success()) {
                     return false;
                 }
             }
             else {
-                if(WoldGearModifierHelper.reforgeModifiersForNewLevelForced(output, Math.min(100, VaultBarOverlay.vaultLevel), new Random(), true).success()) {
+                if(!WoldGearModifierHelper.reforgeModifiersForNewLevelForced(output, Math.min(100, VaultBarOverlay.vaultLevel), random, true).success()) {
                     return false;
                 }
             }
 
-            gear.write(output);
             context.setOutput(output);
 
             context.onTake(context.getTake().append(() -> {
@@ -63,10 +70,14 @@ public class AdaptiveFocusUniqueGearRecipe extends VanillaAnvilRecipe {
         IVanillaRecipeFactory factory = registry.getVanillaRecipeFactory();
 
         ItemStack swordInput = new ItemStack(iskallia.vault.init.ModItems.SWORD);
-        VaultGearData gearData = VaultGearData.read(swordInput);
-
-        gearData.setRarity(VaultGearRarity.UNIQUE);
-        gearData.write(swordInput);
+        VaultGearData data = VaultGearData.read(swordInput);
+        data.setItemLevel(0);
+        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_ROLL_TYPE, "Unique");
+        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_UNIQUE_POOL, VaultMod.id("inflated_justice"));
+        data.write(swordInput);
+        if(swordInput.getItem() instanceof IdentifiableItem identifiableItem) {
+            identifiableItem.instantIdentify(null, swordInput);
+        }
 
         ItemStack secondaryInput = new ItemStack(ModItems.ADAPTIVE_FOCUS);
 
