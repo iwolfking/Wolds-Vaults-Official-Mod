@@ -17,7 +17,7 @@ public class ModVaultRecyclerProvider extends AbstractVaultRecyclerProvider {
     @Override
     public void registerConfigs() {
        add("new_recycleables", builder -> {
-           builder.add(VaultMod.id("deck_socket"), chanceStack(ModItems.SILVER_SCRAP, 6, 12, 0.8F), chanceStack(ModItems.BLACK_OPAL_GEM, 1, 1, 0.2F), chanceStack(ModItems.CARD_JUICE, 1, 1, 0.2F));
+           builder.add(VaultMod.id("deck_socket"), chanceStack(ModItems.SILVER_SCRAP, 0, 10, 1.0F), chanceStack(ModItems.BLACK_OPAL_GEM, 0, 4, 1.0F), chanceStack(ModItems.CARD_JUICE, 0, 6, 1.0F));
        });
     }
 
