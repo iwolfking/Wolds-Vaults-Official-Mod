@@ -193,8 +193,8 @@
     },
     "archive": {
       "modifierValue": {
-        "min": 0.05,
-        "max": 0.1,
+        "min": 0.075,
+        "max": 0.125,
         "type": "uniform"
       },
       "modifierValues": {

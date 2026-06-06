@@ -117,7 +117,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             premiumCoreModifier.modifierRolls.put("lesser", variant("Lesser Premium Core", FloatRoll.ofUniform(0.05F, 0.05F), 13618375, "woldsvaults:deck_cores/premium_deck_core_lesser#inventory"));
             premiumCoreModifier.modifierRolls.put("greater", variant("Greater Premium Core", FloatRoll.ofUniform(0.15F, 0.2F), 16769382, "woldsvaults:deck_cores/premium_deck_core_greater#inventory"));
 
-            GroupSynergyMultiplierModifier.Config archiveCoreModifier = new GroupSynergyMultiplierModifier.Config(FloatRoll.ofUniform(0.05F, 0.1F), "Arcane");
+            GroupSynergyMultiplierModifier.Config archiveCoreModifier = new GroupSynergyMultiplierModifier.Config(FloatRoll.ofUniform(0.075F, 0.125F), "Arcane");
             archiveCoreModifier.modifierRolls.put("lesser", variant("Lesser Archive Core", FloatRoll.ofUniform(0.05F, 0.05F), 13618375, "woldsvaults:deck_cores/archive_deck_core_lesser#inventory"));
             archiveCoreModifier.modifierRolls.put("greater", variant("Greater Archive Core", FloatRoll.ofUniform(0.15F, 0.2F), 16769382, "woldsvaults:deck_cores/archive_deck_core_greater#inventory"));
 
