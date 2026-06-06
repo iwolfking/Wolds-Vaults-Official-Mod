@@ -52,7 +52,7 @@ public class MapModificationRecipe extends AbstractCrystalModificationRecipe<Vau
             crystalData.getProperties().setUnmodifiable(true);
         });
 
-        registry.addRecipes(List.of(new CrystalWorkbenchRecipe(map, crystalOutput)), CrystalWorkbenchRecipeCategory.UID);
+        registry.addRecipes(List.of(new CrystalWorkbenchRecipe(map, crystalOutput, List.of("Consume 10 x Tier capacity"))), CrystalWorkbenchRecipeCategory.UID);
     }
 
 }
