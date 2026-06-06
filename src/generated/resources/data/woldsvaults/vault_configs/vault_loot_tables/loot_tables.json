@@ -1,6 +1,11 @@
 {
   "keys": [
     {
+      "id": "the_vault:survival_gear_cache",
+      "name": "Survival Gear Cache",
+      "1.0": "the_vault:survival_gear_cache"
+    },
+    {
       "id": "woldsvaults:greed_crate_bonus_scavenger",
       "name": "Greed Crate Bonus Scavenger",
       "1.0": "woldsvaults:greed_crate_bonus_scavenger"
@@ -54,11 +59,6 @@
       "id": "woldsvaults:greed_crate_bonus_scavenger_bingo",
       "name": "Greed Crate Bonus Scavenger Bingo",
       "1.0": "woldsvaults:greed_crate_bonus_scavenger_bingo"
-    },
-    {
-      "id": "woldsvaults:greed_crate_bonus_vault_royale",
-      "name": "Greed Crate Bonus Vault Royale",
-      "1.0": "woldsvaults:greed_crate_bonus_vault_royale"
     },
     {
       "id": "woldsvaults:greed_crate_bonus_alchemy",
