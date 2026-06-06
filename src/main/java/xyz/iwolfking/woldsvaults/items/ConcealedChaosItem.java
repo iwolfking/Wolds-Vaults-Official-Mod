@@ -38,7 +38,7 @@ public class ConcealedChaosItem extends Item implements IVaultCrystalModifier {
 
 
         Random random = new Random();
-        if(random.nextFloat() <= 0.33F) {
+        if(random.nextFloat() <= 0.5F) {
             VaultCrystalItem.scheduleTask(new VaultCrystalItem.AddModifiersTask(WoldsVaults.id("concealed_chaos_backfire"), 1), output);
             data.getProperties().setUnmodifiable(true);
         }
