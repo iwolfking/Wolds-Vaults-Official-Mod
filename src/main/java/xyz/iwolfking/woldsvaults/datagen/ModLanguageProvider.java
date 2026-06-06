@@ -210,6 +210,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("jei.the_vault.completion_crate_bingo_wold_full_loot", "Bingo Crate (Full)");
         add("jei.the_vault.completion_crate_brutal_bosses_loot", "Brutal Bosses Crate");
         add("jei.the_vault.completion_crate_corrupted_loot", "Corrupted Crate");
+        add("jei.the_vault.completion_crate_chaos_loot", "Chaos Completion Crate");
         add("jei.the_vault.dungeon_mobs_loot", "Dungeon Mobs");
         add("jei.the_vault.dungeon_boss_loot", "Dungeon Boss");
         add("jei.the_vault.enigma_chest_map_loot", "Enigma Chest (Map)");

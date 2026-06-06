@@ -39,6 +39,7 @@ public abstract class MixinLootInfoGroupDefinitionRegistry {
         register("wooden_dungeon_barrel", () -> new ItemStack(iskallia.vault.init.ModBlocks.WOODEN_BARREL));
         register("time_trial_reward_crate", () -> new ItemStack(ModBlocks.getCrateFor("time_trial_reward")));
         register("survival_gear_cache", () -> new ItemStack(ModBlocks.getCrateFor("survival")));
+        register("completion_crate_chaos", () -> new ItemStack(iskallia.vault.init.ModItems.VAULT_CATALYST_CHAOS));
         register("treasure_pillar", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_PEDESTAL));
     }
 

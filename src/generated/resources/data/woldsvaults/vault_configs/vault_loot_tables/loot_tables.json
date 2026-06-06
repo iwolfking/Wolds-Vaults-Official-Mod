@@ -69,6 +69,31 @@
       "id": "woldsvaults:greed_crate_bonus_obelisk",
       "name": "Greed Crate Bonus Obelisk",
       "1.0": "woldsvaults:greed_crate_bonus_obelisk"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_chaos",
+      "name": "Greed Crate Bonus Chaos",
+      "1.0": "woldsvaults:greed_crate_bonus_chaos"
+    },
+    {
+      "id": "woldsvaults:chaos_crate_0",
+      "name": "Chaos Crate 0",
+      "1.0": "woldsvaults:chaos_crate_0"
+    },
+    {
+      "id": "woldsvaults:chaos_crate_20",
+      "name": "Chaos Crate 20",
+      "1.0": "woldsvaults:chaos_crate_20"
+    },
+    {
+      "id": "woldsvaults:chaos_crate_50",
+      "name": "Chaos Crate 50",
+      "1.0": "woldsvaults:chaos_crate_50"
+    },
+    {
+      "id": "woldsvaults:chaos_crate_100",
+      "name": "Chaos Crate 100",
+      "1.0": "woldsvaults:chaos_crate_100"
     }
   ]
 }
