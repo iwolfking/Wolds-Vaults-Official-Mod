@@ -33,6 +33,10 @@
           "sealCount": 0,
           "type": "unhinged_scavenger_bingo"
         },
+        "theme": {
+          "id": "the_vault:classic_vault_chaos",
+          "type": "value"
+        },
         "modifiers": {
           "list": [],
           "random_modifiers": true,

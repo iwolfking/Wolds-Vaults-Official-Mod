@@ -479,6 +479,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_scav_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_HUNTER))
                 .save(pFinishedRecipeConsumer);
 
+        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_UNHINGED_SCAVINGO)
+                .define('X', iskallia.vault.init.ModItems.DREAMSTONE)
+                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_COLLECTOR)
+                .define('G', iskallia.vault.init.ModBlocks.VAULT_MEAT_BLOCK)
+                .define('B', iskallia.vault.init.ModItems.PERFECT_PAINITE)
+                .pattern("XGX")
+                .pattern("XOX")
+                .pattern("XBX")
+                .unlockedBy("has_scavingo_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_COLLECTOR))
+                .save(pFinishedRecipeConsumer);
+
         ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_SPIRITS)
                 .define('X', iskallia.vault.init.ModItems.ETERNAL_SOUL)
                 .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_SCOUT)

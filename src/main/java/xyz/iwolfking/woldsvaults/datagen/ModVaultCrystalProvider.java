@@ -169,6 +169,7 @@ public class ModVaultCrystalProvider extends AbstractVaultCrystalConfigProvider 
             builder.addSeal(ModItems.CRYSTAL_SEAL_UNHINGED_SCAVINGO.getRegistryName(), sealListBuilder -> {
                 sealListBuilder.add(0, sealEntryBuilder -> {
                     sealEntryBuilder.input(iskallia.vault.init.ModItems.VAULT_CRYSTAL.getRegistryName());
+                    sealEntryBuilder.theme(new ValueCrystalTheme(VaultMod.id("classic_vault_chaos")));
                     sealEntryBuilder.objective(new ScalingUnhingedScavengerBingoCrystalObjective(0.25F, 0));
                 });
             });
