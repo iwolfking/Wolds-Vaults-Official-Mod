@@ -36,7 +36,7 @@ public class ConcealedChaosModificationRecipe extends AbstractCrystalModificatio
             crystalModifier.applyCrystalRecipe(AnvilContext.ofSimulated(crystalOutput, ingredient), CrystalData.read(crystalOutput), ingredient, crystalOutput);
         }
 
-        registry.addRecipes(List.of(new CrystalWorkbenchRecipe(ingredient, crystalOutput, List.of("Adds random positive modifiers with a chance of making crystal unmodifiable and adding some negative modifiers as well."))), CrystalWorkbenchRecipeCategory.UID);
+        registry.addRecipes(List.of(new CrystalWorkbenchRecipe(ingredient, crystalOutput, List.of("Adds random positive modifiers ", "with a chance of making crystal", "unmodifiable and adding", "some negative modifiers", "as well."))), CrystalWorkbenchRecipeCategory.UID);
     }
 
 }
