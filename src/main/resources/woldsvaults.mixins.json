@@ -68,6 +68,7 @@
     "dungeons_library.MixinArtifactsBarRenderer",
     "dungeons_library.MixinAttacherBuiltInEnchantments",
     "dungeons_library.MixinCuriosKeyBindings",
+    "dungeons_library.MixinMinionMasterHelper",
     "dungeons_mobs.MixinReplacedIllagersEvents",
     "dungeons_mobs.MixinRoyalGuardShield",
     "dungeons_mobs.MixinVanguardShield",
