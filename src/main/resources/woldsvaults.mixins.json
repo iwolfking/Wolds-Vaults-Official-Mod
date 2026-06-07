@@ -321,6 +321,7 @@
     "vaulthunters.custom.MixinSlotSquared",
     "vaulthunters.custom.MixinSpecialAbilityModificationRegistry",
     "vaulthunters.custom.MixinStageManager",
+    "vaulthunters.custom.MixinSwampZombie",
     "vaulthunters.custom.MixinTemporalShardItem",
     "vaulthunters.custom.MixinTileRewardChallengeAction",
     "vaulthunters.custom.MixinTimeTrialObjective",
