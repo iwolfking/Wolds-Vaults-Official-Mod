@@ -17,7 +17,7 @@ public abstract class MixinSwampZombie extends Zombie {
         super(pEntityType, pLevel);
     }
 
-    @WrapOperation(method = "lambda$tick$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z"))
+    @WrapOperation(method = "lambda$tick$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z"), remap = true)
     private boolean checkForLineOfSight(Player instance, MobEffectInstance mobEffectInstance, Operation<Boolean> original) {
         if (this.hasLineOfSight(instance)) {
             return original.call(instance, mobEffectInstance);
