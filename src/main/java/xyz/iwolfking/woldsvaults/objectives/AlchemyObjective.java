@@ -188,6 +188,15 @@ public class AlchemyObjective extends Objective {
     }
 
     @Override
+    public void releaseServer() {
+        CommonEvents.OBJECTIVE_PIECE_GENERATION.release(this);
+        CommonEvents.ENTITY_DROPS.release(this);
+        WoldCommonEvents.BREWING_ALTAR_BREW_EVENT.release(this);
+        CommonEvents.LISTENER_LEAVE.release(this);
+        super.releaseServer();
+    }
+
+    @Override
     public void tickServer(VirtualWorld world, Vault vault) {
         if (this.get(PROGRESS) > this.get(REQUIRED_PROGRESS)) {
             super.tickServer(world, vault);
