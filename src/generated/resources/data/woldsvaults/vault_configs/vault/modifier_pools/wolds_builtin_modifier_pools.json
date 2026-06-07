@@ -756,6 +756,59 @@
         ]
       }
     ],
+    "the_vault:enchanted_cascade": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:gilded_cascade",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:super_gilded_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:super_living_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:ornate_cascade",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:super_ornate_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:wooden_cascade",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:super_wooden_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:coin_cascade",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:super_coin_cascade",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "the_vault:bb_wither": [
       {
         "level": 0,

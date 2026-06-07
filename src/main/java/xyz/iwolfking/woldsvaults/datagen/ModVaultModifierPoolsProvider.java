@@ -230,6 +230,23 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                     )
             );
 
+            b.pool(VaultMod.id("enchanted_cascade").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(1, 1, e -> {
+                                e.add("the_vault:gilded_cascade", 4);
+                                e.add("the_vault:super_gilded_cascade", 1);
+                                e.add("the_vault:living_cascade", 4);
+                                e.add("the_vault:super_living_cascade", 1);
+                                e.add("the_vault:ornate_cascade", 4);
+                                e.add("the_vault:super_ornate_cascade", 1);
+                                e.add("the_vault:wooden_cascade", 4);
+                                e.add("the_vault:super_wooden_cascade", 1);
+                                e.add("the_vault:coin_cascade", 4);
+                                e.add("the_vault:super_coin_cascade", 1);
+                            })
+                    )
+            );
+
             b.pool(VaultMod.id("bb_wither").toString(), pool ->
                     pool.level(0, entries ->
                             entries.entry(1, 1, e -> {
