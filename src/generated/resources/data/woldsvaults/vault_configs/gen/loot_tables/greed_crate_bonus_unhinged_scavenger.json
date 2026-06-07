@@ -16,8 +16,8 @@
                 "id": "the_vault:greed_coin",
                 "count": {
                   "type": "uniform",
-                  "min": 10,
-                  "max": 15
+                  "min": 5,
+                  "max": 7
                 }
               }
             }

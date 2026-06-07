@@ -58,7 +58,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_scavenger"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 6, 10);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 3, 5);
                 });
             });
             addGenericGreedPools(builder);
@@ -66,7 +66,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_zealot"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 5, 7);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 3, 5);
                 });
             });
             addGenericGreedPools(builder);
@@ -74,7 +74,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_unhinged_scavenger"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 10, 15);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 5, 7);
                 });
             });
             addGenericGreedPools(builder);
@@ -82,7 +82,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_survival"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 5, 5);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 3, 4);
                 });
             });
             addGenericGreedPools(builder);
@@ -90,7 +90,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_ballistic_bingo"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 6, 9);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 3, 4);
                 });
             });
             addGenericGreedPools(builder);
@@ -98,7 +98,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_bingo"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 4, 6);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 2, 3);
                 });
             });
             addGenericGreedPools(builder);
@@ -106,7 +106,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_elixir"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 4, 6);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 2, 2);
                 });
             });
             addGenericGreedPools(builder);
@@ -114,7 +114,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_enchanted_elixir"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 5, 7);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 2, 3);
                 });
             });
             addGenericGreedPools(builder);
@@ -122,7 +122,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_brutal_bosses"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 7, 12);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 2, 3);
                 });
             });
             addGenericGreedPools(builder);
@@ -130,7 +130,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_rune_boss"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 7, 10);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 3, 5);
                 });
             });
             addGenericGreedPools(builder);
@@ -138,7 +138,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_scavenger_bingo"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 6, 9);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 3, 4);
                 });
             });
             addGenericGreedPools(builder);
@@ -146,7 +146,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_alchemy"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 7, 10);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 3, 5);
                 });
             });
             addGenericGreedPools(builder);
@@ -154,7 +154,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_obelisk"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 5, 5);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 3, 4);
                 });
             });
             addGenericGreedPools(builder);
@@ -162,7 +162,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         add(WoldsVaults.id("greed_crate_bonus_chaos"), builder -> {
             builder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {
-                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 7, 10);
+                    poolBuilder.item(1, ModItems.GREED_COIN.getRegistryName().toString(), 3, 5);
                 });
             });
             addGenericGreedPools(builder);
