@@ -21,19 +21,13 @@ public class MixinStageManager {
     @WrapOperation(method = "onItemCrafted", at = @At(value = "INVOKE", target = "Liskallia/vault/research/ResearchTree;restrictedBy(Lnet/minecraft/world/item/ItemStack;Liskallia/vault/research/Restrictions$Type;)Ljava/lang/String;"))
     private static String allowCraftingDyedBackpacksProper(ResearchTree instance, ItemStack item, Restrictions.Type restrictionType, Operation<String> original, @Local(name = "craftingMatrix") Container craftingMatrix) {
         if(restrictionType.equals(Restrictions.Type.CRAFTABILITY)) {
-            WoldsVaults.LOGGER.info("EEP");
             if(item.getItem() instanceof BackpackItem) {
-                WoldsVaults.LOGGER.info("BACKPACK");
 
                 if(item.hasTag()) {
-                    WoldsVaults.LOGGER.info("HAS TAG");
 
                     if(item.getTag() != null && (item.getTag().contains("clothColor") || item.getTag().contains("borderColor"))) {
-                        WoldsVaults.LOGGER.info("COLOR TAG");
 
                         if(craftingMatrix.hasAnyOf(Set.of(item.getItem()))) {
-                            WoldsVaults.LOGGER.info("HAS MATCHING ITEM");
-
                             return null;
                         }
                     }
