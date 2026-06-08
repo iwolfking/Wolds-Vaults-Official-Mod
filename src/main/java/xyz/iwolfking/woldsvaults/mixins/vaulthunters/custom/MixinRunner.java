@@ -75,7 +75,7 @@ public abstract class MixinRunner extends Listener {
                     if(reward.getItem().equals(ModItems.GREED_COIN)) {
                         reward.setCount(reward.getCount() + (greedTier - 1));
                     }
-                    ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(rewardIterator.next());
+                    ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
                 }
             }
         });
