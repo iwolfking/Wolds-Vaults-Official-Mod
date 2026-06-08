@@ -8,6 +8,7 @@ import iskallia.vault.init.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Blocks;
 import xyz.iwolfking.vhapi.api.datagen.gen.AbstractLootTableProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
@@ -332,6 +333,12 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         });
         builder.entry(entryBuilder -> {
             entryBuilder.pool(1, poolBuilder -> {
+                poolBuilder.item(1, Blocks.AIR.getRegistryName().toString(), 1, 1);
+                vaultMap(poolBuilder, 1, "gear_completion", -1);
+            }).rolls(1, 1);
+        });
+        builder.entry(entryBuilder -> {
+            entryBuilder.pool(1, poolBuilder -> {
                 poolBuilder.item(16, ModItems.SOUL_VORTEX.getRegistryName().toString(), 1, 1);
                 poolBuilder.item(16, ModItems.SPICY_HEARTY_BURGER.getRegistryName().toString(), 1, 4);
                 poolBuilder.item(2, ModItems.COMPANION_EGG.getRegistryName().toString(), 1, 1);
@@ -364,6 +371,13 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
     private void gearPiece(AbstractLootTableProvider.PoolBuilder poolBuilder, int weight, Item gearPiece, String gearRollTypePool) {
         poolBuilder.itemNbt(weight, gearPiece.getRegistryName().toString(), 1, 1, nbt -> {
             nbt.put("the_vault:gear_roll_type_pool", gearRollTypePool);
+        });
+    }
+
+    private void vaultMap(AbstractLootTableProvider.PoolBuilder poolBuilder, int weight, String gearRollTypePool, int tier) {
+        poolBuilder.itemNbt(weight, xyz.iwolfking.woldsvaults.init.ModItems.MAP.getRegistryName().toString(), 1, 1, nbt -> {
+            nbt.put("the_vault:gear_roll_type_pool", gearRollTypePool);
+            nbt.put("the_vault:map_tier", tier);
         });
     }
 

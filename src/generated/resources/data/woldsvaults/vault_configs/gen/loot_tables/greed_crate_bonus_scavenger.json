@@ -174,6 +174,46 @@
           "weight": 1,
           "pool": [
             {
+              "weight": 1,
+              "item": {
+                "id": "minecraft:air",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:map",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "gear_completion",
+                  "the_vault:map_tier": -1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "roll": {
+        "type": "uniform",
+        "min": 1,
+        "max": 1
+      },
+      "pool": [
+        {
+          "weight": 1,
+          "pool": [
+            {
               "weight": 16,
               "item": {
                 "id": "the_vault:soul_vortex",
