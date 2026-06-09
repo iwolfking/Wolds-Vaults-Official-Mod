@@ -9,6 +9,7 @@ import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.*;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModOptions;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
@@ -19,7 +20,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.scalingbingoseals.util.INamedObjective;
-import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -50,9 +50,8 @@ public class ScalingScavengerBingoCrystalObjective extends CrystalObjective impl
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
         ResourceLocation entryPool = SigilConfig.getConfig(sigil).map((config) -> config.getLevel(level).getScavengerPool()).orElse(VaultMod.id("default"));
-
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
-            objectives.add(ScavengerBingoObjective.of(this.getWidth(), this.getHeight(), this.objectiveProbability, entryPool, false /*TODO*/, null).add(GridGatewayObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(
+            objectives.add(ScavengerBingoObjective.of(this.getWidth(), this.getHeight(), this.objectiveProbability, entryPool, false /*TODO*/, VaultMod.id("bingos")).add(GridGatewayObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(
                 VaultCrateBlock.Type.BINGO, "bingo", level, true)).add(VictoryObjective.of(300))));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));

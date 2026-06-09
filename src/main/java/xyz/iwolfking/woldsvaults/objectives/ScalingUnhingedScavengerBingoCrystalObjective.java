@@ -52,8 +52,7 @@ public class ScalingUnhingedScavengerBingoCrystalObjective extends CrystalObject
         ResourceLocation entryPool = SigilConfig.getConfig(sigil).map((config) -> config.getLevel(level).getScavengerPool()).orElse(VaultMod.id("default"));
 
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
-            objectives.add(UnhingedScavengerBingoObjective.of(this.getWidth(), this.getHeight(), this.objectiveProbability, entryPool, false /*TODO*/, null).add(GridGatewayObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(
-                VaultCrateBlock.Type.BINGO, "bingo", level, true)).add(VictoryObjective.of(300))));
+            objectives.add(UnhingedScavengerBingoObjective.of(this.getWidth(), this.getHeight(), this.objectiveProbability, entryPool, false /*TODO*/, VaultMod.id("bingos")).add(GridGatewayObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("UNHINGED_SCAVENGER"), "unhinged_scavenger", level, true)).add(VictoryObjective.of(300))));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));

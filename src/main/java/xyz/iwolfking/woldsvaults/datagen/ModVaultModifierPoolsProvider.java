@@ -726,6 +726,32 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                     )
             );
 
+            b.pool(VaultMod.id("unhinged_bingos").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(1, 1, e -> {
+                                e.add("the_vault:safari_bingo", 1);
+                                e.add("the_vault:challenge_bingo", 1);
+                                e.add("the_vault:boinging_bingo", 1);
+                                e.add("the_vault:retro_bingo", 1);
+                                e.add("the_vault:surprise_bingo", 1);
+                                e.add("the_vault:enchanted_bingo", 1);
+                                e.add("the_vault:cursed_bingo", 1);
+                                e.add("the_vault:spooky_bingo", 1);
+                                e.add("the_vault:infernal_bingo", 1);
+                                e.add("the_vault:sweet_bingo", 1);
+                                e.add("the_vault:fungal_bingo", 1);
+                                e.add("the_vault:electrifying_bingo", 1);
+                                e.add("the_vault:freezing_bingo", 1);
+                                e.add("the_vault:burning_bingo", 1);
+                                e.add("the_vault:mini_bingo", 1);
+                                e.add("the_vault:big_bingo", 1);
+                                e.add("the_vault:bonus_bingo", 1);
+                            }).entry(1, 1, e -> {
+                               e.add("the_vault:crate_tier", 1);
+                            }
+                    )
+            ));
+
             b.pool(VaultMod.id("random_positive").toString(), pool ->
                     pool.level(0, entries ->
                             entries.entry(1, 1, e -> {
