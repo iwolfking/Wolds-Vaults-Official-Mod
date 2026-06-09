@@ -242,7 +242,7 @@ public class BrewingAltar extends Block implements EntityBlock {
 
             Particle particle = Minecraft.getInstance().particleEngine.createParticle(ModParticles.BONK.get(), x, y, z, vx, vy, vz);
 
-            if (uses == 0) {
+            if (particle != null && uses == 0) {
                 particle.setColor(0, 0, 0); // float values [0, 1]
                 return;
             }
