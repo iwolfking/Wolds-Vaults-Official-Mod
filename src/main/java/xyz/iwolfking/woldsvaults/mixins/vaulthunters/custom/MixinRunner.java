@@ -58,8 +58,8 @@ public abstract class MixinRunner extends Listener {
     private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
         CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
             int greedTier = PlayerGreedTreeData.get(event.getPlayer().getLevel()).getGreedTier(event.getPlayer().getUUID());
-            if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100 && greedTier > 0) {
-                ResourceLocation lootTableKey = WoldsVaults.id("greed_crate_bonus_" + VaultUtils.getMainObjectiveKey(vault));
+            if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100 && greedTier > 0 && !VaultUtils.isRoyaleVault(vault) && !VaultUtils.isBrazierVault(vault) && !VaultUtils.isCakeVault(vault) && !VaultUtils.isSpecialVault(vault)) {
+                ResourceLocation lootTableKey = WoldsVaults.id("greed_crate_bonus_scavenger");
 
                 if(!VaultRegistry.LOOT_TABLE.contains(lootTableKey)) {
                     return;
