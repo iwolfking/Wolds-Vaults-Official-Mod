@@ -39,7 +39,6 @@ public class UnusualModifiers {
         JEWEL_SUFFIX.add(UnusualModifierLib.FINESSE_MINER_LEVEL_JEWEL);
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("jewel"), JEWEL_SUFFIX);
 
-        AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.REACH);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.RESISTANCE);
         AXE_MODIFIERS_PREFIX.add(UnusualModifierLib.DAMAGE_INCREASE);
@@ -60,7 +59,6 @@ public class UnusualModifiers {
         UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("axe"), AXE_MODIFIERS_PREFIX);
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("axe"), AXE_MODIFIERS_SUFFIX);
 
-        SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.REACH);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.RESISTANCE);
         SWORD_MODIFIERS_PREFIX.add(UnusualModifierLib.DAMAGE_INCREASE);
@@ -112,7 +110,6 @@ public class UnusualModifiers {
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("boots"), ARMOR_MODIFIERS_SUFFIX);
 
         NON_SACK_PREFIX.add(UnusualModifierLib.REACH);
-        NON_SACK_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
         NON_SACK_PREFIX.add(UnusualModifierLib.LEECH);
         NON_SACK_PREFIX.add(UnusualModifierLib.MANA_ADDITIVE);
         NON_SACK_PREFIX.add(UnusualModifierLib.MANA_REGEN);
@@ -120,6 +117,7 @@ public class UnusualModifiers {
         NON_SACK_PREFIX.add(UnusualModifierLib.AXE_CLEAVE);
         NON_SACK_PREFIX.add(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
         PLUSHIE_PREFIX.addAll(NON_SACK_PREFIX);
+        NON_SACK_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
         NON_SACK_PREFIX.add(UnusualModifierLib.ABILITY_POWER);
         NON_SACK_PREFIX.add(UnusualModifierLib.CHAINING);
         NON_SACK_PREFIX.add(UnusualModifierLib.CRITICAL_HIT_MITIGATION);
