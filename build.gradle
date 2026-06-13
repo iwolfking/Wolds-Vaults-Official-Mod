@@ -385,6 +385,7 @@ dependencies {
     implementation fg.deobf('local:black_market_tweaks:1.8')
     implementation fg.deobf('local:vhapi:5.3.0')
     implementation fg.deobf('local:ftb-essentials:1802.2.2-build.83')
+    implementation fg.deobf('local:bc_nbt_fix:1.0')
 //    implementation fg.deobf('local:serverportals:1.18.2-1.5')
 
     jarJar(group: 'eu.pb4', name: 'forgified-sgui', version: '[1.0.2,)') {
@@ -396,9 +397,9 @@ dependencies {
     jarJar(group: 'dev.attackeight', name: 'black_market_tweaks', version: '[1.8,)') {
         jarJar.pin(it, '1.8')
     }
-    //    jarJar(group: 'com.dog', name: 'serverportals', version: '[1.18.2-1.5,)') {
-//        jarJar.pin(it, '1.18.2-1.5')
-//    }
+    jarJar(group: 'smartin', name: 'bc_nbt_fix', version: '[1.0,)') {
+        jarJar.pin(it, '1.0')
+    }
 
     // mixins
     compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1")
