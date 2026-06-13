@@ -46,7 +46,8 @@ public class MixinDeckForgeRecipe {
                     return;
                 }
 
-                DeckModifier<?> modifier = ModConfigs.DECK_MODIFIERS.getRandom(poolId, ChunkRandom.ofNanoTime()).orElse(null);
+                DeckModifier<?> modifierType = ModConfigs.DECK_MODIFIERS.getRandom(poolId, ChunkRandom.ofNanoTime()).orElse(null);
+                DeckModifier<?> modifier = DeckModifier.ADAPTER.writeJson(modifierType).flatMap(DeckModifier.ADAPTER::readJson).orElse(null);
 
                 if(modifier == null) {
                     System.out.println("Modifier was null");
