@@ -46,6 +46,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.blocks.tiles.BrewingAltarTileEntity;
@@ -57,6 +58,8 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
+import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
+import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.CrateItemQuantityModifierSettable;
 import xyz.iwolfking.woldsvaults.objectives.data.alchemy.AlchemyTasks;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
@@ -418,17 +421,7 @@ public class AlchemyObjective extends Objective {
             int crateAmount = (int) (overflow * 100);
 
             if (crateAmount > 0) {
-                VaultModifier<?> crateQuantity = VaultModifierRegistry.get(VaultMod.id("crate_quantity"));
-                vault.get(Vault.MODIFIERS).addModifier(crateQuantity, crateAmount, true, random);
-
-                world.players().forEach(player ->
-                        player.sendMessage(
-                                new TextComponent("- Completion has overflown and ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
-                                        .append(crateQuantity.getChatDisplayNameComponent(crateAmount))
-                                        .append(new TextComponent(" has been added!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
-                                Util.NIL_UUID
-                        )
-                );
+                addCrateQuantity(vault, world, crateAmount);
             }
 
         } else if (oldProgress >= this.get(REQUIRED_PROGRESS)) {
@@ -440,20 +433,9 @@ public class AlchemyObjective extends Objective {
                     return;
                 }
 
-                VaultModifier<?> crateQuantity = VaultModifierRegistry.get(VaultMod.id("crate_quantity"));
-                vault.get(Vault.MODIFIERS).addModifier(crateQuantity, crateAmount, true, random);
+                addCrateQuantity(vault, world, crateAmount);
 
-                world.players().forEach(player ->
-                        player.sendMessage(
-                                new TextComponent("- Completion has overflown and ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
-                                        .append(crateQuantity.getChatDisplayNameComponent(crateAmount))
-                                        .append(new TextComponent(" has been added!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
-                                Util.NIL_UUID
-                        )
-                );
-
-
-                if(!GameruleHelper.isEnabled(ModGameRules.UNLIMITED_ALCHEMY_OVERSTACKING, world.getLevel()) && VaultModifierUtils.hasCountOfModifiers(vault, VaultMod.id("crate_quantity"), this.get(OVERSTACK_ALLOWANCE))) {
+                if(!GameruleHelper.isEnabled(ModGameRules.UNLIMITED_ALCHEMY_OVERSTACKING, world.getLevel()) && VaultModifierUtils.getModifierValueOfType(vault, CrateItemQuantityModifierSettable.class) >= this.get(OVERSTACK_ALLOWANCE)) {
                     this.set(FULLY_OVERSTACKED, true);
                     world.players().forEach(player ->
                             player.sendMessage(
@@ -465,7 +447,18 @@ public class AlchemyObjective extends Objective {
 
             }
         }
+    }
 
+    private void addCrateQuantity(Vault vault, VirtualWorld world, float crateAmount) {
+        VaultModifierUtils.incrementModifierValueOfType(vault, CrateItemQuantityModifierSettable.class, VaultMod.id("map_crate_quantity"), crateAmount);
 
+        world.players().forEach(player ->
+                player.sendMessage(
+                        new TextComponent("- Completion has overflown and ").withStyle(Style.EMPTY.withColor(0xFFFFFF))
+                                .append(new TextComponent("x" + crateAmount + " Crate Quantity"))
+                                .append(new TextComponent(" has been added!").withStyle(Style.EMPTY.withColor(0xF0E68C))),
+                        Util.NIL_UUID
+                )
+        );
     }
 }

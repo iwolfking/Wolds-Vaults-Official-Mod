@@ -18,9 +18,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class VaultModifierUtils {
@@ -89,6 +92,42 @@ public class VaultModifierUtils {
                 .filter(type::isInstance)
                 .map(type::cast)
                 .toList();
+    }
+
+    public static <T extends VaultModifier<?>> Optional<T> getModifierOfType(Vault vault, Class<T> type) {
+        return vault.get(Vault.MODIFIERS)
+                .getModifiers()
+                .stream()
+                .filter(type::isInstance)
+                .map(type::cast)
+                .findFirst();
+    }
+
+    public static <T extends SettableValueVaultModifier<?>> void setModifierValueOfType(Vault vault, Class<T> type, Float value) {
+        Optional<T> modifierOpt = getModifierOfType(vault, type);
+        modifierOpt.ifPresent(modifier -> modifier.properties().setValue(value));
+    }
+
+    public static <T extends SettableValueVaultModifier<?>> float getModifierValueOfType(Vault vault, Class<T> type) {
+        Optional<T> modifierOpt = getModifierOfType(vault, type);
+        return modifierOpt.map(t -> t.properties().getValue()).orElse(0F);
+    }
+
+    public static <T extends SettableValueVaultModifier<?>> void incrementModifierValueOfType(Vault vault, Class<T> type, ResourceLocation id, Float value) {
+        Optional<T> modifierOpt = getModifierOfType(vault, type);
+        modifierOpt.ifPresentOrElse(modifier -> modifier.properties().setValue(modifier.properties().getValue() + value), () -> {
+            Optional<VaultModifier<?>> modOpt = VaultModifierRegistry.getOpt(id);
+            if(modOpt.isPresent()) {
+                VaultModifier<?> mod = modOpt.get();
+                if(mod instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
+                    settableValueVaultModifier.properties().setValue(value);
+                    vault.get(Vault.MODIFIERS).addModifier(settableValueVaultModifier, 1, true, ChunkRandom.ofNanoTime());
+                }
+            }
+            else {
+                WoldsVaults.LOGGER.error("Settable modifier " + id.toString() + " is missing, please make sure your vault_modifiers.json config is correct!!!");
+            }
+        });
     }
 
     public static boolean hasCountOfModifiers(Vault vault, ResourceLocation modifierId, int count) {
