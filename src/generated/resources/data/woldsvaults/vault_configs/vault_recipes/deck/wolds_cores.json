@@ -285,7 +285,7 @@
       "output": {
         "AMOUNT": 1,
         "ITEM": "the_vault:deck_socket",
-        "NBT": "{Modifier:\"arcane\",ModifierRoll:\"lesser\"}"
+        "NBT": "{Modifier:\"adept\",ModifierRoll:\"lesser\"}"
       },
       "inputs": [
         {
@@ -503,6 +503,37 @@
         "AMOUNT": 1,
         "ITEM": "the_vault:deck_socket",
         "NBT": "{Modifier:\"construction\",ModifierRoll:\"lesser\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 256,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_black_opal",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gem_pog",
+          "NBT": "{}"
+        }
+      ]
+    },
+    {
+      "tab": "cores",
+      "id": "woldsvaults:archive_core",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:deck_socket",
+        "NBT": "{Modifier:\"archive\",ModifierRoll:\"lesser\"}"
       },
       "inputs": [
         {

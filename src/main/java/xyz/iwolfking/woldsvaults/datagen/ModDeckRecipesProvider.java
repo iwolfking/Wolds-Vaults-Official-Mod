@@ -91,7 +91,7 @@ public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
                 itemStacks.add(new ItemStack(ModItems.WUTODIE_GEM, 128));
                 itemStacks.add(new ItemStack(ModItems.POG, 1));
             });
-            builder.addRecipe(WoldsVaults.id("adept_core"), "arcane", "lesser", itemStacks -> {
+            builder.addRecipe(WoldsVaults.id("adept_core"), "adept", "lesser", itemStacks -> {
                 itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
                 itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
                 itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 32));
@@ -134,6 +134,12 @@ public class ModDeckRecipesProvider extends AbstractDeckRecipesProvider {
                 itemStacks.add(new ItemStack(ModItems.POG, 1));
             });
             builder.addRecipe(WoldsVaults.id("construction_core"), "construction", "lesser", itemStacks -> {
+                itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
+                itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
+                itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
+                itemStacks.add(new ItemStack(ModItems.POG, 1));
+            });
+            builder.addRecipe(WoldsVaults.id("archive_core"), "archive", "lesser", itemStacks -> {
                 itemStacks.add(new ItemStack(ModBlocks.VAULT_GOLD, 16));
                 itemStacks.add(new ItemStack(ModItems.SILVER_SCRAP, 256));
                 itemStacks.add(new ItemStack(ModItems.BLACK_OPAL_GEM, 16));
