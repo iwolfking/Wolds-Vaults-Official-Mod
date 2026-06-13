@@ -76,6 +76,21 @@
       "1.0": "woldsvaults:greed_crate_bonus_chaos"
     },
     {
+      "id": "woldsvaults:greed_crate_bonus_monolith",
+      "name": "Greed Crate Bonus Monolith",
+      "1.0": "woldsvaults:greed_crate_bonus_monolith"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_haunted_braziers",
+      "name": "Greed Crate Bonus Haunted Braziers",
+      "1.0": "woldsvaults:greed_crate_bonus_haunted_braziers"
+    },
+    {
+      "id": "woldsvaults:greed_crate_bonus_vault_royale",
+      "name": "Greed Crate Bonus Vault Royale",
+      "1.0": "woldsvaults:greed_crate_bonus_vault_royale"
+    },
+    {
       "id": "woldsvaults:chaos_crate_0",
       "name": "Chaos Crate 0",
       "1.0": "woldsvaults:chaos_crate_0"

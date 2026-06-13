@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.core.vault.objective.MonolithObjective;
 import iskallia.vault.core.world.roll.IntRoll;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.init.ModBlocks;
@@ -167,6 +168,27 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
                 });
             });
             addGenericGreedPools(builder);
+        });
+        add(WoldsVaults.id("greed_crate_bonus_monolith"), builder -> {
+            builder.entry(entryBuilder -> {
+                entryBuilder.pool(1, poolBuilder -> {
+                    poolBuilder.item(1, Blocks.AIR.getRegistryName().toString(), 1, 1);
+                });
+            });
+        });
+        add(WoldsVaults.id("greed_crate_bonus_haunted_braziers"), builder -> {
+            builder.entry(entryBuilder -> {
+                entryBuilder.pool(1, poolBuilder -> {
+                    poolBuilder.item(1, Blocks.AIR.getRegistryName().toString(), 1, 1);
+                });
+            });
+        });
+        add(WoldsVaults.id("greed_crate_bonus_vault_royale"), builder -> {
+            builder.entry(entryBuilder -> {
+                entryBuilder.pool(1, poolBuilder -> {
+                    poolBuilder.item(1, Blocks.AIR.getRegistryName().toString(), 1, 1);
+                });
+            });
         });
         generateCompletionCrates("chaos_crate", IntRoll.ofUniform(2, 4), IntRoll.ofUniform(2, 3), IntRoll.ofUniform(3, 4), IntRoll.ofUniform(3, 4), IntRoll.ofConstant(1), IntRoll.ofUniform(1, 4), IntRoll.ofUniform(1, 3), IntRoll.ofUniform(1, 6), IntRoll.ofUniform(1, 8), IntRoll.ofUniform(0, 3), IntRoll.ofUniform(2, 4), 50, entryBuilder -> {
             entryBuilder.pool(1, poolBuilder -> {
