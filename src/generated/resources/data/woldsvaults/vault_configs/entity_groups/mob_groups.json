@@ -1,5 +1,8 @@
 {
   "groups": {
+    "the_vault:guardians": [
+      "minecraft:guardian"
+    ],
     "the_vault:illagers": [
       "dungeons_mobs:windcaller",
       "dungeons_mobs:royal_guard",
@@ -116,9 +119,6 @@
       "the_vault:vault_fighter_7",
       "the_vault:vault_fighter_5",
       "the_vault:vault_fighter_6"
-    ],
-    "the_vault:guardian": [
-      "minecraft:guardian"
     ]
   }
 }

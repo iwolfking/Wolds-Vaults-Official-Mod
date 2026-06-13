@@ -2021,7 +2021,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
         });
 
         add(ResourceLocation.withDefaultNamespace("guardian"), vaultMobBuilder -> {
-            vaultMobBuilder.entityGroup(VaultMod.id("guardian"))
+            vaultMobBuilder.entityGroup(VaultMod.id("guardians"))
                     .xpValue(85)
                     .attributeSimple("the_vault:generic.crit_chance", 0.1, 0.1, "set", 1.0, 0.0, -1)
                     .attributeSimple("the_vault:generic.crit_multiplier", 1.25, 1.25,"set", 1.0, 0.0, -1)
