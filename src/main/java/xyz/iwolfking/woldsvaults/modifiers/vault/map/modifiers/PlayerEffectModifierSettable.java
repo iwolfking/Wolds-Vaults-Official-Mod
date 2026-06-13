@@ -26,7 +26,7 @@ public class PlayerEffectModifierSettable extends SettableValueVaultModifier<Pla
             if (world == data.getWorld()) {
                 if (!context.hasTarget() || context.getTarget().equals(data.getPlayer().getUUID())) {
                     if (data.getFilter().test((this.properties).effect)) {
-                        data.getEffects().addAmplifier((this.properties).effect, (int) (this.properties).getValue());
+                        data.getEffects().addAmplifier((this.properties).effect, (int) (this.properties).getValue(context));
                     }
 
                 }

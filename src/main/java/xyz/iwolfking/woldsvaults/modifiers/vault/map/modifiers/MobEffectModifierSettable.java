@@ -36,12 +36,12 @@ public class MobEffectModifierSettable extends SettableValueVaultModifier<MobEff
                         if (this.properties.filter.test(entity)) {
                             for (Map.Entry<MobEffectInstance, Double> entry : effects.entrySet()) {
                                 if (entry.getKey().getEffect() == this.properties.effect) {
-                                    effects.put(entry.getKey(), entry.getValue() + this.properties.getChance());
+                                    effects.put(entry.getKey(), entry.getValue() + this.properties.getChance(context));
                                     return;
                                 }
                             }
 
-                            effects.put(new MobEffectInstance(this.properties.effect, 999999, this.properties.getAmplifier()), this.properties.getChance());
+                            effects.put(new MobEffectInstance(this.properties.effect, 999999, this.properties.getAmplifier()), this.properties.getChance(context));
                         }
                     }
                 }
@@ -90,8 +90,8 @@ public class MobEffectModifierSettable extends SettableValueVaultModifier<MobEff
             return this.amplifier;
         }
 
-        public double getChance() {
-            return this.getValue();
+        public double getChance(ModifierContext context) {
+            return this.getValue(context);
         }
     }
 

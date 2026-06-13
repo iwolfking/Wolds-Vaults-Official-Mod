@@ -13,16 +13,14 @@ import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 public class VaultLootableWeightModifierSettable extends SettableValueVaultModifier<VaultLootableWeightModifierSettable.Properties> {
     public VaultLootableWeightModifierSettable(ResourceLocation id, VaultLootableWeightModifierSettable.Properties properties, VaultModifier.Display display) {
         super(id, properties, display);
-        this.setDescriptionFormatter((t, p, s) -> {
-            return t.formatted((int)Math.abs(p.getValue() * (double)s * 100.0));
-        });
+        this.setDescriptionFormatter((t, p, s) -> t.formatted((int)Math.abs(p.getValue() * (double)s * 100.0)));
     }
 
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
         CommonEvents.PLACEHOLDER_GENERATION.register(context.getUUID(), (data) -> {
             if (data.getVault() == vault) {
-                if (data.getParent().target == ((VaultLootableWeightModifierSettable.Properties)this.properties).type) {
-                    data.setProbability(data.getProbability() + ((VaultLootableWeightModifierSettable.Properties)this.properties).getValue(context) * data.getBaseProbability());
+                if (data.getParent().target == this.properties.type) {
+                    data.setProbability(data.getProbability() + this.properties.getValue(context) * data.getBaseProbability());
                 }
 
             }

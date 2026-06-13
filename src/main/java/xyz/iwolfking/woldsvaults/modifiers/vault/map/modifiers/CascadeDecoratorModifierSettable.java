@@ -39,20 +39,20 @@ public class CascadeDecoratorModifierSettable extends SettableValueVaultModifier
 
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
         CommonEvents.SURFACE_GENERATION.in(world).register(context.getUUID(), (data) -> {
-            this.onGenerate(vault, data.getGenRegion(), data.getChunk(), "generation");
+            this.onGenerate(vault, data.getGenRegion(), data.getChunk(), "generation", context);
         }, -100);
         CommonEvents.TEMPLATE_GENERATION.in(world).at(TemplateGenerationEvent.Phase.POST).register(context.getUUID(), (data) -> {
             int chunkX = data.getChunkPos().x;
             int chunkZ = data.getChunkPos().z;
             if (data.getWorld().hasChunk(chunkX, chunkZ)) {
                 ChunkAccess chunk = data.getWorld().getChunk(chunkX, chunkZ);
-                this.onGenerate(vault, data.getWorld(), chunk, "population");
+                this.onGenerate(vault, data.getWorld(), chunk, "population", context);
             }
 
         }, -100);
     }
 
-    public void onGenerate(Vault vault, ServerLevelAccessor world, ChunkAccess access, String phase) {
+    public void onGenerate(Vault vault, ServerLevelAccessor world, ChunkAccess access, String phase, ModifierContext context) {
         List<PartialTile> tiles = new ArrayList();
         List<CompoundTag> pending = new ArrayList();
         access.getBlockEntitiesPos().forEach((pos) -> {
@@ -89,7 +89,7 @@ public class CascadeDecoratorModifierSettable extends SettableValueVaultModifier
                 random.setBlockSeed((Long)vault.get(Vault.SEED), tile.getPos(), 237429473L);
             }
 
-            for(float p = ((CascadeDecoratorModifierSettable.Properties)this.properties).getValue(); p > 0.0F && random.nextFloat() < p; --p) {
+            for(float p = this.properties.getValue(context); p > 0.0F && random.nextFloat() < p; --p) {
                 BlockPos result = this.getValidPosition(world, tile.getPos(), access.getPos(), random);
                 if (result != null) {
                     BlockState current = world.getBlockState(result);

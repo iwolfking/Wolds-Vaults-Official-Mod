@@ -17,7 +17,7 @@ public class SoulShardChanceModifierSettable extends SettableValueVaultModifier<
         CommonEvents.SOUL_SHARD_CHANCE.register(context.getUUID(), (data) -> {
             if (data.getKiller().level == world) {
                 if (!context.hasTarget() || context.getTarget().equals(data.getKiller().getUUID())) {
-                    data.setChance(data.getChance() + ((SettableValueVaultModifier.Properties)this.properties).getValue());
+                    data.setChance(data.getChance() + this.properties.getValue(context));
                 }
             }
         });

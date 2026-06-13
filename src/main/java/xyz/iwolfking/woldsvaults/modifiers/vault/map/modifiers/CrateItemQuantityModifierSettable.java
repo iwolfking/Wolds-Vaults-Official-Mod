@@ -7,6 +7,7 @@ import iskallia.vault.core.vault.objective.AwardCrateObjective;
 import iskallia.vault.core.vault.objective.Objectives;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.resources.ResourceLocation;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 
 public class CrateItemQuantityModifierSettable extends SettableValueVaultModifier<SettableValueVaultModifier.Properties> {
@@ -18,8 +19,9 @@ public class CrateItemQuantityModifierSettable extends SettableValueVaultModifie
     }
 
     public void onVaultAdd(VirtualWorld world, Vault vault, ModifierContext context) {
-        ((Objectives)vault.get(Vault.OBJECTIVES)).forEach(AwardCrateObjective.class, (objective) -> {
-            objective.set(AwardCrateObjective.ITEM_QUANTITY, (Float)objective.getOr(AwardCrateObjective.ITEM_QUANTITY, 0.0F) + ((SettableValueVaultModifier.Properties)this.properties).getValue());
+        vault.get(Vault.OBJECTIVES).forEach(AwardCrateObjective.class, (objective) -> {
+            WoldsVaults.LOGGER.info(String.valueOf(this.properties.getValue(context)));
+            objective.set(AwardCrateObjective.ITEM_QUANTITY, objective.getOr(AwardCrateObjective.ITEM_QUANTITY, 0.0F) + this.properties.getValue(context));
             return false;
         });
     }

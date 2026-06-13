@@ -18,20 +18,18 @@ import java.util.UUID;
 public class LootItemRarityModifierSettable extends SettableValueVaultModifier<SettableValueVaultModifier.Properties> {
     public LootItemRarityModifierSettable(ResourceLocation id, SettableValueVaultModifier.Properties properties, VaultModifier.Display display) {
         super(id, properties, display);
-        this.setDescriptionFormatter((t, p, s) -> {
-            return t.formatted((int)Math.abs(p.getValue() * (double)s * 100.0));
-        });
+        this.setDescriptionFormatter((t, p, s) -> t.formatted((int)Math.abs(p.getValue() * (double)s * 100.0)));
     }
 
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
         CommonEvents.LOOT_GENERATION.pre().register(context.getUUID(), (data) -> {
             this.getGenerator(vault, data, context).ifPresent((generator) -> {
-                generator.itemRarity = (float)((double)generator.itemRarity + ((SettableValueVaultModifier.Properties)this.properties).getValue());
+                generator.itemRarity = (float)((double)generator.itemRarity + this.properties.getValue(context));
             });
         });
         CommonEvents.LOOT_GENERATION.post().register(context.getUUID(), (data) -> {
             this.getGenerator(vault, data, context).ifPresent((generator) -> {
-                generator.itemRarity = (float)((double)generator.itemRarity - ((SettableValueVaultModifier.Properties)this.properties).getValue());
+                generator.itemRarity = (float)((double)generator.itemRarity - this.properties.getValue(context));
             });
         });
     }
@@ -43,7 +41,7 @@ public class LootItemRarityModifierSettable extends SettableValueVaultModifier<S
                 return Optional.empty();
             } else {
                 UUID uuid = generator.getSource().getUUID();
-                if (!((Listeners)vault.get(Vault.LISTENERS)).contains(uuid)) {
+                if (!vault.get(Vault.LISTENERS).contains(uuid)) {
                     return Optional.empty();
                 } else {
                     return context.hasTarget() && !context.getTarget().equals(uuid) ? Optional.empty() : Optional.of(generator);

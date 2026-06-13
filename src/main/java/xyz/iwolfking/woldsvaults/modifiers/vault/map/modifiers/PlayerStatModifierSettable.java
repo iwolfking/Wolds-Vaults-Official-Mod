@@ -23,7 +23,7 @@ public class PlayerStatModifierSettable extends SettableValueVaultModifier<Playe
             if (data.getStat() == (this.properties.getStat())) {
                 if (((Listeners)vault.get(Vault.LISTENERS)).contains(data.getEntity().getUUID())) {
                     if (!context.hasTarget() || context.getTarget().equals(data.getEntity().getUUID())) {
-                        data.setValue(data.getValue() + (this.properties).getValue());
+                        data.setValue(data.getValue() + (this.properties).getValue(context));
                     }
                 }
             }

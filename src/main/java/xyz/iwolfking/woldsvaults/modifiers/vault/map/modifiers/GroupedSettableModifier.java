@@ -18,11 +18,8 @@ public class GroupedSettableModifier extends SettableValueVaultModifier<GroupedS
         super(id, properties, display);
     }
 
-
     public Stream<Modifiers.Entry> flatten(boolean display, RandomSource random) {
-        return Stream.concat((this.properties).getChildren().stream().map((modifier) -> {
-            return new Modifiers.Entry(modifier, false);
-        }), Stream.of(new Modifiers.Entry(this, true)));
+        return Stream.concat((this.properties).getChildren().stream().map((modifier) -> new Modifiers.Entry(modifier, false)), Stream.of(new Modifiers.Entry(this, true)));
     }
 
     public static class Properties extends SettableValueVaultModifier.Properties {
@@ -40,7 +37,7 @@ public class GroupedSettableModifier extends SettableValueVaultModifier<GroupedS
                 VaultModifierRegistry.getOpt(ResourceLocation.parse(entry.getKey())).ifPresent((modifier) -> {
                     for (int i = 0; i < entry.getValue(); ++i) {
                         if (modifier instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
-                            settableValueVaultModifier.properties().setValue(getValue());
+                            settableValueVaultModifier.properties().setValue(this.getValue());
                             result.add(settableValueVaultModifier);
                         } else {
                             result.add(modifier);

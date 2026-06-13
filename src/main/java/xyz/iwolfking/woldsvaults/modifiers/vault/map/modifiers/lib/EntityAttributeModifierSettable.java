@@ -27,21 +27,19 @@ public class EntityAttributeModifierSettable<P extends SettableValueVaultModifie
         if (properties.getType() != null) {
             this.setDescriptionFormatter(properties.getType().getDescriptionFormatter());
         } else {
-            this.setDescriptionFormatter((t, p, s) -> {
-                return t;
-            });
+            this.setDescriptionFormatter((t, p, s) -> t);
         }
 
     }
 
     public void applyToEntity(LivingEntity entity, UUID contextUUID, ModifierContext context) {
-        EntityAttributeModifierSettable.ModifierType modifierType = ((EntityAttributeModifierSettable.Properties)this.properties).getType();
+        EntityAttributeModifierSettable.ModifierType modifierType = this.properties.getType();
         List<ResourceLocation> ids = modifierType.getAttributeResourceLocations();
         Iterator var6 = ids.iterator();
 
         while(var6.hasNext()) {
             ResourceLocation id = (ResourceLocation)var6.next();
-            Attribute attribute = (Attribute) ForgeRegistries.ATTRIBUTES.getValue(id);
+            Attribute attribute = ForgeRegistries.ATTRIBUTES.getValue(id);
             UUID uuid = this.getId(contextUUID);
             if (attribute == null) {
                 VaultMod.LOGGER.error("Invalid entity attribute '%s' configured for vault modifier '%s'".formatted(id, this.getId()));
@@ -54,7 +52,7 @@ public class EntityAttributeModifierSettable<P extends SettableValueVaultModifie
             }
 
             AttributeModifier modifier = attributeInstance.getModifier(uuid);
-            double amount = ((EntityAttributeModifierSettable.Properties)this.properties).getValue();
+            double amount = this.properties.getValue(context);
             if (modifier == null) {
                 attributeInstance.addPermanentModifier(new AttributeModifier(uuid, this.getDisplayName(), amount, modifierType.getAttributeModifierOperation()));
             }
@@ -63,7 +61,7 @@ public class EntityAttributeModifierSettable<P extends SettableValueVaultModifie
     }
 
     public void removeFromEntity(LivingEntity entity) {
-        EntityAttributeModifierSettable.ModifierType modifierType = ((EntityAttributeModifierSettable.Properties)this.properties).getType();
+        EntityAttributeModifierSettable.ModifierType modifierType = this.properties.getType();
         if (modifierType != null) {
             List<ResourceLocation> ids = modifierType.getAttributeResourceLocations();
             Iterator var4 = ids.iterator();
@@ -71,7 +69,7 @@ public class EntityAttributeModifierSettable<P extends SettableValueVaultModifie
             while(true) {
                 while(var4.hasNext()) {
                     ResourceLocation attributeResourceLocation = (ResourceLocation)var4.next();
-                    Attribute attribute = (Attribute)ForgeRegistries.ATTRIBUTES.getValue(attributeResourceLocation);
+                    Attribute attribute = ForgeRegistries.ATTRIBUTES.getValue(attributeResourceLocation);
                     if (attribute == null) {
                         VaultMod.LOGGER.error("Invalid entity attribute '%s' configured for vault modifier '%s'".formatted(attributeResourceLocation, this.getId()));
                     } else {
@@ -166,18 +164,10 @@ public class EntityAttributeModifierSettable<P extends SettableValueVaultModifie
         }
 
         private static class Constants {
-            public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_ADDITIVE_INT = (t, p, s) -> {
-                return t.formatted(Mth.floor(Math.abs(p.getValue() * s)));
-            };
-            public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_ADDITIVE = (t, p, s) -> {
-                return t.formatted(Mth.floor(Math.abs(p.getValue() * (double)s * 100.0)));
-            };
-            public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_ADDITIVE_PERCENTILE = (t, p, s) -> {
-                return t.formatted((int)(Math.abs(p.getValue()) * (double)s * 100.0));
-            };
-            public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_MULTIPLICATIVE_PERCENTILE = (t, p, s) -> {
-                return t.formatted((int)(Math.abs(p.getValue()) * (double)s * 100.0));
-            };
+            public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_ADDITIVE_INT = (t, p, s) -> t.formatted(Mth.floor(Math.abs(p.getValue() * s)));
+            public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_ADDITIVE = (t, p, s) -> t.formatted(Mth.floor(Math.abs(p.getValue() * (double)s * 100.0)));
+            public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_ADDITIVE_PERCENTILE = (t, p, s) -> t.formatted((int)(Math.abs(p.getValue()) * (double)s * 100.0));
+            public static final IVaultModifierTextFormatter<EntityAttributeModifierSettable.Properties> DESCRIPTION_FORMATTER_MULTIPLICATIVE_PERCENTILE = (t, p, s) -> t.formatted((int)(Math.abs(p.getValue()) * (double)s * 100.0));
 
             private Constants() {
             }

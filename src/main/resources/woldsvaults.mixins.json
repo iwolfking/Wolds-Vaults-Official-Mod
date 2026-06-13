@@ -244,6 +244,7 @@
     "vaulthunters.custom.MixinCompanionEggHunt",
     "vaulthunters.custom.MixinCompanionItem",
     "vaulthunters.custom.MixinCorruptGearModification",
+    "vaulthunters.custom.MixinCrystalModifiers",
     "vaulthunters.custom.MixinCrystalWorkbenchContainer",
     "vaulthunters.custom.MixinCrystalWorkbenchTileEntity",
     "vaulthunters.custom.MixinCustomisationDiscovery",

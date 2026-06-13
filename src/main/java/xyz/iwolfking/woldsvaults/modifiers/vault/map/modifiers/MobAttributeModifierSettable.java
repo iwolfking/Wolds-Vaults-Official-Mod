@@ -37,7 +37,6 @@ public class MobAttributeModifierSettable extends EntityAttributeModifierSettabl
                     }
 
                     this.applyToEntity(entity, context.getUUID(), context);
-                    //entity.setHealth(entity.getMaxHealth());
                     return;
                 }
 

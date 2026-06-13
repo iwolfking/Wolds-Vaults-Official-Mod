@@ -14,9 +14,7 @@ import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 public class MobSpawnModifierSettable extends SettableValueVaultModifier<SettableValueVaultModifier.Properties> {
     public MobSpawnModifierSettable(ResourceLocation id, SettableValueVaultModifier.Properties properties, VaultModifier.Display display) {
         super(id, properties, display);
-        this.setDescriptionFormatter((t, p, s) -> {
-            return t.formatted((int)Math.abs(p.getValue() * (double)s * 100.0));
-        });
+        this.setDescriptionFormatter((t, p, s) -> t.formatted((int)Math.abs(p.getValue() * (double)s * 100.0)));
     }
 
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
@@ -41,7 +39,7 @@ public class MobSpawnModifierSettable extends SettableValueVaultModifier<Settabl
 
                     CompoundTag manager = nbt.getCompound("Manager");
                     CompoundTag modifiers = manager.getCompound("AttemptModifiers");
-                    modifiers.putDouble(context.getUUID().toString(), ((SettableValueVaultModifier.Properties)this.properties).getValue());
+                    modifiers.putDouble(context.getUUID().toString(), this.properties.getValue(context));
                     manager.put("AttemptModifiers", modifiers);
                     nbt.put("Manager", manager);
                     BlockEntity existing = data.getGenRegion().getBlockEntity(pos);

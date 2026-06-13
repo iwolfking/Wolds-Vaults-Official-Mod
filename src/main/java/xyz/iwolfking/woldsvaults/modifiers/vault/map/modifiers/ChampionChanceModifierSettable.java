@@ -16,7 +16,7 @@ public class ChampionChanceModifierSettable extends SettableValueVaultModifier<S
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
         CommonEvents.CHAMPION_PROMOTE.register(context.getUUID(), (data) -> {
             if (data.getEntity().level == world) {
-                data.setProbability(data.getProbability() + (double)((SettableValueVaultModifier.Properties)this.properties).getValue());
+                data.setProbability(data.getProbability() + (double) this.properties.getValue(context));
             }
         });
     }

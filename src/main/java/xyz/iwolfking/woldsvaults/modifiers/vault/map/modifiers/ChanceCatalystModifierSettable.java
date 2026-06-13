@@ -17,7 +17,7 @@ public class ChanceCatalystModifierSettable extends SettableValueVaultModifier<S
         CommonEvents.CHEST_CATALYST_GENERATION.register(context.getUUID(), (data) -> {
             if (data.getPlayer().level == world) {
                 if (!context.hasTarget() || context.getTarget().equals(data.getPlayer().getUUID())) {
-                    data.setProbability(data.getProbability() + (double)((SettableValueVaultModifier.Properties)this.properties).getValue());
+                    data.setProbability(data.getProbability() + (double) this.properties.getValue(context));
                 }
             }
         });

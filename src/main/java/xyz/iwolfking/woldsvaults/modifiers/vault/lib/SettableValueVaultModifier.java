@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.modifiers.vault.lib;
 import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import net.minecraft.resources.ResourceLocation;
+import xyz.iwolfking.woldsvaults.api.lib.MixinModifierContextAccessor;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -33,11 +34,13 @@ public abstract class SettableValueVaultModifier<P extends SettableValueVaultMod
 
         public float getValue() {
             return Objects.requireNonNullElseGet(this.value, () -> new ValueProperty(0F)).getValue();
-
         }
 
-        //TODO: Fix issues with getting value from context.
         public float getValue(ModifierContext context) {
+           if(((MixinModifierContextAccessor)context).woldsVaults_Dev$getValue().isPresent()) {
+               return ((MixinModifierContextAccessor) context).woldsVaults_Dev$getValue().get();
+           }
+
             if(this.value != null) {
                 return this.getValue();
             }

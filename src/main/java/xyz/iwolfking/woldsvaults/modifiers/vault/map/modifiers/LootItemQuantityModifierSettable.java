@@ -27,12 +27,12 @@ public class LootItemQuantityModifierSettable extends SettableValueVaultModifier
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
         CommonEvents.LOOT_GENERATION.pre().register(context.getUUID(), (data) -> {
             this.getGenerator(vault, data, context).ifPresent((generator) -> {
-                generator.itemQuantity += this.properties.getValue();
+                generator.itemQuantity += this.properties.getValue(context);
             });
         });
         CommonEvents.LOOT_GENERATION.post().register(context.getUUID(), (data) -> {
             this.getGenerator(vault, data, context).ifPresent((generator) -> {
-                generator.itemQuantity += this.properties.getValue();
+                generator.itemQuantity += this.properties.getValue(context);
             });
         });
     }
@@ -44,7 +44,7 @@ public class LootItemQuantityModifierSettable extends SettableValueVaultModifier
                 return Optional.empty();
             } else {
                 UUID uuid = generator.getSource().getUUID();
-                if (!((Listeners)vault.get(Vault.LISTENERS)).contains(uuid)) {
+                if (!vault.get(Vault.LISTENERS).contains(uuid)) {
                     return Optional.empty();
                 } else {
                     return context.hasTarget() && !context.getTarget().equals(uuid) ? Optional.empty() : Optional.of(generator);

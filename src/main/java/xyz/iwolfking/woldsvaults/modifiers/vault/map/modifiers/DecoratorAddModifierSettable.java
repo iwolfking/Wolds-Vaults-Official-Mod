@@ -88,7 +88,7 @@ public class DecoratorAddModifierSettable extends SettableValueVaultModifier<Dec
         }
 
         public int getAttemptsPerChunk(ModifierContext context) {
-            return (int)this.getValue();
+            return (int)this.getValue(context);
         }
 
         public boolean isRequiresConditions() {

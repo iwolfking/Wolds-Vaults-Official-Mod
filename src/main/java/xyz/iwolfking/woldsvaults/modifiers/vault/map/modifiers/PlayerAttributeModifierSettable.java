@@ -22,7 +22,7 @@ public class PlayerAttributeModifierSettable extends EntityAttributeModifierSett
 
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
         CommonEvents.PLAYER_TICK.at(TickEvent.Phase.START).register(context.getUUID(), (event) -> {
-            if (((Listeners)vault.get(Vault.LISTENERS)).contains(event.player.getUUID()) && event.player.getServer() != null && event.player.getLevel().getGameTime() % 10L == 0L) {
+            if (vault.get(Vault.LISTENERS).contains(event.player.getUUID()) && event.player.getServer() != null && event.player.getLevel().getGameTime() % 10L == 0L) {
                 if (!context.hasTarget() || context.getTarget().equals(event.player.getUUID())) {
                     synchronized(event.player) {
                         this.applyToEntity(event.player, context.getUUID(), context);
@@ -34,7 +34,7 @@ public class PlayerAttributeModifierSettable extends EntityAttributeModifierSett
 
     @SubscribeEvent
     public void on(TickEvent.PlayerTickEvent event) {
-        if (event.side != LogicalSide.CLIENT && event.player.getLevel().getGameTime() % 10L == 0L && !ServerVaults.get(event.player.level).isPresent()) {
+        if (event.side != LogicalSide.CLIENT && event.player.getLevel().getGameTime() % 10L == 0L && ServerVaults.get(event.player.level).isEmpty()) {
             synchronized(event.player) {
                 this.removeFromEntity(event.player);
             }
