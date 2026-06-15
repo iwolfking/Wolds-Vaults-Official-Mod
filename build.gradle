@@ -313,6 +313,8 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:jade-324717:5079263")
     runtimeOnly fg.deobf("curse.maven:open-loader-354339:3697234")
     runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:3820503")
+    runtimeOnly fg.deobf("curse.maven:spark-361579:4505375")
+    runtimeOnly fg.deobf("curse.maven:spark-1-18-client-profiling-fix-1186262:6120827")
 
     //For building themes -- Wold's Only
     runtimeOnly fg.deobf("curse.maven:rechiseled-558998:5286275")

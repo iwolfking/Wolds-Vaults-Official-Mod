@@ -108,7 +108,7 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
 
         List<CardPos> validCandidates = new ArrayList<>();
         for (CardPos candidate : candidates) {
-            if (isValidSlot(existingSlots, candidate, baseMinX, baseMaxX, baseMinY, baseMaxY)) {
+            if (isValidSlot(candidate)) {
                 validCandidates.add(candidate);
             }
         }
@@ -116,31 +116,8 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
         return validCandidates;
     }
 
-    private boolean isValidSlot(Set<CardPos> existingSlots, CardPos candidate, int baseMinX, int baseMaxX, int baseMinY, int baseMaxY) {
-        int newMinX = Math.min(baseMinX, candidate.x);
-        int newMaxX = Math.max(baseMaxX, candidate.x);
-        int newMinY = Math.min(baseMinY, candidate.y);
-        int newMaxY = Math.max(baseMaxY, candidate.y);
-
-        for (CardPos pos : existingSlots) {
-            newMinX = Math.min(newMinX, pos.x);
-            newMaxX = Math.max(newMaxX, pos.x);
-            newMinY = Math.min(newMinY, pos.y);
-            newMaxY = Math.max(newMaxY, pos.y);
-        }
-
-        if ((newMaxX - newMinX + 1 > MAX_WIDTH) || (newMaxY - newMinY + 1 > MAX_HEIGHT)) {
-            return false;
-        }
-
-        if (Math.abs(candidate.x - baseMinX) >= MAX_WIDTH || Math.abs(baseMaxX - candidate.x) >= MAX_WIDTH) {
-            return false;
-        }
-        if (Math.abs(candidate.y - baseMinY) >= MAX_HEIGHT || Math.abs(baseMaxY - candidate.y) >= MAX_HEIGHT) {
-            return false;
-        }
-
-        return true;
+    private boolean isValidSlot(CardPos candidate) {
+        return candidate.x >= 0 && candidate.x <= MAX_WIDTH && candidate.y >= 0 && candidate.y <= MAX_HEIGHT;
     }
 
     @Override
