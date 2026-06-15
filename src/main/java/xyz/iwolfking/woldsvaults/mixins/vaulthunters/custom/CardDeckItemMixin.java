@@ -121,6 +121,9 @@ public class CardDeckItemMixin {
         if(groups.contains("Arcane")) {
             return "A";
         }
+        else if(groups.contains("Greed")) {
+            return "G";
+        }
         else if(groups.contains("Evolution")) {
             return "E";
         }
