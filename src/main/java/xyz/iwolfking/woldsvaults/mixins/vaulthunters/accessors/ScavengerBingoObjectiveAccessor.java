@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.mixins;
+package xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors;
 
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.data.key.registry.FieldRegistry;

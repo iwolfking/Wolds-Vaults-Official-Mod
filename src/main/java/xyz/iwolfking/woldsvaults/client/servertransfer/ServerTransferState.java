@@ -8,8 +8,11 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
+import java.util.regex.Pattern;
+
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ServerTransferState {
+    private static final Pattern TRANSFER_PATTERN = Pattern.compile("^Connecting to \\w+\\.\\.\\.$");
     public static boolean disableJEIRefresh = false;
     public static boolean disableVHAPITemplateSync = false;
     public static boolean disableCraftTweaker = false;
@@ -19,7 +22,9 @@ public class ServerTransferState {
     @SubscribeEvent
     public static void onClientChatReceived(ClientChatReceivedEvent event) {
         if (WoldsVaultsConfig.CLIENT.serverTransferReloadSkip.get()) {
-            if (event.getMessage() instanceof TextComponent tc && "Saving your data before transfer...".equals(tc.getText())) {
+            // Saving... => cross proxy (EU <=> US)
+            // Connecting to <servername>...  => in proxy (EU <=> EU or US <=> US)
+            if (event.getMessage() instanceof TextComponent tc && ("Saving your data before transfer...".equals(tc.getText()) || TRANSFER_PATTERN.matcher(tc.getText()).matches())) {
                 WoldsVaults.LOGGER.info("DETECTED SERVER TRANSFER");
                 disableJEIRefresh = true;
                 disableVHAPITemplateSync = true;

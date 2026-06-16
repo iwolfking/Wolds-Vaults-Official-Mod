@@ -17,8 +17,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
-import xyz.iwolfking.woldsvaults.mixins.ScavengerBingoObjectiveAccessor;
-import xyz.iwolfking.woldsvaults.mixins.TileCandidateAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ScavengerBingoObjectiveAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TileCandidateAccessor;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
