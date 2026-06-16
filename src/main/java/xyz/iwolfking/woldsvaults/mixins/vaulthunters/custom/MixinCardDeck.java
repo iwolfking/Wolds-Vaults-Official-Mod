@@ -161,6 +161,7 @@ public abstract class MixinCardDeck implements ICardDeckCache {
         }
 
         float value = 1.0F;
+        float mult = 1.0F;
 
         for (DeckModifier<?> modifier : this.modifiers) {
             if(modifier instanceof EmptySlotDeckModifier emptySlotDeckModifier) {
@@ -168,7 +169,7 @@ public abstract class MixinCardDeck implements ICardDeckCache {
                 value += (emptySlotDeckModifier.getModifierValue(card, pos, (CardDeck)(Object)this) - 1.0F);
             }
             if(modifier instanceof IMultiplicativeDeckModifier multiplicativeDeckModifier) {
-                value *= multiplicativeDeckModifier.getMultiplierValue(card, pos, (CardDeck)(Object)this);
+                mult *= multiplicativeDeckModifier.getMultiplierValue(card, pos, (CardDeck)(Object)this);
             }
             else {
                 float modValue = modifier.getModifierValue(card, pos, (CardDeck)(Object)this);
@@ -176,6 +177,6 @@ public abstract class MixinCardDeck implements ICardDeckCache {
             }
         }
 
-        return value;
+        return value * mult;
     }
 }
