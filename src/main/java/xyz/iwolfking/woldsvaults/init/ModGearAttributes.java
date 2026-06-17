@@ -117,8 +117,6 @@ public class ModGearAttributes {
 
     public static final VaultGearAttribute<ParticleTrailAttribute> PARTICLE_TRAIL =  attr("particle_trail", ParticleTrailAttribute.type(), ParticleTrailAttribute.generator(), ParticleTrailAttribute.reader(), ParticleTrailAttribute.comparator());
 
-    //Deprecated
-    @Deprecated
     public static final VaultGearAttribute<String> WEAPON_TYPE = attr("weapon_type", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.weaponTypeReader("Weapon Type", 888888, "Type: %s"));
 
 
