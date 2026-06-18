@@ -33,6 +33,10 @@ public class AirMobilityItem extends BasicItem implements ICurioItem {
             return;
         }
 
+        if(slotContext.identifier() != null && !slotContext.identifier().equals("blue_trinket")) {
+            return;
+        }
+
         slotContext.entity().setSpeed(0.2F);
         slotContext.entity().flyingSpeed = slotContext.entity().getSpeed() * 0.5F;
     }
@@ -40,12 +44,12 @@ public class AirMobilityItem extends BasicItem implements ICurioItem {
     // allow for the curio item to be equipped via right-click
     @Override
     public boolean canEquip(SlotContext slotContext, ItemStack stack) {
-        return true;
+        return slotContext.identifier() != null && slotContext.identifier().equals("blue_trinket");
     }
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext, ItemStack stack) {
-        return true;
+        return canEquip(slotContext, stack);
     }
 
     // append tooltip hover text
