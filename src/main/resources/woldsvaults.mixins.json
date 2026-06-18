@@ -257,6 +257,7 @@
     "vaulthunters.custom.MixinEtchingItem",
     "vaulthunters.custom.MixinExperiencedExpertise",
     "vaulthunters.custom.MixinGearAttributeEvents",
+    "vaulthunters.custom.MixinGearAttributeStatLabel",
     "vaulthunters.custom.MixinGearRollHelper",
     "vaulthunters.custom.MixinGearScoreHelper",
     "vaulthunters.custom.MixinGiveLootCommand",
