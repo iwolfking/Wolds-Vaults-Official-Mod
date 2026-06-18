@@ -248,6 +248,7 @@ dependencies {
     implementation fg.deobf("curse.maven:vault-crate-tooltips-1373573:7156709")
     compileOnly fg.deobf("curse.maven:cagerium-709608:4699709")
     implementation fg.deobf("curse.maven:unobtanium-vault-hunters-fixes-1162330:7864362")
+    implementation fg.deobf("curse.maven:second-chance-forge-509239:3832230")
 
     // transitive WV deps
     implementation fg.deobf("curse.maven:placebo-283644:4500363") // gateways

@@ -119,6 +119,7 @@
     "scannable.MixinScannableItems",
     "scannable.MixinScannerEnergyStorage",
     "scannable.ScannerModuleItemAccessor",
+    "secondchance.MixinSecondChanceEvents",
     "secretroomsmod.MixinDelegateWorld",
     "sophisticatedbackpacks.MixinModBlocks",
     "sophisticatedbackpacks.MixinToolSwapperWrapper",

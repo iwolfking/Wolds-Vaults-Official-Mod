@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
+import xyz.iwolfking.woldsvaults.api.util.HealthReductionHelper;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import static iskallia.vault.item.ItemVaultFruit.MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID;
@@ -33,20 +34,7 @@ public abstract class MixinItemVaultFruit extends Item implements IRottenFruit {
      */
     @Overwrite
     protected void reducePlayerMaxHealth(ServerPlayer player) {
-        AttributeInstance attributeInstance = player.getAttribute(Attributes.MAX_HEALTH);
-        if(attributeInstance != null) {
-            AttributeModifier existingModifier = attributeInstance.getModifier(MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID);
-            double mult = 1.0849795594911; // this is to make the first fruit less harsh and the 7th give a funny number
-            if (existingModifier != null) {
-                mult = existingModifier.getAmount() + 1;
-                attributeInstance.removeModifier(MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID);
-            }
-
-            // how steep the curve is
-            mult *= 0.827;
-
-            attributeInstance.addPermanentModifier(new AttributeModifier(MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID, "VaultFruitMaxHealthReduction", mult - 1, AttributeModifier.Operation.MULTIPLY_TOTAL));
-        }
+        HealthReductionHelper.reducePlayerMaxHealth(player);
     }
 
     /**
