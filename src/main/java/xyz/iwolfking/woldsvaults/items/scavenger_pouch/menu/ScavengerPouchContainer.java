@@ -143,7 +143,7 @@ public class ScavengerPouchContainer extends OverSizedSlotContainer {
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack result = ItemStack.EMPTY;
-        var slot = this.slots.get(index);
+        Slot slot = this.slots.get(index);
 
         if (slot.hasItem()) {
             ItemStack stack = slot.getItem();
@@ -153,7 +153,9 @@ public class ScavengerPouchContainer extends OverSizedSlotContainer {
                 ScavengerItemSlot scavSlot = (ScavengerItemSlot) slot;
                 OverSizedInventory inventory = (OverSizedInventory) scavSlot.container;
 
-                OverSizedItemStack stored = inventory.getOverSizedContents().get(slot.index);
+                int containerIndex = scavSlot.getContainerSlot();
+
+                OverSizedItemStack stored = inventory.getOverSizedContents().get(containerIndex);
                 if (stored.isEmpty() || stored.amount() <= 0) return ItemStack.EMPTY;
 
                 int giveAmount = Math.min(stack.getMaxStackSize(), stored.amount());
@@ -161,31 +163,38 @@ public class ScavengerPouchContainer extends OverSizedSlotContainer {
                 ItemStack out = stack.copy();
                 out.setCount(giveAmount);
 
-                if (!this.moveItemStackTo(out, 0, player.getInventory().items.size(), true)) {
+                if (!this.moveItemStackTo(out, 0, 36, true)) {
                     return ItemStack.EMPTY;
                 }
 
                 OverSizedItemStack updated = new OverSizedItemStack(stored.stack(), stored.amount() - giveAmount);
-                inventory.setOverSizedStack(slot.index, updated);
+                inventory.setOverSizedStack(containerIndex, updated);
 
-                slot.set(stack);
-                return out;
-            }
-
-            boolean moved = false;
-            for (ScavengerItemSlot scavSlot : scavItemSlots) {
-                if (scavSlot.mayPlace(stack)) {
-                    moved = this.moveItemStackTo(stack, scavSlot.index, scavSlot.index + 1, false);
-                    if (moved) break;
+                if (stored.amount() - giveAmount <= 0) {
+                    slot.set(ItemStack.EMPTY);
+                } else {
+                    slot.setChanged();
                 }
-            }
-
-            if (!moved) return ItemStack.EMPTY;
-
-            if (stack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
+                return out;
             } else {
-                slot.setChanged();
+                boolean moved = false;
+                for (ScavengerItemSlot scavSlot : scavItemSlots) {
+                    if (scavSlot.mayPlace(stack)) {
+                        int containerSlotIndex = this.slots.indexOf(scavSlot);
+                        if (containerSlotIndex != -1) {
+                            moved = this.moveItemStackTo(stack, containerSlotIndex, containerSlotIndex + 1, false);
+                            if (moved) break;
+                        }
+                    }
+                }
+
+                if (!moved) return ItemStack.EMPTY;
+
+                if (stack.isEmpty()) {
+                    slot.set(ItemStack.EMPTY);
+                } else {
+                    slot.setChanged();
+                }
             }
         }
 
