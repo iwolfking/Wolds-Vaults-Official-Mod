@@ -9,6 +9,7 @@ import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.tree.AbilityTree;
+import iskallia.vault.util.calc.EffectDurationHelper;
 import iskallia.vault.world.data.PlayerAbilitiesData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -42,10 +43,17 @@ public class SneakyGetawayAbility extends InstantManaAbility {
     }
     public SneakyGetawayAbility(){
     }
-    public int getDurationTicks() {
+
+    public int getDurationTicks(LivingEntity entity) {
+        return EffectDurationHelper.adjustEffectDurationFloor(entity, this.getUnmodifiedDurationTicks());
+    }
+
+    public int getUnmodifiedDurationTicks() {
         return this.durationTicks;
     }
+
     public float getSize() {return this.size;}
+
     public float getSpeedPercentAdded() {return this.speedPercentAdded;}
 
 
@@ -55,7 +63,7 @@ public class SneakyGetawayAbility extends InstantManaAbility {
             if (player.hasEffect(ModEffects.SNEAKY_GETAWAY)) {
                 return ActionResult.fail();
             } else {
-                int duration = this.getDurationTicks();
+                int duration = this.getDurationTicks(player);
                 MobEffectInstance newEffect = new MobEffectInstance(ModEffects.SNEAKY_GETAWAY, duration, 0, false, false, true);
                 player.addEffect(newEffect);
                 return ActionResult.successCooldownDeferred();

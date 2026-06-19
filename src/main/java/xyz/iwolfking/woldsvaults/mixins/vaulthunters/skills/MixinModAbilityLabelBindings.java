@@ -25,8 +25,8 @@ public abstract class MixinModAbilityLabelBindings {
                 ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks()),
                 "manaCost",
                 ability -> AbilityLabelFormatters.integer((int) ability.getManaCost()),
-                "duration",
-                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks())
+                "adjustedDuration",
+                ability -> AbilityLabelFormatters.ticks(ability.getUnmodifiedDurationTicks())
 
         ));
         ModAbilityLabelBindings.register(SneakyGetawayAbility.class, Map.of(
@@ -38,8 +38,8 @@ public abstract class MixinModAbilityLabelBindings {
                 ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks()),
                 "manaCost",
                 ability -> AbilityLabelFormatters.integer((int) ability.getManaCost()),
-                "duration",
-                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks())
+                "adjustedDuration",
+                ability -> AbilityLabelFormatters.ticks(ability.getUnmodifiedDurationTicks())
 
         ));
         ModAbilityLabelBindings.register(VeinMinerChainAbility.class, Map.of(

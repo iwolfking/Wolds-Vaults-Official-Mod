@@ -77,13 +77,13 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 current.add("size");
                 current.add("cooldown");
                 current.add("manaCost");
-                current.add("duration");
+                current.add("adjustedDuration");
             }, next -> {
                 next.add("additionalResistance");
                 next.add("size");
                 next.add("cooldown");
                 next.add("manaCost");
-                next.add("duration");
+                next.add("adjustedDuration");
             });
 
             builder.addDescription("Sneaky_Getaway", jsonElements -> {
@@ -96,13 +96,13 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 current.add("size");
                 current.add("cooldown");
                 current.add("manaCost");
-                current.add("duration");
+                current.add("adjustedDuration");
             }, next -> {
                 next.add("speed");
                 next.add("size");
                 next.add("cooldown");
                 next.add("manaCost");
-                next.add("duration");
+                next.add("adjustedDuration");
             });
 
             builder.addDescription("Expunge_Base", jsonElements -> {
