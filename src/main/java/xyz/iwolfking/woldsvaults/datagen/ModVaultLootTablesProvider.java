@@ -386,6 +386,8 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
                 poolBuilder.item(4, xyz.iwolfking.woldsvaults.init.ModItems.CONCEALED_CHAOS.getRegistryName().toString(), 1, 1);
                 poolBuilder.item(4, xyz.iwolfking.woldsvaults.init.ModItems.VAULT_DECO_SCROLL.getRegistryName().toString(), 1, 1);
                 poolBuilder.item(10, xyz.iwolfking.woldsvaults.init.ModItems.HASTY_POMEGRANATE.getRegistryName().toString(), 3, 3);
+                deckCore(poolBuilder, 6, "@completion_crate");
+                deckCore(poolBuilder, 3, "@completion_crate", "greater");
             }).rolls(1, 1);
         });
     }
@@ -412,6 +414,19 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
     private void inscription(AbstractLootTableProvider.PoolBuilder poolBuilder, int weight, ResourceLocation pool) {
         poolBuilder.itemNbt(weight, ModItems.INSCRIPTION.getRegistryName().toString(), 1, 1, nbt -> {
             nbt.put("pool", pool.toString());
+        });
+    }
+
+    private void deckCore(AbstractLootTableProvider.PoolBuilder poolBuilder, int weight, String pool, String modifierRoll) {
+        poolBuilder.itemNbt(weight, ModItems.DECK_SOCKET.getRegistryName().toString(), 1, 1, nbt -> {
+            nbt.put("Modifier", pool.toString());
+            nbt.put("ModifierRoll", modifierRoll);
+        });
+    }
+
+    private void deckCore(AbstractLootTableProvider.PoolBuilder poolBuilder, int weight, String pool) {
+        poolBuilder.itemNbt(weight, ModItems.DECK_SOCKET.getRegistryName().toString(), 1, 1, nbt -> {
+            nbt.put("Modifier", pool.toString());
         });
     }
 }
