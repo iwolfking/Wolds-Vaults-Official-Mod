@@ -30,8 +30,16 @@ public class MixinGearScoreHelper {
             weight += 100000;
         }
 
+        if (cache.hasModifierOfCategory(VaultGearModifier.AffixCategory.GREATER)) {
+            weight += 100000;
+        }
+
         if (cache.hasModifierOfCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"))) {
             weight += 1000000;
+        }
+
+        if(cache.hasAttribute(ModGearAttributes.HAMMER_SIZE)) {
+            weight += 50000;
         }
 
         if(cache.hasAttribute(ModGearAttributes.JEWEL_SIZE)) {
