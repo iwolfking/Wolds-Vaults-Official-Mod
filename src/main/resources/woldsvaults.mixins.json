@@ -412,6 +412,7 @@
     "vaulthunters.fixes.MixinModifiers",
     "vaulthunters.fixes.MixinMonolithRenderer",
     "vaulthunters.fixes.MixinMultiJumpTrinket",
+    "vaulthunters.fixes.MixinOversizedSlotContainer",
     "vaulthunters.fixes.MixinPrestigePowerLevelMessage",
     "vaulthunters.fixes.MixinRebirthObjective",
     "vaulthunters.fixes.MixinRoyaleObjective",
