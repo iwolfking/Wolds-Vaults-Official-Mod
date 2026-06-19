@@ -25,7 +25,7 @@ public class WoldsVaultsConfig
             this.playVaultMusic = builder.comment("Whether to play special tracks while inside the Vault").define("playVaultMusic", false);
             this.weaponsShouldntBeBetter = builder.comment("Whether to enable Better Combat or not (default: false)").define("weaponsShouldntBeBetter", false);
             this.serverTransferReloadSkip = builder.comment("Skip reloading of certain parts of the game when transferring to different server").define("serverTransferReloadSkip", true);
-            this.coloredStatisticsScreen = builder.comment("Display gear attributes in color on the Statistics screen").define("coloredStatisticsScreen", true);
+            this.coloredStatisticsScreen = builder.comment("Display gear attributes in color on the Statistics screen").define("coloredStatisticsScreen", false);
             builder.push("Mining Speedometer");
             this.tooltipOutputFormat = builder.comment("The Output Format for the speedometer jade tooltip")
                     .defineEnum("Jade Output Format", OutputFormat.NEXT_MINING_SPEED_BREAKPOINT);
