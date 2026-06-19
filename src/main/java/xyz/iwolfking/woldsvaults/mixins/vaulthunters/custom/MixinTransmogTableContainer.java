@@ -19,4 +19,13 @@ public class MixinTransmogTableContainer {
 
         return original.call(instance);
     }
+
+    @WrapOperation(method = "getUniqueModelWhitelist", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/VaultGearData;getRarity()Liskallia/vault/gear/VaultGearRarity;"))
+    private static VaultGearRarity dontReturnUniqueForEtchedGearAgain(VaultGearData instance, Operation<VaultGearRarity> original) {
+        if(instance.hasAttribute(ModGearAttributes.ETCHING)) {
+            return VaultGearRarity.OMEGA;
+        }
+
+        return original.call(instance);
+    }
 }
