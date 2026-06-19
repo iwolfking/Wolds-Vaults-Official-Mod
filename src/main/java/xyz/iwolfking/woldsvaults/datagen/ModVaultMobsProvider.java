@@ -1837,7 +1837,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     .attributeSimple("the_vault:generic.crit_multiplier", 1.5, 1.5,"set", 1.0, 0.0, -1)
                     .attributeSimple("minecraft:generic.attack_damage", 3.0, 3.0, "set", 1.0, 0.1, -1)
                     .attributeSimple("minecraft:generic.knockback_resistance", 0.4, 0.4, "set", 1.0, 0.0, -1)
-                    .attributeSimple("minecraft:generic.max_health", 230.0, 300.0, "set", 1.0, 0.12, -1)
+                    .attributeSimple("minecraft:generic.max_health", 165.0, 210.0, "set", 1.0, 0.1, -1)
                     .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, -1)
                     .bestiaryEntry(themes -> {
                         themes.add("Amalgam Beach");
@@ -1854,11 +1854,11 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     .attributeSimple("minecraft:generic.attack_damage", 4.0, 4.0, "set", 1.0, 0.1, -1)
                     .attributeSimple("minecraft:generic.knockback_resistance", 0.25, 0.25, "set", 1.0, 0.0, -1)
                     .attributeWithLevels("minecraft:generic.max_health", levels -> {
-                        levels.addLevel(0, 60, 80, "set", 1.0, 0.14, 49)
-                                .addLevel(35, 80, 100, "set", 1.0, 0.14, 64)
-                                .addLevel(65, 100, 130, "set", 1.0, 0.14, -1)
-                                .addLevel(80, 165, 200, "set", 1.0, 0.14, -1)
-                                .addLevel(90, 200, 240, "set", 1.0, 0.14, -1);
+                        levels.addLevel(0, 60, 80, "set", 1.0, 0.1, 49)
+                                .addLevel(35, 80, 100, "set", 1.0, 0.1, 64)
+                                .addLevel(65, 100, 130, "set", 1.0, 0.1, -1)
+                                .addLevel(80, 140, 160, "set", 1.0, 0.1, -1)
+                                .addLevel(90, 160, 190, "set", 1.0, 0.1, -1);
                     })
                     .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, -1)
                     .bestiaryEntry(themes -> {
@@ -1879,10 +1879,10 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     .attributeSimple("minecraft:generic.knockback_resistance", 0.4, 0.4, "set", 1.0, 0.0, -1)
                     .attributeWithLevels("minecraft:generic.max_health", levels -> {
                         levels.addLevel(0, 40, 80, "set", 1.0, 0.08, 49)
-                                .addLevel(35, 80, 90, "set", 1.0, 0.08, 64)
-                                .addLevel(65, 90, 130, "set", 1.0, 0.08, -1)
-                                .addLevel(80, 130, 150, "set", 1.0, 0.08, -1)
-                                .addLevel(90, 150, 190, "set", 1.0, 0.08, -1);
+                                .addLevel(35, 60, 70, "set", 1.0, 0.08, 64)
+                                .addLevel(65, 70, 80, "set", 1.0, 0.08, -1)
+                                .addLevel(80, 80, 90, "set", 1.0, 0.08, -1)
+                                .addLevel(90, 90, 130, "set", 1.0, 0.08, -1);
                     })
                     .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, -1)
                     .bestiaryEntry(themes -> {
@@ -2153,7 +2153,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     .attributeSimple("the_vault:generic.crit_multiplier", 1.5, 1.5,"set", 1.0, 0.0, -1)
                     .attributeSimple("minecraft:generic.attack_damage", 4.0, 8.0, "set", 1.0, 0.0, -1)
                     .attributeSimple("minecraft:generic.knockback_resistance", 0.9, 0.9, "set", 1.0, 0.0, -1)
-                    .attributeSimple("minecraft:generic.max_health", 400.0, 600.0, "set", 1.0, 0.14, -1)
+                    .attributeSimple("minecraft:generic.max_health", 200.0, 300.0, "set", 1.0, 0.1, -1)
                     .attributeSimple("minecraft:generic.movement_speed", 0.9, 0.9, "multiply", 1.0, 0.0, -1)
                     .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, -1)
                     .bestiaryEntry(themes -> {
