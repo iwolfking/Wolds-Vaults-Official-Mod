@@ -142,6 +142,28 @@
               ]
             },
             "weight": 3
+          },
+          {
+            "value": {
+              "model": {
+                "type": "uniform",
+                "min": 106,
+                "max": 106
+              },
+              "size": {
+                "type": "uniform",
+                "min": 5,
+                "max": 5
+              },
+              "entries": [
+                {
+                  "pool": "the_vault:vault/rooms/omega/comet_observatory",
+                  "color": 7012096,
+                  "count": 1
+                }
+              ]
+            },
+            "weight": 5
           }
         ]
       }

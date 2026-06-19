@@ -17,7 +17,8 @@ public class ModVaultInscriptionsProvider extends AbstractInscriptionProvider {
                 .entry(new PoolEntryBuilder("the_vault:vault/rooms/omega/trove").color(7012096).count(1).model(11, 11).weight(5).size(10, 10))
                 .entry(new PoolEntryBuilder("the_vault:vault/rooms/omega/mine").color(7012096).count(1).model(9, 9).weight(5).size(10, 10))
                 .entry(new PoolEntryBuilder("the_vault:vault/rooms/omega/digsite2").color(7012096).count(1).model(6, 6).weight(2).size(10, 10))
-                .entry(new PoolEntryBuilder("the_vault:vault/rooms/omega/iskallian_garden").color(7012096).count(1).model(98, 98).weight(3).size(5, 5));
+                .entry(new PoolEntryBuilder("the_vault:vault/rooms/omega/iskallian_garden").color(7012096).count(1).model(98, 98).weight(3).size(5, 5))
+                .entry(new PoolEntryBuilder("the_vault:vault/rooms/omega/comet_observatory").color(7012096).count(1).model(106, 106).weight(5).size(5, 5));
 
         mapModel("the_vault:vault/rooms/omega/digsite2", 6);
         mapModel("the_vault:vault/rooms/omega/cube", 105);
