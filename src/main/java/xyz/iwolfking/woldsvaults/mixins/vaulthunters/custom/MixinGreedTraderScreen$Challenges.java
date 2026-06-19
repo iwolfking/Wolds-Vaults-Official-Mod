@@ -5,6 +5,7 @@ import iskallia.vault.client.data.ClientGreedTreeData;
 import iskallia.vault.client.gui.screen.GreedTraderScreen;
 import iskallia.vault.config.greed.GreedChallengeEntry;
 import iskallia.vault.greed.GreedChallengeSlot;
+import iskallia.vault.greed.GreedNodeHelper;
 import iskallia.vault.init.ModConfigs;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,6 +29,7 @@ public class MixinGreedTraderScreen$Challenges {
         }
 
         GreedChallengeSlot selectedSlot = challengeSlots.get(this.selectedChallenge);
+        int baseReward = (int) ((greedTier * 25) * (1.0 + (greedTier * 0.05)));
         if (selectedSlot != null && selectedSlot.getChallengeId() != null) {
             GreedChallengeEntry entry = ModConfigs.GREED_TRADER.getChallengeEntryById(selectedSlot.getChallengeId());
             if (entry != null) {
@@ -39,12 +41,12 @@ public class MixinGreedTraderScreen$Challenges {
                     double penaltyPerTier = 0.1;
                     double penalty = Math.max(0.5, 1.0 - (tierDifferential * penaltyPerTier));
 
-                    cir.setReturnValue((int) ((greedTier * 25) * penalty));
+                    cir.setReturnValue(GreedNodeHelper.applyGreedReputationMultiplier(ClientGreedTreeData.getTree(), (int) (baseReward * penalty)));
                     return;
                 }
             }
         }
 
-        cir.setReturnValue(greedTier * 25);
+        cir.setReturnValue(GreedNodeHelper.applyGreedReputationMultiplier(ClientGreedTreeData.getTree(), baseReward));
     }
 }
