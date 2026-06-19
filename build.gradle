@@ -340,7 +340,7 @@ dependencies {
     implementation fg.deobf("curse.maven:integrated-tunnels-251389:5314661")
     implementation fg.deobf("curse.maven:integrated-crafting-287357:4987203")
     implementation fg.deobf("curse.maven:iron-furnaces-237664:4183356")
-    implementation fg.deobf("curse.maven:iron-chests-228756:3966367")
+    implementation fg.deobf("curse.maven:ironchests-498794:4446848")
     implementation fg.deobf("curse.maven:iron-generators-446489:3955850")
     implementation fg.deobf("curse.maven:toms-storage-378609:5211203") // vaultarhud
     implementation fg.deobf("curse.maven:rftools-storage-350006:4069708")

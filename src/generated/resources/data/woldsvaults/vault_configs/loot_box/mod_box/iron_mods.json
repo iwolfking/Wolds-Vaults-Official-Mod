@@ -5,7 +5,7 @@
       "entries": [
         {
           "value": {
-            "id": "ironchest:copper_chest",
+            "id": "ironchests:copper_chest",
             "amountMin": 1,
             "amountMax": 1
           },
@@ -13,7 +13,7 @@
         },
         {
           "value": {
-            "id": "ironchest:iron_chest",
+            "id": "ironchests:iron_chest",
             "amountMin": 1,
             "amountMax": 1
           },
@@ -21,7 +21,7 @@
         },
         {
           "value": {
-            "id": "ironchest:gold_chest",
+            "id": "ironchests:gold_chest",
             "amountMin": 1,
             "amountMax": 1
           },
@@ -29,7 +29,7 @@
         },
         {
           "value": {
-            "id": "ironchest:diamond_chest",
+            "id": "ironchests:diamond_chest",
             "amountMin": 1,
             "amountMax": 1
           },
@@ -37,7 +37,7 @@
         },
         {
           "value": {
-            "id": "ironchest:crystal_chest",
+            "id": "ironchests:crystal_chest",
             "amountMin": 1,
             "amountMax": 1
           },
@@ -45,7 +45,7 @@
         },
         {
           "value": {
-            "id": "ironchest:obsidian_chest",
+            "id": "ironchests:obsidian_chest",
             "amountMin": 1,
             "amountMax": 1
           },
