@@ -242,7 +242,7 @@
     "big_bad_brew": {
       "objective": {
         "objective_probability": 0.5,
-        "required_progress": 5.0,
+        "required_progress": 10.0,
         "type": "alchemy"
       },
       "layout": {
@@ -349,6 +349,10 @@
           {
             "modifier": "woldsvaults:infernal_fury",
             "count": 1
+          },
+          {
+            "modifier": "woldsvaults:rage_cage",
+            "count": 1
           }
         ],
         "random_modifiers": false,
@@ -371,7 +375,10 @@
           "t2_t3",
           "t3",
           "t3_t4",
-          "t4"
+          "t4",
+          "t5",
+          "t6",
+          "t7"
         ],
         "type": "survival"
       },

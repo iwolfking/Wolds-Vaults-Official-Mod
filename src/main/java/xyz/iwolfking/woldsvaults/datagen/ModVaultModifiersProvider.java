@@ -593,8 +593,8 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             },"Chemical Bath", "#da6d5a", "Mobs can hit you with a wide number of negative effects on hit", null, WoldsVaults.id("gui/modifiers/chemical_bath"));
 
             grouped(modifierBuilder, VaultMod.id("bubbling_trouble"), resourceLocationIntegerMap -> {
-                resourceLocationIntegerMap.put(VaultMod.id("ruthless_mobs"), 1);
-                resourceLocationIntegerMap.put(VaultMod.id("chunky_mobs2"), 1);
+                resourceLocationIntegerMap.put(VaultMod.id("ruthless_mobs"), 2);
+                resourceLocationIntegerMap.put(VaultMod.id("chunky_mobs2"), 2);
                 resourceLocationIntegerMap.put(VaultMod.id("freezing"), 1);
                 resourceLocationIntegerMap.put(VaultMod.id("poisoning"), 1);
                 resourceLocationIntegerMap.put(VaultMod.id("wither"), 1);

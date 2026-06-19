@@ -91,7 +91,7 @@ public class ModChallengeCrystalProvider extends AbstractChallengeCrystalProvide
 
             builder.addEntry("big_bad_brew", challengeEntryBuilder -> {
                 challengeEntryBuilder
-                        .objective(new AlchemyCrystalObjective(0.5F, 5.0F))
+                        .objective(new AlchemyCrystalObjective(0.5F, 10.0F))
                         .modifier(VaultMod.id("rotten"), 1)
                         .modifier(VaultMod.id("no_companion"), 1)
                         .modifier(VaultMod.id("bubbling_trouble"), 4)
@@ -119,13 +119,14 @@ public class ModChallengeCrystalProvider extends AbstractChallengeCrystalProvide
                         .modifier(VaultMod.id("no_companion"), 1)
                         .modifier(VaultMod.id("challenge_stack"), 5)
                         .modifier(WoldsVaults.id("infernal_fury"), 1)
+                        .modifier(WoldsVaults.id("rage_cage"), 1)
                         .layout(new ClassicInfiniteCrystalLayout(1))
                         .exhausted();
             });
 
             builder.addEntry("survival_of_the_fittest", challengeEntryBuilder -> {
                 challengeEntryBuilder
-                        .objective(new SurvivalCrystalObjective(0.5F, 30, List.of("t1", "t1_t2", "t2", "t2_t3", "t3", "t3_t4", "t4")))
+                        .objective(new SurvivalCrystalObjective(0.5F, 30, List.of("t1", "t1_t2", "t2", "t2_t3", "t3", "t3_t4", "t4", "t5", "t6", "t7")))
                         .modifier(VaultMod.id("no_companion"), 1)
                         .layout(new ClassicInfiniteCrystalLayout(1))
                         .exhausted();

@@ -2981,10 +2981,10 @@
       "the_vault:bubbling_trouble": {
         "properties": {
           "children": {
-            "the_vault:chunky_mobs2": 1,
+            "the_vault:chunky_mobs2": 2,
             "the_vault:freezing": 1,
             "the_vault:poisoning": 1,
-            "the_vault:ruthless_mobs": 1,
+            "the_vault:ruthless_mobs": 2,
             "the_vault:wither": 1,
             "woldsvaults:bleeding_mobs": 1
           }
