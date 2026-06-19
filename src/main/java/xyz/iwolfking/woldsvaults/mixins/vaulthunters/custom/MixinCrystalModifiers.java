@@ -15,10 +15,6 @@ import java.util.function.Consumer;
 public class MixinCrystalModifiers {
     @WrapWithCondition(method = "configure", at = @At(value = "INVOKE", target = "Ljava/util/Optional;ifPresent(Ljava/util/function/Consumer;)V", ordinal = 0))
     private boolean cancelSigilIfBrazierVault(Optional<?> instance, Consumer<?> action, @Local(argsOnly = true) Vault vault) {
-        if(VaultUtils.isBrazierVault(vault)) {
-            return false;
-        }
-
-        return true;
+        return !VaultUtils.isBrazierVault(vault);
     }
 }
