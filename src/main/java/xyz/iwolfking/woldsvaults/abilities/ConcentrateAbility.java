@@ -9,6 +9,7 @@ import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.etching.EtchingGearAttributes;
 import iskallia.vault.gear.etching.EtchingHelper;
+import iskallia.vault.mana.ManaAction;
 import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.util.calc.AreaOfEffectHelper;
@@ -145,6 +146,10 @@ public class ConcentrateAbility extends InstantManaAbility {
                     }
                 });
             }
+
+            context.getSource().getMana().ifPresent(manaPlayer -> {
+                manaPlayer.decreaseMana(ManaAction.PLAYER_ACTION, this.getManaCost());
+            });
 
             this.putOnCooldown(context);
             return ActionResult.successCooldownImmediate();
