@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.mojang.datafixers.util.Pair;
 import iskallia.vault.core.data.DataObject;
 import iskallia.vault.core.data.key.FieldKey;
 import iskallia.vault.core.event.CommonEvents;
@@ -21,6 +22,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = CompanionEggHunt.class, remap = false, priority = 15000)
 public abstract class MixinCompanionEggHunt extends DataObject<CompanionEggHunt> {
@@ -44,5 +46,10 @@ public abstract class MixinCompanionEggHunt extends DataObject<CompanionEggHunt>
                }
            }
         });
+    }
+
+    @Inject(method = "offerCompanionEgg", at = @At(value = "INVOKE", target = "Liskallia/vault/item/CompanionEggItem;setSeries(Lnet/minecraft/world/item/ItemStack;Liskallia/vault/item/CompanionSeries;)V"))
+    private void completeCompanionEggCompass(ServerPlayer player, Vault vault, VirtualWorld world, CallbackInfoReturnable<Pair<Boolean, BlockPos>> cir) {
+        VaultPlayerCompassData.addProgress(player, VaultCompassMode.COMPANION_EGG, 1);
     }
 }

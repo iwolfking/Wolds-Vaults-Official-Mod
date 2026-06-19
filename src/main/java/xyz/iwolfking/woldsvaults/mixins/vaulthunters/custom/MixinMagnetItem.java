@@ -118,7 +118,7 @@ public abstract class MixinMagnetItem extends Item implements VaultGearItem, Cur
 
             Level var5 = player.level;
             if (var5 instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles((SimpleParticleType) ModParticles.ENDER_ANCHOR.get(), entity.position().x, entity.position().y + (double)0.25F, entity.position().z, 1, (double)0.0F, (double)0.0F, (double)0.0F, (double)0.0F);
+                serverLevel.sendParticles(ModParticles.ENDER_ANCHOR.get(), entity.position().x, entity.position().y + (double)0.25F, entity.position().z, 1, (double)0.0F, (double)0.0F, (double)0.0F, (double)0.0F);
             }
 
             entity.teleportTo(player.position().x, player.position().y, player.position().z);
