@@ -393,8 +393,8 @@ dependencies {
     jarJar(group: 'eu.pb4', name: 'forgified-sgui', version: '[1.0.2,)') {
         jarJar.pin(it, '1.0.2')
     }
-    jarJar(group: 'me.justahuman', name: 'vhroller', version: '[1.3.2,)') {
-        jarJar.pin(it, '1.3.2')
+    jarJar(group: 'me.justahuman', name: 'vhroller', version: '[1.4.0,)') {
+        jarJar.pin(it, '1.4.0')
     }
     jarJar(group: 'dev.attackeight', name: 'black_market_tweaks', version: '[1.8,)') {
         jarJar.pin(it, '1.8')
