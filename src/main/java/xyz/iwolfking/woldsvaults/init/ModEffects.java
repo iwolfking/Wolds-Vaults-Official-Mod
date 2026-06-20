@@ -23,6 +23,9 @@ public class ModEffects {
     public static final MobEffect EMPOWER = new EmpowerEffect();
     public static final MobEffect QUICKENING = new QuickeningEffect();
     public static final MobEffect BURN = new PercentBurnEffect();
+    public static final MobEffect STEADFAST = new SteadfastPotionEffect();
+    public static final MobEffect ARMORED = new ArmoredPotionEffect();
+    public static final MobEffect BLITZ = new BlitzPotionEffect();
 
     public static void register(RegistryEvent.Register<MobEffect> event) {
         event.getRegistry().registerAll(  SHRINKING
@@ -37,6 +40,9 @@ public class ModEffects {
                                         , EMPOWER
                                         , QUICKENING
                                         , BURN
+                                        , STEADFAST
+                                        , ARMORED
+                                        , BLITZ
                                         );
     }
 }
