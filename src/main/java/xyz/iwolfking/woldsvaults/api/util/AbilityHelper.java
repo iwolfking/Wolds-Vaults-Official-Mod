@@ -36,4 +36,9 @@ public class AbilityHelper {
 
         return 0;
     }
+
+    public static float getScaledByLevelDamageFalloff(float originalFalloff, ServerPlayer player, String abilityId) {
+        float maxFallOffPerLevel = 0.2F + (AbilityHelper.getAbilityLevel(player, abilityId) * 0.025F);
+        return Math.max(originalFalloff, maxFallOffPerLevel);
+    }
 }
