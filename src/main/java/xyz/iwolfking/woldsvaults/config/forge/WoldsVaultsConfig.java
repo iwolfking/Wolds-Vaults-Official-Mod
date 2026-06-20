@@ -91,7 +91,7 @@ public class WoldsVaultsConfig
             builder.pop();
             builder.push("Gameplay Settings");
             this.enableNormalGatewayPearls = builder.comment("Whether Gateway Pearls should be able to be used normally (right-clicking to use them on ground) (default: false)").define("enableNormalGatewayPearls", false);
-            this.scannableScannerCooldown = builder.comment("How long the cooldown for Scannable scanner should be, in ticks (default: 1200)").define("scannableScannerCooldown", 1200);
+            this.scannableScannerCooldown = builder.comment("How long the cooldown for Scannable scanner should be, in ticks (default: 1200)").define("scannableScannerCooldown", 600);
             builder.pop();
             builder.push("Admin Settings");
             this.enableServerKiller = builder.comment("Whether to enable Server Killer that will automatically shut down server after 30 seconds, useful if your server is hanging on shutdown. (default: false)").define("enableServerKiller", false);
