@@ -34,7 +34,6 @@ import xyz.iwolfking.woldsvaults.client.renderers.CombinedTrinketRenderer;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 

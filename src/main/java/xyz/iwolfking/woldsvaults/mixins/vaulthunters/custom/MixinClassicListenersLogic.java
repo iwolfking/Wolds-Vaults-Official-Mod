@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.util.Optional;
 import java.util.Set;
@@ -80,6 +81,17 @@ public class MixinClassicListenersLogic {
         if(key.equals("scaling_scavenger_bingo")) {
             cir.setReturnValue("Collector");
         }
+    }
+
+    @WrapOperation(method = "lambda$shouldAddFree$31", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourceLocation;equals(Ljava/lang/Object;)Z", ordinal = 0))
+    private static boolean combinedTrinketCountsAsTrinket(ResourceLocation instance, Object pOther, Operation<Boolean> original) {
+        if(pOther instanceof ResourceLocation stackId) {
+            if(stackId.equals(ModItems.COMBINED_TRINKET.getRegistryName()) && instance.equals(iskallia.vault.init.ModItems.TRINKET.getRegistryName())) {
+                return true;
+            }
+        }
+
+        return original.call(instance, pOther);
     }
 
     @WrapOperation(method = {"printJoinMessage", "lambda$initServer$1"/*leave*/}, at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/ClassicListenersLogic;getVaultObjective(Ljava/lang/String;)Ljava/lang/String;"))
