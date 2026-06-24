@@ -77,6 +77,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("tile.woldsvaults.trinket_fusion_forge", "Trinket Fusion Forge");
         add(ModBlocks.TRINKET_FUSION_BLOCK, "Trinket Fusion Forge");
         add(ModEffects.BURN, "Burning");
+        add(ModEffects.BLITZ, "Blitz");
+        add(ModEffects.ARMORED, "Armored");
+        add(ModEffects.STEADFAST, "Steadfast");
         add("message.woldsvaults.filled_bottle_alchemy_archive", "You have all effects unlocked! Your %1$s has been refilled!");
         add("command.woldsvaults.prevent_back_into_vault", "You cannot return into The Vault!");
         add("woldsvaults.special.fruit_rotting", "§4You feel the Vault start to rot away...");
