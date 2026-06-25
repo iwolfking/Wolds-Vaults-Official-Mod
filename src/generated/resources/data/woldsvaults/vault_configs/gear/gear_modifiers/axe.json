@@ -1,5 +1,887 @@
 {
   "modifierGroup": {
+    "UNUSUAL_PREFIX": [
+      {
+        "attribute": "the_vault:movement_speed",
+        "group": "ModMovementSpeed",
+        "identifier": "the_vault:mod_movement_speed_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 40,
+            "weight": 10,
+            "value": {
+              "min": 0.02,
+              "max": 0.06,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": 65,
+            "weight": 10,
+            "value": {
+              "min": 0.07,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.11,
+              "max": 0.15,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 85,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.16,
+              "max": 0.2,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:resistance",
+        "group": "ModResistance",
+        "identifier": "the_vault:mod_resistance_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 40,
+            "weight": 10,
+            "value": {
+              "min": 0.02,
+              "max": 0.04,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 36,
+            "maxLevel": 80,
+            "weight": 10,
+            "value": {
+              "min": 0.05,
+              "max": 0.06,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 57,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.07,
+              "max": 0.08,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 82,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.09,
+              "max": 0.1,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:damage_increase",
+        "group": "ModResistance",
+        "identifier": "the_vault:mod_damage_increase_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 35,
+            "weight": 10,
+            "value": {
+              "min": 0.04,
+              "max": 0.08,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 21,
+            "maxLevel": 60,
+            "weight": 10,
+            "value": {
+              "min": 0.09,
+              "max": 0.13,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 44,
+            "maxLevel": 75,
+            "weight": 10,
+            "value": {
+              "min": 0.14,
+              "max": 0.19,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 73,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.2,
+              "max": 0.25,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 90,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.26,
+              "max": 0.3,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:leech",
+        "group": "ModLeech",
+        "identifier": "the_vault:mod_leech_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "min": 0.01,
+              "max": 0.02,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "min": 0.02,
+              "max": 0.03,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 90,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "min": 0.03,
+              "max": 0.035,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:critical_hit_mitigation",
+        "group": "ModCriticalHitMitigation",
+        "identifier": "the_vault:mod_crit_mit_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 65,
+            "weight": 10,
+            "value": {
+              "min": 0.05,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 35,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.11,
+              "max": 0.2,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.21,
+              "max": 0.25,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:mana_additive",
+        "group": "ModHealthMana",
+        "identifier": "the_vault:mod_mana_additive_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 45,
+            "weight": 10,
+            "value": {
+              "min": 10,
+              "max": 20,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 30,
+            "maxLevel": 60,
+            "weight": 10,
+            "value": {
+              "min": 21,
+              "max": 30,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": 80,
+            "weight": 10,
+            "value": {
+              "min": 31,
+              "max": 40,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 70,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 41,
+              "max": 50,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 95,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 51,
+              "max": 60,
+              "step": 1
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:mana_regen",
+        "group": "ModManaRegen",
+        "identifier": "the_vault:mod_mana_regen_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 30,
+            "weight": 10,
+            "value": {
+              "min": 0.05,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 15,
+            "maxLevel": 50,
+            "weight": 10,
+            "value": {
+              "min": 0.11,
+              "max": 0.15,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 35,
+            "maxLevel": 75,
+            "weight": 10,
+            "value": {
+              "min": 0.16,
+              "max": 0.2,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.21,
+              "max": 0.3,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.31,
+              "max": 0.4,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.4,
+              "max": 0.5,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:cooldown_reduction",
+        "group": "ModCooldownReduction",
+        "identifier": "the_vault:mod_cooldown_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 30,
+            "weight": 10,
+            "value": {
+              "min": 0.03,
+              "max": 0.06,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": 60,
+            "weight": 10,
+            "value": {
+              "min": 0.07,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 45,
+            "maxLevel": 90,
+            "weight": 10,
+            "value": {
+              "min": 0.11,
+              "max": 0.14,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.15,
+              "max": 0.17,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 85,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.18,
+              "max": 0.2,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud_chance_additive",
+        "group": "ModBonus",
+        "identifier": "the_vault:mod_effect_cloud_chance",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 25,
+            "maxLevel": 65,
+            "weight": 5,
+            "value": {
+              "min": 0.01,
+              "max": 0.02,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 5,
+            "value": {
+              "min": 0.02,
+              "max": 0.03,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 90,
+            "maxLevel": -1,
+            "weight": 5,
+            "value": {
+              "min": 0.03,
+              "max": 0.04,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
+    "UNUSUAL_SUFFIX": [
+      {
+        "attribute": "the_vault:effect_duration",
+        "group": "ModCooldownReduction",
+        "identifier": "the_vault:mod_effect_duration_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 25,
+            "weight": 10,
+            "value": {
+              "min": 0.03,
+              "max": 0.05,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": 50,
+            "weight": 10,
+            "value": {
+              "min": 0.06,
+              "max": 0.08,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": 75,
+            "weight": 10,
+            "value": {
+              "min": 0.09,
+              "max": 0.11,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.12,
+              "max": 0.14,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 85,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.15,
+              "max": 0.17,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 95,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.18,
+              "max": 0.2,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:area_of_effect",
+        "group": "ModEffectRadius",
+        "identifier": "the_vault:mod_effect_radius_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 45,
+            "weight": 10,
+            "value": {
+              "min": 0.03,
+              "max": 0.07,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": 75,
+            "weight": 10,
+            "value": {
+              "min": 0.08,
+              "max": 0.11,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.12,
+              "max": 0.16,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 90,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.17,
+              "max": 0.2,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:kinetic_immunity",
+        "group": "UniqueKineticImmunity",
+        "identifier": "the_vault:mod_kinetic_immunity_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "flag": true
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:knockback_resistance",
+        "group": "ModKnockbackResistance",
+        "identifier": "the_vault:mod_knockback_resistance_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 35,
+            "weight": 10,
+            "value": {
+              "min": 0.05,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 15,
+            "maxLevel": 60,
+            "weight": 10,
+            "value": {
+              "min": 0.11,
+              "max": 0.14,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 30,
+            "maxLevel": 90,
+            "weight": 10,
+            "value": {
+              "min": 0.15,
+              "max": 0.19,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 57,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.2,
+              "max": 0.24,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 89,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.25,
+              "max": 0.3,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:durability_wear_reduction",
+        "group": "ModDuraReduction",
+        "identifier": "the_vault:mod_dura_reduction_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 30,
+            "weight": 10,
+            "value": {
+              "min": 0.05,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": 60,
+            "weight": 10,
+            "value": {
+              "min": 0.11,
+              "max": 0.2,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": 90,
+            "weight": 10,
+            "value": {
+              "min": 0.21,
+              "max": 0.3,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.31,
+              "max": 0.4,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 90,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.41,
+              "max": 0.5,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ability_power_percent",
+        "group": "ModResistance",
+        "identifier": "the_vault:mod_ability_increase_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 45,
+            "weight": 10,
+            "value": {
+              "min": 0.03,
+              "max": 0.05,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 30,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.06,
+              "max": 0.09,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.1,
+              "max": 0.15,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:healing_effectiveness",
+        "group": "ModHealthEff",
+        "identifier": "the_vault:mod_health_eff_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 30,
+            "weight": 10,
+            "value": {
+              "min": 0.04,
+              "max": 0.08,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": 60,
+            "weight": 10,
+            "value": {
+              "min": 0.09,
+              "max": 0.12,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 45,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.13,
+              "max": 0.16,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 70,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.17,
+              "max": 0.2,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:hexing_chance",
+        "group": "ModOnHitType",
+        "identifier": "the_vault:mod_hexing_chance_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 25,
+            "maxLevel": 50,
+            "weight": 4,
+            "value": {
+              "min": 0.02,
+              "max": 0.04,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": 60,
+            "weight": 4,
+            "value": {
+              "min": 0.05,
+              "max": 0.07,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 60,
+            "maxLevel": 80,
+            "weight": 4,
+            "value": {
+              "min": 0.07,
+              "max": 0.08,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 4,
+            "value": {
+              "min": 0.09,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 95,
+            "maxLevel": -1,
+            "weight": 4,
+            "value": {
+              "min": 0.11,
+              "max": 0.12,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
     "CORRUPTED_IMPLICIT": [
       {
         "attribute": "the_vault:execution_damage",

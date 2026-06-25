@@ -25,6 +25,74 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
 
     @Override
     public void registerConfigs() {
+        addToAllOffhands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.LEECH);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MANA_ADDITIVE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MANA_REGEN);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.COOLDOWN_REDUCTION);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.AXE_CLEAVE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
+        });
+        addToAllOffhands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.EFFECT_DURATION);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.EFFECT_RADIUS);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.KINETIC_IMMUNITY);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.KNOCKBACK_RESISTANCE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.HEALING_EFFECTIVENESS);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.DODGE_CHANCE);
+        });
+        addToAllNonSackOffhands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.ITEM_QUANTITY);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.ITEM_RARITY);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.COPIOUSLY);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.TRAP_DISARMING);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.REACH);
+
+        });
+        addToAllNonPlushieOffhands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MOVEMENT_SPEED);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.ABILITY_POWER);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.CHAINING);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.CRITICAL_HIT_MITIGATION);
+        });
+        addToAllNonPlushieOffhands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.RESISTANCE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.ABILITY_POWER_PERCENTILE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.DAMAGE_INCREASE);
+        });
+        addToAllNonAxeMainHands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.AXE_BLEED_CLOUD);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.AXE_REAVING);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.AXE_CLEAVE);
+        });
+        addToAllMainHands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MOVEMENT_SPEED);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.RESISTANCE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.DAMAGE_INCREASE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.LEECH);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.CRITICAL_HIT_MITIGATION);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MANA_ADDITIVE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MANA_REGEN);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.COOLDOWN_REDUCTION);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.EFFECT_CLOUD_CHANCE);
+        });
+        addToAllMainHands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.EFFECT_DURATION);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.EFFECT_RADIUS);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.KINETIC_IMMUNITY);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.KNOCKBACK_RESISTANCE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.ABILITY_POWER_PERCENTILE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.HEALING_EFFECTIVENESS);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.HEXING_HIT);
+        });
+        addToJewel(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.HEALING_EFFECTIVENESS_JEWEL);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MANA_REGEN_JEWEL);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.KNOCKBACK_RESISTANCE_JEWEL);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.VEIN_MINER_LEVEL_JEWEL);
+        });
         addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.CORROSIVE);
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.EXTRA_REINFORCED);

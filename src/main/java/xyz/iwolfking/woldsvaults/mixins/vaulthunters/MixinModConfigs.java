@@ -51,18 +51,18 @@ public class MixinModConfigs {
         xyz.iwolfking.woldsvaults.init.ModConfigs.register();
 
         //Initialize unusual modifier values
-        for(ResourceLocation config : ModConfigs.VAULT_GEAR_CONFIG.keySet()) {
-            if(UnusualModifiers.UNUSUAL_MODIFIERS_MAP_PREFIX.containsKey(config)) {
-                ((VaultGearTierConfigAccessor)ModConfigs.VAULT_GEAR_CONFIG.get(config)).getModifierGroup().put(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), UnusualModifiers.UNUSUAL_MODIFIERS_MAP_PREFIX.get(config));
-            }
-        }
-
-
-        for(ResourceLocation config : ModConfigs.VAULT_GEAR_CONFIG.keySet()) {
-            if(UnusualModifiers.UNUSUAL_MODIFIERS_MAP_SUFFIX.containsKey(config)) {
-                ((VaultGearTierConfigAccessor)ModConfigs.VAULT_GEAR_CONFIG.get(config)).getModifierGroup().put(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), UnusualModifiers.UNUSUAL_MODIFIERS_MAP_SUFFIX.get(config));
-            }
-        }
+//        for(ResourceLocation config : ModConfigs.VAULT_GEAR_CONFIG.keySet()) {
+//            if(UnusualModifiers.UNUSUAL_MODIFIERS_MAP_PREFIX.containsKey(config)) {
+//                ((VaultGearTierConfigAccessor)ModConfigs.VAULT_GEAR_CONFIG.get(config)).getModifierGroup().put(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), UnusualModifiers.UNUSUAL_MODIFIERS_MAP_PREFIX.get(config));
+//            }
+//        }
+//
+//
+//        for(ResourceLocation config : ModConfigs.VAULT_GEAR_CONFIG.keySet()) {
+//            if(UnusualModifiers.UNUSUAL_MODIFIERS_MAP_SUFFIX.containsKey(config)) {
+//                ((VaultGearTierConfigAccessor)ModConfigs.VAULT_GEAR_CONFIG.get(config)).getModifierGroup().put(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), UnusualModifiers.UNUSUAL_MODIFIERS_MAP_SUFFIX.get(config));
+//            }
+//        }
 
         Set<ResourceLocation> CURRENT_GEAR_CONFIGS =new HashSet<>(ModConfigs.VAULT_GEAR_CONFIG.keySet());
 

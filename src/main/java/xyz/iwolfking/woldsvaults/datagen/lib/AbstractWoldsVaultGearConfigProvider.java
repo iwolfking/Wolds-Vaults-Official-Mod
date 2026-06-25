@@ -14,7 +14,10 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
     private static final List<String> STANDARD_GEAR = List.of("axe", "battlestaff", "trident", "sword", "rang", "plushie", "wand", "chestplate", "leggings", "boots", "helmet", "focus", "loot_sack", "magnet", "shield", "unique");
     private static final List<String> STANDARD_GEAR_NO_UNIQUE = List.of("axe", "battlestaff", "trident", "sword", "rang", "plushie", "wand", "chestplate", "leggings", "boots", "helmet", "focus", "loot_sack", "magnet", "shield");
     private static final List<String> MAINHANDS = List.of("axe", "battlestaff", "trident", "sword", "rang");
-    private static final List<String> OFFHANDS = List.of("plushie", "wand", "focus", "loot_sack", "shield");
+    private static final List<String> MAINHANDS_NO_AXE = List.of("battlestaff", "trident", "sword", "rang");
+    private static final List<String> OFFHANDS = List.of("plushie", "wand", "focus", "loot_sack", "shield", "magnet");
+    private static final List<String> OFFHANDS_NO_SACK = List.of("plushie", "wand", "focus", "shield");
+    private static final List<String> OFFHANDS_NO_PLUSHIE = List.of("loot_sack", "wand", "focus", "shield", "magnet");
     private static final List<String> ARMOR = List.of("chestplate", "leggings", "boots", "helmet");
 
     protected AbstractWoldsVaultGearConfigProvider(DataGenerator generator) {
@@ -33,6 +36,24 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
         });
     }
 
+    public void addToAllNonAxeMainHands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
+        MAINHANDS_NO_AXE.forEach(type -> {
+            add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+        });
+    }
+
+    public void addToAllNonSackOffhands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
+        OFFHANDS_NO_SACK.forEach(type -> {
+            add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+        });
+    }
+
+    public void addToAllNonPlushieOffhands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
+        OFFHANDS_NO_PLUSHIE.forEach(type -> {
+            add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+        });
+    }
+
     public void addToAllOffhands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         OFFHANDS.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
@@ -47,6 +68,10 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
 
     public void addToJewel(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         add("jewel", builder -> builder.key(VaultMod.id("jewel")).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+    }
+
+    public void addToAxe(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
+        add("axe", builder -> builder.key(VaultMod.id("axe")).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
     }
 
     public void addToMaps(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
