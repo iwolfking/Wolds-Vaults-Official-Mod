@@ -13,16 +13,35 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import java.util.List;
 
-public class ModVaultGearTiersProvider extends AbstractVaultGearConfigProvider {
+public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvider {
     public ModVaultGearTiersProvider(DataGenerator generator) {
-        super(generator, WoldsVaults.MOD_ID);
+        super(generator);
     }
 
     @Override
     public void registerConfigs() {
+        addToAllStandardGearConfigs(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EXECUTION_DAMAGE, "ModOnHitType", "mod_corrupt_execution_damage", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 100, 0.03F, 0.05F, 0.01F);
+                vaultGearModifierTiersBuilder.add(50, -1, 100, 0.05F, 0.07F, 0.01F);
+                vaultGearModifierTiersBuilder.add(90, -1, 100, 0.07F, 0.1F, 0.01F);
+            });
+            vaultGearAttributeGroupBuilder
+                    .addModifier(ModGearAttributes.BURNING_HIT_CHANCE, "ModBurningHit", "mod_corrupt_burning_hit", List.of(), vaultGearModifierTiersBuilder -> {
+                        vaultGearModifierTiersBuilder.add(0, 40, 100, 0.06F, 0.12F, 0.01F);
+                        vaultGearModifierTiersBuilder.add(25, 65, 100, 0.12F, 0.14F, 0.01F);
+                        vaultGearModifierTiersBuilder.add(50, -1, 100, 0.14F, 0.16F, 0.01F);
+                        vaultGearModifierTiersBuilder.add(75, -1, 100, 0.16F, 0.2F, 0.01F);
+            });
+            vaultGearAttributeGroupBuilder
+                    .addModifier(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY_PERCENTILE, "ModSoulQuantity", "mod_corrupt_soul_quantity", List.of(), vaultGearModifierTiersBuilder -> {
+                        vaultGearModifierTiersBuilder.add(0, -1, 100, 0.25F, 0.25F, 0F);
+            });
+        });
         add("unique", builder -> {
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder

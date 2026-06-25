@@ -386,7 +386,7 @@ dependencies {
     implementation fg.deobf('local:vhroller:1.4.0')
     implementation fg.deobf('local:forgified-sgui:1.0.2')
     implementation fg.deobf('local:black_market_tweaks:1.8')
-    implementation fg.deobf('local:vhapi:5.3.0')
+    implementation fg.deobf('local:vhapi:5.6.0')
     implementation fg.deobf('local:ftb-essentials:1802.2.2-build.83')
 //    implementation fg.deobf('local:serverportals:1.18.2-1.5')
 
