@@ -89,25 +89,24 @@ public class UnusualModifiers {
 
 
 
-        ARMOR_MODIFIERS_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
-        ARMOR_MODIFIERS_PREFIX.add(UnusualModifierLib.COPIOUSLY);
-        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.KINETIC_IMMUNITY);
-        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
-        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.LUCKY_HIT_CHANCE);
-        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.HEALING_CLOUD_ON_HIT);
-        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.WEAKNESS_CLOUD_ON_HIT);
-        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.SLOWNESS_CLOUD_ON_HIT);
-        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.POISON_CLOUD_ON_HIT);
-        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.WEAKNESS_CLOUD_ON_HIT);
-        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.VULNERABLE_CLOUD_ON_HIT);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("helmet"), ARMOR_MODIFIERS_PREFIX);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("helmet"), ARMOR_MODIFIERS_SUFFIX);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("chestplate"), ARMOR_MODIFIERS_PREFIX);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("chestplate"), ARMOR_MODIFIERS_SUFFIX);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("leggings"), ARMOR_MODIFIERS_PREFIX);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("leggings"), ARMOR_MODIFIERS_SUFFIX);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("boots"), ARMOR_MODIFIERS_PREFIX);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("boots"), ARMOR_MODIFIERS_SUFFIX);
+//        ARMOR_MODIFIERS_PREFIX.add(UnusualModifierLib.MOVEMENT_SPEED);
+//        ARMOR_MODIFIERS_PREFIX.add(UnusualModifierLib.COPIOUSLY);
+//        ARMOR_MODIFIERS_PREFIX.add(UnusualModifierLib.POISON_CLOUD_ON_HIT);
+//        ARMOR_MODIFIERS_PREFIX.add(UnusualModifierLib.VULNERABLE_CLOUD_ON_HIT);
+//        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.KINETIC_IMMUNITY);
+//        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
+//        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.LUCKY_HIT_CHANCE);
+//        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.HEALING_CLOUD_ON_HIT);
+//        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.WEAKNESS_CLOUD_ON_HIT);
+//        ARMOR_MODIFIERS_SUFFIX.add(UnusualModifierLib.SLOWNESS_CLOUD_ON_HIT);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("helmet"), ARMOR_MODIFIERS_PREFIX);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("helmet"), ARMOR_MODIFIERS_SUFFIX);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("chestplate"), ARMOR_MODIFIERS_PREFIX);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("chestplate"), ARMOR_MODIFIERS_SUFFIX);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("leggings"), ARMOR_MODIFIERS_PREFIX);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("leggings"), ARMOR_MODIFIERS_SUFFIX);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("boots"), ARMOR_MODIFIERS_PREFIX);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("boots"), ARMOR_MODIFIERS_SUFFIX);
 
         NON_SACK_PREFIX.add(UnusualModifierLib.REACH);
         NON_SACK_PREFIX.add(UnusualModifierLib.LEECH);
@@ -172,33 +171,33 @@ public class UnusualModifiers {
         UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("magnet"), SACK_PREFIX);
         UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("magnet"), SACK_SUFFIX);
 
-        MAP_PREFIX.add(UnusualModifierLib.CORROSIVE);
-        MAP_PREFIX.add(UnusualModifierLib.EXTRA_REINFORCED);
-        MAP_PREFIX.add(UnusualModifierLib.TIRED);
-        MAP_PREFIX.add(UnusualModifierLib.LEECHING);
-        MAP_PREFIX.add(UnusualModifierLib.BLESSED);
-        MAP_PREFIX.add(UnusualModifierLib.FRENZY);
-        MAP_PREFIX.add(UnusualModifierLib.JUMPY);
-        MAP_PREFIX.add(UnusualModifierLib.KILL_NOVA);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map"), MAP_PREFIX);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_1"), MAP_PREFIX);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_2"), MAP_PREFIX);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_3"), MAP_PREFIX);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_4"), MAP_PREFIX);
-        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_5"), MAP_PREFIX);
-
-        MAP_SUFFIX.add(UnusualModifierLib.NON_LETHAL);
-        MAP_SUFFIX.add(UnusualModifierLib.DOOR_HUNTER);
-        MAP_SUFFIX.add(UnusualModifierLib.SWEET_RETRO);
-        MAP_SUFFIX.add(UnusualModifierLib.HUNGER);
-        MAP_PREFIX.add(UnusualModifierLib.HAUNTED_MANSION);
-        MAP_PREFIX.add(UnusualModifierLib.KILL_FROST_NOVA);
-        MAP_PREFIX.add(UnusualModifierLib.BACKWARDS);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map"), MAP_SUFFIX);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_1"), MAP_SUFFIX);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_2"), MAP_SUFFIX);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_3"), MAP_SUFFIX);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_4"), MAP_SUFFIX);
-        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_5"), MAP_SUFFIX);
+//        MAP_PREFIX.add(UnusualModifierLib.CORROSIVE);
+//        MAP_PREFIX.add(UnusualModifierLib.EXTRA_REINFORCED);
+//        MAP_PREFIX.add(UnusualModifierLib.TIRED);
+//        MAP_PREFIX.add(UnusualModifierLib.LEECHING);
+//        MAP_PREFIX.add(UnusualModifierLib.BLESSED);
+//        MAP_PREFIX.add(UnusualModifierLib.FRENZY);
+//        MAP_PREFIX.add(UnusualModifierLib.JUMPY);
+//        MAP_PREFIX.add(UnusualModifierLib.KILL_NOVA);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map"), MAP_PREFIX);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_1"), MAP_PREFIX);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_2"), MAP_PREFIX);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_3"), MAP_PREFIX);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_4"), MAP_PREFIX);
+//        UNUSUAL_MODIFIERS_MAP_PREFIX.put(VaultMod.id("map_5"), MAP_PREFIX);
+//
+//        MAP_SUFFIX.add(UnusualModifierLib.NON_LETHAL);
+//        MAP_SUFFIX.add(UnusualModifierLib.DOOR_HUNTER);
+//        MAP_SUFFIX.add(UnusualModifierLib.SWEET_RETRO);
+//        MAP_SUFFIX.add(UnusualModifierLib.HUNGER);
+//        MAP_PREFIX.add(UnusualModifierLib.HAUNTED_MANSION);
+//        MAP_PREFIX.add(UnusualModifierLib.KILL_FROST_NOVA);
+//        MAP_PREFIX.add(UnusualModifierLib.BACKWARDS);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map"), MAP_SUFFIX);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_1"), MAP_SUFFIX);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_2"), MAP_SUFFIX);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_3"), MAP_SUFFIX);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_4"), MAP_SUFFIX);
+//        UNUSUAL_MODIFIERS_MAP_SUFFIX.put(VaultMod.id("map_5"), MAP_SUFFIX);
     }
 }

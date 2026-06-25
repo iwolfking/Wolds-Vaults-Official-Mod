@@ -5,6 +5,7 @@ import iskallia.vault.config.gear.VaultGearTierConfig;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.MixinModConfigs;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -42,5 +43,21 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
         ARMOR.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
         });
+    }
+
+    public void addToJewel(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
+        add("jewel", builder -> builder.key(VaultMod.id("jewel")).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+    }
+
+    public void addToMaps(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
+        for(int i = 0; i < 6; i++) {
+            if(i == 0) {
+                add("map", builder -> builder.key(VaultMod.id("map")).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            }
+            else {
+                String mapId = "map_" + i;
+                add(mapId, builder -> builder.key(VaultMod.id(mapId)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.data.gear.lib.UnusualModifierLib;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import java.util.List;
@@ -24,6 +25,40 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
 
     @Override
     public void registerConfigs() {
+        addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.CORROSIVE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.EXTRA_REINFORCED);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.TIRED);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.LEECH);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.BLESSED);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.FRENZY);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.JUMPY);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.KILL_NOVA);
+        });
+        addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.NON_LETHAL);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.DOOR_HUNTER);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.SWEET_RETRO);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.HUNGER);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.HAUNTED_MANSION);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.KILL_FROST_NOVA);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.BACKWARDS);
+        });
+        addToAllArmor(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MOVEMENT_SPEED);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.COPIOUSLY);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.POISON_CLOUD_ON_HIT);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.VULNERABLE_CLOUD_ON_HIT);
+        });
+        addToAllArmor(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.KINETIC_IMMUNITY);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.DURABILITY_WEAR_REDUCTION);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.LUCKY_HIT_CHANCE);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.HEALING_CLOUD_ON_HIT);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.WEAKNESS_CLOUD_ON_HIT);
+            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.SLOWNESS_CLOUD_ON_HIT);
+        });
+
         addToAllStandardGearConfigs(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {
             vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EXECUTION_DAMAGE, "ModOnHitType", "mod_corrupt_execution_damage", List.of(), vaultGearModifierTiersBuilder -> {
                 vaultGearModifierTiersBuilder.add(0, -1, 100, 0.03F, 0.05F, 0.01F);
