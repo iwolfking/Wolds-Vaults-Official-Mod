@@ -116,6 +116,7 @@ public class WoldsVaults {
         NetworkHandler.onCommonSetup();
         DelayedExecutionHelper.init();
         ModVaultEvents.init();
+        ModPetModels.register();
         BETTER_COMBAT_PRESENT = LoadingModList.get().getModFileById("bettercombat") != null;
     }
 
