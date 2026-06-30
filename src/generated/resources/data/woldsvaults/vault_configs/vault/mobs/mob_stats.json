@@ -1295,15 +1295,6 @@
             "ROLL_CHANCE": 1.0,
             "SCALE_PER_LEVEL": 0.1,
             "SCALE_MAX_LEVEL": -1
-          },
-          {
-            "MIN_LEVEL": 90,
-            "MIN": 5.0,
-            "MAX": 8.0,
-            "OPERATOR": "set",
-            "ROLL_CHANCE": 1.0,
-            "SCALE_PER_LEVEL": 0.1,
-            "SCALE_MAX_LEVEL": -1
           }
         ]
       },
@@ -5361,7 +5352,7 @@
           {
             "MIN_LEVEL": 0,
             "MIN": 2.0,
-            "MAX": 4.0,
+            "MAX": 2.5,
             "OPERATOR": "set",
             "ROLL_CHANCE": 1.0,
             "SCALE_PER_LEVEL": 0.1,
@@ -5369,8 +5360,8 @@
           },
           {
             "MIN_LEVEL": 65,
-            "MIN": 2.0,
-            "MAX": 4.0,
+            "MIN": 2.5,
+            "MAX": 3.0,
             "OPERATOR": "set",
             "ROLL_CHANCE": 1.0,
             "SCALE_PER_LEVEL": 0.1,
@@ -5379,7 +5370,7 @@
           {
             "MIN_LEVEL": 90,
             "MIN": 3,
-            "MAX": 6.0,
+            "MAX": 4.0,
             "OPERATOR": "set",
             "ROLL_CHANCE": 1.0,
             "SCALE_PER_LEVEL": 0.1,
@@ -7992,16 +7983,7 @@
           {
             "MIN_LEVEL": 65,
             "MIN": 2.0,
-            "MAX": 4.0,
-            "OPERATOR": "set",
-            "ROLL_CHANCE": 1.0,
-            "SCALE_PER_LEVEL": 0.1,
-            "SCALE_MAX_LEVEL": -1
-          },
-          {
-            "MIN_LEVEL": 90,
-            "MIN": 2.5,
-            "MAX": 5.0,
+            "MAX": 3.0,
             "OPERATOR": "set",
             "ROLL_CHANCE": 1.0,
             "SCALE_PER_LEVEL": 0.1,
