@@ -28,9 +28,9 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                                 .addLevel(90, 95.0, 100.0, "set", 1.0, 0.07, -1);
                     })
                     .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
-                        levels.addLevel(0, 2.0, 4.0, "set", 1.0, 0.1, 50)
-                                .addLevel(65, 2.0, 4.0, "set", 1.0, 0.1, -1)
-                                .addLevel(90, 3, 6.0, "set", 1.0, 0.1, -1);
+                        levels.addLevel(0, 2.0, 2.5, "set", 1.0, 0.1, 50)
+                                .addLevel(65, 2.5, 3.0, "set", 1.0, 0.1, -1)
+                                .addLevel(90, 3, 4.0, "set", 1.0, 0.1, -1);
                     })
                     .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
                         levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
@@ -63,8 +63,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     })
                     .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
                         levels.addLevel(0, 4.0, 4.0, "set", 1.0, 0.1, 50)
-                                .addLevel(65, 4.0, 6.0, "set", 1.0, 0.1, -1)
-                                .addLevel(90, 5.0, 8.0, "set", 1.0, 0.1, -1);
+                                .addLevel(65, 4.0, 6.0, "set", 1.0, 0.1, -1);
                     })
                     .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
                         levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
@@ -166,8 +165,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     })
                     .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
                         levels.addLevel(0, 1.0, 3.0, "set", 1.0, 0.1, 50)
-                                .addLevel(65, 2.0, 4.0, "set", 1.0, 0.1, -1)
-                                .addLevel(90, 2.5, 5.0, "set", 1.0, 0.1, -1);
+                                .addLevel(65, 2.0, 3.0, "set", 1.0, 0.1, -1);
                     })
                     .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
                         levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
