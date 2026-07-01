@@ -259,6 +259,10 @@ public class WoldGearModifierHelper {
                         data.setUsedRepairSlots(data.getUsedRepairSlots() + 1);
                     }
 
+                    if(data.isImbued()) {
+                        return GearModification.Result.errorUnmodifiable();
+                    }
+
                     VaultGearModifierHelperAccessor.callReforgeBaseAttributesForNewLevel(data, cfg, newLevel, random);
                     VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.IMPLICIT, newLevel, random);
                     VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.PREFIX, newLevel, random);
