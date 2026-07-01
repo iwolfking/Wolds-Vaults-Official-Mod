@@ -9,7 +9,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(value = VoidFluidBlock.class, remap = false)
+@Mixin(value = VoidFluidBlock.class)
 public class MixinVoidFluidBlock {
     @WrapOperation(method = "affectPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", ordinal = 0))
     private static boolean cancelTimeAccelerationIfDowned(ServerPlayer instance, MobEffectInstance mobEffectInstance, Operation<Boolean> original) {
