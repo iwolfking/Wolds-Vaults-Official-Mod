@@ -25,5 +25,7 @@ public class MixinDeckModifierAdapter extends TypeSupplierAdapter<DeckModifier<?
         this.register("group_synergy", GroupSynergyDeckModifier.class, GroupSynergyDeckModifier::new);
         this.register("group_synergy_multiplier", GroupSynergyMultiplierModifier.class, GroupSynergyMultiplierModifier::new);
         this.register("create_slots", CreateSlotDeckModifier.class, CreateSlotDeckModifier::new);
+        this.register("implicit", ImplicitDeckModifier.class, ImplicitDeckModifier::new);
+        this.register("temporal_time", TemporalTimeDeckModifier.class, TemporalTimeDeckModifier::new);
     }
 }

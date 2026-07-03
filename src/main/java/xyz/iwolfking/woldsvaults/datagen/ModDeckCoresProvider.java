@@ -122,6 +122,12 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             archiveCoreModifier.modifierRolls.put("greater", variant("Greater Archive Core", FloatRoll.ofUniform(0.15F, 0.2F), 16769382, "woldsvaults:deck_cores/archive_deck_core_greater#inventory"));
 
 
+            //Implicit Deck Modifiers
+            AdjacencyBonusDeckModifier.Config merchantDeckModifier = new AdjacencyBonusDeckModifier.Config(FloatRoll.ofConstant(0.5F), List.of("Resource"), true, AdjacencyBonusDeckModifier.Type.COLUMN);
+            merchantDeckModifier.modifierRoll = FloatRoll.ofConstant(0.5F);
+
+            TemporalTimeDeckModifier.Config temporalDeckDeckModifier = new TemporalTimeDeckModifier.Config();
+
             builder.addCore("arsenal", GlobalDeckModifier::new, arsenalModifierConfig, "Arsenal Core", 13618375,"woldsvaults:deck_cores/arsenal_deck_core#inventory");
             builder.addCore("aegis", GlobalDeckModifier::new, aegisModifierConfig,"Aegis Core", 13618375,"woldsvaults:deck_cores/aegis_deck_core#inventory");
             builder.addCore("tool", GlobalDeckModifier::new, toolModifierConfig,"Tool Core", 13618375,"woldsvaults:deck_cores/tool_deck_core#inventory");
@@ -140,6 +146,11 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             builder.addCore("sparkling", GlobalDeckModifier::new, sparklingDeckCore,"Sparkling Core", 13618375,"woldsvaults:deck_cores/sparkling_deck_core#inventory");
             builder.addCore("construction", CreateSlotDeckModifier::new, constructionCoreModifier,"Construction Core", 13618375,"woldsvaults:deck_cores/construction_deck_core#inventory");
             builder.addCore("archive", GroupSynergyMultiplierModifier::new, archiveCoreModifier,"Archive Core", 13618375,"woldsvaults:deck_cores/archive_deck_core#inventory");
+            //Implicit Deck Mods
+            builder.addCore("merchant", AdjacencyBonusDeckModifier::new, merchantDeckModifier,"Merchant Deck Modifier", 13618375,"the_vault:deck/merchant_deck#inventory");
+            builder.addCore("extended", TemporalTimeDeckModifier::new, temporalDeckDeckModifier,"Extended Deck Modifier", 13618375,"the_vault:deck/expanded_deck#inventory");
+
+            //Pools
             builder.addPool("default", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("arsenal", 1);
                 stringWeightedListBuilder.add("aegis", 1);

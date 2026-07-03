@@ -153,6 +153,22 @@
       "id": "pluto",
       "type": "dominance_boost"
     },
+    "merchant": {
+      "modifierValue": {
+        "count": 0.5,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Resource"
+      ],
+      "forEachAdjacent": true,
+      "adjacencyType": "COLUMN",
+      "modelId": "the_vault:deck/merchant_deck#inventory",
+      "name": "Merchant Deck Modifier",
+      "colour": 13618375,
+      "id": "merchant",
+      "type": "group_adjacency_efficiency"
+    },
     "jupiter": {
       "modifierValue": {
         "min": 0.3,
@@ -339,6 +355,17 @@
       "colour": 13618375,
       "id": "tool",
       "type": "global"
+    },
+    "extended": {
+      "modifierValue": {
+        "count": 0.0,
+        "type": "constant"
+      },
+      "modelId": "the_vault:deck/expanded_deck#inventory",
+      "name": "Extended Deck Modifier",
+      "colour": 13618375,
+      "id": "extended",
+      "type": "temporal_time"
     },
     "sparkling": {
       "modifierValue": {

@@ -1,35 +1,44 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
-import iskallia.vault.core.card.Card;
-import iskallia.vault.core.card.CardDeck;
-import iskallia.vault.core.card.CardPos;
+import com.google.gson.JsonObject;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import iskallia.vault.core.card.*;
 import iskallia.vault.core.card.modifier.deck.DeckModifier;
+import iskallia.vault.core.data.serializable.ISerializable;
+import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.TooltipFlag;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.lib.ICardDeckCache;
 import xyz.iwolfking.woldsvaults.modifiers.deck.EmptySlotDeckModifier;
+import xyz.iwolfking.woldsvaults.modifiers.deck.ImplicitDeckModifier;
 import xyz.iwolfking.woldsvaults.modifiers.deck.lib.IMultiplicativeDeckModifier;
 import xyz.iwolfking.woldsvaults.modifiers.deck.lib.IRemovableSlotModifier;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Mixin(value = CardDeck.class, remap = false)
-public abstract class MixinCardDeck implements ICardDeckCache {
+public abstract class MixinCardDeck implements ICardDeckCache, ISerializable<CompoundTag, JsonObject> {
 
     @Shadow
     @Final
     private List<DeckModifier<?>> modifiers;
+
+    @Shadow
+    public abstract List<VaultGearAttributeInstance<?>> getSnapshotAttributes();
+
+    @Shadow
+    @Final
+    private Map<CardPos, Card> cards;
+    @Shadow
+    private int socketCount;
     @Unique private int wv$emptySlots = -1;
     @Unique private int wv$filledSlots = -1;
     @Unique private String wv$dominantGroup = null;
@@ -178,5 +187,14 @@ public abstract class MixinCardDeck implements ICardDeckCache {
         }
 
         return value * mult;
+    }
+
+    @WrapOperation(method = "addText", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
+    public int modifyImplicitModifierSocketCount(List<DeckModifier<?>> instance, Operation<Integer> original) {
+        if(instance.stream().anyMatch(deckModifier -> deckModifier instanceof ImplicitDeckModifier)) {
+            return original.call(instance) - 1;
+        }
+
+        return original.call(instance);
     }
 }

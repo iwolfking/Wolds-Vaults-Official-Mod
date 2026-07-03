@@ -99,9 +99,16 @@ public class ModLanguageProvider extends LanguageProvider {
         add("deck.woldsvaults.adjacency_modifier_type_2", "when %1$s to at least one");
         add("deck.woldsvaults.adjacency_type_orthogonal", "orthogonal");
         add("deck.woldsvaults.adjacency_type_diagonal", "diagonal");
-        add("deck.woldsvaults.adjacency_type_surrounding", "adjacent");
+        add("deck.woldsvaults.adjacency_type_surrounding", "surrounding");
         add("deck.woldsvaults.adjacency_type_surrounding_2", "within 2 spaces");
         add("deck.woldsvaults.adjacency_type_starcross", "within two orthogonal or one diagonal");
+        add("deck.woldsvaults.adjacency_type_row", "row");
+        add("deck.woldsvaults.adjacency_type_column", "column");
+        add("deck.woldsvaults.adjacency_type_adjacent", "adjacent");
+        add("deck.woldsvaults.adjacency_type_above", "above");
+        add("deck.woldsvaults.adjacency_type_below", "below");
+        add("deck.woldsvaults.adjacency_type_left", "left");
+        add("deck.woldsvaults.adjacency_type_right", "right");
         add("deck.woldsvaults.adjacency_type_failure", "invalid configuration");
         add("deck.woldsvaults.dominance_deck_modifier_current", "Currently: %1$s");
         add("deck.woldsvaults.dominance_deck_modifier_dominant", "+%1$s card efficiency to cards with the most dominant group in the deck (%2$s)");

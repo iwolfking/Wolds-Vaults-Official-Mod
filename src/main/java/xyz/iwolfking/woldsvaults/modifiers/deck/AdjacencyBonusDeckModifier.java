@@ -2,9 +2,7 @@ package xyz.iwolfking.woldsvaults.modifiers.deck;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import iskallia.vault.core.card.Card;
-import iskallia.vault.core.card.CardDeck;
-import iskallia.vault.core.card.CardPos;
+import iskallia.vault.core.card.*;
 import iskallia.vault.core.card.modifier.deck.DeckModifier;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.data.adapter.basic.EnumAdapter;
@@ -38,14 +36,17 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
 
         int matchingNeighbors = 0;
 
-        for (int[] offset : this.config.type.getOffsets()) {
-            CardPos neighborPos = pos.add(offset[0], offset[1]);
-            Card neighbor = deck.getCard(neighborPos).orElse(null);
+        Set<CardPos> targetPositions = this.config.type.getPositions(pos, deck);
 
+        for (CardPos neighborPos : targetPositions) {
+            if (neighborPos.equals(pos)) continue;
+
+            Card neighbor = deck.getCard(neighborPos).orElse(null);
             if (neighbor == null) continue;
-            for(String group : neighbor.getGroups()) {
-                for(String requiredGroup : this.config.getGroups()) {
-                    if(group.equals(requiredGroup)) {
+
+            for (String group : neighbor.getGroups()) {
+                for (String requiredGroup : this.config.getGroups()) {
+                    if (group.equals(requiredGroup)) {
                         matchingNeighbors++;
                     }
                 }
@@ -69,8 +70,8 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
         MutableComponent comp = (new TextComponent("+")).withStyle(ChatFormatting.GRAY).append((new TextComponent(String.format(Locale.ROOT, "%.1f%% ", this.getModifierValue() * 100.0F))).withStyle(ChatFormatting.WHITE)).append((new TranslatableComponent("deck.woldsvaults.adjacency_modifier", this.config.getDisplayGroups(), this.config.getAdjacencyDescriptionText())));
         if (Screen.hasShiftDown()) {
             DecimalFormat df = new DecimalFormat("#.##");
-            String var10001 = df.format((double)(((AdjacencyBonusDeckModifier.Config)this.getConfig()).modifierRoll.getMin() * 100.0F));
-            comp.append(" (" + var10001 + "%-" + df.format((double)(((AdjacencyBonusDeckModifier.Config)this.getConfig()).modifierRoll.getMax() * 100.0F)) + "%)");
+            String var10001 = df.format(((Config)this.getConfig()).modifierRoll.getMin() * 100.0F);
+            comp.append(" (" + var10001 + "%-" + df.format(((Config)this.getConfig()).modifierRoll.getMax() * 100.0F) + "%)");
         }
 
         tooltip.add(comp);
@@ -135,7 +136,7 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
 
         public void writeBits(BitBuffer buffer) {
             super.writeBits(buffer);
-            GROUPS.writeBits((String[])this.groups.toArray((x$0) -> new String[x$0]), buffer);
+            GROUPS.writeBits(this.groups.toArray((x$0) -> new String[x$0]), buffer);
             Adapters.BOOLEAN.writeBits(forEachAdjacent, buffer);
             Adapters.ofEnum(Type.class, EnumAdapter.Mode.NAME).writeBits(type, buffer);
         }
@@ -176,6 +177,13 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
                 case STARCROSS -> {
                     return new TranslatableComponent("deck.woldsvaults.adjacency_type_starcross");
                 }
+                case ROW -> { return new TranslatableComponent("deck.woldsvaults.adjacency_type_row"); }
+                case COLUMN -> { return new TranslatableComponent("deck.woldsvaults.adjacency_type_column"); }
+                case ADJACENT -> { return new TranslatableComponent("deck.woldsvaults.adjacency_type_adjacent"); }
+                case ABOVE -> { return new TranslatableComponent("deck.woldsvaults.adjacency_type_above"); }
+                case BELOW -> { return new TranslatableComponent("deck.woldsvaults.adjacency_type_below"); }
+                case LEFT -> { return new TranslatableComponent("deck.woldsvaults.adjacency_type_left"); }
+                case RIGHT -> { return new TranslatableComponent("deck.woldsvaults.adjacency_type_right"); }
             }
 
             return new TranslatableComponent("deck.woldsvaults.adjacency_type_failure");
@@ -187,52 +195,39 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
     }
 
     public enum Type {
-        ORTHOGONAL(new int[][]{
-                { 1, 0 },
-                { -1, 0 },
-                { 0, 1 },
-                { 0, -1 }
-        }),
-        DIAGONAL(new int[][]{
-                { -1, -1 },
-                {  1, -1 },
-                { -1,  1 },
-                {  1,  1 }
-        }),
-        SURROUNDING(new int[][]{
-                {  0, -1 }, {  0,  1 }, { -1,  0 }, {  1,  0 },
-                { -1, -1 }, {  1, -1 }, { -1,  1 }, {  1,  1 }
-        }),
-        WITHIN_TWO(new int[][]{
-                {  0, -1 }, {  0,  1 }, { -1,  0 }, {  1,  0 },
-                { -1, -1 }, {  1, -1 }, { -1,  1 }, {  1,  1 }
-        }),
-        STARCROSS(new int[][]{
-                {  1,  0 },
-                { -1,  0 },
-                {  0,  1 },
-                {  0, -1 },
+        ORTHOGONAL((origin, deck) -> getFromOffsets(origin, deck, new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}})),
+        DIAGONAL((origin, deck) -> getFromOffsets(origin, deck, new int[][]{{-1, -1}, {1, -1}, {-1, 1}, {1, 1}})),
+        SURROUNDING((origin, deck) -> getFromOffsets(origin, deck, new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, -1}, {-1, 1}, {1, 1}})),
+        WITHIN_TWO((origin, deck) -> getFromOffsets(origin, deck, surroundingRadius(2))),
+        STARCROSS((origin, deck) -> getFromOffsets(origin, deck, new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {2, 0}, {-2, 0}, {0, 2}, {0, -2}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}})),
 
-                {  2,  0 },
-                { -2,  0 },
-                {  0,  2 },
-                {  0, -2 },
+        ROW(CardNeighborType.ROW::get),
+        COLUMN(CardNeighborType.COLUMN::get),
+        ADJACENT(CardNeighborType.ADJACENT::get),
+        ABOVE(CardNeighborType.ABOVE::get),
+        BELOW(CardNeighborType.BELOW::get),
+        LEFT(CardNeighborType.LEFT::get),
+        RIGHT(CardNeighborType.RIGHT::get);
 
-                {  1,  1 },
-                {  1, -1 },
-                { -1,  1 },
-                { -1, -1 }
-        });
+        private final java.util.function.BiFunction<CardPos, CardDeck, Set<CardPos>> provider;
 
-
-        private final int[][] offsets;
-
-        Type(int[][] offsets) {
-            this.offsets = offsets;
+        Type(java.util.function.BiFunction<CardPos, CardDeck, Set<CardPos>> provider) {
+            this.provider = provider;
         }
 
-        public int[][] getOffsets() {
-            return offsets;
+        public Set<CardPos> getPositions(CardPos origin, CardDeck deck) {
+            return this.provider.apply(origin, deck);
+        }
+
+        private static Set<CardPos> getFromOffsets(CardPos origin, CardDeck deck, int[][] offsets) {
+            Set<CardPos> positions = new HashSet<>();
+            for (int[] offset : offsets) {
+                CardPos target = origin.add(offset[0], offset[1]);
+                if (deck.getSlots().contains(target)) {
+                    positions.add(target);
+                }
+            }
+            return positions;
         }
 
         private static int[][] surroundingRadius(int r) {
@@ -245,6 +240,5 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
             }
             return offsets.toArray(new int[0][]);
         }
-
     }
 }
