@@ -4,23 +4,19 @@ import iskallia.vault.core.card.Card;
 import iskallia.vault.core.card.CardDeck;
 import iskallia.vault.core.card.CardPos;
 import iskallia.vault.core.card.modifier.deck.DeckModifier;
-import iskallia.vault.core.card.modifier.deck.SlotDeckModifier;
-import iskallia.vault.core.random.RandomSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.TooltipFlag;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.SlotDeckModifierAccessor;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class TemporalTimeDeckModifier extends DeckModifier<DeckModifier.Config> {
+public class ArcaneLevelDeckModifier extends DeckModifier<DeckModifier.Config> {
 
-    public TemporalTimeDeckModifier(Config config) {
+    public ArcaneLevelDeckModifier(Config config) {
         super(config);
     }
 
-    public TemporalTimeDeckModifier() {
+    public ArcaneLevelDeckModifier() {
         super(new Config());
     }
 
@@ -31,7 +27,7 @@ public class TemporalTimeDeckModifier extends DeckModifier<DeckModifier.Config> 
 
     @Override
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
-        tooltip.add(new TextComponent("Temporal cards last three times as long."));
+        tooltip.add(new TextComponent("Arcane cards have +" + Math.round(this.getModifierValue()) + " ability level(s)."));
     }
 
     @Override

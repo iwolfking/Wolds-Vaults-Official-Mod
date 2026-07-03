@@ -127,6 +127,28 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             merchantDeckModifier.modifierRoll = FloatRoll.ofConstant(0.5F);
 
             TemporalTimeDeckModifier.Config temporalDeckDeckModifier = new TemporalTimeDeckModifier.Config();
+            ArcaneLevelDeckModifier.Config arcaneDeckDeckModifier = new ArcaneLevelDeckModifier.Config();
+            arcaneDeckDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
+
+            GlobalDeckModifier.Config treasureDeckModifier = new GlobalDeckModifier.Config();
+            treasureDeckModifier.requiredGroups.add("Stat");
+            treasureDeckModifier.modifierRoll = FloatRoll.ofConstant(1.0F);
+
+            GlobalDeckModifier.Config idonaDeckModifier = new GlobalDeckModifier.Config();
+            idonaDeckModifier.requiredColors.add(CardEntry.Color.RED);
+            idonaDeckModifier.modifierRoll = FloatRoll.ofConstant(1.25F);
+
+            GlobalDeckModifier.Config tenosDeckModifier = new GlobalDeckModifier.Config();
+            tenosDeckModifier.requiredColors.add(CardEntry.Color.BLUE);
+            tenosDeckModifier.modifierRoll = FloatRoll.ofConstant(1.25F);
+
+            GlobalDeckModifier.Config velaraDeckModifier = new GlobalDeckModifier.Config();
+            velaraDeckModifier.requiredColors.add(CardEntry.Color.GREEN);
+            velaraDeckModifier.modifierRoll = FloatRoll.ofConstant(1.25F);
+
+            GlobalDeckModifier.Config wendarrDeckModifier = new GlobalDeckModifier.Config();
+            wendarrDeckModifier.requiredColors.add(CardEntry.Color.YELLOW);
+            wendarrDeckModifier.modifierRoll = FloatRoll.ofConstant(1.25F);
 
             builder.addCore("arsenal", GlobalDeckModifier::new, arsenalModifierConfig, "Arsenal Core", 13618375,"woldsvaults:deck_cores/arsenal_deck_core#inventory");
             builder.addCore("aegis", GlobalDeckModifier::new, aegisModifierConfig,"Aegis Core", 13618375,"woldsvaults:deck_cores/aegis_deck_core#inventory");
@@ -147,8 +169,14 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             builder.addCore("construction", CreateSlotDeckModifier::new, constructionCoreModifier,"Construction Core", 13618375,"woldsvaults:deck_cores/construction_deck_core#inventory");
             builder.addCore("archive", GroupSynergyMultiplierModifier::new, archiveCoreModifier,"Archive Core", 13618375,"woldsvaults:deck_cores/archive_deck_core#inventory");
             //Implicit Deck Mods
-            builder.addCore("merchant", AdjacencyBonusDeckModifier::new, merchantDeckModifier,"Merchant Deck Modifier", 13618375,"the_vault:deck/merchant_deck#inventory");
-            builder.addCore("extended", TemporalTimeDeckModifier::new, temporalDeckDeckModifier,"Extended Deck Modifier", 13618375,"the_vault:deck/expanded_deck#inventory");
+            builder.addCore("merchant_deck", AdjacencyBonusDeckModifier::new, merchantDeckModifier,"Merchant Deck Modifier", 13618375,"the_vault:deck/merchant_deck#inventory");
+            builder.addCore("extended_deck", TemporalTimeDeckModifier::new, temporalDeckDeckModifier,"Extended Deck Modifier", 13618375,"the_vault:deck/expanded_deck#inventory");
+            builder.addCore("treasure_deck", GlobalDeckModifier::new, treasureDeckModifier,"Treasure Deck Modifier", 13618375,"the_vault:deck/treasure_deck#inventory");
+            builder.addCore("arcane_deck", ArcaneLevelDeckModifier::new, arcaneDeckDeckModifier,"Arcane Deck Modifier", 13618375,"the_vault:deck/arcane_deck#inventory");
+            builder.addCore("idona_deck", GlobalDeckModifier::new, idonaDeckModifier,"Idona Deck Modifier", 13618375,"the_vault:deck/idona_deck#inventory");
+            builder.addCore("velara_deck", GlobalDeckModifier::new, velaraDeckModifier,"Velara Deck Modifier", 13618375,"the_vault:deck/velara_deck#inventory");
+            builder.addCore("tenos_deck", GlobalDeckModifier::new, tenosDeckModifier,"Tenos Deck Modifier", 13618375,"the_vault:deck/tenos_deck#inventory");
+            builder.addCore("wendarr_deck", GlobalDeckModifier::new, wendarrDeckModifier,"Wendarr Deck Modifier", 13618375,"the_vault:deck/wendarr_deck#inventory");
 
             //Pools
             builder.addPool("default", stringWeightedListBuilder -> {
@@ -216,6 +244,16 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             builder.addPool("factory", stringWeightedListBuilder -> {
                 stringWeightedListBuilder.add("construction", 1);
                 stringWeightedListBuilder.add("tool", 1);
+            });
+            builder.addPool("card_deck_implicits", stringWeightedListBuilder -> {
+                stringWeightedListBuilder.add("merchant_deck", 1);
+                stringWeightedListBuilder.add("extended_deck", 1);
+                stringWeightedListBuilder.add("treasure_deck", 1);
+                stringWeightedListBuilder.add("arcane_deck", 1);
+                stringWeightedListBuilder.add("idona_deck", 1);
+                stringWeightedListBuilder.add("velara_deck", 1);
+                stringWeightedListBuilder.add("wendarr_deck", 1);
+                stringWeightedListBuilder.add("tenos_deck", 1);
             });
         });
     }

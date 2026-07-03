@@ -1,159 +1,21 @@
 {
   "values": {
-    "void": {
+    "treasure_deck": {
       "modifierValue": {
-        "min": 0.1,
-        "max": 0.2,
-        "type": "uniform"
-      },
-      "modifierValues": {
-        "lesser": {
-          "value": {
-            "min": 0.1,
-            "max": 0.1,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/void_deck_core_lesser#inventory",
-          "name": "Lesser Void Core",
-          "colour": 13618375
-        },
-        "greater": {
-          "value": {
-            "min": 0.2,
-            "max": 0.3,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/void_deck_core_greater#inventory",
-          "name": "Greater Void Core",
-          "colour": 16769382
-        }
-      },
-      "modelId": "woldsvaults:deck_cores/void_deck_core#inventory",
-      "name": "Void Core",
-      "colour": 13618375,
-      "id": "void",
-      "type": "empty_slot_efficiency"
-    },
-    "adept": {
-      "modifierValue": {
-        "min": 2.0,
-        "max": 4.0,
-        "step": 1.0,
-        "type": "uniformed_step"
-      },
-      "modifierValues": {
-        "lesser": {
-          "value": {
-            "min": 2.0,
-            "max": 2.0,
-            "step": 1.0,
-            "type": "uniformed_step"
-          },
-          "modelId": "woldsvaults:deck_cores/adept_deck_core_lesser#inventory",
-          "name": "Lesser Adept Core",
-          "colour": 13618375
-        },
-        "greater": {
-          "value": {
-            "min": 4.0,
-            "max": 6.0,
-            "step": 1.0,
-            "type": "uniformed_step"
-          },
-          "modelId": "woldsvaults:deck_cores/adept_deck_core_greater#inventory",
-          "name": "Greater Adept Core",
-          "colour": 16769382
-        }
-      },
-      "requiredGroups": [],
-      "requiredColors": [],
-      "slotRoll": {
-        "count": 1,
+        "count": 1.0,
         "type": "constant"
       },
-      "modelId": "woldsvaults:deck_cores/adept_deck_core#inventory",
-      "name": "Adept Core",
-      "colour": 13618375,
-      "id": "adept",
-      "type": "arcane_slot_boost"
-    },
-    "natural": {
-      "modifierValue": {
-        "min": 0.35,
-        "max": 0.6,
-        "type": "uniform"
-      },
-      "modifierValues": {
-        "lesser": {
-          "value": {
-            "min": 0.3,
-            "max": 0.3,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/natural_deck_core_lesser#inventory",
-          "name": "Lesser Natural Core",
-          "colour": 13618375
-        },
-        "greater": {
-          "value": {
-            "min": 0.75,
-            "max": 1.25,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/natural_deck_core_greater#inventory",
-          "name": "Greater Natural Core",
-          "colour": 16769382
-        }
-      },
       "requiredGroups": [
-        "Physical"
-      ],
-      "requiredColors": [],
-      "modelId": "woldsvaults:deck_cores/natural_deck_core#inventory",
-      "name": "Natural Core",
-      "colour": 13618375,
-      "id": "natural",
-      "type": "global"
-    },
-    "pluto": {
-      "modifierValue": {
-        "min": 0.5,
-        "max": 1.0,
-        "type": "uniform"
-      },
-      "modifierValues": {
-        "lesser": {
-          "value": {
-            "min": 0.35,
-            "max": 0.35,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/pluto_deck_core_lesser#inventory",
-          "name": "Lesser Pluto Core",
-          "colour": 13618375
-        },
-        "greater": {
-          "value": {
-            "min": 1.0,
-            "max": 2.0,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/pluto_deck_core_greater#inventory",
-          "name": "Greater Pluto Core",
-          "colour": 16769382
-        }
-      },
-      "excludedGroups": [
         "Stat"
       ],
-      "mode": "MINORITY",
-      "modelId": "woldsvaults:deck_cores/pluto_deck_core#inventory",
-      "name": "Pluto Core",
+      "requiredColors": [],
+      "modelId": "the_vault:deck/treasure_deck#inventory",
+      "name": "Treasure Deck Modifier",
       "colour": 13618375,
-      "id": "pluto",
-      "type": "dominance_boost"
+      "id": "treasure_deck",
+      "type": "global"
     },
-    "merchant": {
+    "merchant_deck": {
       "modifierValue": {
         "count": 0.5,
         "type": "constant"
@@ -166,7 +28,7 @@
       "modelId": "the_vault:deck/merchant_deck#inventory",
       "name": "Merchant Deck Modifier",
       "colour": 13618375,
-      "id": "merchant",
+      "id": "merchant_deck",
       "type": "group_adjacency_efficiency"
     },
     "jupiter": {
@@ -207,79 +69,6 @@
       "id": "jupiter",
       "type": "dominance_boost"
     },
-    "archive": {
-      "modifierValue": {
-        "min": 0.075,
-        "max": 0.125,
-        "type": "uniform"
-      },
-      "modifierValues": {
-        "lesser": {
-          "value": {
-            "min": 0.05,
-            "max": 0.05,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/archive_deck_core_lesser#inventory",
-          "name": "Lesser Archive Core",
-          "colour": 13618375
-        },
-        "greater": {
-          "value": {
-            "min": 0.15,
-            "max": 0.2,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/archive_deck_core_greater#inventory",
-          "name": "Greater Archive Core",
-          "colour": 16769382
-        }
-      },
-      "groupName": "Arcane",
-      "modelId": "woldsvaults:deck_cores/archive_deck_core#inventory",
-      "name": "Archive Core",
-      "colour": 13618375,
-      "id": "archive",
-      "type": "group_synergy_multiplier"
-    },
-    "aegis": {
-      "modifierValue": {
-        "min": 0.3,
-        "max": 0.6,
-        "type": "uniform"
-      },
-      "modifierValues": {
-        "lesser": {
-          "value": {
-            "min": 0.3,
-            "max": 0.3,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/aegis_deck_core_lesser#inventory",
-          "name": "Lesser Aegis Core",
-          "colour": 13618375
-        },
-        "greater": {
-          "value": {
-            "min": 0.75,
-            "max": 1.25,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/aegis_deck_core_greater#inventory",
-          "name": "Greater Aegis Core",
-          "colour": 16769382
-        }
-      },
-      "requiredGroups": [
-        "Defensive"
-      ],
-      "requiredColors": [],
-      "modelId": "woldsvaults:deck_cores/aegis_deck_core#inventory",
-      "name": "Aegis Core",
-      "colour": 13618375,
-      "id": "aegis",
-      "type": "global"
-    },
     "fae": {
       "modifierValue": {
         "min": 0.3,
@@ -317,55 +106,6 @@
       "colour": 13618375,
       "id": "fae",
       "type": "global"
-    },
-    "tool": {
-      "modifierValue": {
-        "min": 0.35,
-        "max": 0.6,
-        "type": "uniform"
-      },
-      "modifierValues": {
-        "lesser": {
-          "value": {
-            "min": 0.3,
-            "max": 0.3,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/tool_deck_core_lesser#inventory",
-          "name": "Lesser Tool Core",
-          "colour": 13618375
-        },
-        "greater": {
-          "value": {
-            "min": 0.75,
-            "max": 1.25,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/tool_deck_core_greater#inventory",
-          "name": "Greater Tool Core",
-          "colour": 16769382
-        }
-      },
-      "requiredGroups": [
-        "Utility"
-      ],
-      "requiredColors": [],
-      "modelId": "woldsvaults:deck_cores/tool_deck_core#inventory",
-      "name": "Tool Core",
-      "colour": 13618375,
-      "id": "tool",
-      "type": "global"
-    },
-    "extended": {
-      "modifierValue": {
-        "count": 0.0,
-        "type": "constant"
-      },
-      "modelId": "the_vault:deck/expanded_deck#inventory",
-      "name": "Extended Deck Modifier",
-      "colour": 13618375,
-      "id": "extended",
-      "type": "temporal_time"
     },
     "sparkling": {
       "modifierValue": {
@@ -483,6 +223,17 @@
       "id": "talent",
       "type": "group_adjacency_efficiency"
     },
+    "arcane_deck": {
+      "modifierValue": {
+        "count": 2.0,
+        "type": "constant"
+      },
+      "modelId": "the_vault:deck/arcane_deck#inventory",
+      "name": "Arcane Deck Modifier",
+      "colour": 13618375,
+      "id": "arcane_deck",
+      "type": "arcane_level"
+    },
     "construction": {
       "modifierValue": {
         "count": 0.0,
@@ -569,6 +320,21 @@
       "id": "nitwit",
       "type": "no_arcane_efficiency"
     },
+    "idona_deck": {
+      "modifierValue": {
+        "count": 1.25,
+        "type": "constant"
+      },
+      "requiredGroups": [],
+      "requiredColors": [
+        "RED"
+      ],
+      "modelId": "the_vault:deck/idona_deck#inventory",
+      "name": "Idona Deck Modifier",
+      "colour": 13618375,
+      "id": "idona_deck",
+      "type": "global"
+    },
     "bazaar": {
       "modifierValue": {
         "min": 0.2,
@@ -607,6 +373,354 @@
       "colour": 13618375,
       "id": "bazaar",
       "type": "group_adjacency_efficiency"
+    },
+    "temporal": {
+      "modifierValue": {
+        "min": 0.7,
+        "max": 1.0,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.35,
+            "max": 0.35,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/temporal_deck_core_lesser#inventory",
+          "name": "Lesser Temporal Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 1.0,
+            "max": 2.0,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/temporal_deck_core_greater#inventory",
+          "name": "Greater Temporal Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Temporal"
+      ],
+      "forEachAdjacent": false,
+      "adjacencyType": "STARCROSS",
+      "modelId": "woldsvaults:deck_cores/temporal_deck_core#inventory",
+      "name": "Temporal Core",
+      "colour": 13618375,
+      "id": "temporal",
+      "type": "group_adjacency_efficiency"
+    },
+    "velara_deck": {
+      "modifierValue": {
+        "count": 1.25,
+        "type": "constant"
+      },
+      "requiredGroups": [],
+      "requiredColors": [
+        "GREEN"
+      ],
+      "modelId": "the_vault:deck/velara_deck#inventory",
+      "name": "Velara Deck Modifier",
+      "colour": 13618375,
+      "id": "velara_deck",
+      "type": "global"
+    },
+    "void": {
+      "modifierValue": {
+        "min": 0.1,
+        "max": 0.2,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.1,
+            "max": 0.1,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/void_deck_core_lesser#inventory",
+          "name": "Lesser Void Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.2,
+            "max": 0.3,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/void_deck_core_greater#inventory",
+          "name": "Greater Void Core",
+          "colour": 16769382
+        }
+      },
+      "modelId": "woldsvaults:deck_cores/void_deck_core#inventory",
+      "name": "Void Core",
+      "colour": 13618375,
+      "id": "void",
+      "type": "empty_slot_efficiency"
+    },
+    "adept": {
+      "modifierValue": {
+        "min": 2.0,
+        "max": 4.0,
+        "step": 1.0,
+        "type": "uniformed_step"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 2.0,
+            "max": 2.0,
+            "step": 1.0,
+            "type": "uniformed_step"
+          },
+          "modelId": "woldsvaults:deck_cores/adept_deck_core_lesser#inventory",
+          "name": "Lesser Adept Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 4.0,
+            "max": 6.0,
+            "step": 1.0,
+            "type": "uniformed_step"
+          },
+          "modelId": "woldsvaults:deck_cores/adept_deck_core_greater#inventory",
+          "name": "Greater Adept Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [],
+      "requiredColors": [],
+      "slotRoll": {
+        "count": 1,
+        "type": "constant"
+      },
+      "modelId": "woldsvaults:deck_cores/adept_deck_core#inventory",
+      "name": "Adept Core",
+      "colour": 13618375,
+      "id": "adept",
+      "type": "arcane_slot_boost"
+    },
+    "natural": {
+      "modifierValue": {
+        "min": 0.35,
+        "max": 0.6,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.3,
+            "max": 0.3,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/natural_deck_core_lesser#inventory",
+          "name": "Lesser Natural Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.75,
+            "max": 1.25,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/natural_deck_core_greater#inventory",
+          "name": "Greater Natural Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Physical"
+      ],
+      "requiredColors": [],
+      "modelId": "woldsvaults:deck_cores/natural_deck_core#inventory",
+      "name": "Natural Core",
+      "colour": 13618375,
+      "id": "natural",
+      "type": "global"
+    },
+    "tenos_deck": {
+      "modifierValue": {
+        "count": 1.25,
+        "type": "constant"
+      },
+      "requiredGroups": [],
+      "requiredColors": [
+        "BLUE"
+      ],
+      "modelId": "the_vault:deck/tenos_deck#inventory",
+      "name": "Tenos Deck Modifier",
+      "colour": 13618375,
+      "id": "tenos_deck",
+      "type": "global"
+    },
+    "pluto": {
+      "modifierValue": {
+        "min": 0.5,
+        "max": 1.0,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.35,
+            "max": 0.35,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/pluto_deck_core_lesser#inventory",
+          "name": "Lesser Pluto Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 1.0,
+            "max": 2.0,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/pluto_deck_core_greater#inventory",
+          "name": "Greater Pluto Core",
+          "colour": 16769382
+        }
+      },
+      "excludedGroups": [
+        "Stat"
+      ],
+      "mode": "MINORITY",
+      "modelId": "woldsvaults:deck_cores/pluto_deck_core#inventory",
+      "name": "Pluto Core",
+      "colour": 13618375,
+      "id": "pluto",
+      "type": "dominance_boost"
+    },
+    "wendarr_deck": {
+      "modifierValue": {
+        "count": 1.25,
+        "type": "constant"
+      },
+      "requiredGroups": [],
+      "requiredColors": [
+        "YELLOW"
+      ],
+      "modelId": "the_vault:deck/wendarr_deck#inventory",
+      "name": "Wendarr Deck Modifier",
+      "colour": 13618375,
+      "id": "wendarr_deck",
+      "type": "global"
+    },
+    "archive": {
+      "modifierValue": {
+        "min": 0.075,
+        "max": 0.125,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.05,
+            "max": 0.05,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/archive_deck_core_lesser#inventory",
+          "name": "Lesser Archive Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.15,
+            "max": 0.2,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/archive_deck_core_greater#inventory",
+          "name": "Greater Archive Core",
+          "colour": 16769382
+        }
+      },
+      "groupName": "Arcane",
+      "modelId": "woldsvaults:deck_cores/archive_deck_core#inventory",
+      "name": "Archive Core",
+      "colour": 13618375,
+      "id": "archive",
+      "type": "group_synergy_multiplier"
+    },
+    "aegis": {
+      "modifierValue": {
+        "min": 0.3,
+        "max": 0.6,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.3,
+            "max": 0.3,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/aegis_deck_core_lesser#inventory",
+          "name": "Lesser Aegis Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.75,
+            "max": 1.25,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/aegis_deck_core_greater#inventory",
+          "name": "Greater Aegis Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Defensive"
+      ],
+      "requiredColors": [],
+      "modelId": "woldsvaults:deck_cores/aegis_deck_core#inventory",
+      "name": "Aegis Core",
+      "colour": 13618375,
+      "id": "aegis",
+      "type": "global"
+    },
+    "tool": {
+      "modifierValue": {
+        "min": 0.35,
+        "max": 0.6,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.3,
+            "max": 0.3,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/tool_deck_core_lesser#inventory",
+          "name": "Lesser Tool Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.75,
+            "max": 1.25,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/tool_deck_core_greater#inventory",
+          "name": "Greater Tool Core",
+          "colour": 16769382
+        }
+      },
+      "requiredGroups": [
+        "Utility"
+      ],
+      "requiredColors": [],
+      "modelId": "woldsvaults:deck_cores/tool_deck_core#inventory",
+      "name": "Tool Core",
+      "colour": 13618375,
+      "id": "tool",
+      "type": "global"
     },
     "arcane": {
       "modifierValue": {
@@ -660,44 +774,16 @@
       "id": "arcane",
       "type": "create_group_slots"
     },
-    "temporal": {
+    "extended_deck": {
       "modifierValue": {
-        "min": 0.7,
-        "max": 1.0,
-        "type": "uniform"
+        "count": 0.0,
+        "type": "constant"
       },
-      "modifierValues": {
-        "lesser": {
-          "value": {
-            "min": 0.35,
-            "max": 0.35,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/temporal_deck_core_lesser#inventory",
-          "name": "Lesser Temporal Core",
-          "colour": 13618375
-        },
-        "greater": {
-          "value": {
-            "min": 1.0,
-            "max": 2.0,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/temporal_deck_core_greater#inventory",
-          "name": "Greater Temporal Core",
-          "colour": 16769382
-        }
-      },
-      "requiredGroups": [
-        "Temporal"
-      ],
-      "forEachAdjacent": false,
-      "adjacencyType": "STARCROSS",
-      "modelId": "woldsvaults:deck_cores/temporal_deck_core#inventory",
-      "name": "Temporal Core",
+      "modelId": "the_vault:deck/expanded_deck#inventory",
+      "name": "Extended Deck Modifier",
       "colour": 13618375,
-      "id": "temporal",
-      "type": "group_adjacency_efficiency"
+      "id": "extended_deck",
+      "type": "temporal_time"
     },
     "arsenal": {
       "modifierValue": {
@@ -864,6 +950,40 @@
       },
       {
         "value": "arcane",
+        "weight": 1.0
+      }
+    ],
+    "card_deck_implicits": [
+      {
+        "value": "merchant_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "extended_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "treasure_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "arcane_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "idona_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "velara_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "wendarr_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "tenos_deck",
         "weight": 1.0
       }
     ],

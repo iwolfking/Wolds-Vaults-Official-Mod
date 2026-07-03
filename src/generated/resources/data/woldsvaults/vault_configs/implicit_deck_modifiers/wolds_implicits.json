@@ -1,0 +1,12 @@
+{
+  "DECKS_TO_MODIFIERS_MAP": {
+    "merchant": "merchant_deck",
+    "extended": "extended_deck",
+    "treasure": "treasure_deck",
+    "arcane": "arcane_deck",
+    "idona": "idona_deck",
+    "velara": "velara_deck",
+    "tenos": "tenos_deck",
+    "wendarr": "wendarr_deck"
+  }
+}

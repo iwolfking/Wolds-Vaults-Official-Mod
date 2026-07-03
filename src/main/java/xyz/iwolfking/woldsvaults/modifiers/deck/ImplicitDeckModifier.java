@@ -106,6 +106,10 @@ public class ImplicitDeckModifier extends DeckModifier<DeckModifier.Config> impl
         return this.wrappedModifier != null ? this.wrappedModifier.getModifierValue(card, pos, deck) : 1.0F;
     }
 
+    public DeckModifier<?> getModifier() {
+        return this.wrappedModifier;
+    }
+
     @Override
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
         wrappedModifier.addText(tooltip, minIndex, flag, time);

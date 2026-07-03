@@ -27,5 +27,6 @@ public class MixinDeckModifierAdapter extends TypeSupplierAdapter<DeckModifier<?
         this.register("create_slots", CreateSlotDeckModifier.class, CreateSlotDeckModifier::new);
         this.register("implicit", ImplicitDeckModifier.class, ImplicitDeckModifier::new);
         this.register("temporal_time", TemporalTimeDeckModifier.class, TemporalTimeDeckModifier::new);
+        this.register("arcane_level", ArcaneLevelDeckModifier.class, ArcaneLevelDeckModifier::new);
     }
 }

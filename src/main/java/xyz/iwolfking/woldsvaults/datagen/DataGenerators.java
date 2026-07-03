@@ -95,6 +95,7 @@ public class DataGenerators {
             gen.addProvider(new ModGreedTraderProvider(gen));
             gen.addProvider(new ModGreedCauldronProvider(gen));
             gen.addProvider(new ModCompanionProvider(gen));
+            gen.addProvider(new ModImplicitDeckCoresProvider(gen));
         }
     }
 
