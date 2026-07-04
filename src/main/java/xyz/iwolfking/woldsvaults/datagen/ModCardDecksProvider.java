@@ -42,9 +42,9 @@ public class ModCardDecksProvider extends AbstractDeckProvider {
             builder.addEntry("fairy", "woldsvaults:deck/fairy#inventory", "The Fairy Deck", new IntRangeEntry(4, 4), deck(deckBuilder -> {
                 deckBuilder.add("AXXOXOXXA");
                 deckBuilder.add("XOXXAXXOX");
-                deckBuilder.add("XXOOXOOXX");
-                deckBuilder.add("XXAXXXAXX");
-                deckBuilder.add("XOXOXOXOX");
+                deckBuilder.add("XXOOOOOXX");
+                deckBuilder.add("XXAOOOAXX");
+                deckBuilder.add("XOXOOOXOX");
                 deckBuilder.add("AXXXOXXXA");
             }), new IntRangeEntry(3, 3));
 
