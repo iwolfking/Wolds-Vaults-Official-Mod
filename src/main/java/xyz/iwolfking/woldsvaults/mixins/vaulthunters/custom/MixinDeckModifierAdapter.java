@@ -28,5 +28,11 @@ public class MixinDeckModifierAdapter extends TypeSupplierAdapter<DeckModifier<?
         this.register("implicit", ImplicitDeckModifier.class, ImplicitDeckModifier::new);
         this.register("temporal_time", TemporalTimeDeckModifier.class, TemporalTimeDeckModifier::new);
         this.register("arcane_level", ArcaneLevelDeckModifier.class, ArcaneLevelDeckModifier::new);
+        this.register("card_neighbor_scaler_bonus", CardNeighborTypeDeckModifier.class, CardNeighborTypeDeckModifier::new);
+        this.register("row_height_bonus", RowPositionDeckModifier.class, RowPositionDeckModifier::new);
+        this.register("unique_group_bonus", UniqueGroupsDeckModifier.class, UniqueGroupsDeckModifier::new);
+        this.register("color_mismatch_adjacency", ColorMismatchAdjacencyModifier.class, ColorMismatchAdjacencyModifier::new);
+        this.register("symmetry_balance", SymmetricBalanceDeckModifier.class, SymmetricBalanceDeckModifier::new);
+        this.register("chain_reaction", ChainReactionDeckModifier.class, ChainReactionDeckModifier::new);
     }
 }
