@@ -20,6 +20,18 @@ public class ModImplicitDeckCoresProvider extends AbstractImplicitDeckModifiersP
             builder.add("velara", "velara_deck");
             builder.add("tenos", "tenos_deck");
             builder.add("wendarr", "wendarr_deck");
+            builder.add("cactus", "cactus_deck");
+            builder.add("champion", "champion_deck");
+            builder.add("wall", "rook_deck");
+            builder.add("cake", "cake_deck");
+            builder.add("puzzle", "puzzle_deck");
+            builder.add("mutant", "mutant_deck");
+            builder.add("pillager", "pillager_deck");
+            builder.add("belt", "belt_deck");
+            builder.add("villager", "villager_deck");
+            builder.add("runic", "runic_deck");
+            builder.add("fairy", "fairy_deck");
+            builder.add("snake", "snake_deck");
         });
     }
 }

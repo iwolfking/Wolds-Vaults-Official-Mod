@@ -7,6 +7,18 @@
     "idona": "idona_deck",
     "velara": "velara_deck",
     "tenos": "tenos_deck",
-    "wendarr": "wendarr_deck"
+    "wendarr": "wendarr_deck",
+    "cactus": "cactus_deck",
+    "champion": "champion_deck",
+    "wall": "rook_deck",
+    "cake": "cake_deck",
+    "puzzle": "puzzle_deck",
+    "mutant": "mutant_deck",
+    "pillager": "pillager_deck",
+    "belt": "belt_deck",
+    "villager": "villager_deck",
+    "runic": "runic_deck",
+    "fairy": "fairy_deck",
+    "snake": "snake_deck"
   }
 }
