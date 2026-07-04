@@ -173,15 +173,16 @@ public abstract class MixinCardDeck implements ICardDeckCache, ISerializable<Com
         float mult = 1.0F;
 
         for (DeckModifier<?> modifier : this.modifiers) {
-            if(modifier instanceof EmptySlotDeckModifier emptySlotDeckModifier) {
+            DeckModifier<?> modToProcess = modifier instanceof ImplicitDeckModifier implicitDeckModifier ? implicitDeckModifier.getModifier() : modifier;
+            if(modToProcess instanceof EmptySlotDeckModifier emptySlotDeckModifier) {
                 wv$recomputeSlotCache();
                 value += (emptySlotDeckModifier.getModifierValue(card, pos, (CardDeck)(Object)this) - 1.0F);
             }
-            if(modifier instanceof IMultiplicativeDeckModifier multiplicativeDeckModifier) {
+            else if(modToProcess instanceof IMultiplicativeDeckModifier multiplicativeDeckModifier) {
                 mult *= multiplicativeDeckModifier.getMultiplierValue(card, pos, (CardDeck)(Object)this);
             }
             else {
-                float modValue = modifier.getModifierValue(card, pos, (CardDeck)(Object)this);
+                float modValue = modToProcess.getModifierValue(card, pos, (CardDeck)(Object)this);
                 value += (modValue - 1.0F);
             }
         }
