@@ -48,8 +48,8 @@ public abstract class MixinCardEntry {
                         ));
                     }
                 }
-            } catch (java.util.NoSuchElementException e) {
-                e.printStackTrace();
+            } catch (java.util.NoSuchElementException ignored) {
+
             }
         }
 
@@ -76,8 +76,8 @@ public abstract class MixinCardEntry {
                         ));
                     }
                 }
-            } catch (java.util.NoSuchElementException e) {
-                e.printStackTrace();
+            } catch (java.util.NoSuchElementException ignored) {
+
             }
         }
 
@@ -86,7 +86,7 @@ public abstract class MixinCardEntry {
 
     @Inject(method = "getSnapshotAttributes", at = @At(value = "INVOKE", target = "Liskallia/vault/core/card/modifier/card/CardModifier;getSnapshotAttributes(I)Ljava/util/List;"), cancellable = true)
     private void disableArcaneInNitwitDecks(int tier, CardPos pos, CardDeck deck, CallbackInfoReturnable<List<VaultGearAttributeInstance<?>>> cir) {
-        if(!deck.getModifiersOfType(NitwitDeckModifier.class).isEmpty()) {
+        if(!DeckModifiersHelper.getDeckModifiersOfType(deck, NitwitDeckModifier.class).isEmpty()) {
             if(this.groups.contains("Arcane")) {
                 cir.setReturnValue(List.of());
             }
