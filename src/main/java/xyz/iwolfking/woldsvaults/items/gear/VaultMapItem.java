@@ -51,6 +51,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
@@ -301,6 +302,8 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.SUFFIX, context, output, unfinishedMap);
         applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output, unfinishedMap);
 
+        // Imprint the map tier (0-5) on the crystal; strongbox loot scaling reads it back in-vault.
+        ((DuckMapTier) (Object) data).setMapTier(mapData.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0));
 
         data.getProperties().setUnmodifiable(true);
         data.write(output);
