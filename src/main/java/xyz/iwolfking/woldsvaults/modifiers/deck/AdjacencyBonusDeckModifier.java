@@ -104,7 +104,7 @@ public class AdjacencyBonusDeckModifier extends DeckModifier<AdjacencyBonusDeckM
 
         public void readNbt(CompoundTag nbt) {
             super.readNbt(nbt);
-            this.groups = Arrays.stream((String[])GROUPS.readNbt(nbt.get("requiredGroups")).orElse(new String[0])).collect(Collectors.toList());
+            this.groups = Arrays.stream(GROUPS.readNbt(nbt.get("requiredGroups")).orElse(new String[0])).collect(Collectors.toList());
             this.forEachAdjacent = Adapters.BOOLEAN.readNbt(nbt.get("forEachAdjacent")).orElse(false);
             this.type = Adapters.ofEnum(Type.class, EnumAdapter.Mode.NAME).readNbt(nbt.get("adjacencyType")).orElse(Type.ORTHOGONAL);
         }
