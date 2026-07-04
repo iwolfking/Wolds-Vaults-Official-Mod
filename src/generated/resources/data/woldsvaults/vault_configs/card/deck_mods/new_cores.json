@@ -58,7 +58,7 @@
         "count": 2.0,
         "type": "constant"
       },
-      "symmetryAxis": "VERTICAL",
+      "symmetryAxis": "HORIZONTAL",
       "modelId": "the_vault:deck/runic_deck#inventory",
       "name": "Runic Deck Modifier",
       "colour": 13618375,
@@ -155,6 +155,23 @@
       "id": "fae",
       "type": "global"
     },
+    "ornate_deck": {
+      "modifierValue": {
+        "count": 1.75,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Foil"
+      ],
+      "requiredColors": [
+        "RED"
+      ],
+      "modelId": "the_vault:deck/ornate_deck#inventory",
+      "name": "Ornate Deck Modifier",
+      "colour": 13618375,
+      "id": "ornate_deck",
+      "type": "global"
+    },
     "sparkling": {
       "modifierValue": {
         "min": 0.6,
@@ -192,6 +209,27 @@
       "colour": 13618375,
       "id": "sparkling",
       "type": "global"
+    },
+    "relic_deck": {
+      "modifierValue": {
+        "count": 0.0,
+        "type": "constant"
+      },
+      "crateTierIncrease": {
+        "count": 2.0,
+        "type": "constant"
+      },
+      "resourceCardsRequired": {
+        "count": 4,
+        "type": "constant"
+      },
+      "modelId": "the_vault:deck/lost_deck#inventory",
+      "name": "Relic Deck Modifier",
+      "colour": 13618375,
+      "id": "relic_deck",
+      "tierIncrease": 0.0,
+      "resourcesNeeded": 0,
+      "type": "bounty"
     },
     "premium": {
       "modifierValue": {
@@ -231,6 +269,21 @@
       "colour": 13618375,
       "id": "premium",
       "type": "group_synergy"
+    },
+    "anvil_deck": {
+      "modifierValue": {
+        "count": 1.0,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Defensive"
+      ],
+      "requiredColors": [],
+      "modelId": "the_vault:deck/anvil_deck#inventory",
+      "name": "Anvil Deck Modifier",
+      "colour": 13618375,
+      "id": "anvil_deck",
+      "type": "global"
     },
     "cake_deck": {
       "modifierValue": {
@@ -409,6 +462,22 @@
       "colour": 13618375,
       "id": "belt_deck",
       "type": "global"
+    },
+    "skull_deck": {
+      "modifierValue": {
+        "count": 0.5,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Knack"
+      ],
+      "forEachAdjacent": true,
+      "adjacencyType": "SURROUNDING",
+      "modelId": "the_vault:deck/skull_deck#inventory",
+      "name": "Skull Deck Modifier",
+      "colour": 13618375,
+      "id": "skull_deck",
+      "type": "group_adjacency_efficiency"
     },
     "bazaar": {
       "modifierValue": {
@@ -678,6 +747,23 @@
       "id": "fairy_deck",
       "type": "global"
     },
+    "living_deck": {
+      "modifierValue": {
+        "count": 2.0,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Foil"
+      ],
+      "requiredColors": [
+        "GREEN"
+      ],
+      "modelId": "the_vault:deck/mushroom_deck#inventory",
+      "name": "Living Deck Modifier",
+      "colour": 13618375,
+      "id": "living_deck",
+      "type": "global"
+    },
     "puzzle_deck": {
       "modifierValue": {
         "count": 1.0,
@@ -831,6 +917,17 @@
       "id": "bishop_deck",
       "type": "card_neighbor_scaler_bonus"
     },
+    "shadow_deck": {
+      "modifierValue": {
+        "count": 0.15,
+        "type": "constant"
+      },
+      "modelId": "the_vault:deck/black_deck#inventory",
+      "name": "Shadow Deck Modifier",
+      "colour": 13618375,
+      "id": "shadow_deck",
+      "type": "empty_slot_efficiency"
+    },
     "tool": {
       "modifierValue": {
         "min": 0.35,
@@ -869,6 +966,23 @@
       "id": "tool",
       "type": "global"
     },
+    "gilded_deck": {
+      "modifierValue": {
+        "count": 1.5,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Foil"
+      ],
+      "requiredColors": [
+        "YELLOW"
+      ],
+      "modelId": "the_vault:deck/edge_deck#inventory",
+      "name": "Gilded Deck Modifier",
+      "colour": 13618375,
+      "id": "gilded_deck",
+      "type": "global"
+    },
     "arcane": {
       "modifierValue": {
         "count": 0.0,
@@ -891,7 +1005,7 @@
           "name": "Lesser Arcane Core",
           "colour": 13618375,
           "slotRoll": {
-            "count": 1,
+            "count": 2,
             "type": "constant"
           },
           "requiredGroups": [],
@@ -1209,6 +1323,34 @@
       },
       {
         "value": "snake_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "ornate_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "living_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "gilded_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "anvil_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "skull_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "shadow_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "relic_deck",
         "weight": 1.0
       }
     ],

@@ -18,7 +18,15 @@
     "belt": "belt_deck",
     "villager": "villager_deck",
     "runic": "runic_deck",
+    "relic": "relic_deck",
     "fairy": "fairy_deck",
-    "snake": "snake_deck"
+    "snake": "snake_deck",
+    "gilded": "gilded_deck",
+    "living": "living_deck",
+    "ornate": "ornate_deck",
+    "anvil": "anvil_deck",
+    "bishop": "bishop_deck",
+    "shadow": "shadow_deck",
+    "skull": "skull_deck"
   }
 }

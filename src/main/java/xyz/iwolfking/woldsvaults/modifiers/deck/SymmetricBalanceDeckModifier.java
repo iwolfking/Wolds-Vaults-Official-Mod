@@ -42,17 +42,18 @@ public class SymmetricBalanceDeckModifier extends DeckModifier<SymmetricBalanceD
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
         super.addText(tooltip, minIndex, flag, time);
 
-        MutableComponent comp = new TextComponent("x")
-                .withStyle(ChatFormatting.GRAY)
-                .append(new TextComponent(String.format(Locale.ROOT, "%.1f%% ", this.getModifierValue() * 100.0F)).withStyle(ChatFormatting.WHITE))
-                .append(new TextComponent("card effectiveness if color-mirrored ").withStyle(ChatFormatting.GRAY))
+        String formattedValue = String.format(Locale.ROOT, "%.1fx", this.getModifierValue());
+
+        MutableComponent comp = new TextComponent(formattedValue)
+                .withStyle(ChatFormatting.WHITE)
+                .append(new TextComponent(" card effectiveness if color-mirrored ").withStyle(ChatFormatting.GRAY))
                 .append(new TextComponent("(" + this.config.getAxis().name() + ")").withStyle(ChatFormatting.GREEN));
 
         if (Screen.hasShiftDown()) {
             DecimalFormat df = new DecimalFormat("#.##");
-            String min = df.format(this.config.modifierRoll.getMin() * 100.0F);
-            String max = df.format(this.config.modifierRoll.getMax() * 100.0F);
-            comp.append(" (" + min + "%-" + max + "%)");
+            String min = df.format(this.config.modifierRoll.getMin());
+            String max = df.format(this.config.modifierRoll.getMax());
+            comp.append(" (" + min + "x-" + max + "x)");
         }
 
         tooltip.add(comp);

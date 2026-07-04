@@ -30,8 +30,16 @@ public class ModImplicitDeckCoresProvider extends AbstractImplicitDeckModifiersP
             builder.add("belt", "belt_deck");
             builder.add("villager", "villager_deck");
             builder.add("runic", "runic_deck");
+            builder.add("relic", "relic_deck");
             builder.add("fairy", "fairy_deck");
             builder.add("snake", "snake_deck");
+            builder.add("gilded", "gilded_deck");
+            builder.add("living", "living_deck");
+            builder.add("ornate", "ornate_deck");
+            builder.add("anvil", "anvil_deck");
+            builder.add("bishop", "bishop_deck");
+            builder.add("shadow", "shadow_deck");
+            builder.add("skull", "skull_deck");
         });
     }
 }
