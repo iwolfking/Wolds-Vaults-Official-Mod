@@ -15,6 +15,28 @@
       "id": "treasure_deck",
       "type": "global"
     },
+    "mutant_deck": {
+      "modifierValue": {
+        "count": 0.25,
+        "type": "constant"
+      },
+      "modelId": "the_vault:deck/mutant_deck#inventory",
+      "name": "Mutant Deck Modifier",
+      "colour": 13618375,
+      "id": "mutant_deck",
+      "type": "unique_group_bonus"
+    },
+    "villager_deck": {
+      "modifierValue": {
+        "count": 3.0,
+        "type": "constant"
+      },
+      "modelId": "the_vault:deck/villager_deck#inventory",
+      "name": "Villager Deck Modifier",
+      "colour": 13618375,
+      "id": "villager_deck",
+      "type": "no_arcane_efficiency"
+    },
     "merchant_deck": {
       "modifierValue": {
         "count": 0.5,
@@ -30,6 +52,32 @@
       "colour": 13618375,
       "id": "merchant_deck",
       "type": "group_adjacency_efficiency"
+    },
+    "runic_deck": {
+      "modifierValue": {
+        "count": 2.0,
+        "type": "constant"
+      },
+      "symmetryAxis": "VERTICAL",
+      "modelId": "the_vault:deck/runic_deck#inventory",
+      "name": "Runic Deck Modifier",
+      "colour": 13618375,
+      "id": "runic_deck",
+      "type": "symmetry_balance"
+    },
+    "pillager_deck": {
+      "modifierValue": {
+        "count": 2.0,
+        "type": "constant"
+      },
+      "validNeighborTypes": [
+        "SURROUNDING"
+      ],
+      "modelId": "the_vault:deck/pillager_deck#inventory",
+      "name": "Pillager Deck Modifier",
+      "colour": 13618375,
+      "id": "pillager_deck",
+      "type": "card_neighbor_scaler_bonus"
     },
     "jupiter": {
       "modifierValue": {
@@ -184,6 +232,18 @@
       "id": "premium",
       "type": "group_synergy"
     },
+    "cake_deck": {
+      "modifierValue": {
+        "count": 1.0,
+        "type": "constant"
+      },
+      "bottomToTop": true,
+      "modelId": "the_vault:deck/cake_deck#inventory",
+      "name": "Cake Deck Modifier",
+      "colour": 13618375,
+      "id": "cake_deck",
+      "type": "row_height_bonus"
+    },
     "talent": {
       "modifierValue": {
         "min": 0.2,
@@ -239,7 +299,14 @@
         "count": 0.0,
         "type": "constant"
       },
-      "modifierValues": {
+      "requiredGroups": [],
+      "requiredColors": [],
+      "slotRoll": {
+        "min": 2,
+        "max": 3,
+        "type": "uniform"
+      },
+      "slotRolls": {
         "lesser": {
           "value": {
             "count": 0.0,
@@ -262,7 +329,7 @@
           },
           "modelId": "woldsvaults:deck_cores/construction_deck_core_greater#inventory",
           "name": "Greater Construction Core",
-          "colour": 16769382,
+          "colour": 13618375,
           "slotRoll": {
             "min": 4,
             "max": 5,
@@ -271,13 +338,6 @@
           "requiredGroups": [],
           "requiredColors": []
         }
-      },
-      "requiredGroups": [],
-      "requiredColors": [],
-      "slotRoll": {
-        "min": 2,
-        "max": 3,
-        "type": "uniform"
       },
       "groupName": "",
       "modelId": "woldsvaults:deck_cores/construction_deck_core#inventory",
@@ -333,6 +393,21 @@
       "name": "Idona Deck Modifier",
       "colour": 13618375,
       "id": "idona_deck",
+      "type": "global"
+    },
+    "belt_deck": {
+      "modifierValue": {
+        "count": 2.0,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Utility"
+      ],
+      "requiredColors": [],
+      "modelId": "the_vault:deck/belt_deck#inventory",
+      "name": "Belt Deck Modifier",
+      "colour": 13618375,
+      "id": "belt_deck",
       "type": "global"
     },
     "bazaar": {
@@ -427,6 +502,36 @@
       "colour": 13618375,
       "id": "velara_deck",
       "type": "global"
+    },
+    "cactus_deck": {
+      "modifierValue": {
+        "count": 2.0,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Offensive",
+        "Defensive"
+      ],
+      "requiredColors": [],
+      "modelId": "the_vault:deck/cactus_deck#inventory",
+      "name": "Cactus Deck Modifier",
+      "colour": 13618375,
+      "id": "cactus_deck",
+      "type": "global"
+    },
+    "rook_deck": {
+      "modifierValue": {
+        "count": 2.0,
+        "type": "constant"
+      },
+      "validNeighborTypes": [
+        "COLUMN"
+      ],
+      "modelId": "woldsvaults:deck/wall#inventory",
+      "name": "Rook Deck Modifier",
+      "colour": 13618375,
+      "id": "rook_deck",
+      "type": "card_neighbor_scaler_bonus"
     },
     "void": {
       "modifierValue": {
@@ -558,6 +663,34 @@
       "id": "tenos_deck",
       "type": "global"
     },
+    "fairy_deck": {
+      "modifierValue": {
+        "count": 0.5,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Magical"
+      ],
+      "requiredColors": [],
+      "modelId": "woldsvaults:deck/fairy#inventory",
+      "name": "Fairy Deck Modifier",
+      "colour": 13618375,
+      "id": "fairy_deck",
+      "type": "global"
+    },
+    "puzzle_deck": {
+      "modifierValue": {
+        "count": 1.0,
+        "type": "constant"
+      },
+      "forEachAdjacent": true,
+      "adjacencyType": "ADJACENT",
+      "modelId": "the_vault:deck/puzzle_deck#inventory",
+      "name": "Puzzle Deck Modifier",
+      "colour": 13618375,
+      "id": "puzzle_deck",
+      "type": "color_mismatch_adjacency"
+    },
     "pluto": {
       "modifierValue": {
         "min": 0.5,
@@ -684,6 +817,20 @@
       "id": "aegis",
       "type": "global"
     },
+    "bishop_deck": {
+      "modifierValue": {
+        "count": 3.0,
+        "type": "constant"
+      },
+      "validNeighborTypes": [
+        "DIAGONAL"
+      ],
+      "modelId": "the_vault:deck/bishop_deck#inventory",
+      "name": "Bishop Deck Modifier",
+      "colour": 13618375,
+      "id": "bishop_deck",
+      "type": "card_neighbor_scaler_bonus"
+    },
     "tool": {
       "modifierValue": {
         "min": 0.35,
@@ -727,7 +874,14 @@
         "count": 0.0,
         "type": "constant"
       },
-      "modifierValues": {
+      "requiredGroups": [],
+      "requiredColors": [],
+      "slotRoll": {
+        "min": 2,
+        "max": 3,
+        "type": "uniform"
+      },
+      "slotRolls": {
         "lesser": {
           "value": {
             "count": 0.0,
@@ -752,20 +906,13 @@
           "name": "Greater Arcane Core",
           "colour": 16769382,
           "slotRoll": {
-            "min": 3,
+            "min": 4,
             "max": 5,
             "type": "uniform"
           },
           "requiredGroups": [],
           "requiredColors": []
         }
-      },
-      "requiredGroups": [],
-      "requiredColors": [],
-      "slotRoll": {
-        "min": 2,
-        "max": 3,
-        "type": "uniform"
       },
       "groupName": "Arcane",
       "modelId": "woldsvaults:deck_cores/arcane_deck_core#inventory",
@@ -784,6 +931,32 @@
       "colour": 13618375,
       "id": "extended_deck",
       "type": "temporal_time"
+    },
+    "champion_deck": {
+      "modifierValue": {
+        "count": 1.5,
+        "type": "constant"
+      },
+      "requiredGroups": [
+        "Physical"
+      ],
+      "requiredColors": [],
+      "modelId": "the_vault:deck/champion_deck#inventory",
+      "name": "Champion Deck Modifier",
+      "colour": 13618375,
+      "id": "champion_deck",
+      "type": "global"
+    },
+    "snake_deck": {
+      "modifierValue": {
+        "count": 0.1,
+        "type": "constant"
+      },
+      "modelId": "woldsvaults:deck/snake#inventory",
+      "name": "Snake Deck Modifier",
+      "colour": 13618375,
+      "id": "snake_deck",
+      "type": "chain_reaction"
     },
     "arsenal": {
       "modifierValue": {
@@ -984,6 +1157,58 @@
       },
       {
         "value": "tenos_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "cactus_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "champion_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "rook_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "bishop_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "pillager_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "cake_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "puzzle_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "mutant_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "villager_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "belt_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "fairy_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "runic_deck",
+        "weight": 1.0
+      },
+      {
+        "value": "snake_deck",
         "weight": 1.0
       }
     ],

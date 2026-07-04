@@ -2,9 +2,11 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.config.card.DeckModifiersConfig;
 import iskallia.vault.core.card.CardEntry;
+import iskallia.vault.core.card.CardNeighborType;
 import iskallia.vault.core.card.modifier.deck.DeckModifier;
 import iskallia.vault.core.card.modifier.deck.GlobalDeckModifier;
 import iskallia.vault.core.card.modifier.deck.SlotDeckModifier;
+import iskallia.vault.core.card.modifier.deck.StatEfficiencyDeckModifier;
 import iskallia.vault.core.world.roll.FloatRoll;
 import iskallia.vault.core.world.roll.IntRoll;
 import net.minecraft.data.DataGenerator;
@@ -89,15 +91,14 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             CreateGroupSlotDeckModifier.Config arcaneDeckModifier = new CreateGroupSlotDeckModifier.Config("Arcane");
             arcaneDeckModifier.slotRoll = IntRoll.ofUniform(2, 3);
             arcaneDeckModifier.modifierRoll = FloatRoll.ofConstant(0);
-            arcaneDeckModifier.modifierRolls.put("lesser", slotVariant("Lesser Arcane Core", IntRoll.ofConstant(1), FloatRoll.ofConstant(0), 13618375, "woldsvaults:deck_cores/arcane_deck_core_lesser#inventory", Set.of(), Set.of()));
-            arcaneDeckModifier.modifierRolls.put("greater", slotVariant("Greater Arcane Core", IntRoll.ofUniform(3, 5), FloatRoll.ofConstant(0), 16769382, "woldsvaults:deck_cores/arcane_deck_core_greater#inventory", Set.of(), Set.of()));
+            arcaneDeckModifier.slotRolls.put("lesser", slotVariant("Lesser Arcane Core", IntRoll.ofConstant(2), FloatRoll.ofConstant(0), 13618375, "woldsvaults:deck_cores/arcane_deck_core_lesser#inventory", Set.of(), Set.of()));
+            arcaneDeckModifier.slotRolls.put("greater", slotVariant("Greater Arcane Core", IntRoll.ofUniform(4, 5), FloatRoll.ofConstant(0), 16769382, "woldsvaults:deck_cores/arcane_deck_core_greater#inventory", Set.of(), Set.of()));
 
             CreateSlotDeckModifier.Config constructionCoreModifier = new CreateSlotDeckModifier.Config("");
             constructionCoreModifier.slotRoll = IntRoll.ofUniform(2, 3);
+            constructionCoreModifier.slotRolls.put("lesser", slotVariant("Lesser Construction Core", IntRoll.ofConstant(1), FloatRoll.ofConstant(0), 13618375, "woldsvaults:deck_cores/construction_deck_core_lesser#inventory", Set.of(), Set.of()));
+            constructionCoreModifier.slotRolls.put("greater", slotVariant("Greater Construction Core", IntRoll.ofUniform(4, 5), FloatRoll.ofConstant(0), 13618375, "woldsvaults:deck_cores/construction_deck_core_greater#inventory", Set.of(), Set.of()));
             constructionCoreModifier.modifierRoll = FloatRoll.ofConstant(0);
-            constructionCoreModifier.modifierRolls.put("lesser", slotVariant("Lesser Construction Core", IntRoll.ofConstant(1), FloatRoll.ofConstant(0), 13618375, "woldsvaults:deck_cores/construction_deck_core_lesser#inventory", Set.of(), Set.of()));
-            constructionCoreModifier.modifierRolls.put("greater", slotVariant("Greater Construction Core", IntRoll.ofUniform(4, 5), FloatRoll.ofConstant(0), 16769382, "woldsvaults:deck_cores/construction_deck_core_greater#inventory", Set.of(), Set.of()));
-
 
             ArcaneSlotDeckModifier.Config adeptDeckModifier = new ArcaneSlotDeckModifier.Config();
             adeptDeckModifier.slotRoll = IntRoll.ofConstant(1);
@@ -150,6 +151,50 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             wendarrDeckModifier.requiredColors.add(CardEntry.Color.YELLOW);
             wendarrDeckModifier.modifierRoll = FloatRoll.ofConstant(1.25F);
 
+            GlobalDeckModifier.Config cactusDeckModifier = new GlobalDeckModifier.Config();
+            cactusDeckModifier.requiredGroups.add("Offensive");
+            cactusDeckModifier.requiredGroups.add("Defensive");
+            cactusDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
+
+            GlobalDeckModifier.Config championDeckModifier = new GlobalDeckModifier.Config();
+            championDeckModifier.requiredGroups.add("Physical");
+            championDeckModifier.modifierRoll = FloatRoll.ofConstant(1.5F);
+
+            GlobalDeckModifier.Config beltDeckModifier = new GlobalDeckModifier.Config();
+            beltDeckModifier.requiredGroups.add("Utility");
+            beltDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
+
+            GlobalDeckModifier.Config fairyDeckModifier = new GlobalDeckModifier.Config();
+            fairyDeckModifier.requiredGroups.add("Magical");
+            fairyDeckModifier.modifierRoll = FloatRoll.ofConstant(0.5F);
+
+
+            CardNeighborTypeDeckModifier.Config rookDeckModifier = new CardNeighborTypeDeckModifier.Config(FloatRoll.ofConstant(2.0F), Set.of(CardNeighborType.COLUMN));
+            rookDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
+
+            CardNeighborTypeDeckModifier.Config pillagerDeckModifier = new CardNeighborTypeDeckModifier.Config(FloatRoll.ofConstant(2.0F), Set.of(CardNeighborType.SURROUNDING));
+            pillagerDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
+
+            CardNeighborTypeDeckModifier.Config bishopDeckModifier = new CardNeighborTypeDeckModifier.Config(FloatRoll.ofConstant(3.0F), Set.of(CardNeighborType.DIAGONAL));
+            bishopDeckModifier.modifierRoll = FloatRoll.ofConstant(3.0F);
+
+            RowPositionDeckModifier.Config cakeDeckModifier = new RowPositionDeckModifier.Config(FloatRoll.ofConstant(1.0F), true);
+            cakeDeckModifier.modifierRoll = FloatRoll.ofConstant(1.0F);
+
+            ColorMismatchAdjacencyModifier.Config puzzleDeckModifier = new ColorMismatchAdjacencyModifier.Config(FloatRoll.ofConstant(1.0F), true, AdjacencyBonusDeckModifier.Type.ADJACENT);
+            puzzleDeckModifier.modifierRoll = FloatRoll.ofConstant(1.0F);
+
+            UniqueGroupsDeckModifier.Config mutantDeckModifier = new UniqueGroupsDeckModifier.Config(FloatRoll.ofConstant(0.25F));
+
+            NitwitDeckModifier.Config villagerDeckModifier = new NitwitDeckModifier.Config();
+            villagerDeckModifier.modifierRoll = FloatRoll.ofConstant(3.0F);
+
+            SymmetricBalanceDeckModifier.Config runicDeckModifier = new SymmetricBalanceDeckModifier.Config(FloatRoll.ofConstant(2.0F), SymmetricBalanceDeckModifier.Axis.HORIZONTAL);
+            runicDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
+
+            ChainReactionDeckModifier.Config snakeDeckModifier = new ChainReactionDeckModifier.Config();
+            snakeDeckModifier.modifierRoll = FloatRoll.ofConstant(0.1F);
+
             builder.addCore("arsenal", GlobalDeckModifier::new, arsenalModifierConfig, "Arsenal Core", 13618375,"woldsvaults:deck_cores/arsenal_deck_core#inventory");
             builder.addCore("aegis", GlobalDeckModifier::new, aegisModifierConfig,"Aegis Core", 13618375,"woldsvaults:deck_cores/aegis_deck_core#inventory");
             builder.addCore("tool", GlobalDeckModifier::new, toolModifierConfig,"Tool Core", 13618375,"woldsvaults:deck_cores/tool_deck_core#inventory");
@@ -177,6 +222,19 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             builder.addCore("velara_deck", GlobalDeckModifier::new, velaraDeckModifier,"Velara Deck Modifier", 13618375,"the_vault:deck/velara_deck#inventory");
             builder.addCore("tenos_deck", GlobalDeckModifier::new, tenosDeckModifier,"Tenos Deck Modifier", 13618375,"the_vault:deck/tenos_deck#inventory");
             builder.addCore("wendarr_deck", GlobalDeckModifier::new, wendarrDeckModifier,"Wendarr Deck Modifier", 13618375,"the_vault:deck/wendarr_deck#inventory");
+            builder.addCore("cactus_deck", GlobalDeckModifier::new, cactusDeckModifier,"Cactus Deck Modifier", 13618375,"the_vault:deck/cactus_deck#inventory");
+            builder.addCore("champion_deck", GlobalDeckModifier::new, championDeckModifier,"Champion Deck Modifier", 13618375,"the_vault:deck/champion_deck#inventory");
+            builder.addCore("rook_deck", CardNeighborTypeDeckModifier::new, rookDeckModifier,"Rook Deck Modifier", 13618375,"woldsvaults:deck/wall#inventory");
+            builder.addCore("bishop_deck", CardNeighborTypeDeckModifier::new, bishopDeckModifier,"Bishop Deck Modifier", 13618375,"the_vault:deck/bishop_deck#inventory");
+            builder.addCore("pillager_deck", CardNeighborTypeDeckModifier::new, pillagerDeckModifier,"Pillager Deck Modifier", 13618375,"the_vault:deck/pillager_deck#inventory");
+            builder.addCore("cake_deck", RowPositionDeckModifier::new, cakeDeckModifier,"Cake Deck Modifier", 13618375,"the_vault:deck/cake_deck#inventory");
+            builder.addCore("puzzle_deck", ColorMismatchAdjacencyModifier::new, puzzleDeckModifier,"Puzzle Deck Modifier", 13618375,"the_vault:deck/puzzle_deck#inventory");
+            builder.addCore("mutant_deck", UniqueGroupsDeckModifier::new, mutantDeckModifier,"Mutant Deck Modifier", 13618375,"the_vault:deck/mutant_deck#inventory");
+            builder.addCore("belt_deck", GlobalDeckModifier::new, beltDeckModifier,"Belt Deck Modifier", 13618375,"the_vault:deck/belt_deck#inventory");
+            builder.addCore("villager_deck", NitwitDeckModifier::new, villagerDeckModifier,"Villager Deck Modifier", 13618375,"the_vault:deck/villager_deck#inventory");
+            builder.addCore("fairy_deck", GlobalDeckModifier::new, fairyDeckModifier,"Fairy Deck Modifier", 13618375,"woldsvaults:deck/fairy#inventory");
+            builder.addCore("runic_deck", SymmetricBalanceDeckModifier::new, runicDeckModifier,"Runic Deck Modifier", 13618375,"the_vault:deck/runic_deck#inventory");
+            builder.addCore("snake_deck", ChainReactionDeckModifier::new, snakeDeckModifier,"Snake Deck Modifier", 13618375,"woldsvaults:deck/snake#inventory");
 
             //Pools
             builder.addPool("default", stringWeightedListBuilder -> {
@@ -254,6 +312,19 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
                 stringWeightedListBuilder.add("velara_deck", 1);
                 stringWeightedListBuilder.add("wendarr_deck", 1);
                 stringWeightedListBuilder.add("tenos_deck", 1);
+                stringWeightedListBuilder.add("cactus_deck", 1);
+                stringWeightedListBuilder.add("champion_deck", 1);
+                stringWeightedListBuilder.add("rook_deck", 1);
+                stringWeightedListBuilder.add("bishop_deck", 1);
+                stringWeightedListBuilder.add("pillager_deck", 1);
+                stringWeightedListBuilder.add("cake_deck", 1);
+                stringWeightedListBuilder.add("puzzle_deck", 1);
+                stringWeightedListBuilder.add("mutant_deck", 1);
+                stringWeightedListBuilder.add("villager_deck", 1);
+                stringWeightedListBuilder.add("belt_deck", 1);
+                stringWeightedListBuilder.add("fairy_deck", 1);
+                stringWeightedListBuilder.add("runic_deck", 1);
+                stringWeightedListBuilder.add("snake_deck", 1);
             });
         });
     }
