@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.blocks.LockedTreasureContainerBlock;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.api.lib.ExtendedToolType;
 
@@ -83,6 +84,13 @@ public abstract class MixinToolItem extends TieredItem implements VaultGearItem,
         }
 
         if(data.get(ModGearAttributes.TREASURE_AFFINITY, VaultGearAttributeTypeMerger.anyTrue()) && state.is(ModBlocks.TREASURE_CONTAINER)) {
+            cir.setReturnValue(true);
+        }
+
+        if(data.get(ModGearAttributes.TREASURE_AFFINITY, VaultGearAttributeTypeMerger.anyTrue())
+                && state.is(xyz.iwolfking.woldsvaults.init.ModBlocks.LOCKED_TREASURE_CONTAINER_BLOCK)
+        //        && state.getOptionalValue(LockedTreasureContainerBlock.UNLOCKED).orElse(false)
+        ) {
             cir.setReturnValue(true);
         }
     }

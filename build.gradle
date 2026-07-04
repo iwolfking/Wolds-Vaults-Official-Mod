@@ -163,6 +163,9 @@ repositories {
     flatDir {
         dir 'libs'
     }
+    flatDir {
+        dir '../unobtaiunium/build/libs'
+    }
     maven { url = "https://jitpack.io" }
     maven {
             url "https://cursemaven.com"
@@ -247,7 +250,9 @@ dependencies {
     //implementation fg.deobf("curse.maven:vault-hunters-api-1118899:7734104")
     implementation fg.deobf("curse.maven:vault-crate-tooltips-1373573:7156709")
     compileOnly fg.deobf("curse.maven:cagerium-709608:4699709")
-    implementation fg.deobf("curse.maven:unobtanium-vault-hunters-fixes-1162330:7864362")
+//    implementation fg.deobf("curse.maven:unobtanium-vault-hunters-fixes-1162330:7864362")
+    implementation fg.deobf("local:unobtainium:1.22.1")
+
     implementation fg.deobf("curse.maven:second-chance-forge-509239:3832230")
 
     // transitive WV deps
@@ -298,6 +303,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:jea-444941:3680036")
     compileOnly fg.deobf("curse.maven:crafttweaker-239197:6256079")
     compileOnly fg.deobf("curse.maven:powah-rearchitected-633483:4525198")
+    compileOnly fg.deobf("curse.maven:sophisticated-vault-upgrades-1058926:8010725")
 
     // deps needed for runtime debug
     runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382") // quark
