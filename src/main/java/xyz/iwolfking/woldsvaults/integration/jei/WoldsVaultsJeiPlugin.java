@@ -72,6 +72,7 @@ import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.jei.category.*;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.GenericLootableBoxCategory;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.ShopTierCategory;
+import xyz.iwolfking.woldsvaults.integration.jei.compat.ArsJEIProvider;
 import xyz.iwolfking.woldsvaults.integration.jei.compat.CageriumJEIProvider;
 import xyz.iwolfking.woldsvaults.items.CombinedTrinketItem;
 import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
@@ -284,6 +285,10 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
 
         if(ConditionalModUtils.isModPresent("cagerium")) {
             registration.addRecipes(CageriumJEIProvider.CAGERIUM_EGG_SUPPORT, CageriumJEIProvider.getEggsPerTier());
+        }
+
+        if(ConditionalModUtils.isModPresent("ars_nouveau")) {
+            ArsJEIProvider.registerRecipes(registration);
         }
     }
 

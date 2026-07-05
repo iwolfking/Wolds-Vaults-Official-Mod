@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.influence.VaultGod;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.AugmentItem;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.core.Registry;
@@ -30,6 +31,7 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModTags;
+import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultCatalystInfusionRecipeBuilder;
 import xyz.iwolfking.woldsvaults.items.GodReputationItem;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
 import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe;
@@ -943,6 +945,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         compactingRecipe(ModBlocks.POG_BLOCK, iskallia.vault.init.ModItems.POG, pFinishedRecipeConsumer);
         oneWayCompacting(ModItems.CHUNK_OF_POWER, ModItems.DUST_OF_POWER, pFinishedRecipeConsumer);
 
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_mobs"), iskallia.vault.init.ModItems.MYSTERY_EGG, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_random_positive"), iskallia.vault.init.ModItems.WILD_FOCUS, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_wooden_cascade"), iskallia.vault.init.ModItems.DRIFTWOOD, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_gilded_cascade"), iskallia.vault.init.ModItems.VAULT_DIAMOND, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_ornate_cascade"), iskallia.vault.init.ModItems.CARBON, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_living_cascade"), iskallia.vault.init.ModItems.VAULT_MEAT, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_extended"), Items.LAPIS_LAZULI, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_accustomed"), Items.EXPERIENCE_BOTTLE, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_coin_cascade"), Items.GOLD_NUGGET, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_plentiful"), ModItems.SMASHED_VAULT_GEM, pFinishedRecipeConsumer);
+        arsInfusedCraftableCatalyst(VaultMod.id("craft_soul"), iskallia.vault.init.ModItems.ETERNAL_SOUL, pFinishedRecipeConsumer);
+
         for(DyeColor color : DyeColor.values()) {
             unobtanium(ModItems.COLORED_UNOBTANIUMS.get(color), ModBlocks.COLORED_UNOBTANIUMS.get(color), pFinishedRecipeConsumer);
         }
@@ -981,6 +995,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         });
 
 
+
+    }
+
+    private void arsInfusedCraftableCatalyst(ResourceLocation poolId, ItemLike additionalPedestalItem, Consumer<FinishedRecipe> recipeConsumer) {
+        VaultCatalystInfusionRecipeBuilder.infusingPool(poolId)
+                .addPedestalItem(iskallia.vault.init.ModItems.EXTRAORDINARY_LARIMAR)
+                .addPedestalItem(iskallia.vault.init.ModItems.MYSTICAL_POWDER)
+                .addPedestalItem(additionalPedestalItem.asItem())
+                .manaCost(2000)
+                .sizeOffset(-2)
+                .save(recipeConsumer, ResourceLocUtils.swapNamespace(poolId, WoldsVaults.MOD_ID));
 
     }
 
