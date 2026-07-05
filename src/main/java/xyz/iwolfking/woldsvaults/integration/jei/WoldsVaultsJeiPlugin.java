@@ -14,20 +14,15 @@ import iskallia.vault.config.entry.recipe.ConfigForgeRecipe;
 import iskallia.vault.core.card.CardEntry;
 import iskallia.vault.core.card.modifier.card.TaskLootCardModifier;
 import iskallia.vault.core.random.ChunkRandom;
-import iskallia.vault.core.vault.modifier.VaultModifierStack;
-import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.world.loot.LootPool;
 import iskallia.vault.core.world.loot.entry.LootEntry;
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
-import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.gear.data.VaultGearData;
-import iskallia.vault.gear.item.IdentifiableItem;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.gear.trinket.TrinketEffectRegistry;
-import iskallia.vault.item.crystal.VaultCrystalItem;
 import iskallia.vault.item.gear.TrinketItem;
 import iskallia.vault.util.StringUtils;
 import jeresources.util.LootTableHelper;
@@ -64,7 +59,6 @@ import xyz.iwolfking.vhapi.api.registry.CapstoneRecipeRegistry;
 import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
 import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfo;
 import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfoRecipeCategory;
-import xyz.iwolfking.vhapi.integration.jevh.lib.CrystalWorkbenchRecipe;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
@@ -72,7 +66,6 @@ import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.jei.category.*;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.GenericLootableBoxCategory;
 import xyz.iwolfking.woldsvaults.integration.jei.category.lib.ShopTierCategory;
-import xyz.iwolfking.woldsvaults.integration.jei.compat.ArsJEIProvider;
 import xyz.iwolfking.woldsvaults.integration.jei.compat.CageriumJEIProvider;
 import xyz.iwolfking.woldsvaults.items.CombinedTrinketItem;
 import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
@@ -85,7 +78,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
 import static mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT;
-import static xyz.iwolfking.woldsvaults.items.gear.VaultMapItem.applySpecialModifiers;
 
 @JeiPlugin
 @SuppressWarnings("unused")
@@ -285,10 +277,6 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
 
         if(ConditionalModUtils.isModPresent("cagerium")) {
             registration.addRecipes(CageriumJEIProvider.CAGERIUM_EGG_SUPPORT, CageriumJEIProvider.getEggsPerTier());
-        }
-
-        if(ConditionalModUtils.isModPresent("ars_nouveau")) {
-            ArsJEIProvider.registerRecipes(registration);
         }
     }
 

@@ -1063,7 +1063,7 @@
     },
     "snake_deck": {
       "modifierValue": {
-        "count": 0.1,
+        "count": 0.075,
         "type": "constant"
       },
       "modelId": "woldsvaults:deck/snake#inventory",

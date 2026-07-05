@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import com.github.klikli_dev.occultism.Occultism;
+import com.github.klikli_dev.occultism.registry.OccultismItems;
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.init.ModConfigs;
@@ -32,6 +34,7 @@ import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModTags;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultCatalystInfusionRecipeBuilder;
+import xyz.iwolfking.woldsvaults.integration.occultism.AugmentRitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.items.GodReputationItem;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
 import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe;
@@ -957,6 +960,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         arsInfusedCraftableCatalyst(VaultMod.id("craft_plentiful"), ModItems.SMASHED_VAULT_GEM, pFinishedRecipeConsumer);
         arsInfusedCraftableCatalyst(VaultMod.id("craft_soul"), iskallia.vault.init.ModItems.ETERNAL_SOUL, pFinishedRecipeConsumer);
 
+        AugmentRitualRecipeBuilder.create(VaultMod.id("classic_vault_barnyard"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "summon_foliot"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.AUGMENT), ModItems.AUGMENT_BOX.getRegistryName()).duration(120).addIngredient(iskallia.vault.init.ModItems.DRIFTWOOD).save(pFinishedRecipeConsumer, WoldsVaults.id("craft_barnyard_augment"));
         for(DyeColor color : DyeColor.values()) {
             unobtanium(ModItems.COLORED_UNOBTANIUMS.get(color), ModBlocks.COLORED_UNOBTANIUMS.get(color), pFinishedRecipeConsumer);
         }

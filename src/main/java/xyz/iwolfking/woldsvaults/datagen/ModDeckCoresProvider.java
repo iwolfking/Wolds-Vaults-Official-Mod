@@ -209,7 +209,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             runicDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
 
             ChainReactionDeckModifier.Config snakeDeckModifier = new ChainReactionDeckModifier.Config();
-            snakeDeckModifier.modifierRoll = FloatRoll.ofConstant(0.1F);
+            snakeDeckModifier.modifierRoll = FloatRoll.ofConstant(0.075F);
 
             AdjacencyBonusDeckModifier.Config skullDeckModifier = new AdjacencyBonusDeckModifier.Config(FloatRoll.ofConstant(0.5F), List.of("Knack"), true, AdjacencyBonusDeckModifier.Type.SURROUNDING);
             skullDeckModifier.modifierRoll = FloatRoll.ofConstant(0.5F);

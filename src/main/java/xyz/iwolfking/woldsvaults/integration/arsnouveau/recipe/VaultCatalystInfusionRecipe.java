@@ -120,7 +120,7 @@ public class VaultCatalystInfusionRecipe extends EnchantingApparatusRecipe {
     @Override
     public JsonElement asRecipe() {
         JsonObject jsonobject = new JsonObject();
-        jsonobject.addProperty("type", "ars_nouveau:" + RECIPE_ID);
+        jsonobject.addProperty("type", "woldsvaults:" + RECIPE_ID);
         jsonobject.addProperty("pool_id", poolId.toString());
         jsonobject.addProperty("infusion_action", infusionAction);
         jsonobject.addProperty("size_offset", sizeOffset);

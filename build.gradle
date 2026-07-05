@@ -129,7 +129,7 @@ minecraft {
             environment 'WV_DATAGEN', 'true'
             jvmArgs '-Duser.language=en', '-Duser.country=US' // dots as decimal separators
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing-mod', 'the_vault', '--existing-mod', 'compressium'
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing-mod', 'the_vault', '--existing-mod', 'compressium', '--existing-mod', 'occultism'
         }
     }
 }
@@ -272,7 +272,9 @@ dependencies {
     compileOnly fg.deobf("curse.maven:hexal-824725:5099219")
     compileOnly fg.deobf("curse.maven:inventory-hud-forge-357540:5639943")
     implementation fg.deobf("curse.maven:modular-routers-250294:4984984")
-    compileOnly fg.deobf("curse.maven:occultism-361026:4729072")
+    implementation fg.deobf("curse.maven:occultism-361026:4729072")
+    implementation fg.deobf("curse.maven:smartbrainlib-661293:4458592")
+    implementation fg.deobf("curse.maven:modonomicon-538392:4641770")
     compileOnly fg.deobf("curse.maven:supplementaries-412082:4548315")
     implementation fg.deobf("curse.maven:travel-anchors-413234:3741307")
     implementation fg.deobf("curse.maven:vault-hunters-item-sorting-1341046:7954430")
