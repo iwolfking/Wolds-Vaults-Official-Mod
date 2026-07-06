@@ -87,10 +87,7 @@ public abstract class MixinToolItem extends TieredItem implements VaultGearItem,
             cir.setReturnValue(true);
         }
 
-        if(data.get(ModGearAttributes.TREASURE_AFFINITY, VaultGearAttributeTypeMerger.anyTrue())
-                && state.is(xyz.iwolfking.woldsvaults.init.ModBlocks.LOCKED_TREASURE_CONTAINER_BLOCK)
-        //        && state.getOptionalValue(LockedTreasureContainerBlock.UNLOCKED).orElse(false)
-        ) {
+        if(data.get(ModGearAttributes.TREASURE_AFFINITY, VaultGearAttributeTypeMerger.anyTrue()) && state.is(xyz.iwolfking.woldsvaults.init.ModBlocks.LOCKED_TREASURE_CONTAINER_BLOCK)) {
             cir.setReturnValue(true);
         }
     }
