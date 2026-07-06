@@ -36,7 +36,7 @@ public class MixinActivationUpgradeWrapper extends UpgradeWrapperBase<Activation
         super(storageWrapper, upgrade, upgradeSaveHandler);
     }
 
-    @Inject(method = "interact", at = @At("HEAD"))
+    @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     private void lockedTreasureChest(Level world, BlockPos blockPos, Player player, CallbackInfoReturnable<Boolean> cir){
         BlockState blockState = world.getBlockState(blockPos);
         BlockEntity blockEntity = world.getBlockEntity(blockPos);
