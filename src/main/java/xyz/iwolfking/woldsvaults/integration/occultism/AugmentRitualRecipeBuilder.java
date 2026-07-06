@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.integration.occultism;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import iskallia.vault.init.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -19,7 +20,7 @@ public class AugmentRitualRecipeBuilder {
     private final ResourceLocation pentacleId;
     private final ResourceLocation ritualType;
     private final Ingredient activationItem;
-    private final ResourceLocation ritualDummy; // Changed from Item to ResourceLocation
+    private final ResourceLocation ritualDummy;
     private final List<Ingredient> ingredients = new ArrayList<>();
     
     private int duration = 30;
@@ -92,6 +93,7 @@ public class AugmentRitualRecipeBuilder {
             json.add("ritual_dummy", dummyObj);
 
             JsonObject resultObj = new JsonObject();
+            resultObj.addProperty("item", ModItems.AUGMENT.getRegistryName().toString());
             json.add("result", resultObj);
 
             JsonArray ingredientArr = new JsonArray();

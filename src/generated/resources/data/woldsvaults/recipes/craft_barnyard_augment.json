@@ -1,14 +1,14 @@
 {
   "type": "woldsvaults:augment_ritual",
   "theme": "the_vault:classic_vault_barnyard",
-  "pentacle_id": "occultism:summon_foliot",
+  "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
-  "duration": 120,
+  "duration": 6,
   "activation_item": {
     "item": "the_vault:augment"
   },
   "ritual_dummy": {
-    "item": "woldsvaults:augment_box"
+    "item": "occultism:jei_dummy/require_item_use"
   },
   "result": {
     "item": "the_vault:augment"

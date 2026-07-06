@@ -42,6 +42,11 @@ public class ModLanguageProvider extends LanguageProvider {
         add("create.item_attributes." + attribute.getTranslationKey() + ".inverted", invertedText);
     }
 
+    public void addRitual(ResourceLocation ritualId, String ritualName) {
+        add("ritual." + ritualId.getNamespace() + "." + ritualId.getPath() + ".started", ritualName + " initiated!");
+        add("ritual." + ritualId.getNamespace() + "." + ritualId.getPath() + ".finished", ritualName + " completed!");
+    }
+
     @Override
     protected void addTranslations() {
         ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {

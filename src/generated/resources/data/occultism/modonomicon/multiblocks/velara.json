@@ -1,0 +1,62 @@
+{
+  "type": "modonomicon:dense",
+  "pattern": [
+    [
+      "_GF_GGG_FG_",
+      "_G_GFNFG_G_",
+      "_S___G___S_",
+      "_FG__0__GF_",
+      "_S___G___S_",
+      "_GGF_N_FGG_",
+      "___G___G___",
+      "___G___G___",
+      "___FGFGF___",
+      "____GGG____",
+      "_____G_____"
+    ],
+    [
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*"
+    ]
+  ],
+  "mapping": {
+    "0": {
+      "type": "modonomicon:block",
+      "block": "occultism:golden_sacrificial_bowl"
+    },
+    "S": {
+      "type": "modonomicon:block",
+      "block": "occultism:spirit_attuned_crystal"
+    },
+    "F": {
+      "type": "modonomicon:tag",
+      "tag": "#minecraft:small_flowers"
+    },
+    "G": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_gold"
+    },
+    "*": {
+      "type": "modonomicon:display",
+      "display": "occultism:otherstone"
+    },
+    "+": {
+      "type": "modonomicon:display",
+      "display": "minecraft:stone"
+    },
+    "N": {
+      "type": "modonomicon:block",
+      "block": "minecraft:wither_skeleton_skull",
+      "display": "occultism:wither_skeleton_skull_dummy"
+    }
+  }
+}
