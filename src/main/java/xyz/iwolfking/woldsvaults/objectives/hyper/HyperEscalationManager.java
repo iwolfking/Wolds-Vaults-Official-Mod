@@ -1,0 +1,188 @@
+package xyz.iwolfking.woldsvaults.objectives.hyper;
+
+import iskallia.vault.VaultMod;
+import iskallia.vault.block.ObeliskBlock;
+import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.random.JavaRandom;
+import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.modifier.spi.VaultModifier;
+import iskallia.vault.core.vault.player.Listener;
+import iskallia.vault.core.vault.player.Runner;
+import iskallia.vault.core.world.storage.VirtualWorld;
+import iskallia.vault.init.ModBlocks;
+import iskallia.vault.init.ModConfigs;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
+import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.CrateItemQuantityModifierSettable;
+import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
+import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
+import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
+
+import java.util.List;
+
+/**
+ * Everything that happens because a hyperboss died: the HYPER stack, crate tiers, the chaos
+ * modifier dump, and the 30s exit pillar. Also runs the always-on 2-minute negative
+ * enchanted-elixir events.
+ */
+public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective> {
+    private final HyperCycleManager cycleManager;
+
+    public HyperEscalationManager(Vault vault, VirtualWorld world, HyperVaultObjective objective, HyperCycleManager cycleManager) {
+        super(vault, world, objective);
+        this.cycleManager = cycleManager;
+    }
+
+    public void onBossKilled() {
+        int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0) + 1;
+        objective.set(HyperVaultObjective.CYCLE, cycle);
+
+        // Crate tiers: +1 super tier per kill, plus (cycle-1) regular tiers (+100% crate qty each).
+        VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), 1);
+        int regularTiers = cycle - 1;
+        if (regularTiers > 0) {
+            VaultModifierUtils.incrementModifierValueOfType(vault, CrateItemQuantityModifierSettable.class,
+                    VaultMod.id("map_crate_quantity"), 100.0F * regularTiers);
+        }
+
+        dumpChaosModifiers();
+        spawnExitPillar();
+
+        objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
+        objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
+        HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger!", ChatFormatting.GOLD);
+    }
+
+    private void dumpChaosModifiers() {
+        int granted = HyperVaultObjective.consumeChaosBudget(vault, HyperVaultObjective.CHAOS_PER_KILL);
+        if (granted <= 0) {
+            HyperVaultObjective.broadcast(vault, "The Vault can hold no more chaos (" + HyperVaultObjective.CHAOS_CAP + " cap reached).", ChatFormatting.DARK_PURPLE);
+            return;
+        }
+        List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(HyperVaultObjective.CHAOS_POOL, level, JavaRandom.ofNanoTime());
+        if (modifiers.isEmpty()) {
+            WoldsVaults.LOGGER.error("Chaos modifier pool {} is missing/empty — no chaos modifiers were added this cycle.", HyperVaultObjective.CHAOS_POOL);
+            return;
+        }
+        int added = 0;
+        for (VaultModifier<?> modifier : modifiers) {
+            if (added >= granted) {
+                break;
+            }
+            vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
+            added++;
+        }
+        HyperVaultObjective.broadcast(vault, added + " chaotic modifiers surge into the Vault!", ChatFormatting.DARK_PURPLE);
+    }
+
+    @Override
+    public void tick() {
+        tickAmbientEvents();
+        if (objective.getOr(HyperVaultObjective.PHASE, Phase.ROLLING) != Phase.REWARD) {
+            return;
+        }
+        int remaining = objective.getOr(HyperVaultObjective.EXIT_TICKS, 0) - 1;
+        objective.set(HyperVaultObjective.EXIT_TICKS, Math.max(0, remaining));
+        if (remaining <= 0) {
+            removeExitPillar();
+            cycleManager.rollBatch();
+        }
+    }
+
+    /** Every 2 minutes, each runner eats one negative enchanted-elixir event (counts vs the chaos cap). */
+    private void tickAmbientEvents() {
+        int remaining = objective.getOr(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.AMBIENT_PERIOD_TICKS) - 1;
+        if (remaining > 0) {
+            objective.set(HyperVaultObjective.AMBIENT_TICK, remaining);
+            return;
+        }
+        objective.set(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.AMBIENT_PERIOD_TICKS);
+        for (Listener listener : vault.get(Vault.LISTENERS).getAll()) {
+            if (!(listener instanceof Runner)) {
+                continue;
+            }
+            ServerPlayer player = listener.getPlayer().orElse(null);
+            if (player == null) {
+                continue;
+            }
+            if (HyperVaultObjective.consumeChaosBudget(vault, 1) <= 0) {
+                return;
+            }
+            EnchantedEventsRegistry.getEventsWithTags(List.of(EventTag.NEGATIVE)).getRandom().ifPresentOrElse(
+                    event -> event.triggerEvent(player::getOnPos, player, vault, true, VaultEvent.EventDisplayType.LEGACY),
+                    () -> WoldsVaults.LOGGER.error("No NEGATIVE enchanted-elixir events registered — ambient Hyper events cannot fire."));
+        }
+    }
+
+    /** Places a temporary obelisk near the boss pillar; using it exits the vault with a completion. */
+    private void spawnExitPillar() {
+        BlockPos center = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
+        if (center == null) {
+            WoldsVaults.LOGGER.error("No pillar position recorded — cannot place the Hyper exit pillar this cycle!");
+            return;
+        }
+        BlockPos spot = findExitSpot(center);
+        if (spot == null) {
+            spot = center.relative(Direction.NORTH, 3);
+            WoldsVaults.LOGGER.warn("No clear spot for the Hyper exit pillar around {}; force-placing at {}.", center, spot);
+        }
+        placeObelisk(spot);
+        objective.set(HyperVaultObjective.EXIT_POS, spot);
+        HyperVaultObjective.broadcast(vault, "An exit pillar appeared for " + (HyperVaultObjective.EXIT_PILLAR_TICKS / 20) + " seconds!", ChatFormatting.AQUA);
+    }
+
+    private BlockPos findExitSpot(BlockPos center) {
+        for (int distance = 3; distance <= 5; distance++) {
+            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                BlockPos pos = center.relative(direction, distance);
+                for (int dy = 1; dy >= -1; dy--) {
+                    BlockPos candidate = pos.above(dy);
+                    if (world.getBlockState(candidate).isAir()
+                            && world.getBlockState(candidate.above()).isAir()
+                            && world.getBlockState(candidate.below()).isFaceSturdy(world, candidate.below(), Direction.UP)) {
+                        return candidate;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private void placeObelisk(BlockPos pos) {
+        BlockState lower = ModBlocks.OBELISK.defaultBlockState()
+                .setValue(ObeliskBlock.HALF, DoubleBlockHalf.LOWER).setValue(ObeliskBlock.FILLED, false);
+        BlockState upper = ModBlocks.OBELISK.defaultBlockState()
+                .setValue(ObeliskBlock.HALF, DoubleBlockHalf.UPPER).setValue(ObeliskBlock.FILLED, false);
+        world.setBlock(pos, lower, 3);
+        world.setBlock(pos.above(), upper, 3);
+    }
+
+    private void removeExitPillar() {
+        BlockPos pos = objective.getOr(HyperVaultObjective.EXIT_POS, null);
+        if (pos == null) {
+            return;
+        }
+        removeIfObelisk(pos);
+        removeIfObelisk(pos.above());
+        // EXIT_POS keeps its stale value; the use-handler is gated on PHASE == REWARD and the
+        // next reward phase overwrites it before it can be clicked again.
+    }
+
+    private void removeIfObelisk(BlockPos pos) {
+        if (world.getBlockState(pos).getBlock() == ModBlocks.OBELISK) {
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+        } else {
+            WoldsVaults.LOGGER.warn("Expected the Hyper exit pillar at {} but found {}; leaving it alone.", pos, world.getBlockState(pos));
+        }
+    }
+}
