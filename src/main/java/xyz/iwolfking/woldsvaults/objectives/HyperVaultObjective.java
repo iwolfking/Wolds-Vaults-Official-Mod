@@ -276,7 +276,10 @@ public class HyperVaultObjective extends Objective {
             }
         });
 
-        // Podium: shift + empty main hand while the batch is complete arms and starts the fight.
+        // Podium: right-click with an empty main hand while the batch is complete arms the
+        // fight. Deliberately NOT sneak-gated: BLOCK_USE fires from inside BlockBehaviour.use,
+        // and vanilla skips use() entirely for a sneaking player holding an item in EITHER
+        // hand — a shift-click with a totem in the off-hand never reaches this handler at all.
         CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.RUNE_PILLAR).register(this, data -> {
             if (data.getHand() != InteractionHand.MAIN_HAND) {
                 return;
@@ -284,7 +287,7 @@ public class HyperVaultObjective extends Objective {
             if (this.getOr(PHASE, Phase.ROLLING) != Phase.ARMED) {
                 return;
             }
-            if (!data.getPlayer().isShiftKeyDown() || !data.getPlayer().getMainHandItem().isEmpty()) {
+            if (!data.getPlayer().getMainHandItem().isEmpty()) {
                 return;
             }
             this.bossManager.armAndStartFight(data.getPos());
@@ -570,7 +573,7 @@ public class HyperVaultObjective extends Objective {
         Font font = Minecraft.getInstance().font;
         switch (this.getOr(PHASE, Phase.ROLLING)) {
             case MINIS -> renderMinisRow(vault, matrixStack, window, partialTicks, player, font);
-            case ARMED -> drawCentered(font, matrixStack, new TextComponent("Shift-click the boss podium!").withStyle(ChatFormatting.RED), HUD_TOP_MARGIN);
+            case ARMED -> drawCentered(font, matrixStack, new TextComponent("Click the boss podium with an empty hand!").withStyle(ChatFormatting.RED), HUD_TOP_MARGIN);
             case FIGHT -> renderBossBar(matrixStack, window, partialTicks);
             case REWARD -> {
                 drawCentered(font, matrixStack, new TextComponent("Exit pillar: " + (this.getOr(EXIT_TICKS, 0) / 20) + "s").withStyle(ChatFormatting.AQUA), HUD_TOP_MARGIN);

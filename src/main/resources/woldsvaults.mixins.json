@@ -225,7 +225,6 @@
     "vaulthunters.custom.MixinAnvilExecutor",
     "vaulthunters.custom.MixinAttributeSnapshot",
     "vaulthunters.custom.MixinAugmentAnvilRecipe",
-    "vaulthunters.custom.MixinBingoCard",
     "vaulthunters.custom.MixinBingoTask",
     "vaulthunters.custom.MixinBleedEffect",
     "vaulthunters.custom.MixinBoosterPackConfig",
