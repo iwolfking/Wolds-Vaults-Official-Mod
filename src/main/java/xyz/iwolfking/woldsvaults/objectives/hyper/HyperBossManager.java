@@ -125,7 +125,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
 
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
         double escalation = HyperVaultObjective.BOSS_HEALTH_PERCENT
-                * Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle);
+                + HyperVaultObjective.BOSS_STAT_INCREMENT * cycle;
         // The boss's health is one giant MULTIPLY_BASE trait term, so applying the vault's mob
         // health modifiers as attribute modifiers dilutes them to noise (+100% of base next to
         // the +5000%·1.75^cycle escalation is +2%). Instead the vault's health factor —
@@ -346,7 +346,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     private void applyBossStats(LivingEntity boss) {
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
         double damageEscalation = HyperVaultObjective.BOSS_DAMAGE_PERCENT
-                * Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle);
+                + HyperVaultObjective.BOSS_STAT_INCREMENT * cycle;
         AttributeInstance damage = boss.getAttribute(Attributes.ATTACK_DAMAGE);
         if (damage != null && damage.getModifier(HYPER_DAMAGE_UUID) == null) {
             damage.addPermanentModifier(new AttributeModifier(HYPER_DAMAGE_UUID,

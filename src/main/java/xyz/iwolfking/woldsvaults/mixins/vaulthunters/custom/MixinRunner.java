@@ -5,6 +5,7 @@ import iskallia.vault.core.Version;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.FruitEatenEvent;
 import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultLevel;
 import iskallia.vault.core.vault.VaultRegistry;
@@ -44,6 +45,7 @@ import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.CrateLootGeneratorAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCrateRewards;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 import java.util.Iterator;
@@ -83,6 +85,23 @@ public abstract class MixinRunner extends Listener {
                     }
                     ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
                 }
+            }
+        });
+    }
+
+    @Inject(method = "initServer", at = @At("TAIL"))
+    private void addHyperScoreRewardsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
+        CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
+            try {
+                int greedTier = PlayerGreedTreeData.get(event.getPlayer().getLevel()).getGreedTier(event.getPlayer().getUUID());
+                List<ItemStack> rewards = HyperCrateRewards.rollForVault(vault, greedTier, JavaRandom.ofNanoTime());
+                if (!rewards.isEmpty()) {
+                    ((CrateLootGeneratorAccessor) event.getCrateLootGenerator()).getAdditionalItemsWolds().addAll(rewards);
+                    WoldsVaults.LOGGER.info("Injected {} hyper score-tier reward stacks into the completion crate.", rewards.size());
+                }
+            } catch (Exception e) {
+                // The VH event bus swallows handler exceptions silently; keep failures visible.
+                WoldsVaults.LOGGER.error("Hyper score-tier crate injection failed!", e);
             }
         });
     }

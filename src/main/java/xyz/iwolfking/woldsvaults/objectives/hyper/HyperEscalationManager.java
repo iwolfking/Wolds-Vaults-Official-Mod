@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.CrateItemQuantityModifierSettable;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCrateRewards;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
@@ -78,6 +79,8 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         // persisted snapshot so a relog restores it (see HyperVaultObjective.SETTABLE_VALUES).
         objective.snapshotSettableValues(vault);
 
+        awardScoreTiers();
+
         dumpChaosModifiers();
         restartDoorAnimation();
         spawnExitPillar();
@@ -90,6 +93,33 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         String crateTiers = "+1 super crate tier, +1 greedy crate tier"
                 + (regularTiers > 0 ? ", +" + regularTiers + " crate tier" + (regularTiers > 1 ? "s" : "") : "");
         HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger! (" + crateTiers + ")", ChatFormatting.GOLD);
+    }
+
+    /**
+     * The just-killed boss's score gates crate reward injections: every met threshold adds one
+     * tier marker (non-exclusive), and each marker stack rolls its pool into the completion
+     * crate at award time (see HyperCrateRewards / MixinRunner).
+     */
+    private void awardScoreTiers() {
+        int score = objective.getOr(HyperVaultObjective.SCORE, 0);
+        StringBuilder earned = new StringBuilder();
+        if (score >= HyperVaultObjective.SCORE_RARE) {
+            VaultModifierUtils.addModifier(vault, HyperCrateRewards.RARE_MODIFIER, 1);
+            earned.append("Rare");
+        }
+        if (score >= HyperVaultObjective.SCORE_EPIC) {
+            VaultModifierUtils.addModifier(vault, HyperCrateRewards.EPIC_MODIFIER, 1);
+            earned.append(earned.isEmpty() ? "" : " + ").append("Epic");
+        }
+        if (score >= HyperVaultObjective.SCORE_OMEGA) {
+            VaultModifierUtils.addModifier(vault, HyperCrateRewards.OMEGA_MODIFIER, 1);
+            earned.append(earned.isEmpty() ? "" : " + ").append("Omega");
+        }
+        if (earned.isEmpty()) {
+            return;
+        }
+        HyperVaultObjective.broadcast(vault,
+                "Score " + score + " — " + earned + " rewards added to the completion crate!", ChatFormatting.AQUA);
     }
 
     private void dumpChaosModifiers() {
@@ -114,6 +144,9 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
             for (VaultModifier<?> modifier : modifiers) {
                 if (added >= granted) {
                     break;
+                }
+                if (HyperVaultObjective.isStackCapped(vault, modifier)) {
+                    continue;
                 }
                 vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
                 announceModifier(modifier);
@@ -188,6 +221,9 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 return;
             }
             for (VaultModifier<?> modifier : modifiers) {
+                if (HyperVaultObjective.isStackCapped(vault, modifier)) {
+                    continue;
+                }
                 vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
                 announceModifier(modifier);
             }

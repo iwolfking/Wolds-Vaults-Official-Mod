@@ -94,7 +94,7 @@ public class HyperVaultObjective extends Objective {
     public static final float HYPER_STAT_FACTOR = 1.75F;
     public static final float SPEED_PER_STACK = 0.20F;
     public static final int CHAOS_PER_KILL = 25;
-    public static final int CHAOS_CAP = 175;
+    public static final int CHAOS_CAP = 350;
     public static final int WAVE_PERIOD_TICKS = 20 * 20;
     public static final float[] HEALTH_GATES = {0.8F, 0.6F, 0.4F, 0.2F};
     public static final int WAVE_MOB_MIN = 2;
@@ -104,8 +104,15 @@ public class HyperVaultObjective extends Objective {
     public static final int AMBIENT_PERIOD_TICKS = 20 * 120;
     public static final int BASE_RUNE_TIER = 3;
     public static final int RUNE_TIER_CAP = 10;
+    // Boss escalation is LINEAR: base + increment×cycle (fractions of base; 50.0 = +5000%).
     public static final double BOSS_HEALTH_PERCENT = 50.0;
-    public static final double BOSS_DAMAGE_PERCENT = 10.0;
+    public static final double BOSS_DAMAGE_PERCENT = 50.0;
+    public static final double BOSS_STAT_INCREMENT = 25.0;
+    // Score thresholds that add one reward-injection tier marker per hyperboss kill
+    // (non-exclusive: a 500k boss adds all three).
+    public static final int SCORE_RARE = 75_000;
+    public static final int SCORE_EPIC = 150_000;
+    public static final int SCORE_OMEGA = 500_000;
     // Haste is in rune "haste points" (vanilla rune roll is 0-3), not percent. Tune in testing.
     public static final int BOSS_ABILITY_HASTE = 6;
     public static final int OBELISK_MIN = 2;
@@ -118,6 +125,20 @@ public class HyperVaultObjective extends Objective {
     // Entity tag on everything the boss fight spawns (adds + waves) so the per-kill cleanup
     // can find and discard the leftover escort.
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
+    // Stack caps for hyper-added modifiers (counts crystal-applied stacks too). Electric mob
+    // spam is annoying enough that one stack is plenty.
+    private static final java.util.Map<ResourceLocation, Integer> STACK_CAPS =
+            java.util.Map.of(ResourceLocation.parse("the_vault:electric"), 1);
+
+    /** True when adding this modifier would exceed its hyper stack cap; logs the skip. */
+    public static boolean isStackCapped(Vault vault, VaultModifier<?> modifier) {
+        Integer cap = STACK_CAPS.get(modifier.getId());
+        if (cap == null || xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(vault, modifier.getId()) < cap) {
+            return false;
+        }
+        WoldsVaults.LOGGER.info("Skipped rolling another {} — capped at {} stack(s) in Hyper vaults.", modifier.getId(), cap);
+        return true;
+    }
     // Hyper's chaos pools (pack config; concealed-chaos / negative-event copies minus the banned
     // modifiers). hyper_mixed rolls 25 per pull for the dumps; hyper_all_bad rolls 1 for
     // brutal-boss kills; hyper_bad_timer_events rolls 1 for the 2-minute ambient ticks.
