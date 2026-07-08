@@ -66,7 +66,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -77,6 +79,7 @@ import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCycleManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperEscalationManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -109,6 +112,9 @@ public class HyperVaultObjective extends Objective {
     public static final int OBELISK_MAX = 4;
     public static final float BRUTAL_OBELISK_PROBABILITY = 0.6F;
     public static final float ELIXIR_TARGET_MULTIPLIER = 0.5F;
+    // Entity tag on everything the boss fight spawns (adds + waves) so the per-kill cleanup
+    // can find and discard the leftover escort.
+    public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
     // Hyper's chaos pools (pack config; concealed-chaos / negative-event copies minus the banned
     // modifiers). hyper_mixed rolls 25 per pull for the dumps; hyper_all_bad rolls 1 for
     // brutal-boss kills; hyper_bad_timer_events rolls 1 for the 2-minute ambient ticks.
@@ -308,6 +314,10 @@ public class HyperVaultObjective extends Objective {
             // objective otherwise never runs; one child tick with COMPLETION set does the award.
             HyperVaultObjective.super.tickListener(world, vault, runner);
             broadcast(vault, data.getPlayer().getDisplayName().getString() + " escaped the HYPER Vault!", ChatFormatting.AQUA);
+            if (vault.get(Vault.LISTENERS).getAll().size() <= 1) {
+                // Last player out: the vault is about to tear down.
+                purgeHostileEntities(world);
+            }
             vault.get(Vault.LISTENERS).remove(world, vault, runner);
         });
 
@@ -373,6 +383,23 @@ public class HyperVaultObjective extends Objective {
         this.get(FIGHTS).onAttach(world, vault);
         this.get(MINIS).forEach(mini -> mini.initServer(world, vault));
         super.initServer(world, vault);
+    }
+
+    /**
+     * Discards every hostile and projectile before the vault closes behind the last player.
+     * A straggler explosion resolving in an unloading chunk deadlocks the whole server:
+     * VaultFireball.explode kills an entity whose death-pose resize sync-loads its chunk from
+     * the vault's tick thread, and that join can never complete once players are gone.
+     */
+    private static void purgeHostileEntities(VirtualWorld world) {
+        List<Entity> doomed = new ArrayList<>();
+        for (Entity entity : world.getAllEntities()) {
+            if (entity instanceof Enemy || entity instanceof Projectile) {
+                doomed.add(entity);
+            }
+        }
+        doomed.forEach(Entity::discard);
+        WoldsVaults.LOGGER.info("Hyper teardown: discarded {} hostile/projectile entities before vault close.", doomed.size());
     }
 
     @Override

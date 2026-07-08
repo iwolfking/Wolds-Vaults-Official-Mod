@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors;
 
 import iskallia.vault.block.entity.BossRunePillarTileEntity;
+import iskallia.vault.core.world.data.entity.PartialEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
@@ -21,4 +22,13 @@ public interface BossRunePillarAccessor {
 
     @Accessor("zoneId")
     void setZoneId(int zoneId);
+
+    // The tile's palette-provided config; exposes the boss roster so Hyper can reroll the
+    // hyperboss every cycle (see BossRunePillarConfigAccessor for the roster itself).
+    @Accessor("config")
+    BossRunePillarTileEntity.Config getConfig();
+
+    // The rolled boss template the next summon will use.
+    @Accessor("boss")
+    void setBoss(PartialEntity boss);
 }

@@ -20,6 +20,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -30,6 +32,7 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,6 +83,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         spawnExitPillar();
         respawnBossPillar();
         removeBossRoomZone();
+        discardFightSpawns();
 
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
@@ -274,6 +278,25 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         WorldZonesData.get(world.getServer()).getOrCreate(world.dimension()).remove(zoneId);
         objective.set(HyperVaultObjective.ZONE_ID, 0);
         WoldsVaults.LOGGER.info("Removed the boss room's no-modify zone ({}).", zoneId);
+    }
+
+    /**
+     * The boss's escort has no purpose once it falls: the persistent adds otherwise pile up
+     * across cycles (server overload), and any straggler projectile can deadlock vault
+     * teardown (VaultFireball.explode sync-loads chunks from the vault's tick thread).
+     */
+    private void discardFightSpawns() {
+        List<Entity> spawns = new ArrayList<>();
+        for (Entity entity : world.getAllEntities()) {
+            if (entity instanceof LivingEntity living && living.isAlive()
+                    && entity.getTags().contains(HyperVaultObjective.FIGHT_SPAWN_TAG)) {
+                spawns.add(entity);
+            }
+        }
+        spawns.forEach(Entity::discard);
+        if (!spawns.isEmpty()) {
+            WoldsVaults.LOGGER.info("Discarded {} leftover hyperboss fight spawns.", spawns.size());
+        }
     }
 
     private void removeExitPillar() {

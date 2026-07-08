@@ -4,11 +4,14 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.block.entity.BossRunePillarTileEntity;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
+import iskallia.vault.core.util.WeightedList;
+import iskallia.vault.core.vault.Modifiers;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.modifier.MobAttributeModifier;
-import iskallia.vault.core.vault.modifier.spi.EntityAttributeModifier;
+import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.rune.RuneBossFights;
+import iskallia.vault.core.world.data.entity.PartialEntity;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.core.world.storage.WorldZones;
 import iskallia.vault.entity.boss.BossRuneModifiers;
@@ -23,12 +26,14 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarConfigAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
@@ -36,6 +41,7 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 /**
@@ -74,8 +80,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             WoldsVaults.id("blue_ghost"),
     };
 
-    private static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.parse("generic.max_health");
-    private static final ResourceLocation ATTACK_DAMAGE_ID = ResourceLocation.parse("generic.attack_damage");
+    // Stable id for the boss's percent damage-escalation modifier (idempotent across reloads).
+    private static final UUID HYPER_DAMAGE_UUID =
+            UUID.nameUUIDFromBytes("woldsvaults:hyper_damage_escalation".getBytes(StandardCharsets.UTF_8));
 
     private final HyperEscalationManager escalation;
     // Transient on purpose: a reload mid-fight just restarts the short add countdown.
@@ -97,6 +104,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             WoldsVaults.LOGGER.error("Hyper podium at {} has no BossRunePillarTileEntity — cannot start the fight (staying armed).", pillarPos);
             return;
         }
+        rerollBoss(pillar);
         objective.set(HyperVaultObjective.PILLAR_POS, pillarPos);
         // The fight removes the pillar block when the boss summons; snapshot the tile so the
         // escalation manager can re-place it (config, boss list and zone id intact) next cycle.
@@ -107,20 +115,15 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
 
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
         double escalationFactor = Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle);
-        // The boss is modifier-immune, so the vault's aggregate mob health/damage bonuses
-        // (chunky/ruthless stacks, challenge-stack children, map % modifiers) are folded into
-        // its arm-time stats instead — challenge stacks must matter for the hyperboss too.
-        double vaultHealth = vaultMobStatBonus(MAX_HEALTH_ID);
-        double vaultDamage = vaultMobStatBonus(ATTACK_DAMAGE_ID);
-        if (vaultHealth != 0.0 || vaultDamage != 0.0) {
-            WoldsVaults.LOGGER.info("Hyperboss inherits vault mob stats: +{}% health, +{}% damage.",
-                    Math.round(vaultHealth * 100.0), Math.round(vaultDamage * 100.0));
-        }
-        // Units are fractions of base (0.5 = +50%); trait stacks SUM, so the per-cycle ×1.75
-        // compounding is folded in here rather than by re-stacking modifiers.
+        // Health units are fractions of base (0.5 = +50%) landing in the boss's MULTIPLY_BASE
+        // health trait; trait stacks SUM, so the per-cycle ×1.75 compounding is folded in here.
+        // Damage escalation deliberately stays out: the boss's damage trait applies amounts as
+        // FLAT damage (operator "add" in vault_boss.json), so the percent escalation is added
+        // as a real attribute modifier in applyBossStats — together with the vault's mob
+        // modifiers, which the modifier-immune boss never received on spawn.
         BossRuneModifiers armed = new BossRuneModifiers(
-                HyperVaultObjective.BOSS_HEALTH_PERCENT * escalationFactor + vaultHealth,
-                HyperVaultObjective.BOSS_DAMAGE_PERCENT * escalationFactor + vaultDamage,
+                HyperVaultObjective.BOSS_HEALTH_PERCENT * escalationFactor,
+                0.0,
                 HyperVaultObjective.BOSS_ABILITY_HASTE);
         pillar.getModifiers().copyFrom(armed);
         // Rune count keys the shield/waveblast/revive settings table; capped so an absurd cycle
@@ -219,6 +222,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             mob.moveTo(x + 0.5, y + 0.2, z + 0.5, (float) (random.nextDouble() * 2.0 * Math.PI), 0.0F);
             mob.finalizeSpawn(world, new DifficultyInstance(Difficulty.PEACEFUL, 13000L, 0L, 0.0F), MobSpawnType.STRUCTURE, null, null);
             mob.setPersistenceRequired();
+            mob.addTag(HyperVaultObjective.FIGHT_SPAWN_TAG);
             world.addWithUUID(mob);
             return;
         }
@@ -244,7 +248,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return;
         }
         if (objective.getOr(HyperVaultObjective.SCORE, 0) == 0) {
-            // Score reads the LIVE boss: traits (and the folded vault stats) are applied by now.
+            // First live sighting (traits are applied by now): give the boss its damage
+            // escalation plus the vault's mob modifiers, then score the finished stats.
+            applyBossStats(boss);
             double damage = boss.getAttribute(Attributes.ATTACK_DAMAGE) == null
                     ? 0.0 : boss.getAttributeValue(Attributes.ATTACK_DAMAGE);
             objective.set(HyperVaultObjective.SCORE,
@@ -288,24 +294,55 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         }
     }
 
-    /** Sum of the vault's percentage mob-stat modifiers for one attribute (fractions of base). */
-    private double vaultMobStatBonus(ResourceLocation attributeId) {
-        double total = 0.0;
-        for (VaultModifier<?> modifier : vault.get(Vault.MODIFIERS).getModifiers()) {
+    /** A fresh boss from the pillar's palette roster every cycle (repeats allowed). */
+    private void rerollBoss(BossRunePillarTileEntity pillar) {
+        BossRunePillarTileEntity.Config config = ((BossRunePillarAccessor) pillar).getConfig();
+        WeightedList<PartialEntity> pool = ((BossRunePillarConfigAccessor) (Object) config).getBossPool();
+        if (pool == null || pool.isEmpty()) {
+            WoldsVaults.LOGGER.warn("The boss pillar has no roster to reroll from; keeping {}.",
+                    pillar.getBoss() == null ? "nothing" : pillar.getBoss().getId());
+            return;
+        }
+        pool.getRandom(JavaRandom.ofNanoTime()).ifPresent(rolled -> {
+            ((BossRunePillarAccessor) pillar).setBoss(rolled.copy());
+            WoldsVaults.LOGGER.info("Hyperboss for this cycle: {}.", rolled.getId());
+        });
+    }
+
+    /**
+     * The percent damage escalation plus every mob attribute modifier on the vault, applied to
+     * the live boss exactly as ENTITY_SPAWN applies them to normal mobs (the boss is
+     * IModifierImmunity, so it never received them). Multiplicative health stacks therefore
+     * compound on the boss the same way they compound on the brutals.
+     */
+    private void applyBossStats(LivingEntity boss) {
+        double traitHealth = boss.getMaxHealth();
+        int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
+        double damageEscalation = HyperVaultObjective.BOSS_DAMAGE_PERCENT
+                * Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle);
+        AttributeInstance damage = boss.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (damage != null && damage.getModifier(HYPER_DAMAGE_UUID) == null) {
+            damage.addPermanentModifier(new AttributeModifier(HYPER_DAMAGE_UUID,
+                    "hyper_damage_escalation", damageEscalation, AttributeModifier.Operation.MULTIPLY_BASE));
+        }
+        Modifiers vaultModifiers = vault.get(Vault.MODIFIERS);
+        int applied = 0;
+        for (Modifiers.Entry entry : vaultModifiers.getEntries()) {
+            VaultModifier<?> modifier = entry.getModifier().orElse(null);
+            ModifierContext context = vaultModifiers.getContext(entry);
             if (modifier instanceof MobAttributeModifier mob) {
-                EntityAttributeModifier.Properties props = mob.properties();
-                if (props.getType().getAttributeModifierOperation() != AttributeModifier.Operation.ADDITION
-                        && props.getType().getAttributeResourceLocations().contains(attributeId)) {
-                    total += props.getAmount();
-                }
-            } else if (modifier instanceof MobAttributeModifierSettable settable
-                    && settable.properties().getType() != null
-                    && settable.properties().getType().getAttributeModifierOperation() != AttributeModifier.Operation.ADDITION
-                    && settable.properties().getType().getAttributeResourceLocations().contains(attributeId)) {
-                total += settable.properties().getValue();
+                mob.applyToEntity(boss, context.getUUID(), context);
+                applied++;
+            } else if (modifier instanceof MobAttributeModifierSettable settable) {
+                settable.applyToEntity(boss, context.getUUID(), context);
+                applied++;
             }
         }
-        return total;
+        boss.setHealth(boss.getMaxHealth());
+        WoldsVaults.LOGGER.info(
+                "Hyperboss stats: {} HP ({} from traits before vault modifiers), {} damage — {} vault mob modifiers applied like a normal mob.",
+                Math.round(boss.getMaxHealth()), Math.round(traitHealth),
+                damage == null ? "?" : Math.round(damage.getValue()), applied);
     }
 
     /** Mirrors ObeliskObjective.doSpawn's annulus placement, but with a bounded attempt count. */
@@ -318,7 +355,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             int x = (int) Math.ceil(distance * Math.cos(angle));
             int z = (int) Math.ceil(distance * Math.sin(angle));
             int y = random.nextInt(5) - 2;
-            if (BrutalBossesObjective.spawnMob(world, vault, center.getX() + x, center.getY() + y, center.getZ() + z, random) != null) {
+            LivingEntity spawned = BrutalBossesObjective.spawnMob(world, vault, center.getX() + x, center.getY() + y, center.getZ() + z, random);
+            if (spawned != null) {
+                spawned.addTag(HyperVaultObjective.FIGHT_SPAWN_TAG);
                 return true;
             }
         }
