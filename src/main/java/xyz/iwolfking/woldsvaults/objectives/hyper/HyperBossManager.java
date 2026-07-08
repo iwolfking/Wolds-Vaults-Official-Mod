@@ -316,7 +316,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return;
         }
         pool.getRandom(JavaRandom.ofNanoTime()).ifPresent(rolled -> {
-            ((BossRunePillarAccessor) pillar).setBoss(rolled.copy());
+            // No copy(): PartialEntity.copy NPEs on position-less templates (blockPos null),
+            // and this pool was freshly parsed from NBT — the instance is exclusively ours.
+            // (Vanilla onPopulate also assigns the rolled template directly, without copying.)
+            ((BossRunePillarAccessor) pillar).setBoss(rolled);
             WoldsVaults.LOGGER.info("Hyperboss for this cycle: {}.", rolled.getId());
         });
     }
