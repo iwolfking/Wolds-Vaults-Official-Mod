@@ -104,10 +104,11 @@ public class HyperVaultObjective extends Objective {
     public static final int AMBIENT_PERIOD_TICKS = 20 * 120;
     public static final int BASE_RUNE_TIER = 3;
     public static final int RUNE_TIER_CAP = 10;
-    // Boss escalation is LINEAR: base + increment×cycle (fractions of base; 50.0 = +5000%).
+    // Boss escalation = base × HYPER_STAT_FACTOR^cycle (the same exponential everything in the
+    // vault rides) PLUS a boss-exclusive linear bonus per cycle. Fractions of base (50.0 = +5000%).
     public static final double BOSS_HEALTH_PERCENT = 50.0;
     public static final double BOSS_DAMAGE_PERCENT = 50.0;
-    public static final double BOSS_STAT_INCREMENT = 25.0;
+    public static final double BOSS_STAT_INCREMENT = 15.0;
     // Score thresholds that add one reward-injection tier marker per hyperboss kill
     // (non-exclusive: a 500k boss adds all three).
     public static final int SCORE_RARE = 75_000;
