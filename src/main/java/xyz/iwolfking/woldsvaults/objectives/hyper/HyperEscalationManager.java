@@ -80,7 +80,8 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
 
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
-        HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger!", ChatFormatting.GOLD);
+        String crateTiers = "+1 super crate tier" + (regularTiers > 0 ? ", +" + regularTiers + " crate tier" + (regularTiers > 1 ? "s" : "") : "");
+        HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger! (" + crateTiers + ")", ChatFormatting.GOLD);
     }
 
     private void dumpChaosModifiers() {
@@ -89,20 +90,31 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
             HyperVaultObjective.broadcast(vault, "The Vault can hold no more chaos (" + HyperVaultObjective.CHAOS_CAP + " cap reached).", ChatFormatting.DARK_PURPLE);
             return;
         }
-        List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(HyperVaultObjective.CHAOS_POOL, level, JavaRandom.ofNanoTime());
-        if (modifiers.isEmpty()) {
-            WoldsVaults.LOGGER.error("Chaos modifier pool {} is missing/empty — no chaos modifiers were added this cycle.", HyperVaultObjective.CHAOS_POOL);
-            return;
-        }
         HyperVaultObjective.broadcast(vault, "Chaotic modifiers surge into the Vault!", ChatFormatting.DARK_PURPLE);
+        JavaRandom random = JavaRandom.ofNanoTime();
         int added = 0;
-        for (VaultModifier<?> modifier : modifiers) {
-            if (added >= granted) {
-                break;
+        int emptyPulls = 0;
+        // Each pull rolls the pool's own count (15); alternate sides until the budget is filled.
+        while (added < granted && emptyPulls < 2) {
+            var pool = random.nextBoolean() ? HyperVaultObjective.CHAOS_POOL_POSITIVE : HyperVaultObjective.CHAOS_POOL_NEGATIVE;
+            List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(pool, level, random);
+            if (modifiers.isEmpty()) {
+                WoldsVaults.LOGGER.error("Chaos modifier pool {} is missing/empty!", pool);
+                emptyPulls++;
+                continue;
             }
-            vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
-            announceModifier(modifier);
-            added++;
+            emptyPulls = 0;
+            for (VaultModifier<?> modifier : modifiers) {
+                if (added >= granted) {
+                    break;
+                }
+                vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
+                announceModifier(modifier);
+                added++;
+            }
+        }
+        if (added < granted) {
+            WoldsVaults.LOGGER.error("Chaos dump only added {}/{} modifiers — both concealed-chaos pools came up empty.", added, granted);
         }
     }
 

@@ -52,10 +52,11 @@ public class BrutalBossesObjective extends ObeliskObjective {
 
     public static final SupplierKey<Objective> E_KEY = (SupplierKey)SupplierKey.of("brutal_bosses", Objective.class).with(Version.v1_12, BrutalBossesObjective::new);
     public static final FieldRegistry FIELDS = ObeliskObjective.FIELDS.merge(new FieldRegistry());
-    // Hyper-vault mode: boss kills draw from the negative pool below instead of the bb_* pools,
-    // and obelisks skip the listener-priority gate (the objective never joins listener HUD lists).
+    // Hyper-vault mode: boss kills draw from the concealed-chaos backfire pool instead of the
+    // bb_* pools, and obelisks skip the listener-priority gate (the objective never joins
+    // listener HUD lists).
     public static final FieldKey<Boolean> NEGATIVE_POOL_ONLY = FieldKey.of("negative_pool_only", Boolean.class).with(Version.v1_12, Adapters.BOOLEAN, DISK.all()).register(FIELDS);
-    private static final ResourceLocation NEGATIVE_POOL = VaultMod.id("random_negative");
+    private static final ResourceLocation NEGATIVE_POOL = HyperVaultObjective.CHAOS_POOL_NEGATIVE;
 
     public BrutalBossesObjective(int target, IntSupplier wave, float objectiveProbability) {
         super(target, wave, objectiveProbability);

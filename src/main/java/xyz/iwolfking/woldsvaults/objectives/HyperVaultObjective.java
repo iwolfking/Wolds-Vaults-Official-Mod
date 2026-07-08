@@ -109,7 +109,10 @@ public class HyperVaultObjective extends Objective {
     public static final int OBELISK_MAX = 4;
     public static final float BRUTAL_OBELISK_PROBABILITY = 0.6F;
     public static final float ELIXIR_TARGET_MULTIPLIER = 0.5F;
-    public static final ResourceLocation CHAOS_POOL = WoldsVaults.id("hyper_chaos");
+    // The concealed-chaos pools (jar-datagen'd): the mixed positive side and the backfire side.
+    // Dumps draw from both 50/50; brutal-boss kills draw only from the backfire pool.
+    public static final ResourceLocation CHAOS_POOL_POSITIVE = WoldsVaults.id("concealed_chaos");
+    public static final ResourceLocation CHAOS_POOL_NEGATIVE = WoldsVaults.id("concealed_chaos_backfire");
     public static final ResourceLocation BINGO_POOL = WoldsVaults.id("hyper");
 
     public enum Phase {
@@ -294,6 +297,9 @@ public class HyperVaultObjective extends Objective {
             }
             data.setResult(InteractionResult.SUCCESS);
             vault.ifPresent(Vault.STATS, stats -> stats.get(listener.getId()).set(StatCollector.COMPLETION, Completion.COMPLETED));
+            // The completion crate (CHILDREN) only awards from its own tick paths, which this
+            // objective otherwise never runs; one child tick with COMPLETION set does the award.
+            HyperVaultObjective.super.tickListener(world, vault, runner);
             broadcast(vault, data.getPlayer().getDisplayName().getString() + " escaped the HYPER Vault!", ChatFormatting.AQUA);
             vault.get(Vault.LISTENERS).remove(world, vault, runner);
         });
