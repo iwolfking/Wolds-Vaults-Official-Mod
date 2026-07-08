@@ -127,9 +127,11 @@ public class HyperVaultObjective extends Objective {
     // can find and discard the leftover escort.
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
     // Stack caps for hyper-added modifiers (counts crystal-applied stacks too). Electric mob
-    // spam is annoying enough that one stack is plenty.
-    private static final java.util.Map<ResourceLocation, Integer> STACK_CAPS =
-            java.util.Map.of(ResourceLocation.parse("the_vault:electric"), 1);
+    // spam is annoying enough that one stack is plenty; Wounded (-5 hearts) is the one
+    // player max-health drain left in the pools and must never zero a health pool.
+    private static final java.util.Map<ResourceLocation, Integer> STACK_CAPS = java.util.Map.of(
+            ResourceLocation.parse("the_vault:electric"), 1,
+            ResourceLocation.parse("the_vault:wounded"), 4);
 
     /** True when adding this modifier would exceed its hyper stack cap; logs the skip. */
     public static boolean isStackCapped(Vault vault, VaultModifier<?> modifier) {

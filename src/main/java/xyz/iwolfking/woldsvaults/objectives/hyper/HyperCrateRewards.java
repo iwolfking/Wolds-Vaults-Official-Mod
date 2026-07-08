@@ -27,7 +27,7 @@ public final class HyperCrateRewards {
 
     public static final int RARE_ROLLS = 4;
     public static final int EPIC_ROLLS = 3;
-    public static final int OMEGA_ROLLS = 2;
+    public static final int OMEGA_ROLLS = 3;
 
     /** One weighted pool line: fixed or ranged count, optional booster-pack NBT, optional greed-tier scaling. */
     public record Entry(String itemId, String boosterPackId, int min, int max, boolean greedScaled) {

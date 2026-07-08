@@ -68,8 +68,10 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         // +50% greed coins in the completion crate per stack (applied in MixinRunner's injection).
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("greedy_crate_tier"), 1);
 
-        // Crate tiers: +1 super tier per kill, plus (cycle-1) regular tiers (+100% crate qty each).
-        VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), 1);
+        // Crate tiers: +1 super tier per kill (double past cycle 5), plus (cycle-1) regular
+        // tiers (+100% crate qty each).
+        int superTiers = cycle > 5 ? 2 : 1;
+        VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), superTiers);
         int regularTiers = cycle - 1;
         if (regularTiers > 0) {
             VaultModifierUtils.incrementModifierValueOfType(vault, CrateItemQuantityModifierSettable.class,
@@ -90,7 +92,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
 
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
-        String crateTiers = "+1 super crate tier, +1 greedy crate tier"
+        String crateTiers = "+" + superTiers + " super crate tier" + (superTiers > 1 ? "s" : "") + ", +1 greedy crate tier"
                 + (regularTiers > 0 ? ", +" + regularTiers + " crate tier" + (regularTiers > 1 ? "s" : "") : "");
         HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger! (" + crateTiers + ")", ChatFormatting.GOLD);
     }
