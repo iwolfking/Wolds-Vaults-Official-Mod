@@ -10,7 +10,9 @@ import iskallia.vault.core.vault.modifier.spi.EntityAttributeModifier;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.rune.RuneBossFights;
 import iskallia.vault.core.world.storage.VirtualWorld;
+import iskallia.vault.core.world.storage.WorldZones;
 import iskallia.vault.entity.boss.BossRuneModifiers;
+import iskallia.vault.world.data.WorldZonesData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -99,6 +101,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         // The fight removes the pillar block when the boss summons; snapshot the tile so the
         // escalation manager can re-place it (config, boss list and zone id intact) next cycle.
         objective.set(HyperVaultObjective.PILLAR_NBT, pillar.saveWithoutMetadata());
+        // Before the ability/stat writes: the tile's onLoad also refreshes ability modifiers,
+        // which would resurrect the revive ability if it ran after setReviveAbility(null).
+        ensureProtectionZone(pillar, pillarPos);
 
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
         double escalationFactor = Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle);
@@ -123,7 +128,6 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         pillar.setRuneCount(Math.min(HyperVaultObjective.BASE_RUNE_TIER + cycle, HyperVaultObjective.RUNE_TIER_CAP));
         pillar.getModifiers().setReviveAbility(null); // the hyperboss never heals or revives
 
-        objective.set(HyperVaultObjective.ZONE_ID, ((BossRunePillarAccessor) pillar).getZoneId());
         objective.set(HyperVaultObjective.SCORE, 0);
         fights.add(pillar.createFight());
         objective.set(HyperVaultObjective.PHASE, Phase.FIGHT);
@@ -133,6 +137,30 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         // resolve a dead entity to null and skip, and ENTITY_SPAWN overwrites it on summon.
         objective.set(HyperVaultObjective.GATE_MASK, 0);
         HyperVaultObjective.broadcast(vault, "The Hyperboss awakens!", ChatFormatting.DARK_RED);
+    }
+
+    /**
+     * The room's no-modify zone normally lives from room load until an open-room animation
+     * step that never runs; Hyper scopes it to the fight instead: (re)created on every arm
+     * here, removed by the escalation manager when the boss dies. The tile's own onLoad is
+     * reused so the zone box and flags stay exactly vanilla.
+     */
+    private void ensureProtectionZone(BossRunePillarTileEntity pillar, BlockPos pillarPos) {
+        BossRunePillarAccessor access = (BossRunePillarAccessor) pillar;
+        WorldZones zones = WorldZonesData.get(world.getServer()).getOrCreate(world.dimension());
+        int zoneId = access.getZoneId();
+        if (zoneId <= 0 || zones.get(zoneId).isEmpty()) {
+            // Stale id from a previous cycle (that zone was removed on kill): reset so the
+            // tile registers a fresh zone.
+            access.setZoneId(0);
+            pillar.onLoad();
+            zoneId = access.getZoneId();
+            WoldsVaults.LOGGER.info("Recreated the boss room protection zone ({}) for this fight.", zoneId);
+        }
+        if (zoneId <= 0) {
+            WoldsVaults.LOGGER.warn("Hyper fight at {} has no protection zone: the pillar config defines no zone box.", pillarPos);
+        }
+        objective.set(HyperVaultObjective.ZONE_ID, zoneId);
     }
 
     @Override

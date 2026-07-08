@@ -11,9 +11,14 @@ public interface BossRunePillarAccessor {
     @Accessor("runeMinimum")
     void setRuneMinimum(int runeMinimum);
 
-    // The no-modify zone id the tile registered; Hyper removes the zone after the first
-    // fight (vanilla removes it at an animation step that never runs, and a lingering zone
-    // makes nearby POI chests unbreakable).
+    // The no-modify zone id the tile registered. Hyper scopes the zone to each fight:
+    // resetting the id and re-running the tile's onLoad registers a fresh vanilla zone on
+    // arm, and the escalation manager removes it when the boss dies (vanilla removes it at
+    // an animation step that never runs, and a lingering zone makes nearby POI chests
+    // unbreakable).
     @Accessor("zoneId")
     int getZoneId();
+
+    @Accessor("zoneId")
+    void setZoneId(int zoneId);
 }
