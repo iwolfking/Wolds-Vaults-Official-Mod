@@ -66,6 +66,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -114,6 +118,14 @@ public class HyperVaultObjective extends Objective {
     public static final int SCORE_RARE = 75_000;
     public static final int SCORE_EPIC = 150_000;
     public static final int SCORE_OMEGA = 500_000;
+    // A kill whose boss scored at least this awards a second super crate tier.
+    public static final int SCORE_DOUBLE_SUPER = 1_000_000;
+    // Total mob movement speed is capped at base × this (+200%): stacked speed modifiers made
+    // mobs unhittable past ~cycle 4. Applied one tick after spawn so every modifier's own
+    // ENTITY_SPAWN hook has run first, whatever order the modifiers were added in.
+    public static final double SPEED_CAP_FACTOR = 3.0;
+    private static final UUID SPEED_CLAMP_UUID =
+            UUID.nameUUIDFromBytes("woldsvaults:hyper_speed_clamp".getBytes(java.nio.charset.StandardCharsets.UTF_8));
     // Haste is in rune "haste points" (vanilla rune roll is 0-3), not percent. Tune in testing.
     public static final int BOSS_ABILITY_HASTE = 6;
     public static final int OBELISK_MIN = 2;
@@ -200,6 +212,10 @@ public class HyperVaultObjective extends Objective {
     private HyperCycleManager cycleManager;
     private HyperBossManager bossManager;
     private HyperEscalationManager escalationManager;
+    // Mobs spawned last tick, awaiting the speed cap on the next objective tick. Transient:
+    // anything in flight across a reload misses the clamp (a one-tick window, accepted).
+    private final List<Mob> speedClampQueue = new ArrayList<>();
+    private int speedClampCount = 0;
 
     protected HyperVaultObjective() {
         this.set(PHASE, Phase.ROLLING);
@@ -378,6 +394,17 @@ public class HyperVaultObjective extends Objective {
             }
         });
 
+        // Queue every spawned mob for the +200% movement-speed cap, applied next objective tick
+        // (after the whole spawn event, so every modifier's spawn hook has run regardless of the
+        // order chaos dumps registered them). The hyperboss is excluded here: its modifiers only
+        // arrive at first live tick (applyBossStats), which applies the same clamp itself.
+        CommonEvents.ENTITY_SPAWN.register(this, event -> {
+            if (event.getEntity().level == world && event.getEntity() instanceof Mob mob
+                    && !(mob instanceof VaultBossEntity)) {
+                this.speedClampQueue.add(mob);
+            }
+        });
+
         // The shared elixir bar fills from the same four sources the elixir tasks use.
         CommonEvents.CHEST_LOOT_GENERATION.post().register(this, data -> {
             if (data.getPlayer().level != world || !elixirActive()) {
@@ -448,10 +475,49 @@ public class HyperVaultObjective extends Objective {
         WoldsVaults.LOGGER.info("Hyper teardown: discarded {} hostile/projectile entities before vault close.", doomed.size());
     }
 
+    /** Applies the speed cap to last tick's spawns (see the ENTITY_SPAWN registration). */
+    private void drainSpeedClampQueue() {
+        if (this.speedClampQueue.isEmpty()) {
+            return;
+        }
+        for (Mob mob : this.speedClampQueue) {
+            if (mob.isAlive() && clampMovementSpeed(mob)) {
+                this.speedClampCount++;
+                if (this.speedClampCount == 1 || this.speedClampCount % 200 == 0) {
+                    WoldsVaults.LOGGER.info("Capped mob movement speed at +{}% ({} capped so far; latest: {}).",
+                            Math.round((SPEED_CAP_FACTOR - 1.0) * 100.0), this.speedClampCount,
+                            mob.getType().getRegistryName());
+                }
+            }
+        }
+        this.speedClampQueue.clear();
+    }
+
+    /**
+     * Caps the entity's final movement speed at base × {@link #SPEED_CAP_FACTOR} with a single
+     * corrective MULTIPLY_TOTAL modifier, so later potion-style speed effects still work but the
+     * permanent modifier stacking cannot push past the cap. Idempotent; true if a cap was added.
+     */
+    public static boolean clampMovementSpeed(LivingEntity entity) {
+        AttributeInstance speed = entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speed == null || speed.getModifier(SPEED_CLAMP_UUID) != null) {
+            return false;
+        }
+        double base = speed.getBaseValue();
+        double value = speed.getValue();
+        if (base <= 0.0 || value <= base * SPEED_CAP_FACTOR) {
+            return false;
+        }
+        speed.addPermanentModifier(new AttributeModifier(SPEED_CLAMP_UUID, "hyper_speed_clamp",
+                base * SPEED_CAP_FACTOR / value - 1.0, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        return true;
+    }
+
     @Override
     public void tickServer(VirtualWorld world, Vault vault) {
         this.get(FIGHTS).onTick(world, vault);
         this.get(MINIS).forEach(mini -> mini.tickServer(world, vault));
+        drainSpeedClampQueue();
         this.cycleManager.tick();
         this.bossManager.tick();
         this.escalationManager.tick();

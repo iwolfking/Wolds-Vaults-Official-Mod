@@ -68,9 +68,9 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         // +50% greed coins in the completion crate per stack (applied in MixinRunner's injection).
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("greedy_crate_tier"), 1);
 
-        // Crate tiers: +1 super tier per kill (double past cycle 5), plus (cycle-1) regular
-        // tiers (+100% crate qty each).
-        int superTiers = cycle > 5 ? 2 : 1;
+        // Crate tiers: +1 super tier per kill (+2 when the killed boss scored 1M+), plus
+        // (cycle-1) regular tiers (+100% crate qty each).
+        int superTiers = objective.getOr(HyperVaultObjective.SCORE, 0) >= HyperVaultObjective.SCORE_DOUBLE_SUPER ? 2 : 1;
         VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), superTiers);
         int regularTiers = cycle - 1;
         if (regularTiers > 0) {

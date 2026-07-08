@@ -371,6 +371,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 applied++;
             }
         }
+        // The vault's speed modifiers were just applied for real; same +200% cap as every mob.
+        if (HyperVaultObjective.clampMovementSpeed(boss)) {
+            WoldsVaults.LOGGER.info("Hyperboss movement speed capped at +{}%.",
+                    Math.round((HyperVaultObjective.SPEED_CAP_FACTOR - 1.0) * 100.0));
+        }
         boss.setHealth(boss.getMaxHealth());
         WoldsVaults.LOGGER.info(
                 "Hyperboss stats: {} HP (vault health factor folded at arm), {} damage — {} non-health vault mob modifiers applied.",
