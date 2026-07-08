@@ -534,6 +534,7 @@ public class HyperVaultObjective extends Objective {
         matrixStack.scale(HUD_SCALE, HUD_SCALE, 1.0F);
         renderElixirBar(matrixStack, font);
         renderObeliskRow(matrixStack, font);
+        renderCardLabel(matrixStack, font);
         matrixStack.popPose();
 
         // Held key = show the card, exactly like the mod's expanded-bingo affordance.
@@ -600,6 +601,26 @@ public class HyperVaultObjective extends Objective {
             font.drawShadow(matrixStack, count.withStyle(color), x + slotWidth / 2.0F - font.width(count) / 2.0F, 24.0F, 0xFFFFFF);
             x += slotWidth + gapWidth;
         }
+    }
+
+    /** One short line under the obelisk icons so the card objective is visible without its grid. */
+    @OnlyIn(Dist.CLIENT)
+    private void renderCardLabel(PoseStack matrixStack, Font font) {
+        String name;
+        boolean done;
+        if (isMiniInBatch(HyperMini.BINGO)) {
+            name = "Bingo";
+            done = findMini(BingoObjective.class).map(bingo -> bingo.getBingos() > 0).orElse(false);
+        } else if (isMiniInBatch(HyperMini.SCAVENGER)) {
+            name = "Collector";
+            done = findMini(ScavengerBingoObjective.class).map(scav -> scav.getCompletedBingos() > 0).orElse(false);
+        } else {
+            return;
+        }
+        Component label = done
+                ? new TextComponent(name + " ✔").withStyle(ChatFormatting.GREEN)
+                : new TextComponent(name + " — hold ").append(ModKeybinds.openBingo.getTranslatedKeyMessage()).withStyle(ChatFormatting.YELLOW);
+        font.drawShadow(matrixStack, label, OBELISK_CENTER_X - font.width(label) / 2.0F, 36.0F, 0xFFFFFF);
     }
 
     @OnlyIn(Dist.CLIENT)

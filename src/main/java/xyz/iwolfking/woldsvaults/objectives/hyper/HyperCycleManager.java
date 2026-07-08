@@ -7,9 +7,12 @@ import iskallia.vault.core.vault.objective.BingoObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.objective.ScavengerBingoObjective;
 import iskallia.vault.core.vault.objective.elixir.ElixirTask;
+import iskallia.vault.core.vault.player.Listener;
+import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.task.BingoTask;
+import iskallia.vault.task.source.EntityTaskSource;
 import net.minecraft.ChatFormatting;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
@@ -18,7 +21,9 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.HyperMini;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Rolls each cycle's mini-objective batch and flips the phase to ARMED once every batch entry
@@ -86,8 +91,26 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
     }
 
     private void addMini(Objective mini) {
+        seedCurrentRunners(mini);
         objective.get(HyperVaultObjective.MINIS).add(mini);
         mini.initServer(world, vault);
+    }
+
+    /**
+     * Card objectives only learn about players from LISTENER_JOIN, which fired long before a
+     * mid-vault batch roll. Without pre-seeding, bingo's EntityTaskSource stays empty and every
+     * player action is filtered out (the card never progresses); the JOINED counters drive
+     * per-player target scaling on both cards.
+     */
+    private void seedCurrentRunners(Objective mini) {
+        Collection<Runner> runners = vault.get(Vault.LISTENERS).getAll(Runner.class);
+        if (mini instanceof BingoObjective bingo) {
+            UUID[] ids = runners.stream().map(Listener::getId).toArray(UUID[]::new);
+            bingo.set(BingoObjective.TASK_SOURCE, EntityTaskSource.ofUuids(JavaRandom.ofInternal(vault.get(Vault.SEED)), ids));
+            bingo.set(BingoObjective.JOINED, runners.size());
+        } else if (mini instanceof ScavengerBingoObjective scav) {
+            scav.set(ScavengerBingoObjective.JOINED, runners.size());
+        }
     }
 
     /**
