@@ -14,6 +14,7 @@ import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.rune.RuneBossFights;
 import iskallia.vault.core.world.data.entity.PartialEntity;
+import iskallia.vault.core.world.storage.IZonedWorld;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.core.world.storage.WorldZones;
 import iskallia.vault.entity.boss.BossRuneModifiers;
@@ -22,10 +23,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,6 +38,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
@@ -92,6 +96,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     // part of the reference total the vault health factor multiplies.
     private static final double INNATE_HEALTH_BONUS = 0.5;
     private static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.parse("generic.max_health");
+    // The four arena gates of the BOSS_1 room style, relative to the pillar (RuneBossAnimation).
+    private static final BlockPos[] GATE_OFFSETS = {
+            new BlockPos(23, 4, 0), new BlockPos(-23, 4, 0),
+            new BlockPos(0, 4, 23), new BlockPos(0, 4, -23)};
 
     private final HyperEscalationManager escalation;
     // Transient on purpose: a reload mid-fight just restarts the short add countdown.
@@ -122,6 +130,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         // Before the ability/stat writes: the tile's onLoad also refreshes ability modifiers,
         // which would resurrect the revive ability if it ran after setReviveAbility(null).
         ensureProtectionZone(pillar, pillarPos);
+        snapshotOrRepairGates(pillarPos);
 
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
         double escalation = HyperVaultObjective.BOSS_HEALTH_PERCENT
@@ -158,6 +167,81 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         // resolve a dead entity to null and skip, and ENTITY_SPAWN overwrites it on summon.
         objective.set(HyperVaultObjective.GATE_MASK, 0);
         HyperVaultObjective.broadcast(vault, "The Hyperboss awakens!", ChatFormatting.DARK_RED);
+    }
+
+    /**
+     * The gate-frame animation re-places its own blocks every open/close, but explosion damage
+     * just OUTSIDE the frame templates — the floor row bordering each gate — persists forever
+     * (the room is unprotected between fights). The pristine surroundings are captured once at
+     * the first arm (the zone has protected the room until then) and any hole is patched from
+     * that snapshot at every later arm, before the doors close.
+     */
+    private void snapshotOrRepairGates(BlockPos pillarPos) {
+        if (!objective.has(HyperVaultObjective.GATE_NBT)) {
+            snapshotGateSurrounds(pillarPos);
+        } else {
+            repairGateSurrounds(pillarPos);
+        }
+    }
+
+    /** A box per gate: ±5 along the wall, ±2 across it, pillarY−3..+3 (the frames heal higher). */
+    private void forEachGatePos(BlockPos pillarPos, java.util.function.Consumer<BlockPos> action) {
+        for (BlockPos offset : GATE_OFFSETS) {
+            boolean xWall = offset.getX() != 0;
+            for (int along = -5; along <= 5; along++) {
+                for (int across = -2; across <= 2; across++) {
+                    for (int dy = -3; dy <= 3; dy++) {
+                        int dx = offset.getX() + (xWall ? across : along);
+                        int dz = offset.getZ() + (xWall ? along : across);
+                        action.accept(pillarPos.offset(dx, dy, dz));
+                    }
+                }
+            }
+        }
+    }
+
+    private void snapshotGateSurrounds(BlockPos pillarPos) {
+        ListTag blocks = new ListTag();
+        forEachGatePos(pillarPos, pos -> {
+            BlockState state = world.getBlockState(pos);
+            if (state.isAir()) {
+                return;
+            }
+            CompoundTag entry = new CompoundTag();
+            entry.putIntArray("p", new int[]{
+                    pos.getX() - pillarPos.getX(), pos.getY() - pillarPos.getY(), pos.getZ() - pillarPos.getZ()});
+            entry.put("s", NbtUtils.writeBlockState(state));
+            blocks.add(entry);
+        });
+        CompoundTag tag = new CompoundTag();
+        tag.put("blocks", blocks);
+        objective.set(HyperVaultObjective.GATE_NBT, tag);
+        WoldsVaults.LOGGER.info("Snapshotted {} pristine blocks around the arena gates for per-cycle repair.", blocks.size());
+    }
+
+    private void repairGateSurrounds(BlockPos pillarPos) {
+        ListTag blocks = objective.get(HyperVaultObjective.GATE_NBT).getList("blocks", Tag.TAG_COMPOUND);
+        int repaired = 0;
+        for (int i = 0; i < blocks.size(); i++) {
+            CompoundTag entry = blocks.getCompound(i);
+            int[] p = entry.getIntArray("p");
+            if (p.length != 3) {
+                continue;
+            }
+            BlockPos pos = pillarPos.offset(p[0], p[1], p[2]);
+            if (!world.getBlockState(pos).isAir()) {
+                continue;
+            }
+            BlockState state = NbtUtils.readBlockState(entry.getCompound("s"));
+            if (state.isAir()) {
+                continue;
+            }
+            IZonedWorld.runWithBypass(world, true, () -> world.setBlock(pos, state, 3));
+            repaired++;
+        }
+        if (repaired > 0) {
+            WoldsVaults.LOGGER.info("Repaired {} destroyed blocks around the arena gates.", repaired);
+        }
     }
 
     /**
@@ -376,6 +460,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             WoldsVaults.LOGGER.info("Hyperboss movement speed capped at +{}%.",
                     Math.round((HyperVaultObjective.SPEED_CAP_FACTOR - 1.0) * 100.0));
         }
+        // Reaving's bonus damage (target max health × gear %) fires once per mob, gated by the
+        // REAVING effect as its "already reaved" latch — pre-latching makes the hyperboss immune
+        // to a proc that scales with its hyper-inflated health pool. Bleed (the other
+        // %-max-health source) is denied outright in HyperBossEffectImmunity.
+        boss.addEffect(new MobEffectInstance(xyz.iwolfking.woldsvaults.init.ModEffects.REAVING, Integer.MAX_VALUE, 0, true, false));
         boss.setHealth(boss.getMaxHealth());
         WoldsVaults.LOGGER.info(
                 "Hyperboss stats: {} HP (vault health factor folded at arm), {} damage — {} non-health vault mob modifiers applied.",

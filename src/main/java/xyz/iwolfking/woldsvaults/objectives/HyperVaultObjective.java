@@ -103,7 +103,11 @@ public class HyperVaultObjective extends Objective {
     public static final float[] HEALTH_GATES = {0.8F, 0.6F, 0.4F, 0.2F};
     public static final int WAVE_MOB_MIN = 2;
     public static final int WAVE_MOB_MAX = 4;
-    public static final int EXIT_PILLAR_TICKS = 20 * 30;
+    public static final int EXIT_PILLAR_TICKS = 20 * 15;
+    // Clicking the exit pillar no longer leaves instantly: it starts this vault-wide victory
+    // countdown (matching the post-boss transition other vaults get), after which EVERY runner
+    // still inside is completed and extracted — regardless of the pillar's own remaining life.
+    public static final int WIN_TRANSITION_TICKS = 20 * 15;
     public static final int FIGHT_ADD_PERIOD_TICKS = 20 * 6;
     public static final int AMBIENT_PERIOD_TICKS = 20 * 120;
     public static final int BASE_RUNE_TIER = 3;
@@ -163,7 +167,8 @@ public class HyperVaultObjective extends Objective {
     public static final ResourceLocation BINGO_POOL = WoldsVaults.id("hyper");
 
     public enum Phase {
-        ROLLING, MINIS, ARMED, FIGHT, REWARD
+        // WIN is appended (the adapter serializes ordinals — never reorder).
+        ROLLING, MINIS, ARMED, FIGHT, REWARD, WIN
     }
 
     /** Mini-objective set. Every batch is ELIXIR + one of BINGO/SCAVENGER + the forced BRUTAL. */
@@ -199,6 +204,10 @@ public class HyperVaultObjective extends Objective {
     // The pillar tile's saved state: the fight consumes the pillar block when the boss summons,
     // so each reward phase re-places it from this snapshot for the next cycle's arming.
     public static final FieldKey<CompoundTag> PILLAR_NBT = FieldKey.of("pillar_nbt", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all()).register(FIELDS);
+    // Pristine blocks around the four arena gates, captured at the first arm. The gate frames
+    // re-place themselves each animation frame, but the floor row bordering them is outside the
+    // frame templates — explosion holes there would otherwise persist forever.
+    public static final FieldKey<CompoundTag> GATE_NBT = FieldKey.of("gate_nbt", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> SCORE = FieldKey.of("score", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Integer> ZONE_ID = FieldKey.of("zone_id", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
     // Settable ("+X%") vault-modifier values live only in shared registry instances that reset on
@@ -362,25 +371,16 @@ public class HyperVaultObjective extends Objective {
                 return;
             }
             Listener listener = vault.get(Vault.LISTENERS).get(data.getPlayer().getUUID());
-            if (!(listener instanceof Runner runner)) {
+            if (!(listener instanceof Runner)) {
                 return;
             }
             data.setResult(InteractionResult.SUCCESS);
-            try {
-                vault.ifPresent(Vault.STATS, stats -> stats.get(listener.getId()).set(StatCollector.COMPLETION, Completion.COMPLETED));
-                // The completion crate (CHILDREN) only awards from its own tick paths, which this
-                // objective otherwise never runs; one child tick with COMPLETION set does the award.
-                HyperVaultObjective.super.tickListener(world, vault, runner);
-                broadcast(vault, data.getPlayer().getDisplayName().getString() + " escaped the HYPER Vault!", ChatFormatting.AQUA);
-                if (vault.get(Vault.LISTENERS).getAll().size() <= 1) {
-                    // Last player out: the vault is about to tear down.
-                    purgeHostileEntities(world);
-                }
-                vault.get(Vault.LISTENERS).remove(world, vault, runner);
-            } catch (Exception e) {
-                // See the podium handler: the VH event bus would swallow this silently.
-                WoldsVaults.LOGGER.error("Hyper exit-pillar completion failed!", e);
-            }
+            // The click only STARTS the 15s victory transition (like the post-boss pause other
+            // vaults get); the escalation manager counts it down and extracts everyone at 0.
+            this.set(PHASE, Phase.WIN);
+            this.set(EXIT_TICKS, WIN_TRANSITION_TICKS);
+            broadcast(vault, data.getPlayer().getDisplayName().getString() + " claimed victory — the Vault completes in "
+                    + (WIN_TRANSITION_TICKS / 20) + " seconds!", ChatFormatting.GREEN);
         });
 
         // Track the hyperboss entity so health gates can be evaluated without touching
@@ -473,6 +473,29 @@ public class HyperVaultObjective extends Objective {
         }
         doomed.forEach(Entity::discard);
         WoldsVaults.LOGGER.info("Hyper teardown: discarded {} hostile/projectile entities before vault close.", doomed.size());
+    }
+
+    /**
+     * End of the WIN transition: every runner still inside is completed, awarded and extracted.
+     * Ends the whole vault — there is no next cycle after a claimed victory.
+     */
+    public void completeAndExtractAll(VirtualWorld world, Vault vault) {
+        purgeHostileEntities(world);
+        for (Listener listener : new ArrayList<>(vault.get(Vault.LISTENERS).getAll())) {
+            if (!(listener instanceof Runner runner)) {
+                continue;
+            }
+            try {
+                vault.ifPresent(Vault.STATS, stats -> stats.get(listener.getId()).set(StatCollector.COMPLETION, Completion.COMPLETED));
+                // The completion crate (CHILDREN) only awards from its own tick paths, which this
+                // objective otherwise never runs; one child tick with COMPLETION set does the award.
+                super.tickListener(world, vault, runner);
+                vault.get(Vault.LISTENERS).remove(world, vault, runner);
+            } catch (Exception e) {
+                WoldsVaults.LOGGER.error("Hyper victory extraction failed for {}!", listener.getId(), e);
+            }
+        }
+        WoldsVaults.LOGGER.info("Hyper victory transition finished — all runners extracted with a completion.");
     }
 
     /** Applies the speed cap to last tick's spawns (see the ENTITY_SPAWN registration). */
@@ -686,6 +709,10 @@ public class HyperVaultObjective extends Objective {
             case FIGHT -> renderBossBar(matrixStack, window, partialTicks);
             case REWARD -> {
                 drawCentered(font, matrixStack, new TextComponent("Exit pillar: " + (this.getOr(EXIT_TICKS, 0) / 20) + "s").withStyle(ChatFormatting.AQUA), HUD_TOP_MARGIN);
+                drawCentered(font, matrixStack, new TextComponent("Vault Score: " + this.getOr(SCORE, 0)).withStyle(ChatFormatting.GOLD), HUD_TOP_MARGIN + 11.0F);
+            }
+            case WIN -> {
+                drawCentered(font, matrixStack, new TextComponent("Vault completes in " + (this.getOr(EXIT_TICKS, 0) / 20) + "s!").withStyle(ChatFormatting.GREEN), HUD_TOP_MARGIN);
                 drawCentered(font, matrixStack, new TextComponent("Vault Score: " + this.getOr(SCORE, 0)).withStyle(ChatFormatting.GOLD), HUD_TOP_MARGIN + 11.0F);
             }
             case ROLLING -> {
