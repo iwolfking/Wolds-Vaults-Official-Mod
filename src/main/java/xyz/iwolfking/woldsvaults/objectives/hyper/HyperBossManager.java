@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.objectives.hyper;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.block.entity.BossRunePillarTileEntity;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
@@ -37,31 +38,31 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     // groups (the groups config only exposes match-predicates, so the spawnable subset is
     // curated here, same as BrutalBossesRegistry does for its bosses).
     private static final ResourceLocation[] TANK_ADDS = {
-            new ResourceLocation("the_vault", "shiver"),
-            new ResourceLocation("the_vault", "deathcap"),
-            new ResourceLocation("the_vault", "blood_tank"),
-            new ResourceLocation("the_vault", "overgrown_tank"),
-            new ResourceLocation("the_vault", "pirate_guardian_tank"),
-            new ResourceLocation("the_vault", "craftenstein"),
-            new ResourceLocation("the_vault", "yeti"),
-            new ResourceLocation("the_vault", "deep_dark_horror"),
-            new ResourceLocation("minecraft", "piglin_brute"),
-            new ResourceLocation("woldsvaults", "haturkin"),
+            VaultMod.id("shiver"),
+            VaultMod.id("deathcap"),
+            VaultMod.id("blood_tank"),
+            VaultMod.id("overgrown_tank"),
+            VaultMod.id("pirate_guardian_tank"),
+            VaultMod.id("craftenstein"),
+            VaultMod.id("yeti"),
+            VaultMod.id("deep_dark_horror"),
+            ResourceLocation.parse("minecraft:piglin_brute"),
+            WoldsVaults.id("haturkin"),
     };
     private static final ResourceLocation[] ASSASSIN_ADDS = {
-            new ResourceLocation("the_vault", "vault_spider"),
-            new ResourceLocation("the_vault", "t3_skeleton"),
-            new ResourceLocation("the_vault", "t3_stray"),
-            new ResourceLocation("the_vault", "t3_wither_skeleton"),
-            new ResourceLocation("the_vault", "t3_creeper"),
-            new ResourceLocation("the_vault", "t3_enderman"),
-            new ResourceLocation("the_vault", "blood_slime"),
-            new ResourceLocation("the_vault", "vault_wraith_white"),
-            new ResourceLocation("the_vault", "vault_wraith_yellow"),
-            new ResourceLocation("the_vault", "grimwick"),
-            new ResourceLocation("the_vault", "winter_wolf"),
-            new ResourceLocation("woldsvaults", "black_ghost"),
-            new ResourceLocation("woldsvaults", "blue_ghost"),
+            VaultMod.id("vault_spider"),
+            VaultMod.id("t3_skeleton"),
+            VaultMod.id("t3_stray"),
+            VaultMod.id("t3_wither_skeleton"),
+            VaultMod.id("t3_creeper"),
+            VaultMod.id("t3_enderman"),
+            VaultMod.id("blood_slime"),
+            VaultMod.id("vault_wraith_white"),
+            VaultMod.id("vault_wraith_yellow"),
+            VaultMod.id("grimwick"),
+            VaultMod.id("winter_wolf"),
+            WoldsVaults.id("black_ghost"),
+            WoldsVaults.id("blue_ghost"),
     };
 
     private final HyperEscalationManager escalation;

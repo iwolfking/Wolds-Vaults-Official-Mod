@@ -109,10 +109,10 @@ public class HyperVaultObjective extends Objective {
     public static final int OBELISK_MAX = 4;
     public static final float BRUTAL_OBELISK_PROBABILITY = 0.6F;
     public static final float ELIXIR_TARGET_MULTIPLIER = 0.5F;
-    // The concealed-chaos pools (jar-datagen'd): the mixed positive side and the backfire side.
-    // Dumps draw from both 50/50; brutal-boss kills draw only from the backfire pool.
-    public static final ResourceLocation CHAOS_POOL_POSITIVE = WoldsVaults.id("concealed_chaos");
-    public static final ResourceLocation CHAOS_POOL_NEGATIVE = WoldsVaults.id("concealed_chaos_backfire");
+    // Hyper's chaos pools (pack config; concealed-chaos copies minus ethereal/cooldown modifiers).
+    // hyper_mixed rolls 25 per pull for the dumps; hyper_all_bad rolls 1 for brutal-boss kills.
+    public static final ResourceLocation CHAOS_POOL_MIXED = WoldsVaults.id("hyper_mixed");
+    public static final ResourceLocation CHAOS_POOL_ALL_BAD = WoldsVaults.id("hyper_all_bad");
     public static final ResourceLocation BINGO_POOL = WoldsVaults.id("hyper");
 
     public enum Phase {

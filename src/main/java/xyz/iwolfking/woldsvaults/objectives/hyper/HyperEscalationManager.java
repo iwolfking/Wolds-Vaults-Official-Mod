@@ -94,12 +94,11 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         JavaRandom random = JavaRandom.ofNanoTime();
         int added = 0;
         int emptyPulls = 0;
-        // Each pull rolls the pool's own count (15); alternate sides until the budget is filled.
+        // One pull normally rolls the pool's full 25; the loop only guards odd pool configs.
         while (added < granted && emptyPulls < 2) {
-            var pool = random.nextBoolean() ? HyperVaultObjective.CHAOS_POOL_POSITIVE : HyperVaultObjective.CHAOS_POOL_NEGATIVE;
-            List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(pool, level, random);
+            List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(HyperVaultObjective.CHAOS_POOL_MIXED, level, random);
             if (modifiers.isEmpty()) {
-                WoldsVaults.LOGGER.error("Chaos modifier pool {} is missing/empty!", pool);
+                WoldsVaults.LOGGER.error("Chaos modifier pool {} is missing/empty!", HyperVaultObjective.CHAOS_POOL_MIXED);
                 emptyPulls++;
                 continue;
             }
@@ -114,7 +113,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
             }
         }
         if (added < granted) {
-            WoldsVaults.LOGGER.error("Chaos dump only added {}/{} modifiers — both concealed-chaos pools came up empty.", added, granted);
+            WoldsVaults.LOGGER.error("Chaos dump only added {}/{} modifiers — pool {} came up empty.", added, granted, HyperVaultObjective.CHAOS_POOL_MIXED);
         }
     }
 
