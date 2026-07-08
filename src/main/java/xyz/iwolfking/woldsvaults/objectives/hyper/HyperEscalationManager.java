@@ -15,6 +15,7 @@ import iskallia.vault.core.world.storage.IZonedWorld;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.world.data.WorldZonesData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -78,6 +79,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         restartDoorAnimation();
         spawnExitPillar();
         respawnBossPillar();
+        removeBossRoomZone();
 
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
@@ -257,6 +259,21 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
             world.setBlock(pos, lower, 3);
             world.setBlock(pos.above(), upper, 3);
         });
+    }
+
+    /**
+     * The boss room's no-modify zone is wider than the arena and makes nearby POI chests
+     * unbreakable. Vanilla removes it at an animation step that never runs; do it here once
+     * the first fight is over (the physical gates still seal later fights).
+     */
+    private void removeBossRoomZone() {
+        int zoneId = objective.getOr(HyperVaultObjective.ZONE_ID, 0);
+        if (zoneId <= 0) {
+            return;
+        }
+        WorldZonesData.get(world.getServer()).getOrCreate(world.dimension()).remove(zoneId);
+        objective.set(HyperVaultObjective.ZONE_ID, 0);
+        WoldsVaults.LOGGER.info("Removed the boss room's no-modify zone ({}).", zoneId);
     }
 
     private void removeExitPillar() {

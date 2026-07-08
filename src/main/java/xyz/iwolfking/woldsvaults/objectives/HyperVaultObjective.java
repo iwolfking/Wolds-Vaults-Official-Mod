@@ -66,7 +66,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
@@ -156,6 +155,7 @@ public class HyperVaultObjective extends Objective {
     // so each reward phase re-places it from this snapshot for the next cycle's arming.
     public static final FieldKey<CompoundTag> PILLAR_NBT = FieldKey.of("pillar_nbt", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> SCORE = FieldKey.of("score", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all())).register(FIELDS);
+    public static final FieldKey<Integer> ZONE_ID = FieldKey.of("zone_id", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
     // Settable ("+X%") vault-modifier values live only in shared registry instances that reset on
     // every config reload, so a mid-vault relog silently zeroes them. Snapshot on first init,
     // re-apply on every later init. {modifier id -> value}
@@ -313,14 +313,12 @@ public class HyperVaultObjective extends Objective {
 
         // Track the hyperboss entity so health gates can be evaluated without touching
         // RuneBossFight's private health fields.
+        // The score is NOT captured here: the summon adds the boss to the world before its
+        // traits apply, so this event still sees base stats. HyperBossManager reads it mid-fight.
         CommonEvents.ENTITY_SPAWN.register(this, event -> {
             if (event.getEntity().level == world && event.getEntity() instanceof VaultBossEntity boss
                     && this.getOr(PHASE, Phase.ROLLING) == Phase.FIGHT) {
                 this.set(BOSS_ID, boss.getUUID());
-                // Vault score, from the boss's armed stats (traits apply before the spawn event).
-                double damage = boss.getAttribute(Attributes.ATTACK_DAMAGE) == null
-                        ? 0.0 : boss.getAttributeValue(Attributes.ATTACK_DAMAGE);
-                this.set(SCORE, (int) Math.round((boss.getMaxHealth() + damage * 100.0) / 1000.0));
             }
         });
 
