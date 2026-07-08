@@ -287,10 +287,21 @@ public class HyperVaultObjective extends Objective {
             if (this.getOr(PHASE, Phase.ROLLING) != Phase.ARMED) {
                 return;
             }
-            if (!data.getPlayer().getMainHandItem().isEmpty()) {
+            boolean mainHandEmpty = data.getPlayer().getMainHandItem().isEmpty();
+            WoldsVaults.LOGGER.info("Podium clicked while armed at {}: mainHandEmpty={}, sneaking={}.",
+                    data.getPos(), mainHandEmpty, data.getPlayer().isShiftKeyDown());
+            if (!mainHandEmpty) {
                 return;
             }
-            this.bossManager.armAndStartFight(data.getPos());
+            try {
+                this.bossManager.armAndStartFight(data.getPos());
+            } catch (Exception e) {
+                // The VH event bus catches handler exceptions and printStackTraces them to raw
+                // stderr, which the launcher does not put in the log — without this catch a
+                // failure here is completely invisible.
+                WoldsVaults.LOGGER.error("Arming the hyperboss fight failed!", e);
+                return;
+            }
             data.setResult(InteractionResult.SUCCESS);
         });
 
@@ -312,16 +323,21 @@ public class HyperVaultObjective extends Objective {
                 return;
             }
             data.setResult(InteractionResult.SUCCESS);
-            vault.ifPresent(Vault.STATS, stats -> stats.get(listener.getId()).set(StatCollector.COMPLETION, Completion.COMPLETED));
-            // The completion crate (CHILDREN) only awards from its own tick paths, which this
-            // objective otherwise never runs; one child tick with COMPLETION set does the award.
-            HyperVaultObjective.super.tickListener(world, vault, runner);
-            broadcast(vault, data.getPlayer().getDisplayName().getString() + " escaped the HYPER Vault!", ChatFormatting.AQUA);
-            if (vault.get(Vault.LISTENERS).getAll().size() <= 1) {
-                // Last player out: the vault is about to tear down.
-                purgeHostileEntities(world);
+            try {
+                vault.ifPresent(Vault.STATS, stats -> stats.get(listener.getId()).set(StatCollector.COMPLETION, Completion.COMPLETED));
+                // The completion crate (CHILDREN) only awards from its own tick paths, which this
+                // objective otherwise never runs; one child tick with COMPLETION set does the award.
+                HyperVaultObjective.super.tickListener(world, vault, runner);
+                broadcast(vault, data.getPlayer().getDisplayName().getString() + " escaped the HYPER Vault!", ChatFormatting.AQUA);
+                if (vault.get(Vault.LISTENERS).getAll().size() <= 1) {
+                    // Last player out: the vault is about to tear down.
+                    purgeHostileEntities(world);
+                }
+                vault.get(Vault.LISTENERS).remove(world, vault, runner);
+            } catch (Exception e) {
+                // See the podium handler: the VH event bus would swallow this silently.
+                WoldsVaults.LOGGER.error("Hyper exit-pillar completion failed!", e);
             }
-            vault.get(Vault.LISTENERS).remove(world, vault, runner);
         });
 
         // Track the hyperboss entity so health gates can be evaluated without touching

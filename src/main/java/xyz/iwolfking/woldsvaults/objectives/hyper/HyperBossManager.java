@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.objectives.hyper;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.entity.BossRunePillarTileEntity;
+import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.util.WeightedList;
@@ -18,6 +19,9 @@ import iskallia.vault.entity.boss.BossRuneModifiers;
 import iskallia.vault.world.data.WorldZonesData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -33,7 +37,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarConfigAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
@@ -97,6 +100,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     public void armAndStartFight(BlockPos pillarPos) {
         RuneBossFights fights = objective.get(HyperVaultObjective.FIGHTS);
         if (fights.hasFightAt(pillarPos)) {
+            WoldsVaults.LOGGER.warn("Podium at {} already has a scheduled/active fight; not re-arming.", pillarPos);
             return;
         }
         BlockEntity be = world.getBlockEntity(pillarPos);
@@ -296,9 +300,17 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
 
     /** A fresh boss from the pillar's palette roster every cycle (repeats allowed). */
     private void rerollBoss(BossRunePillarTileEntity pillar) {
-        BossRunePillarTileEntity.Config config = ((BossRunePillarAccessor) pillar).getConfig();
-        WeightedList<PartialEntity> pool = ((BossRunePillarConfigAccessor) (Object) config).getBossPool();
-        if (pool == null || pool.isEmpty()) {
+        // The roster is read from the tile's own saved NBT (the Config.writeNbt shape: a
+        // "boss" list of PartialEntity tags with a "weight") instead of via an accessor on
+        // the nested private-field Config — one less mixin that can fail to attach.
+        ListTag entries = pillar.saveWithoutMetadata().getCompound("config").getList("boss", Tag.TAG_COMPOUND);
+        WeightedList<PartialEntity> pool = new WeightedList<>();
+        for (int i = 0; i < entries.size(); i++) {
+            CompoundTag entry = entries.getCompound(i);
+            double weight = Adapters.DOUBLE.readNbt(entry.get("weight")).orElse(1.0);
+            Adapters.PARTIAL_ENTITY.readNbt(entry).ifPresent(boss -> pool.add(boss, weight));
+        }
+        if (pool.isEmpty()) {
             WoldsVaults.LOGGER.warn("The boss pillar has no roster to reroll from; keeping {}.",
                     pillar.getBoss() == null ? "nothing" : pillar.getBoss().getId());
             return;
