@@ -35,8 +35,8 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
         });
-        VaultModifierUtils.addModifier(vault, VaultMod.id("locked"), 1);      // no exit portal
-        VaultModifierUtils.addModifier(vault, VaultMod.id("impossible"), 1);  // difficulty lock
+        VaultModifierUtils.addModifier(vault, VaultMod.id("locked"), 1);   // no exit portal
+        VaultModifierUtils.addModifier(vault, VaultMod.id("fragged"), 1);  // difficulty lock (highest tier)
         VaultModifierUtils.addModifier(vault, xyz.iwolfking.woldsvaults.WoldsVaults.id("hyper"), 1);
         addSigilStacks(vault, sigil);
     }

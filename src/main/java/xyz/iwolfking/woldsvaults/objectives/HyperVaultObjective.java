@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.objectives;
 
 import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.VaultBarrelBlock;
@@ -19,12 +20,15 @@ import iskallia.vault.core.data.key.registry.FieldRegistry;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.BlockUseEvent;
 import iskallia.vault.core.util.RegionPos;
+import iskallia.vault.core.vault.Modifiers;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.WorldManager;
+import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.BingoObjective;
-import iskallia.vault.core.vault.objective.ChaosObjective;
+import iskallia.vault.core.vault.objective.ElixirObjective;
 import iskallia.vault.core.vault.objective.Objective;
+import iskallia.vault.core.vault.objective.ObeliskObjective;
 import iskallia.vault.core.vault.objective.ScavengerBingoObjective;
 import iskallia.vault.core.vault.objective.elixir.ChestElixirTask;
 import iskallia.vault.core.vault.objective.elixir.CoinStacksElixirTask;
@@ -32,12 +36,12 @@ import iskallia.vault.core.vault.objective.elixir.ElixirTask;
 import iskallia.vault.core.vault.objective.elixir.MobElixirTask;
 import iskallia.vault.core.vault.objective.elixir.OreElixirTask;
 import iskallia.vault.core.vault.objective.rune.RuneBossFights;
+import iskallia.vault.core.vault.overlay.VaultOverlay;
 import iskallia.vault.core.vault.player.Completion;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Listeners;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.vault.stat.StatCollector;
-import iskallia.vault.core.vault.stat.VaultChestType;
 import iskallia.vault.core.world.generator.layout.ClassicInfiniteLayout;
 import iskallia.vault.core.world.generator.layout.VaultLayout;
 import iskallia.vault.core.world.storage.VirtualWorld;
@@ -45,11 +49,15 @@ import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.entity.entity.EternalEntity;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.init.ModKeybinds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -59,10 +67,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
+import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCycleManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperEscalationManager;
@@ -81,7 +90,6 @@ public class HyperVaultObjective extends Objective {
     public static final float SPEED_PER_STACK = 0.20F;
     public static final int CHAOS_PER_KILL = 25;
     public static final int CHAOS_CAP = 175;
-    public static final int MINIS_PER_CYCLE = 2;
     public static final int WAVE_PERIOD_TICKS = 20 * 20;
     public static final float[] HEALTH_GATES = {0.8F, 0.6F, 0.4F, 0.2F};
     public static final int WAVE_MOB_MIN = 2;
@@ -94,8 +102,6 @@ public class HyperVaultObjective extends Objective {
     public static final double BOSS_DAMAGE_PERCENT = 10.0;
     // Haste is in rune "haste points" (vanilla rune roll is 0-3), not percent. Tune in testing.
     public static final int BOSS_ABILITY_HASTE = 6;
-    public static final int TREASURE_DOOR_TARGET = 6;
-    public static final int CHEST_TARGET_EACH = 30;
     public static final int OBELISK_MIN = 2;
     public static final int OBELISK_MAX = 4;
     public static final float BRUTAL_OBELISK_PROBABILITY = 0.6F;
@@ -107,9 +113,9 @@ public class HyperVaultObjective extends Objective {
         ROLLING, MINIS, ARMED, FIGHT, REWARD
     }
 
-    /** Mini-objective pool. BRUTAL is forced every cycle; two of the others are rolled. */
+    /** Mini-objective set. Every batch is ELIXIR + one of BINGO/SCAVENGER + the forced BRUTAL. */
     public enum HyperMini {
-        BINGO, SCAVENGER, ELIXIR, CHAOS, TREASURE_DOORS, CHEST_COLLECT, BRUTAL
+        BINGO, SCAVENGER, ELIXIR, BRUTAL
     }
 
     public static final SupplierKey<Objective> KEY = SupplierKey.of("hyper", Objective.class).with(Version.v1_31, HyperVaultObjective::new);
@@ -133,15 +139,16 @@ public class HyperVaultObjective extends Objective {
     public static final FieldKey<Integer> ELIXIR_PROGRESS = FieldKey.of("elixir_progress", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Integer> ELIXIR_TARGET = FieldKey.of("elixir_target", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<ElixirTask.List> ELIXIR_TASKS = FieldKey.of("elixir_tasks", ElixirTask.List.class).with(Version.v1_31, CompoundAdapter.of(ElixirTask.List::new), DISK.all()).register(FIELDS);
-    public static final FieldKey<Integer> CHESTS_WOODEN = FieldKey.of("chests_wooden", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
-    public static final FieldKey<Integer> CHESTS_GILDED = FieldKey.of("chests_gilded", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
-    public static final FieldKey<Integer> CHESTS_ORNATE = FieldKey.of("chests_ornate", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
-    public static final FieldKey<Integer> CHESTS_LIVING = FieldKey.of("chests_living", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
-    public static final FieldKey<Integer> TREASURE_DOORS = FieldKey.of("treasure_doors", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Integer> WAVE_TICK = FieldKey.of("wave_tick", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> AMBIENT_TICK = FieldKey.of("ambient_tick", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> GATE_MASK = FieldKey.of("gate_mask", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<UUID> BOSS_ID = FieldKey.of("boss_id", UUID.class).with(Version.v1_31, Adapters.UUID, DISK.all()).register(FIELDS);
+    // Settable ("+X%") vault-modifier values live only in shared registry instances that reset on
+    // every config reload, so a mid-vault relog silently zeroes them. Snapshot on first init,
+    // re-apply on every later init. {modifier id -> value}
+    public static final FieldKey<CompoundTag> SETTABLE_VALUES = FieldKey.of("settable_values", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all()).register(FIELDS);
+
+    private static final int PILLAR_PIN_PERIOD_TICKS = 100;
 
     // Managers are pure behavior, rebuilt in initServer; every durable value lives in a FieldKey.
     private HyperCycleManager cycleManager;
@@ -159,11 +166,6 @@ public class HyperVaultObjective extends Objective {
         this.set(ELIXIR_PROGRESS, 0);
         this.set(ELIXIR_TARGET, 0);
         this.set(ELIXIR_TASKS, new ElixirTask.List());
-        this.set(CHESTS_WOODEN, 0);
-        this.set(CHESTS_GILDED, 0);
-        this.set(CHESTS_ORNATE, 0);
-        this.set(CHESTS_LIVING, 0);
-        this.set(TREASURE_DOORS, 0);
         this.set(WAVE_TICK, 0);
         this.set(AMBIENT_TICK, AMBIENT_PERIOD_TICKS);
         this.set(GATE_MASK, 0);
@@ -221,6 +223,8 @@ public class HyperVaultObjective extends Objective {
                     + "The map-application guard should have stripped it; the vault will be trivialized.");
         }
 
+        restoreOrSnapshotSettableValues(vault);
+
         // Boss room adjacent to spawn, exactly like RuneBossObjective but never in random rooms.
         CommonEvents.LAYOUT_TEMPLATE_GENERATION.register(this, data -> {
             if (data.getVault() != vault || data.getPieceType() != VaultLayout.PieceType.ROOM) {
@@ -239,9 +243,11 @@ public class HyperVaultObjective extends Objective {
         });
 
         // Pillar shows no rune requirement; arming is the shift-click below, never rune items.
+        // Also our earliest sight of the pillar — remember where it is for waves/exit/pinning.
         CommonEvents.RUNE_BOSS_GENERATE_RUNES.register(this, data -> {
-            if (data.getLevel() == world && data.getTile() instanceof BossRunePillarTileEntity) {
+            if (data.getLevel() == world && data.getTile() instanceof BossRunePillarTileEntity pillar) {
                 data.setResult(0);
+                this.set(PILLAR_POS, pillar.getBlockPos());
             }
         });
 
@@ -292,23 +298,20 @@ public class HyperVaultObjective extends Objective {
             }
         });
 
-        // One handler feeds both the chest-collect counters and the shared elixir bar.
+        // The shared elixir bar fills from the same four sources the elixir tasks use.
         CommonEvents.CHEST_LOOT_GENERATION.post().register(this, data -> {
-            if (data.getPlayer().level != world) {
+            if (data.getPlayer().level != world || !elixirActive()) {
                 return;
             }
             Block block = data.getState().getBlock();
             if (!(block instanceof VaultChestBlock chest) || block instanceof VaultBarrelBlock) {
                 return;
             }
-            countChest(chest.getType());
-            if (elixirActive()) {
-                forEachElixirTask(ChestElixirTask.class, task -> {
-                    if (task.get(ChestElixirTask.TYPE) == chest.getType()) {
-                        addElixir(vault, task.getOr(ElixirTask.ELIXIR, 0));
-                    }
-                });
-            }
+            forEachElixirTask(ChestElixirTask.class, task -> {
+                if (task.get(ChestElixirTask.TYPE) == chest.getType()) {
+                    addElixir(vault, task.getOr(ElixirTask.ELIXIR, 0));
+                }
+            });
         });
         CommonEvents.ENTITY_DROPS.register(this, event -> {
             if (event.getEntityLiving().level != world || !elixirActive()) {
@@ -342,11 +345,6 @@ public class HyperVaultObjective extends Objective {
             }
             forEachElixirTask(CoinStacksElixirTask.class, task -> addElixir(vault, task.getOr(ElixirTask.ELIXIR, 0)));
         });
-        CommonEvents.TREASURE_ROOM_OPEN.register(this, data -> {
-            if (data.getLevel() == world && isMiniInBatch(HyperMini.TREASURE_DOORS)) {
-                this.modify(TREASURE_DOORS, doors -> doors + 1);
-            }
-        });
 
         this.get(FIGHTS).onAttach(world, vault);
         this.get(MINIS).forEach(mini -> mini.initServer(world, vault));
@@ -360,6 +358,9 @@ public class HyperVaultObjective extends Objective {
         this.cycleManager.tick();
         this.bossManager.tick();
         this.escalationManager.tick();
+        if (world.getGameTime() % PILLAR_PIN_PERIOD_TICKS == 0L) {
+            pinPillarRuneDisplay(world);
+        }
         // Deliberately no super.tickServer(): CHILDREN (the crate) must never tick as a successor;
         // it awards through its own LISTENER_LEAVE hook when a player exits with COMPLETED stats.
     }
@@ -398,6 +399,61 @@ public class HyperVaultObjective extends Objective {
         return true;
     }
 
+    /**
+     * First init: capture every settable modifier's live value (the crystal that configured this
+     * vault was deserialized moments ago, so the shared instances are correct right now).
+     * Later inits (relogs, restarts): push the captured values back into the shared instances,
+     * which config reloads reset to 0.
+     */
+    private void restoreOrSnapshotSettableValues(Vault vault) {
+        if (!this.has(SETTABLE_VALUES)) {
+            snapshotSettableValues(vault);
+            return;
+        }
+        CompoundTag saved = this.get(SETTABLE_VALUES);
+        int restored = 0;
+        for (Modifiers.Entry entry : vault.get(Vault.MODIFIERS).getEntries()) {
+            VaultModifier<?> modifier = entry.getModifier().orElse(null);
+            if (modifier instanceof SettableValueVaultModifier<?> settable) {
+                String id = modifier.getId().toString();
+                if (saved.contains(id)) {
+                    settable.properties().setValue(saved.getFloat(id));
+                    restored++;
+                }
+            }
+        }
+        if (restored > 0) {
+            WoldsVaults.LOGGER.info("Restored {} settable vault-modifier value(s) on Hyper vault load.", restored);
+        }
+    }
+
+    /** Re-run after anything changes a settable value (e.g. the crate-quantity escalation). */
+    public void snapshotSettableValues(Vault vault) {
+        CompoundTag tag = new CompoundTag();
+        for (Modifiers.Entry entry : vault.get(Vault.MODIFIERS).getEntries()) {
+            VaultModifier<?> modifier = entry.getModifier().orElse(null);
+            if (modifier instanceof SettableValueVaultModifier<?> settable) {
+                tag.putFloat(modifier.getId().toString(), settable.properties().getValue());
+            }
+        }
+        this.set(SETTABLE_VALUES, tag);
+    }
+
+    /**
+     * The pillar re-derives its displayed rune requirement in ways we cannot intercept after
+     * chunk reloads (it has no setter and a 3-rune fallback), so it is periodically pinned to 0.
+     */
+    private void pinPillarRuneDisplay(VirtualWorld world) {
+        BlockPos pos = this.getOr(PILLAR_POS, null);
+        if (pos == null || !world.isLoaded(pos)) {
+            return;
+        }
+        if (world.getBlockEntity(pos) instanceof BossRunePillarTileEntity pillar && pillar.getRuneMinimum() != 0) {
+            ((BossRunePillarAccessor) pillar).setRuneMinimum(0);
+            pillar.sendUpdates();
+        }
+    }
+
     public boolean isMiniInBatch(HyperMini mini) {
         return (this.getOr(BATCH_MASK, 0) & (1 << mini.ordinal())) != 0;
     }
@@ -430,98 +486,11 @@ public class HyperVaultObjective extends Objective {
         }
     }
 
-    private void countChest(VaultChestType type) {
-        if (!isMiniInBatch(HyperMini.CHEST_COLLECT)) {
-            return;
-        }
-        switch (type) {
-            case WOODEN -> this.modify(CHESTS_WOODEN, count -> count + 1);
-            case GILDED -> this.modify(CHESTS_GILDED, count -> count + 1);
-            case ORNATE -> this.modify(CHESTS_ORNATE, count -> count + 1);
-            case LIVING -> this.modify(CHESTS_LIVING, count -> count + 1);
-            default -> {
-            }
-        }
-    }
-
     public static void broadcast(Vault vault, String message, ChatFormatting color) {
         for (Listener listener : ((Listeners) vault.get(Vault.LISTENERS)).getAll()) {
             listener.getPlayer().ifPresent(player ->
                     player.displayClientMessage(new TextComponent(message).withStyle(color), false));
         }
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
-        Font font = Minecraft.getInstance().font;
-        Phase phase = this.getOr(PHASE, Phase.ROLLING);
-        int cycle = this.getOr(CYCLE, 0);
-        float y = 0.0F;
-
-        drawCentered(font, matrixStack, new TextComponent("HYPER ×" + cycle).withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD), y);
-        y += 11.0F;
-
-        switch (phase) {
-            case ROLLING -> drawCentered(font, matrixStack, new TextComponent("Rolling objectives...").withStyle(ChatFormatting.GRAY), y);
-            case MINIS -> y = renderMinis(vault, matrixStack, window, partialTicks, player, font, y);
-            case ARMED -> drawCentered(font, matrixStack, new TextComponent("Shift-click the boss podium!").withStyle(ChatFormatting.RED), y);
-            case FIGHT -> drawCentered(font, matrixStack, new TextComponent("Slay the Hyperboss!").withStyle(ChatFormatting.DARK_RED, ChatFormatting.BOLD), y);
-            case REWARD -> drawCentered(font, matrixStack, new TextComponent("Exit pillar: " + (this.getOr(EXIT_TICKS, 0) / 20) + "s").withStyle(ChatFormatting.AQUA), y);
-        }
-        return true;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private float renderMinis(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player, Font font, float y) {
-        for (HyperMini mini : HyperMini.values()) {
-            if (!isMiniInBatch(mini)) {
-                continue;
-            }
-            Component line = switch (mini) {
-                case ELIXIR -> progressLine("Elixir", this.getOr(ELIXIR_PROGRESS, 0), this.getOr(ELIXIR_TARGET, 0));
-                case TREASURE_DOORS -> progressLine("Treasure Doors", this.getOr(TREASURE_DOORS, 0), TREASURE_DOOR_TARGET);
-                case CHEST_COLLECT -> new TextComponent("Chests  W " + this.getOr(CHESTS_WOODEN, 0)
-                        + "  G " + this.getOr(CHESTS_GILDED, 0)
-                        + "  O " + this.getOr(CHESTS_ORNATE, 0)
-                        + "  L " + this.getOr(CHESTS_LIVING, 0)
-                        + "  (each /" + CHEST_TARGET_EACH + ")").withStyle(ChatFormatting.YELLOW);
-                case BINGO -> statusLine("Bingo line", findMini(BingoObjective.class).map(b -> b.getBingos() > 0).orElse(false));
-                case SCAVENGER -> statusLine("Collector line", findMini(ScavengerBingoObjective.class).map(s -> s.getCompletedBingos() > 0).orElse(false));
-                case CHAOS -> statusLine("Chaos objectives", findMini(ChaosObjective.class).map(ChaosObjective::isCompleted).orElse(false));
-                case BRUTAL -> statusLine("Brutal pillars", findMini(BrutalBossesObjective.class).map(BrutalBossesObjective::isCompleted).orElse(false));
-            };
-            drawCentered(font, matrixStack, line, y);
-            y += 10.0F;
-        }
-        // Card minis draw their own HUD below our text block.
-        float cardOffset = y + 6.0F;
-        for (Objective mini : this.get(MINIS)) {
-            if (mini instanceof BingoObjective || mini instanceof ScavengerBingoObjective) {
-                matrixStack.pushPose();
-                matrixStack.translate(0.0F, cardOffset, 0.0F);
-                mini.render(vault, matrixStack, window, partialTicks, player);
-                matrixStack.popPose();
-                cardOffset += 60.0F;
-            }
-        }
-        return y;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static Component progressLine(String name, int current, int target) {
-        ChatFormatting color = current >= target ? ChatFormatting.GREEN : ChatFormatting.YELLOW;
-        return new TextComponent(name + ": " + current + "/" + target).withStyle(color);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static Component statusLine(String name, boolean done) {
-        return new TextComponent(name + (done ? " ✔" : " ✘")).withStyle(done ? ChatFormatting.GREEN : ChatFormatting.YELLOW);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static void drawCentered(Font font, PoseStack matrixStack, Component text, float y) {
-        font.drawShadow(matrixStack, text, -font.width(text) / 2.0F, y, 0xFFFFFF);
     }
 
     public <T extends Objective> Optional<T> findMini(Class<T> type) {
@@ -531,5 +500,110 @@ public class HyperVaultObjective extends Objective {
             }
         }
         return Optional.empty();
+    }
+
+    // --- HUD ---------------------------------------------------------------------------------
+    // Incoming pose: x = the objective module's horizontal center, y = its top. One compact
+    // horizontal row (elixir bar + obelisk icons); the bingo/collector card only renders while
+    // the mod's own "open bingo" key is held.
+
+    private static final float HUD_TOP_MARGIN = 8.0F;
+    private static final float HUD_SCALE = 0.75F;
+    private static final float ELIXIR_CENTER_X = -120.0F;
+    private static final float OBELISK_CENTER_X = 90.0F;
+    private static final float CARD_TOP_OFFSET = 46.0F;
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
+        Font font = Minecraft.getInstance().font;
+        switch (this.getOr(PHASE, Phase.ROLLING)) {
+            case MINIS -> renderMinisRow(vault, matrixStack, window, partialTicks, player, font);
+            case ARMED -> drawCentered(font, matrixStack, new TextComponent("Shift-click the boss podium!").withStyle(ChatFormatting.RED), HUD_TOP_MARGIN);
+            case REWARD -> drawCentered(font, matrixStack, new TextComponent("Exit pillar: " + (this.getOr(EXIT_TICKS, 0) / 20) + "s").withStyle(ChatFormatting.AQUA), HUD_TOP_MARGIN);
+            case ROLLING, FIGHT -> {
+            }
+        }
+        return true;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void renderMinisRow(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player, Font font) {
+        matrixStack.pushPose();
+        matrixStack.translate(0.0F, HUD_TOP_MARGIN, 0.0F);
+        matrixStack.scale(HUD_SCALE, HUD_SCALE, 1.0F);
+        renderElixirBar(matrixStack, font);
+        renderObeliskRow(matrixStack, font);
+        matrixStack.popPose();
+
+        // Held key = show the card, exactly like the mod's expanded-bingo affordance.
+        if (Minecraft.getInstance().screen == null && ModKeybinds.openBingo.isDown()) {
+            for (Objective mini : this.get(MINIS)) {
+                if (mini instanceof BingoObjective || mini instanceof ScavengerBingoObjective) {
+                    matrixStack.pushPose();
+                    matrixStack.translate(0.0F, CARD_TOP_OFFSET, 0.0F);
+                    mini.render(vault, matrixStack, window, partialTicks, player);
+                    matrixStack.popPose();
+                    break;
+                }
+            }
+        }
+    }
+
+    /** Replica of ElixirObjective's bar (its render only works with per-player goal maps). */
+    @OnlyIn(Dist.CLIENT)
+    private void renderElixirBar(PoseStack matrixStack, Font font) {
+        if (!isMiniInBatch(HyperMini.ELIXIR)) {
+            return;
+        }
+        int current = this.getOr(ELIXIR_PROGRESS, 0);
+        int target = Math.max(1, this.getOr(ELIXIR_TARGET, 1));
+        float progress = Math.min(1.0F, (float) current / (float) target);
+
+        matrixStack.pushPose();
+        matrixStack.translate(ELIXIR_CENTER_X - 100.0F, 0.0F, 0.0F);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        int previousTexture = RenderSystem.getShaderTexture(0);
+        RenderSystem.setShaderTexture(0, ElixirObjective.HUD);
+        GuiComponent.blit(matrixStack, 0, 0, 0.0F, 0.0F, 200, 26, 200, 50);
+        GuiComponent.blit(matrixStack, 0, 8, 0.0F, 28.0F, 15 + (int) (130.0F * progress), 10, 200, 50);
+        RenderSystem.setShaderTexture(0, previousTexture);
+        Component text = new TextComponent(current + "/" + target).withStyle(current >= target ? ChatFormatting.GREEN : ChatFormatting.WHITE);
+        font.drawShadow(matrixStack, text, 100.0F - font.width(text) / 2.0F, 28.0F, 0xFFFFFF);
+        matrixStack.popPose();
+    }
+
+    /** Replica of ObeliskObjective's wave icons (its render hard-anchors to the screen center). */
+    @OnlyIn(Dist.CLIENT)
+    private void renderObeliskRow(PoseStack matrixStack, Font font) {
+        Optional<BrutalBossesObjective> brutal = findMini(BrutalBossesObjective.class);
+        if (brutal.isEmpty()) {
+            return;
+        }
+        ObeliskObjective.Wave[] waves = brutal.get().get(ObeliskObjective.WAVES);
+        int slotWidth = 22;
+        int gapWidth = 7;
+        int totalWidth = waves.length * slotWidth + (waves.length - 1) * gapWidth;
+        float x = OBELISK_CENTER_X - totalWidth / 2.0F;
+
+        for (ObeliskObjective.Wave wave : waves) {
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            int previousTexture = RenderSystem.getShaderTexture(0);
+            RenderSystem.setShaderTexture(0, VaultOverlay.VAULT_HUD);
+            GuiComponent.blit(matrixStack, (int) x + 5, 0, wave.isActive() ? 77.0F : 64.0F, 84.0F, 12, 22, 256, 256);
+            RenderSystem.setShaderTexture(0, previousTexture);
+
+            TextComponent count = new TextComponent(wave.get(ObeliskObjective.Wave.COUNT) + "/" + wave.get(ObeliskObjective.Wave.TARGET));
+            ChatFormatting color = wave.isCompleted() ? ChatFormatting.GREEN : (wave.isActive() ? ChatFormatting.RED : ChatFormatting.GRAY);
+            font.drawShadow(matrixStack, count.withStyle(color), x + slotWidth / 2.0F - font.width(count) / 2.0F, 24.0F, 0xFFFFFF);
+            x += slotWidth + gapWidth;
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void drawCentered(Font font, PoseStack matrixStack, Component text, float y) {
+        font.drawShadow(matrixStack, text, -font.width(text) / 2.0F, y, 0xFFFFFF);
     }
 }

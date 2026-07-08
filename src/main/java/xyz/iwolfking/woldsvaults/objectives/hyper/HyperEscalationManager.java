@@ -47,6 +47,10 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0) + 1;
         objective.set(HyperVaultObjective.CYCLE, cycle);
 
+        // One more HYPER stack in the modifier list; the icon count is the vault's kill tally
+        // (+1 for the marker stack the crystal attaches on entry).
+        VaultModifierUtils.addModifier(vault, WoldsVaults.id("hyper"), 1);
+
         // Crate tiers: +1 super tier per kill, plus (cycle-1) regular tiers (+100% crate qty each).
         VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), 1);
         int regularTiers = cycle - 1;
@@ -54,6 +58,9 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
             VaultModifierUtils.incrementModifierValueOfType(vault, CrateItemQuantityModifierSettable.class,
                     VaultMod.id("map_crate_quantity"), 100.0F * regularTiers);
         }
+        // The settable value above lives in a shared registry instance; refresh the objective's
+        // persisted snapshot so a relog restores it (see HyperVaultObjective.SETTABLE_VALUES).
+        objective.snapshotSettableValues(vault);
 
         dumpChaosModifiers();
         spawnExitPillar();

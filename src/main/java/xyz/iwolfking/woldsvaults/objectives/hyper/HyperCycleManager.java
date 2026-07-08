@@ -4,7 +4,6 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.BingoObjective;
-import iskallia.vault.core.vault.objective.ChaosObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.objective.ScavengerBingoObjective;
 import iskallia.vault.core.vault.objective.elixir.ElixirTask;
@@ -19,19 +18,14 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.HyperMini;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 /**
- * Rolls each cycle's mini-objective batch and flips the phase to ARMED once every
- * batch entry reports complete. Two random minis + the forced brutal pillars per cycle.
+ * Rolls each cycle's mini-objective batch and flips the phase to ARMED once every batch entry
+ * reports complete. A batch is always the shared elixir bar, one card (bingo or collector,
+ * coin-flipped), and the forced brutal pillars.
  */
 public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
-    private static final List<HyperMini> ROLLABLE = Arrays.stream(HyperMini.values())
-            .filter(mini -> mini != HyperMini.BRUTAL).toList();
-
     public HyperCycleManager(Vault vault, VirtualWorld world, HyperVaultObjective objective) {
         super(vault, world, objective);
     }
@@ -52,27 +46,18 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         // placeholders keep converting); they are only torn down here, at the next roll.
         objective.get(HyperVaultObjective.MINIS).forEach(Objective::releaseServer);
         objective.get(HyperVaultObjective.MINIS).clear();
-        objective.set(HyperVaultObjective.TREASURE_DOORS, 0);
-        objective.set(HyperVaultObjective.CHESTS_WOODEN, 0);
-        objective.set(HyperVaultObjective.CHESTS_GILDED, 0);
-        objective.set(HyperVaultObjective.CHESTS_ORNATE, 0);
-        objective.set(HyperVaultObjective.CHESTS_LIVING, 0);
         objective.set(HyperVaultObjective.ELIXIR_PROGRESS, 0);
 
         JavaRandom random = JavaRandom.ofNanoTime();
-        List<HyperMini> pool = new ArrayList<>(ROLLABLE);
-        int mask = 1 << HyperMini.BRUTAL.ordinal();
-        StringBuilder names = new StringBuilder("Brutal Pillars");
-        for (int i = 0; i < HyperVaultObjective.MINIS_PER_CYCLE && !pool.isEmpty(); i++) {
-            HyperMini rolled = pool.remove(random.nextInt(pool.size()));
-            mask |= 1 << rolled.ordinal();
-            names.append(", ").append(displayName(rolled));
-            initMini(rolled, random);
-        }
+        HyperMini card = random.nextBoolean() ? HyperMini.BINGO : HyperMini.SCAVENGER;
+        int mask = (1 << HyperMini.ELIXIR.ordinal()) | (1 << card.ordinal()) | (1 << HyperMini.BRUTAL.ordinal());
         objective.set(HyperVaultObjective.BATCH_MASK, mask);
+
+        initMini(HyperMini.ELIXIR, random);
+        initMini(card, random);
         initMini(HyperMini.BRUTAL, random);
         objective.set(HyperVaultObjective.PHASE, Phase.MINIS);
-        HyperVaultObjective.broadcast(vault, "New objectives: " + names, ChatFormatting.GOLD);
+        HyperVaultObjective.broadcast(vault, "New objectives: Elixir, " + displayName(card) + ", Brutal Pillars", ChatFormatting.GOLD);
     }
 
     private void initMini(HyperMini mini, JavaRandom random) {
@@ -90,16 +75,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
                 }
             }
             case SCAVENGER -> addMini(ScavengerBingoObjective.of(4, 4, 0.0F, VaultMod.id("default"), false));
-            case CHAOS -> {
-                // Sub-objective count comes from the chaos config's default pool (pack-tunable).
-                ModConfigs.CHAOS.generate(VaultMod.id("default"), level).ifPresentOrElse(
-                        task -> addMini(ChaosObjective.of(task)),
-                        () -> WoldsVaults.LOGGER.error("Default chaos pool is empty — the chaos mini will report complete immediately."));
-            }
             case ELIXIR -> ensureElixirGoal();
-            case TREASURE_DOORS, CHEST_COLLECT -> {
-                // Counter-based minis live directly on the orchestrator's fields.
-            }
             case BRUTAL -> {
                 int obelisks = HyperVaultObjective.OBELISK_MIN
                         + random.nextInt(HyperVaultObjective.OBELISK_MAX - HyperVaultObjective.OBELISK_MIN + 1);
@@ -148,14 +124,8 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         return switch (mini) {
             case BINGO -> completeOrMissing(BingoObjective.class, bingo -> bingo.getBingos() > 0);
             case SCAVENGER -> completeOrMissing(ScavengerBingoObjective.class, scav -> scav.getCompletedBingos() > 0);
-            case CHAOS -> completeOrMissing(ChaosObjective.class, ChaosObjective::isCompleted);
             case BRUTAL -> completeOrMissing(BrutalBossesObjective.class, BrutalBossesObjective::isCompleted);
             case ELIXIR -> objective.getOr(HyperVaultObjective.ELIXIR_PROGRESS, 0) >= objective.getOr(HyperVaultObjective.ELIXIR_TARGET, Integer.MAX_VALUE);
-            case TREASURE_DOORS -> objective.getOr(HyperVaultObjective.TREASURE_DOORS, 0) >= HyperVaultObjective.TREASURE_DOOR_TARGET;
-            case CHEST_COLLECT -> objective.getOr(HyperVaultObjective.CHESTS_WOODEN, 0) >= HyperVaultObjective.CHEST_TARGET_EACH
-                    && objective.getOr(HyperVaultObjective.CHESTS_GILDED, 0) >= HyperVaultObjective.CHEST_TARGET_EACH
-                    && objective.getOr(HyperVaultObjective.CHESTS_ORNATE, 0) >= HyperVaultObjective.CHEST_TARGET_EACH
-                    && objective.getOr(HyperVaultObjective.CHESTS_LIVING, 0) >= HyperVaultObjective.CHEST_TARGET_EACH;
         };
     }
 
@@ -173,9 +143,6 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
             case BINGO -> "Bingo";
             case SCAVENGER -> "Collector";
             case ELIXIR -> "Elixir";
-            case CHAOS -> "Chaos";
-            case TREASURE_DOORS -> "Treasure Doors";
-            case CHEST_COLLECT -> "Chest Collection";
             case BRUTAL -> "Brutal Pillars";
         };
     }

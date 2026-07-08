@@ -52,7 +52,8 @@ public class BrutalBossesObjective extends ObeliskObjective {
 
     public static final SupplierKey<Objective> E_KEY = (SupplierKey)SupplierKey.of("brutal_bosses", Objective.class).with(Version.v1_12, BrutalBossesObjective::new);
     public static final FieldRegistry FIELDS = ObeliskObjective.FIELDS.merge(new FieldRegistry());
-    // When set (Hyper vaults), boss kills draw from the negative pool below instead of the bb_* pools.
+    // Hyper-vault mode: boss kills draw from the negative pool below instead of the bb_* pools,
+    // and obelisks skip the listener-priority gate (the objective never joins listener HUD lists).
     public static final FieldKey<Boolean> NEGATIVE_POOL_ONLY = FieldKey.of("negative_pool_only", Boolean.class).with(Version.v1_12, Adapters.BOOLEAN, DISK.all()).register(FIELDS);
     private static final ResourceLocation NEGATIVE_POOL = VaultMod.id("random_negative");
 
@@ -121,7 +122,8 @@ public class BrutalBossesObjective extends ObeliskObjective {
                     data.setResult(InteractionResult.SUCCESS);
                 } else if (data.getState().getValue(ObeliskBlock.HALF) == DoubleBlockHalf.UPPER && world.getBlockState(pos = pos.below()).getBlock() != ModBlocks.OBELISK) {
                     data.setResult(InteractionResult.SUCCESS);
-                } else if ((vault.get(Vault.LISTENERS)).getObjectivePriority(data.getPlayer().getUUID(), this) != 0) {
+                } else if (!this.getOr(NEGATIVE_POOL_ONLY, false)
+                        && (vault.get(Vault.LISTENERS)).getObjectivePriority(data.getPlayer().getUUID(), this) != 0) {
                     data.setResult(InteractionResult.SUCCESS);
                 } else {
                     world.setBlock(pos, (BlockState)world.getBlockState(pos).setValue(ObeliskBlock.FILLED, true), 3);
