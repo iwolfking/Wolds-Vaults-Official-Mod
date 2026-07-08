@@ -66,6 +66,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
@@ -109,10 +110,12 @@ public class HyperVaultObjective extends Objective {
     public static final int OBELISK_MAX = 4;
     public static final float BRUTAL_OBELISK_PROBABILITY = 0.6F;
     public static final float ELIXIR_TARGET_MULTIPLIER = 0.5F;
-    // Hyper's chaos pools (pack config; concealed-chaos copies minus ethereal/cooldown modifiers).
-    // hyper_mixed rolls 25 per pull for the dumps; hyper_all_bad rolls 1 for brutal-boss kills.
+    // Hyper's chaos pools (pack config; concealed-chaos / negative-event copies minus the banned
+    // modifiers). hyper_mixed rolls 25 per pull for the dumps; hyper_all_bad rolls 1 for
+    // brutal-boss kills; hyper_bad_timer_events rolls 1 for the 2-minute ambient ticks.
     public static final ResourceLocation CHAOS_POOL_MIXED = WoldsVaults.id("hyper_mixed");
     public static final ResourceLocation CHAOS_POOL_ALL_BAD = WoldsVaults.id("hyper_all_bad");
+    public static final ResourceLocation CHAOS_POOL_TIMER_EVENTS = WoldsVaults.id("hyper_bad_timer_events");
     public static final ResourceLocation BINGO_POOL = WoldsVaults.id("hyper");
 
     public enum Phase {
@@ -149,6 +152,10 @@ public class HyperVaultObjective extends Objective {
     public static final FieldKey<Integer> AMBIENT_TICK = FieldKey.of("ambient_tick", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> GATE_MASK = FieldKey.of("gate_mask", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<UUID> BOSS_ID = FieldKey.of("boss_id", UUID.class).with(Version.v1_31, Adapters.UUID, DISK.all()).register(FIELDS);
+    // The pillar tile's saved state: the fight consumes the pillar block when the boss summons,
+    // so each reward phase re-places it from this snapshot for the next cycle's arming.
+    public static final FieldKey<CompoundTag> PILLAR_NBT = FieldKey.of("pillar_nbt", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all()).register(FIELDS);
+    public static final FieldKey<Integer> SCORE = FieldKey.of("score", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all())).register(FIELDS);
     // Settable ("+X%") vault-modifier values live only in shared registry instances that reset on
     // every config reload, so a mid-vault relog silently zeroes them. Snapshot on first init,
     // re-apply on every later init. {modifier id -> value}
@@ -310,6 +317,10 @@ public class HyperVaultObjective extends Objective {
             if (event.getEntity().level == world && event.getEntity() instanceof VaultBossEntity boss
                     && this.getOr(PHASE, Phase.ROLLING) == Phase.FIGHT) {
                 this.set(BOSS_ID, boss.getUUID());
+                // Vault score, from the boss's armed stats (traits apply before the spawn event).
+                double damage = boss.getAttribute(Attributes.ATTACK_DAMAGE) == null
+                        ? 0.0 : boss.getAttributeValue(Attributes.ATTACK_DAMAGE);
+                this.set(SCORE, (int) Math.round((boss.getMaxHealth() + damage * 100.0) / 1000.0));
             }
         });
 
@@ -536,7 +547,10 @@ public class HyperVaultObjective extends Objective {
             case MINIS -> renderMinisRow(vault, matrixStack, window, partialTicks, player, font);
             case ARMED -> drawCentered(font, matrixStack, new TextComponent("Shift-click the boss podium!").withStyle(ChatFormatting.RED), HUD_TOP_MARGIN);
             case FIGHT -> renderBossBar(matrixStack, window, partialTicks);
-            case REWARD -> drawCentered(font, matrixStack, new TextComponent("Exit pillar: " + (this.getOr(EXIT_TICKS, 0) / 20) + "s").withStyle(ChatFormatting.AQUA), HUD_TOP_MARGIN);
+            case REWARD -> {
+                drawCentered(font, matrixStack, new TextComponent("Exit pillar: " + (this.getOr(EXIT_TICKS, 0) / 20) + "s").withStyle(ChatFormatting.AQUA), HUD_TOP_MARGIN);
+                drawCentered(font, matrixStack, new TextComponent("Vault Score: " + this.getOr(SCORE, 0)).withStyle(ChatFormatting.GOLD), HUD_TOP_MARGIN + 11.0F);
+            }
             case ROLLING -> {
             }
         }

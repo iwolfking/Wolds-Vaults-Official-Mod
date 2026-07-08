@@ -63,4 +63,7 @@ public interface ScavengerBingoObjectiveAccessor {
 
     @Invoker
     void callShuffleIncompleteTiles(ScavengerBingoObjective.BoolList settledTiles);
+
+    @Invoker
+    void callRegenerateIncompleteTiles(Vault vault, ScavengerBingoObjective.BoolList settledTiles);
 }

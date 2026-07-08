@@ -70,10 +70,16 @@ public abstract class MixinRunner extends Listener {
                 generator.generate(ChunkRandom.ofNanoTime());
 
                 Iterator<ItemStack> rewardIterator = generator.getItems();
+                long greedyCrateTiers = VaultModifierUtils.getCountOfModifiers(vault, WoldsVaults.id("greedy_crate_tier"));
                 while (rewardIterator.hasNext()) {
                     ItemStack reward = rewardIterator.next();
                     if(reward.getItem().equals(ModItems.GREED_COIN)) {
-                        reward.setCount(reward.getCount() + (greedTier - 1));
+                        int count = reward.getCount() + (greedTier - 1);
+                        if(greedyCrateTiers > 0) {
+                            // Greedy Crate Tier: +50% greed coins per stack (hyperboss kills).
+                            count = Math.round(count * (1.0F + 0.5F * greedyCrateTiers));
+                        }
+                        reward.setCount(count);
                     }
                     ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
                 }

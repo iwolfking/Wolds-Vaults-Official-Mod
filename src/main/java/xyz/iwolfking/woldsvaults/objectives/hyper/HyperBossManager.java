@@ -86,6 +86,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return;
         }
         objective.set(HyperVaultObjective.PILLAR_POS, pillarPos);
+        // The fight removes the pillar block when the boss summons; snapshot the tile so the
+        // escalation manager can re-place it (config, boss list and zone id intact) next cycle.
+        objective.set(HyperVaultObjective.PILLAR_NBT, pillar.saveWithoutMetadata());
 
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
         double escalationFactor = Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle);

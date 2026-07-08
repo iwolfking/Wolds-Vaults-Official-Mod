@@ -15,6 +15,7 @@ import iskallia.vault.task.BingoTask;
 import iskallia.vault.task.source.EntityTaskSource;
 import net.minecraft.ChatFormatting;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ScavengerBingoObjectiveAccessor;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.HyperMini;
@@ -94,6 +95,12 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         seedCurrentRunners(mini);
         objective.get(HyperVaultObjective.MINIS).add(mini);
         mini.initServer(world, vault);
+        if (mini instanceof ScavengerBingoObjective scav) {
+            // Tile generation is seeded purely by the vault seed, so a repeat Collector cycle
+            // would get the identical card; this regenerates with a time-mixed seed.
+            ((ScavengerBingoObjectiveAccessor) (Object) scav)
+                    .callRegenerateIncompleteTiles(vault, scav.get(ScavengerBingoObjective.SETTLED_TILES));
+        }
     }
 
     /**
@@ -106,7 +113,10 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         Collection<Runner> runners = vault.get(Vault.LISTENERS).getAll(Runner.class);
         if (mini instanceof BingoObjective bingo) {
             UUID[] ids = runners.stream().map(Listener::getId).toArray(UUID[]::new);
-            bingo.set(BingoObjective.TASK_SOURCE, EntityTaskSource.ofUuids(JavaRandom.ofInternal(vault.get(Vault.SEED)), ids));
+            // The task source's random populates the card, so mixing the cycle in keeps repeat
+            // Bingo cycles distinct while staying deterministic across a reload.
+            long seed = vault.get(Vault.SEED) ^ (0x9E3779B97F4A7C15L * (objective.getOr(HyperVaultObjective.CYCLE, 0) + 1));
+            bingo.set(BingoObjective.TASK_SOURCE, EntityTaskSource.ofUuids(JavaRandom.ofInternal(seed), ids));
             bingo.set(BingoObjective.JOINED, runners.size());
         } else if (mini instanceof ScavengerBingoObjective scav) {
             scav.set(ScavengerBingoObjective.JOINED, runners.size());
@@ -114,18 +124,20 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
     }
 
     /**
-     * The shared elixir bar: task set and target are rolled once per vault from the vault seed
-     * (identical after a restart, identical for every player) and reused for later elixir cycles.
+     * The shared elixir bar. The task set and base target derive from the vault seed (identical
+     * after a restart, identical for every player); the target then grows +50% of the base per
+     * completed cycle.
      */
     private void ensureElixirGoal() {
-        if (objective.getOr(HyperVaultObjective.ELIXIR_TARGET, 0) > 0) {
-            return;
-        }
         JavaRandom seeded = JavaRandom.ofInternal(vault.get(Vault.SEED));
         int baseTarget = ModConfigs.ELIXIR.generateTarget(level, seeded);
-        int target = Math.max(1, Math.round(baseTarget * HyperVaultObjective.ELIXIR_TARGET_MULTIPLIER));
-        objective.set(HyperVaultObjective.ELIXIR_TARGET, target);
+        int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
+        float scale = HyperVaultObjective.ELIXIR_TARGET_MULTIPLIER * (1.0F + 0.5F * cycle);
+        objective.set(HyperVaultObjective.ELIXIR_TARGET, Math.max(1, Math.round(baseTarget * scale)));
         ElixirTask.List tasks = objective.get(HyperVaultObjective.ELIXIR_TASKS);
+        if (!tasks.isEmpty()) {
+            return;
+        }
         for (ElixirTask task : ModConfigs.ELIXIR.generateGoals(level, seeded)) {
             tasks.add(task);
         }

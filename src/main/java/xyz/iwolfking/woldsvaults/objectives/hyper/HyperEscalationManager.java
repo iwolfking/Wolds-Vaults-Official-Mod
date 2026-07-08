@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.objectives.hyper;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.ObeliskBlock;
+import iskallia.vault.block.entity.BossRunePillarTileEntity;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
@@ -17,18 +18,15 @@ import iskallia.vault.init.ModConfigs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
-import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.CrateItemQuantityModifierSettable;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
-import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 
 import java.util.List;
@@ -62,6 +60,8 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         // One more HYPER stack in the modifier list; the icon count is the vault's kill tally
         // (+1 for the marker stack the crystal attaches on entry).
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("hyper"), 1);
+        // +50% greed coins in the completion crate per stack (applied in MixinRunner's injection).
+        VaultModifierUtils.addModifier(vault, WoldsVaults.id("greedy_crate_tier"), 1);
 
         // Crate tiers: +1 super tier per kill, plus (cycle-1) regular tiers (+100% crate qty each).
         VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), 1);
@@ -77,10 +77,12 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         dumpChaosModifiers();
         restartDoorAnimation();
         spawnExitPillar();
+        respawnBossPillar();
 
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
-        String crateTiers = "+1 super crate tier" + (regularTiers > 0 ? ", +" + regularTiers + " crate tier" + (regularTiers > 1 ? "s" : "") : "");
+        String crateTiers = "+1 super crate tier, +1 greedy crate tier"
+                + (regularTiers > 0 ? ", +" + regularTiers + " crate tier" + (regularTiers > 1 ? "s" : "") : "");
         HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger! (" + crateTiers + ")", ChatFormatting.GOLD);
     }
 
@@ -159,7 +161,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
     }
 
-    /** Every 2 minutes, each runner eats one negative enchanted-elixir event (counts vs the chaos cap). */
+    /** Every 2 minutes, one negative modifier per runner from the curated timer pool (vs the cap). */
     private void tickAmbientEvents() {
         int remaining = objective.getOr(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.AMBIENT_PERIOD_TICKS) - 1;
         if (remaining > 0) {
@@ -168,19 +170,45 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
         objective.set(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.AMBIENT_PERIOD_TICKS);
         for (Listener listener : vault.get(Vault.LISTENERS).getAll()) {
-            if (!(listener instanceof Runner)) {
-                continue;
-            }
-            ServerPlayer player = listener.getPlayer().orElse(null);
-            if (player == null) {
+            if (!(listener instanceof Runner) || listener.getPlayer().isEmpty()) {
                 continue;
             }
             if (HyperVaultObjective.consumeChaosBudget(vault, 1) <= 0) {
                 return;
             }
-            EnchantedEventsRegistry.getEventsWithTags(List.of(EventTag.NEGATIVE)).getRandom().ifPresentOrElse(
-                    event -> event.triggerEvent(player::getOnPos, player, vault, true, VaultEvent.EventDisplayType.LEGACY),
-                    () -> WoldsVaults.LOGGER.error("No NEGATIVE enchanted-elixir events registered — ambient Hyper events cannot fire."));
+            List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS, level, JavaRandom.ofNanoTime());
+            if (modifiers.isEmpty()) {
+                WoldsVaults.LOGGER.error("Ambient pool {} is missing/empty — ambient Hyper modifiers cannot fire.", HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS);
+                return;
+            }
+            for (VaultModifier<?> modifier : modifiers) {
+                vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
+                announceModifier(modifier);
+            }
+        }
+    }
+
+    /**
+     * The fight consumed the pillar block when the boss summoned; put it back from the snapshot
+     * taken at arm time so the next cycle has a podium again.
+     */
+    private void respawnBossPillar() {
+        BlockPos pos = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
+        CompoundTag saved = objective.getOr(HyperVaultObjective.PILLAR_NBT, null);
+        if (pos == null || saved == null) {
+            WoldsVaults.LOGGER.error("No pillar snapshot recorded — the boss podium cannot respawn this cycle!");
+            return;
+        }
+        if (world.getBlockState(pos).getBlock() == ModBlocks.RUNE_PILLAR) {
+            return;
+        }
+        IZonedWorld.runWithBypass(world, true, () ->
+                world.setBlock(pos, ModBlocks.RUNE_PILLAR.defaultBlockState(), 3));
+        if (world.getBlockEntity(pos) instanceof BossRunePillarTileEntity pillar) {
+            pillar.load(saved);
+            pillar.sendUpdates();
+        } else {
+            WoldsVaults.LOGGER.error("Re-placed boss pillar at {} has no tile entity — arming next cycle will fail.", pos);
         }
     }
 
