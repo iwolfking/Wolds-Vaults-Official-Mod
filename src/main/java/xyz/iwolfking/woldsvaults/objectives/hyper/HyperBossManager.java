@@ -9,9 +9,17 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.entity.boss.BossRuneModifiers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.AABB;
+import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
@@ -25,7 +33,40 @@ import java.util.UUID;
  * health-gated brutal waves, and hands a finished fight over to the escalation manager.
  */
 public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
+    // Arena adds: hostile picks from the config's the_vault:tank / the_vault:assassin entity
+    // groups (the groups config only exposes match-predicates, so the spawnable subset is
+    // curated here, same as BrutalBossesRegistry does for its bosses).
+    private static final ResourceLocation[] TANK_ADDS = {
+            new ResourceLocation("the_vault", "shiver"),
+            new ResourceLocation("the_vault", "deathcap"),
+            new ResourceLocation("the_vault", "blood_tank"),
+            new ResourceLocation("the_vault", "overgrown_tank"),
+            new ResourceLocation("the_vault", "pirate_guardian_tank"),
+            new ResourceLocation("the_vault", "craftenstein"),
+            new ResourceLocation("the_vault", "yeti"),
+            new ResourceLocation("the_vault", "deep_dark_horror"),
+            new ResourceLocation("minecraft", "piglin_brute"),
+            new ResourceLocation("woldsvaults", "haturkin"),
+    };
+    private static final ResourceLocation[] ASSASSIN_ADDS = {
+            new ResourceLocation("the_vault", "vault_spider"),
+            new ResourceLocation("the_vault", "t3_skeleton"),
+            new ResourceLocation("the_vault", "t3_stray"),
+            new ResourceLocation("the_vault", "t3_wither_skeleton"),
+            new ResourceLocation("the_vault", "t3_creeper"),
+            new ResourceLocation("the_vault", "t3_enderman"),
+            new ResourceLocation("the_vault", "blood_slime"),
+            new ResourceLocation("the_vault", "vault_wraith_white"),
+            new ResourceLocation("the_vault", "vault_wraith_yellow"),
+            new ResourceLocation("the_vault", "grimwick"),
+            new ResourceLocation("the_vault", "winter_wolf"),
+            new ResourceLocation("woldsvaults", "black_ghost"),
+            new ResourceLocation("woldsvaults", "blue_ghost"),
+    };
+
     private final HyperEscalationManager escalation;
+    // Transient on purpose: a reload mid-fight just restarts the short add countdown.
+    private int addTimer = HyperVaultObjective.FIGHT_ADD_PERIOD_TICKS;
 
     public HyperBossManager(Vault vault, VirtualWorld world, HyperVaultObjective objective, HyperEscalationManager escalation) {
         super(vault, world, objective);
@@ -62,6 +103,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         fights.add(pillar.createFight());
         objective.set(HyperVaultObjective.PHASE, Phase.FIGHT);
         objective.set(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.WAVE_PERIOD_TICKS);
+        this.addTimer = HyperVaultObjective.FIGHT_ADD_PERIOD_TICKS;
         // BOSS_ID intentionally keeps its previous value until the new boss spawns: gate checks
         // resolve a dead entity to null and skip, and ENTITY_SPAWN overwrites it on summon.
         objective.set(HyperVaultObjective.GATE_MASK, 0);
@@ -83,6 +125,51 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
 
         tickWaveTimer();
         tickHealthGates();
+        tickFightAdds();
+    }
+
+    /** A lone tank or assassin joins the arena every few seconds while the boss lives. */
+    private void tickFightAdds() {
+        if (--this.addTimer > 0) {
+            return;
+        }
+        this.addTimer = HyperVaultObjective.FIGHT_ADD_PERIOD_TICKS;
+        BlockPos center = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
+        if (center == null) {
+            return;
+        }
+        RandomSource random = JavaRandom.ofNanoTime();
+        ResourceLocation[] pool = random.nextBoolean() ? TANK_ADDS : ASSASSIN_ADDS;
+        ResourceLocation id = pool[random.nextInt(pool.length)];
+        EntityType<?> type = ForgeRegistries.ENTITIES.getValue(id);
+        Entity created = type == null ? null : type.create(world);
+        if (!(created instanceof Mob mob)) {
+            WoldsVaults.LOGGER.error("Fight-add entity {} is missing or not a mob — skipping this add.", id);
+            return;
+        }
+        double min = 6.0;
+        double max = 12.0;
+        for (int attempt = 0; attempt < 50; attempt++) {
+            double angle = Math.PI * 2 * random.nextDouble();
+            double distance = Math.sqrt(random.nextDouble() * (max * max - min * min) + min * min);
+            int x = center.getX() + (int) Math.ceil(distance * Math.cos(angle));
+            int z = center.getZ() + (int) Math.ceil(distance * Math.sin(angle));
+            int y = center.getY() + random.nextInt(5) - 2;
+            BlockPos ground = new BlockPos(x, y - 1, z);
+            if (!world.getBlockState(ground).isValidSpawn(world, ground, mob.getType())) {
+                continue;
+            }
+            AABB box = mob.getType().getAABB(x + 0.5, y, z + 0.5);
+            if (!world.noCollision(box)) {
+                continue;
+            }
+            mob.moveTo(x + 0.5, y + 0.2, z + 0.5, (float) (random.nextDouble() * 2.0 * Math.PI), 0.0F);
+            mob.finalizeSpawn(world, new DifficultyInstance(Difficulty.PEACEFUL, 13000L, 0L, 0.0F), MobSpawnType.STRUCTURE, null, null);
+            mob.setPersistenceRequired();
+            world.addWithUUID(mob);
+            return;
+        }
+        mob.discard();
     }
 
     private void tickWaveTimer() {

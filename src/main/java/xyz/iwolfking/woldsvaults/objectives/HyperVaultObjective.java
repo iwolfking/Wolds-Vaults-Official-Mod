@@ -35,6 +35,7 @@ import iskallia.vault.core.vault.objective.elixir.CoinStacksElixirTask;
 import iskallia.vault.core.vault.objective.elixir.ElixirTask;
 import iskallia.vault.core.vault.objective.elixir.MobElixirTask;
 import iskallia.vault.core.vault.objective.elixir.OreElixirTask;
+import iskallia.vault.core.vault.objective.rune.RuneBossFight;
 import iskallia.vault.core.vault.objective.rune.RuneBossFights;
 import iskallia.vault.core.vault.overlay.VaultOverlay;
 import iskallia.vault.core.vault.player.Completion;
@@ -76,6 +77,7 @@ import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCycleManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperEscalationManager;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -95,6 +97,7 @@ public class HyperVaultObjective extends Objective {
     public static final int WAVE_MOB_MIN = 2;
     public static final int WAVE_MOB_MAX = 4;
     public static final int EXIT_PILLAR_TICKS = 20 * 30;
+    public static final int FIGHT_ADD_PERIOD_TICKS = 20 * 6;
     public static final int AMBIENT_PERIOD_TICKS = 20 * 120;
     public static final int BASE_RUNE_TIER = 3;
     public static final int RUNE_TIER_CAP = 10;
@@ -214,6 +217,12 @@ public class HyperVaultObjective extends Objective {
         this.cycleManager = new HyperCycleManager(vault, world, this);
         this.escalationManager = new HyperEscalationManager(vault, world, this, this.cycleManager);
         this.bossManager = new HyperBossManager(vault, world, this, this.escalationManager);
+
+        // A reload during the reward window would otherwise leave the arena gates frozen shut
+        // (the door animation is transient); replaying the 5s opening is harmless.
+        if (this.getOr(PHASE, Phase.ROLLING) == Phase.REWARD) {
+            this.escalationManager.restartDoorAnimation();
+        }
 
         // Belt-and-braces vs. layer 1 in VaultMapItem.applyCrystalRecipe: Cull would let everything
         // (including the hyperboss) spawn at 1 hp. There is no public modifier-removal API, so if it
@@ -520,8 +529,9 @@ public class HyperVaultObjective extends Objective {
         switch (this.getOr(PHASE, Phase.ROLLING)) {
             case MINIS -> renderMinisRow(vault, matrixStack, window, partialTicks, player, font);
             case ARMED -> drawCentered(font, matrixStack, new TextComponent("Shift-click the boss podium!").withStyle(ChatFormatting.RED), HUD_TOP_MARGIN);
+            case FIGHT -> renderBossBar(matrixStack, window, partialTicks);
             case REWARD -> drawCentered(font, matrixStack, new TextComponent("Exit pillar: " + (this.getOr(EXIT_TICKS, 0) / 20) + "s").withStyle(ChatFormatting.AQUA), HUD_TOP_MARGIN);
-            case ROLLING, FIGHT -> {
+            case ROLLING -> {
             }
         }
         return true;
@@ -600,6 +610,22 @@ public class HyperVaultObjective extends Objective {
             ChatFormatting color = wave.isCompleted() ? ChatFormatting.GREEN : (wave.isActive() ? ChatFormatting.RED : ChatFormatting.GRAY);
             font.drawShadow(matrixStack, count.withStyle(color), x + slotWidth / 2.0F - font.width(count) / 2.0F, 24.0F, 0xFFFFFF);
             x += slotWidth + gapWidth;
+        }
+    }
+
+    /** The rune-boss health bar, drawn by the synced fight itself (health, shield, wave blast). */
+    @OnlyIn(Dist.CLIENT)
+    private void renderBossBar(PoseStack matrixStack, Window window, float partialTicks) {
+        List<RuneBossFight> fights = this.get(FIGHTS).getFights();
+        for (int i = fights.size() - 1; i >= 0; i--) {
+            RuneBossFight fight = fights.get(i);
+            if (!fight.isCompleted()) {
+                matrixStack.pushPose();
+                matrixStack.translate(0.0F, HUD_TOP_MARGIN, 0.0F);
+                fight.render(matrixStack, window, partialTicks);
+                matrixStack.popPose();
+                return;
+            }
         }
     }
 

@@ -6,8 +6,11 @@ import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
+import iskallia.vault.core.vault.objective.rune.RuneBossAnimation;
+import iskallia.vault.core.vault.objective.rune.RuneBossFight;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
+import iskallia.vault.core.world.storage.IZonedWorld;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModConfigs;
@@ -37,10 +40,19 @@ import java.util.List;
  */
 public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective> {
     private final HyperCycleManager cycleManager;
+    // The arena gates. A rune fight freezes its own OPEN_ROOM animation on the first frame once it
+    // completes (invisible in normal rune vaults — the run ends right after), so the reopening is
+    // driven from here instead. Transient: a reload mid-animation just replays the 5s opening.
+    private RuneBossAnimation doorAnimation;
 
     public HyperEscalationManager(Vault vault, VirtualWorld world, HyperVaultObjective objective, HyperCycleManager cycleManager) {
         super(vault, world, objective);
         this.cycleManager = cycleManager;
+    }
+
+    public void restartDoorAnimation() {
+        this.doorAnimation = new RuneBossAnimation();
+        this.doorAnimation.onStart(RuneBossAnimation.State.OPEN_ROOM);
     }
 
     public void onBossKilled() {
@@ -63,6 +75,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         objective.snapshotSettableValues(vault);
 
         dumpChaosModifiers();
+        restartDoorAnimation();
         spawnExitPillar();
 
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
@@ -81,19 +94,33 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
             WoldsVaults.LOGGER.error("Chaos modifier pool {} is missing/empty — no chaos modifiers were added this cycle.", HyperVaultObjective.CHAOS_POOL);
             return;
         }
+        HyperVaultObjective.broadcast(vault, "Chaotic modifiers surge into the Vault!", ChatFormatting.DARK_PURPLE);
         int added = 0;
         for (VaultModifier<?> modifier : modifiers) {
             if (added >= granted) {
                 break;
             }
             vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
+            announceModifier(modifier);
             added++;
         }
-        HyperVaultObjective.broadcast(vault, added + " chaotic modifiers surge into the Vault!", ChatFormatting.DARK_PURPLE);
+    }
+
+    private void announceModifier(VaultModifier<?> modifier) {
+        for (Listener listener : vault.get(Vault.LISTENERS).getAll()) {
+            listener.getPlayer().ifPresent(player ->
+                    player.displayClientMessage(modifier.getChatDisplayNameComponent(1).copy().append(" was added to The Vault!"), false));
+        }
     }
 
     @Override
     public void tick() {
+        tickDoorAnimation();
+        // The opening chaos dump: fires once, on the first tick a player is actually inside
+        // (initServer runs before anyone joins, and the chat lines would be lost).
+        if (objective.getOr(HyperVaultObjective.CHAOS_COUNT, 0) == 0 && !vault.get(Vault.LISTENERS).getAll().isEmpty()) {
+            dumpChaosModifiers();
+        }
         tickAmbientEvents();
         if (objective.getOr(HyperVaultObjective.PHASE, Phase.ROLLING) != Phase.REWARD) {
             return;
@@ -103,6 +130,21 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         if (remaining <= 0) {
             removeExitPillar();
             cycleManager.rollBatch();
+        }
+    }
+
+    private void tickDoorAnimation() {
+        if (this.doorAnimation == null) {
+            return;
+        }
+        BlockPos pillar = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
+        if (pillar == null) {
+            this.doorAnimation = null;
+            return;
+        }
+        this.doorAnimation.onTick(world, pillar, RuneBossFight.RoomStyle.BOSS_1, vault);
+        if (this.doorAnimation.isCompleted()) {
+            this.doorAnimation = null;
         }
     }
 
@@ -170,8 +212,12 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 .setValue(ObeliskBlock.HALF, DoubleBlockHalf.LOWER).setValue(ObeliskBlock.FILLED, false);
         BlockState upper = ModBlocks.OBELISK.defaultBlockState()
                 .setValue(ObeliskBlock.HALF, DoubleBlockHalf.UPPER).setValue(ObeliskBlock.FILLED, false);
-        world.setBlock(pos, lower, 3);
-        world.setBlock(pos.above(), upper, 3);
+        // The boss room sits in a no-modify WorldZone (kept for the whole vault); without the
+        // bypass these setBlock calls are silently rejected and the pillar never appears.
+        IZonedWorld.runWithBypass(world, true, () -> {
+            world.setBlock(pos, lower, 3);
+            world.setBlock(pos.above(), upper, 3);
+        });
     }
 
     private void removeExitPillar() {
@@ -187,7 +233,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
 
     private void removeIfObelisk(BlockPos pos) {
         if (world.getBlockState(pos).getBlock() == ModBlocks.OBELISK) {
-            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            IZonedWorld.runWithBypass(world, true, () -> world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3));
         } else {
             WoldsVaults.LOGGER.warn("Expected the Hyper exit pillar at {} but found {}; leaving it alone.", pos, world.getBlockState(pos));
         }
