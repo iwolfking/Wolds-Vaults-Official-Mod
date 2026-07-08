@@ -9,6 +9,7 @@ import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.core.vault.Modifiers;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.modifier.MobAttributeModifier;
+import iskallia.vault.core.vault.modifier.spi.EntityAttributeModifier;
 import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.rune.RuneBossFights;
@@ -38,6 +39,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
+import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.lib.EntityAttributeModifierSettable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
@@ -86,6 +88,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     // Stable id for the boss's percent damage-escalation modifier (idempotent across reloads).
     private static final UUID HYPER_DAMAGE_UUID =
             UUID.nameUUIDFromBytes("woldsvaults:hyper_damage_escalation".getBytes(StandardCharsets.UTF_8));
+    // The health_attribute trait's baseValue in vault_boss.json (the boss's innate +50%);
+    // part of the reference total the vault health factor multiplies.
+    private static final double INNATE_HEALTH_BONUS = 0.5;
+    private static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.parse("generic.max_health");
 
     private final HyperEscalationManager escalation;
     // Transient on purpose: a reload mid-fight just restarts the short add countdown.
@@ -118,16 +124,23 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         ensureProtectionZone(pillar, pillarPos);
 
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
-        double escalationFactor = Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle);
-        // Health units are fractions of base (0.5 = +50%) landing in the boss's MULTIPLY_BASE
-        // health trait; trait stacks SUM, so the per-cycle ×1.75 compounding is folded in here.
-        // Damage escalation deliberately stays out: the boss's damage trait applies amounts as
-        // FLAT damage (operator "add" in vault_boss.json), so the percent escalation is added
-        // as a real attribute modifier in applyBossStats — together with the vault's mob
-        // modifiers, which the modifier-immune boss never received on spawn.
-        BossRuneModifiers armed = new BossRuneModifiers(
-                HyperVaultObjective.BOSS_HEALTH_PERCENT * escalationFactor,
-                0.0,
+        double escalation = HyperVaultObjective.BOSS_HEALTH_PERCENT
+                * Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle);
+        // The boss's health is one giant MULTIPLY_BASE trait term, so applying the vault's mob
+        // health modifiers as attribute modifiers dilutes them to noise (+100% of base next to
+        // the +5000%·1.75^cycle escalation is +2%). Instead the vault's health factor —
+        // computed exactly as it stacks on a normal mob — multiplies the whole escalated total
+        // here, before the traits (and the boss's frozen raw health) are built at summon.
+        // Damage stays out of the trait (its operator is flat "add"): the percent escalation
+        // and the vault's non-health mob modifiers are applied in applyBossStats instead.
+        double healthFactor = vaultHealthFactor();
+        double healthPercent = (1.0 + INNATE_HEALTH_BONUS + escalation) * healthFactor
+                - 1.0 - INNATE_HEALTH_BONUS;
+        if (healthFactor > 1.0) {
+            WoldsVaults.LOGGER.info("Hyperboss health inherits the vault's mob modifiers: x{}.",
+                    Math.round(healthFactor * 100.0) / 100.0);
+        }
+        BossRuneModifiers armed = new BossRuneModifiers(healthPercent, 0.0,
                 HyperVaultObjective.BOSS_ABILITY_HASTE);
         pillar.getModifiers().copyFrom(armed);
         // Rune count keys the shield/waveblast/revive settings table; capped so an absurd cycle
@@ -331,7 +344,6 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      * compound on the boss the same way they compound on the brutals.
      */
     private void applyBossStats(LivingEntity boss) {
-        double traitHealth = boss.getMaxHealth();
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
         double damageEscalation = HyperVaultObjective.BOSS_DAMAGE_PERCENT
                 * Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle);
@@ -345,19 +357,65 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         for (Modifiers.Entry entry : vaultModifiers.getEntries()) {
             VaultModifier<?> modifier = entry.getModifier().orElse(null);
             ModifierContext context = vaultModifiers.getContext(entry);
-            if (modifier instanceof MobAttributeModifier mob) {
+            // Max-health modifiers are folded into the health trait at arm time; the rest
+            // (damage, speed, ...) act through real attribute modifiers here.
+            if (modifier instanceof MobAttributeModifier mob
+                    && !targetsMaxHealth(mob.properties().getType())) {
                 mob.applyToEntity(boss, context.getUUID(), context);
                 applied++;
-            } else if (modifier instanceof MobAttributeModifierSettable settable) {
+            } else if (modifier instanceof MobAttributeModifierSettable settable
+                    && !targetsMaxHealth(settable.properties().getType())) {
                 settable.applyToEntity(boss, context.getUUID(), context);
                 applied++;
             }
         }
         boss.setHealth(boss.getMaxHealth());
         WoldsVaults.LOGGER.info(
-                "Hyperboss stats: {} HP ({} from traits before vault modifiers), {} damage — {} vault mob modifiers applied like a normal mob.",
-                Math.round(boss.getMaxHealth()), Math.round(traitHealth),
+                "Hyperboss stats: {} HP (vault health factor folded at arm), {} damage — {} non-health vault mob modifiers applied.",
+                Math.round(boss.getMaxHealth()),
                 damage == null ? "?" : Math.round(damage.getValue()), applied);
+    }
+
+    // The addon's settable modifiers carry their own ModifierType enum with the same shape as
+    // VH's, hence the overload pair.
+    private static boolean targetsMaxHealth(EntityAttributeModifier.ModifierType type) {
+        return type != null && type.getAttributeResourceLocations().contains(MAX_HEALTH_ID);
+    }
+
+    private static boolean targetsMaxHealth(EntityAttributeModifierSettable.ModifierType type) {
+        return type != null && type.getAttributeResourceLocations().contains(MAX_HEALTH_ID);
+    }
+
+    /**
+     * How much bigger a normal mob's max health gets from the vault's modifiers:
+     * (1 + sum of additive percents) x (product of 1 + each multiplicative percent).
+     */
+    private double vaultHealthFactor() {
+        double additive = 0.0;
+        double multiplicative = 1.0;
+        for (Modifiers.Entry entry : vault.get(Vault.MODIFIERS).getEntries()) {
+            VaultModifier<?> modifier = entry.getModifier().orElse(null);
+            AttributeModifier.Operation operation;
+            double amount;
+            if (modifier instanceof MobAttributeModifier mob
+                    && targetsMaxHealth(mob.properties().getType())) {
+                operation = mob.properties().getType().getAttributeModifierOperation();
+                amount = mob.properties().getAmount();
+            } else if (modifier instanceof MobAttributeModifierSettable settable
+                    && targetsMaxHealth(settable.properties().getType())) {
+                operation = settable.properties().getType().getAttributeModifierOperation();
+                amount = settable.properties().getValue();
+            } else {
+                continue;
+            }
+            if (operation == AttributeModifier.Operation.MULTIPLY_TOTAL) {
+                multiplicative *= 1.0 + amount;
+            } else if (operation == AttributeModifier.Operation.MULTIPLY_BASE) {
+                additive += amount;
+            }
+            // plain ADDITION (flat half-hearts) is meaningless at boss scale; ignored
+        }
+        return (1.0 + additive) * multiplicative;
     }
 
     /** Mirrors ObeliskObjective.doSpawn's annulus placement, but with a bounded attempt count. */

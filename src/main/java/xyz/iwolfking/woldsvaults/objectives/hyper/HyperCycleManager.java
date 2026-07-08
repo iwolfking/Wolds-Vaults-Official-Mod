@@ -125,14 +125,14 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
 
     /**
      * The shared elixir bar. The task set and base target derive from the vault seed (identical
-     * after a restart, identical for every player); the target then grows +50% of the base per
-     * completed cycle.
+     * after a restart, identical for every player); the target starts at 75% of a normal
+     * vault's requirement and grows +25% of that base per completed cycle.
      */
     private void ensureElixirGoal() {
         JavaRandom seeded = JavaRandom.ofInternal(vault.get(Vault.SEED));
         int baseTarget = ModConfigs.ELIXIR.generateTarget(level, seeded);
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
-        float scale = HyperVaultObjective.ELIXIR_TARGET_MULTIPLIER * (1.0F + 0.5F * cycle);
+        float scale = HyperVaultObjective.ELIXIR_TARGET_MULTIPLIER + HyperVaultObjective.ELIXIR_TARGET_INCREMENT * cycle;
         objective.set(HyperVaultObjective.ELIXIR_TARGET, Math.max(1, Math.round(baseTarget * scale)));
         ElixirTask.List tasks = objective.get(HyperVaultObjective.ELIXIR_TASKS);
         if (!tasks.isEmpty()) {

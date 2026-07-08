@@ -111,7 +111,10 @@ public class HyperVaultObjective extends Objective {
     public static final int OBELISK_MIN = 2;
     public static final int OBELISK_MAX = 4;
     public static final float BRUTAL_OBELISK_PROBABILITY = 0.6F;
-    public static final float ELIXIR_TARGET_MULTIPLIER = 0.5F;
+    // Elixir target = base × (MULTIPLIER + INCREMENT × cycle): 75% of a normal vault's
+    // requirement at cycle 0, +25% of that normal base per completed cycle.
+    public static final float ELIXIR_TARGET_MULTIPLIER = 0.75F;
+    public static final float ELIXIR_TARGET_INCREMENT = 0.25F;
     // Entity tag on everything the boss fight spawns (adds + waves) so the per-kill cleanup
     // can find and discard the leftover escort.
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
