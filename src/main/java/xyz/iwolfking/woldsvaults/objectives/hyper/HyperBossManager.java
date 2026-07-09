@@ -96,6 +96,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     // part of the reference total the vault health factor multiplies.
     private static final double INNATE_HEALTH_BONUS = 0.5;
     private static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.parse("generic.max_health");
+    // Score reference stats (boogeyman's level-100 bases). The score applies the killed boss's
+    // TOTAL/BASE multipliers — pure cycle + modifier scaling, identical for every roster boss —
+    // to these fixed bases, so rolling a black widow after a golem can't score lower.
+    private static final double REFERENCE_BOSS_HEALTH = 388_000.0;
+    private static final double REFERENCE_BOSS_DAMAGE = 1_460.0;
     // The four arena gates of the BOSS_1 room style, relative to the pillar (RuneBossAnimation).
     private static final BlockPos[] GATE_OFFSETS = {
             new BlockPos(23, 4, 0), new BlockPos(-23, 4, 0),
@@ -351,12 +356,20 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         }
         if (objective.getOr(HyperVaultObjective.SCORE, 0) == 0) {
             // First live sighting (traits are applied by now): give the boss its damage
-            // escalation plus the vault's mob modifiers, then score the finished stats.
+            // escalation plus the vault's mob modifiers, then score the finished stats,
+            // normalized to the boogeyman reference (see REFERENCE_BOSS_HEALTH).
             applyBossStats(boss);
-            double damage = boss.getAttribute(Attributes.ATTACK_DAMAGE) == null
-                    ? 0.0 : boss.getAttributeValue(Attributes.ATTACK_DAMAGE);
+            AttributeInstance health = boss.getAttribute(Attributes.MAX_HEALTH);
+            AttributeInstance damage = boss.getAttribute(Attributes.ATTACK_DAMAGE);
+            double healthMultiplier = health == null || health.getBaseValue() <= 0.0
+                    ? 1.0 : boss.getMaxHealth() / health.getBaseValue();
+            double damageMultiplier = damage == null || damage.getBaseValue() <= 0.0
+                    ? 0.0 : damage.getValue() / damage.getBaseValue();
+            long score = Math.round((healthMultiplier * REFERENCE_BOSS_HEALTH
+                    + damageMultiplier * 100.0 * REFERENCE_BOSS_DAMAGE) / 1000.0);
+            // Clamped: deep-cycle scores overflow int (the previous cast wrapped negative).
             objective.set(HyperVaultObjective.SCORE,
-                    Math.max(1, (int) Math.round((boss.getMaxHealth() + damage * 100.0) / 1000.0)));
+                    (int) Math.max(1L, Math.min(Integer.MAX_VALUE, score)));
         }
         float fraction = boss.getHealth() / boss.getMaxHealth();
         int mask = objective.getOr(HyperVaultObjective.GATE_MASK, 0);

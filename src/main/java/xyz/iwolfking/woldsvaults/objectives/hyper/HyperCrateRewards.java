@@ -13,6 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,6 +87,7 @@ public final class HyperCrateRewards {
             .add(Entry.pack("the_vault:evolution_pack", 10), 5)
             .add(Entry.pack("the_vault:shiny_pack", 2), 5)
             .add(Entry.of("the_vault:unique_shard", 10), 20)
+            .add(Entry.of("woldsvaults:greedy_ticket", 1), 5)
             .add(Entry.greaterDeckCore("pure"), 2)
             .add(Entry.greaterDeckCore("arcane"), 2)
             .add(Entry.greaterDeckCore("construction"), 2)
@@ -102,7 +104,8 @@ public final class HyperCrateRewards {
             .add(Entry.pack("the_vault:shiny_pack", 5), 10)
             // woldsvaults:crystal_reinforcement displays as "Prismatic Reinforcement".
             .add(Entry.of("woldsvaults:crystal_reinforcement", 1), 2)
-            .add(Entry.greaterDeckCore("archive"), 2);
+            .add(Entry.greaterDeckCore("archive"), 2)
+            .add(Entry.of("woldsvaults:greedy_ticket", 3), 2);
 
     private HyperCrateRewards() {
     }
@@ -110,14 +113,18 @@ public final class HyperCrateRewards {
     /** All injection stacks the vault's tier markers earn — one full pool run per marker stack. */
     public static List<ItemStack> rollForVault(Vault vault, int greedTier, RandomSource random) {
         List<ItemStack> out = new ArrayList<>();
-        roll(RARE, RARE_ROLLS, (int) VaultModifierUtils.getCountOfModifiers(vault, RARE_MODIFIER), greedTier, random, out);
-        roll(EPIC, EPIC_ROLLS, (int) VaultModifierUtils.getCountOfModifiers(vault, EPIC_MODIFIER), greedTier, random, out);
-        roll(OMEGA, OMEGA_ROLLS, (int) VaultModifierUtils.getCountOfModifiers(vault, OMEGA_MODIFIER), greedTier, random, out);
+        // Stacks earned by kills scoring SCORE_EXTRA_DRAW+ roll one extra draw each.
+        int epicPlus = HyperVaultObjective.get(vault).map(o -> o.getOr(HyperVaultObjective.EPIC_PLUS, 0)).orElse(0);
+        int omegaPlus = HyperVaultObjective.get(vault).map(o -> o.getOr(HyperVaultObjective.OMEGA_PLUS, 0)).orElse(0);
+        roll(RARE, RARE_ROLLS, (int) VaultModifierUtils.getCountOfModifiers(vault, RARE_MODIFIER), 0, greedTier, random, out);
+        roll(EPIC, EPIC_ROLLS, (int) VaultModifierUtils.getCountOfModifiers(vault, EPIC_MODIFIER), epicPlus, greedTier, random, out);
+        roll(OMEGA, OMEGA_ROLLS, (int) VaultModifierUtils.getCountOfModifiers(vault, OMEGA_MODIFIER), omegaPlus, greedTier, random, out);
         return out;
     }
 
-    private static void roll(WeightedList<Entry> pool, int rolls, int stacks, int greedTier, RandomSource random, List<ItemStack> out) {
+    private static void roll(WeightedList<Entry> pool, int baseRolls, int stacks, int plusStacks, int greedTier, RandomSource random, List<ItemStack> out) {
         for (int stack = 0; stack < stacks; stack++) {
+            int rolls = baseRolls + (stack < plusStacks ? 1 : 0);
             for (int i = 0; i < rolls; i++) {
                 pool.getRandom(random).ifPresent(entry -> {
                     if (entry.randomEtching()) {

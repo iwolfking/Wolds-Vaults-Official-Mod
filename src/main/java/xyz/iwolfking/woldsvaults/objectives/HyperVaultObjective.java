@@ -60,8 +60,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -72,7 +79,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -122,8 +132,13 @@ public class HyperVaultObjective extends Objective {
     public static final int SCORE_RARE = 75_000;
     public static final int SCORE_EPIC = 150_000;
     public static final int SCORE_OMEGA = 500_000;
-    // A kill whose boss scored at least this awards a second super crate tier.
+    // A kill whose boss scored at least this awards a second super crate tier (and a second
+    // greedy crate tier; SCORE_TRIPLE_GREEDY upgrades that to three).
     public static final int SCORE_DOUBLE_SUPER = 1_000_000;
+    public static final int SCORE_TRIPLE_GREEDY = 5_000_000;
+    // Epic/omega tier markers earned by a kill at or above this roll one extra draw per set
+    // (once — higher scores do not add further draws).
+    public static final int SCORE_EXTRA_DRAW = 2_000_000;
     // Total mob movement speed is capped at base × this (+200%): stacked speed modifiers made
     // mobs unhittable past ~cycle 4. Applied one tick after spawn so every modifier's own
     // ENTITY_SPAWN hook has run first, whatever order the modifiers were added in.
@@ -148,11 +163,21 @@ public class HyperVaultObjective extends Objective {
     private static final java.util.Map<ResourceLocation, Integer> STACK_CAPS = java.util.Map.of(
             ResourceLocation.parse("the_vault:electric"), 1,
             ResourceLocation.parse("the_vault:wounded"), 4);
+    private static final ResourceLocation MANA_LEAK = ResourceLocation.parse("the_vault:mana_leak");
+
+    private static int stackCap(Vault vault, ResourceLocation id) {
+        if (MANA_LEAK.equals(id)) {
+            // -2000% mana regen per stack: one is punishment enough early; +1 every 3 cycles.
+            return 1 + getCycleCount(vault) / 3;
+        }
+        return STACK_CAPS.getOrDefault(id, Integer.MAX_VALUE);
+    }
 
     /** True when adding this modifier would exceed its hyper stack cap; logs the skip. */
     public static boolean isStackCapped(Vault vault, VaultModifier<?> modifier) {
-        Integer cap = STACK_CAPS.get(modifier.getId());
-        if (cap == null || xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(vault, modifier.getId()) < cap) {
+        int cap = stackCap(vault, modifier.getId());
+        if (cap == Integer.MAX_VALUE
+                || xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(vault, modifier.getId()) < cap) {
             return false;
         }
         WoldsVaults.LOGGER.info("Skipped rolling another {} — capped at {} stack(s) in Hyper vaults.", modifier.getId(), cap);
@@ -212,6 +237,10 @@ public class HyperVaultObjective extends Objective {
     // Per-player victory countdowns: uuid string -> ticks left until that player alone is
     // completed and extracted (synced so each client can render its own countdown).
     public static final FieldKey<CompoundTag> EXTRACTIONS = FieldKey.of("extractions", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all().or(CLIENT.all())).register(FIELDS);
+    // How many epic/omega tier-marker stacks were earned by kills scoring SCORE_EXTRA_DRAW+;
+    // those stacks roll one extra draw at crate time (see HyperCrateRewards).
+    public static final FieldKey<Integer> EPIC_PLUS = FieldKey.of("epic_plus", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
+    public static final FieldKey<Integer> OMEGA_PLUS = FieldKey.of("omega_plus", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> SCORE = FieldKey.of("score", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Integer> ZONE_ID = FieldKey.of("zone_id", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
     // Settable ("+X%") vault-modifier values live only in shared registry instances that reset on
@@ -392,12 +421,25 @@ public class HyperVaultObjective extends Objective {
                 return; // countdown already running for this player
             }
             data.setResult(InteractionResult.SUCCESS);
-            // The click only STARTS the clicker's personal 15s victory transition (like the
-            // post-boss pause other vaults get); tickExtractions completes them alone at 0.
+            // The click only STARTS the clicker's personal 15s victory transition;
+            // tickExtractions completes them alone at 0. The flourish below (firework,
+            // completion title, action-bar countdown, damage immunity) mirrors
+            // VictoryObjective — the system every other objective hands completion to.
             CompoundTag updated = extractions.copy();
             updated.putInt(key, WIN_TRANSITION_TICKS);
             this.set(EXTRACTIONS, updated);
-            broadcast(vault, data.getPlayer().getDisplayName().getString() + " claimed victory — extracting in "
+            Player player = data.getPlayer();
+            FireworkRocketEntity fireworks = new FireworkRocketEntity(world,
+                    player.getX(), player.getY(), player.getZ(), new ItemStack(Items.FIREWORK_ROCKET));
+            world.addFreshEntity(fireworks);
+            world.playSound(null, player.getX(), player.getY(), player.getZ(),
+                    SoundEvents.FIREWORK_ROCKET_LAUNCH, SoundSource.MASTER, 0.6F, 1.0F);
+            if (player instanceof ServerPlayer serverPlayer) {
+                TextComponent title = new TextComponent("Vault Completed!");
+                title.setStyle(Style.EMPTY.withColor(TextColor.fromRgb(14536734)));
+                serverPlayer.connection.send(new ClientboundSetTitleTextPacket(title));
+            }
+            broadcast(vault, player.getDisplayName().getString() + " claimed victory — extracting in "
                     + (WIN_TRANSITION_TICKS / 20) + " seconds!", ChatFormatting.GREEN);
         });
 
@@ -409,6 +451,15 @@ public class HyperVaultObjective extends Objective {
             if (event.getEntity().level == world && event.getEntity() instanceof VaultBossEntity boss
                     && this.getOr(PHASE, Phase.ROLLING) == Phase.FIGHT) {
                 this.set(BOSS_ID, boss.getUUID());
+            }
+        });
+
+        // Players in their victory transition are damage-immune, exactly like VictoryObjective
+        // grants during its countdown.
+        CommonEvents.ENTITY_DAMAGE.register(this, event -> {
+            if (event.getEntityLiving() instanceof Player player && player.level == world
+                    && this.getOr(EXTRACTIONS, new CompoundTag()).contains(player.getUUID().toString())) {
+                event.setCanceled(true);
             }
         });
 
@@ -504,6 +555,15 @@ public class HyperVaultObjective extends Objective {
             int remaining = updated.getInt(key) - 1;
             if (remaining > 0) {
                 updated.putInt(key, remaining);
+                if (remaining % 20 == 0) {
+                    // The same action-bar countdown VictoryObjective shows (same lang key).
+                    Listener listener = vault.get(Vault.LISTENERS).get(UUID.fromString(key));
+                    if (listener != null) {
+                        listener.getPlayer().ifPresent(player -> player.displayClientMessage(
+                                new TranslatableComponent("message.the_vault.teleporting_back_seconds", remaining / 20)
+                                        .withStyle(ChatFormatting.WHITE), true));
+                    }
+                }
                 continue;
             }
             updated.remove(key);
@@ -742,12 +802,11 @@ public class HyperVaultObjective extends Objective {
     @OnlyIn(Dist.CLIENT)
     public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
         Font font = Minecraft.getInstance().font;
-        // A personal victory countdown replaces the phase HUD for the extracting player only.
+        // Extracting players get the vanilla-style victory feedback (title, fireworks and the
+        // action-bar countdown, all server-driven); only the score line renders here.
         CompoundTag extractions = this.getOr(EXTRACTIONS, null);
         if (extractions != null && extractions.contains(player.getUUID().toString())) {
-            drawCentered(font, matrixStack, new TextComponent("Extracting in "
-                    + (extractions.getInt(player.getUUID().toString()) / 20) + "s!").withStyle(ChatFormatting.GREEN), HUD_TOP_MARGIN);
-            drawCentered(font, matrixStack, new TextComponent("Vault Score: " + this.getOr(SCORE, 0)).withStyle(ChatFormatting.GOLD), HUD_TOP_MARGIN + 11.0F);
+            drawCentered(font, matrixStack, new TextComponent("Vault Score: " + this.getOr(SCORE, 0)).withStyle(ChatFormatting.GOLD), HUD_TOP_MARGIN);
             return true;
         }
         switch (this.getOr(PHASE, Phase.ROLLING)) {

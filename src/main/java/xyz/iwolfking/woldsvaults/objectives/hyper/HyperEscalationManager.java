@@ -65,12 +65,16 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         // One more HYPER stack in the modifier list; the icon count is the vault's kill tally
         // (+1 for the marker stack the crystal attaches on entry).
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("hyper"), 1);
-        // +50% greed coins in the completion crate per stack (applied in MixinRunner's injection).
-        VaultModifierUtils.addModifier(vault, WoldsVaults.id("greedy_crate_tier"), 1);
+        int score = objective.getOr(HyperVaultObjective.SCORE, 0);
+        // +50% greed coins in the completion crate per stack (applied in MixinRunner's
+        // injection); big kills earn extra stacks.
+        int greedyTiers = score >= HyperVaultObjective.SCORE_TRIPLE_GREEDY ? 3
+                : score >= HyperVaultObjective.SCORE_DOUBLE_SUPER ? 2 : 1;
+        VaultModifierUtils.addModifier(vault, WoldsVaults.id("greedy_crate_tier"), greedyTiers);
 
         // Crate tiers: +1 super tier per kill (+2 when the killed boss scored 1M+), plus
         // (cycle-1) regular tiers (+100% crate qty each).
-        int superTiers = objective.getOr(HyperVaultObjective.SCORE, 0) >= HyperVaultObjective.SCORE_DOUBLE_SUPER ? 2 : 1;
+        int superTiers = score >= HyperVaultObjective.SCORE_DOUBLE_SUPER ? 2 : 1;
         VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), superTiers);
         int regularTiers = cycle - 1;
         if (regularTiers > 0) {
@@ -92,7 +96,8 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
 
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
-        String crateTiers = "+" + superTiers + " super crate tier" + (superTiers > 1 ? "s" : "") + ", +1 greedy crate tier"
+        String crateTiers = "+" + superTiers + " super crate tier" + (superTiers > 1 ? "s" : "")
+                + ", +" + greedyTiers + " greedy crate tier" + (greedyTiers > 1 ? "s" : "")
                 + (regularTiers > 0 ? ", +" + regularTiers + " crate tier" + (regularTiers > 1 ? "s" : "") : "");
         HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger! (" + crateTiers + ")", ChatFormatting.GOLD);
     }
@@ -104,6 +109,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
      */
     private void awardScoreTiers() {
         int score = objective.getOr(HyperVaultObjective.SCORE, 0);
+        boolean extraDraw = score >= HyperVaultObjective.SCORE_EXTRA_DRAW;
         StringBuilder earned = new StringBuilder();
         if (score >= HyperVaultObjective.SCORE_RARE) {
             VaultModifierUtils.addModifier(vault, HyperCrateRewards.RARE_MODIFIER, 1);
@@ -112,16 +118,23 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         if (score >= HyperVaultObjective.SCORE_EPIC) {
             VaultModifierUtils.addModifier(vault, HyperCrateRewards.EPIC_MODIFIER, 1);
             earned.append(earned.isEmpty() ? "" : " + ").append("Epic");
+            if (extraDraw) {
+                objective.set(HyperVaultObjective.EPIC_PLUS, objective.getOr(HyperVaultObjective.EPIC_PLUS, 0) + 1);
+            }
         }
         if (score >= HyperVaultObjective.SCORE_OMEGA) {
             VaultModifierUtils.addModifier(vault, HyperCrateRewards.OMEGA_MODIFIER, 1);
             earned.append(earned.isEmpty() ? "" : " + ").append("Omega");
+            if (extraDraw) {
+                objective.set(HyperVaultObjective.OMEGA_PLUS, objective.getOr(HyperVaultObjective.OMEGA_PLUS, 0) + 1);
+            }
         }
         if (earned.isEmpty()) {
             return;
         }
         HyperVaultObjective.broadcast(vault,
-                "Score " + score + " — " + earned + " rewards added to the completion crate!", ChatFormatting.AQUA);
+                "Score " + score + " — " + earned + " rewards added to the completion crate!"
+                        + (extraDraw ? " (empowered: +1 draw)" : ""), ChatFormatting.AQUA);
     }
 
     private void dumpChaosModifiers() {
