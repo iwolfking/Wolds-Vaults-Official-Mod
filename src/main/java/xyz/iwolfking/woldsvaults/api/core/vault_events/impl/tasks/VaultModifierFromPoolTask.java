@@ -39,7 +39,17 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
         if (HYPER_REDIRECTED_POOLS.contains(poolId)
                 && !vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()) {
             WoldsVaults.LOGGER.info("Enchanted event redirected its {} modifier pull to the filtered hyper pool.", poolId);
-            poolId = HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS;
+            // Hyper stack caps (frenzy, mana leak, ...) must hold on this path too; a capped
+            // roll is simply skipped (the event fizzles, matching the other hyper add paths).
+            List<VaultModifier<?>> modifiers = iskallia.vault.init.ModConfigs.VAULT_MODIFIER_POOLS
+                    .getRandom(HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS, 0, JavaRandom.ofNanoTime());
+            for (VaultModifier<?> modifier : modifiers) {
+                if (HyperVaultObjective.isStackCapped(vault, modifier)) {
+                    continue;
+                }
+                VaultModifierUtils.addModifier(vault, modifier.getId(), 1);
+            }
+            return;
         }
         VaultModifierUtils.addModifierFromPool(vault, poolId);
     }

@@ -164,11 +164,18 @@ public class HyperVaultObjective extends Objective {
             ResourceLocation.parse("the_vault:electric"), 1,
             ResourceLocation.parse("the_vault:wounded"), 4);
     private static final ResourceLocation MANA_LEAK = ResourceLocation.parse("the_vault:mana_leak");
+    private static final ResourceLocation FRENZY = ResourceLocation.parse("the_vault:frenzy");
 
     private static int stackCap(Vault vault, ResourceLocation id) {
         if (MANA_LEAK.equals(id)) {
             // -2000% mana regen per stack: one is punishment enough early; +1 every 3 cycles.
             return 1 + getCycleCount(vault) / 3;
+        }
+        if (FRENZY.equals(id)) {
+            // Every stack multiplies ALL player damage x3 (MixinMobFrenzyModifier rework) —
+            // uncapped it outgrows the boss's own x1.75/cycle and ruins the balance.
+            // 1 stack through cycle 4, then +1 every 4 cycles (2 at 5-8, 3 at 9-12, ...).
+            return 1 + Math.max(0, getCycleCount(vault) - 1) / 4;
         }
         return STACK_CAPS.getOrDefault(id, Integer.MAX_VALUE);
     }
