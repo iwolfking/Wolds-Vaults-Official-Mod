@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -26,19 +27,22 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
  * Bleed is denied at application here; Reaving's on-hit proc is neutralized by pre-applying
  * its own once-per-mob latch effect in {@link HyperBossManager}.
  *
- * <p>Also home of the per-hit damage log: every hurt event on a hyperboss logs the raw amount
- * (before any other handler), the final amount (after every handler — reaving/execution-style
- * additions show up as the difference), the damage source, and the attacker's sheet stats.
+ * <p>Also home of the per-hit damage instrumentation: hurt events on a hyperboss are sampled
+ * at every event priority so the log shows which priority band multiplied/added what (the
+ * Frenzy-family rework in MixinMobFrenzyModifier multiplies ALL player damage per stack, and
+ * VH's own gear pipeline runs in these handlers too). A post-armor LivingDamageEvent line
+ * closes the chain.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class HyperBossEffectImmunity {
-    // The raw amount seen at HIGHEST priority, consumed by the LOWEST logger of the same event.
-    // Hurt events resolve synchronously on the vault's tick thread, so a ThreadLocal pair is
-    // enough; the event identity check discards stale values from cancelled events.
-    private record RawHit(LivingHurtEvent event, float amount) {
+    // Amounts sampled at HIGHEST/HIGH/NORMAL/LOW/LOWEST for one hurt event. Hurt events
+    // resolve synchronously on the vault's tick thread; the event identity check discards
+    // stale samples from cancelled events.
+    private record ChainSample(LivingHurtEvent event, float[] amounts) {
     }
 
-    private static final ThreadLocal<RawHit> RAW_HIT = new ThreadLocal<>();
+    private static final ThreadLocal<ChainSample> CHAIN = new ThreadLocal<>();
+    private static final ThreadLocal<Float> DAMAGE_PHASE_START = new ThreadLocal<>();
 
     private HyperBossEffectImmunity() {
     }
@@ -60,22 +64,48 @@ public final class HyperBossEffectImmunity {
         }
     }
 
+    // ---- hurt-event chain: one sample per priority band ---------------------------------
+
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void captureRawBossDamage(LivingHurtEvent event) {
+    public static void sampleHighest(LivingHurtEvent event) {
         if (isHyperBoss(event.getEntityLiving())) {
-            RAW_HIT.set(new RawHit(event, event.getAmount()));
+            float[] amounts = {event.getAmount(), Float.NaN, Float.NaN, Float.NaN, Float.NaN};
+            CHAIN.set(new ChainSample(event, amounts));
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void sampleHigh(LivingHurtEvent event) {
+        sample(event, 1);
+    }
+
+    @SubscribeEvent
+    public static void sampleNormal(LivingHurtEvent event) {
+        sample(event, 2);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void sampleLow(LivingHurtEvent event) {
+        sample(event, 3);
+    }
+
+    private static void sample(LivingHurtEvent event, int index) {
+        ChainSample chain = CHAIN.get();
+        if (chain != null && chain.event() == event) {
+            chain.amounts()[index] = event.getAmount();
         }
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void logBossDamage(LivingHurtEvent event) {
+    public static void logChain(LivingHurtEvent event) {
         LivingEntity boss = event.getEntityLiving();
         if (!isHyperBoss(boss)) {
             return;
         }
-        RawHit raw = RAW_HIT.get();
-        RAW_HIT.remove();
-        String rawAmount = raw != null && raw.event() == event ? String.format("%.1f", raw.amount()) : "?";
+        ChainSample chain = CHAIN.get();
+        CHAIN.remove();
+        float[] a = chain != null && chain.event() == event ? chain.amounts() : null;
+        float finalAmount = event.getAmount();
 
         Entity attacker = event.getSource().getEntity();
         String attackerInfo;
@@ -90,17 +120,44 @@ public final class HyperBossEffectImmunity {
         } else {
             attackerInfo = attacker == null ? "none" : String.valueOf(attacker.getType().getRegistryName());
         }
-        Entity immediate = event.getSource().getDirectEntity();
 
         WoldsVaults.LOGGER.info(
-                "Hyperboss hit: raw {} -> final {} ({}% of max) | source={} immediate={} attacker={} | boss {}/{}",
-                rawAmount,
+                "Hyperboss hurt chain: raw {} | xHIGH {} | xNORMAL {} | xLOW {} | xLOWEST {} -> final {} ({}% of max) | source={} attacker={} | boss {}/{}",
+                a == null ? "?" : String.format("%.1f", a[0]),
+                bandMultiplier(a, 0, 1), bandMultiplier(a, 1, 2), bandMultiplier(a, 2, 3),
+                a == null || Float.isNaN(a[3]) || a[3] == 0.0F ? "?" : String.format("%.2f", finalAmount / a[3]),
+                String.format("%.1f", finalAmount),
+                String.format("%.4f", 100.0F * finalAmount / boss.getMaxHealth()),
+                event.getSource().getMsgId(), attackerInfo,
+                String.format("%.0f", boss.getHealth()), String.format("%.0f", boss.getMaxHealth()));
+    }
+
+    private static String bandMultiplier(float[] amounts, int from, int to) {
+        if (amounts == null || Float.isNaN(amounts[from]) || Float.isNaN(amounts[to]) || amounts[from] == 0.0F) {
+            return "?";
+        }
+        return String.format("%.2f", amounts[to] / amounts[from]);
+    }
+
+    // ---- post-armor damage-event chain ---------------------------------------------------
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void samplePostArmorStart(LivingDamageEvent event) {
+        if (isHyperBoss(event.getEntityLiving())) {
+            DAMAGE_PHASE_START.set(event.getAmount());
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void logPostArmor(LivingDamageEvent event) {
+        if (!isHyperBoss(event.getEntityLiving())) {
+            return;
+        }
+        Float start = DAMAGE_PHASE_START.get();
+        DAMAGE_PHASE_START.remove();
+        WoldsVaults.LOGGER.info("Hyperboss post-armor: {} -> {} (x{})",
+                start == null ? "?" : String.format("%.1f", start),
                 String.format("%.1f", event.getAmount()),
-                String.format("%.4f", 100.0F * event.getAmount() / boss.getMaxHealth()),
-                event.getSource().getMsgId(),
-                immediate == null ? "none" : immediate.getType().getRegistryName(),
-                attackerInfo,
-                String.format("%.0f", boss.getHealth()),
-                String.format("%.0f", boss.getMaxHealth()));
+                start == null || start == 0.0F ? "?" : String.format("%.2f", event.getAmount() / start));
     }
 }

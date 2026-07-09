@@ -483,6 +483,35 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 "Hyperboss stats: {} HP (vault health factor folded at arm), {} damage — {} non-health vault mob modifiers applied.",
                 Math.round(boss.getMaxHealth()),
                 damage == null ? "?" : Math.round(damage.getValue()), applied);
+        logDamageAmplifierAudit();
+    }
+
+    /**
+     * One audit line per fight: the vault-wide player-damage multipliers (the Frenzy-family
+     * rework in MixinMobFrenzyModifier multiplies ALL player-dealt damage by 3x/2x PER STACK)
+     * and each runner's %-scaling damage gear, so the hurt-chain log lines can be attributed.
+     */
+    private void logDamageAmplifierAudit() {
+        long frenzy = xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(
+                vault, ResourceLocation.parse("the_vault:frenzy"));
+        long brew = xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(
+                vault, ResourceLocation.parse("the_vault:catastrophic_brew"));
+        WoldsVaults.LOGGER.info(
+                "Damage-amplifier audit: {} Frenzy (x3 each) + {} Catastrophic Brew (x2 each) stacks -> all player damage x{}.",
+                frenzy, brew, String.format("%.0f", Math.pow(3.0, frenzy) * Math.pow(2.0, brew)));
+        for (iskallia.vault.core.vault.player.Listener listener : vault.get(Vault.LISTENERS).getAll()) {
+            listener.getPlayer().ifPresent(player -> {
+                var snapshot = iskallia.vault.snapshot.AttributeSnapshotHelper.getInstance().getSnapshot(player);
+                var merger = iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger.floatSum();
+                WoldsVaults.LOGGER.info(
+                        "  {} gear: reaving={} execution={} apScaling={} thornsScaling={}",
+                        player.getGameProfile().getName(),
+                        snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.REAVING_DAMAGE, merger),
+                        snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.EXECUTION_DAMAGE, merger),
+                        snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.AP_SCALING_DAMAGE, merger),
+                        snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.THORNS_SCALING_DAMAGE, merger));
+            });
+        }
     }
 
     // The addon's settable modifiers carry their own ModifierType enum with the same shape as
