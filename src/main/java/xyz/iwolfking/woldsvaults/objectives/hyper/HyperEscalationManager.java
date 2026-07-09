@@ -170,11 +170,6 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
     @Override
     public void tick() {
         tickDoorAnimation();
-        if (objective.getOr(HyperVaultObjective.PHASE, Phase.ROLLING) == Phase.WIN) {
-            // Victory lap: no more chaos, just the countdown to extraction.
-            tickWinTransition();
-            return;
-        }
         // The opening chaos dump: fires once, on the first tick a player is actually inside
         // (initServer runs before anyone joins, and the chat lines would be lost).
         if (objective.getOr(HyperVaultObjective.CHAOS_COUNT, 0) == 0 && !vault.get(Vault.LISTENERS).getAll().isEmpty()) {
@@ -189,23 +184,6 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         if (remaining <= 0) {
             removeExitPillar();
             cycleManager.rollBatch();
-        }
-    }
-
-    /** The 15s victory countdown started by the exit-pillar click; ends the vault for everyone. */
-    private void tickWinTransition() {
-        int remaining = objective.getOr(HyperVaultObjective.EXIT_TICKS, 0);
-        if (remaining == HyperVaultObjective.WIN_TRANSITION_TICKS) {
-            // First tick of the transition: the pillar's own lifetime no longer matters.
-            removeExitPillar();
-        }
-        if (remaining <= 0) {
-            return; // extraction already ran; the empty vault is tearing down
-        }
-        remaining--;
-        objective.set(HyperVaultObjective.EXIT_TICKS, remaining);
-        if (remaining == 0) {
-            objective.completeAndExtractAll(world, vault);
         }
     }
 
