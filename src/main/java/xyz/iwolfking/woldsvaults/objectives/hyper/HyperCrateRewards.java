@@ -65,8 +65,8 @@ public final class HyperCrateRewards {
     public static final WeightedList<Entry> RARE = new WeightedList<Entry>()
             .add(Entry.of("the_vault:repair_core", 1), 100)
             .add(Entry.of("vending_companions:companion_temporalizer", 1), 25)
-            .add(Entry.pack("the_vault:deluxe_resource_pack", 1), 1)
-            .add(Entry.of("woldsvaults:omega_box", 1), 10)
+            .add(Entry.pack("the_vault:deluxe_resource_pack", 1), 2)
+            .add(Entry.of("woldsvaults:omega_box", 2), 10)
             .add(Entry.of("the_vault:map", 1), 10)
             .add(Entry.of("woldsvaults:legend_sigil", 1), 5)
             .add(Entry.of("the_vault:recharge_core", 1), 50)
@@ -104,7 +104,7 @@ public final class HyperCrateRewards {
             .add(Entry.pack("the_vault:shiny_pack", 5), 10)
             // woldsvaults:crystal_reinforcement displays as "Prismatic Reinforcement".
             .add(Entry.of("woldsvaults:crystal_reinforcement", 1), 2)
-            .add(Entry.greaterDeckCore("archive"), 2)
+            .add(Entry.greaterDeckCore("archive"), 1)
             .add(Entry.of("woldsvaults:greedy_ticket", 3), 2);
 
     private HyperCrateRewards() {
