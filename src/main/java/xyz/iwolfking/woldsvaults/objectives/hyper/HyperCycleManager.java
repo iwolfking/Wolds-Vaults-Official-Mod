@@ -12,9 +12,12 @@ import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.task.BingoTask;
+import iskallia.vault.task.TaskContext;
+import iskallia.vault.task.counter.TargetTaskCounter;
 import iskallia.vault.task.source.EntityTaskSource;
 import net.minecraft.ChatFormatting;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BingoObjectiveAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ScavengerBingoObjectiveAccessor;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
@@ -41,10 +44,71 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         Phase phase = objective.getOr(HyperVaultObjective.PHASE, Phase.ROLLING);
         if (phase == Phase.ROLLING) {
             rollBatch();
-        } else if (phase == Phase.MINIS && isBatchComplete()) {
-            objective.set(HyperVaultObjective.PHASE, Phase.ARMED);
-            HyperVaultObjective.broadcast(vault, "All objectives complete — the boss podium is armed!", ChatFormatting.RED);
+        } else if (phase == Phase.MINIS) {
+            rescaleMinis();
+            if (isBatchComplete()) {
+                objective.set(HyperVaultObjective.PHASE, Phase.ARMED);
+                HyperVaultObjective.broadcast(vault, "All objectives complete — the boss podium is armed!", ChatFormatting.RED);
+            }
         }
+    }
+
+    /**
+     * Elastic difficulty: elixir/bingo requirements track the live cycle count and runner
+     * count every second (the collector's tiles do the same through the OBJECTIVE_TARGET
+     * handler in {@link HyperVaultObjective}), so a death or join rescales mid-card.
+     */
+    private void rescaleMinis() {
+        rescaleElixirTarget();
+        pinCardJoinCounters();
+        if (world.getTickCount() % 20 == 0) {
+            rescaleBingoTargets();
+        }
+    }
+
+    /**
+     * The cards' JOINED counters normally drive VH's own per-player scaling (+50%/player on
+     * collector tiles, per-task contributions on bingo). Hyper supplies its own player scaling
+     * at different rates, so JOINED stays pinned at 1; VH increments it when a new runner
+     * joins mid-vault, which is undone here (with a log — a collector tile that already
+     * consumed the bump keeps VH's factor until the next batch, so the skew is visible).
+     */
+    private void pinCardJoinCounters() {
+        objective.findMini(BingoObjective.class).ifPresent(bingo -> {
+            if (bingo.getOr(BingoObjective.JOINED, 0) != 1) {
+                WoldsVaults.LOGGER.info("Re-pinned the bingo card's JOINED counter to 1 (hyper does its own player scaling).");
+                bingo.set(BingoObjective.JOINED, 1);
+            }
+        });
+        objective.findMini(ScavengerBingoObjective.class).ifPresent(scav -> {
+            if (scav.getOr(ScavengerBingoObjective.JOINED, 0) != 1) {
+                WoldsVaults.LOGGER.info("Re-pinned the collector card's JOINED counter to 1 (hyper does its own player scaling).");
+                scav.set(ScavengerBingoObjective.JOINED, 1);
+            }
+        });
+    }
+
+    /** Every task target on incomplete bingo tiles: base x cycle scale x bingo player scale. */
+    private void rescaleBingoTargets() {
+        objective.findMini(BingoObjective.class).ifPresent(bingo -> {
+            if (!(bingo.get(BingoObjective.TASK) instanceof BingoTask root)) {
+                return;
+            }
+            double scale = HyperVaultObjective.cycleRequirementScale(vault)
+                    * HyperVaultObjective.playerRequirementScale(vault, HyperVaultObjective.PLAYER_SCALE_BINGO);
+            TaskContext context = bingo.getContext(world, vault);
+            for (int index = 0; index < root.getWidth() * root.getHeight(); index++) {
+                if (root.isCompleted(index)) {
+                    continue;
+                }
+                root.getChild(index).streamSelfAndDescendants(iskallia.vault.task.ProgressConfiguredTask.class).forEach(task -> {
+                    if (task.getCounter() instanceof TargetTaskCounter<?, ?> counter && counter.isPopulated()) {
+                        // VH's own scaler: target = base x (1 + additional x contribution).
+                        ((BingoObjectiveAccessor) bingo).callScaleTargetWithCondition(task, counter, scale - 1.0, 1, context);
+                    }
+                });
+            }
+        });
     }
 
     public void rollBatch() {
@@ -75,12 +139,12 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
                     task = ModConfigs.BINGO.generate(VaultMod.id("default"), level);
                 }
                 if (task.isPresent()) {
-                    addMini(BingoObjective.of(task.get(), 4, 4, false));
+                    addMini(BingoObjective.of(task.get(), boardSize(), boardSize(), false));
                 } else {
                     WoldsVaults.LOGGER.error("Default bingo pool is empty too — the bingo mini will report complete immediately.");
                 }
             }
-            case SCAVENGER -> addMini(ScavengerBingoObjective.of(4, 4, 0.0F, VaultMod.id("default"), false));
+            case SCAVENGER -> addMini(ScavengerBingoObjective.of(boardSize(), boardSize(), 0.0F, VaultMod.id("default"), false));
             case ELIXIR -> ensureElixirGoal();
             case BRUTAL -> {
                 int obelisks = HyperVaultObjective.OBELISK_MIN
@@ -103,11 +167,17 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         }
     }
 
+    /** Boards grow to 5x5 once the vault reaches its 6th boss cycle. */
+    private int boardSize() {
+        return objective.getOr(HyperVaultObjective.CYCLE, 0) >= HyperVaultObjective.BOARD_UPSIZE_CYCLE ? 5 : 4;
+    }
+
     /**
      * Card objectives only learn about players from LISTENER_JOIN, which fired long before a
      * mid-vault batch roll. Without pre-seeding, bingo's EntityTaskSource stays empty and every
-     * player action is filtered out (the card never progresses); the JOINED counters drive
-     * per-player target scaling on both cards.
+     * player action is filtered out (the card never progresses). JOINED is pinned at 1 on both
+     * cards: hyper applies its own per-player scaling (see rescaleMinis / OBJECTIVE_TARGET),
+     * so VH's JOINED-driven scaling must stay inert.
      */
     private void seedCurrentRunners(Objective mini) {
         Collection<Runner> runners = vault.get(Vault.LISTENERS).getAll(Runner.class);
@@ -117,9 +187,9 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
             // Bingo cycles distinct while staying deterministic across a reload.
             long seed = vault.get(Vault.SEED) ^ (0x9E3779B97F4A7C15L * (objective.getOr(HyperVaultObjective.CYCLE, 0) + 1));
             bingo.set(BingoObjective.TASK_SOURCE, EntityTaskSource.ofUuids(JavaRandom.ofInternal(seed), ids));
-            bingo.set(BingoObjective.JOINED, runners.size());
+            bingo.set(BingoObjective.JOINED, 1);
         } else if (mini instanceof ScavengerBingoObjective scav) {
-            scav.set(ScavengerBingoObjective.JOINED, runners.size());
+            scav.set(ScavengerBingoObjective.JOINED, 1);
         }
     }
 
@@ -129,21 +199,35 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
      * vault's requirement and grows +25% of that base per completed cycle.
      */
     private void ensureElixirGoal() {
-        JavaRandom seeded = JavaRandom.ofInternal(vault.get(Vault.SEED));
-        int baseTarget = ModConfigs.ELIXIR.generateTarget(level, seeded);
-        int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
-        float scale = HyperVaultObjective.ELIXIR_TARGET_MULTIPLIER + HyperVaultObjective.ELIXIR_TARGET_INCREMENT * cycle;
-        objective.set(HyperVaultObjective.ELIXIR_TARGET, Math.max(1, Math.round(baseTarget * scale)));
+        rescaleElixirTarget();
         ElixirTask.List tasks = objective.get(HyperVaultObjective.ELIXIR_TASKS);
         if (!tasks.isEmpty()) {
             return;
         }
+        // Same draw order as the original roll: the target consumes the seeded random's
+        // leading draws, then the goals — so pre-existing saves regenerate identical tasks.
+        JavaRandom seeded = JavaRandom.ofInternal(vault.get(Vault.SEED));
+        ModConfigs.ELIXIR.generateTarget(level, seeded);
         for (ElixirTask task : ModConfigs.ELIXIR.generateGoals(level, seeded)) {
             tasks.add(task);
         }
         if (tasks.isEmpty()) {
             WoldsVaults.LOGGER.error("ModConfigs.ELIXIR produced no elixir tasks — the shared elixir bar cannot progress.");
         }
+    }
+
+    /**
+     * target = seed-derived base x (0.75 + 0.25 x cycle) x (1 + 0.33 x extra runners), recomputed
+     * every tick. The base only consumes the seeded random's leading draws, so the task set
+     * generated after it in ensureElixirGoal is unaffected.
+     */
+    private void rescaleElixirTarget() {
+        JavaRandom seeded = JavaRandom.ofInternal(vault.get(Vault.SEED));
+        int baseTarget = ModConfigs.ELIXIR.generateTarget(level, seeded);
+        int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
+        double scale = (HyperVaultObjective.ELIXIR_TARGET_MULTIPLIER + HyperVaultObjective.ELIXIR_TARGET_INCREMENT * cycle)
+                * HyperVaultObjective.playerRequirementScale(vault, HyperVaultObjective.PLAYER_SCALE_ELIXIR);
+        objective.set(HyperVaultObjective.ELIXIR_TARGET, Math.max(1, (int) Math.round(baseTarget * scale)));
     }
 
     private boolean isBatchComplete() {

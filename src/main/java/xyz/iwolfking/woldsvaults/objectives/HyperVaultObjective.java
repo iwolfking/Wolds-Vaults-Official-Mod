@@ -154,6 +154,15 @@ public class HyperVaultObjective extends Objective {
     // requirement at cycle 0, +25% of that normal base per completed cycle.
     public static final float ELIXIR_TARGET_MULTIPLIER = 0.75F;
     public static final float ELIXIR_TARGET_INCREMENT = 0.25F;
+    // Mini-objective pacing: card requirements grow +10% (of base) per boss kill, and the
+    // card boards grow to 5x5 once the vault reaches its 6th boss (cycle counter >= 5).
+    public static final double CYCLE_REQUIREMENT_INCREMENT = 0.10;
+    public static final int BOARD_UPSIZE_CYCLE = 5;
+    // Per EXTRA runner in the vault, applied multiplicatively on top of the cycle scaling
+    // (recomputed live every tick, so requirements relax when a runner dies or leaves).
+    public static final double PLAYER_SCALE_ELIXIR = 0.33;
+    public static final double PLAYER_SCALE_COLLECTOR = 0.15;
+    public static final double PLAYER_SCALE_BINGO = 0.10;
     // Entity tag on everything the boss fight spawns (adds + waves) so the per-kill cleanup
     // can find and discard the leftover escort.
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
@@ -306,6 +315,17 @@ public class HyperVaultObjective extends Objective {
     /** HYPER stack count, read by {@link xyz.iwolfking.woldsvaults.modifiers.vault.HyperStatModifier} on mob spawn. */
     public static int getCycleCount(Vault vault) {
         return get(vault).map(objective -> objective.getOr(CYCLE, 0)).orElse(0);
+    }
+
+    /** Card requirements grow +10% of their base per completed boss cycle. */
+    public static double cycleRequirementScale(Vault vault) {
+        return 1.0 + CYCLE_REQUIREMENT_INCREMENT * getCycleCount(vault);
+    }
+
+    /** x(1 + rate x extra runners), from the LIVE runner count — elastic on joins and deaths. */
+    public static double playerRequirementScale(Vault vault, double perExtraPlayer) {
+        int runners = vault.get(Vault.LISTENERS).getAll(Runner.class).size();
+        return 1.0 + perExtraPlayer * Math.max(0, runners - 1);
     }
 
     /**
@@ -482,6 +502,20 @@ public class HyperVaultObjective extends Objective {
                     && !(mob instanceof VaultBossEntity)) {
                 this.speedClampQueue.add(mob);
             }
+        });
+
+        // Collector tiles recompute TOTAL = base x (1 + increase) x playerScaleFactor every
+        // tick from this event (the same hook objective-target sigils use). The cycle manager
+        // pins the card's JOINED at 1 so VH's own +50%/player factor stays out of the math;
+        // this handler supplies both the cycle growth and the collector's own player scaling.
+        // (Bingo tasks don't consume this event — the cycle manager rescales them directly.)
+        CommonEvents.OBJECTIVE_TARGET.register(this, data -> {
+            if (data.getVault() != vault) {
+                return;
+            }
+            double combined = cycleRequirementScale(vault)
+                    * playerRequirementScale(vault, PLAYER_SCALE_COLLECTOR) - 1.0;
+            data.setIncrease(data.getIncrease() + combined);
         });
 
         // The shared elixir bar fills from the same four sources the elixir tasks use.
