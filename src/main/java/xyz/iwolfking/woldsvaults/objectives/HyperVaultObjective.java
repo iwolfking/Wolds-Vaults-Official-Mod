@@ -147,7 +147,7 @@ public class HyperVaultObjective extends Objective {
     // In hyper vaults the per-crate greed bonus roll (not the score-tier injections) scales
     // with the crate quantity at this efficiency; greed coins keep their own greedy-tier
     // scaling and are excluded so they don't double-dip.
-    public static final float GREED_BONUS_TIER_EFFICIENCY = 0.5F;
+    public static final float GREED_BONUS_TIER_EFFICIENCY = 0.15F;
     // Total mob movement speed is capped at base × this (+200%): stacked speed modifiers made
     // mobs unhittable past ~cycle 4. Applied one tick after spawn so every modifier's own
     // ENTITY_SPAWN hook has run first, whatever order the modifiers were added in.
