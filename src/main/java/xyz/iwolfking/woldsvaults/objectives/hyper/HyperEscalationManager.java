@@ -74,9 +74,9 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         // Crate scaling uses ONLY super-crate-tier stacks — never the settable
         // map_crate_quantity, whose onVaultAdd consumes percentage-points as a raw fraction
         // (the +10,000% unit bug this rework replaces). Kill k grants 2k super crate tiers
-        // under 500k score, 3k from 500k, and 4k from 5M — a quadratic ramp by design.
-        int superTiers = (score >= HyperVaultObjective.SCORE_TRIPLE_GREEDY ? 4
-                : score >= HyperVaultObjective.SCORE_OMEGA ? 3 : 2) * cycle;
+        // under 2M score, 3k from 2M, and 4k from 25M — a quadratic ramp by design.
+        int superTiers = (score >= HyperVaultObjective.SCORE_SUPER_RATE_4 ? 4
+                : score >= HyperVaultObjective.SCORE_SUPER_RATE_3 ? 3 : 2) * cycle;
         VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), superTiers);
 
         awardScoreTiers();

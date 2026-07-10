@@ -139,6 +139,10 @@ public class HyperVaultObjective extends Objective {
     // Epic/omega tier markers earned by a kill at or above this roll one extra draw per set
     // (once — higher scores do not add further draws).
     public static final int SCORE_EXTRA_DRAW = 2_000_000;
+    // Super-crate-tier grant rate: kill k gives 2k supers, 3k once the kill scores RATE_3,
+    // 4k once it scores RATE_4 (supers only — regular crate tiers are never granted).
+    public static final int SCORE_SUPER_RATE_3 = 2_000_000;
+    public static final int SCORE_SUPER_RATE_4 = 25_000_000;
     // Total mob movement speed is capped at base × this (+200%): stacked speed modifiers made
     // mobs unhittable past ~cycle 4. Applied one tick after spawn so every modifier's own
     // ENTITY_SPAWN hook has run first, whatever order the modifiers were added in.
