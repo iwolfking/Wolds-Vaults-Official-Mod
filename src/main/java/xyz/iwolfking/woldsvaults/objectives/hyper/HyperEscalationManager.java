@@ -27,7 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
-import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.CrateItemQuantityModifierSettable;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCrateRewards;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
@@ -72,18 +71,18 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 : score >= HyperVaultObjective.SCORE_DOUBLE_SUPER ? 2 : 1;
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("greedy_crate_tier"), greedyTiers);
 
-        // Crate tiers: +1 super tier per kill (+2 when the killed boss scored 1M+), plus
-        // (cycle-1) regular tiers (+100% crate qty each).
-        int superTiers = score >= HyperVaultObjective.SCORE_DOUBLE_SUPER ? 2 : 1;
+        // Crate scaling uses ONLY plain crate-tier stacks — never the settable
+        // map_crate_quantity, whose onVaultAdd consumes percentage-points as a raw fraction
+        // (the +10,000% unit bug this rework replaces). Kill k grants 2k super crate tiers,
+        // doubled to 4k once the kill scores 500k+; past 500k it also grants 4k regular
+        // crate tiers, growing to 8k past 2M — an aggressive quadratic ramp by design.
+        int superTiers = (score >= HyperVaultObjective.SCORE_OMEGA ? 4 : 2) * cycle;
         VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), superTiers);
-        int regularTiers = cycle - 1;
-        if (regularTiers > 0) {
-            VaultModifierUtils.incrementModifierValueOfType(vault, CrateItemQuantityModifierSettable.class,
-                    VaultMod.id("map_crate_quantity"), 100.0F * regularTiers);
+        int crateTiers = (score >= HyperVaultObjective.SCORE_EXTRA_DRAW ? 8
+                : score >= HyperVaultObjective.SCORE_OMEGA ? 4 : 0) * cycle;
+        if (crateTiers > 0) {
+            VaultModifierUtils.addModifier(vault, VaultMod.id("crate_tier"), crateTiers);
         }
-        // The settable value above lives in a shared registry instance; refresh the objective's
-        // persisted snapshot so a relog restores it (see HyperVaultObjective.SETTABLE_VALUES).
-        objective.snapshotSettableValues(vault);
 
         awardScoreTiers();
 
@@ -96,10 +95,10 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
 
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
-        String crateTiers = "+" + superTiers + " super crate tier" + (superTiers > 1 ? "s" : "")
-                + ", +" + greedyTiers + " greedy crate tier" + (greedyTiers > 1 ? "s" : "")
-                + (regularTiers > 0 ? ", +" + regularTiers + " crate tier" + (regularTiers > 1 ? "s" : "") : "");
-        HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger! (" + crateTiers + ")", ChatFormatting.GOLD);
+        String tierSummary = "+" + superTiers + " super crate tier" + (superTiers > 1 ? "s" : "")
+                + (crateTiers > 0 ? ", +" + crateTiers + " crate tier" + (crateTiers > 1 ? "s" : "") : "")
+                + ", +" + greedyTiers + " greedy crate tier" + (greedyTiers > 1 ? "s" : "");
+        HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger! (" + tierSummary + ")", ChatFormatting.GOLD);
     }
 
     /**
