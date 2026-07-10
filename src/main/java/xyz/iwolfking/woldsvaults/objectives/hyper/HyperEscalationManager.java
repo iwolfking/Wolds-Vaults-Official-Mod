@@ -71,18 +71,13 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 : score >= HyperVaultObjective.SCORE_DOUBLE_SUPER ? 2 : 1;
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("greedy_crate_tier"), greedyTiers);
 
-        // Crate scaling uses ONLY plain crate-tier stacks — never the settable
+        // Crate scaling uses ONLY super-crate-tier stacks — never the settable
         // map_crate_quantity, whose onVaultAdd consumes percentage-points as a raw fraction
-        // (the +10,000% unit bug this rework replaces). Kill k grants 2k super crate tiers,
-        // doubled to 4k once the kill scores 500k+; past 500k it also grants 4k regular
-        // crate tiers, growing to 8k past 2M — an aggressive quadratic ramp by design.
-        int superTiers = (score >= HyperVaultObjective.SCORE_OMEGA ? 4 : 2) * cycle;
+        // (the +10,000% unit bug this rework replaces). Kill k grants 2k super crate tiers
+        // under 500k score, 3k from 500k, and 4k from 5M — a quadratic ramp by design.
+        int superTiers = (score >= HyperVaultObjective.SCORE_TRIPLE_GREEDY ? 4
+                : score >= HyperVaultObjective.SCORE_OMEGA ? 3 : 2) * cycle;
         VaultModifierUtils.addModifier(vault, VaultMod.id("super_crate_tier"), superTiers);
-        int crateTiers = (score >= HyperVaultObjective.SCORE_EXTRA_DRAW ? 8
-                : score >= HyperVaultObjective.SCORE_OMEGA ? 4 : 0) * cycle;
-        if (crateTiers > 0) {
-            VaultModifierUtils.addModifier(vault, VaultMod.id("crate_tier"), crateTiers);
-        }
 
         awardScoreTiers();
 
@@ -96,7 +91,6 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
         String tierSummary = "+" + superTiers + " super crate tier" + (superTiers > 1 ? "s" : "")
-                + (crateTiers > 0 ? ", +" + crateTiers + " crate tier" + (crateTiers > 1 ? "s" : "") : "")
                 + ", +" + greedyTiers + " greedy crate tier" + (greedyTiers > 1 ? "s" : "");
         HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger! (" + tierSummary + ")", ChatFormatting.GOLD);
     }
