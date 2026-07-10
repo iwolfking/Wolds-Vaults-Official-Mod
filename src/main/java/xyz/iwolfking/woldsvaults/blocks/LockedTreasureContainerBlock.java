@@ -9,6 +9,7 @@ import iskallia.vault.item.ItemVaultKeyring;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -58,7 +59,7 @@ public class LockedTreasureContainerBlock extends TreasureContainerBlock {
             if (!treasureContainer.isGenerated() && this.consumeKey(player, hand, state.getValue(TYPE))) {
                 treasureContainer.generateLoot(player);
                 level.setBlock(pos, state.setValue(UNLOCKED, true), Block.UPDATE_ALL);
-
+                return InteractionResult.CONSUME;
             }
             if (!treasureContainer.isGenerated()) {
                 player.displayClientMessage(new TextComponent("This treasure chest requires ").append(state.getValue(TYPE).getKey().getDescription()).append(" to open"), true);
