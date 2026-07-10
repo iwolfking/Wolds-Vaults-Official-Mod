@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -47,11 +48,14 @@ public final class HyperBossEffectImmunity {
     private HyperBossEffectImmunity() {
     }
 
-    private static boolean isHyperBoss(LivingEntity entity) {
-        return entity instanceof VaultBossEntity
-                && ServerVaults.get(entity.level)
+    private static boolean isInHyperVault(LivingEntity entity) {
+        return ServerVaults.get(entity.level)
                 .map(vault -> !vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty())
                 .orElse(false);
+    }
+
+    private static boolean isHyperBoss(LivingEntity entity) {
+        return entity instanceof VaultBossEntity && isInHyperVault(entity);
     }
 
     @SubscribeEvent
@@ -61,6 +65,31 @@ public final class HyperBossEffectImmunity {
         }
         if (isHyperBoss(event.getEntityLiving())) {
             event.setResult(Event.Result.DENY);
+        }
+    }
+
+    /**
+     * No mob may ever be immortal in a hyper vault. The known offender is VH's elite zombie
+     * (a brutal-roster boss): EliteZombieEntity.applySupportEffects self-applies IMMORTALITY
+     * every 10 ticks while its raised minions live — and ImmortalityEffect.onAdded carves an
+     * explicit exemption for it, so nothing upstream stops it. With hyper-scaled minion
+     * health the "kill the minions first" window stretches toward forever. Denying the
+     * effect keeps the minion-raising flavor while the boss stays damageable; players are
+     * not Mobs and keep any immortality of their own.
+     */
+    @SubscribeEvent
+    public static void denyMobImmortalityInHyperVaults(PotionEvent.PotionApplicableEvent event) {
+        if (event.getPotionEffect().getEffect() != ModEffects.IMMORTALITY) {
+            return;
+        }
+        if (!(event.getEntityLiving() instanceof Mob mob) || !isInHyperVault(mob)) {
+            return;
+        }
+        event.setResult(Event.Result.DENY);
+        // The elite zombie retries every 10 ticks; log the first denial per entity only.
+        if (mob.addTag("woldsvaults_hyper_immortality_denied")) {
+            WoldsVaults.LOGGER.info("Denied Immortality on {} in a hyper vault (mob immortality is disabled here).",
+                    mob.getType().getRegistryName());
         }
     }
 

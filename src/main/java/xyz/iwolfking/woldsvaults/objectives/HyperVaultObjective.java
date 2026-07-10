@@ -159,10 +159,13 @@ public class HyperVaultObjective extends Objective {
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
     // Stack caps for hyper-added modifiers (counts crystal-applied stacks too). Electric mob
     // spam is annoying enough that one stack is plenty; Wounded (-5 hearts) is the one
-    // player max-health drain left in the pools and must never zero a health pool.
+    // player max-health drain left in the pools and must never zero a health pool;
+    // Explosive is a TNT spawner per stack (grouped carriers are banned/unpooled, so the
+    // id-keyed cap can't be bypassed).
     private static final java.util.Map<ResourceLocation, Integer> STACK_CAPS = java.util.Map.of(
             ResourceLocation.parse("the_vault:electric"), 1,
-            ResourceLocation.parse("the_vault:wounded"), 4);
+            ResourceLocation.parse("the_vault:wounded"), 4,
+            ResourceLocation.parse("the_vault:explosive"), 1);
     private static final ResourceLocation MANA_LEAK = ResourceLocation.parse("the_vault:mana_leak");
     private static final ResourceLocation FRENZY = ResourceLocation.parse("the_vault:frenzy");
 
