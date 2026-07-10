@@ -160,8 +160,8 @@ public class HyperVaultObjective extends Objective {
     public static final int BOARD_UPSIZE_CYCLE = 5;
     // Per EXTRA runner in the vault, applied multiplicatively on top of the cycle scaling
     // (recomputed live every tick, so requirements relax when a runner dies or leaves).
+    // The collector card has no entry: it keeps VH's own JOINED-driven +50%/player scaling.
     public static final double PLAYER_SCALE_ELIXIR = 0.33;
-    public static final double PLAYER_SCALE_COLLECTOR = 0.15;
     public static final double PLAYER_SCALE_BINGO = 0.10;
     // Entity tag on everything the boss fight spawns (adds + waves) so the per-kill cleanup
     // can find and discard the leftover escort.
@@ -505,17 +505,15 @@ public class HyperVaultObjective extends Objective {
         });
 
         // Collector tiles recompute TOTAL = base x (1 + increase) x playerScaleFactor every
-        // tick from this event (the same hook objective-target sigils use). The cycle manager
-        // pins the card's JOINED at 1 so VH's own +50%/player factor stays out of the math;
-        // this handler supplies both the cycle growth and the collector's own player scaling.
+        // tick from this event (the same hook objective-target sigils use); this handler adds
+        // the per-kill cycle growth. Player scaling on the collector stays VH's own JOINED
+        // factor (+50%/extra player, refreshed per batch), which multiplies on top.
         // (Bingo tasks don't consume this event — the cycle manager rescales them directly.)
         CommonEvents.OBJECTIVE_TARGET.register(this, data -> {
             if (data.getVault() != vault) {
                 return;
             }
-            double combined = cycleRequirementScale(vault)
-                    * playerRequirementScale(vault, PLAYER_SCALE_COLLECTOR) - 1.0;
-            data.setIncrease(data.getIncrease() + combined);
+            data.setIncrease(data.getIncrease() + (cycleRequirementScale(vault) - 1.0));
         });
 
         // The shared elixir bar fills from the same four sources the elixir tasks use.

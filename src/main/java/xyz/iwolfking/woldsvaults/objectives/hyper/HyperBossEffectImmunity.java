@@ -3,6 +3,12 @@ package xyz.iwolfking.woldsvaults.objectives.hyper;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.init.ModEffects;
+import iskallia.vault.util.PlayerRageHelper;
+import iskallia.vault.util.PlayerRelentlessStrikeHelper;
+import iskallia.vault.util.calc.FatalStrikeHelper;
+import iskallia.vault.util.damage.AttackScaleHelper;
+import iskallia.vault.util.damage.CritHelper;
+import iskallia.vault.util.damage.PlayerDamageHelper;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -18,9 +24,16 @@ import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.DamageMultiplierAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.PlayerDamageHelperAccessor;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.UUID;
 
 /**
  * The hyperboss takes no %-max-health damage-over-time: with hyper-scaled health pools a
@@ -159,6 +172,57 @@ public final class HyperBossEffectImmunity {
                 String.format("%.4f", 100.0F * finalAmount / boss.getMaxHealth()),
                 event.getSource().getMsgId(), attackerInfo,
                 String.format("%.0f", boss.getHealth()), String.format("%.0f", boss.getMaxHealth()));
+        if (attacker instanceof ServerPlayer serverPlayer) {
+            logHitDetail(serverPlayer, boss);
+        }
+    }
+
+    // The one known fixed id in the damage-multiplier registry (PlayerThirdAttackDamageHelper).
+    private static final UUID THIRD_ATTACK_ID =
+            UUID.nameUUIDFromBytes("the_vault:third_attack_damage".getBytes(StandardCharsets.UTF_8));
+
+    /**
+     * Every live contributor to the player's damage at the moment of a hyperboss hit:
+     * attack charge, VH crit (fatal strike) state and gear stats, every entry in VH's
+     * damage-multiplier registry (the xNORMAL hurt-band product), and the rage/retribution
+     * stack counters that feed it. One line per logged hit, right under the chain line.
+     */
+    private static void logHitDetail(ServerPlayer player, LivingEntity boss) {
+        try {
+            StringBuilder entries = new StringBuilder();
+            double additive = 1.0;
+            double stacking = 1.0;
+            for (PlayerDamageHelper.DamageMultiplier mult : PlayerDamageHelperAccessor.getMultipliers()
+                    .getOrDefault(player.getUUID(), Collections.emptyMap()).values()) {
+                DamageMultiplierAccessor access = (DamageMultiplierAccessor) (Object) mult;
+                boolean isAdditive = access.getOperation() == PlayerDamageHelper.Operation.ADDITIVE_MULTIPLY;
+                if (isAdditive) {
+                    additive += mult.getMultiplier();
+                } else {
+                    stacking *= mult.getMultiplier();
+                }
+                entries.append(String.format(" [%s %s%.2f ttl=%s]",
+                        THIRD_ATTACK_ID.equals(access.getId()) ? "third_attack" : access.getId().toString().substring(0, 8),
+                        isAdditive ? "+" : "x", mult.getMultiplier(),
+                        access.getTickTimeout() == Integer.MAX_VALUE ? "inf" : String.valueOf(access.getTickTimeout())));
+            }
+            MobEffectInstance vulnerable = boss.getEffect(ModEffects.VULNERABLE);
+            WoldsVaults.LOGGER.info(
+                    "  hit detail: charge={} fatalStrike={} (chance {} | +{}% dmg) | damageHelper x{} = (1+{}) x {} from:{} | rage {} (x{}/pt) | retribution {} (x{}/pt) | target vulnerableAmp={}",
+                    String.format("%.2f", AttackScaleHelper.getLastAttackScale(player)),
+                    CritHelper.getCrit(player),
+                    String.format("%.2f", FatalStrikeHelper.getPlayerFatalStrikeChance(player)),
+                    String.format("%.0f", FatalStrikeHelper.getPlayerFatalStrikeDamage(player) * 100.0F),
+                    String.format("%.2f", additive * stacking),
+                    String.format("%.2f", additive - 1.0), String.format("%.2f", stacking), entries,
+                    PlayerRageHelper.getCurrentRage(player),
+                    String.format("%.3f", PlayerRageHelper.getRageDamagePerPoint(player)),
+                    PlayerRelentlessStrikeHelper.getCurrentRetribution(player),
+                    String.format("%.3f", PlayerRelentlessStrikeHelper.getDamagePerPoint(player)),
+                    vulnerable == null ? "none" : vulnerable.getAmplifier());
+        } catch (Exception e) {
+            WoldsVaults.LOGGER.error("Hyperboss hit-detail logging failed", e);
+        }
     }
 
     private static String bandMultiplier(float[] amounts, int from, int to) {

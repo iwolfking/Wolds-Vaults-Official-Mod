@@ -178,6 +178,8 @@
     "vaulthunters.accessors.PlayerVaultAltarDataAccessor",
     "vaulthunters.accessors.PoolCrystalThemeAccessor",
     "vaulthunters.accessors.ProductEntryAccessor",
+    "vaulthunters.accessors.DamageMultiplierAccessor",
+    "vaulthunters.accessors.PlayerDamageHelperAccessor",
     "vaulthunters.accessors.ScavengerBingoCrystalObjectiveAccessor",
     "vaulthunters.accessors.ScavengerBingoObjectiveAccessor",
     "vaulthunters.accessors.ScheduledModifiersAccessor",

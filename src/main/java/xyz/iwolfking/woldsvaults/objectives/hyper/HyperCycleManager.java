@@ -67,23 +67,16 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
     }
 
     /**
-     * The cards' JOINED counters normally drive VH's own per-player scaling (+50%/player on
-     * collector tiles, per-task contributions on bingo). Hyper supplies its own player scaling
-     * at different rates, so JOINED stays pinned at 1; VH increments it when a new runner
-     * joins mid-vault, which is undone here (with a log — a collector tile that already
-     * consumed the bump keeps VH's factor until the next batch, so the skew is visible).
+     * Bingo's JOINED counter normally drives VH's per-task-config player scaling; hyper
+     * supplies its own +10%/extra-player rate instead, so it stays pinned at 1 (VH increments
+     * it when a new runner joins mid-vault, undone here with a log). The collector keeps VH's
+     * native JOINED scaling (+50%/extra player), refreshed per batch by seedCurrentRunners.
      */
     private void pinCardJoinCounters() {
         objective.findMini(BingoObjective.class).ifPresent(bingo -> {
             if (bingo.getOr(BingoObjective.JOINED, 0) != 1) {
                 WoldsVaults.LOGGER.info("Re-pinned the bingo card's JOINED counter to 1 (hyper does its own player scaling).");
                 bingo.set(BingoObjective.JOINED, 1);
-            }
-        });
-        objective.findMini(ScavengerBingoObjective.class).ifPresent(scav -> {
-            if (scav.getOr(ScavengerBingoObjective.JOINED, 0) != 1) {
-                WoldsVaults.LOGGER.info("Re-pinned the collector card's JOINED counter to 1 (hyper does its own player scaling).");
-                scav.set(ScavengerBingoObjective.JOINED, 1);
             }
         });
     }
@@ -175,9 +168,9 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
     /**
      * Card objectives only learn about players from LISTENER_JOIN, which fired long before a
      * mid-vault batch roll. Without pre-seeding, bingo's EntityTaskSource stays empty and every
-     * player action is filtered out (the card never progresses). JOINED is pinned at 1 on both
-     * cards: hyper applies its own per-player scaling (see rescaleMinis / OBJECTIVE_TARGET),
-     * so VH's JOINED-driven scaling must stay inert.
+     * player action is filtered out (the card never progresses). Bingo's JOINED is pinned at 1
+     * (hyper's own +10%/extra-player scaling replaces VH's); the collector's JOINED is seeded
+     * with the live runner count so VH's native +50%/extra-player tile scaling applies.
      */
     private void seedCurrentRunners(Objective mini) {
         Collection<Runner> runners = vault.get(Vault.LISTENERS).getAll(Runner.class);
@@ -189,7 +182,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
             bingo.set(BingoObjective.TASK_SOURCE, EntityTaskSource.ofUuids(JavaRandom.ofInternal(seed), ids));
             bingo.set(BingoObjective.JOINED, 1);
         } else if (mini instanceof ScavengerBingoObjective scav) {
-            scav.set(ScavengerBingoObjective.JOINED, 1);
+            scav.set(ScavengerBingoObjective.JOINED, runners.size());
         }
     }
 
