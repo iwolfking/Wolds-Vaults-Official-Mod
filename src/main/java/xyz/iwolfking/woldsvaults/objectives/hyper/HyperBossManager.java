@@ -31,6 +31,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -305,6 +306,29 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         tickWaveTimer();
         tickHealthGates();
         tickFightAdds();
+        tickBossResistance();
+    }
+
+    /**
+     * While any spawned reinforcement (wave brutal or arena add) lives, the boss holds
+     * Resistance III. Checked once a second with a 25-tick effect so the buff bridges to the
+     * next check without per-tick effect spam.
+     */
+    private void tickBossResistance() {
+        if (world.getTickCount() % 20 != 0) {
+            return;
+        }
+        UUID bossId = objective.getOr(HyperVaultObjective.BOSS_ID, null);
+        if (bossId == null || !(world.getEntity(bossId) instanceof LivingEntity boss) || !boss.isAlive()) {
+            return;
+        }
+        for (Entity entity : world.getAllEntities()) {
+            if (entity instanceof LivingEntity living && living.isAlive()
+                    && entity.getTags().contains(HyperVaultObjective.FIGHT_SPAWN_TAG)) {
+                boss.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 25, 2, true, false));
+                return;
+            }
+        }
     }
 
     /**
@@ -573,6 +597,14 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         // to a proc that scales with its hyper-inflated health pool. Bleed (the other
         // %-max-health source) is denied outright in HyperBossEffectImmunity.
         boss.addEffect(new MobEffectInstance(xyz.iwolfking.woldsvaults.init.ModEffects.REAVING, Integer.MAX_VALUE, 0, true, false));
+        // Infernal flair: 1 modifier, +1 every 2nd kill, capped at 4. Safe on death — the
+        // brutal objective's death handler only reacts to its own wave-tracked mobs, so an
+        // infernal hyperboss adds no vault modifiers when it dies.
+        String infernalNames = xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry
+                .getRandomMobModifiers(Math.min(4, 1 + cycle / 2), false);
+        atomicstryker.infernalmobs.common.InfernalMobsCore.instance()
+                .addEntityModifiersByString(boss, infernalNames);
+        WoldsVaults.LOGGER.info("Hyperboss infernal modifiers: {}", infernalNames);
         boss.setHealth(boss.getMaxHealth());
         WoldsVaults.LOGGER.info(
                 "Hyperboss stats: {} HP (vault health factor folded at arm), {} damage — {} non-health vault mob modifiers applied.",

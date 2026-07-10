@@ -82,6 +82,47 @@ public final class HyperBossEffectImmunity {
     }
 
     /**
+     * The floating lava/void pools are placed as bare liquid source blocks; explosions that
+     * eat them (or whatever invisible casing sits around them) spill the pool across the
+     * room floor. In hyper vaults explosions therefore cannot affect a pool fluid or any
+     * block within one step of one.
+     */
+    @SubscribeEvent
+    public static void protectPoolsFromExplosions(net.minecraftforge.event.world.ExplosionEvent.Detonate event) {
+        if (!(event.getWorld() instanceof net.minecraft.server.level.ServerLevel level)) {
+            return;
+        }
+        if (ServerVaults.get(level)
+                .map(vault -> vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty())
+                .orElse(true)) {
+            return;
+        }
+        int before = event.getAffectedBlocks().size();
+        event.getAffectedBlocks().removeIf(pos -> isPoolOrCasing(level, pos));
+        int removed = before - event.getAffectedBlocks().size();
+        if (removed > 0) {
+            WoldsVaults.LOGGER.info("Shielded {} pool block(s) from an explosion in a hyper vault.", removed);
+        }
+    }
+
+    private static boolean isPoolOrCasing(net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos) {
+        if (isPoolFluid(level.getBlockState(pos))) {
+            return true;
+        }
+        for (net.minecraft.core.Direction direction : net.minecraft.core.Direction.values()) {
+            if (isPoolFluid(level.getBlockState(pos.relative(direction)))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isPoolFluid(net.minecraft.world.level.block.state.BlockState state) {
+        return state.getBlock() == net.minecraft.world.level.block.Blocks.LAVA
+                || state.getBlock() == iskallia.vault.init.ModBlocks.VOID_LIQUID_BLOCK;
+    }
+
+    /**
      * No mob may ever be immortal in a hyper vault. The known offender is VH's elite zombie
      * (a brutal-roster boss): EliteZombieEntity.applySupportEffects self-applies IMMORTALITY
      * every 10 ticks while its raised minions live — and ImmortalityEffect.onAdded carves an

@@ -151,13 +151,13 @@ public class HyperVaultObjective extends Objective {
     // Total mob movement speed is capped at base × this (+200%): stacked speed modifiers made
     // mobs unhittable past ~cycle 4. Applied one tick after spawn so every modifier's own
     // ENTITY_SPAWN hook has run first, whatever order the modifiers were added in.
-    public static final double SPEED_CAP_FACTOR = 3.0;
+    public static final double SPEED_CAP_FACTOR = 2.5;
     private static final UUID SPEED_CLAMP_UUID =
             UUID.nameUUIDFromBytes("woldsvaults:hyper_speed_clamp".getBytes(java.nio.charset.StandardCharsets.UTF_8));
     // Haste is in rune "haste points" (vanilla rune roll is 0-3), not percent. Tune in testing.
     public static final int BOSS_ABILITY_HASTE = 6;
     public static final int OBELISK_MIN = 2;
-    public static final int OBELISK_MAX = 4;
+    public static final int OBELISK_MAX = 5;
     public static final float BRUTAL_OBELISK_PROBABILITY = 0.6F;
     // Elixir target = base × (MULTIPLIER + INCREMENT × cycle): 75% of a normal vault's
     // requirement at cycle 0, +25% of that normal base per completed cycle.
@@ -166,7 +166,7 @@ public class HyperVaultObjective extends Objective {
     // Mini-objective pacing: card requirements grow +10% (of base) per boss kill, and the
     // card boards grow to 5x5 once the vault reaches its 6th boss (cycle counter >= 5).
     public static final double CYCLE_REQUIREMENT_INCREMENT = 0.10;
-    public static final int BOARD_UPSIZE_CYCLE = 5;
+    public static final int BOARD_UPSIZE_CYCLE = 4;
     // Per EXTRA runner in the vault, applied multiplicatively on top of the cycle scaling
     // (recomputed live every tick, so requirements relax when a runner dies or leaves).
     // The collector card has no entry: it keeps VH's own JOINED-driven +50%/player scaling.
@@ -179,11 +179,17 @@ public class HyperVaultObjective extends Objective {
     // spam is annoying enough that one stack is plenty; Wounded (-5 hearts) is the one
     // player max-health drain left in the pools and must never zero a health pool;
     // Explosive is a TNT spawner per stack (grouped carriers are banned/unpooled, so the
-    // id-keyed cap can't be bypassed).
+    // id-keyed cap can't be bypassed); lava/void pools and the spawner trios get playability
+    // caps so deep runs don't carpet every room.
     private static final java.util.Map<ResourceLocation, Integer> STACK_CAPS = java.util.Map.of(
             ResourceLocation.parse("the_vault:electric"), 1,
             ResourceLocation.parse("the_vault:wounded"), 4,
-            ResourceLocation.parse("the_vault:explosive"), 1);
+            ResourceLocation.parse("the_vault:explosive"), 1,
+            ResourceLocation.parse("the_vault:volcanic"), 2,
+            ResourceLocation.parse("the_vault:void_pools"), 2,
+            ResourceLocation.parse("the_vault:safari"), 5,
+            ResourceLocation.parse("the_vault:winter"), 5,
+            ResourceLocation.parse("the_vault:fungal"), 5);
     private static final ResourceLocation MANA_LEAK = ResourceLocation.parse("the_vault:mana_leak");
     private static final ResourceLocation FRENZY = ResourceLocation.parse("the_vault:frenzy");
 

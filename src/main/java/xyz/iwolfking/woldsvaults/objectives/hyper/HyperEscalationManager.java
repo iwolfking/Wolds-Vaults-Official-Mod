@@ -80,6 +80,14 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 : score >= HyperVaultObjective.SCORE_CRATE_RATE_9 ? 9
                 : score >= HyperVaultObjective.SCORE_CRATE_RATE_7 ? 7 : 5) * cycle;
         VaultModifierUtils.addModifier(vault, VaultMod.id("crate_tier"), crateTiers);
+        // Vault XP ramps quadratically like the crate tiers: kill k adds k Refined Experience.
+        VaultModifierUtils.addModifier(vault, VaultMod.id("refined_experience"), cycle);
+        // One Inert (-10% cooldown reduction, the mildest CDR drain — banned from every pool,
+        // so this deterministic drip is its only source) every second kill.
+        if (cycle % 2 == 0) {
+            VaultModifierUtils.addModifier(vault, VaultMod.id("inert"), 1);
+            HyperVaultObjective.broadcast(vault, "Inert seeps into the Vault (-10% cooldown reduction).", ChatFormatting.DARK_PURPLE);
+        }
 
         awardScoreTiers();
 
@@ -93,7 +101,8 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
         String tierSummary = "+" + crateTiers + " crate tiers"
-                + ", +" + greedyTiers + " greedy crate tier" + (greedyTiers > 1 ? "s" : "");
+                + ", +" + greedyTiers + " greedy crate tier" + (greedyTiers > 1 ? "s" : "")
+                + ", +" + cycle + " refined experience";
         HyperVaultObjective.broadcast(vault, "HYPER ×" + cycle + " — everything in the Vault grows stronger! (" + tierSummary + ")", ChatFormatting.GOLD);
     }
 

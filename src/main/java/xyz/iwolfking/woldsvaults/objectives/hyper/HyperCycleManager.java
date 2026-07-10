@@ -140,8 +140,15 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
             case SCAVENGER -> addMini(ScavengerBingoObjective.of(boardSize(), boardSize(), 0.0F, VaultMod.id("default"), false));
             case ELIXIR -> ensureElixirGoal();
             case BRUTAL -> {
-                int obelisks = HyperVaultObjective.OBELISK_MIN
-                        + random.nextInt(HyperVaultObjective.OBELISK_MAX - HyperVaultObjective.OBELISK_MIN + 1);
+                // The pillar floor rises +1 every 3 kills and +1 per 2 extra runners, capped at
+                // the 5-pillar ceiling (at cap every batch demands the full 5).
+                int runnersNow = vault.get(Vault.LISTENERS).getAll(Runner.class).size();
+                int minObelisks = Math.min(HyperVaultObjective.OBELISK_MAX,
+                        HyperVaultObjective.OBELISK_MIN
+                                + objective.getOr(HyperVaultObjective.CYCLE, 0) / 3
+                                + Math.max(0, runnersNow - 1) / 2);
+                int obelisks = minObelisks
+                        + random.nextInt(HyperVaultObjective.OBELISK_MAX - minObelisks + 1);
                 addMini(BrutalBossesObjective.of(obelisks, () -> random.nextInt(3) + 1,
                         HyperVaultObjective.BRUTAL_OBELISK_PROBABILITY, true));
             }
