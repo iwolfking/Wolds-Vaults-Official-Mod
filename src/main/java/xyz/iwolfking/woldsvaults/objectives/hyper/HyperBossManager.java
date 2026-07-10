@@ -597,14 +597,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         // to a proc that scales with its hyper-inflated health pool. Bleed (the other
         // %-max-health source) is denied outright in HyperBossEffectImmunity.
         boss.addEffect(new MobEffectInstance(xyz.iwolfking.woldsvaults.init.ModEffects.REAVING, Integer.MAX_VALUE, 0, true, false));
-        // Infernal flair: 1 modifier, +1 every 2nd kill, capped at 4. Safe on death — the
-        // brutal objective's death handler only reacts to its own wave-tracked mobs, so an
-        // infernal hyperboss adds no vault modifiers when it dies.
-        String infernalNames = xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry
-                .getRandomMobModifiers(Math.min(4, 1 + cycle / 2), false);
-        atomicstryker.infernalmobs.common.InfernalMobsCore.instance()
-                .addEntityModifiersByString(boss, infernalNames);
-        WoldsVaults.LOGGER.info("Hyperboss infernal modifiers: {}", infernalNames);
+        // NOTE: do NOT give the hyperboss InfernalMobs modifiers. InfernalMobs multiplies an
+        // infernal mob's max health generically (independent of which modifier rolled), and
+        // on top of hyper's escalated pool that produced a 100B-HP cycle-1 boss (round 40).
         boss.setHealth(boss.getMaxHealth());
         WoldsVaults.LOGGER.info(
                 "Hyperboss stats: {} HP (vault health factor folded at arm), {} damage — {} non-health vault mob modifiers applied.",
