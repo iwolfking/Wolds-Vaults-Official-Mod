@@ -43,7 +43,11 @@ import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Listeners;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.vault.stat.StatCollector;
+import iskallia.vault.core.world.generator.GridGenerator;
+import iskallia.vault.core.world.generator.VaultGenerator;
 import iskallia.vault.core.world.generator.layout.ClassicInfiniteLayout;
+import iskallia.vault.core.world.generator.layout.ClassicVaultLayout;
+import iskallia.vault.core.world.generator.layout.GridLayout;
 import iskallia.vault.core.world.generator.layout.VaultLayout;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.entity.boss.VaultBossEntity;
@@ -148,7 +152,7 @@ public class HyperVaultObjective extends Objective {
     // with the crate quantity at this efficiency; greed coins keep their own greedy-tier
     // scaling and are excluded so they don't double-dip.
     public static final float GREED_BONUS_TIER_EFFICIENCY = 0.15F;
-    // Total mob movement speed is capped at base × this (+200%): stacked speed modifiers made
+    // Total mob movement speed is capped at base × this (+150%): stacked speed modifiers made
     // mobs unhittable past ~cycle 4. Applied one tick after spawn so every modifier's own
     // ENTITY_SPAWN hook has run first, whatever order the modifiers were added in.
     public static final double SPEED_CAP_FACTOR = 2.5;
@@ -170,8 +174,11 @@ public class HyperVaultObjective extends Objective {
     // Per EXTRA runner in the vault, applied multiplicatively on top of the cycle scaling
     // (recomputed live every tick, so requirements relax when a runner dies or leaves).
     // The collector card has no entry: it keeps VH's own JOINED-driven +50%/player scaling.
-    public static final double PLAYER_SCALE_ELIXIR = 0.33;
-    public static final double PLAYER_SCALE_BINGO = 0.10;
+    public static final double PLAYER_SCALE_ELIXIR = 0.45;
+    public static final double PLAYER_SCALE_BINGO = 0.25;
+    // The hyperboss gains +50% of its finished max health per EXTRA runner, counted once at
+    // summon (MULTIPLY_TOTAL, after every other modifier; excluded from the loot score).
+    public static final double PLAYER_SCALE_BOSS_HEALTH = 0.5;
     // Entity tag on everything the boss fight spawns (adds + waves) so the per-kill cleanup
     // can find and discard the leftover escort.
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
@@ -388,6 +395,8 @@ public class HyperVaultObjective extends Objective {
 
         restoreOrSnapshotSettableValues(vault);
 
+        ensureInfiniteLayout(vault);
+
         // Boss room adjacent to spawn, exactly like RuneBossObjective but never in random rooms.
         CommonEvents.LAYOUT_TEMPLATE_GENERATION.register(this, data -> {
             if (data.getVault() != vault || data.getPieceType() != VaultLayout.PieceType.ROOM) {
@@ -508,7 +517,7 @@ public class HyperVaultObjective extends Objective {
             }
         });
 
-        // Queue every spawned mob for the +200% movement-speed cap, applied next objective tick
+        // Queue every spawned mob for the movement-speed cap, applied next objective tick
         // (after the whole spawn event, so every modifier's spawn hook has run regardless of the
         // order chaos dumps registered them). The hyperboss is excluded here: its modifiers only
         // arrive at first live tick (applyBossStats), which applies the same clamp itself.
@@ -739,6 +748,44 @@ public class HyperVaultObjective extends Objective {
     @Override
     public boolean isActive(VirtualWorld world, Vault vault, Objective objective) {
         return true;
+    }
+
+    /**
+     * An unmodified crystal has no layout of its own, so vault creation rolls one from the
+     * pack's layout pool — where "infinite" has weight 0 and every winner is a bounded
+     * circle/polygon. An endless objective needs an endless map: any classic bounded layout is
+     * converted here to ClassicInfiniteLayout before the first room generates, carrying over
+     * the tunnel span and the template pools the theme stamped onto the rolled layout.
+     * (Runs before generation because room templates bake lazily per chunk; on later inits the
+     * persisted layout is already infinite and this is a no-op.)
+     */
+    private void ensureInfiniteLayout(Vault vault) {
+        VaultGenerator generator = vault.get(Vault.WORLD).get(WorldManager.GENERATOR);
+        if (!(generator instanceof GridGenerator grid)) {
+            WoldsVaults.LOGGER.warn("Hyper vault generator is {}; cannot force the infinite layout.",
+                    generator == null ? "null" : generator.getClass().getSimpleName());
+            return;
+        }
+        GridLayout layout = grid.get(GridGenerator.LAYOUT);
+        if (layout == null || layout.getClass() == ClassicInfiniteLayout.class) {
+            return;
+        }
+        if (!(layout instanceof ClassicVaultLayout classic)) {
+            // DIY/architect/royale layouts wire their room pools differently; converting one
+            // would strand its pools. Leave it and let the vault keep its shape.
+            WoldsVaults.LOGGER.warn("Hyper vault rolled a {} layout; only classic layouts are converted to infinite, so this vault stays bounded.",
+                    layout.getClass().getSimpleName());
+            return;
+        }
+        int tunnelSpan = layout instanceof ClassicInfiniteLayout infinite
+                ? infinite.getOr(ClassicInfiniteLayout.TUNNEL_SPAN, 1) : 1;
+        ClassicInfiniteLayout converted = new ClassicInfiniteLayout(tunnelSpan);
+        classic.ifPresent(ClassicVaultLayout.START_POOL, pool -> converted.set(ClassicVaultLayout.START_POOL, pool));
+        classic.ifPresent(ClassicVaultLayout.ROOM_POOL, pool -> converted.set(ClassicVaultLayout.ROOM_POOL, pool));
+        classic.ifPresent(ClassicVaultLayout.TUNNEL_POOL, pool -> converted.set(ClassicVaultLayout.TUNNEL_POOL, pool));
+        grid.set(GridGenerator.LAYOUT, converted);
+        WoldsVaults.LOGGER.info("Hyper vault layout {} converted to infinite (tunnel span {}).",
+                layout.getClass().getSimpleName(), tunnelSpan);
     }
 
     /**

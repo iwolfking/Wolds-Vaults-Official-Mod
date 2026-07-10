@@ -15,6 +15,7 @@
     "MixinCreeperEntity",
     "MixinEnchantmentHelper",
     "MixinEntity",
+    "MixinFlowingFluid",
     "MixinFortuneOreDropFormula",
     "MixinGameRuleCommand",
     "MixinItemEntity",

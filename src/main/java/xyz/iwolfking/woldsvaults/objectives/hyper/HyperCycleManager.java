@@ -68,7 +68,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
 
     /**
      * Bingo's JOINED counter normally drives VH's per-task-config player scaling; hyper
-     * supplies its own +10%/extra-player rate instead, so it stays pinned at 1 (VH increments
+     * supplies its own +25%/extra-player rate instead, so it stays pinned at 1 (VH increments
      * it when a new runner joins mid-vault, undone here with a log). The collector keeps VH's
      * native JOINED scaling (+50%/extra player), refreshed per batch by seedCurrentRunners.
      */
@@ -176,7 +176,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
      * Card objectives only learn about players from LISTENER_JOIN, which fired long before a
      * mid-vault batch roll. Without pre-seeding, bingo's EntityTaskSource stays empty and every
      * player action is filtered out (the card never progresses). Bingo's JOINED is pinned at 1
-     * (hyper's own +10%/extra-player scaling replaces VH's); the collector's JOINED is seeded
+     * (hyper's own +25%/extra-player scaling replaces VH's); the collector's JOINED is seeded
      * with the live runner count so VH's native +50%/extra-player tile scaling applies.
      */
     private void seedCurrentRunners(Objective mini) {
@@ -217,7 +217,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
     }
 
     /**
-     * target = seed-derived base x (0.75 + 0.25 x cycle) x (1 + 0.33 x extra runners), recomputed
+     * target = seed-derived base x (0.75 + 0.25 x cycle) x (1 + 0.45 x extra runners), recomputed
      * every tick. The base only consumes the seeded random's leading draws, so the task set
      * generated after it in ensureElixirGoal is unaffected.
      */

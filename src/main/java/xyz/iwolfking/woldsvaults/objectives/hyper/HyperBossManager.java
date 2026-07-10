@@ -14,6 +14,7 @@ import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.rune.RuneBossFight;
 import iskallia.vault.core.vault.objective.rune.RuneBossFights;
+import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.data.entity.PartialEntity;
 import iskallia.vault.core.world.storage.IZonedWorld;
 import iskallia.vault.core.world.storage.VirtualWorld;
@@ -98,6 +99,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     // Stable id for the boss's percent damage-escalation modifier (idempotent across reloads).
     private static final UUID HYPER_DAMAGE_UUID =
             UUID.nameUUIDFromBytes("woldsvaults:hyper_damage_escalation".getBytes(StandardCharsets.UTF_8));
+    // Stable id for the multiplayer health bonus (idempotent across reloads).
+    private static final UUID MULTIPLAYER_HEALTH_UUID =
+            UUID.nameUUIDFromBytes("woldsvaults:hyper_multiplayer_health".getBytes(StandardCharsets.UTF_8));
     // The health_attribute trait's baseValue in vault_boss.json (the boss's innate +50%);
     // part of the reference total the vault health factor multiplies.
     private static final double INNATE_HEALTH_BONUS = 0.5;
@@ -489,6 +493,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             // Clamped: deep-cycle scores overflow int (the previous cast wrapped negative).
             objective.set(HyperVaultObjective.SCORE,
                     (int) Math.max(1L, Math.min(Integer.MAX_VALUE, score)));
+            // After the score capture on purpose: extra players make the boss tankier, but
+            // must not inflate the loot-escalation score.
+            applyMultiplayerHealthScale(boss);
         }
         float fraction = boss.getHealth() / boss.getMaxHealth();
         int mask = objective.getOr(HyperVaultObjective.GATE_MASK, 0);
@@ -587,7 +594,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 applied++;
             }
         }
-        // The vault's speed modifiers were just applied for real; same +200% cap as every mob.
+        // The vault's speed modifiers were just applied for real; same speed cap as every mob.
         if (HyperVaultObjective.clampMovementSpeed(boss)) {
             WoldsVaults.LOGGER.info("Hyperboss movement speed capped at +{}%.",
                     Math.round((HyperVaultObjective.SPEED_CAP_FACTOR - 1.0) * 100.0));
@@ -606,6 +613,31 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 Math.round(boss.getMaxHealth()),
                 damage == null ? "?" : Math.round(damage.getValue()), applied);
         logDamageAmplifierAudit();
+    }
+
+    /**
+     * +50% of the boss's finished max health per EXTRA runner, counted once when the boss
+     * first ticks. MULTIPLY_TOTAL, so it multiplies the final value after the arm-time health
+     * trait and every vault modifier — solo stays untouched, a duo fights x1.5, a trio x2.0.
+     */
+    private void applyMultiplayerHealthScale(LivingEntity boss) {
+        int runners = vault.get(Vault.LISTENERS).getAll(Runner.class).size();
+        int extra = Math.max(0, runners - 1);
+        if (extra == 0) {
+            return;
+        }
+        AttributeInstance health = boss.getAttribute(Attributes.MAX_HEALTH);
+        if (health == null || health.getModifier(MULTIPLAYER_HEALTH_UUID) != null) {
+            return;
+        }
+        double bonus = HyperVaultObjective.PLAYER_SCALE_BOSS_HEALTH * extra;
+        health.addPermanentModifier(new AttributeModifier(MULTIPLAYER_HEALTH_UUID,
+                "hyper_multiplayer_health", bonus, AttributeModifier.Operation.MULTIPLY_TOTAL));
+        boss.setHealth(boss.getMaxHealth());
+        WoldsVaults.LOGGER.info("Hyperboss max health x{} for {} runners (+{}% per extra player): {} HP.",
+                1.0 + bonus, runners,
+                Math.round(HyperVaultObjective.PLAYER_SCALE_BOSS_HEALTH * 100.0),
+                Math.round(boss.getMaxHealth()));
     }
 
     /**
