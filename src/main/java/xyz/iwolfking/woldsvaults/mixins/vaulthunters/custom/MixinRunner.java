@@ -88,8 +88,8 @@ public abstract class MixinRunner extends Listener {
                     if(reward.getItem().equals(ModItems.GREED_COIN)) {
                         int count = reward.getCount() + (greedTier - 1);
                         if(greedyCrateTiers > 0) {
-                            // Greedy Crate Tier: +70% greed coins per stack (hyperboss kills).
-                            count = Math.round(count * (1.0F + 0.7F * greedyCrateTiers));
+                            // Greedy Crate Tier: +100% greed coins per stack (hyperboss kills).
+                            count = Math.round(count * (1.0F + 1.0F * greedyCrateTiers));
                         }
                         reward.setCount(count);
                     } else if (hyper) {
