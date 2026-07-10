@@ -592,8 +592,8 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         long brew = xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(
                 vault, ResourceLocation.parse("the_vault:catastrophic_brew"));
         WoldsVaults.LOGGER.info(
-                "Damage-amplifier audit: {} Frenzy (x3 each) + {} Catastrophic Brew (x2 each) stacks -> all player damage x{}.",
-                frenzy, brew, String.format("%.0f", Math.pow(3.0, frenzy) * Math.pow(2.0, brew)));
+                "Damage-amplifier audit: {} Frenzy (+200% each) + {} Catastrophic Brew (+100% each) stacks -> all player damage x{} (additive per modifier in hyper).",
+                frenzy, brew, String.format("%.0f", (1.0 + 2.0 * frenzy) * (1.0 + 1.0 * brew)));
         for (iskallia.vault.core.vault.player.Listener listener : vault.get(Vault.LISTENERS).getAll()) {
             listener.getPlayer().ifPresent(player -> {
                 var snapshot = iskallia.vault.snapshot.AttributeSnapshotHelper.getInstance().getSnapshot(player);
