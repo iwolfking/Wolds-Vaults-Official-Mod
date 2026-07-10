@@ -103,6 +103,25 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
     }
 
     /**
+     * Every arena participant died (death removes them from the vault), so the fight could
+     * never end on its own. Wind back to the armed pillar for the surviving party members:
+     * no cycle advance, no rewards, no chaos dump — re-arming the podium rerolls a boss at
+     * the identical cycle stats. The boss entity itself was already discarded by the caller
+     * (a discard is not a death: no loot fires, and the fight machinery completes itself
+     * once it notices the entity is gone, which reopens the podium for arming).
+     */
+    public void onFightWiped() {
+        restartDoorAnimation();
+        respawnBossPillar();
+        removeBossRoomZone();
+        discardFightSpawns();
+        objective.set(HyperVaultObjective.PHASE, Phase.ARMED);
+        HyperVaultObjective.broadcast(vault,
+                "Everyone challenging the Hyperboss has fallen! The arena reopens — the pillar stands armed for another attempt.",
+                ChatFormatting.RED);
+    }
+
+    /**
      * The just-killed boss's score gates crate reward injections: every met threshold adds one
      * tier marker (non-exclusive), and each marker stack rolls its pool into the completion
      * crate at award time (see HyperCrateRewards / MixinRunner).

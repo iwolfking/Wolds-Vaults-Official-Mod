@@ -12,6 +12,7 @@ import iskallia.vault.core.vault.modifier.modifier.MobAttributeModifier;
 import iskallia.vault.core.vault.modifier.spi.EntityAttributeModifier;
 import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
+import iskallia.vault.core.vault.objective.rune.RuneBossFight;
 import iskallia.vault.core.vault.objective.rune.RuneBossFights;
 import iskallia.vault.core.world.data.entity.PartialEntity;
 import iskallia.vault.core.world.storage.IZonedWorld;
@@ -26,6 +27,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -51,6 +53,9 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -106,9 +111,16 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             new BlockPos(23, 4, 0), new BlockPos(-23, 4, 0),
             new BlockPos(0, 4, 23), new BlockPos(0, 4, -23)};
 
+    // How long the arena must stay empty of living fighters before the fight counts as wiped
+    // (debounces death screens, brief dimension-change resolution gaps, etc.).
+    private static final int WIPE_GRACE_TICKS = 60;
+
     private final HyperEscalationManager escalation;
     // Transient on purpose: a reload mid-fight just restarts the short add countdown.
     private int addTimer = HyperVaultObjective.FIGHT_ADD_PERIOD_TICKS;
+    // Transient on purpose: a reload mid-countdown just restarts the wipe grace window.
+    private int wipeGraceTicks = WIPE_GRACE_TICKS;
+    private String lastRoster = "";
 
     public HyperBossManager(Vault vault, VirtualWorld world, HyperVaultObjective objective, HyperEscalationManager escalation) {
         super(vault, world, objective);
@@ -286,9 +298,92 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return;
         }
 
+        if (checkFightWipe(fights)) {
+            return;
+        }
+
         tickWaveTimer();
         tickHealthGates();
         tickFightAdds();
+    }
+
+    /**
+     * Death removes a runner from the vault, so a fight whose whole arena roster is gone can
+     * never end on its own: the boss would idle in the sealed room while RuneBossFights keeps
+     * the vault clock paused, soft-locking every survivor outside. Instead the fight winds
+     * back to the armed pillar — same cycle, same stats, no rewards — so the rest of the
+     * party can attempt it again. The roster is the fight's own zone-tracked player set;
+     * offline participants hold the fight open (they log back in inside the arena), dead and
+     * spectating ones do not.
+     */
+    private boolean checkFightWipe(RuneBossFights fights) {
+        RuneBossFight fight = activeFight(fights);
+        UUID bossId = objective.getOr(HyperVaultObjective.BOSS_ID, null);
+        Entity boss = bossId == null ? null : world.getEntity(bossId);
+        if (fight == null || !(boss instanceof LivingEntity living) || !living.isAlive()) {
+            // Doors still closing (boss not summoned) or the boss is already dying — the
+            // kill path owns this state, and a simultaneous full-party death stays a win.
+            this.wipeGraceTicks = WIPE_GRACE_TICKS;
+            return false;
+        }
+        logRosterChanges(fight);
+        if (hasLivingFighter(fight)) {
+            this.wipeGraceTicks = WIPE_GRACE_TICKS;
+            return false;
+        }
+        if (--this.wipeGraceTicks > 0) {
+            return false;
+        }
+        this.wipeGraceTicks = WIPE_GRACE_TICKS;
+        WoldsVaults.LOGGER.info(
+                "Hyperboss fight wiped: no living fighter left in the arena for {} ticks. Discarding the boss and re-arming the pillar (cycle unchanged).",
+                WIPE_GRACE_TICKS);
+        boss.discard();
+        escalation.onFightWiped();
+        return true;
+    }
+
+    /** The non-completed fight at the recorded pillar, if the machinery has attached it yet. */
+    private RuneBossFight activeFight(RuneBossFights fights) {
+        BlockPos pillarPos = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
+        if (pillarPos == null) {
+            return null;
+        }
+        for (RuneBossFight fight : fights.getFights()) {
+            if (!fight.isCompleted() && pillarPos.equals(fight.getOrigin())) {
+                return fight;
+            }
+        }
+        return null;
+    }
+
+    private boolean hasLivingFighter(RuneBossFight fight) {
+        for (UUID uuid : fight.getPlayers()) {
+            ServerPlayer player = world.getServer().getPlayerList().getPlayer(uuid);
+            if (player == null) {
+                // Logged off inside the arena: they rejoin mid-fight, so the fight waits.
+                return true;
+            }
+            if (player.level == world && player.isAlive() && !player.isSpectator()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** One log line whenever the arena roster changes, so multiplayer reports are auditable. */
+    private void logRosterChanges(RuneBossFight fight) {
+        List<String> names = new ArrayList<>();
+        for (UUID uuid : fight.getPlayers()) {
+            ServerPlayer player = world.getServer().getPlayerList().getPlayer(uuid);
+            names.add(player == null ? uuid + " (offline)" : player.getGameProfile().getName());
+        }
+        Collections.sort(names);
+        String roster = String.join(", ", names);
+        if (!roster.equals(this.lastRoster)) {
+            WoldsVaults.LOGGER.info("Hyperboss arena roster: [{}]", roster);
+            this.lastRoster = roster;
+        }
     }
 
     /** A lone tank or assassin joins the arena every few seconds while the boss lives. */
