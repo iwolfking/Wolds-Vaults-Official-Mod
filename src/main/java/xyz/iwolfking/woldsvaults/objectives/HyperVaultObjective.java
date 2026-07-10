@@ -140,10 +140,14 @@ public class HyperVaultObjective extends Objective {
     // (once — higher scores do not add further draws).
     public static final int SCORE_EXTRA_DRAW = 2_000_000;
     // Crate-tier grant rate (regular +100% tiers only — kills never grant supers):
-    // kill k gives 6k tiers, 8k once the kill scores RATE_8, 10k from RATE_10, 16k from RATE_16.
-    public static final int SCORE_CRATE_RATE_8 = 250_000;
-    public static final int SCORE_CRATE_RATE_10 = 1_500_000;
-    public static final int SCORE_CRATE_RATE_16 = 25_000_000;
+    // kill k gives 5k tiers, 7k once the kill scores RATE_7, 9k from RATE_9, 15k from RATE_15.
+    public static final int SCORE_CRATE_RATE_7 = 250_000;
+    public static final int SCORE_CRATE_RATE_9 = 1_500_000;
+    public static final int SCORE_CRATE_RATE_15 = 25_000_000;
+    // In hyper vaults the per-crate greed bonus roll (not the score-tier injections) scales
+    // with the crate quantity at this efficiency; greed coins keep their own greedy-tier
+    // scaling and are excluded so they don't double-dip.
+    public static final float GREED_BONUS_TIER_EFFICIENCY = 0.5F;
     // Total mob movement speed is capped at base × this (+200%): stacked speed modifiers made
     // mobs unhittable past ~cycle 4. Applied one tick after spawn so every modifier's own
     // ENTITY_SPAWN hook has run first, whatever order the modifiers were added in.

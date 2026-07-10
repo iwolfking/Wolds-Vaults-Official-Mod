@@ -67,6 +67,16 @@ public abstract class MixinRunner extends Listener {
                     return;
                 }
 
+                // Hyper vaults: the non-coin part of this bonus scales with the crate's
+                // accumulated quantity at half efficiency, so the greed-sourced items
+                // (platinum, boxes, foci...) grow with deep runs the way one crate per
+                // vault never lets them. Coins stay on the unscaled base roll below —
+                // their growth is the greedy-crate-tier multiplier, not crate tiers.
+                float hyperBonusQuantity = xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.get(vault)
+                        .map(objective -> objective.getOr(iskallia.vault.core.vault.objective.AwardCrateObjective.ITEM_QUANTITY, 0.0F))
+                        .orElse(-1.0F) * xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.GREED_BONUS_TIER_EFFICIENCY;
+                boolean hyper = hyperBonusQuantity >= 0.0F;
+
                 LootTableGenerator generator =
                         new LootTableGenerator(Version.latest(), VaultRegistry.LOOT_TABLE.getKey(lootTableKey), 0F);
                 generator.generate(ChunkRandom.ofNanoTime());
@@ -82,8 +92,28 @@ public abstract class MixinRunner extends Listener {
                             count = Math.round(count * (1.0F + 0.5F * greedyCrateTiers));
                         }
                         reward.setCount(count);
+                    } else if (hyper) {
+                        // Non-coin items come from the quantity-scaled pass below instead.
+                        continue;
                     }
                     ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
+                }
+
+                if (hyper) {
+                    LootTableGenerator boosted = new LootTableGenerator(
+                            Version.latest(), VaultRegistry.LOOT_TABLE.getKey(lootTableKey), hyperBonusQuantity);
+                    boosted.generate(ChunkRandom.ofNanoTime());
+                    Iterator<ItemStack> boostedIterator = boosted.getItems();
+                    int added = 0;
+                    while (boostedIterator.hasNext()) {
+                        ItemStack reward = boostedIterator.next();
+                        if (!reward.getItem().equals(ModItems.GREED_COIN)) {
+                            ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
+                            added++;
+                        }
+                    }
+                    WoldsVaults.LOGGER.info("Hyper greed bonus rolled at x{} quantity ({} non-coin stacks).",
+                            String.format("%.1f", 1.0F + hyperBonusQuantity), added);
                 }
             }
         });
