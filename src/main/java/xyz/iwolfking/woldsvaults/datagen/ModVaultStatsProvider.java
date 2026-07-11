@@ -23,6 +23,13 @@ public class ModVaultStatsProvider extends AbstractVaultStatsProvider {
                 completionFloatMap.put(Completion.BAILED, 0F);
                 completionFloatMap.put(Completion.COMPLETED, 36000F);
             });
+            // Hyper pays like the hardest completion in the pack (matches Corrupted's 100k);
+            // there is no bail path — the exit pillar is the only way out alive.
+            builder.addCompletion("hyper", completionFloatMap -> {
+                completionFloatMap.put(Completion.FAILED, 0F);
+                completionFloatMap.put(Completion.BAILED, 0F);
+                completionFloatMap.put(Completion.COMPLETED, 100000F);
+            });
         });
     }
 }

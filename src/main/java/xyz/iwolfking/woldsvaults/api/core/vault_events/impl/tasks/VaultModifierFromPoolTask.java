@@ -44,7 +44,7 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
             List<VaultModifier<?>> modifiers = iskallia.vault.init.ModConfigs.VAULT_MODIFIER_POOLS
                     .getRandom(HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS, 0, JavaRandom.ofNanoTime());
             for (VaultModifier<?> modifier : modifiers) {
-                if (HyperVaultObjective.isStackCapped(vault, modifier)) {
+                if (xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy.isStackCapped(vault, modifier)) {
                     continue;
                 }
                 VaultModifierUtils.addModifier(vault, modifier.getId(), 1);

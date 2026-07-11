@@ -95,7 +95,8 @@ public class BrutalBossesObjective extends ObeliskObjective {
         // Hyper vaults: boss-kill modifiers count against the shared chaos budget and respect
         // the per-modifier stack caps (e.g. Electric max 1).
         if (this.getOr(NEGATIVE_POOL_ONLY, false)
-                && (HyperVaultObjective.isStackCapped(vault, mod) || HyperVaultObjective.consumeChaosBudget(vault, 1) <= 0)) {
+                && (xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy.isStackCapped(vault, mod)
+                || HyperVaultObjective.consumeChaosBudget(vault, 1) <= 0)) {
             return;
         }
         modifiersForMsg.add(mod);
