@@ -31,6 +31,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        simpleItem(ModItems.CORE_OF_THE_VAULT_GODS);
+        simpleItem(ModItems.GODS_MASTERY);
         simpleItem(ModItems.WEAPON_TYPE_FOCUS);
         simpleItem(ModItems.ARCANE_ESSENCE);
         simpleItem(ModItems.ARCANE_SHARD);
