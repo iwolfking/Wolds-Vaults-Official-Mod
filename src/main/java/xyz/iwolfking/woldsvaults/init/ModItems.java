@@ -141,7 +141,6 @@ public class ModItems {
     public static BasicItem REPAIR_AUGMENTER;
     public static BasicItem CRYSTAL_REINFORCEMENT;
     public static BasicItem RESONATING_REINFORCEMENT;
-    public static xyz.iwolfking.woldsvaults.items.GreedyTicketItem GREEDY_TICKET;
     public static BasicItem STYLISH_FOCUS;
     public static BasicItem MERCY_ORB;
     public static BasicItem UBER_CHAOS_CATALYST;
@@ -292,7 +291,6 @@ public class ModItems {
         registry.register(REPAIR_AUGMENTER);
         registry.register(CRYSTAL_REINFORCEMENT);
         registry.register(RESONATING_REINFORCEMENT);
-        registry.register(GREEDY_TICKET);
         registry.register(CHISELING_FOCUS);
         registry.register(ZEPHYR_CHARM);
         registry.register(STYLISH_FOCUS);
@@ -463,7 +461,6 @@ public class ModItems {
 
         CRYSTAL_REINFORCEMENT = new BasicItem(WoldsVaults.id("crystal_reinforcement"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
         RESONATING_REINFORCEMENT = new BasicItem(WoldsVaults.id("resonating_reinforcement"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
-        GREEDY_TICKET = new xyz.iwolfking.woldsvaults.items.GreedyTicketItem(WoldsVaults.id("greedy_ticket"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 
         STYLISH_FOCUS = new BasicItem(WoldsVaults.id("stylish_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
         CHISELING_FOCUS = new ToolModifierNullifyingItem(WoldsVaults.id("chiseling_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
