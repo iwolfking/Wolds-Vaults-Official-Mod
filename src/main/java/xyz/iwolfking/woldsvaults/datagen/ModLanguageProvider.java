@@ -151,6 +151,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("util.woldsvaults.objective_text", "Objective: ");
         add("util.woldsvaults.vault_modifier_added", "%1$s was added to the Vault!");
         add("util.woldsvaults.timed_modifier_added", "%1$s added %2$s to the Vault for %3$s seconds!");
+        add("item.woldsvaults.greedy_ticket", "Greedy Ticket");
         add("item.woldsvaults.rotten_heart", "Rotten Heart");
         add("item.woldsvaults.rotten_apple", "Rotten Apple");
         add("item.woldsvaults.verdant_globule", "Verdant Globule");
