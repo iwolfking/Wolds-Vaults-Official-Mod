@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.objectives.hyper;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.entity.BossRunePillarTileEntity;
-import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.util.WeightedList;
@@ -46,6 +45,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarConfigAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.lib.EntityAttributeModifierSettable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -63,6 +63,12 @@ import java.util.UUID;
 /**
  * Drives the hyperboss cycle: arms the pillar with escalated stats, runs the periodic and
  * health-gated brutal waves, and hands a finished fight over to the escalation manager.
+ *
+ * <p>FRAGILITY NOTE: arming reuses RuneBossFight/BossRunePillarTileEntity in a loop those
+ * classes were never designed for (pillar NBT snapshot/restore, per-fight zone recreation,
+ * gate-surround repair). This works against the current base-mod internals and degrades
+ * with a logged warning where it can, but it is the first place to re-verify after any
+ * Vault Hunters update that touches the rune-boss machinery.
  */
 public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     // Arena adds: hostile picks from the config's the_vault:tank / the_vault:assassin entity
@@ -106,11 +112,6 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     // part of the reference total the vault health factor multiplies.
     private static final double INNATE_HEALTH_BONUS = 0.5;
     private static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.parse("generic.max_health");
-    // Score reference stats (boogeyman's level-100 bases). The score applies the killed boss's
-    // TOTAL/BASE multipliers — pure cycle + modifier scaling, identical for every roster boss —
-    // to these fixed bases, so rolling a black widow after a golem can't score lower.
-    private static final double REFERENCE_BOSS_HEALTH = 388_000.0;
-    private static final double REFERENCE_BOSS_DAMAGE = 1_460.0;
     // The four arena gates of the BOSS_1 room style, relative to the pillar (RuneBossAnimation).
     private static final BlockPos[] GATE_OFFSETS = {
             new BlockPos(23, 4, 0), new BlockPos(-23, 4, 0),
@@ -122,7 +123,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
 
     private final HyperEscalationManager escalation;
     // Transient on purpose: a reload mid-fight just restarts the short add countdown.
-    private int addTimer = HyperVaultObjective.FIGHT_ADD_PERIOD_TICKS;
+    private int addTimer = HyperVaultObjective.cfg().getFightAddPeriodTicks();
     // Transient on purpose: a reload mid-countdown just restarts the wipe grace window.
     private int wipeGraceTicks = WIPE_GRACE_TICKS;
     private String lastRoster = "";
@@ -155,9 +156,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         snapshotOrRepairGates(pillarPos);
 
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
-        double escalation = HyperVaultObjective.BOSS_HEALTH_PERCENT
-                * Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle)
-                + HyperVaultObjective.BOSS_STAT_INCREMENT * cycle;
+        double escalation = HyperVaultObjective.cfg().getBossHealthPercent()
+                * Math.pow(HyperVaultObjective.cfg().getHyperStatFactor(), cycle)
+                + HyperVaultObjective.cfg().getBossStatIncrement() * cycle;
         // The boss's health is one giant MULTIPLY_BASE trait term, so applying the vault's mob
         // health modifiers as attribute modifiers dilutes them to noise (+100% of base next to
         // the +5000%·1.75^cycle escalation is +2%). Instead the vault's health factor —
@@ -173,18 +174,18 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                     Math.round(healthFactor * 100.0) / 100.0);
         }
         BossRuneModifiers armed = new BossRuneModifiers(healthPercent, 0.0,
-                HyperVaultObjective.BOSS_ABILITY_HASTE);
+                HyperVaultObjective.cfg().getBossAbilityHaste());
         pillar.getModifiers().copyFrom(armed);
         // Rune count keys the shield/waveblast/revive settings table; capped so an absurd cycle
         // count cannot index past the config.
-        pillar.setRuneCount(Math.min(HyperVaultObjective.BASE_RUNE_TIER + cycle, HyperVaultObjective.RUNE_TIER_CAP));
+        pillar.setRuneCount(Math.min(HyperVaultObjective.cfg().getBaseRuneTier() + cycle, HyperVaultObjective.cfg().getRuneTierCap()));
         pillar.getModifiers().setReviveAbility(null); // the hyperboss never heals or revives
 
         objective.set(HyperVaultObjective.SCORE, 0);
         fights.add(pillar.createFight());
         objective.set(HyperVaultObjective.PHASE, Phase.FIGHT);
-        objective.set(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.WAVE_PERIOD_TICKS);
-        this.addTimer = HyperVaultObjective.FIGHT_ADD_PERIOD_TICKS;
+        objective.set(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.cfg().getWavePeriodTicks());
+        this.addTimer = HyperVaultObjective.cfg().getFightAddPeriodTicks();
         // BOSS_ID intentionally keeps its previous value until the new boss spawns: gate checks
         // resolve a dead entity to null and skip, and ENTITY_SPAWN overwrites it on summon.
         objective.set(HyperVaultObjective.GATE_MASK, 0);
@@ -419,7 +420,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         if (--this.addTimer > 0) {
             return;
         }
-        this.addTimer = HyperVaultObjective.FIGHT_ADD_PERIOD_TICKS;
+        this.addTimer = HyperVaultObjective.cfg().getFightAddPeriodTicks();
         BlockPos center = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
         if (center == null) {
             return;
@@ -460,10 +461,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     }
 
     private void tickWaveTimer() {
-        int remaining = objective.getOr(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.WAVE_PERIOD_TICKS) - 1;
+        int remaining = objective.getOr(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.cfg().getWavePeriodTicks()) - 1;
         if (remaining <= 0) {
             spawnBrutalWave("timed");
-            remaining = HyperVaultObjective.WAVE_PERIOD_TICKS;
+            remaining = HyperVaultObjective.cfg().getWavePeriodTicks();
         }
         objective.set(HyperVaultObjective.WAVE_TICK, remaining);
     }
@@ -480,7 +481,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         if (objective.getOr(HyperVaultObjective.SCORE, 0) == 0) {
             // First live sighting (traits are applied by now): give the boss its damage
             // escalation plus the vault's mob modifiers, then score the finished stats,
-            // normalized to the boogeyman reference (see REFERENCE_BOSS_HEALTH).
+            // normalized to the boogeyman reference (cfg reference stats).
             applyBossStats(boss);
             AttributeInstance health = boss.getAttribute(Attributes.MAX_HEALTH);
             AttributeInstance damage = boss.getAttribute(Attributes.ATTACK_DAMAGE);
@@ -488,8 +489,8 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                     ? 1.0 : boss.getMaxHealth() / health.getBaseValue();
             double damageMultiplier = damage == null || damage.getBaseValue() <= 0.0
                     ? 0.0 : damage.getValue() / damage.getBaseValue();
-            long score = Math.round((healthMultiplier * REFERENCE_BOSS_HEALTH
-                    + damageMultiplier * 100.0 * REFERENCE_BOSS_DAMAGE) / 1000.0);
+            long score = Math.round((healthMultiplier * HyperVaultObjective.cfg().getReferenceBossHealth()
+                    + damageMultiplier * 100.0 * HyperVaultObjective.cfg().getReferenceBossDamage()) / 1000.0);
             // Clamped: deep-cycle scores overflow int (the previous cast wrapped negative).
             objective.set(HyperVaultObjective.SCORE,
                     (int) Math.max(1L, Math.min(Integer.MAX_VALUE, score)));
@@ -498,11 +499,15 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             applyMultiplayerHealthScale(boss);
         }
         float fraction = boss.getHealth() / boss.getMaxHealth();
+        // GATE_MASK persists bit i for gates[i]; the gate list order is part of a
+        // mid-fight save. Editing the config between fights is fine (the mask resets
+        // at every arm), reordering it mid-fight double- or never-fires a wave.
+        float[] gates = HyperVaultObjective.cfg().getHealthGates();
         int mask = objective.getOr(HyperVaultObjective.GATE_MASK, 0);
-        for (int i = 0; i < HyperVaultObjective.HEALTH_GATES.length; i++) {
-            if (fraction <= HyperVaultObjective.HEALTH_GATES[i] && (mask & (1 << i)) == 0) {
+        for (int i = 0; i < gates.length && i < 31; i++) {
+            if (fraction <= gates[i] && (mask & (1 << i)) == 0) {
                 mask |= 1 << i;
-                spawnBrutalWave((int) (HyperVaultObjective.HEALTH_GATES[i] * 100) + "% gate");
+                spawnBrutalWave((int) (gates[i] * 100) + "% gate");
             }
         }
         objective.set(HyperVaultObjective.GATE_MASK, mask);
@@ -519,8 +524,8 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return;
         }
         RandomSource random = JavaRandom.ofNanoTime();
-        int count = HyperVaultObjective.WAVE_MOB_MIN
-                + random.nextInt(HyperVaultObjective.WAVE_MOB_MAX - HyperVaultObjective.WAVE_MOB_MIN + 1);
+        int count = HyperVaultObjective.cfg().getWaveMobMin()
+                + random.nextInt(HyperVaultObjective.cfg().getWaveMobMax() - HyperVaultObjective.cfg().getWaveMobMin() + 1);
         int spawned = 0;
         for (int i = 0; i < count; i++) {
             if (spawnAround(center, random)) {
@@ -537,25 +542,18 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
 
     /** A fresh boss from the pillar's palette roster every cycle (repeats allowed). */
     private void rerollBoss(BossRunePillarTileEntity pillar) {
-        // The roster is read from the tile's own saved NBT (the Config.writeNbt shape: a
-        // "boss" list of PartialEntity tags with a "weight") instead of via an accessor on
-        // the nested private-field Config — one less mixin that can fail to attach.
-        ListTag entries = pillar.saveWithoutMetadata().getCompound("config").getList("boss", Tag.TAG_COMPOUND);
-        WeightedList<PartialEntity> pool = new WeightedList<>();
-        for (int i = 0; i < entries.size(); i++) {
-            CompoundTag entry = entries.getCompound(i);
-            double weight = Adapters.DOUBLE.readNbt(entry.get("weight")).orElse(1.0);
-            Adapters.PARTIAL_ENTITY.readNbt(entry).ifPresent(boss -> pool.add(boss, weight));
-        }
-        if (pool.isEmpty()) {
+        // Typed access to the pillar config's roster (no NBT-shape parsing: a base-mod save
+        // format change breaks this loudly at mixin apply, not silently at runtime).
+        WeightedList<PartialEntity> pool =
+                ((BossRunePillarConfigAccessor) (Object) ((BossRunePillarAccessor) pillar).getConfig()).getBossPool();
+        if (pool == null || pool.isEmpty()) {
             WoldsVaults.LOGGER.warn("The boss pillar has no roster to reroll from; keeping {}.",
                     pillar.getBoss() == null ? "nothing" : pillar.getBoss().getId());
             return;
         }
         pool.getRandom(JavaRandom.ofNanoTime()).ifPresent(rolled -> {
-            // No copy(): PartialEntity.copy NPEs on position-less templates (blockPos null),
-            // and this pool was freshly parsed from NBT — the instance is exclusively ours.
-            // (Vanilla onPopulate also assigns the rolled template directly, without copying.)
+            // No copy(): PartialEntity.copy NPEs on position-less templates (blockPos null).
+            // Vanilla onPopulate assigns the rolled template directly the same way.
             ((BossRunePillarAccessor) pillar).setBoss(rolled);
             WoldsVaults.LOGGER.info("Hyperboss for this cycle: {}.", rolled.getId());
         });
@@ -569,9 +567,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      */
     private void applyBossStats(LivingEntity boss) {
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
-        double damageEscalation = HyperVaultObjective.BOSS_DAMAGE_PERCENT
-                * Math.pow(HyperVaultObjective.HYPER_STAT_FACTOR, cycle)
-                + HyperVaultObjective.BOSS_STAT_INCREMENT * cycle;
+        double damageEscalation = HyperVaultObjective.cfg().getBossDamagePercent()
+                * Math.pow(HyperVaultObjective.cfg().getHyperStatFactor(), cycle)
+                + HyperVaultObjective.cfg().getBossStatIncrement() * cycle;
         AttributeInstance damage = boss.getAttribute(Attributes.ATTACK_DAMAGE);
         if (damage != null && damage.getModifier(HYPER_DAMAGE_UUID) == null) {
             damage.addPermanentModifier(new AttributeModifier(HYPER_DAMAGE_UUID,
@@ -597,12 +595,12 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         // The vault's speed modifiers were just applied for real; same speed cap as every mob.
         if (HyperVaultObjective.clampMovementSpeed(boss)) {
             WoldsVaults.LOGGER.info("Hyperboss movement speed capped at +{}%.",
-                    Math.round((HyperVaultObjective.SPEED_CAP_FACTOR - 1.0) * 100.0));
+                    Math.round((HyperVaultObjective.cfg().getSpeedCapFactor() - 1.0) * 100.0));
         }
         // Reaving's bonus damage (target max health × gear %) fires once per mob, gated by the
         // REAVING effect as its "already reaved" latch — pre-latching makes the hyperboss immune
         // to a proc that scales with its hyper-inflated health pool. Bleed (the other
-        // %-max-health source) is denied outright in HyperBossEffectImmunity.
+        // %-max-health source) is denied outright in events/HyperVaultEvents.
         boss.addEffect(new MobEffectInstance(xyz.iwolfking.woldsvaults.init.ModEffects.REAVING, Integer.MAX_VALUE, 0, true, false));
         // NOTE: do NOT give the hyperboss InfernalMobs modifiers. InfernalMobs multiplies an
         // infernal mob's max health generically (independent of which modifier rolled), and
@@ -630,13 +628,13 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         if (health == null || health.getModifier(MULTIPLAYER_HEALTH_UUID) != null) {
             return;
         }
-        double bonus = HyperVaultObjective.PLAYER_SCALE_BOSS_HEALTH * extra;
+        double bonus = HyperVaultObjective.cfg().getPlayerScaleBossHealth() * extra;
         health.addPermanentModifier(new AttributeModifier(MULTIPLAYER_HEALTH_UUID,
                 "hyper_multiplayer_health", bonus, AttributeModifier.Operation.MULTIPLY_TOTAL));
         boss.setHealth(boss.getMaxHealth());
         WoldsVaults.LOGGER.info("Hyperboss max health x{} for {} runners (+{}% per extra player): {} HP.",
                 1.0 + bonus, runners,
-                Math.round(HyperVaultObjective.PLAYER_SCALE_BOSS_HEALTH * 100.0),
+                Math.round(HyperVaultObjective.cfg().getPlayerScaleBossHealth() * 100.0),
                 Math.round(boss.getMaxHealth()));
     }
 
@@ -646,6 +644,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      * and each runner's %-scaling damage gear, so the hurt-chain log lines can be attributed.
      */
     private void logDamageAmplifierAudit() {
+        if (!xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
+            return;
+        }
         long frenzy = xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(
                 vault, ResourceLocation.parse("the_vault:frenzy"));
         long brew = xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(

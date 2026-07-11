@@ -20,7 +20,9 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class HyperVaultCrystalObjective extends WoldCrystalObjective {
-    protected float hyperStatFactor = HyperVaultObjective.HYPER_STAT_FACTOR;
+    // Carried in crystal NBT/JSON for forward compatibility, but nothing consumes it yet:
+    // the live escalation factor is hyper_objective.json (cfg().getHyperStatFactor()).
+    protected float hyperStatFactor = HyperVaultObjective.cfg().getHyperStatFactor();
 
     public HyperVaultCrystalObjective() {
     }
@@ -79,7 +81,7 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
 
     @Override
     public void readNbt(CompoundTag nbt) {
-        this.hyperStatFactor = Adapters.FLOAT.readNbt(nbt.get("hyper_stat_factor")).orElse(HyperVaultObjective.HYPER_STAT_FACTOR);
+        this.hyperStatFactor = Adapters.FLOAT.readNbt(nbt.get("hyper_stat_factor")).orElse(HyperVaultObjective.cfg().getHyperStatFactor());
     }
 
     @Override
@@ -91,6 +93,6 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
 
     @Override
     public void readJson(JsonObject json) {
-        this.hyperStatFactor = Adapters.FLOAT.readJson(json.get("hyper_stat_factor")).orElse(HyperVaultObjective.HYPER_STAT_FACTOR);
+        this.hyperStatFactor = Adapters.FLOAT.readJson(json.get("hyper_stat_factor")).orElse(HyperVaultObjective.cfg().getHyperStatFactor());
     }
 }

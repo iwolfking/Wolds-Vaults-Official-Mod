@@ -108,145 +108,70 @@ import java.util.UUID;
  * way out with a completion is the 30s exit pillar spawned after each boss kill.
  */
 public class HyperVaultObjective extends Objective {
-    // Tuning constants. Boss health/damage are fractions of base (0.5 = +50%), see BossRuneModifiers.
-    public static final float HYPER_STAT_FACTOR = 1.75F;
-    public static final float SPEED_PER_STACK = 0.20F;
-    public static final int CHAOS_PER_KILL = 25;
-    public static final int CHAOS_CAP = 350;
-    public static final int WAVE_PERIOD_TICKS = 20 * 20;
-    public static final float[] HEALTH_GATES = {0.8F, 0.6F, 0.4F, 0.2F};
-    public static final int WAVE_MOB_MIN = 2;
-    public static final int WAVE_MOB_MAX = 4;
-    public static final int EXIT_PILLAR_TICKS = 20 * 15;
-    // Clicking the exit pillar no longer leaves instantly: it starts a personal 15s victory
-    // countdown (matching the post-boss transition other vaults get), after which the CLICKER
-    // is completed and extracted — elixir-style, per player; the vault keeps going for the rest.
-    public static final int WIN_TRANSITION_TICKS = 20 * 15;
-    public static final int FIGHT_ADD_PERIOD_TICKS = 20 * 6;
-    public static final int AMBIENT_PERIOD_TICKS = 20 * 120;
-    public static final int BASE_RUNE_TIER = 3;
-    public static final int RUNE_TIER_CAP = 10;
-    // Boss escalation = base × HYPER_STAT_FACTOR^cycle (the same exponential everything in the
-    // vault rides) PLUS a boss-exclusive linear bonus per cycle. Fractions of base (50.0 = +5000%).
-    public static final double BOSS_HEALTH_PERCENT = 50.0;
-    public static final double BOSS_DAMAGE_PERCENT = 50.0;
-    public static final double BOSS_STAT_INCREMENT = 15.0;
-    // Score thresholds that add one reward-injection tier marker per hyperboss kill
-    // (non-exclusive: a 500k boss adds all three).
-    public static final int SCORE_RARE = 75_000;
-    public static final int SCORE_EPIC = 150_000;
-    public static final int SCORE_OMEGA = 500_000;
-    // A kill whose boss scored at least this awards a second super crate tier (and a second
-    // greedy crate tier; SCORE_TRIPLE_GREEDY upgrades that to three).
-    public static final int SCORE_DOUBLE_SUPER = 1_000_000;
-    public static final int SCORE_TRIPLE_GREEDY = 5_000_000;
-    // Epic/omega tier markers earned by a kill at or above this roll one extra draw per set
-    // (once — higher scores do not add further draws).
-    public static final int SCORE_EXTRA_DRAW = 2_000_000;
-    // Crate-tier grant rate (regular +100% tiers only — kills never grant supers):
-    // kill k gives 5k tiers, 7k once the kill scores RATE_7, 9k from RATE_9, 15k from RATE_15.
-    public static final int SCORE_CRATE_RATE_7 = 250_000;
-    public static final int SCORE_CRATE_RATE_9 = 1_500_000;
-    public static final int SCORE_CRATE_RATE_15 = 25_000_000;
-    // In hyper vaults the per-crate greed bonus roll (not the score-tier injections) scales
-    // with the crate quantity at this efficiency; greed coins keep their own greedy-tier
-    // scaling and are excluded so they don't double-dip.
-    public static final float GREED_BONUS_TIER_EFFICIENCY = 0.15F;
-    // Total mob movement speed is capped at base × this (+150%): stacked speed modifiers made
-    // mobs unhittable past ~cycle 4. Applied one tick after spawn so every modifier's own
-    // ENTITY_SPAWN hook has run first, whatever order the modifiers were added in.
-    public static final double SPEED_CAP_FACTOR = 2.5;
-    private static final UUID SPEED_CLAMP_UUID =
-            UUID.nameUUIDFromBytes("woldsvaults:hyper_speed_clamp".getBytes(java.nio.charset.StandardCharsets.UTF_8));
-    // Haste is in rune "haste points" (vanilla rune roll is 0-3), not percent. Tune in testing.
-    public static final int BOSS_ABILITY_HASTE = 6;
-    public static final int OBELISK_MIN = 2;
-    public static final int OBELISK_MAX = 5;
-    public static final float BRUTAL_OBELISK_PROBABILITY = 0.6F;
-    // Elixir target = base × (MULTIPLIER + INCREMENT × cycle): 75% of a normal vault's
-    // requirement at cycle 0, +25% of that normal base per completed cycle.
-    public static final float ELIXIR_TARGET_MULTIPLIER = 0.75F;
-    public static final float ELIXIR_TARGET_INCREMENT = 0.25F;
-    // Mini-objective pacing: card requirements grow +10% (of base) per boss kill, and the
-    // card boards grow to 5x5 once the vault reaches its 6th boss (cycle counter >= 5).
-    public static final double CYCLE_REQUIREMENT_INCREMENT = 0.10;
-    public static final int BOARD_UPSIZE_CYCLE = 4;
-    // Per EXTRA runner in the vault, applied multiplicatively on top of the cycle scaling
-    // (recomputed live every tick, so requirements relax when a runner dies or leaves).
-    // The collector card has no entry: it keeps VH's own JOINED-driven +50%/player scaling.
-    public static final double PLAYER_SCALE_ELIXIR = 0.45;
-    public static final double PLAYER_SCALE_BINGO = 0.25;
-    // The hyperboss gains +50% of its finished max health per EXTRA runner, counted once at
-    // summon (MULTIPLY_TOTAL, after every other modifier; excluded from the loot score).
-    public static final double PLAYER_SCALE_BOSS_HEALTH = 0.5;
+    // Every tuning knob lives in config/the_vault/hyper_objective.json (HyperObjectiveConfig);
+    // the ban list and stack caps live in HyperModifierPolicy. Hyper behavior that does NOT
+    // live under objectives/ — the full list, for anyone tracing "why does X act differently
+    // in hyper vaults":
+    //   - BrutalBossesObjective: NEGATIVE_POOL_ONLY mode (hyper minis pull hyper_all_bad,
+    //     budget/cap-gated, obelisk listener gate skipped)
+    //   - api/core/vault_events VaultModifierFromPoolTask: negative enchanted-event pulls
+    //     redirect to hyper_bad_timer_events
+    //   - MixinMobFrenzyModifier: frenzy-family damage stacks add instead of compounding
+    //   - MixinRunner: score-tier crate injections + greed-bonus quantity scaling
+    //   - MixinBingoTask: bingo-line vault-modifier rewards suppressed
+    //   - MixinFlowingFluid: lava/void hazard-pool fluid ticks frozen
+    //   - VaultMapItem.applySpecialModifiers: the Cull map modifier is stripped
+    //   - events/HyperVaultEvents: boss bleed denial, mob immortality denial, explosion
+    //     pool-shielding; events/HyperBossDamageInstrumentation: debug-mode damage logging
+    //   - datagen/ModVaultModifierPoolsProvider: the hyper_* pools are derived at datagen time
+
+    /** The live tuning knobs (config/the_vault/hyper_objective.json). */
+    public static xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig cfg() {
+        return xyz.iwolfking.woldsvaults.init.ModConfigs.HYPER_OBJECTIVE;
+    }
+
     // Entity tag on everything the boss fight spawns (adds + waves) so the per-kill cleanup
     // can find and discard the leftover escort.
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
-    // Stack caps for hyper-added modifiers (counts crystal-applied stacks too). Electric mob
-    // spam is annoying enough that one stack is plenty; Wounded (-5 hearts) is the one
-    // player max-health drain left in the pools and must never zero a health pool;
-    // Explosive is a TNT spawner per stack (grouped carriers are banned/unpooled, so the
-    // id-keyed cap can't be bypassed); lava/void pools and the spawner trios get playability
-    // caps so deep runs don't carpet every room.
-    private static final java.util.Map<ResourceLocation, Integer> STACK_CAPS = java.util.Map.of(
-            ResourceLocation.parse("the_vault:electric"), 1,
-            ResourceLocation.parse("the_vault:wounded"), 4,
-            ResourceLocation.parse("the_vault:explosive"), 1,
-            ResourceLocation.parse("the_vault:volcanic"), 2,
-            ResourceLocation.parse("the_vault:void_pools"), 2,
-            ResourceLocation.parse("the_vault:safari"), 5,
-            ResourceLocation.parse("the_vault:winter"), 5,
-            ResourceLocation.parse("the_vault:fungal"), 5);
-    private static final ResourceLocation MANA_LEAK = ResourceLocation.parse("the_vault:mana_leak");
-    private static final ResourceLocation FRENZY = ResourceLocation.parse("the_vault:frenzy");
-
-    private static int stackCap(Vault vault, ResourceLocation id) {
-        if (MANA_LEAK.equals(id)) {
-            // -2000% mana regen per stack: one is punishment enough early; +1 every 3 cycles.
-            return 1 + getCycleCount(vault) / 3;
-        }
-        if (FRENZY.equals(id)) {
-            // Every stack multiplies ALL player damage x3 (MixinMobFrenzyModifier rework) —
-            // uncapped it outgrows the boss's own x1.75/cycle and ruins the balance.
-            // 1 stack through cycle 4, then +1 every 4 cycles (2 at 5-8, 3 at 9-12, ...).
-            return 1 + Math.max(0, getCycleCount(vault) - 1) / 4;
-        }
-        return STACK_CAPS.getOrDefault(id, Integer.MAX_VALUE);
-    }
-
-    /** True when adding this modifier would exceed its hyper stack cap; logs the skip. */
-    public static boolean isStackCapped(Vault vault, VaultModifier<?> modifier) {
-        int cap = stackCap(vault, modifier.getId());
-        if (cap == Integer.MAX_VALUE
-                || xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(vault, modifier.getId()) < cap) {
-            return false;
-        }
-        WoldsVaults.LOGGER.info("Skipped rolling another {} — capped at {} stack(s) in Hyper vaults.", modifier.getId(), cap);
-        return true;
-    }
-    // Hyper's chaos pools (pack config; concealed-chaos / negative-event copies minus the banned
-    // modifiers). hyper_mixed rolls 25 per pull for the dumps; hyper_all_bad rolls 1 for
-    // brutal-boss kills; hyper_bad_timer_events rolls 1 for the 2-minute ambient ticks.
+    private static final UUID SPEED_CLAMP_UUID =
+            UUID.nameUUIDFromBytes("woldsvaults:hyper_speed_clamp".getBytes(java.nio.charset.StandardCharsets.UTF_8));
+    // Hyper's chaos pools (datagen'd in ModVaultModifierPoolsProvider: the concealed-chaos /
+    // negative-event source lists minus HyperModifierPolicy.BANNED). hyper_mixed rolls 25 per
+    // pull for the dumps; hyper_all_bad rolls 1 for brutal-boss kills; hyper_bad_timer_events
+    // rolls 1 for the 2-minute ambient ticks.
     public static final ResourceLocation CHAOS_POOL_MIXED = WoldsVaults.id("hyper_mixed");
     public static final ResourceLocation CHAOS_POOL_ALL_BAD = WoldsVaults.id("hyper_all_bad");
     public static final ResourceLocation CHAOS_POOL_TIMER_EVENTS = WoldsVaults.id("hyper_bad_timer_events");
     public static final ResourceLocation BINGO_POOL = WoldsVaults.id("hyper");
 
+    // Serialized by NAME (never ordinal), so phases can be added or reordered freely.
     public enum Phase {
-        // WIN is legacy (one interim build used it as a vault-wide phase; extraction is
-        // per-player now) but must stay: the adapter serializes ordinals — never reorder.
-        ROLLING, MINIS, ARMED, FIGHT, REWARD, WIN
+        ROLLING, MINIS, ARMED, FIGHT, REWARD
     }
 
-    /** Mini-objective set. Every batch is ELIXIR + one of BINGO/SCAVENGER + the forced BRUTAL. */
+    /**
+     * Mini-objective set. Every batch is ELIXIR + one of BINGO/SCAVENGER + the forced BRUTAL.
+     * Each constant carries an explicit BATCH_MASK bit (persisted to disk — the bit values,
+     * not the declaration order, are the save format; never change them).
+     */
     public enum HyperMini {
-        BINGO, SCAVENGER, ELIXIR, BRUTAL
+        BINGO(1), SCAVENGER(1 << 1), ELIXIR(1 << 2), BRUTAL(1 << 3);
+
+        private final int bit;
+
+        HyperMini(int bit) {
+            this.bit = bit;
+        }
+
+        public int bit() {
+            return this.bit;
+        }
     }
 
     public static final SupplierKey<Objective> KEY = SupplierKey.of("hyper", Objective.class).with(Version.v1_31, HyperVaultObjective::new);
     public static final FieldRegistry FIELDS = Objective.FIELDS.merge(new FieldRegistry());
 
-    public static final FieldKey<Phase> PHASE = FieldKey.of("phase", Phase.class).with(Version.v1_31, Adapters.ofEnum(Phase.class, EnumAdapter.Mode.ORDINAL), DISK.all().or(CLIENT.all())).register(FIELDS);
+    public static final FieldKey<Phase> PHASE = FieldKey.of("phase", Phase.class).with(Version.v1_31, Adapters.ofEnum(Phase.class, EnumAdapter.Mode.NAME), DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Integer> CYCLE = FieldKey.of("cycle", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Integer> CHAOS_COUNT = FieldKey.of("chaos_count", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> BATCH_MASK = FieldKey.of("batch_mask", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
@@ -278,7 +203,8 @@ public class HyperVaultObjective extends Objective {
     // Per-player victory countdowns: uuid string -> ticks left until that player alone is
     // completed and extracted (synced so each client can render its own countdown).
     public static final FieldKey<CompoundTag> EXTRACTIONS = FieldKey.of("extractions", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all().or(CLIENT.all())).register(FIELDS);
-    // How many epic/omega tier-marker stacks were earned by kills scoring SCORE_EXTRA_DRAW+;
+    // How many epic/omega tier-marker stacks were earned by kills scoring at least the
+    // configured extra-draw score;
     // those stacks roll one extra draw at crate time (see HyperCrateRewards).
     public static final FieldKey<Integer> EPIC_PLUS = FieldKey.of("epic_plus", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> OMEGA_PLUS = FieldKey.of("omega_plus", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
@@ -312,7 +238,9 @@ public class HyperVaultObjective extends Objective {
         this.set(ELIXIR_TARGET, 0);
         this.set(ELIXIR_TASKS, new ElixirTask.List());
         this.set(WAVE_TICK, 0);
-        this.set(AMBIENT_TICK, AMBIENT_PERIOD_TICKS);
+        // Plain literal (config default): tickAmbientEvents reschedules from cfg() after
+        // the first fire, so a retuned period takes over within one cycle.
+        this.set(AMBIENT_TICK, 20 * 120);
         this.set(GATE_MASK, 0);
     }
 
@@ -341,7 +269,7 @@ public class HyperVaultObjective extends Objective {
 
     /** Card requirements grow +10% of their base per completed boss cycle. */
     public static double cycleRequirementScale(Vault vault) {
-        return 1.0 + CYCLE_REQUIREMENT_INCREMENT * getCycleCount(vault);
+        return 1.0 + cfg().getCycleRequirementIncrement() * getCycleCount(vault);
     }
 
     /** x(1 + rate x extra runners), from the LIVE runner count — elastic on joins and deaths. */
@@ -351,18 +279,33 @@ public class HyperVaultObjective extends Objective {
     }
 
     /**
-     * Reserves up to {@code requested} points of the 175 chaos budget (chaos dumps, ambient
-     * negative events and brutal-kill modifiers all draw from it). Returns the granted amount.
+     * Reserves up to {@code requested} points of the vault-wide chaos budget
+     * ({@code cfg().getChaosCap()} total; chaos dumps, ambient negative events and
+     * brutal-kill modifiers all draw from it). Returns the granted amount.
      */
     public static int consumeChaosBudget(Vault vault, int requested) {
         return get(vault).map(objective -> {
             int used = objective.getOr(CHAOS_COUNT, 0);
-            int granted = Math.max(0, Math.min(requested, CHAOS_CAP - used));
+            int granted = Math.max(0, Math.min(requested, cfg().getChaosCap() - used));
             if (granted > 0) {
                 objective.set(CHAOS_COUNT, used + granted);
             }
             return granted;
         }).orElse(0);
+    }
+
+
+    /**
+     * VH's event bus swallows handler exceptions (printStackTrace to raw stderr, which the
+     * launcher never routes into latest.log) — round 14 lost three blind playtests to that.
+     * Every hyper CommonEvents handler body runs through here so failures are visible.
+     */
+    private static void guarded(String what, Runnable body) {
+        try {
+            body.run();
+        } catch (Exception e) {
+            WoldsVaults.LOGGER.error("Hyper handler '{}' failed!", what, e);
+        }
     }
 
     @Override
@@ -375,14 +318,6 @@ public class HyperVaultObjective extends Objective {
         // (the door animation is transient); replaying the 5s opening is harmless.
         if (this.getOr(PHASE, Phase.ROLLING) == Phase.REWARD) {
             this.escalationManager.restartDoorAnimation();
-        }
-
-        // One interim build used WIN as a vault-wide phase with no per-player state; a save
-        // stuck there would never tick again. Convert it to an expired reward window.
-        if (this.getOr(PHASE, Phase.ROLLING) == Phase.WIN) {
-            WoldsVaults.LOGGER.warn("Vault loaded in the legacy WIN phase; converting to an expired reward window.");
-            this.set(PHASE, Phase.REWARD);
-            this.set(EXIT_TICKS, 1);
         }
 
         // Belt-and-braces vs. layer 1 in VaultMapItem.applyCrystalRecipe: Cull would let everything
@@ -398,7 +333,7 @@ public class HyperVaultObjective extends Objective {
         ensureInfiniteLayout(vault);
 
         // Boss room adjacent to spawn, exactly like RuneBossObjective but never in random rooms.
-        CommonEvents.LAYOUT_TEMPLATE_GENERATION.register(this, data -> {
+        CommonEvents.LAYOUT_TEMPLATE_GENERATION.register(this, data -> guarded("boss room layout", () -> {
             if (data.getVault() != vault || data.getPieceType() != VaultLayout.PieceType.ROOM) {
                 return;
             }
@@ -412,16 +347,16 @@ public class HyperVaultObjective extends Objective {
                 }
                 data.setTemplate(data.getLayout().getRoom(key.get(vault.get(Vault.VERSION)), vault, vault.get(Vault.VERSION), data.getRegion(), data.getRandom(), data.getSettings()));
             }
-        });
+        }));
 
         // Pillar shows no rune requirement; arming is the shift-click below, never rune items.
         // Also our earliest sight of the pillar — remember where it is for waves/exit/pinning.
-        CommonEvents.RUNE_BOSS_GENERATE_RUNES.register(this, data -> {
+        CommonEvents.RUNE_BOSS_GENERATE_RUNES.register(this, data -> guarded("pillar rune display", () -> {
             if (data.getLevel() == world && data.getTile() instanceof BossRunePillarTileEntity pillar) {
                 data.setResult(0);
                 this.set(PILLAR_POS, pillar.getBlockPos());
             }
-        });
+        }));
 
         // Podium: right-click with an empty main hand while the batch is complete arms the
         // fight. Deliberately NOT sneak-gated: BLOCK_USE fires from inside BlockBehaviour.use,
@@ -453,7 +388,7 @@ public class HyperVaultObjective extends Objective {
         });
 
         // Exit pillar (a temporary obelisk placed by the escalation manager after each kill).
-        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.OBELISK).register(this, data -> {
+        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.OBELISK).register(this, data -> guarded("exit pillar", () -> {
             if (data.getHand() != InteractionHand.MAIN_HAND || this.getOr(PHASE, Phase.ROLLING) != Phase.REWARD) {
                 return;
             }
@@ -480,7 +415,7 @@ public class HyperVaultObjective extends Objective {
             // completion title, action-bar countdown, damage immunity) mirrors
             // VictoryObjective — the system every other objective hands completion to.
             CompoundTag updated = extractions.copy();
-            updated.putInt(key, WIN_TRANSITION_TICKS);
+            updated.putInt(key, cfg().getWinTransitionTicks());
             this.set(EXTRACTIONS, updated);
             Player player = data.getPlayer();
             FireworkRocketEntity fireworks = new FireworkRocketEntity(world,
@@ -494,54 +429,54 @@ public class HyperVaultObjective extends Objective {
                 serverPlayer.connection.send(new ClientboundSetTitleTextPacket(title));
             }
             broadcast(vault, player.getDisplayName().getString() + " claimed victory — extracting in "
-                    + (WIN_TRANSITION_TICKS / 20) + " seconds!", ChatFormatting.GREEN);
-        });
+                    + (cfg().getWinTransitionTicks() / 20) + " seconds!", ChatFormatting.GREEN);
+        }));
 
         // Track the hyperboss entity so health gates can be evaluated without touching
         // RuneBossFight's private health fields.
         // The score is NOT captured here: the summon adds the boss to the world before its
         // traits apply, so this event still sees base stats. HyperBossManager reads it mid-fight.
-        CommonEvents.ENTITY_SPAWN.register(this, event -> {
+        CommonEvents.ENTITY_SPAWN.register(this, event -> guarded("boss id capture", () -> {
             if (event.getEntity().level == world && event.getEntity() instanceof VaultBossEntity boss
                     && this.getOr(PHASE, Phase.ROLLING) == Phase.FIGHT) {
                 this.set(BOSS_ID, boss.getUUID());
             }
-        });
+        }));
 
         // Players in their victory transition are damage-immune, exactly like VictoryObjective
         // grants during its countdown.
-        CommonEvents.ENTITY_DAMAGE.register(this, event -> {
+        CommonEvents.ENTITY_DAMAGE.register(this, event -> guarded("extraction immunity", () -> {
             if (event.getEntityLiving() instanceof Player player && player.level == world
                     && this.getOr(EXTRACTIONS, new CompoundTag()).contains(player.getUUID().toString())) {
                 event.setCanceled(true);
             }
-        });
+        }));
 
         // Queue every spawned mob for the movement-speed cap, applied next objective tick
         // (after the whole spawn event, so every modifier's spawn hook has run regardless of the
         // order chaos dumps registered them). The hyperboss is excluded here: its modifiers only
         // arrive at first live tick (applyBossStats), which applies the same clamp itself.
-        CommonEvents.ENTITY_SPAWN.register(this, event -> {
+        CommonEvents.ENTITY_SPAWN.register(this, event -> guarded("speed clamp queue", () -> {
             if (event.getEntity().level == world && event.getEntity() instanceof Mob mob
                     && !(mob instanceof VaultBossEntity)) {
                 this.speedClampQueue.add(mob);
             }
-        });
+        }));
 
         // Collector tiles recompute TOTAL = base x (1 + increase) x playerScaleFactor every
         // tick from this event (the same hook objective-target sigils use); this handler adds
         // the per-kill cycle growth. Player scaling on the collector stays VH's own JOINED
         // factor (+50%/extra player, refreshed per batch), which multiplies on top.
         // (Bingo tasks don't consume this event — the cycle manager rescales them directly.)
-        CommonEvents.OBJECTIVE_TARGET.register(this, data -> {
+        CommonEvents.OBJECTIVE_TARGET.register(this, data -> guarded("collector cycle scaling", () -> {
             if (data.getVault() != vault) {
                 return;
             }
             data.setIncrease(data.getIncrease() + (cycleRequirementScale(vault) - 1.0));
-        });
+        }));
 
         // The shared elixir bar fills from the same four sources the elixir tasks use.
-        CommonEvents.CHEST_LOOT_GENERATION.post().register(this, data -> {
+        CommonEvents.CHEST_LOOT_GENERATION.post().register(this, data -> guarded("elixir chests", () -> {
             if (data.getPlayer().level != world || !elixirActive()) {
                 return;
             }
@@ -554,8 +489,8 @@ public class HyperVaultObjective extends Objective {
                     addElixir(vault, task.getOr(ElixirTask.ELIXIR, 0));
                 }
             });
-        });
-        CommonEvents.ENTITY_DROPS.register(this, event -> {
+        }));
+        CommonEvents.ENTITY_DROPS.register(this, event -> guarded("elixir kills", () -> {
             if (event.getEntityLiving().level != world || !elixirActive()) {
                 return;
             }
@@ -571,8 +506,8 @@ public class HyperVaultObjective extends Objective {
                     addElixir(vault, task.getOr(ElixirTask.ELIXIR, 0));
                 }
             });
-        });
-        CommonEvents.PLAYER_MINE.register(this, data -> {
+        }));
+        CommonEvents.PLAYER_MINE.register(this, data -> guarded("elixir ores", () -> {
             if (data.getPlayer().level != world || !elixirActive()) {
                 return;
             }
@@ -580,13 +515,13 @@ public class HyperVaultObjective extends Objective {
                 return;
             }
             forEachElixirTask(OreElixirTask.class, task -> addElixir(vault, task.getOr(ElixirTask.ELIXIR, 0)));
-        });
-        CommonEvents.COIN_STACK_LOOT_GENERATION.post().register(this, data -> {
+        }));
+        CommonEvents.COIN_STACK_LOOT_GENERATION.post().register(this, data -> guarded("elixir coins", () -> {
             if (data.getPlayer().level != world || !elixirActive()) {
                 return;
             }
             forEachElixirTask(CoinStacksElixirTask.class, task -> addElixir(vault, task.getOr(ElixirTask.ELIXIR, 0)));
-        });
+        }));
 
         this.get(FIGHTS).onAttach(world, vault);
         this.get(MINIS).forEach(mini -> mini.initServer(world, vault));
@@ -672,7 +607,7 @@ public class HyperVaultObjective extends Objective {
                 this.speedClampCount++;
                 if (this.speedClampCount == 1 || this.speedClampCount % 200 == 0) {
                     WoldsVaults.LOGGER.info("Capped mob movement speed at +{}% ({} capped so far; latest: {}).",
-                            Math.round((SPEED_CAP_FACTOR - 1.0) * 100.0), this.speedClampCount,
+                            Math.round((cfg().getSpeedCapFactor() - 1.0) * 100.0), this.speedClampCount,
                             mob.getType().getRegistryName());
                 }
             }
@@ -681,7 +616,7 @@ public class HyperVaultObjective extends Objective {
     }
 
     /**
-     * Caps the entity's final movement speed at base × {@link #SPEED_CAP_FACTOR} with a single
+     * Caps the entity's final movement speed at base × {@code cfg().getSpeedCapFactor()} with a single
      * corrective MULTIPLY_TOTAL modifier, so later potion-style speed effects still work but the
      * permanent modifier stacking cannot push past the cap. Idempotent; true if a cap was added.
      */
@@ -692,11 +627,12 @@ public class HyperVaultObjective extends Objective {
         }
         double base = speed.getBaseValue();
         double value = speed.getValue();
-        if (base <= 0.0 || value <= base * SPEED_CAP_FACTOR) {
+        double capFactor = cfg().getSpeedCapFactor();
+        if (base <= 0.0 || value <= base * capFactor) {
             return false;
         }
         speed.addPermanentModifier(new AttributeModifier(SPEED_CLAMP_UUID, "hyper_speed_clamp",
-                base * SPEED_CAP_FACTOR / value - 1.0, AttributeModifier.Operation.MULTIPLY_TOTAL));
+                base * capFactor / value - 1.0, AttributeModifier.Operation.MULTIPLY_TOTAL));
         return true;
     }
 
@@ -816,7 +752,12 @@ public class HyperVaultObjective extends Objective {
         }
     }
 
-    /** Re-run after anything changes a settable value (e.g. the crate-quantity escalation). */
+    /**
+     * Captures every settable modifier's live value. Since the round-31 crate-tier rework
+     * nothing in hyper mutates a settable mid-vault, so the only caller is the first-init
+     * path above — the snapshot/restore pair stays purely as reload protection for the
+     * values the crystal itself applied.
+     */
     public void snapshotSettableValues(Vault vault) {
         CompoundTag tag = new CompoundTag();
         for (Modifiers.Entry entry : vault.get(Vault.MODIFIERS).getEntries()) {
@@ -844,7 +785,7 @@ public class HyperVaultObjective extends Objective {
     }
 
     public boolean isMiniInBatch(HyperMini mini) {
-        return (this.getOr(BATCH_MASK, 0) & (1 << mini.ordinal())) != 0;
+        return (this.getOr(BATCH_MASK, 0) & mini.bit()) != 0;
     }
 
     public boolean elixirActive() {

@@ -74,7 +74,7 @@ public abstract class MixinRunner extends Listener {
                 // their growth is the greedy-crate-tier multiplier, not crate tiers.
                 float hyperBonusQuantity = xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.get(vault)
                         .map(objective -> objective.getOr(iskallia.vault.core.vault.objective.AwardCrateObjective.ITEM_QUANTITY, 0.0F))
-                        .orElse(-1.0F) * xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.GREED_BONUS_TIER_EFFICIENCY;
+                        .orElse(-1.0F) * xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.cfg().getGreedBonusTierEfficiency();
                 boolean hyper = hyperBonusQuantity >= 0.0F;
 
                 LootTableGenerator generator =
@@ -88,8 +88,9 @@ public abstract class MixinRunner extends Listener {
                     if(reward.getItem().equals(ModItems.GREED_COIN)) {
                         int count = reward.getCount() + (greedTier - 1);
                         if(greedyCrateTiers > 0) {
-                            // Greedy Crate Tier: +100% greed coins per stack (hyperboss kills).
-                            count = Math.round(count * (1.0F + 1.0F * greedyCrateTiers));
+                            // Greedy Crate Tier: extra greed coins per stack (hyperboss kills).
+                            count = Math.round(count * (1.0F
+                                    + xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.cfg().getGreedyCoinBonusPerStack() * greedyCrateTiers));
                         }
                         reward.setCount(count);
                     } else if (hyper) {

@@ -13,6 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
 import java.util.ArrayList;
@@ -26,123 +27,50 @@ import java.util.Random;
  * adds the matching tier marker to the vault; at crate award every stack of a marker rolls its
  * pool independently and the items go straight into the crate's additional-items list —
  * bypassing every crate quantity/tier modifier by design.
+ *
+ * <p>The pools themselves (items, counts, weights, draws per stack) are data:
+ * config/the_vault/hyper_objective.json, see {@link HyperObjectiveConfig}.
  */
 public final class HyperCrateRewards {
     public static final ResourceLocation RARE_MODIFIER = WoldsVaults.id("rare_crate_tier");
     public static final ResourceLocation EPIC_MODIFIER = WoldsVaults.id("epic_crate_tier");
     public static final ResourceLocation OMEGA_MODIFIER = WoldsVaults.id("omega_crate_tier");
 
-    public static final int RARE_ROLLS = 4;
-    public static final int EPIC_ROLLS = 3;
-    public static final int OMEGA_ROLLS = 3;
-
-    /** One weighted pool line: fixed or ranged count, plus optional special payloads. */
-    public record Entry(String itemId, String boosterPackId, String deckCoreId, int min, int max,
-                        boolean greedScaled, boolean randomEtching) {
-        static Entry of(String itemId, int count) {
-            return new Entry(itemId, null, null, count, count, false, false);
-        }
-
-        static Entry pack(String boosterPackId, int count) {
-            return new Entry("the_vault:booster_pack", boosterPackId, null, count, count, false, false);
-        }
-
-        static Entry greedCoins(int min, int max) {
-            return new Entry("the_vault:greed_coin", null, null, min, max, true, false);
-        }
-
-        /** The greater variant of one deck core (an id from config/the_vault/card/deck_modifiers.json). */
-        static Entry greaterDeckCore(String deckCoreId) {
-            return new Entry("the_vault:deck_socket", null, deckCoreId, 1, 1, false, false);
-        }
-
-        /** A random identified etching, rolled at the receiving player's greed tier. */
-        static Entry etching() {
-            return new Entry("the_vault:etching", null, null, 1, 1, false, true);
-        }
-    }
-
-    public static final WeightedList<Entry> RARE = new WeightedList<Entry>()
-            .add(Entry.of("the_vault:repair_core", 1), 100)
-            .add(Entry.of("vending_companions:companion_temporalizer", 1), 25)
-            .add(Entry.pack("the_vault:deluxe_resource_pack", 1), 2)
-            .add(Entry.of("woldsvaults:omega_box", 2), 10)
-            .add(Entry.of("the_vault:map", 1), 10)
-            .add(Entry.of("woldsvaults:legend_sigil", 1), 5)
-            .add(Entry.of("the_vault:recharge_core", 1), 50)
-            .add(Entry.of("the_vault:fundamental_focus", 15), 40)
-            .add(Entry.of("the_vault:opportunistic_focus", 10), 10)
-            .add(Entry.of("woldsvaults:altar_recatalyzer", 2), 50)
-            .add(Entry.of("the_vault:vault_platinum", 5), 40)
-            .add(Entry.etching(), 5);
-
-    public static final WeightedList<Entry> EPIC = new WeightedList<Entry>()
-            .add(Entry.greedCoins(1, 1), 10)
-            .add(Entry.of("the_vault:vault_palladium", 5), 30)
-            .add(Entry.of("woldsvaults:nullite_crystal", 1), 5)
-            .add(Entry.of("the_vault:map", 1), 30)
-            .add(Entry.of("woldsvaults:chunk_of_power", 1), 1)
-            .add(Entry.pack("the_vault:deluxe_resource_pack", 1), 4)
-            .add(Entry.of("woldsvaults:omega_box", 2), 5)
-            .add(Entry.pack("the_vault:evolution_pack", 10), 5)
-            .add(Entry.pack("the_vault:shiny_pack", 2), 5)
-            .add(Entry.of("the_vault:unique_shard", 10), 20)
-            .add(Entry.of("woldsvaults:greedy_ticket", 1), 5)
-            .add(Entry.greaterDeckCore("pure"), 2)
-            .add(Entry.greaterDeckCore("arcane"), 2)
-            .add(Entry.greaterDeckCore("construction"), 2)
-            .add(Entry.greaterDeckCore("shiny"), 2)
-            .add(Entry.greaterDeckCore("void"), 2);
-
-    // Weights ride the pack's x10 convention: everything is scaled x10 so outliers can go
-    // rarer while staying integer — the greater archive core only got x2, making it ~5x
-    // rarer relative to the rest of the pool (1/62 -> 2/612).
-    public static final WeightedList<Entry> OMEGA = new WeightedList<Entry>()
-            .add(Entry.greedCoins(2, 3), 300)
-            .add(Entry.of("the_vault:mystic_pear", 1), 20)
-            .add(Entry.of("woldsvaults:wold_star_chunk", 1), 10)
-            .add(Entry.of("woldsvaults:chunk_of_power", 1), 40)
-            .add(Entry.of("woldsvaults:nullite_crystal", 2), 50)
-            .add(Entry.pack("the_vault:deluxe_resource_pack", 2), 50)
-            .add(Entry.pack("the_vault:shiny_pack", 5), 100)
-            // woldsvaults:crystal_reinforcement displays as "Prismatic Reinforcement".
-            .add(Entry.of("woldsvaults:crystal_reinforcement", 1), 20)
-            .add(Entry.greaterDeckCore("archive"), 2)
-            .add(Entry.of("woldsvaults:greedy_ticket", 3), 20);
-
     private HyperCrateRewards() {
     }
 
     /** All injection stacks the vault's tier markers earn — one full pool run per marker stack. */
     public static List<ItemStack> rollForVault(Vault vault, int greedTier, RandomSource random) {
+        HyperObjectiveConfig cfg = HyperVaultObjective.cfg();
         List<ItemStack> out = new ArrayList<>();
-        // Stacks earned by kills scoring SCORE_EXTRA_DRAW+ roll one extra draw each.
+        // Stacks earned by kills scoring the extra-draw threshold roll one extra draw each.
         int epicPlus = HyperVaultObjective.get(vault).map(o -> o.getOr(HyperVaultObjective.EPIC_PLUS, 0)).orElse(0);
         int omegaPlus = HyperVaultObjective.get(vault).map(o -> o.getOr(HyperVaultObjective.OMEGA_PLUS, 0)).orElse(0);
-        roll(RARE, RARE_ROLLS, (int) VaultModifierUtils.getCountOfModifiers(vault, RARE_MODIFIER), 0, greedTier, random, out);
-        roll(EPIC, EPIC_ROLLS, (int) VaultModifierUtils.getCountOfModifiers(vault, EPIC_MODIFIER), epicPlus, greedTier, random, out);
-        roll(OMEGA, OMEGA_ROLLS, (int) VaultModifierUtils.getCountOfModifiers(vault, OMEGA_MODIFIER), omegaPlus, greedTier, random, out);
+        roll(cfg.getRarePool(), cfg.getRareRolls(), (int) VaultModifierUtils.getCountOfModifiers(vault, RARE_MODIFIER), 0, greedTier, random, out);
+        roll(cfg.getEpicPool(), cfg.getEpicRolls(), (int) VaultModifierUtils.getCountOfModifiers(vault, EPIC_MODIFIER), epicPlus, greedTier, random, out);
+        roll(cfg.getOmegaPool(), cfg.getOmegaRolls(), (int) VaultModifierUtils.getCountOfModifiers(vault, OMEGA_MODIFIER), omegaPlus, greedTier, random, out);
         return out;
     }
 
-    private static void roll(WeightedList<Entry> pool, int baseRolls, int stacks, int plusStacks, int greedTier, RandomSource random, List<ItemStack> out) {
+    private static void roll(WeightedList<HyperObjectiveConfig.InjectionEntry> pool, int baseRolls,
+                             int stacks, int plusStacks, int greedTier, RandomSource random, List<ItemStack> out) {
         for (int stack = 0; stack < stacks; stack++) {
             int rolls = baseRolls + (stack < plusStacks ? 1 : 0);
             for (int i = 0; i < rolls; i++) {
                 pool.getRandom(random).ifPresent(entry -> {
-                    if (entry.randomEtching()) {
+                    if (entry.isRandomEtching()) {
                         rollEtching(greedTier, random, out);
                         return;
                     }
-                    Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(entry.itemId()));
+                    Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(entry.getItem()));
                     if (item == null || item == Items.AIR) {
-                        WoldsVaults.LOGGER.error("Hyper crate reward item {} is not registered — this roll is lost. Fix the id in HyperCrateRewards.", entry.itemId());
+                        WoldsVaults.LOGGER.error("Hyper crate reward item {} is not registered — this roll is lost. Fix the id in hyper_objective.json.", entry.getItem());
                         return;
                     }
-                    int count = entry.min() == entry.max()
-                            ? entry.min()
-                            : entry.min() + random.nextInt(entry.max() - entry.min() + 1);
-                    if (entry.greedScaled()) {
+                    int count = entry.getMin() == entry.getMax()
+                            ? entry.getMin()
+                            : entry.getMin() + random.nextInt(entry.getMax() - entry.getMin() + 1);
+                    if (entry.isGreedCoins()) {
                         count *= greedTier;
                         if (count <= 0) {
                             // Greed tier 0 earns no coins from a greed-scaled line; roll is spent.
@@ -150,14 +78,14 @@ public final class HyperCrateRewards {
                         }
                     }
                     ItemStack reward = new ItemStack(item, count);
-                    if (entry.boosterPackId() != null) {
+                    if (entry.getBoosterPack() != null) {
                         // BoosterPackItem reads its pool from the "id" string tag.
-                        reward.getOrCreateTag().putString("id", entry.boosterPackId());
+                        reward.getOrCreateTag().putString("id", entry.getBoosterPack());
                     }
-                    if (entry.deckCoreId() != null) {
+                    if (entry.getDeckCore() != null) {
                         // DeckSocketItem self-initializes from these two tags on its first
                         // inventory tick (same shape the bounty/loot configs use).
-                        reward.getOrCreateTag().putString("Modifier", entry.deckCoreId());
+                        reward.getOrCreateTag().putString("Modifier", entry.getDeckCore());
                         reward.getOrCreateTag().putString("ModifierRoll", "greater");
                     }
                     out.add(reward);

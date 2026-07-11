@@ -37,8 +37,13 @@ import java.util.List;
 
 /**
  * Everything that happens because a hyperboss died: the HYPER stack, crate tiers, the chaos
- * modifier dump, and the 30s exit pillar. Also runs the always-on 2-minute negative
- * enchanted-elixir events.
+ * modifier dump, and the timed exit pillar. Also runs the periodic negative ambient events.
+ *
+ * <p>FRAGILITY NOTE: the pillar respawn, per-fight zone lifecycle and door-animation replay
+ * in this manager (and in HyperBossManager) deliberately invert RuneBossFight's own
+ * single-fight, vault-ends-on-kill assumptions. They are the most base-mod-shape-coupled
+ * part of hyper — re-verify them first after any Vault Hunters update that touches
+ * BossRunePillarTileEntity, RuneBossFight or RuneBossAnimation.
  */
 public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective> {
     private final HyperCycleManager cycleManager;
@@ -65,10 +70,10 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         // (+1 for the marker stack the crystal attaches on entry).
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("hyper"), 1);
         int score = objective.getOr(HyperVaultObjective.SCORE, 0);
-        // +50% greed coins in the completion crate per stack (applied in MixinRunner's
-        // injection); big kills earn extra stacks.
-        int greedyTiers = score >= HyperVaultObjective.SCORE_TRIPLE_GREEDY ? 3
-                : score >= HyperVaultObjective.SCORE_DOUBLE_SUPER ? 2 : 1;
+        // Extra greed coins in the completion crate per stack (cfg().getGreedyCoinBonusPerStack(),
+        // applied in MixinRunner's injection); big kills earn extra stacks.
+        int greedyTiers = score >= HyperVaultObjective.cfg().getScoreTripleGreedy() ? 3
+                : score >= HyperVaultObjective.cfg().getScoreDoubleGreedy() ? 2 : 1;
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("greedy_crate_tier"), greedyTiers);
 
         // Crate scaling uses ONLY regular crate-tier stacks — never the settable
@@ -76,9 +81,9 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         // (the +10,000% unit bug this rework replaces), and kills never grant super tiers.
         // Kill k grants 5k tiers under 250k score, 7k from 250k, 9k from 1.5M, 15k from
         // 25M — a quadratic ramp by design.
-        int crateTiers = (score >= HyperVaultObjective.SCORE_CRATE_RATE_15 ? 15
-                : score >= HyperVaultObjective.SCORE_CRATE_RATE_9 ? 9
-                : score >= HyperVaultObjective.SCORE_CRATE_RATE_7 ? 7 : 5) * cycle;
+        int crateTiers = (score >= HyperVaultObjective.cfg().getCrateTierScore15() ? 15
+                : score >= HyperVaultObjective.cfg().getCrateTierScore9() ? 9
+                : score >= HyperVaultObjective.cfg().getCrateTierScore7() ? 7 : 5) * cycle;
         VaultModifierUtils.addModifier(vault, VaultMod.id("crate_tier"), crateTiers);
         // Vault XP ramps quadratically like the crate tiers: kill k adds k Refined Experience.
         VaultModifierUtils.addModifier(vault, VaultMod.id("refined_experience"), cycle);
@@ -98,7 +103,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         removeBossRoomZone();
         discardFightSpawns();
 
-        objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.EXIT_PILLAR_TICKS);
+        objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.cfg().getExitPillarTicks());
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
         String tierSummary = "+" + crateTiers + " crate tiers"
                 + ", +" + greedyTiers + " greedy crate tier" + (greedyTiers > 1 ? "s" : "")
@@ -132,20 +137,20 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
      */
     private void awardScoreTiers() {
         int score = objective.getOr(HyperVaultObjective.SCORE, 0);
-        boolean extraDraw = score >= HyperVaultObjective.SCORE_EXTRA_DRAW;
+        boolean extraDraw = score >= HyperVaultObjective.cfg().getScoreExtraDraw();
         StringBuilder earned = new StringBuilder();
-        if (score >= HyperVaultObjective.SCORE_RARE) {
+        if (score >= HyperVaultObjective.cfg().getScoreRare()) {
             VaultModifierUtils.addModifier(vault, HyperCrateRewards.RARE_MODIFIER, 1);
             earned.append("Rare");
         }
-        if (score >= HyperVaultObjective.SCORE_EPIC) {
+        if (score >= HyperVaultObjective.cfg().getScoreEpic()) {
             VaultModifierUtils.addModifier(vault, HyperCrateRewards.EPIC_MODIFIER, 1);
             earned.append(earned.isEmpty() ? "" : " + ").append("Epic");
             if (extraDraw) {
                 objective.set(HyperVaultObjective.EPIC_PLUS, objective.getOr(HyperVaultObjective.EPIC_PLUS, 0) + 1);
             }
         }
-        if (score >= HyperVaultObjective.SCORE_OMEGA) {
+        if (score >= HyperVaultObjective.cfg().getScoreOmega()) {
             VaultModifierUtils.addModifier(vault, HyperCrateRewards.OMEGA_MODIFIER, 1);
             earned.append(earned.isEmpty() ? "" : " + ").append("Omega");
             if (extraDraw) {
@@ -161,9 +166,9 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
     }
 
     private void dumpChaosModifiers() {
-        int granted = HyperVaultObjective.consumeChaosBudget(vault, HyperVaultObjective.CHAOS_PER_KILL);
+        int granted = HyperVaultObjective.consumeChaosBudget(vault, HyperVaultObjective.cfg().getChaosPerKill());
         if (granted <= 0) {
-            HyperVaultObjective.broadcast(vault, "The Vault can hold no more chaos (" + HyperVaultObjective.CHAOS_CAP + " cap reached).", ChatFormatting.DARK_PURPLE);
+            HyperVaultObjective.broadcast(vault, "The Vault can hold no more chaos (" + HyperVaultObjective.cfg().getChaosCap() + " cap reached).", ChatFormatting.DARK_PURPLE);
             return;
         }
         HyperVaultObjective.broadcast(vault, "Chaotic modifiers surge into the Vault!", ChatFormatting.DARK_PURPLE);
@@ -183,7 +188,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 if (added >= granted) {
                     break;
                 }
-                if (HyperVaultObjective.isStackCapped(vault, modifier)) {
+                if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
                     continue;
                 }
                 vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
@@ -240,12 +245,12 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
 
     /** Every 2 minutes, one negative modifier per runner from the curated timer pool (vs the cap). */
     private void tickAmbientEvents() {
-        int remaining = objective.getOr(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.AMBIENT_PERIOD_TICKS) - 1;
+        int remaining = objective.getOr(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.cfg().getAmbientPeriodTicks()) - 1;
         if (remaining > 0) {
             objective.set(HyperVaultObjective.AMBIENT_TICK, remaining);
             return;
         }
-        objective.set(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.AMBIENT_PERIOD_TICKS);
+        objective.set(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.cfg().getAmbientPeriodTicks());
         for (Listener listener : vault.get(Vault.LISTENERS).getAll()) {
             if (!(listener instanceof Runner) || listener.getPlayer().isEmpty()) {
                 continue;
@@ -259,7 +264,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 return;
             }
             for (VaultModifier<?> modifier : modifiers) {
-                if (HyperVaultObjective.isStackCapped(vault, modifier)) {
+                if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
                     continue;
                 }
                 vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
@@ -306,7 +311,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
         placeObelisk(spot);
         objective.set(HyperVaultObjective.EXIT_POS, spot);
-        HyperVaultObjective.broadcast(vault, "An exit pillar appeared for " + (HyperVaultObjective.EXIT_PILLAR_TICKS / 20) + " seconds!", ChatFormatting.AQUA);
+        HyperVaultObjective.broadcast(vault, "An exit pillar appeared for " + (HyperVaultObjective.cfg().getExitPillarTicks() / 20) + " seconds!", ChatFormatting.AQUA);
     }
 
     private BlockPos findExitSpot(BlockPos center) {

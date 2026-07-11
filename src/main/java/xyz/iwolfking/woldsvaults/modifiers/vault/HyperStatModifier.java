@@ -85,12 +85,16 @@ public class HyperStatModifier extends VaultModifier<HyperStatModifier.Propertie
             this.speedPerStack = speedPerStack;
         }
 
+        // The datagen'd modifier def carries no numbers: the live knobs are
+        // hyper_objective.json (hyperStatFactor / speedPerStack). A pack that wants a
+        // different HYPER-style modifier can still override per-def by setting these
+        // properties to a positive value.
         public float getStatFactor() {
-            return this.statFactor <= 0.0F ? HyperVaultObjective.HYPER_STAT_FACTOR : this.statFactor;
+            return this.statFactor > 0.0F ? this.statFactor : HyperVaultObjective.cfg().getHyperStatFactor();
         }
 
         public float getSpeedPerStack() {
-            return this.speedPerStack;
+            return this.speedPerStack > 0.0F ? this.speedPerStack : HyperVaultObjective.cfg().getSpeedPerStack();
         }
     }
 }

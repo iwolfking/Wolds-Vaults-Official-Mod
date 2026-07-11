@@ -88,7 +88,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
                 return;
             }
             double scale = HyperVaultObjective.cycleRequirementScale(vault)
-                    * HyperVaultObjective.playerRequirementScale(vault, HyperVaultObjective.PLAYER_SCALE_BINGO);
+                    * HyperVaultObjective.playerRequirementScale(vault, HyperVaultObjective.cfg().getPlayerScaleBingo());
             TaskContext context = bingo.getContext(world, vault);
             for (int index = 0; index < root.getWidth() * root.getHeight(); index++) {
                 if (root.isCompleted(index)) {
@@ -143,14 +143,14 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
                 // The pillar floor rises +1 every 3 kills and +1 per 2 extra runners, capped at
                 // the 5-pillar ceiling (at cap every batch demands the full 5).
                 int runnersNow = vault.get(Vault.LISTENERS).getAll(Runner.class).size();
-                int minObelisks = Math.min(HyperVaultObjective.OBELISK_MAX,
-                        HyperVaultObjective.OBELISK_MIN
+                int minObelisks = Math.min(HyperVaultObjective.cfg().getObeliskMax(),
+                        HyperVaultObjective.cfg().getObeliskMin()
                                 + objective.getOr(HyperVaultObjective.CYCLE, 0) / 3
                                 + Math.max(0, runnersNow - 1) / 2);
                 int obelisks = minObelisks
-                        + random.nextInt(HyperVaultObjective.OBELISK_MAX - minObelisks + 1);
+                        + random.nextInt(HyperVaultObjective.cfg().getObeliskMax() - minObelisks + 1);
                 addMini(BrutalBossesObjective.of(obelisks, () -> random.nextInt(3) + 1,
-                        HyperVaultObjective.BRUTAL_OBELISK_PROBABILITY, true));
+                        HyperVaultObjective.cfg().getBrutalObeliskProbability(), true));
             }
         }
     }
@@ -169,7 +169,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
 
     /** Boards grow to 5x5 once the vault reaches its 6th boss cycle. */
     private int boardSize() {
-        return objective.getOr(HyperVaultObjective.CYCLE, 0) >= HyperVaultObjective.BOARD_UPSIZE_CYCLE ? 5 : 4;
+        return objective.getOr(HyperVaultObjective.CYCLE, 0) >= HyperVaultObjective.cfg().getBoardUpsizeCycle() ? 5 : 4;
     }
 
     /**
@@ -225,8 +225,8 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         JavaRandom seeded = JavaRandom.ofInternal(vault.get(Vault.SEED));
         int baseTarget = ModConfigs.ELIXIR.generateTarget(level, seeded);
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
-        double scale = (HyperVaultObjective.ELIXIR_TARGET_MULTIPLIER + HyperVaultObjective.ELIXIR_TARGET_INCREMENT * cycle)
-                * HyperVaultObjective.playerRequirementScale(vault, HyperVaultObjective.PLAYER_SCALE_ELIXIR);
+        double scale = (HyperVaultObjective.cfg().getElixirTargetMultiplier() + HyperVaultObjective.cfg().getElixirTargetIncrement() * cycle)
+                * HyperVaultObjective.playerRequirementScale(vault, HyperVaultObjective.cfg().getPlayerScaleElixir());
         objective.set(HyperVaultObjective.ELIXIR_TARGET, Math.max(1, (int) Math.round(baseTarget * scale)));
     }
 
