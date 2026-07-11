@@ -343,6 +343,7 @@
     "vaulthunters.custom.MixinUnboxingStationTileEntity",
     "vaulthunters.custom.MixinVaultAltarConfig",
     "vaulthunters.custom.MixinVaultCacheInvalidator",
+    "vaulthunters.custom.MixinVaultCharmItem",
     "vaulthunters.custom.MixinVaultChestConfig",
     "vaulthunters.custom.MixinVaultCrateBlock",
     "vaulthunters.custom.MixinVaultCrystalConfig",
