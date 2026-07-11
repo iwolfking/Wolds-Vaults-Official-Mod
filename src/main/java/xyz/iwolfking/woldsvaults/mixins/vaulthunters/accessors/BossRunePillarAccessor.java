@@ -23,8 +23,13 @@ public interface BossRunePillarAccessor {
     @Accessor("zoneId")
     void setZoneId(int zoneId);
 
-    // The rolled boss template the next summon will use (Hyper rerolls it every arm from the
-    // roster in the tile's saved config NBT).
+    // The rolled boss template the next summon will use (Hyper rerolls it every arm from
+    // the pillar config's roster).
     @Accessor("boss")
     void setBoss(PartialEntity boss);
+
+    // The pillar's config (roster, zone box, room style) — typed access for the reroll,
+    // instead of parsing the tile's save NBT by string key.
+    @Accessor("config")
+    BossRunePillarTileEntity.Config getConfig();
 }

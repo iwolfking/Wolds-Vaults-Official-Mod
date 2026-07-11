@@ -36,6 +36,11 @@ public class VaultModifierUtils {
         if(vaultModifier != null) {
             vault.get(Vault.MODIFIERS).addModifier(vaultModifier, count, true, ChunkRandom.ofNanoTime());
         }
+        else {
+            // A silent no-op here makes a renamed/missing modifier id undebuggable (every
+            // grant that rides this path just never happens); shout instead.
+            WoldsVaults.LOGGER.error("Vault modifier {} is not registered — addModifier({}) did nothing! Check the modifier defs.", modifier, count);
+        }
     }
 
     public static void addTimedModifier(Vault vault, ResourceLocation modifierId, int count, int duration, Player player) {

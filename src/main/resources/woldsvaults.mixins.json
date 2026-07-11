@@ -142,6 +142,7 @@
     "vaulthunters.accessors.AttributeSnapshotValueAccessor",
     "vaulthunters.accessors.BingoObjectiveAccessor",
     "vaulthunters.accessors.BossRunePillarAccessor",
+    "vaulthunters.accessors.BossRunePillarConfigAccessor",
     "vaulthunters.accessors.BottleEffectAccessor",
     "vaulthunters.accessors.CardDeckAccessor",
     "vaulthunters.accessors.CardEntry$ColorAccessor",
