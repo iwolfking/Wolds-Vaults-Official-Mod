@@ -81,7 +81,7 @@ public class GodReputationItem extends BasicItem {
         VaultGod god = getGod(heldStack);
 
         if(!level.isClientSide() && god != null) {
-            if(PlayerReputationData.getReputation(playerUuid, god) >= 50) {
+            if(PlayerReputationData.getReputation(playerUuid, god) >= xyz.iwolfking.woldsvaults.api.util.GodMasteryHelper.capFor(player)) {
                 player.displayClientMessage(new TextComponent("You already have the max reputation with ").withStyle(ChatFormatting.RED).append(god.getName()).withStyle(god.getChatColor()), true);
                 return InteractionResultHolder.pass(heldStack);
             }

@@ -72,6 +72,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_pog", has(iskallia.vault.init.ModItems.POG))
                 .save(pFinishedRecipeConsumer);
 
+        ShapedRecipeBuilder.shaped(ModItems.GODS_MASTERY)
+                .define('P', ModBlocks.OMEGA_POG_BLOCK)
+                .define('C', ModItems.CORE_OF_THE_VAULT_GODS)
+                .pattern("PPP")
+                .pattern("PCP")
+                .pattern("PPP")
+                .unlockedBy("has_core_of_the_vault_gods", has(ModItems.CORE_OF_THE_VAULT_GODS))
+                .save(pFinishedRecipeConsumer);
+
         ShapedRecipeBuilder.shaped(ModItems.SCAVENGER_POUCH_ITEM)
                 .define('G', iskallia.vault.init.ModItems.VAULT_DIAMOND)
                 .define('P', iskallia.vault.init.ModItems.CRYSTAL_SEAL_HUNTER)

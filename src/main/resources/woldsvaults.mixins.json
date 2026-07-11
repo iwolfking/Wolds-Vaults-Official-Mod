@@ -304,6 +304,7 @@
     "vaulthunters.custom.MixinPlayerGreedTraderData",
     "vaulthunters.custom.MixinPlayerGreedTreeData",
     "vaulthunters.custom.MixinPlayerReputationData",
+    "vaulthunters.custom.MixinPlayerReputationDataEntry",
     "vaulthunters.custom.MixinPlayerResearchesData",
     "vaulthunters.custom.MixinPlayerSpiritRecoveryData",
     "vaulthunters.custom.MixinPlayerVaultStats",
