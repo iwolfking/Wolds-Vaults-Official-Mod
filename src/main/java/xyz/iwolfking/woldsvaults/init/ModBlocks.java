@@ -200,6 +200,7 @@ public class ModBlocks {
 
     public static final ConfigurableFloatingTextBlock CONFIGURABLE_FLOATING_TEXT_BLOCK;
     public static final TimeTrialTrophyBlock TIME_TRIAL_TROPHY_BLOCK;
+    public static final LockedTreasureContainerBlock LOCKED_TREASURE_CONTAINER_BLOCK;
     public static final BlockEntityType<ConfigurableFloatingTextTileEntity> CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY;
     public static final BlockEntityType<TimeTrialTrophyBlockEntity> TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE;
 
@@ -255,6 +256,7 @@ public class ModBlocks {
         CRATE_CRACKER_BLOCK = new CrateCrackerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), CrateCrackerBlock.CRATE_CRACKER_SHAPE);
         CONFIGURABLE_FLOATING_TEXT_BLOCK = new ConfigurableFloatingTextBlock();
         TIME_TRIAL_TROPHY_BLOCK = new TimeTrialTrophyBlock(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK));
+        LOCKED_TREASURE_CONTAINER_BLOCK = new LockedTreasureContainerBlock();
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
         HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(HellishSandTileEntity::new, HELLISH_SAND_BLOCK).build(null);
@@ -402,6 +404,7 @@ public class ModBlocks {
         registerBlock(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, WoldsVaults.id("configurable_floating_text"));
         registerBlock(event, TIME_TRIAL_TROPHY_BLOCK, WoldsVaults.id("time_trial_trophy"));
         registerBlock(event, OWNED_CRAFTING_TABLE_BLOCK, WoldsVaults.id("owned_crafting_table"));
+        registerBlock(event, LOCKED_TREASURE_CONTAINER_BLOCK, WoldsVaults.id("locked_treasure_container"));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
         }));

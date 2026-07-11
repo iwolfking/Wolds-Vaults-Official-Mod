@@ -57,7 +57,9 @@ public class SpawnMobTask implements VaultEventTask {
     public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
         JavaRandom javaRandom = JavaRandom.ofNanoTime();
         for(int i = 0; i < amounts.getRandom().get(); i++) {
-            doSpawn((VirtualWorld) player.level, pos.get(), javaRandom);
+            if(player.level instanceof VirtualWorld) {
+                doSpawn((VirtualWorld) player.level, pos.get(), javaRandom);
+            }
         }
     }
 

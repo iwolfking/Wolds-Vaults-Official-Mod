@@ -32,10 +32,12 @@ import net.minecraftforge.fml.loading.LoadingModList;
 import org.slf4j.Logger;
 import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
+import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.api.core.competition.PlayerRewardStorage;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.events.*;
+import xyz.iwolfking.woldsvaults.integration.arsnouveau.ArsAPIRegistration;
 import xyz.iwolfking.woldsvaults.integration.cctweaked.CCTweakedSetup;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.WoldDataLoaders;
 import xyz.iwolfking.woldsvaults.client.init.ModParticles;
@@ -91,6 +93,10 @@ public class WoldsVaults {
         ModFTBQuestsTaskTypes.init();
         if(LoadingModList.get().getModFileById("computercraft") != null) {
             CCTweakedSetup.init();
+        }
+
+        if(ConditionalModUtils.isModPresent("ars_nouveau")) {
+            ArsAPIRegistration.register();
         }
 
         MinecraftForge.EVENT_BUS.addListener(WoldDataLoaders::initProcessors);

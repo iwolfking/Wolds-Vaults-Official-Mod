@@ -54,6 +54,8 @@ public class ModConfigs {
 
     public static VaultFruitConfig VAULT_FRUIT_CONFIG = new VaultFruitConfig();
 
+    public static ImplicitDeckModifiersConfig IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig();
+
     public static void register() {
         GEM_BOX = new GenericLootableConfig("gem_box").readConfig();
         SUPPLY_BOX = new GenericLootableConfig("supply_box").readConfig();
@@ -91,5 +93,6 @@ public class ModConfigs {
         TIME_TRIAL_COMPETITION = new TimeTrialCompetitionConfig().readConfig();
         ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
+        IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
     }
 }
