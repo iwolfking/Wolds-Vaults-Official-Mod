@@ -94,18 +94,21 @@ public final class HyperCrateRewards {
             .add(Entry.greaterDeckCore("shiny"), 2)
             .add(Entry.greaterDeckCore("void"), 2);
 
+    // Weights ride the pack's x10 convention: everything is scaled x10 so outliers can go
+    // rarer while staying integer — the greater archive core only got x2, making it ~5x
+    // rarer relative to the rest of the pool (1/62 -> 2/612).
     public static final WeightedList<Entry> OMEGA = new WeightedList<Entry>()
-            .add(Entry.greedCoins(2, 3), 30)
-            .add(Entry.of("the_vault:mystic_pear", 1), 2)
-            .add(Entry.of("woldsvaults:wold_star_chunk", 1), 1)
-            .add(Entry.of("woldsvaults:chunk_of_power", 1), 4)
-            .add(Entry.of("woldsvaults:nullite_crystal", 2), 5)
-            .add(Entry.pack("the_vault:deluxe_resource_pack", 2), 5)
-            .add(Entry.pack("the_vault:shiny_pack", 5), 10)
+            .add(Entry.greedCoins(2, 3), 300)
+            .add(Entry.of("the_vault:mystic_pear", 1), 20)
+            .add(Entry.of("woldsvaults:wold_star_chunk", 1), 10)
+            .add(Entry.of("woldsvaults:chunk_of_power", 1), 40)
+            .add(Entry.of("woldsvaults:nullite_crystal", 2), 50)
+            .add(Entry.pack("the_vault:deluxe_resource_pack", 2), 50)
+            .add(Entry.pack("the_vault:shiny_pack", 5), 100)
             // woldsvaults:crystal_reinforcement displays as "Prismatic Reinforcement".
-            .add(Entry.of("woldsvaults:crystal_reinforcement", 1), 2)
-            .add(Entry.greaterDeckCore("archive"), 1)
-            .add(Entry.of("woldsvaults:greedy_ticket", 3), 2);
+            .add(Entry.of("woldsvaults:crystal_reinforcement", 1), 20)
+            .add(Entry.greaterDeckCore("archive"), 2)
+            .add(Entry.of("woldsvaults:greedy_ticket", 3), 20);
 
     private HyperCrateRewards() {
     }
