@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-/** A rare hyper crate drop: right-click to consume one ticket for +10 greed reputation. */
 public class GreedyTicketItem extends Item {
     public static final int REPUTATION_PER_TICKET = 10;
 

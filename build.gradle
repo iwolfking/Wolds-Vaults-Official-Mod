@@ -331,7 +331,7 @@ dependencies {
     implementation fg.deobf("curse.maven:tropicraft-254794:4616839")
     implementation fg.deobf("curse.maven:regions-unexplored-659110:4554212")
     runtimeOnly fg.deobf("curse.maven:selene-499980:6047192")
-    runtimeOnly fg.deobf("curse.maven:buildscape-1377354:7875602")
+    implementation fg.deobf("curse.maven:buildscape-1377354:7875602")
     implementation fg.deobf("curse.maven:every-compat-628539:7949360")
 
 

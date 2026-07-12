@@ -160,6 +160,11 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         dropSelf(ModBlocks.IDONA_LIGHT_SMOOTH_BRICKS_STAIRS);
         dropSelf(ModBlocks.IDONA_GEM_BLOCK_STAIRS);
 
+        dropSelf(ModBlocks.DECO_IDONA_ALTAR_BLOCK);
+        dropSelf(ModBlocks.DECO_VELARA_ALTAR_BLOCK);
+        dropSelf(ModBlocks.DECO_WENDARR_ALTAR_BLOCK);
+        dropSelf(ModBlocks.DECO_TENOS_ALTAR_BLOCK);
+
     }
 
     protected LootTable.Builder noDrop() {

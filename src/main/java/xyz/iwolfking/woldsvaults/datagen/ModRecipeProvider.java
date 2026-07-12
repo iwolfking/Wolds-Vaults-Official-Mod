@@ -4,7 +4,6 @@ import com.github.klikli_dev.occultism.Occultism;
 import com.github.klikli_dev.occultism.registry.OccultismItems;
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.influence.VaultGod;
-import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.AugmentItem;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.core.Registry;
@@ -25,7 +24,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 import vazkii.botania.data.recipes.NbtOutputResult;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -40,9 +41,12 @@ import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
 import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe;
 import xyz.iwolfking.woldsvaults.recipes.lib.UncheckedRecipe;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
@@ -328,7 +332,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         'A', new NbtAwareRecipe.IngredientWithNBT(AugmentItem.create(VaultMod.id("classic_vault_wendarr_normal"))),
                         'S', new NbtAwareRecipe.IngredientWithNBT(GodReputationItem.create(VaultGod.WENDARR))
                 ))));
-
 
         ShapelessRecipeBuilder.shapeless(ModItems.PRISMATIC_FIBER, 9)
                 .requires(ModBlocks.PRISMATIC_FIBER_BLOCK)
@@ -873,6 +876,105 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_sublime_elixir", has(iskallia.vault.init.ModItems.SUBLIME_VAULT_ELIXIR))
                 .save(pFinishedRecipeConsumer);
 
+        ShapedRecipeBuilder.shaped(ModBlocks.DECO_VELARA_ALTAR_BLOCK)
+                .define('S', com.kingodogo.buildscape.block.ModBlocks.BLUE_SPORE_BLOSSOM.get())
+                .define('H', iskallia.vault.init.ModBlocks.VAULT_MOSS)
+                .define('G', iskallia.vault.init.ModItems.EXTRAORDINARY_ALEXANDRITE)
+                .define('B', iskallia.vault.init.ModBlocks.POLISHED_VAULT_STONE)
+                .define('C', Blocks.LIME_CANDLE)
+                .pattern("GHG")
+                .pattern("CSC")
+                .pattern("BBB")
+                .unlockedBy("has_vault_moss", has(iskallia.vault.init.ModBlocks.VAULT_MOSS))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModBlocks.DECO_IDONA_ALTAR_BLOCK)
+                .define('S', OccultismItems.BUTCHER_KNIFE.get())
+                .define('H', Ingredient.of(ModTags.BLOOD))
+                .define('G', iskallia.vault.init.ModItems.EXTRAORDINARY_PAINITE)
+                .define('B', iskallia.vault.init.ModBlocks.POLISHED_VAULT_STONE)
+                .define('C', Blocks.RED_CANDLE)
+                .pattern("GHG")
+                .pattern("CSC")
+                .pattern("BBB")
+                .unlockedBy("has_butcher_knife", has(OccultismItems.BUTCHER_KNIFE.get()))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModBlocks.DECO_WENDARR_ALTAR_BLOCK)
+                .define('S', Items.CLOCK)
+                .define('H', iskallia.vault.init.ModBlocks.GILDED_BLOCK_CHISELED)
+                .define('G', ModBlocks.CHROMATIC_GOLD_BLOCK)
+                .define('B', iskallia.vault.init.ModBlocks.POLISHED_VAULT_STONE)
+                .define('C', Blocks.YELLOW_CANDLE)
+                .pattern("GHG")
+                .pattern("CSC")
+                .pattern("BBB")
+                .unlockedBy("has_clock", has(Items.CLOCK))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModBlocks.DECO_TENOS_ALTAR_BLOCK)
+                .define('S', iskallia.vault.init.ModItems.IDENTIFICATION_TOME)
+                .define('H', iskallia.vault.init.ModItems.MEMORY_POWDER)
+                .define('G', iskallia.vault.init.ModItems.EXTRAORDINARY_LARIMAR)
+                .define('B', iskallia.vault.init.ModBlocks.POLISHED_VAULT_STONE)
+                .define('C', Blocks.LIGHT_BLUE_CANDLE)
+                .pattern("GHG")
+                .pattern("CSC")
+                .pattern("BBB")
+                .unlockedBy("has_identification_tome", has(iskallia.vault.init.ModItems.IDENTIFICATION_TOME))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModBlocks.BLOOD_SPLATTER_1, 4)
+                .define('C', Blocks.RED_CARPET)
+                .pattern("C C")
+                .pattern(" C ")
+                .pattern(" CC")
+                .unlockedBy("has_red_carpet", has(Blocks.RED_CARPET))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModBlocks.BLOOD_SPLATTER_2, 4)
+                .define('C', Blocks.RED_CARPET)
+                .pattern("C C")
+                .pattern("   ")
+                .pattern("C C")
+                .unlockedBy("has_red_carpet", has(Blocks.RED_CARPET))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModBlocks.BLOOD_SPLATTER_3, 4)
+                .define('C', Blocks.RED_CARPET)
+                .pattern("CC ")
+                .pattern("  C")
+                .pattern("C C")
+                .unlockedBy("has_red_carpet", has(Blocks.RED_CARPET))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModBlocks.BLOOD_SPLATTER_4, 4)
+                .define('C', Blocks.RED_CARPET)
+                .pattern("C  ")
+                .pattern("CCC")
+                .pattern("  C")
+                .unlockedBy("has_red_carpet", has(Blocks.RED_CARPET))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModBlocks.BLOOD_SPLATTER_5, 4)
+                .define('C', Blocks.RED_CARPET)
+                .pattern("C C")
+                .pattern("CCC")
+                .pattern("C C")
+                .unlockedBy("has_red_carpet", has(Blocks.RED_CARPET))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModBlocks.BLOOD_SPLATTER_6, 4)
+                .define('C', Blocks.RED_CARPET)
+                .pattern("CCC")
+                .pattern(" CC")
+                .pattern("C C")
+                .unlockedBy("has_red_carpet", has(Blocks.RED_CARPET))
+                .save(pFinishedRecipeConsumer);
+
+
+        registerDyeableFamilyBatch(pFinishedRecipeConsumer, Blocks.SPORE_BLOSSOM, com.kingodogo.buildscape.block.ModBlocks.class, "_SPORE_BLOSSOM");
+
         List<String> REAGENT_TYPES = List.of("ashium", "bomignite", "gorginite", "iskallium", "petzanite", "sparkletine", "tubium", "upaline", "xenium");
 
         REAGENT_TYPES.forEach(type -> {
@@ -960,7 +1062,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         arsInfusedCraftableCatalyst(VaultMod.id("craft_plentiful"), ModItems.SMASHED_VAULT_GEM, pFinishedRecipeConsumer);
         arsInfusedCraftableCatalyst(VaultMod.id("craft_soul"), iskallia.vault.init.ModItems.ETERNAL_SOUL, pFinishedRecipeConsumer);
 
-        AugmentRitualRecipeBuilder.create(VaultMod.id("classic_vault_barnyard"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "summon_foliot"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.AUGMENT), OccultismItems.JEI_DUMMY_REQUIRE_ITEM_USE.getId()).duration(6).addIngredient(iskallia.vault.init.ModItems.DRIFTWOOD).save(pFinishedRecipeConsumer, WoldsVaults.id("craft_barnyard_augment"));
+        AugmentRitualRecipeBuilder.create(VaultMod.id("classic_vault_barnyard"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "god_alignment"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.AUGMENT), OccultismItems.JEI_DUMMY_REQUIRE_ITEM_USE.getId()).duration(6).addIngredient(iskallia.vault.init.ModItems.DRIFTWOOD).save(pFinishedRecipeConsumer, WoldsVaults.id("craft_barnyard_augment"));
 
         for(DyeColor color : DyeColor.values()) {
             unobtanium(ModItems.COLORED_UNOBTANIUMS.get(color), ModBlocks.COLORED_UNOBTANIUMS.get(color), pFinishedRecipeConsumer);
@@ -1078,6 +1180,65 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_" + input.getRegistryName().getPath(), has(input))
                 .save(finishedRecipe, WoldsVaults.id(result.asItem().getRegistryName().getPath()));
 
+    }
+
+    private void registerDyeableFamilyBatch(
+            Consumer<FinishedRecipe> finishedRecipe,
+            ItemLike uncoloredBase,
+            Class<?> registryClass, String familySuffix
+    ) {
+        Map<DyeColor, RegistryObject<Block>> colorMap = autoBuildMapForFamily(registryClass, familySuffix);
+
+        Stream<Item> itemStream = colorMap.values().stream().map(ro -> ro.get().asItem());
+        if (uncoloredBase != null) {
+            itemStream = Stream.concat(Stream.of(uncoloredBase.asItem()), itemStream);
+        }
+        Ingredient familyMembers = Ingredient.of(itemStream.toArray(Item[]::new));
+
+        registerDyeableFamily(familyMembers, uncoloredBase, colorMap, finishedRecipe);
+    }
+
+    private void registerDyeableFamily(
+            Ingredient familyMembers,
+            ItemLike uncoloredBase,
+            Map<DyeColor, RegistryObject<Block>> colorToBlockMap,
+            Consumer<FinishedRecipe> finishedRecipe
+    ) {
+        for (Map.Entry<DyeColor, RegistryObject<Block>> entry : colorToBlockMap.entrySet()) {
+            DyeColor color = entry.getKey();
+            ItemLike result = entry.getValue().get();
+
+            ItemLike unlockItem = (uncoloredBase != null) ? uncoloredBase : entry.getValue().get();
+
+            ShapelessRecipeBuilder.shapeless(result, 1)
+                    .requires(familyMembers)
+                    .requires(Ingredient.of(color.getTag()), 1)
+                    .unlockedBy("has_any_variant", has(unlockItem))
+                    .save(finishedRecipe, WoldsVaults.id(result.asItem().getRegistryName().getPath() + "_from_dyeing"));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<DyeColor, RegistryObject<Block>> autoBuildMapForFamily(Class<?> registryClass, String familySuffix) {
+        Map<DyeColor, RegistryObject<Block>> map = new HashMap<>();
+
+        for (Field field : registryClass.getFields()) {
+            if (field.getName().endsWith(familySuffix) && field.getType() == RegistryObject.class) {
+                try {
+                    RegistryObject<Block> blockObj = (RegistryObject<Block>) field.get(null);
+                    String fieldName = field.getName().toLowerCase();
+
+                    for (DyeColor color : DyeColor.values()) {
+                        if (fieldName.startsWith(color.name().toLowerCase() + "_")) {
+                            map.put(color, blockObj);
+                            break;
+                        }
+                    }
+                } catch (IllegalAccessException ignored) {
+                }
+            }
+        }
+        return map;
     }
 
 

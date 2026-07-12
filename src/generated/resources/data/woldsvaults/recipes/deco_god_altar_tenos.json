@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GHG",
+    "CSC",
+    "BBB"
+  ],
+  "key": {
+    "S": {
+      "item": "the_vault:identification_tome"
+    },
+    "H": {
+      "item": "the_vault:memory_powder"
+    },
+    "G": {
+      "item": "the_vault:extraordinary_larimar"
+    },
+    "B": {
+      "item": "the_vault:polished_vault_stone"
+    },
+    "C": {
+      "item": "minecraft:light_blue_candle"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:deco_god_altar_tenos"
+  }
+}

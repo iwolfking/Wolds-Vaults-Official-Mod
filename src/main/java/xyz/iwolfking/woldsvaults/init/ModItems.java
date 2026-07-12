@@ -141,7 +141,7 @@ public class ModItems {
     public static BasicItem REPAIR_AUGMENTER;
     public static BasicItem CRYSTAL_REINFORCEMENT;
     public static BasicItem RESONATING_REINFORCEMENT;
-    public static xyz.iwolfking.woldsvaults.items.GreedyTicketItem GREEDY_TICKET;
+    public static GreedyTicketItem GREEDY_TICKET;
     public static BasicItem STYLISH_FOCUS;
     public static BasicItem MERCY_ORB;
     public static BasicItem UBER_CHAOS_CATALYST;

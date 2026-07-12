@@ -1,0 +1,82 @@
+{
+  "type": "modonomicon:dense",
+  "pattern": [
+    [
+      "___WWWWWW___",
+      "__W_G_GR_Z__",
+      "_W_XGG__R_W_",
+      "W__G_GGRR__W",
+      "W_P_PP0R_R_W",
+      "W__PSPWWFW_W",
+      "W_P_PS_WW__W",
+      "W__P_PFWFW_W",
+      "_WB___W_W_W_",
+      "__WB_____W__",
+      "___WWWWWW___"
+    ],
+    [
+      "*+*+*+*+*+*+",
+      "+*+*+*+*+*+*",
+      "*+*+*+*+*+*+",
+      "+*+*+*+*+*+*",
+      "*+*+*+*+*+*+",
+      "+*+*+*+*+*+*",
+      "*+*+*+*+*+*+",
+      "+*+*+*+*+*+*",
+      "*+*+*+*+*+*+",
+      "+*+*+*+*+*+*",
+      "*+*+*+*+*+*+"
+    ]
+  ],
+  "mapping": {
+    "0": {
+      "type": "modonomicon:block",
+      "block": "occultism:golden_sacrificial_bowl"
+    },
+    "P": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_purple"
+    },
+    "R": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_red"
+    },
+    "B": {
+      "type": "modonomicon:block",
+      "block": "supplementaries:book_pile"
+    },
+    "S": {
+      "type": "modonomicon:block",
+      "block": "occultism:spirit_attuned_crystal"
+    },
+    "F": {
+      "type": "modonomicon:tag",
+      "tag": "#minecraft:small_flowers"
+    },
+    "G": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_gold"
+    },
+    "W": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_white"
+    },
+    "X": {
+      "type": "modonomicon:block",
+      "block": "supplementaries:clock_block"
+    },
+    "*": {
+      "type": "modonomicon:display",
+      "display": "occultism:otherstone"
+    },
+    "Z": {
+      "type": "modonomicon:block",
+      "block": "minecraft:skeleton_skull",
+      "display": "occultism:skeleton_skull_dummy"
+    },
+    "+": {
+      "type": "modonomicon:display",
+      "display": "minecraft:stone"
+    }
+  }
+}

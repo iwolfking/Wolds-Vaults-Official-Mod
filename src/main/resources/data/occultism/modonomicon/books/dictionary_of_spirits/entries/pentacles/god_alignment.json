@@ -1,6 +1,6 @@
 {
   "category": "occultism:pentacles",
-  "name": "book.occultism.dictionary_of_spirits.pentacles.velara.name",
+  "name": "book.occultism.dictionary_of_spirits.pentacles.god_alignment.name",
   "description": "",
   "icon": "occultism:pentacle",
   "x": -12,
@@ -29,7 +29,7 @@
       "type": "modonomicon:multiblock",
       "anchor": "",
       "multiblock_name": "",
-      "multiblock_id": "occultism:velara",
+      "multiblock_id": "occultism:god_alignment",
       "text": "",
       "show_visualize_button": true
     },

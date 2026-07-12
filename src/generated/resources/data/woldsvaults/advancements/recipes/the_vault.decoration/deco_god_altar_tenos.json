@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:deco_god_altar_tenos"
+    ]
+  },
+  "criteria": {
+    "has_identification_tome": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:identification_tome"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:deco_god_altar_tenos"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_identification_tome",
+      "has_the_recipe"
+    ]
+  ]
+}

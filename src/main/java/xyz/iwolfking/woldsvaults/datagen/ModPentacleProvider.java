@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 import com.github.klikli_dev.occultism.registry.OccultismBlocks;
 import com.github.klikli_dev.occultism.registry.OccultismTags;
 import com.google.gson.*;
+import net.mehvahdjukaar.supplementaries.setup.ModRegistry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
@@ -65,6 +66,20 @@ public class ModPentacleProvider implements DataProvider {
                         "   FGFGF   ",
                         "    GGG    ",
                         "     G     "), (new ModPentacleProvider.MappingBuilder()).bowl().flower().goldChalk().crystal().wither().build());
+
+        this.addPentacle("god_alignment",
+                this.createPattern(
+                        "   WWWWWW   ",
+                        "  W G GR Z  ",
+                        " W XGG  R W ",
+                        "W  G GGRR  W",
+                        "W P PP0R R W",
+                        "W  PSPWWFW W",
+                        "W P PS WW  W",
+                        "W  P PFWFW W",
+                        " WB   W W W ",
+                        "  WB     W  ",
+                        "   WWWWWW   "), (new ModPentacleProvider.MappingBuilder()).bowl().redChalk().goldChalk().purpleChalk().whiteChalk().bookPile().clock().crystal().flower().skeleton().build());
     }
 
     private List<String> createPattern(String... rows) {
@@ -113,7 +128,7 @@ public class ModPentacleProvider implements DataProvider {
         JsonObject jsonMapping = new JsonObject();
 
         for(Map.Entry<Character, JsonElement> entry : mappings.entrySet()) {
-            jsonMapping.add(String.valueOf(entry.getKey()), (JsonElement)entry.getValue());
+            jsonMapping.add(String.valueOf(entry.getKey()), entry.getValue());
         }
 
         json.add("mapping", jsonMapping);
@@ -179,6 +194,14 @@ public class ModPentacleProvider implements DataProvider {
 
         private ModPentacleProvider.MappingBuilder flower() {
             return this.tag('F', BlockTags.SMALL_FLOWERS);
+        }
+
+        private ModPentacleProvider.MappingBuilder bookPile() {
+            return this.block('B', ModRegistry.BOOK_PILE);
+        }
+
+        private ModPentacleProvider.MappingBuilder clock() {
+            return this.block('X', ModRegistry.CLOCK_BLOCK);
         }
 
         private ModPentacleProvider.MappingBuilder whiteChalk() {

@@ -518,7 +518,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                     pool.level(0, entries ->
                             entries.entry(1, 1, e -> {
                                 e.add("the_vault:corroded_veins", 1);
-                                e.add("the_vault:daycare", 1);
+                                e.add("the_vault:daycare_effect", 1);
                                 e.add("the_vault:haunted_mansion", 1);
                                 e.add("the_vault:classic_retro_mini", 1);
                                 e.add("the_vault:sweet_retro", 1);

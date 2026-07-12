@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:deco_god_altar_velara"
+    ]
+  },
+  "criteria": {
+    "has_vault_moss": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:vault_moss"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:deco_god_altar_velara"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_vault_moss",
+      "has_the_recipe"
+    ]
+  ]
+}

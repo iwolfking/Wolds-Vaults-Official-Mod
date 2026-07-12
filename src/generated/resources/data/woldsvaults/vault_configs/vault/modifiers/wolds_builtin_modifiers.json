@@ -1310,7 +1310,7 @@
           "icon": "the_vault:gui/modifiers/chunky"
         }
       },
-      "the_vault:daycare": {
+      "the_vault:daycare_effect": {
         "properties": {
           "filter": "",
           "effect": "woldsvaults:shrinking",
