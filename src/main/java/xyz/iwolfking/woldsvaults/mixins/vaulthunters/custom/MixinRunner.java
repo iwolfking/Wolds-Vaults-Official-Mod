@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.event.CommonEvents;
+import iskallia.vault.core.event.common.CrateAwardEvent;
 import iskallia.vault.core.event.common.FruitEatenEvent;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.vault.Vault;
@@ -48,6 +49,7 @@ import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @Mixin(value = Runner.class, remap = false)
@@ -57,6 +59,15 @@ public abstract class MixinRunner extends Listener {
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
         CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
+            // CRATE_AWARD_EVENT is a server-global bus invoked twice (PRE/POST) for every
+            // crate awarded in ANY vault; without these guards each live Runner injects a
+            // full bonus roll into every crate on the server.
+            if(event.getPhase() != CrateAwardEvent.Phase.PRE) {
+                return;
+            }
+            if(event.getListener() == null || !Objects.equals(event.getListener().get(Listener.ID), this.get(Listener.ID))) {
+                return;
+            }
             int greedTier = PlayerGreedTreeData.get(event.getPlayer().getLevel()).getGreedTier(event.getPlayer().getUUID());
             if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100 && greedTier > 0 && !VaultUtils.isRoyaleVault(vault) && !VaultUtils.isBrazierVault(vault) && !VaultUtils.isCakeVault(vault) && !VaultUtils.isSpecialVault(vault)) {
                 ResourceLocation lootTableKey = WoldsVaults.id("greed_crate_bonus_scavenger");
