@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import com.github.klikli_dev.occultism.Occultism;
+import com.github.klikli_dev.occultism.common.item.DummyTooltipItem;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.ResearchesGUIConfig;
 import iskallia.vault.gear.trinket.TrinketEffectRegistry;
@@ -18,8 +20,11 @@ import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.Field;
 
 
 public class ModItemModelProvider extends ItemModelProvider {
@@ -167,7 +172,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         spawnEgg(ModItems.MONSTER_EYE_EGG);
         spawnEgg(ModItems.ROBOT_EGG);
         spawnEgg(ModItems.WOLD_EGG);
-        spawnEgg(ModItems.DRYGMY_SPAWN_EGG);
+        spawnEgg(ArsSpawnEggItems.DRYGMY_SPAWN_EGG);
 
         charm("idona_token");
         charm("tenos_token");
@@ -298,8 +303,21 @@ public class ModItemModelProvider extends ItemModelProvider {
             }
         });
 
+        try {
+            for (Field field : ModRitualDummyItems.class.getDeclaredFields()) {
+                if (field.getType() == DummyTooltipItem.class) {
+                    DummyTooltipItem item = (DummyTooltipItem) field.get(null);
+                    ritualDummy(item);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            WoldsVaults.LOGGER.error("Failed to access ritual dummy fields via reflection", e);
+        }
     }
 
+    private ItemModelBuilder ritualDummy(Item item) {
+        return withExistingParent("item/" + item.getRegistryName().getPath(), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "ritual_dummy"));
+    }
 
     private ItemModelBuilder simpleItem(Item item) {
         return withExistingParent(item.getRegistryName().getPath(),

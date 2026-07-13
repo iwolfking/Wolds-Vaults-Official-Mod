@@ -47,7 +47,7 @@
     },
     "I": {
       "type": "modonomicon:block",
-      "block": "woldsvaults:deco_god_altar_velara"
+      "block": "woldsvaults:deco_god_altar_idona"
     },
     "*": {
       "type": "modonomicon:display",

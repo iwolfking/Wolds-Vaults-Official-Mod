@@ -288,7 +288,7 @@ public class ModPentacleProvider implements DataProvider {
         }
 
         private ModPentacleProvider.MappingBuilder idonaALtar() {
-            return this.block('I', () -> ModBlocks.DECO_VELARA_ALTAR_BLOCK);
+            return this.block('I', () -> ModBlocks.DECO_IDONA_ALTAR_BLOCK);
         }
 
         private ModPentacleProvider.MappingBuilder wendarrAltar() {

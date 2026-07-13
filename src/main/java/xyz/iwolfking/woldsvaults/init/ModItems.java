@@ -15,8 +15,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
+import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.lib.item.MultiLootableItem;
+import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.items.*;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
@@ -50,7 +53,6 @@ public class ModItems {
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_SURVIVOR;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_UNHINGED_SCAVINGO;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD;
-
 
     public static VaultBattleStaffItem BATTLESTAFF;
     public static VaultTridentItem TRIDENT;
@@ -89,7 +91,6 @@ public class ModItems {
     public static final BasicMobEggItem MONSTER_EYE_EGG = new BasicMobEggItem(WoldsVaults.id("monster_eye_spawn_egg"), () -> iskallia.vault.init.ModEntities.MONSTER_EYE, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
     public static final BasicMobEggItem ROBOT_EGG = new BasicMobEggItem(WoldsVaults.id("robot_spawn_egg"), () -> iskallia.vault.init.ModEntities.ROBOT, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
     public static final BasicMobEggItem BLUE_BLAZE_EGG = new BasicMobEggItem(WoldsVaults.id("blue_blaze_spawn_egg"), () -> iskallia.vault.init.ModEntities.BLUE_BLAZE, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-    public static final BasicMobEggItem DRYGMY_SPAWN_EGG = new BasicMobEggItem(WoldsVaults.id("drygmy_spawn_egg"), () -> com.hollingsworth.arsnouveau.common.entity.ModEntities.ENTITY_DRYGMY, 25088, DyeColor.GREEN.getId(), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 
     // Alchemy Objective things
     public static final AlchemyIngredientItem ROTTEN_HEART = new AlchemyIngredientItem(WoldsVaults.id("rotten_heart"), AlchemyIngredientItem.AlchemyIngredientType.DEADLY);
@@ -281,7 +282,6 @@ public class ModItems {
         registry.register(ROBOT_EGG);
         registry.register(MONSTER_EYE_EGG);
         registry.register(BLUE_BLAZE_EGG);
-        registry.register(DRYGMY_SPAWN_EGG);
         registry.register(FRENZY_CAPSTONE);
         registry.register(PROSPEROUS_CAPSTONE);
         registry.register(ALL_SEEING_EYE_CAPSTONE);
@@ -391,6 +391,15 @@ public class ModItems {
             registry.register(bi);
         });
         registry.register(RAINBOW_UNOBTANIUM);
+
+        //Mod dependent loading
+        if(ConditionalModUtils.isModPresent("occultism")) {
+            ModRitualDummyItems.registerItems(event);
+        }
+
+        if(ConditionalModUtils.isModPresent("ars_nouveau")) {
+            ArsSpawnEggItems.registerItems(event);
+        }
 
     }
 

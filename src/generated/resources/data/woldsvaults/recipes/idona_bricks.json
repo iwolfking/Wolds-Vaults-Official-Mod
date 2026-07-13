@@ -1,0 +1,24 @@
+{
+  "type": "occultism:ritual",
+  "ritual_type": "occultism:craft",
+  "activation_item": {
+    "item": "minecraft:stone_bricks"
+  },
+  "pentacle_id": "occultism:idona",
+  "duration": 5,
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/craft_idona_bricks"
+  },
+  "ingredients": [
+    {
+      "item": "the_vault:perfect_painite"
+    },
+    {
+      "item": "the_vault:chromatic_iron_block"
+    }
+  ],
+  "result": {
+    "item": "the_vault:idona_brick",
+    "count": 64
+  }
+}

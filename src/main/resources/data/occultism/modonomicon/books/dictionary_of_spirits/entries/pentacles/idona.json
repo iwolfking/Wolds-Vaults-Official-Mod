@@ -1,9 +1,9 @@
 {
   "category": "occultism:pentacles",
-  "name": "book.occultism.dictionary_of_spirits.pentacles.god_alignment.name",
+  "name": "book.occultism.dictionary_of_spirits.pentacles.idona.name",
   "description": "",
   "icon": "occultism:pentacle",
-  "x": -12,
+  "x": -11,
   "y": -6,
   "background_u_index": 0,
   "background_v_index": 0,
@@ -20,26 +20,26 @@
     {
       "type": "modonomicon:text",
       "anchor": "",
-      "title": "book.occultism.dictionary_of_spirits.pentacles.summon_foliot.intro.title",
+      "title": "book.occultism.dictionary_of_spirits.pentacles.idona.intro.title",
       "use_markdown_in_title": false,
       "show_title_separator": true,
-      "text": "book.occultism.dictionary_of_spirits.pentacles.summon_foliot.intro.text"
+      "text": "book.occultism.dictionary_of_spirits.pentacles.idona.intro.text"
     },
     {
       "type": "modonomicon:multiblock",
       "anchor": "",
       "multiblock_name": "",
-      "multiblock_id": "occultism:god_alignment",
+      "multiblock_id": "occultism:idona",
       "text": "",
       "show_visualize_button": true
     },
     {
       "type": "modonomicon:text",
       "anchor": "",
-      "title": "book.occultism.dictionary_of_spirits.pentacles.summon_foliot.uses.title",
+      "title": "book.occultism.dictionary_of_spirits.pentacles.idona.uses.title",
       "use_markdown_in_title": false,
       "show_title_separator": true,
-      "text": "book.occultism.dictionary_of_spirits.pentacles.summon_foliot.uses.text"
+      "text": "book.occultism.dictionary_of_spirits.pentacles.idona.uses.text"
     }
   ],
   "condition": {

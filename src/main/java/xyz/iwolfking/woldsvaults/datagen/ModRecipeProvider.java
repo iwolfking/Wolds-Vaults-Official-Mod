@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -36,6 +37,8 @@ import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModTags;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultCatalystInfusionRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.occultism.AugmentRitualRecipeBuilder;
+import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.RitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.items.GodReputationItem;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
 import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe;
@@ -43,6 +46,7 @@ import xyz.iwolfking.woldsvaults.recipes.lib.UncheckedRecipe;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -1064,6 +1068,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         AugmentRitualRecipeBuilder.create(VaultMod.id("classic_vault_barnyard"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "god_alignment"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.AUGMENT), OccultismItems.JEI_DUMMY_REQUIRE_ITEM_USE.getId()).duration(6).addIngredient(iskallia.vault.init.ModItems.DRIFTWOOD).save(pFinishedRecipeConsumer, WoldsVaults.id("craft_barnyard_augment"));
 
+        RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "idona"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_IDONA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.IDONA_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.PERFECT_PAINITE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("idona_bricks"));
+        RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_VELARA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.VELARA_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.PERFECT_ALEXANDRITE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("velara_bricks"));
+        RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "tenos"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_TENOS_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.TENOS_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.MEMORY_POWDER)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("tenos_bricks"));
+        RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "tenos"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_WENDARR_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.WENDARR_BRICK, 64)).duration(5).requires(Ingredient.of(ModItems.CHROMATIC_GOLD_INGOT)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("wendarr_bricks"));
+
         for(DyeColor color : DyeColor.values()) {
             unobtanium(ModItems.COLORED_UNOBTANIUMS.get(color), ModBlocks.COLORED_UNOBTANIUMS.get(color), pFinishedRecipeConsumer);
         }
@@ -1220,7 +1229,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @SuppressWarnings("unchecked")
     private Map<DyeColor, RegistryObject<Block>> autoBuildMapForFamily(Class<?> registryClass, String familySuffix) {
-        Map<DyeColor, RegistryObject<Block>> map = new HashMap<>();
+        Map<DyeColor, RegistryObject<Block>> map = new LinkedHashMap<>();
 
         for (Field field : registryClass.getFields()) {
             if (field.getName().endsWith(familySuffix) && field.getType() == RegistryObject.class) {
