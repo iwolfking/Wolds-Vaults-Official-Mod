@@ -13,12 +13,15 @@ import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.rune.RuneBossFight;
 import iskallia.vault.core.vault.objective.rune.RuneBossFights;
+import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.data.entity.PartialEntity;
 import iskallia.vault.core.world.storage.IZonedWorld;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.core.world.storage.WorldZones;
 import iskallia.vault.entity.boss.BossRuneModifiers;
+import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.world.data.WorldZonesData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -44,6 +47,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.registries.ForgeRegistries;
+import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+import xyz.iwolfking.woldsvaults.init.ModEffects;
+import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarConfigAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
@@ -59,6 +66,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * Drives the hyperboss cycle: arms the pillar with escalated stats, runs the periodic and
@@ -71,9 +79,11 @@ import java.util.UUID;
  * Vault Hunters update that touches the rune-boss machinery.
  */
 public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
-    // Arena adds: hostile picks from the config's the_vault:tank / the_vault:assassin entity
-    // groups (the groups config only exposes match-predicates, so the spawnable subset is
-    // curated here, same as BrutalBossesRegistry does for its bosses).
+    /**
+     * Arena adds: hostile picks from the config's the_vault:tank / the_vault:assassin entity
+     * groups (the groups config only exposes match-predicates, so the spawnable subset is
+     * curated here, same as BrutalBossesRegistry does for its bosses).
+     */
     private static final ResourceLocation[] TANK_ADDS = {
             VaultMod.id("shiver"),
             VaultMod.id("deathcap"),
@@ -102,29 +112,33 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             WoldsVaults.id("blue_ghost"),
     };
 
-    // Stable id for the boss's percent damage-escalation modifier (idempotent across reloads).
+    /** Stable id for the boss's percent damage-escalation modifier (idempotent across reloads). */
     private static final UUID HYPER_DAMAGE_UUID =
             UUID.nameUUIDFromBytes("woldsvaults:hyper_damage_escalation".getBytes(StandardCharsets.UTF_8));
-    // Stable id for the multiplayer health bonus (idempotent across reloads).
+    /** Stable id for the multiplayer health bonus (idempotent across reloads). */
     private static final UUID MULTIPLAYER_HEALTH_UUID =
             UUID.nameUUIDFromBytes("woldsvaults:hyper_multiplayer_health".getBytes(StandardCharsets.UTF_8));
-    // The health_attribute trait's baseValue in vault_boss.json (the boss's innate +50%);
-    // part of the reference total the vault health factor multiplies.
+    /**
+     * The health_attribute trait's baseValue in vault_boss.json (the boss's innate +50%);
+     * part of the reference total the vault health factor multiplies.
+     */
     private static final double INNATE_HEALTH_BONUS = 0.5;
     private static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.parse("generic.max_health");
-    // The four arena gates of the BOSS_1 room style, relative to the pillar (RuneBossAnimation).
+    /** The four arena gates of the BOSS_1 room style, relative to the pillar (RuneBossAnimation). */
     private static final BlockPos[] GATE_OFFSETS = {
             new BlockPos(23, 4, 0), new BlockPos(-23, 4, 0),
             new BlockPos(0, 4, 23), new BlockPos(0, 4, -23)};
 
-    // How long the arena must stay empty of living fighters before the fight counts as wiped
-    // (debounces death screens, brief dimension-change resolution gaps, etc.).
+    /**
+     * How long the arena must stay empty of living fighters before the fight counts as wiped
+     * (debounces death screens, brief dimension-change resolution gaps, etc.).
+     */
     private static final int WIPE_GRACE_TICKS = 60;
 
     private final HyperEscalationManager escalation;
-    // Transient on purpose: a reload mid-fight just restarts the short add countdown.
+    /** Transient on purpose: a reload mid-fight just restarts the short add countdown. */
     private int addTimer = HyperVaultObjective.cfg().getFightAddPeriodTicks();
-    // Transient on purpose: a reload mid-countdown just restarts the wipe grace window.
+    /** Transient on purpose: a reload mid-countdown just restarts the wipe grace window. */
     private int wipeGraceTicks = WIPE_GRACE_TICKS;
     private String lastRoster = "";
 
@@ -133,7 +147,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         this.escalation = escalation;
     }
 
-    /** Podium shift-click during ARMED: escalate the pillar's stats and start a fresh fight. */
+    /** Empty-hand podium click during ARMED: escalate the pillar's stats and start a fresh fight. */
     public void armAndStartFight(BlockPos pillarPos) {
         RuneBossFights fights = objective.get(HyperVaultObjective.FIGHTS);
         if (fights.hasFightAt(pillarPos)) {
@@ -159,13 +173,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         double escalation = HyperVaultObjective.cfg().getBossHealthPercent()
                 * Math.pow(HyperVaultObjective.cfg().getHyperStatFactor(), cycle)
                 + HyperVaultObjective.cfg().getBossStatIncrement() * cycle;
-        // The boss's health is one giant MULTIPLY_BASE trait term, so applying the vault's mob
-        // health modifiers as attribute modifiers dilutes them to noise (+100% of base next to
-        // the +5000%·1.75^cycle escalation is +2%). Instead the vault's health factor —
-        // computed exactly as it stacks on a normal mob — multiplies the whole escalated total
-        // here, before the traits (and the boss's frozen raw health) are built at summon.
-        // Damage stays out of the trait (its operator is flat "add"): the percent escalation
-        // and the vault's non-health mob modifiers are applied in applyBossStats instead.
+        // The boss's health is one giant MULTIPLY_BASE trait term, so vault mob-health modifiers
+        // applied as attribute modifiers dilute to noise next to the escalation. Instead the
+        // vault's health factor (computed as it stacks on a normal mob) multiplies the whole
+        // escalated total here, before the traits are built at summon. Damage stays out of the
+        // trait (flat "add" operator): applyBossStats applies it and the non-health modifiers.
         double healthFactor = vaultHealthFactor();
         double healthPercent = (1.0 + INNATE_HEALTH_BONUS + escalation) * healthFactor
                 - 1.0 - INNATE_HEALTH_BONUS;
@@ -208,7 +220,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     }
 
     /** A box per gate: ±5 along the wall, ±2 across it, pillarY−3..+3 (the frames heal higher). */
-    private void forEachGatePos(BlockPos pillarPos, java.util.function.Consumer<BlockPos> action) {
+    private void forEachGatePos(BlockPos pillarPos, Consumer<BlockPos> action) {
         for (BlockPos offset : GATE_OFFSETS) {
             boolean xWall = offset.getX() != 0;
             for (int along = -5; along <= 5; along++) {
@@ -601,7 +613,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         // REAVING effect as its "already reaved" latch — pre-latching makes the hyperboss immune
         // to a proc that scales with its hyper-inflated health pool. Bleed (the other
         // %-max-health source) is denied outright in events/HyperVaultEvents.
-        boss.addEffect(new MobEffectInstance(xyz.iwolfking.woldsvaults.init.ModEffects.REAVING, Integer.MAX_VALUE, 0, true, false));
+        boss.addEffect(new MobEffectInstance(ModEffects.REAVING, Integer.MAX_VALUE, 0, true, false));
         // NOTE: do NOT give the hyperboss InfernalMobs modifiers. InfernalMobs multiplies an
         // infernal mob's max health generically (independent of which modifier rolled), and
         // on top of hyper's escalated pool that produced a 100B-HP cycle-1 boss (round 40).
@@ -644,33 +656,33 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      * and each runner's %-scaling damage gear, so the hurt-chain log lines can be attributed.
      */
     private void logDamageAmplifierAudit() {
-        if (!xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
+        if (!WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
             return;
         }
-        long frenzy = xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(
-                vault, ResourceLocation.parse("the_vault:frenzy"));
-        long brew = xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils.getCountOfModifiers(
-                vault, ResourceLocation.parse("the_vault:catastrophic_brew"));
+        long frenzy = VaultModifierUtils.getCountOfModifiers(vault, ResourceLocation.parse("the_vault:frenzy"));
+        long brew = VaultModifierUtils.getCountOfModifiers(vault, ResourceLocation.parse("the_vault:catastrophic_brew"));
         WoldsVaults.LOGGER.info(
                 "Damage-amplifier audit: {} Frenzy (+200% each) + {} Catastrophic Brew (+100% each) stacks -> all player damage x{} (additive per modifier in hyper).",
                 frenzy, brew, String.format("%.0f", (1.0 + 2.0 * frenzy) * (1.0 + 1.0 * brew)));
-        for (iskallia.vault.core.vault.player.Listener listener : vault.get(Vault.LISTENERS).getAll()) {
+        for (Listener listener : vault.get(Vault.LISTENERS).getAll()) {
             listener.getPlayer().ifPresent(player -> {
-                var snapshot = iskallia.vault.snapshot.AttributeSnapshotHelper.getInstance().getSnapshot(player);
-                var merger = iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger.floatSum();
+                var snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
+                var merger = VaultGearAttributeTypeMerger.floatSum();
                 WoldsVaults.LOGGER.info(
                         "  {} gear: reaving={} execution={} apScaling={} thornsScaling={}",
                         player.getGameProfile().getName(),
-                        snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.REAVING_DAMAGE, merger),
-                        snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.EXECUTION_DAMAGE, merger),
-                        snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.AP_SCALING_DAMAGE, merger),
-                        snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.THORNS_SCALING_DAMAGE, merger));
+                        snapshot.getAttributeValue(ModGearAttributes.REAVING_DAMAGE, merger),
+                        snapshot.getAttributeValue(ModGearAttributes.EXECUTION_DAMAGE, merger),
+                        snapshot.getAttributeValue(ModGearAttributes.AP_SCALING_DAMAGE, merger),
+                        snapshot.getAttributeValue(ModGearAttributes.THORNS_SCALING_DAMAGE, merger));
             });
         }
     }
 
-    // The addon's settable modifiers carry their own ModifierType enum with the same shape as
-    // VH's, hence the overload pair.
+    /**
+     * The addon's settable modifiers carry their own ModifierType enum with the same shape as
+     * VH's, hence the overload pair.
+     */
     private static boolean targetsMaxHealth(EntityAttributeModifier.ModifierType type) {
         return type != null && type.getAttributeResourceLocations().contains(MAX_HEALTH_ID);
     }

@@ -19,9 +19,11 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 @Mixin(value = BingoTask.class, remap = false)
 public abstract class MixinBingoTask extends ConfiguredTask<ConfiguredTask.Config> implements LevelEntryList.ILevelEntry {
 
-    // Hyper vaults: a completed bingo line must stay reward-free. onBingo attaches a reward
-    // task rolled from the bingo config pools — the first-line pool gives the Bingo! loot
-    // buffs, later lines can roll crate tiers.
+    /**
+     * Hyper vaults: a completed bingo line must stay reward-free. onBingo attaches a reward
+     * task rolled from the bingo config pools — the first-line pool gives the Bingo! loot
+     * buffs, later lines can roll crate tiers.
+     */
     @Inject(method = "onBingo", at = @At("HEAD"), cancellable = true)
     private void woldsVaults$skipLineRewardsInHyperVaults(TaskContext context, CallbackInfo ci) {
         Vault vault = context.getVault();

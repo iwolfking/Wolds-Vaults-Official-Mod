@@ -42,9 +42,11 @@ import java.util.UUID;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class HyperBossDamageInstrumentation {
-    // Amounts sampled at HIGHEST/HIGH/NORMAL/LOW/LOWEST for one hurt event. Hurt events
-    // resolve synchronously on their vault's tick thread; the event identity check discards
-    // stale samples (e.g. an event cancelled before LOWEST ran).
+    /**
+     * Amounts sampled at HIGHEST/HIGH/NORMAL/LOW/LOWEST for one hurt event. Hurt events
+     * resolve synchronously on their vault's tick thread; the event identity check discards
+     * stale samples (e.g. an event cancelled before LOWEST ran).
+     */
     private record ChainSample(LivingHurtEvent event, float[] amounts) {
     }
 
@@ -57,8 +59,6 @@ public final class HyperBossDamageInstrumentation {
     private static boolean off() {
         return !WoldsVaultsConfig.COMMON.enableDebugMode.get();
     }
-
-    // ---- hurt-event chain: one sample per priority band ---------------------------------
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void sampleHighest(LivingHurtEvent event) {
@@ -145,7 +145,7 @@ public final class HyperBossDamageInstrumentation {
         }
     }
 
-    // The one known fixed id in the damage-multiplier registry (PlayerThirdAttackDamageHelper).
+    /** The one known fixed id in the damage-multiplier registry (PlayerThirdAttackDamageHelper). */
     private static final UUID THIRD_ATTACK_ID =
             UUID.nameUUIDFromBytes("the_vault:third_attack_damage".getBytes(StandardCharsets.UTF_8));
 
@@ -199,8 +199,6 @@ public final class HyperBossDamageInstrumentation {
         }
         return String.format("%.2f", amounts[to] / amounts[from]);
     }
-
-    // ---- post-armor damage-event chain ---------------------------------------------------
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void samplePostArmorStart(LivingDamageEvent event) {

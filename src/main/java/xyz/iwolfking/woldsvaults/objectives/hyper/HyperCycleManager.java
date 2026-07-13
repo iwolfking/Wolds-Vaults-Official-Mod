@@ -12,6 +12,7 @@ import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.task.BingoTask;
+import iskallia.vault.task.ProgressConfiguredTask;
 import iskallia.vault.task.TaskContext;
 import iskallia.vault.task.counter.TargetTaskCounter;
 import iskallia.vault.task.source.EntityTaskSource;
@@ -28,6 +29,7 @@ import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 /**
  * Rolls each cycle's mini-objective batch and flips the phase to ARMED once every batch entry
@@ -94,7 +96,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
                 if (root.isCompleted(index)) {
                     continue;
                 }
-                root.getChild(index).streamSelfAndDescendants(iskallia.vault.task.ProgressConfiguredTask.class).forEach(task -> {
+                root.getChild(index).streamSelfAndDescendants(ProgressConfiguredTask.class).forEach(task -> {
                     if (task.getCounter() instanceof TargetTaskCounter<?, ?> counter && counter.isPopulated()) {
                         // VH's own scaler: target = base x (1 + additional x contribution).
                         ((BingoObjectiveAccessor) bingo).callScaleTargetWithCondition(task, counter, scale - 1.0, 1, context);
@@ -113,7 +115,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
 
         JavaRandom random = JavaRandom.ofNanoTime();
         HyperMini card = random.nextBoolean() ? HyperMini.BINGO : HyperMini.SCAVENGER;
-        int mask = (1 << HyperMini.ELIXIR.ordinal()) | (1 << card.ordinal()) | (1 << HyperMini.BRUTAL.ordinal());
+        int mask = HyperMini.ELIXIR.bit() | card.bit() | HyperMini.BRUTAL.bit();
         objective.set(HyperVaultObjective.BATCH_MASK, mask);
 
         initMini(HyperMini.ELIXIR, random);
@@ -248,7 +250,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         };
     }
 
-    private <T extends Objective> boolean completeOrMissing(Class<T> type, java.util.function.Predicate<T> done) {
+    private <T extends Objective> boolean completeOrMissing(Class<T> type, Predicate<T> done) {
         Optional<T> mini = objective.findMini(type);
         if (mini.isEmpty()) {
             // Roll-time generation already logged why; don't deadlock the cycle on a missing mini.

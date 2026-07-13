@@ -13,6 +13,7 @@ import iskallia.vault.item.crystal.CrystalData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
@@ -20,8 +21,10 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class HyperVaultCrystalObjective extends WoldCrystalObjective {
-    // Carried in crystal NBT/JSON for forward compatibility, but nothing consumes it yet:
-    // the live escalation factor is hyper_objective.json (cfg().getHyperStatFactor()).
+    /**
+     * Carried in crystal NBT/JSON for forward compatibility, but nothing consumes it yet:
+     * the live escalation factor is hyper_objective.json (cfg().getHyperStatFactor()).
+     */
     protected float hyperStatFactor = HyperVaultObjective.cfg().getHyperStatFactor();
 
     public HyperVaultCrystalObjective() {
@@ -39,7 +42,7 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
         });
         VaultModifierUtils.addModifier(vault, VaultMod.id("locked"), 1);   // no exit portal
         VaultModifierUtils.addModifier(vault, VaultMod.id("fragged"), 1);  // difficulty lock (highest tier)
-        VaultModifierUtils.addModifier(vault, xyz.iwolfking.woldsvaults.WoldsVaults.id("hyper"), 1);
+        VaultModifierUtils.addModifier(vault, WoldsVaults.id("hyper"), 1);
         addSigilStacks(vault, sigil);
     }
 

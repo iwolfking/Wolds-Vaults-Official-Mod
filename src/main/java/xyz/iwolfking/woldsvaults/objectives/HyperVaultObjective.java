@@ -91,60 +91,73 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
+import xyz.iwolfking.woldsvaults.modifiers.vault.HyperStatModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCycleManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperEscalationManager;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * Endlessly-cycling objective: clear a batch of mini-objectives, arm and kill an escalating
  * hyperboss, collect the escalation rewards, repeat. The vault has no exit portal; the only
  * way out with a completion is the 30s exit pillar spawned after each boss kill.
+ *
+ * <p>Every tuning knob lives in config/the_vault/hyper_objective.json
+ * ({@link HyperObjectiveConfig}); the modifier ban list and stack caps live in
+ * {@link HyperModifierPolicy}. Hyper behavior that does not live under objectives/:
+ * <ul>
+ * <li>BrutalBossesObjective: NEGATIVE_POOL_ONLY mode (hyper minis pull hyper_all_bad,
+ * budget/cap-gated, obelisk listener gate skipped)</li>
+ * <li>VaultModifierFromPoolTask (api/core/vault_events): negative enchanted-event pulls
+ * redirect to hyper_bad_timer_events</li>
+ * <li>MixinMobFrenzyModifier: frenzy-family damage stacks add instead of compounding</li>
+ * <li>MixinRunner: score-tier crate injections + greed-bonus quantity scaling</li>
+ * <li>MixinBingoTask: bingo-line vault-modifier rewards suppressed</li>
+ * <li>MixinFlowingFluid: lava/void hazard-pool fluid ticks frozen</li>
+ * <li>VaultMapItem#applySpecialModifiers: the Cull map modifier is stripped</li>
+ * <li>{@link xyz.iwolfking.woldsvaults.events.HyperVaultEvents}: boss bleed denial, mob
+ * immortality denial, explosion pool-shielding;
+ * {@link xyz.iwolfking.woldsvaults.events.HyperBossDamageInstrumentation}: debug-mode damage
+ * logging</li>
+ * <li>ModVaultModifierPoolsProvider: the hyper_* pools are derived at datagen time</li>
+ * </ul>
  */
 public class HyperVaultObjective extends Objective {
-    // Every tuning knob lives in config/the_vault/hyper_objective.json (HyperObjectiveConfig);
-    // the ban list and stack caps live in HyperModifierPolicy. Hyper behavior that does NOT
-    // live under objectives/ — the full list, for anyone tracing "why does X act differently
-    // in hyper vaults":
-    //   - BrutalBossesObjective: NEGATIVE_POOL_ONLY mode (hyper minis pull hyper_all_bad,
-    //     budget/cap-gated, obelisk listener gate skipped)
-    //   - api/core/vault_events VaultModifierFromPoolTask: negative enchanted-event pulls
-    //     redirect to hyper_bad_timer_events
-    //   - MixinMobFrenzyModifier: frenzy-family damage stacks add instead of compounding
-    //   - MixinRunner: score-tier crate injections + greed-bonus quantity scaling
-    //   - MixinBingoTask: bingo-line vault-modifier rewards suppressed
-    //   - MixinFlowingFluid: lava/void hazard-pool fluid ticks frozen
-    //   - VaultMapItem.applySpecialModifiers: the Cull map modifier is stripped
-    //   - events/HyperVaultEvents: boss bleed denial, mob immortality denial, explosion
-    //     pool-shielding; events/HyperBossDamageInstrumentation: debug-mode damage logging
-    //   - datagen/ModVaultModifierPoolsProvider: the hyper_* pools are derived at datagen time
 
     /** The live tuning knobs (config/the_vault/hyper_objective.json). */
-    public static xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig cfg() {
+    public static HyperObjectiveConfig cfg() {
         return xyz.iwolfking.woldsvaults.init.ModConfigs.HYPER_OBJECTIVE;
     }
 
-    // Entity tag on everything the boss fight spawns (adds + waves) so the per-kill cleanup
-    // can find and discard the leftover escort.
+    /**
+     * Entity tag on everything the boss fight spawns (adds + waves) so the per-kill cleanup
+     * can find and discard the leftover escort.
+     */
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
     private static final UUID SPEED_CLAMP_UUID =
-            UUID.nameUUIDFromBytes("woldsvaults:hyper_speed_clamp".getBytes(java.nio.charset.StandardCharsets.UTF_8));
-    // Hyper's chaos pools (datagen'd in ModVaultModifierPoolsProvider: the concealed-chaos /
-    // negative-event source lists minus HyperModifierPolicy.BANNED). hyper_mixed rolls 25 per
-    // pull for the dumps; hyper_all_bad rolls 1 for brutal-boss kills; hyper_bad_timer_events
-    // rolls 1 for the 2-minute ambient ticks.
+            UUID.nameUUIDFromBytes("woldsvaults:hyper_speed_clamp".getBytes(StandardCharsets.UTF_8));
+    /**
+     * Hyper's chaos pools, derived at datagen time in ModVaultModifierPoolsProvider (the
+     * concealed-chaos / negative-event source lists minus {@link HyperModifierPolicy#BANNED}).
+     * hyper_mixed rolls 25 per pull for the dumps; hyper_all_bad rolls 1 for brutal-boss kills;
+     * hyper_bad_timer_events rolls 1 for the 2-minute ambient ticks.
+     */
     public static final ResourceLocation CHAOS_POOL_MIXED = WoldsVaults.id("hyper_mixed");
     public static final ResourceLocation CHAOS_POOL_ALL_BAD = WoldsVaults.id("hyper_all_bad");
     public static final ResourceLocation CHAOS_POOL_TIMER_EVENTS = WoldsVaults.id("hyper_bad_timer_events");
     public static final ResourceLocation BINGO_POOL = WoldsVaults.id("hyper");
 
-    // Serialized by NAME (never ordinal), so phases can be added or reordered freely.
+    /** Serialized by NAME (never ordinal), so phases can be added or reordered freely. */
     public enum Phase {
         ROLLING, MINIS, ARMED, FIGHT, REWARD
     }
@@ -175,8 +188,10 @@ public class HyperVaultObjective extends Objective {
     public static final FieldKey<Integer> CYCLE = FieldKey.of("cycle", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Integer> CHAOS_COUNT = FieldKey.of("chaos_count", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> BATCH_MASK = FieldKey.of("batch_mask", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
-    // Minis live here, NOT in CHILDREN: the base class recurses into CHILDREN unconditionally and
-    // external systems discover objectives through it. CHILDREN keeps the real successor (crate).
+    /**
+     * Minis live here, NOT in CHILDREN: the base class recurses into CHILDREN unconditionally and
+     * external systems discover objectives through it. CHILDREN keeps the real successor (crate).
+     */
     public static final FieldKey<ObjList> MINIS = FieldKey.of("minis", ObjList.class).with(Version.v1_31, CompoundAdapter.of(ObjList::new), DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<RuneBossFights> FIGHTS = FieldKey.of("fights", RuneBossFights.class).with(Version.v1_31, new DirectAdapter<RuneBossFights>((value, buffer, context) -> value.writeBits(buffer, context), (buffer, context) -> {
         RuneBossFights fights = new RuneBossFights();
@@ -193,36 +208,47 @@ public class HyperVaultObjective extends Objective {
     public static final FieldKey<Integer> AMBIENT_TICK = FieldKey.of("ambient_tick", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> GATE_MASK = FieldKey.of("gate_mask", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<UUID> BOSS_ID = FieldKey.of("boss_id", UUID.class).with(Version.v1_31, Adapters.UUID, DISK.all()).register(FIELDS);
-    // The pillar tile's saved state: the fight consumes the pillar block when the boss summons,
-    // so each reward phase re-places it from this snapshot for the next cycle's arming.
+    /**
+     * The pillar tile's saved state: the fight consumes the pillar block when the boss summons,
+     * so each reward phase re-places it from this snapshot for the next cycle's arming.
+     */
     public static final FieldKey<CompoundTag> PILLAR_NBT = FieldKey.of("pillar_nbt", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all()).register(FIELDS);
-    // Pristine blocks around the four arena gates, captured at the first arm. The gate frames
-    // re-place themselves each animation frame, but the floor row bordering them is outside the
-    // frame templates — explosion holes there would otherwise persist forever.
+    /**
+     * Pristine blocks around the four arena gates, captured at the first arm. The gate frames
+     * re-place themselves each animation frame, but the floor row bordering them is outside the
+     * frame templates — explosion holes there would otherwise persist forever.
+     */
     public static final FieldKey<CompoundTag> GATE_NBT = FieldKey.of("gate_nbt", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all()).register(FIELDS);
-    // Per-player victory countdowns: uuid string -> ticks left until that player alone is
-    // completed and extracted (synced so each client can render its own countdown).
+    /**
+     * Per-player victory countdowns: uuid string -> ticks left until that player alone is
+     * completed and extracted (synced so each client can render its own countdown).
+     */
     public static final FieldKey<CompoundTag> EXTRACTIONS = FieldKey.of("extractions", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all().or(CLIENT.all())).register(FIELDS);
-    // How many epic/omega tier-marker stacks were earned by kills scoring at least the
-    // configured extra-draw score;
-    // those stacks roll one extra draw at crate time (see HyperCrateRewards).
+    /**
+     * Epic/omega tier-marker stacks earned by kills scoring at least the configured extra-draw
+     * score; each stack rolls one extra draw at crate time (see HyperCrateRewards).
+     */
     public static final FieldKey<Integer> EPIC_PLUS = FieldKey.of("epic_plus", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> OMEGA_PLUS = FieldKey.of("omega_plus", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> SCORE = FieldKey.of("score", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Integer> ZONE_ID = FieldKey.of("zone_id", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
-    // Settable ("+X%") vault-modifier values live only in shared registry instances that reset on
-    // every config reload, so a mid-vault relog silently zeroes them. Snapshot on first init,
-    // re-apply on every later init. {modifier id -> value}
+    /**
+     * Settable ("+X%") vault-modifier values live only in shared registry instances that reset on
+     * every config reload, so a mid-vault relog silently zeroes them. Snapshot on first init,
+     * re-apply on every later init. {modifier id -> value}
+     */
     public static final FieldKey<CompoundTag> SETTABLE_VALUES = FieldKey.of("settable_values", CompoundTag.class).with(Version.v1_31, Adapters.COMPOUND_NBT, DISK.all()).register(FIELDS);
 
     private static final int PILLAR_PIN_PERIOD_TICKS = 100;
 
-    // Managers are pure behavior, rebuilt in initServer; every durable value lives in a FieldKey.
+    /** Managers are pure behavior, rebuilt in initServer; every durable value lives in a FieldKey. */
     private HyperCycleManager cycleManager;
     private HyperBossManager bossManager;
     private HyperEscalationManager escalationManager;
-    // Mobs spawned last tick, awaiting the speed cap on the next objective tick. Transient:
-    // anything in flight across a reload misses the clamp (a one-tick window, accepted).
+    /**
+     * Mobs spawned last tick, awaiting the speed cap on the next objective tick. Transient:
+     * anything in flight across a reload misses the clamp (a one-tick window, accepted).
+     */
     private final List<Mob> speedClampQueue = new ArrayList<>();
     private int speedClampCount = 0;
 
@@ -238,8 +264,7 @@ public class HyperVaultObjective extends Objective {
         this.set(ELIXIR_TARGET, 0);
         this.set(ELIXIR_TASKS, new ElixirTask.List());
         this.set(WAVE_TICK, 0);
-        // Plain literal (config default): tickAmbientEvents reschedules from cfg() after
-        // the first fire, so a retuned period takes over within one cycle.
+        // Literal default: tickAmbientEvents reschedules from cfg() after the first fire.
         this.set(AMBIENT_TICK, 20 * 120);
         this.set(GATE_MASK, 0);
     }
@@ -262,7 +287,7 @@ public class HyperVaultObjective extends Objective {
         return vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).stream().findFirst();
     }
 
-    /** HYPER stack count, read by {@link xyz.iwolfking.woldsvaults.modifiers.vault.HyperStatModifier} on mob spawn. */
+    /** HYPER stack count, read by {@link HyperStatModifier} on mob spawn. */
     public static int getCycleCount(Vault vault) {
         return get(vault).map(objective -> objective.getOr(CYCLE, 0)).orElse(0);
     }
@@ -320,9 +345,8 @@ public class HyperVaultObjective extends Objective {
             this.escalationManager.restartDoorAnimation();
         }
 
-        // Belt-and-braces vs. layer 1 in VaultMapItem.applyCrystalRecipe: Cull would let everything
-        // (including the hyperboss) spawn at 1 hp. There is no public modifier-removal API, so if it
-        // slipped through anyway, all we can do is shout.
+        // Cull would let everything (including the hyperboss) spawn at 1 hp. VaultMapItem strips it
+        // at map application; there is no modifier-removal API here, so all we can do is shout.
         if (vault.get(Vault.MODIFIERS).hasModifier(WoldsVaults.id("cull"))) {
             WoldsVaults.LOGGER.error("Cull modifier is active on a Hyper vault and cannot be removed at runtime! "
                     + "The map-application guard should have stripped it; the vault will be trivialized.");
@@ -349,7 +373,7 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Pillar shows no rune requirement; arming is the shift-click below, never rune items.
+        // Pillar shows no rune requirement; arming is the empty-hand podium click, never rune items.
         // Also our earliest sight of the pillar — remember where it is for waves/exit/pinning.
         CommonEvents.RUNE_BOSS_GENERATE_RUNES.register(this, data -> guarded("pillar rune display", () -> {
             if (data.getLevel() == world && data.getTile() instanceof BossRunePillarTileEntity pillar) {
@@ -358,10 +382,9 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Podium: right-click with an empty main hand while the batch is complete arms the
-        // fight. Deliberately NOT sneak-gated: BLOCK_USE fires from inside BlockBehaviour.use,
-        // and vanilla skips use() entirely for a sneaking player holding an item in EITHER
-        // hand — a shift-click with a totem in the off-hand never reaches this handler at all.
+        // Podium: right-click with an empty main hand arms the fight. Deliberately NOT sneak-gated:
+        // vanilla skips BlockBehaviour.use entirely for a sneaking player holding an item in EITHER
+        // hand, so a shift-click with a totem in the off-hand would never reach this handler.
         CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.RUNE_PILLAR).register(this, data -> {
             if (data.getHand() != InteractionHand.MAIN_HAND) {
                 return;
@@ -378,9 +401,6 @@ public class HyperVaultObjective extends Objective {
             try {
                 this.bossManager.armAndStartFight(data.getPos());
             } catch (Exception e) {
-                // The VH event bus catches handler exceptions and printStackTraces them to raw
-                // stderr, which the launcher does not put in the log — without this catch a
-                // failure here is completely invisible.
                 WoldsVaults.LOGGER.error("Arming the hyperboss fight failed!", e);
                 return;
             }
@@ -410,10 +430,8 @@ public class HyperVaultObjective extends Objective {
                 return; // countdown already running for this player
             }
             data.setResult(InteractionResult.SUCCESS);
-            // The click only STARTS the clicker's personal 15s victory transition;
-            // tickExtractions completes them alone at 0. The flourish below (firework,
-            // completion title, action-bar countdown, damage immunity) mirrors
-            // VictoryObjective — the system every other objective hands completion to.
+            // Starts the clicker's personal victory transition; tickExtractions completes them
+            // alone at zero. The flourish mirrors VictoryObjective's completion sequence.
             CompoundTag updated = extractions.copy();
             updated.putInt(key, cfg().getWinTransitionTicks());
             this.set(EXTRACTIONS, updated);
@@ -432,10 +450,9 @@ public class HyperVaultObjective extends Objective {
                     + (cfg().getWinTransitionTicks() / 20) + " seconds!", ChatFormatting.GREEN);
         }));
 
-        // Track the hyperboss entity so health gates can be evaluated without touching
-        // RuneBossFight's private health fields.
-        // The score is NOT captured here: the summon adds the boss to the world before its
-        // traits apply, so this event still sees base stats. HyperBossManager reads it mid-fight.
+        // Tracks the hyperboss so health gates avoid RuneBossFight's private health fields. Stats
+        // are NOT read here: the summon spawns the boss before its traits apply, so this event
+        // still sees base values; HyperBossManager reads them mid-fight.
         CommonEvents.ENTITY_SPAWN.register(this, event -> guarded("boss id capture", () -> {
             if (event.getEntity().level == world && event.getEntity() instanceof VaultBossEntity boss
                     && this.getOr(PHASE, Phase.ROLLING) == Phase.FIGHT) {
@@ -443,8 +460,7 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Players in their victory transition are damage-immune, exactly like VictoryObjective
-        // grants during its countdown.
+        // Players in their victory transition are damage-immune, like VictoryObjective's countdown.
         CommonEvents.ENTITY_DAMAGE.register(this, event -> guarded("extraction immunity", () -> {
             if (event.getEntityLiving() instanceof Player player && player.level == world
                     && this.getOr(EXTRACTIONS, new CompoundTag()).contains(player.getUUID().toString())) {
@@ -452,10 +468,9 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Queue every spawned mob for the movement-speed cap, applied next objective tick
-        // (after the whole spawn event, so every modifier's spawn hook has run regardless of the
-        // order chaos dumps registered them). The hyperboss is excluded here: its modifiers only
-        // arrive at first live tick (applyBossStats), which applies the same clamp itself.
+        // Queue spawns for the speed cap next objective tick, after every modifier's spawn hook
+        // has run. The hyperboss is excluded: its modifiers only arrive at first live tick
+        // (applyBossStats), which applies the same clamp itself.
         CommonEvents.ENTITY_SPAWN.register(this, event -> guarded("speed clamp queue", () -> {
             if (event.getEntity().level == world && event.getEntity() instanceof Mob mob
                     && !(mob instanceof VaultBossEntity)) {
@@ -463,11 +478,9 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Collector tiles recompute TOTAL = base x (1 + increase) x playerScaleFactor every
-        // tick from this event (the same hook objective-target sigils use); this handler adds
-        // the per-kill cycle growth. Player scaling on the collector stays VH's own JOINED
-        // factor (+50%/extra player, refreshed per batch), which multiplies on top.
-        // (Bingo tasks don't consume this event — the cycle manager rescales them directly.)
+        // Collector tiles recompute their target from this event every tick (the objective-target
+        // sigil hook); this adds the per-kill cycle growth, multiplying with VH's own per-player
+        // JOINED factor. Bingo tasks don't consume this event — the cycle manager rescales them.
         CommonEvents.OBJECTIVE_TARGET.register(this, data -> guarded("collector cycle scaling", () -> {
             if (data.getVault() != vault) {
                 return;
@@ -792,7 +805,7 @@ public class HyperVaultObjective extends Objective {
         return isMiniInBatch(HyperMini.ELIXIR) && this.getOr(ELIXIR_TARGET, 0) > 0;
     }
 
-    private <T extends ElixirTask> void forEachElixirTask(Class<T> type, java.util.function.Consumer<T> action) {
+    private <T extends ElixirTask> void forEachElixirTask(Class<T> type, Consumer<T> action) {
         for (ElixirTask task : this.get(ELIXIR_TASKS)) {
             if (type.isInstance(task)) {
                 action.accept(type.cast(task));
@@ -832,17 +845,17 @@ public class HyperVaultObjective extends Objective {
         return Optional.empty();
     }
 
-    // --- HUD ---------------------------------------------------------------------------------
-    // Incoming pose: x = the objective module's horizontal center, y = its top. One compact
-    // horizontal row (elixir bar + obelisk icons); the bingo/collector card only renders while
-    // the mod's own "open bingo" key is held.
-
     private static final float HUD_TOP_MARGIN = 8.0F;
     private static final float HUD_SCALE = 0.75F;
     private static final float ELIXIR_CENTER_X = -120.0F;
     private static final float OBELISK_CENTER_X = 90.0F;
     private static final float CARD_TOP_OFFSET = 46.0F;
 
+    /**
+     * HUD. Incoming pose: x = the objective module's horizontal center, y = its top. One compact
+     * horizontal row (elixir bar + obelisk icons); the bingo/collector card only renders while
+     * the mod's own "open bingo" key is held.
+     */
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {

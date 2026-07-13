@@ -27,7 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
-import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCrateRewards;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
@@ -47,9 +46,11 @@ import java.util.List;
  */
 public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective> {
     private final HyperCycleManager cycleManager;
-    // The arena gates. A rune fight freezes its own OPEN_ROOM animation on the first frame once it
-    // completes (invisible in normal rune vaults — the run ends right after), so the reopening is
-    // driven from here instead. Transient: a reload mid-animation just replays the 5s opening.
+    /**
+     * The arena gates. A rune fight freezes its own OPEN_ROOM animation on the first frame once it
+     * completes (invisible in normal rune vaults — the run ends right after), so the reopening is
+     * driven from here instead. Transient: a reload mid-animation just replays the 5s opening.
+     */
     private RuneBossAnimation doorAnimation;
 
     public HyperEscalationManager(Vault vault, VirtualWorld world, HyperVaultObjective objective, HyperCycleManager cycleManager) {

@@ -41,6 +41,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 
@@ -52,9 +53,11 @@ public class BrutalBossesObjective extends ObeliskObjective {
 
     public static final SupplierKey<Objective> E_KEY = (SupplierKey)SupplierKey.of("brutal_bosses", Objective.class).with(Version.v1_12, BrutalBossesObjective::new);
     public static final FieldRegistry FIELDS = ObeliskObjective.FIELDS.merge(new FieldRegistry());
-    // Hyper-vault mode: boss kills draw single rolls from the hyper_all_bad pool instead of the
-    // bb_* pools, and obelisks skip the listener-priority gate (the objective never joins
-    // listener HUD lists).
+    /**
+     * Hyper-vault mode: boss kills draw single rolls from the hyper_all_bad pool instead of the
+     * bb_* pools, and obelisks skip the listener-priority gate (the objective never joins
+     * listener HUD lists).
+     */
     public static final FieldKey<Boolean> NEGATIVE_POOL_ONLY = FieldKey.of("negative_pool_only", Boolean.class).with(Version.v1_12, Adapters.BOOLEAN, DISK.all()).register(FIELDS);
     private static final ResourceLocation NEGATIVE_POOL = HyperVaultObjective.CHAOS_POOL_ALL_BAD;
 
@@ -95,7 +98,7 @@ public class BrutalBossesObjective extends ObeliskObjective {
         // Hyper vaults: boss-kill modifiers count against the shared chaos budget and respect
         // the per-modifier stack caps (e.g. Electric max 1).
         if (this.getOr(NEGATIVE_POOL_ONLY, false)
-                && (xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy.isStackCapped(vault, mod)
+                && (HyperModifierPolicy.isStackCapped(vault, mod)
                 || HyperVaultObjective.consumeChaosBudget(vault, 1) <= 0)) {
             return;
         }

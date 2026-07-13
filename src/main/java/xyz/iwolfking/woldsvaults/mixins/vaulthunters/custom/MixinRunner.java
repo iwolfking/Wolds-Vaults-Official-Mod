@@ -12,6 +12,7 @@ import iskallia.vault.core.vault.VaultLevel;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
+import iskallia.vault.core.vault.objective.AwardCrateObjective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.loot.generator.LootTableGenerator;
@@ -47,6 +48,7 @@ import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.CrateLootGeneratorAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
+import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCrateRewards;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
@@ -58,6 +60,11 @@ import java.util.Random;
 @Mixin(value = Runner.class, remap = false)
 public abstract class MixinRunner extends Listener {
 
+    /**
+     * CRATE_AWARD_EVENT is a server-global bus invoked twice (PRE/POST) for every crate awarded
+     * in ANY vault; without this guard each live Runner's handlers would inject a full roll
+     * into every crate on the server.
+     */
     @Unique
     private boolean isNotOwnCratePreAward(CrateAwardEvent.Data event) {
         return event.getPhase() != CrateAwardEvent.Phase.PRE
@@ -68,9 +75,6 @@ public abstract class MixinRunner extends Listener {
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
         CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
-            // CRATE_AWARD_EVENT is a server-global bus invoked twice (PRE/POST) for every
-            // crate awarded in ANY vault; without these guards each live Runner injects a
-            // full bonus roll into every crate on the server.
             if(isNotOwnCratePreAward(event)) {
                 return;
             }
@@ -87,9 +91,9 @@ public abstract class MixinRunner extends Listener {
                 // (platinum, boxes, foci...) grow with deep runs the way one crate per
                 // vault never lets them. Coins stay on the unscaled base roll below —
                 // their growth is the greedy-crate-tier multiplier, not crate tiers.
-                float hyperBonusQuantity = xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.get(vault)
-                        .map(objective -> objective.getOr(iskallia.vault.core.vault.objective.AwardCrateObjective.ITEM_QUANTITY, 0.0F))
-                        .orElse(-1.0F) * xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.cfg().getGreedBonusTierEfficiency();
+                float hyperBonusQuantity = HyperVaultObjective.get(vault)
+                        .map(objective -> objective.getOr(AwardCrateObjective.ITEM_QUANTITY, 0.0F))
+                        .orElse(-1.0F) * HyperVaultObjective.cfg().getGreedBonusTierEfficiency();
                 boolean hyper = hyperBonusQuantity >= 0.0F;
 
                 LootTableGenerator generator =
@@ -105,7 +109,7 @@ public abstract class MixinRunner extends Listener {
                         if(greedyCrateTiers > 0) {
                             // Greedy Crate Tier: extra greed coins per stack (hyperboss kills).
                             count = Math.round(count * (1.0F
-                                    + xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.cfg().getGreedyCoinBonusPerStack() * greedyCrateTiers));
+                                    + HyperVaultObjective.cfg().getGreedyCoinBonusPerStack() * greedyCrateTiers));
                         }
                         reward.setCount(count);
                     } else if (hyper) {
