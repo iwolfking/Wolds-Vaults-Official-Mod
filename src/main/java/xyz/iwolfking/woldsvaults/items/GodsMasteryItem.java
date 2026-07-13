@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * The awakened core: shift-right-click to consume, permanently raising the player's MAXIMUM
  * god reputation with all four Vault Gods by 1 (base 50). Raises only the cap — it grants no
- * reputation itself. The count persists on the player (see {@link GodMasteryHelper}).
+ * reputation itself. Counts are stored per player in world SavedData (see {@link GodMasteryHelper}).
  */
 public class GodsMasteryItem extends BasicItem {
     public GodsMasteryItem(ResourceLocation id) {

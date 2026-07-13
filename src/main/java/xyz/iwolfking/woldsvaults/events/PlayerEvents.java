@@ -47,16 +47,6 @@ import xyz.iwolfking.woldsvaults.items.filter_necklace.FilterNecklaceItem;
 )
 public class PlayerEvents {
 
-    /**
-     * God's Mastery lives in the player's PlayerPersisted NBT. Forge carries that subtree
-     * across death itself, but copying explicitly removes any dependence on that behavior —
-     * the cap raise must never be lost to a death.
-     */
-    @SubscribeEvent
-    public static void onPlayerClone(PlayerEvent.Clone event) {
-        xyz.iwolfking.woldsvaults.api.util.GodMasteryHelper.copyOnClone(event.getOriginal(), event.getPlayer());
-    }
-
     @SubscribeEvent(
             priority = EventPriority.HIGH
     )
