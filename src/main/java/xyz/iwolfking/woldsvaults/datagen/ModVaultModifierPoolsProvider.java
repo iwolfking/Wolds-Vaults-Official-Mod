@@ -75,7 +75,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
 
     private static final List<PoolMember> OMEGA_NEGATIVE = List.of(
             m("the_vault:corroded_veins", 1),
-            m("the_vault:daycare", 1),
+            m("the_vault:daycare_effect", 1),
             m("the_vault:haunted_mansion", 1),
             m("the_vault:classic_retro_mini", 1),
             m("the_vault:sweet_retro", 1),

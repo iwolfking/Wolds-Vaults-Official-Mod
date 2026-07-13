@@ -1,0 +1,103 @@
+{
+  "type": "modonomicon:dense",
+  "pattern": [
+    [
+      "____WSW____",
+      "___W_V_W___",
+      "__WFFWFFW__",
+      "_WPWFWFWGW_",
+      "W@_PWWWG_XW",
+      "S\u0026PPP0GGG^S",
+      "WP_P_R_G_XW",
+      "_W@RRRRRGW_",
+      "__WZRRRZW__",
+      "___WNINW___",
+      "____WSW____"
+    ],
+    [
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*"
+    ]
+  ],
+  "mapping": {
+    "@": {
+      "type": "modonomicon:block",
+      "block": "minecraft:bookshelf"
+    },
+    "F": {
+      "type": "modonomicon:tag",
+      "tag": "#minecraft:small_flowers"
+    },
+    "\u0026": {
+      "type": "modonomicon:block",
+      "block": "woldsvaults:deco_god_altar_tenos"
+    },
+    "G": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_gold"
+    },
+    "I": {
+      "type": "modonomicon:block",
+      "block": "woldsvaults:deco_god_altar_idona"
+    },
+    "*": {
+      "type": "modonomicon:display",
+      "display": "occultism:otherstone"
+    },
+    "+": {
+      "type": "modonomicon:display",
+      "display": "minecraft:stone"
+    },
+    "N": {
+      "type": "modonomicon:block",
+      "block": "minecraft:wither_skeleton_skull",
+      "display": "occultism:wither_skeleton_skull_dummy"
+    },
+    "0": {
+      "type": "modonomicon:block",
+      "block": "occultism:golden_sacrificial_bowl"
+    },
+    "P": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_purple"
+    },
+    "R": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_red"
+    },
+    "S": {
+      "type": "modonomicon:block",
+      "block": "occultism:spirit_attuned_crystal"
+    },
+    "V": {
+      "type": "modonomicon:block",
+      "block": "woldsvaults:deco_god_altar_velara"
+    },
+    "W": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_white"
+    },
+    "X": {
+      "type": "modonomicon:block",
+      "block": "supplementaries:clock_block"
+    },
+    "Z": {
+      "type": "modonomicon:block",
+      "block": "minecraft:skeleton_skull",
+      "display": "occultism:skeleton_skull_dummy"
+    },
+    "^": {
+      "type": "modonomicon:block",
+      "block": "woldsvaults:deco_god_altar_wendarr"
+    }
+  }
+}

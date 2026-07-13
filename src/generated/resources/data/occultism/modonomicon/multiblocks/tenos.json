@@ -1,0 +1,73 @@
+{
+  "type": "modonomicon:dense",
+  "pattern": [
+    [
+      "____WSW____",
+      "___WP\u0026@W___",
+      "__W@_P_PW__",
+      "_W_RPPPW_W_",
+      "W____P____W",
+      "S_RRR0WWW_S",
+      "W____G____W",
+      "_W___G___W_",
+      "__W__G__W__",
+      "___W___W___",
+      "____WSW____"
+    ],
+    [
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*"
+    ]
+  ],
+  "mapping": {
+    "0": {
+      "type": "modonomicon:block",
+      "block": "occultism:golden_sacrificial_bowl"
+    },
+    "P": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_purple"
+    },
+    "@": {
+      "type": "modonomicon:block",
+      "block": "minecraft:bookshelf"
+    },
+    "R": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_red"
+    },
+    "S": {
+      "type": "modonomicon:block",
+      "block": "occultism:spirit_attuned_crystal"
+    },
+    "\u0026": {
+      "type": "modonomicon:block",
+      "block": "woldsvaults:deco_god_altar_tenos"
+    },
+    "G": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_gold"
+    },
+    "W": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_white"
+    },
+    "*": {
+      "type": "modonomicon:display",
+      "display": "occultism:otherstone"
+    },
+    "+": {
+      "type": "modonomicon:display",
+      "display": "minecraft:stone"
+    }
+  }
+}

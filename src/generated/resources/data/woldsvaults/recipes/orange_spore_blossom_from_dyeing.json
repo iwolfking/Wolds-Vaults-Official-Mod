@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    [
+      {
+        "item": "minecraft:spore_blossom"
+      },
+      {
+        "item": "buildscape:red_spore_blossom"
+      },
+      {
+        "item": "buildscape:cyan_spore_blossom"
+      },
+      {
+        "item": "buildscape:blue_spore_blossom"
+      },
+      {
+        "item": "buildscape:purple_spore_blossom"
+      },
+      {
+        "item": "buildscape:orange_spore_blossom"
+      }
+    ],
+    {
+      "tag": "forge:dyes/orange"
+    }
+  ],
+  "result": {
+    "item": "buildscape:orange_spore_blossom"
+  }
+}

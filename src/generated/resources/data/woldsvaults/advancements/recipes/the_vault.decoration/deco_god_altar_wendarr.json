@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:deco_god_altar_wendarr"
+    ]
+  },
+  "criteria": {
+    "has_clock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:clock"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:deco_god_altar_wendarr"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_clock",
+      "has_the_recipe"
+    ]
+  ]
+}

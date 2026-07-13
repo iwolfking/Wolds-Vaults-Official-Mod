@@ -1,0 +1,73 @@
+{
+  "type": "modonomicon:dense",
+  "pattern": [
+    [
+      "____WSW____",
+      "___WX^XW___",
+      "__WG_G_GW__",
+      "_W_WGGGR_W_",
+      "W____G____W",
+      "S_WWW0RRR_S",
+      "W____P____W",
+      "_W___P___W_",
+      "__W__P__W__",
+      "___W___W___",
+      "____WSW____"
+    ],
+    [
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*"
+    ]
+  ],
+  "mapping": {
+    "0": {
+      "type": "modonomicon:block",
+      "block": "occultism:golden_sacrificial_bowl"
+    },
+    "P": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_purple"
+    },
+    "R": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_red"
+    },
+    "S": {
+      "type": "modonomicon:block",
+      "block": "occultism:spirit_attuned_crystal"
+    },
+    "G": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_gold"
+    },
+    "W": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_white"
+    },
+    "X": {
+      "type": "modonomicon:block",
+      "block": "supplementaries:clock_block"
+    },
+    "*": {
+      "type": "modonomicon:display",
+      "display": "occultism:otherstone"
+    },
+    "+": {
+      "type": "modonomicon:display",
+      "display": "minecraft:stone"
+    },
+    "^": {
+      "type": "modonomicon:block",
+      "block": "woldsvaults:deco_god_altar_wendarr"
+    }
+  }
+}

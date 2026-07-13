@@ -15,8 +15,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
+import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.lib.item.MultiLootableItem;
+import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.items.*;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
@@ -50,7 +53,6 @@ public class ModItems {
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_SURVIVOR;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_UNHINGED_SCAVINGO;
     public static ItemVaultCrystalSeal CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD;
-
 
     public static VaultBattleStaffItem BATTLESTAFF;
     public static VaultTridentItem TRIDENT;
@@ -89,7 +91,6 @@ public class ModItems {
     public static final BasicMobEggItem MONSTER_EYE_EGG = new BasicMobEggItem(WoldsVaults.id("monster_eye_spawn_egg"), () -> iskallia.vault.init.ModEntities.MONSTER_EYE, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
     public static final BasicMobEggItem ROBOT_EGG = new BasicMobEggItem(WoldsVaults.id("robot_spawn_egg"), () -> iskallia.vault.init.ModEntities.ROBOT, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
     public static final BasicMobEggItem BLUE_BLAZE_EGG = new BasicMobEggItem(WoldsVaults.id("blue_blaze_spawn_egg"), () -> iskallia.vault.init.ModEntities.BLUE_BLAZE, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
-    public static final BasicMobEggItem DRYGMY_SPAWN_EGG = new BasicMobEggItem(WoldsVaults.id("drygmy_spawn_egg"), () -> com.hollingsworth.arsnouveau.common.entity.ModEntities.ENTITY_DRYGMY, 25088, DyeColor.GREEN.getId(), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 
     // Alchemy Objective things
     public static final AlchemyIngredientItem ROTTEN_HEART = new AlchemyIngredientItem(WoldsVaults.id("rotten_heart"), AlchemyIngredientItem.AlchemyIngredientType.DEADLY);
@@ -141,6 +142,7 @@ public class ModItems {
     public static BasicItem REPAIR_AUGMENTER;
     public static BasicItem CRYSTAL_REINFORCEMENT;
     public static BasicItem RESONATING_REINFORCEMENT;
+    public static GreedyTicketItem GREEDY_TICKET;
     public static BasicItem STYLISH_FOCUS;
     public static BasicItem MERCY_ORB;
     public static BasicItem UBER_CHAOS_CATALYST;
@@ -280,7 +282,6 @@ public class ModItems {
         registry.register(ROBOT_EGG);
         registry.register(MONSTER_EYE_EGG);
         registry.register(BLUE_BLAZE_EGG);
-        registry.register(DRYGMY_SPAWN_EGG);
         registry.register(FRENZY_CAPSTONE);
         registry.register(PROSPEROUS_CAPSTONE);
         registry.register(ALL_SEEING_EYE_CAPSTONE);
@@ -291,6 +292,7 @@ public class ModItems {
         registry.register(REPAIR_AUGMENTER);
         registry.register(CRYSTAL_REINFORCEMENT);
         registry.register(RESONATING_REINFORCEMENT);
+        registry.register(GREEDY_TICKET);
         registry.register(CHISELING_FOCUS);
         registry.register(ZEPHYR_CHARM);
         registry.register(STYLISH_FOCUS);
@@ -390,6 +392,15 @@ public class ModItems {
         });
         registry.register(RAINBOW_UNOBTANIUM);
 
+        //Mod dependent loading
+        if(ConditionalModUtils.isModPresent("occultism")) {
+            ModRitualDummyItems.registerItems(event);
+        }
+
+        if(ConditionalModUtils.isModPresent("ars_nouveau")) {
+            ArsSpawnEggItems.registerItems(event);
+        }
+
     }
 
     static {
@@ -461,6 +472,7 @@ public class ModItems {
 
         CRYSTAL_REINFORCEMENT = new BasicItem(WoldsVaults.id("crystal_reinforcement"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
         RESONATING_REINFORCEMENT = new BasicItem(WoldsVaults.id("resonating_reinforcement"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+        GREEDY_TICKET = new xyz.iwolfking.woldsvaults.items.GreedyTicketItem(WoldsVaults.id("greedy_ticket"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 
         STYLISH_FOCUS = new BasicItem(WoldsVaults.id("stylish_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
         CHISELING_FOCUS = new ToolModifierNullifyingItem(WoldsVaults.id("chiseling_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));

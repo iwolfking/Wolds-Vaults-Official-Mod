@@ -6,12 +6,15 @@ import iskallia.vault.util.StringUtils;
 import net.joseph.vaultfilters.attributes.abstracts.BooleanAttribute;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.init.*;
+import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyIngredientTypeAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyItemAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.CatalystItemAttribute;
@@ -42,19 +45,45 @@ public class ModLanguageProvider extends LanguageProvider {
         add("create.item_attributes." + attribute.getTranslationKey() + ".inverted", invertedText);
     }
 
-    public void addRitual(ResourceLocation ritualId, String ritualName) {
+    public void ritual(Item dummyItem, String ritualTooltip, ResourceLocation ritualId, String ritualName) {
         add("ritual." + ritualId.getNamespace() + "." + ritualId.getPath() + ".started", ritualName + " initiated!");
         add("ritual." + ritualId.getNamespace() + "." + ritualId.getPath() + ".finished", ritualName + " completed!");
+        add(dummyItem, "Ritual: " + ritualName);
+        add("item." + dummyItem.getRegistryName().getNamespace() + ".ritual_dummy." + dummyItem.getRegistryName().getPath().replace("ritual_dummy/", "") + ".tooltip", ritualTooltip);
     }
+
+    public void pentacle(String pentacleId, String name, String introTitle, String intro, String usesTitle, String usesText) {
+        add("book.occultism.dictionary_of_spirits.pentacles." + pentacleId + ".name", name);
+        add("pentacle.occultism." + pentacleId, name);
+        add("multiblock.occultism." + pentacleId, name);
+        add("book.occultism.dictionary_of_spirits.pentacles." + pentacleId + ".intro.title", introTitle);
+        add("book.occultism.dictionary_of_spirits.pentacles." + pentacleId + ".intro.text", intro);
+        add("book.occultism.dictionary_of_spirits.pentacles." + pentacleId + ".uses.title", usesTitle);
+        add("book.occultism.dictionary_of_spirits.pentacles." + pentacleId + ".uses.text", usesText);
+    }
+
 
     @Override
     protected void addTranslations() {
         ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {
             add(customObjectiveRegistryEntry, customObjectiveRegistryEntry.getName());
         });
+        pentacle("velara", "Velara's Grove", "Velara's Grove", "**Purpose:** Commune with [#](00FF00)Velara[#]()\n\\\n\\\nPart of a quad divine alignment, [#](00FF00)Velara's Grove[#]() can be used to commune with the gracious Velara, who may provide the help of their green thumb with a suitable offering.\n", "Uses", "");
+        pentacle("idona", "Idona's Battlefield", "Idona's Battlefield", "**Purpose:** Commune with [#](00FF00)Idona[#]()\n\\\n\\\nPart of a quad divine alignment, [#](00FF00)Idona's Battlefield[#]() can be used to commune with the ruthless Idona, who may lend their bloodthirsty nature to your rituals with a suitable offering.\n", "Uses", "");
+        pentacle("tenos", "Tenos' Library", "Tenos' Library", "**Purpose:** Commune with [#](00FF00)Tenos[#]()\n\\\n\\\nPart of a quad divine alignment, [#](00FF00)Tenos' Library[#]() can be used to commune with the wise Tenos, who may lend their vast academic knowledge to your rituals with a suitable offering.\n", "Uses", "");
+        pentacle("wendarr", "Wendarr's Study", "Wendarr's Study", "**Purpose:** Commune with [#](00FF00)Wendarr[#]()\n\\\n\\\nPart of a quad divine alignment, [#](00FF00)Wendarr's Study[#]() can be used to commune with the patient Wendarr, who may lend their time bending powers to your rituals with a suitable offering.\n", "Uses", "");
+        pentacle("god_alignment", "Quaddeus Alignment", "Quaddeus Alignment", "**Purpose:** Commune with the [#](00FF00)Vault Gods[#]()\n\\\n\\\nThe full quad divine alignment, [#](00FF00)Quaddeus Alignment[#]() can be used to commune with all of the mighty Vault Gods at once, and with powerful enough offerings, may even assist with mighty rituals using their combined strength.\n", "Uses", "");
+        ritual(ModRitualDummyItems.CRAFT_IDONA_BRICKS, "A way to craft Idona's lovely decorative bricks without vault delving!", WoldsVaults.id("idona_bricks"), "Convert Bricks - Idona");
+        ritual(ModRitualDummyItems.CRAFT_VELARA_BRICKS, "A way to craft Velara's lovely decorative bricks without vault delving!", WoldsVaults.id("velara_bricks"), "Convert Bricks - Velara");
+        ritual(ModRitualDummyItems.CRAFT_TENOS_BRICKS, "A way to craft Tenos' lovely decorative bricks without vault delving!", WoldsVaults.id("tenos_bricks"), "Convert Bricks - Tenos");
+        ritual(ModRitualDummyItems.CRAFT_WENDARR_BRICKS, "A way to craft Wendarr's lovely decorative bricks without vault delving!", WoldsVaults.id("wendarr_bricks"), "Convert Bricks - Wendarr");
         add(new AlchemyItemAttribute(false), "is an Alchemy ingredient", "is not an Alchemy ingredient");
         add(new CatalystItemAttribute(false), "is an Alchemy catalyst", "is not an Alchemy catalyst");
         add(new AlchemyIngredientTypeAttribute(""), "is an Alchemy ingredient of type \"%1$s\"", "is not an Alchemy ingredient of type \"%1$s\"");
+        add(ModBlocks.DECO_IDONA_ALTAR_BLOCK, "God Altar (Idona - Decorative)");
+        add(ModBlocks.DECO_VELARA_ALTAR_BLOCK, "God Altar (Velara - Decorative)");
+        add(ModBlocks.DECO_WENDARR_ALTAR_BLOCK, "God Altar (Wendarr - Decorative)");
+        add(ModBlocks.DECO_TENOS_ALTAR_BLOCK, "God Altar (Tenos - Decorative)");
         add(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, "Magic Text");
         add(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK, "Owned Crafting Table");
         add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
@@ -163,6 +192,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("util.woldsvaults.objective_text", "Objective: ");
         add("util.woldsvaults.vault_modifier_added", "%1$s was added to the Vault!");
         add("util.woldsvaults.timed_modifier_added", "%1$s added %2$s to the Vault for %3$s seconds!");
+        add("item.woldsvaults.greedy_ticket", "Greedy Ticket");
         add("item.woldsvaults.rotten_heart", "Rotten Heart");
         add("item.woldsvaults.rotten_apple", "Rotten Apple");
         add("item.woldsvaults.verdant_globule", "Verdant Globule");
@@ -281,7 +311,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.OMEGA_BOX, "Omega Box");
         add(ModItems.CATALYST_BOX, "Catalyst Box");
         add(ModItems.ENIGMA_EGG, "Enigma Egg");
-        add(ModItems.DRYGMY_SPAWN_EGG, "Drygmy Spawn Egg");
+        add(ArsSpawnEggItems.DRYGMY_SPAWN_EGG, "Drygmy Spawn Egg");
         add("itemGroup.woldsvaults", "Wold's Vaults");
         add("item.woldsvaults.zephyr_charm", "Zephyr Charm");
         add("item.woldsvaults.augment_piece", "Augment Piece");
