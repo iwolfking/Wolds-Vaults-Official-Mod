@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.mixins.industrialforegoing;
 
 import com.buuz135.industrial.block.misc.tile.EnchantmentApplicatorTile;
 import com.buuz135.industrial.block.tile.IndustrialProcessingTile;
+import com.llamalad7.mixinextras.sugar.Local;
+import iskallia.vault.gear.item.VaultGearItem;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.core.BlockPos;
@@ -14,7 +16,9 @@ import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.lang3.tuple.Pair;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.data.enchantments.BannedEnchantmentsData;
 @Restriction(
         require = {
@@ -36,5 +40,11 @@ public abstract class MixinEnchantmentApplicatorTile extends IndustrialProcessin
     private boolean canEnchantInApplicator(Enchantment instance, ItemStack pStack) {
 
         return !BannedEnchantmentsData.BANNED_ENCHANT_REGISTRY_NAMES.contains(instance.getRegistryName().toString()) && !BannedEnchantmentsData.BANNED_APPLICATOR_ENCHANTMENTS.contains(instance.getRegistryName().toString());
+    }
+
+    @Inject(method = "updateRepairOutput", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;", shift = At.Shift.AFTER, ordinal = 0), cancellable = true)
+    private void dontMergeVaultgear(CallbackInfoReturnable<Pair<ItemStack, Integer>> cir, @Local(ordinal = 2) ItemStack inputSecond) {
+        if (inputSecond.getItem() instanceof VaultGearItem)
+            cir.setReturnValue(Pair.of(ItemStack.EMPTY, 0));
     }
 }

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GHG",
+    "CSC",
+    "BBB"
+  ],
+  "key": {
+    "S": {
+      "item": "occultism:butcher_knife"
+    },
+    "H": {
+      "tag": "woldsvaults:blood"
+    },
+    "G": {
+      "item": "the_vault:extraordinary_painite"
+    },
+    "B": {
+      "item": "the_vault:polished_vault_stone"
+    },
+    "C": {
+      "item": "minecraft:red_candle"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:deco_god_altar_idona"
+  }
+}

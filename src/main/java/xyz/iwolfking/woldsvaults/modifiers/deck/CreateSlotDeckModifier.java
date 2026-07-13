@@ -32,8 +32,8 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
     private List<CardPos> affectedSlots = new ArrayList<>();
     private int slotRoll;
 
-    private static final int MAX_WIDTH = 9;
-    private static final int MAX_HEIGHT = 6;
+    private static final int MAX_WIDTH = 8;
+    private static final int MAX_HEIGHT = 5;
 
     public CreateSlotDeckModifier(Config config) {
         super(config);

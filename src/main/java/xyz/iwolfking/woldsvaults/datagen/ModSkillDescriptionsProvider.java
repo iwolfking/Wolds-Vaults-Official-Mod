@@ -537,7 +537,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("1 "));
                     jsonElements.add(JsonDescription.simple("Add a random "));
                     jsonElements.add(JsonDescription.simple("Lesser ", "yellow"));
-                    jsonElements.add(JsonDescription.simple("deck modifier "));
+                    jsonElements.add(JsonDescription.simple("deck modifier and an additional deck socket "));
                     jsonElements.add(JsonDescription.simple("when crafting "));
                     jsonElements.add(JsonDescription.simple("Card Decks ", "gold"));
                     jsonElements.add(JsonDescription.simple("in the "));

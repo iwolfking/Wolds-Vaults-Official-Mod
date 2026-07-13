@@ -1,0 +1,73 @@
+{
+  "type": "modonomicon:dense",
+  "pattern": [
+    [
+      "____WSW____",
+      "___W_V_W___",
+      "__WFFWFFW__",
+      "_W_WFWFW_W_",
+      "W___WWW___W",
+      "S_PPP0GGG_S",
+      "W____R____W",
+      "_W___R___W_",
+      "__W__R__W__",
+      "___W___W___",
+      "____WSW____"
+    ],
+    [
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*"
+    ]
+  ],
+  "mapping": {
+    "0": {
+      "type": "modonomicon:block",
+      "block": "occultism:golden_sacrificial_bowl"
+    },
+    "P": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_purple"
+    },
+    "R": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_red"
+    },
+    "S": {
+      "type": "modonomicon:block",
+      "block": "occultism:spirit_attuned_crystal"
+    },
+    "F": {
+      "type": "modonomicon:tag",
+      "tag": "#minecraft:small_flowers"
+    },
+    "V": {
+      "type": "modonomicon:block",
+      "block": "woldsvaults:deco_god_altar_velara"
+    },
+    "G": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_gold"
+    },
+    "W": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_white"
+    },
+    "*": {
+      "type": "modonomicon:display",
+      "display": "occultism:otherstone"
+    },
+    "+": {
+      "type": "modonomicon:display",
+      "display": "minecraft:stone"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:deco_god_altar_idona"
+    ]
+  },
+  "criteria": {
+    "has_butcher_knife": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "occultism:butcher_knife"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:deco_god_altar_idona"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_butcher_knife",
+      "has_the_recipe"
+    ]
+  ]
+}

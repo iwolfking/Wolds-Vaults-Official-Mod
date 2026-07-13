@@ -39,6 +39,19 @@ public class MixinModBlocks {
         return pedestalList.toArray(new Block[]{});
     }
 
+
+    @ModifyArg(method = "<clinit>",
+            slice = @Slice(
+                    from = @At(value = "FIELD", target = "Liskallia/vault/init/ModBlocks;TREASURE_PEDESTAL_TILE_ENTITY:Lnet/minecraft/world/level/block/entity/BlockEntityType;"),
+                    to = @At(value = "FIELD", target = "Liskallia/vault/init/ModBlocks;GREED_CAULDRON_TILE_ENTITY:Lnet/minecraft/world/level/block/entity/BlockEntityType;")
+            ),
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/BlockEntityType$Builder;of(Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;[Lnet/minecraft/world/level/block/Block;)Lnet/minecraft/world/level/block/entity/BlockEntityType$Builder;", remap = true, ordinal = 0), index = 1)
+    private static Block[] injectNewTreasureChest(Block[] pValidBlocks) {
+        ArrayList<Block> treasureChestList = new java.util.ArrayList<>(Arrays.stream(pValidBlocks).toList());
+        treasureChestList.add(xyz.iwolfking.woldsvaults.init.ModBlocks.LOCKED_TREASURE_CONTAINER_BLOCK);
+        return treasureChestList.toArray(new Block[]{});
+    }
+
     @Unique
     private static Block[] woldsVaults$vanillaAndCustomCrates = Stream.concat(
             Stream.of(

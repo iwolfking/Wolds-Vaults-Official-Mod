@@ -105,7 +105,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.IDONA_DARK_SMOOTH_BRICKS_STAIRS)
                 .add(ModBlocks.IDONA_LIGHT_SMOOTH_BRICKS_STAIRS)
                 .add(ModBlocks.IDONA_GEM_BLOCK_STAIRS)
-                .add(ModBlocks.IDONA_GEM_BLOCK_SLAB);
+                .add(ModBlocks.IDONA_GEM_BLOCK_SLAB)
+                .add(ModBlocks.DECO_IDONA_ALTAR_BLOCK)
+                .add(ModBlocks.DECO_TENOS_ALTAR_BLOCK)
+                .add(ModBlocks.DECO_WENDARR_ALTAR_BLOCK)
+                .add(ModBlocks.DECO_VELARA_ALTAR_BLOCK);
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(ModBlocks.ISKALLIAN_LEAVES_BLOCK)
                 .add(ModBlocks.PRISMATIC_FIBER_BLOCK);

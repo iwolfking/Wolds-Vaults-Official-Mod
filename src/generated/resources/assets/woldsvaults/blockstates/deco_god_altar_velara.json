@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "the_vault:block/god_altar/velara",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "the_vault:block/god_altar/velara"
+    },
+    "facing=west": {
+      "model": "the_vault:block/god_altar/velara",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "the_vault:block/god_altar/velara",
+      "y": 270
+    }
+  }
+}
