@@ -141,8 +141,8 @@ public class ModItems {
     public static BasicItem REPAIR_AUGMENTER;
     public static BasicItem CRYSTAL_REINFORCEMENT;
     public static BasicItem RESONATING_REINFORCEMENT;
-    public static xyz.iwolfking.woldsvaults.items.CoreOfTheVaultGodsItem CORE_OF_THE_VAULT_GODS;
-    public static xyz.iwolfking.woldsvaults.items.GodsMasteryItem GODS_MASTERY;
+    public static CoreOfTheVaultGodsItem CORE_OF_THE_VAULT_GODS;
+    public static GodsMasteryItem GODS_MASTERY;
     public static BasicItem STYLISH_FOCUS;
     public static BasicItem MERCY_ORB;
     public static BasicItem UBER_CHAOS_CATALYST;
@@ -465,8 +465,8 @@ public class ModItems {
 
         CRYSTAL_REINFORCEMENT = new BasicItem(WoldsVaults.id("crystal_reinforcement"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
         RESONATING_REINFORCEMENT = new BasicItem(WoldsVaults.id("resonating_reinforcement"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
-        CORE_OF_THE_VAULT_GODS = new xyz.iwolfking.woldsvaults.items.CoreOfTheVaultGodsItem(WoldsVaults.id("core_of_the_vault_gods"));
-        GODS_MASTERY = new xyz.iwolfking.woldsvaults.items.GodsMasteryItem(WoldsVaults.id("gods_mastery"));
+        CORE_OF_THE_VAULT_GODS = new CoreOfTheVaultGodsItem(WoldsVaults.id("core_of_the_vault_gods"));
+        GODS_MASTERY = new GodsMasteryItem(WoldsVaults.id("gods_mastery"));
 
         STYLISH_FOCUS = new BasicItem(WoldsVaults.id("stylish_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
         CHISELING_FOCUS = new ToolModifierNullifyingItem(WoldsVaults.id("chiseling_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));

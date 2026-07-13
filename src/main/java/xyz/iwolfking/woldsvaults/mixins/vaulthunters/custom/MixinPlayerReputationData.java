@@ -36,10 +36,10 @@ public class MixinPlayerReputationData {
         }
     }
 
-    // --- God's Mastery: the reputation cap becomes 50 + the player's mastery count ----------
-    // Every site below publishes the effective cap through GodMasteryHelper's ThreadLocal
-    // first, because the Entry-level clamps (MixinPlayerReputationDataEntry) have no player.
-
+    /**
+     * Publishes the player's effective reputation cap (50 + God's Mastery count) through
+     * {@link GodMasteryHelper} before the read-side clamp below runs.
+     */
     @Inject(method = "getReputation", at = @At("HEAD"))
     private static void woldsVaults$pushCapForRead(UUID player, VaultGod god, CallbackInfoReturnable<Integer> cir) {
         GodMasteryHelper.pushCap(player);
@@ -51,6 +51,10 @@ public class MixinPlayerReputationData {
         return GodMasteryHelper.currentCap();
     }
 
+    /**
+     * Publishes the effective cap before the write-side guards run, including the
+     * Entry-level clamps in {@link MixinPlayerReputationDataEntry}.
+     */
     @Inject(method = "addReputation", at = @At("HEAD"))
     private static void woldsVaults$pushCapForAdd(UUID playerUUID, VaultGod god, int reputation, CallbackInfo ci) {
         GodMasteryHelper.pushCap(playerUUID);
