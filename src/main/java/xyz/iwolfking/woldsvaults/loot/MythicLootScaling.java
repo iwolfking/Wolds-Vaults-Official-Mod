@@ -4,7 +4,7 @@ package xyz.iwolfking.woldsvaults.loot;
  * Item-rarity -> sub-pool weight multipliers for the 5-pool (mapped vault) tiered chest tables.
  * Pools 0-2 behave exactly like vanilla; pool 3 (omega) gains a ramped exponent and pool 4
  * (mythic) a steeper offset one, so their share keeps growing at high rarity instead of
- * converging to the base-weight ratio. Tuned ground truth: the pack's loot_analysis/loot_compare.py.
+ * converging to the base-weight ratio.
  */
 public final class MythicLootScaling {
     /** Sub-pool count of a mapped chest table (4 vanilla tiers + mythic); other tables are untouched. */

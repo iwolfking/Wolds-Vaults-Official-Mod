@@ -117,6 +117,11 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         return original.call(cache, cdfKey, factory);
     }
 
+    /**
+     * Pairs with {@link #routeCdfBuild}: when the CDF build was skipped, strongboxes resolve
+     * 1.0 (the value is never read - rarity comes from the map tier) and mapped chests resolve
+     * the Gaussian approximation.
+     */
     @WrapOperation(
             method = "generate",
             at = @At(value = "INVOKE", target = "Liskallia/vault/core/world/loot/generator/TieredLootTableGenerator$CDF;get([I)D")
@@ -125,7 +130,6 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         if (cdf != null) {
             return original.call(cdf, frequencies);
         }
-        // Strongbox: value is never read (rarity comes from the tier). Chest: Gaussian approximation.
         return this.woldsvaults$mapTier >= 0 ? 1.0 : TieredCdfApprox.cdf(this.key, frequencies);
     }
 }

@@ -6,8 +6,8 @@ import iskallia.vault.util.VaultRarity;
  * Per-map-tier loot scaling for the 5-pool mapped STRONGBOX tables (living/ornate/gilded).
  * Tier 0 (display tier 1) reproduces the {@link MythicLootScaling} chest curve exactly; each
  * tier above steepens the pool-3 (omega) and pool-4 (mythic) ramp so their share at +20000%
- * item rarity rises ~+0.72pp / ~+0.234pp per tier. The boost tables are calibration output
- * (loot_analysis/strongbox_rework.py); regenerate there rather than hand-tuning. tier = 0..5.
+ * item rarity rises ~+0.72pp / ~+0.234pp per tier. The boost tables are precomputed calibration
+ * output chosen to hit those targets, not hand-tuned values. tier = 0..5.
  */
 public final class StrongboxTierScaling {
     private static final double LREF = Math.log10(201.0); // ramp normalized to 1 at itemRarity 200 (+20000%)

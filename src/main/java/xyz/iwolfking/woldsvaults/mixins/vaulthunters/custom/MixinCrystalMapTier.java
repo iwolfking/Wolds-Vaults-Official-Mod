@@ -46,7 +46,7 @@ public class MixinCrystalMapTier implements DuckMapTier {
         }
     }
 
-    // HEAD, not TAIL: readNbt reassigns its nbt local to an upgraded copy, so read the original.
+    /** HEAD, not TAIL: readNbt reassigns its nbt local to an upgraded copy, so read the original. */
     @Inject(method = "readNbt", at = @At("HEAD"))
     private void readMapTier(CompoundTag nbt, CallbackInfo ci) {
         this.woldsvaults$mapTier = nbt.contains(MAP_TIER_TAG) ? nbt.getInt(MAP_TIER_TAG) : -1;
