@@ -18,6 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -55,31 +56,77 @@ public class ModPentacleProvider implements DataProvider {
     private void start() {
         this.addPentacle("velara",
                 this.createPattern(
-                        " GF GGG FG ",
-                        " G GFNFG G ",
-                        " S   G   S ",
-                        " FG  0  GF ",
-                        " S   G   S ",
-                        " GGF N FGG ",
-                        "   G   G   ",
-                        "   G   G   ",
-                        "   FGFGF   ",
-                        "    GGG    ",
-                        "     G     "), (new ModPentacleProvider.MappingBuilder()).bowl().flower().goldChalk().crystal().wither().build());
+                        "    WSW    ",
+                        "   W V W   ",
+                        "  WFFWFFW  ",
+                        " W WFWFW W ",
+                        "W   WWW   W",
+                        "S PPP0GGG S",
+                        "W    R    W",
+                        " W   R   W ",
+                        "  W  R  W  ",
+                        "   W   W   ",
+                        "    WSW    "), (new ModPentacleProvider.MappingBuilder()).bowl().redChalk().goldChalk().purpleChalk().whiteChalk().flower().crystal().velaraAltar().build());
+
+        this.addPentacle("idona",
+                this.createPattern(
+                        "    WSW    ",
+                        "   WNINW   ",
+                        "  WZRRRZW  ",
+                        " W RRRRR W ",
+                        "W    R    W",
+                        "S GGG0PPP S",
+                        "W   WWW   W",
+                        " W   W   W ",
+                        "  W  W  W  ",
+                        "   W   W   ",
+                        "    WSW    "
+                        ), (new MappingBuilder()).bowl().redChalk().goldChalk().purpleChalk().whiteChalk().skeleton().wither().crystal().idonaALtar().build());
+
+        this.addPentacle("wendarr",
+                this.createPattern(
+                        "    WSW    ",
+                        "   WX^XW   ",
+                        "  WG G GW  ",
+                        " W WGGGR W ",
+                        "W    G    W",
+                        "S WWW0RRR S",
+                        "W    P    W",
+                        " W   P   W ",
+                        "  W  P  W  ",
+                        "   W   W   ",
+                        "    WSW    "
+                ), (new MappingBuilder()).bowl().redChalk().goldChalk().purpleChalk().whiteChalk().clock().crystal().wendarrAltar().build());
+
+        this.addPentacle("tenos",
+                this.createPattern(
+                        "    WSW    ",
+                        "   WP&@W   ",
+                        "  W@ P PW  ",
+                        " W RPPPW W ",
+                        "W    P    W",
+                        "S RRR0WWW S",
+                        "W    G    W",
+                        " W   G   W ",
+                        "  W  G  W  ",
+                        "   W   W   ",
+                        "    WSW    "
+                ), (new ModPentacleProvider.MappingBuilder()).bowl().redChalk().goldChalk().purpleChalk().whiteChalk().crystal().bookshelf().tenosAltar().build());
+
 
         this.addPentacle("god_alignment",
                 this.createPattern(
-                        "   WWWWWW   ",
-                        "  W G GR Z  ",
-                        " W XGG  R W ",
-                        "W  G GGRR  W",
-                        "W P PP0R R W",
-                        "W  PSPWWFW W",
-                        "W P PS WW  W",
-                        "W  P PFWFW W",
-                        " WB   W W W ",
-                        "  WB     W  ",
-                        "   WWWWWW   "), (new ModPentacleProvider.MappingBuilder()).bowl().redChalk().goldChalk().purpleChalk().whiteChalk().bookPile().clock().crystal().flower().skeleton().build());
+                        "    WSW    ",
+                        "   W V W   ",
+                        "  WFFWFFW  ",
+                        " WPWFWFWGW ",
+                        "W@ PWWWG XW",
+                        "S&PPP0GGG^S",
+                        "WP P R G XW",
+                        " W@RRRRRGW ",
+                        "  WZRRRZW  ",
+                        "   WNINW   ",
+                        "    WSW    "), (new ModPentacleProvider.MappingBuilder()).bowl().redChalk().goldChalk().purpleChalk().whiteChalk().clock().crystal().flower().skeleton().wither().bookshelf().velaraAltar().idonaALtar().wendarrAltar().tenosAltar().build());
     }
 
     private List<String> createPattern(String... rows) {
@@ -234,6 +281,26 @@ public class ModPentacleProvider implements DataProvider {
 
         private ModPentacleProvider.MappingBuilder wither() {
             return this.blockDisplay('N', () -> Blocks.WITHER_SKELETON_SKULL, OccultismBlocks.WITHER_SKELETON_SKULL_DUMMY);
+        }
+
+        private ModPentacleProvider.MappingBuilder velaraAltar() {
+            return this.block('V', () -> ModBlocks.DECO_VELARA_ALTAR_BLOCK);
+        }
+
+        private ModPentacleProvider.MappingBuilder idonaALtar() {
+            return this.block('I', () -> ModBlocks.DECO_VELARA_ALTAR_BLOCK);
+        }
+
+        private ModPentacleProvider.MappingBuilder wendarrAltar() {
+            return this.block('^', () -> ModBlocks.DECO_WENDARR_ALTAR_BLOCK);
+        }
+
+        private ModPentacleProvider.MappingBuilder tenosAltar() {
+            return this.block('&', () -> ModBlocks.DECO_TENOS_ALTAR_BLOCK);
+        }
+
+        private ModPentacleProvider.MappingBuilder bookshelf() {
+            return this.block('@', () -> Blocks.BOOKSHELF);
         }
 
     }

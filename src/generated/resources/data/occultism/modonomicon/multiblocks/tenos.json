@@ -3,14 +3,14 @@
   "pattern": [
     [
       "____WSW____",
-      "___W_V_W___",
-      "__WFFWFFW__",
-      "_W_WFWFW_W_",
-      "W___WWW___W",
-      "S_PPP0GGG_S",
-      "W____R____W",
-      "_W___R___W_",
-      "__W__R__W__",
+      "___WP\u0026@W___",
+      "__W@_P_PW__",
+      "_W_RPPPW_W_",
+      "W____P____W",
+      "S_RRR0WWW_S",
+      "W____G____W",
+      "_W___G___W_",
+      "__W__G__W__",
       "___W___W___",
       "____WSW____"
     ],
@@ -37,6 +37,10 @@
       "type": "modonomicon:block",
       "block": "occultism:chalk_glyph_purple"
     },
+    "@": {
+      "type": "modonomicon:block",
+      "block": "minecraft:bookshelf"
+    },
     "R": {
       "type": "modonomicon:block",
       "block": "occultism:chalk_glyph_red"
@@ -45,13 +49,9 @@
       "type": "modonomicon:block",
       "block": "occultism:spirit_attuned_crystal"
     },
-    "F": {
-      "type": "modonomicon:tag",
-      "tag": "#minecraft:small_flowers"
-    },
-    "V": {
+    "\u0026": {
       "type": "modonomicon:block",
-      "block": "woldsvaults:deco_god_altar_velara"
+      "block": "woldsvaults:deco_god_altar_tenos"
     },
     "G": {
       "type": "modonomicon:block",

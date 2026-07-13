@@ -3,14 +3,14 @@
   "pattern": [
     [
       "____WSW____",
-      "___W_V_W___",
-      "__WFFWFFW__",
-      "_W_WFWFW_W_",
-      "W___WWW___W",
-      "S_PPP0GGG_S",
-      "W____R____W",
-      "_W___R___W_",
-      "__W__R__W__",
+      "___WX^XW___",
+      "__WG_G_GW__",
+      "_W_WGGGR_W_",
+      "W____G____W",
+      "S_WWW0RRR_S",
+      "W____P____W",
+      "_W___P___W_",
+      "__W__P__W__",
       "___W___W___",
       "____WSW____"
     ],
@@ -45,14 +45,6 @@
       "type": "modonomicon:block",
       "block": "occultism:spirit_attuned_crystal"
     },
-    "F": {
-      "type": "modonomicon:tag",
-      "tag": "#minecraft:small_flowers"
-    },
-    "V": {
-      "type": "modonomicon:block",
-      "block": "woldsvaults:deco_god_altar_velara"
-    },
     "G": {
       "type": "modonomicon:block",
       "block": "occultism:chalk_glyph_gold"
@@ -61,6 +53,10 @@
       "type": "modonomicon:block",
       "block": "occultism:chalk_glyph_white"
     },
+    "X": {
+      "type": "modonomicon:block",
+      "block": "supplementaries:clock_block"
+    },
     "*": {
       "type": "modonomicon:display",
       "display": "occultism:otherstone"
@@ -68,6 +64,10 @@
     "+": {
       "type": "modonomicon:display",
       "display": "minecraft:stone"
+    },
+    "^": {
+      "type": "modonomicon:block",
+      "block": "woldsvaults:deco_god_altar_wendarr"
     }
   }
 }
