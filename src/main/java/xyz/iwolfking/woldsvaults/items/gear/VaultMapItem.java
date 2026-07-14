@@ -51,8 +51,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.objectives.HyperVaultCrystalObjective;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.GreedyVaultModifier;
@@ -317,6 +319,11 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
 
     public static boolean applySpecialModifiers(CrystalData data, VaultGearData mapData, VaultGearModifier.AffixType affixType, AnvilContext context, ItemStack output, boolean shouldReduceValues) {
         for (VaultGearModifier<?> mod : mapData.getModifiers(affixType)) {
+            if (data.getObjective() instanceof HyperVaultCrystalObjective
+                    && WoldsVaults.id("cull").equals(mod.getModifierIdentifier())) {
+                WoldsVaults.LOGGER.info("Stripped the Cull map modifier from a Hyper crystal.");
+                continue;
+            }
             VaultModifier<?> vaultMod = VaultModifierRegistry.get(mod.getModifierIdentifier());
             if (vaultMod instanceof SettableValueVaultModifier<?> settableValueVaultModifier) {
                 float value;

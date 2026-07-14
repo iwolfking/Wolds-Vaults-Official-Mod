@@ -62,6 +62,9 @@ public abstract class MixinVaultObjectivesModule {
         else if(objective instanceof BrutalBossesObjective) {
             cir.setReturnValue("brutal_bosses");
         }
+        else if(objective instanceof HyperVaultObjective) {
+            cir.setReturnValue("hyper");
+        }
     }
 
     @Inject(method = "getSize", at = @At("HEAD"), cancellable = true)
@@ -74,6 +77,9 @@ public abstract class MixinVaultObjectivesModule {
                 if (obj != null) {
                     if (obj instanceof ZealotObjective || obj instanceof AlchemyObjective || obj instanceof BrutalBossesObjective || obj instanceof HauntedBraziersObjective || obj instanceof EnchantedElixirObjective || obj instanceof SurvivalObjective || obj instanceof CorruptedObjective) {
                         cir.setReturnValue(Pair.of(155, 25));
+                    }
+                    if (obj instanceof HyperVaultObjective) {
+                        cir.setReturnValue(Pair.of(200, 90));
                     }
                 }
 
@@ -139,6 +145,7 @@ public abstract class MixinVaultObjectivesModule {
         newAndExistingPages.add(createObjectiveSettingsPage("survival", "Survival"));
         newAndExistingPages.add(createObjectiveSettingsPage("corrupted", "Corrupted"));
         newAndExistingPages.add(createObjectiveSettingsPage("brutal_bosses", "Brutal Bosses"));
+        newAndExistingPages.add(createObjectiveSettingsPage("hyper", "Hyper"));
         cir.setReturnValue(newAndExistingPages);
     }
 }

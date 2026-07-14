@@ -4,14 +4,301 @@ import iskallia.vault.VaultMod;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultModifierPoolsProvider;
 import xyz.iwolfking.vhapi.api.datagen.lib.modifier_pools.ModifierPoolBuilder;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsProvider {
     public ModVaultModifierPoolsProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
+    }
+
+
+    /**
+     * The six source pools below are defined once as data so the derived woldsvaults
+     * hyper pools (bottom of addFiles) can be computed from them minus
+     * {@link HyperModifierPolicy#BANNED} at datagen time — an upstream edit to a source
+     * pool propagates into the hyper pools at the next runData instead of drifting.
+     * hyper_mixed feeds the 25-per-kill dumps, hyper_all_bad the brutal-mini kills, and
+     * hyper_bad_timer_events the periodic ambient events plus the enchanted-event redirect.
+     * To ban a modifier from hyper: add it to the policy and re-run runData.
+     */
+    private record PoolMember(String id, int weight) {
+    }
+
+    private static PoolMember m(String id, int weight) {
+        return new PoolMember(id, weight);
+    }
+
+    private static final List<PoolMember> BASIC_NEGATIVE = List.of(
+            m("the_vault:trapped", 1),
+            m("the_vault:inert", 1),
+            m("the_vault:antiheal", 1),
+            m("the_vault:chunky_mobs", 1),
+            m("the_vault:wild", 1),
+            m("the_vault:furious_mobs", 1),
+            m("the_vault:ruthless_mobs", 1),
+            m("the_vault:infuriated_mobs", 1),
+            m("the_vault:draining", 1),
+            m("the_vault:injured", 1),
+            m("the_vault:frail", 1),
+            m("the_vault:weakened", 1));
+
+    private static final List<PoolMember> MEDIUM_NEGATIVE = List.of(
+            m("the_vault:bingo_infernal", 1),
+            m("the_vault:companion_challenge", 1),
+            m("the_vault:dangerous", 1),
+            m("the_vault:rending", 1),
+            m("the_vault:weakened_t2", 1),
+            m("the_vault:acidic", 1),
+            m("the_vault:bingo_drained", 1),
+            m("the_vault:slowed", 1),
+            m("the_vault:hunger", 1),
+            m("the_vault:injured", 1),
+            m("the_vault:draining", 1),
+            m("the_vault:mob_increase", 1),
+            m("the_vault:brutal_mobs", 1),
+            m("the_vault:ruthless_mobs", 1),
+            m("the_vault:chunky_mobs2", 1),
+            m("the_vault:critical_mobs", 1),
+            m("the_vault:archaic", 1),
+            m("the_vault:wild", 1),
+            m("the_vault:trapped", 1),
+            m("the_vault:drought", 1),
+            m("the_vault:haunting", 1),
+            m("the_vault:stunning", 1),
+            m("the_vault:poisonous", 1),
+            m("woldsvaults:fleet_footed_mobs", 1),
+            m("woldsvaults:phantasmal_mobs", 1),
+            m("woldsvaults:resistant_mobs", 1),
+            m("the_vault:weakened_powers", 1));
+
+    private static final List<PoolMember> OMEGA_NEGATIVE = List.of(
+            m("the_vault:corroded_veins", 1),
+            m("the_vault:daycare_effect", 1),
+            m("the_vault:haunted_mansion", 1),
+            m("the_vault:classic_retro_mini", 1),
+            m("the_vault:sweet_retro", 1),
+            m("the_vault:surprise_boxes", 1),
+            m("the_vault:armed_chest", 1),
+            m("the_vault:piercing", 1),
+            m("the_vault:nullifying", 1),
+            m("the_vault:corrosive", 1),
+            m("the_vault:mana_void", 1),
+            m("the_vault:lost_quantity", 1),
+            m("the_vault:hunger", 1),
+            m("the_vault:abusive_mobs", 1),
+            m("the_vault:ethereal", 1),
+            m("the_vault:soulless", 1),
+            m("the_vault:fading", 1),
+            m("the_vault:enervated", 1),
+            m("the_vault:vulnerable", 1),
+            m("the_vault:weakened_t3", 1),
+            m("the_vault:frenzy", 1),
+            m("woldsvaults:witch_party", 1),
+            m("woldsvaults:ghost_party", 1));
+
+    private static final List<PoolMember> MOB_ONHITS = List.of(
+            m("the_vault:stunning", 1),
+            m("the_vault:dark", 1),
+            m("the_vault:poisonous", 1),
+            m("the_vault:toxic", 1),
+            m("the_vault:wither", 1),
+            m("the_vault:haunting", 1),
+            m("the_vault:freezing", 1),
+            m("woldsvaults:bleeding_mobs", 1),
+            m("the_vault:voiding", 1));
+
+    private static final List<PoolMember> CONCEALED_CHAOS = List.of(
+            m("the_vault:coin_cascade", 8),
+            m("the_vault:super_coin_cascade", 4),
+            m("the_vault:gilded_cascade", 8),
+            m("the_vault:ornate_cascade", 8),
+            m("the_vault:living_cascade", 8),
+            m("the_vault:wooden_cascade", 8),
+            m("the_vault:super_gilded_cascade", 4),
+            m("the_vault:super_ornate_cascade", 4),
+            m("the_vault:super_living_cascade", 4),
+            m("the_vault:super_wooden_cascade", 4),
+            m("the_vault:item_quantity2", 8),
+            m("the_vault:pristine", 8),
+            m("the_vault:pandoras_box", 4),
+            m("woldsvaults:cardboard_boxes", 4),
+            m("the_vault:gilded", 6),
+            m("the_vault:living", 6),
+            m("the_vault:ornate", 6),
+            m("the_vault:wooden", 6),
+            m("the_vault:coin_pile", 6),
+            m("the_vault:prosperous", 4),
+            m("the_vault:prismatic", 4),
+            m("the_vault:hoard", 2),
+            m("the_vault:treasure", 2),
+            m("the_vault:soul_surge", 2),
+            m("the_vault:super_crate_tier", 1),
+            m("the_vault:crate_tier", 4),
+            m("the_vault:unhinged_mob_increase", 1),
+            m("the_vault:super_stronk", 2),
+            m("the_vault:phoenix", 3),
+            m("the_vault:leeching", 1),
+            m("the_vault:extended", 8),
+            m("the_vault:champion_chance", 4),
+            m("the_vault:door_hunter", 1),
+            m("the_vault:mildly_enchanted", 1),
+            m("the_vault:omega_cascade", 2),
+            m("the_vault:omega_bonus", 1),
+            m("the_vault:bronze_nuke", 1),
+            m("the_vault:goblin_quantity", 1),
+            m("the_vault:overpower", 3),
+            m("the_vault:cull", 1),
+            m("the_vault:champions_realm", 1),
+            m("the_vault:no_crit_mobs", 1),
+            m("the_vault:weak_mobs_damage", 1),
+            m("the_vault:more_mobs", 4),
+            m("the_vault:mana_regen", 1),
+            m("the_vault:mega_regen", 1),
+            m("the_vault:opulent_ores", 3),
+            m("the_vault:perfect_ores", 1),
+            m("the_vault:plentiful", 6),
+            m("the_vault:super_plentiful", 2),
+            m("the_vault:enlighted", 1),
+            m("the_vault:objective_hunter", 1),
+            m("the_vault:unchallenge_stack", 3),
+            m("the_vault:daycare", 1),
+            m("the_vault:more_champ_drops", 1),
+            m("the_vault:companion_hunt", 1));
+
+    private static final List<PoolMember> CONCEALED_CHAOS_BACKFIRE = List.of(
+            m("the_vault:wild", 8),
+            m("the_vault:ruthless_mobs", 8),
+            m("the_vault:chunky_mobs2", 8),
+            m("the_vault:trapped", 3),
+            m("the_vault:coin_cascade", 4),
+            m("the_vault:super_coin_cascade", 2),
+            m("the_vault:gilded_cascade", 4),
+            m("the_vault:ornate_cascade", 4),
+            m("the_vault:living_cascade", 4),
+            m("the_vault:wooden_cascade", 4),
+            m("the_vault:super_gilded_cascade", 2),
+            m("the_vault:super_ornate_cascade", 2),
+            m("the_vault:super_living_cascade", 2),
+            m("the_vault:super_wooden_cascade", 2),
+            m("the_vault:item_quantity", 6),
+            m("the_vault:item_rarity", 6),
+            m("the_vault:gilded", 4),
+            m("the_vault:living", 4),
+            m("the_vault:ornate", 4),
+            m("the_vault:wooden", 4),
+            m("the_vault:coin_pile", 6),
+            m("the_vault:prosperous", 4),
+            m("the_vault:prismatic", 4),
+            m("the_vault:hoard", 1),
+            m("the_vault:treasure", 1),
+            m("the_vault:soul_surge", 2),
+            m("the_vault:volcanic", 6),
+            m("the_vault:void_pools", 6),
+            m("the_vault:fungal", 6),
+            m("the_vault:safari", 6),
+            m("the_vault:winter", 6),
+            m("the_vault:electric", 6),
+            m("the_vault:explosive", 6),
+            m("the_vault:super_crate_tier", 1),
+            m("the_vault:critical_mobs", 8),
+            m("the_vault:enraged_mobs", 8),
+            m("the_vault:unhinged_mob_increase", 8),
+            m("the_vault:drought", 8),
+            m("the_vault:acidic", 6),
+            m("the_vault:super_stronk", 2),
+            m("the_vault:phoenix", 8),
+            m("the_vault:locked", 4),
+            m("the_vault:rotten", 4),
+            m("the_vault:rending", 8),
+            m("the_vault:dangerous", 8),
+            m("the_vault:orematic", 8),
+            m("the_vault:leeching", 1),
+            m("the_vault:extended", 2),
+            m("the_vault:champion_chance", 1),
+            m("the_vault:door_hunter", 1),
+            m("the_vault:chemical_bath", 6),
+            m("the_vault:abusive_mobs", 8),
+            m("the_vault:mildly_enchanted", 2),
+            m("the_vault:armed_chest", 4),
+            m("the_vault:surprise_boxes", 4),
+            m("the_vault:sweet_retro", 2),
+            m("the_vault:classic_retro", 2),
+            m("the_vault:haunted_mansion", 2),
+            m("the_vault:bingo_infernal", 4),
+            m("the_vault:omega_cascade", 4),
+            m("the_vault:bronze_nuke", 1),
+            m("the_vault:goblin_quantity", 1),
+            m("the_vault:chunky_mobs4", 6),
+            m("the_vault:rigged", 6),
+            m("the_vault:wounded", 6),
+            m("the_vault:frenzy", 3),
+            m("the_vault:mini_mobs", 2),
+            m("the_vault:big_mobs", 2),
+            m("the_vault:champions_realm", 1),
+            m("the_vault:challenge_stack", 6),
+            m("the_vault:no_companion", 2),
+            m("the_vault:creeping_doom", 1),
+            m("the_vault:ethereal_mobs", 3),
+            m("woldsvaults:phantasmal_mobs", 3),
+            m("woldsvaults:regenerating_mobs", 3),
+            m("woldsvaults:resistant_mobs", 4),
+            m("the_vault:no_champ_drops", 1),
+            m("the_vault:no_temporal_shard", 1),
+            m("the_vault:weakened_powers", 4),
+            m("the_vault:thiccening", 3),
+            m("the_vault:abusive_mobs", 3),
+            m("the_vault:ticking_clock", 3),
+            m("the_vault:weak_limbs", 1),
+            m("the_vault:weak_heart", 4),
+            m("the_vault:spicy_chili_speed", 4),
+            m("the_vault:ice_cold_essence", 4),
+            m("the_vault:bubbling_trouble", 3),
+            m("the_vault:curse", 1),
+            m("the_vault:idona_challenge", 4),
+            m("the_vault:wendarr_challenge", 4),
+            m("the_vault:tenos_challenge", 4),
+            m("the_vault:velara_challenge", 4),
+            m("the_vault:nerfed", 4),
+            m("the_vault:companion_shortened", 4),
+            m("the_vault:super_unextension", 1),
+            m("the_vault:no_ores", 1),
+            m("the_vault:no_heal", 1),
+            m("the_vault:no_souls", 1),
+            m("the_vault:true_noxp", 1),
+            m("the_vault:corroded_veins", 4),
+            m("the_vault:piercing", 3),
+            m("the_vault:rigged", 4),
+            m("the_vault:slowed", 4),
+            m("the_vault:mana_leak", 2),
+            m("the_vault:catastrophic_brew", 3),
+            m("the_vault:mob_levitate", 2),
+            m("the_vault:crit_mobs", 1),
+            m("the_vault:unlucky", 4),
+            m("the_vault:lost_quantity", 4));
+
+    @SafeVarargs
+    private static void addAll(ModifierPoolBuilder.PoolValueListBuilder e, List<PoolMember>... lists) {
+        for (List<PoolMember> list : lists) {
+            for (PoolMember member : list) {
+                e.add(member.id(), member.weight());
+            }
+        }
+    }
+
+    @SafeVarargs
+    private static void addAllExceptBanned(ModifierPoolBuilder.PoolValueListBuilder e, List<PoolMember>... lists) {
+        for (List<PoolMember> list : lists) {
+            for (PoolMember member : list) {
+                if (!HyperModifierPolicy.isBanned(member.id())) {
+                    e.add(member.id(), member.weight());
+                }
+            }
+        }
     }
 
     @Override
@@ -516,84 +803,19 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
 
             b.pool(VaultMod.id("omega_negative").toString(), pool ->
                     pool.level(0, entries ->
-                            entries.entry(1, 1, e -> {
-                                e.add("the_vault:corroded_veins", 1);
-                                e.add("the_vault:daycare_effect", 1);
-                                e.add("the_vault:haunted_mansion", 1);
-                                e.add("the_vault:classic_retro_mini", 1);
-                                e.add("the_vault:sweet_retro", 1);
-                                e.add("the_vault:surprise_boxes", 1);
-                                e.add("the_vault:armed_chest", 1);
-                                e.add("the_vault:piercing", 1);
-                                e.add("the_vault:nullifying", 1);
-                                e.add("the_vault:corrosive", 1);
-                                e.add("the_vault:mana_void", 1);
-                                e.add("the_vault:lost_quantity", 1);
-                                e.add("the_vault:hunger", 1);
-                                e.add("the_vault:abusive_mobs", 1);
-                                e.add("the_vault:ethereal", 1);
-                                e.add("the_vault:soulless", 1);
-                                e.add("the_vault:fading", 1);
-                                e.add("the_vault:enervated", 1);
-                                e.add("the_vault:vulnerable", 1);
-                                e.add("the_vault:weakened_t3", 1);
-                                e.add("the_vault:frenzy", 1);
-                                e.add("woldsvaults:witch_party", 1);
-                                e.add("woldsvaults:ghost_party", 1);
-                            })
+                            entries.entry(1, 1, e -> addAll(e, OMEGA_NEGATIVE))
                     )
             );
 
             b.pool(VaultMod.id("medium_negative").toString(), pool ->
                     pool.level(0, entries ->
-                            entries.entry(1, 1, e -> {
-                                e.add("the_vault:bingo_infernal", 1);
-                                e.add("the_vault:companion_challenge", 1);
-                                e.add("the_vault:dangerous", 1);
-                                e.add("the_vault:rending", 1);
-                                e.add("the_vault:weakened_t2", 1);
-                                e.add("the_vault:acidic", 1);
-                                e.add("the_vault:bingo_drained", 1);
-                                e.add("the_vault:slowed", 1);
-                                e.add("the_vault:hunger", 1);
-                                e.add("the_vault:injured", 1);
-                                e.add("the_vault:draining", 1);
-                                e.add("the_vault:mob_increase", 1);
-                                e.add("the_vault:brutal_mobs", 1);
-                                e.add("the_vault:ruthless_mobs", 1);
-                                e.add("the_vault:chunky_mobs2", 1);
-                                e.add("the_vault:critical_mobs", 1);
-                                e.add("the_vault:archaic", 1);
-                                e.add("the_vault:wild", 1);
-                                e.add("the_vault:trapped", 1);
-                                e.add("the_vault:drought", 1);
-                                e.add("the_vault:haunting", 1);
-                                e.add("the_vault:stunning", 1);
-                                e.add("the_vault:poisonous", 1);
-                                e.add("woldsvaults:fleet_footed_mobs", 1);
-                                e.add("woldsvaults:phantasmal_mobs", 1);
-                                e.add("woldsvaults:resistant_mobs", 1);
-                                e.add("the_vault:weakened_powers", 1);
-                            })
+                            entries.entry(1, 1, e -> addAll(e, MEDIUM_NEGATIVE))
                     )
             );
 
             b.pool(VaultMod.id("basic_negative").toString(), pool ->
                     pool.level(0, entries ->
-                            entries.entry(1, 1, e -> {
-                                e.add("the_vault:trapped", 1);
-                                e.add("the_vault:inert", 1);
-                                e.add("the_vault:antiheal", 1);
-                                e.add("the_vault:chunky_mobs", 1);
-                                e.add("the_vault:wild", 1);
-                                e.add("the_vault:furious_mobs", 1);
-                                e.add("the_vault:ruthless_mobs", 1);
-                                e.add("the_vault:infuriated_mobs", 1);
-                                e.add("the_vault:draining", 1);
-                                e.add("the_vault:injured", 1);
-                                e.add("the_vault:frail", 1);
-                                e.add("the_vault:weakened", 1);
-                            })
+                            entries.entry(1, 1, e -> addAll(e, BASIC_NEGATIVE))
                     )
             );
 
@@ -667,17 +889,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
 
             b.pool(VaultMod.id("mob_onhits").toString(), pool ->
                     pool.level(0, entries ->
-                            entries.entry(1, 1, e -> {
-                                e.add("the_vault:stunning", 1);
-                                e.add("the_vault:dark", 1);
-                                e.add("the_vault:poisonous", 1);
-                                e.add("the_vault:toxic", 1);
-                                e.add("the_vault:wither", 1);
-                                e.add("the_vault:haunting", 1);
-                                e.add("the_vault:freezing", 1);
-                                e.add("woldsvaults:bleeding_mobs", 1);
-                                e.add("the_vault:voiding", 1);
-                            })
+                            entries.entry(1, 1, e -> addAll(e, MOB_ONHITS))
                     )
             );
 
@@ -920,184 +1132,33 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                     )
             );
 
-            b.pool(WoldsVaults.id("concealed_chaos_backfire").toString(), pool -> {
-                pool.level(0, entries -> {
-                    entries.entry(15, 15, e -> {
-                        e.add("the_vault:wild", 8);
-                        e.add("the_vault:ruthless_mobs", 8);
-                        e.add("the_vault:chunky_mobs2", 8);
-                        e.add("the_vault:trapped", 3);
-                        e.add("the_vault:coin_cascade", 4);
-                        e.add("the_vault:super_coin_cascade", 2);
-                        e.add("the_vault:gilded_cascade", 4);
-                        e.add("the_vault:ornate_cascade", 4);
-                        e.add("the_vault:living_cascade", 4);
-                        e.add("the_vault:wooden_cascade", 4);
-                        e.add("the_vault:super_gilded_cascade", 2);
-                        e.add("the_vault:super_ornate_cascade", 2);
-                        e.add("the_vault:super_living_cascade", 2);
-                        e.add("the_vault:super_wooden_cascade", 2);
-                        e.add("the_vault:item_quantity", 6);
-                        e.add("the_vault:item_rarity", 6);
-                        e.add("the_vault:gilded", 4);
-                        e.add("the_vault:living", 4);
-                        e.add("the_vault:ornate", 4);
-                        e.add("the_vault:wooden", 4);
-                        e.add("the_vault:coin_pile", 6);
-                        e.add("the_vault:prosperous", 4);
-                        e.add("the_vault:prismatic", 4);
-                        e.add("the_vault:hoard", 1);
-                        e.add("the_vault:treasure", 1);
-                        e.add("the_vault:soul_surge", 2);
-                        e.add("the_vault:volcanic", 6);
-                        e.add("the_vault:void_pools", 6);
-                        e.add("the_vault:fungal", 6);
-                        e.add("the_vault:safari", 6);
-                        e.add("the_vault:winter", 6);
-                        e.add("the_vault:electric", 6);
-                        e.add("the_vault:explosive", 6);
-                        e.add("the_vault:super_crate_tier", 1);
-                        e.add("the_vault:critical_mobs", 8);
-                        e.add("the_vault:enraged_mobs", 8);
-                        e.add("the_vault:unhinged_mob_increase", 8);
-                        e.add("the_vault:drought", 8);
-                        e.add("the_vault:acidic", 6);
-                        e.add("the_vault:super_stronk", 2);
-                        e.add("the_vault:phoenix", 8);
-                        e.add("the_vault:locked", 4);
-                        e.add("the_vault:rotten", 4);
-                        e.add("the_vault:rending", 8);
-                        e.add("the_vault:dangerous", 8);
-                        e.add("the_vault:orematic", 8);
-                        e.add("the_vault:leeching", 1);
-                        e.add("the_vault:extended", 2);
-                        e.add("the_vault:champion_chance", 1);
-                        e.add("the_vault:door_hunter", 1);
-                        e.add("the_vault:chemical_bath", 6);
-                        e.add("the_vault:abusive_mobs", 8);
-                        e.add("the_vault:mildly_enchanted", 2);
-                        e.add("the_vault:armed_chest", 4);
-                        e.add("the_vault:surprise_boxes", 4);
-                        e.add("the_vault:sweet_retro", 2);
-                        e.add("the_vault:classic_retro", 2);
-                        e.add("the_vault:haunted_mansion", 2);
-                        e.add("the_vault:bingo_infernal", 4);
-                        e.add("the_vault:omega_cascade", 4);
-                        e.add("the_vault:bronze_nuke", 1);
-                        e.add("the_vault:goblin_quantity", 1);
-                        e.add("the_vault:chunky_mobs4", 6);
-                        e.add("the_vault:rigged", 6);
-                        e.add("the_vault:wounded", 6);
-                        e.add("the_vault:frenzy", 3);
-                        e.add("the_vault:mini_mobs", 2);
-                        e.add("the_vault:big_mobs", 2);
-                        e.add("the_vault:champions_realm", 1);
-                        e.add("the_vault:challenge_stack", 6);
-                        e.add("the_vault:no_companion", 2);
-                        e.add("the_vault:creeping_doom", 1);
-                        e.add("the_vault:ethereal_mobs", 3);
-                        e.add("woldsvaults:phantasmal_mobs", 3);
-                        e.add("woldsvaults:regenerating_mobs", 3);
-                        e.add("woldsvaults:resistant_mobs", 4);
-                        e.add("the_vault:no_champ_drops", 1);
-                        e.add("the_vault:no_temporal_shard", 1);
-                        e.add("the_vault:weakened_powers", 4);
-                        e.add("the_vault:thiccening", 3);
-                        e.add("the_vault:abusive_mobs", 3);
-                        e.add("the_vault:ticking_clock", 3);
-                        e.add("the_vault:weak_limbs", 1);
-                        e.add("the_vault:weak_heart", 4);
-                        e.add("the_vault:spicy_chili_speed", 4);
-                        e.add("the_vault:ice_cold_essence", 4);
-                        e.add("the_vault:bubbling_trouble", 3);
-                        e.add("the_vault:curse", 1);
-                        e.add("the_vault:idona_challenge", 4);
-                        e.add("the_vault:wendarr_challenge", 4);
-                        e.add("the_vault:tenos_challenge", 4);
-                        e.add("the_vault:velara_challenge", 4);
-                        e.add("the_vault:nerfed", 4);
-                        e.add("the_vault:companion_shortened", 4);
-                        e.add("the_vault:super_unextension", 1);
-                        e.add("the_vault:no_ores", 1);
-                        e.add("the_vault:no_heal", 1);
-                        e.add("the_vault:no_souls", 1);
-                        e.add("the_vault:true_noxp", 1);
-                        e.add("the_vault:corroded_veins", 4);
-                        e.add("the_vault:piercing", 3);
-                        e.add("the_vault:rigged", 4);
-                        e.add("the_vault:slowed", 4);
-                        e.add("the_vault:mana_leak", 2);
-                        e.add("the_vault:catastrophic_brew", 3);
-                        e.add("the_vault:mob_levitate", 2);
-                        e.add("the_vault:crit_mobs", 1);
-                        e.add("the_vault:unlucky", 4);
-                        e.add("the_vault:lost_quantity", 4);
-                    });
-                });
-            });
+            b.pool(WoldsVaults.id("concealed_chaos_backfire").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(15, 15, e -> addAll(e, CONCEALED_CHAOS_BACKFIRE))
+                    )
+            );
 
-            b.pool(WoldsVaults.id("concealed_chaos").toString(), pool -> {
-                pool.level(0, entries -> {
-                    entries.entry(15, 15, e -> {
-                        e.add("the_vault:coin_cascade", 8);
-                        e.add("the_vault:super_coin_cascade", 4);
-                        e.add("the_vault:gilded_cascade", 8);
-                        e.add("the_vault:ornate_cascade", 8);
-                        e.add("the_vault:living_cascade", 8);
-                        e.add("the_vault:wooden_cascade", 8);
-                        e.add("the_vault:super_gilded_cascade", 4);
-                        e.add("the_vault:super_ornate_cascade", 4);
-                        e.add("the_vault:super_living_cascade", 4);
-                        e.add("the_vault:super_wooden_cascade", 4);
-                        e.add("the_vault:item_quantity2", 8);
-                        e.add("the_vault:pristine", 8);
-                        e.add("the_vault:pandoras_box", 4);
-                        e.add("woldsvaults:cardboard_boxes", 4);
-                        e.add("the_vault:gilded", 6);
-                        e.add("the_vault:living", 6);
-                        e.add("the_vault:ornate", 6);
-                        e.add("the_vault:wooden", 6);
-                        e.add("the_vault:coin_pile", 6);
-                        e.add("the_vault:prosperous", 4);
-                        e.add("the_vault:prismatic", 4);
-                        e.add("the_vault:hoard", 2);
-                        e.add("the_vault:treasure", 2);
-                        e.add("the_vault:soul_surge", 2);
-                        e.add("the_vault:super_crate_tier", 1);
-                        e.add("the_vault:crate_tier", 4);
-                        e.add("the_vault:unhinged_mob_increase", 1);
-                        e.add("the_vault:super_stronk", 2);
-                        e.add("the_vault:phoenix", 3);
-                        e.add("the_vault:leeching", 1);
-                        e.add("the_vault:extended", 8);
-                        e.add("the_vault:champion_chance", 4);
-                        e.add("the_vault:door_hunter", 1);
-                        e.add("the_vault:mildly_enchanted", 1);
-                        e.add("the_vault:omega_cascade", 2);
-                        e.add("the_vault:omega_bonus", 1);
-                        e.add("the_vault:bronze_nuke", 1);
-                        e.add("the_vault:goblin_quantity", 1);
-                        e.add("the_vault:overpower", 3);
-                        e.add("the_vault:cull", 1);
-                        e.add("the_vault:champions_realm", 1);
-                        e.add("the_vault:no_crit_mobs", 1);
-                        e.add("the_vault:weak_mobs_damage", 1);
-                        e.add("the_vault:more_mobs", 4);
-                        e.add("the_vault:mana_regen", 1);
-                        e.add("the_vault:mega_regen", 1);
-                        e.add("the_vault:opulent_ores", 3);
-                        e.add("the_vault:perfect_ores", 1);
-                        e.add("the_vault:plentiful", 6);
-                        e.add("the_vault:super_plentiful", 2);
-                        e.add("the_vault:enlighted", 1);
-                        e.add("the_vault:objective_hunter", 1);
-                        e.add("the_vault:unchallenge_stack", 3);
-                        e.add("the_vault:daycare", 1);
-                        e.add("the_vault:more_champ_drops", 1);
-                        e.add("the_vault:companion_hunt", 1);
-                    });
-                });
-            });
+            b.pool(WoldsVaults.id("concealed_chaos").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(15, 15, e -> addAll(e, CONCEALED_CHAOS))
+                    )
+            );
+
+            b.pool(WoldsVaults.id("hyper_mixed").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(25, 25, e -> addAllExceptBanned(e, CONCEALED_CHAOS, CONCEALED_CHAOS_BACKFIRE))
+                    )
+            );
+            b.pool(WoldsVaults.id("hyper_all_bad").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(1, 1, e -> addAllExceptBanned(e, CONCEALED_CHAOS_BACKFIRE))
+                    )
+            );
+            b.pool(WoldsVaults.id("hyper_bad_timer_events").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(1, 1, e -> addAllExceptBanned(e, BASIC_NEGATIVE, MEDIUM_NEGATIVE, OMEGA_NEGATIVE, MOB_ONHITS))
+                    )
+            );
         });
 
         map.put("default_override", modifierPoolBuilder -> {

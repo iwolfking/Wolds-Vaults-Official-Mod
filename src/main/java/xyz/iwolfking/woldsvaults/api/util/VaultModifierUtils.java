@@ -36,6 +36,9 @@ public class VaultModifierUtils {
         if(vaultModifier != null) {
             vault.get(Vault.MODIFIERS).addModifier(vaultModifier, count, true, ChunkRandom.ofNanoTime());
         }
+        else {
+            WoldsVaults.LOGGER.error("Vault modifier {} is not registered — addModifier({}) did nothing! Check the modifier defs.", modifier, count);
+        }
     }
 
     public static void addTimedModifier(Vault vault, ResourceLocation modifierId, int count, int duration, Player player) {

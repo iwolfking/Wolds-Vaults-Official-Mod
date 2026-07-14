@@ -14,6 +14,11 @@
       "FAILED": 0.0,
       "BAILED": 0.0,
       "COMPLETED": 36000.0
+    },
+    "hyper": {
+      "FAILED": 0.0,
+      "BAILED": 0.0,
+      "COMPLETED": 100000.0
     }
   },
   "percentOfExperienceDealtAsDurabilityDamage": 0.0,

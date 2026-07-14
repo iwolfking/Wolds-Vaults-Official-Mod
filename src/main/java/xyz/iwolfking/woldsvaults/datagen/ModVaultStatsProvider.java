@@ -23,6 +23,11 @@ public class ModVaultStatsProvider extends AbstractVaultStatsProvider {
                 completionFloatMap.put(Completion.BAILED, 0F);
                 completionFloatMap.put(Completion.COMPLETED, 36000F);
             });
+            builder.addCompletion("hyper", completionFloatMap -> {
+                completionFloatMap.put(Completion.FAILED, 0F);
+                completionFloatMap.put(Completion.BAILED, 0F);
+                completionFloatMap.put(Completion.COMPLETED, 100000F);
+            });
         });
     }
 }

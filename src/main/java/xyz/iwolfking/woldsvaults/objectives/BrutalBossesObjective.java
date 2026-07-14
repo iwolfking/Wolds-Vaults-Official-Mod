@@ -6,8 +6,11 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.block.ObeliskBlock;
 import iskallia.vault.block.PlaceholderBlock;
 import iskallia.vault.core.Version;
+import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.data.compound.UUIDList;
+import iskallia.vault.core.data.key.FieldKey;
 import iskallia.vault.core.data.key.SupplierKey;
+import iskallia.vault.core.data.key.registry.FieldRegistry;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.BlockSetEvent;
 import iskallia.vault.core.event.common.BlockUseEvent;
@@ -28,6 +31,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -37,6 +41,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 
@@ -47,20 +52,60 @@ import java.util.function.IntSupplier;
 public class BrutalBossesObjective extends ObeliskObjective {
 
     public static final SupplierKey<Objective> E_KEY = (SupplierKey)SupplierKey.of("brutal_bosses", Objective.class).with(Version.v1_12, BrutalBossesObjective::new);
+    public static final FieldRegistry FIELDS = ObeliskObjective.FIELDS.merge(new FieldRegistry());
+    /**
+     * Hyper-vault mode: boss kills draw single rolls from the hyper_all_bad pool instead of the
+     * bb_* pools, and obelisks skip the listener-priority gate (the objective never joins
+     * listener HUD lists).
+     */
+    public static final FieldKey<Boolean> NEGATIVE_POOL_ONLY = FieldKey.of("negative_pool_only", Boolean.class).with(Version.v1_12, Adapters.BOOLEAN, DISK.all()).register(FIELDS);
+    private static final ResourceLocation NEGATIVE_POOL = HyperVaultObjective.CHAOS_POOL_ALL_BAD;
 
     public BrutalBossesObjective(int target, IntSupplier wave, float objectiveProbability) {
         super(target, wave, objectiveProbability);
+        this.set(NEGATIVE_POOL_ONLY, false);
     }
 
     public BrutalBossesObjective() {
+        this.set(NEGATIVE_POOL_ONLY, false);
     }
 
     @Override
     public SupplierKey<Objective> getKey() {
         return E_KEY;
     }
+
+    @Override
+    public FieldRegistry getFields() {
+        return FIELDS;
+    }
+
     public static BrutalBossesObjective of(int target, IntSupplier wave, float objectiveProbability) {
         return new BrutalBossesObjective(target, wave, objectiveProbability);
+    }
+
+    public static BrutalBossesObjective of(int target, IntSupplier wave, float objectiveProbability, boolean negativePoolOnly) {
+        BrutalBossesObjective objective = new BrutalBossesObjective(target, wave, objectiveProbability);
+        objective.set(NEGATIVE_POOL_ONLY, negativePoolOnly);
+        return objective;
+    }
+
+    private ResourceLocation modifierPoolFor(String modName) {
+        return this.getOr(NEGATIVE_POOL_ONLY, false) ? NEGATIVE_POOL : VaultMod.id("bb_" + modName.toLowerCase());
+    }
+
+    /**
+     * In hyper mode (NEGATIVE_POOL_ONLY) boss-kill modifiers count against the shared chaos
+     * budget and respect the per-modifier stack caps.
+     */
+    private void addBossKillModifier(Vault vault, VaultModifier<?> mod, List<VaultModifier<?>> modifiersForMsg) {
+        if (this.getOr(NEGATIVE_POOL_ONLY, false)
+                && (HyperModifierPolicy.isStackCapped(vault, mod)
+                || HyperVaultObjective.consumeChaosBudget(vault, 1) <= 0)) {
+            return;
+        }
+        modifiersForMsg.add(mod);
+        ((Modifiers) vault.get(Vault.MODIFIERS)).addModifier(mod, 1, true, (RandomSource) JavaRandom.ofNanoTime());
     }
 
     @Override
@@ -86,7 +131,8 @@ public class BrutalBossesObjective extends ObeliskObjective {
                     data.setResult(InteractionResult.SUCCESS);
                 } else if (data.getState().getValue(ObeliskBlock.HALF) == DoubleBlockHalf.UPPER && world.getBlockState(pos = pos.below()).getBlock() != ModBlocks.OBELISK) {
                     data.setResult(InteractionResult.SUCCESS);
-                } else if ((vault.get(Vault.LISTENERS)).getObjectivePriority(data.getPlayer().getUUID(), this) != 0) {
+                } else if (!this.getOr(NEGATIVE_POOL_ONLY, false)
+                        && (vault.get(Vault.LISTENERS)).getObjectivePriority(data.getPlayer().getUUID(), this) != 0) {
                     data.setResult(InteractionResult.SUCCESS);
                 } else {
                     world.setBlock(pos, (BlockState)world.getBlockState(pos).setValue(ObeliskBlock.FILLED, true), 3);
@@ -127,30 +173,18 @@ public class BrutalBossesObjective extends ObeliskObjective {
                         if (modifier != null && modifier.getModSize() != 0) {
                             String modNames = modifier.getLinkedModNameUntranslated().trim();
                             for (String modName : modNames.split("\\s+")) {
-                                List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(VaultMod.id("bb_" + modName.toLowerCase()), 0, (RandomSource) JavaRandom.ofNanoTime());
-                                if (!modifiers.isEmpty()) {
-                                    Iterator modIter = modifiers.iterator();
-
-                                    while (modIter.hasNext()) {
-                                        VaultModifier<?> mod = (VaultModifier<?>) modIter.next();
-                                        modifiersForMsg.add(mod);
-                                        ((Modifiers) vault.get(Vault.MODIFIERS)).addModifier(mod, 1, true, (RandomSource) JavaRandom.ofNanoTime());
-                                    }
+                                List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(modifierPoolFor(modName), 0, (RandomSource) JavaRandom.ofNanoTime());
+                                for (VaultModifier<?> mod : modifiers) {
+                                    addBossKillModifier(vault, mod, modifiersForMsg);
                                 }
                             }
                         } else {
                             // Add 2 random vault modifiers from BOSS_MODS_LIST
                             for (int i = 0; i < 2; i++) {
                                 String modName = BrutalBossesRegistry.BOSS_MODS_LIST.getRandom().get().toLowerCase();
-                                List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(VaultMod.id("bb_" + modName), 0, (RandomSource) JavaRandom.ofNanoTime());
-                                if (!modifiers.isEmpty()) {
-                                    Iterator modIter = modifiers.iterator();
-
-                                    while (modIter.hasNext()) {
-                                        VaultModifier<?> mod = (VaultModifier<?>) modIter.next();
-                                        modifiersForMsg.add(mod);
-                                        ((Modifiers) vault.get(Vault.MODIFIERS)).addModifier(mod, 1, true, (RandomSource) JavaRandom.ofNanoTime());
-                                    }
+                                List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(modifierPoolFor(modName), 0, (RandomSource) JavaRandom.ofNanoTime());
+                                for (VaultModifier<?> mod : modifiers) {
+                                    addBossKillModifier(vault, mod, modifiersForMsg);
                                 }
                             }
                         }

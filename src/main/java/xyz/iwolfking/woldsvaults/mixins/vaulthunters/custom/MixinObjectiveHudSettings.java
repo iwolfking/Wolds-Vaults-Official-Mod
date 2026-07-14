@@ -16,5 +16,6 @@ public class MixinObjectiveHudSettings {
         settings.getAllSettings().put("corrupted", ObjectiveHudSettings.ObjectiveSettings.createDefault());
         settings.getAllSettings().put("survival", ObjectiveHudSettings.ObjectiveSettings.createDefault());
         settings.getAllSettings().put("brutal_bosses", ObjectiveHudSettings.ObjectiveSettings.createDefault());
+        settings.getAllSettings().put("hyper", ObjectiveHudSettings.ObjectiveSettings.createDefault());
     }
 }
