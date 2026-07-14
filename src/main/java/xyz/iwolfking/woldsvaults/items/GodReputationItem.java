@@ -29,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.woldsvaults.api.util.GodMasteryHelper;
 import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
@@ -81,7 +82,7 @@ public class GodReputationItem extends BasicItem {
         VaultGod god = getGod(heldStack);
 
         if(!level.isClientSide() && god != null) {
-            if(PlayerReputationData.getReputation(playerUuid, god) >= 50) {
+            if(PlayerReputationData.getReputation(playerUuid, god) >= GodMasteryHelper.capFor(player)) {
                 player.displayClientMessage(new TextComponent("You already have the max reputation with ").withStyle(ChatFormatting.RED).append(god.getName()).withStyle(god.getChatColor()), true);
                 return InteractionResultHolder.pass(heldStack);
             }

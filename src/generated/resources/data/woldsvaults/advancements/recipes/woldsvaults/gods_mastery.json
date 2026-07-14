@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:gods_mastery"
+    ]
+  },
+  "criteria": {
+    "has_core_of_the_vault_gods": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:core_of_the_vault_gods"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:gods_mastery"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_core_of_the_vault_gods",
+      "has_the_recipe"
+    ]
+  ]
+}
