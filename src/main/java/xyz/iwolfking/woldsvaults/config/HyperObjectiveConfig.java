@@ -21,7 +21,6 @@ import java.util.Map;
 public class HyperObjectiveConfig extends Config {
     @Expose private Map<String, String> documentation;
 
-    // --- escalation ---------------------------------------------------------------------
     @Expose private float hyperStatFactor;
     @Expose private float speedPerStack;
     @Expose private double bossHealthPercent;
@@ -32,23 +31,19 @@ public class HyperObjectiveConfig extends Config {
     @Expose private int runeTierCap;
     @Expose private double playerScaleBossHealth;
 
-    // --- chaos budget -------------------------------------------------------------------
     @Expose private int chaosPerKill;
     @Expose private int chaosCap;
     @Expose private int ambientPeriodTicks;
 
-    // --- fight pacing -------------------------------------------------------------------
     @Expose private int wavePeriodTicks;
     @Expose private int waveMobMin;
     @Expose private int waveMobMax;
     @Expose private float[] healthGates;
     @Expose private int fightAddPeriodTicks;
 
-    // --- exit / victory -----------------------------------------------------------------
     @Expose private int exitPillarTicks;
     @Expose private int winTransitionTicks;
 
-    // --- mini-objectives ----------------------------------------------------------------
     @Expose private int obeliskMin;
     @Expose private int obeliskMax;
     @Expose private float brutalObeliskProbability;
@@ -59,10 +54,8 @@ public class HyperObjectiveConfig extends Config {
     @Expose private double playerScaleElixir;
     @Expose private double playerScaleBingo;
 
-    // --- mob speed cap ------------------------------------------------------------------
     @Expose private double speedCapFactor;
 
-    // --- score & rewards ----------------------------------------------------------------
     @Expose private double referenceBossHealth;
     @Expose private double referenceBossDamage;
     @Expose private int scoreRare;
@@ -77,7 +70,6 @@ public class HyperObjectiveConfig extends Config {
     @Expose private float greedBonusTierEfficiency;
     @Expose private float greedyCoinBonusPerStack;
 
-    // --- crate injection pools ----------------------------------------------------------
     @Expose private int rareRolls;
     @Expose private int epicRolls;
     @Expose private int omegaRolls;
@@ -90,6 +82,12 @@ public class HyperObjectiveConfig extends Config {
         return "hyper_objective";
     }
 
+    /**
+     * Shipped defaults (the playtested balance). Injection-pool weights ride the pack's x10
+     * convention — everything is scaled x10 so outliers can go rarer while staying integer;
+     * the greater archive core is x2 (~5x rarer relative) and the God's Mastery crafting core
+     * is the rarest line in the omega pool.
+     */
     @Override
     protected void reset() {
         this.documentation = new LinkedHashMap<>();
@@ -210,9 +208,6 @@ public class HyperObjectiveConfig extends Config {
                 InjectionEntry.greaterDeckCore("construction", 2),
                 InjectionEntry.greaterDeckCore("shiny", 2),
                 InjectionEntry.greaterDeckCore("void", 2)));
-        // Weights ride the pack's x10 convention: everything is scaled x10 so outliers can go
-        // rarer while staying integer — the greater archive core only got x2 (~5x rarer
-        // relative), and the God's Mastery crafting core is the rarest line in the pool.
         this.omegaRewards = new ArrayList<>(List.of(
                 InjectionEntry.greedCoins(2, 3, 300),
                 InjectionEntry.item("the_vault:mystic_pear", 1, 20),
@@ -221,7 +216,6 @@ public class HyperObjectiveConfig extends Config {
                 InjectionEntry.item("woldsvaults:nullite_crystal", 2, 50),
                 InjectionEntry.boosterPack("the_vault:deluxe_resource_pack", 2, 50),
                 InjectionEntry.boosterPack("the_vault:shiny_pack", 5, 100),
-                // woldsvaults:crystal_reinforcement displays as "Prismatic Reinforcement".
                 InjectionEntry.item("woldsvaults:crystal_reinforcement", 1, 20),
                 InjectionEntry.greaterDeckCore("archive", 2),
                 InjectionEntry.item("woldsvaults:greedy_ticket", 3, 20),

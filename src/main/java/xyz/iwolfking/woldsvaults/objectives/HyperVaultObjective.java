@@ -206,7 +206,18 @@ public class HyperVaultObjective extends Objective {
     public static final FieldKey<ElixirTask.List> ELIXIR_TASKS = FieldKey.of("elixir_tasks", ElixirTask.List.class).with(Version.v1_31, CompoundAdapter.of(ElixirTask.List::new), DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> WAVE_TICK = FieldKey.of("wave_tick", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
     public static final FieldKey<Integer> AMBIENT_TICK = FieldKey.of("ambient_tick", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_7, DISK.all()).register(FIELDS);
+    /**
+     * Bit i is set once healthGates[i] has fired for the current fight; reset at every arm.
+     * The gate list order is part of a mid-fight save: editing the config between fights is
+     * fine, reordering it mid-fight double- or never-fires a wave.
+     */
     public static final FieldKey<Integer> GATE_MASK = FieldKey.of("gate_mask", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
+    /**
+     * The live hyperboss, captured at summon spawn so health gates never touch RuneBossFight's
+     * private health fields. The spawn event still sees base stats (traits apply later), so
+     * HyperBossManager reads finished stats mid-fight; the previous value is deliberately kept
+     * until the new boss spawns — gate checks resolve a dead entity to null and skip.
+     */
     public static final FieldKey<UUID> BOSS_ID = FieldKey.of("boss_id", UUID.class).with(Version.v1_31, Adapters.UUID, DISK.all()).register(FIELDS);
     /**
      * The pillar tile's saved state: the fight consumes the pillar block when the boss summons,
@@ -246,8 +257,11 @@ public class HyperVaultObjective extends Objective {
     private HyperBossManager bossManager;
     private HyperEscalationManager escalationManager;
     /**
-     * Mobs spawned last tick, awaiting the speed cap on the next objective tick. Transient:
-     * anything in flight across a reload misses the clamp (a one-tick window, accepted).
+     * Mobs spawned last tick, awaiting the speed cap on the next objective tick — queued after
+     * the whole spawn event so every modifier's spawn hook has run first. The hyperboss is
+     * excluded: its modifiers only arrive at first live tick (applyBossStats), which applies
+     * the same clamp itself. Transient: anything in flight across a reload misses the clamp
+     * (a one-tick window, accepted).
      */
     private final List<Mob> speedClampQueue = new ArrayList<>();
     private int speedClampCount = 0;
@@ -264,7 +278,6 @@ public class HyperVaultObjective extends Objective {
         this.set(ELIXIR_TARGET, 0);
         this.set(ELIXIR_TASKS, new ElixirTask.List());
         this.set(WAVE_TICK, 0);
-        // Literal default: tickAmbientEvents reschedules from cfg() after the first fire.
         this.set(AMBIENT_TICK, 20 * 120);
         this.set(GATE_MASK, 0);
     }
@@ -339,14 +352,10 @@ public class HyperVaultObjective extends Objective {
         this.escalationManager = new HyperEscalationManager(vault, world, this, this.cycleManager);
         this.bossManager = new HyperBossManager(vault, world, this, this.escalationManager);
 
-        // A reload during the reward window would otherwise leave the arena gates frozen shut
-        // (the door animation is transient); replaying the 5s opening is harmless.
         if (this.getOr(PHASE, Phase.ROLLING) == Phase.REWARD) {
             this.escalationManager.restartDoorAnimation();
         }
 
-        // Cull would let everything (including the hyperboss) spawn at 1 hp. VaultMapItem strips it
-        // at map application; there is no modifier-removal API here, so all we can do is shout.
         if (vault.get(Vault.MODIFIERS).hasModifier(WoldsVaults.id("cull"))) {
             WoldsVaults.LOGGER.error("Cull modifier is active on a Hyper vault and cannot be removed at runtime! "
                     + "The map-application guard should have stripped it; the vault will be trivialized.");
@@ -356,7 +365,6 @@ public class HyperVaultObjective extends Objective {
 
         ensureInfiniteLayout(vault);
 
-        // Boss room adjacent to spawn, exactly like RuneBossObjective but never in random rooms.
         CommonEvents.LAYOUT_TEMPLATE_GENERATION.register(this, data -> guarded("boss room layout", () -> {
             if (data.getVault() != vault || data.getPieceType() != VaultLayout.PieceType.ROOM) {
                 return;
@@ -373,8 +381,6 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Pillar shows no rune requirement; arming is the empty-hand podium click, never rune items.
-        // Also our earliest sight of the pillar — remember where it is for waves/exit/pinning.
         CommonEvents.RUNE_BOSS_GENERATE_RUNES.register(this, data -> guarded("pillar rune display", () -> {
             if (data.getLevel() == world && data.getTile() instanceof BossRunePillarTileEntity pillar) {
                 data.setResult(0);
@@ -382,9 +388,6 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Podium: right-click with an empty main hand arms the fight. Deliberately NOT sneak-gated:
-        // vanilla skips BlockBehaviour.use entirely for a sneaking player holding an item in EITHER
-        // hand, so a shift-click with a totem in the off-hand would never reach this handler.
         CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.RUNE_PILLAR).register(this, data -> {
             if (data.getHand() != InteractionHand.MAIN_HAND) {
                 return;
@@ -407,7 +410,6 @@ public class HyperVaultObjective extends Objective {
             data.setResult(InteractionResult.SUCCESS);
         });
 
-        // Exit pillar (a temporary obelisk placed by the escalation manager after each kill).
         CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.OBELISK).register(this, data -> guarded("exit pillar", () -> {
             if (data.getHand() != InteractionHand.MAIN_HAND || this.getOr(PHASE, Phase.ROLLING) != Phase.REWARD) {
                 return;
@@ -427,11 +429,9 @@ public class HyperVaultObjective extends Objective {
             String key = data.getPlayer().getUUID().toString();
             CompoundTag extractions = this.getOr(EXTRACTIONS, new CompoundTag());
             if (extractions.contains(key)) {
-                return; // countdown already running for this player
+                return;
             }
             data.setResult(InteractionResult.SUCCESS);
-            // Starts the clicker's personal victory transition; tickExtractions completes them
-            // alone at zero. The flourish mirrors VictoryObjective's completion sequence.
             CompoundTag updated = extractions.copy();
             updated.putInt(key, cfg().getWinTransitionTicks());
             this.set(EXTRACTIONS, updated);
@@ -450,9 +450,6 @@ public class HyperVaultObjective extends Objective {
                     + (cfg().getWinTransitionTicks() / 20) + " seconds!", ChatFormatting.GREEN);
         }));
 
-        // Tracks the hyperboss so health gates avoid RuneBossFight's private health fields. Stats
-        // are NOT read here: the summon spawns the boss before its traits apply, so this event
-        // still sees base values; HyperBossManager reads them mid-fight.
         CommonEvents.ENTITY_SPAWN.register(this, event -> guarded("boss id capture", () -> {
             if (event.getEntity().level == world && event.getEntity() instanceof VaultBossEntity boss
                     && this.getOr(PHASE, Phase.ROLLING) == Phase.FIGHT) {
@@ -460,7 +457,6 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Players in their victory transition are damage-immune, like VictoryObjective's countdown.
         CommonEvents.ENTITY_DAMAGE.register(this, event -> guarded("extraction immunity", () -> {
             if (event.getEntityLiving() instanceof Player player && player.level == world
                     && this.getOr(EXTRACTIONS, new CompoundTag()).contains(player.getUUID().toString())) {
@@ -468,9 +464,6 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Queue spawns for the speed cap next objective tick, after every modifier's spawn hook
-        // has run. The hyperboss is excluded: its modifiers only arrive at first live tick
-        // (applyBossStats), which applies the same clamp itself.
         CommonEvents.ENTITY_SPAWN.register(this, event -> guarded("speed clamp queue", () -> {
             if (event.getEntity().level == world && event.getEntity() instanceof Mob mob
                     && !(mob instanceof VaultBossEntity)) {
@@ -478,9 +471,6 @@ public class HyperVaultObjective extends Objective {
             }
         }));
 
-        // Collector tiles recompute their target from this event every tick (the objective-target
-        // sigil hook); this adds the per-kill cycle growth, multiplying with VH's own per-player
-        // JOINED factor. Bingo tasks don't consume this event — the cycle manager rescales them.
         CommonEvents.OBJECTIVE_TARGET.register(this, data -> guarded("collector cycle scaling", () -> {
             if (data.getVault() != vault) {
                 return;
@@ -488,7 +478,6 @@ public class HyperVaultObjective extends Objective {
             data.setIncrease(data.getIncrease() + (cycleRequirementScale(vault) - 1.0));
         }));
 
-        // The shared elixir bar fills from the same four sources the elixir tasks use.
         CommonEvents.CHEST_LOOT_GENERATION.post().register(this, data -> guarded("elixir chests", () -> {
             if (data.getPlayer().level != world || !elixirActive()) {
                 return;
@@ -570,7 +559,6 @@ public class HyperVaultObjective extends Objective {
             if (remaining > 0) {
                 updated.putInt(key, remaining);
                 if (remaining % 20 == 0) {
-                    // The same action-bar countdown VictoryObjective shows (same lang key).
                     Listener listener = vault.get(Vault.LISTENERS).get(UUID.fromString(key));
                     if (listener != null) {
                         listener.getPlayer().ifPresent(player -> player.displayClientMessage(
@@ -595,16 +583,17 @@ public class HyperVaultObjective extends Objective {
         this.set(EXTRACTIONS, updated);
     }
 
-    /** End of one player's victory transition: complete, award and extract just them. */
+    /**
+     * End of one player's victory transition: complete, award and extract just them. The
+     * single super.tickListener call is what awards the completion crate — the CHILDREN
+     * objective only acts from its own tick paths, which this objective never otherwise runs.
+     */
     private void completeAndExtract(VirtualWorld world, Vault vault, Runner runner) {
         vault.ifPresent(Vault.STATS, stats -> stats.get(runner.getId()).set(StatCollector.COMPLETION, Completion.COMPLETED));
-        // The completion crate (CHILDREN) only awards from its own tick paths, which this
-        // objective otherwise never runs; one child tick with COMPLETION set does the award.
         super.tickListener(world, vault, runner);
         broadcast(vault, runner.getPlayer().map(p -> p.getDisplayName().getString()).orElse("A runner")
                 + " escaped the HYPER Vault!", ChatFormatting.AQUA);
         if (vault.get(Vault.LISTENERS).getAll().size() <= 1) {
-            // Last player out: the vault is about to tear down.
             purgeHostileEntities(world);
         }
         vault.get(Vault.LISTENERS).remove(world, vault, runner);
@@ -649,6 +638,11 @@ public class HyperVaultObjective extends Objective {
         return true;
     }
 
+    /**
+     * Deliberately never calls super.tickServer(): CHILDREN (the completion crate) must not
+     * tick as a successor — it awards through completeAndExtract's child tick and its own
+     * LISTENER_LEAVE hook instead.
+     */
     @Override
     public void tickServer(VirtualWorld world, Vault vault) {
         this.get(FIGHTS).onTick(world, vault);
@@ -661,16 +655,17 @@ public class HyperVaultObjective extends Objective {
         if (world.getGameTime() % PILLAR_PIN_PERIOD_TICKS == 0L) {
             pinPillarRuneDisplay(world);
         }
-        // Deliberately no super.tickServer(): CHILDREN (the crate) must never tick as a successor;
-        // it awards through its own LISTENER_LEAVE hook when a player exits with COMPLETED stats.
     }
 
+    /**
+     * Registers the objective on the listener; never calls super — per-listener completion
+     * happens through the exit pillar.
+     */
     @Override
     public void tickListener(VirtualWorld world, Vault vault, Listener listener) {
         if (listener.getPriority(this) < 0) {
             listener.addObjective(vault, this);
         }
-        // Never call super here: per-listener completion happens through the exit pillar.
     }
 
     @Override
@@ -706,7 +701,8 @@ public class HyperVaultObjective extends Objective {
      * converted here to ClassicInfiniteLayout before the first room generates, carrying over
      * the tunnel span and the template pools the theme stamped onto the rolled layout.
      * (Runs before generation because room templates bake lazily per chunk; on later inits the
-     * persisted layout is already infinite and this is a no-op.)
+     * persisted layout is already infinite and this is a no-op.) Non-classic layouts
+     * (DIY/architect/royale) wire their pools differently and are left bounded with a warning.
      */
     private void ensureInfiniteLayout(Vault vault) {
         VaultGenerator generator = vault.get(Vault.WORLD).get(WorldManager.GENERATOR);
@@ -720,8 +716,6 @@ public class HyperVaultObjective extends Objective {
             return;
         }
         if (!(layout instanceof ClassicVaultLayout classic)) {
-            // DIY/architect/royale layouts wire their room pools differently; converting one
-            // would strand its pools. Leave it and let the vault keep its shape.
             WoldsVaults.LOGGER.warn("Hyper vault rolled a {} layout; only classic layouts are converted to infinite, so this vault stays bounded.",
                     layout.getClass().getSimpleName());
             return;
@@ -860,8 +854,6 @@ public class HyperVaultObjective extends Objective {
     @OnlyIn(Dist.CLIENT)
     public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
         Font font = Minecraft.getInstance().font;
-        // Extracting players get the vanilla-style victory feedback (title, fireworks and the
-        // action-bar countdown, all server-driven); only the score line renders here.
         CompoundTag extractions = this.getOr(EXTRACTIONS, null);
         if (extractions != null && extractions.contains(player.getUUID().toString())) {
             drawCentered(font, matrixStack, new TextComponent("Vault Score: " + this.getOr(SCORE, 0)).withStyle(ChatFormatting.GOLD), HUD_TOP_MARGIN);
@@ -891,7 +883,6 @@ public class HyperVaultObjective extends Objective {
         renderCardLabel(matrixStack, font);
         matrixStack.popPose();
 
-        // Held key = show the card, exactly like the mod's expanded-bingo affordance.
         if (Minecraft.getInstance().screen == null && ModKeybinds.openBingo.isDown()) {
             for (Objective mini : this.get(MINIS)) {
                 if (mini instanceof BingoObjective || mini instanceof ScavengerBingoObjective) {

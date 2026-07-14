@@ -98,7 +98,6 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
                 }
                 root.getChild(index).streamSelfAndDescendants(ProgressConfiguredTask.class).forEach(task -> {
                     if (task.getCounter() instanceof TargetTaskCounter<?, ?> counter && counter.isPopulated()) {
-                        // VH's own scaler: target = base x (1 + additional x contribution).
                         ((BingoObjectiveAccessor) bingo).callScaleTargetWithCondition(task, counter, scale - 1.0, 1, context);
                     }
                 });
@@ -106,9 +105,11 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         });
     }
 
+    /**
+     * Rolls the next mini batch. Old minis keep their event hooks through the boss/reward
+     * phases (so obelisk placeholders keep converting) and are torn down only here.
+     */
     public void rollBatch() {
-        // Old minis keep their event hooks through the boss/reward phases (so obelisk
-        // placeholders keep converting); they are only torn down here, at the next roll.
         objective.get(HyperVaultObjective.MINIS).forEach(Objective::releaseServer);
         objective.get(HyperVaultObjective.MINIS).clear();
         objective.set(HyperVaultObjective.ELIXIR_PROGRESS, 0);
@@ -142,8 +143,6 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
             case SCAVENGER -> addMini(ScavengerBingoObjective.of(boardSize(), boardSize(), 0.0F, VaultMod.id("default"), false));
             case ELIXIR -> ensureElixirGoal();
             case BRUTAL -> {
-                // The pillar floor rises +1 every 3 kills and +1 per 2 extra runners, capped at
-                // the 5-pillar ceiling (at cap every batch demands the full 5).
                 int runnersNow = vault.get(Vault.LISTENERS).getAll(Runner.class).size();
                 int minObelisks = Math.min(HyperVaultObjective.cfg().getObeliskMax(),
                         HyperVaultObjective.cfg().getObeliskMin()
@@ -157,13 +156,16 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         }
     }
 
+    /**
+     * Seeds, registers and initializes one mini. Collector cards regenerate their tiles with a
+     * time-mixed seed — tile generation is otherwise vault-seed-pure, and a repeat Collector
+     * cycle would deal the identical card.
+     */
     private void addMini(Objective mini) {
         seedCurrentRunners(mini);
         objective.get(HyperVaultObjective.MINIS).add(mini);
         mini.initServer(world, vault);
         if (mini instanceof ScavengerBingoObjective scav) {
-            // Tile generation is seeded purely by the vault seed, so a repeat Collector cycle
-            // would get the identical card; this regenerates with a time-mixed seed.
             ((ScavengerBingoObjectiveAccessor) (Object) scav)
                     .callRegenerateIncompleteTiles(vault, scav.get(ScavengerBingoObjective.SETTLED_TILES));
         }
@@ -179,14 +181,14 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
      * mid-vault batch roll. Without pre-seeding, bingo's EntityTaskSource stays empty and every
      * player action is filtered out (the card never progresses). Bingo's JOINED is pinned at 1
      * (hyper's own +25%/extra-player scaling replaces VH's); the collector's JOINED is seeded
-     * with the live runner count so VH's native +50%/extra-player tile scaling applies.
+     * with the live runner count so VH's native +50%/extra-player tile scaling applies. The
+     * bingo task source's random is seeded from the vault seed mixed with the cycle, keeping
+     * repeat Bingo cycles distinct while staying deterministic across a reload.
      */
     private void seedCurrentRunners(Objective mini) {
         Collection<Runner> runners = vault.get(Vault.LISTENERS).getAll(Runner.class);
         if (mini instanceof BingoObjective bingo) {
             UUID[] ids = runners.stream().map(Listener::getId).toArray(UUID[]::new);
-            // The task source's random populates the card, so mixing the cycle in keeps repeat
-            // Bingo cycles distinct while staying deterministic across a reload.
             long seed = vault.get(Vault.SEED) ^ (0x9E3779B97F4A7C15L * (objective.getOr(HyperVaultObjective.CYCLE, 0) + 1));
             bingo.set(BingoObjective.TASK_SOURCE, EntityTaskSource.ofUuids(JavaRandom.ofInternal(seed), ids));
             bingo.set(BingoObjective.JOINED, 1);
@@ -198,7 +200,9 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
     /**
      * The shared elixir bar. The task set and base target derive from the vault seed (identical
      * after a restart, identical for every player); the target starts at 75% of a normal
-     * vault's requirement and grows +25% of that base per completed cycle.
+     * vault's requirement and grows +25% of that base per completed cycle. Regeneration uses
+     * the original draw order — target first, then goals — so pre-existing saves regenerate
+     * identical tasks.
      */
     private void ensureElixirGoal() {
         rescaleElixirTarget();
@@ -206,8 +210,6 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         if (!tasks.isEmpty()) {
             return;
         }
-        // Same draw order as the original roll: the target consumes the seeded random's
-        // leading draws, then the goals — so pre-existing saves regenerate identical tasks.
         JavaRandom seeded = JavaRandom.ofInternal(vault.get(Vault.SEED));
         ModConfigs.ELIXIR.generateTarget(level, seeded);
         for (ElixirTask task : ModConfigs.ELIXIR.generateGoals(level, seeded)) {
@@ -250,10 +252,10 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
         };
     }
 
+    /** Missing minis count as complete — roll-time generation already logged why; never deadlock the cycle. */
     private <T extends Objective> boolean completeOrMissing(Class<T> type, Predicate<T> done) {
         Optional<T> mini = objective.findMini(type);
         if (mini.isEmpty()) {
-            // Roll-time generation already logged why; don't deadlock the cycle on a missing mini.
             return true;
         }
         return done.test(mini.get());

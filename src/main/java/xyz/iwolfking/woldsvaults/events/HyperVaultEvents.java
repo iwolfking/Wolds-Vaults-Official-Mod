@@ -80,7 +80,6 @@ public final class HyperVaultEvents {
             return;
         }
         event.setResult(Event.Result.DENY);
-        // The elite zombie retries every 10 ticks; log the first denial per entity only.
         if (mob.addTag("woldsvaults_hyper_immortality_denied")) {
             WoldsVaults.LOGGER.info("Denied Immortality on {} in a hyper vault (mob immortality is disabled here).",
                     mob.getType().getRegistryName());

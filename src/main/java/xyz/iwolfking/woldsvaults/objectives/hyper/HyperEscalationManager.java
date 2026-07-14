@@ -63,33 +63,32 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         this.doorAnimation.onStart(RuneBossAnimation.State.OPEN_ROOM);
     }
 
+    /**
+     * Everything a hyperboss kill grants. One HYPER stack (the icon count reads as the kill
+     * tally plus the crystal's entry marker); greedy crate tiers 1/2/3 by score, paid out as
+     * extra greed coins per stack by MixinRunner's crate injection; crate scaling on a
+     * deliberately quadratic ramp (kill k grants 5k tiers below 250k score, then 7k/9k/15k
+     * from 250k/1.5M/25M) using ONLY plain crate_tier stacks — never the settable
+     * map_crate_quantity, whose onVaultAdd consumes percentage-points as a raw fraction (the
+     * +10,000% unit bug this schedule replaced); k Refined Experience at kill k; and one Inert
+     * every second kill (banned from every pool, so this deterministic drip is its only
+     * source).
+     */
     public void onBossKilled() {
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0) + 1;
         objective.set(HyperVaultObjective.CYCLE, cycle);
 
-        // One more HYPER stack in the modifier list; the icon count is the vault's kill tally
-        // (+1 for the marker stack the crystal attaches on entry).
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("hyper"), 1);
         int score = objective.getOr(HyperVaultObjective.SCORE, 0);
-        // Extra greed coins in the completion crate per stack (cfg().getGreedyCoinBonusPerStack(),
-        // applied in MixinRunner's injection); big kills earn extra stacks.
         int greedyTiers = score >= HyperVaultObjective.cfg().getScoreTripleGreedy() ? 3
                 : score >= HyperVaultObjective.cfg().getScoreDoubleGreedy() ? 2 : 1;
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("greedy_crate_tier"), greedyTiers);
 
-        // Crate scaling uses ONLY regular crate-tier stacks — never the settable
-        // map_crate_quantity, whose onVaultAdd consumes percentage-points as a raw fraction
-        // (the +10,000% unit bug this rework replaces), and kills never grant super tiers.
-        // Kill k grants 5k tiers under 250k score, 7k from 250k, 9k from 1.5M, 15k from
-        // 25M — a quadratic ramp by design.
         int crateTiers = (score >= HyperVaultObjective.cfg().getCrateTierScore15() ? 15
                 : score >= HyperVaultObjective.cfg().getCrateTierScore9() ? 9
                 : score >= HyperVaultObjective.cfg().getCrateTierScore7() ? 7 : 5) * cycle;
         VaultModifierUtils.addModifier(vault, VaultMod.id("crate_tier"), crateTiers);
-        // Vault XP ramps quadratically like the crate tiers: kill k adds k Refined Experience.
         VaultModifierUtils.addModifier(vault, VaultMod.id("refined_experience"), cycle);
-        // One Inert (-10% cooldown reduction, the mildest CDR drain — banned from every pool,
-        // so this deterministic drip is its only source) every second kill.
         if (cycle % 2 == 0) {
             VaultModifierUtils.addModifier(vault, VaultMod.id("inert"), 1);
             HyperVaultObjective.broadcast(vault, "Inert seeps into the Vault (-10% cooldown reduction).", ChatFormatting.DARK_PURPLE);
@@ -166,6 +165,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                         + (extraDraw ? " (empowered: +1 draw)" : ""), ChatFormatting.AQUA);
     }
 
+    /** Fills the granted chaos budget from hyper_mixed; one pull normally rolls the pool's full 25. */
     private void dumpChaosModifiers() {
         int granted = HyperVaultObjective.consumeChaosBudget(vault, HyperVaultObjective.cfg().getChaosPerKill());
         if (granted <= 0) {
@@ -176,7 +176,6 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         JavaRandom random = JavaRandom.ofNanoTime();
         int added = 0;
         int emptyPulls = 0;
-        // One pull normally rolls the pool's full 25; the loop only guards odd pool configs.
         while (added < granted && emptyPulls < 2) {
             List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(HyperVaultObjective.CHAOS_POOL_MIXED, level, random);
             if (modifiers.isEmpty()) {
@@ -209,11 +208,13 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
     }
 
+    /**
+     * The opening chaos dump fires once, on the first tick a player is actually inside —
+     * initServer runs before anyone joins, and the chat lines would be lost.
+     */
     @Override
     public void tick() {
         tickDoorAnimation();
-        // The opening chaos dump: fires once, on the first tick a player is actually inside
-        // (initServer runs before anyone joins, and the chat lines would be lost).
         if (objective.getOr(HyperVaultObjective.CHAOS_COUNT, 0) == 0 && !vault.get(Vault.LISTENERS).getAll().isEmpty()) {
             dumpChaosModifiers();
         }
@@ -332,13 +333,15 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         return null;
     }
 
+    /**
+     * The boss room sits in a no-modify WorldZone kept for the whole vault; without the bypass
+     * these setBlock calls are silently rejected and the pillar never appears.
+     */
     private void placeObelisk(BlockPos pos) {
         BlockState lower = ModBlocks.OBELISK.defaultBlockState()
                 .setValue(ObeliskBlock.HALF, DoubleBlockHalf.LOWER).setValue(ObeliskBlock.FILLED, false);
         BlockState upper = ModBlocks.OBELISK.defaultBlockState()
                 .setValue(ObeliskBlock.HALF, DoubleBlockHalf.UPPER).setValue(ObeliskBlock.FILLED, false);
-        // The boss room sits in a no-modify WorldZone (kept for the whole vault); without the
-        // bypass these setBlock calls are silently rejected and the pillar never appears.
         IZonedWorld.runWithBypass(world, true, () -> {
             world.setBlock(pos, lower, 3);
             world.setBlock(pos.above(), upper, 3);
@@ -379,6 +382,10 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
     }
 
+    /**
+     * EXIT_POS deliberately keeps its stale value afterwards: the use-handler is gated on
+     * PHASE == REWARD, and the next reward phase overwrites it before it can be clicked again.
+     */
     private void removeExitPillar() {
         BlockPos pos = objective.getOr(HyperVaultObjective.EXIT_POS, null);
         if (pos == null) {
@@ -386,8 +393,6 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
         removeIfObelisk(pos);
         removeIfObelisk(pos.above());
-        // EXIT_POS keeps its stale value; the use-handler is gated on PHASE == REWARD and the
-        // next reward phase overwrites it before it can be clicked again.
     }
 
     private void removeIfObelisk(BlockPos pos) {

@@ -317,8 +317,6 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
 
     public static boolean applySpecialModifiers(CrystalData data, VaultGearData mapData, VaultGearModifier.AffixType affixType, AnvilContext context, ItemStack output, boolean shouldReduceValues) {
         for (VaultGearModifier<?> mod : mapData.getModifiers(affixType)) {
-            // Cull ("mobs spawn at 1 hp") would trivialize a Hyper vault's boss cycle — strip it here,
-            // before it ever reaches the crystal. HyperVaultObjective.initServer double-checks this.
             if (data.getObjective() instanceof HyperVaultCrystalObjective
                     && WoldsVaults.id("cull").equals(mod.getModifierIdentifier())) {
                 WoldsVaults.LOGGER.info("Stripped the Cull map modifier from a Hyper crystal.");

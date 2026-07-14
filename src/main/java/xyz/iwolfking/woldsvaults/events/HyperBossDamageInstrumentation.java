@@ -95,8 +95,6 @@ public final class HyperBossDamageInstrumentation {
             return;
         }
         if (chain.event() != event) {
-            // A cancelled event never reached the LOWEST cleanup; drop the stale sample so
-            // this ThreadLocal cannot pin a dead event (and its world) between hits.
             CHAIN.remove();
             return;
         }

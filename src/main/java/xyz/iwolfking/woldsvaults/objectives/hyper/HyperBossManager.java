@@ -147,7 +147,21 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         this.escalation = escalation;
     }
 
-    /** Empty-hand podium click during ARMED: escalate the pillar's stats and start a fresh fight. */
+    /**
+     * Empty-hand podium click during ARMED: escalate the pillar's stats and start a fresh
+     * fight. Deliberately reachable without sneaking — vanilla skips BlockBehaviour.use
+     * entirely for a sneaking player holding an item in either hand, so a sneak requirement
+     * would eat clicks made with a totem in the off-hand.
+     *
+     * <p>The pillar tile is snapshotted before the fight consumes it (the escalation manager
+     * re-places it next cycle), and the protection zone is ensured BEFORE the ability/stat
+     * writes — the tile's onLoad refreshes ability modifiers and would resurrect the revive
+     * ability after setReviveAbility(null). The boss's health is one giant MULTIPLY_BASE trait
+     * term, so vault mob-health modifiers applied as attribute modifiers would dilute to noise
+     * next to the escalation; instead the vault's health factor multiplies the whole escalated
+     * total here, before the traits are built at summon. Damage stays out of the trait (flat
+     * "add" operator) and is applied with the non-health modifiers in applyBossStats.
+     */
     public void armAndStartFight(BlockPos pillarPos) {
         RuneBossFights fights = objective.get(HyperVaultObjective.FIGHTS);
         if (fights.hasFightAt(pillarPos)) {
@@ -161,11 +175,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         }
         rerollBoss(pillar);
         objective.set(HyperVaultObjective.PILLAR_POS, pillarPos);
-        // The fight removes the pillar block when the boss summons; snapshot the tile so the
-        // escalation manager can re-place it (config, boss list and zone id intact) next cycle.
         objective.set(HyperVaultObjective.PILLAR_NBT, pillar.saveWithoutMetadata());
-        // Before the ability/stat writes: the tile's onLoad also refreshes ability modifiers,
-        // which would resurrect the revive ability if it ran after setReviveAbility(null).
         ensureProtectionZone(pillar, pillarPos);
         snapshotOrRepairGates(pillarPos);
 
@@ -173,11 +183,6 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         double escalation = HyperVaultObjective.cfg().getBossHealthPercent()
                 * Math.pow(HyperVaultObjective.cfg().getHyperStatFactor(), cycle)
                 + HyperVaultObjective.cfg().getBossStatIncrement() * cycle;
-        // The boss's health is one giant MULTIPLY_BASE trait term, so vault mob-health modifiers
-        // applied as attribute modifiers dilute to noise next to the escalation. Instead the
-        // vault's health factor (computed as it stacks on a normal mob) multiplies the whole
-        // escalated total here, before the traits are built at summon. Damage stays out of the
-        // trait (flat "add" operator): applyBossStats applies it and the non-health modifiers.
         double healthFactor = vaultHealthFactor();
         double healthPercent = (1.0 + INNATE_HEALTH_BONUS + escalation) * healthFactor
                 - 1.0 - INNATE_HEALTH_BONUS;
@@ -188,18 +193,14 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         BossRuneModifiers armed = new BossRuneModifiers(healthPercent, 0.0,
                 HyperVaultObjective.cfg().getBossAbilityHaste());
         pillar.getModifiers().copyFrom(armed);
-        // Rune count keys the shield/waveblast/revive settings table; capped so an absurd cycle
-        // count cannot index past the config.
         pillar.setRuneCount(Math.min(HyperVaultObjective.cfg().getBaseRuneTier() + cycle, HyperVaultObjective.cfg().getRuneTierCap()));
-        pillar.getModifiers().setReviveAbility(null); // the hyperboss never heals or revives
+        pillar.getModifiers().setReviveAbility(null);
 
         objective.set(HyperVaultObjective.SCORE, 0);
         fights.add(pillar.createFight());
         objective.set(HyperVaultObjective.PHASE, Phase.FIGHT);
         objective.set(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.cfg().getWavePeriodTicks());
         this.addTimer = HyperVaultObjective.cfg().getFightAddPeriodTicks();
-        // BOSS_ID intentionally keeps its previous value until the new boss spawns: gate checks
-        // resolve a dead entity to null and skip, and ENTITY_SPAWN overwrites it on summon.
         objective.set(HyperVaultObjective.GATE_MASK, 0);
         HyperVaultObjective.broadcast(vault, "The Hyperboss awakens!", ChatFormatting.DARK_RED);
     }
@@ -283,15 +284,14 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      * The room's no-modify zone normally lives from room load until an open-room animation
      * step that never runs; Hyper scopes it to the fight instead: (re)created on every arm
      * here, removed by the escalation manager when the boss dies. The tile's own onLoad is
-     * reused so the zone box and flags stay exactly vanilla.
+     * reused so the zone box and flags stay exactly vanilla; a stale id from a previous cycle
+     * (that zone was removed on kill) is reset so the tile registers a fresh one.
      */
     private void ensureProtectionZone(BossRunePillarTileEntity pillar, BlockPos pillarPos) {
         BossRunePillarAccessor access = (BossRunePillarAccessor) pillar;
         WorldZones zones = WorldZonesData.get(world.getServer()).getOrCreate(world.dimension());
         int zoneId = access.getZoneId();
         if (zoneId <= 0 || zones.get(zoneId).isEmpty()) {
-            // Stale id from a previous cycle (that zone was removed on kill): reset so the
-            // tile registers a fresh zone.
             access.setZoneId(0);
             pillar.onLoad();
             zoneId = access.getZoneId();
@@ -303,6 +303,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         objective.set(HyperVaultObjective.ZONE_ID, zoneId);
     }
 
+    /**
+     * Drives the FIGHT phase. No pending fight counts as a kill — the machinery also completes
+     * that way if the boss entity vanishes on a reload edge, indistinguishable from a kill here.
+     */
     @Override
     public void tick() {
         if (objective.getOr(HyperVaultObjective.PHASE, Phase.ROLLING) != Phase.FIGHT) {
@@ -310,8 +314,6 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         }
         RuneBossFights fights = objective.get(HyperVaultObjective.FIGHTS);
         if (!fights.hasPendingFight()) {
-            // The fight machinery also completes this way if the boss entity vanishes (e.g. a
-            // reload edge); indistinguishable from a kill here, so the cycle is awarded either way.
             escalation.onBossKilled();
             return;
         }
@@ -355,15 +357,14 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      * back to the armed pillar — same cycle, same stats, no rewards — so the rest of the
      * party can attempt it again. The roster is the fight's own zone-tracked player set;
      * offline participants hold the fight open (they log back in inside the arena), dead and
-     * spectating ones do not.
+     * spectating ones do not. While the boss is not yet summoned or already dying, the kill
+     * path owns the state — a simultaneous full-party death stays a win.
      */
     private boolean checkFightWipe(RuneBossFights fights) {
         RuneBossFight fight = activeFight(fights);
         UUID bossId = objective.getOr(HyperVaultObjective.BOSS_ID, null);
         Entity boss = bossId == null ? null : world.getEntity(bossId);
         if (fight == null || !(boss instanceof LivingEntity living) || !living.isAlive()) {
-            // Doors still closing (boss not summoned) or the boss is already dying — the
-            // kill path owns this state, and a simultaneous full-party death stays a win.
             this.wipeGraceTicks = WIPE_GRACE_TICKS;
             return false;
         }
@@ -398,11 +399,14 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         return null;
     }
 
+    /**
+     * True while any fight participant is alive in the arena; offline participants count as
+     * living (they rejoin mid-fight).
+     */
     private boolean hasLivingFighter(RuneBossFight fight) {
         for (UUID uuid : fight.getPlayers()) {
             ServerPlayer player = world.getServer().getPlayerList().getPlayer(uuid);
             if (player == null) {
-                // Logged off inside the arena: they rejoin mid-fight, so the fight waits.
                 return true;
             }
             if (player.level == world && player.isAlive() && !player.isSpectator()) {
@@ -481,6 +485,14 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         objective.set(HyperVaultObjective.WAVE_TICK, remaining);
     }
 
+    /**
+     * Fires a brutal wave at each configured health fraction. On the boss's first live
+     * sighting (traits are applied by then) it also applies the damage escalation plus the
+     * vault's mob modifiers, then scores the finished stats normalized to the boogeyman
+     * reference — clamped, because deep-cycle scores overflow int — and only AFTER the score
+     * capture applies the multiplayer health scale, so extra players never inflate the
+     * loot-escalation score.
+     */
     private void tickHealthGates() {
         UUID bossId = objective.getOr(HyperVaultObjective.BOSS_ID, null);
         if (bossId == null) {
@@ -491,9 +503,6 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return;
         }
         if (objective.getOr(HyperVaultObjective.SCORE, 0) == 0) {
-            // First live sighting (traits are applied by now): give the boss its damage
-            // escalation plus the vault's mob modifiers, then score the finished stats,
-            // normalized to the boogeyman reference (cfg reference stats).
             applyBossStats(boss);
             AttributeInstance health = boss.getAttribute(Attributes.MAX_HEALTH);
             AttributeInstance damage = boss.getAttribute(Attributes.ATTACK_DAMAGE);
@@ -503,17 +512,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                     ? 0.0 : damage.getValue() / damage.getBaseValue();
             long score = Math.round((healthMultiplier * HyperVaultObjective.cfg().getReferenceBossHealth()
                     + damageMultiplier * 100.0 * HyperVaultObjective.cfg().getReferenceBossDamage()) / 1000.0);
-            // Clamped: deep-cycle scores overflow int (the previous cast wrapped negative).
             objective.set(HyperVaultObjective.SCORE,
                     (int) Math.max(1L, Math.min(Integer.MAX_VALUE, score)));
-            // After the score capture on purpose: extra players make the boss tankier, but
-            // must not inflate the loot-escalation score.
             applyMultiplayerHealthScale(boss);
         }
         float fraction = boss.getHealth() / boss.getMaxHealth();
-        // GATE_MASK persists bit i for gates[i]; the gate list order is part of a
-        // mid-fight save. Editing the config between fights is fine (the mask resets
-        // at every arm), reordering it mid-fight double- or never-fires a wave.
         float[] gates = HyperVaultObjective.cfg().getHealthGates();
         int mask = objective.getOr(HyperVaultObjective.GATE_MASK, 0);
         for (int i = 0; i < gates.length && i < 31; i++) {
@@ -552,10 +555,14 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         }
     }
 
-    /** A fresh boss from the pillar's palette roster every cycle (repeats allowed). */
+    /**
+     * A fresh boss from the pillar's palette roster every cycle (repeats allowed). The roster
+     * is read through the typed config accessor — no NBT-shape parsing, so a base-mod save
+     * format change breaks loudly at mixin apply instead of silently at runtime. The rolled
+     * template is assigned WITHOUT copy(): PartialEntity.copy NPEs on position-less templates,
+     * and vanilla onPopulate assigns the rolled template directly the same way.
+     */
     private void rerollBoss(BossRunePillarTileEntity pillar) {
-        // Typed access to the pillar config's roster (no NBT-shape parsing: a base-mod save
-        // format change breaks this loudly at mixin apply, not silently at runtime).
         WeightedList<PartialEntity> pool =
                 ((BossRunePillarConfigAccessor) (Object) ((BossRunePillarAccessor) pillar).getConfig()).getBossPool();
         if (pool == null || pool.isEmpty()) {
@@ -564,8 +571,6 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return;
         }
         pool.getRandom(JavaRandom.ofNanoTime()).ifPresent(rolled -> {
-            // No copy(): PartialEntity.copy NPEs on position-less templates (blockPos null).
-            // Vanilla onPopulate assigns the rolled template directly the same way.
             ((BossRunePillarAccessor) pillar).setBoss(rolled);
             WoldsVaults.LOGGER.info("Hyperboss for this cycle: {}.", rolled.getId());
         });
@@ -575,7 +580,12 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      * The percent damage escalation plus every mob attribute modifier on the vault, applied to
      * the live boss exactly as ENTITY_SPAWN applies them to normal mobs (the boss is
      * IModifierImmunity, so it never received them). Multiplicative health stacks therefore
-     * compound on the boss the same way they compound on the brutals.
+     * compound on the boss the same way they compound on the brutals. Max-health modifiers are
+     * excluded — they were folded into the health trait at arm time. The REAVING effect is
+     * pre-applied as its own once-per-mob latch, so Reaving's %-max-health proc can never fire
+     * on the hyper-inflated pool (Bleed, the other source, is denied in HyperVaultEvents), and
+     * the hyperboss must NEVER be given InfernalMobs modifiers — InfernalMobs rewrites max
+     * health generically and produced a 100B-HP cycle-1 boss when tried.
      */
     private void applyBossStats(LivingEntity boss) {
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
@@ -592,8 +602,6 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         for (Modifiers.Entry entry : vaultModifiers.getEntries()) {
             VaultModifier<?> modifier = entry.getModifier().orElse(null);
             ModifierContext context = vaultModifiers.getContext(entry);
-            // Max-health modifiers are folded into the health trait at arm time; the rest
-            // (damage, speed, ...) act through real attribute modifiers here.
             if (modifier instanceof MobAttributeModifier mob
                     && !targetsMaxHealth(mob.properties().getType())) {
                 mob.applyToEntity(boss, context.getUUID(), context);
@@ -604,19 +612,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 applied++;
             }
         }
-        // The vault's speed modifiers were just applied for real; same speed cap as every mob.
         if (HyperVaultObjective.clampMovementSpeed(boss)) {
             WoldsVaults.LOGGER.info("Hyperboss movement speed capped at +{}%.",
                     Math.round((HyperVaultObjective.cfg().getSpeedCapFactor() - 1.0) * 100.0));
         }
-        // Reaving's bonus damage (target max health × gear %) fires once per mob, gated by the
-        // REAVING effect as its "already reaved" latch — pre-latching makes the hyperboss immune
-        // to a proc that scales with its hyper-inflated health pool. Bleed (the other
-        // %-max-health source) is denied outright in events/HyperVaultEvents.
         boss.addEffect(new MobEffectInstance(ModEffects.REAVING, Integer.MAX_VALUE, 0, true, false));
-        // NOTE: do NOT give the hyperboss InfernalMobs modifiers. InfernalMobs multiplies an
-        // infernal mob's max health generically (independent of which modifier rolled), and
-        // on top of hyper's escalated pool that produced a 100B-HP cycle-1 boss (round 40).
         boss.setHealth(boss.getMaxHealth());
         WoldsVaults.LOGGER.info(
                 "Hyperboss stats: {} HP (vault health factor folded at arm), {} damage — {} non-health vault mob modifiers applied.",
@@ -694,6 +694,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     /**
      * How much bigger a normal mob's max health gets from the vault's modifiers:
      * (1 + sum of additive percents) x (product of 1 + each multiplicative percent).
+     * Plain ADDITION (flat half-hearts) is ignored — meaningless at boss scale.
      */
     private double vaultHealthFactor() {
         double additive = 0.0;
@@ -718,7 +719,6 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             } else if (operation == AttributeModifier.Operation.MULTIPLY_BASE) {
                 additive += amount;
             }
-            // plain ADDITION (flat half-hearts) is meaningless at boss scale; ignored
         }
         return (1.0 + additive) * multiplicative;
     }

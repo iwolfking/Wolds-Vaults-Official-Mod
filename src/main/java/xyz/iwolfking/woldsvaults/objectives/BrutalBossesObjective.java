@@ -94,9 +94,11 @@ public class BrutalBossesObjective extends ObeliskObjective {
         return this.getOr(NEGATIVE_POOL_ONLY, false) ? NEGATIVE_POOL : VaultMod.id("bb_" + modName.toLowerCase());
     }
 
+    /**
+     * In hyper mode (NEGATIVE_POOL_ONLY) boss-kill modifiers count against the shared chaos
+     * budget and respect the per-modifier stack caps.
+     */
     private void addBossKillModifier(Vault vault, VaultModifier<?> mod, List<VaultModifier<?>> modifiersForMsg) {
-        // Hyper vaults: boss-kill modifiers count against the shared chaos budget and respect
-        // the per-modifier stack caps (e.g. Electric max 1).
         if (this.getOr(NEGATIVE_POOL_ONLY, false)
                 && (HyperModifierPolicy.isStackCapped(vault, mod)
                 || HyperVaultObjective.consumeChaosBudget(vault, 1) <= 0)) {

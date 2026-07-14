@@ -25,40 +25,53 @@ public final class HyperModifierPolicy {
     /**
      * Modifiers that must never enter a hyper vault, with the playtest reason each earned its
      * place. A ban only affects the derived hyper pools — the source pools are untouched.
+     * <ul>
+     * <li>ethereal_mobs, ethereal: damage-immune mobs (two distinct ids grant the Ethereal
+     * effect)</li>
+     * <li>inert, nullifying, rending, weakened_powers, tenos_challenge, weak_heart: player
+     * cooldown-reduction drains (Inert is instead dripped deterministically every 2nd kill by
+     * the escalation manager)</li>
+     * <li>fading, injured: permanent max-health destruction (Wounded stays, capped at 4
+     * stacks)</li>
+     * <li>no_heal: total heal elimination at -500% healing (Grievous Wounds/Enervated stay)</li>
+     * <li>super_unextension, companion_shortened, no_companion, mob_levitate: flat vault-time
+     * and progression losses with no counterplay</li>
+     * <li>mildly_enchanted, bingo_infernal, curse: random-event backdoors that smuggle
+     * unfiltered pools back in</li>
+     * <li>chemical_bath, bubbling_trouble: on-hit effect storms (instakill stacking in deep
+     * cycles)</li>
+     * <li>woldsvaults:phantasmal_mobs: invisible mobs (the def displays as "Resistant Mobs";
+     * the real woldsvaults:resistant_mobs stays)</li>
+     * <li>no_ores, no_souls, soulless, true_noxp, no_champ_drops, lost_quantity, rotten,
+     * locked: loot/progression negations that break the mini-objectives or the loop's
+     * point</li>
+     * <li>overpower, no_crit_mobs, catastrophic_brew: balance breakers — doubled player
+     * damage, one roll deleting a whole mob axis, unbounded player-damage compounding (Frenzy
+     * stays, capped)</li>
+     * </ul>
      */
     public static final Set<String> BANNED = Set.of(
-            // Damage-immune mobs: two distinct ids grant the Ethereal effect.
             "the_vault:ethereal_mobs",
             "the_vault:ethereal",
-            // Player cooldown-reduction drains (Inert is instead dripped deterministically
-            // every 2nd kill by the escalation manager).
             "the_vault:inert",
             "the_vault:nullifying",
             "the_vault:rending",
             "the_vault:weakened_powers",
             "the_vault:tenos_challenge",
             "the_vault:weak_heart",
-            // Permanent max-health destruction (Wounded stays, capped at 4 stacks below).
             "the_vault:fading",
             "the_vault:injured",
-            // Total heal elimination (-500% healing; Grievous Wounds/Enervated stay).
             "the_vault:no_heal",
-            // Flat vault-time and progression losses with no counterplay.
             "the_vault:super_unextension",
             "the_vault:companion_shortened",
             "the_vault:no_companion",
             "the_vault:mob_levitate",
-            // Random-event backdoors that smuggle unfiltered pools back in.
             "the_vault:mildly_enchanted",
             "the_vault:bingo_infernal",
             "the_vault:curse",
-            // On-hit effect storms (instakill stacking in deep cycles).
             "the_vault:chemical_bath",
             "the_vault:bubbling_trouble",
-            // Invisible mobs (the def's display name says "Resistant Mobs"; real
-            // woldsvaults:resistant_mobs stays).
             "woldsvaults:phantasmal_mobs",
-            // Loot/progression negations that break the mini-objectives or the loop's point.
             "the_vault:no_ores",
             "the_vault:no_souls",
             "the_vault:soulless",
@@ -67,8 +80,6 @@ public final class HyperModifierPolicy {
             "the_vault:lost_quantity",
             "the_vault:rotten",
             "the_vault:locked",
-            // Balance breakers: double player damage / one roll deleting a whole mob axis /
-            // unbounded player-damage compounding (Frenzy stays, capped below).
             "the_vault:overpower",
             "the_vault:no_crit_mobs",
             "the_vault:catastrophic_brew");
@@ -101,16 +112,18 @@ public final class HyperModifierPolicy {
         return BANNED.contains(modifierId);
     }
 
-    /** The cycle-aware stack cap for a modifier id (MAX_VALUE = uncapped). */
+    /**
+     * The cycle-aware stack cap for a modifier id (MAX_VALUE = uncapped). Mana Leak (-2000%
+     * mana regen per stack — one is punishment enough early) allows one stack plus one per 3
+     * cycles. Frenzy (+200% to ALL player damage per stack under the MixinMobFrenzyModifier
+     * rework — uncapped it outgrows the boss's own escalation and ruins the balance) allows
+     * one stack through cycle 4, then one more every 4 cycles.
+     */
     public static int stackCap(Vault vault, ResourceLocation id) {
         if (MANA_LEAK.equals(id)) {
-            // -2000% mana regen per stack: one is punishment enough early; +1 every 3 cycles.
             return 1 + HyperVaultObjective.getCycleCount(vault) / 3;
         }
         if (FRENZY.equals(id)) {
-            // Every stack adds +200% to ALL player damage (MixinMobFrenzyModifier rework) —
-            // uncapped it outgrows the boss's own x1.75/cycle and ruins the balance.
-            // 1 stack through cycle 4, then +1 every 4 cycles (2 at 5-8, 3 at 9-12, ...).
             return 1 + Math.max(0, HyperVaultObjective.getCycleCount(vault) - 1) / 4;
         }
         return STACK_CAPS.getOrDefault(id, Integer.MAX_VALUE);

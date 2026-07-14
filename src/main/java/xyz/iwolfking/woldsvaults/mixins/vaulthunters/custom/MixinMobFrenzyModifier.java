@@ -75,9 +75,6 @@ public abstract class MixinMobFrenzyModifier extends VaultModifier<MobFrenzyModi
             }
             WeakReference<Object> lastRef = woldsVaults$lastEvent.get();
             if(lastRef == null || lastRef.get() != livingDamageEvent) {
-                // First hook for this event (all hooks passing the world filter above belong
-                // to the same vault): cache the hyper check so the remaining stacks' hooks
-                // don't re-scan the objective list on every hit.
                 woldsVaults$lastEvent.set(new WeakReference<>(livingDamageEvent));
                 woldsVaults$appliedAdditiveIds.get().clear();
                 woldsVaults$eventInHyperVault.set(
@@ -87,7 +84,6 @@ public abstract class MixinMobFrenzyModifier extends VaultModifier<MobFrenzyModi
                 livingDamageEvent.setAmount(livingDamageEvent.getAmount() * this.properties().getMaxHealth());
                 return;
             }
-            // Hyper: stacks add their bonus instead of compounding — x(1 + (factor-1) x stacks).
             if(!woldsVaults$appliedAdditiveIds.get().add(this.getId())) {
                 return;
             }

@@ -30,18 +30,23 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
     public HyperVaultCrystalObjective() {
     }
 
+    /**
+     * Attaches the hyper objective chain (objective + completion crate + DeathObjective) and
+     * the entry modifiers: locked (no exit portal), fragged (difficulty locked at the highest
+     * tier) and the hyper marker. Deliberately no BailObjective — the exit pillar is the only
+     * way out alive.
+     */
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
             objectives.add(HyperVaultObjective.of()
                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("HYPER"), "hyper", level, true)));
-            // Deliberately no BailObjective: the exit pillar is the only way out alive.
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
         });
-        VaultModifierUtils.addModifier(vault, VaultMod.id("locked"), 1);   // no exit portal
-        VaultModifierUtils.addModifier(vault, VaultMod.id("fragged"), 1);  // difficulty lock (highest tier)
+        VaultModifierUtils.addModifier(vault, VaultMod.id("locked"), 1);
+        VaultModifierUtils.addModifier(vault, VaultMod.id("fragged"), 1);
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("hyper"), 1);
         addSigilStacks(vault, sigil);
     }

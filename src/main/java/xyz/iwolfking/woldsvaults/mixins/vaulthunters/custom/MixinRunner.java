@@ -72,6 +72,13 @@ public abstract class MixinRunner extends Listener {
                 || !Objects.equals(event.getListener().get(Listener.ID), this.get(Listener.ID));
     }
 
+    /**
+     * The greed-tree crate bonus. In hyper vaults it rolls two passes: coins come from the
+     * unscaled base roll (their growth is the greedy-crate-tier multiplier), while non-coin
+     * greed items are re-rolled at the crate's accumulated quantity times the configured
+     * efficiency, so platinum/boxes/foci grow with deep runs the way one crate per vault
+     * never lets them.
+     */
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
         CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
@@ -86,11 +93,6 @@ public abstract class MixinRunner extends Listener {
                     return;
                 }
 
-                // Hyper vaults: the non-coin part of this bonus scales with the crate's
-                // accumulated quantity at half efficiency, so the greed-sourced items
-                // (platinum, boxes, foci...) grow with deep runs the way one crate per
-                // vault never lets them. Coins stay on the unscaled base roll below —
-                // their growth is the greedy-crate-tier multiplier, not crate tiers.
                 float hyperBonusQuantity = HyperVaultObjective.get(vault)
                         .map(objective -> objective.getOr(AwardCrateObjective.ITEM_QUANTITY, 0.0F))
                         .orElse(-1.0F) * HyperVaultObjective.cfg().getGreedBonusTierEfficiency();
@@ -107,13 +109,11 @@ public abstract class MixinRunner extends Listener {
                     if(reward.getItem().equals(ModItems.GREED_COIN)) {
                         int count = reward.getCount() + (greedTier - 1);
                         if(greedyCrateTiers > 0) {
-                            // Greedy Crate Tier: extra greed coins per stack (hyperboss kills).
                             count = Math.round(count * (1.0F
                                     + HyperVaultObjective.cfg().getGreedyCoinBonusPerStack() * greedyCrateTiers));
                         }
                         reward.setCount(count);
                     } else if (hyper) {
-                        // Non-coin items come from the quantity-scaled pass below instead.
                         continue;
                     }
                     ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
@@ -139,6 +139,10 @@ public abstract class MixinRunner extends Listener {
         });
     }
 
+    /**
+     * Injects the score-gated hyper crate rewards. Failures are caught and logged because the
+     * VH event bus swallows handler exceptions silently.
+     */
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addHyperScoreRewardsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
         CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
@@ -153,7 +157,6 @@ public abstract class MixinRunner extends Listener {
                     WoldsVaults.LOGGER.info("Injected {} hyper score-tier reward stacks into the completion crate.", rewards.size());
                 }
             } catch (Exception e) {
-                // The VH event bus swallows handler exceptions silently; keep failures visible.
                 WoldsVaults.LOGGER.error("Hyper score-tier crate injection failed!", e);
             }
         });

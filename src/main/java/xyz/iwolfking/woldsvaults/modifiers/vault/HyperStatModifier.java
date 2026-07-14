@@ -67,13 +67,17 @@ public class HyperStatModifier extends VaultModifier<HyperStatModifier.Propertie
 
     private static void applyOnce(LivingEntity entity, Attribute attribute, UUID uuid, double amount, AttributeModifier.Operation operation) {
         AttributeInstance instance = entity.getAttribute(attribute);
-        // Some entity types simply lack an attribute (e.g. no attack damage) — that's normal, skip.
         if (instance == null || instance.getModifier(uuid) != null) {
             return;
         }
         instance.addPermanentModifier(new AttributeModifier(uuid, "HYPER", amount, operation));
     }
 
+    /**
+     * The datagen'd hyper def ships both properties as 0 — deliberate sentinels the getters
+     * resolve from hyper_objective.json (hyperStatFactor / speedPerStack); a pack wanting a
+     * different HYPER-style modifier can still override per-def with any positive value.
+     */
     public static class Properties {
         @Expose
         private final float statFactor;
@@ -85,10 +89,6 @@ public class HyperStatModifier extends VaultModifier<HyperStatModifier.Propertie
             this.speedPerStack = speedPerStack;
         }
 
-        // The datagen'd modifier def carries no numbers: the live knobs are
-        // hyper_objective.json (hyperStatFactor / speedPerStack). A pack that wants a
-        // different HYPER-style modifier can still override per-def by setting these
-        // properties to a positive value.
         public float getStatFactor() {
             return this.statFactor > 0.0F ? this.statFactor : HyperVaultObjective.cfg().getHyperStatFactor();
         }

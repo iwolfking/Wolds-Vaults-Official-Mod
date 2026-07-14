@@ -22,6 +22,9 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
      * hyper pools (bottom of addFiles) can be computed from them minus
      * {@link HyperModifierPolicy#BANNED} at datagen time — an upstream edit to a source
      * pool propagates into the hyper pools at the next runData instead of drifting.
+     * hyper_mixed feeds the 25-per-kill dumps, hyper_all_bad the brutal-mini kills, and
+     * hyper_bad_timer_events the periodic ambient events plus the enchanted-event redirect.
+     * To ban a modifier from hyper: add it to the policy and re-run runData.
      */
     private record PoolMember(String id, int weight) {
     }
@@ -1141,12 +1144,6 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                     )
             );
 
-            // ---- HYPER (derived) ------------------------------------------------------
-            // The hyper objective's chaos pools: the source lists above minus
-            // HyperModifierPolicy.BANNED, derived here so bans live in exactly one place.
-            // hyper_mixed feeds the 25-per-kill dumps, hyper_all_bad the brutal-mini kills,
-            // hyper_bad_timer_events the periodic ambient events (and the enchanted-event
-            // redirect). To ban a modifier from hyper: add it to the policy, re-run runData.
             b.pool(WoldsVaults.id("hyper_mixed").toString(), pool ->
                     pool.level(0, entries ->
                             entries.entry(25, 25, e -> addAllExceptBanned(e, CONCEALED_CHAOS, CONCEALED_CHAOS_BACKFIRE))

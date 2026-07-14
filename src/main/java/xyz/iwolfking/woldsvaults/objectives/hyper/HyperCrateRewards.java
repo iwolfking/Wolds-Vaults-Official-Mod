@@ -39,11 +39,13 @@ public final class HyperCrateRewards {
     private HyperCrateRewards() {
     }
 
-    /** All injection stacks the vault's tier markers earn — one full pool run per marker stack. */
+    /**
+     * All injection stacks the vault's tier markers earn — one full pool run per marker stack;
+     * stacks earned by kills scoring the extra-draw threshold roll one extra draw each.
+     */
     public static List<ItemStack> rollForVault(Vault vault, int greedTier, RandomSource random) {
         HyperObjectiveConfig cfg = HyperVaultObjective.cfg();
         List<ItemStack> out = new ArrayList<>();
-        // Stacks earned by kills scoring the extra-draw threshold roll one extra draw each.
         int epicPlus = HyperVaultObjective.get(vault).map(o -> o.getOr(HyperVaultObjective.EPIC_PLUS, 0)).orElse(0);
         int omegaPlus = HyperVaultObjective.get(vault).map(o -> o.getOr(HyperVaultObjective.OMEGA_PLUS, 0)).orElse(0);
         roll(cfg.getRarePool(), cfg.getRareRolls(), (int) VaultModifierUtils.getCountOfModifiers(vault, RARE_MODIFIER), 0, greedTier, random, out);
@@ -52,6 +54,12 @@ public final class HyperCrateRewards {
         return out;
     }
 
+    /**
+     * Rolls one pool. Greed-coin lines multiply their count by the player's greed tier (a
+     * tier-0 player spends the roll for nothing); booster packs carry their pool id in the
+     * "id" string tag; deck cores self-initialize from the Modifier/ModifierRoll tags on their
+     * first inventory tick — the same shape the bounty/loot configs use.
+     */
     private static void roll(WeightedList<HyperObjectiveConfig.InjectionEntry> pool, int baseRolls,
                              int stacks, int plusStacks, int greedTier, RandomSource random, List<ItemStack> out) {
         for (int stack = 0; stack < stacks; stack++) {
@@ -73,18 +81,14 @@ public final class HyperCrateRewards {
                     if (entry.isGreedCoins()) {
                         count *= greedTier;
                         if (count <= 0) {
-                            // Greed tier 0 earns no coins from a greed-scaled line; roll is spent.
                             return;
                         }
                     }
                     ItemStack reward = new ItemStack(item, count);
                     if (entry.getBoosterPack() != null) {
-                        // BoosterPackItem reads its pool from the "id" string tag.
                         reward.getOrCreateTag().putString("id", entry.getBoosterPack());
                     }
                     if (entry.getDeckCore() != null) {
-                        // DeckSocketItem self-initializes from these two tags on its first
-                        // inventory tick (same shape the bounty/loot configs use).
                         reward.getOrCreateTag().putString("Modifier", entry.getDeckCore());
                         reward.getOrCreateTag().putString("ModifierRoll", "greater");
                     }
