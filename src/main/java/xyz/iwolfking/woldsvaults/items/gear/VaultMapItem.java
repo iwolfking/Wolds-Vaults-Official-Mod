@@ -302,7 +302,6 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.SUFFIX, context, output, unfinishedMap);
         applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output, unfinishedMap);
 
-        // Imprint the map tier (0-5) on the crystal; strongbox loot scaling reads it back in-vault.
         ((DuckMapTier) (Object) data).setMapTier(mapData.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0));
 
         data.getProperties().setUnmodifiable(true);

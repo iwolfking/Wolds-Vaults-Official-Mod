@@ -20,7 +20,11 @@ public final class TieredCdfApprox {
     private TieredCdfApprox() {
     }
 
-    /** {@code key} = [rollCount, baseWeight_0 .. baseWeight_{P-1}], exactly as built in generate(). */
+    /**
+     * {@code key} = [rollCount, baseWeight_0 .. baseWeight_{P-1}], exactly as built in
+     * generate(). A degenerate fit (single active pool, or all weights equal) resolves to
+     * 0 or 1 directly.
+     */
     public static double cdf(double[] key, int[] frequencies) {
         int pools = key.length - 1;
         double n = key[0];
@@ -46,7 +50,7 @@ public final class TieredCdfApprox {
         double mean = -n * active;
         double var = n * (sumScores - (double) active * active);
         if (var <= 0.0) {
-            return hObs <= mean ? 0.0 : 1.0; // degenerate: single active pool / all weights equal
+            return hObs <= mean ? 0.0 : 1.0;
         }
         return phi((hObs - mean) / Math.sqrt(var));
     }

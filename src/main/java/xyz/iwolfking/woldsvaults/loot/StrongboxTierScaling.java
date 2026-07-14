@@ -10,7 +10,8 @@ import iskallia.vault.util.VaultRarity;
  * output chosen to hit those targets, not hand-tuned values. tier = 0..5.
  */
 public final class StrongboxTierScaling {
-    private static final double LREF = Math.log10(201.0); // ramp normalized to 1 at itemRarity 200 (+20000%)
+    /** Ramp normalized to 1 at itemRarity 200 (+20000%). */
+    private static final double LREF = Math.log10(201.0);
     private static final double OMEGA_AMP = 0.12;
     private static final double MYTHIC_AMP = 0.151;
     private static final double MYTHIC_OFFSET = 0.70;

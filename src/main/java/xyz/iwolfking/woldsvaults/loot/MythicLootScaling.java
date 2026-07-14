@@ -10,7 +10,8 @@ public final class MythicLootScaling {
     /** Sub-pool count of a mapped chest table (4 vanilla tiers + mythic); other tables are untouched. */
     public static final int MAPPED_POOL_COUNT = 5;
 
-    private static final double LREF = Math.log10(201.0); // ramp normalized to 1 at itemRarity 200 (+20000%)
+    /** Ramp normalized to 1 at itemRarity 200 (+20000%). */
+    private static final double LREF = Math.log10(201.0);
     private static final double OMEGA_AMP = 0.12;
     private static final double MYTHIC_AMP = 0.151;
     private static final double MYTHIC_OFFSET = 0.70;
