@@ -52,6 +52,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultCrystalObjective;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
@@ -303,6 +304,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.SUFFIX, context, output, unfinishedMap);
         applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output, unfinishedMap);
 
+        ((DuckMapTier) (Object) data).setMapTier(mapData.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0));
 
         data.getProperties().setUnmodifiable(true);
         data.write(output);

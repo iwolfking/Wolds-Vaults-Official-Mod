@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PCP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "woldsvaults:omega_pog_block"
+    },
+    "C": {
+      "item": "woldsvaults:core_of_the_vault_gods"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:gods_mastery"
+  }
+}
