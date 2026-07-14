@@ -78,6 +78,5 @@ public class MixinPlayerReputationData {
     @Redirect(method = "load", at = @At(value = "INVOKE",
             target = "Liskallia/vault/nbt/VMapNBT;forEach(Ljava/util/function/BiConsumer;)V"))
     private static void woldsVaults$skipLegacyOverCapClamp(VMapNBT<?, ?> entries, BiConsumer<?, ?> clamp) {
-        // Deliberately empty.
     }
 }
