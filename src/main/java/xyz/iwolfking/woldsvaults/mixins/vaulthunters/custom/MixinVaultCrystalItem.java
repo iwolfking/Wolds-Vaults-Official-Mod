@@ -18,13 +18,13 @@ import xyz.iwolfking.woldsvaults.init.ModGameRules;
 
 import java.util.Map;
 
-@Mixin(value = VaultCrystalItem.class)
+@Mixin(value = VaultCrystalItem.class, remap = false)
 public class MixinVaultCrystalItem {
     @Shadow
     @Final
     private static Map<String, VaultCrystalItem.IScheduledTaskDeserializer> SCHEDULED_TASK_DESERIALIZER_MAP;
 
-    @Inject(method = "useOn", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "useOn", at = @At("HEAD"), cancellable = true, remap = true)
     private void useOn(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
         if(!GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULTS, context.getLevel())) {
             if(context.getPlayer() != null){

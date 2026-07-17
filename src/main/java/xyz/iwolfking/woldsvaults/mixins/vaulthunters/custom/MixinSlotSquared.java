@@ -37,7 +37,7 @@ public final class MixinSlotSquared {
     )
     @WrapOperation(
         method = "@MixinSquared:Handler",
-        at = @At(value = "INVOKE", target = "Liskallia/vault/research/ResearchTree;restrictedBy(Lnet/minecraft/world/item/ItemStack;Liskallia/vault/research/Restrictions$Type;)Ljava/lang/String;")
+        at = @At(value = "INVOKE", target = "Liskallia/vault/research/ResearchTree;restrictedBy(Lnet/minecraft/world/item/ItemStack;Liskallia/vault/research/Restrictions$Type;)Ljava/lang/String;", remap = false)
     )
     private String bypassBackpackRestrictionString(
             ResearchTree instance,

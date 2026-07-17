@@ -69,7 +69,7 @@ public abstract class MixinJewelItem extends Item implements VaultGearItem, Data
         ((DynamicModelItem) stack.getItem()).getDynamicModelId(stack).ifPresent(modelId -> cir.setReturnValue(0xFFFFFF));
     }
 
-    @Redirect(method = "getName", at = @At(value = "INVOKE", target = "Liskallia/vault/item/tool/JewelItem;getColor(Lnet/minecraft/world/item/ItemStack;)I"), remap = true)
+    @Redirect(method = "getName", at = @At(value = "INVOKE", target = "Liskallia/vault/item/tool/JewelItem;getColor(Lnet/minecraft/world/item/ItemStack;)I", remap = false), remap = true)
     private int keepColoredName(ItemStack stack){
         GearDataCache clientCache = GearDataCache.of(stack);
         if (clientCache.getState() == VaultGearState.UNIDENTIFIED) {
