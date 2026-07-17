@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.Map;
 
-@Mixin(CardDeck.class)
+@Mixin(value = CardDeck.class, remap = false)
 public interface CardDeckAccessor {
     @Accessor("cards")
     Map<CardPos, Card> getCardsMap();

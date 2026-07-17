@@ -21,7 +21,7 @@ public class ConcealedChaosModificationRecipe extends AbstractCrystalModificatio
         return ModItems.CONCEALED_CHAOS;
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public void onRegisterJEI(IRecipeRegistration registry) {
         ItemStack ingredient = new ItemStack(ModItems.CONCEALED_CHAOS);
         ItemStack crystalOutput = VaultCrystalItem.create(crystalData -> {

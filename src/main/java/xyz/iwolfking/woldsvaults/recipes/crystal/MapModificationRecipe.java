@@ -34,7 +34,7 @@ public class MapModificationRecipe extends AbstractCrystalModificationRecipe<Vau
         return ModItems.MAP;
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public void onRegisterJEI(IRecipeRegistration registry) {
 
         ItemStack map = new ItemStack(ModItems.MAP);
