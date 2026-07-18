@@ -264,6 +264,7 @@
     "vaulthunters.custom.MixinDeckForgeRecipe",
     "vaulthunters.custom.MixinDeckModifierAdapter",
     "vaulthunters.custom.MixinDeckSocketAnvilRecipe",
+    "vaulthunters.custom.MixinEffectCloudEntity",
     "vaulthunters.custom.MixinEntityEvents",
     "vaulthunters.custom.MixinEtchingApplicationTableTileEntity",
     "vaulthunters.custom.MixinEtchingHelper",

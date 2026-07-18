@@ -41,6 +41,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
+import xyz.iwolfking.woldsvaults.api.util.VaultMobUtils;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
@@ -250,6 +251,7 @@ public class BrutalBossesObjective extends ObeliskObjective {
         LivingEntity entity = (LivingEntity) type.create(world);
 
         assert entity != null;
+        entity.addTag(VaultMobUtils.BRUTAL_BOSS_TAG);
         entity.setGlowingTag(true);
         if(entity instanceof WoldBoss) {
             entity.setCustomName(new TextComponent("Wold").withStyle(ChatFormatting.GOLD));

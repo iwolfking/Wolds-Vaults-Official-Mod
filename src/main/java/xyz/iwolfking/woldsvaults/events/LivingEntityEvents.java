@@ -71,6 +71,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
+import xyz.iwolfking.woldsvaults.api.util.BleedSourceRegistry;
 import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
@@ -358,6 +359,7 @@ public class LivingEntityEvents {
                 }
 
                 EtchingHelper.getEtchings(player, ModEtchingGearAttributes.REAVING_HEMMORAGE).stream().findFirst().ifPresent(reavingHemmorageAttribute -> {
+                    BleedSourceRegistry.registerSource(event.getEntityLiving(), player);
                     event.getEntityLiving().addEffect(new MobEffectInstance(iskallia.vault.init.ModEffects.BLEED, 160, reavingHemmorageAttribute.getValue()));
                 });
 
@@ -473,6 +475,10 @@ public class LivingEntityEvents {
                     MobEffectInstance instance = HexEffects.HEX_EFFECTS.getRandom(player.getRandom());
                     if(instance == null){
                         return;
+                    }
+
+                    if(instance.getEffect() == iskallia.vault.init.ModEffects.BLEED) {
+                        BleedSourceRegistry.registerSource(event.getEntityLiving(), player);
                     }
 
                     event.getEntityLiving().addEffect(new MobEffectInstance(instance));
