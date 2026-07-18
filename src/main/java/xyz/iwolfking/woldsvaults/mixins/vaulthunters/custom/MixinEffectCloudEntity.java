@@ -14,14 +14,14 @@ import xyz.iwolfking.woldsvaults.effect.mobeffects.BleedOverrideEffect;
 
 import javax.annotation.Nullable;
 
-@Mixin(value = EffectCloudEntity.class)
+@Mixin(value = EffectCloudEntity.class, remap = false)
 public abstract class MixinEffectCloudEntity {
 
     @Shadow
     @Nullable
     public abstract LivingEntity getOwner();
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", shift = At.Shift.BEFORE))
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", shift = At.Shift.BEFORE), remap = true)
     private void registerBleedSource(CallbackInfo ci, @Local(name = "effectinstance") MobEffectInstance effectinstance, @Local(name = "livingentity") LivingEntity livingentity) {
         if(effectinstance.getEffect() == ModEffects.BLEED) {
             BleedOverrideEffect.registerSource(livingentity, this.getOwner());
