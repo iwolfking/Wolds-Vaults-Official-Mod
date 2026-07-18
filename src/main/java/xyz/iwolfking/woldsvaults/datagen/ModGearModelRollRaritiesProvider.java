@@ -21,5 +21,10 @@ public class ModGearModelRollRaritiesProvider extends AbstractVanillaGearModelRo
                 models.add(VaultMod.id("gear/armor/plague").toString());
             });
         });
+        add("new_shield_models", builder -> {
+            builder.addForRarity(VaultGearRarity.valueOf("OMEGA"), ModelType.SHIELD, models -> {
+                models.add(VaultMod.id("gear/shield/nokia").toString());
+            });
+        });
     }
 }

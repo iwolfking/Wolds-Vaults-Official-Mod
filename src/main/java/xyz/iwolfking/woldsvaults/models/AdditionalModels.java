@@ -51,6 +51,7 @@ public class AdditionalModels {
     public static final PlainItemModel MUSTARD;
     public static final PlainItemModel TINKERS_TANKARD;
     public static final PlainItemModel ERROR_MAGNET;
+    public static final ShieldModel NOKIA_SHIELD;
 
 
     public static final ArmorModel HEATWAVE;
@@ -91,6 +92,7 @@ public class AdditionalModels {
        MUSTARD = ModDynamicModels.Wands.REGISTRY.register(new PlainItemModel(VHAPI.of("gear/wand/mustard"), "Mustard Bottle")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
        TINKERS_TANKARD = ModDynamicModels.Focus.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/focus/tinkers_tankard"), "Tinker's Tankard")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
        ERROR_MAGNET = ModDynamicModels.Magnets.REGISTRY.register(new PlainItemModel(VaultMod.id("gear/magnet/magnet_error"), "Error Magnet")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
+       NOKIA_SHIELD = ModDynamicModels.Shields.REGISTRY.register(new ShieldModel(VaultMod.id("gear/shield/nokia"), "Indestructible Shield")).properties(new DynamicModelProperties().allowTransmogrification().discoverOnRoll());
 
        // Dynamic armor models need to be registered in `MixinModDynamicModels$Armor`
        HEATWAVE = new ArmorModel(VaultMod.id("gear/armor/heatwave"), "Heatwave")
