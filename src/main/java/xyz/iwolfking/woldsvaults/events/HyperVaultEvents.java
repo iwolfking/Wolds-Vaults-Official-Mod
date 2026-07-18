@@ -40,7 +40,11 @@ public final class HyperVaultEvents {
                 .orElse(false);
     }
 
-    static boolean isHyperBoss(LivingEntity entity) {
+    /**
+     * Checks whether the entity is the hyper objective's boss: a rune boss entity inside a
+     * hyper vault.
+     */
+    public static boolean isHyperBoss(LivingEntity entity) {
         return entity instanceof VaultBossEntity && isInHyperVault(entity);
     }
 

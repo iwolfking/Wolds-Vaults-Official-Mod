@@ -31,6 +31,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AbilityHelper;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
+import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 
@@ -99,9 +100,13 @@ public class ConcentrateAbility extends InstantManaAbility {
                         effectsToProcess.add(Pair.of(entity.position(), positive));
                     }
                 }
+                boolean drainDenied = drainEtchingAttribute != null && HyperVaultEvents.isHyperBoss(entity);
+                if(drainDenied && !effectsToRemove.isEmpty()) {
+                    WoldsVaults.LOGGER.info("Skipped Concentrated Drain etching damage on a hyperboss ({} effect(s) drained).", effectsToRemove.size());
+                }
                 for(MobEffect effect : effectsToRemove) {
                     entity.removeEffect(effect);
-                    if(drainEtchingAttribute != null) {
+                    if(drainEtchingAttribute != null && !drainDenied) {
                         entity.hurt(DamageSource.MAGIC, Math.min(entity.getHealth() * drainEtchingAttribute.getValue(), 3 * AbilityHelper.getAbilityLevel(serverPlayer, "Concentrate_Base")));
                         serverPlayer.heal(1);
                     }
