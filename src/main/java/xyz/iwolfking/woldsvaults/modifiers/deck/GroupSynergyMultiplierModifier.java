@@ -52,7 +52,7 @@ public class GroupSynergyMultiplierModifier extends DeckModifier<GroupSynergyMul
             return 1.0F;
         }
 
-        double effectiveCount = synergyCardCount <= 5 ? synergyCardCount : 5.0 + Math.log(synergyCardCount - 5);
+        double effectiveCount = 2.1 * Math.sqrt(synergyCardCount);
 
         return (float) Math.pow(1.0F + this.getModifierValue(), effectiveCount);
     }
@@ -77,31 +77,29 @@ public class GroupSynergyMultiplierModifier extends DeckModifier<GroupSynergyMul
         }
         tooltip.add(mainComponent);
 
-        if(Screen.hasShiftDown()) {
+        if (Screen.hasShiftDown()) {
             MutableComponent formulaComponent = new TextComponent("  Formula: ").withStyle(ChatFormatting.DARK_GRAY)
                     .append(new TextComponent("(1.0 + ").withStyle(ChatFormatting.GRAY))
                     .append(new TextComponent(String.format(java.util.Locale.ROOT, "%.3f", this.getModifierValue())).withStyle(ChatFormatting.WHITE))
-                    .append(new TextComponent(")^Eff_N ").withStyle(ChatFormatting.GRAY))
-                    .append(new TextComponent("[Eff_N = 5 + ln(N-5) if N > 5]").withStyle(ChatFormatting.DARK_GRAY));
+                    .append(new TextComponent(")^(2.1 * √N)").withStyle(ChatFormatting.GRAY));
             tooltip.add(formulaComponent);
 
             float baseFactor = 1.0F + this.getModifierValue();
 
-            Function<Integer, Double> getEffN = (n) -> n <= 7 ? (double) n : 7.0 + Math.log(n - 6);
+            Function<Integer, Double> getEffN = (n) -> 2.1 * Math.sqrt(n);
 
             MutableComponent scalingComponent = new TextComponent("  Scaling: ").withStyle(ChatFormatting.DARK_GRAY)
                     .append(new TextComponent("3c: ").withStyle(ChatFormatting.GRAY))
                     .append(new TextComponent(String.format(java.util.Locale.ROOT, "x%.2f", Math.pow(baseFactor, getEffN.apply(3)))).withStyle(ChatFormatting.WHITE))
                     .append(new TextComponent(" | ").withStyle(ChatFormatting.DARK_GRAY))
-                    .append(new TextComponent("5c: ").withStyle(ChatFormatting.GRAY))
-                    .append(new TextComponent(String.format(java.util.Locale.ROOT, "x%.2f", Math.pow(baseFactor, getEffN.apply(5)))).withStyle(ChatFormatting.WHITE))
+                    .append(new TextComponent("7c: ").withStyle(ChatFormatting.GRAY))
+                    .append(new TextComponent(String.format(java.util.Locale.ROOT, "x%.2f", Math.pow(baseFactor, getEffN.apply(7)))).withStyle(ChatFormatting.GOLD))
                     .append(new TextComponent(" | ").withStyle(ChatFormatting.DARK_GRAY))
                     .append(new TextComponent("10c: ").withStyle(ChatFormatting.GOLD))
                     .append(new TextComponent(String.format(java.util.Locale.ROOT, "x%.2f", Math.pow(baseFactor, getEffN.apply(10)))).withStyle(ChatFormatting.GREEN));
 
             tooltip.add(scalingComponent);
         }
-
     }
 
     @Override

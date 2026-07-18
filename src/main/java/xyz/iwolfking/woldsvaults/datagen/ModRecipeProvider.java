@@ -1091,7 +1091,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             var name = k.name().toLowerCase();
 
             Block baseBlock = ForgeRegistries.BLOCKS.getValue(k.baseResourceLocation());
-            ShapelessRecipeBuilder // Uses Minecraft Blocks Here
+            ShapelessRecipeBuilder
                     .shapeless(baseBlock, 9)
                     .requires(v.get(0).get())
                     .unlockedBy("has_compressed_" + name + "_x1", has(v.get(0).get()))

@@ -122,7 +122,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
 
             //Implicit Deck Modifiers
             AdjacencyBonusDeckModifier.Config merchantDeckModifier = new AdjacencyBonusDeckModifier.Config(FloatRoll.ofConstant(0.5F), List.of("Resource"), true, AdjacencyBonusDeckModifier.Type.COLUMN);
-            merchantDeckModifier.modifierRoll = FloatRoll.ofConstant(0.5F);
+            merchantDeckModifier.modifierRoll = FloatRoll.ofConstant(1.0F);
 
             TemporalTimeDeckModifier.Config temporalDeckDeckModifier = new TemporalTimeDeckModifier.Config();
             ArcaneLevelDeckModifier.Config arcaneDeckDeckModifier = new ArcaneLevelDeckModifier.Config();
@@ -130,7 +130,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
 
             GlobalDeckModifier.Config treasureDeckModifier = new GlobalDeckModifier.Config();
             treasureDeckModifier.requiredGroups.add("Stat");
-            treasureDeckModifier.modifierRoll = FloatRoll.ofConstant(1.0F);
+            treasureDeckModifier.modifierRoll = FloatRoll.ofConstant(1.25F);
 
             GlobalDeckModifier.Config idonaDeckModifier = new GlobalDeckModifier.Config();
             idonaDeckModifier.requiredColors.add(CardEntry.Color.RED);
@@ -151,7 +151,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             GlobalDeckModifier.Config cactusDeckModifier = new GlobalDeckModifier.Config();
             cactusDeckModifier.requiredGroups.add("Offensive");
             cactusDeckModifier.requiredGroups.add("Defensive");
-            cactusDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
+            cactusDeckModifier.modifierRoll = FloatRoll.ofConstant(2.5F);
 
             GlobalDeckModifier.Config championDeckModifier = new GlobalDeckModifier.Config();
             championDeckModifier.requiredGroups.add("Physical");
@@ -191,8 +191,8 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             CardNeighborTypeDeckModifier.Config pillagerDeckModifier = new CardNeighborTypeDeckModifier.Config(FloatRoll.ofConstant(2.0F), Set.of(CardNeighborType.SURROUNDING));
             pillagerDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
 
-            CardNeighborTypeDeckModifier.Config bishopDeckModifier = new CardNeighborTypeDeckModifier.Config(FloatRoll.ofConstant(3.0F), Set.of(CardNeighborType.DIAGONAL));
-            bishopDeckModifier.modifierRoll = FloatRoll.ofConstant(3.0F);
+            CardNeighborTypeDeckModifier.Config bishopDeckModifier = new CardNeighborTypeDeckModifier.Config(FloatRoll.ofConstant(2.0F), Set.of(CardNeighborType.DIAGONAL));
+            bishopDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
 
             RowPositionDeckModifier.Config cakeDeckModifier = new RowPositionDeckModifier.Config(FloatRoll.ofConstant(1.0F), true);
             cakeDeckModifier.modifierRoll = FloatRoll.ofConstant(1.0F);
@@ -209,7 +209,7 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
             runicDeckModifier.modifierRoll = FloatRoll.ofConstant(2.0F);
 
             ChainReactionDeckModifier.Config snakeDeckModifier = new ChainReactionDeckModifier.Config();
-            snakeDeckModifier.modifierRoll = FloatRoll.ofConstant(0.075F);
+            snakeDeckModifier.modifierRoll = FloatRoll.ofConstant(0.05F);
 
             AdjacencyBonusDeckModifier.Config skullDeckModifier = new AdjacencyBonusDeckModifier.Config(FloatRoll.ofConstant(0.5F), List.of("Knack"), true, AdjacencyBonusDeckModifier.Type.SURROUNDING);
             skullDeckModifier.modifierRoll = FloatRoll.ofConstant(0.5F);

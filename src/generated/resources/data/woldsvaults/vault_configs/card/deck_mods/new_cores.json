@@ -2,7 +2,7 @@
   "values": {
     "treasure_deck": {
       "modifierValue": {
-        "count": 1.0,
+        "count": 1.25,
         "type": "constant"
       },
       "requiredGroups": [
@@ -39,7 +39,7 @@
     },
     "merchant_deck": {
       "modifierValue": {
-        "count": 0.5,
+        "count": 1.0,
         "type": "constant"
       },
       "requiredGroups": [
@@ -574,7 +574,7 @@
     },
     "cactus_deck": {
       "modifierValue": {
-        "count": 2.0,
+        "count": 2.5,
         "type": "constant"
       },
       "requiredGroups": [
@@ -905,7 +905,7 @@
     },
     "bishop_deck": {
       "modifierValue": {
-        "count": 3.0,
+        "count": 2.0,
         "type": "constant"
       },
       "validNeighborTypes": [
@@ -1063,7 +1063,7 @@
     },
     "snake_deck": {
       "modifierValue": {
-        "count": 0.075,
+        "count": 0.05,
         "type": "constant"
       },
       "modelId": "woldsvaults:deck/snake#inventory",
