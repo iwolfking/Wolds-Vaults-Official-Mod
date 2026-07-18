@@ -97,7 +97,7 @@ public class PlayerEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onBreakSpawnerInVault(BlockEvent.BreakEvent event) {
-        if(event.getState().getBlock().getRegistryName().equals(SPAWNER) && VaultUtils.getVault(event.getPlayer().getLevel()).isPresent()) {
+        if(event.getState().getBlock().getRegistryName().equals(SPAWNER) && VaultUtils.getVault(event.getPlayer().getLevel()).isPresent() && !GameruleHelper.isEnabled(ModGameRules.ALLOW_BREAKING_SPAWNERS_IN_VAULT, event.getPlayer().getLevel())) {
             event.getPlayer().displayClientMessage(new TextComponent("Breaking Spawners in Vaults is ").withStyle(ChatFormatting.WHITE).append(new TextComponent("Disabled").withStyle(ChatFormatting.RED)).append(" in this world!").withStyle(ChatFormatting.WHITE), true);
             event.setCanceled(true);
         }
