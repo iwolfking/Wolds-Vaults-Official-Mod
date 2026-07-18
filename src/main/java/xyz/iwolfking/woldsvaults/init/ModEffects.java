@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.init;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.event.RegistryEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.ColossusAbility;
@@ -26,6 +27,7 @@ public class ModEffects {
     public static final MobEffect STEADFAST = new SteadfastPotionEffect();
     public static final MobEffect ARMORED = new ArmoredPotionEffect();
     public static final MobEffect BLITZ = new BlitzPotionEffect();
+    public static final MobEffect BLEED_OVERRIDE = new BleedOverrideEffect();
 
     public static void register(RegistryEvent.Register<MobEffect> event) {
         event.getRegistry().registerAll(  SHRINKING
@@ -43,6 +45,7 @@ public class ModEffects {
                                         , STEADFAST
                                         , ARMORED
                                         , BLITZ
+                                        , BLEED_OVERRIDE
                                         );
     }
 }

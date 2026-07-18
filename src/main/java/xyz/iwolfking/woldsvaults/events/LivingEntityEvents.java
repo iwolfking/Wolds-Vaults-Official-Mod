@@ -71,11 +71,13 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
+import xyz.iwolfking.woldsvaults.api.util.MaxHealthDamageHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.api.data.HexEffects;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
+import xyz.iwolfking.woldsvaults.effect.mobeffects.BleedOverrideEffect;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.EchoingEffectInstance;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.PercentBurnEffect;
 import xyz.iwolfking.woldsvaults.effect.trinkets.EffectOnHitTakenEffect;
@@ -347,18 +349,11 @@ public class LivingEntityEvents {
                 event.getEntityLiving().addEffect(new MobEffectInstance(ModEffects.REAVING, Integer.MAX_VALUE, 0));
                 event.getEntityLiving().addEffect(new MobEffectInstance(iskallia.vault.init.ModEffects.NO_AI, 20, 0));
 
-                if(event.getEntityLiving() instanceof TheVesselEntity) {
-                    event.setAmount(event.getAmount() + (event.getEntityLiving().getMaxHealth() * reavingDamage * 0.01F));
-                }
-                else if(ChampionLogic.isChampion(event.getEntityLiving()) || InfernalMobsCore.getMobModifiers(event.getEntityLiving()) != null || event.getEntityLiving() instanceof VaultBoss || event.getEntityLiving() instanceof VaultBossEntity || event.getEntityLiving() instanceof EliteDrownedEntity || event.getEntityLiving() instanceof EliteWitherSkeleton || event.getEntityLiving() instanceof EliteEndermanEntity || event.getEntityLiving() instanceof EliteHuskEntity || event.getEntityLiving() instanceof EliteSpiderEntity || event.getEntityLiving() instanceof  EliteStrayEntity || event.getEntityLiving() instanceof  EliteZombieEntity || event.getEntityLiving() instanceof EliteWitchEntity) {
-                    event.setAmount(event.getAmount() + (event.getEntityLiving().getMaxHealth() * reavingDamage * 0.5F));
-                }
-                else {
-                    event.setAmount(event.getAmount() + (event.getEntityLiving().getMaxHealth() * reavingDamage));
-                }
+                event.setAmount(MaxHealthDamageHelper.applyScaledMaxHealthDamageBonus(event.getEntityLiving(), event.getAmount(), reavingDamage));
 
                 EtchingHelper.getEtchings(player, ModEtchingGearAttributes.REAVING_HEMMORAGE).stream().findFirst().ifPresent(reavingHemmorageAttribute -> {
                     event.getEntityLiving().addEffect(new MobEffectInstance(iskallia.vault.init.ModEffects.BLEED, 160, reavingHemmorageAttribute.getValue()));
+                    BleedOverrideEffect.registerSource(event.getEntityLiving(), event.getSource().getEntity());
                 });
 
                 if(ANCHOR_SLAM_SOUND == null) {
