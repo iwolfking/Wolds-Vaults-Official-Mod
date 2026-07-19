@@ -77,6 +77,7 @@ public class ModLanguageProvider extends LanguageProvider {
         ritual(ModRitualDummyItems.CRAFT_VELARA_BRICKS, "A way to craft Velara's lovely decorative bricks without vault delving!", WoldsVaults.id("velara_bricks"), "Convert Bricks - Velara");
         ritual(ModRitualDummyItems.CRAFT_TENOS_BRICKS, "A way to craft Tenos' lovely decorative bricks without vault delving!", WoldsVaults.id("tenos_bricks"), "Convert Bricks - Tenos");
         ritual(ModRitualDummyItems.CRAFT_WENDARR_BRICKS, "A way to craft Wendarr's lovely decorative bricks without vault delving!", WoldsVaults.id("wendarr_bricks"), "Convert Bricks - Wendarr");
+        ritual(ModRitualDummyItems.SACRIFICE_COMPANION, "Sacrifice a Companion to Idona and he will reward you with a random Companion Relic!", WoldsVaults.id("companion_sacrifice"), "Idonian Companion Sacrifice");
         add(new AlchemyItemAttribute(false), "is an Alchemy ingredient", "is not an Alchemy ingredient");
         add(new CatalystItemAttribute(false), "is an Alchemy catalyst", "is not an Alchemy catalyst");
         add(new AlchemyIngredientTypeAttribute(""), "is an Alchemy ingredient of type \"%1$s\"", "is not an Alchemy ingredient of type \"%1$s\"");

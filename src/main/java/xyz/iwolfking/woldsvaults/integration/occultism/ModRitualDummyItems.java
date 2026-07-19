@@ -12,12 +12,14 @@ public class ModRitualDummyItems {
     public static DummyTooltipItem CRAFT_VELARA_BRICKS = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem CRAFT_TENOS_BRICKS = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem CRAFT_WENDARR_BRICKS = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem SACRIFICE_COMPANION = new DummyTooltipItem(defaultProperties());
 
     public static void registerItems(RegistryEvent.Register<Item> event) {
         register(event, WoldsVaults.id("ritual_dummy/craft_idona_bricks"), CRAFT_IDONA_BRICKS);
         register(event, WoldsVaults.id("ritual_dummy/craft_velara_bricks"), CRAFT_VELARA_BRICKS);
         register(event, WoldsVaults.id("ritual_dummy/craft_tenos_bricks"), CRAFT_TENOS_BRICKS);
         register(event, WoldsVaults.id("ritual_dummy/craft_wendarr_bricks"), CRAFT_WENDARR_BRICKS);
+        register(event, WoldsVaults.id("ritual_dummy/sacrifice_companion"), SACRIFICE_COMPANION);
     }
 
     private static void register(RegistryEvent.Register<Item> event, ResourceLocation id, Item item) {

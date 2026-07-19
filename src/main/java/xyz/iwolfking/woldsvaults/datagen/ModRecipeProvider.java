@@ -37,6 +37,7 @@ import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModTags;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultCatalystInfusionRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.occultism.AugmentRitualRecipeBuilder;
+import xyz.iwolfking.woldsvaults.integration.occultism.DynamicRitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.integration.occultism.RitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.items.GodReputationItem;
@@ -1075,7 +1076,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         arsInfusedCraftableCatalyst(VaultMod.id("craft_plentiful"), ModItems.SMASHED_VAULT_GEM, pFinishedRecipeConsumer);
         arsInfusedCraftableCatalyst(VaultMod.id("craft_soul"), iskallia.vault.init.ModItems.ETERNAL_SOUL, pFinishedRecipeConsumer);
 
-        AugmentRitualRecipeBuilder.create(VaultMod.id("classic_vault_barnyard"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "god_alignment"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.AUGMENT), OccultismItems.JEI_DUMMY_REQUIRE_ITEM_USE.getId()).duration(6).addIngredient(iskallia.vault.init.ModItems.DRIFTWOOD).save(pFinishedRecipeConsumer, WoldsVaults.id("craft_barnyard_augment"));
+        DynamicRitualRecipeBuilder.companionRelic(WoldsVaults.id("random"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "idona"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.COMPANION), ModRitualDummyItems.SACRIFICE_COMPANION.getRegistryName()).duration(8).addIngredient(iskallia.vault.init.ModItems.PAINITE_GEM).addIngredient(iskallia.vault.init.ModItems.PAINITE_GEM).addIngredient(iskallia.vault.init.ModItems.PAINITE_GEM).addIngredient(iskallia.vault.init.ModItems.PAINITE_GEM).save(pFinishedRecipeConsumer, WoldsVaults.id("companion_sacrifice"));
+
+        //AugmentRitualRecipeBuilder.create(VaultMod.id("classic_vault_barnyard"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "god_alignment"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.AUGMENT), OccultismItems.JEI_DUMMY_REQUIRE_ITEM_USE.getId()).duration(6).addIngredient(iskallia.vault.init.ModItems.DRIFTWOOD).save(pFinishedRecipeConsumer, WoldsVaults.id("craft_barnyard_augment"));
 
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "idona"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_IDONA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.IDONA_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.PERFECT_PAINITE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("idona_bricks"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_VELARA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.VELARA_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.PERFECT_ALEXANDRITE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("velara_bricks"));

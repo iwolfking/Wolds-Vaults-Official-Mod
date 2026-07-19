@@ -22,8 +22,5 @@ public class ModRecipeSerializers {
             registry.register(ArsRecipeSerializers.VAULT_GEAR_ENCHANTING_APPARATUS.setRegistryName(WoldsVaults.id("vault_gear_enchanting")));
             registry.register(ArsRecipeSerializers.VAULT_CATALYST_INFUSION.setRegistryName(WoldsVaults.id("vault_catalyst_infusion")));
         }
-        if(ConditionalModUtils.isModPresent("occultism")) {
-            registry.register(OccultismRecipeSerializers.AUGMENT_RITUAL.setRegistryName(WoldsVaults.id("augment_ritual")));
-        }
     }
 }

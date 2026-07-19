@@ -1,0 +1,30 @@
+{
+  "type": "woldsvaults:companion_ritual",
+  "poolId": "woldsvaults:random",
+  "pentacle_id": "occultism:idona",
+  "ritual_type": "occultism:craft",
+  "duration": 8,
+  "activation_item": {
+    "item": "the_vault:companion"
+  },
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/sacrifice_companion"
+  },
+  "result": {
+    "item": "the_vault:companion_relic"
+  },
+  "ingredients": [
+    {
+      "item": "the_vault:gem_painite"
+    },
+    {
+      "item": "the_vault:gem_painite"
+    },
+    {
+      "item": "the_vault:gem_painite"
+    },
+    {
+      "item": "the_vault:gem_painite"
+    }
+  ]
+}

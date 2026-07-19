@@ -42,7 +42,7 @@ public class AugmentRitualRecipe extends RitualRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return OccultismRecipeSerializers.AUGMENT_RITUAL;
+        return OccultismRecipeSerializers.AUGMENT_RITUAL.get();
     }
 
     public static class Serializer extends RitualRecipe.Serializer {

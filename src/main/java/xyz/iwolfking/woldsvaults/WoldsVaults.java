@@ -39,6 +39,7 @@ import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.events.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.ArsAPIRegistration;
 import xyz.iwolfking.woldsvaults.integration.cctweaked.CCTweakedSetup;
+import xyz.iwolfking.woldsvaults.integration.occultism.init.OccultismRecipeSerializers;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.WoldDataLoaders;
 import xyz.iwolfking.woldsvaults.client.init.ModParticles;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
@@ -81,6 +82,10 @@ public class WoldsVaults {
         MinecraftForge.EVENT_BUS.addGenericListener(Block.class, MissingMappingsEvents::onMissingMappings);
         MinecraftForge.EVENT_BUS.addGenericListener(Item.class, MissingMappingsEvents::onMissingMappingsItem);
         MinecraftForge.EVENT_BUS.addListener(RegisterCommandEventHandler::woldsvaults_registerCommandsEvent);
+
+        if(ConditionalModUtils.isModPresent("occultism")) {
+            OccultismRecipeSerializers.SERIALIZERS.register(modEventBus);
+        }
 
         ModParticles.REGISTRY.register(modEventBus);
         ModFluids.REGISTRY.register(modEventBus);
