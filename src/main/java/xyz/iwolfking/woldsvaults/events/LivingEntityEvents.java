@@ -470,7 +470,12 @@ public class LivingEntityEvents {
                         return;
                     }
 
+                    if(instance.getEffect().equals(iskallia.vault.init.ModEffects.BLEED)) {
+                        BleedOverrideEffect.registerSource(event.getEntityLiving(), player);
+                    }
+
                     event.getEntityLiving().addEffect(new MobEffectInstance(instance));
+
                 }
             }
         }

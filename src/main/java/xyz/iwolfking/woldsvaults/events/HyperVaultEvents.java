@@ -21,35 +21,21 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
-/**
- * The hyper vault's always-on gameplay rules that must run on the Forge bus (they intercept
- * events VH's own CommonEvents never see). Everything here is hyper-vault-gated at runtime;
- * for non-hyper worlds the handlers cost an instanceof / early return.
- *
- * <p>The per-hit damage diagnostics that used to share a class with these live in
- * {@link HyperBossDamageInstrumentation}, gated behind the debug-mode config.
- */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class HyperVaultEvents {
     private HyperVaultEvents() {
     }
 
-    static boolean isInHyperVault(LivingEntity entity) {
+    public static boolean isInHyperVault(LivingEntity entity) {
         return ServerVaults.get(entity.level)
                 .map(vault -> !vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty())
                 .orElse(false);
     }
 
-    static boolean isHyperBoss(LivingEntity entity) {
+    public static boolean isHyperBoss(LivingEntity entity) {
         return entity instanceof VaultBossEntity && isInHyperVault(entity);
     }
 
-    /**
-     * The hyperboss takes no %-max-health damage-over-time: with hyper-scaled health pools a
-     * single Bleed tick (amplifier × 2.5% of max health, see MixinBleedEffect) deals billions.
-     * Bleed is denied at application here; Reaving's on-hit proc is neutralized by pre-applying
-     * its own once-per-mob latch effect in HyperBossManager.
-     */
     @SubscribeEvent
     public static void denyBleedOnHyperboss(PotionEvent.PotionApplicableEvent event) {
         if (event.getPotionEffect().getEffect() != ModEffects.BLEED) {
@@ -60,17 +46,6 @@ public final class HyperVaultEvents {
         }
     }
 
-    /**
-     * No mob may ever be immortal in a hyper vault. The known offender is VH's elite zombie
-     * (a brutal-roster boss): EliteZombieEntity self-applies IMMORTALITY every 10 ticks while
-     * its raised minions live — and ImmortalityEffect.onAdded carves an explicit exemption for
-     * it, so nothing upstream stops it. With hyper-scaled minion health the "kill the minions
-     * first" window stretches toward forever. Denying the effect keeps the minion-raising
-     * flavor while the boss stays damageable; players are not Mobs and keep any immortality of
-     * their own. This also covers the champion "Immune" potion aura (the aura applies
-     * IMMORTALITY to nearby mobs), which is why the aura could return to champions.json for
-     * every non-hyper vault.
-     */
     @SubscribeEvent
     public static void denyMobImmortalityInHyperVaults(PotionEvent.PotionApplicableEvent event) {
         if (event.getPotionEffect().getEffect() != ModEffects.IMMORTALITY) {
@@ -86,12 +61,6 @@ public final class HyperVaultEvents {
         }
     }
 
-    /**
-     * The floating lava/void pools are placed as bare liquid source blocks; explosions that
-     * eat them (or whatever invisible casing sits around them) spill the pool across the
-     * room floor. In hyper vaults explosions therefore cannot affect a pool fluid or any
-     * block within one step of one.
-     */
     @SubscribeEvent
     public static void protectPoolsFromExplosions(ExplosionEvent.Detonate event) {
         if (!(event.getWorld() instanceof ServerLevel level)) {

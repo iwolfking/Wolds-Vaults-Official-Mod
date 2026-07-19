@@ -31,6 +31,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AbilityHelper;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
+import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 
@@ -79,7 +80,7 @@ public class ConcentrateAbility extends InstantManaAbility {
             List<LivingEntity> entities = level.getEntitiesOfClass(
                     LivingEntity.class,
                     serverPlayer.getBoundingBox().inflate(AreaOfEffectHelper.adjustAreaOfEffect(serverPlayer, this, (float)getRadius())),
-                    e -> !(e instanceof ServerPlayer || e instanceof PetEntity)
+                    e -> !(e instanceof ServerPlayer || e instanceof PetEntity || HyperVaultEvents.isHyperBoss(e))
             );
 
             if(entities.isEmpty()) {
