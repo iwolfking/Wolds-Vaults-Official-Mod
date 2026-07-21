@@ -1,12 +1,19 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import com.github.klikli_dev.occultism.Occultism;
 import com.simibubi.create.content.logistics.filter.ItemAttribute;
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.MysteryEggConfig;
 import iskallia.vault.util.StringUtils;
 import net.joseph.vaultfilters.attributes.abstracts.BooleanAttribute;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.data.LanguageProvider;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -15,18 +22,32 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
 import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.RitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyIngredientTypeAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyItemAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.CatalystItemAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.VaultDollCompletedAttribute;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ModLanguageProvider extends LanguageProvider {
 
+    private static final Map<String, String> LANG_REGISTRY = new HashMap<>();
+    private static final Map<Item, String> ITEM_REGISTRY = new HashMap<>();
+
     public ModLanguageProvider(DataGenerator gen) {
         super(gen, WoldsVaults.MOD_ID, "en_us");
+    }
+
+    public static void register(String id, String text) {
+        LANG_REGISTRY.put(id, text);
+    }
+
+    public static void register(Item item, String text) {
+        ITEM_REGISTRY.put(item, text);
     }
 
     public void add(CustomObjectiveRegistryEntry entry, String text) {
@@ -65,6 +86,16 @@ public class ModLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        LANG_REGISTRY.forEach(this::add);
+        ITEM_REGISTRY.forEach(this::add);
+        iskallia.vault.init.ModConfigs.MYSTERY_EGG = new MysteryEggConfig().readConfig();
+        iskallia.vault.init.ModConfigs.MYSTERY_EGG.POOL.forEach((productEntry, number) -> {
+            if(productEntry.getItem() instanceof SpawnEggItem spawnEggItem && spawnEggItem != Items.PIG_SPAWN_EGG) {
+                add("ritual." + WoldsVaults.MOD_ID + "." + "infuse_" + spawnEggItem.getType(productEntry.getNBT()).getRegistryName().getPath() + "_spawn_egg" + ".started", "Imbue Spawn Egg" + " initiated!");
+                add("ritual." + WoldsVaults.MOD_ID + "." + "infuse_" + spawnEggItem.getType(productEntry.getNBT()).getRegistryName().getPath() + "_spawn_egg" + ".finished", "Imbue Spawn Egg" + " completed!");
+            }
+        });
+
         ModCustomVaultObjectiveEntries.getEntries().forEach(customObjectiveRegistryEntry -> {
             add(customObjectiveRegistryEntry, customObjectiveRegistryEntry.getName());
         });
@@ -73,11 +104,7 @@ public class ModLanguageProvider extends LanguageProvider {
         pentacle("tenos", "Tenos' Library", "Tenos' Library", "**Purpose:** Commune with [#](00FF00)Tenos[#]()\n\\\n\\\nPart of a quad divine alignment, [#](00FF00)Tenos' Library[#]() can be used to commune with the wise Tenos, who may lend their vast academic knowledge to your rituals with a suitable offering.\n", "Uses", "");
         pentacle("wendarr", "Wendarr's Study", "Wendarr's Study", "**Purpose:** Commune with [#](00FF00)Wendarr[#]()\n\\\n\\\nPart of a quad divine alignment, [#](00FF00)Wendarr's Study[#]() can be used to commune with the patient Wendarr, who may lend their time bending powers to your rituals with a suitable offering.\n", "Uses", "");
         pentacle("god_alignment", "Quaddeus Alignment", "Quaddeus Alignment", "**Purpose:** Commune with the [#](00FF00)Vault Gods[#]()\n\\\n\\\nThe full quad divine alignment, [#](00FF00)Quaddeus Alignment[#]() can be used to commune with all of the mighty Vault Gods at once, and with powerful enough offerings, may even assist with mighty rituals using their combined strength.\n", "Uses", "");
-        ritual(ModRitualDummyItems.CRAFT_IDONA_BRICKS, "A way to craft Idona's lovely decorative bricks without vault delving!", WoldsVaults.id("idona_bricks"), "Convert Bricks - Idona");
-        ritual(ModRitualDummyItems.CRAFT_VELARA_BRICKS, "A way to craft Velara's lovely decorative bricks without vault delving!", WoldsVaults.id("velara_bricks"), "Convert Bricks - Velara");
-        ritual(ModRitualDummyItems.CRAFT_TENOS_BRICKS, "A way to craft Tenos' lovely decorative bricks without vault delving!", WoldsVaults.id("tenos_bricks"), "Convert Bricks - Tenos");
-        ritual(ModRitualDummyItems.CRAFT_WENDARR_BRICKS, "A way to craft Wendarr's lovely decorative bricks without vault delving!", WoldsVaults.id("wendarr_bricks"), "Convert Bricks - Wendarr");
-        ritual(ModRitualDummyItems.SACRIFICE_COMPANION, "Sacrifice a Companion to Idona and he will reward you with a random Companion Relic!", WoldsVaults.id("companion_sacrifice"), "Idonian Companion Sacrifice");
+
         add(new AlchemyItemAttribute(false), "is an Alchemy ingredient", "is not an Alchemy ingredient");
         add(new CatalystItemAttribute(false), "is an Alchemy catalyst", "is not an Alchemy catalyst");
         add(new AlchemyIngredientTypeAttribute(""), "is an Alchemy ingredient of type \"%1$s\"", "is not an Alchemy ingredient of type \"%1$s\"");

@@ -1,0 +1,33 @@
+{
+  "type": "occultism:ritual",
+  "ritual_type": "occultism:craft",
+  "activation_item": {
+    "item": "the_vault:mystery_hostile_egg"
+  },
+  "pentacle_id": "occultism:velara",
+  "duration": 10,
+  "entity_to_sacrifice": {
+    "tag": "woldsvaults:sacrifices/slime",
+    "display_name": "entity.minecraft.slime"
+  },
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/spawn_egg_infusion"
+  },
+  "ingredients": [
+    {
+      "item": "the_vault:eternal_soul"
+    },
+    {
+      "item": "the_vault:wutodic_mass"
+    },
+    {
+      "item": "the_vault:mystical_powder"
+    },
+    {
+      "item": "woldsvaults:chroma_core"
+    }
+  ],
+  "result": {
+    "item": "minecraft:slime_spawn_egg"
+  }
+}

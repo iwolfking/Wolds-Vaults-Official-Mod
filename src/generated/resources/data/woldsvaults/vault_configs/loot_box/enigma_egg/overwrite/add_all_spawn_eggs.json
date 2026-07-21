@@ -674,6 +674,46 @@
     },
     {
       "value": {
+        "id": "cagerium:ender_dragon_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "cagerium:iron_golem_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "cagerium:wither_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "cloudstorage:spawn_egg_badloon",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "cloudstorage:spawn_egg_bloviator",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "ecologics:camel_spawn_egg",
         "amountMin": 1,
         "amountMax": 1

@@ -2,7 +2,10 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import com.github.klikli_dev.occultism.Occultism;
 import com.github.klikli_dev.occultism.registry.OccultismItems;
+import com.hollingsworth.arsnouveau.common.lib.EntityTags;
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.MysteryEggConfig;
+import iskallia.vault.config.MysteryHostileEggConfig;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.item.AugmentItem;
 import me.dinnerbeef.compressium.Compressium;
@@ -14,10 +17,11 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -30,10 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import vazkii.botania.data.recipes.NbtOutputResult;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.init.ModBlocks;
-import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
-import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.init.ModTags;
+import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultCatalystInfusionRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.occultism.DynamicRitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
@@ -1077,6 +1078,23 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         //AugmentRitualRecipeBuilder.create(VaultMod.id("classic_vault_barnyard"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "god_alignment"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.AUGMENT), OccultismItems.JEI_DUMMY_REQUIRE_ITEM_USE.getId()).duration(6).addIngredient(iskallia.vault.init.ModItems.DRIFTWOOD).save(pFinishedRecipeConsumer, WoldsVaults.id("craft_barnyard_augment"));
 
+        iskallia.vault.init.ModConfigs.MYSTERY_EGG = new MysteryEggConfig().readConfig();
+        iskallia.vault.init.ModConfigs.MYSTERY_EGG.POOL.forEach((productEntry, number) -> {
+            if(productEntry.getItem() instanceof SpawnEggItem spawnEggItem) {
+                EntityType<?> entityType = spawnEggItem.getType(productEntry.getNBT());
+                RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_EGG), new ItemStack(ModRitualDummyItems.SPAWN_EGG_INFUSION), spawnEggItem.getDefaultInstance()).duration(10).requires(iskallia.vault.init.ModItems.ETERNAL_SOUL).requires(iskallia.vault.init.ModItems.WUTODIC_MASS).requires(iskallia.vault.init.ModItems.DREAMSTONE).requires(iskallia.vault.init.ModItems.DREAMSTONE).entityToSacrifice(entityType).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_" + entityType.getRegistryName().getPath() + "_spawn_egg"));
+            }
+        });
+
+        iskallia.vault.init.ModConfigs.MYSTERY_HOSTILE_EGG = new MysteryHostileEggConfig().readConfig();
+        iskallia.vault.init.ModConfigs.MYSTERY_HOSTILE_EGG.POOL.forEach((productEntry, number) -> {
+            if(productEntry.getItem() instanceof SpawnEggItem spawnEggItem) {
+                EntityType<?> entityType = spawnEggItem.getType(productEntry.getNBT());
+                RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_HOSTILE_EGG), new ItemStack(ModRitualDummyItems.SPAWN_EGG_INFUSION), spawnEggItem.getDefaultInstance()).duration(10).requires(iskallia.vault.init.ModItems.ETERNAL_SOUL).requires(iskallia.vault.init.ModItems.WUTODIC_MASS).requires(iskallia.vault.init.ModItems.MYSTICAL_POWDER).requires(ModItems.CHROMA_CORE).entityToSacrifice(entityType).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_" + entityType.getRegistryName().getPath() + "_spawn_egg"));
+            }
+        });
+
+        //RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_EGG), new ItemStack(ModRitualDummyItems.SPAWN_EGG_INFUSION), Items.PIG_SPAWN_EGG.getDefaultInstance()).duration(10).requires(iskallia.vault.init.ModItems.ETERNAL_SOUL).entityToSacrifice(EntityType.PIG).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_pig_spawn_egg"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "idona"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_IDONA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.IDONA_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.PERFECT_PAINITE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("idona_bricks"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_VELARA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.VELARA_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.PERFECT_ALEXANDRITE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("velara_bricks"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "tenos"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_TENOS_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.TENOS_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.MEMORY_POWDER)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("tenos_bricks"));

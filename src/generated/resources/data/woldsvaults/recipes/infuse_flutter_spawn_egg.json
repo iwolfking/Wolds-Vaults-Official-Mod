@@ -1,0 +1,33 @@
+{
+  "type": "occultism:ritual",
+  "ritual_type": "occultism:craft",
+  "activation_item": {
+    "item": "the_vault:mystery_egg"
+  },
+  "pentacle_id": "occultism:velara",
+  "duration": 10,
+  "entity_to_sacrifice": {
+    "tag": "woldsvaults:sacrifices/flutter",
+    "display_name": "entity.alexsmobs.flutter"
+  },
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/spawn_egg_infusion"
+  },
+  "ingredients": [
+    {
+      "item": "the_vault:eternal_soul"
+    },
+    {
+      "item": "the_vault:wutodic_mass"
+    },
+    {
+      "item": "the_vault:dreamstone"
+    },
+    {
+      "item": "the_vault:dreamstone"
+    }
+  ],
+  "result": {
+    "item": "alexsmobs:spawn_egg_flutter"
+  }
+}
