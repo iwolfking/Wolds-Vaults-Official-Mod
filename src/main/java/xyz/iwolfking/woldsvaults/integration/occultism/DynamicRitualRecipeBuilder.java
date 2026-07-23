@@ -59,6 +59,13 @@ public class DynamicRitualRecipeBuilder {
         );
     }
 
+    public static DynamicRitualRecipeBuilder vaultCrystal(ResourceLocation poolId, ResourceLocation pentacleId, ResourceLocation ritualType, Ingredient activationItem, ResourceLocation ritualDummy) {
+        return new DynamicRitualRecipeBuilder(
+                poolId, pentacleId, ritualType, activationItem, ritualDummy,
+                "crystalRitualType", ModItems.VAULT_CRYSTAL.getRegistryName(), OccultismRecipeSerializers.VAULT_CRYSTAL_RITUAL
+        );
+    }
+
     public DynamicRitualRecipeBuilder addIngredient(Item item) {
         this.ingredients.add(Ingredient.of(item));
         return this;

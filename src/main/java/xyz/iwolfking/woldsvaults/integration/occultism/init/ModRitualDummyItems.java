@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.integration.occultism;
+package xyz.iwolfking.woldsvaults.integration.occultism.init;
 
 import com.github.klikli_dev.occultism.Occultism;
 import com.github.klikli_dev.occultism.common.item.DummyTooltipItem;
@@ -15,6 +15,7 @@ public class ModRitualDummyItems {
     public static DummyTooltipItem CRAFT_WENDARR_BRICKS = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem SACRIFICE_COMPANION = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem SPAWN_EGG_INFUSION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem CRYSTAL_TIME_EXTENSION = new DummyTooltipItem(defaultProperties());
 
     public static void registerItems(RegistryEvent.Register<Item> event) {
         register(event, WoldsVaults.id("ritual_dummy/craft_idona_bricks"), CRAFT_IDONA_BRICKS, "Convert Bricks - Idona", WoldsVaults.id("idona_bricks"),  "A way to craft Idona's lovely decorative bricks without vault delving!");
@@ -23,6 +24,7 @@ public class ModRitualDummyItems {
         register(event, WoldsVaults.id("ritual_dummy/craft_wendarr_bricks"), CRAFT_WENDARR_BRICKS, "Convert Bricks - Wendarr", WoldsVaults.id("wendarr_bricks"),  "A way to craft Wendarr's lovely decorative bricks without vault delving!");
         register(event, WoldsVaults.id("ritual_dummy/sacrifice_companion"), SACRIFICE_COMPANION, "Sacrifice Companion", WoldsVaults.id("companion_sacrifice"),  "Sacrifice a Companion to Idona and he will reward you with a random Companion Relic!");
         register(event, WoldsVaults.id("ritual_dummy/spawn_egg_infusion"), SPAWN_EGG_INFUSION, "Imbue Spawn Egg", WoldsVaults.id("infuse_pig_spawn_egg"), "Imbue a Mystery Egg with life to transform it into a specific type of spawn egg!");
+        register(event, WoldsVaults.id("ritual_dummy/crystal_time_extension"), CRYSTAL_TIME_EXTENSION, "Wendarr Time Extension", WoldsVaults.id("wendarr_crystal_time_extension"), "Make an offering to Wendarr for them to bless your vault with Extended time... and a curse! After 7 Extended have been added this way, makes crystal unmodifiable.");
     }
 
     private static void register(RegistryEvent.Register<Item> event, ResourceLocation id, Item item, String name, ResourceLocation ritualId, String ritualDescription) {

@@ -19,7 +19,7 @@ import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.lib.item.MultiLootableItem;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
-import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.items.*;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;

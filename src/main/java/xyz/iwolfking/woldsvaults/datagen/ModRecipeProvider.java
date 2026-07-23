@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import com.github.klikli_dev.occultism.Occultism;
 import com.github.klikli_dev.occultism.registry.OccultismItems;
-import com.hollingsworth.arsnouveau.common.lib.EntityTags;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.MysteryEggConfig;
 import iskallia.vault.config.MysteryHostileEggConfig;
@@ -17,9 +16,6 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -37,7 +33,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultCatalystInfusionRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.occultism.DynamicRitualRecipeBuilder;
-import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.impl.VaultCrystalRitual;
+import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.integration.occultism.RitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.items.GodReputationItem;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
@@ -1075,7 +1072,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         arsInfusedCraftableCatalyst(VaultMod.id("craft_soul"), iskallia.vault.init.ModItems.ETERNAL_SOUL, pFinishedRecipeConsumer);
 
         DynamicRitualRecipeBuilder.companionRelic(WoldsVaults.id("random"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "idona"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.COMPANION), ModRitualDummyItems.SACRIFICE_COMPANION.getRegistryName()).duration(8).addIngredient(iskallia.vault.init.ModItems.PAINITE_GEM).addIngredient(iskallia.vault.init.ModItems.PAINITE_GEM).addIngredient(iskallia.vault.init.ModItems.PAINITE_GEM).addIngredient(iskallia.vault.init.ModItems.PAINITE_GEM).save(pFinishedRecipeConsumer, WoldsVaults.id("companion_sacrifice"));
-
+        DynamicRitualRecipeBuilder.vaultCrystal(VaultCrystalRitual.EXTENDED, ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "wendarr"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.VAULT_CRYSTAL), ModRitualDummyItems.CRYSTAL_TIME_EXTENSION.getRegistryName()).duration(8).addIngredient(Items.CLOCK).addIngredient(iskallia.vault.init.ModItems.BITTER_LEMON).addIngredient(iskallia.vault.init.ModItems.BITTER_LEMON).addIngredient(ModItems.CHROMATIC_GOLD_INGOT).save(pFinishedRecipeConsumer, WoldsVaults.id("wendarr_crystal_time_extension"));
         //AugmentRitualRecipeBuilder.create(VaultMod.id("classic_vault_barnyard"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "god_alignment"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.AUGMENT), OccultismItems.JEI_DUMMY_REQUIRE_ITEM_USE.getId()).duration(6).addIngredient(iskallia.vault.init.ModItems.DRIFTWOOD).save(pFinishedRecipeConsumer, WoldsVaults.id("craft_barnyard_augment"));
 
         iskallia.vault.init.ModConfigs.MYSTERY_EGG = new MysteryEggConfig().readConfig();

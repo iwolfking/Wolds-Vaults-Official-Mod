@@ -4,7 +4,6 @@ import com.github.klikli_dev.occultism.Occultism;
 import com.github.klikli_dev.occultism.common.item.DummyTooltipItem;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.ResearchesGUIConfig;
-import iskallia.vault.gear.trinket.TrinketEffectRegistry;
 import iskallia.vault.init.ModConfigs;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.data.DataGenerator;
@@ -21,7 +20,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
-import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;

@@ -1,0 +1,30 @@
+{
+  "type": "woldsvaults:vault_crystal_ritual",
+  "crystalRitualType": "woldsvaults:time_extension",
+  "pentacle_id": "occultism:wendarr",
+  "ritual_type": "occultism:craft",
+  "duration": 8,
+  "activation_item": {
+    "item": "the_vault:vault_crystal"
+  },
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/crystal_time_extension"
+  },
+  "result": {
+    "item": "the_vault:vault_crystal"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:clock"
+    },
+    {
+      "item": "the_vault:bitter_lemon"
+    },
+    {
+      "item": "the_vault:bitter_lemon"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_ingot"
+    }
+  ]
+}

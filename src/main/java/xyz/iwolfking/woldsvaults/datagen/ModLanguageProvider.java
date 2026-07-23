@@ -1,19 +1,14 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import com.github.klikli_dev.occultism.Occultism;
 import com.simibubi.create.content.logistics.filter.ItemAttribute;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.MysteryEggConfig;
 import iskallia.vault.util.StringUtils;
-import net.joseph.vaultfilters.attributes.abstracts.BooleanAttribute;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.data.LanguageProvider;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -21,8 +16,6 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
-import xyz.iwolfking.woldsvaults.integration.occultism.ModRitualDummyItems;
-import xyz.iwolfking.woldsvaults.integration.occultism.RitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyIngredientTypeAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyItemAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.CatalystItemAttribute;

@@ -1356,6 +1356,115 @@
         ]
       }
     ],
+    "woldsvaults:wendarr_curses": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:stunning",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:mob_levitate",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:freezing",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:fatiguing",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:faster_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:crit_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:mediocre",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:void_pools",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:weakened_powers",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:rotten",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:challenge_stack",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:wendarr_challenge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:injured_percent",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:slowed",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:weakened",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:locked",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:rigged",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:piercing",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:corroded_veins",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:ticking_clock",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:no_temporal_shard",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:resistant_mobs",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:fleet_footed_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:ethereal_mobs",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "the_vault:omega_positive": [
       {
         "level": 0,

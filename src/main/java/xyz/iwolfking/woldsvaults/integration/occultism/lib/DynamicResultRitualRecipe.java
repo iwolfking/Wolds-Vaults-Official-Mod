@@ -3,29 +3,30 @@ package xyz.iwolfking.woldsvaults.integration.occultism.lib;
 import com.github.klikli_dev.occultism.crafting.recipe.RitualRecipe;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
+import iskallia.vault.item.crystal.CrystalData;
+import iskallia.vault.item.crystal.VaultCrystalItem;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import java.util.function.Function;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public class DynamicResultRitualRecipe extends RitualRecipe {
     private final ResourceLocation customId;
     private final Supplier<RecipeSerializer<?>> serializerSupplier;
-    private final Function<ResourceLocation, ItemStack> resultFactory;
+    private final BiFunction<ResourceLocation, ItemStack, ItemStack> resultFactory;
 
     public DynamicResultRitualRecipe(RitualRecipe base, ResourceLocation customId, 
                                      Supplier<RecipeSerializer<?>> serializerSupplier, 
-                                     Function<ResourceLocation, ItemStack> resultFactory) {
+                                     BiFunction<ResourceLocation, ItemStack, ItemStack> resultFactory) {
         super(base.getId(), base.getGroup(), base.getPentacleId(), base.getRitualType(), 
-              base.getRitualDummy(), resultFactory.apply(customId), base.getEntityToSummon(), 
+              base.getRitualDummy(), resultFactory.apply(customId, ItemStack.EMPTY), base.getEntityToSummon(), 
               base.getEntityNbt(), base.getActivationItem(), base.getIngredients(), 
               base.getDuration(), base.getSpiritMaxAge(), base.getSpiritJobType(), 
               base.getEntityToSacrifice(), base.getEntityToSacrificeDisplayName(), 
@@ -40,22 +41,38 @@ public class DynamicResultRitualRecipe extends RitualRecipe {
         return this.customId;
     }
 
-    @Override
-    public ItemStack getResultItem() {
-        return this.resultFactory.apply(this.customId);
+    public ItemStack getResultItem(ItemStack activationItem) {
+        return this.resultFactory.apply(this.customId, activationItem);
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return this.serializerSupplier.get();
+    }
+
+    @Override
+    public @NotNull ItemStack getResultItem() {
+        return getResultItem(getActivationItem().getItems()[0]);
+    }
+
+    @Override
+    public boolean matches(Level level, BlockPos goldenBowlPosition, ItemStack activationItem) {
+        if (activationItem.getItem() instanceof VaultCrystalItem) {
+            CrystalData data = CrystalData.read(activationItem);
+            if (data.getProperties().isUnmodifiable()) {
+                return false;
+            }
+        }
+
+        return super.matches(level, goldenBowlPosition, activationItem);
     }
 
     public static class Serializer extends RitualRecipe.Serializer {
         private final String jsonKey;
         private final Supplier<RecipeSerializer<?>> serializerSupplier;
-        private final Function<ResourceLocation, ItemStack> resultFactory;
+        private final BiFunction<ResourceLocation, ItemStack, ItemStack> resultFactory;
 
-        public Serializer(String jsonKey, Supplier<RecipeSerializer<?>> serializerSupplier, Function<ResourceLocation, ItemStack> resultFactory) {
+        public Serializer(String jsonKey, Supplier<RecipeSerializer<?>> serializerSupplier, BiFunction<ResourceLocation, ItemStack, ItemStack> resultFactory) {
             this.jsonKey = jsonKey;
             this.serializerSupplier = serializerSupplier;
             this.resultFactory = resultFactory;

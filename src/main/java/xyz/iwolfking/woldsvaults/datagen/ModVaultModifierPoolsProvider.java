@@ -757,6 +757,37 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                     )
             );
 
+            b.pool(WoldsVaults.id("wendarr_curses").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(1, 1, e -> {
+                                e.add("the_vault:stunning", 1);
+                                e.add("the_vault:mob_levitate", 1);
+                                e.add("the_vault:freezing", 1);
+                                e.add("the_vault:fatiguing", 1);
+                                e.add("the_vault:faster_mobs", 1);
+                                e.add("the_vault:crit_mobs", 1);
+                                e.add("the_vault:mediocre", 1);
+                                e.add("the_vault:void_pools", 1);
+                                e.add("the_vault:weakened_powers", 1);
+                                e.add("the_vault:rotten", 1);
+                                e.add("the_vault:challenge_stack", 1);
+                                e.add("the_vault:wendarr_challenge", 1);
+                                e.add("the_vault:injured_percent", 1);
+                                e.add("the_vault:slowed", 1);
+                                e.add("the_vault:weakened", 1);
+                                e.add("the_vault:locked", 1);
+                                e.add("the_vault:rigged", 1);
+                                e.add("the_vault:piercing", 1);
+                                e.add("the_vault:corroded_veins", 1);
+                                e.add("the_vault:ticking_clock", 1);
+                                e.add("the_vault:no_temporal_shard", 1);
+                                e.add("woldsvaults:resistant_mobs", 1);
+                                e.add("woldsvaults:fleet_footed_mobs", 1);
+                                e.add("the_vault:ethereal_mobs", 1);
+                            })
+                    )
+            );
+
             b.pool(VaultMod.id("omega_positive").toString(), pool ->
                     pool.level(0, entries ->
                             entries.entry(1, 1, e -> {

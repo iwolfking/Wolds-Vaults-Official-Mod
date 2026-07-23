@@ -12,6 +12,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.CrystalDataUtils;
+import xyz.iwolfking.woldsvaults.integration.occultism.impl.VaultCrystalRitual;
 import xyz.iwolfking.woldsvaults.integration.occultism.lib.DynamicResultRitualRecipe;
 
 import java.util.Random;
@@ -25,14 +27,21 @@ public class OccultismRecipeSerializers {
             SERIALIZERS.register("augment_ritual", () -> new DynamicResultRitualRecipe.Serializer(
                     "theme",
                     OccultismRecipeSerializers.AUGMENT_RITUAL,
-                    AugmentItem::create
+                    (resourceLocation, itemStack) -> AugmentItem.create(resourceLocation)
+            ));
+
+    public static final RegistryObject<RecipeSerializer<?>> VAULT_CRYSTAL_RITUAL =
+            SERIALIZERS.register("vault_crystal_ritual", () -> new DynamicResultRitualRecipe.Serializer(
+                    "crystalRitualType",
+                    OccultismRecipeSerializers.VAULT_CRYSTAL_RITUAL,
+                    VaultCrystalRitual::invokeRitual
             ));
 
     public static final RegistryObject<RecipeSerializer<?>> COMPANION_RITUAL =
             SERIALIZERS.register("companion_ritual", () -> new DynamicResultRitualRecipe.Serializer(
                     "poolId",
                     OccultismRecipeSerializers.COMPANION_RITUAL,
-                    id -> {
+                    (id, itemStack) -> {
                         Random random = new Random();
                         CompanionRelicsConfig.ResolvedEntry entry = ModConfigs.COMPANION_RELICS.generate(id, 0, ChunkRandom.ofNanoTime()).orElse(null);
 
