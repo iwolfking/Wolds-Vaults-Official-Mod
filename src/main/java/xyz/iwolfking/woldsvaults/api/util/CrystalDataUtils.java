@@ -1,12 +1,15 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
 import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.modifier.VaultModifierStack;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.crystal.CrystalData;
+import iskallia.vault.item.data.InscriptionData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -59,5 +62,14 @@ public class CrystalDataUtils {
         });
 
         return modifierCount.get() >= count;
+    }
+
+    public static void addInscriptionFromPool(ResourceLocation poolId, CrystalData data, ItemStack crystal, int level) {
+        InscriptionData inscriptionData =  ModConfigs.INSCRIPTION.generate(poolId, level, JavaRandom.ofNanoTime()).orElse(null);
+        if(inscriptionData == null) {
+            return;
+        }
+
+        inscriptionData.apply(null, crystal, data);
     }
 }

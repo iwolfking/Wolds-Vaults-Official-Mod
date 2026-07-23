@@ -1,0 +1,42 @@
+{
+  "type": "woldsvaults:vault_crystal_ritual",
+  "crystalRitualType": "woldsvaults:random_omega_inscription",
+  "pentacle_id": "occultism:tenos",
+  "ritual_type": "occultism:craft",
+  "duration": 15,
+  "activation_item": {
+    "item": "the_vault:vault_crystal"
+  },
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/omega_inscription"
+  },
+  "result": {
+    "item": "the_vault:vault_crystal"
+  },
+  "ingredients": [
+    {
+      "item": "the_vault:inscription"
+    },
+    {
+      "item": "the_vault:inscription"
+    },
+    {
+      "item": "the_vault:memory_crystal"
+    },
+    {
+      "item": "the_vault:wutodic_mass"
+    },
+    {
+      "item": "the_vault:wutodic_mass"
+    },
+    {
+      "item": "the_vault:mystical_powder"
+    },
+    {
+      "item": "the_vault:gem_pog"
+    },
+    {
+      "item": "the_vault:eternal_soul"
+    }
+  ]
+}

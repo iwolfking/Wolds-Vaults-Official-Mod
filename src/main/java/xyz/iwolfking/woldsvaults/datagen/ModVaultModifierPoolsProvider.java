@@ -760,30 +760,62 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
             b.pool(WoldsVaults.id("wendarr_curses").toString(), pool ->
                     pool.level(0, entries ->
                             entries.entry(1, 1, e -> {
-                                e.add("the_vault:stunning", 1);
-                                e.add("the_vault:mob_levitate", 1);
-                                e.add("the_vault:freezing", 1);
+                                e.add("the_vault:stunning", 2);
+                                e.add("the_vault:mob_levitate", 2);
+                                e.add("the_vault:freezing", 4);
                                 e.add("the_vault:fatiguing", 1);
-                                e.add("the_vault:faster_mobs", 1);
+                                e.add("the_vault:faster_mobs", 4);
                                 e.add("the_vault:crit_mobs", 1);
-                                e.add("the_vault:mediocre", 1);
-                                e.add("the_vault:void_pools", 1);
-                                e.add("the_vault:weakened_powers", 1);
-                                e.add("the_vault:rotten", 1);
-                                e.add("the_vault:challenge_stack", 1);
-                                e.add("the_vault:wendarr_challenge", 1);
-                                e.add("the_vault:injured_percent", 1);
-                                e.add("the_vault:slowed", 1);
-                                e.add("the_vault:weakened", 1);
+                                e.add("the_vault:mediocre", 4);
+                                e.add("the_vault:void_pools", 4);
+                                e.add("the_vault:weakened_powers", 4);
+                                e.add("the_vault:rotten", 2);
+                                e.add("the_vault:challenge_stack", 4);
+                                e.add("the_vault:wendarr_challenge", 16);
+                                e.add("the_vault:injured_percent", 4);
+                                e.add("the_vault:slowed", 4);
+                                e.add("the_vault:weakened", 2);
                                 e.add("the_vault:locked", 1);
-                                e.add("the_vault:rigged", 1);
-                                e.add("the_vault:piercing", 1);
+                                e.add("the_vault:rigged", 4);
+                                e.add("the_vault:piercing", 4);
                                 e.add("the_vault:corroded_veins", 1);
-                                e.add("the_vault:ticking_clock", 1);
-                                e.add("the_vault:no_temporal_shard", 1);
-                                e.add("woldsvaults:resistant_mobs", 1);
-                                e.add("woldsvaults:fleet_footed_mobs", 1);
+                                e.add("the_vault:ticking_clock", 4);
+                                e.add("the_vault:no_temporal_shard", 2);
+                                e.add("woldsvaults:resistant_mobs", 4);
+                                e.add("woldsvaults:fleet_footed_mobs", 4);
                                 e.add("the_vault:ethereal_mobs", 1);
+                            })
+                    )
+            );
+
+            b.pool(WoldsVaults.id("tenos_curses").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(1, 1, e -> {
+                                e.add("the_vault:no_souls", 4);
+                                e.add("the_vault:collapsing", 2);
+                                e.add("the_vault:shulker", 4);
+                                e.add("the_vault:lost_quantity", 4);
+                                e.add("the_vault:crit_mobs", 2);
+                                e.add("the_vault:brutal_chunky_mobs", 4);
+                                e.add("the_vault:brutal_mobs", 4);
+                                e.add("the_vault:brutal_faster_mobs", 4);
+                                e.add("the_vault:poisonous", 4);
+                                e.add("the_vault:toxic", 2);
+                                e.add("the_vault:challenge_stack", 4);
+                                e.add("the_vault:tenos_challenge", 16);
+                                e.add("the_vault:injured_percent", 4);
+                                e.add("the_vault:wither", 4);
+                                e.add("the_vault:drained", 4);
+                                e.add("the_vault:locked", 2);
+                                e.add("the_vault:rigged", 4);
+                                e.add("the_vault:piercing", 4);
+                                e.add("the_vault:corroded_veins", 1);
+                                e.add("the_vault:nullifying", 4);
+                                e.add("the_vault:no_temporal_shard", 2);
+                                e.add("the_vault:enervated", 4);
+                                e.add("the_vault:rushed", 4);
+                                e.add("the_vault:xp_reduction", 4);
+                                e.add("the_vault:weak_heart", 4);
                             })
                     )
             );

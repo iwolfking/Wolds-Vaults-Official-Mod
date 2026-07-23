@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.integration.occultism.lib;
 
+import com.github.klikli_dev.occultism.common.blockentity.GoldenSacrificialBowlBlockEntity;
 import com.github.klikli_dev.occultism.crafting.recipe.RitualRecipe;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -9,9 +10,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Containers;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;

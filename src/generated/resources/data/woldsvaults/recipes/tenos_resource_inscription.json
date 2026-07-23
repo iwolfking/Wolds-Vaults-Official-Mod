@@ -1,0 +1,42 @@
+{
+  "type": "woldsvaults:vault_crystal_ritual",
+  "crystalRitualType": "woldsvaults:random_resource_inscription",
+  "pentacle_id": "occultism:tenos",
+  "ritual_type": "occultism:craft",
+  "duration": 10,
+  "activation_item": {
+    "item": "the_vault:vault_crystal"
+  },
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/resource_inscription"
+  },
+  "result": {
+    "item": "the_vault:vault_crystal"
+  },
+  "ingredients": [
+    {
+      "item": "the_vault:inscription_piece"
+    },
+    {
+      "item": "the_vault:inscription_piece"
+    },
+    {
+      "item": "the_vault:inscription_piece"
+    },
+    {
+      "item": "the_vault:inscription_piece"
+    },
+    {
+      "item": "the_vault:memory_powder"
+    },
+    {
+      "item": "the_vault:memory_powder"
+    },
+    {
+      "item": "the_vault:dreamstone"
+    },
+    {
+      "item": "the_vault:dreamstone"
+    }
+  ]
+}

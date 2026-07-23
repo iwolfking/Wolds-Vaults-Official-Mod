@@ -105,6 +105,7 @@
     "lightmanscurrency.MixinCurioHelper",
     "lightmanscurrency.MixinWalletDisplayOverlay",
     "mekanism.MixinVirtualCraftingOutputSlot",
+    "occultism.MixinCraftRitual",
     "occultism.MixinFamiliarEventHandler",
     "occultism.MixinFamiliarRingItemCurio",
     "occultism.MixinFamiliarUtils",

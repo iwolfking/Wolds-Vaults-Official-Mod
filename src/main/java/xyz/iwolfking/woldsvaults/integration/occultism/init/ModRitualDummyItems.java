@@ -16,6 +16,10 @@ public class ModRitualDummyItems {
     public static DummyTooltipItem SACRIFICE_COMPANION = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem SPAWN_EGG_INFUSION = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem CRYSTAL_TIME_EXTENSION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem ANY_INSCRIPTION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem CHALLENGE_INSCRIPTION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem OMEGA_INSCRIPTION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem RESOURCE_INSCRIPTION = new DummyTooltipItem(defaultProperties());
 
     public static void registerItems(RegistryEvent.Register<Item> event) {
         register(event, WoldsVaults.id("ritual_dummy/craft_idona_bricks"), CRAFT_IDONA_BRICKS, "Convert Bricks - Idona", WoldsVaults.id("idona_bricks"),  "A way to craft Idona's lovely decorative bricks without vault delving!");
@@ -25,6 +29,10 @@ public class ModRitualDummyItems {
         register(event, WoldsVaults.id("ritual_dummy/sacrifice_companion"), SACRIFICE_COMPANION, "Sacrifice Companion", WoldsVaults.id("companion_sacrifice"),  "Sacrifice a Companion to Idona and he will reward you with a random Companion Relic!");
         register(event, WoldsVaults.id("ritual_dummy/spawn_egg_infusion"), SPAWN_EGG_INFUSION, "Imbue Spawn Egg", WoldsVaults.id("infuse_pig_spawn_egg"), "Imbue a Mystery Egg with life to transform it into a specific type of spawn egg!");
         register(event, WoldsVaults.id("ritual_dummy/crystal_time_extension"), CRYSTAL_TIME_EXTENSION, "Wendarr Time Extension", WoldsVaults.id("wendarr_crystal_time_extension"), "Make an offering to Wendarr for them to bless your vault with Extended time... and a curse! After 7 Extended have been added this way, makes crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/any_inscription"), ANY_INSCRIPTION, "Tenos Any Inscription", WoldsVaults.id("tenos_any_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random room on to your Vault Crystal and add a random curse... moderate chance to make crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/challenge_inscription"), CHALLENGE_INSCRIPTION, "Tenos Challenge Inscription", WoldsVaults.id("tenos_challenge_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random Challenge room on to your Vault Crystal and add a random curse... high chance to make crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/omega_inscription"), OMEGA_INSCRIPTION, "Tenos Omega Inscription", WoldsVaults.id("tenos_omega_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random Omega room on to your Vault Crystal and add a random curse... very high chance to make crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/resource_inscription"), RESOURCE_INSCRIPTION, "Tenos Resource Inscription", WoldsVaults.id("tenos_omega_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random Resource room on to your Vault Crystal and add a random curse... low chance to make crystal unmodifiable.");
     }
 
     private static void register(RegistryEvent.Register<Item> event, ResourceLocation id, Item item, String name, ResourceLocation ritualId, String ritualDescription) {
