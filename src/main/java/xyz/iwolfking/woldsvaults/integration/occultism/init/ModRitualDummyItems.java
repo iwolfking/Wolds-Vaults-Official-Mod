@@ -20,6 +20,9 @@ public class ModRitualDummyItems {
     public static DummyTooltipItem CHALLENGE_INSCRIPTION = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem OMEGA_INSCRIPTION = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem RESOURCE_INSCRIPTION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem RANDOM_ZEALOT_VAULT = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem RANDOM_GOD_THEME = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem GOD_MASTERY = new DummyTooltipItem(defaultProperties());
 
     public static void registerItems(RegistryEvent.Register<Item> event) {
         register(event, WoldsVaults.id("ritual_dummy/craft_idona_bricks"), CRAFT_IDONA_BRICKS, "Convert Bricks - Idona", WoldsVaults.id("idona_bricks"),  "A way to craft Idona's lovely decorative bricks without vault delving!");
@@ -33,6 +36,9 @@ public class ModRitualDummyItems {
         register(event, WoldsVaults.id("ritual_dummy/challenge_inscription"), CHALLENGE_INSCRIPTION, "Tenos Challenge Inscription", WoldsVaults.id("tenos_challenge_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random Challenge room on to your Vault Crystal and add a random curse... high chance to make crystal unmodifiable.");
         register(event, WoldsVaults.id("ritual_dummy/omega_inscription"), OMEGA_INSCRIPTION, "Tenos Omega Inscription", WoldsVaults.id("tenos_omega_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random Omega room on to your Vault Crystal and add a random curse... very high chance to make crystal unmodifiable.");
         register(event, WoldsVaults.id("ritual_dummy/resource_inscription"), RESOURCE_INSCRIPTION, "Tenos Resource Inscription", WoldsVaults.id("tenos_omega_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random Resource room on to your Vault Crystal and add a random curse... low chance to make crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/random_zealot_vault"), RANDOM_ZEALOT_VAULT, "Zealot Ritual", WoldsVaults.id("random_zealot_vault"), "Make an offering to the Gods and they will bless and challenge your Vault Crystal. Crystal must be unmodified. (Any type/arrangement of God Offering item will work!)");
+        register(event, WoldsVaults.id("ritual_dummy/random_god_theme"), RANDOM_GOD_THEME, "Random God Theme Augment", WoldsVaults.id("random_god_theme_augment"), "Make an offering to the Gods and they will grant you an Augment of their theme! (Offering type does not decide theme)");
+        register(event, WoldsVaults.id("ritual_dummy/god_mastery"), GOD_MASTERY, "God Mastery", WoldsVaults.id("god_mastery"), "Make a truly impressive offering to the Vault Gods and they will gain an increased interest in you!");
     }
 
     private static void register(RegistryEvent.Register<Item> event, ResourceLocation id, Item item, String name, ResourceLocation ritualId, String ritualDescription) {

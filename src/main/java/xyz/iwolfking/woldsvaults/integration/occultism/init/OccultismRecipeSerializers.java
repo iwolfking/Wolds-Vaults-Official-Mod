@@ -3,10 +3,13 @@ package xyz.iwolfking.woldsvaults.integration.occultism.init;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.CompanionRelicsConfig;
+import iskallia.vault.config.VaultCrystalConfig;
 import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.AugmentItem;
 import iskallia.vault.item.CompanionRelicItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,6 +19,7 @@ import xyz.iwolfking.woldsvaults.api.util.CrystalDataUtils;
 import xyz.iwolfking.woldsvaults.integration.occultism.impl.VaultCrystalRitual;
 import xyz.iwolfking.woldsvaults.integration.occultism.lib.DynamicResultRitualRecipe;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 
@@ -28,6 +32,26 @@ public class OccultismRecipeSerializers {
                     "theme",
                     OccultismRecipeSerializers.AUGMENT_RITUAL,
                     (resourceLocation, itemStack) -> AugmentItem.create(resourceLocation)
+            ));
+
+    public static final RegistryObject<RecipeSerializer<?>> AUGMENT_POOL_RITUAL =
+            SERIALIZERS.register("augment_pool_ritual", () -> new DynamicResultRitualRecipe.Serializer(
+                    "theme",
+                    OccultismRecipeSerializers.AUGMENT_POOL_RITUAL,
+                    (resourceLocation, itemStack) -> {
+                       VaultCrystalConfig.ThemeEntry entry = ModConfigs.VAULT_CRYSTAL.THEMES.get(resourceLocation).getForLevel(0).orElse(null);
+                       if(entry == null) {
+                           return itemStack;
+                       }
+
+                       ResourceLocation theme = entry.getRandomTheme(JavaRandom.ofNanoTime(), LocalDate.now()).orElse(null);
+
+                       if(theme == null) {
+                           return itemStack;
+                       }
+
+                       return AugmentItem.create(theme);
+                    }
             ));
 
     public static final RegistryObject<RecipeSerializer<?>> VAULT_CRYSTAL_RITUAL =

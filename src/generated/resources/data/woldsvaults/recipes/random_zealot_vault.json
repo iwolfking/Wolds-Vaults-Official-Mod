@@ -1,0 +1,42 @@
+{
+  "type": "woldsvaults:vault_crystal_ritual",
+  "crystalRitualType": "woldsvaults:create_zealot_crystal",
+  "pentacle_id": "occultism:god_alignment",
+  "ritual_type": "occultism:craft",
+  "duration": 15,
+  "activation_item": {
+    "item": "the_vault:vault_crystal"
+  },
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/random_zealot_vault"
+  },
+  "result": {
+    "item": "the_vault:vault_crystal"
+  },
+  "ingredients": [
+    {
+      "item": "woldsvaults:god_offering"
+    },
+    {
+      "item": "woldsvaults:god_offering"
+    },
+    {
+      "item": "woldsvaults:god_offering"
+    },
+    {
+      "item": "woldsvaults:god_offering"
+    },
+    {
+      "item": "the_vault:red_vault_essence"
+    },
+    {
+      "item": "the_vault:memory_powder"
+    },
+    {
+      "item": "the_vault:vault_moss"
+    },
+    {
+      "item": "the_vault:grapes"
+    }
+  ]
+}

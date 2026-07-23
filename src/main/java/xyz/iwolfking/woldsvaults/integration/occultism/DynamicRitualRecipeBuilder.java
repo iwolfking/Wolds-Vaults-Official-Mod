@@ -52,6 +52,13 @@ public class DynamicRitualRecipeBuilder {
         );
     }
 
+    public static DynamicRitualRecipeBuilder augmentPool(ResourceLocation themeId, ResourceLocation pentacleId, ResourceLocation ritualType, Ingredient activationItem, ResourceLocation ritualDummy) {
+        return new DynamicRitualRecipeBuilder(
+                themeId, pentacleId, ritualType, activationItem, ritualDummy,
+                "theme", ModItems.AUGMENT.getRegistryName(), OccultismRecipeSerializers.AUGMENT_POOL_RITUAL
+        );
+    }
+
     public static DynamicRitualRecipeBuilder companionRelic(ResourceLocation poolId, ResourceLocation pentacleId, ResourceLocation ritualType, Ingredient activationItem, ResourceLocation ritualDummy) {
         return new DynamicRitualRecipeBuilder(
                 poolId, pentacleId, ritualType, activationItem, ritualDummy, 

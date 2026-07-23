@@ -2314,6 +2314,92 @@
         ]
       }
     ],
+    "woldsvaults:god_challenges": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:idona_challenge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:tenos_challenge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:wendarr_challenge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:velara_challenge",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:god_bonuses": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:idona_soulchance",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:idona_favour_1",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:idona_favour_3",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:idona_favour_ap",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:wendarr_regen",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:wendarr_cdr",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:wendarr_speed",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:velara_favour_1",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:velara_favour_2",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:tenos_favour_2",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:tenos_rarity",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "the_vault:bingos_enchanted": [
       {
         "level": 0,

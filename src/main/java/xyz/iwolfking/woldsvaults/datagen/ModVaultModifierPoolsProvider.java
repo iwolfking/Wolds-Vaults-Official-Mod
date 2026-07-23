@@ -975,6 +975,35 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                     )
             );
 
+            b.pool(WoldsVaults.id("god_challenges").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(1, 1, e -> {
+                                e.add("the_vault:idona_challenge", 1);
+                                e.add("the_vault:tenos_challenge", 1);
+                                e.add("the_vault:wendarr_challenge", 1);
+                                e.add("the_vault:velara_challenge", 1);
+                            })
+                    )
+            );
+
+            b.pool(WoldsVaults.id("god_bonuses").toString(), pool ->
+                    pool.level(0, entries ->
+                            entries.entry(1, 1, e -> {
+                                e.add("the_vault:idona_soulchance", 1);
+                                e.add("the_vault:idona_favour_1", 1);
+                                e.add("the_vault:idona_favour_3", 1);
+                                e.add("the_vault:idona_favour_ap", 1);
+                                e.add("the_vault:wendarr_regen", 1);
+                                e.add("the_vault:wendarr_cdr", 1);
+                                e.add("the_vault:wendarr_speed", 1);
+                                e.add("the_vault:velara_favour_1", 1);
+                                e.add("the_vault:velara_favour_2", 1);
+                                e.add("the_vault:tenos_favour_2", 1);
+                                e.add("the_vault:tenos_rarity", 1);
+                            })
+                    )
+            );
+
             b.pool(VaultMod.id("bingos_enchanted").toString(), pool ->
                     pool.level(0, entries ->
                             entries.entry(1, 1, e -> {

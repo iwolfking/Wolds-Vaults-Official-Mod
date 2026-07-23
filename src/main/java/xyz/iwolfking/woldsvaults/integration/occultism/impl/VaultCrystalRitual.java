@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.integration.occultism.impl;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.item.crystal.CrystalData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +16,7 @@ public class VaultCrystalRitual {
     public static final ResourceLocation RANDOM_OMEGA_INSCRIPTION = WoldsVaults.id("random_omega_inscription");
     public static final ResourceLocation RANDOM_ANY_INSCRIPTION = WoldsVaults.id("random_any_inscription");
     public static final ResourceLocation RANDOM_RESOURCE_INSCRIPTION = WoldsVaults.id("random_resource_inscription");
+    public static final ResourceLocation RANDOM_ZEALOT_VAULT = WoldsVaults.id("create_zealot_crystal");
 
     public static ItemStack invokeRitual(ResourceLocation type, ItemStack crystalStack) {
         ItemStack output = crystalStack.copy();
@@ -30,6 +32,9 @@ public class VaultCrystalRitual {
                 randomInscription(data, output, WoldsVaults.id("all_rooms"), 0.15F);
             } else if (type.equals(RANDOM_RESOURCE_INSCRIPTION)) {
                 randomInscription(data, output, WoldsVaults.id("resource_rooms"), 0.1F);
+            }
+            else if (type.equals(RANDOM_ZEALOT_VAULT)) {
+                zealot(data, output);
             }
         });
 
@@ -51,5 +56,20 @@ public class VaultCrystalRitual {
         if(random.nextFloat() <= breakChance) {
             data.getProperties().setUnmodifiable(true);
         }
+    }
+
+    private static void zealot(CrystalData data, ItemStack output) {
+        Random random = new Random();
+        for(int i = 0; i < 5; i++) {
+            randomInscription(data, output, WoldsVaults.id("omega_rooms"), 0F);
+            randomInscription(data, output, WoldsVaults.id("challenge_rooms"), 0F);
+        }
+
+        VaultGod god = VaultGod.values()[random.nextInt(0, VaultGod.values().length)];
+        CrystalDataUtils.applyGodCharacteristics(god, data);
+
+        CrystalDataUtils.addModifierFromPool(WoldsVaults.id("god_challenges"), data, 0, 7);
+        CrystalDataUtils.addModifierFromPool(WoldsVaults.id("god_bonuses"), data, 0, 7);
+        data.getProperties().setUnmodifiable(true);
     }
 }

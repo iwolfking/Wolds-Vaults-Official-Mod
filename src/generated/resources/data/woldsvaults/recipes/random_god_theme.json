@@ -1,0 +1,36 @@
+{
+  "type": "woldsvaults:augment_pool_ritual",
+  "theme": "woldsvaults:god_themes",
+  "pentacle_id": "occultism:god_alignment",
+  "ritual_type": "occultism:craft",
+  "duration": 5,
+  "activation_item": {
+    "item": "the_vault:vault_crystal"
+  },
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/random_god_theme"
+  },
+  "result": {
+    "item": "the_vault:augment"
+  },
+  "ingredients": [
+    {
+      "item": "woldsvaults:god_offering"
+    },
+    {
+      "item": "the_vault:augment"
+    },
+    {
+      "item": "the_vault:red_vault_essence"
+    },
+    {
+      "item": "the_vault:memory_powder"
+    },
+    {
+      "item": "the_vault:vault_moss"
+    },
+    {
+      "item": "the_vault:grapes"
+    }
+  ]
+}

@@ -17,6 +17,9 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.CrystalDataUtils;
+import xyz.iwolfking.woldsvaults.integration.occultism.impl.VaultCrystalRitual;
 
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -64,6 +67,10 @@ public class DynamicResultRitualRecipe extends RitualRecipe {
         if (activationItem.getItem() instanceof VaultCrystalItem) {
             CrystalData data = CrystalData.read(activationItem);
             if (data.getProperties().isUnmodifiable()) {
+                return false;
+            }
+
+            if(this.customId.equals(VaultCrystalRitual.RANDOM_ZEALOT_VAULT) && CrystalDataUtils.isModified(data)) {
                 return false;
             }
         }

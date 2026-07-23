@@ -1,15 +1,23 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.random.JavaRandom;
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.core.vault.modifier.VaultModifierStack;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
+import iskallia.vault.core.world.roll.IntRoll;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.crystal.CrystalData;
+import iskallia.vault.item.crystal.layout.ClassicCircleCrystalLayout;
+import iskallia.vault.item.crystal.layout.CompoundCrystalLayout;
+import iskallia.vault.item.crystal.theme.ValueCrystalTheme;
 import iskallia.vault.item.data.InscriptionData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.objectives.ZealotCrystalObjective;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -71,5 +79,36 @@ public class CrystalDataUtils {
         }
 
         inscriptionData.apply(null, crystal, data);
+    }
+
+    public static boolean isModified(CrystalData data) {
+        if(!data.getModifiers().isEmpty()) {
+            return true;
+        }
+
+        return data.getLayout() instanceof CompoundCrystalLayout;
+    }
+
+    public static void applyGodCharacteristics(VaultGod god, CrystalData data) {
+        data.setObjective(new ZealotCrystalObjective(IntRoll.ofConstant(5)));
+        data.setLayout(new ClassicCircleCrystalLayout(1, 15));
+        switch (god) {
+            case IDONA -> {
+                data.setTheme(new ValueCrystalTheme(VaultMod.id("classic_vault_idona_normal")));
+                addModifier(VaultMod.id("idona_hunter"), data);
+            }
+            case VELARA -> {
+                data.setTheme(new ValueCrystalTheme(VaultMod.id("classic_vault_velara_normal")));
+                addModifier(VaultMod.id("velara_hunter"), data);
+            }
+            case TENOS -> {
+                data.setTheme(new ValueCrystalTheme(VaultMod.id("classic_vault_tenos_normal")));
+                addModifier(VaultMod.id("tenos_hunter"), data);
+            }
+            case WENDARR -> {
+                data.setTheme(new ValueCrystalTheme(VaultMod.id("classic_vault_wendarr_normal")));
+                addModifier(VaultMod.id("wendarr_hunter"), data);
+            }
+        }
     }
 }
