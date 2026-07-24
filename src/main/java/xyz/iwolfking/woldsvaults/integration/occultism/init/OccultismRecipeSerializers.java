@@ -39,6 +39,10 @@ public class OccultismRecipeSerializers {
                     "theme",
                     OccultismRecipeSerializers.AUGMENT_POOL_RITUAL,
                     (resourceLocation, itemStack) -> {
+                        if(!ModConfigs.VAULT_CRYSTAL.THEMES.containsKey(resourceLocation)) {
+                            return itemStack;
+                        }
+
                        VaultCrystalConfig.ThemeEntry entry = ModConfigs.VAULT_CRYSTAL.THEMES.get(resourceLocation).getForLevel(0).orElse(null);
                        if(entry == null) {
                            return itemStack;

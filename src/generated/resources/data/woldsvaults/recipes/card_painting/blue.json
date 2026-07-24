@@ -1,0 +1,16 @@
+{
+  "type": "woldsvaults:card_painting",
+  "itemInput": {
+    "ingredient": {
+      "item": "the_vault:card"
+    }
+  },
+  "chemicalInput": {
+    "amount": 1,
+    "pigment": "mekanism:blue"
+  },
+  "output": {
+    "item": "the_vault:card"
+  },
+  "targetColor": "BLUE"
+}

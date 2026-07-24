@@ -5,7 +5,7 @@
   "ritual_type": "occultism:craft",
   "duration": 5,
   "activation_item": {
-    "item": "the_vault:vault_crystal"
+    "item": "the_vault:augment"
   },
   "ritual_dummy": {
     "item": "woldsvaults:ritual_dummy/random_god_theme"

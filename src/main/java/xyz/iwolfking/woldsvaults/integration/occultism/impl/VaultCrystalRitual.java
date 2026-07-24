@@ -61,8 +61,8 @@ public class VaultCrystalRitual {
     private static void zealot(CrystalData data, ItemStack output) {
         Random random = new Random();
         for(int i = 0; i < 5; i++) {
-            randomInscription(data, output, WoldsVaults.id("omega_rooms"), 0F);
-            randomInscription(data, output, WoldsVaults.id("challenge_rooms"), 0F);
+            CrystalDataUtils.addInscriptionFromPool(WoldsVaults.id("omega_rooms"), data, output, 0);
+            CrystalDataUtils.addInscriptionFromPool(WoldsVaults.id("challenge_rooms"), data, output, 0);
         }
 
         VaultGod god = VaultGod.values()[random.nextInt(0, VaultGod.values().length)];
