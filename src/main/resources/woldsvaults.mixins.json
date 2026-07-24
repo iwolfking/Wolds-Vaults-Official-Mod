@@ -104,6 +104,7 @@
     "legendarytooltips.MixinLegendaryTooltips",
     "lightmanscurrency.MixinCurioHelper",
     "lightmanscurrency.MixinWalletDisplayOverlay",
+    "mekanism.MixinBaseRecipeCategory",
     "mekanism.MixinVirtualCraftingOutputSlot",
     "occultism.MixinCraftRitual",
     "occultism.MixinFamiliarEventHandler",

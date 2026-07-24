@@ -2,7 +2,10 @@ package xyz.iwolfking.woldsvaults.integration.mekanism.init.recipe;
 
 import iskallia.vault.core.card.Card;
 import iskallia.vault.core.card.CardEntry;
+import iskallia.vault.core.random.JavaRandom;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.CardItem;
+import mekanism.api.annotations.NonNull;
 import mekanism.api.chemical.pigment.PigmentStack;
 import mekanism.api.recipes.PaintingRecipe;
 import mekanism.api.recipes.ingredients.ChemicalStackIngredient;
@@ -13,9 +16,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.MekanismRecipeDeserializers;
+import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModPigments;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class CardPaintingRecipe extends PaintingRecipe {
@@ -44,6 +51,14 @@ public class CardPaintingRecipe extends PaintingRecipe {
         if(result.getItem() instanceof CardItem) {
             Card card = iskallia.vault.item.CardItem.getCard(result);
 
+            if(this.getChemicalInput().testType(ModPigments.FOIL_PIGMENT.getChemical())) {
+                if(!card.getGroups().contains("Foil")) {
+                    if(!card.getEntries().isEmpty()) {
+                        card.getEntries().get(0).getGroups().add("Foil");
+                    }
+                }
+            }
+
             card.getEntries().forEach(cardEntry -> {
                 if(!cardEntry.getColors().isEmpty()) {
                     cardEntry.setColors(Set.of(targetColor));
@@ -54,6 +69,28 @@ public class CardPaintingRecipe extends PaintingRecipe {
         }
 
         return result;
+    }
+
+    @Override
+    public @NotNull List<@NonNull ItemStack> getOutputDefinition() {
+        Card card = ModConfigs.BOOSTER_PACK.getOutcomes("the_vault:stat_pack", JavaRandom.ofInternal(123L)).get(0);
+
+        if(this.getChemicalInput().testType(ModPigments.FOIL_PIGMENT.getChemical())) {
+            if(!card.getGroups().contains("Foil")) {
+                if(!card.getEntries().isEmpty()) {
+                    card.getEntries().get(0).getGroups().add("Foil");
+                }
+            }
+        }
+        else {
+            card.getEntries().forEach(cardEntry -> {
+                if(!cardEntry.getColors().isEmpty()) {
+                    cardEntry.setColors(Set.of(targetColor));
+                }
+            });
+        }
+
+        return List.of(CardItem.create(card));
     }
 
     @Nonnull

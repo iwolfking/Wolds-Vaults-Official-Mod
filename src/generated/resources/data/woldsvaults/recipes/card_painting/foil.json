@@ -6,11 +6,10 @@
     }
   },
   "chemicalInput": {
-    "amount": 350,
-    "pigment": "woldsvaults:tenos_blue"
+    "amount": 500,
+    "pigment": "woldsvaults:foil_pigment"
   },
   "output": {
     "item": "the_vault:card"
-  },
-  "targetColor": "BLUE"
+  }
 }

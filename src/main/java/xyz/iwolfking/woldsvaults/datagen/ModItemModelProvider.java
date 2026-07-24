@@ -163,6 +163,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.ECHOING_SEED_BASE);
         simpleItem(ModItems.UNINFUSED_TERRASTEEL_INGOT);
         simpleItem(ModItems.CONCEALED_CHAOS);
+        simpleItem(ModItems.YELLOW_VAULT_ESSENCE);
+        simpleItem(ModItems.BLUE_VAULT_ESSENCE);
+        simpleItem(ModItems.GREEN_VAULT_ESSENCE);
         //simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         withExistingParent("owned_crafting_table",

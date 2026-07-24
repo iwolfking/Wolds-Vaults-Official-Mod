@@ -1,0 +1,17 @@
+{
+  "type": "thermal:smelter",
+  "ingredients": [
+    {
+      "item": "woldsvaults:vault_essence_block"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_ingot"
+    }
+  ],
+  "result": [
+    {
+      "item": "woldsvaults:yellow_vault_essence"
+    }
+  ],
+  "energy": 3200
+}

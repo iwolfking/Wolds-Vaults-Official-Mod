@@ -176,6 +176,9 @@ public class ModItems {
     public static BasicItem GEM_REAGENT_SPARKLETINE;
     public static BasicItem GEM_REAGENT_TUBIUM;
     public static BasicItem AUGMENT_PIECE;
+    public static BasicItem BLUE_VAULT_ESSENCE;
+    public static BasicItem YELLOW_VAULT_ESSENCE;
+    public static BasicItem GREEN_VAULT_ESSENCE;
     public static PoltergeistPlum POLTERGEIST_PLUM;
 
     //Zealot items
@@ -391,6 +394,9 @@ public class ModItems {
         registry.register(MOLTEN_TRINKET_BUCKET);
         registry.register(GREED_TREE_RESET_ITEM);
         registry.register(CONCEALED_CHAOS);
+        registry.register(YELLOW_VAULT_ESSENCE);
+        registry.register(BLUE_VAULT_ESSENCE);
+        registry.register(GREEN_VAULT_ESSENCE);
         COLORED_UNOBTANIUMS.forEach((s, bi) -> {
             registry.register(bi);
         });
@@ -514,6 +520,9 @@ public class ModItems {
         AUGMENT_PIECE = new BasicItem(WoldsVaults.id("augment_piece"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         VAULT_DIAMOND_NUGGET = new BasicItem(WoldsVaults.id("vault_diamond_nugget"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         CHROMA_CORE = new BasicItem(WoldsVaults.id("chroma_core"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        YELLOW_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("yellow_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        BLUE_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("blue_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        GREEN_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("green_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
         POGOMINIUM_INGOT = new BasicItem(WoldsVaults.id("pogominium_ingot"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         INFUSED_DRIFTWOOD = new BasicItem(WoldsVaults.id("infused_driftwood"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));

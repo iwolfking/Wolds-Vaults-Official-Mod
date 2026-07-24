@@ -78,7 +78,7 @@ public class CardPaintingRecipeBuilder {
             }
             json.add("output", outputJson);
 
-            json.addProperty("targetColor", this.targetColor.name());
+            json.addProperty("targetColor", this.targetColor != null ? this.targetColor.name() : null);
         }
 
         @Override

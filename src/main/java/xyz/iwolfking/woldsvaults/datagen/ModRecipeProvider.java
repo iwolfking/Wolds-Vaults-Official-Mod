@@ -10,8 +10,14 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.item.AugmentItem;
 import me.dinnerbeef.compressium.Compressium;
 import mekanism.api.chemical.pigment.Pigment;
+import mekanism.api.chemical.pigment.PigmentStack;
+import mekanism.api.datagen.recipe.builder.ChemicalChemicalToChemicalRecipeBuilder;
+import mekanism.api.datagen.recipe.builder.ItemStackToChemicalRecipeBuilder;
 import mekanism.api.text.EnumColor;
 import mekanism.common.Mekanism;
+import mekanism.common.integration.crafttweaker.recipe.manager.ItemStackToPigmentRecipeManager;
+import mekanism.common.recipe.ingredient.creator.ItemStackIngredientCreator;
+import mekanism.common.recipe.ingredient.creator.PigmentStackIngredientCreator;
 import mekanism.common.registries.MekanismPigments;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
@@ -22,6 +28,7 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -36,12 +43,16 @@ import vazkii.botania.data.recipes.NbtOutputResult;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.*;
+import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.ApparatusRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultCatalystInfusionRecipeBuilder;
+import xyz.iwolfking.woldsvaults.integration.botania.recipe.RunicAltarRecipeBuilder;
+import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModPigments;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.recipe.CardPaintingRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.occultism.DynamicRitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.occultism.impl.VaultCrystalRitual;
 import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.integration.occultism.RitualRecipeBuilder;
+import xyz.iwolfking.woldsvaults.integration.thermal.recipe.ThermalSmelterRecipeBuilder;
 import xyz.iwolfking.woldsvaults.items.GodReputationItem;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
 import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe;
@@ -830,15 +841,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_memory_powder", has(iskallia.vault.init.ModItems.MEMORY_POWDER))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE)
-                .define('C', iskallia.vault.init.ModItems.VAULT_ESSENCE)
-                .define('O', iskallia.vault.init.ModItems.PERFECT_PAINITE)
-                .pattern("COC")
-                .pattern("OOO")
-                .pattern("COC")
-                .unlockedBy("has_perfect_painite", has(iskallia.vault.init.ModItems.PERFECT_PAINITE))
-                .save(pFinishedRecipeConsumer);
-
         ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.SUBLIME_VAULT_SUBSTANCE)
                 .define('C', iskallia.vault.init.ModItems.EXTRAORDINARY_PAINITE)
                 .define('A', iskallia.vault.init.ModItems.EXTRAORDINARY_ALEXANDRITE)
@@ -978,6 +980,43 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_red_carpet", has(Blocks.RED_CARPET))
                 .save(pFinishedRecipeConsumer);
 
+//        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE, 1)
+//                .define('X', iskallia.vault.init.ModItems.PERFECT_PAINITE)
+//                .define('C', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+//                .pattern("CCC")
+//                .pattern("CXC")
+//                .pattern("CCC")
+//                .unlockedBy("has_perfect_painite", has(iskallia.vault.init.ModItems.PERFECT_PAINITE))
+//                .save(pFinishedRecipeConsumer, WoldsVaults.id("red_vault_essence"));
+//
+//        ShapedRecipeBuilder.shaped(ModItems.BLUE_VAULT_ESSENCE, 1)
+//                .define('X', iskallia.vault.init.ModItems.MEMORY_POWDER)
+//                .define('C', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+//                .pattern("CCC")
+//                .pattern("CXC")
+//                .pattern("CCC")
+//                .unlockedBy("has_memory_powder", has(iskallia.vault.init.ModItems.MEMORY_POWDER))
+//                .save(pFinishedRecipeConsumer);
+//
+//        ShapedRecipeBuilder.shaped(ModItems.YELLOW_VAULT_ESSENCE, 1)
+//                .define('X', ModItems.CHROMATIC_GOLD_INGOT)
+//                .define('C', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+//                .pattern("CCC")
+//                .pattern("CXC")
+//                .pattern("CCC")
+//                .unlockedBy("has_chromatic_gold_ingot", has(ModItems.CHROMATIC_GOLD_INGOT))
+//                .save(pFinishedRecipeConsumer);
+//
+//        ShapedRecipeBuilder.shaped(ModItems.GREEN_VAULT_ESSENCE, 1)
+//                .define('X', iskallia.vault.init.ModBlocks.VAULT_MOSS.asItem())
+//                .define('C', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+//                .pattern("CCC")
+//                .pattern("CXC")
+//                .pattern("CCC")
+//                .unlockedBy("has_vault_moss", has(iskallia.vault.init.ModBlocks.VAULT_MOSS))
+//                .save(pFinishedRecipeConsumer);
+
+
 
         registerDyeableFamilyBatch(pFinishedRecipeConsumer, Blocks.SPORE_BLOSSOM, com.kingodogo.buildscape.block.ModBlocks.class, "_SPORE_BLOSSOM");
 
@@ -1094,15 +1133,27 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             }
         });
 
-        //RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_EGG), new ItemStack(ModRitualDummyItems.SPAWN_EGG_INFUSION), Items.PIG_SPAWN_EGG.getDefaultInstance()).duration(10).requires(iskallia.vault.init.ModItems.ETERNAL_SOUL).entityToSacrifice(EntityType.PIG).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_pig_spawn_egg"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "idona"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_IDONA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.IDONA_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.PERFECT_PAINITE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("idona_bricks"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_VELARA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.VELARA_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.PERFECT_ALEXANDRITE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("velara_bricks"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "tenos"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_TENOS_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.TENOS_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.MEMORY_POWDER)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("tenos_bricks"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "tenos"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_WENDARR_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.WENDARR_BRICK, 64)).duration(5).requires(Ingredient.of(ModItems.CHROMATIC_GOLD_INGOT)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("wendarr_bricks"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "god_alignment"), Ingredient.of(ModItems.CORE_OF_THE_VAULT_GODS), new ItemStack(ModRitualDummyItems.GOD_MASTERY), new ItemStack(ModItems.GODS_MASTERY, 1)).duration(20).requires(Ingredient.of(ModBlocks.OMEGA_POG_BLOCK)).requires(Ingredient.of(iskallia.vault.init.ModItems.SUBLIME_VAULT_ELIXIR)).requires(Ingredient.of(iskallia.vault.init.ModItems.SUBLIME_VAULT_SUBSTANCE)).requires(Ingredient.of(iskallia.vault.init.ModItems.SUBLIME_VAULT_VISION)).requires(Ingredient.of(ModBlocks.VAULT_IRIDIUM)).requires(Ingredient.of(ModBlocks.ECHO_POG_BLOCK)).requires(Ingredient.of(ModBlocks.OMEGA_POG_BLOCK)).requires(Ingredient.of(ModBlocks.OMEGA_POG_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("god_mastery"));
 
+        RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "idona"), Ingredient.of(ModBlocks.VAULT_ESSENCE_BLOCK), new ItemStack(ModRitualDummyItems.CREATE_RED_VAULT_ESSENCE), new ItemStack(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE, 1)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.PAINITE_GEM)).requires(Ingredient.of(iskallia.vault.init.ModItems.PAINITE_GEM)).requires(Ingredient.of(iskallia.vault.init.ModItems.PAINITE_GEM)).requires(Ingredient.of(iskallia.vault.init.ModItems.PAINITE_GEM)).save(pFinishedRecipeConsumer, WoldsVaults.id("red_vault_essence"));
+        RunicAltarRecipeBuilder.runicAltar(ModItems.GREEN_VAULT_ESSENCE, 1, 500).addIngredient(ModBlocks.VAULT_ESSENCE_BLOCK).addIngredient(iskallia.vault.init.ModBlocks.VAULT_MOSS).build(pFinishedRecipeConsumer, WoldsVaults.id("green_vault_essence"));
+        ThermalSmelterRecipeBuilder.smelter().addIngredient(ModBlocks.VAULT_ESSENCE_BLOCK.asItem(), 1).addIngredient(ModItems.CHROMATIC_GOLD_INGOT, 1).energy(3200).addOutput(ModItems.YELLOW_VAULT_ESSENCE).build(pFinishedRecipeConsumer, WoldsVaults.id("yellow_vault_essence"));
+        ApparatusRecipeBuilder.builder(ModItems.BLUE_VAULT_ESSENCE).withSourceCost(500).withReagent(ModBlocks.VAULT_ESSENCE_BLOCK).withPedestalItem(iskallia.vault.init.ModItems.MEMORY_POWDER).build(pFinishedRecipeConsumer);
 
-        CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD,  MekanismPigments.PIGMENT_COLOR_LOOKUP.get(EnumColor.DARK_BLUE).get(), 1L, CardEntry.Color.BLUE).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/blue"));
+        ItemStackToChemicalRecipeBuilder.pigmentExtracting(ItemStackIngredientCreator.INSTANCE.from(ModItems.BLUE_VAULT_ESSENCE), new PigmentStack(ModPigments.TENOS_BLUE, 125)).build(pFinishedRecipeConsumer, WoldsVaults.id("tenos_blue_pigment_extraction"));
+        ItemStackToChemicalRecipeBuilder.pigmentExtracting(ItemStackIngredientCreator.INSTANCE.from(ModItems.YELLOW_VAULT_ESSENCE), new PigmentStack(ModPigments.WENDARR_YELLOW, 125)).build(pFinishedRecipeConsumer, WoldsVaults.id("wendarr_yellow_pigment_extraction"));;
+        ItemStackToChemicalRecipeBuilder.pigmentExtracting(ItemStackIngredientCreator.INSTANCE.from(ModItems.GREEN_VAULT_ESSENCE), new PigmentStack(ModPigments.VELARA_GREEN, 125)).build(pFinishedRecipeConsumer, WoldsVaults.id("velara_green_pigment_extraction"));;
+        ItemStackToChemicalRecipeBuilder.pigmentExtracting(ItemStackIngredientCreator.INSTANCE.from(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE), new PigmentStack(ModPigments.IDONA_RED, 125)).build(pFinishedRecipeConsumer, WoldsVaults.id("idona_red_pigment_extraction"));;
+
+        CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD, ModPigments.TENOS_BLUE.get(), 350L, CardEntry.Color.BLUE).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/blue"));
+        CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD, ModPigments.IDONA_RED.get(), 350L, CardEntry.Color.RED).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/red"));
+        CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD, ModPigments.VELARA_GREEN.get(), 350L, CardEntry.Color.GREEN).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/green"));
+        CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD, ModPigments.WENDARR_YELLOW.get(), 350L, CardEntry.Color.YELLOW).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/yellow"));
+        CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD, ModPigments.FOIL_PIGMENT.get(), 500L, null).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/foil"));
 
         for(DyeColor color : DyeColor.values()) {
             unobtanium(ModItems.COLORED_UNOBTANIUMS.get(color), ModBlocks.COLORED_UNOBTANIUMS.get(color), pFinishedRecipeConsumer);

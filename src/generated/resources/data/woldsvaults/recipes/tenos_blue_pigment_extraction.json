@@ -1,0 +1,12 @@
+{
+  "type": "mekanism:pigment_extracting",
+  "input": {
+    "ingredient": {
+      "item": "woldsvaults:blue_vault_essence"
+    }
+  },
+  "output": {
+    "pigment": "woldsvaults:tenos_blue",
+    "amount": 125
+  }
+}

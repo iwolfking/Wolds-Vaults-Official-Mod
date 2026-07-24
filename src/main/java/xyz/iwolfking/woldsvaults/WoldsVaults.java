@@ -40,6 +40,7 @@ import xyz.iwolfking.woldsvaults.events.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.ArsAPIRegistration;
 import xyz.iwolfking.woldsvaults.integration.cctweaked.CCTweakedSetup;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.MekanismRecipeDeserializers;
+import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModPigments;
 import xyz.iwolfking.woldsvaults.integration.occultism.init.OccultismRecipeSerializers;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.WoldDataLoaders;
 import xyz.iwolfking.woldsvaults.client.init.ModParticles;
@@ -90,6 +91,7 @@ public class WoldsVaults {
 
         if(ConditionalModUtils.isModPresent("mekanism")) {
             MekanismRecipeDeserializers.SERIALIZERS.register(modEventBus);
+            ModPigments.register(modEventBus);
         }
 
         ModParticles.REGISTRY.register(modEventBus);

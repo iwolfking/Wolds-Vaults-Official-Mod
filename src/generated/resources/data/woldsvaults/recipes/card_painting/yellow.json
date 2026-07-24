@@ -7,10 +7,10 @@
   },
   "chemicalInput": {
     "amount": 350,
-    "pigment": "woldsvaults:tenos_blue"
+    "pigment": "woldsvaults:wendarr_yellow"
   },
   "output": {
     "item": "the_vault:card"
   },
-  "targetColor": "BLUE"
+  "targetColor": "YELLOW"
 }

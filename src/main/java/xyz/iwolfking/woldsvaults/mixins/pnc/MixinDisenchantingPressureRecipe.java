@@ -51,7 +51,7 @@ public abstract class MixinDisenchantingPressureRecipe extends PressureChamberRe
 
         for (int i = 0; i < chamberHandler.getSlots(); ++i) {
             ItemStack stack = chamberHandler.getStackInSlot(i);
-            if(stack.getItem() == ModItems.ECHO_POG) {
+            if(stack.getItem() == ModItems.POG) {
                 pogSlot = i;
             }
             if (stack.getItem() == Items.BOOK) {
@@ -111,7 +111,7 @@ public abstract class MixinDisenchantingPressureRecipe extends PressureChamberRe
         ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
         enchantedBook.enchant(Enchantments.BLOCK_FORTUNE, 1);
         enchantedBook.enchant(Enchantments.BLOCK_EFFICIENCY, 1);
-        return List.of(Ingredient.of(pick, enchantedBook), Ingredient.of(Items.BOOK), Ingredient.of(ModItems.ECHO_POG));
+        return List.of(Ingredient.of(pick, enchantedBook), Ingredient.of(Items.BOOK), Ingredient.of(ModItems.POG));
     }
 
     /**
@@ -134,7 +134,7 @@ public abstract class MixinDisenchantingPressureRecipe extends PressureChamberRe
      */
     @Overwrite @Override
     public boolean isValidInputItem(ItemStack stack) {
-        return stack.getItem() == ModItems.ECHO_POG || stack.getItem() == Items.BOOK || stack.getItem() != Items.ENCHANTED_BOOK && !EnchantmentHelper.getEnchantments(stack).isEmpty();
+        return stack.getItem() == ModItems.POG || stack.getItem() == Items.BOOK || stack.getItem() != Items.ENCHANTED_BOOK && !EnchantmentHelper.getEnchantments(stack).isEmpty();
     }
 
 
