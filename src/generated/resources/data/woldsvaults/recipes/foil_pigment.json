@@ -1,0 +1,12 @@
+{
+  "type": "mekanism:pigment_extracting",
+  "input": {
+    "ingredient": {
+      "item": "mekanism:pellet_antimatter"
+    }
+  },
+  "output": {
+    "pigment": "woldsvaults:foil_pigment",
+    "amount": 2000
+  }
+}

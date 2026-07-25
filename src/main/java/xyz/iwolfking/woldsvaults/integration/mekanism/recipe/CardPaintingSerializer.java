@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.integration.mekanism.init.recipe;
+package xyz.iwolfking.woldsvaults.integration.mekanism.recipe;
 
 import com.google.gson.JsonObject;
 import iskallia.vault.core.card.CardEntry;

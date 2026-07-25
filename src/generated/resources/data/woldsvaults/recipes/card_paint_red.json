@@ -1,0 +1,15 @@
+{
+  "type": "mekanism:pigment_mixing",
+  "leftInput": {
+    "amount": 2,
+    "pigment": "woldsvaults:card_paint_base"
+  },
+  "rightInput": {
+    "amount": 1,
+    "pigment": "woldsvaults:idona_red"
+  },
+  "output": {
+    "pigment": "woldsvaults:card_paint_red",
+    "amount": 1
+  }
+}

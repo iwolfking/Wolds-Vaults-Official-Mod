@@ -1,13 +1,12 @@
 package xyz.iwolfking.woldsvaults.integration.mekanism.init;
 
-import mekanism.api.recipes.PaintingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.integration.mekanism.init.recipe.CardPaintingRecipe;
-import xyz.iwolfking.woldsvaults.integration.mekanism.init.recipe.CardPaintingSerializer;
+import xyz.iwolfking.woldsvaults.integration.mekanism.recipe.CardPaintingRecipe;
+import xyz.iwolfking.woldsvaults.integration.mekanism.recipe.CardPaintingSerializer;
 
 public class MekanismRecipeDeserializers {
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS =

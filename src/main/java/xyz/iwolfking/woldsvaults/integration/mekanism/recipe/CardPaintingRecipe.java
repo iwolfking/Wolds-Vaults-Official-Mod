@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.integration.mekanism.init.recipe;
+package xyz.iwolfking.woldsvaults.integration.mekanism.recipe;
 
 import iskallia.vault.core.card.Card;
 import iskallia.vault.core.card.CardEntry;
@@ -21,7 +21,6 @@ import xyz.iwolfking.woldsvaults.integration.mekanism.init.MekanismRecipeDeseria
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModPigments;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 

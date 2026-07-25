@@ -7,7 +7,7 @@
   },
   "chemicalInput": {
     "amount": 350,
-    "pigment": "woldsvaults:idona_red"
+    "pigment": "woldsvaults:card_paint_red"
   },
   "output": {
     "item": "the_vault:card"

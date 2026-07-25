@@ -7,7 +7,7 @@
   },
   "chemicalInput": {
     "amount": 350,
-    "pigment": "woldsvaults:velara_green"
+    "pigment": "woldsvaults:card_paint_green"
   },
   "output": {
     "item": "the_vault:card"

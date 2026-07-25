@@ -30,13 +30,13 @@
       "item": "the_vault:red_vault_essence"
     },
     {
-      "item": "the_vault:memory_powder"
+      "item": "woldsvaults:blue_vault_essence"
     },
     {
-      "item": "the_vault:vault_moss"
+      "item": "woldsvaults:green_vault_essence"
     },
     {
-      "item": "the_vault:grapes"
+      "item": "woldsvaults:yellow_vault_essence"
     }
   ]
 }
