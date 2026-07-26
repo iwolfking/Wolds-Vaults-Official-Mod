@@ -1,0 +1,18 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:aura_ring_greater"
+  },
+  "mana": 25000,
+  "ingredients": [
+    {
+      "item": "the_vault:infused_eternal_soul"
+    },
+    {
+      "item": "botania:terrasteel_ingot"
+    },
+    {
+      "item": "botania:aura_ring"
+    }
+  ]
+}

@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.events;
 import iskallia.vault.block.SkillAltarBlock;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.init.ModDynamicModels;
-import iskallia.vault.init.ModItems;
 import iskallia.vault.item.KnowledgeBrewItem;
 import iskallia.vault.item.MentorsBrewItem;
 import iskallia.vault.item.VaultDollItem;
@@ -31,10 +30,14 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+import top.theillusivec4.curios.api.event.CurioEquipEvent;
+import vazkii.botania.common.item.equipment.bauble.ItemBauble;
+import vazkii.botania.common.item.equipment.bauble.ItemBaubleCosmetic;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.blocks.DollDismantlingBlock;
@@ -46,6 +49,17 @@ import xyz.iwolfking.woldsvaults.items.filter_necklace.FilterNecklaceItem;
         modid = WoldsVaults.MOD_ID
 )
 public class PlayerEvents {
+
+    @SubscribeEvent
+    public static void onCurioCanEquip(CurioEquipEvent event) {
+        if ("curio".equals(event.getSlotContext().identifier())) {
+            ItemStack stack = event.getStack();
+
+            if(stack.getItem() instanceof ItemBauble && !(stack.getItem() instanceof ItemBaubleCosmetic)) {
+                event.setResult(Event.Result.DENY);
+            }
+        }
+    }
 
     @SubscribeEvent(
             priority = EventPriority.HIGH

@@ -1,0 +1,18 @@
+{
+  "type": "thermal:smelter",
+  "ingredients": [
+    {
+      "item": "the_vault:perfect_wutodie"
+    },
+    {
+      "item": "the_vault:silver_scrap",
+      "count": 4
+    }
+  ],
+  "result": [
+    {
+      "item": "the_vault:wutodic_silver_ingot"
+    }
+  ],
+  "energy": 3600
+}

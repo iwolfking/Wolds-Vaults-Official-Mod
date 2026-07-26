@@ -1,0 +1,27 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:speed_up_belt"
+  },
+  "mana": 7500,
+  "ingredients": [
+    {
+      "item": "woldsvaults:chroma_core"
+    },
+    {
+      "item": "the_vault:vault_diamond"
+    },
+    {
+      "item": "botania:travel_belt"
+    },
+    {
+      "item": "woldsvaults:chroma_core"
+    },
+    {
+      "item": "woldsvaults:chroma_core"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_block"
+    }
+  ]
+}

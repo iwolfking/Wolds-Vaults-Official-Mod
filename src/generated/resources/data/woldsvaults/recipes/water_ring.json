@@ -1,0 +1,30 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:water_ring"
+  },
+  "mana": 5000,
+  "ingredients": [
+    {
+      "item": "minecraft:tropical_fish"
+    },
+    {
+      "item": "minecraft:sponge"
+    },
+    {
+      "item": "minecraft:pufferfish"
+    },
+    {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    {
+      "item": "botania:rune_water"
+    },
+    {
+      "item": "botania:manasteel_block"
+    },
+    {
+      "item": "the_vault:trinket_scrap"
+    }
+  ]
+}

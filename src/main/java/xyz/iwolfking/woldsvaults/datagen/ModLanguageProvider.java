@@ -16,6 +16,7 @@ import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
+import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModGases;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModPigments;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyIngredientTypeAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyItemAttribute;
@@ -139,6 +140,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModPigments.CARD_PAINT_GREEN.getTranslationKey(), "Green Card Paint");
         add(ModPigments.CARD_PAINT_RED.getTranslationKey(), "Red Card Paint");
         add(ModPigments.CARD_PAINT_YELLOW.getTranslationKey(), "Yellow Card Paint");
+        add(ModGases.LEAD_GAS.getTranslationKey(), "Gaseous Lead");
         add(ModItems.LEAD_DYE_BASE, "Lead Dye Base");
         add("fix.woldsvaults.schematic_terminal_no_permission", "You do not have permission to place an Overworld Inscription here!");
         add("fluid.woldsvaults.molten_trinket", "Molten Trinket");

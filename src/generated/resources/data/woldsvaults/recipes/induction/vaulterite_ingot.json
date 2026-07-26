@@ -1,0 +1,19 @@
+{
+  "type": "thermal:smelter",
+  "ingredients": [
+    {
+      "item": "the_vault:vault_scrap",
+      "count": 2
+    },
+    {
+      "item": "the_vault:gem_painite",
+      "count": 2
+    }
+  ],
+  "result": [
+    {
+      "item": "the_vault:vaulterite_ingot"
+    }
+  ],
+  "energy": 12000
+}

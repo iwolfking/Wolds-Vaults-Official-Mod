@@ -1,0 +1,27 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:travel_belt"
+  },
+  "mana": 5000,
+  "ingredients": [
+    {
+      "item": "woldsvaults:prismatic_fiber_block"
+    },
+    {
+      "item": "the_vault:omega_pog"
+    },
+    {
+      "item": "the_vault:echo_pog"
+    },
+    {
+      "item": "botania:rune_air"
+    },
+    {
+      "item": "botania:rune_earth"
+    },
+    {
+      "item": "the_vault:trinket_scrap"
+    }
+  ]
+}

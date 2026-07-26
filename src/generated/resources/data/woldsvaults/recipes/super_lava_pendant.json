@@ -1,0 +1,24 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:super_lava_pendant"
+  },
+  "mana": 5000,
+  "ingredients": [
+    {
+      "item": "woldsvaults:vault_ingot_block"
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    },
+    {
+      "item": "minecraft:nether_brick"
+    },
+    {
+      "item": "botania:life_essence"
+    },
+    {
+      "item": "botania:lava_pendant"
+    }
+  ]
+}

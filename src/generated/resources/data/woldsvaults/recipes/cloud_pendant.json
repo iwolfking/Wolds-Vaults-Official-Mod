@@ -1,0 +1,27 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:cloud_pendant"
+  },
+  "mana": 7500,
+  "ingredients": [
+    {
+      "item": "the_vault:sublime_vault_vision"
+    },
+    {
+      "item": "botania:mana_diamond_block"
+    },
+    {
+      "item": "botania:rune_air"
+    },
+    {
+      "item": "botania:rune_autumn"
+    },
+    {
+      "item": "botania:mana_string"
+    },
+    {
+      "item": "the_vault:trinket_scrap"
+    }
+  ]
+}

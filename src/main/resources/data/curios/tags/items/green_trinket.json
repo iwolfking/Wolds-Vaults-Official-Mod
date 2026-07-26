@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "botania:lava_pendant",
+    "botania:super_lava_pendant",
+    "botania:knockback_belt",
+    "botania:aura_ring",
+    "botania:mana_ring",
+    "botania:aura_ring_greater",
+    "botania:mana_ring_greater"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "botania:holy_cloak",
+    "botania:unholy_cloak",
+    "botania:balance_cloak"
+  ]
+}

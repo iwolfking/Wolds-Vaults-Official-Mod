@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
-    "woldsvaults:zephyr_charm"
+    "woldsvaults:zephyr_charm",
+    "botania:cloud_pendant",
+    "botania:travel_belt",
+    "botania:super_travel_belt",
+    "botania:speed_up_belt",
+    "botania:water_ring"
   ]
 }

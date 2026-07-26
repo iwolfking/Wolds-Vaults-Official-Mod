@@ -1,0 +1,27 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:lava_pendant"
+  },
+  "mana": 2500,
+  "ingredients": [
+    {
+      "item": "botania:manasteel_ingot"
+    },
+    {
+      "item": "botania:mana_diamond_block"
+    },
+    {
+      "item": "botania:rune_fire"
+    },
+    {
+      "item": "botania:rune_summer"
+    },
+    {
+      "item": "botania:mana_string"
+    },
+    {
+      "item": "the_vault:trinket_scrap"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:super_travel_belt"
+  },
+  "mana": 10000,
+  "ingredients": [
+    {
+      "item": "woldsvaults:echo_pog_block"
+    },
+    {
+      "item": "the_vault:infused_eternal_soul"
+    },
+    {
+      "item": "botania:travel_belt"
+    },
+    {
+      "item": "woldsvaults:chunk_of_power"
+    },
+    {
+      "item": "woldsvaults:chunk_of_power"
+    },
+    {
+      "item": "woldsvaults:wold_star_chunk"
+    }
+  ]
+}
