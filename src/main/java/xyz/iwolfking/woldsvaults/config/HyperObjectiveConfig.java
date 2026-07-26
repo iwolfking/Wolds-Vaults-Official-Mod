@@ -180,11 +180,10 @@ public class HyperObjectiveConfig extends Config {
         this.omegaRolls = 3;
         this.rareRewards = new ArrayList<>(List.of(
                 InjectionEntry.item("the_vault:repair_core", 1, 100),
-                InjectionEntry.item("vending_companions:companion_temporalizer", 1, 25),
+                InjectionEntry.item("woldsvaults:companion_reroller", 1, 25),
                 InjectionEntry.boosterPack("the_vault:deluxe_resource_pack", 1, 2),
                 InjectionEntry.item("woldsvaults:omega_box", 2, 10),
                 InjectionEntry.item("the_vault:map", 1, 10),
-                InjectionEntry.item("woldsvaults:legend_sigil", 1, 5),
                 InjectionEntry.item("the_vault:recharge_core", 1, 50),
                 InjectionEntry.item("the_vault:fundamental_focus", 15, 40),
                 InjectionEntry.item("the_vault:opportunistic_focus", 10, 10),
@@ -202,12 +201,7 @@ public class HyperObjectiveConfig extends Config {
                 InjectionEntry.boosterPack("the_vault:evolution_pack", 10, 5),
                 InjectionEntry.boosterPack("the_vault:shiny_pack", 2, 5),
                 InjectionEntry.item("the_vault:unique_shard", 10, 20),
-                InjectionEntry.item("woldsvaults:greedy_ticket", 1, 5),
-                InjectionEntry.greaterDeckCore("pure", 2),
-                InjectionEntry.greaterDeckCore("arcane", 2),
-                InjectionEntry.greaterDeckCore("construction", 2),
-                InjectionEntry.greaterDeckCore("shiny", 2),
-                InjectionEntry.greaterDeckCore("void", 2)));
+                InjectionEntry.item("woldsvaults:greedy_ticket", 1, 5)));
         this.omegaRewards = new ArrayList<>(List.of(
                 InjectionEntry.greedCoins(2, 3, 300),
                 InjectionEntry.item("the_vault:mystic_pear", 1, 20),
@@ -217,7 +211,6 @@ public class HyperObjectiveConfig extends Config {
                 InjectionEntry.boosterPack("the_vault:deluxe_resource_pack", 2, 50),
                 InjectionEntry.boosterPack("the_vault:shiny_pack", 5, 100),
                 InjectionEntry.item("woldsvaults:crystal_reinforcement", 1, 20),
-                InjectionEntry.greaterDeckCore("archive", 2),
                 InjectionEntry.item("woldsvaults:greedy_ticket", 3, 20),
                 InjectionEntry.item("woldsvaults:core_of_the_vault_gods", 1, 1)));
     }

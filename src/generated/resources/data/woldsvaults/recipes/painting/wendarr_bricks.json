@@ -7,7 +7,7 @@
   },
   "chemicalInput": {
     "amount": 5,
-    "pigment": "woldsvaults:idona_red"
+    "pigment": "woldsvaults:wendarr_yellow"
   },
   "output": {
     "item": "the_vault:wendarr_brick"
