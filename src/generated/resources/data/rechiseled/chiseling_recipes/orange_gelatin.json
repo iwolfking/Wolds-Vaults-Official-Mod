@@ -1,0 +1,27 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "auxiliaryblocks:cyan_gelatin"
+    },
+    {
+      "item": "auxiliaryblocks:lime_gelatin"
+    },
+    {
+      "item": "auxiliaryblocks:red_gelatin"
+    },
+    {
+      "item": "auxiliaryblocks:blue_gelatin"
+    },
+    {
+      "item": "auxiliaryblocks:magenta_gelatin"
+    },
+    {
+      "item": "auxiliaryblocks:purple_gelatin"
+    },
+    {
+      "item": "auxiliaryblocks:yellow_gelatin"
+    }
+  ],
+  "overwrite": false
+}

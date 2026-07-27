@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import iskallia.auxiliaryblocks.AuxiliaryBlocks;
 import iskallia.vault.init.ModBlocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.io.IOException;
@@ -163,6 +165,109 @@ public class RechiseledDataProvider implements DataProvider {
             chiselingFileBuilder.add(ModBlocks.SANDY_BRICKS_CRACKED);
             chiselingFileBuilder.add(ModBlocks.SANDY_SMALL_BRICKS);
             chiselingFileBuilder.add(ModBlocks.SANDY_SMALL_BRICKS_CRACKED);
+        });
+
+        add(iskallia.auxiliaryblocks.init.ModBlocks.COBBLED_SANDSTONE.get(), chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ROCKY_SAND.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.MOSSY_STONE.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ROCKY_DIRT.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ROCKY_STONE.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.DIRTY_SAND.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.MOSSY_DIRT.get());
+            chiselingFileBuilder.add(Blocks.SANDSTONE);
+        });
+
+        add(iskallia.auxiliaryblocks.init.ModBlocks.COBBLED_SANDSTONE.get(), chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ROCKY_SAND.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.MOSSY_STONE.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ROCKY_DIRT.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ROCKY_STONE.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.DIRTY_SAND.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.MOSSY_DIRT.get());
+            chiselingFileBuilder.add(Blocks.SANDSTONE);
+        });
+
+        add(Blocks.DIORITE, chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.DARK_PURPLE_DIORITE.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.PURPLE_DIORITE.get());
+        });
+
+        add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_LIGHT_GRAY.get(), chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_BLUE.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_CHROME.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_CYAN.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_GRAY.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_DARK_GRAY.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_LIGHT_METALLIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_METALLIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_RED.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LAB_YELLOW.get());
+        });
+
+        add(iskallia.auxiliaryblocks.init.ModBlocks.CONCRETE.get(), chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.CONCRETE_VENT.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.NAILED_REINFORCED_CONCRETE.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.PLATED_CONCRETE.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.REINFORCED_CONCRETE.get());
+            chiselingFileBuilder.add(Blocks.GRAY_CONCRETE);
+        });
+
+        add(iskallia.auxiliaryblocks.init.ModBlocks.GRAY_PASTEL.get(), chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.BLUE_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.GREEN_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.YELLOW_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.PINK_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ORANGE_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.PURPLE_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.SMOOTH_BLUE_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.SMOOTH_GRAY_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.SMOOTH_GREEN_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.SMOOTH_ORANGE_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.SMOOTH_PINK_PASTEL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.SMOOTH_PURPLE_PASTEL.get());
+        });
+
+        add(iskallia.auxiliaryblocks.init.ModBlocks.PLASTIC.get(), chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.CYAN_PLASTIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.DARK_GRAY_PLASTIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.GREEN_PLASTIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.RED_PLASTIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ORANGE_PLASTIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.PURPLE_PLASTIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.BLUE_PLASTIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LIGHT_GRAY_PLASTIC.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.DARK_GRAY_PLASTIC.get());
+        });
+
+        add(iskallia.auxiliaryblocks.init.ModBlocks.ASPHALT.get(), chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ASPHALT_CAUTION.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ASPHALT_LINE_CENTER.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ASPHALT_LINE_EDGE.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.DARK_ASPHALT.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.DARK_ASPHALT_CAUTION.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.DARK_ASPHALT_LINE_CENTER.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.DARK_ASPHALT_LINE_EDGE.get());
+        });
+
+        add(iskallia.auxiliaryblocks.init.ModBlocks.ORANGE_GELATIN.get(), chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.CYAN_GELATIN.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.LIME_GELATIN.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.RED_GELATIN.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.BLUE_GELATIN.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.MAGENTA_GELATIN.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.PURPLE_GELATIN.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.YELLOW_GELATIN.get());
+        });
+
+        add(iskallia.auxiliaryblocks.init.ModBlocks.BLACK_CRYSTAL.get(), chiselingFileBuilder -> {
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.BLUE_CRYSTAL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.GREEN_CRYSTAL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.INDIGO_CRYSTAL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.ORANGE_CRYSTAL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.RED_CRYSTAL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.VIOLET_CRYSTAL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.WHITE_CRYSTAL.get());
+            chiselingFileBuilder.add(iskallia.auxiliaryblocks.init.ModBlocks.YELLOW_CRYSTAL.get());
         });
 
 

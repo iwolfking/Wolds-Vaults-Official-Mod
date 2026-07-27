@@ -1,0 +1,27 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "auxiliaryblocks:rocky_sand"
+    },
+    {
+      "item": "auxiliaryblocks:mossy_stone"
+    },
+    {
+      "item": "auxiliaryblocks:rocky_dirt"
+    },
+    {
+      "item": "auxiliaryblocks:rocky_stone"
+    },
+    {
+      "item": "auxiliaryblocks:dirty_sand"
+    },
+    {
+      "item": "auxiliaryblocks:mossy_dirt"
+    },
+    {
+      "item": "minecraft:sandstone"
+    }
+  ],
+  "overwrite": false
+}
