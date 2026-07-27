@@ -11,7 +11,7 @@
   },
   "ingredients": [
     {
-      "item": "the_vault:memory_powder"
+      "item": "woldsvaults:blue_vault_essence"
     },
     {
       "item": "the_vault:chromatic_iron_block"

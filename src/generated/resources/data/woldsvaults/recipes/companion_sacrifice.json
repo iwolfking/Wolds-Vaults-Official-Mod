@@ -15,16 +15,10 @@
   },
   "ingredients": [
     {
-      "item": "the_vault:gem_painite"
+      "item": "the_vault:red_vault_essence"
     },
     {
-      "item": "the_vault:gem_painite"
-    },
-    {
-      "item": "the_vault:gem_painite"
-    },
-    {
-      "item": "the_vault:gem_painite"
+      "item": "the_vault:red_vault_essence"
     }
   ]
 }

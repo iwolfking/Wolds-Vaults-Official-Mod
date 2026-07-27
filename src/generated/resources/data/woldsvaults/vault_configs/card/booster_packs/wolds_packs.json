@@ -1,5 +1,256 @@
 {
   "values": {
+    "the_vault:museum_pack": {
+      "name": {
+        "text": "Museum Booster Pack"
+      },
+      "model": {
+        "unopened": "vhapi:booster_pack/museum_pack#inventory",
+        "opened": "vhapi:booster_pack/museum_pack_ripped#inventory"
+      },
+      "roll": [
+        {
+          "value": 3,
+          "weight": 1.0
+        }
+      ],
+      "tier": [
+        {
+          "value": 1,
+          "weight": 1.0
+        }
+      ],
+      "color": [
+        {
+          "value": "YELLOW",
+          "weight": 1.0
+        }
+      ],
+      "card": [
+        {
+          "value": [
+            {
+              "modifier": "@default",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@default",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_stat",
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_stat",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 1.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@arcane",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@arcane",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@knack",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 4.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@scaling",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@scaling",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@resource",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@resource",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_resource",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_resource",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@temporal",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 4.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@shiny",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        }
+      ]
+    },
     "the_vault:deluxe_resource_pack": {
       "name": {
         "text": "Deluxe Resource Booster Pack"
@@ -366,7 +617,7 @@
         {
           "value": [
             {
-              "modifier": "@resource",
+              "modifier": "@default",
               "probability": 1.0
             }
           ],
@@ -375,7 +626,31 @@
         {
           "value": [
             {
-              "modifier": "@resource",
+              "modifier": "@default",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_stat",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_stat",
+              "groups": [
+                "Foil"
+              ],
               "probability": 1.0
             }
           ],
@@ -384,11 +659,116 @@
         {
           "value": [
             {
-              "modifier": "@deluxe_resource",
+              "modifier": "@arcane",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@arcane",
+              "groups": [
+                "Foil"
+              ],
               "probability": 1.0
             }
           ],
           "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@knack",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 4.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 1.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@scaling",
+              "probability": 1.0
+            }
+          ],
+          "weight": 4.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@scaling",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@resource",
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@resource",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 1.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_resource",
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
         },
         {
           "value": [
@@ -405,23 +785,56 @@
         {
           "value": [
             {
-              "modifier": "@default",
+              "modifier": "@temporal",
               "probability": 1.0
             }
           ],
-          "weight": 6.0
+          "weight": 3.0
         },
         {
           "value": [
             {
-              "modifier": "@default",
+              "modifier": "@temporal",
               "groups": [
                 "Foil"
               ],
               "probability": 1.0
             }
           ],
-          "weight": 4.0
+          "weight": 1.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 1.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@shiny",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
         }
       ]
     },
@@ -632,6 +1045,257 @@
         }
       ]
     },
+    "the_vault:grove_pack": {
+      "name": {
+        "text": "Grove Booster Pack"
+      },
+      "model": {
+        "unopened": "vhapi:booster_pack/grove_pack#inventory",
+        "opened": "vhapi:booster_pack/grove_pack_ripped#inventory"
+      },
+      "roll": [
+        {
+          "value": 3,
+          "weight": 1.0
+        }
+      ],
+      "tier": [
+        {
+          "value": 1,
+          "weight": 1.0
+        }
+      ],
+      "color": [
+        {
+          "value": "GREEN",
+          "weight": 1.0
+        }
+      ],
+      "card": [
+        {
+          "value": [
+            {
+              "modifier": "@default",
+              "probability": 1.0
+            }
+          ],
+          "weight": 9.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@default",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_stat",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_stat",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@arcane",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@arcane",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@knack",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 4.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 1.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@scaling",
+              "probability": 1.0
+            }
+          ],
+          "weight": 9.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@scaling",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@resource",
+              "probability": 1.0
+            }
+          ],
+          "weight": 4.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@resource",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_resource",
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_resource",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@temporal",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 1.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 1.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@shiny",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        }
+      ]
+    },
     "the_vault:deluxe_temporal_pack": {
       "name": {
         "text": "Deluxe Temporal Booster Pack"
@@ -695,6 +1359,257 @@
             }
           ],
           "weight": 1.0
+        }
+      ]
+    },
+    "the_vault:library_pack": {
+      "name": {
+        "text": "Library Booster Pack"
+      },
+      "model": {
+        "unopened": "vhapi:booster_pack/library_pack#inventory",
+        "opened": "vhapi:booster_pack/library_pack_ripped#inventory"
+      },
+      "roll": [
+        {
+          "value": 3,
+          "weight": 1.0
+        }
+      ],
+      "tier": [
+        {
+          "value": 1,
+          "weight": 1.0
+        }
+      ],
+      "color": [
+        {
+          "value": "BLUE",
+          "weight": 1.0
+        }
+      ],
+      "card": [
+        {
+          "value": [
+            {
+              "modifier": "@default",
+              "probability": 1.0
+            }
+          ],
+          "weight": 9.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@default",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_stat",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_stat",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@arcane",
+              "probability": 1.0
+            }
+          ],
+          "weight": 9.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@arcane",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 9.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@knack",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@scaling",
+              "probability": 1.0
+            }
+          ],
+          "weight": 9.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@scaling",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@resource",
+              "probability": 1.0
+            }
+          ],
+          "weight": 9.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@resource",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_resource",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_resource",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 9.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@temporal",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@shiny",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 4.0
         }
       ]
     }
