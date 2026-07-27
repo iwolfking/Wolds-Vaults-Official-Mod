@@ -5,7 +5,7 @@
     "2": "woldsvaults:block/mod_box_workstation_top_side",
     "3": "woldsvaults:block/mod_box_workstation_top",
     "4": "woldsvaults:block/mod_box_workstation_top",
-    "particle": "woldsvaults:mod_box_workstation_leg"
+    "particle": "woldsvaults:block/mod_box_workstation_leg"
   },
   "elements": [
     {
