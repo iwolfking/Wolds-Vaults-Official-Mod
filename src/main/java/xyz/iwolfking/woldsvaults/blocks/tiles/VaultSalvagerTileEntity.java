@@ -13,10 +13,10 @@ import iskallia.vault.init.ModNetwork;
 import iskallia.vault.item.gear.RecyclableItem;
 import iskallia.vault.network.message.RecyclerParticleMessage;
 import iskallia.vault.util.MiscUtils;
-import iskallia.vault.util.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -284,7 +284,7 @@ public class VaultSalvagerTileEntity extends BlockEntity implements MenuProvider
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        NBTHelper.deserializeSimpleContainer( this.inventory, tag.getList("inventory", 10));
+        this.inventory.fromOversizedTag(tag.getList("inventory", Tag.TAG_COMPOUND));
         this.processTick = tag.getInt("processTick");
         if (tag.hasUUID("gearIdProcessing")) {
             this.gearIdProcessing = tag.getUUID("gearIdProcessing");
@@ -295,7 +295,7 @@ public class VaultSalvagerTileEntity extends BlockEntity implements MenuProvider
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        tag.put("inventory", NBTHelper.serializeSimpleContainer(this.inventory));
+        tag.put("inventory", this.inventory.createOversizedTag());
         tag.putInt("processTick", this.processTick);
         if (this.gearIdProcessing != null) {
             tag.putUUID("gearIdProcessing", this.gearIdProcessing);
