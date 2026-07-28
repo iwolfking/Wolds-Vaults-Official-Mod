@@ -435,7 +435,7 @@ public class AlchemyObjective extends Objective {
 
                 addCrateQuantity(vault, world, crateAmount);
 
-                if(!GameruleHelper.isEnabled(ModGameRules.UNLIMITED_ALCHEMY_OVERSTACKING, world.getLevel()) && VaultModifierUtils.getModifierValueOfType(vault, CrateItemQuantityModifierSettable.class) >= this.get(OVERSTACK_ALLOWANCE)) {
+                if(!GameruleHelper.isEnabled(ModGameRules.UNLIMITED_ALCHEMY_OVERSTACKING, world.getLevel()) && VaultModifierUtils.getCountOfModifiers(vault, VaultMod.id("crate_quantity")) >= this.get(OVERSTACK_ALLOWANCE)) {
                     this.set(FULLY_OVERSTACKED, true);
                     world.players().forEach(player ->
                             player.sendMessage(
@@ -450,7 +450,8 @@ public class AlchemyObjective extends Objective {
     }
 
     private void addCrateQuantity(Vault vault, VirtualWorld world, float crateAmount) {
-        VaultModifierUtils.incrementModifierValueOfType(vault, CrateItemQuantityModifierSettable.class, VaultMod.id("map_crate_quantity"), crateAmount);
+        //VaultModifierUtils.incrementModifierValueOfType(vault, CrateItemQuantityModifierSettable.class, VaultMod.id("map_crate_quantity"), crateAmount);
+        VaultModifierUtils.addModifier(vault, VaultMod.id("crate_quantity"), (int) crateAmount);
 
         world.players().forEach(player ->
                 player.sendMessage(
