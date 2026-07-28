@@ -69,7 +69,9 @@ public class ZealotObjective extends Objective {
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
-            this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability));
+            if (data.getVault() == vault) {
+                this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability));
+            }
         });
         CommonEvents.GOD_ALTAR_EVENT.register(this, event -> {
             if (event.getVault().get(Vault.ID).equals(vault.get(Vault.ID)) && event.isCompleted()) {

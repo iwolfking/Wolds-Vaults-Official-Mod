@@ -18,8 +18,6 @@ import java.util.Optional;
 
 @Mixin(value = ScavengerBingoObjective.class, remap = false)
 public interface ScavengerBingoObjectiveAccessor {
-    @Invoker
-    void callCountItemFromWorld(ItemStack stack);
 
     @Accessor
     static SupplierKey<Objective> getKEY() {throw new UnsupportedOperationException();}
@@ -37,19 +35,14 @@ public interface ScavengerBingoObjectiveAccessor {
 
     @Invoker
     String callGetItemKey(ItemStack stack);
-    
+
+    @Invoker
+    boolean callTryCountAndVoid(ItemStack stack);
+
+
 
     @Invoker
     void callCollectCandidatesFromTask(ScavengeTask task, List candidates);
-
-    @Invoker
-    void callCountItem(ItemStack stack, Vault vault);
-
-    @Invoker
-    void callCountItems(List<ItemStack> items, Vault vault);
-
-    @Invoker
-    void callCountItemsFromWorld(List<ItemStack> items);
 
     @Invoker
     void callOnTileComplete(VirtualWorld world, Vault vault, int index);

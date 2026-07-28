@@ -12,6 +12,7 @@ import iskallia.vault.core.vault.objective.CakeObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.world.generator.GridGenerator;
 import iskallia.vault.core.world.generator.layout.GridLayout;
+import iskallia.vault.core.world.generator.layout.VaultGridLayout;
 import iskallia.vault.core.world.processor.ProcessorContext;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.core.world.template.JigsawTemplate;
@@ -38,26 +39,27 @@ public abstract class MixinCakeObjective extends Objective {
         ObjectiveHelper.handleAddingNormalizedToVault(vault, world.getLevel());
     }
 
-    @WrapOperation(method = "onCakeEaten", at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/objective/CakeObjective;generateCake(Liskallia/vault/core/world/storage/VirtualWorld;Liskallia/vault/core/util/RegionPos;Liskallia/vault/core/random/RandomSource;)V"))
-    private void genOnTopIfVillage(CakeObjective instance, VirtualWorld world, RegionPos region, RandomSource random, Operation<Void> original, @Local(name = "gen")
-    GridGenerator gen, @Local(argsOnly = true) Vault vault, @Local(name = "neighbor") RegionPos neighbor) {
-
-        ChunkRandom chunkRandom = ChunkRandom.any();
-        chunkRandom.setRegionSeed(vault.get(Vault.SEED), region.getX(), region.getZ(), 1234567890L);
-        PlacementSettings settings = (new PlacementSettings(new ProcessorContext(vault, random))).setFlags(272);
-        var template = ((GridLayout)gen.getLayout()).getAt(vault, RegionPos.ofBlockPos(neighbor.toBlockPos(), 1, 1),  chunkRandom, settings);
-        if (template instanceof JigsawTemplate jigsaw) {
-            if (jigsaw.getRoot() instanceof StructureTemplate structure) {
-                var path = structure.getPath();
-                if (path != null && path.contains("village")) {
-                    if (tryToGenCakeAbove(world, region, random, 25)){
-                        return;
-                    }
-                }
-            }
-        }
-        original.call(instance, world, region, random);
-    }
+    //TODO: Fix for new VH update
+//    @WrapOperation(method = "onCakeEaten", at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/objective/CakeObjective;discoverCakeRoom(Liskallia/vault/core/world/storage/VirtualWorld;Liskallia/vault/core/vault/Vault;Liskallia/vault/core/world/generator/GridGenerator;Liskallia/vault/core/world/generator/layout/VaultGridLayout;Liskallia/vault/core/util/RegionPos;)V"))
+//    private void genOnTopIfVillage(CakeObjective instance, VirtualWorld world, Vault vault, GridGenerator generator, VaultGridLayout layout, RegionPos region, Operation<Void> original, @Local(name = "gen")
+//    GridGenerator gen, @Local(argsOnly = true) Vault vault, @Local(name = "neighbor") RegionPos neighbor) {
+//
+//        ChunkRandom chunkRandom = ChunkRandom.any();
+//        chunkRandom.setRegionSeed(vault.get(Vault.SEED), region.getX(), region.getZ(), 1234567890L);
+//        PlacementSettings settings = (new PlacementSettings(new ProcessorContext(vault, random))).setFlags(272);
+//        var template = ((GridLayout)gen.getLayout()).getAt(vault, RegionPos.ofBlockPos(neighbor.toBlockPos(), 1, 1),  chunkRandom, settings);
+//        if (template instanceof JigsawTemplate jigsaw) {
+//            if (jigsaw.getRoot() instanceof StructureTemplate structure) {
+//                var path = structure.getPath();
+//                if (path != null && path.contains("village")) {
+//                    if (tryToGenCakeAbove(world, region, random, 25)){
+//                        return;
+//                    }
+//                }
+//            }
+//        }
+//        original.call(instance, world, region, random);
+//    }
 
     /**
      * @return true if it managed to place a cake, false otherwise
