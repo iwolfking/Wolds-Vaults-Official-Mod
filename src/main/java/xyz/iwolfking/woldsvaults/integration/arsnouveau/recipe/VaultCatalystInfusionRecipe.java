@@ -114,7 +114,7 @@ public class VaultCatalystInfusionRecipe extends EnchantingApparatusRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return ArsRecipeSerializers.VAULT_GEAR_ENCHANTING_APPARATUS;
+        return ArsRecipeSerializers.VAULT_CATALYST_INFUSION;
     }
 
     @Override
