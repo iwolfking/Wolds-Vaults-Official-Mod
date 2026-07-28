@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.TrinketHelper;
 
 @Mixin(value = VaultRoyaleObjective.class, remap = false)
@@ -22,9 +21,8 @@ public class MixinRoyaleObjective {
             TrinketHelper.clearCurios(player);
     }
 
-    @Inject(method = "tickServer", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/boss/SkeletonGladiatorEntity;getHealth()F", shift = At.Shift.AFTER))
+    @Inject(method = "tickServer", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/boss/SkeletonGladiatorEntity;getHealth()F", shift = At.Shift.AFTER), remap = true)
     private void pauseTimer(VirtualWorld world, Vault vault, CallbackInfo ci) {
-        WoldsVaults.LOGGER.info("Ticking Boss pause");
         if (!vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
             vault.get(Vault.CLOCK).set(TickClock.PAUSED);
         }
