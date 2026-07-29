@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import fuzs.puzzleslib.api.client.event.v1.ModelEvents;
 import iskallia.vault.config.EntityGroupDefinitionsConfig;
 import iskallia.vault.config.VaultMapRoomIconsConfig;
+import iskallia.vault.init.ModTextureAtlases;
 import iskallia.vault.world.data.PlayerGreedData;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;

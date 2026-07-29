@@ -29,14 +29,14 @@ public class MixinOverviewContainerElement {
     }
 
     @WrapOperation(
-        method = "<init>(Liskallia/vault/client/gui/framework/spatial/spi/ISpatial;Liskallia/vault/client/gui/screen/summary/VaultExitContainerScreenData;)V",
+        method = "<init>",
         at = @At(
             value = "INVOKE",
-            target = "Liskallia/vault/core/vault/stat/StatCollector;getExpMultiplier()F"
+            target = "Liskallia/vault/client/gui/screen/summary/VaultExitContainerScreenData;getDisplayedXpMultiplier(Liskallia/vault/core/vault/stat/StatCollector;)F"
         )
     )
-    private float compoundOverviewExperienceMultiplier(StatCollector instance, Operation<Float> original) {
-        float baseMultiplier = original.call(instance);
+    private float compoundOverviewExperienceMultiplier(StatCollector statCollector, Operation<Float> original) {
+        float baseMultiplier = original.call(statCollector);
         float experiencedBoost = woldsVaults$getClientExperiencedMultiplier();
         
         return baseMultiplier + experiencedBoost;
