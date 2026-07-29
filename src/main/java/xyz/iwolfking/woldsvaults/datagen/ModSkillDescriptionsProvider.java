@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import iskallia.vault.config.ColorsConfig;
 import iskallia.vault.config.ModBoxConfig;
 import iskallia.vault.config.SkillDescriptionsConfig;
 import iskallia.vault.init.ModConfigs;
@@ -24,10 +25,70 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
     @Override
     public void registerConfigs() {
         ModConfigs.MOD_BOX = new ModBoxConfig().readConfig();
+        ModConfigs.COLORS = new ColorsConfig().readConfig();
 
-//        add("talent_overlevels", builder -> {
-//            TalentDescriptionsHelper.generateTalentDescriptions(builder, getTalentDescriptions());
-//        });
+        add("talent_overlevels", builder -> {
+            TalentDescriptionsHelper.appendOverlevelDescription("Haste", builder, "add <aqua>+10 Mining Speed");
+            TalentDescriptionsHelper.appendOverlevelDescription("Speed", builder, "add <yellow>+10% Movement Speed");
+            TalentDescriptionsHelper.appendOverlevelDescription("Might", builder, "add <red>+6 Attack Damage");
+            TalentDescriptionsHelper.appendOverlevelDescription("Intelligence", builder, "add <purple>+8 Ability Power");
+            TalentDescriptionsHelper.appendOverlevelDescription("Purist", builder, "add <red>+10% Increased Damage");
+            TalentDescriptionsHelper.appendOverlevelDescription("Last_Stand", builder, "increases the <green>Health Threshold<white> by <green2%<white>");
+            TalentDescriptionsHelper.appendOverlevelDescription("Berserking", builder, "increases the <green>Health Threshold<white> by <green2%<white>");
+            TalentDescriptionsHelper.appendOverlevelDescription("Sorcery", builder, "add <aqua>+10% Increased Mana Regeneration");
+            TalentDescriptionsHelper.appendOverlevelDescription("Prime_Amplification", builder, "add <yellow>+5% Increased Area Of Effect");
+            TalentDescriptionsHelper.appendOverlevelDescription("Bountiful_Harvest", builder, "adds one additional max stack");
+            TalentDescriptionsHelper.appendOverlevelDescription("Battle_Trance", builder, "adds one additional max stack");
+            TalentDescriptionsHelper.appendOverlevelDescription("Treasure_Seeker", builder, "adds one additional max stack");
+            TalentDescriptionsHelper.appendOverlevelDescription("Arcana", builder, "adds one additional max stack");
+            TalentDescriptionsHelper.appendOverlevelDescription("Blazing", builder, "adds one additional max stack");
+            TalentDescriptionsHelper.appendOverlevelDescription("Lucky_Momentum", builder, "adds two additional max stacks");
+            TalentDescriptionsHelper.appendOverlevelDescription("Blood_Rush", builder, "adds two additional max stacks");
+            TalentDescriptionsHelper.appendOverlevelDescription("Frenzy", builder, "adds two additional max stacks");
+            TalentDescriptionsHelper.appendOverlevelDescription("Lightning_Damage", builder, "adds <yellow>+10% Increased Lightning Damage");
+            TalentDescriptionsHelper.appendOverlevelDescription("Lightning_Stun", builder, "adds a small increase to the stun chance and duration");
+            TalentDescriptionsHelper.appendOverlevelDescription("Stoneskin", builder, "decreases the <green>Health Threshhold<white> by <green>2%<white>");
+            TalentDescriptionsHelper.appendOverlevelDescription("Lingering_Fumes", builder, "add <green>+10% Effect Duration");
+            TalentDescriptionsHelper.appendOverlevelDescription("Clean_Escape", builder, "add <yellow>+10% Movement Speed");
+            TalentDescriptionsHelper.appendOverlevelDescription("Witchery", builder, "add <purple>+10% Soul Shard Chance");
+            TalentDescriptionsHelper.appendOverlevelDescription("Methodical", builder, "add <green>+20% Healing Efficiency");
+            TalentDescriptionsHelper.appendOverlevelDescription("Depleted", builder, "add <red>+25% Additional Damage");
+            TalentDescriptionsHelper.appendOverlevelDescription("Mana_Harvest", builder, "add <aqua>+1 Additional Mana");
+            TalentDescriptionsHelper.appendOverlevelDescription("Fatal_Strike", builder, "add <red>+20% Additional Damage");
+            TalentDescriptionsHelper.appendOverlevelDescription("Heart_Fragments", builder, "add <green>+3% Heart Fragment Chance");
+            TalentDescriptionsHelper.appendOverlevelDescription("Mana_Steal", builder, "add <aqua>+1% Extra Max Mana");
+            TalentDescriptionsHelper.appendOverlevelDescription("Life_Steal", builder, "add <aqua>+2% Extra Life Leeched");
+            TalentDescriptionsHelper.appendOverlevelDescription("Cleave", builder, "add <red>+1% Additional damage<white> and <yellow>+5% Additional Range");
+            TalentDescriptionsHelper.appendOverlevelDescription("Prudent", builder, "add <aqua>+4% Additional Chance");
+            TalentDescriptionsHelper.appendOverlevelDescription("Ethereal", builder, "add <aqua>+3% Additional Chance");
+            TalentDescriptionsHelper.appendOverlevelDescription("Quickening", builder, "add <aqua>+10% Mana Refunded");
+            TalentDescriptionsHelper.appendOverlevelDescription("Trap_Disarm", builder, "add <purple>+10% Trap Disarm Chance");
+            TalentDescriptionsHelper.appendOverlevelDescription("Executioner", builder, "add <red>+5% Additional Damage");
+            TalentDescriptionsHelper.appendOverlevelDescription("Blizzard", builder, "adds an additional <yellow<level<white> to the <aqua>Frost Nova");
+            TalentDescriptionsHelper.appendOverlevelDescription("Frostbite", builder, "adds <aqua>+1% additional chance");
+            TalentDescriptionsHelper.appendOverlevelDescription("Daze", builder, "adds <red>+20% additional damage");
+            TalentDescriptionsHelper.appendOverlevelDescription("Voltaic_Impact", builder, "adds <red>+20% additional damage");
+            TalentDescriptionsHelper.appendOverlevelDescription("Blight", builder, "adds an additional <yellow>+2% damage reduction");
+        });
+
+        add("wolds_talents", builder -> {
+           builder.addDescription("Axe_Master", description -> {
+              description.add(JsonDescription.simple("While holding an "));
+              description.add(JsonDescription.simple("Axe", "#E9C375"));
+              description.add(JsonDescription.simple(", your melee hits deal additional damage based on the targets "));
+              description.add(JsonDescription.simple("current health", "yellow"));
+              description.add(JsonDescription.simple(".\n\n1 "));
+              description.add(JsonDescription.simple("+4%", "#E9C375"));
+              description.add(JsonDescription.simple("\n\n2 "));
+              description.add(JsonDescription.simple("+8%", "#E9C375"));
+              description.add(JsonDescription.simple("\n\n3 "));
+              description.add(JsonDescription.simple("+12%", "#E9C375"));
+              description.add(JsonDescription.simple("\n\n4 "));
+              description.add(JsonDescription.simple("+16%", "#E9C375"));
+              description.add(JsonDescription.simple("\n\n"));
+              description.add(JsonDescription.simple("Overlevels to <gold>Axe Master<white> add <red>2% additional damage"));
+           });
+        });
 
         add("prestige_overrides", builder -> {
             PrestigePowersDescriptionsHelper.generateDescriptions(builder, getOverridePrestigeDescriptions());

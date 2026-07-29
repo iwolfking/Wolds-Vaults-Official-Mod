@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
 import xyz.iwolfking.woldsvaults.expertises.*;
 import xyz.iwolfking.woldsvaults.prestige.*;
+import xyz.iwolfking.woldsvaults.talent.*;
 
 @Mixin(value = Skill.Adapter.class, remap = false)
 public class MixinSkill extends TypeSupplierAdapter<Skill> {
@@ -44,5 +45,14 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("tool_capacity_power", ToolCapacityPrestigePower.class, ToolCapacityPrestigePower::new);
         this.register("crafting_potential_power", CraftingPotentialPrestigePower.class, CraftingPotentialPrestigePower::new);
         this.register("legendary_bounty_power", LegendaryBountyPower.class, LegendaryBountyPower::new);
+
+        //Talents
+        this.register("wold_axe_talent", WoldsAxeSpecializationTalent.class, WoldsAxeSpecializationTalent::new);
+        this.register("stacking_weapon_attribute_talent", StackingWeaponAttributeTalent.class, StackingWeaponAttributeTalent::new);
+        this.register("execution_lucky_hit", ExecutionDamageLuckyHitTalent.class, ExecutionDamageLuckyHitTalent::new);
+        this.register("cooldown_lucky_hit", CooldownReductionLuckyHitTalent.class, CooldownReductionLuckyHitTalent::new);
+        this.register("fanged_lucky_hit", FangedStrikeLuckyHitTalent.class, FangedStrikeLuckyHitTalent::new);
+        this.register("heart_fragment_on_loot", HeartFragmentPerLootedContainerTalent.class, HeartFragmentPerLootedContainerTalent::new);
+        this.register("mind_meld", MindMeldTalent.class, MindMeldTalent::new);
     }
 }

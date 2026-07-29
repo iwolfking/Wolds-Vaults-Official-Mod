@@ -30,6 +30,7 @@ import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.gear.trinket.effects.MultiJumpTrinket;
 import iskallia.vault.item.gear.TrinketItem;
+import iskallia.vault.item.gear.VaultAxeItem;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.talent.type.JavelinConductTalent;
 import iskallia.vault.skill.tree.TalentTree;
@@ -90,6 +91,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.talent.WoldsAxeSpecializationTalent;
 
 import java.util.Random;
 import java.util.function.BiConsumer;
@@ -328,6 +330,14 @@ public class LivingEntityEvents {
         level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
     }
 
+    @SubscribeEvent
+    public static void cleavingDamage(LivingHurtEvent event) {
+        if(event.getSource().getEntity() instanceof Player player && WoldEventHelper.isNormalAttack()) {
+            if(player.getMainHandItem().getItem() instanceof VaultAxeItem) {
+                event.setAmount(event.getAmount() + WoldsAxeSpecializationTalent.applyCleavingDamageBonus(player, event.getEntityLiving()));
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void reavingDamage(LivingHurtEvent event) {

@@ -48,6 +48,29 @@ import java.util.Random;
 
 public class TalentDescriptionsHelper {
 
+    public static void appendOverlevelDescription(String skillId, AbstractSkillDescriptionsProvider.Builder builder, String overlevelBonusDesc) {
+        if(ModConfigs.TALENTS == null) {
+            ModConfigs.TALENTS = new TalentsConfig().readConfig();
+        }
+
+        if(ModConfigs.SKILL_DESCRIPTIONS == null) {
+            ModConfigs.SKILL_DESCRIPTIONS = new SkillDescriptionsConfig().readConfig();
+        }
+
+        Skill skill = ModConfigs.TALENTS.tree.getForId(skillId).orElse(null);
+
+        if(skill == null) {
+            return;
+        }
+
+        builder.addDescription(skill.getId(), jsonElements -> {
+            ComponentUtils.toJsonArray(ModConfigs.SKILL_DESCRIPTIONS.getDescriptionFor(skill.getId())).forEach(jsonElements::add);
+            jsonElements.add(JsonDescription.simple("\n\n"));
+            jsonElements.add(JsonDescription.simple("Overlevels of the <gold>" + skill.getName() + "<white> talent " + overlevelBonusDesc));
+            processTalentDescriptionsByType(skill, jsonElements);
+        });
+    }
+
     public static void generateTalentDescriptions(AbstractSkillDescriptionsProvider.Builder builder, SkillDescriptionsConfig talentsDescriptions) {
         ModConfigs.TALENTS = new TalentsConfig().readConfig();
         ModConfigs.ABILITIES = new AbilitiesConfig().readConfig();

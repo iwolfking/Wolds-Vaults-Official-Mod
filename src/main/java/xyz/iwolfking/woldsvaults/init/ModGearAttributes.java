@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.UniqueEffectGearAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.HeartFragmentOnLootAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.ParticleTrailAttribute;
 
 import javax.annotation.Nullable;
@@ -116,6 +117,7 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Float> INSCRIPTION = attr("inscription", VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.inscriptionReader("Guaranteed Special Rooms", 8833629, "%s"), VaultGearAttributeComparator.floatComparator());
 
     public static final VaultGearAttribute<ParticleTrailAttribute> PARTICLE_TRAIL =  attr("particle_trail", ParticleTrailAttribute.type(), ParticleTrailAttribute.generator(), ParticleTrailAttribute.reader(), ParticleTrailAttribute.comparator());
+    public static final VaultGearAttribute<HeartFragmentOnLootAttribute> HEART_FRAGMENT_ON_LOOT =  woldsAttr("heart_fragment_on_loot", HeartFragmentOnLootAttribute.type(), HeartFragmentOnLootAttribute.generator(), HeartFragmentOnLootAttribute.reader(), HeartFragmentOnLootAttribute.comparator());
 
     //Deprecated
     @Deprecated
@@ -193,6 +195,7 @@ public class ModGearAttributes {
                       registry.register(BURNING_HIT_CHANCE);
                       registry.register(DRIPPING_LAVA);
                       registry.register(RICOCHET);
+                      registry.register(HEART_FRAGMENT_ON_LOOT);
        }
   
     public static void registerVanillaAssociations() {

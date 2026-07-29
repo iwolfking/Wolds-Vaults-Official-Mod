@@ -1,0 +1,909 @@
+{
+  "descriptions": {
+    "Speed": [
+      {
+        "text": "Increases your "
+      },
+      {
+        "text": "Movement Speed",
+        "color": "#F6CD0E"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+10%",
+        "color": "#F6CD0E"
+      },
+      {
+        "text": "\n2 "
+      },
+      {
+        "text": "+20%",
+        "color": "#F6CD0E"
+      },
+      {
+        "text": "\n3 "
+      },
+      {
+        "text": "+30%",
+        "color": "#F6CD0E"
+      },
+      {
+        "text": "\n4 "
+      },
+      {
+        "text": "+40%",
+        "color": "#F6CD0E"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels of the Speed talent add <yellow>+10% Movement Speed",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+60.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "\n\nOverlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+70.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+80.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+90.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+110.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+120.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+130.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+140.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+150.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+160.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+170.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+180.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "19 ",
+        "color": "$text"
+      },
+      {
+        "text": "+190.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "20 ",
+        "color": "$text"
+      },
+      {
+        "text": "+200.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "21 ",
+        "color": "$text"
+      },
+      {
+        "text": "+210.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "22 ",
+        "color": "$text"
+      },
+      {
+        "text": "+220.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "23 ",
+        "color": "$text"
+      },
+      {
+        "text": "+230.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "24 ",
+        "color": "$text"
+      },
+      {
+        "text": "+240.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "25 ",
+        "color": "$text"
+      },
+      {
+        "text": "+250.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "26 ",
+        "color": "$text"
+      },
+      {
+        "text": "+260.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "27 ",
+        "color": "$text"
+      },
+      {
+        "text": "+270.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "28 ",
+        "color": "$text"
+      },
+      {
+        "text": "+280.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "29 ",
+        "color": "$text"
+      },
+      {
+        "text": "+290.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "30 ",
+        "color": "$text"
+      },
+      {
+        "text": "+300.0%\n",
+        "color": "#FF00CB"
+      }
+    ],
+    "Intelligence": [
+      {
+        "text": "Increases your "
+      },
+      {
+        "text": "Ability Power",
+        "color": "#FF00CB"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+8",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "\n2 "
+      },
+      {
+        "text": "+16",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "\n3 "
+      },
+      {
+        "text": "+24",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "\n4 "
+      },
+      {
+        "text": "+32",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels of the Intelligence talent add <purple>+8 Ability Power",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+8.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+16.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+24.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+32.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "\n\nOverlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+48.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+56.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+64.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+72.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+80.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+88.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+96.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+108.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+116.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+124.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+132.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+140.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+148.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "19 ",
+        "color": "$text"
+      },
+      {
+        "text": "+156.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "20 ",
+        "color": "$text"
+      },
+      {
+        "text": "+164.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "21 ",
+        "color": "$text"
+      },
+      {
+        "text": "+172.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "22 ",
+        "color": "$text"
+      },
+      {
+        "text": "+180.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "23 ",
+        "color": "$text"
+      },
+      {
+        "text": "+188.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "24 ",
+        "color": "$text"
+      },
+      {
+        "text": "+196.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "25 ",
+        "color": "$text"
+      },
+      {
+        "text": "+204.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "26 ",
+        "color": "$text"
+      },
+      {
+        "text": "+212.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "27 ",
+        "color": "$text"
+      },
+      {
+        "text": "+220.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "28 ",
+        "color": "$text"
+      },
+      {
+        "text": "+228.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "29 ",
+        "color": "$text"
+      },
+      {
+        "text": "+236.0\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "30 ",
+        "color": "$text"
+      },
+      {
+        "text": "+242.0\n",
+        "color": "#FF00CB"
+      }
+    ],
+    "Haste": [
+      {
+        "text": "Increases your raw "
+      },
+      {
+        "text": "Mining Speed",
+        "color": "#47B8F5"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+10",
+        "color": "#47B8F5"
+      },
+      {
+        "text": "\n2 "
+      },
+      {
+        "text": "+20",
+        "color": "#47B8F5"
+      },
+      {
+        "text": "\n3 "
+      },
+      {
+        "text": "+30",
+        "color": "#47B8F5"
+      },
+      {
+        "text": "\n4 "
+      },
+      {
+        "text": "+40",
+        "color": "#47B8F5"
+      },
+      {
+        "text": "\n5 "
+      },
+      {
+        "text": "+50",
+        "color": "#47B8F5"
+      },
+      {
+        "text": "\n6 "
+      },
+      {
+        "text": "+60",
+        "color": "#47B8F5"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels of the Haste talent add <aqua>+10 Mining Speed",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+3000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+4000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "6 ",
+        "color": "$text"
+      },
+      {
+        "text": "+6000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "\n\nOverlevels\n",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "------------",
+        "color": "#EFBF04"
+      },
+      {
+        "text": "\n",
+        "color": "$text"
+      },
+      {
+        "text": "7 ",
+        "color": "$text"
+      },
+      {
+        "text": "+7000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "8 ",
+        "color": "$text"
+      },
+      {
+        "text": "+8000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "9 ",
+        "color": "$text"
+      },
+      {
+        "text": "+9000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "10 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "11 ",
+        "color": "$text"
+      },
+      {
+        "text": "+11000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "12 ",
+        "color": "$text"
+      },
+      {
+        "text": "+12000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "13 ",
+        "color": "$text"
+      },
+      {
+        "text": "+13000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "14 ",
+        "color": "$text"
+      },
+      {
+        "text": "+14000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "15 ",
+        "color": "$text"
+      },
+      {
+        "text": "+15000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "16 ",
+        "color": "$text"
+      },
+      {
+        "text": "+16000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "17 ",
+        "color": "$text"
+      },
+      {
+        "text": "+17000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "18 ",
+        "color": "$text"
+      },
+      {
+        "text": "+18000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "19 ",
+        "color": "$text"
+      },
+      {
+        "text": "+19000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "20 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "21 ",
+        "color": "$text"
+      },
+      {
+        "text": "+21000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "22 ",
+        "color": "$text"
+      },
+      {
+        "text": "+22000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "23 ",
+        "color": "$text"
+      },
+      {
+        "text": "+23000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "24 ",
+        "color": "$text"
+      },
+      {
+        "text": "+24000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "25 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "26 ",
+        "color": "$text"
+      },
+      {
+        "text": "+26000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "27 ",
+        "color": "$text"
+      },
+      {
+        "text": "+27000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "28 ",
+        "color": "$text"
+      },
+      {
+        "text": "+28000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "29 ",
+        "color": "$text"
+      },
+      {
+        "text": "+29000.0%\n",
+        "color": "#FF00CB"
+      },
+      {
+        "text": "30 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30000.0%\n",
+        "color": "#FF00CB"
+      }
+    ]
+  }
+}
