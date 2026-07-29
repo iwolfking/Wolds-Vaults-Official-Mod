@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.talent;
 
 import com.google.gson.JsonObject;
-import iskallia.vault.client.render.hud.module.AbilitiesCooldownModule;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.net.BitBuffer;
 import iskallia.vault.init.ModNetwork;
@@ -9,8 +8,6 @@ import iskallia.vault.network.message.LuckyHitDamageParticleMessage;
 import java.util.Optional;
 
 import iskallia.vault.skill.talent.type.luckyhit.LuckyHitTalent;
-import iskallia.vault.skill.tree.AbilityTree;
-import iskallia.vault.world.data.PlayerAbilitiesData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -40,47 +37,6 @@ public class ExecutionDamageLuckyHitTalent extends LuckyHitTalent {
                event.getEntity().getId()
             )
          );
-   }
-
-   public static void procFangedStrike(ServerPlayer player, LivingEntity target, float baseFangDamage, float maxMissingHealthMultiplier) {
-      if (player == null || target == null || !player.isAlive()) return;
-
-      ServerLevel level = player.getLevel();
-
-      // 1. Calculate missing health ratio (0.0 = full health, 1.0 = 0 HP)
-      float maxHealth = player.getMaxHealth();
-      float currentHealth = player.getHealth();
-      float missingHealthRatio = Math.max(0.0F, (maxHealth - currentHealth) / maxHealth);
-
-      // 2. Scale damage based on missing health (e.g., up to +100% or +200% bonus damage)
-      float finalDamage = baseFangDamage * (1.0F + (missingHealthRatio * maxMissingHealthMultiplier));
-
-      // 3. Spawn CustomFangEntity at the target's position facing the player's rotation
-      CustomFangEntity fang = new CustomFangEntity(
-              level,
-              target.getX(),
-              target.getY(),
-              target.getZ(),
-              player.getYRot(),
-              player,
-              finalDamage,
-              0.0F,   // Execute threshold (or set if combined with execute mechanics)
-              100,    // Effect duration ticks
-              0,      // Effect amplifier
-              false   // IsMaw
-      );
-
-      level.addFreshEntity(fang);
-
-      // Audio cue for feedback
-      level.playSound(
-              null,
-              target.blockPosition(),
-              SoundEvents.EVOKER_FANGS_ATTACK,
-              SoundSource.PLAYERS,
-              1.0F,
-              0.8F + (missingHealthRatio * 0.4F) // Pitch lowers/intensifies as health drops
-      );
    }
 
    public float getDamageIncrease() {
