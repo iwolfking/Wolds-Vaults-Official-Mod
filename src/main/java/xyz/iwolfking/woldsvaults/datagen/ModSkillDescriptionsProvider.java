@@ -25,9 +25,9 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
     public void registerConfigs() {
         ModConfigs.MOD_BOX = new ModBoxConfig().readConfig();
 
-        add("talent_overlevels", builder -> {
-            TalentDescriptionsHelper.generateTalentDescriptions(builder, getTalentDescriptions());
-        });
+//        add("talent_overlevels", builder -> {
+//            TalentDescriptionsHelper.generateTalentDescriptions(builder, getTalentDescriptions());
+//        });
 
         add("prestige_overrides", builder -> {
             PrestigePowersDescriptionsHelper.generateDescriptions(builder, getOverridePrestigeDescriptions());

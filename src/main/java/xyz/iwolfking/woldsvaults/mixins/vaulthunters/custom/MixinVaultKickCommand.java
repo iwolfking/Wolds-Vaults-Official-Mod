@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import iskallia.vault.command.vault.VaultCommand;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.player.Listener;
@@ -11,12 +12,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.util.TrinketHelper;
 
-@Mixin(value = iskallia.vault.command.vault.VaultCommand.class, remap = false)
+@Mixin(value = VaultCommand.class, remap = false)
 public class MixinVaultKickCommand {
-    @Inject(method = "lambda$kickFromVault$18", at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/Listeners;remove(Liskallia/vault/core/world/storage/VirtualWorld;Liskallia/vault/core/vault/Vault;Liskallia/vault/core/vault/player/Listener;)Liskallia/vault/core/vault/player/Listeners;"))
-    private static void clearCuriosWhenRoyaleVault(Listener listener, Vault vault, boolean complete, Listeners listeners, VirtualWorld world, CallbackInfo ci) {
-        if(listener.getPlayer().isPresent() && VaultUtils.isRoyaleVault(vault)) {
-            TrinketHelper.clearCurios(listener.getPlayer().get());
-        }
-    }
+    //TODO: Reimplement this
+    //    @Inject(method = "lambda$kickFromVault$18", at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/Listeners;remove(Liskallia/vault/core/world/storage/VirtualWorld;Liskallia/vault/core/vault/Vault;Liskallia/vault/core/vault/player/Listener;)Liskallia/vault/core/vault/player/Listeners;"), remap = true)
+//    private static void clearCuriosWhenRoyaleVault(Listener listener, Vault vault, boolean complete, Listeners listeners, VirtualWorld world, CallbackInfo ci) {
+//        if(listener.getPlayer().isPresent() && VaultUtils.isRoyaleVault(vault)) {
+//            TrinketHelper.clearCurios(listener.getPlayer().get());
+//        }
+//    }
 }

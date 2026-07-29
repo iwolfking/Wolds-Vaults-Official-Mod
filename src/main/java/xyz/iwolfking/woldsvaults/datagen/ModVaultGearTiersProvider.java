@@ -128,6 +128,41 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
         });
 
         addToAllStandardGearConfigs(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {
+            //U22 Additions
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.PHOENIX, "ModPhoenix", "u_phoenix", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 500, 1, 3, 1);
+            });
+            vaultGearAttributeGroupBuilder
+                    .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModAbility", "mod_jav_scatter_level", List.of(), vaultGearModifierTiersBuilder -> {
+                        vaultGearModifierTiersBuilder.add(0, -1, 166, new AbilityLevelAttribute.Config("Javelin_Scatter", 1));
+                        vaultGearModifierTiersBuilder.add(25, -1, 166, new AbilityLevelAttribute.Config("Javelin_Scatter", 2));
+                        vaultGearModifierTiersBuilder.add(50, -1, 166, new AbilityLevelAttribute.Config("Javelin_Scatter", 3));
+                    });
+
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.JESTER_LUCKY_HIT_CHANCE_PERCENTILE, "BaseBonusPool", "jester_lucky_hit", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 250, 0.05, 0.1, 0.01);
+                vaultGearModifierTiersBuilder.add(50, -1, 250, 0.06, 0.15, 0.01);
+            });
+
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.BROODMOTHER_WEB, "ModEnhancement", "u_broodmother_web", List.of(), vaultGearModifierTiersBuilder -> {
+               addBroodmotherWeb(vaultGearModifierTiersBuilder, 0, -1, 250, 0.2f, 0.7f, 0.05f, 0.2f, 0.6f, 0.05f);
+               addBroodmotherWeb(vaultGearModifierTiersBuilder, 65, -1, 250, 0.2f, 0.7f, 0.05f, 0.6f, 1.2f, 0.05f);
+            });
+
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "uSaturation", "u_saturation", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 500, MobEffects.SATURATION, 1);
+            });
+
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.CRITICAL_HIT_TAKEN_REDUCTION, "uCritHitImplicit", "u_critical_hit_mitigation", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 250, 0.05, 0.2, 0.01);
+                vaultGearModifierTiersBuilder.add(0, -1, 250, 0.21, 0.5, 0.01);
+            });
+
+            //Wold's Additions
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.IMMORTALITY, "ModImmortality", "u_immortal_durability", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 100, 1.0F, 1.0F, 0.01F);
+            });
+
             vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EXECUTION_DAMAGE, "ModOnHitType", "mod_corrupt_execution_damage", List.of(), vaultGearModifierTiersBuilder -> {
                 vaultGearModifierTiersBuilder.add(0, -1, 100, 0.03F, 0.05F, 0.01F);
                 vaultGearModifierTiersBuilder.add(50, -1, 100, 0.05F, 0.07F, 0.01F);

@@ -1,7 +1,10 @@
 package xyz.iwolfking.woldsvaults.datagen.lib;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.entry.FloatRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
+import iskallia.vault.gear.attribute.config.FloatAttributeGenerator;
+import iskallia.vault.gear.attribute.custom.ability.BroodmotherWebAttribute;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -84,5 +87,19 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
                 add(mapId, builder -> builder.key(VaultMod.id(mapId)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
             }
         }
+    }
+
+    public static VaultGearModifierTiersBuilder addBroodmotherWeb(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            float minChance, float maxChance, float stepChance,
+            float minDamage, float maxDamage, float stepDamage) {
+
+        BroodmotherWebAttribute.Config config = new BroodmotherWebAttribute.Config(
+                new FloatRollRangeEntry(minChance, maxChance, stepChance),
+                new FloatRollRangeEntry(minDamage, maxDamage, stepDamage)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
     }
 }
