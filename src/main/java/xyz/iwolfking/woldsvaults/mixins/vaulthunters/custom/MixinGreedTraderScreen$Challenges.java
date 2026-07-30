@@ -41,12 +41,12 @@ public class MixinGreedTraderScreen$Challenges {
                     double penaltyPerTier = 0.1;
                     double penalty = Math.max(0.5, 1.0 - (tierDifferential * penaltyPerTier));
 
-                    cir.setReturnValue(GreedNodeHelper.applyGreedReputationMultiplier(ClientGreedTreeData.getTree(), (int) (baseReward * penalty)));
+                    cir.setReturnValue( (int) (baseReward * penalty));
                     return;
                 }
             }
         }
 
-        cir.setReturnValue(GreedNodeHelper.applyGreedReputationMultiplier(ClientGreedTreeData.getTree(), baseReward));
+        cir.setReturnValue(baseReward);
     }
 }
