@@ -47,6 +47,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -232,6 +233,10 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         }
 
         Player player = context.getPlayer().get();
+
+        if (context.getBlockState().map((state) -> state.getBlock() instanceof AnvilBlock).orElse(false)) {
+            return false;
+        }
 
         if(!PlayerGreedData.get().get(player).hasCompletedHerald()) {
             return false;
