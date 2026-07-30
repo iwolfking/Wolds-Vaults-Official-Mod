@@ -7,17 +7,29 @@ import iskallia.vault.item.bottle.BottleEffect;
 import iskallia.vault.item.bottle.BottleEffectManager;
 import iskallia.vault.item.bottle.BottleItem;
 import iskallia.vault.item.core.DataInitializationItem;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.events.vault.WoldCommonEvents;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Mixin(value = BottleItem.class, remap = false)
-public class MixinBottleItem implements DataInitializationItem  {
+public abstract class MixinBottleItem implements DataInitializationItem  {
+    @Shadow
+    public abstract Optional<BottleEffect> getEffect(ItemStack bottle);
+
+    @Shadow
+    public abstract Optional<BottleItem.Type> getType(ItemStack stack);
+
     @Override
     public void initialize(ItemStack itemStack, RandomSource randomSource) {
         if(itemStack.hasTag() && itemStack.getTag() != null && itemStack.getTag().contains("VaultRoyaleVial")) {
@@ -49,6 +61,13 @@ public class MixinBottleItem implements DataInitializationItem  {
     private void isActiveOverride(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if(stack.hasTag() && stack.getTag() != null && stack.getTag().contains("VaultRoyaleVial")) {
             cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "finishUsingItem", at = @At(value = "INVOKE", target = "Liskallia/vault/item/bottle/BottleItem;consumeCharge(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/server/level/ServerPlayer;)V", shift = At.Shift.AFTER))
+    private void invokeBottleDrinkEvent(ItemStack stack, Level world, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir) {
+        if(entity instanceof ServerPlayer player) {
+            WoldCommonEvents.VAULT_BOTTLE_DRINK.invoke(world, player.getOnPos(), player, stack, getEffect(stack).orElse(null), getType(stack).orElse(null));
         }
     }
 }
