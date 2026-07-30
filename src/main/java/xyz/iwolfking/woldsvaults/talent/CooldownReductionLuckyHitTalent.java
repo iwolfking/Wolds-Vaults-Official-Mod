@@ -5,12 +5,17 @@ import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.net.BitBuffer;
 import iskallia.vault.init.ModNetwork;
 import iskallia.vault.network.message.LuckyHitDamageParticleMessage;
+import iskallia.vault.network.message.LuckyHitManaParticleMessage;
 import iskallia.vault.skill.ability.effect.spi.core.Ability;
+import iskallia.vault.skill.ability.effect.spi.core.Cooldown;
 import iskallia.vault.skill.base.Skill;
+import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.talent.type.luckyhit.LuckyHitTalent;
+import iskallia.vault.skill.tree.AbilityTree;
 import iskallia.vault.world.data.PlayerAbilitiesData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.network.PacketDistributor;
@@ -31,19 +36,27 @@ public class CooldownReductionLuckyHitTalent extends LuckyHitTalent {
    @Override
    public void onLuckyHit(LivingHurtEvent event) {
       if(event.getSource().getEntity() instanceof ServerPlayer serverPlayer) {
-         PlayerAbilitiesData.get(serverPlayer.getLevel()).getAbilities(serverPlayer).skills.stream().filter(skill -> skill instanceof Ability ability && ability.isUnlocked() && ability.isOnCooldown()).map(Ability.class::cast).toList().forEach(ability -> {
-            ability.getCooldown().ifPresent(cooldown -> {
-               ability.reduceCooldownBy((int) (cooldown.getMaxTicks() * cooldownDecrease));
-            });
+         AbilityTree abilities = PlayerAbilitiesData.get(serverPlayer.getLevel()).getAbilities(serverPlayer);
+         abilities.iterate(Ability.class, (ability) -> {
+            if (ability.isOnCooldown()) {
+               Cooldown cooldown = ability.getCooldown().orElse(null);
+               if(cooldown == null) {
+                  return;
+               }
+               ability.reduceCooldownBy((int) (cooldown.getMaxTicks() * this.getCooldownDecrease()));
+            }
+
          });
       }
       ModNetwork.CHANNEL
          .send(
             PacketDistributor.TRACKING_ENTITY_AND_SELF.with(event::getEntity),
-            new LuckyHitDamageParticleMessage(
+            new LuckyHitManaParticleMessage(
                new Vec3(event.getEntity().position().x, event.getEntity().position().y + event.getEntity().getBbHeight() / 2.0F, event.getEntity().position().z),
-               new Vec3(event.getEntity().getBbWidth() / 2.0F, event.getEntity().getBbHeight() / 2.0F, event.getEntity().getBbWidth() / 2.0F),
-               event.getEntity().getId()
+               event.getEntity().getId(),
+               30303,
+                2,
+               0.1F
             )
          );
    }
