@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.skills;
 
 import iskallia.vault.core.data.adapter.basic.TypeSupplierAdapter;
+import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.skill.base.Skill;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

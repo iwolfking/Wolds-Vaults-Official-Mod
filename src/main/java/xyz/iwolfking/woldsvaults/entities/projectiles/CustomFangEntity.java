@@ -4,6 +4,8 @@ import iskallia.vault.entity.boss.ArtifactBossEntity;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.entity.boss.VaultBossBaseEntity;
 import iskallia.vault.entity.entity.FloatingItemEntity;
+import iskallia.vault.event.ActiveFlags;
+import iskallia.vault.event.PlayerActiveFlags;
 import iskallia.vault.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.projectile.EvokerFangs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.mixins.accessors.EvokerFangsAccessor;
 
@@ -120,7 +123,9 @@ public class CustomFangEntity extends EvokerFangs {
             }
         }
 
-        pTarget.hurt(DamageSource.playerAttack(player), customDamage);
+        WoldActiveFlags.IS_FANG_ATTACKING.runWithFlag(() -> {
+            pTarget.hurt(DamageSource.playerAttack(player), customDamage);
+        });
 
         if (!isMaw) {
 

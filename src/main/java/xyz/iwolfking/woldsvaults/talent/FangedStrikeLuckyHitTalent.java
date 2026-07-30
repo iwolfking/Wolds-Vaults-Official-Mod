@@ -15,7 +15,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.network.PacketDistributor;
+import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
 import xyz.iwolfking.woldsvaults.entities.projectiles.CustomFangEntity;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
+
 import java.util.Optional;
 
 public class FangedStrikeLuckyHitTalent extends LuckyHitTalent {
@@ -31,8 +34,8 @@ public class FangedStrikeLuckyHitTalent extends LuckyHitTalent {
 
    @Override
    public void onLuckyHit(LivingHurtEvent event) {
-      if(event.getSource().getEntity() instanceof ServerPlayer serverPlayer) {
-         procFangedStrike(serverPlayer, event.getEntityLiving(), 10 + event.getAmount(), damageIncrease);
+      if(event.getSource().getEntity() instanceof ServerPlayer serverPlayer && WoldEventHelper.isNormalAttack()) {
+         procFangedStrike(serverPlayer, event.getEntityLiving(), event.getAmount() * damageIncrease);
       }
 
       ModNetwork.CHANNEL
@@ -46,16 +49,14 @@ public class FangedStrikeLuckyHitTalent extends LuckyHitTalent {
          );
    }
 
-   public static void procFangedStrike(ServerPlayer player, LivingEntity target, float baseFangDamage, float maxMissingHealthMultiplier) {
+   public static void procFangedStrike(ServerPlayer player, LivingEntity target, float baseFangDamage) {
       if (player == null || target == null || !player.isAlive()) return;
 
+      if(WoldActiveFlags.IS_FANG_ATTACKING.isSet()) {
+         return;
+      }
+
       ServerLevel level = player.getLevel();
-
-      float maxHealth = player.getMaxHealth();
-      float currentHealth = player.getHealth();
-      float missingHealthRatio = Math.max(0.0F, (maxHealth - currentHealth) / maxHealth);
-
-      float finalDamage = baseFangDamage * (1.0F + (missingHealthRatio * maxMissingHealthMultiplier));
 
       CustomFangEntity fang = new CustomFangEntity(
               level,
@@ -64,7 +65,7 @@ public class FangedStrikeLuckyHitTalent extends LuckyHitTalent {
               target.getZ(),
               player.getYRot(),
               player,
-              finalDamage,
+              baseFangDamage,
               0.0F,
               0,
               0,
@@ -79,7 +80,7 @@ public class FangedStrikeLuckyHitTalent extends LuckyHitTalent {
               SoundEvents.EVOKER_FANGS_ATTACK,
               SoundSource.PLAYERS,
               1.0F,
-              0.8F + (missingHealthRatio * 0.4F)
+              0.8F + (baseFangDamage * 0.1F)
       );
    }
 
