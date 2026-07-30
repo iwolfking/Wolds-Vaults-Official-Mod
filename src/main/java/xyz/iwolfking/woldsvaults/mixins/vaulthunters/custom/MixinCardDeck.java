@@ -192,8 +192,9 @@ public abstract class MixinCardDeck implements ICardDeckCache, ISerializable<Com
 
     @WrapOperation(method = "addText", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
     public int modifyImplicitModifierSocketCount(List<DeckModifier<?>> instance, Operation<Integer> original) {
-        if(instance.stream().anyMatch(deckModifier -> deckModifier instanceof ImplicitDeckModifier)) {
-            return original.call(instance) - 1;
+        int implicitCount = Math.toIntExact(instance.stream().filter(deckModifier -> deckModifier instanceof ImplicitDeckModifier).count());
+        if(implicitCount > 0) {
+            return original.call(instance) - implicitCount;
         }
 
         return original.call(instance);
