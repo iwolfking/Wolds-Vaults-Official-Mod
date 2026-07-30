@@ -124,6 +124,7 @@ public class CustomFangEntity extends EvokerFangs {
         }
 
         WoldActiveFlags.IS_FANG_ATTACKING.runWithFlag(() -> {
+            pTarget.invulnerableTime = 0;
             pTarget.hurt(DamageSource.playerAttack(player), customDamage);
         });
 

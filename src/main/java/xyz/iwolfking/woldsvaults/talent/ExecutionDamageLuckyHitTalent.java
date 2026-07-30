@@ -27,7 +27,7 @@ public class ExecutionDamageLuckyHitTalent extends LuckyHitTalent {
 
    @Override
    public void onLuckyHit(LivingHurtEvent event) {
-      event.setAmount(event.getAmount() * (MissingHealthDamageHelper.getExecutionDamage(this.damageIncrease, event.getEntityLiving())));
+      event.setAmount(event.getAmount() + (MissingHealthDamageHelper.getExecutionDamage(this.damageIncrease, event.getEntityLiving())));
       ModNetwork.CHANNEL
          .send(
             PacketDistributor.TRACKING_ENTITY_AND_SELF.with(event::getEntity),

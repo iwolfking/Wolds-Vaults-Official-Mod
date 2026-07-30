@@ -55,5 +55,6 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("fanged_lucky_hit", FangedStrikeLuckyHitTalent.class, FangedStrikeLuckyHitTalent::new);
         this.register("heart_fragment_on_loot", HeartFragmentPerLootedContainerTalent.class, HeartFragmentPerLootedContainerTalent::new);
         this.register("mind_meld", MindMeldTalent.class, MindMeldTalent::new);
+        this.register("momentum_engine", MomentumEngineTalent.class, MomentumEngineTalent::new);
     }
 }
