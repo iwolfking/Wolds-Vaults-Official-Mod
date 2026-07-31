@@ -1,17 +1,16 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
+import iskallia.vault.init.ModConfigs;
+import iskallia.vault.item.ItemVaultCrystalSeal;
 import iskallia.vault.recipe.anvil.AnvilExecutor;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import xyz.iwolfking.vhapi.mixin.accessors.VaultCrystalConfigAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.SealEntryAccessor;
+import xyz.iwolfking.woldsvaults.objectives.lib.ScalingObjective;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -36,6 +35,7 @@ public abstract class MixinAnvilExecutor {
                 ItemStack uniqueIngredient = uniqueIngredients.get(index);
                 if(uniqueIngredient != null) {
                     applyIngredient(player, result, index, uniqueIngredient, result::setUniqueIngredientResult, false, true);
+                    applyScalingSeals(player, result.getUniqueIngredient(index), result, index);
                 }
             }
         }
@@ -58,5 +58,24 @@ public abstract class MixinAnvilExecutor {
         }
 
         return result;
+    }
+
+    private static boolean applyScalingSeals(Player player, ItemStack uniqueIngredient, AnvilExecutor.Result result, int index) {
+        if (uniqueIngredient == null) {
+            return false;
+        }
+        var sealCfg = uniqueIngredient.getItem() instanceof ItemVaultCrystalSeal seal ? ((VaultCrystalConfigAccessor)ModConfigs.VAULT_CRYSTAL).getSeals().get(seal.getRegistryName()) : null;
+        boolean applied = false;
+        if (sealCfg != null) {
+            if (((SealEntryAccessor)sealCfg.get(0)).getObjective() instanceof ScalingObjective scalingObjective) {
+                for (var i = 0; i < scalingObjective.getMaxSealCount(); i++) {
+                    applyIngredient(player, result, index, uniqueIngredient, result::setUniqueIngredientResult, false, true);
+                    uniqueIngredient = result.getUniqueIngredient(index);
+                    applied = true;
+                    if (uniqueIngredient == null) break;
+                }
+            };
+        }
+        return applied;
     }
 }

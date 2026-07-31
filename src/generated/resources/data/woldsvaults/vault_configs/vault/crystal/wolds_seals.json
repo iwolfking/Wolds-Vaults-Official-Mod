@@ -11,8 +11,9 @@
         ],
         "objective": {
           "objective_probability": 0.25,
-          "sealCount": 0,
-          "type": "scaling_ballistic_bingo"
+          "sealCount": 1,
+          "blackout": false,
+          "type": "ballistic_bingo"
         },
         "modifiers": {
           "list": [],
@@ -30,7 +31,7 @@
         ],
         "objective": {
           "objective_probability": 0.25,
-          "sealCount": 0,
+          "sealCount": 1,
           "type": "unhinged_scavenger_bingo"
         },
         "theme": {
@@ -81,8 +82,9 @@
         ],
         "objective": {
           "objective_probability": 0.25,
-          "sealCount": 0,
-          "type": "scaling_ballistic_bingo"
+          "sealCount": 1,
+          "blackout": false,
+          "type": "ballistic_bingo"
         },
         "modifiers": {
           "list": [

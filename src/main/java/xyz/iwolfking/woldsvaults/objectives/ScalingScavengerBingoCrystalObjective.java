@@ -9,7 +9,6 @@ import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.*;
-import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModOptions;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
@@ -20,12 +19,13 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.scalingbingoseals.util.INamedObjective;
+import xyz.iwolfking.woldsvaults.objectives.lib.ScalingObjective;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class ScalingScavengerBingoCrystalObjective extends CrystalObjective implements INamedObjective {
+public class ScalingScavengerBingoCrystalObjective extends CrystalObjective implements INamedObjective, ScalingObjective {
     private float objectiveProbability;
     private int sealCount;
 
@@ -60,6 +60,11 @@ public class ScalingScavengerBingoCrystalObjective extends CrystalObjective impl
     }
 
     @Override
+    public ScalingScavengerBingoCrystalObjective increaseBy(int extraSeals) {
+        return new ScalingScavengerBingoCrystalObjective(this.objectiveProbability, Math.min(sealCount + extraSeals, getMaxSealCount()));
+    }
+
+    @Override
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level) {
         tooltip.add((new TextComponent("Objective: ")).append((new TextComponent(getHeight() + "x" + getWidth() + " Collector")).withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
     }
@@ -73,7 +78,11 @@ public class ScalingScavengerBingoCrystalObjective extends CrystalObjective impl
     }
 
     public int getSealCount() {
-        return Math.min(this.sealCount, 7);
+        return Math.min(this.sealCount, getMaxSealCount());
+    }
+
+    public int getMaxSealCount() {
+        return 8;
     }
 
     public float getObjectiveProbability() {

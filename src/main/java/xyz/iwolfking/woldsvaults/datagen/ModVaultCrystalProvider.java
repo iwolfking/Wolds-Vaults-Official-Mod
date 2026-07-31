@@ -150,13 +150,13 @@ public class ModVaultCrystalProvider extends AbstractVaultCrystalConfigProvider 
             builder.addSeal(ModItems.CRYSTAL_SEAL_DOOMSAYER.getRegistryName(), sealListBuilder -> {
                 sealListBuilder.add(0, sealEntryBuilder -> {
                     sealEntryBuilder.input(iskallia.vault.init.ModItems.VAULT_CRYSTAL.getRegistryName());
-                    sealEntryBuilder.objective(new ScalingBallisticBingoCrystalObjective(0.25F, 0));
+                    sealEntryBuilder.objective(new ScalingBallisticBingoCrystalObjective(0.25F, 1));
                 });
             });
             builder.addSeal(ModItems.CRYSTAL_SEAL_DOOMSAYER_SHUFFLE.getRegistryName(), sealListBuilder -> {
                 sealListBuilder.add(0, sealEntryBuilder -> {
                     sealEntryBuilder.input(iskallia.vault.init.ModItems.VAULT_CRYSTAL.getRegistryName());
-                    sealEntryBuilder.objective(new ScalingBallisticBingoCrystalObjective(0.25F, 0));
+                    sealEntryBuilder.objective(new ScalingBallisticBingoCrystalObjective(0.25F, 1));
                     sealEntryBuilder.modifier(VaultModifierStack.of(VaultModifierRegistry.get(VaultMod.id("shuffle"))));
                 });
             });
@@ -170,7 +170,7 @@ public class ModVaultCrystalProvider extends AbstractVaultCrystalConfigProvider 
                 sealListBuilder.add(0, sealEntryBuilder -> {
                     sealEntryBuilder.input(iskallia.vault.init.ModItems.VAULT_CRYSTAL.getRegistryName());
                     sealEntryBuilder.theme(new ValueCrystalTheme(VaultMod.id("classic_vault_chaos")));
-                    sealEntryBuilder.objective(new ScalingUnhingedScavengerBingoCrystalObjective(0.25F, 0));
+                    sealEntryBuilder.objective(new ScalingUnhingedScavengerBingoCrystalObjective(0.25F, 1));
                 });
             });
         });

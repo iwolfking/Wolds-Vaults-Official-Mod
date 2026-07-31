@@ -19,13 +19,14 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.scalingbingoseals.util.INamedObjective;
+import xyz.iwolfking.woldsvaults.objectives.lib.ScalingObjective;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
 // avg java class name
-public class ScalingUnhingedScavengerBingoCrystalObjective extends CrystalObjective implements INamedObjective {
+public class ScalingUnhingedScavengerBingoCrystalObjective extends CrystalObjective implements INamedObjective, ScalingObjective {
     private float objectiveProbability;
     private int sealCount;
 
@@ -60,6 +61,11 @@ public class ScalingUnhingedScavengerBingoCrystalObjective extends CrystalObject
     }
 
     @Override
+    public ScalingUnhingedScavengerBingoCrystalObjective increaseBy(int extraSeals) {
+        return new ScalingUnhingedScavengerBingoCrystalObjective(this.objectiveProbability, Math.min(sealCount + extraSeals, getMaxSealCount()));
+    }
+
+    @Override
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level) {
         tooltip.add((new TextComponent("Objective: ")).append((new TextComponent(getHeight() + "x" + getWidth() + " Unhinged Collector")).withStyle(Style.EMPTY.withColor(this.getColor(time).orElseThrow()))));
     }
@@ -73,7 +79,11 @@ public class ScalingUnhingedScavengerBingoCrystalObjective extends CrystalObject
     }
 
     public int getSealCount() {
-        return Math.min(this.sealCount, 7);
+        return Math.min(this.sealCount, getMaxSealCount());
+    }
+
+    public int getMaxSealCount() {
+        return 8; // 1 base for 5x5 + 7 to 12x12
     }
 
     public float getObjectiveProbability() {

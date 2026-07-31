@@ -47,6 +47,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModTags.ALCHEMY_INGREDIENT).add(getItemsOfClass(AlchemyIngredientItem.class, () -> new AlchemyIngredientItem[]{}));
         tag(ModTags.ALCHEMY_CATALYST).add(getItemsOfClass(CatalystItem.class, () -> new CatalystItem[]{}));
         tag(ModTags.BLOOD).add(ModBlocks.BLOOD_SPLATTER_1.asItem()).add(ModBlocks.BLOOD_SPLATTER_2.asItem()).add(ModBlocks.BLOOD_SPLATTER_3.asItem()).add(ModBlocks.BLOOD_SPLATTER_4.asItem()).add(ModBlocks.BLOOD_SPLATTER_5.asItem()).add(ModBlocks.BLOOD_SPLATTER_6.asItem());
+        tag(ModTags.STACKABLE_SEALS).add(ModItems.CRYSTAL_SEAL_UNHINGED_SCAVINGO).add(ModItems.CRYSTAL_SEAL_DOOMSAYER).add(iskallia.vault.init.ModItems.CRYSTAL_SEAL_COLLECTOR, iskallia.vault.init.ModItems.CRYSTAL_SEAL_PROPHET);
     }
 
     public static <T> T[] getItemsOfClass(Class<T> type, Supplier<T[]> instance) {
