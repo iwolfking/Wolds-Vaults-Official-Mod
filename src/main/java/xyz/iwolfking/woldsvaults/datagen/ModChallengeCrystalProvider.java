@@ -61,7 +61,7 @@ public class ModChallengeCrystalProvider extends AbstractChallengeCrystalProvide
 
             builder.addEntry("ballistic_bingo_blackout", challengeEntryBuilder -> {
                 challengeEntryBuilder
-                        .objective(new BallisticBingoCrystalObjective(0.25F, true))
+                        .objective(new ScalingBallisticBingoCrystalObjective(0.25F, 2, true))
                         .modifier(VaultMod.id("rotten"), 1)
                         .modifier(VaultMod.id("no_companion"), 1)
                         .exhausted();

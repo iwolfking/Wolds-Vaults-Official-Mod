@@ -8,13 +8,16 @@ import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
 import iskallia.vault.item.crystal.objective.ScavengerBingoCrystalObjective;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ScavengerBingoCrystalObjectiveAccessor;
-import xyz.iwolfking.woldsvaults.objectives.ScalingBallisticBingoCrystalObjective;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.SealEntryAccessor;
 import xyz.iwolfking.woldsvaults.objectives.ScalingScavengerBingoCrystalObjective;
-import xyz.iwolfking.woldsvaults.objectives.ScalingUnhingedScavengerBingoCrystalObjective;
+import xyz.iwolfking.woldsvaults.objectives.lib.ScalingObjective;
 
 import java.util.Map;
 
@@ -22,41 +25,37 @@ import java.util.Map;
 public class MixinVaultCrystalConfig {
     @Shadow private Map<ResourceLocation, LevelEntryList<VaultCrystalConfig.SealEntry>> SEALS;
 
-    @WrapOperation(method = "lambda$applySeal$5", at = @At(value = "INVOKE", target = "Liskallia/vault/item/crystal/CrystalData;setObjective(Liskallia/vault/item/crystal/objective/CrystalObjective;)V"))
-    private static void modifyScalingBingoObjective(CrystalData instance, CrystalObjective objective, Operation<Void> original) {
-        if(objective instanceof ScalingBallisticBingoCrystalObjective) {
-            if(instance.getObjective() instanceof ScalingBallisticBingoCrystalObjective scalingBingoCrystalObjective) {
-                ScalingBallisticBingoCrystalObjective newObjective = new ScalingBallisticBingoCrystalObjective(scalingBingoCrystalObjective.getObjectiveProbability(), scalingBingoCrystalObjective.getSealCount() + 1);
-                instance.setObjective(newObjective);
-                return;
+    @Inject(method = "lambda$applySeal$5", at = @At(value = "INVOKE", target = "Liskallia/vault/item/crystal/CrystalData;getObjective()Liskallia/vault/item/crystal/objective/CrystalObjective;"), cancellable = true)
+    private static void cancelMaxSeal(ItemStack input, CrystalData crystal, ItemStack output, VaultCrystalConfig.SealEntry entry, CallbackInfoReturnable<Boolean> cir) {
+        if(crystal.getObjective() instanceof ScalingObjective crystalObj && ((SealEntryAccessor)entry).getObjective().getClass() == crystal.getObjective().getClass()) {
+            if (crystalObj.getSealCount() >= crystalObj.getMaxSealCount()) {
+                cir.setReturnValue(false);
             }
         }
+    }
 
-        if(objective instanceof ScavengerBingoCrystalObjective) {
-            if(instance.getObjective() instanceof ScavengerBingoCrystalObjective scavBingoObjective) {
+    @WrapOperation(method = "lambda$applySeal$5", at = @At(value = "INVOKE", target = "Liskallia/vault/item/crystal/CrystalData;setObjective(Liskallia/vault/item/crystal/objective/CrystalObjective;)V"))
+    private static void modifyScalingBingoObjective(CrystalData crystalData, CrystalObjective sealObjective, Operation<Void> original) {
+        if (crystalData.getObjective() instanceof ScalingObjective scalingObjective && sealObjective.getClass() == crystalData.getObjective().getClass()) {
+            crystalData.setObjective(scalingObjective.increaseBy(1));
+            return;
+        }
+
+        if(sealObjective instanceof ScavengerBingoCrystalObjective) { // convert normal collector into scaling
+            if(crystalData.getObjective() instanceof ScavengerBingoCrystalObjective scavBingoObjective) {
                 var newHeight = ((ScavengerBingoCrystalObjectiveAccessor)scavBingoObjective).getHeight() + 1;
                 var extraSeals = newHeight - (ScalingScavengerBingoCrystalObjective.DEFAULT_HEIGHT - 1);
                 ScalingScavengerBingoCrystalObjective newObjective = new ScalingScavengerBingoCrystalObjective(((ScavengerBingoCrystalObjectiveAccessor)scavBingoObjective).getObjectiveProbability(), extraSeals);
-                instance.setObjective(newObjective);
+                crystalData.setObjective(newObjective);
                 return;
             }
 
-            if(instance.getObjective() instanceof ScalingScavengerBingoCrystalObjective scalingBingoCrystalObjective) {
-                ScalingScavengerBingoCrystalObjective newObjective = new ScalingScavengerBingoCrystalObjective(scalingBingoCrystalObjective.getObjectiveProbability(), scalingBingoCrystalObjective.getSealCount() + 1);
-                instance.setObjective(newObjective);
-                return;
-            }
-        }
-
-        if(objective instanceof ScalingUnhingedScavengerBingoCrystalObjective) {
-            if(instance.getObjective() instanceof ScalingUnhingedScavengerBingoCrystalObjective scalingBingoCrystalObjective) {
-                ScalingUnhingedScavengerBingoCrystalObjective newObjective = new ScalingUnhingedScavengerBingoCrystalObjective(scalingBingoCrystalObjective.getObjectiveProbability(), scalingBingoCrystalObjective.getSealCount() + 1);
-                instance.setObjective(newObjective);
+            if(crystalData.getObjective() instanceof ScalingScavengerBingoCrystalObjective scalingBingoCrystalObjective) {
+                crystalData.setObjective(scalingBingoCrystalObjective.increaseBy(1));
                 return;
             }
         }
 
-
-        original.call(instance, objective);
+        original.call(crystalData, sealObjective);
     }
 }

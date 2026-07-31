@@ -34,6 +34,7 @@
     "accessors.EvokerFangsAccessor",
     "accessors.MobEffectInstanceAccessor",
     "accessors.ResultSlotAccessor",
+    "vaulthunters.accessors.SealEntryAccessor",
     "accessors.SheepAccessor",
     "accessors.ThrowableItemProjectileAccessor",
     "advanced_peripherals.MixinVillagerTrades",
