@@ -15,8 +15,6 @@ import iskallia.vault.gear.attribute.type.VaultGearAttributeType;
 import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
 import iskallia.vault.init.ModItems;
-import iskallia.vault.mana.Mana;
-import iskallia.vault.mana.ManaAction;
 import iskallia.vault.util.MiscUtils;
 import iskallia.vault.util.NetcodeUtils;
 import java.text.DecimalFormat;
@@ -27,17 +25,15 @@ import java.util.Optional;
 import java.util.Random;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class HeartFragmentOnLootAttribute extends LootTriggerAttribute {
    private static final DecimalFormat FORMAT = new DecimalFormat("0.##");
@@ -60,13 +56,17 @@ public class HeartFragmentOnLootAttribute extends LootTriggerAttribute {
 
    @Override
    public void trigger(BlockEntity tile, RandomSource random, ServerPlayer player) {
+      WoldsVaults.LOGGER.info("triggered");
+      WoldsVaults.LOGGER.info(String.valueOf(heartGenerationChance));
+      WoldsVaults.LOGGER.info(String.valueOf(heartsGenerated));
       if (random.nextFloat() < this.getHeartGenerationChance()) {
+         WoldsVaults.LOGGER.info("spawning fragment");
          spawnHeartFragment(tile);
       }
    }
 
    private void spawnHeartFragment(BlockEntity target) {
-      ItemStack heartFragment = new ItemStack(ModItems.HEART_FRAGMENT);
+      ItemStack heartFragment = new ItemStack(ModItems.HEART_FRAGMENT, this.getHeartsGenerated());
 
       FloatingItemEntity floatingItem = FloatingItemEntity.create(
               target.getLevel(),

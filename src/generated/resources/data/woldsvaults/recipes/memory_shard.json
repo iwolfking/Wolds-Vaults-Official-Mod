@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "the_vault:memory_powder"
+    }
+  },
+  "result": {
+    "item": "the_vault:memory_shard"
+  }
+}

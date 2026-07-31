@@ -4,20 +4,23 @@ import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.bottle.BottleEffect;
-import iskallia.vault.item.bottle.BottleEffectManager;
 import iskallia.vault.item.bottle.BottleItem;
 import iskallia.vault.item.core.DataInitializationItem;
+import iskallia.vault.world.data.ServerVaults;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.events.vault.UsedVaultBottleEvent;
 import xyz.iwolfking.woldsvaults.events.vault.WoldCommonEvents;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BottleEffectAccessor;
 
 import java.util.Optional;
 import java.util.Random;
@@ -25,10 +28,24 @@ import java.util.Random;
 @Mixin(value = BottleItem.class, remap = false)
 public abstract class MixinBottleItem implements DataInitializationItem  {
     @Shadow
-    public abstract Optional<BottleEffect> getEffect(ItemStack bottle);
+    public static Optional<BottleEffect> getEffect(ItemStack bottle) {
+        return Optional.empty();
+    }
 
     @Shadow
-    public abstract Optional<BottleItem.Type> getType(ItemStack stack);
+    public static Optional<BottleItem.Type> getType(ItemStack stack) {
+        return Optional.empty();
+    }
+
+    @Shadow
+    public static boolean isActive(Vault vault, ItemStack stack) {
+        throw new UnsupportedOperationException("Implemented via mixin");
+    }
+
+    @Shadow
+    public static void consumeCharge(ItemStack stack, ServerPlayer player) {
+        throw new UnsupportedOperationException("Implemented via mixin");
+    }
 
     @Override
     public void initialize(ItemStack itemStack, RandomSource randomSource) {
@@ -64,10 +81,27 @@ public abstract class MixinBottleItem implements DataInitializationItem  {
         }
     }
 
-    @Inject(method = "finishUsingItem", at = @At(value = "INVOKE", target = "Liskallia/vault/item/bottle/BottleItem;consumeCharge(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/server/level/ServerPlayer;)V", shift = At.Shift.AFTER))
+    @Inject(method = "finishUsingItem", at = @At(value = "INVOKE", target = "Liskallia/vault/world/data/ServerVaults;get(Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", shift = At.Shift.AFTER), cancellable = true)
     private void invokeBottleDrinkEvent(ItemStack stack, Level world, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir) {
         if(entity instanceof ServerPlayer player) {
-            WoldCommonEvents.VAULT_BOTTLE_DRINK.invoke(world, player.getOnPos(), player, stack, getEffect(stack).orElse(null), getType(stack).orElse(null));
+            UsedVaultBottleEvent.Data eventData = WoldCommonEvents.VAULT_BOTTLE_DRINK.invoke(world, player.getOnPos(), player, stack, getEffect(stack).orElse(null), getType(stack).orElse(null));
+            if(!eventData.isCancelled()) {
+                Optional<Vault> vaultOpt = ServerVaults.get(player.getLevel());
+                vaultOpt.ifPresent(vault -> {
+                    if (isActive(vault, stack) && stack.getOrCreateTag().getInt("charges") > 0) {
+                        CriteriaTriggers.CONSUME_ITEM.trigger(player, stack);
+                        eventData.getEffect().ifPresent(bottleEffect -> ((BottleEffectAccessor)bottleEffect).callTrigger(player));
+                        eventData.getType().ifPresent(type -> entity.heal(ModConfigs.POTION.getPotion(type).getHealing()));
+                        if(eventData.shouldConsumeCharge()) {
+                            consumeCharge(stack, player);
+                        }
+                        world.gameEvent(entity, GameEvent.DRINKING_FINISH, entity.eyeBlockPosition());
+                    }
+                });
+
+            }
         }
+
+        cir.setReturnValue(stack);
     }
 }

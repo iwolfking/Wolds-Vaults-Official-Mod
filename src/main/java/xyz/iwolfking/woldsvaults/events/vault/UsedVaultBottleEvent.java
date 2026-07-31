@@ -29,9 +29,11 @@ public class UsedVaultBottleEvent extends Event<UsedVaultBottleEvent, UsedVaultB
         private final Level world;
         private final BlockPos pos;
         private final ItemStack bottleStack;
-        private final BottleEffect effect;
+        private BottleEffect effect;
         private final BottleItem.Type type;
         private final ServerPlayer player;
+        private boolean cancelled = false;
+        private boolean consumeCharge = true;
 
         public Data(Level world, BlockPos pos, ServerPlayer player, ItemStack bottleStack, BottleEffect effect, BottleItem.Type bottleType) {
             this.world = world;
@@ -58,12 +60,32 @@ public class UsedVaultBottleEvent extends Event<UsedVaultBottleEvent, UsedVaultB
             return Optional.ofNullable(effect);
         }
 
+        public void setEffect(BottleEffect effect) {
+             this.effect = effect;
+        }
+
         public Optional<BottleItem.Type> getType() {
             return Optional.ofNullable(type);
         }
 
         public ServerPlayer getDrinker() {
             return player;
+        }
+
+        public void setCancelled(boolean cancelled) {
+            this.cancelled = cancelled;
+        }
+
+        public void setShouldConsumeCharge(boolean shouldConsumeCharge) {
+            this.consumeCharge = shouldConsumeCharge;
+        }
+
+        public boolean isCancelled() {
+            return this.cancelled;
+        }
+
+        public boolean shouldConsumeCharge() {
+            return this.consumeCharge;
         }
     }
 }
