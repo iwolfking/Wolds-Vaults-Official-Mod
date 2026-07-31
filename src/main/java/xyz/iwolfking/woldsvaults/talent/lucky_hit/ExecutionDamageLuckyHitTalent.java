@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.talent;
+package xyz.iwolfking.woldsvaults.talent.lucky_hit;
 
 import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;

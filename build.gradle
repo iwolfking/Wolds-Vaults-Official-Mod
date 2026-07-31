@@ -218,7 +218,7 @@ dependencies {
     implementation fg.deobf("curse.maven:parcool-482378:6189392") // trinket
     implementation fg.deobf('curse.maven:ecologics-570463:4171283') // enchanted event
     implementation fg.deobf("curse.maven:naturalist-627986:3930806")
-    implementation fg.deobf("curse.maven:grimoire-of-gaia-228948:5678608")
+    compileOnly fg.deobf("curse.maven:grimoire-of-gaia-228948:5678608")
     implementation fg.deobf("curse.maven:thermal-foundation-222880:4788649") // enchanted event
     implementation fg.deobf("curse.maven:thermal-expansion-69163:4782927") //enchanted event
     implementation fg.deobf('curse.maven:cofh-core-69162:4801048') // enchanted event

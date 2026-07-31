@@ -1,24 +1,22 @@
-package xyz.iwolfking.woldsvaults.talent;
+package xyz.iwolfking.woldsvaults.talent.lucky_hit;
 
 import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.net.BitBuffer;
 import iskallia.vault.init.ModNetwork;
-import iskallia.vault.network.message.LuckyHitDamageParticleMessage;
+import iskallia.vault.network.message.LuckyHitLeechParticleMessage;
 import iskallia.vault.network.message.LuckyHitManaParticleMessage;
 import iskallia.vault.skill.ability.effect.spi.core.Ability;
 import iskallia.vault.skill.ability.effect.spi.core.Cooldown;
-import iskallia.vault.skill.base.Skill;
-import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.talent.type.luckyhit.LuckyHitTalent;
 import iskallia.vault.skill.tree.AbilityTree;
 import iskallia.vault.world.data.PlayerAbilitiesData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.network.PacketDistributor;
+import xyz.iwolfking.woldsvaults.network.message.LuckyHitCooldownParticleMessage;
 
 import java.util.Optional;
 
@@ -48,17 +46,21 @@ public class CooldownReductionLuckyHitTalent extends LuckyHitTalent {
 
          });
       }
-      ModNetwork.CHANNEL
-         .send(
-            PacketDistributor.TRACKING_ENTITY_AND_SELF.with(event::getEntity),
-            new LuckyHitManaParticleMessage(
-               new Vec3(event.getEntity().position().x, event.getEntity().position().y + event.getEntity().getBbHeight() / 2.0F, event.getEntity().position().z),
-               event.getEntity().getId(),
-               30303,
-                2,
-               0.1F
-            )
-         );
+
+      Vec3 centerPos = new Vec3(
+              event.getEntity().position().x,
+              event.getEntity().position().y + (event.getEntity().getBbHeight() / 2.0F),
+              event.getEntity().position().z
+      );
+
+      ModNetwork.CHANNEL.send(
+              PacketDistributor.TRACKING_ENTITY_AND_SELF.with(event::getEntity),
+              new LuckyHitCooldownParticleMessage(
+                      centerPos,
+                      event.getEntity().getId(),
+                      35
+              )
+      );
    }
 
    public float getCooldownDecrease() {

@@ -1,0 +1,730 @@
+{
+  "descriptions": {
+    "Healthy_Elixir": [
+      {
+        "text": "Enhances the ",
+        "color": "$text"
+      },
+      {
+        "text": "Healthiness ",
+        "color": "#E9C375"
+      },
+      {
+        "text": "of your ",
+        "color": "$text"
+      },
+      {
+        "text": "Vault Potion ",
+        "color": "aqua"
+      },
+      {
+        "text": ", making it also heal an additional percentage of your ",
+        "color": "$text"
+      },
+      {
+        "text": "max health",
+        "color": "green"
+      },
+      {
+        "text": ".\n\nDepending on the tier, the amount restored will be modified: ",
+        "color": "$text"
+      },
+      {
+        "text": "\n<yellow>Vial<white>: <red>50% reduction",
+        "color": "$text"
+      },
+      {
+        "text": "\n<yellow>Potion<white>: <red>25% reduction",
+        "color": "$text"
+      },
+      {
+        "text": "\n<yellow>Mixture<white>: <gold>0% reduction",
+        "color": "$text"
+      },
+      {
+        "text": "\n<yellow>Brew<white>: <green>50% increase",
+        "color": "$text"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Healthy Elixir<white> add <green>3% additional max health restored",
+        "color": "$text"
+      }
+    ],
+    "Momentum_Engine": [
+      {
+        "text": "While moving, builds up stacks of ",
+        "color": "$text"
+      },
+      {
+        "text": "Momentum ",
+        "color": "#E9C375"
+      },
+      {
+        "text": "increasing your ",
+        "color": "$text"
+      },
+      {
+        "text": "Movement Speed",
+        "color": "yellow"
+      },
+      {
+        "text": ". When at the maximum stacks, the next melee strike consumes all stacks to trigger a guaranteed ",
+        "color": "$text"
+      },
+      {
+        "text": "Shocking Hit ",
+        "color": "$text"
+      },
+      {
+        "text": "with a modified radius and knockback. Remaining stationary or performing a melee strike will remove stacks.",
+        "color": "$text"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "5 max stacks, 4% Movement Speed per stack, stacking every 4 seconds. 6 Radius with 120% Knockback.",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5 max stacks, 4% Movement Speed per stack, stacking every 3.5 seconds. 7 Radius with 140% Knockback",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n3 ",
+        "color": "$text"
+      },
+      {
+        "text": "5 max stacks, 4% Movement Speed per stack, stacking every 3 seconds. 8 Radius with 160% Knockback.",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Momentum Engine<white> add <yellow>0.1 second charge reduction <white>and <yellow>increased knockback and size",
+        "color": "$text"
+      }
+    ],
+    "Axe_Master": [
+      {
+        "text": "While holding an ",
+        "color": "$text"
+      },
+      {
+        "text": "Axe",
+        "color": "#E9C375"
+      },
+      {
+        "text": ", your melee hits deal additional damage based on the targets ",
+        "color": "$text"
+      },
+      {
+        "text": "current health",
+        "color": "yellow"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+4%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+8%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+12%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+16%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Axe Master<white> add <red>2% additional damage",
+        "color": "$text"
+      }
+    ],
+    "Lunge": [
+      {
+        "text": "Increases the reach in which you hit with melee weapons with additional",
+        "color": "$text"
+      },
+      {
+        "text": "Attack Range",
+        "color": "#E9C375"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.25 Attack Range",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.5 Attack Range",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.75 Attack Range",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1 Attack Range",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Lunge<white> add <yellow>+1 Attack Range",
+        "color": "$text"
+      }
+    ],
+    "Healthy_Harvest": [
+      {
+        "text": "Adds a chance for ",
+        "color": "$text"
+      },
+      {
+        "text": "Heart Fragments ",
+        "color": "#E9C375"
+      },
+      {
+        "text": "to generate when opening ",
+        "color": "$text"
+      },
+      {
+        "text": "Vault Chests",
+        "color": "yellow"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+4%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+6%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+12%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+8%",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Supply Crates<white> add <red>+1% additional chance",
+        "color": "$text"
+      }
+    ],
+    "Arcane_Strike": [
+      {
+        "text": "Enhances your ",
+        "color": "$text"
+      },
+      {
+        "text": "Lucky Hits ",
+        "color": "#E9C375"
+      },
+      {
+        "text": "causing them to reduce all of your abilities ",
+        "color": "$text"
+      },
+      {
+        "text": "cooldowns by a percentage of their maximum cooldown time",
+        "color": "$text"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10% reduced cooldown",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Arcane Cascade<white> add <aqua>+2% reduced cooldown",
+        "color": "$text"
+      }
+    ],
+    "Medic": [
+      {
+        "text": "Improve your healing skills and sources with increased ",
+        "color": "$text"
+      },
+      {
+        "text": "Healing Effectiveness",
+        "color": "#E9C375"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10% Healing Effectiveness",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+20% Healing Effectiveness",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+30% Healing Effectiveness",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+40% Healing Effectiveness",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n5 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50% Healing Effectiveness",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Medic<white> add <green>+10% Healing Effectiveness",
+        "color": "$text"
+      }
+    ],
+    "Fanged_Strike": [
+      {
+        "text": "Enhances your ",
+        "color": "$text"
+      },
+      {
+        "text": "Lucky Hits ",
+        "color": "#E9C375"
+      },
+      {
+        "text": "causing them to launch a Fang striking your target from below dealing a small portion of your attack's ",
+        "color": "$text"
+      },
+      {
+        "text": "damage ",
+        "color": "red"
+      },
+      {
+        "text": "and procs any on-hit effects again",
+        "color": "$text"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5% damage",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+7.5% damage",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10% damage",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Fanged Strike<white> add <red>+1% increased damage",
+        "color": "$text"
+      }
+    ],
+    "Potent_Elixir": [
+      {
+        "text": "Increases the ",
+        "color": "$text"
+      },
+      {
+        "text": "Potency ",
+        "color": "#E9C375"
+      },
+      {
+        "text": "of your ",
+        "color": "$text"
+      },
+      {
+        "text": "Vault Potion ",
+        "color": "aqua"
+      },
+      {
+        "text": ", boosting its effect.",
+        "color": "$text"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+2 Absorption Hearts",
+        "color": "gold"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+4% Cooldown Reduction",
+        "color": "aqua"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+1 Casted Ability Levels",
+        "color": "yellow"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+20 Flat Mana gained",
+        "color": "aqua"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+5 second effect duration",
+        "color": "yellow"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+1 effect level",
+        "color": "green"
+      },
+      {
+        "text": "\n\n2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+4 Absorption Hearts",
+        "color": "gold"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+8% Cooldown Reduction",
+        "color": "aqua"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+2 Casted Ability Levels",
+        "color": "yellow"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+40 Flat Mana gained",
+        "color": "aqua"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+10 second effect duration",
+        "color": "yellow"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+2 effect level",
+        "color": "green"
+      },
+      {
+        "text": "\n\n3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+6 Absorption Hearts",
+        "color": "gold"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+12% Cooldown Reduction",
+        "color": "aqua"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+3 Casted Ability Levels",
+        "color": "yellow"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+60 Flat Mana gained",
+        "color": "aqua"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+15 second effect duration",
+        "color": "yellow"
+      },
+      {
+        "text": ", ",
+        "color": "$text"
+      },
+      {
+        "text": "+3 effect level",
+        "color": "green"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Potent Elixir<white> add <gold>+2 Absorption Hearts<white>, <aqua>+2% Cooldown Reduction<white>, <yellow>+1 additional casted Ability level<white> <aqua>+20 Flat Mana restored<white>, <aqua>+5% mana restored<white>, <yellow>+3 second effect duration<white>, and <green>+1 effect amplifier every 3 levels",
+        "color": "$text"
+      }
+    ],
+    "Ransack": [
+      {
+        "text": "Breaking sliceable ",
+        "color": "$text"
+      },
+      {
+        "text": "Vault Chests ",
+        "color": "#E9C375"
+      },
+      {
+        "text": "becomes faster with additional ",
+        "color": "$text"
+      },
+      {
+        "text": "Dismantling Chance",
+        "color": "purple"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50% Dismantle Chance",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n2 ",
+        "color": "$text"
+      },
+      {
+        "text": "+75% Dismantle Chance",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n3 ",
+        "color": "$text"
+      },
+      {
+        "text": "+100% Dismantle Chance",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n4 ",
+        "color": "$text"
+      },
+      {
+        "text": "+125% Dismantle Chance",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Ransack<white> add <purple>+25% Dismantling Chance",
+        "color": "$text"
+      }
+    ],
+    "Executing_Strike": [
+      {
+        "text": "Enhances your ",
+        "color": "$text"
+      },
+      {
+        "text": "Lucky Hits ",
+        "color": "#E9C375"
+      },
+      {
+        "text": "causing them to deal a portion of the target's ",
+        "color": "$text"
+      },
+      {
+        "text": "missing health ",
+        "color": "red"
+      },
+      {
+        "text": "as bonus ",
+        "color": "$text"
+      },
+      {
+        "text": "damage ",
+        "color": "red"
+      },
+      {
+        "text": ".\n\n1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+15% of missing health",
+        "color": "#E9C375"
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Overlevels to <gold>Executing Strike<white> add <red>+1% increased missing health damage",
+        "color": "$text"
+      }
+    ]
+  }
+}

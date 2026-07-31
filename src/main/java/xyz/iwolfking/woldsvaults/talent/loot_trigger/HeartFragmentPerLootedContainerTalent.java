@@ -1,10 +1,9 @@
-package xyz.iwolfking.woldsvaults.talent;
+package xyz.iwolfking.woldsvaults.talent.loot_trigger;
 
 import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.net.BitBuffer;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
-import iskallia.vault.gear.attribute.custom.loot.ManaPerLootAttribute;
 import iskallia.vault.skill.base.LearnableSkill;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.base.TickingSkill;

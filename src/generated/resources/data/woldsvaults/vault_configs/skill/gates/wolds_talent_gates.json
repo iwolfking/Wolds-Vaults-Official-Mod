@@ -1,0 +1,217 @@
+{
+  "SKILL_GATES": {
+    "entries": {
+      "Momentum_Engine": {
+        "dependsOn": [
+          {
+            "amount": 15,
+            "type": "talent_points_spent"
+          },
+          {
+            "id": "Speed",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": false
+      },
+      "Battle_Trance": {
+        "dependsOn": [
+          {
+            "amount": 40,
+            "type": "talent_points_spent"
+          },
+          {
+            "id": "Lunge",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": false
+      },
+      "Arcane_Strike": {
+        "dependsOn": [
+          {
+            "id": "Mana_Steal",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [
+          {
+            "id": "Executing_Strike",
+            "type": "constant"
+          },
+          {
+            "id": "Fanged_Strike",
+            "type": "constant"
+          }
+        ],
+        "ignoreArrow": false
+      },
+      "Lunge": {
+        "dependsOn": [
+          {
+            "amount": 25,
+            "type": "talent_points_spent"
+          },
+          {
+            "id": "Strength",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": false
+      },
+      "Blazing": {
+        "dependsOn": [
+          {
+            "amount": 40,
+            "type": "talent_points_spent"
+          },
+          {
+            "id": "Momentum_Engine",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": false
+      },
+      "Fanged_Strike": {
+        "dependsOn": [
+          {
+            "id": "Life_Steal",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [
+          {
+            "id": "Arcane_Strike",
+            "type": "constant"
+          },
+          {
+            "id": "Executing_Strike",
+            "type": "constant"
+          }
+        ],
+        "ignoreArrow": false
+      },
+      "Medic": {
+        "dependsOn": [],
+        "lockedBy": [
+          {
+            "id": "Heart_Fragments",
+            "type": "constant"
+          }
+        ],
+        "ignoreArrow": false
+      },
+      "Executing_Strike": {
+        "dependsOn": [
+          {
+            "id": "Fatal_Strike",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [
+          {
+            "id": "Arcane_Strike",
+            "type": "constant"
+          },
+          {
+            "id": "Fanged_Strike",
+            "type": "constant"
+          }
+        ],
+        "ignoreArrow": false
+      },
+      "Heart_Fragments": {
+        "dependsOn": [],
+        "lockedBy": [
+          {
+            "id": "Medic",
+            "type": "constant"
+          }
+        ],
+        "ignoreArrow": false
+      },
+      "Healthy_Elixir": {
+        "dependsOn": [],
+        "lockedBy": [
+          {
+            "id": "Potent_Elixir",
+            "type": "constant"
+          }
+        ],
+        "ignoreArrow": false
+      },
+      "Healthy_Harvest": {
+        "dependsOn": [
+          {
+            "amount": 5,
+            "type": "talent_points_spent"
+          }
+        ],
+        "lockedBy": [
+          {
+            "id": "Mana_Harvest",
+            "type": "constant"
+          }
+        ],
+        "ignoreArrow": false
+      },
+      "Mana_Harvest": {
+        "dependsOn": [
+          {
+            "amount": 5,
+            "type": "talent_points_spent"
+          }
+        ],
+        "lockedBy": [
+          {
+            "id": "Healthy_Harvest",
+            "type": "constant"
+          }
+        ],
+        "ignoreArrow": false
+      },
+      "Ransack": {
+        "dependsOn": [
+          {
+            "amount": 25,
+            "type": "talent_points_spent"
+          },
+          {
+            "id": "Haste",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": false
+      },
+      "Potent_Elixir": {
+        "dependsOn": [],
+        "lockedBy": [
+          {
+            "id": "Healthy_Elixir",
+            "type": "constant"
+          }
+        ],
+        "ignoreArrow": false
+      },
+      "Mind_Meld": {
+        "dependsOn": [
+          {
+            "amount": 15,
+            "type": "talent_points_spent"
+          },
+          {
+            "id": "Intelligence",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": false
+      }
+    }
+  }
+}

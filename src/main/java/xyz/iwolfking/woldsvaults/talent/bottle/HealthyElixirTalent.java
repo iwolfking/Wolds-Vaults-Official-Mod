@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.talent;
+package xyz.iwolfking.woldsvaults.talent.bottle;
 
 import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;
@@ -12,7 +12,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.events.vault.UsedVaultBottleEvent;
 import xyz.iwolfking.woldsvaults.events.vault.WoldCommonEvents;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.*;
 
 import java.util.Optional;
 

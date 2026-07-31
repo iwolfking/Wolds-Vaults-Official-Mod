@@ -91,7 +91,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
-import xyz.iwolfking.woldsvaults.talent.WoldsAxeSpecializationTalent;
+import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
 
 import java.util.Random;
 import java.util.function.BiConsumer;

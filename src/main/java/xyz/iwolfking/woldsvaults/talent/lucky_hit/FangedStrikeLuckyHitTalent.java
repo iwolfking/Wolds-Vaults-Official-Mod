@@ -1,10 +1,8 @@
-package xyz.iwolfking.woldsvaults.talent;
+package xyz.iwolfking.woldsvaults.talent.lucky_hit;
 
 import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.net.BitBuffer;
-import iskallia.vault.init.ModNetwork;
-import iskallia.vault.network.message.LuckyHitDamageParticleMessage;
 import iskallia.vault.skill.talent.type.luckyhit.LuckyHitTalent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -12,9 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
 import xyz.iwolfking.woldsvaults.entities.projectiles.CustomFangEntity;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
@@ -37,16 +33,6 @@ public class FangedStrikeLuckyHitTalent extends LuckyHitTalent {
       if(event.getSource().getEntity() instanceof ServerPlayer serverPlayer && WoldEventHelper.isNormalAttack()) {
          procFangedStrike(serverPlayer, event.getEntityLiving(), event.getAmount() * damageIncrease);
       }
-
-      ModNetwork.CHANNEL
-         .send(
-            PacketDistributor.TRACKING_ENTITY_AND_SELF.with(event::getEntity),
-            new LuckyHitDamageParticleMessage(
-               new Vec3(event.getEntity().position().x, event.getEntity().position().y + event.getEntity().getBbHeight() / 2.0F, event.getEntity().position().z),
-               new Vec3(event.getEntity().getBbWidth() / 2.0F, event.getEntity().getBbHeight() / 2.0F, event.getEntity().getBbWidth() / 2.0F),
-               event.getEntity().getId()
-            )
-         );
    }
 
    public static void procFangedStrike(ServerPlayer player, LivingEntity target, float baseFangDamage) {

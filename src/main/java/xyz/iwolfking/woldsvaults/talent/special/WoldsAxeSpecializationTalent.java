@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.talent;
+package xyz.iwolfking.woldsvaults.talent.special;
 
 import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;

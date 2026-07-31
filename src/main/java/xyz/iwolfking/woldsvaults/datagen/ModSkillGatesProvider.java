@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.config.ResearchesGUIConfig;
+import iskallia.vault.config.skillgate.TalentPointsSpentSkillGate;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractSkillGatesProvider;
@@ -28,6 +29,125 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
 
                });
             });
+        });
+
+        add("wolds_talent_gates", builder -> {
+            builder.add("Fanged_Strike", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.constant("Life_Steal");
+                });
+                skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
+                    lockedEntryBuilder.constant("Arcane_Strike");
+                    lockedEntryBuilder.constant("Executing_Strike");
+                });
+            });
+
+            builder.add("Executing_Strike", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.constant("Fatal_Strike");
+                });
+                skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
+                    lockedEntryBuilder.constant("Arcane_Strike");
+                    lockedEntryBuilder.constant("Fanged_Strike");
+                });
+            });
+
+            builder.add("Arcane_Strike", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.constant("Mana_Steal");
+                });
+                skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
+                    lockedEntryBuilder.constant("Executing_Strike");
+                    lockedEntryBuilder.constant("Fanged_Strike");
+                });
+            });
+
+            builder.add("Healthy_Harvest", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(5));
+                });
+
+                skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
+                    lockedEntryBuilder.constant("Mana_Harvest");
+                });
+            });
+
+            builder.add("Mana_Harvest", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(5));
+                });
+
+                skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
+                    lockedEntryBuilder.constant("Healthy_Harvest");
+                });
+            });
+
+            builder.add("Ransack", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(25));
+                    typeBuilder.constant("Haste");
+                });
+            });
+
+            builder.add("Lunge", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(25));
+                    typeBuilder.constant("Strength");
+                });
+            });
+
+            builder.add("Momentum_Engine", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(15));
+                    typeBuilder.constant("Speed");
+                });
+            });
+
+            builder.add("Blazing", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(40));
+                    typeBuilder.constant("Momentum_Engine");
+                });
+            });
+
+            builder.add("Mind_Meld", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(15));
+                    typeBuilder.constant("Intelligence");
+                });
+            });
+
+            builder.add("Battle_Trance", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(40));
+                    typeBuilder.constant("Lunge");
+                });
+            });
+
+            builder.add("Heart_Fragments", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.lockedBy(typeBuilder -> {
+                    typeBuilder.constant("Medic");
+                });
+            });
+
+            builder.add("Medic", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.lockedBy(typeBuilder -> {
+                    typeBuilder.constant("Heart_Fragments");
+                });
+            });
+
+            builder.add("Potent_Elixir", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.lockedBy(typeBuilder -> {
+                    typeBuilder.constant("Healthy_Elixir");
+                });
+            });
+
+            builder.add("Healthy_Elixir", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.lockedBy(typeBuilder -> {
+                    typeBuilder.constant("Potent_Elixir");
+                });
+            });
+
         });
 
         add("wolds_skill_gates", builder -> {

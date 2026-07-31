@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.talent;
+package xyz.iwolfking.woldsvaults.talent.stat_conversion;
 
 import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;
@@ -10,7 +10,6 @@ import iskallia.vault.skill.base.LearnableSkill;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.TalentTree;
 import iskallia.vault.util.calc.PlayerStat;
-import iskallia.vault.util.calc.TrapDisarmChanceHelper;
 import iskallia.vault.world.data.PlayerTalentsData;
 import java.util.Optional;
 import net.minecraft.nbt.CompoundTag;

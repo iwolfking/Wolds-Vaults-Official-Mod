@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.skills;
 
 import iskallia.vault.core.data.adapter.basic.TypeSupplierAdapter;
-import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.skill.base.Skill;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,7 +9,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
 import xyz.iwolfking.woldsvaults.expertises.*;
 import xyz.iwolfking.woldsvaults.prestige.*;
-import xyz.iwolfking.woldsvaults.talent.*;
+import xyz.iwolfking.woldsvaults.talent.bottle.HealthyElixirTalent;
+import xyz.iwolfking.woldsvaults.talent.bottle.PotentElixirTalent;
+import xyz.iwolfking.woldsvaults.talent.lib.StackOnHitAttributeTalent;
+import xyz.iwolfking.woldsvaults.talent.loot_trigger.HeartFragmentPerLootedContainerTalent;
+import xyz.iwolfking.woldsvaults.talent.lucky_hit.CooldownReductionLuckyHitTalent;
+import xyz.iwolfking.woldsvaults.talent.lucky_hit.ExecutionDamageLuckyHitTalent;
+import xyz.iwolfking.woldsvaults.talent.lucky_hit.FangedStrikeLuckyHitTalent;
+import xyz.iwolfking.woldsvaults.talent.special.MomentumEngineTalent;
+import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
+import xyz.iwolfking.woldsvaults.talent.stat_conversion.MindMeldTalent;
 
 @Mixin(value = Skill.Adapter.class, remap = false)
 public class MixinSkill extends TypeSupplierAdapter<Skill> {
