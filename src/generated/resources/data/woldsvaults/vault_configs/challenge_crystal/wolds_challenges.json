@@ -135,7 +135,7 @@
     "ballistic_bingo_blackout": {
       "objective": {
         "objective_probability": 0.25,
-        "sealCount": 1,
+        "sealCount": 2,
         "blackout": true,
         "type": "ballistic_bingo"
       },
