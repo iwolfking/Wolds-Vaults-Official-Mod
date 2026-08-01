@@ -252,8 +252,21 @@ public class ModItemModelProvider extends ItemModelProvider {
         vaultModifier(VaultMod.id("ghost_town"), "ghost_city");
         vaultModifier(VaultMod.id("vexation"), "vexation");
 
-        skillScroll("colossus");
-        skillScroll("expunge");
+        skillScrollAbility("colossus");
+        skillScrollAbility("expunge");
+        skillScrollAbility("wall_of_fangs");
+        skillScroll("fanged_strike");
+        skillScroll("execution_strike");
+        skillScroll("arcane_strike");
+        skillScroll("medic");
+        skillScroll("ransack");
+        skillScroll("potent_elixir");
+        skillScroll("healthy_elixir");
+        skillScroll("supply_crates");
+        skillScroll("mind_meld");
+        skillScroll("momentum_engine");
+        skillScroll("lunge");
+
 
         deckCore(WoldsVaults.id("void_deck_core"));
         deckCore(WoldsVaults.id("tool_deck_core"));
@@ -336,11 +349,18 @@ public class ModItemModelProvider extends ItemModelProvider {
                 WoldsVaults.id("item/" + item.getRegistryName().getPath())).texture("layer1", VaultMod.id("item/shuffle_seal_overlay"));
     }
 
-    public ItemModelBuilder skillScroll(String skillId) {
+    public ItemModelBuilder skillScrollAbility(String skillId) {
         return getBuilder(VaultMod.id("item/skills/" + skillId).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
                         WoldsVaults.id("gui/abilities/" + skillId));
+    }
+
+    public ItemModelBuilder skillScroll(String skillId) {
+        return getBuilder(VaultMod.id("item/skills/" + skillId).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        WoldsVaults.id("gui/skills/" + skillId));
     }
 
     public ItemModelBuilder researchToken(ResourceLocation icon) {

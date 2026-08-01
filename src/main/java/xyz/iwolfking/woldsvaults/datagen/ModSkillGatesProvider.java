@@ -32,17 +32,36 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
         });
 
         add("wolds_talent_gates", builder -> {
+
+            builder.add("Potent_Elixir", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(entryBuilder -> {
+                    entryBuilder.constant("Prudent");
+                });
+                skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
+                    lockedEntryBuilder.constant("Healthy_Elixir");
+                });
+            });
+
+            builder.add("Healthy_Elixir", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(entryBuilder -> {
+                    entryBuilder.constant("Prudent");
+                });
+                skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
+                    lockedEntryBuilder.constant("Potent_Elixir");
+                });
+            });
+
             builder.add("Fanged_Strike", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.dependsOn(typeBuilder -> {
                     typeBuilder.constant("Life_Steal");
                 });
                 skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
                     lockedEntryBuilder.constant("Arcane_Strike");
-                    lockedEntryBuilder.constant("Executing_Strike");
+                    lockedEntryBuilder.constant("Execution_Strike");
                 });
             });
 
-            builder.add("Executing_Strike", skillGateEntryBuilder -> {
+            builder.add("Execution_Strike", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.dependsOn(typeBuilder -> {
                     typeBuilder.constant("Fatal_Strike");
                 });
@@ -57,7 +76,7 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
                     typeBuilder.constant("Mana_Steal");
                 });
                 skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
-                    lockedEntryBuilder.constant("Executing_Strike");
+                    lockedEntryBuilder.constant("Execution_Strike");
                     lockedEntryBuilder.constant("Fanged_Strike");
                 });
             });
