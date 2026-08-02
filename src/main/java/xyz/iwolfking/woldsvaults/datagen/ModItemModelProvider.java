@@ -266,6 +266,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         skillScroll("mind_meld");
         skillScroll("momentum_engine");
         skillScroll("lunge");
+        skillScroll("stack_master");
 
 
         deckCore(WoldsVaults.id("void_deck_core"));
@@ -312,6 +313,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         etching(VaultMod.id("reaving_hemmorage"));
         etching(VaultMod.id("divinity"), "divine");
         etching(VaultMod.id("ingenium"));
+        etching(VaultMod.id("pyramid_scheme"));
         etching(VaultMod.id("fireball_greedball"), "treasure");
 
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {

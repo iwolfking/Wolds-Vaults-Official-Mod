@@ -19,10 +19,10 @@
       "icon": "the_vault:gui/skills/intelligence"
     },
     "Treasure_Sense": {
-      "x": 628,
+      "x": 500,
       "y": 320,
       "frameType": "RECTANGULAR",
-      "icon": "the_vault:gui/skills/treasure_sense"
+      "icon": "the_vault:gui/skills/treasure_hunter"
     },
     "Methodical": {
       "x": -140,
@@ -31,7 +31,7 @@
       "icon": "the_vault:gui/skills/methodical"
     },
     "Treasure_Seeker": {
-      "x": 564,
+      "x": 500,
       "y": 0,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/treasure_seeker"
@@ -78,6 +78,12 @@
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/life_steal"
     },
+    "Cleave": {
+      "x": 564,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/cleave"
+    },
     "Clean_Escape": {
       "x": -204,
       "y": 160,
@@ -85,7 +91,7 @@
       "icon": "the_vault:gui/skills/clean_escape"
     },
     "Farmer_Twerker": {
-      "x": 756,
+      "x": 180,
       "y": 0,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/farmer"
@@ -150,6 +156,12 @@
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/arcana"
     },
+    "Stack_Master": {
+      "x": 308,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/stack_master"
+    },
     "Mind_Meld": {
       "x": 308,
       "y": 160,
@@ -157,7 +169,7 @@
       "icon": "woldsvaults:gui/skills/mind_meld"
     },
     "Lucky_Momentum": {
-      "x": 756,
+      "x": 180,
       "y": 320,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/luck_momentum"
@@ -187,7 +199,7 @@
       "icon": "woldsvaults:gui/skills/arcane_strike"
     },
     "Trap_Disarm": {
-      "x": 692,
+      "x": -140,
       "y": 0,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/trap_disarm"
@@ -205,7 +217,7 @@
       "icon": "the_vault:gui/skills/haste"
     },
     "Assassin_Mastery": {
-      "x": 628,
+      "x": 500,
       "y": 240,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/assassin_mastery"
@@ -217,7 +229,7 @@
       "icon": "woldsvaults:gui/skills/healthy_elixir"
     },
     "Bountiful_Harvest": {
-      "x": 628,
+      "x": 564,
       "y": 0,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/bountiful_harvest"
@@ -229,7 +241,7 @@
       "icon": "the_vault:gui/skills/purist"
     },
     "Dungeon_Mastery": {
-      "x": 564,
+      "x": 372,
       "y": 240,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/dungeon_mastery"
@@ -283,7 +295,7 @@
       "icon": "the_vault:gui/skills/toxic_reaction"
     },
     "Executioner": {
-      "x": -396,
+      "x": 180,
       "y": 80,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/executioner"
@@ -337,7 +349,7 @@
       "icon": "woldsvaults:gui/skills/potent_elixir"
     },
     "Frenzy": {
-      "x": 500,
+      "x": -204,
       "y": 240,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/frenzy"
@@ -349,7 +361,7 @@
       "icon": "the_vault:gui/skills/strength"
     },
     "Lingering_Fumes": {
-      "x": 500,
+      "x": 244,
       "y": 0,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/lingering_fumes"

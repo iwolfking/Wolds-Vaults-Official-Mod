@@ -6,6 +6,7 @@ import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.config.FloatAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.ability.BroodmotherWebAttribute;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.item.Item;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.MixinModConfigs;
@@ -67,6 +68,10 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
         ARMOR.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
         });
+    }
+
+    public void addTo(Item gearItem, VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
+        add(gearItem.getRegistryName().getPath(), builder -> builder.key(gearItem.getRegistryName()).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
     }
 
     public void addToJewel(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {

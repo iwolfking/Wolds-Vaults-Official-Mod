@@ -10,12 +10,14 @@ import iskallia.vault.event.ShockedMobTracker;
 import iskallia.vault.gear.VaultGearHelper;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
+import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.init.ModNetwork;
 import iskallia.vault.network.message.ShockedParticleMessage;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.talent.type.GearAttributeTalent;
 import iskallia.vault.skill.tree.TalentTree;
+import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.EntityHelper;
 import iskallia.vault.util.calc.AreaOfEffectHelper;
 import iskallia.vault.world.data.PlayerTalentsData;
@@ -31,6 +33,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -102,8 +105,9 @@ public class MomentumEngineTalent extends GearAttributeTalent {
                 this.moveTickTracker++;
 
                 if (this.moveTickTracker >= this.chargeIntervalTicks) {
+                    int maxStacksBonus = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ADDITIONAL_STACKING_STACKS, VaultGearAttributeTypeMerger.intSum());
                     this.moveTickTracker = 0;
-                    if (this.stacks < this.maxStacks) {
+                    if (this.stacks < (this.maxStacks + maxStacksBonus)) {
                         this.stacks++;
                         this.refreshSnapshot(player);
                     }

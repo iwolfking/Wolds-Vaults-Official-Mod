@@ -7,10 +7,12 @@ import iskallia.vault.core.net.BitBuffer;
 import iskallia.vault.gear.VaultGearHelper;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
+import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.talent.type.GearAttributeTalent;
 import iskallia.vault.skill.tree.TalentTree;
+import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.calc.EffectDurationHelper;
 import iskallia.vault.world.data.PlayerTalentsData;
 import net.minecraft.nbt.CompoundTag;
@@ -22,6 +24,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -126,10 +129,8 @@ public class StackOnHitAttributeTalent extends GearAttributeTalent {
     }
 
     public void onStack(ServerPlayer player) {
-        if (++this.stacks > this.maxStacks) {
-            this.stacks = this.maxStacks;
-        }
-
+        int maxStacksBonus = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ADDITIONAL_STACKING_STACKS, VaultGearAttributeTypeMerger.intSum());
+        this.stacks = Math.min(++this.stacks, maxStacks + maxStacksBonus);
         this.timeLeft = this.getDurationTicks(player);
         this.refreshSnapshot(player);
     }

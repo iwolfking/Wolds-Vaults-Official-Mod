@@ -1,13 +1,16 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.TalentsConfig;
 import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.ability.AbilityFloatValueAttribute;
 import iskallia.vault.gear.attribute.ability.AbilityLevelAttribute;
 import iskallia.vault.gear.attribute.custom.effect.EffectCloudAttribute;
 import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
+import iskallia.vault.init.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
@@ -125,6 +128,23 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.HEALING_CLOUD_ON_HIT);
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.WEAKNESS_CLOUD_ON_HIT);
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.SLOWNESS_CLOUD_ON_HIT);
+        });
+
+        addToAllOffhands(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.TALENT_LEVEL, "ModTalentLevel", "u_all_talent_levels", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(50, -1, 200, new TalentLevelAttribute.Config(TalentLevelAttribute.ALL_TALENTS, 1));
+            });
+        });
+
+        ModConfigs.TALENTS = new TalentsConfig().readConfig();
+        addTo(ModItems.VAULT_NECKLACE, VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {
+            ModConfigs.TALENTS.tree.skills.forEach(skill -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.TALENT_LEVEL, "ModTalentLevel", "u_talent_level_" + skill.getId().toLowerCase(), List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 200, new TalentLevelAttribute.Config(skill.getId(), 2));
+                    vaultGearModifierTiersBuilder.add(50, -1, 200, new TalentLevelAttribute.Config(skill.getId(), 3));
+                    vaultGearModifierTiersBuilder.add(90, -1, 200, new TalentLevelAttribute.Config(skill.getId(), 4));
+                });
+            });
         });
 
         addToAllStandardGearConfigs(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {

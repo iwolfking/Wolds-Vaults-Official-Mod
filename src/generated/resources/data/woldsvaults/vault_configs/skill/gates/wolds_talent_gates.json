@@ -15,6 +15,16 @@
         "lockedBy": [],
         "ignoreArrow": false
       },
+      "Frostbite": {
+        "dependsOn": [
+          {
+            "amount": 25,
+            "type": "talent_points_spent"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": false
+      },
       "Battle_Trance": {
         "dependsOn": [
           {
@@ -31,6 +41,10 @@
       },
       "Execution_Strike": {
         "dependsOn": [
+          {
+            "amount": 40,
+            "type": "talent_points_spent"
+          },
           {
             "id": "Fatal_Strike",
             "type": "constant"
@@ -50,6 +64,10 @@
       },
       "Arcane_Strike": {
         "dependsOn": [
+          {
+            "amount": 40,
+            "type": "talent_points_spent"
+          },
           {
             "id": "Mana_Steal",
             "type": "constant"
@@ -98,6 +116,10 @@
       "Fanged_Strike": {
         "dependsOn": [
           {
+            "amount": 40,
+            "type": "talent_points_spent"
+          },
+          {
             "id": "Life_Steal",
             "type": "constant"
           }
@@ -135,13 +157,32 @@
         "ignoreArrow": false
       },
       "Healthy_Elixir": {
-        "dependsOn": [],
+        "dependsOn": [
+          {
+            "amount": 15,
+            "type": "talent_points_spent"
+          },
+          {
+            "id": "Prudent",
+            "type": "constant"
+          }
+        ],
         "lockedBy": [
           {
             "id": "Potent_Elixir",
             "type": "constant"
           }
         ],
+        "ignoreArrow": false
+      },
+      "Fatal_Strike": {
+        "dependsOn": [
+          {
+            "amount": 15,
+            "type": "talent_points_spent"
+          }
+        ],
+        "lockedBy": [],
         "ignoreArrow": false
       },
       "Healthy_Harvest": {
@@ -175,7 +216,16 @@
         "ignoreArrow": false
       },
       "Potent_Elixir": {
-        "dependsOn": [],
+        "dependsOn": [
+          {
+            "amount": 15,
+            "type": "talent_points_spent"
+          },
+          {
+            "id": "Prudent",
+            "type": "constant"
+          }
+        ],
         "lockedBy": [
           {
             "id": "Healthy_Elixir",
@@ -187,7 +237,7 @@
       "Ransack": {
         "dependsOn": [
           {
-            "amount": 25,
+            "amount": 5,
             "type": "talent_points_spent"
           },
           {
@@ -197,6 +247,50 @@
         ],
         "lockedBy": [],
         "ignoreArrow": false
+      },
+      "Stack_Master": {
+        "dependsOn": [
+          {
+            "gates": [
+              {
+                "id": "Blazing",
+                "type": "constant"
+              },
+              {
+                "id": "Battle_Trance",
+                "type": "constant"
+              },
+              {
+                "id": "Momentum_Engine",
+                "type": "constant"
+              },
+              {
+                "id": "Blood_Rush",
+                "type": "constant"
+              },
+              {
+                "id": "Arcana",
+                "type": "constant"
+              },
+              {
+                "id": "Lucky_Momentum",
+                "type": "constant"
+              },
+              {
+                "id": "Frenzy",
+                "type": "constant"
+              }
+            ],
+            "type": "either"
+          }
+        ],
+        "lockedBy": [
+          {
+            "amount": 40,
+            "type": "talent_points_spent"
+          }
+        ],
+        "ignoreArrow": true
       },
       "Mind_Meld": {
         "dependsOn": [

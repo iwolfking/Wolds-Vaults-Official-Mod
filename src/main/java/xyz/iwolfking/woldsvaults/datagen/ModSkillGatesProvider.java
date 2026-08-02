@@ -32,9 +32,9 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
         });
 
         add("wolds_talent_gates", builder -> {
-
             builder.add("Potent_Elixir", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.dependsOn(entryBuilder -> {
+                    entryBuilder.add(new TalentPointsSpentSkillGate(15));
                     entryBuilder.constant("Prudent");
                 });
                 skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
@@ -44,6 +44,7 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
 
             builder.add("Healthy_Elixir", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.dependsOn(entryBuilder -> {
+                    entryBuilder.add(new TalentPointsSpentSkillGate(15));
                     entryBuilder.constant("Prudent");
                 });
                 skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
@@ -53,6 +54,7 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
 
             builder.add("Fanged_Strike", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(40));
                     typeBuilder.constant("Life_Steal");
                 });
                 skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
@@ -63,6 +65,7 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
 
             builder.add("Execution_Strike", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(40));
                     typeBuilder.constant("Fatal_Strike");
                 });
                 skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
@@ -73,6 +76,7 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
 
             builder.add("Arcane_Strike", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(40));
                     typeBuilder.constant("Mana_Steal");
                 });
                 skillGateEntryBuilder.lockedBy(lockedEntryBuilder -> {
@@ -103,7 +107,7 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
 
             builder.add("Ransack", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.dependsOn(typeBuilder -> {
-                    typeBuilder.add(new TalentPointsSpentSkillGate(25));
+                    typeBuilder.add(new TalentPointsSpentSkillGate(5));
                     typeBuilder.constant("Haste");
                 });
             });
@@ -126,6 +130,18 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
                 skillGateEntryBuilder.dependsOn(typeBuilder -> {
                     typeBuilder.add(new TalentPointsSpentSkillGate(40));
                     typeBuilder.constant("Momentum_Engine");
+                });
+            });
+
+            builder.add("Frostbite", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(25));
+                });
+            });
+
+            builder.add("Fatal_Strike", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(15));
                 });
             });
 
@@ -155,15 +171,21 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
                 });
             });
 
-            builder.add("Potent_Elixir", skillGateEntryBuilder -> {
+            builder.add("Stack_Master", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.hideArrow(true);
                 skillGateEntryBuilder.lockedBy(typeBuilder -> {
-                    typeBuilder.constant("Healthy_Elixir");
+                    typeBuilder.add(new TalentPointsSpentSkillGate(40));
                 });
-            });
-
-            builder.add("Healthy_Elixir", skillGateEntryBuilder -> {
-                skillGateEntryBuilder.lockedBy(typeBuilder -> {
-                    typeBuilder.constant("Potent_Elixir");
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.either(choices -> {
+                        choices.constant("Blazing");
+                        choices.constant("Battle_Trance");
+                        choices.constant("Momentum_Engine");
+                        choices.constant("Blood_Rush");
+                        choices.constant("Arcana");
+                        choices.constant("Lucky_Momentum");
+                        choices.constant("Frenzy");
+                    });
                 });
             });
 

@@ -54,6 +54,7 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Float> INCREASED_EFFECT_CLOUD_CHANCE = attr("effect_cloud_chance_additive", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Effect Cloud Chance", 3109217), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> SECOND_JUDGEMENT = attr("second_judgement", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Second Judgement", 3085471), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> BURNING_HIT_CHANCE = attr("burning_hit_chance", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Burning Hit Chance", 12976128), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Integer> ADDITIONAL_STACKING_STACKS = woldsAttr("additional_stacking_stacks", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Additional Max Stacks", 5125226), VaultGearAttributeComparator.intComparator());
 
     public static final VaultGearAttribute<Boolean> IMPLODING_JAVELIN = attr("javelin_implode", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Imploding Javelin", 3085471), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> DRIPPING_LAVA = attr("dripping_lava", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Dripping Lava", 12976128), VaultGearAttributeComparator.booleanComparator());
@@ -196,6 +197,7 @@ public class ModGearAttributes {
                       registry.register(DRIPPING_LAVA);
                       registry.register(RICOCHET);
                       registry.register(HEART_FRAGMENT_ON_LOOT);
+                      registry.register(ADDITIONAL_STACKING_STACKS);
        }
   
     public static void registerVanillaAssociations() {

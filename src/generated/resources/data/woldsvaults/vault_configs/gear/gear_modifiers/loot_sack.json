@@ -1044,6 +1044,23 @@
     ],
     "CORRUPTED_IMPLICIT": [
       {
+        "attribute": "the_vault:added_talent_level",
+        "group": "ModTalentLevel",
+        "identifier": "the_vault:u_all_talent_levels",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 200,
+            "value": {
+              "talentKey": "all_talents",
+              "levelChange": 1
+            }
+          }
+        ]
+      },
+      {
         "attribute": "the_vault:phoenix",
         "group": "ModPhoenix",
         "identifier": "the_vault:u_phoenix",

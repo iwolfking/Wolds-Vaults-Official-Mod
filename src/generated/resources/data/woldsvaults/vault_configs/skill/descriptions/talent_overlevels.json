@@ -37,12 +37,24 @@
         "color": "#FFEB07"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Prudent<white> talent add <aqua>+4% Additional Chance",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Prudent",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+4% Additional Chance",
+        "color": "#5ae09c"
       }
     ],
     "Frostbite": [
@@ -138,12 +150,24 @@
         "color": "#FFEB07"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Frost Bite<white> talent adds <aqua>+1% additional chance",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Frost Bite",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+1% Additional Chance",
+        "color": "#5ae09c"
       }
     ],
     "Intelligence": [
@@ -183,12 +207,24 @@
         "color": "#FF00CB"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Intelligence<white> talent add <purple>+8 Ability Power",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Intelligence",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+8 Ability Power",
+        "color": "#FF00CB"
       }
     ],
     "Battle_Trance": [
@@ -263,12 +299,24 @@
         "color": "#7024AC"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Battle Trance<white> talent adds one additional max stack",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Battle Trance",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds one additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Stoneskin": [
@@ -322,12 +370,24 @@
         "color": "#FFB00F"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Stoneskin<white> talent decreases the <green>Health Threshhold<white> by <green>2%<white>",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Stoneskin",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "decreases the "
+      },
+      {
+        "text": "Health Threshhold by 2%",
+        "color": "#8EEDD9"
       }
     ],
     "Methodical": [
@@ -374,12 +434,24 @@
         "color": "#7DF587"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Methodical<white> talent add <green>+20% Healing Efficiency",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Methodical",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+20% Healing Efficiency",
+        "color": "#7DF587"
       }
     ],
     "Treasure_Seeker": [
@@ -436,12 +508,24 @@
         "text": "\n "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Treasure Seeker<white> talent adds one additional max stack",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Treasure Seeker",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds one additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Trap_Disarm": [
@@ -481,12 +565,24 @@
         "color": "#7F42FC"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Trap Disarm<white> talent add <purple>+10% Trap Disarm Chance",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Trap Disarm",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Trap Disarm Chance",
+        "color": "#4800FF"
       }
     ],
     "Depleted": [
@@ -533,12 +629,24 @@
         "color": "#C23627"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Depleted<white> talent add <red>+25% Additional Damage",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Depleted",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+25% Additional Damage",
+        "color": "#C23627"
       }
     ],
     "Haste": [
@@ -592,12 +700,24 @@
         "color": "#47B8F5"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Haste<white> talent add <aqua>+10 Mining Speed",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Haste",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10 Mining Speed",
+        "color": "#47b8f5"
       }
     ],
     "Bountiful_Harvest": [
@@ -654,12 +774,24 @@
         "text": "\n "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Bountiful Harvest<white> talent adds one additional max stack",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Bountiful Harvest",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds one additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Purist": [
@@ -706,12 +838,24 @@
         "color": "#C23627"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Purist<white> talent add <red>+10% Increased Damage",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Purist",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Increased Damage",
+        "color": "#C23627"
       }
     ],
     "Fatal_Strike": [
@@ -737,12 +881,24 @@
         "color": "#C23627"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Fatal Strike<white> talent add <red>+20% Additional Damage",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Fatal Strike",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+20% Additional Damage",
+        "color": "#C23627"
       }
     ],
     "Mana_Harvest": [
@@ -782,12 +938,24 @@
         "color": "#0353D7"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Mana Harvest<white> talent add <aqua>+1 Additional Mana",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Mana Harvest",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+1 Additional Mana",
+        "color": "#0353d7"
       }
     ],
     "Blight": [
@@ -834,12 +1002,24 @@
         "color": "#C23627"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Blight<white> talent adds an additional <yellow>+2% damage reduction",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Blight",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+2% Damage Reduction",
+        "color": "#ffd800"
       }
     ],
     "Berserking": [
@@ -865,12 +1045,24 @@
         "color": "#C23627"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Berserking<white> talent increases the <green>Health Threshold<white> by <green2%<white>",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Berserking",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "increases the "
+      },
+      {
+        "text": "Health Threshold by 2%",
+        "color": "#8EEDD9"
       }
     ],
     "Sorcery": [
@@ -941,12 +1133,24 @@
         "text": "\n "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Sorcery<white> talent add <aqua>+10% Increased Mana Regeneration",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Sorcery",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Increased Mana Regeneration",
+        "color": "#0353d7"
       }
     ],
     "Lightning_Stun": [
@@ -1028,12 +1232,24 @@
         "color": "#FFFF55"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Lightning Mastery<white> talent adds a small increase to the stun chance and duration",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Lightning Mastery",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds a small increase to the "
+      },
+      {
+        "text": "stun chance and duration",
+        "color": "#19A6E4"
       }
     ],
     "Life_Steal": [
@@ -1059,12 +1275,24 @@
         "color": "#CF0000"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Life Leech<white> talent add <aqua>+2% Extra Life Leeched",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Life Leech",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+2% Life Leeched",
+        "color": "#C23627"
       }
     ],
     "Voltaic_Impact": [
@@ -1104,12 +1332,24 @@
         "color": "#C23627"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Voltaic Impact<white> talent adds <red>+20% additional damage",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Voltaic Impact",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+20% Additional Damage",
+        "color": "#C23627"
       }
     ],
     "Speed": [
@@ -1149,12 +1389,24 @@
         "color": "#F6CD0E"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Speed<white> talent add <yellow>+10% Movement Speed",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Speed",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Movement Speed",
+        "color": "#ffe400"
       }
     ],
     "Cleave": [
@@ -1180,12 +1432,24 @@
         "color": "#C23627"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Cleave<white> talent add <red>+1% Additional damage<white> and <yellow>+5% Additional Range",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Cleave",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+1% Additional damage and +5% Additional Range",
+        "color": "#5ae09c"
       }
     ],
     "Clean_Escape": [
@@ -1232,12 +1496,24 @@
         "color": "#FFE068"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Clean Escape<white> talent add <yellow>+10% Movement Speed",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Clean Escape",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Movement Speed",
+        "color": "#ffe400"
       }
     ],
     "Daze": [
@@ -1284,12 +1560,24 @@
         "color": "#C23627"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Daze<white> talent adds <red>+20% additional damage",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Daze",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+20% Additional Damage",
+        "color": "#C23627"
       }
     ],
     "Blazing": [
@@ -1367,12 +1655,24 @@
         "text": " wear-off time"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Blazing<white> talent adds one additional max stack",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Blazing",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds one additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Executioner": [
@@ -1412,12 +1712,24 @@
         "color": "#C23627"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Executioner<white> talent add <red>+5% Additional Damage",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Executioner",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+5% Additional Damage",
+        "color": "#C23627"
       }
     ],
     "Ethereal": [
@@ -1464,12 +1776,24 @@
         "color": "#FFEB07"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Ethereal<white> talent add <aqua>+3% Additional Chance",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Ethereal",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+3% Additional Chance",
+        "color": "#5ae09c"
       }
     ],
     "Quickening": [
@@ -1512,12 +1836,24 @@
         "text": " refunded"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Quickening<white> talent add <aqua>+10% Mana Refunded",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Quickening",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Mana Refunded",
+        "color": "#19A6E4"
       }
     ],
     "Lightning_Damage": [
@@ -1557,12 +1893,24 @@
         "color": "#FF00CB"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Lightning Finesse<white> talent adds <yellow>+10% Increased Lightning Damage",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Lightning Finesse",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds "
+      },
+      {
+        "text": "+10% Increased Lightning Damage",
+        "color": "#ffeb07"
       }
     ],
     "Witchery": [
@@ -1612,12 +1960,24 @@
         "text": "\n "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Witchery<white> talent add <purple>+10% Soul Shard Chance",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Witchery",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Soul Shard Chance",
+        "color": "#4800FF"
       }
     ],
     "Heart_Fragments": [
@@ -1664,12 +2024,24 @@
         "color": "#22FF25"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Heart Fragments<white> talent add <green>+3% Heart Fragment Chance",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Heart Fragments",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+3% Heart Fragment Chance",
+        "color": "#7DF587"
       }
     ],
     "Mana_Steal": [
@@ -1695,12 +2067,24 @@
         "color": "#0353D7"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Mana Steal<white> talent add <aqua>+1% Extra Max Mana",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Mana Steal",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+1% Max Mana Restored",
+        "color": "#19A6E4"
       }
     ],
     "Last_Stand": [
@@ -1726,12 +2110,24 @@
         "color": "#09BFB8"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Last Stand<white> talent increases the <green>Health Threshold<white> by <green2%<white>",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Last Stand",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "increases the "
+      },
+      {
+        "text": "Health Threshold by 2%",
+        "color": "#8EEDD9"
       }
     ],
     "Prime_Amplification": [
@@ -1809,12 +2205,24 @@
         "text": "\n "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Prime Amplification<white> talent add <yellow>+5% Increased Area Of Effect",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Prime Amplification",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+5% Increased Area Of Effect",
+        "color": "#e9c375"
       }
     ],
     "Blood_Rush": [
@@ -1892,12 +2300,24 @@
         "text": " wear-off time"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Blood Rush<white> talent adds two additional max stacks",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Blood Rush",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds two additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Arcana": [
@@ -1975,12 +2395,24 @@
         "text": " wear-off time"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Arcana<white> talent adds one additional max stack",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Arcana",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds one additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Frenzy": [
@@ -2058,12 +2490,81 @@
         "text": " wear-off time"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Frenzy<white> talent adds two additional max stacks",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Frenzy",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds two additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
+      }
+    ],
+    "Strength": [
+      {
+        "text": "Increases your "
+      },
+      {
+        "text": "Attack Damage",
+        "color": "#C23627"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+4",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n2 "
+      },
+      {
+        "text": "+8",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n3 "
+      },
+      {
+        "text": "+14",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n4 "
+      },
+      {
+        "text": "+20",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Might",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+6 Attack Damage",
+        "color": "#C23627"
       }
     ],
     "Lingering_Fumes": [
@@ -2103,12 +2604,24 @@
         "color": "#ADC9FF"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Lingering Fumes<white> talent add <green>+10% Effect Duration",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Lingering Fumes",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Effect Duration",
+        "color": "#85edfe"
       }
     ],
     "Lucky_Momentum": [
@@ -2186,12 +2699,24 @@
         "text": " wear-off time"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Lucky Momentum<white> talent adds two additional max stacks",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Lucky Momentum",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds two additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Blizzard": [
@@ -2273,12 +2798,24 @@
         "color": "#23D2BB"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "Overlevels of the <gold>Frozen Impact<white> talent adds an additional <yellow<level<white> to the <aqua>Frost Nova",
-        "color": "$text"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Frozen Impact",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds an additional level to the "
+      },
+      {
+        "text": "Frost Nova",
+        "color": "#2FE1FA"
       }
     ]
   }

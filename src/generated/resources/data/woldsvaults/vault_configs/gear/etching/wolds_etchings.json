@@ -245,11 +245,11 @@
     },
     "woldsvaults:ingenium": {
       "name": "Ingenium",
-      "description": "<yellow>+1<gray> to all <aqua>Talent<gray> levels",
+      "description": "<yellow>Increases<gray> all <aqua>Talent<gray> levels",
       "color": 6084886,
-      "minGreedTier": 0,
+      "minGreedTier": 6,
       "typeGroups": [
-        "Defensive"
+        "WAND"
       ],
       "attributes": [
         {
@@ -259,12 +259,51 @@
           "tags": [],
           "tiers": [
             {
-              "minGreedTier": 0,
+              "minGreedTier": 6,
+              "maxGreedTier": 9,
+              "weight": 10,
+              "value": {
+                "talentKey": "all_talents",
+                "levelChange": 2
+              }
+            },
+            {
+              "minGreedTier": 10,
               "maxGreedTier": -1,
               "weight": 10,
               "value": {
                 "talentKey": "all_talents",
-                "levelChange": 1
+                "levelChange": 3
+              }
+            }
+          ]
+        }
+      ],
+      "affixType": "IMPLICIT"
+    },
+    "woldsvaults:pyramid_scheme": {
+      "name": "Pyramid Scheme",
+      "description": "Increases max stacking talent stacks by 25",
+      "color": 13338188,
+      "minGreedTier": 4,
+      "typeGroups": [
+        "SWORD"
+      ],
+      "attributes": [
+        {
+          "attribute": "woldsvaults:additional_stacking_stacks",
+          "group": "ModEtching",
+          "identifier": "woldsvaults:u_stacking_bonus",
+          "tags": [],
+          "tiers": [
+            {
+              "minGreedTier": 4,
+              "maxGreedTier": -1,
+              "weight": 10,
+              "value": {
+                "min": 25,
+                "max": 25,
+                "step": 1
               }
             }
           ]
