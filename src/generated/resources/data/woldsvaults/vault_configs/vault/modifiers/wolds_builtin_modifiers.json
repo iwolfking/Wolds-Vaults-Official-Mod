@@ -833,6 +833,45 @@
           "icon": "the_vault:gui/modifiers/stronk"
         }
       },
+      "woldsvaults:unlucky_aura": {
+        "properties": {
+          "effect": "minecraft:unluck",
+          "effectAmplifier": 2
+        },
+        "display": {
+          "name": "Jinxed",
+          "color": "#5032a8",
+          "description": "You aren't feeling very lucky...",
+          "descriptionFormatted": "+%d Unluck",
+          "icon": "the_vault:gui/modifiers/impossible"
+        }
+      },
+      "woldsvaults:doomed_aura": {
+        "properties": {
+          "effect": "minecraft:unluck",
+          "effectAmplifier": 6
+        },
+        "display": {
+          "name": "Doomed",
+          "color": "#5032a8",
+          "description": "It seems almost all the luck has been sucked out...",
+          "descriptionFormatted": "+%d Unluck",
+          "icon": "the_vault:gui/modifiers/impossible"
+        }
+      },
+      "woldsvaults:super_lucky": {
+        "properties": {
+          "effect": "minecraft:luck",
+          "effectAmplifier": 4
+        },
+        "display": {
+          "name": "Four-Leaf Clover",
+          "color": "#b3ff20",
+          "description": "You're feeling super lucky!",
+          "descriptionFormatted": "+%d Luck",
+          "icon": "the_vault:gui/modifiers/lucky"
+        }
+      },
       "woldsvaults:lights_out": {
         "properties": {
           "effect": "wildbackport:darkness",
@@ -844,6 +883,38 @@
           "description": "Permanent Blindness Effect",
           "descriptionFormatted": "Permanent Blindness Effect",
           "icon": "woldsvaults:gui/modifiers/light_out"
+        }
+      }
+    },
+    "the_vault:modifier_type/pool_reference_weight": {
+      "woldsvaults:challenge_fortune_small": {
+        "properties": {
+          "references": [
+            "the_vault:vault/rooms/challenge_rooms"
+          ],
+          "weightMultiplier": 3.0
+        },
+        "display": {
+          "name": "Challenge Vein",
+          "color": "#FF4500",
+          "description": "3x Challenge Room Chance",
+          "descriptionFormatted": "3x Challenge Room Chance",
+          "icon": "the_vault:gui/modifiers/challenge_fortune"
+        }
+      },
+      "woldsvaults:omega_fortune_small": {
+        "properties": {
+          "references": [
+            "the_vault:vault/rooms/omega_rooms"
+          ],
+          "weightMultiplier": 4.0
+        },
+        "display": {
+          "name": "Omega Vein",
+          "color": "#6AFF00",
+          "description": "4x Omega Room Chance",
+          "descriptionFormatted": "4x Omega Room Chance",
+          "icon": "the_vault:gui/modifiers/omega_fortune"
         }
       }
     },

@@ -8,6 +8,7 @@ import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.ability.AbilityFloatValueAttribute;
 import iskallia.vault.gear.attribute.ability.AbilityLevelAttribute;
 import iskallia.vault.gear.attribute.custom.effect.EffectCloudAttribute;
+import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
 import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
@@ -180,6 +181,10 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             });
 
             //Wold's Additions
+            vaultGearAttributeGroupBuilder
+                    .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "ModEffect", "u_lucky_lucky", List.of(), vaultGearModifierTiersBuilder -> {
+                        vaultGearModifierTiersBuilder.add(0, -1, 10, MobEffects.LUCK.getRegistryName(), 1);
+                    });
             vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.IMMORTALITY, "ModImmortality", "u_immortal_durability", List.of(), vaultGearModifierTiersBuilder -> {
                 vaultGearModifierTiersBuilder.add(0, -1, 100, 1.0F, 1.0F, 0.01F);
             });
@@ -251,6 +256,14 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
             }).build();
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "ModEffect", "u_lucky_lucky", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, MobEffects.LUCK.getRegistryName(), 1);
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "ModEffect", "u_cursed_unlucky", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, MobEffects.UNLUCK.getRegistryName(), 1);
+                        });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.TALENT_LEVEL, "ModPrimeAmpLevel", "mod_prime_amp_level", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, new TalentLevelAttribute.Config("Prime_Amplification", 1));

@@ -1229,6 +1229,23 @@
         ]
       },
       {
+        "attribute": "the_vault:effect",
+        "group": "ModEffect",
+        "identifier": "the_vault:u_lucky_lucky",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "effectKey": "minecraft:luck",
+              "amplifier": 1
+            }
+          }
+        ]
+      },
+      {
         "attribute": "the_vault:immortality",
         "group": "ModImmortality",
         "identifier": "the_vault:u_immortal_durability",

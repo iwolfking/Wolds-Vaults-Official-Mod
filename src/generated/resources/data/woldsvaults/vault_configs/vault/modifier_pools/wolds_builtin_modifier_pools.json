@@ -153,6 +153,14 @@
               {
                 "value": "the_vault:dangerous",
                 "weight": 30
+              },
+              {
+                "value": "woldsvaults:doomed_aura",
+                "weight": 4
+              },
+              {
+                "value": "woldsvaults:unlucky_aura",
+                "weight": 10
               }
             ]
           }
@@ -314,6 +322,10 @@
               },
               {
                 "value": "the_vault:slowed",
+                "weight": 4
+              },
+              {
+                "value": "woldsvaults:unlucky_aura",
                 "weight": 4
               },
               {
@@ -611,6 +623,14 @@
               },
               {
                 "value": "the_vault:champions_realm",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:super_lucky",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:unlucky_aura",
                 "weight": 1
               }
             ]
@@ -1459,6 +1479,10 @@
               {
                 "value": "the_vault:ethereal_mobs",
                 "weight": 1
+              },
+              {
+                "value": "woldsvaults:unlucky_aura",
+                "weight": 1
               }
             ]
           }
@@ -1572,6 +1596,10 @@
               {
                 "value": "the_vault:weak_heart",
                 "weight": 4
+              },
+              {
+                "value": "woldsvaults:unlucky_aura",
+                "weight": 1
               }
             ]
           }
@@ -1821,6 +1849,10 @@
                 "weight": 1
               },
               {
+                "value": "woldsvaults:unlucky_aura",
+                "weight": 1
+              },
+              {
                 "value": "woldsvaults:ghost_party",
                 "weight": 1
               }
@@ -2057,6 +2089,10 @@
               },
               {
                 "value": "the_vault:swift",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:lucky",
                 "weight": 1
               }
             ]
@@ -2671,6 +2707,10 @@
               {
                 "value": "the_vault:protected",
                 "weight": 4
+              },
+              {
+                "value": "the_vault:lucky",
+                "weight": 3
               }
             ]
           }
@@ -3156,6 +3196,10 @@
               {
                 "value": "the_vault:weakened_t3",
                 "weight": 2
+              },
+              {
+                "value": "woldsvaults:unlucky_aura",
+                "weight": 1
               }
             ]
           }
@@ -3603,6 +3647,14 @@
                 "weight": 4
               },
               {
+                "value": "woldsvaults:unlucky_aura",
+                "weight": 4
+              },
+              {
+                "value": "woldsvaults:doomed_aura",
+                "weight": 1
+              },
+              {
                 "value": "the_vault:lost_quantity",
                 "weight": 4
               }
@@ -3840,6 +3892,10 @@
                 "weight": 1
               },
               {
+                "value": "woldsvaults:super_lucky",
+                "weight": 1
+              },
+              {
                 "value": "the_vault:companion_hunt",
                 "weight": 1
               }
@@ -4062,6 +4118,10 @@
               },
               {
                 "value": "the_vault:more_champ_drops",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:super_lucky",
                 "weight": 1
               },
               {
@@ -4407,6 +4467,14 @@
               {
                 "value": "the_vault:unlucky",
                 "weight": 4
+              },
+              {
+                "value": "woldsvaults:unlucky_aura",
+                "weight": 4
+              },
+              {
+                "value": "woldsvaults:doomed_aura",
+                "weight": 1
               }
             ]
           }
@@ -4760,6 +4828,14 @@
               {
                 "value": "the_vault:unlucky",
                 "weight": 4
+              },
+              {
+                "value": "woldsvaults:unlucky_aura",
+                "weight": 4
+              },
+              {
+                "value": "woldsvaults:doomed_aura",
+                "weight": 1
               }
             ]
           }
@@ -4968,6 +5044,10 @@
               },
               {
                 "value": "woldsvaults:witch_party",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:unlucky_aura",
                 "weight": 1
               },
               {
