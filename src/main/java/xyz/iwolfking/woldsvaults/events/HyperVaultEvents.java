@@ -5,14 +5,19 @@ import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModEffects;
 import iskallia.vault.world.data.ServerVaults;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -34,6 +39,13 @@ public final class HyperVaultEvents {
 
     public static boolean isHyperBoss(LivingEntity entity) {
         return entity instanceof VaultBossEntity && isInHyperVault(entity);
+    }
+
+    /** True when the entity stands in a vault carrying the hyper Radar modifier. */
+    public static boolean hasRadar(LivingEntity entity) {
+        return ServerVaults.get(entity.level)
+                .map(vault -> vault.get(Vault.MODIFIERS).hasModifier(WoldsVaults.id("radar")))
+                .orElse(false);
     }
 
     @SubscribeEvent
@@ -58,6 +70,53 @@ public final class HyperVaultEvents {
         if (mob.addTag("woldsvaults_hyper_immortality_denied")) {
             WoldsVaults.LOGGER.info("Denied Immortality on {} in a hyper vault (mob immortality is disabled here).",
                     mob.getType().getRegistryName());
+        }
+    }
+
+    /**
+     * Radar's teeth: Ghost Walk and Spirit Walk stealth exist purely as their MobEffects (the
+     * Targeting immunity and the damage-cancel are both gated on the effect being active), so
+     * denying the application makes the cast spend its mana and do nothing — the mobs' radar
+     * still finds the player. Shadow Cloak's passive effect is denied silently for the same
+     * reason; its targeting immunity is additionally disabled in MixinShadowCloakTrinket.
+     */
+    @SubscribeEvent
+    public static void denyStealthUnderRadar(PotionEvent.PotionApplicableEvent event) {
+        MobEffect effect = event.getPotionEffect().getEffect();
+        boolean castStealth = effect == ModEffects.GHOST_WALK || effect == ModEffects.GHOST_WALK_SPIRIT_WALK;
+        if (!castStealth && effect != ModEffects.SHADOW_CLOAK) {
+            return;
+        }
+        if (!(event.getEntityLiving() instanceof ServerPlayer player) || !hasRadar(player)) {
+            return;
+        }
+        event.setResult(Event.Result.DENY);
+        if (castStealth) {
+            player.displayClientMessage(new TextComponent("The Vault's radar reveals you — stealth has no effect!")
+                    .withStyle(ChatFormatting.RED), true);
+            WoldsVaults.LOGGER.info("Radar denied {} on {}.", effect.getRegistryName(), player.getGameProfile().getName());
+        }
+    }
+
+    /**
+     * Radar defense-in-depth: strips a stealth effect that was already running when Radar
+     * landed at cycle 3 — the deny above only covers applications made after that moment.
+     */
+    @SubscribeEvent
+    public static void stripStealthUnderRadar(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || event.side.isClient() || event.player.tickCount % 20 != 0) {
+            return;
+        }
+        if (!(event.player instanceof ServerPlayer player) || !hasRadar(player)) {
+            return;
+        }
+        boolean stripped = player.removeEffect(ModEffects.GHOST_WALK);
+        stripped |= player.removeEffect(ModEffects.GHOST_WALK_SPIRIT_WALK);
+        stripped |= player.removeEffect(ModEffects.SHADOW_CLOAK);
+        if (stripped) {
+            player.displayClientMessage(new TextComponent("The Vault's radar reveals you — stealth has no effect!")
+                    .withStyle(ChatFormatting.RED), true);
+            WoldsVaults.LOGGER.info("Radar stripped an active stealth effect from {}.", player.getGameProfile().getName());
         }
     }
 

@@ -169,7 +169,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
 
             entityEffect(modifierBuilder, WoldsVaults.id("regenerating_mobs"), EMPTY_ENTITY_PREDICATE, MobEffects.REGENERATION.getRegistryName(), 5, 0.1F, "Regenerating Mobs", "#a996ca", "Mobs in this vault gain Regeneration V 10% of the time", "Mobs in this vault gain Regeneration some of the time", VaultMod.id("gui/modifiers/chunky"));
             entityEffect(modifierBuilder, WoldsVaults.id("resistant_mobs"),  EMPTY_ENTITY_PREDICATE, MobEffects.DAMAGE_RESISTANCE.getRegistryName(), 2, 0.1F, "Resistant Mobs", "#a996ca", "Mobs in this vault gain Resistance II 10% of the time", "Mobs in this vault gain Resistance some of the time", VaultMod.id("gui/modifiers/resistant_mobs"));
-            entityEffect(modifierBuilder, WoldsVaults.id("phantasmal_mobs"),  EMPTY_ENTITY_PREDICATE, MobEffects.INVISIBILITY.getRegistryName(), 0, 0.1F, "Resistant Mobs", "#a996ca", "Mobs in this vault gain Invisibility 10% of the time", "Mobs in this vault gain Invisibility some of the time", VaultMod.id("gui/modifiers/phantasmal_mobs"));
+            entityEffect(modifierBuilder, WoldsVaults.id("phantasmal_mobs"),  EMPTY_ENTITY_PREDICATE, MobEffects.INVISIBILITY.getRegistryName(), 0, 0.1F, "Phantasmal Mobs", "#a996ca", "Mobs in this vault gain Invisibility 10% of the time", "Mobs in this vault gain Invisibility some of the time", VaultMod.id("gui/modifiers/phantasmal_mobs"));
             entityEffect(modifierBuilder, WoldsVaults.id("fleet_footed_mobs"), EMPTY_ENTITY_PREDICATE, MobEffects.MOVEMENT_SPEED.getRegistryName(), 3, 0.1F, "Fleet Footed Mobs", "#a996ca", "Mobs in this vault gain Speed III 10% of the time", "Mobs in this vault gain Speed some of the time", VaultMod.id("gui/modifiers/fleetfooted_mobs"));
             entityEffect(modifierBuilder, VaultMod.id("big_mobs"),  EMPTY_ENTITY_PREDICATE, xyz.iwolfking.woldsvaults.init.ModEffects.GROWING.getRegistryName(), 1, 0.1F, "Maximized", "#a996ca", "Mobs in this vault gain Growing II 10% of the time", "Mobs in this vault gain Growing some of the time", VaultMod.id("gui/modifiers/chunky"));
             entityEffect(modifierBuilder, VaultMod.id("chungus"),  EMPTY_ENTITY_PREDICATE, xyz.iwolfking.woldsvaults.init.ModEffects.GROWING.getRegistryName(), 1, 1.0F, "Big Chungus", "#a996ca", "Mobs in this vault gain Growing II 100% of the time", "Mobs in this vault gain Growing some of the time", VaultMod.id("gui/modifiers/chunky"));
@@ -666,6 +666,9 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                     "Injects a set of Omega rewards into the completion crate", WoldsVaults.id("gui/modifiers/omega_crate_tier"));
             hyperMarker(modifierBuilder, WoldsVaults.id("greedy_crate_tier"), "Greedy Crate Tier", "#ffd24d",
                     "+100% Greed Coins in the completion crate", WoldsVaults.id("gui/modifiers/greedy_crate_tier"));
+            empty(modifierBuilder, WoldsVaults.id("radar"), "Radar", "#ff4545",
+                    "Mob radar is online — Ghost Walk, Spirit Walk and Shadow Cloak cannot hide you", null,
+                    WoldsVaults.id("gui/modifiers/radar"));
             modifierBuilder.type(WoldsVaults.id("modifier_type/hyper_escalation").toString(), (typeBuilder) -> typeBuilder.modifier(WoldsVaults.id("hyper").toString(), (modifierEntryBuilder) -> {
                 modifierEntryBuilder.property("statFactor", 0.0F);
                 modifierEntryBuilder.property("speedPerStack", 0.0F);

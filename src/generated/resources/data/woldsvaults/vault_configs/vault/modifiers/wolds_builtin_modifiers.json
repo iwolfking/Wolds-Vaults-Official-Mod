@@ -10,6 +10,16 @@
           "descriptionFormatted": "This vault is starting to rot, it might go rotten with more fruit consumption!",
           "icon": "the_vault:gui/modifiers/rotten"
         }
+      },
+      "woldsvaults:radar": {
+        "properties": {},
+        "display": {
+          "name": "Radar",
+          "color": "#ff4545",
+          "description": "Mob radar is online — Ghost Walk, Spirit Walk and Shadow Cloak cannot hide you",
+          "descriptionFormatted": "Mob radar is online — Ghost Walk, Spirit Walk and Shadow Cloak cannot hide you",
+          "icon": "woldsvaults:gui/modifiers/radar"
+        }
       }
     },
     "the_vault:modifier_type/difficulty_lock": {
@@ -1291,7 +1301,7 @@
           "chance": 0.1
         },
         "display": {
-          "name": "Resistant Mobs",
+          "name": "Phantasmal Mobs",
           "color": "#a996ca",
           "description": "Mobs in this vault gain Invisibility 10% of the time",
           "descriptionFormatted": "Mobs in this vault gain Invisibility some of the time",

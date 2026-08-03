@@ -91,6 +91,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.HyperStatModifier;
@@ -359,6 +360,11 @@ public class HyperVaultObjective extends Objective {
         if (vault.get(Vault.MODIFIERS).hasModifier(WoldsVaults.id("cull"))) {
             WoldsVaults.LOGGER.error("Cull modifier is active on a Hyper vault and cannot be removed at runtime! "
                     + "The map-application guard should have stripped it; the vault will be trivialized.");
+        }
+
+        if (this.getOr(CYCLE, 0) >= 3 && !vault.get(Vault.MODIFIERS).hasModifier(WoldsVaults.id("radar"))) {
+            VaultModifierUtils.addModifier(vault, WoldsVaults.id("radar"), 1);
+            WoldsVaults.LOGGER.info("Re-added the Radar modifier to a cycle-{} hyper vault on load.", this.getOr(CYCLE, 0));
         }
 
         restoreOrSnapshotSettableValues(vault);

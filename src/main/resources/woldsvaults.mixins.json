@@ -337,6 +337,7 @@
     "vaulthunters.custom.MixinScavengerObjective",
     "vaulthunters.custom.MixinServerboundRoyaleSelectTrinketMessage",
     "vaulthunters.custom.MixinServerVaults",
+    "vaulthunters.custom.MixinShadowCloakTrinket",
     "vaulthunters.custom.MixinShellQuillAbility",
     "vaulthunters.custom.MixinShieldBashAbility",
     "vaulthunters.custom.MixinSkillAltarBlock",
