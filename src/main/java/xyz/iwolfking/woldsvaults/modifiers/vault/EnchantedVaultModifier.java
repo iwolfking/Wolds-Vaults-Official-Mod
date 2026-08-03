@@ -10,8 +10,11 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.EventPriority;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
+import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 
 public class EnchantedVaultModifier extends VaultModifier<EnchantedVaultModifier.Properties> {
 
@@ -36,9 +39,14 @@ public class EnchantedVaultModifier extends VaultModifier<EnchantedVaultModifier
                 }
 
                 if(event.player.getRandom().nextDouble() < this.properties.getChance()) {
-                    if(EnchantedEventsRegistry.getEvents().getRandom().isPresent()) {
-                        EnchantedEventsRegistry.getEvents().getRandom().get().triggerEvent(event.player::getOnPos, (ServerPlayer) event.player, vault, false, VaultEvent.EventDisplayType.LEGACY);
-                    }
+                    EnchantedEventsRegistry.getEvents().getRandom().ifPresent(vaultEvent -> {
+                        if(!vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()
+                                && HyperModifierPolicy.isBannedEnchantedEvent(vaultEvent.getId())) {
+                            WoldsVaults.LOGGER.info("Skipped enchanted event {} — it is banned in Hyper vaults.", vaultEvent.getId());
+                            return;
+                        }
+                        vaultEvent.triggerEvent(event.player::getOnPos, (ServerPlayer) event.player, vault, false, VaultEvent.EventDisplayType.LEGACY);
+                    });
                 }
             }
         });

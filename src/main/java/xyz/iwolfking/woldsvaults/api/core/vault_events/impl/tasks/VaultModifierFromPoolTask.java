@@ -30,6 +30,16 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
     private static final Set<ResourceLocation> HYPER_REDIRECTED_POOLS = Set.of(
             VaultMod.id("basic_negative"), VaultMod.id("medium_negative"), VaultMod.id("omega_negative"));
 
+    /**
+     * The remaining negative enchanted pools, which keep their own flavor in hyper vaults
+     * (no redirect) but roll with the hyper policy applied per pick — a banned or over-cap
+     * modifier fizzles instead of landing. curses notably carries mana_leak (whose cap is
+     * cycle-gated) plus several banned ids, and chaos_enchanted carries inert; without this
+     * filter an enchanted crystal defeats both the ban list and the stack caps.
+     */
+    private static final Set<ResourceLocation> HYPER_FILTERED_POOLS = Set.of(
+            VaultMod.id("curses"), VaultMod.id("chaos_enchanted"), VaultMod.id("mob_onhits"));
+
     private final ResourceLocation modifierPoolId;
 
     public VaultModifierFromPoolTask(ResourceLocation modifierId) {
@@ -46,6 +56,22 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
             List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS
                     .getRandom(HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS, 0, JavaRandom.ofNanoTime());
             for (VaultModifier<?> modifier : modifiers) {
+                if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
+                    continue;
+                }
+                VaultModifierUtils.addModifier(vault, modifier.getId(), 1);
+            }
+            return;
+        }
+        if (HYPER_FILTERED_POOLS.contains(poolId)
+                && !vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()) {
+            List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS
+                    .getRandom(poolId, 0, JavaRandom.ofNanoTime());
+            for (VaultModifier<?> modifier : modifiers) {
+                if (HyperModifierPolicy.isBanned(modifier.getId().toString())) {
+                    WoldsVaults.LOGGER.info("Enchanted {} pull dropped {} — banned in Hyper vaults.", poolId, modifier.getId());
+                    continue;
+                }
                 if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
                     continue;
                 }
