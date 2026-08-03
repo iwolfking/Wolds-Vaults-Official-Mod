@@ -118,6 +118,16 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     /** Stable id for the multiplayer health bonus (idempotent across reloads). */
     private static final UUID MULTIPLAYER_HEALTH_UUID =
             UUID.nameUUIDFromBytes("woldsvaults:hyper_multiplayer_health".getBytes(StandardCharsets.UTF_8));
+    /** Stable id for the follow-range raise (idempotent across reloads). */
+    private static final UUID HYPER_FOLLOW_RANGE_UUID =
+            UUID.nameUUIDFromBytes("woldsvaults:hyper_follow_range".getBytes(StandardCharsets.UTF_8));
+    /**
+     * Added to the boss's FOLLOW_RANGE (base 18): the 47-block arena's corners sit 23-32
+     * blocks from the pillar, permanently outside vanilla acquisition range — the historical
+     * corner-camp exploit. 18 + 46 = 64 covers the whole room; target selection still
+     * requires line of sight, so breaking sight lines remains counterplay.
+     */
+    private static final double FOLLOW_RANGE_BONUS = 46.0D;
     /**
      * The health_attribute trait's baseValue in vault_boss.json (the boss's innate +50%);
      * part of the reference total the vault health factor multiplies.
@@ -596,6 +606,13 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         if (damage != null && damage.getModifier(HYPER_DAMAGE_UUID) == null) {
             damage.addPermanentModifier(new AttributeModifier(HYPER_DAMAGE_UUID,
                     "hyper_damage_escalation", damageEscalation, AttributeModifier.Operation.MULTIPLY_BASE));
+        }
+        AttributeInstance followRange = boss.getAttribute(Attributes.FOLLOW_RANGE);
+        if (followRange != null && followRange.getModifier(HYPER_FOLLOW_RANGE_UUID) == null) {
+            followRange.addPermanentModifier(new AttributeModifier(HYPER_FOLLOW_RANGE_UUID,
+                    "hyper_follow_range", FOLLOW_RANGE_BONUS, AttributeModifier.Operation.ADDITION));
+            WoldsVaults.LOGGER.info("Hyperboss follow range raised to {} — the arena corners are inside acquisition range now.",
+                    Math.round(followRange.getValue()));
         }
         Modifiers vaultModifiers = vault.get(Vault.MODIFIERS);
         int applied = 0;
