@@ -38,7 +38,7 @@ public class LockedTreasureContainerBlock extends TreasureContainerBlock {
     public static final BooleanProperty UNLOCKED = BooleanProperty.create("unlocked");
 
     public LockedTreasureContainerBlock() {
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(UNLOCKED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(UNLOCKED, false).setValue(TYPE, TreasureDoorBlock.Type.ISKALLIUM));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

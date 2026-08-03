@@ -81,7 +81,7 @@ public abstract class MixinBottleItem implements DataInitializationItem  {
         }
     }
 
-    @Inject(method = "finishUsingItem", at = @At(value = "INVOKE", target = "Liskallia/vault/world/data/ServerVaults;get(Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", shift = At.Shift.AFTER), cancellable = true)
+    @Inject(method = "finishUsingItem", at = @At(value = "INVOKE", target = "Liskallia/vault/world/data/ServerVaults;get(Lnet/minecraft/world/level/Level;)Ljava/util/Optional;", shift = At.Shift.AFTER), cancellable = true, remap = true)
     private void invokeBottleDrinkEvent(ItemStack stack, Level world, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir) {
         if(entity instanceof ServerPlayer player) {
             UsedVaultBottleEvent.Data eventData = WoldCommonEvents.VAULT_BOTTLE_DRINK.invoke(world, player.getOnPos(), player, stack, getEffect(stack).orElse(null), getType(stack).orElse(null));
