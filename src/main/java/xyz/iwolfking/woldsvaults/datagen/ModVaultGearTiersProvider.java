@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.TalentsConfig;
+import iskallia.vault.config.TalentsGUIConfig;
 import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.ability.AbilityFloatValueAttribute;
@@ -136,13 +137,13 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             });
         });
 
-        ModConfigs.TALENTS = new TalentsConfig().readConfig();
+        ModConfigs.TALENTS_GUI = new TalentsGUIConfig().readConfig();
         addTo(ModItems.VAULT_NECKLACE, VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {
-            ModConfigs.TALENTS.tree.skills.forEach(skill -> {
-                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.TALENT_LEVEL, "ModTalentLevel", "u_talent_level_" + skill.getId().toLowerCase(), List.of(), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, -1, 200, new TalentLevelAttribute.Config(skill.getId(), 2));
-                    vaultGearModifierTiersBuilder.add(50, -1, 200, new TalentLevelAttribute.Config(skill.getId(), 3));
-                    vaultGearModifierTiersBuilder.add(90, -1, 200, new TalentLevelAttribute.Config(skill.getId(), 4));
+            ModConfigs.TALENTS_GUI.getStyles().keySet().forEach(skill -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.TALENT_LEVEL, "ModTalentLevel", "u_talent_level_" + skill.toLowerCase(), List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 200, new TalentLevelAttribute.Config(skill, 2));
+                    vaultGearModifierTiersBuilder.add(50, -1, 200, new TalentLevelAttribute.Config(skill, 3));
+                    vaultGearModifierTiersBuilder.add(90, -1, 200, new TalentLevelAttribute.Config(skill, 4));
                 });
             });
         });
