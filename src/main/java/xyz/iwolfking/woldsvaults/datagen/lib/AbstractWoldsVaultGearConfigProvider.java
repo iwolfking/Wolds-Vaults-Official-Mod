@@ -23,6 +23,7 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
     private static final List<String> OFFHANDS_NO_SACK = List.of("plushie", "wand", "focus", "shield");
     private static final List<String> OFFHANDS_NO_PLUSHIE = List.of("loot_sack", "wand", "focus", "shield", "magnet");
     private static final List<String> ARMOR = List.of("chestplate", "leggings", "boots", "helmet");
+    private static final String MYTHIC = "_mythic";
 
     protected AbstractWoldsVaultGearConfigProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
@@ -31,47 +32,72 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
     public void addToAllStandardGearConfigs(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         STANDARD_GEAR.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
+                add(type + MYTHIC, builder -> builder.key(VaultMod.id(type + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            }
         });
+
     }
 
     public void addToAllMainHands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         MAINHANDS.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
+                add(type + MYTHIC, builder -> builder.key(VaultMod.id(type + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            }
         });
     }
 
     public void addToAllNonAxeMainHands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         MAINHANDS_NO_AXE.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
+                add(type + MYTHIC, builder -> builder.key(VaultMod.id(type + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            }
         });
     }
 
     public void addToAllNonSackOffhands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         OFFHANDS_NO_SACK.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
+                add(type + MYTHIC, builder -> builder.key(VaultMod.id(type + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            }
         });
     }
 
     public void addToAllNonPlushieOffhands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         OFFHANDS_NO_PLUSHIE.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
+                add(type + MYTHIC, builder -> builder.key(VaultMod.id(type + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            }
         });
     }
 
     public void addToAllOffhands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         OFFHANDS.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
+                add(type + MYTHIC, builder -> builder.key(VaultMod.id(type + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            }
         });
     }
 
     public void addToAllArmor(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         ARMOR.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
+                add(type + MYTHIC, builder -> builder.key(VaultMod.id(type + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+            }
         });
     }
 
     public void addTo(Item gearItem, VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
         add(gearItem.getRegistryName().getPath(), builder -> builder.key(gearItem.getRegistryName()).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+        if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
+            add(gearItem.getRegistryName().getPath() + MYTHIC, builder -> builder.key(VaultMod.id(gearItem.getRegistryName().getPath() + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+        }
     }
 
     public void addToJewel(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
