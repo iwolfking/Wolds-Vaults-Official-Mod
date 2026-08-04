@@ -433,8 +433,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      * Missiles materialize in an overhead fan: 2 blocks above the boss's head, one centered
      * and the rest stepped 2 blocks apart along the axis perpendicular to the boss→target
      * line, then hover for a beat (magicMissileHoverTicks) before flight so players see the
-     * volley form. Each missile aims straight at its own (randomly drawn) arena target from
-     * its fan slot.
+     * volley form. Each missile aims at its own (randomly drawn) arena target from its fan
+     * slot, with the outer missiles angled 15° further outward per slot so the volley opens
+     * up before the homing pulls it back in.
      */
     private void launchMissileVolley(LivingEntity boss, RuneBossFights fights) {
         List<ServerPlayer> targets = livingFighters(fights);
@@ -454,9 +455,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         Vec3 right = new Vec3(-facing.z, 0.0D, facing.x);
         for (int i = 0; i < count; i++) {
             ServerPlayer target = targets.get(random.nextInt(targets.size()));
-            Vec3 spawnPos = center.add(right.scale((i - (count - 1) / 2.0D) * 2.0D));
+            double slot = i - (count - 1) / 2.0D;
+            Vec3 spawnPos = center.add(right.scale(slot * 2.0D));
             Vec3 aim = target.position().add(0.0D, target.getBbHeight() * 0.5D, 0.0D).subtract(spawnPos);
             Vec3 direction = aim.lengthSqr() < 1.0E-6D ? facing : aim.normalize();
+            direction = direction.yRot((float) Math.toRadians(-slot * 15.0D));
             MagicMissileEntity missile = new MagicMissileEntity(world, boss, target, spawnPos, direction,
                     damage, (float) HyperVaultObjective.cfg().getMagicMissileAoeRadius(),
                     (float) HyperVaultObjective.cfg().getMagicMissileSpeed(),
