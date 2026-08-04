@@ -5,178 +5,56 @@
         "text": "Gives you a "
       },
       {
-        "text": "chance ",
-        "color": "yellow"
+        "text": "chance",
+        "color": "#FFEB07"
       },
       {
-        "text": " to not consume a potion charge when drinking any "
+        "text": " to not consume a potion charge when drinking any Vault Potion.\n\n1 "
       },
       {
-        "text": "Vault Potion",
-        "color": "aqua"
+        "text": "5%",
+        "color": "#FFEB07"
       },
       {
-        "text": "."
+        "text": "\n2 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "10%",
+        "color": "#FFEB07"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+5.0%\n",
-        "color": "#90FF00"
+        "text": "15%",
+        "color": "#FFEB07"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
+        "text": "20%",
+        "color": "#FFEB07"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+15.0%\n",
-        "color": "#90FF00"
+        "text": "Overlevels of the "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "Prudent",
+        "color": "gold"
       },
       {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
+        "text": " talent "
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "+25.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+35.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+45.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+55.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+65.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+85.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%\n",
-        "color": "#90FF00"
+        "text": "+4% Additional Chance",
+        "color": "#5ae09c"
       }
     ],
     "Frostbite": [
@@ -184,433 +62,332 @@
         "text": "Hitting a "
       },
       {
-        "text": "chilled ",
+        "text": "chilled",
         "color": "#2FE1FA"
       },
       {
-        "text": "mob has a "
+        "text": " mob has a "
       },
       {
-        "text": "chance ",
-        "color": "yellow"
+        "text": "chance",
+        "color": "#FFEB07"
       },
       {
-        "text": "of causing them to get "
+        "text": " to "
       },
       {
-        "text": "Frostbitten ",
+        "text": "glacially imprison",
         "color": "#23D2BB"
       },
       {
-        "text": "for "
+        "text": " it for "
       },
       {
-        "text": "3 seconds ",
-        "color": "#7024AC"
+        "text": "3 seconds",
+        "color": "#2FE1FA"
       },
       {
-        "text": ", and if hit again they will shatter and die instantly, regardless of their health."
+        "text": ", causing the next valid hit to shatter and kill most mobs.\n\n"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "Chance",
+        "color": "#FFEB07"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n1 "
       },
       {
-        "text": "+2.5% chance\n",
-        "color": "#90FF00"
+        "text": "2.5%",
+        "color": "#FFEB07"
       },
       {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
+        "text": "\n2 "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "5%",
+        "color": "#FFEB07"
       },
       {
-        "text": "+5.0% chance\n",
-        "color": "#90FF00"
+        "text": "\n3 "
       },
       {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
+        "text": "7.5%",
+        "color": "#FFEB07"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+7.5% chance\n",
-        "color": "#90FF00"
+        "text": "10%",
+        "color": "#FFEB07"
       },
       {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
+        "text": "\n5 "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "12.5%",
+        "color": "#FFEB07"
       },
       {
-        "text": "+10.0% chance\n",
-        "color": "#90FF00"
+        "text": "\n6 "
       },
       {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
+        "text": "15%",
+        "color": "#FFEB07"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "\n7 "
       },
       {
-        "text": "+12.5% chance\n",
-        "color": "#90FF00"
+        "text": "17.5%",
+        "color": "#FFEB07"
       },
       {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
+        "text": "\n8 "
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": "20%",
+        "color": "#FFEB07"
       },
       {
-        "text": "+15.0% chance\n",
-        "color": "#90FF00"
+        "text": "\n\n"
       },
       {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
+        "text": "Overlevels of the "
       },
       {
-        "text": "7 ",
-        "color": "$text"
+        "text": "Frost Bite",
+        "color": "gold"
       },
       {
-        "text": "+17.5% chance\n",
-        "color": "#90FF00"
+        "text": " talent "
       },
       {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
+        "text": "add "
       },
       {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+22.5% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+27.5% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+32.5% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+35.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+37.5% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+42.5% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+45.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Glacial Shatter Level 10, 3 seconds\n",
-        "color": "#90FF00"
+        "text": "+1% Additional Chance",
+        "color": "#5ae09c"
       }
     ],
     "Intelligence": [
       {
-        "text": "Increase your "
+        "text": "Increases your "
       },
       {
-        "text": "Ability Power ",
+        "text": "Ability Power",
         "color": "#FF00CB"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": ".\n\n1 "
       },
       {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+4.0\n",
+        "text": "+8",
         "color": "#FF00CB"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "+8.0\n",
+        "text": "+16",
         "color": "#FF00CB"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+16.0\n",
+        "text": "+24",
         "color": "#FF00CB"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+24.0\n",
+        "text": "+32",
         "color": "#FF00CB"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "\n\n"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "Intelligence",
+        "color": "gold"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "+32.0\n",
+        "text": "add "
+      },
+      {
+        "text": "+8 Ability Power",
         "color": "#FF00CB"
+      }
+    ],
+    "Battle_Trance": [
+      {
+        "text": "Hitting a mob grants "
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": "+3% increased Attack Damage",
+        "color": "#FF6B00"
       },
       {
-        "text": "+40.0\n",
-        "color": "#FF00CB"
+        "text": ". This effect can "
       },
       {
-        "text": "7 ",
-        "color": "$text"
+        "text": "stack",
+        "color": "#FFEB07"
       },
       {
-        "text": "+48.0\n",
-        "color": "#FF00CB"
+        "text": " and lasts for a short time.\n\n1 "
       },
       {
-        "text": "8 ",
-        "color": "$text"
+        "text": "4 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+56.0\n",
-        "color": "#FF00CB"
+        "text": ", "
       },
       {
-        "text": "9 ",
-        "color": "$text"
+        "text": "4 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "+64.0\n",
-        "color": "#FF00CB"
+        "text": "\n2 "
       },
       {
-        "text": "10 ",
-        "color": "$text"
+        "text": "6 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+72.0\n",
-        "color": "#FF00CB"
+        "text": ", "
       },
       {
-        "text": "11 ",
-        "color": "$text"
+        "text": "6 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "+80.0\n",
-        "color": "#FF00CB"
+        "text": "\n3 "
       },
       {
-        "text": "12 ",
-        "color": "$text"
+        "text": "8 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+88.0\n",
-        "color": "#FF00CB"
+        "text": ", "
       },
       {
-        "text": "13 ",
-        "color": "$text"
+        "text": "8 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "+96.0\n",
-        "color": "#FF00CB"
+        "text": "\n4 "
       },
       {
-        "text": "14 ",
-        "color": "$text"
+        "text": "10 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+104.0\n",
-        "color": "#FF00CB"
+        "text": ", "
       },
       {
-        "text": "15 ",
-        "color": "$text"
+        "text": "10 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "+112.0\n",
-        "color": "#FF00CB"
+        "text": "\n\n"
       },
       {
-        "text": "16 ",
-        "color": "$text"
+        "text": "Overlevels of the "
       },
       {
-        "text": "+120.0\n",
-        "color": "#FF00CB"
+        "text": "Battle Trance",
+        "color": "gold"
       },
       {
-        "text": "17 ",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "+144.0\n",
-        "color": "#FF00CB"
+        "text": "adds one additional max "
       },
       {
-        "text": "18 ",
-        "color": "$text"
+        "text": "stack",
+        "color": "#36ffa7"
+      }
+    ],
+    "Stoneskin": [
+      {
+        "text": "Your skin hardens, gain extra "
       },
       {
-        "text": "+180.0\n",
-        "color": "#FF00CB"
+        "text": "knockback resistance",
+        "color": "#FFB00F"
+      },
+      {
+        "text": " while above "
+      },
+      {
+        "text": "80%",
+        "color": "#7DF587"
+      },
+      {
+        "text": " of your "
+      },
+      {
+        "text": "max health",
+        "color": "#7DF587"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+20% ",
+        "color": "#FFB00F"
+      },
+      {
+        "text": "\n2 "
+      },
+      {
+        "text": "+40%",
+        "color": "#FFB00F"
+      },
+      {
+        "text": "\n3 "
+      },
+      {
+        "text": "+60%",
+        "color": "#FFB00F"
+      },
+      {
+        "text": "\n4 "
+      },
+      {
+        "text": "+80%",
+        "color": "#FFB00F"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Stoneskin",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "decreases the "
+      },
+      {
+        "text": "Health Threshhold by 2%",
+        "color": "#8EEDD9"
       }
     ],
     "Methodical": [
@@ -618,886 +395,467 @@
         "text": "Gain "
       },
       {
-        "text": "extra healing efficiency ",
+        "text": "extra healing efficiency",
         "color": "#7DF587"
       },
       {
-        "text": "while below "
+        "text": " while below "
       },
       {
-        "text": "20% mana ",
+        "text": "20%",
         "color": "#0353D7"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": " max mana.\n\n1 "
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "+40%",
+        "color": "#7DF587"
       },
       {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
+        "text": "\n2 "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "+60%",
+        "color": "#7DF587"
       },
       {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
+        "text": "\n3 "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "+80%",
+        "color": "#7DF587"
       },
       {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
+        "text": "\n4 "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "+100%",
+        "color": "#7DF587"
       },
       {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
+        "text": "\n\n"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Methodical",
+        "color": "gold"
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+125.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+150.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+175.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+225.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+250.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+275.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Arthropod_Mastery": [
-      {
-        "text": "Increases the "
-      },
-      {
-        "text": "damage ",
-        "color": "#C21A00"
-      },
-      {
-        "text": "dealt when fighting Assassin mobs.\nThe total can be seen in your statistics tab under Assassin Damage. "
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+125.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+150.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+175.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+225.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+250.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+275.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+325.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+350.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+375.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+400.0%\n",
-        "color": "#FF00CB"
+        "text": "+20% Healing Efficiency",
+        "color": "#7DF587"
       }
     ],
     "Treasure_Seeker": [
       {
-        "text": "Gain "
+        "text": "Killing vault mobs grants a 6s stack of "
       },
       {
-        "text": "extra item rarity ",
+        "text": "increased item rarity",
         "color": "#EAFF00"
       },
       {
-        "text": "while below "
+        "text": ". Taking damage removes "
       },
       {
-        "text": "20% ",
+        "text": "1 stack",
         "color": "#7DF587"
       },
       {
-        "text": "max health."
+        "text": ". Maximum "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "5 stacks",
+        "color": "#7DF587"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": ".\n\n1 "
       },
       {
-        "text": "+5.0%\n",
-        "color": "#90FF00"
+        "text": "+4% per stack, +20% max",
+        "color": "#EAFF00"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
+        "text": "+6% per stack, +30% max",
+        "color": "#EAFF00"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+15.0%\n",
-        "color": "#90FF00"
+        "text": "+8% per stack, +40% max",
+        "color": "#EAFF00"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
+        "text": "+10% per stack, 50% max",
+        "color": "#EAFF00"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "\n "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "\n\n"
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "Overlevels of the "
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "Treasure Seeker",
+        "color": "gold"
       },
       {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
+        "text": " talent "
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": "adds one additional max "
       },
       {
-        "text": "+35.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+120.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+140.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+160.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+180.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#90FF00"
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
-    "Weakness_Affinity": [
+    "Trap_Disarm": [
       {
-        "text": "No description for ",
-        "color": "#192022"
+        "text": "Increases your chance to "
       },
       {
-        "text": "Weakness_Affinity",
-        "color": "#FCF5C5"
+        "text": "disarm trapped chests",
+        "color": "#7F42FC"
       },
       {
-        "text": ", yet",
-        "color": "#192022"
+        "text": " inside Vaults.\n\n1 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "+10%",
+        "color": "#7F42FC"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "+20%",
+        "color": "#7F42FC"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "+30%",
+        "color": "#7F42FC"
+      },
+      {
+        "text": "\n4 "
+      },
+      {
+        "text": "+40%",
+        "color": "#7F42FC"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Trap Disarm",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Trap Disarm Chance",
+        "color": "#4800FF"
       }
     ],
     "Depleted": [
       {
-        "text": "Gain "
+        "text": "Deal increased "
       },
       {
-        "text": "increased damage ",
+        "text": "damage",
         "color": "#C23627"
       },
       {
-        "text": "while below "
+        "text": " while below "
       },
       {
-        "text": "20% max mana",
+        "text": "20%",
         "color": "#0353D7"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": " max mana. Works with attacks and abilities.\n\n1 "
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "+25%",
+        "color": "#C23627"
       },
       {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
+        "text": "\n2 "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "+50%",
+        "color": "#C23627"
       },
       {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
+        "text": "\n3 "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "+75%",
+        "color": "#C23627"
       },
       {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
+        "text": "\n4 "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "+100%",
+        "color": "#C23627"
       },
       {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
+        "text": "\n\n"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Depleted",
+        "color": "gold"
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "+120.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+140.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+160.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+180.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+220.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+240.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+260.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+280.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#90FF00"
+        "text": "+25% Additional Damage",
+        "color": "#C23627"
       }
     ],
-    "Nether_Mastery": [
+    "Haste": [
       {
-        "text": "Increases the "
+        "text": "Increases your raw "
       },
       {
-        "text": "damage ",
-        "color": "#C21A00"
+        "text": "Mining Speed",
+        "color": "#47B8F5"
       },
       {
-        "text": "dealt when fighting Dungeon mobs.\nThe total can be seen in your statistics tab under Dungeon Damage. "
+        "text": ".\n\n1 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "+10",
+        "color": "#47B8F5"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "+25.0%\n",
-        "color": "#FF00CB"
+        "text": "+20",
+        "color": "#47B8F5"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+40.0%\n",
-        "color": "#FF00CB"
+        "text": "+30",
+        "color": "#47B8F5"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+60.0%\n",
-        "color": "#FF00CB"
+        "text": "+40",
+        "color": "#47B8F5"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "\n5 "
       },
       {
-        "text": "+75.0%\n",
-        "color": "#FF00CB"
+        "text": "+50",
+        "color": "#47B8F5"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "\n6 "
       },
       {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
+        "text": "+60",
+        "color": "#47B8F5"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "\n\n"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "Haste",
+        "color": "gold"
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "+125.0%\n",
-        "color": "#FF00CB"
+        "text": "add "
       },
       {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+150.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+175.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+225.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+250.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+275.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+325.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+350.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+375.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+400.0%\n",
-        "color": "#FF00CB"
+        "text": "+10 Mining Speed",
+        "color": "#47b8f5"
       }
     ],
-    "Explosive": [
+    "Bountiful_Harvest": [
       {
-        "text": "No description for ",
-        "color": "#192022"
+        "text": "Killing vault mobs grants a 6s stack of "
       },
       {
-        "text": "Explosive",
-        "color": "#FCF5C5"
+        "text": "increased item quantity",
+        "color": "#FFAA3D"
       },
       {
-        "text": ", yet",
-        "color": "#192022"
+        "text": ". Taking damage removes "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "1 stack",
+        "color": "#7DF587"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": ". Maximum "
       },
       {
-        "text": "+100.0%",
-        "color": "#90FF00"
+        "text": "5 stacks",
+        "color": "#7DF587"
       },
       {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
+        "text": ".\n\n1 "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "+4% per stack, +20% max",
+        "color": "#FFAA3D"
       },
       {
-        "text": "+10.0%",
-        "color": "#90FF00"
+        "text": "\n2 "
       },
       {
-        "text": " - Nova\n",
-        "color": "#90FF00"
+        "text": "+6% per stack, +30% max",
+        "color": "#FFAA3D"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+15.0%",
-        "color": "#90FF00"
+        "text": "+8% per stack, +40% max",
+        "color": "#FFAA3D"
       },
       {
-        "text": " - Nova\n",
-        "color": "#90FF00"
+        "text": "\n4 "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "+10% per stack, +50% max",
+        "color": "#FFAA3D"
       },
       {
-        "text": "+20.0%",
-        "color": "#90FF00"
+        "text": "\n "
       },
       {
-        "text": " - Nova\n",
-        "color": "#90FF00"
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Bountiful Harvest",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds one additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
+      }
+    ],
+    "Purist": [
+      {
+        "text": "Gain "
+      },
+      {
+        "text": "increased damage",
+        "color": "#C23627"
+      },
+      {
+        "text": " for each equipped "
+      },
+      {
+        "text": "Scrappy",
+        "color": "#343434"
+      },
+      {
+        "text": " armor piece. Works with attacks and abilities. Helmet, Chestplate, Leggings and Boots can each count once.\n\n1 "
+      },
+      {
+        "text": "+10% damage per piece",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n2 "
+      },
+      {
+        "text": "+20% damage per piece",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n3 "
+      },
+      {
+        "text": "+30% damage per piece",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n4 "
+      },
+      {
+        "text": "+40% damage per piece",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Purist",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Increased Damage",
+        "color": "#C23627"
       }
     ],
     "Fatal_Strike": [
@@ -1505,372 +863,220 @@
         "text": "Adds Fatal Strike to your "
       },
       {
-        "text": "Lucky Hits ",
+        "text": "Lucky Hits",
         "color": "#6DF5A3"
       },
       {
-        "text": "causing you to deal "
+        "text": ", causing you to deal "
       },
       {
         "text": "increased damage ",
         "color": "#C23627"
       },
       {
-        "text": "with your hit. "
+        "text": "with your hit.\n\n1 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "+200%",
+        "color": "#C23627"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n\n2 "
       },
       {
-        "text": "+150.0%\n",
-        "color": "#90FF00"
+        "text": "+240%",
+        "color": "#C23627"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n\n3 "
       },
       {
-        "text": "+250.0%\n",
-        "color": "#90FF00"
+        "text": "+280%",
+        "color": "#C23627"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+325.0%\n",
-        "color": "#90FF00"
+        "text": "Overlevels of the "
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "Fatal Strike",
+        "color": "gold"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": " talent "
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+400.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+425.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+450.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+500.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+525.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+575.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+600.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+650.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+700.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+750.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+775.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+800.0%\n",
-        "color": "#90FF00"
+        "text": "+20% Additional Damage",
+        "color": "#C23627"
       }
     ],
-    "Hunters_Instinct": [
+    "Mana_Harvest": [
       {
-        "text": "Killing a mob grants a chance of having their death cause your "
+        "text": "Draws "
       },
       {
-        "text": "Hunter senses ",
-        "color": "#FCF5C5"
+        "text": "Mana",
+        "color": "#0353D7"
       },
       {
-        "text": "to trigger, revealing all POI's in a radius around the killed mob. "
+        "text": " from the vault as you loot, restoring Mana whenever you open a "
       },
       {
-        "text": "This talent requires a level in "
+        "text": "chest",
+        "color": "#FFFF55"
       },
       {
-        "text": "Hunter",
-        "color": "#FCF5C5"
+        "text": ".\n\n1 "
       },
       {
-        "text": "."
+        "text": "+1 Mana",
+        "color": "#0353D7"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "+2 Mana",
+        "color": "#0353D7"
       },
       {
-        "text": "+0.5%",
-        "color": "#90FF00"
+        "text": "\n3 "
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "+3 Mana",
+        "color": "#0353D7"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "\n\n"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "Mana Harvest",
+        "color": "gold"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "+0.6%",
-        "color": "#90FF00"
+        "text": "add "
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "+1 Additional Mana",
+        "color": "#0353d7"
+      }
+    ],
+    "Blight": [
+      {
+        "text": "Poisoned mobs deal "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "reduced damage",
+        "color": "#C23627"
       },
       {
-        "text": "+0.6%",
-        "color": "#90FF00"
+        "text": " to you. Also works against mobs affected by "
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "Poison Nova",
+        "color": "#6FE95A"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": ".\n\n1 "
       },
       {
-        "text": "+0.7%",
-        "color": "#90FF00"
+        "text": "-15%",
+        "color": "#C23627"
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "\n2 "
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "-25%",
+        "color": "#C23627"
       },
       {
-        "text": "+0.7%",
-        "color": "#90FF00"
+        "text": "\n3 "
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "-35%",
+        "color": "#C23627"
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+0.7%",
-        "color": "#90FF00"
+        "text": "-45%",
+        "color": "#C23627"
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "\n\n"
       },
       {
-        "text": "7 ",
-        "color": "$text"
+        "text": "Overlevels of the "
       },
       {
-        "text": "+0.8%",
-        "color": "#90FF00"
+        "text": "Blight",
+        "color": "gold"
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": " talent "
       },
       {
-        "text": "8 ",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "+0.8%",
-        "color": "#90FF00"
+        "text": "+2% Damage Reduction",
+        "color": "#ffd800"
+      }
+    ],
+    "Berserking": [
+      {
+        "text": "Deal increased "
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "damage",
+        "color": "#C23627"
       },
       {
-        "text": "9 ",
-        "color": "$text"
+        "text": " while below "
       },
       {
-        "text": "+0.8%",
-        "color": "#90FF00"
+        "text": "20%",
+        "color": "#7DF587"
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": " max health. Works with attacks and abilities.\n\n1 "
       },
       {
-        "text": "10 ",
-        "color": "$text"
+        "text": "+100%",
+        "color": "#C23627"
       },
       {
-        "text": "+0.9%",
-        "color": "#90FF00"
+        "text": "\n\n"
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "Overlevels of the "
       },
       {
-        "text": "11 ",
-        "color": "$text"
+        "text": "Berserking",
+        "color": "gold"
       },
       {
-        "text": "+0.9%",
-        "color": "#90FF00"
+        "text": " talent "
       },
       {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "increases the "
       },
       {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+0.9%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+1.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+1.5%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Hunter\n",
-        "color": "#90FF00"
+        "text": "Health Threshold by 2%",
+        "color": "#8EEDD9"
       }
     ],
     "Sorcery": [
@@ -1878,4204 +1084,300 @@
         "text": "Gain "
       },
       {
-        "text": "extra mana regeneration ",
+        "text": "extra mana regeneration",
         "color": "#0353D7"
       },
       {
-        "text": "while above "
+        "text": " while above 80% max health.\n\n1 "
       },
       {
-        "text": "80% ",
+        "text": "+10%",
         "color": "#0353D7"
       },
       {
-        "text": "max health."
+        "text": "\n2 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+120.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+140.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+160.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+160.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+180.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+250.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Life_Steal": [
-      {
-        "text": "Adds Life Steal to your "
-      },
-      {
-        "text": "Lucky Hits ",
-        "color": "#6DF5A3"
-      },
-      {
-        "text": "causing you to gain back part of your "
-      },
-      {
-        "text": "max health ",
-        "color": "#CF0000"
-      },
-      {
-        "text": "with your hit, as long as your hit deals the same amount of damage, percentage wise, to the target's total health."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2.5%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+7.5%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+12.5%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+15.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+17.5%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+22.5%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+27.5%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Javelin_Conduct": [
-      {
-        "text": "Gives your "
-      },
-      {
-        "text": "Javelins ",
-        "color": "#FFE068"
-      },
-      {
-        "text": "Conducting Power ",
-        "color": "#DF750E"
-      },
-      {
-        "text": ", making it able to transfer any on-hit effect, except Lucky Hit, to the throw. On-hit effects include "
-      },
-      {
-        "text": "Clouds",
-        "color": "#DF0EC4"
-      },
-      {
-        "text": ", "
-      },
-      {
-        "text": "Stunning ",
-        "color": "#19A6E4"
-      },
-      {
-        "text": "and "
-      },
-      {
-        "text": "Shocking",
-        "color": "#FFFB81"
-      },
-      {
-        "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      }
-    ],
-    "Cleave": [
-      {
-        "text": "Adds Cleave to your "
-      },
-      {
-        "text": "Lucky Hits ",
-        "color": "#6DF5A3"
-      },
-      {
-        "text": ", causing you to deal "
-      },
-      {
-        "text": "part of your damage",
-        "color": "#CF0000"
-      },
-      {
-        "text": "in a 5 by 5 area around the target."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "50.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "65.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "80.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "85.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "90.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "95.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "100.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+3 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "100.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+3 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "100.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+4 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "100.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+4 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "100.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "100.0% damage\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5 range ",
-        "color": "#90FF00"
-      },
-      {
-        "text": "100.0% damage\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Javelin_Throw_Power": [
-      {
-        "text": "Enhances the "
-      },
-      {
-        "text": "projectile speed ",
-        "color": "#F6CD0E"
-      },
-      {
-        "text": "of your "
-      },
-      {
-        "text": "Javelins",
-        "color": "#FFE068"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+120.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+140.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+160.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+180.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+220.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+240.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+260.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+280.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+325.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+350.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+375.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "19 ",
-        "color": "$text"
-      },
-      {
-        "text": "+400.0%\n",
-        "color": "#FF00CB"
-      }
-    ],
-    "Farmer_Twerker": [
-      {
-        "text": "Allows you to hold down shift to increase growth speed of nearby crops and animals. Works on most planted crops, as well as Cactus, Melon, Pumpkin, Sugar Cane and Nether Wart.\n\nLevels increase "
-      },
-      {
-        "text": "Radius ",
-        "color": "#33FF6D"
-      },
-      {
-        "text": "and "
-      },
-      {
-        "text": "Growth Speed ",
-        "color": "#F6CD0E"
-      },
-      {
-        "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+3 Radius",
-        "color": "#FF00CB"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "+1.0% Growth Speed\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+6 Radius",
-        "color": "#FF00CB"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "+1.0% Growth Speed\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+9 Radius",
-        "color": "#FF00CB"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "+2.0% Growth Speed\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+12 Radius",
-        "color": "#FF00CB"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "+2.0% Growth Speed\n",
-        "color": "#FF00CB"
-      }
-    ],
-    "Daze": [
-      {
-        "text": "Deal increased "
-      },
-      {
-        "text": "damage ",
-        "color": "#C23627"
-      },
-      {
-        "text": "to stunned enemies on hit."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+125.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+150.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+175.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+225.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+250.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+275.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+325.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+350.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+375.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+400.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+425.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+450.0%\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Thorns_Damage": [
-      {
-        "text": "No description for ",
-        "color": "#192022"
-      },
-      {
-        "text": "Thorns_Damage",
-        "color": "#FCF5C5"
-      },
-      {
-        "text": ", yet",
-        "color": "#192022"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#FF00CB"
-      }
-    ],
-    "Wither_Affinity": [
-      {
-        "text": "No description for ",
-        "color": "#192022"
-      },
-      {
-        "text": "Wither_Affinity",
-        "color": "#FCF5C5"
-      },
-      {
-        "text": ", yet",
-        "color": "#192022"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      }
-    ],
-    "Mana_Steal": [
-      {
-        "text": "Adds Mana Steal to your "
-      },
-      {
-        "text": "Lucky Hits ",
-        "color": "#6DF5A3"
-      },
-      {
-        "text": "causing you to gain back part of your "
-      },
-      {
-        "text": "max mana ",
+        "text": "+20%",
         "color": "#0353D7"
       },
       {
-        "text": "with your hit. "
+        "text": "\n3 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+4.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+8.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+12.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+14.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+16.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+18.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+22.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+24.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+26.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+28.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Prime_Amplification": [
-      {
-        "text": "Gain "
-      },
-      {
-        "text": "increased area of effect ",
-        "color": "#E9C375"
-      },
-      {
-        "text": "while above "
-      },
-      {
-        "text": "80% ",
+        "text": "+30%",
         "color": "#0353D7"
       },
       {
-        "text": "max health."
+        "text": "\n4 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+15.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+35.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+65.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+110.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+125.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+150.0%\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Thorns_Chance": [
-      {
-        "text": "No description for ",
-        "color": "#192022"
-      },
-      {
-        "text": "Thorns_Chance",
-        "color": "#FCF5C5"
-      },
-      {
-        "text": ", yet",
-        "color": "#192022"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+3.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+6.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+9.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+12.0%\n",
-        "color": "#FF00CB"
-      }
-    ],
-    "Arcana": [
-      {
-        "text": "Gain 20% "
-      },
-      {
-        "text": "Mana Regeneration ",
-        "color": "#00FFFF"
-      },
-      {
-        "text": "when killing a mob. This effect can "
-      },
-      {
-        "text": "stack ",
-        "color": "#FFEB07"
-      },
-      {
-        "text": "and lasts for a duration of time."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "2 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "4 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "4 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "6 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "6 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "8 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "8 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "10 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "9 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "11 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "10 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "12 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "11 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "13 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "12 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "14 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "13 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "14 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "14 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "15 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "16 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "17 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "18 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "19 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Lucky_Momentum": [
-      {
-        "text": "Gain 1% "
-      },
-      {
-        "text": "Lucky Hit ",
-        "color": "#6DF5A3"
-      },
-      {
-        "text": "when killing a mob. This effect can "
-      },
-      {
-        "text": "stack ",
-        "color": "#FFEB07"
-      },
-      {
-        "text": "and lasts for a duration of time."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "2 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "4 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "4 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "6 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "6 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "8 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "8 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "10 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "9 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "11 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "10 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "12 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "11 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "13 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "12 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "14 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "13 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "14 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "15 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "16 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "17 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "18 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "19 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Fatal_Strike_Chance": [
-      {
-        "text": "No description for ",
-        "color": "#192022"
-      },
-      {
-        "text": "Fatal_Strike_Chance",
-        "color": "#FCF5C5"
-      },
-      {
-        "text": ", yet",
-        "color": "#192022"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+3.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+6.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+9.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+12.0%\n",
-        "color": "#FF00CB"
-      }
-    ],
-    "Nucleus": [
-      {
-        "text": "Killing a "
-      },
-      {
-        "text": "stunned ",
-        "color": "#2FE1FA"
-      },
-      {
-        "text": "mob has a "
-      },
-      {
-        "text": "chance ",
-        "color": "yellow"
-      },
-      {
-        "text": "of causing an explosive reaction, casting a Nova of your level around the killed mob."
-      },
-      {
-        "text": " This talent requires levels in the ability Nova."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+55.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+65.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+85.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+95.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Nova\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Illager_Mastery": [
-      {
-        "text": "Increases the "
-      },
-      {
-        "text": "damage ",
-        "color": "#C21A00"
-      },
-      {
-        "text": "dealt when fighting Vault Dwellers mobs.\nThe total can be seen in your statistics tab under Dweller Damage. "
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+125.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+150.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+175.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+225.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+250.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+225.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+275.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+325.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+350.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+375.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+400.0%\n",
-        "color": "#FF00CB"
-      }
-    ],
-    "Stoneskin": [
-      {
-        "text": "Gain "
-      },
-      {
-        "text": "increased knockback resistance ",
-        "color": "#E9C375"
-      },
-      {
-        "text": "while above "
-      },
-      {
-        "text": "80% ",
+        "text": "+40%",
         "color": "#0353D7"
       },
       {
-        "text": "max health."
+        "text": "\n5 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Champion_Mastery": [
-      {
-        "text": "Increases the "
-      },
-      {
-        "text": "damage ",
-        "color": "#C21A00"
-      },
-      {
-        "text": "dealt when fighting Champion mobs.\nThe total can be seen in your statistics tab under Champion Damage. "
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+125.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+150.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+175.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+225.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+250.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+275.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+325.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+350.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+375.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+400.0%\n",
-        "color": "#FF00CB"
-      }
-    ],
-    "Stone_Skin": [
-      {
-        "text": "No description for ",
-        "color": "#192022"
-      },
-      {
-        "text": "Stone_Skin",
-        "color": "#FCF5C5"
-      },
-      {
-        "text": ", yet",
-        "color": "#192022"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Haste": [
-      {
-        "text": "Increases your "
-      },
-      {
-        "text": "mining speed ",
-        "color": "#47B8F5"
-      },
-      {
-        "text": "by applying the "
-      },
-      {
-        "text": "Haste ",
-        "color": "green"
-      },
-      {
-        "text": "effect permanently\n\n"
-      },
-      {
-        "text": "Every level of the Haste effect increases mining speed by "
-      },
-      {
-        "text": "20%",
-        "color": "#47B8F5"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+1\n",
-        "color": "green"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2\n",
-        "color": "green"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+3\n",
-        "color": "green"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+4\n",
-        "color": "green"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5\n",
-        "color": "green"
-      }
-    ],
-    "Alchemist": [
-      {
-        "text": "No description for ",
-        "color": "#192022"
-      },
-      {
-        "text": "Alchemist",
-        "color": "#FCF5C5"
-      },
-      {
-        "text": ", yet",
-        "color": "#192022"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      }
-    ],
-    "Javelin_Frugal": [
-      {
-        "text": "Gives your "
-      },
-      {
-        "text": "Javelins ",
-        "color": "#FFE068"
-      },
-      {
-        "text": "a "
-      },
-      {
-        "text": "chance ",
-        "color": "yellow"
-      },
-      {
-        "text": "to consume no "
-      },
-      {
-        "text": "mana",
+        "text": "+50%",
         "color": "#0353D7"
       },
       {
-        "text": " for the throw."
+        "text": "\n6 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "+60%",
+        "color": "#0353D7"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n7 "
       },
       {
-        "text": "+15.0%\n",
-        "color": "#FF00CB"
+        "text": "+70%",
+        "color": "#0353D7"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n8 "
       },
       {
-        "text": "+30.0%\n",
-        "color": "#FF00CB"
+        "text": "+80%",
+        "color": "#0353D7"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n "
       },
       {
-        "text": "+45.0%\n",
-        "color": "#FF00CB"
+        "text": "\n\n"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Sorcery",
+        "color": "gold"
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "+55.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+65.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+82.5%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+85.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+87.5%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+92.5%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+95.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+97.5%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
-      }
-    ],
-    "Bountiful_Harvest": [
-      {
-        "text": "Gain "
-      },
-      {
-        "text": "extra item quantity ",
-        "color": "#FFAA3D"
-      },
-      {
-        "text": "while below "
-      },
-      {
-        "text": "20% ",
-        "color": "#7DF587"
-      },
-      {
-        "text": "max health."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+15.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+120.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+140.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+160.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+175.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+185.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Purist": [
-      {
-        "text": "Deal "
-      },
-      {
-        "text": "extra damage ",
-        "color": "#C23627"
-      },
-      {
-        "text": "based on the amount of "
-      },
-      {
-        "text": "Scrappy "
-      },
-      {
-        "text": "armor pieces you wear."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+2.5% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5.0% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+7.5% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+12.5% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+15.0% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+17.5% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+22.5% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25.0% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+27.5% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+30.0% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+32.5% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+35.0% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+37.5% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+42.5% damage per piece\n",
-        "color": "#C23627"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+45.0% damage per piece\n",
-        "color": "#C23627"
-      }
-    ],
-    "Blight": [
-      {
-        "text": "Apply "
-      },
-      {
-        "text": "Weakness ",
-        "color": "#AFB477"
-      },
-      {
-        "text": "to your targets while hitting them, lowering their "
-      },
-      {
-        "text": "damage ",
-        "color": "#C23627"
-      },
-      {
-        "text": "for a "
-      },
-      {
-        "text": "duration ",
-        "color": "#7024AC"
-      },
-      {
-        "text": "of time, if they are affected by "
-      },
-      {
-        "text": "Poison ",
-        "color": "#6FE95A"
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 10, 2 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 12, 3 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 14, 4 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 16, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 18, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 20, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 22, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 24, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 26, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 28, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 30, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 32, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 34, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 36, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 38, 5 seconds\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0% chance\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Weakness Level 40, 5 seconds\n",
-        "color": "#90FF00"
-      }
-    ],
-    "Berserking": [
-      {
-        "text": "Gain "
-      },
-      {
-        "text": "extra damage ",
-        "color": "#C23627"
-      },
-      {
-        "text": "while below "
-      },
-      {
-        "text": "20% ",
-        "color": "#7DF587"
-      },
-      {
-        "text": "max health."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "2 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "3 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+120.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+140.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+160.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+180.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#90FF00"
+        "text": "+10% Increased Mana Regeneration",
+        "color": "#0353d7"
       }
     ],
     "Lightning_Stun": [
       {
-        "text": "Gives you a "
+        "text": "Gives your "
       },
       {
-        "text": "chance ",
-        "color": "yellow"
+        "text": "Lightning Abilities",
+        "color": "#FFFB81"
       },
       {
-        "text": "to "
+        "text": " a "
       },
       {
-        "text": "stun ",
+        "text": "chance",
+        "color": "#FFFF55"
+      },
+      {
+        "text": " to "
+      },
+      {
+        "text": "stun",
         "color": "#19A6E4"
       },
       {
-        "text": "enemies hit by Lightning Abilities."
+        "text": " enemies.\n\n1 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "5%",
+        "color": "#FFFF55"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "+5.0%\n",
-        "color": "#90FF00"
+        "text": "10%",
+        "color": "#FFFF55"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
+        "text": "15%",
+        "color": "#FFFF55"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+15.0%\n",
-        "color": "#90FF00"
+        "text": "20%",
+        "color": "#FFFF55"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "\n5 "
       },
       {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
+        "text": "25%",
+        "color": "#FFFF55"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "\n6 "
       },
       {
-        "text": "+25.0%\n",
-        "color": "#90FF00"
+        "text": "30%",
+        "color": "#FFFF55"
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": "\n7 "
       },
       {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
+        "text": "35%",
+        "color": "#FFFF55"
       },
       {
-        "text": "7 ",
-        "color": "$text"
+        "text": "\n8 "
       },
       {
-        "text": "+35.0%\n",
-        "color": "#90FF00"
+        "text": "40%",
+        "color": "#FFFF55"
       },
       {
-        "text": "8 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
+        "text": "Overlevels of the "
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "Lightning Mastery",
+        "color": "gold"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": " talent "
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "adds a small increase to the "
       },
       {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+45.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+55.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+65.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%\n",
-        "color": "#90FF00"
+        "text": "stun chance and duration",
+        "color": "#19A6E4"
       }
     ],
-    "Fatal_Strike_Damage": [
+    "Life_Steal": [
       {
-        "text": "No description for ",
-        "color": "#192022"
+        "text": "Adds Life Leech to your "
       },
       {
-        "text": "Fatal_Strike_Damage",
-        "color": "#FCF5C5"
+        "text": "Lucky Hits",
+        "color": "#6DF5A3"
       },
       {
-        "text": ", yet",
-        "color": "#192022"
+        "text": ", causing you to "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "leech back part of your health",
+        "color": "#CF0000"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": " with your hit, as long as your hit deals the same amount of damage, percentage wise, to the target's total health.\n\n1 "
       },
       {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
+        "text": "4%",
+        "color": "#CF0000"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n\n2 "
       },
       {
-        "text": "+125.0%\n",
-        "color": "#FF00CB"
+        "text": "8%",
+        "color": "#CF0000"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n\n3 "
       },
       {
-        "text": "+150.0%\n",
-        "color": "#FF00CB"
+        "text": "12%",
+        "color": "#CF0000"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+175.0%\n",
-        "color": "#FF00CB"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Life Leech",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+2% Life Leeched",
+        "color": "#C23627"
+      }
+    ],
+    "Voltaic_Impact": [
+      {
+        "text": "Shocked mobs deal "
+      },
+      {
+        "text": "increased damage",
+        "color": "#FFFB81"
+      },
+      {
+        "text": " when they collide with other mobs.\n\n1 "
+      },
+      {
+        "text": "+25%",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n2 "
+      },
+      {
+        "text": "+50%",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n3 "
+      },
+      {
+        "text": "+75%",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n4 "
+      },
+      {
+        "text": "+100%",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Voltaic Impact",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+20% Additional Damage",
+        "color": "#C23627"
       }
     ],
     "Speed": [
@@ -6083,1035 +1385,560 @@
         "text": "Increases your "
       },
       {
-        "text": "movement speed ",
+        "text": "Movement Speed",
         "color": "#F6CD0E"
       },
       {
-        "text": "by applying the "
+        "text": ".\n\n1 "
       },
       {
-        "text": "Speed ",
-        "color": "green"
-      },
-      {
-        "text": "effect permanently\n\n"
-      },
-      {
-        "text": "Every level of the Speed effect increases movement speed by "
-      },
-      {
-        "text": "20%",
+        "text": "+10%",
         "color": "#F6CD0E"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "+20%",
+        "color": "#F6CD0E"
       },
       {
-        "text": "+1\n",
-        "color": "green"
+        "text": "\n3 "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "+30%",
+        "color": "#F6CD0E"
       },
       {
-        "text": "+2\n",
-        "color": "green"
+        "text": "\n4 "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "+40%",
+        "color": "#F6CD0E"
       },
       {
-        "text": "+3\n",
-        "color": "green"
+        "text": "\n\n"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "Overlevels of the "
       },
       {
-        "text": "+4\n",
-        "color": "green"
+        "text": "Speed",
+        "color": "gold"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": " talent "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "add "
       },
       {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5\n",
-        "color": "green"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+6\n",
-        "color": "green"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+7\n",
-        "color": "green"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+8\n",
-        "color": "green"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+9\n",
-        "color": "green"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10\n",
-        "color": "green"
+        "text": "+10% Movement Speed",
+        "color": "#ffe400"
       }
     ],
-    "Reach": [
+    "Cleave": [
       {
-        "text": "No description for ",
-        "color": "#192022"
+        "text": "Adds a Cleave to your "
       },
       {
-        "text": "Reach",
-        "color": "#FCF5C5"
+        "text": "Lucky Hits",
+        "color": "#6DF5A3"
       },
       {
-        "text": ", yet",
-        "color": "#192022"
+        "text": ", causing you to deal "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "part of your damage",
+        "color": "#C23627"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": " in a 5 by 5 area around the target.\n\n1 "
       },
       {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
+        "text": "75%",
+        "color": "#C23627"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+200.0%\n",
-        "color": "#90FF00"
+        "text": "Overlevels of the "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "Cleave",
+        "color": "gold"
       },
       {
-        "text": "+300.0%\n",
-        "color": "#90FF00"
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+1% Additional damage and +5% Additional Range",
+        "color": "#5ae09c"
       }
     ],
-    "Slowness_Affinity": [
+    "Clean_Escape": [
       {
-        "text": "No description for ",
-        "color": "#192022"
+        "text": "After taking damage, gain "
       },
       {
-        "text": "Slowness_Affinity",
-        "color": "#FCF5C5"
+        "text": "Movement Speed",
+        "color": "#FFE068"
       },
       {
-        "text": ", yet",
-        "color": "#192022"
+        "text": " for "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "10 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": ".\n\n1 "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "+5%",
+        "color": "#FFE068"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "+10%",
+        "color": "#FFE068"
+      },
+      {
+        "text": "\n3 "
+      },
+      {
+        "text": "+15%",
+        "color": "#FFE068"
+      },
+      {
+        "text": "\n4 "
+      },
+      {
+        "text": "+20%",
+        "color": "#FFE068"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Clean Escape",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Movement Speed",
+        "color": "#ffe400"
       }
     ],
-    "Toxic_Reaction": [
+    "Daze": [
       {
-        "text": "Killing a "
+        "text": "Deal increased "
       },
       {
-        "text": "poisoned ",
-        "color": "#6FE95A"
+        "text": "damage",
+        "color": "#C23627"
       },
       {
-        "text": "mob has a "
+        "text": " to "
       },
       {
-        "text": "chance ",
-        "color": "yellow"
+        "text": "stunned",
+        "color": "#19A6E4"
       },
       {
-        "text": "of casting a "
+        "text": " mobs. Works with attacks and abilities.\n\n1 "
       },
       {
-        "text": "Poison Nova",
-        "color": "#6FE95A"
+        "text": "+25%",
+        "color": "#C23627"
       },
       {
-        "text": ", of your level, when the mob dies. This effect can chain indefinitely, but requires you to have levels in"
+        "text": "\n2 "
       },
       {
-        "text": "Poison Nova",
-        "color": "#6FE95A"
+        "text": "+50%",
+        "color": "#C23627"
       },
       {
-        "text": "."
+        "text": "\n3 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "+75%",
+        "color": "#C23627"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+20.0%",
-        "color": "#90FF00"
+        "text": "+100%",
+        "color": "#C23627"
       },
       {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
+        "text": "\n\n"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "Overlevels of the "
       },
       {
-        "text": "+30.0%",
-        "color": "#90FF00"
+        "text": "Daze",
+        "color": "gold"
       },
       {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
+        "text": " talent "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "+45.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+65.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+85.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+95.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Poison Nova\n",
-        "color": "#90FF00"
+        "text": "+20% Additional Damage",
+        "color": "#C23627"
       }
     ],
     "Blazing": [
       {
-        "text": "Gain 5% "
+        "text": "Gain "
       },
       {
-        "text": "Movement Speed ",
+        "text": "+4% Movement Speed",
         "color": "#FFE068"
       },
       {
-        "text": "when killing a mob. This effect can "
+        "text": " when hitting a mob. This effect can "
       },
       {
-        "text": "stack ",
+        "text": "stack",
         "color": "#FFEB07"
       },
       {
-        "text": "and lasts for a duration of time."
+        "text": " and lasts for a duration of time.\n1 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "4 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": ", "
       },
       {
-        "text": "4 max stacks",
-        "color": "#90FF00"
+        "text": "4 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": ", ",
-        "color": "$text"
+        "text": " wear-off time\n2 "
       },
       {
-        "text": "4 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "6 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": ", "
       },
       {
-        "text": "6 max stacks",
-        "color": "#90FF00"
+        "text": "6 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": ", ",
-        "color": "$text"
+        "text": " wear-off time\n3 "
       },
       {
-        "text": "6 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "8 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": ", "
       },
       {
-        "text": "8 max stacks",
-        "color": "#90FF00"
+        "text": "8 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": ", ",
-        "color": "$text"
+        "text": " wear-off time\n4 "
       },
       {
-        "text": "8 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "10 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": ", "
       },
       {
-        "text": "10 max stacks",
-        "color": "#90FF00"
+        "text": "10 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": ", ",
-        "color": "$text"
+        "text": " wear-off time"
       },
       {
-        "text": "10 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "\n\n"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Blazing",
+        "color": "gold"
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "adds one additional max "
       },
       {
-        "text": "11 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "11 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "12 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "12 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "13 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "13 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "14 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "14 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "15 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "16 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "17 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "18 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "19 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
-    "Critical_Strike": [
+    "Executioner": [
       {
-        "text": "No description for ",
-        "color": "#192022"
+        "text": "Deal increased "
       },
       {
-        "text": "Critical_Strike",
-        "color": "#FCF5C5"
+        "text": "damage",
+        "color": "#C23627"
       },
       {
-        "text": ", yet",
-        "color": "#192022"
+        "text": " to mobs below "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "50% health",
+        "color": "#7DF587"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": ". Works with attacks and abilities.\n\n1 "
       },
       {
-        "text": "+25.0%\n",
-        "color": "#FF00CB"
+        "text": "+20%",
+        "color": "#C23627"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "+50.0%\n",
-        "color": "#FF00CB"
+        "text": "+40%",
+        "color": "#C23627"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+75.0%\n",
-        "color": "#FF00CB"
+        "text": "+60%",
+        "color": "#C23627"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Executioner",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+5% Additional Damage",
+        "color": "#C23627"
       }
     ],
-    "Undead_Mastery": [
+    "Ethereal": [
       {
-        "text": "Increases the "
+        "text": "Your abilities have a "
       },
       {
-        "text": "damage ",
-        "color": "#C21A00"
+        "text": "chance",
+        "color": "#FFEB07"
       },
       {
-        "text": "dealt when fighting Horde mobs.\nThe total can be seen in your statistics tab under Horde Damage. "
+        "text": " to become "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "Ethereal",
+        "color": "#1BDE8E"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": ", consuming "
       },
       {
-        "text": "+25.0%\n",
-        "color": "#FF00CB"
+        "text": "no mana",
+        "color": "#0353D7"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": " when the cost is paid.\n\n1 "
       },
       {
-        "text": "+40.0%\n",
-        "color": "#FF00CB"
+        "text": "10%",
+        "color": "#FFEB07"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "+60.0%\n",
-        "color": "#FF00CB"
+        "text": "20%",
+        "color": "#FFEB07"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+75.0%\n",
-        "color": "#FF00CB"
+        "text": "30%",
+        "color": "#FFEB07"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
+        "text": "Overlevels of the "
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "Ethereal",
+        "color": "gold"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": " talent "
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": "+3% Additional Chance",
+        "color": "#5ae09c"
+      }
+    ],
+    "Quickening": [
+      {
+        "text": "When you use an ability, you have a "
       },
       {
-        "text": "+125.0%\n",
-        "color": "#FF00CB"
+        "text": "10%",
+        "color": "#FFEB07"
       },
       {
-        "text": "7 ",
-        "color": "$text"
+        "text": " chance to immediately refund part of its "
       },
       {
-        "text": "+150.0%\n",
-        "color": "#FF00CB"
+        "text": "Cooldown",
+        "color": "#E35F12"
       },
       {
-        "text": "8 ",
-        "color": "$text"
+        "text": ".\n\n1 "
       },
       {
-        "text": "+175.0%\n",
-        "color": "#FF00CB"
+        "text": "10% Cooldown",
+        "color": "#E35F12"
       },
       {
-        "text": "9 ",
-        "color": "$text"
+        "text": " refunded\n2 "
       },
       {
-        "text": "+200.0%\n",
-        "color": "#FF00CB"
+        "text": "20% Cooldown",
+        "color": "#E35F12"
       },
       {
-        "text": "10 ",
-        "color": "$text"
+        "text": " refunded\n3 "
       },
       {
-        "text": "+225.0%\n",
-        "color": "#FF00CB"
+        "text": "30% Cooldown",
+        "color": "#E35F12"
       },
       {
-        "text": "11 ",
-        "color": "$text"
+        "text": " refunded"
       },
       {
-        "text": "+250.0%\n",
-        "color": "#FF00CB"
+        "text": "\n\n"
       },
       {
-        "text": "12 ",
-        "color": "$text"
+        "text": "Overlevels of the "
       },
       {
-        "text": "+275.0%\n",
-        "color": "#FF00CB"
+        "text": "Quickening",
+        "color": "gold"
       },
       {
-        "text": "13 ",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "+300.0%\n",
-        "color": "#FF00CB"
+        "text": "add "
       },
       {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+325.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+350.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+375.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+400.0%\n",
-        "color": "#FF00CB"
+        "text": "+10% Mana Refunded",
+        "color": "#19A6E4"
       }
     ],
     "Lightning_Damage": [
       {
-        "text": "Increases your "
+        "text": "Increases your minimum damage when using "
       },
       {
-        "text": "minimum damage ",
+        "text": "Lightning Abilities",
+        "color": "#FFFB81"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "10%",
         "color": "#FF00CB"
       },
       {
-        "text": "by a percentage when using Lightning Abilities."
+        "text": "\n2 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "20%",
+        "color": "#FF00CB"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
+        "text": "30%",
+        "color": "#FF00CB"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
+        "text": "40%",
+        "color": "#FF00CB"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
+        "text": "Overlevels of the "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "Lightning Finesse",
+        "color": "gold"
       },
       {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
+        "text": " talent "
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "adds "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
+        "text": "+10% Increased Lightning Damage",
+        "color": "#ffeb07"
       }
     ],
     "Witchery": [
@@ -7119,953 +1946,610 @@
         "text": "Gain "
       },
       {
-        "text": "increased soul chance ",
+        "text": "extra soul quantity",
         "color": "#4800FF"
       },
       {
-        "text": "while above "
+        "text": " when killing mobs while being above "
       },
       {
-        "text": "80% max mana",
+        "text": "80% mana",
         "color": "#0353D7"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": ".\n\n1 "
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "+20%",
+        "color": "#4800FF"
       },
       {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
+        "text": "\n2 "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "+40%",
+        "color": "#4800FF"
       },
       {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
+        "text": "\n3 "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "+60%",
+        "color": "#4800FF"
       },
       {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
+        "text": "\n4 "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "+80%",
+        "color": "#4800FF"
       },
       {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
+        "text": "\n "
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "\n\n"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "Witchery",
+        "color": "gold"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "+100.0%\n",
-        "color": "#90FF00"
+        "text": "add "
       },
       {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+120.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+140.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+160.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+180.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+225.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+250.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+250.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+275.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+300.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+325.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+350.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+400.0%\n",
-        "color": "#90FF00"
+        "text": "+10% Soul Shard Chance",
+        "color": "#4800FF"
       }
     ],
-    "Javelin_Damage": [
+    "Heart_Fragments": [
       {
-        "text": "Enhances the "
+        "text": "Gives a "
       },
       {
-        "text": "damage ",
-        "color": "#C23627"
+        "text": "chance",
+        "color": "#FFFF55"
       },
       {
-        "text": "of your "
+        "text": " on killing a mob to spawn a "
       },
       {
-        "text": "Javelins",
-        "color": "#FFE068"
+        "text": "Heart Fragment",
+        "color": "#22FF25"
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": ", that when picked up heals you for "
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "1 hitpoint",
+        "color": "#22FF25"
       },
       {
-        "text": "+10.0%\n",
-        "color": "#FF00CB"
+        "text": " multiplied by Healing Efficiency.\n\n1 "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "+5%",
+        "color": "#22FF25"
       },
       {
-        "text": "+20.0%\n",
-        "color": "#FF00CB"
+        "text": "\n2 "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "+10%",
+        "color": "#22FF25"
       },
       {
-        "text": "+30.0%\n",
-        "color": "#FF00CB"
+        "text": "\n3 "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "+15%",
+        "color": "#22FF25"
       },
       {
-        "text": "+40.0%\n",
-        "color": "#FF00CB"
+        "text": "\n\n"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "Overlevels of the "
       },
       {
-        "text": "+50.0%\n",
-        "color": "#FF00CB"
+        "text": "Heart Fragments",
+        "color": "gold"
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "+60.0%\n",
-        "color": "#FF00CB"
+        "text": "add "
       },
       {
-        "text": "7 ",
-        "color": "$text"
+        "text": "+3% Heart Fragment Chance",
+        "color": "#7DF587"
+      }
+    ],
+    "Mana_Steal": [
+      {
+        "text": "Adds Mana Steal to your "
       },
       {
-        "text": "+70.0%\n",
-        "color": "#FF00CB"
+        "text": "Lucky Hits",
+        "color": "#6DF5A3"
       },
       {
-        "text": "8 ",
-        "color": "$text"
+        "text": ", causing you to gain back "
       },
       {
-        "text": "+80.0%\n",
-        "color": "#FF00CB"
+        "text": "part of your max mana",
+        "color": "#0353D7"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": " on your hit.\n\n1 "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "4%",
+        "color": "#0353D7"
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "\n\n2 "
       },
       {
-        "text": "9 ",
-        "color": "$text"
+        "text": "6%",
+        "color": "#0353D7"
       },
       {
-        "text": "+90.0%\n",
-        "color": "#FF00CB"
+        "text": "\n\n3 "
       },
       {
-        "text": "10 ",
-        "color": "$text"
+        "text": "8%",
+        "color": "#0353D7"
       },
       {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
+        "text": "\n\n"
       },
       {
-        "text": "11 ",
-        "color": "$text"
+        "text": "Overlevels of the "
       },
       {
-        "text": "+110.0%\n",
-        "color": "#FF00CB"
+        "text": "Mana Steal",
+        "color": "gold"
       },
       {
-        "text": "12 ",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "+120.0%\n",
-        "color": "#FF00CB"
+        "text": "add "
       },
       {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+130.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+140.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+150.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+160.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+180.0%\n",
-        "color": "#FF00CB"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+200.0%\n",
-        "color": "#FF00CB"
+        "text": "+1% Max Mana Restored",
+        "color": "#19A6E4"
       }
     ],
     "Last_Stand": [
       {
-        "text": "Gain "
+        "text": "Take reduced "
       },
       {
-        "text": "extra resistance ",
+        "text": "final damage",
         "color": "#09BFB8"
       },
       {
-        "text": "while below "
+        "text": " while below "
       },
       {
-        "text": "20% ",
+        "text": "20%",
         "color": "#7DF587"
       },
       {
-        "text": "max health."
+        "text": " max health. Applied after normal mitigation.\n\n1 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "50% reduced damage",
+        "color": "#09BFB8"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+10.0%\n",
-        "color": "#90FF00"
+        "text": "Overlevels of the "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "Last Stand",
+        "color": "gold"
       },
       {
-        "text": "+20.0%\n",
-        "color": "#90FF00"
+        "text": " talent "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "increases the "
       },
       {
-        "text": "+30.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "4 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "------------",
-        "color": "#EFBF04"
-      },
-      {
-        "text": "\n",
-        "color": "$text"
-      },
-      {
-        "text": "5 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+65.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%\n",
-        "color": "#90FF00"
+        "text": "Health Threshold by 2%",
+        "color": "#8EEDD9"
       }
     ],
-    "Tank_Mastery": [
+    "Prime_Amplification": [
       {
-        "text": "Increases the "
+        "text": "Gain "
       },
       {
-        "text": "damage ",
-        "color": "#C21A00"
+        "text": "increased area of effect",
+        "color": "#E9C375"
       },
       {
-        "text": "dealt when fighting Tank mobs.\nThe total can be seen in your statistics tab under Tank Damage. "
+        "text": " while being above "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "80% health",
+        "color": "#7DF587"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": ".\n\n1 "
       },
       {
-        "text": "+25.0%\n",
-        "color": "#FF00CB"
+        "text": "+5%",
+        "color": "#E9C375"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "+40.0%\n",
-        "color": "#FF00CB"
+        "text": "+10%",
+        "color": "#E9C375"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+60.0%\n",
-        "color": "#FF00CB"
+        "text": "+15%",
+        "color": "#E9C375"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+75.0%\n",
-        "color": "#FF00CB"
+        "text": "+20%",
+        "color": "#E9C375"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "\n5 "
       },
       {
-        "text": "+100.0%\n",
-        "color": "#FF00CB"
+        "text": "+25%",
+        "color": "#E9C375"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "\n6 "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "+30%",
+        "color": "#E9C375"
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "\n7 "
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": "+35%",
+        "color": "#E9C375"
       },
       {
-        "text": "+125.0%\n",
-        "color": "#FF00CB"
+        "text": "\n8 "
       },
       {
-        "text": "7 ",
-        "color": "$text"
+        "text": "+40%",
+        "color": "#E9C375"
       },
       {
-        "text": "+150.0%\n",
-        "color": "#FF00CB"
+        "text": "\n "
       },
       {
-        "text": "8 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+175.0%\n",
-        "color": "#FF00CB"
+        "text": "Overlevels of the "
       },
       {
-        "text": "9 ",
-        "color": "$text"
+        "text": "Prime Amplification",
+        "color": "gold"
       },
       {
-        "text": "+200.0%\n",
-        "color": "#FF00CB"
+        "text": " talent "
       },
       {
-        "text": "10 ",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "+225.0%\n",
-        "color": "#FF00CB"
+        "text": "+5% Increased Area Of Effect",
+        "color": "#e9c375"
+      }
+    ],
+    "Blood_Rush": [
+      {
+        "text": "Gain "
       },
       {
-        "text": "11 ",
-        "color": "$text"
+        "text": "+8% Healing Efficiency",
+        "color": "#7DF587"
       },
       {
-        "text": "+250.0%\n",
-        "color": "#FF00CB"
+        "text": " when killing a mob. This effect can "
       },
       {
-        "text": "12 ",
-        "color": "$text"
+        "text": "stack",
+        "color": "#FFEB07"
       },
       {
-        "text": "+275.0%\n",
-        "color": "#FF00CB"
+        "text": " and lasts for a duration of time.\n1 "
       },
       {
-        "text": "13 ",
-        "color": "$text"
+        "text": "4 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+300.0%\n",
-        "color": "#FF00CB"
+        "text": ", "
       },
       {
-        "text": "14 ",
-        "color": "$text"
+        "text": "4 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "+325.0%\n",
-        "color": "#FF00CB"
+        "text": " wear-off time\n2 "
       },
       {
-        "text": "15 ",
-        "color": "$text"
+        "text": "6 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+350.0%\n",
-        "color": "#FF00CB"
+        "text": ", "
       },
       {
-        "text": "16 ",
-        "color": "$text"
+        "text": "6 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "+375.0%\n",
-        "color": "#FF00CB"
+        "text": " wear-off time\n3 "
       },
       {
-        "text": "17 ",
-        "color": "$text"
+        "text": "8 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+400.0%\n",
-        "color": "#FF00CB"
+        "text": ", "
+      },
+      {
+        "text": "8 seconds",
+        "color": "#7024AC"
+      },
+      {
+        "text": " wear-off time\n4 "
+      },
+      {
+        "text": "10 Max Stacks",
+        "color": "#FFEB07"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "10 seconds",
+        "color": "#7024AC"
+      },
+      {
+        "text": " wear-off time"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Blood Rush",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds two additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
+      }
+    ],
+    "Arcana": [
+      {
+        "text": "Gain "
+      },
+      {
+        "text": "+20% Mana Regeneration",
+        "color": "#00FFFF"
+      },
+      {
+        "text": " when killing a mob. This effect can "
+      },
+      {
+        "text": "stack",
+        "color": "#FFEB07"
+      },
+      {
+        "text": " and lasts for a duration of time.\n1 "
+      },
+      {
+        "text": "2 Max Stacks",
+        "color": "#FFEB07"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "4 seconds",
+        "color": "#7024AC"
+      },
+      {
+        "text": " wear-off time\n2 "
+      },
+      {
+        "text": "4 Max Stacks",
+        "color": "#FFEB07"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "6 seconds",
+        "color": "#7024AC"
+      },
+      {
+        "text": " wear-off time\n3 "
+      },
+      {
+        "text": "6 Max Stacks",
+        "color": "#FFEB07"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "8 seconds",
+        "color": "#7024AC"
+      },
+      {
+        "text": " wear-off time\n4 "
+      },
+      {
+        "text": "8 Max Stacks",
+        "color": "#FFEB07"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "10 seconds",
+        "color": "#7024AC"
+      },
+      {
+        "text": " wear-off time"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Arcana",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds one additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Frenzy": [
       {
-        "text": "Gain 2.5% "
+        "text": "Gain "
       },
       {
-        "text": "Attack Speed ",
+        "text": "+2.5% Attack Speed",
         "color": "#FFE068"
       },
       {
-        "text": "when killing a mob. This effect can "
+        "text": " when hitting a mob. This effect can "
       },
       {
-        "text": "stack ",
+        "text": "stack",
         "color": "#FFEB07"
       },
       {
-        "text": "and lasts for a duration of time."
+        "text": " and lasts for a duration of time.\n1 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "4 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": ", "
       },
       {
-        "text": "4 max stacks",
-        "color": "#90FF00"
+        "text": "4 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": ", ",
-        "color": "$text"
+        "text": " wear-off time\n2 "
       },
       {
-        "text": "4 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "6 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": ", "
       },
       {
-        "text": "6 max stacks",
-        "color": "#90FF00"
+        "text": "6 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": ", ",
-        "color": "$text"
+        "text": " wear-off time\n3 "
       },
       {
-        "text": "6 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "8 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": ", "
       },
       {
-        "text": "8 max stacks",
-        "color": "#90FF00"
+        "text": "8 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": ", ",
-        "color": "$text"
+        "text": " wear-off time\n4 "
       },
       {
-        "text": "8 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "10 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": ", "
       },
       {
-        "text": "10 max stacks",
-        "color": "#90FF00"
+        "text": "10 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": ", ",
-        "color": "$text"
+        "text": " wear-off time"
       },
       {
-        "text": "10 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "\n\n"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Frenzy",
+        "color": "gold"
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "adds two additional max "
       },
       {
-        "text": "11 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "11 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "12 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "12 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "13 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "13 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "14 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "14 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "15 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "16 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "17 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "18 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "19 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "20 max stacks",
-        "color": "#90FF00"
-      },
-      {
-        "text": ", ",
-        "color": "$text"
-      },
-      {
-        "text": "15 second wear-off time\n",
-        "color": "#90FF00"
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Strength": [
@@ -8073,185 +2557,208 @@
         "text": "Increases your "
       },
       {
-        "text": "attack damage ",
-        "color": "#F6CD0E"
+        "text": "Attack Damage",
+        "color": "#C23627"
       },
       {
-        "text": "by applying the "
+        "text": ".\n\n1 "
       },
       {
-        "text": "Strength ",
-        "color": "green"
+        "text": "+4",
+        "color": "#C23627"
       },
       {
-        "text": "effect permanently\n\n"
+        "text": "\n2 "
       },
       {
-        "text": "Every level of the Strength effect increases attack damage by "
+        "text": "+8",
+        "color": "#C23627"
       },
       {
-        "text": "+3",
-        "color": "#F6CD0E"
+        "text": "\n3 "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "+14",
+        "color": "#C23627"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+1\n",
-        "color": "green"
+        "text": "+20",
+        "color": "#C23627"
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+2\n",
-        "color": "green"
+        "text": "Overlevels of the "
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": "Might",
+        "color": "gold"
       },
       {
-        "text": "+3\n",
-        "color": "green"
+        "text": " talent "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "+4\n",
-        "color": "green"
+        "text": "+6 Attack Damage",
+        "color": "#C23627"
+      }
+    ],
+    "Lingering_Fumes": [
+      {
+        "text": "Increases your "
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "Effect Duration",
+        "color": "#ADC9FF"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": ", making your buffs, debuffs and clouds last longer.\n\n1 "
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "+10%",
+        "color": "#ADC9FF"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "+5\n",
-        "color": "green"
+        "text": "+20%",
+        "color": "#ADC9FF"
       },
       {
-        "text": "6 ",
-        "color": "$text"
+        "text": "\n3 "
       },
       {
-        "text": "+6\n",
-        "color": "green"
+        "text": "+30%",
+        "color": "#ADC9FF"
       },
       {
-        "text": "7 ",
-        "color": "$text"
+        "text": "\n4 "
       },
       {
-        "text": "+7\n",
-        "color": "green"
+        "text": "+40%",
+        "color": "#ADC9FF"
       },
       {
-        "text": "8 ",
-        "color": "$text"
+        "text": "\n\n"
       },
       {
-        "text": "+8\n",
-        "color": "green"
+        "text": "Overlevels of the "
       },
       {
-        "text": "9 ",
-        "color": "$text"
+        "text": "Lingering Fumes",
+        "color": "gold"
       },
       {
-        "text": "+9\n",
-        "color": "green"
+        "text": " talent "
       },
       {
-        "text": "10 ",
-        "color": "$text"
+        "text": "add "
       },
       {
-        "text": "+10\n",
-        "color": "green"
+        "text": "+10% Effect Duration",
+        "color": "#85edfe"
+      }
+    ],
+    "Lucky_Momentum": [
+      {
+        "text": "Gain "
       },
       {
-        "text": "11 ",
-        "color": "$text"
+        "text": "+1% Lucky Hit Chance",
+        "color": "#6DF5A3"
       },
       {
-        "text": "+12\n",
-        "color": "green"
+        "text": " when hitting a mob. This effect can "
       },
       {
-        "text": "12 ",
-        "color": "$text"
+        "text": "stack",
+        "color": "#FFEB07"
       },
       {
-        "text": "+14\n",
-        "color": "green"
+        "text": " and lasts for a duration of time.\n\n1 "
       },
       {
-        "text": "13 ",
-        "color": "$text"
+        "text": "2 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+16\n",
-        "color": "green"
+        "text": ", "
       },
       {
-        "text": "14 ",
-        "color": "$text"
+        "text": "4 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "+18\n",
-        "color": "green"
+        "text": " wear-off time\n2 "
       },
       {
-        "text": "15 ",
-        "color": "$text"
+        "text": "4 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+20\n",
-        "color": "green"
+        "text": ", "
       },
       {
-        "text": "16 ",
-        "color": "$text"
+        "text": "6 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "+22\n",
-        "color": "green"
+        "text": " wear-off time\n3 "
       },
       {
-        "text": "17 ",
-        "color": "$text"
+        "text": "6 Max Stacks",
+        "color": "#FFEB07"
       },
       {
-        "text": "+25\n",
-        "color": "green"
+        "text": ", "
       },
       {
-        "text": "18 ",
-        "color": "$text"
+        "text": "8 seconds",
+        "color": "#7024AC"
       },
       {
-        "text": "+30\n",
-        "color": "green"
+        "text": " wear-off time\n4 "
+      },
+      {
+        "text": "8 Max Stacks",
+        "color": "#FFEB07"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "10 seconds",
+        "color": "#7024AC"
+      },
+      {
+        "text": " wear-off time"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Lucky Momentum",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "adds two additional max "
+      },
+      {
+        "text": "stack",
+        "color": "#36ffa7"
       }
     ],
     "Blizzard": [
@@ -8259,264 +2766,98 @@
         "text": "Hitting a "
       },
       {
-        "text": "chilled ",
+        "text": "chilled",
         "color": "#2FE1FA"
       },
       {
-        "text": "mob has a "
+        "text": " mob has a "
       },
       {
-        "text": "chance ",
-        "color": "yellow"
+        "text": "chance",
+        "color": "#FFEB07"
       },
       {
-        "text": "of causing a "
+        "text": " to trigger a "
       },
       {
         "text": "Frost Nova",
         "color": "#23D2BB"
       },
       {
-        "text": "to be cast around the target. \nThe Frost Nova scales in"
+        "text": " around the target.\n\n1 "
       },
       {
-        "text": "level ",
-        "color": "#C1579D"
+        "text": "10%",
+        "color": "#FFEB07"
       },
       {
-        "text": "with this talent and does not require you to have the ability learnt."
+        "text": " - "
       },
       {
-        "text": "\n\n",
-        "color": "$text"
+        "text": "Level 1 Nova",
+        "color": "#23D2BB"
       },
       {
-        "text": "1 ",
-        "color": "$text"
+        "text": "\n2 "
       },
       {
-        "text": "+10.0%",
-        "color": "#90FF00"
+        "text": "15%",
+        "color": "#FFEB07"
       },
       {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
+        "text": " - "
       },
       {
-        "text": "2 ",
-        "color": "$text"
+        "text": "Level 2 Nova",
+        "color": "#23D2BB"
       },
       {
-        "text": "+15.0%",
-        "color": "#90FF00"
+        "text": "\n3 "
       },
       {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
+        "text": "20%",
+        "color": "#FFEB07"
       },
       {
-        "text": "3 ",
-        "color": "$text"
+        "text": " - "
       },
       {
-        "text": "+20.0%",
-        "color": "#90FF00"
+        "text": "Level 3 Nova",
+        "color": "#23D2BB"
       },
       {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
+        "text": "\n4 "
       },
       {
-        "text": "4 ",
-        "color": "$text"
+        "text": "25%",
+        "color": "#FFEB07"
       },
       {
-        "text": "+25.0%",
-        "color": "#90FF00"
+        "text": " - "
       },
       {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
+        "text": "Level 4 Nova",
+        "color": "#23D2BB"
       },
       {
-        "text": "\n\nOverlevels\n",
-        "color": "#EFBF04"
+        "text": "\n\n"
       },
       {
-        "text": "------------",
-        "color": "#EFBF04"
+        "text": "Overlevels of the "
       },
       {
-        "text": "\n",
-        "color": "$text"
+        "text": "Frozen Impact",
+        "color": "gold"
       },
       {
-        "text": "5 ",
-        "color": "$text"
+        "text": " talent "
       },
       {
-        "text": "+30.0%",
-        "color": "#90FF00"
+        "text": "adds an additional level to the "
       },
       {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "6 ",
-        "color": "$text"
-      },
-      {
-        "text": "+35.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "7 ",
-        "color": "$text"
-      },
-      {
-        "text": "+40.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "8 ",
-        "color": "$text"
-      },
-      {
-        "text": "+45.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "9 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "10 ",
-        "color": "$text"
-      },
-      {
-        "text": "+55.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "11 ",
-        "color": "$text"
-      },
-      {
-        "text": "+60.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "12 ",
-        "color": "$text"
-      },
-      {
-        "text": "+65.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "13 ",
-        "color": "$text"
-      },
-      {
-        "text": "+70.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "14 ",
-        "color": "$text"
-      },
-      {
-        "text": "+75.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "15 ",
-        "color": "$text"
-      },
-      {
-        "text": "+80.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "16 ",
-        "color": "$text"
-      },
-      {
-        "text": "+85.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "17 ",
-        "color": "$text"
-      },
-      {
-        "text": "+90.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
-      },
-      {
-        "text": "18 ",
-        "color": "$text"
-      },
-      {
-        "text": "+95.0%",
-        "color": "#90FF00"
-      },
-      {
-        "text": " - Frost Nova\n",
-        "color": "#90FF00"
+        "text": "Frost Nova",
+        "color": "#2FE1FA"
       }
     ]
   }

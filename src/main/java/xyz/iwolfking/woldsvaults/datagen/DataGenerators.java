@@ -95,6 +95,7 @@ public class DataGenerators {
             gen.addProvider(new ModCompanionRelicsProvider(gen));
             gen.addProvider(new ModImplicitDeckCoresProvider(gen));
             gen.addProvider(new ModPentacleProvider(gen));
+            gen.addProvider(new ModTalentStyleProvider(gen));
             gen.addProvider(new ModEntityTagProvider(gen, efh));
         }
     }

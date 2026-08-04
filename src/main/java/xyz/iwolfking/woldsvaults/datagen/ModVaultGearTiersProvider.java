@@ -1,13 +1,18 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.TalentsConfig;
+import iskallia.vault.config.TalentsGUIConfig;
 import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.ability.AbilityFloatValueAttribute;
 import iskallia.vault.gear.attribute.ability.AbilityLevelAttribute;
 import iskallia.vault.gear.attribute.custom.effect.EffectCloudAttribute;
+import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
 import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
+import iskallia.vault.init.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
@@ -127,7 +132,63 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.SLOWNESS_CLOUD_ON_HIT);
         });
 
+        addToAllOffhands(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.TALENT_LEVEL, "ModTalentLevel", "u_all_talent_levels", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(50, -1, 200, new TalentLevelAttribute.Config(TalentLevelAttribute.ALL_TALENTS, 1));
+            });
+        });
+
+        ModConfigs.TALENTS_GUI = new TalentsGUIConfig().readConfig();
+        addTo(ModItems.VAULT_NECKLACE, VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {
+            ModConfigs.TALENTS_GUI.getStyles().keySet().forEach(skill -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.TALENT_LEVEL, "ModTalentLevel", "u_talent_level_" + skill.toLowerCase(), List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 200, new TalentLevelAttribute.Config(skill, 2));
+                    vaultGearModifierTiersBuilder.add(50, -1, 200, new TalentLevelAttribute.Config(skill, 3));
+                    vaultGearModifierTiersBuilder.add(90, -1, 200, new TalentLevelAttribute.Config(skill, 4));
+                });
+            });
+        });
+
         addToAllStandardGearConfigs(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, vaultGearAttributeGroupBuilder -> {
+            //U22 Additions
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.PHOENIX, "ModPhoenix", "u_phoenix", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 500, 1, 3, 1);
+            });
+            vaultGearAttributeGroupBuilder
+                    .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModAbility", "mod_jav_scatter_level", List.of(), vaultGearModifierTiersBuilder -> {
+                        vaultGearModifierTiersBuilder.add(0, -1, 166, new AbilityLevelAttribute.Config("Javelin_Scatter", 1));
+                        vaultGearModifierTiersBuilder.add(25, -1, 166, new AbilityLevelAttribute.Config("Javelin_Scatter", 2));
+                        vaultGearModifierTiersBuilder.add(50, -1, 166, new AbilityLevelAttribute.Config("Javelin_Scatter", 3));
+                    });
+
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.JESTER_LUCKY_HIT_CHANCE_PERCENTILE, "BaseBonusPool", "jester_lucky_hit", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 250, 0.05, 0.1, 0.01);
+                vaultGearModifierTiersBuilder.add(50, -1, 250, 0.06, 0.15, 0.01);
+            });
+
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.BROODMOTHER_WEB, "ModEnhancement", "u_broodmother_web", List.of(), vaultGearModifierTiersBuilder -> {
+               addBroodmotherWeb(vaultGearModifierTiersBuilder, 0, -1, 250, 0.2f, 0.7f, 0.05f, 0.2f, 0.6f, 0.05f);
+               addBroodmotherWeb(vaultGearModifierTiersBuilder, 65, -1, 250, 0.2f, 0.7f, 0.05f, 0.6f, 1.2f, 0.05f);
+            });
+
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "uSaturation", "u_saturation", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 500, MobEffects.SATURATION, 1);
+            });
+
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.CRITICAL_HIT_TAKEN_REDUCTION, "uCritHitImplicit", "u_critical_hit_mitigation", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 250, 0.05, 0.2, 0.01);
+                vaultGearModifierTiersBuilder.add(0, -1, 250, 0.21, 0.5, 0.01);
+            });
+
+            //Wold's Additions
+            vaultGearAttributeGroupBuilder
+                    .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "ModEffect", "u_lucky_lucky", List.of(), vaultGearModifierTiersBuilder -> {
+                        vaultGearModifierTiersBuilder.add(0, -1, 10, MobEffects.LUCK.getRegistryName(), 1);
+                    });
+            vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.IMMORTALITY, "ModImmortality", "u_immortal_durability", List.of(), vaultGearModifierTiersBuilder -> {
+                vaultGearModifierTiersBuilder.add(0, -1, 100, 1.0F, 1.0F, 0.01F);
+            });
+
             vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EXECUTION_DAMAGE, "ModOnHitType", "mod_corrupt_execution_damage", List.of(), vaultGearModifierTiersBuilder -> {
                 vaultGearModifierTiersBuilder.add(0, -1, 100, 0.03F, 0.05F, 0.01F);
                 vaultGearModifierTiersBuilder.add(50, -1, 100, 0.05F, 0.07F, 0.01F);
@@ -195,6 +256,14 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
             }).build();
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "ModEffect", "u_lucky_lucky", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, MobEffects.LUCK.getRegistryName(), 1);
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "ModEffect", "u_cursed_unlucky", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, MobEffects.UNLUCK.getRegistryName(), 1);
+                        });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.TALENT_LEVEL, "ModPrimeAmpLevel", "mod_prime_amp_level", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, new TalentLevelAttribute.Config("Prime_Amplification", 1));

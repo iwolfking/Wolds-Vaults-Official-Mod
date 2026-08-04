@@ -14,6 +14,7 @@ public class WoldEventHelper {
                 && !ActiveFlags.IS_THORNS_REFLECTING.isSet()
                 && !ActiveFlags.IS_SMITE_ATTACKING.isSet()
                 && !ActiveFlags.IS_GLACIAL_SHATTER_ATTACKING.isSet()
+                && !ActiveFlags.IS_NECROMANCY_MINION_ATTACKING.isSet()
                 ;
     }
 }

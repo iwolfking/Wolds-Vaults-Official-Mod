@@ -1,0 +1,297 @@
+{
+  "SKILL_GATES": {
+    "entries": {
+      "Applied Botanics": {
+        "dependsOn": [
+          {
+            "id": "Botania",
+            "type": "constant"
+          },
+          {
+            "id": "Applied Energistics",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Extra Storage": {
+        "dependsOn": [
+          {
+            "id": "Refined Storage",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Mega Cells": {
+        "dependsOn": [
+          {
+            "id": "Mekanism",
+            "type": "constant"
+          },
+          {
+            "id": "Applied Energistics",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Misc Bag Upgrades": {
+        "dependsOn": [
+          {
+            "id": "Backpacks",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "QuarryPlus": {
+        "dependsOn": [
+          {
+            "id": "Oops, All Iron Mods",
+            "type": "constant"
+          },
+          {
+            "id": "Digital Miner",
+            "type": "constant"
+          },
+          {
+            "id": "Create Ore Excavation",
+            "type": "constant"
+          },
+          {
+            "id": "Mining Gadgets",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Create Diesel Generators": {
+        "dependsOn": [
+          {
+            "id": "Create",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Create Ore Excavation": {
+        "dependsOn": [
+          {
+            "id": "Create",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Incorporeal": {
+        "dependsOn": [
+          {
+            "id": "Botania",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Applied Mekanistics": {
+        "dependsOn": [
+          {
+            "id": "Mekanism",
+            "type": "constant"
+          },
+          {
+            "id": "Applied Energistics",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Create Mechanical Extruder": {
+        "dependsOn": [
+          {
+            "id": "Create",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Compressed Creativity": {
+        "dependsOn": [
+          {
+            "id": "Create",
+            "type": "constant"
+          },
+          {
+            "id": "PneumaticCraft",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Cable Tiers": {
+        "dependsOn": [
+          {
+            "id": "Refined Storage",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Create Crafts and Additions": {
+        "dependsOn": [
+          {
+            "id": "Create",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Advanced Peripherals": {
+        "dependsOn": [
+          {
+            "id": "ComputerCraft",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Bag Inception": {
+        "dependsOn": [
+          {
+            "id": "Big Backpacks",
+            "type": "constant"
+          },
+          {
+            "id": "Soul Harvester",
+            "type": "constant"
+          },
+          {
+            "id": "Stack Upgrading",
+            "type": "constant"
+          },
+          {
+            "id": "Auto Feeding",
+            "type": "constant"
+          },
+          {
+            "id": "Misc Bag Upgrades",
+            "type": "constant"
+          },
+          {
+            "id": "Scanner",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Botanical Machinery": {
+        "dependsOn": [
+          {
+            "id": "Botania",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Mystical Agriculture": {
+        "dependsOn": [
+          {
+            "id": "Botania",
+            "type": "constant"
+          },
+          {
+            "id": "Bonsai Pots",
+            "type": "constant"
+          },
+          {
+            "id": "Botany Pots",
+            "type": "constant"
+          },
+          {
+            "id": "Botanical Machinery",
+            "type": "constant"
+          },
+          {
+            "id": "Botania Flux Field",
+            "type": "constant"
+          },
+          {
+            "id": "Incorporeal",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Applied Compatability": {
+        "dependsOn": [
+          {
+            "id": "Applied Energistics",
+            "type": "constant"
+          },
+          {
+            "gates": [
+              {
+                "id": "Mekanism",
+                "type": "constant"
+              },
+              {
+                "id": "Botania",
+                "type": "constant"
+              }
+            ],
+            "type": "either"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      },
+      "Draconic Evolution": {
+        "dependsOn": [
+          {
+            "id": "RFTools Power",
+            "type": "constant"
+          },
+          {
+            "id": "Powah",
+            "type": "constant"
+          },
+          {
+            "id": "Flux Networks",
+            "type": "constant"
+          },
+          {
+            "id": "Thermal Dynamos",
+            "type": "constant"
+          },
+          {
+            "id": "Mekanism Generators",
+            "type": "constant"
+          },
+          {
+            "id": "Botania Flux Field",
+            "type": "constant"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": true
+      }
+    }
+  }
+}

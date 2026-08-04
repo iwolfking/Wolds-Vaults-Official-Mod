@@ -99,34 +99,42 @@ public class UnhingedScavengerBingoObjective extends ScavengerBingoObjective {
 
         CommonEvents.CHEST_LOOT_GENERATION.post().register(this, data -> {
             if (data.getPlayer().level == world) {
-                ((ScavengerBingoObjectiveAccessor)this).callCountItems(data.getLoot(), vault);
+                for(ItemStack stack : data.getLoot()) {
+                    ((ScavengerBingoObjectiveAccessor)this).callTryCountAndVoid(stack);
+                }
             }
         });
         CommonEvents.COIN_STACK_LOOT_GENERATION.post().register(this, data -> {
-            if (data.getPlayer().level == world) {
-                ((ScavengerBingoObjectiveAccessor)this).callCountItems(data.getLoot(), vault);
+            for(ItemStack stack : data.getLoot()) {
+                ((ScavengerBingoObjectiveAccessor)this).callTryCountAndVoid(stack);
             }
         });
         CommonEvents.ORE_LOOT_GENERATION_EVENT.register(this, data -> {
-            if (data.getPlayer() != null && data.getPlayer().level == world) {
-                ((ScavengerBingoObjectiveAccessor)this).callCountItemsFromWorld(data.getLoot());
+            for(ItemStack stack : data.getLoot()) {
+                ((ScavengerBingoObjectiveAccessor)this).callTryCountAndVoid(stack);
             }
         });
         CommonEvents.ENTITY_DROPS.register(this, event -> {
             if (event.getEntityLiving().level == world) {
                 for (ItemEntity itemEntity : event.getDrops()) {
-                    ((ScavengerBingoObjectiveAccessor)this).callCountItemFromWorld(itemEntity.getItem());
+                    if (((ScavengerBingoObjectiveAccessor)this).callTryCountAndVoid(itemEntity.getItem())) {
+                        itemEntity.discard();
+                    }
                 }
             }
         });
         CommonEvents.ITEM_SCAVENGE_TASK.register(this, data -> {
             if (data.getWorld() == world) {
-                ((ScavengerBingoObjectiveAccessor)this).callCountItemsFromWorld(data.getItems());
+                for(ItemStack stack : data.getItems()) {
+                    ((ScavengerBingoObjectiveAccessor)this).callTryCountAndVoid(stack);
+                }
             }
         });
         CommonEvents.PLAYER_ENTITY_PICKUP.register(this, event -> {
             if (event.getPlayer().level == world) {
-                ((ScavengerBingoObjectiveAccessor)this).callCountItem(event.getItem().getItem(), vault);
+                if(((ScavengerBingoObjectiveAccessor)this).callTryCountAndVoid(event.getItem().getItem())) {
+                    event.getItem().discard();
+                }
             }
         });
         CommonEvents.GRID_GATEWAY_UPDATE.register(this, data -> {

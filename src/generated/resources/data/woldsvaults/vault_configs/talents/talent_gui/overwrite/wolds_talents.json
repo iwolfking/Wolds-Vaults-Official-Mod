@@ -1,0 +1,376 @@
+{
+  "styles": {
+    "Prudent": {
+      "x": 372,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/potion_amount"
+    },
+    "Frostbite": {
+      "x": 180,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/frostbite"
+    },
+    "Intelligence": {
+      "x": 308,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/intelligence"
+    },
+    "Treasure_Sense": {
+      "x": 500,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/treasure_hunter"
+    },
+    "Methodical": {
+      "x": -140,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/methodical"
+    },
+    "Treasure_Seeker": {
+      "x": 500,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/treasure_seeker"
+    },
+    "Fanged_Strike": {
+      "x": 52,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/fanged_strike"
+    },
+    "Depleted": {
+      "x": -140,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/depleted"
+    },
+    "Fatal_Strike": {
+      "x": -12,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/fatal_strike_damage"
+    },
+    "Mana_Harvest": {
+      "x": 116,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/discipline"
+    },
+    "Hunters_Instinct": {
+      "x": 244,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/hunters_instinct"
+    },
+    "Sorcery": {
+      "x": 500,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/sorcery"
+    },
+    "Life_Steal": {
+      "x": 52,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/life_steal"
+    },
+    "Cleave": {
+      "x": 564,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/cleave"
+    },
+    "Clean_Escape": {
+      "x": -204,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/clean_escape"
+    },
+    "Farmer_Twerker": {
+      "x": 180,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/farmer"
+    },
+    "Execution_Strike": {
+      "x": -12,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/execution_strike"
+    },
+    "Daze": {
+      "x": -76,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/dazed"
+    },
+    "Medic": {
+      "x": 116,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/medic"
+    },
+    "Horde_Mastery": {
+      "x": 436,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/horde_mastery"
+    },
+    "Quickening": {
+      "x": 436,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/quickening"
+    },
+    "Heart_Fragments": {
+      "x": 52,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/well_fit"
+    },
+    "Mana_Steal": {
+      "x": 116,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/mana_steal"
+    },
+    "Prime_Amplification": {
+      "x": 308,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/prime_amplification"
+    },
+    "Ransack": {
+      "x": -204,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/ransack"
+    },
+    "Arcana": {
+      "x": 500,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/arcana"
+    },
+    "Stack_Master": {
+      "x": 308,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/stack_master"
+    },
+    "Mind_Meld": {
+      "x": 308,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/mind_meld"
+    },
+    "Lucky_Momentum": {
+      "x": 180,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/luck_momentum"
+    },
+    "Nucleus": {
+      "x": -76,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/nucleus"
+    },
+    "Stoneskin": {
+      "x": -12,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/stone_skin"
+    },
+    "Battle_Trance": {
+      "x": -332,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/battle_trance"
+    },
+    "Arcane_Strike": {
+      "x": 116,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/arcane_strike"
+    },
+    "Trap_Disarm": {
+      "x": -140,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/trap_disarm"
+    },
+    "Champion_Mastery": {
+      "x": 436,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/champion_mastery"
+    },
+    "Haste": {
+      "x": -204,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/haste"
+    },
+    "Assassin_Mastery": {
+      "x": 500,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/assassin_mastery"
+    },
+    "Healthy_Elixir": {
+      "x": 396,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/healthy_elixir"
+    },
+    "Bountiful_Harvest": {
+      "x": 564,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/bountiful_harvest"
+    },
+    "Purist": {
+      "x": -12,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/purist"
+    },
+    "Dungeon_Mastery": {
+      "x": 372,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/dungeon_mastery"
+    },
+    "Blight": {
+      "x": -76,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/blight"
+    },
+    "Lightning_Stun": {
+      "x": 244,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/lightning_stunned"
+    },
+    "Berserking": {
+      "x": -204,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/berserking"
+    },
+    "Voltaic_Impact": {
+      "x": 244,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/voltaic_impact"
+    },
+    "Momentum_Engine": {
+      "x": -268,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/momentum_engine"
+    },
+    "Speed": {
+      "x": -268,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/speed"
+    },
+    "Lunge": {
+      "x": -332,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/lunge"
+    },
+    "Toxic_Reaction": {
+      "x": -76,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/toxic_reaction"
+    },
+    "Executioner": {
+      "x": 180,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/executioner"
+    },
+    "Blazing": {
+      "x": -268,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/blazing"
+    },
+    "Ethereal": {
+      "x": 372,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/ethereal_ability"
+    },
+    "Lightning_Damage": {
+      "x": 244,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/lightning_damage"
+    },
+    "Witchery": {
+      "x": 436,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/witchery"
+    },
+    "Last_Stand": {
+      "x": -140,
+      "y": 320,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/last_stand"
+    },
+    "Healthy_Harvest": {
+      "x": 52,
+      "y": 80,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/supply_crates"
+    },
+    "Blood_Rush": {
+      "x": -140,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/bloodrush"
+    },
+    "Potent_Elixir": {
+      "x": 348,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/potent_elixir"
+    },
+    "Frenzy": {
+      "x": -204,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/frenzy"
+    },
+    "Strength": {
+      "x": -332,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/strength"
+    },
+    "Lingering_Fumes": {
+      "x": 244,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/lingering_fumes"
+    },
+    "Blizzard": {
+      "x": 180,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/blizzard"
+    }
+  }
+}

@@ -884,6 +884,209 @@
     ],
     "CORRUPTED_IMPLICIT": [
       {
+        "attribute": "the_vault:phoenix",
+        "group": "ModPhoenix",
+        "identifier": "the_vault:u_phoenix",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 500,
+            "value": {
+              "min": 1,
+              "max": 3,
+              "step": 1
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModAbility",
+        "identifier": "the_vault:mod_jav_scatter_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 166,
+            "value": {
+              "abilityKey": "Javelin_Scatter",
+              "levelChange": 1
+            }
+          },
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 166,
+            "value": {
+              "abilityKey": "Javelin_Scatter",
+              "levelChange": 2
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 166,
+            "value": {
+              "abilityKey": "Javelin_Scatter",
+              "levelChange": 3
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:jester_lucky_hit_chance_percentile",
+        "group": "BaseBonusPool",
+        "identifier": "the_vault:jester_lucky_hit",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 250,
+            "value": {
+              "min": 0.05,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 250,
+            "value": {
+              "min": 0.06,
+              "max": 0.15,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:broodmother_web",
+        "group": "ModEnhancement",
+        "identifier": "the_vault:u_broodmother_web",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 250,
+            "value": {
+              "chance": {
+                "step": 0.05,
+                "min": 0.2,
+                "max": 0.7
+              },
+              "percentAttackDamage": {
+                "step": 0.05,
+                "min": 0.2,
+                "max": 0.6
+              }
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 250,
+            "value": {
+              "chance": {
+                "step": 0.05,
+                "min": 0.2,
+                "max": 0.7
+              },
+              "percentAttackDamage": {
+                "step": 0.05,
+                "min": 0.6,
+                "max": 1.2
+              }
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect",
+        "group": "uSaturation",
+        "identifier": "the_vault:u_saturation",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 500,
+            "value": {
+              "effectKey": "minecraft:saturation",
+              "amplifier": 1
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:critical_hit_mitigation",
+        "group": "uCritHitImplicit",
+        "identifier": "the_vault:u_critical_hit_mitigation",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 250,
+            "value": {
+              "min": 0.05,
+              "max": 0.2,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 250,
+            "value": {
+              "min": 0.21,
+              "max": 0.5,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect",
+        "group": "ModEffect",
+        "identifier": "the_vault:u_lucky_lucky",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "effectKey": "minecraft:luck",
+              "amplifier": 1
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:immortality",
+        "group": "ModImmortality",
+        "identifier": "the_vault:u_immortal_durability",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 1.0,
+              "max": 1.0,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
         "attribute": "the_vault:execution_damage",
         "group": "ModOnHitType",
         "identifier": "the_vault:mod_corrupt_execution_damage",

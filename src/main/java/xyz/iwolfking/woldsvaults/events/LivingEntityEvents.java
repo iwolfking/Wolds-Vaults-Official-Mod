@@ -30,6 +30,7 @@ import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.gear.trinket.effects.MultiJumpTrinket;
 import iskallia.vault.item.gear.TrinketItem;
+import iskallia.vault.item.gear.VaultAxeItem;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.talent.type.JavelinConductTalent;
 import iskallia.vault.skill.tree.TalentTree;
@@ -71,9 +72,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
-import xyz.iwolfking.woldsvaults.api.util.MaxHealthDamageHelper;
-import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
-import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
+import xyz.iwolfking.woldsvaults.api.util.*;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.api.data.HexEffects;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
@@ -89,7 +88,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
-import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
 
 import java.util.Random;
 import java.util.function.BiConsumer;
@@ -129,7 +128,7 @@ public class LivingEntityEvents {
         if(entity.hasEffect(ModEffects.SNEAKY_GETAWAY)) {
             dodgeChance += SneakyGetawayAbility.SneakyGetawayEffect.getSneakyEtchingDodgeChance(entity);
         }
-        boolean dodge = entity.getRandom().nextDouble() < dodgeChance;
+        boolean dodge = entity.getRandom().nextDouble() <= Math.min(LuckHelper.getLuckAffectedChance(dodgeChance, entity), 0.95);
 
         event.setCanceled(dodge);
     }
@@ -278,9 +277,10 @@ public class LivingEntityEvents {
 
         if(event.getSource().getEntity() instanceof Player player) {
             float burnChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.BURNING_HIT_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+
             if(burnChance != 0) {
 
-                if(random.nextFloat() < burnChance) {
+                if(random.nextFloat() < LuckHelper.getLuckAffectedChance(burnChance, player)) {
                     PercentBurnEffect.applyPercentBurn(event.getEntityLiving(), player, 200);
                 }
 
@@ -328,6 +328,14 @@ public class LivingEntityEvents {
         level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
     }
 
+    @SubscribeEvent
+    public static void cleavingDamage(LivingHurtEvent event) {
+        if(event.getSource().getEntity() instanceof Player player && WoldEventHelper.isNormalAttack()) {
+            if(player.getMainHandItem().getItem() instanceof VaultAxeItem) {
+                event.setAmount(event.getAmount() + WoldsAxeSpecializationTalent.applyCleavingDamageBonus(player, event.getEntityLiving()));
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void reavingDamage(LivingHurtEvent event) {
@@ -464,7 +472,7 @@ public class LivingEntityEvents {
         if(event.getSource().getEntity() instanceof Player player) {
             float hexingChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.HEXING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
             if(hexingChance != 0) {
-                if(player.level.random.nextFloat() <= hexingChance) {
+                if(player.level.random.nextFloat() <= LuckHelper.getLuckAffectedChance(hexingChance, player)) {
                     MobEffectInstance instance = HexEffects.HEX_EFFECTS.getRandom(player.getRandom());
                     if(instance == null){
                         return;
@@ -532,7 +540,7 @@ public class LivingEntityEvents {
                     echoingChance = (float) Math.sqrt(echoingChance);
 
                 //roll chance
-                if(player.level.random.nextFloat() <= echoingChance) {
+                if(player.level.random.nextFloat() <= LuckHelper.getLuckAffectedChance(echoingChance, player)) {
                     LivingEntity target = event.getEntityLiving();
 
                     float newDamage;

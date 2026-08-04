@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.init;
 
+import iskallia.vault.effect.ThresholdEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffects;
@@ -28,6 +29,8 @@ public class ModEffects {
     public static final MobEffect ARMORED = new ArmoredPotionEffect();
     public static final MobEffect BLITZ = new BlitzPotionEffect();
     public static final MobEffect BLEED_OVERRIDE = new BleedOverrideEffect();
+    public static final ThresholdEffect BATTLESTAFF_BLOCKING = new ThresholdEffect(0xceffff, WoldsVaults.id("battlestaff_blocking"));
+    public static final ThresholdEffect MOMENTUM_ENGINE = new ThresholdEffect(0xceffff, WoldsVaults.id("momentum_engine"));
 
     public static void register(RegistryEvent.Register<MobEffect> event) {
         event.getRegistry().registerAll(  SHRINKING
@@ -46,6 +49,8 @@ public class ModEffects {
                                         , ARMORED
                                         , BLITZ
                                         , BLEED_OVERRIDE
+                                        , BATTLESTAFF_BLOCKING
+                                        , MOMENTUM_ENGINE
                                         );
     }
 }
