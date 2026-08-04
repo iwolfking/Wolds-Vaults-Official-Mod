@@ -1272,7 +1272,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     }
 
     private void gemBlockRecipe(String recipeId, Block gemBlock, Item gemItem, Consumer<FinishedRecipe> finishedRecipe) {
-        ShapedRecipeBuilder.shaped(gemBlock)
+        ShapedRecipeBuilder.shaped(gemBlock, 64)
                 .define('X', gemItem)
                 .define('O', iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)
                 .pattern(" X ")

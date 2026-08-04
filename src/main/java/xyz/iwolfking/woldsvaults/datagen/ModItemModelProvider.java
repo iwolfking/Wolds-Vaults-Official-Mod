@@ -267,6 +267,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         skillScroll("momentum_engine");
         skillScroll("lunge");
         skillScroll("stack_master");
+        skillScrollVanilla("voltaic_impact");
+        skillScrollVanilla("blood_rush");
+        skillScrollVanilla("executioner");
+        skillScrollVanilla("trap_disarm");
 
 
         deckCore(WoldsVaults.id("void_deck_core"));
@@ -363,6 +367,13 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
                         WoldsVaults.id("gui/skills/" + skillId));
+    }
+
+    public ItemModelBuilder skillScrollVanilla(String skillId) {
+        return getBuilder(VaultMod.id("item/skills/" + skillId).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("gui/skills/" + skillId));
     }
 
     public ItemModelBuilder researchToken(ResourceLocation icon) {

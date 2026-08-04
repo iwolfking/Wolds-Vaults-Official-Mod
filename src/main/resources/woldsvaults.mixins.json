@@ -534,7 +534,6 @@
     "vaulthunters.custom.MixinVaultEndScreen",
     "vaulthunters.custom.MixinVaultForgeScreen",
     "vaulthunters.custom.MixinVaultNecklaceItemRenderer",
-    "vaulthunters.fixes.MixinBoosterPackSelectionScreen",
     "vaulthunters.fixes.MixinCatalystItemRenderer",
     "vaulthunters.fixes.MixinClientLocale",
     "vaulthunters.fixes.MixinInputEvents",
