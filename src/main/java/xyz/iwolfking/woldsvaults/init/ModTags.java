@@ -11,4 +11,5 @@ public class ModTags {
     public static final TagKey<Item> ALCHEMY_INGREDIENT = TagKey.create(Registry.ITEM_REGISTRY, WoldsVaults.id("alchemy_ingredient"));
     public static final TagKey<Item> ALCHEMY_CATALYST = TagKey.create(Registry.ITEM_REGISTRY, WoldsVaults.id("alchemy_catalyst"));
     public static final TagKey<Item> BLOOD = TagKey.create(Registry.ITEM_REGISTRY, WoldsVaults.id("blood"));
+    public static final TagKey<Item> STACKABLE_SEALS = TagKey.create(Registry.ITEM_REGISTRY, WoldsVaults.id("stackable_seals"));
 }
