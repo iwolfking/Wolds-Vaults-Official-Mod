@@ -58,9 +58,11 @@ import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.entities.projectiles.MagicMissileEntity;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarConfigAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
+import xyz.iwolfking.woldsvaults.network.message.MagicMissileWarningMessage;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.lib.EntityAttributeModifierSettable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
@@ -386,6 +388,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     private void tickMagicMissile(RuneBossFights fights) {
         UUID bossId = objective.getOr(HyperVaultObjective.BOSS_ID, null);
         if (bossId == null || !(world.getEntity(bossId) instanceof LivingEntity boss) || !boss.isAlive()) {
+            if (this.missileChargeTicks >= 0) {
+                sendMissileWarning(fights, -1);
+            }
             this.missileChargeTicks = -1;
             this.missileCooldownTicks = HyperVaultObjective.cfg().getMagicMissileCooldownTicks();
             return;
@@ -402,15 +407,32 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 player.displayClientMessage(new TextComponent("The Hyperboss charges Magic Missile!")
                         .withStyle(ChatFormatting.AQUA), true);
             }
+            sendMissileWarning(fights, this.missileChargeTicks);
             return;
         }
         if (this.missileChargeTicks > 0) {
             this.missileChargeTicks--;
+            sendMissileWarning(fights, this.missileChargeTicks);
             spawnMissileChargeParticles(boss);
             return;
         }
         this.missileChargeTicks = -1;
+        sendMissileWarning(fights, -1);
         launchMissileVolley(boss, fights);
+    }
+
+    /**
+     * Streams the charge countdown to every living arena fighter so their boss bar can show
+     * the Wave-Blast-style Magic Missile timer; a negative remaining clears the display (sent
+     * once at launch and when the boss dies mid-charge — afterwards the client's own staleness
+     * window covers anyone the clear could not reach).
+     */
+    private void sendMissileWarning(RuneBossFights fights, int remainingTicks) {
+        int window = remainingTicks < 0 ? 0 : Math.max(1, HyperVaultObjective.cfg().getMagicMissileChargeTicks());
+        MagicMissileWarningMessage message = new MagicMissileWarningMessage(Math.max(0, remainingTicks), window);
+        for (ServerPlayer player : livingFighters(fights)) {
+            ModNetwork.sendToClient(message, player);
+        }
     }
 
     /** A tightening dark-blue ring around the boss while Magic Missile charges. */
