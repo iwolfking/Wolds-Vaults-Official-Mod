@@ -99,6 +99,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
             m("the_vault:weakened_t3", 1),
             m("the_vault:frenzy", 1),
             m("woldsvaults:witch_party", 1),
+            m("woldsvaults:unlucky_aura", 1),
             m("woldsvaults:ghost_party", 1));
 
     private static final List<PoolMember> MOB_ONHITS = List.of(
@@ -168,6 +169,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
             m("the_vault:unchallenge_stack", 3),
             m("the_vault:daycare", 1),
             m("the_vault:more_champ_drops", 1),
+            m("woldsvaults:super_lucky", 1),
             m("the_vault:companion_hunt", 1));
 
     private static final List<PoolMember> CONCEALED_CHAOS_BACKFIRE = List.of(
@@ -279,6 +281,8 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
             m("the_vault:mob_levitate", 2),
             m("the_vault:crit_mobs", 1),
             m("the_vault:unlucky", 4),
+            m("woldsvaults:unlucky_aura", 4),
+            m("woldsvaults:doomed_aura", 1),
             m("the_vault:lost_quantity", 4));
 
     @SafeVarargs
@@ -345,6 +349,8 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                             e.add("the_vault:rigged", 10);
                             e.add("the_vault:rending", 40);
                             e.add("the_vault:dangerous", 30);
+                            e.add("woldsvaults:doomed_aura", 4);
+                            e.add("woldsvaults:unlucky_aura", 10);
                         });
                     })
             );
@@ -393,6 +399,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                                 e.add("the_vault:weakened", 8);
                                 e.add("the_vault:brutal_mobs", 15);
                                 e.add("the_vault:slowed", 4);
+                                e.add("woldsvaults:unlucky_aura", 4);
                                 e.add("the_vault:empty", 240);
                             })
                     )
@@ -471,6 +478,8 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                                 e.add("the_vault:mini_mobs", 2);
                                 e.add("the_vault:big_mobs", 2);
                                 e.add("the_vault:champions_realm", 1);
+                                e.add("woldsvaults:super_lucky", 1);
+                                e.add("woldsvaults:unlucky_aura", 1);
                             })
                     )
             );
@@ -784,6 +793,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                                 e.add("woldsvaults:resistant_mobs", 4);
                                 e.add("woldsvaults:fleet_footed_mobs", 4);
                                 e.add("the_vault:ethereal_mobs", 1);
+                                e.add("woldsvaults:unlucky_aura", 1);
                             })
                     )
             );
@@ -816,6 +826,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                                 e.add("the_vault:rushed", 4);
                                 e.add("the_vault:xp_reduction", 4);
                                 e.add("the_vault:weak_heart", 4);
+                                e.add("woldsvaults:unlucky_aura", 1);
                             })
                     )
             );
@@ -895,6 +906,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                                 e.add("the_vault:soul_xp", 1);
                                 e.add("the_vault:soul_shards", 1);
                                 e.add("the_vault:swift", 1);
+                                e.add("the_vault:lucky", 1);
                             })
                     )
             );
@@ -1080,6 +1092,8 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                                 e.add("the_vault:pristine", 4);
                                 e.add("the_vault:disarming", 8);
                                 e.add("the_vault:protected", 4);
+                                e.add("the_vault:lucky", 3);
+
                             })
                     )
             );
@@ -1220,6 +1234,7 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                                 e.add("the_vault:catastrophic_brew", 1);
                                 e.add("the_vault:more_mobs2", 4);
                                 e.add("the_vault:weakened_t3", 2);
+                                e.add("woldsvaults:unlucky_aura", 1);
                             })
                     )
             );
@@ -1276,6 +1291,8 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                        e.add("the_vault:soul_surge", 1);
                        e.add("the_vault:prismatic", 1);
                        e.add("the_vault:champion_chance", 1);
+                       e.add("woldsvaults:challenge_fortune_small", 1);
+                       e.add("woldsvaults:omega_fortune_small", 1);
                        e.add("the_vault:dummy", 12);
                    });
                });
@@ -1301,6 +1318,9 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                        e.add("the_vault:looters_lair", 1);
                        e.add("the_vault:xp_gain", 1);
                        e.add("the_vault:oneup", 1);
+                       e.add("the_vault:lucky", 1);
+                       e.add("woldsvaults:challenge_fortune_small", 1);
+                       e.add("woldsvaults:omega_fortune_small", 1);
                        e.add("the_vault:dummy", 100);
                    });
                });
@@ -1324,6 +1344,9 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                        e.add("the_vault:serendipitous", 1);
                        e.add("the_vault:looters_lair", 1);
                        e.add("the_vault:oneup", 1);
+                       e.add("the_vault:lucky", 1);
+                       e.add("woldsvaults:challenge_fortune_small", 1);
+                       e.add("woldsvaults:omega_fortune_small", 1);
                        e.add("the_vault:dummy", 102);
                    });
                });

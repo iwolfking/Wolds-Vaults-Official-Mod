@@ -570,6 +570,7 @@ public class ModBlocks {
         registerBlockItem(event, OWNED_CRAFTING_TABLE_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.CONFIGURABLE_FLOATING_TEXT);
         registerBlockItem(event, TIME_TRIAL_TROPHY_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.TIME_TRIAL_TROPHY);
+        registerBlockItem(event, LOCKED_TREASURE_CONTAINER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         }));

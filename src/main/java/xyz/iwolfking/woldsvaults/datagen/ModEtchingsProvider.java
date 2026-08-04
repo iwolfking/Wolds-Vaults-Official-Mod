@@ -5,7 +5,6 @@ import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.config.BooleanFlagGenerator;
 import iskallia.vault.gear.attribute.config.FloatAttributeGenerator;
 import iskallia.vault.gear.attribute.config.IntegerAttributeGenerator;
-import iskallia.vault.gear.attribute.config.PairAttributeGenerator;
 import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractEtchingProvider;
@@ -24,7 +23,7 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
                     stringBasicListBuilder.add("Offensive");
                 });
-                etchingEntryBuilder.attribute(WoldsVaults.id("concentrate_drain"), "ModEtching", WoldsVaults.id("concenrate_drain_etching"), tierBasicListBuilder -> {
+                etchingEntryBuilder.attribute(WoldsVaults.id("concentrate_drain"), "ModEtching", WoldsVaults.id("concentrate_drain_etching"), tierBasicListBuilder -> {
                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, 4, 10, 1, new FloatAttributeGenerator.Range(0.02F, 0.04F, 0.01F)));
                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(4, 7, 10, 2, new FloatAttributeGenerator.Range(0.04F, 0.06F, 0.01F)));
                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(7, 12, 10, 3, new FloatAttributeGenerator.Range(0.06F, 0.08F, 0.01F)));
@@ -82,13 +81,23 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 }).minGreedTier(7);
             });
 
-            builder.addEtching(WoldsVaults.id("ingenium"), "Ingenium",  "<yellow>+1<gray> to all <aqua>Talent<gray> levels", 6084886, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+            builder.addEtching(WoldsVaults.id("ingenium"), "Ingenium",  "<yellow>Increases<gray> all <aqua>Talent<gray> levels", 6084886, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
                 etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
-                    stringBasicListBuilder.add("Defensive");
+                    stringBasicListBuilder.add("WAND");
                 });
                 etchingEntryBuilder.attribute(VaultMod.id("added_talent_level"), "ModEtching", WoldsVaults.id("ingenium_etching"), tierBasicListBuilder -> {
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, -1, 10, 1, new TalentLevelAttribute.Config(TalentLevelAttribute.ALL_TALENTS, 1)));
-                }).minGreedTier(0);
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(6, 9, 10, 1, new TalentLevelAttribute.Config(TalentLevelAttribute.ALL_TALENTS, 2)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new TalentLevelAttribute.Config(TalentLevelAttribute.ALL_TALENTS, 3)));
+                }).minGreedTier(6);
+            });
+
+            builder.addEtching(WoldsVaults.id("pyramid_scheme"), "Pyramid Scheme",  "Increases max stacking talent stacks by 25", 13338188, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+                etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
+                    stringBasicListBuilder.add("SWORD");
+                });
+                etchingEntryBuilder.attribute(WoldsVaults.id("additional_stacking_stacks"), "ModEtching", WoldsVaults.id("u_stacking_bonus"), tierBasicListBuilder -> {
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(4, -1, 10, 1, new IntegerAttributeGenerator.Range(25, 25, 1)));
+                }).minGreedTier(4);
             });
 
             builder.addEtching(WoldsVaults.id("prudent_chaos"), "Prudent Chaos",  "<#E87CAC>Prudent<gray> triggers a random <#FF7CAC>Brew<gray> effect when successful", 15236268, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {

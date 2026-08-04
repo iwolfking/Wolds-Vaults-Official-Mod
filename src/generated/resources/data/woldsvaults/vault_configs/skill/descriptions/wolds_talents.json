@@ -1,0 +1,985 @@
+{
+  "descriptions": {
+    "Momentum_Engine": [
+      {
+        "text": "While moving, builds up stacks of "
+      },
+      {
+        "text": "Momentum ",
+        "color": "#E9C375"
+      },
+      {
+        "text": "increasing your "
+      },
+      {
+        "text": "Movement Speed",
+        "color": "#f6cd0e"
+      },
+      {
+        "text": ". When at the maximum stacks, the next melee strike consumes all stacks to trigger a guaranteed "
+      },
+      {
+        "text": "Shocking Hit ",
+        "color": "#ffeb07"
+      },
+      {
+        "text": "with a modified radius and knockback. Remaining stationary or performing a melee strike will remove stacks."
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "5 max stacks, 4% Movement Speed per stack, stacking every 4 seconds. 6 Radius with 120% Knockback.",
+        "color": "#C7FFE7"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+5 max stacks, 4% Movement Speed per stack, stacking every 3.5 seconds. 7 Radius with 140% Knockback",
+        "color": "#C7FFE7"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "5 max stacks, 4% Movement Speed per stack, stacking every 3 seconds. 8 Radius with 160% Knockback.",
+        "color": "#C7FFE7"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Momentum Engine",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+0.1 second charge reduction and increased knock and size",
+        "color": "#C7FFE7"
+      }
+    ],
+    "Cleave": [
+      {
+        "text": "Enhances your "
+      },
+      {
+        "text": "Lucky Hits ",
+        "color": "#6DF5A3"
+      },
+      {
+        "text": "causing them to deal a portion of your "
+      },
+      {
+        "text": "damage ",
+        "color": "red"
+      },
+      {
+        "text": "in a radius around the target "
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+40%",
+        "color": "#d80000"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+60%",
+        "color": "#d80000"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+75%",
+        "color": "#d80000"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Cleave",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+5% increased damage and range",
+        "color": "#d80000"
+      }
+    ],
+    "Lunge": [
+      {
+        "text": "Increases the reach in which you hit with melee weapons with additional "
+      },
+      {
+        "text": "Attack Range",
+        "color": "#0D7A39"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+0.25 Attack Range",
+        "color": "#0D7A39"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+0.5 Attack Range",
+        "color": "#0D7A39"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+0.75 Attack Range",
+        "color": "#0D7A39"
+      },
+      {
+        "text": "\n\n4 "
+      },
+      {
+        "text": "+1 Attack Range",
+        "color": "#0D7A39"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Lunge",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+0.1 Attack Range",
+        "color": "#0D7A39"
+      }
+    ],
+    "Arcane_Strike": [
+      {
+        "text": "Enhances your "
+      },
+      {
+        "text": "Lucky Hits ",
+        "color": "#6DF5A3"
+      },
+      {
+        "text": "causing them to reduce all of your abilities "
+      },
+      {
+        "text": "cooldowns by a percentage of their maximum cooldown time"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+2% reduced cooldown",
+        "color": "#cbe6fe"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+3% reduced cooldown",
+        "color": "#cbe6fe"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+4% reduced cooldown",
+        "color": "#cbe6fe"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Arcane Cascade",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+0.5% reduced cooldown",
+        "color": "#cbe6fe"
+      }
+    ],
+    "Execution_Strike": [
+      {
+        "text": "Enhances your "
+      },
+      {
+        "text": "Lucky Hits ",
+        "color": "#6DF5A3"
+      },
+      {
+        "text": "causing them to deal a portion of the target's "
+      },
+      {
+        "text": "missing health ",
+        "color": "red"
+      },
+      {
+        "text": "as bonus "
+      },
+      {
+        "text": "damage ",
+        "color": "red"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+15% of missing health",
+        "color": "#d80000"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Executing Strike",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+1% increased missing health damage",
+        "color": "#d80000"
+      }
+    ],
+    "Blazing": [
+      {
+        "text": "Gain "
+      },
+      {
+        "text": "+4% Movement Speed ",
+        "color": "speed"
+      },
+      {
+        "text": "when hitting a mob. This effect can "
+      },
+      {
+        "text": "stack ",
+        "color": "yellow"
+      },
+      {
+        "text": "and lasts for a duration of time"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+4 Max Stacks",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "4 seconds ",
+        "color": "#4800FF"
+      },
+      {
+        "text": "wear-off time"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+6 Max Stacks",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "6 seconds ",
+        "color": "#4800FF"
+      },
+      {
+        "text": "wear-off time"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+8 Max Stacks",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "8 seconds ",
+        "color": "#4800FF"
+      },
+      {
+        "text": "wear-off time"
+      },
+      {
+        "text": "\n\n4 "
+      },
+      {
+        "text": "+10 Max Stacks",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "10 seconds ",
+        "color": "#4800FF"
+      },
+      {
+        "text": "wear-off time"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Blazing",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add one additional max "
+      },
+      {
+        "text": "stack",
+        "color": "yellow"
+      }
+    ],
+    "Medic": [
+      {
+        "text": "Improve your healing skills and sources with increased "
+      },
+      {
+        "text": "Healing Effectiveness",
+        "color": "#7DF587"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+10% Healing Effectiveness",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+20% Healing Effectiveness",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+30% Healing Effectiveness",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n4 "
+      },
+      {
+        "text": "+40% Healing Effectiveness",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n5 "
+      },
+      {
+        "text": "+50% Healing Effectiveness",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Medic",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+10% Healing Effectiveness",
+        "color": "#0D7A39"
+      }
+    ],
+    "Fanged_Strike": [
+      {
+        "text": "Enhances your "
+      },
+      {
+        "text": "Lucky Hits ",
+        "color": "#6DF5A3"
+      },
+      {
+        "text": "causing them to launch a Fang striking your target from below dealing a small portion of your attack's "
+      },
+      {
+        "text": "damage ",
+        "color": "#C23627"
+      },
+      {
+        "text": "and procs any on-hit effects again"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+5% damage",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+7.5% damage",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+10% damage",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Fanged Strike",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+1% increased damage",
+        "color": "#C23627"
+      }
+    ],
+    "Healthy_Elixir": [
+      {
+        "text": "Enhances the "
+      },
+      {
+        "text": "Healthiness ",
+        "color": "#7DF587"
+      },
+      {
+        "text": "of your "
+      },
+      {
+        "text": "Vault Potion ",
+        "color": "aqua"
+      },
+      {
+        "text": ", making it also heal an additional percentage of your "
+      },
+      {
+        "text": "max health",
+        "color": "#8EEDD9"
+      },
+      {
+        "text": ".\n\nDepending on the tier, the amount restored will be modified: "
+      },
+      {
+        "text": "\nVial: 50% reduction"
+      },
+      {
+        "text": "\nPotion: 25% reduction"
+      },
+      {
+        "text": "\nMixture: 0% reduction"
+      },
+      {
+        "text": "\nBrew: 50% increase"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+20%",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+30%",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+40%",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Healthy Elixir",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+3% max health restored",
+        "color": "#7DF587"
+      }
+    ],
+    "Healthy_Harvest": [
+      {
+        "text": "Adds a chance for "
+      },
+      {
+        "text": "Heart Fragments ",
+        "color": "#14ff02"
+      },
+      {
+        "text": "to generate when opening "
+      },
+      {
+        "text": "Vault Chests",
+        "color": "e88a12"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+4%",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+6%",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+8%",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n4 "
+      },
+      {
+        "text": "+10%",
+        "color": "#7DF587"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Supply Crates",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+1% additional chance",
+        "color": "#ffeb07"
+      }
+    ],
+    "Potent_Elixir": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Potency ",
+        "color": "#5ae09c"
+      },
+      {
+        "text": "of your "
+      },
+      {
+        "text": "Vault Potion ",
+        "color": "aqua"
+      },
+      {
+        "text": ", boosting its effect."
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+2 Absorption Hearts",
+        "color": "gold"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+4% Cooldown Reduction",
+        "color": "aqua"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+1 Casted Ability Levels",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+20 Flat Mana gained",
+        "color": "#0353d7"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+5 second effect duration",
+        "color": "#7024ac"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+1 effect level",
+        "color": "#FFB00F"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+4 Absorption Hearts",
+        "color": "gold"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+8% Cooldown Reduction",
+        "color": "aqua"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+2 Casted Ability Levels",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+40 Flat Mana gained",
+        "color": "#0353d7"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+10 second effect duration",
+        "color": "#7024ac"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+2 effect level",
+        "color": "#FFB00F"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+6 Absorption Hearts",
+        "color": "gold"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+12% Cooldown Reduction",
+        "color": "aqua"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+3 Casted Ability Levels",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+60 Flat Mana gained",
+        "color": "#0353d7"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+15 second effect duration",
+        "color": "#7024ac"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "+3 effect level",
+        "color": "#FFB00F"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Potent Elixir",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+2 Absorption Hearts, +2% Cooldown Reduction, +1 casted Ability Level, +20 Flat Mana Restored, +5% max mana restored, +3 second effect duration, or 1 effect amplifier every 3 levels",
+        "color": "gold"
+      }
+    ],
+    "Ransack": [
+      {
+        "text": "Breaking sliceable "
+      },
+      {
+        "text": "Vault Chests ",
+        "color": "#e88a12"
+      },
+      {
+        "text": "becomes faster with additional "
+      },
+      {
+        "text": "Dismantling Chance",
+        "color": "f99b21"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+50% Dismantle Chance",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+75% Dismantle Chance",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+100% Dismantle Chance",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n4 "
+      },
+      {
+        "text": "+125% Dismantle Chance",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Ransack",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+25% Dismantle Chance",
+        "color": "#f99b21"
+      }
+    ],
+    "Stack_Master": [
+      {
+        "text": "Enhances your "
+      },
+      {
+        "text": "Stacking ",
+        "color": "yellow"
+      },
+      {
+        "text": "talents, adding additional max stacks to any talents that use them"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+10 Additional Stacks",
+        "color": "gold"
+      }
+    ],
+    "Mind_Meld": [
+      {
+        "text": "Become one with your inner mana. Your "
+      },
+      {
+        "text": "Cooldown Reduction ",
+        "color": "#6DF5A3"
+      },
+      {
+        "text": " is increased the larger your "
+      },
+      {
+        "text": "max mana ",
+        "color": "#0353d7"
+      },
+      {
+        "text": "pool is"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+1% Cooldown Reduction ",
+        "color": "#6DF5A3"
+      },
+      {
+        "text": "for every "
+      },
+      {
+        "text": "50 max mana",
+        "color": "#0353d7"
+      }
+    ]
+  }
+}

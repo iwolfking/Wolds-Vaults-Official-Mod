@@ -126,6 +126,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModEntities.STAR_DEVOURER_ENTITY, "Star Beast");
         add(ModEntities.SINGULARITY_CREEPER, "Singularity Creeper");
         add(ModEntities.CUSTOM_FANGS, "Fangs");
+        add(iskallia.vault.init.ModEntities.NECROMANCY_SKELETON, "Skeleton Minion");
+        add(iskallia.vault.init.ModEntities.NECROMANCY_GOLEM, "Golem Minion");
+        add(iskallia.vault.init.ModEntities.NECROMANCY_BOLT, "Necromancy Bolt");
         add(ModItems.GREED_TREE_RESET_ITEM, "Greed Infused Neuralizer");
         add(ModItems.BLUE_VAULT_ESSENCE, "Blue Vault Essence");
         add(ModItems.GREEN_VAULT_ESSENCE, "Green Vault Essence");

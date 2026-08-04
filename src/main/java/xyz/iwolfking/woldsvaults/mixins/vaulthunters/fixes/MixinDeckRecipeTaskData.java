@@ -30,12 +30,4 @@ import java.util.stream.Collectors;
 @Mixin(value = DeckRecipeTaskData.class, remap = false)
 public abstract class MixinDeckRecipeTaskData extends SavedData {
 
-    /**
-     * @author iwolfking
-     * @reason Test
-     */
-    @Overwrite
-    public static void onConfigReload() {
-
-    }
 }

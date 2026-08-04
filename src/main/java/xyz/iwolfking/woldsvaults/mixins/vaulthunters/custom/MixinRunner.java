@@ -32,6 +32,7 @@ import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -42,6 +43,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
+import xyz.iwolfking.woldsvaults.api.util.LuckHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
@@ -59,6 +61,19 @@ import java.util.Random;
 
 @Mixin(value = Runner.class, remap = false)
 public abstract class MixinRunner extends Listener {
+
+    @Inject(method = "initServer", at = @At("TAIL"))
+    private void scaleSomeEventsWithLuck(VirtualWorld world, Vault vault, CallbackInfo ci) {
+        CommonEvents.CHEST_CATALYST_GENERATION.register(this, event -> {
+            event.setProbability(LuckHelper.getLuckAffectedChance((float) event.getProbability(), event.getPlayer()));
+        });
+        CommonEvents.CHEST_TRAP_GENERATION.register(this, event -> {
+            event.setProbability(LuckHelper.getLuckAffectedChanceInverse((float) event.getProbability(), event.getPlayer()));
+        });
+        CommonEvents.SOUL_SHARD_CHANCE.register(this, event -> {
+            event.setChance(LuckHelper.getLuckAffectedChance(event.getChance(), event.getKiller()));
+        });
+    }
 
     /**
      * CRATE_AWARD_EVENT is a server-global bus invoked twice (PRE/POST) for every crate awarded

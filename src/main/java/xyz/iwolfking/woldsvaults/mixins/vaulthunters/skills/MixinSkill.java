@@ -9,6 +9,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
 import xyz.iwolfking.woldsvaults.expertises.*;
 import xyz.iwolfking.woldsvaults.prestige.*;
+import xyz.iwolfking.woldsvaults.talent.bottle.HealthyElixirTalent;
+import xyz.iwolfking.woldsvaults.talent.bottle.PotentElixirTalent;
+import xyz.iwolfking.woldsvaults.talent.lib.StackOnHitAttributeTalent;
+import xyz.iwolfking.woldsvaults.talent.loot_trigger.HeartFragmentPerLootedContainerTalent;
+import xyz.iwolfking.woldsvaults.talent.lucky_hit.CooldownReductionLuckyHitTalent;
+import xyz.iwolfking.woldsvaults.talent.lucky_hit.ExecutionDamageLuckyHitTalent;
+import xyz.iwolfking.woldsvaults.talent.lucky_hit.FangedStrikeLuckyHitTalent;
+import xyz.iwolfking.woldsvaults.talent.special.MomentumEngineTalent;
+import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
+import xyz.iwolfking.woldsvaults.talent.stat_conversion.MindMeldTalent;
 
 @Mixin(value = Skill.Adapter.class, remap = false)
 public class MixinSkill extends TypeSupplierAdapter<Skill> {
@@ -44,5 +54,17 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("tool_capacity_power", ToolCapacityPrestigePower.class, ToolCapacityPrestigePower::new);
         this.register("crafting_potential_power", CraftingPotentialPrestigePower.class, CraftingPotentialPrestigePower::new);
         this.register("legendary_bounty_power", LegendaryBountyPower.class, LegendaryBountyPower::new);
+
+        //Talents
+        this.register("wold_axe_talent", WoldsAxeSpecializationTalent.class, WoldsAxeSpecializationTalent::new);
+        this.register("stack_on_hit_talent", StackOnHitAttributeTalent.class, StackOnHitAttributeTalent::new);
+        this.register("execution_lucky_hit", ExecutionDamageLuckyHitTalent.class, ExecutionDamageLuckyHitTalent::new);
+        this.register("cooldown_lucky_hit", CooldownReductionLuckyHitTalent.class, CooldownReductionLuckyHitTalent::new);
+        this.register("fanged_lucky_hit", FangedStrikeLuckyHitTalent.class, FangedStrikeLuckyHitTalent::new);
+        this.register("heart_fragment_on_loot", HeartFragmentPerLootedContainerTalent.class, HeartFragmentPerLootedContainerTalent::new);
+        this.register("mind_meld", MindMeldTalent.class, MindMeldTalent::new);
+        this.register("momentum_engine", MomentumEngineTalent.class, MomentumEngineTalent::new);
+        this.register("potent_elixir", PotentElixirTalent.class, PotentElixirTalent::new);
+        this.register("healthy_elixir", HealthyElixirTalent.class, HealthyElixirTalent::new);
     }
 }

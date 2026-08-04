@@ -73,6 +73,14 @@
                 "weight": 1
               },
               {
+                "value": "woldsvaults:challenge_fortune_small",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:omega_fortune_small",
+                "weight": 1
+              },
+              {
                 "value": "the_vault:dummy",
                 "weight": 12
               }
@@ -168,6 +176,18 @@
                 "weight": 1
               },
               {
+                "value": "the_vault:lucky",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:challenge_fortune_small",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:omega_fortune_small",
+                "weight": 1
+              },
+              {
                 "value": "the_vault:dummy",
                 "weight": 100
               }
@@ -252,6 +272,18 @@
               },
               {
                 "value": "the_vault:oneup",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:lucky",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:challenge_fortune_small",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:omega_fortune_small",
                 "weight": 1
               },
               {
