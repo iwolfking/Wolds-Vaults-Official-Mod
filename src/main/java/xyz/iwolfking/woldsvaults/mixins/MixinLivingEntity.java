@@ -24,8 +24,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.prestige.ReachPrestigePower;
 
@@ -71,6 +74,39 @@ public abstract class MixinLivingEntity extends Entity {
     @Shadow
     @Nullable
     public abstract MobEffectInstance getEffect(MobEffect pEffect);
+
+    /**
+     * Hyper-scoped NaN firewall (the vault-wraith health bug): any non-finite health write on
+     * an entity inside a hyper vault is sanitized to a finite value and logged with enough
+     * context to identify the injector. Outside hyper vaults the write passes through
+     * untouched (logged once per entity), so non-hyper behavior cannot change. The finiteness
+     * check is first, so the hot path costs one comparison.
+     */
+    @ModifyVariable(method = "setHealth", at = @At("HEAD"), argsOnly = true)
+    private float woldsVaults$sanitizeNonFiniteHealth(float health) {
+        if (Float.isFinite(health) || this.level.isClientSide) {
+            return health;
+        }
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (!HyperVaultEvents.isInHyperVault(self)) {
+            if (this.addTag("woldsvaults_nonfinite_health_seen")) {
+                WoldsVaults.LOGGER.error(
+                        "Non-finite health write ({}) on {} outside a hyper vault — left untouched (NaN guards are hyper-scoped).",
+                        health, this.getType().getRegistryName());
+            }
+            return health;
+        }
+        float previous = self.getHealth();
+        float sanitized;
+        if (Float.isNaN(health)) {
+            sanitized = Float.isFinite(previous) && previous > 0.0F ? previous : 1.0F;
+        } else {
+            sanitized = health > 0.0F ? Float.MAX_VALUE : 0.0F;
+        }
+        WoldsVaults.LOGGER.error("HYPER NaN-guard: sanitized health write {} -> {} on {} (was {}, max {}).",
+                health, sanitized, this.getType().getRegistryName(), previous, self.getMaxHealth());
+        return sanitized;
+    }
 
     // Prestige
     @Inject(method = "getAttributeValue", at = @At("HEAD"), cancellable = true)

@@ -104,6 +104,15 @@ public final class HyperModifierPolicy {
     private static final ResourceLocation MANA_LEAK = ResourceLocation.parse("the_vault:mana_leak");
     private static final ResourceLocation FRENZY = ResourceLocation.parse("the_vault:frenzy");
 
+    /**
+     * Enchanted-crystal EVENTS (not modifiers, so the pool ban cannot reach them) that must
+     * never fire in a hyper vault; EnchantedVaultModifier drops the proc with a log when the
+     * vault is hyper. mob_invisibility blanket-applies Invisibility to every nearby mob — the
+     * exact effect the phantasmal_mobs pool ban exists to keep out.
+     */
+    private static final Set<ResourceLocation> BANNED_ENCHANTED_EVENTS = Set.of(
+            WoldsVaults.id("mob_invisibility"));
+
     private HyperModifierPolicy() {
     }
 
@@ -112,16 +121,23 @@ public final class HyperModifierPolicy {
         return BANNED.contains(modifierId);
     }
 
+    /** True when this enchanted-crystal event may not fire in hyper vaults. */
+    public static boolean isBannedEnchantedEvent(ResourceLocation eventId) {
+        return eventId != null && BANNED_ENCHANTED_EVENTS.contains(eventId);
+    }
+
     /**
      * The cycle-aware stack cap for a modifier id (MAX_VALUE = uncapped). Mana Leak (-2000%
-     * mana regen per stack — one is punishment enough early) allows one stack plus one per 3
-     * cycles. Frenzy (+200% to ALL player damage per stack under the MixinMobFrenzyModifier
-     * rework — uncapped it outgrows the boss's own escalation and ruins the balance) allows
-     * one stack through cycle 4, then one more every 4 cycles.
+     * mana regen per stack) allows no stacks at all before cycle 3, then one per 3 cycles
+     * (first at cycle 3, a second at cycle 6, ...) — the chaos dump replaces a capped roll
+     * with another modifier and the brutal-kill path short-circuits before spending budget,
+     * so the early lockout wastes nothing. Frenzy (+200% to ALL player damage per stack under
+     * the MixinMobFrenzyModifier rework — uncapped it outgrows the boss's own escalation and
+     * ruins the balance) allows one stack through cycle 4, then one more every 4 cycles.
      */
     public static int stackCap(Vault vault, ResourceLocation id) {
         if (MANA_LEAK.equals(id)) {
-            return 1 + HyperVaultObjective.getCycleCount(vault) / 3;
+            return HyperVaultObjective.getCycleCount(vault) / 3;
         }
         if (FRENZY.equals(id)) {
             return 1 + Math.max(0, HyperVaultObjective.getCycleCount(vault) - 1) / 4;

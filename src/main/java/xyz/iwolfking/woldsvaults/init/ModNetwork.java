@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.network.packets.StopFlightMessage;
 import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage;
 import xyz.iwolfking.woldsvaults.network.message.ElixirParticleMessage;
+import xyz.iwolfking.woldsvaults.network.message.MagicMissileWarningMessage;
 import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
 
@@ -34,6 +35,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, BrewingAltarParticleMessage.class, BrewingAltarParticleMessage::encode, BrewingAltarParticleMessage::decode, BrewingAltarParticleMessage::handle);
         CHANNEL.registerMessage(id++, ClientboundSyncGamerulesMessage.class, ClientboundSyncGamerulesMessage::encode, ClientboundSyncGamerulesMessage::decode, ClientboundSyncGamerulesMessage::handle);
         CHANNEL.registerMessage(id++, ElixirParticleMessage.class, ElixirParticleMessage::encode, ElixirParticleMessage::decode, ElixirParticleMessage::handle);
+        CHANNEL.registerMessage(id++, MagicMissileWarningMessage.class, MagicMissileWarningMessage::encode, MagicMissileWarningMessage::decode, MagicMissileWarningMessage::handle);
         CHANNEL.registerMessage(id++, LuckyHitCooldownParticleMessage.class, LuckyHitCooldownParticleMessage::encode, LuckyHitCooldownParticleMessage::decode, LuckyHitCooldownParticleMessage::handle);
     }
 

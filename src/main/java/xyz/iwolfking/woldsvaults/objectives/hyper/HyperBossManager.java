@@ -25,12 +25,17 @@ import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.world.data.WorldZonesData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -46,14 +51,18 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+import xyz.iwolfking.woldsvaults.entities.projectiles.MagicMissileEntity;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarConfigAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
+import xyz.iwolfking.woldsvaults.network.message.MagicMissileWarningMessage;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.lib.EntityAttributeModifierSettable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
@@ -118,6 +127,16 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     /** Stable id for the multiplayer health bonus (idempotent across reloads). */
     private static final UUID MULTIPLAYER_HEALTH_UUID =
             UUID.nameUUIDFromBytes("woldsvaults:hyper_multiplayer_health".getBytes(StandardCharsets.UTF_8));
+    /** Stable id for the follow-range raise (idempotent across reloads). */
+    private static final UUID HYPER_FOLLOW_RANGE_UUID =
+            UUID.nameUUIDFromBytes("woldsvaults:hyper_follow_range".getBytes(StandardCharsets.UTF_8));
+    /**
+     * Added to the boss's FOLLOW_RANGE (base 18): the 47-block arena's corners sit 23-32
+     * blocks from the pillar, permanently outside vanilla acquisition range — the historical
+     * corner-camp exploit. 18 + 46 = 64 covers the whole room; target selection still
+     * requires line of sight, so breaking sight lines remains counterplay.
+     */
+    private static final double FOLLOW_RANGE_BONUS = 46.0D;
     /**
      * The health_attribute trait's baseValue in vault_boss.json (the boss's innate +50%);
      * part of the reference total the vault health factor multiplies.
@@ -140,6 +159,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     private int addTimer = HyperVaultObjective.cfg().getFightAddPeriodTicks();
     /** Transient on purpose: a reload mid-countdown just restarts the wipe grace window. */
     private int wipeGraceTicks = WIPE_GRACE_TICKS;
+    /** Transient on purpose: a reload mid-cycle just restarts the volley countdown. */
+    private int missileCooldownTicks = HyperVaultObjective.cfg().getMagicMissileCooldownTicks();
+    /** -1 while idle, otherwise the remaining charge-up ticks of the telegraphed volley. */
+    private int missileChargeTicks = -1;
     private String lastRoster = "";
 
     public HyperBossManager(Vault vault, VirtualWorld world, HyperVaultObjective objective, HyperEscalationManager escalation) {
@@ -326,6 +349,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         tickHealthGates();
         tickFightAdds();
         tickBossResistance();
+        tickMagicMissile(fights);
     }
 
     /**
@@ -348,6 +372,142 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 return;
             }
         }
+    }
+
+    /**
+     * The Magic Missile loop: while a live boss holds the arena, a cooldown counts down into a
+     * telegraphed charge (cast sound, action-bar warning, a tightening particle ring), then the
+     * volley launches — {@code magicMissileCount} homing missiles aimed at random living arena
+     * players with a horizontal spread so they arrive from distinct angles. Damage is
+     * snapshotted at launch as {@code magicMissileDamageMultiplier} of the boss's attack
+     * damage. Both timers are transient and re-arm whenever no live boss is present, so every
+     * fight opens with a full cooldown. This is the hyperboss-exclusive third rune ability —
+     * it lives here rather than in the rune-boss config precisely so normal rune vaults can
+     * never roll it.
+     */
+    private void tickMagicMissile(RuneBossFights fights) {
+        UUID bossId = objective.getOr(HyperVaultObjective.BOSS_ID, null);
+        if (bossId == null || !(world.getEntity(bossId) instanceof LivingEntity boss) || !boss.isAlive()) {
+            if (this.missileChargeTicks >= 0) {
+                sendMissileWarning(fights, -1);
+            }
+            this.missileChargeTicks = -1;
+            this.missileCooldownTicks = HyperVaultObjective.cfg().getMagicMissileCooldownTicks();
+            return;
+        }
+        if (this.missileChargeTicks < 0) {
+            if (--this.missileCooldownTicks > 0) {
+                return;
+            }
+            this.missileCooldownTicks = HyperVaultObjective.cfg().getMagicMissileCooldownTicks();
+            this.missileChargeTicks = HyperVaultObjective.cfg().getMagicMissileChargeTicks();
+            world.playSound(null, boss.getX(), boss.getY(), boss.getZ(),
+                    SoundEvents.EVOKER_PREPARE_ATTACK, SoundSource.HOSTILE, 1.5F, 0.8F);
+            for (ServerPlayer player : livingFighters(fights)) {
+                player.displayClientMessage(new TextComponent("The Hyperboss charges Magic Missile!")
+                        .withStyle(ChatFormatting.AQUA), true);
+            }
+            sendMissileWarning(fights, this.missileChargeTicks);
+            return;
+        }
+        if (this.missileChargeTicks > 0) {
+            this.missileChargeTicks--;
+            sendMissileWarning(fights, this.missileChargeTicks);
+            spawnMissileChargeParticles(boss);
+            return;
+        }
+        this.missileChargeTicks = -1;
+        sendMissileWarning(fights, -1);
+        launchMissileVolley(boss, fights);
+    }
+
+    /**
+     * Streams the charge countdown to every living arena fighter so their boss bar can show
+     * the Wave-Blast-style Magic Missile timer; a negative remaining clears the display (sent
+     * once at launch and when the boss dies mid-charge — afterwards the client's own staleness
+     * window covers anyone the clear could not reach).
+     */
+    private void sendMissileWarning(RuneBossFights fights, int remainingTicks) {
+        int window = remainingTicks < 0 ? 0 : Math.max(1, HyperVaultObjective.cfg().getMagicMissileChargeTicks());
+        MagicMissileWarningMessage message = new MagicMissileWarningMessage(Math.max(0, remainingTicks), window);
+        for (ServerPlayer player : livingFighters(fights)) {
+            ModNetwork.sendToClient(message, player);
+        }
+    }
+
+    /** A tightening dark-blue ring around the boss while Magic Missile charges. */
+    private void spawnMissileChargeParticles(LivingEntity boss) {
+        int total = Math.max(1, HyperVaultObjective.cfg().getMagicMissileChargeTicks());
+        double radius = 0.8D + 1.8D * this.missileChargeTicks / (double) total;
+        double centerY = boss.getY() + boss.getBbHeight() * 0.6D;
+        for (int i = 0; i < 10; i++) {
+            double angle = world.getTickCount() * 0.35D + i * (Math.PI * 2.0D / 10.0D);
+            double x = boss.getX() + radius * Math.cos(angle);
+            double z = boss.getZ() + radius * Math.sin(angle);
+            world.sendParticles(new DustParticleOptions(MagicMissileEntity.PARTICLE_COLOR, 1.6F), x, centerY, z, 1, 0.0D, 0.03D, 0.0D, 0.0D);
+        }
+        if (world.getTickCount() % 10 == 0) {
+            world.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, boss.getX(), centerY, boss.getZ(), 4, 0.3D, 0.3D, 0.3D, 0.02D);
+        }
+    }
+
+    /**
+     * Missiles materialize in an overhead fan: 2 blocks above the boss's head, one centered
+     * and the rest stepped 2 blocks apart along the axis perpendicular to the boss→target
+     * line, then hover for a beat (magicMissileHoverTicks) before flight so players see the
+     * volley form. Each missile aims at its own (randomly drawn) arena target from its fan
+     * slot, with the outer missiles angled 15° further outward per slot so the volley opens
+     * up before the homing pulls it back in.
+     */
+    private void launchMissileVolley(LivingEntity boss, RuneBossFights fights) {
+        List<ServerPlayer> targets = livingFighters(fights);
+        if (targets.isEmpty()) {
+            WoldsVaults.LOGGER.info("Magic Missile volley fizzled — no living arena targets.");
+            return;
+        }
+        RandomSource random = JavaRandom.ofNanoTime();
+        int count = HyperVaultObjective.cfg().getMagicMissileCount();
+        AttributeInstance attack = boss.getAttribute(Attributes.ATTACK_DAMAGE);
+        double attackDamage = attack == null ? 6.0D : attack.getValue();
+        float damage = (float) Math.max(1.0D, attackDamage * HyperVaultObjective.cfg().getMagicMissileDamageMultiplier());
+        Vec3 center = new Vec3(boss.getX(), boss.getY() + boss.getBbHeight() + 2.0D, boss.getZ());
+        ServerPlayer facingTarget = targets.get(random.nextInt(targets.size()));
+        Vec3 facing = new Vec3(facingTarget.getX() - boss.getX(), 0.0D, facingTarget.getZ() - boss.getZ());
+        facing = facing.lengthSqr() < 1.0E-4D ? new Vec3(1.0D, 0.0D, 0.0D) : facing.normalize();
+        Vec3 right = new Vec3(-facing.z, 0.0D, facing.x);
+        for (int i = 0; i < count; i++) {
+            ServerPlayer target = targets.get(random.nextInt(targets.size()));
+            double slot = i - (count - 1) / 2.0D;
+            Vec3 spawnPos = center.add(right.scale(slot * 2.0D));
+            Vec3 aim = target.position().add(0.0D, target.getBbHeight() * 0.5D, 0.0D).subtract(spawnPos);
+            Vec3 direction = aim.lengthSqr() < 1.0E-6D ? facing : aim.normalize();
+            direction = direction.yRot((float) Math.toRadians(-slot * 15.0D));
+            MagicMissileEntity missile = new MagicMissileEntity(world, boss, target, spawnPos, direction,
+                    damage, (float) HyperVaultObjective.cfg().getMagicMissileAoeRadius(),
+                    (float) HyperVaultObjective.cfg().getMagicMissileSpeed(),
+                    HyperVaultObjective.cfg().getMagicMissileTurnDegrees(),
+                    HyperVaultObjective.cfg().getMagicMissileLifetimeTicks(),
+                    HyperVaultObjective.cfg().getMagicMissileHoverTicks());
+            world.addFreshEntity(missile);
+        }
+        world.playSound(null, boss.getX(), boss.getY(), boss.getZ(), SoundEvents.SHULKER_SHOOT, SoundSource.HOSTILE, 1.4F, 0.9F);
+        WoldsVaults.LOGGER.info("Hyperboss fired {} Magic Missiles ({} damage each).", count, Math.round(damage));
+    }
+
+    /** The fight roster filtered to players who are present, alive and not spectating. */
+    private List<ServerPlayer> livingFighters(RuneBossFights fights) {
+        List<ServerPlayer> fighters = new ArrayList<>();
+        RuneBossFight fight = activeFight(fights);
+        if (fight == null) {
+            return fighters;
+        }
+        for (UUID uuid : fight.getPlayers()) {
+            ServerPlayer player = world.getServer().getPlayerList().getPlayer(uuid);
+            if (player != null && player.level == world && player.isAlive() && !player.isSpectator()) {
+                fighters.add(player);
+            }
+        }
+        return fighters;
     }
 
     /**
@@ -596,6 +756,13 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         if (damage != null && damage.getModifier(HYPER_DAMAGE_UUID) == null) {
             damage.addPermanentModifier(new AttributeModifier(HYPER_DAMAGE_UUID,
                     "hyper_damage_escalation", damageEscalation, AttributeModifier.Operation.MULTIPLY_BASE));
+        }
+        AttributeInstance followRange = boss.getAttribute(Attributes.FOLLOW_RANGE);
+        if (followRange != null && followRange.getModifier(HYPER_FOLLOW_RANGE_UUID) == null) {
+            followRange.addPermanentModifier(new AttributeModifier(HYPER_FOLLOW_RANGE_UUID,
+                    "hyper_follow_range", FOLLOW_RANGE_BONUS, AttributeModifier.Operation.ADDITION));
+            WoldsVaults.LOGGER.info("Hyperboss follow range raised to {} — the arena corners are inside acquisition range now.",
+                    Math.round(followRange.getValue()));
         }
         Modifiers vaultModifiers = vault.get(Vault.MODIFIERS);
         int applied = 0;

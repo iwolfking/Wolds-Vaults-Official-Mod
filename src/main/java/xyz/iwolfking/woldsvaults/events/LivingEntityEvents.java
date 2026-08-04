@@ -373,6 +373,21 @@ public class LivingEntityEvents {
         }
     }
 
+    /**
+     * Hyper-scoped NaN firewall for the %-max-health damage bonuses: a non-finite computed
+     * amount inside a hyper vault is replaced with the untouched pre-bonus amount and logged
+     * loudly; outside hyper vaults every value passes through unchanged (the NaN guards are
+     * deliberately hyper-only).
+     */
+    private static float hyperFinite(LivingEntity target, float computed, float fallback, String what) {
+        if (Float.isFinite(computed) || !HyperVaultEvents.isInHyperVault(target)) {
+            return computed;
+        }
+        WoldsVaults.LOGGER.error("HYPER NaN-guard: non-finite {} damage against {} replaced with {} (max health {}).",
+                what, target.getType().getRegistryName(), fallback, target.getMaxHealth());
+        return Float.isFinite(fallback) ? fallback : 0.0F;
+    }
+
     @SubscribeEvent
     public static void executionDamage(LivingHurtEvent event) {
         //Prevent an entity from being reaved more than once or applying to non-melee strikes.
@@ -393,13 +408,13 @@ public class LivingEntityEvents {
                 }
 
                 if(event.getEntityLiving() instanceof TheVesselEntity) {
-                    event.setAmount((event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage)) * 0.01F);
+                    event.setAmount(hyperFinite(event.getEntityLiving(), (event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage)) * 0.01F, event.getAmount(), "execution"));
                 }
                 else if(ChampionLogic.isChampion(event.getEntityLiving()) || InfernalMobsCore.getMobModifiers(event.getEntityLiving()) != null || event.getEntityLiving() instanceof VaultBoss || event.getEntityLiving() instanceof VaultBossEntity || event.getEntityLiving() instanceof EliteDrownedEntity || event.getEntityLiving() instanceof EliteWitherSkeleton || event.getEntityLiving() instanceof EliteEndermanEntity || event.getEntityLiving() instanceof EliteHuskEntity || event.getEntityLiving() instanceof EliteSpiderEntity || event.getEntityLiving() instanceof  EliteStrayEntity || event.getEntityLiving() instanceof  EliteZombieEntity || event.getEntityLiving() instanceof EliteWitchEntity) {
-                    event.setAmount((event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage)) * 0.25F);
+                    event.setAmount(hyperFinite(event.getEntityLiving(), (event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage)) * 0.25F, event.getAmount(), "execution"));
                 }
                 else {
-                    event.setAmount(event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage));
+                    event.setAmount(hyperFinite(event.getEntityLiving(), event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage), event.getAmount(), "execution"));
                 }
             }
         }

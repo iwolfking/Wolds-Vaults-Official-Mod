@@ -406,6 +406,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("entity.woldsvaults.hostile_pig", "Aggressive Pig");
         add("entity.woldsvaults.cranberry_slime", "Cranberry Sauce Slime");
         add("entity.woldsvaults.haturkin", "Haturkin");
+        add("entity.woldsvaults.magic_missile", "Magic Missile");
+        add("death.attack.woldsvaults.magic_missile", "%1$s was blown apart by %2$s's Magic Missile");
         add("item.woldsvaults.wold_spawn_egg", "Wold Spawn Egg");
         add("item.woldsvaults.boogieman_spawn_egg", "Boogieman Spawn Egg");
         add("item.woldsvaults.monster_eye_spawn_egg", "Monster Eye Spawn Egg");

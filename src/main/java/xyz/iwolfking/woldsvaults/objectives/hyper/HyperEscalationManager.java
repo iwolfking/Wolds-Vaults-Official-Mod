@@ -72,7 +72,8 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
      * map_crate_quantity, whose onVaultAdd consumes percentage-points as a raw fraction (the
      * +10,000% unit bug this schedule replaced); k Refined Experience at kill k; and one Inert
      * every second kill (banned from every pool, so this deterministic drip is its only
-     * source).
+     * source); and exactly once at cycle 3, the Radar modifier — the stealth shutdown
+     * enforced by HyperVaultEvents and MixinShadowCloakTrinket.
      */
     public void onBossKilled() {
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0) + 1;
@@ -92,6 +93,10 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         if (cycle % 2 == 0) {
             VaultModifierUtils.addModifier(vault, VaultMod.id("inert"), 1);
             HyperVaultObjective.broadcast(vault, "Inert seeps into the Vault (-10% cooldown reduction).", ChatFormatting.DARK_PURPLE);
+        }
+        if (cycle == 3) {
+            VaultModifierUtils.addModifier(vault, WoldsVaults.id("radar"), 1);
+            HyperVaultObjective.broadcast(vault, "The Vault's radar comes online — stealth abilities no longer work!", ChatFormatting.RED);
         }
 
         awardScoreTiers();
