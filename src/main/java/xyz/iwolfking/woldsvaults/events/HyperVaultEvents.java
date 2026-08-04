@@ -11,6 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -120,6 +122,44 @@ public final class HyperVaultEvents {
         }
     }
 
+    /**
+     * Hyperboss ability damage is physical by decree. VH's rune WaveBlast builds its source
+     * as armor-bypassing magic, which at hyper escalation (six-figure raw hits from cycle 1)
+     * deletes armor-stacked players from full health no matter their gear. Any
+     * armor-bypassing or magic hit dealt DIRECTLY by a hyperboss is cancelled here and
+     * re-dealt as a plain mob attack for the same amount, so VH's armor and dodge pipeline
+     * applies in full. The replacement carries neither flag and passes straight through on
+     * re-entry; shared constant sources (poison, wither...) have no attached entity and are
+     * structurally excluded; indirect sources (fireballs, missiles) keep their own semantics.
+     */
+    @SubscribeEvent
+    public static void normalizeHyperbossAbilityDamage(LivingAttackEvent event) {
+        if (!(event.getEntityLiving() instanceof ServerPlayer player)) {
+            return;
+        }
+        DamageSource source = event.getSource();
+        if (!source.isBypassArmor() && !source.isMagic()) {
+            return;
+        }
+        if (!(source.getEntity() instanceof VaultBossEntity boss) || source.getDirectEntity() != boss) {
+            return;
+        }
+        if (!isInHyperVault(boss)) {
+            return;
+        }
+        event.setCanceled(true);
+        float amount = event.getAmount();
+        player.hurt(DamageSource.mobAttack(boss), amount);
+        WoldsVaults.LOGGER.info("Normalized a hyperboss ability hit on {} to physical ({} raw damage — armor applies now).",
+                player.getGameProfile().getName(), Math.round(amount));
+    }
+
+    /**
+     * The floating lava/void pools are placed as bare liquid source blocks; explosions that
+     * eat them (or whatever invisible casing sits around them) spill the pool across the
+     * room floor. In hyper vaults explosions therefore cannot affect a pool fluid or any
+     * block within one step of one.
+     */
     @SubscribeEvent
     public static void protectPoolsFromExplosions(ExplosionEvent.Detonate event) {
         if (!(event.getWorld() instanceof ServerLevel level)) {

@@ -157,9 +157,9 @@ public class HyperObjectiveConfig extends Config {
         this.healthGates = new float[]{0.8F, 0.6F, 0.4F, 0.2F};
         this.fightAddPeriodTicks = 20 * 6;
         this.magicMissileCooldownTicks = 20 * 15;
-        this.magicMissileChargeTicks = 20 * 3;
+        this.magicMissileChargeTicks = 90;
         this.magicMissileCount = 3;
-        this.magicMissileSpeed = 0.65;
+        this.magicMissileSpeed = 0.43;
         this.magicMissileTurnDegrees = 5.0;
         this.magicMissileLifetimeTicks = 20 * 6;
         this.magicMissileDamageMultiplier = 0.75;
@@ -312,7 +312,7 @@ public class HyperObjectiveConfig extends Config {
     }
 
     public int getMagicMissileChargeTicks() {
-        return this.magicMissileChargeTicks > 0 ? this.magicMissileChargeTicks : 20 * 3;
+        return this.magicMissileChargeTicks > 0 ? this.magicMissileChargeTicks : 90;
     }
 
     public int getMagicMissileCount() {
@@ -320,7 +320,7 @@ public class HyperObjectiveConfig extends Config {
     }
 
     public double getMagicMissileSpeed() {
-        return this.magicMissileSpeed > 0.0 ? this.magicMissileSpeed : 0.65;
+        return this.magicMissileSpeed > 0.0 ? this.magicMissileSpeed : 0.43;
     }
 
     public double getMagicMissileTurnDegrees() {

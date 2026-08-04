@@ -33,7 +33,8 @@ import java.util.UUID;
  * renderer is a no-op; the visual is the entity's own particle cloud (a dark-blue dust orb with
  * a soul-flame core). It detonates on player contact, on any block, or when its flight time
  * runs out, and every detonation path deals its launch-time damage snapshot to all players
- * within the blast radius (armor-bypassing magic, matching the rune WaveBlast's semantics).
+ * within the blast radius as PLAIN PHYSICAL damage — armor and dodge apply in full (hyper
+ * ability damage is six figures raw; bypassing armor deletes tank builds outright).
  * Only players block the ray — arena mobs cannot bodyguard the boss. Spawned exclusively by
  * HyperBossManager, so the ability cannot appear outside hyper vaults.
  */
@@ -152,8 +153,7 @@ public class MagicMissileEntity extends Projectile {
         }
         Vec3 pos = this.position();
         Entity owner = this.getOwner();
-        DamageSource source = new IndirectEntityDamageSource("woldsvaults.magic_missile", this, owner)
-                .setProjectile().bypassArmor().setMagic();
+        DamageSource source = new IndirectEntityDamageSource("woldsvaults.magic_missile", this, owner);
         double radius = this.aoeRadius;
         AABB area = new AABB(pos.x - radius, pos.y - radius, pos.z - radius, pos.x + radius, pos.y + radius, pos.z + radius);
         for (Player player : serverLevel.getEntitiesOfClass(Player.class, area,
