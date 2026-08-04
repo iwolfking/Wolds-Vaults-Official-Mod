@@ -40,6 +40,14 @@ public class HyperObjectiveConfig extends Config {
     @Expose private int waveMobMax;
     @Expose private float[] healthGates;
     @Expose private int fightAddPeriodTicks;
+    @Expose private int magicMissileCooldownTicks;
+    @Expose private int magicMissileChargeTicks;
+    @Expose private int magicMissileCount;
+    @Expose private double magicMissileSpeed;
+    @Expose private double magicMissileTurnDegrees;
+    @Expose private int magicMissileLifetimeTicks;
+    @Expose private double magicMissileDamageMultiplier;
+    @Expose private double magicMissileAoeRadius;
 
     @Expose private int exitPillarTicks;
     @Expose private int winTransitionTicks;
@@ -107,6 +115,9 @@ public class HyperObjectiveConfig extends Config {
         this.documentation.put("waveMobMin/waveMobMax", "Brutal bosses per wave");
         this.documentation.put("healthGates", "Boss health fractions that each trigger one extra brutal wave (order = persisted gate bits; do not reorder mid-vault)");
         this.documentation.put("fightAddPeriodTicks", "Ticks between lone tank/assassin arena adds during the fight");
+        this.documentation.put("magicMissileCooldownTicks/magicMissileChargeTicks", "Ticks between Magic Missile volleys, and the telegraphed charge-up before each volley fires");
+        this.documentation.put("magicMissileCount/magicMissileSpeed/magicMissileTurnDegrees", "Missiles per volley, their speed in blocks per tick, and their homing turn rate in degrees per tick (lower = easier to juke)");
+        this.documentation.put("magicMissileLifetimeTicks/magicMissileDamageMultiplier/magicMissileAoeRadius", "Flight time before a missile self-destructs, its damage as a fraction of boss attack damage, and the blast radius (impact and self-destruct alike)");
         this.documentation.put("exitPillarTicks", "Lifetime of the post-kill exit pillar");
         this.documentation.put("winTransitionTicks", "Personal victory countdown after clicking the exit pillar");
         this.documentation.put("obeliskMin/obeliskMax", "Brutal pillar count range; the floor rises +1 per 3 kills and +1 per 2 extra runners");
@@ -145,6 +156,14 @@ public class HyperObjectiveConfig extends Config {
         this.waveMobMax = 4;
         this.healthGates = new float[]{0.8F, 0.6F, 0.4F, 0.2F};
         this.fightAddPeriodTicks = 20 * 6;
+        this.magicMissileCooldownTicks = 20 * 15;
+        this.magicMissileChargeTicks = 20 * 3;
+        this.magicMissileCount = 3;
+        this.magicMissileSpeed = 0.65;
+        this.magicMissileTurnDegrees = 5.0;
+        this.magicMissileLifetimeTicks = 20 * 6;
+        this.magicMissileDamageMultiplier = 0.75;
+        this.magicMissileAoeRadius = 2.0;
 
         this.exitPillarTicks = 20 * 15;
         this.winTransitionTicks = 20 * 15;
@@ -281,6 +300,43 @@ public class HyperObjectiveConfig extends Config {
 
     public int getFightAddPeriodTicks() {
         return Math.max(1, this.fightAddPeriodTicks);
+    }
+
+    /**
+     * Every Magic Missile knob falls back to its shipped default when non-positive: a pack
+     * shipping a full hyper_objective.json generated before this ability existed leaves the
+     * fields at gson's 0, which would otherwise degenerate the volley into a per-tick stream.
+     */
+    public int getMagicMissileCooldownTicks() {
+        return this.magicMissileCooldownTicks > 0 ? this.magicMissileCooldownTicks : 20 * 15;
+    }
+
+    public int getMagicMissileChargeTicks() {
+        return this.magicMissileChargeTicks > 0 ? this.magicMissileChargeTicks : 20 * 3;
+    }
+
+    public int getMagicMissileCount() {
+        return this.magicMissileCount > 0 ? this.magicMissileCount : 3;
+    }
+
+    public double getMagicMissileSpeed() {
+        return this.magicMissileSpeed > 0.0 ? this.magicMissileSpeed : 0.65;
+    }
+
+    public double getMagicMissileTurnDegrees() {
+        return this.magicMissileTurnDegrees > 0.0 ? this.magicMissileTurnDegrees : 5.0;
+    }
+
+    public int getMagicMissileLifetimeTicks() {
+        return this.magicMissileLifetimeTicks > 0 ? this.magicMissileLifetimeTicks : 20 * 6;
+    }
+
+    public double getMagicMissileDamageMultiplier() {
+        return this.magicMissileDamageMultiplier > 0.0 ? this.magicMissileDamageMultiplier : 0.75;
+    }
+
+    public double getMagicMissileAoeRadius() {
+        return this.magicMissileAoeRadius > 0.0 ? this.magicMissileAoeRadius : 2.0;
     }
 
     public int getExitPillarTicks() {
