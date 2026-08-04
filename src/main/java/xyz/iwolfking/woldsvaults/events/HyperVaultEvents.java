@@ -127,10 +127,11 @@ public final class HyperVaultEvents {
      * as armor-bypassing magic, which at hyper escalation (six-figure raw hits from cycle 1)
      * deletes armor-stacked players from full health no matter their gear. Any
      * armor-bypassing or magic hit dealt DIRECTLY by a hyperboss is cancelled here and
-     * re-dealt as a plain mob attack for the same amount, so VH's armor and dodge pipeline
-     * applies in full. The replacement carries neither flag and passes straight through on
-     * re-entry; shared constant sources (poison, wither...) have no attached entity and are
-     * structurally excluded; indirect sources (fireballs, missiles) keep their own semantics.
+     * re-dealt as a plain mob attack, amplified by waveBlastDamageMultiplier to stay
+     * threatening now that VH's armor and dodge pipeline applies in full. The replacement
+     * carries neither flag and passes straight through on re-entry; shared constant sources
+     * (poison, wither...) have no attached entity and are structurally excluded; indirect
+     * sources (fireballs, missiles) keep their own semantics.
      */
     @SubscribeEvent
     public static void normalizeHyperbossAbilityDamage(LivingAttackEvent event) {
@@ -148,10 +149,11 @@ public final class HyperVaultEvents {
             return;
         }
         event.setCanceled(true);
-        float amount = event.getAmount();
+        float multiplier = (float) HyperVaultObjective.cfg().getWaveBlastDamageMultiplier();
+        float amount = event.getAmount() * multiplier;
         player.hurt(DamageSource.mobAttack(boss), amount);
-        WoldsVaults.LOGGER.info("Normalized a hyperboss ability hit on {} to physical ({} raw damage — armor applies now).",
-                player.getGameProfile().getName(), Math.round(amount));
+        WoldsVaults.LOGGER.info("Normalized a hyperboss ability hit on {} to physical: {} raw x{} = {} dealt (armor applies).",
+                player.getGameProfile().getName(), Math.round(event.getAmount()), multiplier, Math.round(amount));
     }
 
     /**

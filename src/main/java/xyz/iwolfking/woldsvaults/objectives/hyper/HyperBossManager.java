@@ -429,6 +429,13 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         }
     }
 
+    /**
+     * Missiles materialize in an overhead fan: 2 blocks above the boss's head, one centered
+     * and the rest stepped 2 blocks apart along the axis perpendicular to the boss→target
+     * line, then hover for a beat (magicMissileHoverTicks) before flight so players see the
+     * volley form. Each missile aims straight at its own (randomly drawn) arena target from
+     * its fan slot.
+     */
     private void launchMissileVolley(LivingEntity boss, RuneBossFights fights) {
         List<ServerPlayer> targets = livingFighters(fights);
         if (targets.isEmpty()) {
@@ -440,17 +447,22 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         AttributeInstance attack = boss.getAttribute(Attributes.ATTACK_DAMAGE);
         double attackDamage = attack == null ? 6.0D : attack.getValue();
         float damage = (float) Math.max(1.0D, attackDamage * HyperVaultObjective.cfg().getMagicMissileDamageMultiplier());
-        Vec3 origin = new Vec3(boss.getX(), boss.getY() + boss.getBbHeight() * 0.75D, boss.getZ());
+        Vec3 center = new Vec3(boss.getX(), boss.getY() + boss.getBbHeight() + 2.0D, boss.getZ());
+        ServerPlayer facingTarget = targets.get(random.nextInt(targets.size()));
+        Vec3 facing = new Vec3(facingTarget.getX() - boss.getX(), 0.0D, facingTarget.getZ() - boss.getZ());
+        facing = facing.lengthSqr() < 1.0E-4D ? new Vec3(1.0D, 0.0D, 0.0D) : facing.normalize();
+        Vec3 right = new Vec3(-facing.z, 0.0D, facing.x);
         for (int i = 0; i < count; i++) {
             ServerPlayer target = targets.get(random.nextInt(targets.size()));
-            Vec3 aim = target.position().add(0.0D, target.getBbHeight() * 0.5D, 0.0D).subtract(origin);
-            Vec3 direction = aim.lengthSqr() < 1.0E-6D ? new Vec3(1.0D, 0.0D, 0.0D) : aim.normalize();
-            float yawOffset = (float) Math.toRadians((i - (count - 1) / 2.0D) * 22.0D);
-            MagicMissileEntity missile = new MagicMissileEntity(world, boss, target, direction.yRot(yawOffset),
+            Vec3 spawnPos = center.add(right.scale((i - (count - 1) / 2.0D) * 2.0D));
+            Vec3 aim = target.position().add(0.0D, target.getBbHeight() * 0.5D, 0.0D).subtract(spawnPos);
+            Vec3 direction = aim.lengthSqr() < 1.0E-6D ? facing : aim.normalize();
+            MagicMissileEntity missile = new MagicMissileEntity(world, boss, target, spawnPos, direction,
                     damage, (float) HyperVaultObjective.cfg().getMagicMissileAoeRadius(),
                     (float) HyperVaultObjective.cfg().getMagicMissileSpeed(),
                     HyperVaultObjective.cfg().getMagicMissileTurnDegrees(),
-                    HyperVaultObjective.cfg().getMagicMissileLifetimeTicks());
+                    HyperVaultObjective.cfg().getMagicMissileLifetimeTicks(),
+                    HyperVaultObjective.cfg().getMagicMissileHoverTicks());
             world.addFreshEntity(missile);
         }
         world.playSound(null, boss.getX(), boss.getY(), boss.getZ(), SoundEvents.SHULKER_SHOOT, SoundSource.HOSTILE, 1.4F, 0.9F);

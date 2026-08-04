@@ -48,6 +48,8 @@ public class HyperObjectiveConfig extends Config {
     @Expose private int magicMissileLifetimeTicks;
     @Expose private double magicMissileDamageMultiplier;
     @Expose private double magicMissileAoeRadius;
+    @Expose private int magicMissileHoverTicks;
+    @Expose private double waveBlastDamageMultiplier;
 
     @Expose private int exitPillarTicks;
     @Expose private int winTransitionTicks;
@@ -118,6 +120,8 @@ public class HyperObjectiveConfig extends Config {
         this.documentation.put("magicMissileCooldownTicks/magicMissileChargeTicks", "Ticks between Magic Missile volleys, and the telegraphed charge-up before each volley fires");
         this.documentation.put("magicMissileCount/magicMissileSpeed/magicMissileTurnDegrees", "Missiles per volley, their speed in blocks per tick, and their homing turn rate in degrees per tick (lower = easier to juke)");
         this.documentation.put("magicMissileLifetimeTicks/magicMissileDamageMultiplier/magicMissileAoeRadius", "Flight time before a missile self-destructs, its damage as a fraction of boss attack damage, and the blast radius (impact and self-destruct alike)");
+        this.documentation.put("magicMissileHoverTicks", "Ticks a freshly placed missile hovers in the overhead fan before it starts flying (0 = immediate)");
+        this.documentation.put("waveBlastDamageMultiplier", "Hyper-only multiplier applied when the boss's WaveBlast is normalized to physical damage (the shared rune-boss config keeps its own DamageMultiplier)");
         this.documentation.put("exitPillarTicks", "Lifetime of the post-kill exit pillar");
         this.documentation.put("winTransitionTicks", "Personal victory countdown after clicking the exit pillar");
         this.documentation.put("obeliskMin/obeliskMax", "Brutal pillar count range; the floor rises +1 per 3 kills and +1 per 2 extra runners");
@@ -164,6 +168,8 @@ public class HyperObjectiveConfig extends Config {
         this.magicMissileLifetimeTicks = 20 * 6;
         this.magicMissileDamageMultiplier = 0.75;
         this.magicMissileAoeRadius = 2.0;
+        this.magicMissileHoverTicks = 6;
+        this.waveBlastDamageMultiplier = 3.0;
 
         this.exitPillarTicks = 20 * 15;
         this.winTransitionTicks = 20 * 15;
@@ -337,6 +343,15 @@ public class HyperObjectiveConfig extends Config {
 
     public double getMagicMissileAoeRadius() {
         return this.magicMissileAoeRadius > 0.0 ? this.magicMissileAoeRadius : 2.0;
+    }
+
+    /** Hover 0 is a legal tuning (fire instantly), so this clamps instead of falling back. */
+    public int getMagicMissileHoverTicks() {
+        return Math.max(0, this.magicMissileHoverTicks);
+    }
+
+    public double getWaveBlastDamageMultiplier() {
+        return this.waveBlastDamageMultiplier > 0.0 ? this.waveBlastDamageMultiplier : 3.0;
     }
 
     public int getExitPillarTicks() {

@@ -29,7 +29,9 @@ import java.util.UUID;
 
 /**
  * The hyperboss's Magic Missile: a gravity-free homing orb that steers toward its target with a
- * capped per-tick turn rate, so a hard strafe past it forces an overshoot — juke it or die. The
+ * capped per-tick turn rate, so a hard strafe past it forces an overshoot — juke it or die. A
+ * freshly placed missile hovers motionless for a short beat (its particle body already visible)
+ * before flight begins, and its lifetime clock starts when it moves. The
  * renderer is a no-op; the visual is the entity's own particle cloud (a dark-blue dust orb with
  * a soul-flame core). It detonates on player contact, on any block, or when its flight time
  * runs out, and every detonation path deals its launch-time damage snapshot to all players
@@ -46,6 +48,7 @@ public class MagicMissileEntity extends Projectile {
     private float speed = 0.65F;
     private float turnRadiansPerTick = (float) Math.toRadians(5.0D);
     private int lifetimeTicks = 120;
+    private int hoverTicks = 0;
     private int age = 0;
     private UUID targetId = null;
 
@@ -54,8 +57,9 @@ public class MagicMissileEntity extends Projectile {
         this.setNoGravity(true);
     }
 
-    public MagicMissileEntity(Level level, LivingEntity owner, LivingEntity target, Vec3 initialDirection,
-                              float aoeDamage, float aoeRadius, float speed, double turnDegreesPerTick, int lifetimeTicks) {
+    public MagicMissileEntity(Level level, LivingEntity owner, LivingEntity target, Vec3 spawnPos, Vec3 initialDirection,
+                              float aoeDamage, float aoeRadius, float speed, double turnDegreesPerTick,
+                              int lifetimeTicks, int hoverTicks) {
         this(ModEntities.MAGIC_MISSILE, level);
         this.setOwner(owner);
         this.targetId = target.getUUID();
@@ -64,7 +68,8 @@ public class MagicMissileEntity extends Projectile {
         this.speed = speed;
         this.turnRadiansPerTick = (float) Math.toRadians(turnDegreesPerTick);
         this.lifetimeTicks = lifetimeTicks;
-        this.moveTo(owner.getX(), owner.getY() + owner.getBbHeight() * 0.75D, owner.getZ(), 0.0F, 0.0F);
+        this.hoverTicks = Math.max(0, hoverTicks);
+        this.moveTo(spawnPos.x, spawnPos.y, spawnPos.z, 0.0F, 0.0F);
         this.setDeltaMovement(initialDirection.normalize().scale(speed));
     }
 
@@ -77,6 +82,10 @@ public class MagicMissileEntity extends Projectile {
         super.tick();
         if (this.level.isClientSide) {
             spawnTrailParticles();
+            return;
+        }
+        if (this.hoverTicks > 0) {
+            this.hoverTicks--;
             return;
         }
         if (++this.age >= this.lifetimeTicks) {
@@ -182,6 +191,7 @@ public class MagicMissileEntity extends Projectile {
         tag.putFloat("Speed", this.speed);
         tag.putFloat("TurnRadians", this.turnRadiansPerTick);
         tag.putInt("LifetimeTicks", this.lifetimeTicks);
+        tag.putInt("HoverTicks", this.hoverTicks);
         tag.putInt("Age", this.age);
         if (this.targetId != null) {
             tag.putUUID("Target", this.targetId);
@@ -196,6 +206,7 @@ public class MagicMissileEntity extends Projectile {
         this.speed = tag.contains("Speed") ? tag.getFloat("Speed") : 0.65F;
         this.turnRadiansPerTick = tag.contains("TurnRadians") ? tag.getFloat("TurnRadians") : (float) Math.toRadians(5.0D);
         this.lifetimeTicks = tag.contains("LifetimeTicks") ? tag.getInt("LifetimeTicks") : 120;
+        this.hoverTicks = tag.getInt("HoverTicks");
         this.age = tag.getInt("Age");
         this.targetId = tag.hasUUID("Target") ? tag.getUUID("Target") : null;
     }
