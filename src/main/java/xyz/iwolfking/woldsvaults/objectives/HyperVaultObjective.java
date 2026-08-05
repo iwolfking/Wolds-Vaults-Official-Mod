@@ -266,6 +266,8 @@ public class HyperVaultObjective extends Objective {
      */
     private final List<Mob> speedClampQueue = new ArrayList<>();
     private int speedClampCount = 0;
+    private boolean fightsSyncStateInitialized;
+    private long lastFightsSyncState;
 
     protected HyperVaultObjective() {
         this.set(PHASE, Phase.ROLLING);
@@ -658,9 +660,28 @@ public class HyperVaultObjective extends Objective {
         this.cycleManager.tick();
         this.bossManager.tick();
         this.escalationManager.tick();
+        markFightsDirtyIfChanged();
         if (world.getGameTime() % PILLAR_PIN_PERIOD_TICKS == 0L) {
             pinPillarRuneDisplay(world);
         }
+    }
+
+    /**
+     * the_vault 3.21.6 replaced the per-tick objective resync with a dirty-listener tree, and
+     * FIGHTS sits behind an opaque DirectAdapter that tree cannot see into — without an
+     * explicit mark, clients keep the initial empty fight list forever (no hyperboss health
+     * bar, frozen fight visuals) while the server plays on normally. Re-hash the fight state
+     * once per tick and mark the field dirty on change, mirroring VH's own
+     * RuneBossObjective.markFightsDirtyIfChanged.
+     */
+    private void markFightsDirtyIfChanged() {
+        long syncState = this.get(FIGHTS).getClientSyncState();
+        if (this.fightsSyncStateInitialized && this.lastFightsSyncState == syncState) {
+            return;
+        }
+        this.fightsSyncStateInitialized = true;
+        this.lastFightsSyncState = syncState;
+        this.markDirty(FIGHTS);
     }
 
     /**

@@ -449,6 +449,7 @@
     "vaulthunters.fixes.MixinMonolithRenderer",
     "vaulthunters.fixes.MixinMultiJumpTrinket",
     "vaulthunters.fixes.MixinNecromancySkeletonEntity",
+    "vaulthunters.fixes.MixinObeliskObjectiveWaveSync",
     "vaulthunters.fixes.MixinOversizedSlotContainer",
     "vaulthunters.fixes.MixinPrestigePowerLevelMessage",
     "vaulthunters.fixes.MixinRebirthObjective",
