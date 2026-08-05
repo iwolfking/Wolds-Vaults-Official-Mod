@@ -487,6 +487,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("key.woldsvaults.open_wolds_vaults_config", "Open Wold's Vaults Config Screen");
         add("key.woldsvaults.toggle_better_combat", "Toggle Better Combat");
         add("key.woldsvaults.is_feather_fixed", "Toggle Prismatic Feather Fix");
+        add("key.woldsvaults.configure_trinket", "Configure Hovered Trinket");
         add("key.category.woldsvaults", "Wold's Vaults");
         add("the_vault.gear_modification.reforge_weapon_type.description", "Reforges weapon type");
         add("the_vault.gear_modification.add_unusual_modifier.description", "Add unusual modifier");

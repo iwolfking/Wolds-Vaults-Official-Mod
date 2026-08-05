@@ -112,6 +112,19 @@
         "addedAmplifier": 1,
         "curiosSlot": "green_trinket"
       }
+    },
+    "the_vault:weighted_boots": {
+      "weight": 10,
+      "name": "Weighted Boots",
+      "effectText": "Allows the player to control their speed while equipped, press g to configure.",
+      "color": 3304444,
+      "minUses": 20,
+      "maxUses": 30,
+      "minCraftedUses": 12,
+      "maxCraftedUses": 12,
+      "config": {
+        "curiosSlot": "blue_trinket"
+      }
     }
   }
 }
