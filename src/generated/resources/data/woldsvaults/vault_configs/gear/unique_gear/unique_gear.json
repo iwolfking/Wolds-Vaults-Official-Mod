@@ -324,7 +324,7 @@
         "PREFIX": [
           "the_vault:u_treasure_magnet_item_rarity",
           "the_vault:u_treasure_magnet_item_quantity",
-          "the_vault:u_lucky_lucky"
+          "the_vault:u_lucky_lucky_tm"
         ],
         "SUFFIX": [
           "the_vault:u_treasure_magnet_health",

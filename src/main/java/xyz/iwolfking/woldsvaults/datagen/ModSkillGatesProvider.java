@@ -2,7 +2,9 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.config.ResearchesGUIConfig;
 import iskallia.vault.config.skillgate.TalentPointsSpentSkillGate;
+import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.item.BoosterPackItem;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractSkillGatesProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -173,10 +175,8 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
 
             builder.add("Stack_Master", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.hideArrow(true);
-                skillGateEntryBuilder.lockedBy(typeBuilder -> {
-                    typeBuilder.add(new TalentPointsSpentSkillGate(40));
-                });
                 skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(40));
                     typeBuilder.either(choices -> {
                         choices.constant("Blazing");
                         choices.constant("Battle_Trance");

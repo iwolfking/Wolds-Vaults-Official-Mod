@@ -209,7 +209,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .model("the_vault:magnets/treasure_magnet")
                 .base("the_vault:base_magnet_durability")
                 .implicit("the_vault:u_base_magnet_range", "the_vault:base_endergized")
-                .prefix("the_vault:u_treasure_magnet_item_rarity", "the_vault:u_treasure_magnet_item_quantity", "the_vault:u_lucky_lucky")
+                .prefix("the_vault:u_treasure_magnet_item_rarity", "the_vault:u_treasure_magnet_item_quantity", "the_vault:u_lucky_lucky_tm")
                 .suffix("the_vault:u_treasure_magnet_health", "the_vault:u_treasure_magnet_mana")
                 .dropLocation("Treasure Pedestal")
                 .description("This powerful Magnet gives you much greater ", "$text")

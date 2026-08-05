@@ -8,7 +8,7 @@
       "minUses": 20,
       "maxUses": 30,
       "minCraftedUses": 12,
-      "maxCraftedUses": 30,
+      "maxCraftedUses": 12,
       "config": {
         "keys": [
           "the_vault:echoing_chance",
@@ -29,7 +29,7 @@
       "minUses": 20,
       "maxUses": 30,
       "minCraftedUses": 12,
-      "maxCraftedUses": 30,
+      "maxCraftedUses": 12,
       "config": {
         "key": "the_vault:dodge_percent",
         "value": 0.15000000596046448,
@@ -44,7 +44,7 @@
       "minUses": 20,
       "maxUses": 30,
       "minCraftedUses": 12,
-      "maxCraftedUses": 30,
+      "maxCraftedUses": 12,
       "config": {
         "effect": "parcool:inexhaustible",
         "addedAmplifier": 1,
@@ -59,7 +59,7 @@
       "minUses": 20,
       "maxUses": 30,
       "minCraftedUses": 12,
-      "maxCraftedUses": 30,
+      "maxCraftedUses": 12,
       "config": {
         "key": "the_vault:effect_cloud_chance_additive",
         "value": 0.10000000149011612,
@@ -74,7 +74,7 @@
       "minUses": 20,
       "maxUses": 30,
       "minCraftedUses": 12,
-      "maxCraftedUses": 30,
+      "maxCraftedUses": 12,
       "config": {
         "effect": "minecraft:night_vision",
         "addedAmplifier": 1,
@@ -89,13 +89,28 @@
       "minUses": 20,
       "maxUses": 30,
       "minCraftedUses": 12,
-      "maxCraftedUses": 30,
+      "maxCraftedUses": 12,
       "config": {
         "chance": 0.05,
         "addedAmplifier": 1,
         "duration": 100,
         "effect": "the_vault:immortality",
         "curiosSlot": "red_trinket"
+      }
+    },
+    "the_vault:lucky_coins": {
+      "weight": 10,
+      "name": "Lucky Coins",
+      "effectText": "You feel so much luckier holding these! +1 Luck",
+      "color": 3120128,
+      "minUses": 20,
+      "maxUses": 30,
+      "minCraftedUses": 12,
+      "maxCraftedUses": 12,
+      "config": {
+        "effect": "minecraft:luck",
+        "addedAmplifier": 1,
+        "curiosSlot": "green_trinket"
       }
     }
   }

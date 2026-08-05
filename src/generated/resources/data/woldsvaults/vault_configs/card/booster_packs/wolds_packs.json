@@ -52,6 +52,7 @@
           "value": [
             {
               "modifier": "@deluxe_stat",
+              "condition": "@deluxe_stat",
               "probability": 1.0
             }
           ],
@@ -64,6 +65,7 @@
               "groups": [
                 "Foil"
               ],
+              "condition": "@deluxe_stat",
               "probability": 1.0
             }
           ],
@@ -94,6 +96,7 @@
           "value": [
             {
               "modifier": "@knack",
+              "condition": "@knack",
               "probability": 1.0
             }
           ],
@@ -106,6 +109,7 @@
               "groups": [
                 "Foil"
               ],
+              "condition": "@knack",
               "probability": 1.0
             }
           ],
@@ -115,6 +119,7 @@
           "value": [
             {
               "modifier": "@deluxe_knack",
+              "condition": "@deluxe_knack",
               "probability": 1.0
             }
           ],
@@ -127,6 +132,7 @@
               "groups": [
                 "Foil"
               ],
+              "condition": "@deluxe_knack",
               "probability": 1.0
             }
           ],
@@ -136,6 +142,7 @@
           "value": [
             {
               "modifier": "@scaling",
+              "scaler": "@scaling",
               "probability": 1.0
             }
           ],
@@ -148,6 +155,7 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@scaling",
               "probability": 1.0
             }
           ],
@@ -199,6 +207,8 @@
           "value": [
             {
               "modifier": "@temporal",
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -211,6 +221,8 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -220,6 +232,8 @@
           "value": [
             {
               "modifier": "@deluxe_temporal",
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -232,6 +246,8 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -244,6 +260,7 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@default",
               "probability": 1.0
             }
           ],
@@ -639,6 +656,7 @@
           "value": [
             {
               "modifier": "@deluxe_stat",
+              "condition": "@deluxe_stat",
               "probability": 1.0
             }
           ],
@@ -651,6 +669,7 @@
               "groups": [
                 "Foil"
               ],
+              "condition": "@deluxe_stat",
               "probability": 1.0
             }
           ],
@@ -681,6 +700,7 @@
           "value": [
             {
               "modifier": "@knack",
+              "condition": "@knack",
               "probability": 1.0
             }
           ],
@@ -693,6 +713,7 @@
               "groups": [
                 "Foil"
               ],
+              "condition": "@knack",
               "probability": 1.0
             }
           ],
@@ -702,6 +723,7 @@
           "value": [
             {
               "modifier": "@deluxe_knack",
+              "condition": "@deluxe_knack",
               "probability": 1.0
             }
           ],
@@ -714,6 +736,7 @@
               "groups": [
                 "Foil"
               ],
+              "condition": "@deluxe_knack",
               "probability": 1.0
             }
           ],
@@ -723,6 +746,7 @@
           "value": [
             {
               "modifier": "@scaling",
+              "scaler": "@scaling",
               "probability": 1.0
             }
           ],
@@ -735,6 +759,7 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@scaling",
               "probability": 1.0
             }
           ],
@@ -786,6 +811,8 @@
           "value": [
             {
               "modifier": "@temporal",
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -798,6 +825,8 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -807,6 +836,8 @@
           "value": [
             {
               "modifier": "@deluxe_temporal",
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -819,6 +850,8 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -831,6 +864,7 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@default",
               "probability": 1.0
             }
           ],
@@ -1079,7 +1113,7 @@
               "probability": 1.0
             }
           ],
-          "weight": 9.0
+          "weight": 6.0
         },
         {
           "value": [
@@ -1091,16 +1125,17 @@
               "probability": 1.0
             }
           ],
-          "weight": 6.0
+          "weight": 3.0
         },
         {
           "value": [
             {
               "modifier": "@deluxe_stat",
+              "condition": "@deluxe_stat",
               "probability": 1.0
             }
           ],
-          "weight": 6.0
+          "weight": 3.0
         },
         {
           "value": [
@@ -1109,10 +1144,11 @@
               "groups": [
                 "Foil"
               ],
+              "condition": "@deluxe_stat",
               "probability": 1.0
             }
           ],
-          "weight": 3.0
+          "weight": 1.0
         },
         {
           "value": [
@@ -1139,6 +1175,7 @@
           "value": [
             {
               "modifier": "@knack",
+              "condition": "@knack",
               "probability": 1.0
             }
           ],
@@ -1151,15 +1188,7 @@
               "groups": [
                 "Foil"
               ],
-              "probability": 1.0
-            }
-          ],
-          "weight": 4.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@deluxe_knack",
+              "condition": "@knack",
               "probability": 1.0
             }
           ],
@@ -1169,22 +1198,34 @@
           "value": [
             {
               "modifier": "@deluxe_knack",
-              "groups": [
-                "Foil"
-              ],
+              "condition": "@deluxe_knack",
               "probability": 1.0
             }
           ],
-          "weight": 1.0
+          "weight": 4.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "groups": [
+                "Foil"
+              ],
+              "condition": "@deluxe_knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
         },
         {
           "value": [
             {
               "modifier": "@scaling",
+              "scaler": "@scaling",
               "probability": 1.0
             }
           ],
-          "weight": 9.0
+          "weight": 6.0
         },
         {
           "value": [
@@ -1193,6 +1234,16 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@scaling",
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@resource",
               "probability": 1.0
             }
           ],
@@ -1202,6 +1253,66 @@
           "value": [
             {
               "modifier": "@resource",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_resource",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_resource",
+              "groups": [
+                "Foil"
+              ],
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@temporal",
+              "scaler": "@temporal",
+              "condition": "@temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@temporal",
+              "groups": [
+                "Foil"
+              ],
+              "scaler": "@temporal",
+              "condition": "@temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -1210,77 +1321,16 @@
         {
           "value": [
             {
-              "modifier": "@resource",
-              "groups": [
-                "Foil"
-              ],
-              "probability": 1.0
-            }
-          ],
-          "weight": 2.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@deluxe_resource",
-              "probability": 1.0
-            }
-          ],
-          "weight": 3.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@deluxe_resource",
-              "groups": [
-                "Foil"
-              ],
-              "probability": 1.0
-            }
-          ],
-          "weight": 2.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@temporal",
-              "probability": 1.0
-            }
-          ],
-          "weight": 3.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@temporal",
-              "groups": [
-                "Foil"
-              ],
-              "probability": 1.0
-            }
-          ],
-          "weight": 1.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@deluxe_temporal",
-              "probability": 1.0
-            }
-          ],
-          "weight": 2.0
-        },
-        {
-          "value": [
-            {
               "modifier": "@deluxe_temporal",
               "groups": [
                 "Foil"
               ],
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
-          "weight": 1.0
+          "weight": 2.0
         },
         {
           "value": [
@@ -1289,10 +1339,11 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@default",
               "probability": 1.0
             }
           ],
-          "weight": 2.0
+          "weight": 3.0
         }
       ]
     },
@@ -1396,7 +1447,7 @@
               "probability": 1.0
             }
           ],
-          "weight": 9.0
+          "weight": 6.0
         },
         {
           "value": [
@@ -1414,10 +1465,11 @@
           "value": [
             {
               "modifier": "@deluxe_stat",
+              "condition": "@deluxe_stat",
               "probability": 1.0
             }
           ],
-          "weight": 6.0
+          "weight": 3.0
         },
         {
           "value": [
@@ -1426,57 +1478,16 @@
               "groups": [
                 "Foil"
               ],
+              "condition": "@deluxe_stat",
               "probability": 1.0
             }
           ],
-          "weight": 3.0
+          "weight": 1.0
         },
         {
           "value": [
             {
               "modifier": "@arcane",
-              "probability": 1.0
-            }
-          ],
-          "weight": 9.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@arcane",
-              "groups": [
-                "Foil"
-              ],
-              "probability": 1.0
-            }
-          ],
-          "weight": 3.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@knack",
-              "probability": 1.0
-            }
-          ],
-          "weight": 9.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@knack",
-              "groups": [
-                "Foil"
-              ],
-              "probability": 1.0
-            }
-          ],
-          "weight": 3.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@deluxe_knack",
               "probability": 1.0
             }
           ],
@@ -1485,7 +1496,7 @@
         {
           "value": [
             {
-              "modifier": "@deluxe_knack",
+              "modifier": "@arcane",
               "groups": [
                 "Foil"
               ],
@@ -1497,11 +1508,58 @@
         {
           "value": [
             {
-              "modifier": "@scaling",
+              "modifier": "@knack",
+              "condition": "@knack",
               "probability": 1.0
             }
           ],
-          "weight": 9.0
+          "weight": 6.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@knack",
+              "groups": [
+                "Foil"
+              ],
+              "condition": "@knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "condition": "@deluxe_knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 4.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_knack",
+              "groups": [
+                "Foil"
+              ],
+              "condition": "@deluxe_knack",
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@scaling",
+              "scaler": "@scaling",
+              "probability": 1.0
+            }
+          ],
+          "weight": 6.0
         },
         {
           "value": [
@@ -1510,6 +1568,7 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@scaling",
               "probability": 1.0
             }
           ],
@@ -1522,7 +1581,7 @@
               "probability": 1.0
             }
           ],
-          "weight": 9.0
+          "weight": 6.0
         },
         {
           "value": [
@@ -1561,27 +1620,8 @@
           "value": [
             {
               "modifier": "@temporal",
-              "probability": 1.0
-            }
-          ],
-          "weight": 9.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@temporal",
-              "groups": [
-                "Foil"
-              ],
-              "probability": 1.0
-            }
-          ],
-          "weight": 3.0
-        },
-        {
-          "value": [
-            {
-              "modifier": "@deluxe_temporal",
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
@@ -1590,14 +1630,41 @@
         {
           "value": [
             {
-              "modifier": "@deluxe_temporal",
+              "modifier": "@temporal",
               "groups": [
                 "Foil"
               ],
+              "scaler": "@temporal",
+              "condition": "@temporal",
               "probability": 1.0
             }
           ],
           "weight": 3.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "scaler": "@temporal",
+              "condition": "@temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 4.0
+        },
+        {
+          "value": [
+            {
+              "modifier": "@deluxe_temporal",
+              "groups": [
+                "Foil"
+              ],
+              "scaler": "@temporal",
+              "condition": "@temporal",
+              "probability": 1.0
+            }
+          ],
+          "weight": 2.0
         },
         {
           "value": [
@@ -1606,10 +1673,11 @@
               "groups": [
                 "Foil"
               ],
+              "scaler": "@default",
               "probability": 1.0
             }
           ],
-          "weight": 4.0
+          "weight": 3.0
         }
       ]
     }

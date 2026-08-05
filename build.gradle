@@ -191,8 +191,8 @@ repositories {
 vhaddon {
     allowedItemNamespaces = ["minecraft", "the_vault", 'woldsvaults']
     moddedConfigDestinations = ["run-data"]
-    zipUrl = "https://github.com/iwolfking/Wolds-Vaults/archive/refs/heads/u33.zip"
-    overridesDir = "Wolds-Vaults-u33"
+    zipUrl = "https://github.com/iwolfking/Wolds-Vaults/archive/refs/heads/master.zip"
+    overridesDir = "Wolds-Vaults-master"
 }
 tasks.matching { it.name in ["getVersionInfo", "updateVHJarVersion", "printAvailableVersions"] }.configureEach { group = null }
 

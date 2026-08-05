@@ -33,7 +33,7 @@ public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotConta
             cir.setReturnValue(ModSlotIcons.PLACEHOLDER_NO_ITEM);
         }
     }
-    @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Liskallia/vault/container/CrystalWorkbenchContainer;addSlot(Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;"),
+    @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Liskallia/vault/container/CrystalWorkbenchContainer;addSlot(Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;"), remap = true,
     slice = @Slice(from = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getUniqueIngredients()Liskallia/vault/container/oversized/OverSizedInventory;", ordinal = 0),
                      to = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getOutput()Liskallia/vault/container/oversized/OverSizedInventory;")))
     private Slot stackableSeals(CrystalWorkbenchContainer instance, Slot slot, Operation<Slot> original){

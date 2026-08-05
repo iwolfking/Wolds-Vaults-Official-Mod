@@ -4,6 +4,7 @@ import com.alrex.parcool.api.Effects;
 import iskallia.vault.VaultMod;
 import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.gear.trinket.effects.AttributeTrinket;
+import iskallia.vault.gear.trinket.effects.PotionEffectTrinket;
 import iskallia.vault.init.ModEffects;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.event.RegistryEvent;
@@ -25,6 +26,7 @@ public class ModTrinkets {
     private static final AttributeTrinket<Float> SWIFT_AMULET;
     private static final MultiAttributeTrinket<Float> VIBRATING_STONE;
     private static final EffectOnHitTakenEffect IMMORTAL_SEAL;
+    private static final PotionEffectTrinket LUCKY_COINS;
 
     public static void init(RegistryEvent.Register<TrinketEffect<?>> event) {
         IForgeRegistry<TrinketEffect<?>> registry = event.getRegistry();
@@ -34,6 +36,7 @@ public class ModTrinkets {
         registry.register(SWIFT_AMULET);
         registry.register(VIBRATING_STONE);
         registry.register(IMMORTAL_SEAL);
+        registry.register(LUCKY_COINS);
     }
 
     static {
@@ -43,5 +46,6 @@ public class ModTrinkets {
         SWIFT_AMULET =  new AttributeTrinket<>(VaultMod.id("swift_amulet"), ModGearAttributes.DODGE_PERCENT, 0.15F);
         VIBRATING_STONE =  new MultiAttributeTrinket<>(VaultMod.id("vibrating_stone"), List.of(ModGearAttributes.ECHOING_CHANCE, ModGearAttributes.ECHOING_DAMAGE), List.of(0.1F, 0.25F));
         IMMORTAL_SEAL =  new EffectOnHitTakenEffect(VaultMod.id("immortal_seal"), 0.05F, ModEffects.IMMORTALITY, 0, 60);
+        LUCKY_COINS =  new PotionEffectTrinket(VaultMod.id("lucky_coins"), MobEffects.LUCK, 1);
     }
 }

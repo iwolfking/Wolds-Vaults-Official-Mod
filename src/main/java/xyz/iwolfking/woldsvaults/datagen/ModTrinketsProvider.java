@@ -1,13 +1,12 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import com.alrex.parcool.api.Effects;
-import com.alrex.parcool.common.potion.effects.InexhaustibleEffect;
 import iskallia.vault.VaultMod;
-import iskallia.vault.gear.trinket.GearAttributeTrinket;
 import iskallia.vault.gear.trinket.effects.AttributeTrinket;
 import iskallia.vault.gear.trinket.effects.PotionEffectTrinket;
 import iskallia.vault.init.ModEffects;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import xyz.iwolfking.vhapi.api.datagen.AbstractTrinketProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -32,7 +31,7 @@ public class ModTrinketsProvider extends AbstractTrinketProvider {
                     .addTrinket(VaultMod.id("chromatic_diffuser"), AbstractTrinketProvider.Builder.createTrinket(10, "Chromatic Diffuser", "Adds an additional 10% chance to trigger Effect Clouds", 20, 30, 12, 12, new AttributeTrinket.Config<Float>(ModGearAttributes.INCREASED_EFFECT_CLOUD_CHANCE, 0.1F), AbstractTrinketProvider.Builder.TrinketSlot.RED_TRINKET))
                     .addTrinket(VaultMod.id("miners_headlamp"), AbstractTrinketProvider.Builder.createTrinket(10, "Miner's Headlamp", "Grants night vision, +25% Copiously", 20, 30, 12, 12, new PotionEffectTrinket.Config(MobEffects.NIGHT_VISION.getRegistryName(), 1), AbstractTrinketProvider.Builder.TrinketSlot.GREEN_TRINKET))
                     .addTrinket(VaultMod.id("immortal_seal"), AbstractTrinketProvider.Builder.createTrinket(10, "Immortal Seal", "5% chance to gain Immortality for 5 seconds on hit", 20, 30, 12, 12, new EffectOnHitTakenEffect.Config(0.05F, ModEffects.IMMORTALITY.getRegistryName(), 1, 100), Builder.TrinketSlot.RED_TRINKET))
-                    .addTrinket(VaultMod.id("lucky_coins"), AbstractTrinketProvider.Builder.createTrinket(10, "Lucky Coins", "You feel so much luckier holding these! +1 Luck", 20, 30, 12, 12, new PotionEffectTrinket.Config(MobEffects.LUCK.getRegistryName(), 0), Builder.TrinketSlot.GREEN_TRINKET))
+                    .addTrinket(VaultMod.id("lucky_coins"), AbstractTrinketProvider.Builder.createTrinket(10, "Lucky Coins", "You feel so much luckier holding these! +1 Luck", 20, 30, 12, 12, new PotionEffectTrinket.Config(ResourceLocation.withDefaultNamespace("luck"), 1), Builder.TrinketSlot.GREEN_TRINKET))
                     .build();
         });
 

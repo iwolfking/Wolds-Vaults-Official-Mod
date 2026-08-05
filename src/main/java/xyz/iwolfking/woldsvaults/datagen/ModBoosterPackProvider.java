@@ -147,25 +147,25 @@ public class ModBoosterPackProvider extends AbstractBoosterPackProvider {
             }, cards -> {
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, null, null, null, 1.0)), 9);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, Set.of("Foil"), null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, Set.of("Foil"), null, null, 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, null, null, "@deluxe_stat", 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, Set.of("Foil"), null, "@deluxe_stat", 1.0)), 3);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@arcane", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@arcane", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, Set.of("Foil"), null, null, 1.0)), 4);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null, null, null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null,  Set.of("Foil"), null, null, 1.0)), 1);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, null, null, null, 1.0)), 4);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, Set.of("Foil"), null, null, 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, null, null, "@knack", 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, Set.of("Foil"), null, "@knack", 1.0)), 4);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null, null, null, "@deluxe_knack", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null,  Set.of("Foil"), null, "@deluxe_knack", 1.0)), 1);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, null, "@scaling", null, 1.0)), 4);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, Set.of("Foil"), "@scaling", null, 1.0)), 2);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, null, null, null, 1.0)), 2);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, Set.of("Foil"), null, null, 1.0)), 1);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, null, null, null, 1.0)), 2);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, Set.of("Foil"), null, null, 1.0)), 1);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, null, null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, Set.of("Foil"), null, null, 1.0)), 1);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, null, null, null, 1.0)), 2);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, Set.of("Foil"), null, null, 1.0)), 1);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@shiny", null, Set.of("Foil"), null, null, 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, null, "@temporal", "@temporal", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, Set.of("Foil"), "@temporal", "@temporal", 1.0)), 1);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, null, "@temporal", "@temporal", 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, Set.of("Foil"), "@temporal", "@temporal", 1.0)), 1);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@shiny", null, Set.of("Foil"), "@default", null, 1.0)), 2);
             });
 
             builder.addEntry(VaultMod.id("grove_pack").toString(), "Grove Booster Pack", VHAPI.of("booster_pack/grove_pack_ripped").toString(), VHAPI.of("booster_pack/grove_pack").toString(), rolls -> {
@@ -175,27 +175,27 @@ public class ModBoosterPackProvider extends AbstractBoosterPackProvider {
             }, colors -> {
                 colors.add(CardEntry.Color.GREEN, 1);
             }, cards -> {
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, null, null, null, 1.0)), 9);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, Set.of("Foil"), null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, Set.of("Foil"), null, null, 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, null, null, null, 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, Set.of("Foil"), null, null, 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, null, null, "@deluxe_stat", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, Set.of("Foil"), null, "@deluxe_stat", 1.0)), 1);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@arcane", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@arcane", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, Set.of("Foil"), null, null, 1.0)), 4);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null, null, null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null,  Set.of("Foil"), null, null, 1.0)), 1);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, null, null, null, 1.0)), 9);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, Set.of("Foil"), null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, null, null, null, 1.0)), 4);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, Set.of("Foil"), null, null, 1.0)), 2);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, null, null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, Set.of("Foil"), null, null, 1.0)), 2);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, null, null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, Set.of("Foil"), null, null, 1.0)), 1);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, null, null, null, 1.0)), 2);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, Set.of("Foil"), null, null, 1.0)), 1);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@shiny", null, Set.of("Foil"), null, null, 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, null, null, "@knack", 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, Set.of("Foil"), null, "@knack", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null, null, null, "@deluxe_knack", 1.0)), 4);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null,  Set.of("Foil"), null, "@deluxe_knack", 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, null, "@scaling", null, 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, Set.of("Foil"), "@scaling", null, 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, null, null, null, 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, Set.of("Foil"), null, null, 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, null, null, null, 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, Set.of("Foil"), null, null, 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, null, "@temporal", "@temporal", 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, Set.of("Foil"), "@temporal", "@temporal", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, null, "@temporal", "@temporal", 1.0)), 4);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, Set.of("Foil"), "@temporal", "@temporal", 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@shiny", null, Set.of("Foil"), "@default", null, 1.0)), 3);
             });
 
             builder.addEntry(VaultMod.id("library_pack").toString(), "Library Booster Pack", VHAPI.of("booster_pack/library_pack_ripped").toString(), VHAPI.of("booster_pack/library_pack").toString(), rolls -> {
@@ -205,27 +205,27 @@ public class ModBoosterPackProvider extends AbstractBoosterPackProvider {
             }, colors -> {
                 colors.add(CardEntry.Color.BLUE, 1);
             }, cards -> {
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, null, null, null, 1.0)), 9);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@arcane", null, null, null, null, 1.0)), 9);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, null, null, "@deluxe_stat", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, Set.of("Foil"), null, "@deluxe_stat", 1.0)), 1);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@arcane", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@arcane", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, null, null, null, 1.0)), 9);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null,  Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, null, null, null, 1.0)), 9);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, null, null, null, 1.0)), 9);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, null, null, "@knack", 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, Set.of("Foil"), null, "@knack", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null, null, null, "@deluxe_knack", 1.0)), 4);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null,  Set.of("Foil"), null, "@deluxe_knack", 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, null, "@scaling", null, 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, Set.of("Foil"), "@scaling", null, 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, Set.of("Foil"), null, null, 1.0)), 3);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, null, null, null, 1.0)), 9);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@shiny", null, Set.of("Foil"), null, null, 1.0)), 4);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, null, "@temporal", "@temporal", 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, Set.of("Foil"), "@temporal", "@temporal", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, null, "@temporal", "@temporal", 1.0)), 4);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, Set.of("Foil"), "@temporal", "@temporal", 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@shiny", null, Set.of("Foil"), "@default", null, 1.0)), 3);
             });
 
             builder.addEntry(VaultMod.id("museum_pack").toString(), "Museum Booster Pack", VHAPI.of("booster_pack/museum_pack_ripped").toString(), VHAPI.of("booster_pack/museum_pack").toString(), rolls -> {
@@ -237,25 +237,25 @@ public class ModBoosterPackProvider extends AbstractBoosterPackProvider {
             }, cards -> {
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@default", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, null, null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, Set.of("Foil"), null, null, 1.0)), 1);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, null, null, "@deluxe_stat", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_stat", null, Set.of("Foil"), null, "@deluxe_stat", 1.0)), 1);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@arcane", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@arcane", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null, null, null, null, 1.0)), 4);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null,  Set.of("Foil"), null, null, 1.0)), 2);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, Set.of("Foil"), null, null, 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, null, null, "@knack", 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@knack", null, Set.of("Foil"), null, "@knack", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null, null, null, "@deluxe_knack", 1.0)), 4);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_knack", null,  Set.of("Foil"), null, "@deluxe_knack", 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, null, "@scaling", null, 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@scaling", null, Set.of("Foil"), "@scaling", null, 1.0)), 3);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@resource", null, Set.of("Foil"), null, null, 1.0)), 3);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, null, null, null, 1.0)), 6);
                 cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_resource", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, null, null, null, 1.0)), 6);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, Set.of("Foil"), null, null, 1.0)), 3);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, null, null, null, 1.0)), 4);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, Set.of("Foil"), null, null, 1.0)), 2);
-                cards.add(List.of(new BoosterPackConfig.CardConfig("@shiny", null, Set.of("Foil"), null, null, 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, null, "@temporal", "@temporal", 1.0)), 6);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@temporal", null, Set.of("Foil"), "@temporal", "@temporal", 1.0)), 3);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, null, "@temporal", "@temporal", 1.0)), 4);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@deluxe_temporal", null, Set.of("Foil"), "@temporal", "@temporal", 1.0)), 2);
+                cards.add(List.of(new BoosterPackConfig.CardConfig("@shiny", null, Set.of("Foil"), "@default", null, 1.0)), 3);
             });
 
 

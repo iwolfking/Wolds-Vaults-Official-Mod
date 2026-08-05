@@ -257,7 +257,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             }).build();
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
-                        .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "ModEffect", "u_lucky_lucky", List.of(), vaultGearModifierTiersBuilder -> {
+                        .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT, "ModEffect", "u_lucky_lucky_tm", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, MobEffects.LUCK.getRegistryName(), 1);
                         });
                 vaultGearAttributeGroupBuilder

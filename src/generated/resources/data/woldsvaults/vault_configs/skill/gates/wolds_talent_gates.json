@@ -251,6 +251,10 @@
       "Stack_Master": {
         "dependsOn": [
           {
+            "amount": 40,
+            "type": "talent_points_spent"
+          },
+          {
             "gates": [
               {
                 "id": "Blazing",
@@ -284,12 +288,7 @@
             "type": "either"
           }
         ],
-        "lockedBy": [
-          {
-            "amount": 40,
-            "type": "talent_points_spent"
-          }
-        ],
+        "lockedBy": [],
         "ignoreArrow": true
       },
       "Mind_Meld": {

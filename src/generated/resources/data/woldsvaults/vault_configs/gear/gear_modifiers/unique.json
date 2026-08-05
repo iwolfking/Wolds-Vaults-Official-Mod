@@ -663,7 +663,7 @@
       {
         "attribute": "the_vault:effect",
         "group": "ModEffect",
-        "identifier": "the_vault:u_lucky_lucky",
+        "identifier": "the_vault:u_lucky_lucky_tm",
         "tags": [],
         "tiers": [
           {
