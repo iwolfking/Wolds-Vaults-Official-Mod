@@ -28,7 +28,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         ModConfigs.COLORS = new ColorsConfig().readConfig();
 
         add("talent_overlevels", builder -> {
-            TalentDescriptionsHelper.appendOverlevelDescription("Haste", builder, "add", "+10 Mining Speed", "#47b8f5");
+            TalentDescriptionsHelper.appendOverlevelDescription("Haste", builder, "add", "+10% Mining Speed", "#47b8f5");
             TalentDescriptionsHelper.appendOverlevelDescription("Speed", builder, "add", "+10% Movement Speed", "#ffe400");
             TalentDescriptionsHelper.appendOverlevelDescription("Strength", builder, "add", "+6 Attack Damage", "#C23627");
             TalentDescriptionsHelper.appendOverlevelDescription("Intelligence", builder, "add", "+8 Ability Power", "#FF00CB");
