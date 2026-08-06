@@ -438,6 +438,7 @@
     "vaulthunters.fixes.MixinEliteZombie",
     "vaulthunters.fixes.MixinEntityGroupsConfig",
     "vaulthunters.fixes.MixinFloatingItem",
+    "vaulthunters.fixes.MixinGearAttributeTalent",
     "vaulthunters.fixes.MixinImmortalityEffect",
     "vaulthunters.fixes.MixinIntegrationCurios",
     "vaulthunters.fixes.MixinJewelCraftingRecipe",
