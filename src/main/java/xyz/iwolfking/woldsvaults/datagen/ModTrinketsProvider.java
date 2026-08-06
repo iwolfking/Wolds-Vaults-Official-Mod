@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import com.alrex.parcool.api.Effects;
 import iskallia.vault.VaultMod;
+import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.gear.trinket.effects.AttributeTrinket;
 import iskallia.vault.gear.trinket.effects.PotionEffectTrinket;
 import iskallia.vault.init.ModEffects;
@@ -32,6 +33,7 @@ public class ModTrinketsProvider extends AbstractTrinketProvider {
                     .addTrinket(VaultMod.id("miners_headlamp"), AbstractTrinketProvider.Builder.createTrinket(10, "Miner's Headlamp", "Grants night vision, +25% Copiously", 20, 30, 12, 12, new PotionEffectTrinket.Config(MobEffects.NIGHT_VISION.getRegistryName(), 1), AbstractTrinketProvider.Builder.TrinketSlot.GREEN_TRINKET))
                     .addTrinket(VaultMod.id("immortal_seal"), AbstractTrinketProvider.Builder.createTrinket(10, "Immortal Seal", "5% chance to gain Immortality for 5 seconds on hit", 20, 30, 12, 12, new EffectOnHitTakenEffect.Config(0.05F, ModEffects.IMMORTALITY.getRegistryName(), 1, 100), Builder.TrinketSlot.RED_TRINKET))
                     .addTrinket(VaultMod.id("lucky_coins"), AbstractTrinketProvider.Builder.createTrinket(10, "Lucky Coins", "You feel so much luckier holding these! +1 Luck", 20, 30, 12, 12, new PotionEffectTrinket.Config(ResourceLocation.withDefaultNamespace("luck"), 1), Builder.TrinketSlot.GREEN_TRINKET))
+                    .addTrinket(VaultMod.id("weighted_boots"), AbstractTrinketProvider.Builder.createTrinket(10, "Weighted Boots", "Allows the player to control their speed while equipped, press g to configure.", 20, 30, 12, 12, new TrinketEffect.Simple.NoOpConfig(), Builder.TrinketSlot.BLUE_TRINKET))
                     .build();
         });
 

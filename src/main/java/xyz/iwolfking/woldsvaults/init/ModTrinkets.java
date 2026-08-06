@@ -13,6 +13,7 @@ import xyz.iwolfking.woldsvaults.api.lib.trinket.MultiAttributeTrinket;
 import xyz.iwolfking.woldsvaults.effect.trinkets.EffectOnHitTakenEffect;
 import xyz.iwolfking.woldsvaults.effect.trinkets.HeadlampTrinketEffect;
 import xyz.iwolfking.woldsvaults.effect.trinkets.RunningShoesTrinketEffect;
+import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class ModTrinkets {
     private static final MultiAttributeTrinket<Float> VIBRATING_STONE;
     private static final EffectOnHitTakenEffect IMMORTAL_SEAL;
     private static final PotionEffectTrinket LUCKY_COINS;
+    private static final SpeedLimitTrinketEffect WEIGHTED_BOOTS;
 
     public static void init(RegistryEvent.Register<TrinketEffect<?>> event) {
         IForgeRegistry<TrinketEffect<?>> registry = event.getRegistry();
@@ -37,6 +39,7 @@ public class ModTrinkets {
         registry.register(VIBRATING_STONE);
         registry.register(IMMORTAL_SEAL);
         registry.register(LUCKY_COINS);
+        registry.register(WEIGHTED_BOOTS);
     }
 
     static {
@@ -47,5 +50,6 @@ public class ModTrinkets {
         VIBRATING_STONE =  new MultiAttributeTrinket<>(VaultMod.id("vibrating_stone"), List.of(ModGearAttributes.ECHOING_CHANCE, ModGearAttributes.ECHOING_DAMAGE), List.of(0.1F, 0.25F));
         IMMORTAL_SEAL =  new EffectOnHitTakenEffect(VaultMod.id("immortal_seal"), 0.05F, ModEffects.IMMORTALITY, 0, 60);
         LUCKY_COINS =  new PotionEffectTrinket(VaultMod.id("lucky_coins"), MobEffects.LUCK, 1);
+        WEIGHTED_BOOTS = new SpeedLimitTrinketEffect(VaultMod.id("weighted_boots"));
     }
 }

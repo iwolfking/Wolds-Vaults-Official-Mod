@@ -747,6 +747,7 @@
   "key.the_vault.quickselect.colossus": "Select and use ability: Colossus",
   "key.the_vault.quickselect.expunge": "Select and use ability: Diffuse",
   "key.woldsvaults.cherish_item": "Cherish Item",
+  "key.woldsvaults.configure_trinket": "Configure Hovered Trinket",
   "key.woldsvaults.is_feather_fixed": "Toggle Prismatic Feather Fix",
   "key.woldsvaults.open_inventory_hud": "Open Inventory HUD Edit Screen",
   "key.woldsvaults.open_wolds_vaults_config": "Open Wold's Vaults Config Screen",
