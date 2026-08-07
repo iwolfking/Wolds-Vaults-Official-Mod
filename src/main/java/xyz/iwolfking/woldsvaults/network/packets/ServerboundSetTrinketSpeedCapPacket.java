@@ -51,7 +51,7 @@ public class ServerboundSetTrinketSpeedCapPacket {
                 }
                 stack = menu.getSlot(packet.slotIndex).getItem();
             }
-            if (!(stack.getItem() instanceof TrinketItem) || !TrinketItem.isIdentified(stack) || !(TrinketItem.getTrinket(stack).orElse(null) instanceof SpeedLimitTrinketEffect)) {
+            if (!SpeedLimitTrinketEffect.hasBootsEffect(stack) || !TrinketItem.isIdentified(stack)) {
                 WoldsVaults.LOGGER.warn("Weighted Boots: speed cap packet from {} targets slot {} which does not hold identified Weighted Boots, ignoring.", player.getGameProfile().getName(), packet.slotIndex);
                 return;
             }
