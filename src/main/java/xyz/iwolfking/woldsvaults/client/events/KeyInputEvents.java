@@ -77,7 +77,7 @@ public class KeyInputEvents {
             return;
         }
         ItemStack stack = hovered.getItem();
-        if (!(stack.getItem() instanceof TrinketItem) || !TrinketItem.isIdentified(stack) || !(TrinketItem.getTrinket(stack).orElse(null) instanceof SpeedLimitTrinketEffect)) {
+        if (!SpeedLimitTrinketEffect.hasBootsEffect(stack) || !TrinketItem.isIdentified(stack)) {
             return;
         }
         boolean creative = containerScreen instanceof CreativeModeInventoryScreen;

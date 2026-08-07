@@ -33,6 +33,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.blocks.containers.TrinketFusionContainer;
+import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModFluids;
 import xyz.iwolfking.woldsvaults.items.CombinedTrinketItem;
@@ -125,6 +126,11 @@ public class TrinketFusionForgeTileEntity extends BlockEntity implements MenuPro
                 effects,
                 VaultUsesHelper.getUses(storedA) + VaultUsesHelper.getUses(storedB)
         );
+
+        int capPercent = Math.max(SpeedLimitTrinketEffect.getCapPercent(storedA), SpeedLimitTrinketEffect.getCapPercent(storedB));
+        if (capPercent > 0) {
+            SpeedLimitTrinketEffect.setCapPercent(this.result, capPercent);
+        }
 
         this.progress = 0;
         this.crafting = true;

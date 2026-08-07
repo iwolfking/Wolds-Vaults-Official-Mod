@@ -1,10 +1,12 @@
 package xyz.iwolfking.woldsvaults.effect.trinkets;
 
 import iskallia.vault.gear.trinket.TrinketEffect;
+import iskallia.vault.item.gear.TrinketItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.items.CombinedTrinketItem;
 
 public class SpeedLimitTrinketEffect extends TrinketEffect.Simple {
     public static final String SPEED_CAP_TAG = "woldsvaults:speed_cap";
@@ -12,6 +14,16 @@ public class SpeedLimitTrinketEffect extends TrinketEffect.Simple {
 
     public SpeedLimitTrinketEffect(ResourceLocation name) {
         super(name);
+    }
+
+    /**
+     * True if the stack carries this effect, either as a plain trinket or anywhere in a fused CombinedTrinketItem.
+     */
+    public static boolean hasBootsEffect(ItemStack stack) {
+        if (stack.getItem() instanceof CombinedTrinketItem) {
+            return CombinedTrinketItem.getTrinkets(stack).stream().anyMatch(effect -> effect instanceof SpeedLimitTrinketEffect);
+        }
+        return stack.getItem() instanceof TrinketItem && TrinketItem.getTrinket(stack).orElse(null) instanceof SpeedLimitTrinketEffect;
     }
 
     /**
