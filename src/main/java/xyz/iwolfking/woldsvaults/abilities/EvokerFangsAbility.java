@@ -61,7 +61,7 @@ public class EvokerFangsAbility extends InstantManaAbility {
             double z = player.getZ() + Math.sin(angle) * dist;
             double y = player.getY();
 
-            CustomFangEntity fangs = new CustomFangEntity(level, x, y, z, player.getYRot(), player, damage, this.executeThreshold, 0, 0,false);
+            CustomFangEntity fangs = new CustomFangEntity(level, x, y, z, player.getYRot(), player, damage, this.executeThreshold, 0, 0,false, false);
             level.addFreshEntity(fangs);
         }
     }

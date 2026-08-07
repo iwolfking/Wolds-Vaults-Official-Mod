@@ -55,7 +55,8 @@ public class FangedStrikeLuckyHitTalent extends LuckyHitTalent {
               0.0F,
               0,
               0,
-              false
+              false,
+              true
       );
 
       level.addFreshEntity(fang);

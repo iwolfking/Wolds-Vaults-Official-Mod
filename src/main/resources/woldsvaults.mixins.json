@@ -326,6 +326,7 @@
     "vaulthunters.custom.MixinObjectiveTemplates",
     "vaulthunters.custom.MixinOverviewContainerElement",
     "vaulthunters.custom.MixinPlayerBlackMarketData",
+    "vaulthunters.custom.MixinPlayerDamageHelper",
     "vaulthunters.custom.MixinPlayerGreedData",
     "vaulthunters.custom.MixinPlayerGreedTraderData",
     "vaulthunters.custom.MixinPlayerGreedTreeData",
