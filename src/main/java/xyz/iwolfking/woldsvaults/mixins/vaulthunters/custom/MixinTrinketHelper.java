@@ -27,6 +27,7 @@ public abstract class MixinTrinketHelper {
             CombinedTrinketItem.getTrinkets(stack).forEach(trinketEffect -> {
                 addMatchingTrinkets(trinkets, stack, trinketEffect, trinketClass);
             });
+            return Optional.empty();
         }
         return original.call(stack);
     }
