@@ -1,8 +1,5 @@
 package xyz.iwolfking.woldsvaults.init;
 
-import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantingApparatusRecipe;
-import com.hollingsworth.arsnouveau.setup.RecipeRegistry;
-import net.minecraft.core.Registry;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;

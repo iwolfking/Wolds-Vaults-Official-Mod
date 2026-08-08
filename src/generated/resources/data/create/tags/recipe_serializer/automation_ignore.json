@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "woldsvaults:vault_catalyst_infusion",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:vault_gear_enchanting",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:vault_crystal_ritual",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:augment_ritual",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:augment_pool_ritual",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:companion_ritual",
+      "required": false
+    }
+  ]
+}

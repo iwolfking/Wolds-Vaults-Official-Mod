@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.init;
 
+import com.simibubi.create.AllTags;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
