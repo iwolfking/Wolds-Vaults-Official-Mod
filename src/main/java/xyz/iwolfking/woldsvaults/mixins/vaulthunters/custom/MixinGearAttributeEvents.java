@@ -82,7 +82,8 @@ public class MixinGearAttributeEvents {
 
     /**
      * @author aida
-     * @reason to make the purist talent multiplicative
+     * @reason to make the purist talent multiplicative, and keep proc fangs from
+     * re-applying damage increases already contained in their stored damage
      */
     @Inject(method = "increaseDamageDealt",
             at = @At(value = "INVOKE",
@@ -90,12 +91,28 @@ public class MixinGearAttributeEvents {
                     shift = At.Shift.BEFORE),
             cancellable = true)
     private static void increaseDamageDealt(LivingHurtEvent event, CallbackInfo ci, @Local PlayerTalentsData talents, @Local float increasedDamage, @Local Player player) {
+        if(WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()) {
+            ci.cancel();
+            return;
+        }
+
         float puristMult = 1.0F;
         for(PuristTalent talent : talents.getTalents(player).getAll(PuristTalent.class, Skill::isUnlocked)) {
             puristMult += talent.getDamageIncrease() * (float)talent.getCount(player);
         }
         event.setAmount(event.getAmount() * (1.0F + increasedDamage) * puristMult);
         ci.cancel();
+    }
+
+    /**
+     * @author PoorMansPhysicist
+     * @reason keep proc fangs from re-applying fatal strike gear crits already
+     * contained in their stored damage
+     */
+    @Inject(method = "doFatalStrikeAttack", at = @At("HEAD"), cancellable = true)
+    private static void doFatalStrikeAttack(LivingHurtEvent event, CallbackInfo ci) {
+        if(WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet())
+            ci.cancel();
     }
 
 

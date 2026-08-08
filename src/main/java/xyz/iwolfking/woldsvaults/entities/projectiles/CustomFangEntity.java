@@ -33,16 +33,18 @@ public class CustomFangEntity extends EvokerFangs {
     private int effectDuration = 180;
     private int effectAmplifier = 0;
     private boolean isMaw = false;
+    private boolean isProcFang = false;
 
 
 
-    public CustomFangEntity(Level level, double x, double y, double z, float yRot, LivingEntity owner, float damage, float executeThreshold, int effectDuration, int effectAmplifier, boolean isMaw) {
+    public CustomFangEntity(Level level, double x, double y, double z, float yRot, LivingEntity owner, float damage, float executeThreshold, int effectDuration, int effectAmplifier, boolean isMaw, boolean isProcFang) {
         this(ModEntities.CUSTOM_FANGS, level);
         this.setPos(x, y, z);
         this.setYRot(yRot);
         this.customDamage = damage;
         this.executeThreshold = executeThreshold;
         this.isMaw = isMaw;
+        this.isProcFang = isProcFang;
         this.effectDuration = effectDuration;
         this.effectAmplifier = effectAmplifier;
         this.setOwner(owner);
@@ -123,10 +125,14 @@ public class CustomFangEntity extends EvokerFangs {
             }
         }
 
-        WoldActiveFlags.IS_FANG_ATTACKING.runWithFlag(() -> {
-            pTarget.invulnerableTime = 0;
-            pTarget.hurt(DamageSource.playerAttack(player), customDamage);
-        });
+        WoldActiveFlags.IS_UNLUCKY_ATTACK.maybeRunWithFlag(isProcFang, () ->
+            WoldActiveFlags.IS_PROC_FANG_ATTACKING.maybeRunWithFlag(isProcFang, () ->
+                WoldActiveFlags.IS_FANG_ATTACKING.runWithFlag(() -> {
+                    pTarget.invulnerableTime = 0;
+                    pTarget.hurt(DamageSource.playerAttack(player), customDamage);
+                })
+            )
+        );
 
         if (!isMaw) {
 
@@ -145,7 +151,13 @@ public class CustomFangEntity extends EvokerFangs {
 
                 serverLevel.playSound(null, pTarget.blockPosition(), SoundEvents.ZOMBIE_VILLAGER_CONVERTED, SoundSource.PLAYERS, 1.0F, 2.0F);
 
-                pTarget.hurt(DamageSource.playerAttack(player), Float.MAX_VALUE);
+                WoldActiveFlags.IS_UNLUCKY_ATTACK.runWithFlag(() ->
+                    WoldActiveFlags.IS_PROC_FANG_ATTACKING.runWithFlag(() ->
+                        WoldActiveFlags.IS_FANG_ATTACKING.runWithFlag(() ->
+                            pTarget.hurt(DamageSource.playerAttack(player), Float.MAX_VALUE)
+                        )
+                    )
+                );
 
                 spawnHeartFragment(pTarget);
 
@@ -175,6 +187,7 @@ public class CustomFangEntity extends EvokerFangs {
         nbt.putInt("EffectDuration", this.effectDuration);
         nbt.putInt("EffectAmplifier", this.effectAmplifier);
         nbt.putBoolean("IsMaw", this.isMaw);
+        nbt.putBoolean("IsProcFang", this.isProcFang);
     }
 
     @Override
@@ -185,5 +198,6 @@ public class CustomFangEntity extends EvokerFangs {
         this.effectDuration = nbt.getInt("EffectDuration");
         this.effectAmplifier = nbt.getInt("EffectAmplifier");
         this.isMaw = nbt.getBoolean("IsMaw");
+        this.isProcFang = nbt.getBoolean("IsProcFang");
     }
 }

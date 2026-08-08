@@ -28,7 +28,7 @@ public class EchoingPotionEffect extends MobEffect {
         if(affected.getEffect(ModEffects.ECHOING) instanceof EchoingEffectInstance echo
         && !(echo.getAttacker() != null && WoldEtchingHelper.hasEtching(echo.getAttacker(), ModEtchingGearAttributes.REVERBERATION))) {
             WoldActiveFlags.IS_AOE2_ATTACK.maybeRunWithFlag(echo.noCleave, () ->
-                WoldActiveFlags.IS_UNLUCKY_ATTACK.maybeRunWithFlag(echo.noLuckyhit, () ->
+                WoldActiveFlags.IS_UNLUCKY_ATTACK.runWithFlag(() ->
                     WoldActiveFlags.IS_ECHOING_ATTACKING.runWithFlag(() ->
                         DamageUtil.shotgunAttack(affected, e -> e.hurt(echo.source, echo.damage))
                     )

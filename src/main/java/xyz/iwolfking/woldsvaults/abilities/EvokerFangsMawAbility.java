@@ -53,7 +53,7 @@ public class EvokerFangsMawAbility extends InstantManaAbility {
                         Vec3 perpendicular = new Vec3(-look.z, 0, look.x).scale(side * 0.5);
                         Vec3 finalPos = spawnPos.add(perpendicular);
 
-                        CustomFangEntity fangs = new CustomFangEntity(level, finalPos.x, finalPos.y, finalPos.z, player.getYRot(), player, finalDamage, heartFragmentChance, getEffectDuration(player), effectAmplifier, true);
+                        CustomFangEntity fangs = new CustomFangEntity(level, finalPos.x, finalPos.y, finalPos.z, player.getYRot(), player, finalDamage, heartFragmentChance, getEffectDuration(player), effectAmplifier, true, false);
                         level.addFreshEntity(fangs);
                     }
                 });
