@@ -1,12 +1,14 @@
 package xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component;
 
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Matrix4f;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent.RoomType;
@@ -48,11 +50,24 @@ public record LayoutTooltipClientComponent(LayoutTooltipComponent tooltipCompone
         poseStack.translate(x, y, 500);
 
         if (Screen.hasShiftDown()) {
-            renderRooms(poseStack, lines, cellSize);
-            renderHorizontalTunnels(poseStack, cellSize);
-            renderVerticalTunnels(poseStack, cellSize);
 
+            Matrix4f matrix = poseStack.last().pose();
+            BufferBuilder builder = Tesselator.getInstance().getBuilder();
+            RenderSystem.enableBlend();
+            RenderSystem.disableTexture();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 
+            renderRooms(builder, matrix, lines, cellSize);
+            renderHorizontalTunnels(builder, matrix, cellSize);
+            renderVerticalTunnels(builder, matrix, cellSize);
+
+            builder.end();
+            BufferUploader.end(builder);
+
+            RenderSystem.enableTexture();
+            RenderSystem.disableBlend();
 
             // If there are inscriptions and no seed is set, display a note
             if (hasInscriptions()) {
@@ -80,7 +95,7 @@ public record LayoutTooltipClientComponent(LayoutTooltipComponent tooltipCompone
     }
 
 
-    private static void renderRooms(PoseStack poseStack, RoomType[][] lines, int cellSize) {
+    private static void renderRooms(BufferBuilder builder, Matrix4f matrix, RoomType[][] lines, int cellSize) {
         for (int row = 0; row < lines.length; row++) {
             RoomType[] line = lines[row];
 
@@ -102,12 +117,13 @@ public record LayoutTooltipClientComponent(LayoutTooltipComponent tooltipCompone
                     default -> color = 0xFFFF00FF;
                 }
 
-                GuiComponent.fill(poseStack, x0, y0, x1, y1, color);
+                fill(builder, matrix, x0, y1, x1, y0, color);
             }
         }
     }
 
-    private void renderHorizontalTunnels(PoseStack poseStack, int cellSize) {
+
+    private void renderHorizontalTunnels(BufferBuilder builder, Matrix4f matrix, int cellSize) {
         Tunnel[][] hTunnels = tooltipComponent.horizontalTunnels();
         for (int row = 0; row < hTunnels.length; row++) {
             Tunnel[] line = hTunnels[row];
@@ -120,13 +136,13 @@ public record LayoutTooltipClientComponent(LayoutTooltipComponent tooltipCompone
                     int y0 = row * cellSize + GAP_SIZE + ROOM_SIZE / 2 - TUNNEL_THICKNESS / 2;
                     int y1 = y0 + TUNNEL_THICKNESS;
 
-                    GuiComponent.fill(poseStack, x0, y0, x1, y1, 0xFF888888);
+                    fill(builder, matrix, x0, y1, x1, y0, 0xFF888888);
                 }
             }
         }
     }
 
-    private void renderVerticalTunnels(PoseStack poseStack, int cellSize) {
+    private void renderVerticalTunnels(BufferBuilder builder, Matrix4f matrix, int cellSize) {
         Tunnel[][] vTunnels = tooltipComponent.verticalTunnels();
         for (int row = 0; row < vTunnels.length; row++) {
             Tunnel[] line = vTunnels[row];
@@ -139,10 +155,21 @@ public record LayoutTooltipClientComponent(LayoutTooltipComponent tooltipCompone
                     int x0 = col * cellSize + GAP_SIZE + ROOM_SIZE / 2 - TUNNEL_THICKNESS / 2;
                     int x1 = x0 + TUNNEL_THICKNESS;
 
-                    GuiComponent.fill(poseStack, x0, y0, x1, y1, 0xFF888888);
+                    fill(builder, matrix, x0, y1, x1, y0, 0xFF888888);
                 }
             }
         }
     }
 
+    private static void fill(BufferBuilder builder, Matrix4f matrix, int x0, int y1, int x1, int y0, int color) {
+        float a = (color >>> 24 & 255) / 255.0F;
+        float r = (color >>> 16 & 255) / 255.0F;
+        float g = (color >>> 8  & 255) / 255.0F;
+        float b = (color & 255) / 255.0F;
+
+        builder.vertex(matrix, x0, y1, 0).color(r, g, b, a).endVertex();
+        builder.vertex(matrix, x1, y1, 0).color(r, g, b, a).endVertex();
+        builder.vertex(matrix, x1, y0, 0).color(r, g, b, a).endVertex();
+        builder.vertex(matrix, x0, y0, 0).color(r, g, b, a).endVertex();
+    }
 }
