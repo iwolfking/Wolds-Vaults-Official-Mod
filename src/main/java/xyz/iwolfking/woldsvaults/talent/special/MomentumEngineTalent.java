@@ -87,6 +87,11 @@ public class MomentumEngineTalent extends GearAttributeTalent {
         return super.getValue() * this.stacks;
     }
 
+    public int getMaxStacks(ServerPlayer player) {
+        int maxStacksBonus = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ADDITIONAL_STACKING_STACKS, VaultGearAttributeTypeMerger.intSum());
+        return maxStacks + maxStacksBonus;
+    }
+
     @Override
     public boolean canApply(SkillContext context) {
         return super.canApply(context) && this.stacks > 0;
@@ -105,9 +110,8 @@ public class MomentumEngineTalent extends GearAttributeTalent {
                 this.moveTickTracker++;
 
                 if (this.moveTickTracker >= this.chargeIntervalTicks) {
-                    int maxStacksBonus = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ADDITIONAL_STACKING_STACKS, VaultGearAttributeTypeMerger.intSum());
                     this.moveTickTracker = 0;
-                    if (this.stacks < (this.maxStacks + maxStacksBonus)) {
+                    if (this.stacks < (this.getMaxStacks(player))) {
                         this.stacks++;
                         this.refreshSnapshot(player);
                     }
@@ -139,7 +143,7 @@ public class MomentumEngineTalent extends GearAttributeTalent {
     public void onMeleeHit(ServerPlayer player, LivingEntity target) {
         if (this.stacks <= 0) return;
 
-        if (this.stacks >= this.maxStacks) {
+        if (this.stacks >= (this.getMaxStacks(player))) {
             ActiveFlags.IS_AOE_ATTACKING
                     .runIfNotSet(
                             () -> {
