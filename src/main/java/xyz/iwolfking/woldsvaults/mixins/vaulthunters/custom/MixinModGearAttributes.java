@@ -55,7 +55,7 @@ public class MixinModGearAttributes {
 
     @Shadow
     @Mutable
-    public static final VaultGearAttribute<Float> VELOCITY = attr("velocity", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), new GearSpecificModifierReader<>(itemStack -> itemStack.is(ModItems.MAGNET), ModGearAttributeReaders.addedRoundedDecimalReader("Pull Speed", 14608287, 100.0F), ModGearAttributeReaders.addedRoundedDecimalReader("Velocity", 14608287, 100.0F)), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Float> VELOCITY = attr("velocity", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), new GearSpecificModifierReader<>(itemStack -> itemStack.is(ModItems.MAGNET), ModGearAttributeReaders.addedRoundedDecimalReader("Velocity", 14608287, 100.0F), ModGearAttributeReaders.addedRoundedDecimalReader("Pull Speed", 14608287, 100.0F)), VaultGearAttributeComparator.floatComparator());
     @Shadow
     @Mutable
     public static final VaultGearAttribute<Integer> ON_HIT_AOE = attr("on_hit_aoe", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Cleave Range", 12085504), VaultGearAttributeComparator.intComparator());
