@@ -10,6 +10,7 @@ import iskallia.vault.gear.reader.VaultGearModifierReader;
 import iskallia.vault.init.ModGearAttributeGenerators;
 import iskallia.vault.init.ModGearAttributeReaders;
 import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.init.ModItems;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.api.util.GearSpecificModifierReader;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.api.util.MutableModifierReader;
 import xyz.iwolfking.woldsvaults.api.util.WoldTexFX;
@@ -42,6 +44,10 @@ public class MixinModGearAttributes {
             ),
             VaultGearAttributeComparator.floatComparator()
     );
+
+    @Shadow
+    @Mutable
+    public static final VaultGearAttribute<Float> IMMORTALITY = attr("immortality", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), new GearSpecificModifierReader<>((itemStack -> !itemStack.is(ModItems.TOOL) && !itemStack.is(ModItems.JEWEL)), ModGearAttributeReaders.percentageReader("Vanilla Immortality", 13497234), ModGearAttributeReaders.percentageReader("Immortality", 9265311)), VaultGearAttributeComparator.floatComparator());
 
 
     @Shadow

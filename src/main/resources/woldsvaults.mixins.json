@@ -552,8 +552,8 @@
     "vaulthunters.fixes.MixinScavengerBingoRenderer",
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
-    "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinToolItem",
+    "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
     "vaulthunters.fixes.MixinVoidStoneItem",
     "vaulthunters.objectives.MixinClientCrystalData"
