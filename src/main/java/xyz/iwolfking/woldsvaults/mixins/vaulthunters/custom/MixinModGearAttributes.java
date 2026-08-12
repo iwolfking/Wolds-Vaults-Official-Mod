@@ -49,6 +49,17 @@ public class MixinModGearAttributes {
     @Mutable
     public static final VaultGearAttribute<Float> IMMORTALITY = attr("immortality", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), new GearSpecificModifierReader<>((itemStack -> !itemStack.is(ModItems.TOOL) && !itemStack.is(ModItems.JEWEL)), ModGearAttributeReaders.percentageReader("Vanilla Immortality", 13497234), ModGearAttributeReaders.percentageReader("Immortality", 9265311)), VaultGearAttributeComparator.floatComparator());
 
+    @Shadow
+    @Mutable
+    public static final VaultGearAttribute<Float> RANGE = attr("range", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), new GearSpecificModifierReader<>(itemStack -> itemStack.is(ModItems.MAGNET), ModGearAttributeReaders.addedDecimalReader("Range", 16364415), ModGearAttributeReaders.addedDecimalReader("Pickup Range", 16364415)), VaultGearAttributeComparator.floatComparator());
+
+    @Shadow
+    @Mutable
+    public static final VaultGearAttribute<Float> VELOCITY = attr("velocity", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), new GearSpecificModifierReader<>(itemStack -> itemStack.is(ModItems.MAGNET), ModGearAttributeReaders.addedRoundedDecimalReader("Pull Speed", 14608287, 100.0F), ModGearAttributeReaders.addedRoundedDecimalReader("Velocity", 14608287, 100.0F)), VaultGearAttributeComparator.floatComparator());
+    @Shadow
+    @Mutable
+    public static final VaultGearAttribute<Integer> ON_HIT_AOE = attr("on_hit_aoe", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Cleave Range", 12085504), VaultGearAttributeComparator.intComparator());
+
 
     @Shadow
     private static <T> VaultGearAttribute<T> attr(String name, VaultGearAttributeType<T> type, ConfigurableAttributeGenerator<T, ?> generator, VaultGearModifierReader<T> reader, @Nullable VaultGearAttributeComparator<T> comparator) {
