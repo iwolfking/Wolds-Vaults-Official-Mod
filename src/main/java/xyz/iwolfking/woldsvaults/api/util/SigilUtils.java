@@ -1,10 +1,15 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.sigil.SigilDefinitionsConfig;
 import iskallia.vault.core.vault.Modifiers;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.init.ModConfigs;
 import net.minecraft.resources.ResourceLocation;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SigilUtils {
@@ -27,6 +32,27 @@ public class SigilUtils {
         }
 
 
+    }
+
+    /**
+     * The vault's final difficulty expressed as a multiplier: 1.0 for a sigil-less vault, plus
+     * every difficulty source stacked on top of it. Only the crystal's sigil contributes today
+     * (its value comes from {@code sigils/definitions.json}), so a +3.0 sigil yields 4.0 — the
+     * 400% a player sees. A sigil id with no definition contributes nothing and is logged.
+     */
+    public static float getDifficultyMultiplier(@Nullable String sigil) {
+        if(sigil == null) {
+            return 1.0F;
+        }
+
+        Optional<SigilDefinitionsConfig.SigilDefinition> definition = ModConfigs.SIGIL_DEFINITIONS.get(sigil.toLowerCase());
+
+        if(definition.isEmpty()) {
+            WoldsVaults.LOGGER.warn("Sigil '{}' has no entry in sigils/definitions.json, counting its difficulty as 0", sigil);
+            return 1.0F;
+        }
+
+        return 1.0F + definition.get().getDifficulty();
     }
 
     public static int getStackCountForSigil(String sigil) {

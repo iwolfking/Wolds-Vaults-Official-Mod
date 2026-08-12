@@ -22,6 +22,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import javax.annotation.Nullable;
@@ -30,6 +31,8 @@ import java.util.Optional;
 import java.util.function.IntSupplier;
 
 public class BrutalBossesCrystalObjective extends WoldCrystalObjective {
+    private static final int MAX_OBELISKS = 10;
+
     protected IntRoll target;
     protected IntRoll wave;
     protected float objectiveProbability;
@@ -43,14 +46,22 @@ public class BrutalBossesCrystalObjective extends WoldCrystalObjective {
         this.objectiveProbability = objectiveProbability;
     }
 
-    //TODO: Add Sigil Support
+    /**
+     * Sigils scale the fight, not just its modifiers: the vault's final difficulty multiplier
+     * (1 + every difficulty source, so a +3.0 sigil reads as 400%) is square-rooted and applied
+     * to both the pillar count and each pillar's boss count, rounded down — 400% turns 4 pillars
+     * of 2 bosses into 8 pillars of 4. Pillars are capped at {@link #MAX_OBELISKS}; boss counts
+     * are not. The challenge stacks a sigil grants are added separately in
+     * {@link xyz.iwolfking.woldsvaults.api.util.SigilUtils#addStacksFromSigil}.
+     */
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
+        double difficultyScale = Math.sqrt(SigilUtils.getDifficultyMultiplier(sigil));
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            IntSupplier limitedWave = () -> random.nextInt(3) + 1;
+            IntSupplier limitedWave = () -> (int) ((random.nextInt(3) + 1) * difficultyScale);
 
-            int obelisks = random.nextInt(3) + 3;
+            int obelisks = Math.min((int) ((random.nextInt(3) + 3) * difficultyScale), MAX_OBELISKS);
 
             objectives.add(BrutalBossesObjective.of(obelisks, limitedWave, this.objectiveProbability)
                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("BRUTAL_BOSSES"), "brutal_bosses", level, true))
