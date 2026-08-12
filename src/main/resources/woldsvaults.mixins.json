@@ -463,7 +463,6 @@
     "vaulthunters.fixes.MixinStatisticsElementContainerScreenData",
     "vaulthunters.fixes.MixinTauntAbility",
     "vaulthunters.fixes.MixinThemeBlockRetriever",
-    "vaulthunters.fixes.MixinToolItem",
     "vaulthunters.fixes.MixinTreasureDoorTileEntityRenderer",
     "vaulthunters.fixes.MixinTreasureHunterEffect",
     "vaulthunters.fixes.MixinUnboxingStationTileEntity",
@@ -554,6 +553,7 @@
     "vaulthunters.fixes.MixinSkillDialog",
     "vaulthunters.fixes.MixinTalentWidget",
     "vaulthunters.fixes.MixinToolItemRenderer",
+    "vaulthunters.fixes.MixinToolItem",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
     "vaulthunters.fixes.MixinVoidStoneItem",
     "vaulthunters.objectives.MixinClientCrystalData"
