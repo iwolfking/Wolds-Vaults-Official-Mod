@@ -69,6 +69,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             TalentDescriptionsHelper.appendOverlevelDescription("Daze", builder, "add", "+20% Additional Damage", "#C23627");
             TalentDescriptionsHelper.appendOverlevelDescription("Voltaic_Impact", builder, "add", "+20% Additional Damage", "#C23627");
             TalentDescriptionsHelper.appendOverlevelDescription("Blight", builder, "add", "+2% Damage Reduction", "#ffd800");
+            TalentDescriptionsHelper.appendOverlevelDescription("Hunters_Instinct", builder, "add", "+0.2% Chance", "#ffd800");
         });
 
         add("wolds_talents", builder -> {

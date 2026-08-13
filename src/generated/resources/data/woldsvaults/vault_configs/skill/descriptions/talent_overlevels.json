@@ -658,45 +658,45 @@
         "color": "#47B8F5"
       },
       {
-        "text": " by a percentage.\n\n1 "
+        "text": ".\n\n1 "
       },
       {
-        "text": "+15%",
+        "text": "+10",
         "color": "#47B8F5"
       },
       {
         "text": "\n2 "
       },
       {
-        "text": "+30%",
+        "text": "+20",
         "color": "#47B8F5"
       },
       {
         "text": "\n3 "
       },
       {
-        "text": "+45%",
+        "text": "+30",
         "color": "#47B8F5"
       },
       {
         "text": "\n4 "
       },
       {
-        "text": "+60%",
+        "text": "+40",
         "color": "#47B8F5"
       },
       {
         "text": "\n5 "
       },
       {
-        "text": "+75%",
+        "text": "+50",
         "color": "#47B8F5"
       },
       {
         "text": "\n6 "
       },
       {
-        "text": "+90%",
+        "text": "+60",
         "color": "#47B8F5"
       },
       {
@@ -1033,6 +1033,42 @@
       },
       {
         "text": "+2% Damage Reduction",
+        "color": "#ffd800"
+      }
+    ],
+    "Hunters_Instinct": [
+      {
+        "text": "Killing a mob grants a small chance of having their death cause your "
+      },
+      {
+        "text": "Hunter senses",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": " to trigger, revealing all POI's in a radius around the killed mob. \n\nThis talent requires a level in "
+      },
+      {
+        "text": "Hunter",
+        "color": "#FCF5C5"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Hunter's Instinct",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+0.2% Chance",
         "color": "#ffd800"
       }
     ],
@@ -1454,6 +1490,20 @@
       },
       {
         "text": " in a 5 by 5 area around the target.\n\n1 "
+      },
+      {
+        "text": "45%",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n2 "
+      },
+      {
+        "text": "60%",
+        "color": "#C23627"
+      },
+      {
+        "text": "\n3 "
       },
       {
         "text": "75%",
