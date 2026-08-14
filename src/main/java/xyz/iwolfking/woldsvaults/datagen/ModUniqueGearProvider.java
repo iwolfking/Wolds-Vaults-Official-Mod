@@ -41,7 +41,8 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .model("woldsvaults:gear/trident/fork")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:trident_damage",
-                        "the_vault:trident_loyalty")
+                        "the_vault:trident_loyalty",
+                        "the_vault:base_attack_speed_axe")
                 .prefix("the_vault:mod_hit_hearts_fork")
                 .prefix("the_vault:mod_tank_damage_fork")
                 .prefix("the_vault:mod_soul_quantity_fork")
