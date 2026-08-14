@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -60,13 +61,42 @@ public class PercentBurnEffect extends MobEffect {
     public static void applyPercentBurn(
             LivingEntity target,
             LivingEntity attacker,
-            int durationTicks
+            int durationTicks,
+            Attribute scalingAttribute
     ) {
-        double attackDamage = attacker.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        double attackDamage = attacker.getAttributeValue(scalingAttribute);
 
         target.getPersistentData().putFloat(
                 BURN_ATTACK_SNAPSHOT,
                 (float) attackDamage
+        );
+
+        target.addEffect(new MobEffectInstance(
+                ModEffects.BURN,
+                durationTicks,
+                0,
+                false,
+                true,
+                true
+        ));
+    }
+
+    public static void applyPercentBurn(
+            LivingEntity target,
+            LivingEntity attacker,
+            int durationTicks
+    ) {
+        applyPercentBurn(target, attacker, durationTicks, Attributes.ATTACK_DAMAGE);
+    }
+
+    public static void applyPercentBurn(
+            LivingEntity target,
+            int durationTicks,
+            double value
+    ) {
+        target.getPersistentData().putFloat(
+                BURN_ATTACK_SNAPSHOT,
+                (float) value
         );
 
         target.addEffect(new MobEffectInstance(

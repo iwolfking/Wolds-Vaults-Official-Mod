@@ -22,7 +22,8 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .base("the_vault:base_durability")
                 .implicit("the_vault:trident_damage_low",
                         "the_vault:trident_loyalty_zeus",
-                        "the_vault:trident_channeling")
+                        "the_vault:trident_channeling",
+                        "the_vault:base_attack_speed_axe")
                 .prefix("the_vault:channeling_chance_zeus")
                 .prefix("the_vault:second_judgement_zeus")
                 .prefix("the_vault:windup_time_zeus")
