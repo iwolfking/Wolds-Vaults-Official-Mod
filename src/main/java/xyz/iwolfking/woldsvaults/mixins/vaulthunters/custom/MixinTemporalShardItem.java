@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.data.AttributeGearData;
@@ -19,6 +21,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodes;
+import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrShards;
 import xyz.iwolfking.woldsvaults.modifiers.vault.PlayerNoTemporalShardModifier;
 
 import javax.annotation.Nullable;
@@ -32,6 +37,19 @@ public abstract class MixinTemporalShardItem implements IdentifiableItem{
             player.displayClientMessage(new TextComponent("The relic does not respond."), true);
             ci.cancel();
         }
+    }
+
+    /**
+     * Clock Artificier (r81): temporal shards the player consumes last 50% longer. Patched at the
+     * consumption site rather than on {@code getDuration} itself, because that getter also feeds
+     * the tooltip and the node is explicitly limited to shards this player uses.
+     */
+    @ModifyExpressionValue(method = "lambda$use$4", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/TemporalShardItem;getDuration(Lnet/minecraft/world/item/ItemStack;)I"))
+    private static int woldsvaults$extendShardDuration(int duration, @Local(argsOnly = true) Player player) {
+        if (player instanceof ServerPlayer serverPlayer && WendarrNodes.hasMinor(serverPlayer, WendarrNodes.CLOCK_ARTIFICIER)) {
+            return Math.round(duration * WendarrShards.CLOCK_ARTIFICIER_MULTIPLIER);
+        }
+        return duration;
     }
 
     @Inject(method = "isIdentified", at = @At("HEAD"), cancellable = true)

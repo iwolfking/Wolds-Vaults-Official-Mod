@@ -58,6 +58,9 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneDispatcher;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.CrateItemQuantityModifierSettable;
 import xyz.iwolfking.woldsvaults.objectives.data.alchemy.AlchemyTasks;
@@ -347,6 +350,7 @@ public class AlchemyObjective extends Objective {
                     .append(new TextComponent(formatted).withStyle(Style.EMPTY.withColor(percentage >= 0 ? 0x00ff04 : 0xDC143C)));
             world.players().forEach(player -> player.sendMessage(cmp, Util.NIL_UUID));
             this.set(PROGRESS, this.get(PROGRESS) + percentage);
+            awardAlchemyMilestone(vault, percentage);
             return;
         }
 
@@ -410,6 +414,7 @@ public class AlchemyObjective extends Objective {
         float newProgress = oldProgress + percentage;
 
         this.set(PROGRESS, newProgress);
+        awardAlchemyMilestone(vault, percentage);
 
         // Check if it crossed the threshold this brew
         if (oldProgress < this.get(REQUIRED_PROGRESS) && newProgress > this.get(REQUIRED_PROGRESS)) {
@@ -447,6 +452,18 @@ public class AlchemyObjective extends Objective {
 
             }
         }
+    }
+
+    /**
+     * Credits the "Alchemist" milestone in percentage points, to every runner in the vault since
+     * alchemy progress is a shared objective value with no single acting player.
+     */
+    private static void awardAlchemyMilestone(Vault vault, float percentage) {
+        if (percentage <= 0.0F) {
+            return;
+        }
+        MilestoneDispatcher.forEachRunner(vault, player ->
+                Milestones.advanceFractional(player, MilestoneIds.ALCHEMIST, percentage * 100.0F));
     }
 
     private void addCrateQuantity(Vault vault, VirtualWorld world, float crateAmount) {

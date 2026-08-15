@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
 import xyz.iwolfking.woldsvaults.expertises.*;
+import xyz.iwolfking.woldsvaults.gods.ultimates.*;
 import xyz.iwolfking.woldsvaults.prestige.*;
 import xyz.iwolfking.woldsvaults.talent.bottle.HealthyElixirTalent;
 import xyz.iwolfking.woldsvaults.talent.bottle.PotentElixirTalent;
@@ -48,6 +49,13 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("fangs", EvokerFangsAbility.class, EvokerFangsAbility::new);
         this.register("fangs_maw", EvokerFangsMawAbility.class, EvokerFangsMawAbility::new);
         this.register("meteor_storm", MeteorStormAbility.class, MeteorStormAbility::new);
+
+        //God ultimates
+        this.register("stirrings_of_power", StirringsOfPowerAbility.class, StirringsOfPowerAbility::new);
+        this.register("cope_de_grace", CopeDeGraceAbility.class, CopeDeGraceAbility::new);
+        this.register("savior", SaviorAbility.class, SaviorAbility::new);
+        this.register("eyes_of_god", EyesOfGodAbility.class, EyesOfGodAbility::new);
+        this.register("bullet_time", BulletTimeAbility.class, BulletTimeAbility::new);
 
         this.register("reach_cap_power", ReachPrestigePower.class, ReachPrestigePower::new);
         this.register("crafting_recipe_power", CraftingRecipePower.class, CraftingRecipePower::new);

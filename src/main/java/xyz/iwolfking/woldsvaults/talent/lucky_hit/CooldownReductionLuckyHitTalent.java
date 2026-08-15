@@ -14,6 +14,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.network.message.LuckyHitCooldownParticleMessage;
 
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class CooldownReductionLuckyHitTalent extends LuckyHitTalent {
    @Override
    public void onLuckyHit(LivingHurtEvent event) {
       if(event.getSource().getEntity() instanceof ServerPlayer serverPlayer) {
+         Milestones.onLuckyHit(serverPlayer, event);
          AbilityTree abilities = PlayerAbilitiesData.get(serverPlayer.getLevel()).getAbilities(serverPlayer);
          abilities.iterate(Ability.class, (ability) -> {
             if (ability.isOnCooldown()) {

@@ -7,12 +7,15 @@ import iskallia.vault.core.util.WeightedTree;
 import iskallia.vault.core.world.loot.LootPool;
 import iskallia.vault.core.world.loot.entry.LootEntry;
 import iskallia.vault.core.world.loot.generator.TieredLootTableGenerator;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
+import xyz.iwolfking.woldsvaults.gods.trees.tenos.TenosChestRolls;
 import xyz.iwolfking.woldsvaults.loot.MythicLootScaling;
 import xyz.iwolfking.woldsvaults.loot.StrongboxTierScaling;
 import xyz.iwolfking.woldsvaults.loot.TieredCdfApprox;
@@ -53,13 +56,22 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         return 1.1f * (float) Math.log(originalValue + 1.0f);
     }
 
-    /** Mapped strongboxes add a few base rolls per tier, lifting the whole quantity curve. */
+    /**
+     * Mapped strongboxes add a few base rolls per tier, lifting the whole quantity curve. The
+     * Tenos chest nodes (Massive Chests, Expert Looter) add their extra rolls at the same point,
+     * read off the generator's source entity - the chest tile entity sets it to the opening player.
+     */
     @ModifyExpressionValue(
             method = "generate",
             at = @At(value = "INVOKE", target = "Liskallia/vault/core/world/roll/IntRoll;get(Liskallia/vault/core/random/RandomSource;)I")
     )
     private int addStrongboxBaseRolls(int roll) {
-        return this.woldsvaults$mapTier >= 0 ? roll + StrongboxTierScaling.baseRollBonus(this.woldsvaults$mapTier) : roll;
+        int adjusted = this.woldsvaults$mapTier >= 0 ? roll + StrongboxTierScaling.baseRollBonus(this.woldsvaults$mapTier) : roll;
+        Entity source = ((TieredLootTableGenerator) (Object) this).getSource();
+        if (source instanceof Player player) {
+            adjusted += TenosChestRolls.bonusRolls(player);
+        }
+        return adjusted;
     }
 
     /** Mapped strongboxes cap at 72-162 rolls by tier instead of the constructor's 54. */

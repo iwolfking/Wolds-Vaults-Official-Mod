@@ -6,6 +6,7 @@ import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractAbilityGUIStylesProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateIds;
 
 import java.util.function.Consumer;
 
@@ -37,6 +38,16 @@ public class ModAbilityStylesProvider extends AbstractAbilityGUIStylesProvider {
         add("add_spec/chain_miner", builder -> {
             builder.add("Vein_Miner", 0, -100, styleBuilder -> {
                 styleBuilder.specialization("Vein_Miner_Chain", WoldsVaults.id("gui/abilities/vein_miner_chain"));
+            });
+        });
+
+        add("god_ultimates", builder -> {
+            builder.add(UltimateIds.STIRRINGS_OF_POWER, 280, 134, styleBuilder -> {
+                styleBuilder.specialization(UltimateIds.DORMANT, VaultMod.id("gui/abilities/empower"));
+                styleBuilder.specialization(UltimateIds.COPE_DE_GRACE, VaultMod.id("gui/abilities/rampage_berserk"));
+                styleBuilder.specialization(UltimateIds.SAVIOR, VaultMod.id("gui/abilities/heal_group"));
+                styleBuilder.specialization(UltimateIds.EYES_OF_GOD, VaultMod.id("gui/abilities/hunter"));
+                styleBuilder.specialization(UltimateIds.BULLET_TIME, VaultMod.id("gui/abilities/ghost_walk"));
             });
         });
     }

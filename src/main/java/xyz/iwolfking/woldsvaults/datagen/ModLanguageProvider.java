@@ -156,6 +156,11 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModEffects.ARMORED, "Armored");
         add(ModEffects.STEADFAST, "Steadfast");
         add("message.woldsvaults.filled_bottle_alchemy_archive", "You have all effects unlocked! Your %1$s has been refilled!");
+        add("message.woldsvaults.god_level_up", "Your alignment with %1$s has reached level %2$s.");
+        add("message.woldsvaults.stirrings_dormant", "The gods are silent.");
+        add("message.woldsvaults.ultimate_locked", "Your god has not yet granted this power.");
+        add("message.woldsvaults.eyes_of_god_outside_vault", "Eyes of God only sees inside a vault.");
+        add("message.woldsvaults.eyes_of_god_revealed", "Revealed %s rooms.");
         add("command.woldsvaults.prevent_back_into_vault", "You cannot return into The Vault!");
         add("woldsvaults.special.fruit_rotting", "§4You feel the Vault start to rot away...");
         add("woldsvaults.special.rotten", "§4The Vault has rotted!");
@@ -690,6 +695,8 @@ public class ModLanguageProvider extends LanguageProvider {
 
         VaultEventSystem.getAllEvents().forEach(this::add);
 
+        addMilestoneNames();
+
         REGISTERED_LANGUAGE_KEYS.forEach(this::add);
 
         ModBlocks.CUSTOM_VAULT_CRATES.forEach((s, crateBlock) -> {
@@ -702,6 +709,91 @@ public class ModLanguageProvider extends LanguageProvider {
             }
         });
 
+    }
+
+    /**
+     * Milestone display names and the chat lines the milestone engine sends on a tier completion.
+     */
+    private void addMilestoneNames() {
+        add("milestone.woldsvaults.completed", "Milestone complete: %1$s");
+        add("milestone.woldsvaults.tier_completed", "Milestone: %1$s (tier %2$s of %3$s)");
+        add("milestone.woldsvaults.reputation", "+%1$s Greed Reputation");
+        add("milestone.woldsvaults.living_looter", "Living Looter");
+        add("milestone.woldsvaults.ornate_looter", "Ornate Looter");
+        add("milestone.woldsvaults.gilded_looter", "Gilded Looter");
+        add("milestone.woldsvaults.wooden_looter", "Wooden Looter");
+        add("milestone.woldsvaults.treasure_hunter", "Treasure Hunter");
+        add("milestone.woldsvaults.shop_hunter", "Shop Hunter");
+        add("milestone.woldsvaults.diggy_diggy_jewel", "Diggy Diggy Jewel");
+        add("milestone.woldsvaults.amazon_worker", "Amazon Worker");
+        add("milestone.woldsvaults.nullified", "Nullified");
+        add("milestone.woldsvaults.dedicated_looter", "Dedicated Looter");
+        add("milestone.woldsvaults.bingo", "Bingo!!!");
+        add("milestone.woldsvaults.drink_up", "Drink Up");
+        add("milestone.woldsvaults.brutalized", "Brutalized");
+        add("milestone.woldsvaults.scavingo", "Bingo...?");
+        add("milestone.woldsvaults.chaos_objectives", "AHHHHH");
+        add("milestone.woldsvaults.hyperion", "Hyperion");
+        add("milestone.woldsvaults.alchemist", "Alchemist");
+        add("milestone.woldsvaults.vaults_hunted", "Vaults Hunted");
+        add("milestone.woldsvaults.light_the_flame", "Light the Flame");
+        add("milestone.woldsvaults.i_will_survive", "I Will Survive");
+        add("milestone.woldsvaults.runic_ritual", "Runic Ritual");
+        add("milestone.woldsvaults.eternal_darkness", "Eternal Darkness");
+        add("milestone.woldsvaults.seen_it_all", "Seen It All");
+        add("milestone.woldsvaults.royale_paine", "Royale Paine");
+        add("milestone.woldsvaults.stairway_to_heaven", "Stairway to Heaven");
+        add("milestone.woldsvaults.slayerrr", "SLAYERRR");
+        add("milestone.woldsvaults.hack_n_slash", "Hack'n Slash");
+        add("milestone.woldsvaults.archmage", "Archmage");
+        add("milestone.woldsvaults.spell_spammer", "Spell Spammer");
+        add("milestone.woldsvaults.electric_conduit", "Electric Conduit");
+        add("milestone.woldsvaults.master_of_chains", "Master of Chains");
+        add("milestone.woldsvaults.defense", "Defense!");
+        add("milestone.woldsvaults.woosh", "Woosh");
+        add("milestone.woldsvaults.five_leaf_clover", "Five Leaf Clover");
+        add("milestone.woldsvaults.boom", "BOOM");
+        add("milestone.woldsvaults.dungeoneer", "Dungeoneer");
+        add("milestone.woldsvaults.villain", "Villain");
+        add("milestone.woldsvaults.flawless_victory", "Flawless Victory");
+        add("milestone.woldsvaults.fail_vaults", "If You Fail Once, Try Again");
+        add("milestone.woldsvaults.master_smith", "Master Smith");
+        add("milestone.woldsvaults.idonas_champion", "Idona's Champion");
+        add("milestone.woldsvaults.priest_of_velara", "Priest of Velara");
+        add("milestone.woldsvaults.tenos_right_hand", "Tenos' Right Hand");
+        add("milestone.woldsvaults.wendarrs_timekeeper", "Wendarr's Timekeeper");
+        add("milestone.woldsvaults.explorer", "Explorer");
+        add("milestone.woldsvaults.i_live_here_now", "I Live Here Now");
+        add("milestone.woldsvaults.legendary", "Legendary!");
+        add("milestone.woldsvaults.challenged", "Challenged");
+        add("milestone.woldsvaults.vault_of_vaults", "The Vault of Vaults");
+        add("milestone.woldsvaults.wanted_criminal", "Wanted Criminal");
+        add("milestone.woldsvaults.archeologist", "Archeologist");
+        add("milestone.woldsvaults.send_a_prayer", "Send a Prayer");
+        add("milestone.woldsvaults.born_again", "Born Again");
+        add("milestone.woldsvaults.pal_trainer", "Pal Trainer");
+        add("milestone.woldsvaults.vault_veteran", "Vault Veteran");
+        add("milestone.woldsvaults.unstable_shuffle", "Unstable Shuffle");
+        add("milestone.woldsvaults.pitch_black", "Pitch Black");
+        add("milestone.woldsvaults.trapped", "Trapped");
+        add("milestone.woldsvaults.ballistic_blackout", "Ballistic Blackout");
+        add("milestone.woldsvaults.rune_master", "Rune Master");
+        add("milestone.woldsvaults.elixir_of_doom", "Elixir of Doom");
+        add("milestone.woldsvaults.collectathon", "Collectathon");
+        add("milestone.woldsvaults.royale_king", "Royale King");
+        add("milestone.woldsvaults.gone_in_60_seconds", "Gone in 60 Seconds");
+        add("milestone.woldsvaults.survival_of_the_fittest", "Survival of the Fittest");
+        add("milestone.woldsvaults.the_pacifist", "The Pacifist");
+        add("milestone.woldsvaults.gods_challenge", "God's Challenge");
+        add("milestone.woldsvaults.luckiest_win", "Luckiest Win");
+        add("milestone.woldsvaults.big_bad_brew", "Big Bad Brew");
+        add("milestone.woldsvaults.the_speedrunner", "The Speedrunner");
+        add("milestone.woldsvaults.time_you_say", "Time You Say");
+        add("milestone.woldsvaults.chaos_chaos_chaos", "Chaos Chaos Chaos");
+        add("milestone.woldsvaults.the_speed_blackout", "The Speed Blackout");
+        add("milestone.woldsvaults.frenzy_adventures", "Frenzy Adventures");
+        add("milestone.woldsvaults.rage_cage", "Rage Cage");
+        add("milestone.woldsvaults.celebrations", "Celebrations");
     }
 
     public static final LinkedHashMap<String, String> REGISTERED_LANGUAGE_KEYS = new LinkedHashMap<>();

@@ -14,6 +14,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
 import xyz.iwolfking.woldsvaults.entities.projectiles.CustomFangEntity;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 
 import java.util.Optional;
 
@@ -30,8 +31,11 @@ public class FangedStrikeLuckyHitTalent extends LuckyHitTalent {
 
    @Override
    public void onLuckyHit(LivingHurtEvent event) {
-      if(event.getSource().getEntity() instanceof ServerPlayer serverPlayer && WoldEventHelper.isNormalAttack()) {
-         procFangedStrike(serverPlayer, event.getEntityLiving(), event.getAmount() * damageIncrease);
+      if(event.getSource().getEntity() instanceof ServerPlayer serverPlayer) {
+         Milestones.onLuckyHit(serverPlayer, event);
+         if(WoldEventHelper.isNormalAttack()) {
+            procFangedStrike(serverPlayer, event.getEntityLiving(), event.getAmount() * damageIncrease);
+         }
       }
    }
 

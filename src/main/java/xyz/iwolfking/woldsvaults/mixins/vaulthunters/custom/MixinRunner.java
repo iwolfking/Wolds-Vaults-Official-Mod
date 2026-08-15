@@ -45,6 +45,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
 import xyz.iwolfking.woldsvaults.api.util.LuckHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
+import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrFruit;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
@@ -189,7 +190,7 @@ public abstract class MixinRunner extends Listener {
 
         float effectiveness = snapshot.getAttributeValue(ModGearAttributes.FRUIT_EFFECTIVENESS, VaultGearAttributeTypeMerger.floatSum());
         float scaledEffectiveness = effectiveness / (1.0F + effectiveness);
-        float adjustedRotChance = rotChance * (1.0F - scaledEffectiveness);
+        float adjustedRotChance = WendarrFruit.adjustRotChance(data.getPlayer(), rotChance * (1.0F - scaledEffectiveness));
 
         //Trigger rotting stack
         if(random.nextFloat() <= adjustedRotChance) {

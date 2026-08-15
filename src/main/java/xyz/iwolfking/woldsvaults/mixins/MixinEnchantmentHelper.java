@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
+import xyz.iwolfking.woldsvaults.gods.trees.tenos.TenosDrillmaster;
+
 import java.util.Map;
 
 @Mixin(EnchantmentHelper.class)
@@ -40,6 +42,9 @@ public abstract class MixinEnchantmentHelper {
         }
         if(MAX_ENCHANTMENT_LEVEL_VALUE_MAP.containsKey(enchantment)) {
             int maxLevel = MAX_ENCHANTMENT_LEVEL_VALUE_MAP.get(enchantment);
+            if(enchantment == Enchantments.BLOCK_FORTUNE && TenosDrillmaster.hasRaisedFortuneCap(entity)) {
+                maxLevel = TenosDrillmaster.RAISED_FORTUNE_CAP;
+            }
             if(i > maxLevel) {
                 return maxLevel;
             }

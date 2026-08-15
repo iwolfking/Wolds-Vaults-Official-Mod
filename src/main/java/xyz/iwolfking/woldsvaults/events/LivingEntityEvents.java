@@ -42,6 +42,9 @@ import iskallia.vault.util.calc.ThornsHelper;
 import iskallia.vault.util.damage.DamageUtil;
 import iskallia.vault.world.data.PlayerTalentsData;
 import iskallia.vault.world.data.ServerVaults;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.Counterstrike;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -129,6 +132,11 @@ public class LivingEntityEvents {
             dodgeChance += SneakyGetawayAbility.SneakyGetawayEffect.getSneakyEtchingDodgeChance(entity);
         }
         boolean dodge = entity.getRandom().nextDouble() <= Math.min(LuckHelper.getLuckAffectedChance(dodgeChance, entity), 0.95);
+
+        if (dodge && entity instanceof ServerPlayer dodgingPlayer) {
+            Milestones.advance(dodgingPlayer, MilestoneIds.WOOSH, 1L);
+            Counterstrike.onDefended(dodgingPlayer, source);
+        }
 
         event.setCanceled(dodge);
     }

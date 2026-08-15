@@ -27,6 +27,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneDispatcher;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
@@ -89,6 +92,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 : score >= HyperVaultObjective.cfg().getCrateTierScore9() ? 9
                 : score >= HyperVaultObjective.cfg().getCrateTierScore7() ? 7 : 5) * cycle;
         VaultModifierUtils.addModifier(vault, VaultMod.id("crate_tier"), crateTiers);
+        MilestoneDispatcher.forEachRunner(vault, player -> Milestones.advance(player, MilestoneIds.HYPERION, crateTiers));
         VaultModifierUtils.addModifier(vault, VaultMod.id("refined_experience"), cycle);
         if (cycle % 2 == 0) {
             VaultModifierUtils.addModifier(vault, VaultMod.id("inert"), 1);

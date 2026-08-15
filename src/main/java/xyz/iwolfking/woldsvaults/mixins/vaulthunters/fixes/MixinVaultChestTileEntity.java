@@ -2,11 +2,15 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import iskallia.vault.block.entity.VaultChestTileEntity;
+import iskallia.vault.core.Version;
+import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.world.loot.generator.TieredLootTableGenerator;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.util.VaultRarity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,8 +22,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.util.VaultMapTierCache;
+import xyz.iwolfking.woldsvaults.gods.trees.tenos.TenosChestRolls;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
 import xyz.iwolfking.woldsvaults.loot.StrongboxTierScaling;
+
+import java.util.List;
 
 /**
  * Chest sizes plus the mapped-strongbox tier wiring: resolves the running vault's map tier when
@@ -59,8 +66,12 @@ public class MixinVaultChestTileEntity {
         return block == ModBlocks.GILDED_STRONGBOX || block == ModBlocks.ORNATE_STRONGBOX || block == ModBlocks.LIVING_STRONGBOX;
     }
 
+    /** Tenos chest nodes raise the fill cap for the opening player; -1 leaves it at vanilla. */
+    @Unique
+    private int woldsvaults$bonusRolls = 0;
+
     @Inject(method = "generateLootTable", at = @At("HEAD"))
-    private void resolveStrongboxMapTier(CallbackInfo ci) {
+    private void resolveStrongboxMapTier(Version version, Player player, List<ItemStack> loot, RandomSource random, CallbackInfo ci) {
         VaultChestTileEntity self = (VaultChestTileEntity) (Object) this;
         this.woldsvaults$mapTier = woldsvaults$isStrongbox(self.getBlockState().getBlock())
                 ? VaultUtils.getVault(self.getLevel())
@@ -68,6 +79,7 @@ public class MixinVaultChestTileEntity {
                         .map(vault -> VaultMapTierCache.get(vault.get(Vault.ID)))
                         .orElse(-1)
                 : -1;
+        this.woldsvaults$bonusRolls = TenosChestRolls.bonusRolls(player);
     }
 
     @ModifyExpressionValue(
@@ -93,6 +105,9 @@ public class MixinVaultChestTileEntity {
     /** Tiered strongboxes fill their full 81 slots; every other non-treasure chest keeps the 27 cap. */
     @ModifyConstant(method = {"generateChestLoot", "fillLoot", "getAvailableSlots"}, constant = @Constant(intValue = 27))
     private int raiseStrongboxFillCap(int fillCap) {
-        return this.woldsvaults$mapTier >= 0 ? ((VaultChestTileEntity) (Object) this).getContainerSize() : fillCap;
+        if (this.woldsvaults$mapTier >= 0 || this.woldsvaults$bonusRolls > 0) {
+            return ((VaultChestTileEntity) (Object) this).getContainerSize();
+        }
+        return fillCap;
     }
 }

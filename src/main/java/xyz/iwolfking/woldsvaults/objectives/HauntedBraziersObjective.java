@@ -62,6 +62,8 @@ import net.minecraftforge.network.PacketDistributor;
 import vazkii.quark.content.mobs.entity.Wraith;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -124,6 +126,9 @@ public class HauntedBraziersObjective extends MonolithObjective {
 
                         this.playActivationEffects(world, pos, overStacking);
                         this.set(COUNT, this.get(COUNT) + 1);
+                        if (data.getPlayer() instanceof net.minecraft.server.level.ServerPlayer brazierPlayer) {
+                            Milestones.advance(brazierPlayer, MilestoneIds.LIGHT_THE_FLAME, 1L);
+                        }
                         if (!overStacking) {
                             for(Objective objective: this.get(CHILDREN)) {
                                 if (objective instanceof KillBossObjective killBoss) {
