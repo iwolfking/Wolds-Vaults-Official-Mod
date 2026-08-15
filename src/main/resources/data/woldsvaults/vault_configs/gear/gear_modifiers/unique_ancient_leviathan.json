@@ -1,0 +1,86 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "IMPLICIT": [
+      {
+        "attribute": "the_vault:attack_damage",
+        "group": "BaseAttackDamage",
+        "identifier": "the_vault:u_leviathan_attack_damage",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 132.0,
+              "max": 175.56,
+              "step": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:attack_speed",
+        "group": "BaseAttackSpeed",
+        "identifier": "the_vault:u_leviathan_attack_speed",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": -3.5,
+              "max": -3.35,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:reaving_damage",
+        "group": "ModOnHitType",
+        "identifier": "the_vault:u_leviathan_reaving_damage",
+        "tags": [
+          "focusReavingDamage"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.75,
+              "max": 0.85,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

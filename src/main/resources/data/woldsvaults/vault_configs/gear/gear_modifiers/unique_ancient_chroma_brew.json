@@ -1,0 +1,239 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud1",
+        "identifier": "the_vault:mod_healing_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing VI",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 3
+                }
+              ],
+              "duration": 240,
+              "radius": 4.0,
+              "color": 16262179,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud2",
+        "identifier": "the_vault:mod_wither_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Wither VI",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:wither",
+                  "duration": 200,
+                  "amplifier": 5
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 3484199,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud2",
+        "identifier": "the_vault:mod_bleed_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Bleed VI",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:bleed",
+                  "duration": 200,
+                  "amplifier": 5
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 16711680,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud2",
+        "identifier": "the_vault:mod_poison_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Poison VI",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:poison",
+                  "duration": 200,
+                  "amplifier": 5
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 5149489,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud3",
+        "identifier": "the_vault:mod_slowness_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Slowness VI",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:slowness",
+                  "duration": 200,
+                  "amplifier": 4
+                }
+              ],
+              "duration": 360,
+              "radius": 4.0,
+              "color": 5926017,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud3",
+        "identifier": "the_vault:mod_weakness_cloud_brew",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Weakness VI",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:weakness",
+                  "duration": 300,
+                  "amplifier": 1
+                }
+              ],
+              "duration": 300,
+              "radius": 4.0,
+              "color": 4738376,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      }
+    ],
+    "SUFFIX": [
+      {
+        "attribute": "the_vault:effect_cloud_chance_additive",
+        "group": "ModEffectCloudChance",
+        "identifier": "the_vault:mod_effect_cloud_chance",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.12,
+              "max": 0.16,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModDiffuseLevel",
+        "identifier": "the_vault:mod_diffuse_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Expunge_Base",
+              "levelChange": 6
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

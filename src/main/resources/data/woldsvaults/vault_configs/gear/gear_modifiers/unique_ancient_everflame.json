@@ -1,0 +1,143 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "IMPLICIT": [
+      {
+        "attribute": "the_vault:attack_damage",
+        "group": "BaseAttackDamage",
+        "identifier": "the_vault:base_attack_damage",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 100.0,
+              "max": 133.0,
+              "step": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:attack_speed",
+        "group": "BaseAttackSpeed",
+        "identifier": "the_vault:base_attack_speed",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": -2.29,
+              "max": -2.2,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:attack_damage",
+        "group": "ModOnHitType",
+        "identifier": "the_vault:mod_attack_damage",
+        "tags": [
+          "focusAttackDamage"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 55.0,
+              "max": 73.15,
+              "step": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModAbility",
+        "identifier": "the_vault:mod_everflame_fireball",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Fireball_Base",
+              "levelChange": 4
+            }
+          }
+        ]
+      }
+    ],
+    "SUFFIX": [
+      {
+        "attribute": "the_vault:area_of_effect",
+        "group": "ModEffectRadius",
+        "identifier": "the_vault:mod_area_of_effect",
+        "tags": [
+          "focusEffectRadius"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 0.2,
+              "max": 0.27,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ability_special_modification",
+        "group": "ModEnhancement",
+        "identifier": "the_vault:unique_everflame_modification",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 5,
+            "value": {
+              "min": 0.65,
+              "max": 0.86,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

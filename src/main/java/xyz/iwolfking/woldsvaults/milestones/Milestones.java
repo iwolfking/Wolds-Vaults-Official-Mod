@@ -263,16 +263,26 @@ public class Milestones {
     }
 
     /**
-     * No companion levelling system exists in the addon yet. The companion system should call
-     * this once per companion that first reaches level 10.
+     * Counts one companion that has reached the max companion level, the level at which its
+     * ancient relic slot unlocks. Keyed on the companion's own UUID rather than counted, so that
+     * repeat calls for the same companion - re-equips, further experience gains once it is
+     * already capped - cannot inflate the counter.
      */
-    public static void onCompanionReachedMaxLevel(ServerPlayer player) {
-        advance(player, MilestoneIds.PAL_TRAINER, 1L);
+    public static void onCompanionReachedMaxLevel(ServerPlayer player, UUID companionId) {
+        if (player == null) {
+            return;
+        }
+        if (companionId == null) {
+            WoldsVaults.LOGGER.warn("Companion max level reached for {} but the stack carries no CompanionUUID; not counted",
+                    player.getGameProfile().getName());
+            return;
+        }
+        addToken(player, MilestoneIds.PAL_TRAINER, companionId.toString());
     }
 
     /**
-     * The vault forge exposes no reachable "fully upgraded" state from the addon today. Whatever
-     * ships that state should call this once.
+     * Marks the vault forge as maxed: the player's absolute proficiency has reached the cap for
+     * their vault level, which is the Grandmaster step of the gear crafting config.
      */
     public static void onVaultForgeMaxed(ServerPlayer player) {
         complete(player, MilestoneIds.MASTER_SMITH);

@@ -16,11 +16,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.server.ServerLifecycleHooks;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearCommonConfigAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearRollTypeConfigAccessor;
@@ -44,6 +46,20 @@ public class MixinModConfigs {
 
     }
 
+    /**
+     * Registers the per-unique ancient tier configs immediately after the base gear config map is built.
+     * This must not be a TAIL injection: vhapi applies its vault_configs overlay from its own TAIL
+     * injection into the same method, and silently skips any datapack gear config whose key is not yet
+     * present in VAULT_GEAR_CONFIG. Registering here is ordering independent.
+     */
+    @Inject(method = "register", at = @At(value = "FIELD", target = "Liskallia/vault/init/ModConfigs;VAULT_GEAR_CONFIG:Ljava/util/Map;", opcode = Opcodes.PUTSTATIC, shift = At.Shift.AFTER), remap = false)
+    private static void registerAncientUniqueConfigs(CallbackInfo ci) {
+        AncientUniqueHelper.invalidateConfigCache();
+        for(ResourceLocation key : AncientUniqueHelper.ancientConfigKeys()) {
+            VAULT_GEAR_CONFIG.put(key, new VaultGearTierConfig(key).readConfig());
+        }
+    }
+
     @Inject(method = "register", at = @At("TAIL"), remap = false)
     private static void onReloadConfigs(CallbackInfo ci) {
         xyz.iwolfking.woldsvaults.init.ModConfigs.register();
@@ -52,6 +68,9 @@ public class MixinModConfigs {
 
 
         for(ResourceLocation loc : CURRENT_GEAR_CONFIGS) {
+            if(loc.getPath().startsWith(AncientUniqueHelper.CONFIG_PREFIX)) {
+                continue;
+            }
             VAULT_GEAR_CONFIG.put(VaultMod.id(loc.getPath() + "_mythic"), new VaultGearTierConfig(VaultMod.id(loc.getPath() + "_mythic")).readConfig());
         }
 

@@ -19,9 +19,9 @@ import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
  *
  * <p>All four reducers ride {@link FinalDamageStage} rather than {@code PlayerStat.RESISTANCE}:
  * resistance is hard capped at 50% (95% with cap gear), which would silently swallow Adaptive
- * Armor's -60% and make Fleeting Physicality's x3 and Sacrifice's syphon incoherent. The stage's
- * deterministic id ordering also puts the Sacrifice syphon last, so a shepherd absorbs the amount
- * that survived the protected player's own mitigation rather than the raw hit.
+ * Armor's -60% and make Fleeting Physicality's x3 and Sacrifice's syphon incoherent. The Sacrifice
+ * syphon registers at an explicitly later order than every reduction, so a shepherd absorbs the
+ * amount that survived the protected player's own mitigation rather than the raw hit.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VelaraDamage {
@@ -70,11 +70,14 @@ public final class VelaraDamage {
     }
 
     /**
-     * Magic Armor. Vanilla skips armour entirely for {@code bypassArmor} sources, so this applies
-     * the base mod's own armour curve at half the player's armour value to exactly the hits that
-     * were skipped. Note that virtually nothing in this pack is magic damage -  every vault ability
-     * hits with {@code DamageSource.playerAttack} -  so the node is close to inert until "magic
-     * damage" is redefined.
+     * Magic Armor. This node reduces magic damage dealt TO the player, not anything the player
+     * deals. Splash potions of harming ({@code DamageSource.indirectMagic}, or
+     * {@code DamageSource.MAGIC} when nothing owns the throw), the rune boss wave blast and the
+     * addon's own {@code DamageSource.MAGIC} effects all build their source as magic that bypasses
+     * armour. Vanilla skips armour entirely for {@code bypassArmor} sources, so this applies the
+     * base mod's own armour curve at half the player's armour value to exactly the hits that were
+     * skipped. Magic that does not bypass armour is deliberately excluded: armour already applied
+     * to it once and this node would otherwise double dip.
      */
     private static float magicArmor(LivingDamageEvent event, float amount) {
         ServerPlayer player = defender(event);

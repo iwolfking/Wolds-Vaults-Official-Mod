@@ -482,6 +482,7 @@
     "vaulthunters.gods.MixinAttributeSnapshotCalculatorGods",
     "vaulthunters.gods.MixinTickClockRate",
     "vaulthunters.gods.PlayerDamageHelperApplyInvoker",
+    "vaulthunters.custom.MixinVaultForgeTileEntity",
     "vaulthunters.gods.idona.MixinLuckyHitHelperIdona",
     "vaulthunters.gods.idona.MixinLuckyHitTalentIdona",
     "vaulthunters.gods.idona.MixinManaCostHelperIdona",

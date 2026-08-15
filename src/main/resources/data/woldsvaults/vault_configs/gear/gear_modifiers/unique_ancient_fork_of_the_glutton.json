@@ -1,0 +1,187 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "IMPLICIT": [
+      {
+        "attribute": "the_vault:attack_damage",
+        "group": "BaseDamage",
+        "identifier": "the_vault:trident_damage",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 115.0,
+              "max": 152.95,
+              "step": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:trident_loyalty",
+        "group": "BaseLoyalty",
+        "identifier": "the_vault:trident_loyalty",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 4,
+              "max": 5,
+              "step": 1
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:attack_speed",
+        "group": "BaseAttackSpeed",
+        "identifier": "the_vault:base_attack_speed_axe",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": -2.85,
+              "max": -2.6,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:lucky_hit_chance",
+        "group": "BaseBonusPool",
+        "identifier": "the_vault:jester_lucky_hit",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.15,
+              "max": 0.2,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:hit_hearts",
+        "group": "ModHitHearts",
+        "identifier": "the_vault:mod_hit_hearts_fork",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.75,
+              "max": 1.0,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:damage_tank",
+        "group": "ModTankDamage",
+        "identifier": "the_vault:mod_tank_damage_fork",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 1.0,
+              "max": 1.33,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:soul_chance_percentile",
+        "group": "ModSoulQuantity",
+        "identifier": "the_vault:mod_soul_quantity_fork",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.25,
+              "max": 0.33,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
+    "SUFFIX": [
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud",
+        "identifier": "the_vault:mod_healing_cloud_fork",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Healing II",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "minecraft:instant_health",
+                  "duration": 20,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 80,
+              "radius": 4.0,
+              "color": 16262179,
+              "affectsOwner": true,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

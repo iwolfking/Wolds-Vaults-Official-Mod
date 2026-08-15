@@ -33,10 +33,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.api.util.PrestigePowerHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldGearModifierHelper;
 import xyz.iwolfking.woldsvaults.expertises.CraftsmanExpertise;
 import xyz.iwolfking.woldsvaults.expertises.EclecticGearExpertise;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.prestige.CraftingPotentialPrestigePower;
 
 import java.util.List;
@@ -173,6 +175,29 @@ public class MixinGearRollHelper {
                 jData.write(stack);
                 VaultGearModifierHelper.setGearCorrupted(stack);
             }
+        }
+    }
+
+    /**
+     * Decides whether an identifying unique becomes ancient. Injected immediately before the tier config
+     * is resolved so the ancient marker is already on the stack when VaultGearTierConfig.getConfig runs,
+     * which is what routes every roll, tooltip and reroll of this item at the widened ancient ranges.
+     * The unique name is rewritten here because the base call above has just stamped the plain name.
+     */
+    @Inject(method = "initializeUniqueGear(Liskallia/vault/gear/data/VaultGearData;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At(value = "INVOKE", target = "Liskallia/vault/config/gear/VaultGearTierConfig;getConfig(Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;"))
+    private static void rollAncientUnique(VaultGearData data, ItemStack stack, Player player, CallbackInfo ci) {
+        if(!AncientUniqueHelper.rollAncient(data, player, rand)) {
+            return;
+        }
+
+        data.createOrReplaceAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE, true);
+        data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY)
+                .flatMap(AncientUniqueHelper::getAncientName)
+                .ifPresent(name -> data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_NAME, name));
+        data.write(stack);
+
+        if(player instanceof ServerPlayer serverPlayer) {
+            Milestones.onAncientUniqueIdentified(serverPlayer);
         }
     }
 

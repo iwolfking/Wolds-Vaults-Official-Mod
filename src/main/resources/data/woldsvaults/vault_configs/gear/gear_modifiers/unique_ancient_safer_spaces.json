@@ -1,0 +1,67 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "IMPLICIT": [
+      {
+        "attribute": "the_vault:unique_effect",
+        "group": "ModSaferSpaceEffect",
+        "identifier": "the_vault:saferspaceeffect",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 5,
+            "value": {
+              "effectKey": "woldsvaults:safer_space",
+              "amplifier": 4
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:block",
+        "group": "BaseBlock",
+        "identifier": "the_vault:u_safer_block",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.25,
+              "max": 0.28,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -22,15 +22,37 @@ public class MilestoneRegistry {
     private static final long HOUR = MINUTE * 60L;
 
     /**
-     * Vault objective keys that "Seen It All" requires. The key is the crystal objective type
-     * written into {@code Objectives.KEY}; anything outside this set is ignored so that new or
-     * internal objective types cannot inflate the counter.
+     * Vault objective keys that "Seen It All" requires: exactly the objectives that award god
+     * experience. The key is the crystal objective type written into {@code Objectives.KEY};
+     * anything outside this set is ignored so that new or internal objective types cannot inflate
+     * the counter.
      */
     public static final Set<String> SEEN_IT_ALL_TYPES = Collections.unmodifiableSet(new LinkedHashSet<>(List.of(
-            "cake", "scavenger", "monolith", "elixir", "herald", "ascension", "bingo", "rune_boss",
-            "raid", "vault_royale", "scavenger_bingo", "chaos", "boss",
-            "brutal_bosses", "corrupted", "alchemy", "survival", "haunted_braziers"
+            "elixir", "scavenger", "unhinged_scavenger", "brutal_bosses", "rune_boss",
+            "enchanted_elixir", "hyper", "alchemy", "bingo", "scavenger_bingo",
+            "unhinged_scavenger_bingo", "chaos", "corrupted", "ballistic_bingo", "zealot"
     )));
+
+    private static final Map<String, String> SEEN_IT_ALL_ALIASES = Map.of(
+            "scaling_scavenger_bingo", "scavenger_bingo",
+            "scaling_unhinged_scavenger_bingo", "unhinged_scavenger_bingo",
+            "scaling_ballistic_bingo", "ballistic_bingo");
+
+    /**
+     * Resolves a live {@code Objectives.KEY} to the "Seen It All" token it counts for, or null
+     * when that objective is not one of the counted ones. Three of the counted objectives are held
+     * in {@code CrystalData.OBJECTIVE} under two ids for the same class - the addon registers a
+     * {@code scaling_} id from its mod constructor and the vhapi objective registry re-registers
+     * the same class under the plain id during the registry event - so the alias table keeps the
+     * token stable regardless of which id the type lookup ends up returning.
+     */
+    public static String seenItAllToken(String objectiveKey) {
+        if (objectiveKey == null) {
+            return null;
+        }
+        String canonical = SEEN_IT_ALL_ALIASES.getOrDefault(objectiveKey, objectiveKey);
+        return SEEN_IT_ALL_TYPES.contains(canonical) ? canonical : null;
+    }
 
     private MilestoneRegistry() {
     }
@@ -182,8 +204,8 @@ public class MilestoneRegistry {
                 new long[]{25L, 75L, 200L, 400L, 750L}, new int[]{10, 20, 35, 50, 75});
         count(MilestoneIds.BORN_AGAIN, MilestoneCategory.MISC,
                 new long[]{3L, 10L, 25L, 100L}, new int[]{5, 10, 20, 30});
-        count(MilestoneIds.PAL_TRAINER, MilestoneCategory.MISC,
-                new long[]{1L, 5L, 10L, 25L}, new int[]{10, 20, 30, 50});
+        register(new MilestoneDefinition(MilestoneIds.PAL_TRAINER, MilestoneCategory.MISC, MilestoneCounter.DISTINCT,
+                new long[]{1L, 5L, 10L, 25L}, new int[]{10, 20, 30, 50}));
         highest(MilestoneIds.VAULT_VETERAN, MilestoneCategory.MISC,
                 new long[]{1L, 2L, 3L, 4L, 5L}, new int[]{0, 0, 0, 0, 0});
 

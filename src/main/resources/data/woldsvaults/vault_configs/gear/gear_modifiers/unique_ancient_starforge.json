@@ -1,0 +1,139 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "IMPLICIT": [
+      {
+        "attribute": "the_vault:attack_damage",
+        "group": "BaseAttackDamage",
+        "identifier": "the_vault:base_attack_damage",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 100.0,
+              "max": 133.0,
+              "step": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:attack_speed",
+        "group": "BaseAttackSpeed",
+        "identifier": "the_vault:base_attack_speed",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": -2.29,
+              "max": -2.2,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:ability_power",
+        "group": "BaseBonusPool",
+        "identifier": "the_vault:mod_ap",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 50.0,
+              "max": 66.5,
+              "step": 0.5
+            }
+          }
+        ]
+      }
+    ],
+    "SUFFIX": [
+      {
+        "attribute": "the_vault:attack_speed_percent",
+        "group": "uAttackSpeed",
+        "identifier": "the_vault:mod_attack_speed_percent",
+        "tags": [
+          "focusAttackSpeedPercent",
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.25,
+              "max": 0.33,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:arcane_nova_on_hit",
+        "group": "ModEnhancement",
+        "identifier": "the_vault:u_arcane_nova_on_hit",
+        "tags": [
+          "noImbuement"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "hitsRequired": {
+                "min": 5,
+                "max": 6,
+                "step": 1
+              },
+              "radius": {
+                "min": 6.0,
+                "max": 7.0,
+                "step": 1
+              },
+              "percentAbilityPower": {
+                "min": 2.0,
+                "max": 2.5,
+                "step": 0.05
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

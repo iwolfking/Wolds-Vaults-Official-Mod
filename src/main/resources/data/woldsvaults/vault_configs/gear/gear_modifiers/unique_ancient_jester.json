@@ -1,0 +1,108 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "IMPLICIT": [
+      {
+        "attribute": "the_vault:armor",
+        "group": "BaseModAbility",
+        "identifier": "the_vault:base_armor",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 30,
+              "max": 40,
+              "step": 1
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:lucky_hit_chance",
+        "group": "BaseBonusPool",
+        "identifier": "the_vault:base_lucky_hit_chance",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.07,
+              "max": 0.09,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:jester_lucky_hit_chance_percentile",
+        "group": "UniqueLuckyHit",
+        "identifier": "the_vault:jester_lucky_hit_percentile",
+        "tags": [
+          "focusLuckyHitChance"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.9,
+              "max": 1,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ],
+    "SUFFIX": [
+      {
+        "attribute": "the_vault:item_rarity",
+        "group": "ModItemRarity",
+        "identifier": "the_vault:u_item_rarity",
+        "tags": [
+          "focusItemRarity"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 0.3,
+              "max": 0.4,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

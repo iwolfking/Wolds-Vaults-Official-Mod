@@ -308,8 +308,9 @@ public class MilestoneDispatcher {
         if (completion == Completion.COMPLETED) {
             Milestones.advance(player, MilestoneIds.VAULTS_HUNTED, 1L);
             if (objective != null) {
-                if (MilestoneRegistry.SEEN_IT_ALL_TYPES.contains(objective)) {
-                    Milestones.addToken(player, MilestoneIds.SEEN_IT_ALL, objective);
+                String seenToken = MilestoneRegistry.seenItAllToken(objective);
+                if (seenToken != null) {
+                    Milestones.addToken(player, MilestoneIds.SEEN_IT_ALL, seenToken);
                 }
                 if ("royale".equals(objective) || "vault_royale".equals(objective) || "royale_pvp".equals(objective)) {
                     Milestones.advance(player, MilestoneIds.ROYALE_PAINE, 1L);
