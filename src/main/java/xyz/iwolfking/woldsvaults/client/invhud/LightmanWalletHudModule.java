@@ -58,7 +58,8 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
 
         LightmanWalletHudOptions opts = this.option.getValue();
         ItemStack wallet = LightmansCurrency.getWalletStack(player);
-        CoinValue walletValue = MoneyUtil.getCoinValue(WalletItem.getWalletInventory(wallet));
+        List<ItemStack> walletInv = wallet.isEmpty() ? List.of() : WalletItem.getWalletInventory(wallet);
+        CoinValue walletValue = MoneyUtil.getCoinValue(walletInv);
 
         if (context.isEditing() && wallet.isEmpty()) {
             wallet = new ItemStack(ModItems.WALLET_COPPER.get());
@@ -288,7 +289,8 @@ public class LightmanWalletHudModule extends AbstractHudModule<ModuleRenderConte
         int gapCount = 0;
         if (player != null) {
             ItemStack wallet = LightmansCurrency.getWalletStack(player);
-            CoinValue walletValue = MoneyUtil.getCoinValue(WalletItem.getWalletInventory(wallet));
+            List<ItemStack> walletInv = wallet.isEmpty() ? List.of() : WalletItem.getWalletInventory(wallet);
+            CoinValue walletValue = MoneyUtil.getCoinValue(walletInv);
 
             if (context.isEditing() && wallet.isEmpty()) {
                 ArrayList<ItemStack> coins = new ArrayList<>();
