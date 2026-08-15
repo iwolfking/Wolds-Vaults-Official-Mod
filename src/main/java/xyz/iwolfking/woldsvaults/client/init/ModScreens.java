@@ -6,6 +6,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.blocks.containers.*;
 import xyz.iwolfking.woldsvaults.client.screens.FilterNecklaceContainerScreen;
 import xyz.iwolfking.woldsvaults.client.screens.ScavengerPouchScreen;
+import xyz.iwolfking.woldsvaults.client.screens.greed.GreedMilestonesScreen;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
 
 @OnlyIn(Dist.CLIENT)
@@ -19,5 +20,6 @@ public class ModScreens {
         MenuScreens.register(ModContainers.FILTER_NECKLACE_CONTAINER, FilterNecklaceContainerScreen::new);
         MenuScreens.register(ModContainers.SCAVENGER_POUCH_CONTAINER, ScavengerPouchScreen::new);
         MenuScreens.register(ModContainers.TRINKET_FUSION_CONTAINER, TrinketFusionScreen::new);
+        MenuScreens.register(ModContainers.GREED_MILESTONES_CONTAINER, GreedMilestonesScreen::new);
     }
 }

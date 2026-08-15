@@ -696,6 +696,8 @@ public class ModLanguageProvider extends LanguageProvider {
         VaultEventSystem.getAllEvents().forEach(this::add);
 
         addMilestoneNames();
+        addMilestoneDescriptions();
+        addGreedScreenText();
 
         REGISTERED_LANGUAGE_KEYS.forEach(this::add);
 
@@ -715,9 +717,10 @@ public class ModLanguageProvider extends LanguageProvider {
      * Milestone display names and the chat lines the milestone engine sends on a tier completion.
      */
     private void addMilestoneNames() {
-        add("milestone.woldsvaults.completed", "Milestone complete: %1$s");
-        add("milestone.woldsvaults.tier_completed", "Milestone: %1$s (tier %2$s of %3$s)");
-        add("milestone.woldsvaults.reputation", "+%1$s Greed Reputation");
+        add("milestone.woldsvaults.completed", "Milestone complete: %1$s - collect your reputation from Mr. Greedy");
+        add("milestone.woldsvaults.tier_completed", "Milestone: %1$s (tier %2$s of %3$s) - collect your reputation from Mr. Greedy");
+        add("milestone.woldsvaults.reputation", "%1$s Greed Reputation waiting at Mr. Greedy");
+        add("milestone.woldsvaults.claimed", "Collected %2$s Greed Reputation from %1$s");
         add("milestone.woldsvaults.living_looter", "Living Looter");
         add("milestone.woldsvaults.ornate_looter", "Ornate Looter");
         add("milestone.woldsvaults.gilded_looter", "Gilded Looter");
@@ -794,6 +797,154 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.frenzy_adventures", "Frenzy Adventures");
         add("milestone.woldsvaults.rage_cage", "Rage Cage");
         add("milestone.woldsvaults.celebrations", "Celebrations");
+    }
+
+    /**
+     * Requirement lines shown under each achievement name on the greed screens. One per
+     * milestone id, naming the quantity its counter tracks.
+     */
+    private void addMilestoneDescriptions() {
+        add("milestone.woldsvaults.living_looter.desc", "Living chests looted");
+        add("milestone.woldsvaults.ornate_looter.desc", "Ornate chests looted");
+        add("milestone.woldsvaults.gilded_looter.desc", "Gilded chests looted");
+        add("milestone.woldsvaults.wooden_looter.desc", "Wooden chests looted");
+        add("milestone.woldsvaults.treasure_hunter.desc", "Treasure rooms opened");
+        add("milestone.woldsvaults.shop_hunter.desc", "Vendoor shop rooms opened");
+        add("milestone.woldsvaults.diggy_diggy_jewel.desc", "Ore blocks mined in vaults");
+        add("milestone.woldsvaults.amazon_worker.desc", "Wooden vault barrels looted");
+        add("milestone.woldsvaults.nullified.desc", "Nullite ore blocks mined");
+        add("milestone.woldsvaults.dedicated_looter.desc", "Loot 25k of every chest type in one vault");
+        add("milestone.woldsvaults.bingo.desc", "Bingo lines completed");
+        add("milestone.woldsvaults.drink_up.desc", "Elixir collected in elixir vaults");
+        add("milestone.woldsvaults.brutalized.desc", "Brutal boss wave mobs killed");
+        add("milestone.woldsvaults.scavingo.desc", "Scavenger bingo lines completed");
+        add("milestone.woldsvaults.chaos_objectives.desc", "Chaos tasks completed");
+        add("milestone.woldsvaults.hyperion.desc", "Hyper crate tiers earned from bosses");
+        add("milestone.woldsvaults.alchemist.desc", "Alchemy progress, in percent");
+        add("milestone.woldsvaults.vaults_hunted.desc", "Vaults completed");
+        add("milestone.woldsvaults.light_the_flame.desc", "Haunted braziers lit");
+        add("milestone.woldsvaults.i_will_survive.desc", "Time survived in survival vaults, in ticks");
+        add("milestone.woldsvaults.runic_ritual.desc", "Rune boss fights completed");
+        add("milestone.woldsvaults.eternal_darkness.desc", "Obelisks activated in corrupted vaults");
+        add("milestone.woldsvaults.seen_it_all.desc", "Distinct vault objectives completed");
+        add("milestone.woldsvaults.royale_paine.desc", "Vault Royale runs completed");
+        add("milestone.woldsvaults.stairway_to_heaven.desc", "Ascension vaults completed");
+        add("milestone.woldsvaults.slayerrr.desc", "Mobs killed inside vaults");
+        add("milestone.woldsvaults.hack_n_slash.desc", "Attack damage dealt to mobs");
+        add("milestone.woldsvaults.archmage.desc", "Ability damage dealt to mobs");
+        add("milestone.woldsvaults.spell_spammer.desc", "Mana spent on abilities");
+        add("milestone.woldsvaults.electric_conduit.desc", "Mobs killed with lightning");
+        add("milestone.woldsvaults.master_of_chains.desc", "Mobs killed with chaining attacks");
+        add("milestone.woldsvaults.defense.desc", "Attacks blocked");
+        add("milestone.woldsvaults.woosh.desc", "Attacks dodged");
+        add("milestone.woldsvaults.five_leaf_clover.desc", "Lucky hits triggered");
+        add("milestone.woldsvaults.boom.desc", "Mobs killed with explosions");
+        add("milestone.woldsvaults.dungeoneer.desc", "Dungeon bosses killed");
+        add("milestone.woldsvaults.villain.desc", "Cockroaches killed");
+        add("milestone.woldsvaults.flawless_victory.desc", "Vaults completed without taking damage");
+        add("milestone.woldsvaults.fail_vaults.desc", "Vaults failed");
+        add("milestone.woldsvaults.master_smith.desc", "Max out vault forge proficiency");
+        add("milestone.woldsvaults.idonas_champion.desc", "Highest Idona alignment level reached");
+        add("milestone.woldsvaults.priest_of_velara.desc", "Highest Velara alignment level reached");
+        add("milestone.woldsvaults.tenos_right_hand.desc", "Highest Tenos alignment level reached");
+        add("milestone.woldsvaults.wendarrs_timekeeper.desc", "Highest Wendarr alignment level reached");
+        add("milestone.woldsvaults.explorer.desc", "Tiered vault maps completed");
+        add("milestone.woldsvaults.i_live_here_now.desc", "Time spent inside vaults, in ticks");
+        add("milestone.woldsvaults.legendary.desc", "Omega rooms discovered");
+        add("milestone.woldsvaults.challenged.desc", "Challenge rooms completed");
+        add("milestone.woldsvaults.vault_of_vaults.desc", "One vault: 10k mobs, 4k chests, 1k ores");
+        add("milestone.woldsvaults.wanted_criminal.desc", "Black market trades made");
+        add("milestone.woldsvaults.archeologist.desc", "Ancient uniques identified");
+        add("milestone.woldsvaults.send_a_prayer.desc", "God altars completed");
+        add("milestone.woldsvaults.born_again.desc", "Phoenix revives used");
+        add("milestone.woldsvaults.pal_trainer.desc", "Distinct companions raised to max level");
+        add("milestone.woldsvaults.vault_veteran.desc", "Tiers cleared on every other achievement");
+        add("milestone.woldsvaults.unstable_shuffle.desc", "Complete the Unstable Shuffle challenge");
+        add("milestone.woldsvaults.pitch_black.desc", "Complete the Pitch Black challenge");
+        add("milestone.woldsvaults.trapped.desc", "Complete the Trapped challenge");
+        add("milestone.woldsvaults.ballistic_blackout.desc", "Complete the Ballistic Blackout challenge");
+        add("milestone.woldsvaults.rune_master.desc", "Complete the Rune Master challenge");
+        add("milestone.woldsvaults.elixir_of_doom.desc", "Complete the Elixir of Doom challenge");
+        add("milestone.woldsvaults.collectathon.desc", "Complete the Collectathon challenge");
+        add("milestone.woldsvaults.royale_king.desc", "Complete the Royale King challenge");
+        add("milestone.woldsvaults.gone_in_60_seconds.desc", "Complete the Gone in 60 Seconds challenge");
+        add("milestone.woldsvaults.survival_of_the_fittest.desc", "Complete the Survival of the Fittest challenge");
+        add("milestone.woldsvaults.the_pacifist.desc", "Complete the Pacifist challenge");
+        add("milestone.woldsvaults.gods_challenge.desc", "Complete God's Challenge");
+        add("milestone.woldsvaults.luckiest_win.desc", "Complete the Luckiest Win challenge");
+        add("milestone.woldsvaults.big_bad_brew.desc", "Complete the Big Bad Brew challenge");
+        add("milestone.woldsvaults.the_speedrunner.desc", "Complete the Speedrunner challenge");
+        add("milestone.woldsvaults.time_you_say.desc", "Complete the Time You Say challenge");
+        add("milestone.woldsvaults.chaos_chaos_chaos.desc", "Complete the Chaos Chaos Chaos challenge");
+        add("milestone.woldsvaults.the_speed_blackout.desc", "Complete the Speed Blackout challenge");
+        add("milestone.woldsvaults.frenzy_adventures.desc", "Complete the Frenzy Adventures challenge");
+        add("milestone.woldsvaults.rage_cage.desc", "Complete the Rage Cage challenge");
+        add("milestone.woldsvaults.celebrations.desc", "Complete the Celebrations challenge");
+    }
+
+    /**
+     * Every label, tooltip, rank name and rank-up unlock line on the greed screens.
+     */
+    private void addGreedScreenText() {
+        add("screen.woldsvaults.greed.title", "Greed");
+        add("screen.woldsvaults.greed.tab.main", "Main");
+        add("screen.woldsvaults.greed.tab.offense", "Offense");
+        add("screen.woldsvaults.greed.tab.loot", "Loot");
+        add("screen.woldsvaults.greed.tab.vault", "Vault");
+        add("screen.woldsvaults.greed.tab.misc", "Misc");
+        add("screen.woldsvaults.greed.tab.challenge", "Challenge");
+        add("screen.woldsvaults.greed.gain_on_rank_up", "Gain on rank up");
+        add("screen.woldsvaults.greed.pinned_task", "Pinned task");
+        add("screen.woldsvaults.greed.pinned_task.empty", "Nothing pinned. Pin an achievement from any tab to track it here.");
+        add("screen.woldsvaults.greed.shop_reroll_cost", "Shop reroll cost: %1$s rep");
+        add("screen.woldsvaults.greed.shop_reroll_cost.tooltip", "The greed shop has no timed restock. Rerolling it costs reputation, and the price rises with every reroll until your next rank up.");
+        add("screen.woldsvaults.greed.active_god", "Active god tree: %1$s (level %2$s)");
+        add("screen.woldsvaults.greed.active_god.none", "Active god tree: None");
+        add("screen.woldsvaults.greed.list.empty", "No achievements in this category");
+        add("screen.woldsvaults.greed.claim", "Claim");
+        add("screen.woldsvaults.greed.claim.tooltip", "Collect the reputation this achievement has banked");
+        add("screen.woldsvaults.greed.claim.tooltip.player", "Reputation is collected from Mr. Greedy");
+        add("screen.woldsvaults.greed.pin.pin", "Pin");
+        add("screen.woldsvaults.greed.pin.unpin", "Unpin");
+        add("screen.woldsvaults.greed.pin.pin.tooltip", "Track this achievement on the main greed screen. You may pin one at a time.");
+        add("screen.woldsvaults.greed.pin.unpin.tooltip", "Stop tracking this achievement");
+        add("screen.woldsvaults.greed.row.rep", "+%1$s Rep");
+        add("screen.woldsvaults.greed.row.rep_list", "Rep: ");
+        add("screen.woldsvaults.greed.rank.none", "Unranked");
+        add("screen.woldsvaults.greed.rank.1", "Scavenger 1");
+        add("screen.woldsvaults.greed.rank.2", "Scavenger 2");
+        add("screen.woldsvaults.greed.rank.3", "Scavenger 3");
+        add("screen.woldsvaults.greed.rank.4", "Looter 1");
+        add("screen.woldsvaults.greed.rank.5", "Looter 2");
+        add("screen.woldsvaults.greed.rank.6", "Looter 3");
+        add("screen.woldsvaults.greed.rank.7", "Hunter 1");
+        add("screen.woldsvaults.greed.rank.8", "Hunter 2");
+        add("screen.woldsvaults.greed.rank.9", "Hunter 3");
+        add("screen.woldsvaults.greed.rank.10", "Master 1");
+        add("screen.woldsvaults.greed.rank.11", "Master 2");
+        add("screen.woldsvaults.greed.rank.12", "Master 3");
+        add("screen.woldsvaults.greed.rank.13", "Champion 1");
+        add("screen.woldsvaults.greed.rank.14", "Champion 2");
+        add("screen.woldsvaults.greed.rank.15", "Champion 3");
+        add("screen.woldsvaults.greed.rank.16", "Legend");
+        add("screen.woldsvaults.greed.rank.legend_plus", "Legend +%1$s");
+        add("screen.woldsvaults.greed.unlock.1", "Unlocks the greed cauldron, Mr. Greedy, etchings, prestige and greed medallions");
+        add("screen.woldsvaults.greed.unlock.2", "+1 shop slot, unlocks tier 1 greed cards");
+        add("screen.woldsvaults.greed.unlock.3", "+1 shop slot, unlocks vault maps of tiers 1 to 3");
+        add("screen.woldsvaults.greed.unlock.4", "+1 shop slot, unlocks god alignments, greedy companion relics and challenges");
+        add("screen.woldsvaults.greed.unlock.5", "+1 shop slot, unlocks some Greater Cores and tier 4 maps");
+        add("screen.woldsvaults.greed.unlock.6", "+1 shop slot, unlocks tier 2 greed cards");
+        add("screen.woldsvaults.greed.unlock.7", "+1 shop slot, unlocks tier 5 maps and ancient uniques. Needs level 2 with any god.");
+        add("screen.woldsvaults.greed.unlock.8", "+1 shop slot, unlocks all Greater Cores and the Mystery Deck");
+        add("screen.woldsvaults.greed.unlock.9", "+1 shop slot, unlocks level 2 greedy relics and tier 3 greed cards");
+        add("screen.woldsvaults.greed.unlock.10", "+1 shop slot, unlocks tier 6 maps, raises ancient drop chance. Needs level 4 with any god.");
+        add("screen.woldsvaults.greed.unlock.11", "+1 shop slot, unlocks stronger greedy catalysts");
+        add("screen.woldsvaults.greed.unlock.12", "+1 shop slot, unlocks level 3 greedy relics");
+        add("screen.woldsvaults.greed.unlock.13", "+1 shop slot, unlocks tier 4 greed cards. Needs level 6 with any god.");
+        add("screen.woldsvaults.greed.unlock.14", "+1 shop slot, raises ancient drop chance");
+        add("screen.woldsvaults.greed.unlock.15", "+1 shop slot, -10% greed shop cost");
+        add("screen.woldsvaults.greed.unlock.16", "+1 shop slot. Needs level 8 with any god.");
+        add("screen.woldsvaults.greed.unlock.legend_plus", "+1 shop slot per further 250 reputation");
     }
 
     public static final LinkedHashMap<String, String> REGISTERED_LANGUAGE_KEYS = new LinkedHashMap<>();

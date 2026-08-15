@@ -15,5 +15,9 @@ public class MilestoneNetwork {
 
     public static void onCommonSetup() {
         INSTANCE.register(MilestoneSyncMessage.class, new MilestoneSyncMessage());
+        INSTANCE.register(MilestoneStatusMessage.class, new MilestoneStatusMessage());
+        INSTANCE.register(ServerboundClaimMilestoneMessage.class, new ServerboundClaimMilestoneMessage());
+        INSTANCE.register(ServerboundPinMilestoneMessage.class, new ServerboundPinMilestoneMessage());
+        INSTANCE.register(ServerboundOpenMilestonesMessage.class, new ServerboundOpenMilestonesMessage());
     }
 }

@@ -59,6 +59,7 @@ public class MilestoneEvents {
             MilestoneData.get(player.server).flush();
             MilestoneVaultState.releasePlayer(player.getUUID());
             Milestones.forget(player.getUUID());
+            MilestoneFlusher.forget(player.getUUID());
         }
     }
 

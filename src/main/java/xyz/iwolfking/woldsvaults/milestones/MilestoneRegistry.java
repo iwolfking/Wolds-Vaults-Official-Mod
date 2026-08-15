@@ -16,6 +16,7 @@ import java.util.Set;
 public class MilestoneRegistry {
     private static final Map<String, MilestoneDefinition> BY_ID = new LinkedHashMap<>();
     private static final Map<MilestoneCategory, List<MilestoneDefinition>> BY_CATEGORY = new LinkedHashMap<>();
+    private static final Map<String, MilestoneDefinition> BY_CHALLENGE_CRYSTAL = new LinkedHashMap<>();
     private static List<MilestoneDefinition> ORDERED = List.of();
 
     private static final long MINUTE = 20L * 60L;
@@ -77,11 +78,32 @@ public class MilestoneRegistry {
         return BY_CATEGORY.getOrDefault(category, List.of());
     }
 
+    /**
+     * The milestone that tracks a greed challenge crystal, or null when that crystal has none.
+     * {@code ultra_hard} is the one offered crystal without a milestone.
+     */
+    public static MilestoneDefinition getByChallengeCrystal(String challengeCrystalId) {
+        return challengeCrystalId == null ? null : BY_CHALLENGE_CRYSTAL.get(challengeCrystalId);
+    }
+
+    /**
+     * Greed rank a challenge crystal is gated behind, from the rank tag on its milestone. Crystals
+     * with no milestone return 0, which leaves them on their config {@code minTier} gate.
+     */
+    public static int getChallengeRequiredRank(String challengeCrystalId) {
+        MilestoneDefinition definition = getByChallengeCrystal(challengeCrystalId);
+        return definition == null ? 0 : definition.getRequiredRank();
+    }
+
     private static MilestoneDefinition register(MilestoneDefinition definition) {
         if (BY_ID.put(definition.getId(), definition) != null) {
             throw new IllegalStateException("Duplicate milestone id " + definition.getId());
         }
         BY_CATEGORY.computeIfAbsent(definition.getCategory(), c -> new ArrayList<>()).add(definition);
+        if (definition.getChallengeCrystalId() != null
+                && BY_CHALLENGE_CRYSTAL.put(definition.getChallengeCrystalId(), definition) != null) {
+            throw new IllegalStateException("Duplicate challenge crystal id " + definition.getChallengeCrystalId());
+        }
         return definition;
     }
 
@@ -97,8 +119,14 @@ public class MilestoneRegistry {
         register(new MilestoneDefinition(id, category, MilestoneCounter.ACCUMULATE, new long[]{1L}, new int[]{reputation}));
     }
 
-    private static void challenge(String id, int taggedRank) {
-        oneShot(id, MilestoneCategory.CHALLENGE, MilestoneRankLadder.getChallengeReputation(taggedRank));
+    /**
+     * Registers a challenge-crystal milestone: one tier, reputation derived from the rank tag, and
+     * the crystal id that both completes it and is gated by that same rank.
+     */
+    private static void challenge(String id, String challengeCrystalId, int taggedRank) {
+        register(new MilestoneDefinition(id, MilestoneCategory.CHALLENGE, MilestoneCounter.ACCUMULATE,
+                new long[]{1L}, new int[]{MilestoneRankLadder.getChallengeReputation(taggedRank)},
+                challengeCrystalId, taggedRank));
     }
 
     private static void bootstrap() {
@@ -209,27 +237,27 @@ public class MilestoneRegistry {
         highest(MilestoneIds.VAULT_VETERAN, MilestoneCategory.MISC,
                 new long[]{1L, 2L, 3L, 4L, 5L}, new int[]{0, 0, 0, 0, 0});
 
-        challenge(MilestoneIds.UNSTABLE_SHUFFLE, MilestoneRankLadder.LOOTER_1);
-        challenge(MilestoneIds.PITCH_BLACK, MilestoneRankLadder.LOOTER_1);
-        challenge(MilestoneIds.TRAPPED, MilestoneRankLadder.LOOTER_3);
-        challenge(MilestoneIds.BALLISTIC_BLACKOUT, MilestoneRankLadder.MASTER_1);
-        challenge(MilestoneIds.RUNE_MASTER, MilestoneRankLadder.MASTER_1);
-        challenge(MilestoneIds.ELIXIR_OF_DOOM, MilestoneRankLadder.HUNTER_1);
-        challenge(MilestoneIds.COLLECTATHON, MilestoneRankLadder.MASTER_2);
-        challenge(MilestoneIds.ROYALE_KING, MilestoneRankLadder.CHAMPION_2);
-        challenge(MilestoneIds.GONE_IN_60_SECONDS, MilestoneRankLadder.LOOTER_1);
-        challenge(MilestoneIds.SURVIVAL_OF_THE_FITTEST, MilestoneRankLadder.MASTER_3);
-        challenge(MilestoneIds.THE_PACIFIST, MilestoneRankLadder.LOOTER_2);
-        challenge(MilestoneIds.GODS_CHALLENGE, MilestoneRankLadder.HUNTER_3);
-        challenge(MilestoneIds.LUCKIEST_WIN, MilestoneRankLadder.LOOTER_2);
-        challenge(MilestoneIds.BIG_BAD_BREW, MilestoneRankLadder.HUNTER_1);
-        challenge(MilestoneIds.THE_SPEEDRUNNER, MilestoneRankLadder.LOOTER_2);
-        challenge(MilestoneIds.TIME_YOU_SAY, MilestoneRankLadder.HUNTER_2);
-        challenge(MilestoneIds.CHAOS_CHAOS_CHAOS, MilestoneRankLadder.CHAMPION_1);
-        challenge(MilestoneIds.THE_SPEED_BLACKOUT, MilestoneRankLadder.HUNTER_2);
-        challenge(MilestoneIds.FRENZY_ADVENTURES, MilestoneRankLadder.HUNTER_3);
-        challenge(MilestoneIds.RAGE_CAGE, MilestoneRankLadder.CHAMPION_1);
-        challenge(MilestoneIds.CELEBRATIONS, MilestoneRankLadder.CHAMPION_3);
+        challenge(MilestoneIds.UNSTABLE_SHUFFLE, "t1_shuffle_grounds", MilestoneRankLadder.LOOTER_1);
+        challenge(MilestoneIds.PITCH_BLACK, "pitch_black", MilestoneRankLadder.LOOTER_1);
+        challenge(MilestoneIds.TRAPPED, "scav_rolled", MilestoneRankLadder.LOOTER_3);
+        challenge(MilestoneIds.BALLISTIC_BLACKOUT, "ballistic_bingo_blackout", MilestoneRankLadder.MASTER_1);
+        challenge(MilestoneIds.RUNE_MASTER, "rune_master", MilestoneRankLadder.MASTER_1);
+        challenge(MilestoneIds.ELIXIR_OF_DOOM, "elixir_of_doom", MilestoneRankLadder.HUNTER_1);
+        challenge(MilestoneIds.COLLECTATHON, "blackout_scavingo", MilestoneRankLadder.MASTER_2);
+        challenge(MilestoneIds.ROYALE_KING, "royale_king", MilestoneRankLadder.CHAMPION_2);
+        challenge(MilestoneIds.GONE_IN_60_SECONDS, "gone_in_60_seconds", MilestoneRankLadder.LOOTER_1);
+        challenge(MilestoneIds.SURVIVAL_OF_THE_FITTEST, "survival_of_the_fittest", MilestoneRankLadder.MASTER_3);
+        challenge(MilestoneIds.THE_PACIFIST, "the_pacifist", MilestoneRankLadder.LOOTER_2);
+        challenge(MilestoneIds.GODS_CHALLENGE, "gods_challenge", MilestoneRankLadder.HUNTER_3);
+        challenge(MilestoneIds.LUCKIEST_WIN, "luckiest_win", MilestoneRankLadder.LOOTER_2);
+        challenge(MilestoneIds.BIG_BAD_BREW, "big_bad_brew", MilestoneRankLadder.HUNTER_1);
+        challenge(MilestoneIds.THE_SPEEDRUNNER, "the_speedrunner", MilestoneRankLadder.LOOTER_2);
+        challenge(MilestoneIds.TIME_YOU_SAY, "time_you_say", MilestoneRankLadder.HUNTER_2);
+        challenge(MilestoneIds.CHAOS_CHAOS_CHAOS, "chaos_chaos_chaos", MilestoneRankLadder.CHAMPION_1);
+        challenge(MilestoneIds.THE_SPEED_BLACKOUT, "speed_blackout_bingo", MilestoneRankLadder.HUNTER_2);
+        challenge(MilestoneIds.FRENZY_ADVENTURES, "one_shot_frenzy", MilestoneRankLadder.HUNTER_3);
+        challenge(MilestoneIds.RAGE_CAGE, "rage_cage", MilestoneRankLadder.CHAMPION_1);
+        challenge(MilestoneIds.CELEBRATIONS, "celebrations", MilestoneRankLadder.CHAMPION_3);
 
         ORDERED = List.copyOf(BY_ID.values());
         BY_CATEGORY.replaceAll((category, list) -> List.copyOf(list));

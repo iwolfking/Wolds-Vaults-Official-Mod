@@ -8,8 +8,15 @@ public class MilestoneDefinition {
     private final int[] reputation;
     private final String nameKey;
     private final String descriptionKey;
+    private final String challengeCrystalId;
+    private final int requiredRank;
 
     public MilestoneDefinition(String id, MilestoneCategory category, MilestoneCounter counter, long[] thresholds, int[] reputation) {
+        this(id, category, counter, thresholds, reputation, null, 0);
+    }
+
+    public MilestoneDefinition(String id, MilestoneCategory category, MilestoneCounter counter, long[] thresholds, int[] reputation,
+                               String challengeCrystalId, int requiredRank) {
         if (thresholds.length == 0) {
             throw new IllegalArgumentException("Milestone " + id + " has no tiers");
         }
@@ -23,6 +30,23 @@ public class MilestoneDefinition {
         this.reputation = reputation;
         this.nameKey = "milestone.woldsvaults." + id;
         this.descriptionKey = "milestone.woldsvaults." + id + ".desc";
+        this.challengeCrystalId = challengeCrystalId;
+        this.requiredRank = requiredRank;
+    }
+
+    /**
+     * The greed challenge crystal this milestone tracks, or null for every non-challenge milestone.
+     */
+    public String getChallengeCrystalId() {
+        return this.challengeCrystalId;
+    }
+
+    /**
+     * The 1-based greed rank tagged on this milestone in the design sheet, or 0 when untagged.
+     * For challenge milestones this doubles as the rank at which the crystal becomes purchasable.
+     */
+    public int getRequiredRank() {
+        return this.requiredRank;
     }
 
     public String getId() {

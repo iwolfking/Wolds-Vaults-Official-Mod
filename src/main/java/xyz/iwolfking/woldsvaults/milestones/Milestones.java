@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.milestones;
 
+import iskallia.vault.container.GreedTraderContainer;
 import iskallia.vault.world.data.PlayerGreedTreeData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -168,26 +169,147 @@ public class Milestones {
         if (newTiers <= previousTiers) {
             return;
         }
-        int reputation = 0;
-        for (int tier = previousTiers; tier < newTiers; tier++) {
-            reputation += definition.getReputation(tier);
-        }
-        if (reputation > 0) {
-            PlayerGreedTreeData.get(player.server).addGreedReputation(player, reputation);
-        }
-        announce(player, definition, newTiers, reputation);
+        announce(player, definition, newTiers, getUnclaimedRep(player.server, playerId, definition.getId()));
         data.flush();
         evaluateVeteran(player, data);
     }
 
-    private static void announce(ServerPlayer player, MilestoneDefinition definition, int tier, int reputation) {
+    /**
+     * Reputation the player has banked but not yet collected for a milestone: the sum over every
+     * tier that is completed but sits above the claimed high-water mark.
+     */
+    public static int getUnclaimedRep(MinecraftServer server, UUID playerId, String milestoneId) {
+        MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
+        if (definition == null) {
+            return 0;
+        }
+        MilestoneData data = MilestoneData.get(server);
+        int completed = definition.getCompletedTiers(data.getValue(playerId, milestoneId));
+        int claimed = Math.min(data.getClaimedTiers(playerId, milestoneId), completed);
+        int reputation = 0;
+        for (int tier = claimed; tier < completed; tier++) {
+            reputation += definition.getReputation(tier);
+        }
+        return reputation;
+    }
+
+    /**
+     * Total unclaimed reputation across every milestone.
+     */
+    public static int getUnclaimedRep(MinecraftServer server, UUID playerId) {
+        int total = 0;
+        for (MilestoneDefinition definition : MilestoneRegistry.getAll()) {
+            total += getUnclaimedRep(server, playerId, definition.getId());
+        }
+        return total;
+    }
+
+    /**
+     * Collects the banked reputation for one milestone at Mr. Greedy and returns the amount paid
+     * out, or 0 when there was nothing to collect. Only legal while the greed trader container is
+     * open: the claim is a trader interaction, so a client that sends the message with no trader
+     * screen up is refused and logged.
+     */
+    public static int claim(ServerPlayer player, String milestoneId) {
+        if (!(player.containerMenu instanceof GreedTraderContainer)) {
+            WoldsVaults.LOGGER.warn("Refused milestone claim '{}' from {}: the greed trader container is not open (menu was {})",
+                    milestoneId, player.getGameProfile().getName(), player.containerMenu.getClass().getName());
+            return 0;
+        }
+        int reputation = claimUnchecked(player, milestoneId);
+        MilestoneFlusher.syncAll(player);
+        return reputation;
+    }
+
+    /**
+     * Claims every milestone with banked reputation, returning the total paid out. Gated on the
+     * trader container exactly like {@link #claim(ServerPlayer, String)}.
+     */
+    public static int claimAll(ServerPlayer player) {
+        if (!(player.containerMenu instanceof GreedTraderContainer)) {
+            WoldsVaults.LOGGER.warn("Refused milestone claim-all from {}: the greed trader container is not open (menu was {})",
+                    player.getGameProfile().getName(), player.containerMenu.getClass().getName());
+            return 0;
+        }
+        int total = 0;
+        for (MilestoneDefinition definition : MilestoneRegistry.getAll()) {
+            total += claimUnchecked(player, definition.getId());
+        }
+        MilestoneFlusher.syncAll(player);
+        return total;
+    }
+
+    /**
+     * The claim itself without the trader gate and without a client sync. Callers are responsible
+     * for syncing afterwards; only the debug command may call this directly.
+     */
+    public static int claimUnchecked(ServerPlayer player, String milestoneId) {
+        MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
+        if (definition == null) {
+            WoldsVaults.LOGGER.warn("Milestone claim for unknown id '{}' ignored", milestoneId);
+            return 0;
+        }
+        MilestoneData data = MilestoneData.get(player.server);
+        UUID playerId = player.getUUID();
+        int completed = definition.getCompletedTiers(data.getValue(playerId, milestoneId));
+        int claimed = Math.min(data.getClaimedTiers(playerId, milestoneId), completed);
+        if (completed <= claimed) {
+            return 0;
+        }
+        int reputation = 0;
+        for (int tier = claimed; tier < completed; tier++) {
+            reputation += definition.getReputation(tier);
+        }
+        data.setClaimedTiers(playerId, milestoneId, completed);
+        data.flush();
+        if (reputation > 0) {
+            PlayerGreedTreeData.get(player.server).addGreedReputation(player, reputation);
+            player.displayClientMessage(new TranslatableComponent("milestone.woldsvaults.claimed",
+                    new TranslatableComponent(definition.getNameKey()), reputation).withStyle(ChatFormatting.YELLOW), false);
+        }
+        return reputation;
+    }
+
+    /**
+     * Debug seam for {@code /wvmilestones set-tier}: moves the claim mark down with the counter so
+     * that forcing a milestone back to a lower tier makes those tiers claimable again.
+     */
+    public static void clampClaimedTiers(ServerPlayer player, String milestoneId, int tiers) {
+        MilestoneData data = MilestoneData.get(player.server);
+        if (data.getClaimedTiers(player.getUUID(), milestoneId) > tiers) {
+            data.setClaimedTiers(player.getUUID(), milestoneId, tiers);
+            data.flush();
+        }
+    }
+
+    public static String getPinned(MinecraftServer server, UUID playerId) {
+        return MilestoneData.get(server).getPinned(playerId);
+    }
+
+    /**
+     * Pins one milestone to the greed screen, or clears the pin when the id is null. Unknown ids
+     * are refused so a bad client cannot park an unresolvable id in the save.
+     */
+    public static boolean setPinned(ServerPlayer player, String milestoneId) {
+        if (milestoneId != null && !MilestoneRegistry.contains(milestoneId)) {
+            WoldsVaults.LOGGER.warn("Milestone pin for unknown id '{}' ignored", milestoneId);
+            return false;
+        }
+        MilestoneData data = MilestoneData.get(player.server);
+        data.setPinned(player.getUUID(), milestoneId);
+        data.flush();
+        MilestoneFlusher.syncAll(player);
+        return true;
+    }
+
+    private static void announce(ServerPlayer player, MilestoneDefinition definition, int tier, int unclaimed) {
         TranslatableComponent name = new TranslatableComponent(definition.getNameKey());
         TranslatableComponent message = definition.getTierCount() == 1
                 ? new TranslatableComponent("milestone.woldsvaults.completed", name)
                 : new TranslatableComponent("milestone.woldsvaults.tier_completed", name, tier, definition.getTierCount());
         player.displayClientMessage(message.withStyle(ChatFormatting.GOLD), false);
-        if (reputation > 0) {
-            player.displayClientMessage(new TranslatableComponent("milestone.woldsvaults.reputation", reputation)
+        if (unclaimed > 0) {
+            player.displayClientMessage(new TranslatableComponent("milestone.woldsvaults.reputation", unclaimed)
                     .withStyle(ChatFormatting.YELLOW), true);
         }
     }
@@ -286,5 +408,20 @@ public class Milestones {
      */
     public static void onVaultForgeMaxed(ServerPlayer player) {
         complete(player, MilestoneIds.MASTER_SMITH);
+    }
+
+    /**
+     * Completes the milestone that tracks a greed challenge crystal. This is the only reward a
+     * finished challenge grants now; the reputation is banked on the milestone and collected at
+     * Mr. Greedy. {@code ultra_hard} has no milestone and is silently ignored.
+     */
+    public static void onChallengeCrystalCompleted(ServerPlayer player, String challengeCrystalId) {
+        MilestoneDefinition definition = MilestoneRegistry.getByChallengeCrystal(challengeCrystalId);
+        if (definition == null) {
+            WoldsVaults.LOGGER.info("Greed challenge crystal '{}' completed by {} but no milestone tracks it",
+                    challengeCrystalId, player.getGameProfile().getName());
+            return;
+        }
+        complete(player, definition.getId());
     }
 }

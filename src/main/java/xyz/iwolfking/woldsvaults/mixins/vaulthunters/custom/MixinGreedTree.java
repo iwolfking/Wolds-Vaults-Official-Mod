@@ -11,7 +11,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -69,6 +71,25 @@ public abstract class MixinGreedTree {
     public List<GreedChallengeEntry> removeCompletedChallengesFromPopulating(GreedTraderConfig instance, int greedTier, Operation<List<GreedChallengeEntry>> original) {
         List<GreedChallengeEntry> entries = original.call(instance, greedTier);
         entries.removeIf(challengeEntry -> completedChallengeIds.contains(challengeEntry.getChallengeCrystalId()));
+        entries.removeIf(challengeEntry -> isRankLocked(challengeEntry, greedTier));
         return entries;
+    }
+
+    @WrapOperation(method = "populateCatchupChallenge", at = @At(value = "INVOKE", target = "Liskallia/vault/config/greed/GreedTraderConfig;getChallenges()Ljava/util/List;"))
+    public List<GreedChallengeEntry> removeRankLockedChallengesFromCatchup(GreedTraderConfig instance, Operation<List<GreedChallengeEntry>> original) {
+        List<GreedChallengeEntry> entries = new ArrayList<>(original.call(instance));
+        entries.removeIf(challengeEntry -> isRankLocked(challengeEntry, this.greedTier));
+        return entries;
+    }
+
+    /**
+     * Re-gates challenge crystals on the rank tagged on their milestone instead of the config's
+     * {@code minTier}. Applied at the offer path, so a locked crystal is never rolled into a slot
+     * and therefore can never be accepted or rebought. The greed tier int is the rank, the same
+     * interim convention the rest of the rework uses. Crystals with no milestone - only
+     * {@code ultra_hard} - carry rank 0 and keep their config gate.
+     */
+    private static boolean isRankLocked(GreedChallengeEntry entry, int rank) {
+        return MilestoneRegistry.getChallengeRequiredRank(entry.getChallengeCrystalId()) > rank;
     }
 }

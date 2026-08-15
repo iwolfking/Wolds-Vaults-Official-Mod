@@ -31,6 +31,8 @@ public class MilestoneData extends SavedData {
     private final Map<UUID, Map<String, Long>> counters = new HashMap<>();
     private final Map<UUID, Map<String, Set<String>>> tokens = new HashMap<>();
     private final Map<UUID, Map<String, Double>> fractions = new HashMap<>();
+    private final Map<UUID, Map<String, Integer>> claimedTiers = new HashMap<>();
+    private final Map<UUID, String> pinned = new HashMap<>();
     private final Map<UUID, Set<String>> pendingSync = new HashMap<>();
     private boolean pendingSave;
 
@@ -88,6 +90,42 @@ public class MilestoneData extends SavedData {
         return whole;
     }
 
+    /**
+     * Highest tier of a milestone whose reputation the player has already collected at Mr. Greedy.
+     * Everything above this and at or below the completed tier count is unclaimed.
+     */
+    public int getClaimedTiers(UUID playerId, String milestoneId) {
+        Map<String, Integer> player = this.claimedTiers.get(playerId);
+        return player == null ? 0 : player.getOrDefault(milestoneId, 0);
+    }
+
+    public void setClaimedTiers(UUID playerId, String milestoneId, int tiers) {
+        this.claimedTiers.computeIfAbsent(playerId, id -> new HashMap<>()).put(milestoneId, tiers);
+        this.pendingSync.computeIfAbsent(playerId, id -> new LinkedHashSet<>()).add(milestoneId);
+        this.pendingSave = true;
+    }
+
+    public Map<String, Integer> getAllClaimedTiers(UUID playerId) {
+        Map<String, Integer> player = this.claimedTiers.get(playerId);
+        return player == null ? Map.of() : Collections.unmodifiableMap(player);
+    }
+
+    /**
+     * The single milestone the player has pinned to the greed screen, or null when nothing is pinned.
+     */
+    public String getPinned(UUID playerId) {
+        return this.pinned.get(playerId);
+    }
+
+    public void setPinned(UUID playerId, String milestoneId) {
+        if (milestoneId == null) {
+            this.pinned.remove(playerId);
+        } else {
+            this.pinned.put(playerId, milestoneId);
+        }
+        this.pendingSave = true;
+    }
+
     public Map<UUID, Set<String>> drainPendingSync() {
         if (this.pendingSync.isEmpty()) {
             return Map.of();
@@ -123,6 +161,8 @@ public class MilestoneData extends SavedData {
     public void load(CompoundTag tag) {
         this.counters.clear();
         this.tokens.clear();
+        this.claimedTiers.clear();
+        this.pinned.clear();
         ListTag players = tag.getList("players", Tag.TAG_COMPOUND);
         for (int i = 0; i < players.size(); i++) {
             CompoundTag playerTag = players.getCompound(i);
@@ -148,6 +188,17 @@ public class MilestoneData extends SavedData {
             if (!playerTokens.isEmpty()) {
                 this.tokens.put(playerId, playerTokens);
             }
+            CompoundTag claimedTag = playerTag.getCompound("claimed");
+            Map<String, Integer> playerClaimed = new HashMap<>();
+            for (String key : claimedTag.getAllKeys()) {
+                playerClaimed.put(key, claimedTag.getInt(key));
+            }
+            if (!playerClaimed.isEmpty()) {
+                this.claimedTiers.put(playerId, playerClaimed);
+            }
+            if (playerTag.contains("pinned")) {
+                this.pinned.put(playerId, playerTag.getString("pinned"));
+            }
         }
     }
 
@@ -157,6 +208,8 @@ public class MilestoneData extends SavedData {
         ListTag players = new ListTag();
         Set<UUID> ids = new HashSet<>(this.counters.keySet());
         ids.addAll(this.tokens.keySet());
+        ids.addAll(this.claimedTiers.keySet());
+        ids.addAll(this.pinned.keySet());
         for (UUID playerId : ids) {
             CompoundTag playerTag = new CompoundTag();
             playerTag.putUUID("player", playerId);
@@ -174,6 +227,17 @@ public class MilestoneData extends SavedData {
                 tokensTag.put(key, list);
             });
             playerTag.put("tokens", tokensTag);
+            CompoundTag claimedTag = new CompoundTag();
+            this.claimedTiers.getOrDefault(playerId, Map.of()).forEach((key, value) -> {
+                if (value != 0) {
+                    claimedTag.putInt(key, value);
+                }
+            });
+            playerTag.put("claimed", claimedTag);
+            String pinnedId = this.pinned.get(playerId);
+            if (pinnedId != null) {
+                playerTag.putString("pinned", pinnedId);
+            }
             players.add(playerTag);
         }
         tag.put("players", players);
