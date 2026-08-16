@@ -68,6 +68,10 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Boolean> TREASURE_AFFINITY = attr("treasure_affinity", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Treasure Affinity", 16749824), VaultGearAttributeComparator.booleanComparator());
 
 
+    //Mod Integration Attributes
+    public static final VaultGearAttribute<Boolean> RADIATION_IMMUNITY = woldsAttr("radiation_immunity", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Radiation Immunity", 5539999), VaultGearAttributeComparator.booleanComparator());
+
+
     //Map Modifiers
     //Settable Decorator Add Modifiers
     public static final VaultGearAttribute<Integer> BONUS_COIN_PILES = attr("bonus_coin_piles", VaultGearAttributeType.intType(), (ConfigurableAttributeGenerator<Integer, ?>)ModGearAttributeGenerators.intRange(), (VaultGearModifierReader<Integer>)ModGearAttributeReaders.addedIntReader("Chances for Coin Piles", 12219392), (VaultGearAttributeComparator<Integer>)VaultGearAttributeComparator.intComparator());
@@ -198,6 +202,7 @@ public class ModGearAttributes {
                       registry.register(RICOCHET);
                       registry.register(HEART_FRAGMENT_ON_LOOT);
                       registry.register(ADDITIONAL_STACKING_STACKS);
+                      registry.register(RADIATION_IMMUNITY);
        }
   
     public static void registerVanillaAssociations() {

@@ -105,6 +105,8 @@
     "lightmanscurrency.MixinCurioHelper",
     "lightmanscurrency.MixinWalletDisplayOverlay",
     "mekanism.MixinBaseRecipeCategory",
+    "mekanism.MixinRadiationManager",
+    "mekanism.MixinTileEntityModificationStation",
     "mekanism.MixinVirtualCraftingOutputSlot",
     "occultism.MixinCraftRitual",
     "occultism.MixinFamiliarEventHandler",
