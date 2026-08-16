@@ -20,7 +20,13 @@ import xyz.iwolfking.woldsvaults.gods.trees.velara.SacrificeFlocks;
 @Mixin(value = DownedPlayerManager.class, remap = false)
 public class MixinDownedPlayerManagerVelara {
 
-    @ModifyVariable(method = "enterDownedState",
+    /**
+     * Ordinal 1 is load-bearing: at the injection point two int locals are live — the vault down
+     * count (ordinal 0, the argument fed INTO getBleedOutTicks) and the returned bleed-out ticks
+     * (ordinal 1). Implicit discrimination fails fatally on the ambiguity; verified against the
+     * 3.21.6 bytecode (locals 5 and 8 of enterDownedState).
+     */
+    @ModifyVariable(method = "enterDownedState", ordinal = 1,
             at = @At(value = "INVOKE_ASSIGN", target = "Liskallia/vault/config/DownedConfig;getBleedOutTicks(Ljava/lang/String;I)I"))
     private static int velaraPerserverenceTimer(int bleedOutTicks, ServerPlayer player, Vault vault) {
         return Perserverence.adjustBleedOutTicks(player, bleedOutTicks);
