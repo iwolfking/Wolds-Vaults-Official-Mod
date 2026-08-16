@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
 import xyz.iwolfking.woldsvaults.gods.trees.tenos.TenosChestRolls;
 import xyz.iwolfking.woldsvaults.loot.MythicLootScaling;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 import xyz.iwolfking.woldsvaults.loot.StrongboxTierScaling;
 import xyz.iwolfking.woldsvaults.loot.TieredCdfApprox;
 
@@ -60,6 +61,8 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
      * Mapped strongboxes add a few base rolls per tier, lifting the whole quantity curve. The
      * Tenos chest nodes (Massive Chests, Expert Looter) add their extra rolls at the same point,
      * read off the generator's source entity - the chest tile entity sets it to the opening player.
+     * A greed medallion on the vault scales the result last, so its "+X% Chest Rolls" multiplies
+     * every additive source rather than joining them.
      */
     @ModifyExpressionValue(
             method = "generate",
@@ -70,6 +73,7 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         Entity source = ((TieredLootTableGenerator) (Object) this).getSource();
         if (source instanceof Player player) {
             adjusted += TenosChestRolls.bonusRolls(player);
+            adjusted = (int) Math.round(adjusted * GreedMedallionEffects.chestRollMultiplier(player));
         }
         return adjusted;
     }

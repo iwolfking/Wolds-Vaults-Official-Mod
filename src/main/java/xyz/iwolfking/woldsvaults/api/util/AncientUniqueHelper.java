@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.prestige.RelicHunterPrestigePower;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -213,11 +214,20 @@ public class AncientUniqueHelper {
     }
 
     /**
-     * Relic Hunter prestige multiplier on the ancient identify chance. The prestige power does not exist
-     * yet, so this is a deliberate no-op returning 1.0F; the prestige wave patches this one method.
+     * Relic Hunter prestige multiplier on the ancient identify chance. Owned copies add their
+     * chanceMultiplier together before the multiply, so the shipped pair of 0.5 ranks gives
+     * 0.8% x (1 + 0.5 + 0.5) = 1.6% rather than the 1.8% a compounding product would produce.
      */
     public static float getRelicHunterMultiplier(ServerPlayer player) {
-        return 1.0F;
+        if (player.getServer() == null) {
+            WoldsVaults.LOGGER.debug("Relic Hunter multiplier requested with no server; treating as no bonus.");
+            return 1.0F;
+        }
+        float bonus = 0.0F;
+        for (RelicHunterPrestigePower power : PrestigePowerHelper.getPrestigePowersOfType(player, RelicHunterPrestigePower.class)) {
+            bonus += power.getChanceMultiplier();
+        }
+        return 1.0F + bonus;
     }
 
     /**

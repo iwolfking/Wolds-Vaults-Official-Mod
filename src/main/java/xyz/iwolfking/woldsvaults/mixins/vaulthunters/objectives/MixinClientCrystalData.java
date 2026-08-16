@@ -8,6 +8,7 @@ import iskallia.vault.item.crystal.objective.CrystalObjective;
 import iskallia.vault.item.crystal.objective.RaidCrystalObjective;
 import iskallia.vault.item.crystal.theme.CrystalTheme;
 import iskallia.vault.item.crystal.theme.PoolCrystalTheme;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
@@ -16,6 +17,10 @@ import net.minecraft.world.item.TooltipFlag;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionCrystal;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionDisplay;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.PoolCrystalThemeAccessor;
 
 import java.util.List;
@@ -23,6 +28,17 @@ import java.util.List;
 @Mixin(value = CrystalData.class, remap = false)
 public abstract class MixinClientCrystalData {
     @Shadow public abstract CrystalTheme getTheme();
+
+    /**
+     * The crystal's medallion, printed last so it reads as the crystal's headline property. Once
+     * written a medallion can never be replaced or removed, so there is no "none" line to print.
+     */
+    @Inject(method = "addText", at = @At("TAIL"))
+    private void woldsvaults$addMedallionText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level, CallbackInfo ci) {
+        ((GreedMedallionCrystal) (Object) this).woldsvaults$getMedallion().ifPresent(tier ->
+                tooltip.add(new TextComponent("Greed Medallion: " + GreedMedallionDisplay.getDisplayName(tier))
+                        .withStyle(ChatFormatting.GOLD)));
+    }
 
     @WrapOperation(method = "addText", at = @At(value = "INVOKE", target = "Liskallia/vault/item/crystal/objective/CrystalObjective;addText(Ljava/util/List;ILnet/minecraft/world/item/TooltipFlag;FI)V"))
     private void improveRaidTooltip(CrystalObjective instance, List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level, Operation<Void> original){

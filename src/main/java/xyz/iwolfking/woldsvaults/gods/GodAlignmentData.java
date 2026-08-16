@@ -15,9 +15,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.PrestigePowerHelper;
 import xyz.iwolfking.woldsvaults.gods.event.GodLevelUpEvent;
 import xyz.iwolfking.woldsvaults.gods.network.GodAlignmentSyncMessage;
 import xyz.iwolfking.woldsvaults.gods.network.GodNetwork;
+import xyz.iwolfking.woldsvaults.prestige.GodExperiencePrestigePower;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -142,12 +144,15 @@ public class GodAlignmentData extends SavedData {
 
     /**
      * Adds god XP, promoting through as many levels as the amount covers and firing one
-     * {@link GodLevelUpEvent} per level gained. Returns the number of levels gained.
+     * {@link GodLevelUpEvent} per level gained. Returns the number of levels gained. The amount is
+     * scaled by the player's God's Disciple prestige powers before it is banked, so every award
+     * path that funnels through here picks the bonus up.
      */
     public int addGodXp(ServerPlayer player, VaultGod god, long amount) {
         if (amount <= 0L) {
             return 0;
         }
+        amount = applyGodExperiencePowers(player, amount);
         GodState state = this.getState(player.getUUID(), god);
         int before = GodLevels.levelForXp(state.xp);
         state.xp += amount;
@@ -158,6 +163,26 @@ public class GodAlignmentData extends SavedData {
         }
         this.sync(player);
         return after - before;
+    }
+
+    /**
+     * Scales a god XP award by the owned God's Disciple prestige powers. The powers add together
+     * before the multiply, so the shipped +20% and +15% ranks give +35% rather than +38%. Rounds up
+     * so that small awards still move by at least the full base amount.
+     */
+    private static long applyGodExperiencePowers(ServerPlayer player, long amount) {
+        if (player.getServer() == null) {
+            WoldsVaults.LOGGER.debug("God XP awarded with no server attached; skipping God's Disciple scaling.");
+            return amount;
+        }
+        float bonus = 0.0F;
+        for (GodExperiencePrestigePower power : PrestigePowerHelper.getPrestigePowersOfType(player, GodExperiencePrestigePower.class)) {
+            bonus += power.getExperienceIncrease();
+        }
+        if (bonus <= 0.0F) {
+            return amount;
+        }
+        return (long) Math.ceil((double) amount * (1.0D + (double) bonus));
     }
 
     /**

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EEE",
+    "ECE",
+    "EEE"
+  ],
+  "key": {
+    "E": {
+      "item": "the_vault:vault_essence"
+    },
+    "C": {
+      "item": "woldsvaults:greed_medallion_scavenger_2"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:greed_medallion_scavenger_3"
+  }
+}

@@ -7,6 +7,7 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -53,6 +54,20 @@ public class SigilUtils {
         }
 
         return 1.0F + definition.get().getDifficulty();
+    }
+
+    /**
+     * The vault's final difficulty multiplier including its greed medallion. The medallion's
+     * "+X% Objective Difficulty" is multiplicative with the sigil, so a +3.0 sigil in a Legend
+     * medallion vault reads 4.0 × 1.5 = 6.0. A null vault behaves exactly like
+     * {@link #getDifficultyMultiplier(String)}.
+     */
+    public static float getDifficultyMultiplier(@Nullable String sigil, @Nullable Vault vault) {
+        float multiplier = getDifficultyMultiplier(sigil);
+        if(vault == null) {
+            return multiplier;
+        }
+        return multiplier * (float) GreedMedallionEffects.objectiveDifficultyMultiplier(vault);
     }
 
     public static int getStackCountForSigil(String sigil) {

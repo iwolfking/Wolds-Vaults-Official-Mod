@@ -34,21 +34,26 @@ import java.util.Optional;
  * The whole greed UI below the window frame: the six-tab strip plus either the rank summary
  * (Main) or a scrollable achievement list for the tab's category. Both host screens embed this
  * one element, so the player menu and Mr. Greedy render identical content and differ only in
- * whether claiming is enabled.
+ * whether claiming is enabled and in who draws the window around it.
+ *
+ * <p>The panel is resizable. Mr. Greedy hands it his fixed pane size once; the player tab hands
+ * it the tab content rectangle on every {@code init}, so it grows and shrinks with the game
+ * window and swaps to the larger {@link GreedMetrics} table when there is room for it.</p>
  */
 public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
     public static final int WIDTH = 345;
     public static final int TRADER_HEIGHT = 189;
-    public static final int PLAYER_HEIGHT = 229;
 
-    private static final int TAB_STRIP_Y = 18;
-    private static final int TAB_HEIGHT = 14;
-    private static final int CONTENT_Y = 36;
-    private static final int MARGIN = 7;
-    private static final int ROW_GAP = 3;
+    private static final int MIN_WIDTH = 240;
+    private static final int MIN_HEIGHT = 110;
+    private static final int SCROLLBAR_ALLOWANCE = 11;
 
-    private final int panelHeight;
     private final boolean claimEnabled;
+    private final boolean ownFrame;
+
+    private int panelWidth;
+    private int panelHeight;
+    private GreedMetrics metrics;
 
     private GreedTab tab = GreedTab.MAIN;
     private GreedScrollList list;
@@ -56,11 +61,33 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
     private int lastSignature;
     private boolean rebuildPending;
 
-    public GreedPanelElement(int x, int y, int panelHeight, boolean claimEnabled) {
-        super(Spatials.positionXY(x, y).size(WIDTH, panelHeight));
-        this.panelHeight = panelHeight;
+    public GreedPanelElement(int width, int height, boolean claimEnabled, boolean ownFrame) {
+        super(Spatials.positionXY(0, 0).size(Math.max(MIN_WIDTH, width), Math.max(MIN_HEIGHT, height)));
         this.claimEnabled = claimEnabled;
+        this.ownFrame = ownFrame;
+        this.panelWidth = Math.max(MIN_WIDTH, width);
+        this.panelHeight = Math.max(MIN_HEIGHT, height);
+        this.metrics = GreedMetrics.forSize(this.panelWidth, this.panelHeight);
         this.lastSignature = signature();
+        this.rebuild();
+    }
+
+    /**
+     * Resizes the panel to the rectangle its host screen wants it to fill and rebuilds if that
+     * actually moved. The player tab calls this from {@code init}, which Minecraft re-runs on
+     * every window resize and gui scale change.
+     */
+    public void applyBounds(int width, int height) {
+        int newWidth = Math.max(MIN_WIDTH, width);
+        int newHeight = Math.max(MIN_HEIGHT, height);
+        if (newWidth == this.panelWidth && newHeight == this.panelHeight) {
+            return;
+        }
+        this.panelWidth = newWidth;
+        this.panelHeight = newHeight;
+        this.metrics = GreedMetrics.forSize(newWidth, newHeight);
+        this.setWidth(newWidth);
+        this.setHeight(newHeight);
         this.rebuild();
     }
 
@@ -107,8 +134,8 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
 
     /**
      * Tears the panel down and rebuilds it from the current client milestone mirror. Called on
-     * every tab switch, pin toggle and claim, which is also how the screens pick up the sync that
-     * follows a server round trip.
+     * every tab switch, pin toggle, claim and resize, which is also how the screens pick up the
+     * sync that follows a server round trip.
      */
     public void rebuild() {
         if (this.list != null) {
@@ -116,131 +143,150 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             this.list = null;
         }
         this.removeAllElements();
-        this.addElement(new NineSliceElement<>(Spatials.positionXYZ(0, 0, 0).size(WIDTH, this.panelHeight),
-                ScreenTextures.DEFAULT_WINDOW_BACKGROUND));
-        this.addElement(new LabelElement<>(Spatials.positionXYZ(MARGIN, 6, 1),
-                this.tab.getTitle().copy().setStyle(Style.EMPTY.withColor(GreedTheme.TEXT_TITLE)),
-                LabelTextStyle.defaultStyle()));
+        if (this.ownFrame) {
+            this.addElement(new NineSliceElement<>(Spatials.positionXYZ(0, 0, 0).size(this.panelWidth, this.panelHeight),
+                    ScreenTextures.DEFAULT_WINDOW_BACKGROUND));
+            this.addElement(new LabelElement<>(Spatials.positionXYZ(this.metrics.margin, 6, 1),
+                    this.tab.getTitle().copy().setStyle(Style.EMPTY.withColor(GreedTheme.TEXT_TITLE)),
+                    LabelTextStyle.defaultStyle()));
+        }
         this.buildTabStrip();
+        GreedScrollList content = this.buildContentList();
         if (this.tab == GreedTab.MAIN) {
-            this.buildMain();
+            this.buildMain(content);
         } else {
-            this.buildList();
+            this.buildList(content);
         }
         ScreenLayout.requestLayout();
     }
 
     private void buildTabStrip() {
         GreedTab[] tabs = GreedTab.values();
-        int available = WIDTH - MARGIN * 2;
+        int available = this.panelWidth - this.metrics.margin * 2;
         int tabWidth = (available - (tabs.length - 1)) / tabs.length;
         for (int i = 0; i < tabs.length; i++) {
             GreedTab entry = tabs[i];
-            int x = MARGIN + i * (tabWidth + 1);
+            int x = this.metrics.margin + i * (tabWidth + 1);
             this.addElement(new GreedSubTabElement(
-                    Spatials.positionXYZ(x, TAB_STRIP_Y, 1).size(tabWidth, TAB_HEIGHT),
+                    Spatials.positionXYZ(x, this.metrics.tabStripY, 1).size(tabWidth, this.metrics.tabHeight),
                     entry, entry == this.tab, this::setTab));
         }
     }
 
-    private void buildMain() {
-        int contentWidth = WIDTH - MARGIN * 2;
+    /**
+     * The dark plate under the tab content plus the scroll container that clips to it. Every tab
+     * including Main scrolls: the rank summary is a fixed-height stack that does not fit the
+     * trader's short pane or the player tab at gui scale 4, and clipping it beats overlapping it.
+     */
+    private GreedScrollList buildContentList() {
+        int width = this.panelWidth - this.metrics.margin * 2;
+        int height = this.panelHeight - this.metrics.contentY - this.metrics.margin;
+        this.addElement(new GreedFillElement(Spatials.positionXYZ(this.metrics.margin, this.metrics.contentY, 1)
+                .size(width, height), GreedTheme.PLATE_DARK, GreedTheme.BORDER));
+        GreedScrollList created = this.addElement(new GreedScrollList(
+                Spatials.positionXYZ(this.metrics.margin + 1, this.metrics.contentY + 1, 2).size(width - 2, height - 2)));
+        this.list = created;
+        created.setScrollValue(this.savedScroll);
+        return created;
+    }
+
+    private int innerWidth() {
+        return this.panelWidth - this.metrics.margin * 2 - 2 - SCROLLBAR_ALLOWANCE;
+    }
+
+    private void buildMain(GreedScrollList content) {
+        GreedMetrics m = this.metrics;
+        int available = this.innerWidth();
+        int columnWidth = Math.min(available, m.mainColumnMaxWidth);
+        int columnX = 1 + Math.max(0, (available - columnWidth) / 2);
+
         int rank = ClientMilestoneData.getRank();
         int reputation = ClientMilestoneData.getReputation();
         int nextThreshold = ClientMilestoneData.getNextRankThreshold();
         int currentThreshold = MilestoneRankLadder.getThreshold(rank);
 
-        this.addElement(new GreedFillElement(Spatials.positionXYZ(MARGIN, CONTENT_Y, 1)
-                .size(contentWidth, this.panelHeight - CONTENT_Y - MARGIN),
-                GreedTheme.PLATE_DARK, GreedTheme.BORDER));
-
+        int medallionY = 4;
         RankMedallionElement medallion = new RankMedallionElement(
-                Spatials.positionXYZ(WIDTH / 2 - 17, CONTENT_Y + 4, 2).size(34, 34), ClientMilestoneData::getRank);
+                Spatials.positionXYZ(columnX + (columnWidth - m.medallionSize) / 2, medallionY, 1)
+                        .size(m.medallionSize, m.medallionSize), ClientMilestoneData::getRank);
         medallion.tooltip(Tooltips.multi(() -> List.of(GreedTheme.rankName(ClientMilestoneData.getRank()))));
-        this.addElement(medallion);
+        content.addElement(medallion);
 
-        int barY = CONTENT_Y + 42;
-        int flankWidth = 24;
-        int barX = MARGIN + 4 + flankWidth;
-        int barWidth = contentWidth - 8 - flankWidth * 2;
+        int barY = medallionY + m.medallionSize + 6;
+        int barX = columnX + m.repFlankWidth + 4;
+        int barWidth = columnWidth - (m.repFlankWidth + 4) * 2;
 
-        var currentFlank = new LabelElement<>(Spatials.positionXYZ(MARGIN + 4, barY + 3, 2),
-                (ISize) Spatials.size(flankWidth, 9),
+        var currentFlank = new LabelElement<>(Spatials.positionXYZ(columnX, barY + (m.repBarHeight - 8) / 2, 1),
+                (ISize) Spatials.size(m.repFlankWidth, 9),
                 GreedTheme.text(GreedTheme.rankShortLabel(rank), GreedTheme.GOLD),
                 LabelTextStyle.defaultStyle().center());
         currentFlank.tooltip(Tooltips.multi(() -> List.of(GreedTheme.rankName(rank))));
-        this.addElement(currentFlank);
+        content.addElement(currentFlank);
 
         float span = Math.max(1, nextThreshold - currentThreshold);
-        float fill = Math.max(0.0F, (reputation - currentThreshold) / span);
-        this.addElement(new GreedProgressBarElement(Spatials.positionXYZ(barX, barY, 2).size(barWidth, 13),
+        float fill = Math.max(0.0F, Math.min(1.0F, (reputation - currentThreshold) / span));
+        content.addElement(new GreedProgressBarElement(Spatials.positionXYZ(barX, barY, 1).size(barWidth, m.repBarHeight),
                 () -> fill,
                 () -> GreedTheme.text(reputation + "/" + nextThreshold, GreedTheme.TEXT_TITLE),
                 GreedTheme.GOLD_DIM));
 
-        var nextFlank = new LabelElement<>(Spatials.positionXYZ(barX + barWidth + 4, barY + 3, 2),
-                (ISize) Spatials.size(flankWidth, 9),
+        var nextFlank = new LabelElement<>(Spatials.positionXYZ(barX + barWidth + 4, barY + (m.repBarHeight - 8) / 2, 1),
+                (ISize) Spatials.size(m.repFlankWidth, 9),
                 GreedTheme.text(GreedTheme.rankShortLabel(rank + 1), GreedTheme.TEXT_DIM),
                 LabelTextStyle.defaultStyle().center());
         nextFlank.tooltip(Tooltips.multi(() -> List.of(GreedTheme.rankName(rank + 1))));
-        this.addElement(nextFlank);
+        content.addElement(nextFlank);
 
-        int gainY = barY + 20;
-        int gainHeight = 44;
-        this.addElement(new GreedFillElement(Spatials.positionXYZ(MARGIN + 4, gainY, 2)
-                .size(contentWidth - 8, gainHeight), GreedTheme.PLATE, GreedTheme.GOLD_DEEP));
-        this.addElement(new LabelElement<>(Spatials.positionXYZ(MARGIN + 8, gainY + 4, 3),
+        int gainY = barY + m.repBarHeight + 7;
+        content.addElement(new GreedFillElement(Spatials.positionXYZ(columnX, gainY, 1)
+                .size(columnWidth, m.unlockBoxHeight), GreedTheme.PLATE, GreedTheme.GOLD_DEEP));
+        content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX + 4, gainY + 4, 2),
                 GreedTheme.langColored("gain_on_rank_up", GreedTheme.GOLD), LabelTextStyle.defaultStyle()));
-        this.addElement(new LabelElement<>(Spatials.positionXYZ(MARGIN + 8, gainY + 15, 3),
-                (ISize) Spatials.size(contentWidth - 16, 26),
+        content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX + 4, gainY + 15, 2),
+                (ISize) Spatials.size(columnWidth - 8, m.unlockBoxHeight - 19),
                 nextRankUnlocks(rank), LabelTextStyle.defaultStyle().wrap()));
 
-        int pinnedY = gainY + gainHeight + 5;
-        this.addElement(new LabelElement<>(Spatials.positionXYZ(MARGIN + 4, pinnedY, 2),
+        int pinnedY = gainY + m.unlockBoxHeight + 6;
+        content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX, pinnedY, 1),
                 GreedTheme.langColored("pinned_task", GreedTheme.GOLD), LabelTextStyle.defaultStyle()));
         MilestoneDefinition pinned = MilestoneRegistry.get(ClientMilestoneData.getPinned());
+        int afterPinned;
         if (pinned == null) {
-            this.addElement(new LabelElement<>(Spatials.positionXYZ(MARGIN + 8, pinnedY + 14, 2),
-                    (ISize) Spatials.size(contentWidth - 16, 9),
+            content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX + 4, pinnedY + 13, 1),
+                    (ISize) Spatials.size(columnWidth - 8, 9),
                     GreedTheme.langColored("pinned_task.empty", GreedTheme.TEXT_DIM), LabelTextStyle.defaultStyle()));
+            afterPinned = pinnedY + 24;
         } else {
-            this.addElement(new MilestoneRowElement(MARGIN + 4, pinnedY + 11, contentWidth - 8,
+            content.addElement(new MilestoneRowElement(columnX, pinnedY + 11, columnWidth, m,
                     pinned, false, false, this::requestRebuild));
+            afterPinned = pinnedY + 11 + m.rowHeight;
         }
 
-        int bottomY = this.panelHeight - MARGIN - 22;
-        this.addElement(new LabelElement<>(Spatials.positionXYZ(MARGIN + 4, bottomY, 2),
-                (ISize) Spatials.size(contentWidth - 8, 9), activeGodLine(), LabelTextStyle.defaultStyle()));
-        var rerollLabel = new LabelElement<>(Spatials.positionXYZ(MARGIN + 4, bottomY + 10, 2),
-                (ISize) Spatials.size(contentWidth - 8, 9),
+        int bottomY = afterPinned + 6;
+        content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX, bottomY, 1),
+                (ISize) Spatials.size(columnWidth, 9), activeGodLine(), LabelTextStyle.defaultStyle()));
+        var rerollLabel = new LabelElement<>(Spatials.positionXYZ(columnX, bottomY + 11, 1),
+                (ISize) Spatials.size(columnWidth, 9),
                 GreedTheme.langColored("shop_reroll_cost", GreedTheme.TEXT, ClientMilestoneData.getShopRerollCost()),
                 LabelTextStyle.defaultStyle());
         rerollLabel.tooltip(Tooltips.multi(() -> List.of(GreedTheme.lang("shop_reroll_cost.tooltip"))));
-        this.addElement(rerollLabel);
+        content.addElement(rerollLabel);
     }
 
-    private void buildList() {
-        int listWidth = WIDTH - MARGIN * 2;
-        int listHeight = this.panelHeight - CONTENT_Y - MARGIN;
-        this.addElement(new GreedFillElement(Spatials.positionXYZ(MARGIN, CONTENT_Y, 1).size(listWidth, listHeight),
-                GreedTheme.PLATE_DARK, GreedTheme.BORDER));
-        GreedScrollList list = this.addElement(new GreedScrollList(
-                Spatials.positionXYZ(MARGIN + 1, CONTENT_Y + 1, 2).size(listWidth - 2, listHeight - 2)));
-        this.list = list;
-        list.setScrollValue(this.savedScroll);
-
+    private void buildList(GreedScrollList content) {
+        int rowWidth = this.innerWidth();
         List<MilestoneDefinition> entries = new ArrayList<>(MilestoneRegistry.getByCategory(this.tab.getCategory()));
         entries.sort(Comparator.comparing(definition -> I18n.get(definition.getNameKey())));
-        int rowWidth = listWidth - 11;
         if (entries.isEmpty()) {
-            list.addElement(new LabelElement<>(Spatials.positionXYZ(4, 4, 1), (ISize) Spatials.size(rowWidth, 9),
+            content.addElement(new LabelElement<>(Spatials.positionXYZ(4, 4, 1), (ISize) Spatials.size(rowWidth, 9),
                     GreedTheme.langColored("list.empty", GreedTheme.TEXT_DIM), LabelTextStyle.defaultStyle()));
             return;
         }
         int y = 1;
         for (MilestoneDefinition definition : entries) {
-            list.addElement(new MilestoneRowElement(1, y, rowWidth, definition, this.claimEnabled, true, this::requestRebuild));
-            y += MilestoneRowElement.HEIGHT + ROW_GAP;
+            content.addElement(new MilestoneRowElement(1, y, rowWidth, this.metrics, definition,
+                    this.claimEnabled, true, this::requestRebuild));
+            y += this.metrics.rowHeight + this.metrics.rowGap;
         }
     }
 

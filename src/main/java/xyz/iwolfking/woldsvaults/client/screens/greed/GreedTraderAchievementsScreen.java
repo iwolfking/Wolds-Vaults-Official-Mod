@@ -35,7 +35,7 @@ public class GreedTraderAchievementsScreen extends GreedTraderScreen {
 
     @Override
     protected void buildContent() {
-        this.panel = this.addContentEl(new GreedPanelElement(0, 0, GreedPanelElement.TRADER_HEIGHT, true)
+        this.panel = this.addContentEl(new GreedPanelElement(GreedPanelElement.WIDTH, GreedPanelElement.TRADER_HEIGHT, true, true)
                 .layout(this.translateWorldSpatial()));
     }
 

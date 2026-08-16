@@ -246,7 +246,7 @@
         "color": "$text"
       },
       {
-        "text": "+100.0%\n",
+        "text": "+50.0%\n",
         "color": "#FFD700"
       }
     ],
@@ -327,7 +327,7 @@
         "color": "$text"
       },
       {
-        "text": "+100 extra capacity\n",
+        "text": "+75 extra capacity\n",
         "color": "#FFD700"
       }
     ]

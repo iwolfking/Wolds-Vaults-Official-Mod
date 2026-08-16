@@ -62,6 +62,9 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("tool_capacity_power", ToolCapacityPrestigePower.class, ToolCapacityPrestigePower::new);
         this.register("crafting_potential_power", CraftingPotentialPrestigePower.class, CraftingPotentialPrestigePower::new);
         this.register("legendary_bounty_power", LegendaryBountyPower.class, LegendaryBountyPower::new);
+        this.register("god_experience_power", GodExperiencePrestigePower.class, GodExperiencePrestigePower::new);
+        this.register("relic_hunter_power", RelicHunterPrestigePower.class, RelicHunterPrestigePower::new);
+        this.register("unreleased_power", UnreleasedPrestigePower.class, UnreleasedPrestigePower::new);
 
         //Talents
         this.register("wold_axe_talent", WoldsAxeSpecializationTalent.class, WoldsAxeSpecializationTalent::new);

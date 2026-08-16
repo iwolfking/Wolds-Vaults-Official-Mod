@@ -28,22 +28,21 @@ import java.util.List;
  * body carries the name, the requirement, the threshold and reputation lists with the tier being
  * worked toward highlighted, and a bar showing progress inside the current tier bracket.
  *
+ * <p>Every offset comes from the {@link GreedMetrics} the owning panel picked, so the same row
+ * renders tight in the trader's fixed pane and roomier in the player tab's full-window inset.</p>
+ *
  * <p>Claiming is only ever enabled on the trader variant - the server refuses a claim unless the
  * greed trader container is open, so the player variant dims the button and says where to go.</p>
  */
 public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
-    public static final int HEIGHT = 40;
-    public static final int CHIP_WIDTH = 66;
-
-    private static final int BODY_X = CHIP_WIDTH + 6;
-    private static final int NUMERAL_WIDTH = 14;
-
     private final MilestoneDefinition definition;
+    private final GreedMetrics metrics;
 
-    public MilestoneRowElement(int x, int y, int width, MilestoneDefinition definition, boolean claimEnabled,
-                               boolean showClaim, Runnable onChanged) {
-        super(Spatials.positionXY(x, y).size(width, HEIGHT));
+    public MilestoneRowElement(int x, int y, int width, GreedMetrics metrics, MilestoneDefinition definition,
+                               boolean claimEnabled, boolean showClaim, Runnable onChanged) {
+        super(Spatials.positionXY(x, y).size(width, metrics.rowHeight));
         this.definition = definition;
+        this.metrics = metrics;
 
         long value = ClientMilestoneData.getValue(definition.getId());
         int completed = definition.getCompletedTiers(value);
@@ -51,21 +50,23 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         int unclaimed = ClientMilestoneData.getUnclaimedRep(definition.getId());
         boolean pinned = definition.getId().equals(ClientMilestoneData.getPinned());
 
-        this.addElement(new GreedFillElement(Spatials.positionXYZ(0, 0, 0).size(width, HEIGHT),
+        this.addElement(new GreedFillElement(Spatials.positionXYZ(0, 0, 0).size(width, metrics.rowHeight),
                 finished ? GreedTheme.PLATE_LIGHT : GreedTheme.PLATE,
                 finished ? GreedTheme.GOLD : GreedTheme.BORDER));
 
         this.buildChip(claimEnabled, showClaim, unclaimed, pinned, onChanged);
 
-        int bodyX = BODY_X;
+        int bodyX = metrics.rowChipWidth + 6;
         int bodyWidth = width - bodyX - 4;
-        var title = new LabelElement<>(Spatials.positionXYZ(bodyX, 4, 1), (ISize) Spatials.size(bodyWidth, 9),
+        var title = new LabelElement<>(Spatials.positionXYZ(bodyX, metrics.rowTitleY, 1),
+                (ISize) Spatials.size(bodyWidth, 9),
                 this.buildTitleLine(finished, bodyWidth), LabelTextStyle.defaultStyle());
         title.tooltip(Tooltips.multi(() -> List.of(
                 new TranslatableComponent(definition.getNameKey()).setStyle(Style.EMPTY.withColor(GreedTheme.GOLD)),
                 new TranslatableComponent(definition.getDescriptionKey()).setStyle(Style.EMPTY.withColor(GreedTheme.TEXT_DIM)))));
         this.addElement(title);
-        this.addElement(new LabelElement<>(Spatials.positionXYZ(bodyX, 15, 1), (ISize) Spatials.size(bodyWidth, 9),
+        this.addElement(new LabelElement<>(Spatials.positionXYZ(bodyX, metrics.rowTierY, 1),
+                (ISize) Spatials.size(bodyWidth, 9),
                 this.buildTierLine(completed, finished), LabelTextStyle.defaultStyle()));
 
         this.buildProgress(bodyX, bodyWidth, value, completed, finished);
@@ -74,7 +75,7 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
     private void buildChip(boolean claimEnabled, boolean showClaim, int unclaimed, boolean pinned, Runnable onChanged) {
         String id = this.definition.getId();
         GreedButtonElement pinButton = new GreedButtonElement(
-                Spatials.positionXYZ(2, 2, 1).size(30, 10),
+                Spatials.positionXYZ(2, this.metrics.rowPinY, 1).size(this.metrics.rowPinWidth, this.metrics.rowPinHeight),
                 () -> GreedTheme.lang(pinned ? "pin.unpin" : "pin.pin"),
                 () -> {
                     MilestoneNetwork.INSTANCE.sendToServer(new ServerboundPinMilestoneMessage(pinned ? ServerboundPinMilestoneMessage.UNPIN : id));
@@ -85,7 +86,8 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         pinButton.tooltip(Tooltips.single(() -> GreedTheme.lang(pinned ? "pin.unpin.tooltip" : "pin.pin.tooltip")));
         this.addElement(pinButton);
 
-        this.addElement(new LabelElement<>(Spatials.positionXYZ(2, 15, 1), (ISize) Spatials.size(CHIP_WIDTH - 4, 9),
+        this.addElement(new LabelElement<>(Spatials.positionXYZ(2, this.metrics.rowRepY, 1),
+                (ISize) Spatials.size(this.metrics.rowChipWidth - 4, 9),
                 GreedTheme.langColored("row.rep", unclaimed > 0 ? GreedTheme.GOLD : GreedTheme.TEXT_DIM, unclaimed),
                 LabelTextStyle.defaultStyle()));
 
@@ -93,7 +95,8 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
             return;
         }
         GreedButtonElement claimButton = new GreedButtonElement(
-                Spatials.positionXYZ(2, 26, 1).size(CHIP_WIDTH - 4, 11),
+                Spatials.positionXYZ(2, this.metrics.rowClaimY, 1)
+                        .size(this.metrics.rowChipWidth - 4, this.metrics.rowClaimHeight),
                 () -> GreedTheme.lang("claim"),
                 () -> {
                     MilestoneNetwork.INSTANCE.sendToServer(new ServerboundClaimMilestoneMessage(id));
@@ -154,8 +157,9 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
     }
 
     private void buildProgress(int bodyX, int bodyWidth, long value, int completed, boolean finished) {
-        int barX = bodyX + NUMERAL_WIDTH + 2;
-        int barWidth = bodyWidth - (NUMERAL_WIDTH + 2) * 2;
+        int numeralWidth = this.metrics.rowNumeralWidth;
+        int barX = bodyX + numeralWidth + 2;
+        int barWidth = bodyWidth - (numeralWidth + 2) * 2;
         float fraction;
         if (finished) {
             fraction = 1.0F;
@@ -167,12 +171,14 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         }
         float shown = fraction;
 
-        this.addElement(new LabelElement<>(Spatials.positionXYZ(bodyX, 28, 1), (ISize) Spatials.size(NUMERAL_WIDTH, 9),
+        this.addElement(new LabelElement<>(Spatials.positionXYZ(bodyX, this.metrics.rowBarY, 1),
+                (ISize) Spatials.size(numeralWidth, 9),
                 GreedTheme.text(GreedTheme.roman(completed), GreedTheme.GOLD), LabelTextStyle.defaultStyle().center()));
-        this.addElement(new GreedProgressBarElement(Spatials.positionXYZ(barX, 28, 1).size(barWidth, 8),
+        this.addElement(new GreedProgressBarElement(
+                Spatials.positionXYZ(barX, this.metrics.rowBarY, 1).size(barWidth, this.metrics.rowBarHeight),
                 () -> shown, null, finished ? GreedTheme.GOLD : GreedTheme.GOLD_DIM));
-        this.addElement(new LabelElement<>(Spatials.positionXYZ(barX + barWidth + 2, 28, 1),
-                (ISize) Spatials.size(NUMERAL_WIDTH, 9),
+        this.addElement(new LabelElement<>(Spatials.positionXYZ(barX + barWidth + 2, this.metrics.rowBarY, 1),
+                (ISize) Spatials.size(numeralWidth, 9),
                 GreedTheme.text(finished ? GreedTheme.roman(completed) : GreedTheme.roman(completed + 1),
                         finished ? GreedTheme.GOLD : GreedTheme.TEXT_DIM),
                 LabelTextStyle.defaultStyle().center()));

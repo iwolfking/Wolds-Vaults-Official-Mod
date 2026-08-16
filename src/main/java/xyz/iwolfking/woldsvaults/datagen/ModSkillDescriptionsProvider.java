@@ -666,8 +666,79 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("When crafting "));
                     jsonElements.add(JsonDescription.simple("Vault Tools ", "#82D4FC"));
                     jsonElements.add(JsonDescription.simple("they gain "));
+                    jsonElements.add(JsonDescription.simple("50 ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("additional capacity."));
+                })
+                .addDescription("ToolsmithII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("When crafting "));
+                    jsonElements.add(JsonDescription.simple("Vault Tools ", "#82D4FC"));
+                    jsonElements.add(JsonDescription.simple("they gain a further "));
                     jsonElements.add(JsonDescription.simple("75 ", "yellow"));
                     jsonElements.add(JsonDescription.simple("additional capacity."));
+                })
+                .addDescription("SuperCrystalsII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Further increases the capacity of any "));
+                    jsonElements.add(JsonDescription.simple("Vault Crystals", "aqua"));
+                    jsonElements.add(JsonDescription.simple(" you craft."));
+                })
+                .addDescription("SuperCrystalsIII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Further increases the capacity of any "));
+                    jsonElements.add(JsonDescription.simple("Vault Crystals", "aqua"));
+                    jsonElements.add(JsonDescription.simple(" you craft."));
+                })
+                .addDescription("SpiritsHandII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Further increases the "));
+                    jsonElements.add(JsonDescription.simple("Reach ", "#82D4FC"));
+                    jsonElements.add(JsonDescription.simple("Cap inside vaults."));
+                })
+                .addDescription("FruityII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Further increases the time granted by any "));
+                    jsonElements.add(JsonDescription.simple("Vault Fruit", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("GodsDisciple", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Every "));
+                    jsonElements.add(JsonDescription.simple("God Experience ", "#B2F44B"));
+                    jsonElements.add(JsonDescription.simple("award you earn is increased by "));
+                    jsonElements.add(JsonDescription.simple("20%", "yellow"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("GodsDiscipleII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Every "));
+                    jsonElements.add(JsonDescription.simple("God Experience ", "#B2F44B"));
+                    jsonElements.add(JsonDescription.simple("award you earn is increased by a further "));
+                    jsonElements.add(JsonDescription.simple("15%", "yellow"));
+                    jsonElements.add(JsonDescription.simple(", stacking additively with God's Disciple."));
+                })
+                .addDescription("RelicHunter", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the chance for an identified "));
+                    jsonElements.add(JsonDescription.simple("Unique ", "gold"));
+                    jsonElements.add(JsonDescription.simple("to be "));
+                    jsonElements.add(JsonDescription.simple("Ancient ", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("by "));
+                    jsonElements.add(JsonDescription.simple("50%", "yellow"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("RelicHunterII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the chance for an identified "));
+                    jsonElements.add(JsonDescription.simple("Unique ", "gold"));
+                    jsonElements.add(JsonDescription.simple("to be "));
+                    jsonElements.add(JsonDescription.simple("Ancient ", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("by a further "));
+                    jsonElements.add(JsonDescription.simple("50%", "yellow"));
+                    jsonElements.add(JsonDescription.simple(", stacking additively with Relic Hunter."));
+                })
+                .addDescription("LegendOfTime", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Unreleased", "red"));
+                    jsonElements.add(JsonDescription.simple(". This Legend power cannot be learned yet."));
+                })
+                .addDescription("LegendOfPower", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Unreleased", "red"));
+                    jsonElements.add(JsonDescription.simple(". This Legend power cannot be learned yet."));
+                })
+                .addDescription("LegendOfRiches", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Unreleased", "red"));
+                    jsonElements.add(JsonDescription.simple(". This Legend power cannot be learned yet."));
                 })
                 .addDescription("Artificer", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("When you identify "));

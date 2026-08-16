@@ -30,6 +30,7 @@ import xyz.iwolfking.woldsvaults.items.fruits.PoltergeistPlum;
 import xyz.iwolfking.woldsvaults.items.fruits.WisdomFruitItem;
 import xyz.iwolfking.woldsvaults.items.gear.*;
 import xyz.iwolfking.woldsvaults.items.rings.*;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 
 import java.util.*;
 
@@ -145,6 +146,14 @@ public class ModItems {
     public static CoreOfTheVaultGodsItem CORE_OF_THE_VAULT_GODS;
     public static GodsMasteryItem GODS_MASTERY;
     public static GreedyTicketItem GREEDY_TICKET;
+
+    /**
+     * The sixteen greed medallions, one per greed rank, keyed by tier. Registry ids follow
+     * {@code woldsvaults:greed_medallion_<pathName>} so a tier's id, model and lang key all derive
+     * from the same string.
+     */
+    public static final Map<GreedMedallionTier, GreedMedallionItem> GREED_MEDALLIONS = new EnumMap<>(GreedMedallionTier.class);
+
     public static BasicItem STYLISH_FOCUS;
     public static BasicItem MERCY_ORB;
     public static BasicItem UBER_CHAOS_CATALYST;
@@ -301,6 +310,7 @@ public class ModItems {
         registry.register(CORE_OF_THE_VAULT_GODS);
         registry.register(GODS_MASTERY);
         registry.register(GREEDY_TICKET);
+        GREED_MEDALLIONS.values().forEach(registry::register);
         registry.register(CHISELING_FOCUS);
         registry.register(ZEPHYR_CHARM);
         registry.register(STYLISH_FOCUS);
@@ -487,6 +497,10 @@ public class ModItems {
         CORE_OF_THE_VAULT_GODS = new CoreOfTheVaultGodsItem(WoldsVaults.id("core_of_the_vault_gods"));
         GODS_MASTERY = new GodsMasteryItem(WoldsVaults.id("gods_mastery"));
         GREEDY_TICKET = new xyz.iwolfking.woldsvaults.items.GreedyTicketItem(WoldsVaults.id("greedy_ticket"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
+
+        for (GreedMedallionTier medallionTier : GreedMedallionTier.values()) {
+            GREED_MEDALLIONS.put(medallionTier, new GreedMedallionItem(medallionTier, (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(16)));
+        }
 
         STYLISH_FOCUS = new BasicItem(WoldsVaults.id("stylish_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
         CHISELING_FOCUS = new ToolModifierNullifyingItem(WoldsVaults.id("chiseling_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));

@@ -22,6 +22,7 @@ import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyIngredientTypeA
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyItemAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.CatalystItemAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.VaultDollCompletedAttribute;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import java.util.HashMap;
@@ -133,6 +134,22 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.BLUE_VAULT_ESSENCE, "Blue Vault Essence");
         add(ModItems.GREEN_VAULT_ESSENCE, "Green Vault Essence");
         add(ModItems.YELLOW_VAULT_ESSENCE, "Yellow Vault Essence");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.SCAVENGER_1), "Scavenger 1 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.SCAVENGER_2), "Scavenger 2 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.SCAVENGER_3), "Scavenger 3 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LOOTER_1), "Looter 1 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LOOTER_2), "Looter 2 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LOOTER_3), "Looter 3 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.HUNTER_1), "Hunter 1 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.HUNTER_2), "Hunter 2 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.HUNTER_3), "Hunter 3 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.MASTER_1), "Master 1 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.MASTER_2), "Master 2 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.MASTER_3), "Master 3 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.CHAMPION_1), "Champion 1 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.CHAMPION_2), "Champion 2 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.CHAMPION_3), "Champion 3 Medallion");
+        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LEGEND), "Legend Medallion");
         add(ModPigments.IDONA_RED.getTranslationKey(), "Idona Red Pigment");
         add(ModPigments.WENDARR_YELLOW.getTranslationKey(), "Wendarr Yellow Pigment");
         add(ModPigments.VELARA_GREEN.getTranslationKey(), "Velara Green Pigment");
