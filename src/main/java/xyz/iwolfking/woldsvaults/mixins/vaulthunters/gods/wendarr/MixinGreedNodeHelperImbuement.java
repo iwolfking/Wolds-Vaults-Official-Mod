@@ -21,7 +21,7 @@ import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodes;
  */
 @Mixin(value = GreedNodeHelper.class, remap = false)
 public abstract class MixinGreedNodeHelperImbuement {
-    public static final float IMBUEMENT_CHANCE_PER_POINT = 0.05F;
+    private static final float IMBUEMENT_CHANCE_PER_POINT = 0.05F;
 
     @ModifyReturnValue(method = "getImbuementChanceBonus", at = @At("RETURN"))
     private static float woldsvaults$addGodImbuementChance(float bonus, ServerPlayer player) {
