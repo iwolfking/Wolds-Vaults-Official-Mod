@@ -53,8 +53,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapGod;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.maps.MapGodXp;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultCrystalObjective;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
@@ -120,9 +122,28 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
                     data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 0);
                 }
             }
+            rollGodBinding(data);
             data.write(stack);
         }
         VaultGearItem.super.tickRoll(stack, player);
+    }
+
+    /**
+     * Binds an unrolled map to a random vault god and gives it its Bonus XP implicit, both of which
+     * are permanent in the sense that nothing ever re-picks the god. The bonus rolls in the map
+     * tier's "unrolled" band; touching the map in the artisan station later re-rolls it down into the
+     * much lower band, which is what discourages rerolling away the natural objective. Runs after the
+     * tier roll above so the band is picked against the tier this map actually ended up with.
+     */
+    private void rollGodBinding(VaultGearData data) {
+        if (!data.hasAttribute(ModGearAttributes.MAP_GOD)) {
+            data.createOrReplaceAttributeValue(ModGearAttributes.MAP_GOD, MapGodXp.rollGod(rand).getName());
+        }
+        if (!data.hasAttribute(ModGearAttributes.MAP_BONUS_XP)) {
+            int displayTier = data.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0) + 1;
+            data.createOrReplaceAttributeValue(ModGearAttributes.MAP_BONUS_XP,
+                    MapGodXp.rollBonusPercent(displayTier, false, rand));
+        }
     }
 
 
@@ -202,6 +223,22 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
             }
         } else {
             tooltip.add(new TextComponent("Tier: ").append(new TextComponent("???").withStyle(Style.EMPTY.withColor(7247291))));
+        }
+        addGodTooltip(stack, tooltip);
+    }
+
+    /**
+     * The two god-quest lines: which god's experience this map's vault pays out, in that god's own
+     * colour, and the Bonus XP implicit on top of the objective's base amount. Both are silently
+     * skipped on a map that has neither, which is every map rolled before god binding existed.
+     */
+    private static void addGodTooltip(ItemStack stack, List<Component> tooltip) {
+        MapGodXp.godOf(stack).ifPresent(god -> tooltip.add(new TextComponent("God: ")
+                .append(new TextComponent(god.getName()).withStyle(god.getChatColor()))));
+        int bonus = MapGodXp.bonusPercentOf(stack);
+        if (bonus > 0) {
+            tooltip.add(new TextComponent("Bonus God XP: ")
+                    .append(new TextComponent("+" + bonus + "%").withStyle(Style.EMPTY.withColor(16755200))));
         }
     }
 
@@ -310,6 +347,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output, unfinishedMap);
 
         ((DuckMapTier) (Object) data).setMapTier(mapData.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0));
+        transferGodBinding(ingredientStack, data);
 
         data.getProperties().setUnmodifiable(true);
         data.write(output);
@@ -320,6 +358,18 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
             context.getInput()[1].shrink(1);
         }));
         return true;
+    }
+
+    /**
+     * Imprints the map's god binding and Bonus XP onto the crystal, so the vault built from it knows
+     * which god to pay and how much. A map with no binding at all can only be one rolled before god
+     * maps existed; it is logged and the resulting vault simply pays no god experience.
+     */
+    private static void transferGodBinding(ItemStack mapStack, CrystalData data) {
+        MapGodXp.godOf(mapStack).ifPresentOrElse(god -> {
+            ((DuckMapGod) (Object) data).setMapGod(god.getName());
+            ((DuckMapGod) (Object) data).setMapBonusXp(MapGodXp.bonusPercentOf(mapStack));
+        }, () -> WoldsVaults.LOGGER.error("Vault map has no god binding and no gear uuid to derive one from; its vault will award no god experience."));
     }
 
     public static boolean applySpecialModifiers(CrystalData data, VaultGearData mapData, VaultGearModifier.AffixType affixType, AnvilContext context, ItemStack output, boolean shouldReduceValues) {

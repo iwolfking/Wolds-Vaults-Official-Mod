@@ -154,6 +154,12 @@ public class ModItems {
      */
     public static final Map<GreedMedallionTier, GreedMedallionItem> GREED_MEDALLIONS = new EnumMap<>(GreedMedallionTier.class);
 
+    /**
+     * Testing-only source of ancient uniques: right-clicking it yields a finished level 100 ancient
+     * unique drawn uniformly from every unique that has an ancient tier config.
+     */
+    public static UnidentifiedAncientUniqueItem UNIDENTIFIED_ANCIENT_UNIQUE;
+
     public static BasicItem STYLISH_FOCUS;
     public static BasicItem MERCY_ORB;
     public static BasicItem UBER_CHAOS_CATALYST;
@@ -310,6 +316,7 @@ public class ModItems {
         registry.register(CORE_OF_THE_VAULT_GODS);
         registry.register(GODS_MASTERY);
         registry.register(GREEDY_TICKET);
+        registry.register(UNIDENTIFIED_ANCIENT_UNIQUE);
         GREED_MEDALLIONS.values().forEach(registry::register);
         registry.register(CHISELING_FOCUS);
         registry.register(ZEPHYR_CHARM);
@@ -501,6 +508,8 @@ public class ModItems {
         for (GreedMedallionTier medallionTier : GreedMedallionTier.values()) {
             GREED_MEDALLIONS.put(medallionTier, new GreedMedallionItem(medallionTier, (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(16)));
         }
+
+        UNIDENTIFIED_ANCIENT_UNIQUE = new UnidentifiedAncientUniqueItem(WoldsVaults.id("unidentified_ancient_unique"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(16));
 
         STYLISH_FOCUS = new BasicItem(WoldsVaults.id("stylish_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
         CHISELING_FOCUS = new ToolModifierNullifyingItem(WoldsVaults.id("chiseling_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));

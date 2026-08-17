@@ -27,6 +27,7 @@ import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicTunnelCrystalLayout
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicWaveCrystalLayout;
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicWaveLayout;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionCrystal;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionObjectiveTargets;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
 import xyz.iwolfking.woldsvaults.models.crystal.UnhingedCrystalModel;
@@ -132,5 +133,6 @@ public abstract class MixinCrystalData extends CrystalEntry implements ISerializ
             return;
         }
         GreedMedallionVaultState.set(vault.get(Vault.ID), tier.get());
+        GreedMedallionObjectiveTargets.register(vault, tier.get());
     }
 }

@@ -110,6 +110,8 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<String> THEME_POOL = attr("vault_theme_pool", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.themePoolReader("Vault Theme Pool", 8222532, "Theme Pool: %s"));
     public static final VaultGearAttribute<String> OBJECTIVE = attr("vault_objective", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.objectiveReader("Vault Objective", 888947, "Objective: %s"));
     public static final VaultGearAttribute<String> VAULT_DIFFICULTY = attr("vault_difficulty", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.difficultyReader("Unknown Difficulty", 14068735, "%s"));
+    public static final VaultGearAttribute<String> MAP_GOD = woldsAttr("map_god", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), ModGearAttributeReaders.none());
+    public static final VaultGearAttribute<Integer> MAP_BONUS_XP = woldsAttr("map_bonus_xp", VaultGearAttributeType.intType(), (ConfigurableAttributeGenerator<Integer, ?>)ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.none());
 
     //Map Increase Modifiers
     public static final VaultGearAttribute<Float> CRATE_QUANTITY = attr("crate_quantity", VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Crate Quantity", 14680173), VaultGearAttributeComparator.floatComparator());
@@ -158,6 +160,8 @@ public class ModGearAttributes {
                       registry.register(VAULT_DIFFICULTY);
                       registry.register(INSCRIPTION);
                       registry.register(MAP_TIER);
+                      registry.register(MAP_GOD);
+                      registry.register(MAP_BONUS_XP);
                       registry.register(DIVINE);
                       registry.register(ECHOING_CHANCE);
                       registry.register(ECHOING_DAMAGE);

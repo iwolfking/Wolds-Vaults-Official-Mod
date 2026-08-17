@@ -206,7 +206,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         int rank = ClientMilestoneData.getRank();
         int reputation = ClientMilestoneData.getReputation();
         int nextThreshold = ClientMilestoneData.getNextRankThreshold();
-        int currentThreshold = MilestoneRankLadder.getThreshold(rank);
 
         int medallionY = 4;
         RankMedallionElement medallion = new RankMedallionElement(
@@ -226,8 +225,8 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         currentFlank.tooltip(Tooltips.multi(() -> List.of(GreedTheme.rankName(rank))));
         content.addElement(currentFlank);
 
-        float span = Math.max(1, nextThreshold - currentThreshold);
-        float fill = Math.max(0.0F, Math.min(1.0F, (reputation - currentThreshold) / span));
+        float fill = nextThreshold <= 0 ? 1.0F
+                : Math.max(0.0F, Math.min(1.0F, (float) reputation / (float) nextThreshold));
         GreedProgressBarElement repBar = new GreedProgressBarElement(
                 Spatials.positionXYZ(barX, barY, 1).size(barWidth, m.repBarHeight),
                 () -> fill,

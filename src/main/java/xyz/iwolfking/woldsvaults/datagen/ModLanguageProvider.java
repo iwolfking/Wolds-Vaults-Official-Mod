@@ -150,6 +150,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.CHAMPION_2), "Champion 2 Medallion");
         add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.CHAMPION_3), "Champion 3 Medallion");
         add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LEGEND), "Legend Medallion");
+        add("item.woldsvaults.unidentified_ancient_unique", "Unidentified Ancient Unique");
         add(ModPigments.IDONA_RED.getTranslationKey(), "Idona Red Pigment");
         add(ModPigments.WENDARR_YELLOW.getTranslationKey(), "Wendarr Yellow Pigment");
         add(ModPigments.VELARA_GREEN.getTranslationKey(), "Velara Green Pigment");
