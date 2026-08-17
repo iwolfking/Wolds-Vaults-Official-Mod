@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.milestones;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.world.data.PlayerGreedTreeData;
 import net.minecraft.server.MinecraftServer;
@@ -22,6 +23,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.event.GodLevelUpEvent;
 
 import java.util.UUID;
@@ -51,6 +53,7 @@ public class MilestoneEvents {
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {
             healReputationBelowRankFloor(player);
+            healGodMilestones(player);
             MilestoneFlusher.syncAll(player);
         }
     }
@@ -81,6 +84,44 @@ public class MilestoneEvents {
                 player.getGameProfile().getName(), reputation, rank, floor);
     }
 
+    /**
+     * Re-reaches the four god milestones from the player's live god levels, so any historic drift
+     * between the two self-heals on the next login.
+     *
+     * <p>These four are set to a level rather than incremented, and their only live feed is
+     * {@link GodLevelUpEvent}, which fires exactly once per level gained. A level-up that is
+     * missed - a save that predates the milestone, a level gained while the milestone engine was
+     * absent, or a level forced by command - would otherwise leave the counter permanently short
+     * with no second chance to catch up. Reading the authoritative value out of
+     * {@link GodAlignmentData} makes that unrecoverable case recoverable, and it is idempotent:
+     * {@link Milestones#reach} ignores anything at or below the stored value, so a healthy save
+     * writes nothing. Structured like {@link #healReputationBelowRankFloor} and run before the
+     * login sync, so the packet the client receives already carries the healed counters.</p>
+     */
+    private static void healGodMilestones(ServerPlayer player) {
+        GodAlignmentData alignment = GodAlignmentData.get(player.server);
+        for (VaultGod god : VaultGod.values()) {
+            String milestone = milestoneFor(god);
+            int level = alignment.getLevel(player.getUUID(), god);
+            long recorded = Milestones.getValue(player, milestone);
+            if (level <= recorded) {
+                continue;
+            }
+            WoldsVaults.LOGGER.info("Healed god milestone '{}' for {}: counter was {} but {} is level {}",
+                    milestone, player.getGameProfile().getName(), recorded, god.getName(), level);
+            Milestones.reach(player, milestone, level);
+        }
+    }
+
+    private static String milestoneFor(VaultGod god) {
+        return switch (god) {
+            case IDONA -> MilestoneIds.IDONAS_CHAMPION;
+            case VELARA -> MilestoneIds.PRIEST_OF_VELARA;
+            case TENOS -> MilestoneIds.TENOS_RIGHT_HAND;
+            case WENDARR -> MilestoneIds.WENDARRS_TIMEKEEPER;
+        };
+    }
+
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {
@@ -105,13 +146,7 @@ public class MilestoneEvents {
 
     @SubscribeEvent
     public static void onGodLevelUp(GodLevelUpEvent event) {
-        String milestone = switch (event.getGod()) {
-            case IDONA -> MilestoneIds.IDONAS_CHAMPION;
-            case VELARA -> MilestoneIds.PRIEST_OF_VELARA;
-            case TENOS -> MilestoneIds.TENOS_RIGHT_HAND;
-            case WENDARR -> MilestoneIds.WENDARRS_TIMEKEEPER;
-        };
-        Milestones.reach(event.getPlayer(), milestone, event.getNewLevel());
+        Milestones.reach(event.getPlayer(), milestoneFor(event.getGod()), event.getNewLevel());
     }
 
     @SubscribeEvent
@@ -148,6 +183,11 @@ public class MilestoneEvents {
         }
     }
 
+    /**
+     * Fans one mob death out to every kill-counting milestone. The vault state lookup is
+     * belt-and-braces against the engine's own gate now, but it is still load-bearing here: the
+     * per-vault mob counter that "Complete an Impressive Vault" reads needs the state object.
+     */
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
         LivingEntity victim = event.getEntityLiving();

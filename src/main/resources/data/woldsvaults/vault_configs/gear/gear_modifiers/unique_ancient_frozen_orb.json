@@ -74,6 +74,10 @@
             "maxLevel": -1,
             "weight": 5,
             "value": {
+              "specialModificationKey": "the_vault:frost_nova_vulnerability",
+              "abilityKey": "Nova_Slow",
+              "textColor": 14076214,
+              "highlightColor": 6082075,
               "min": 6,
               "max": 8,
               "step": 1

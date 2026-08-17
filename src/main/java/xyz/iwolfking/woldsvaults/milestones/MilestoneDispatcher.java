@@ -203,7 +203,9 @@ public class MilestoneDispatcher {
 
     /**
      * Routes a vault block break. Ore-group blocks feed "Diggy Diggy Jewel", nullite ore feeds
-     * "Nullified"; both also feed the per-vault composite tracker.
+     * "Nullified"; both also feed the per-vault composite tracker. The vault state lookup is
+     * belt-and-braces against the engine's own gate now, but it is still load-bearing here: the
+     * composite tracker needs the state object.
      */
     public static void onBlockMined(ServerPlayer player, BlockState state) {
         if (player == null || state == null) {

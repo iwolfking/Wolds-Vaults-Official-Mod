@@ -53,7 +53,8 @@
             "value": {
               "min": 1.0,
               "max": 1.33,
-              "step": 0.01
+              "step": 0.01,
+              "abilityKey": "Taunt_Repel"
             }
           }
         ]

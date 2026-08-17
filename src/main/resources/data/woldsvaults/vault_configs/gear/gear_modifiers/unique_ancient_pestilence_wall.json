@@ -76,6 +76,10 @@
             "maxLevel": -1,
             "weight": 5,
             "value": {
+              "specialModificationKey": "the_vault:entropic_bind_poison",
+              "abilityKey": "Empower_Slowness_Aura",
+              "textColor": 14076214,
+              "highlightColor": 6082075,
               "min": 12,
               "max": 16,
               "step": 1

@@ -535,6 +535,7 @@
   ],
   "client": [
     "AccessorParticleEngine",
+    "MixinAbstractContainerScreen",
     "MixinAnvilScreen",
     "MixinItemRenderer",
     "MixinSignEditScreen",

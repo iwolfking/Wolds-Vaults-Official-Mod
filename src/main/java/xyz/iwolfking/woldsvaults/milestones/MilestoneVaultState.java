@@ -61,6 +61,23 @@ public class MilestoneVaultState {
         return vaultId == null ? null : peek(vaultId, playerId);
     }
 
+    /**
+     * Whether the engine currently has this player registered against a vault. This is the fast
+     * path of the milestone vault gate, and it answers the registration rather than the scratch
+     * state, so it stays true for the window in which a listener is registered but its state has
+     * not been created yet.
+     *
+     * <p>The registration is made on {@code LISTENER_JOIN}, refreshed on every listener tick, and
+     * dropped only by {@link #release}, {@link #releasePlayer} or a logout. It deliberately
+     * outlives the teleport out of the vault dimension: {@code LISTENER_LEAVE} fires after the
+     * vault's own leave logic has already sent the player home, and every end-of-run milestone -
+     * Vaults Hunted, Fail Vaults, Explorer, Seen It All, Flawless Victory - is awarded from
+     * there.</p>
+     */
+    public static boolean isTracked(UUID playerId) {
+        return ACTIVE.containsKey(playerId);
+    }
+
     public static void release(UUID vaultId, UUID playerId) {
         ACTIVE.remove(playerId, vaultId);
         Map<UUID, MilestoneVaultState> vault = STATES.get(vaultId);
