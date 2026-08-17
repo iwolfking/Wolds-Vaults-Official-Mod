@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.milestones;
 
 import iskallia.vault.event.ActiveFlags;
+import iskallia.vault.world.data.PlayerGreedTreeData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -49,8 +50,35 @@ public class MilestoneEvents {
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {
+            healReputationBelowRankFloor(player);
             MilestoneFlusher.syncAll(player);
         }
+    }
+
+    /**
+     * Raises a saved reputation that sits below its own rank's band floor back up to that floor.
+     *
+     * <p>The coherence hook on {@code setGreedTier} only fixes force-sets made after it existed;
+     * a save whose rank was set before it shipped still carries the zero base wrote, so the bar,
+     * which reads {@code (reputation - floor) / band}, is pinned empty forever no matter how much
+     * reputation is claimed. This runs once per login, writes through the data class's own setter
+     * so the greed sync fires, and is idempotent: a healed save meets the floor and is skipped.</p>
+     *
+     * <p>Rank 0 has a floor of 0, so players who have never joined the greed ladder are untouched.
+     * The write happens before {@link MilestoneFlusher#syncAll(ServerPlayer)} so the status packet
+     * that follows already carries the healed number.</p>
+     */
+    private static void healReputationBelowRankFloor(ServerPlayer player) {
+        PlayerGreedTreeData treeData = PlayerGreedTreeData.get(player.server);
+        int rank = treeData.getGreedTier(player);
+        int floor = MilestoneRankLadder.getThreshold(rank);
+        int reputation = treeData.getGreedReputation(player);
+        if (reputation >= floor) {
+            return;
+        }
+        treeData.setGreedReputation(player, floor);
+        WoldsVaults.LOGGER.info("Healed greed reputation for {}: {} was below the rank {} floor of {}",
+                player.getGameProfile().getName(), reputation, rank, floor);
     }
 
     @SubscribeEvent

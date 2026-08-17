@@ -913,6 +913,13 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.gain_on_rank_up", "Gain on rank up");
         add("screen.woldsvaults.greed.pinned_task", "Pinned task");
         add("screen.woldsvaults.greed.pinned_task.empty", "Nothing pinned. Pin an achievement from any tab to track it here.");
+        add("screen.woldsvaults.greed.take_trial", "Take Trial");
+        add("screen.woldsvaults.greed.take_trial.hyper", "A toned-down Hyper Vault. Clear the required boss cycles to pass.");
+        add("screen.woldsvaults.greed.take_trial.vessel", "A fight with the Vessel. Deal the required damage before the timer runs out.");
+        add("screen.woldsvaults.greed.take_trial.reward", "Reward: rank up and %1$s greed coins");
+        add("screen.woldsvaults.greed.take_trial.none", "No trial remains - further ranks are earned with reputation alone.");
+        add("screen.woldsvaults.greed.take_trial.locked.reputation", "%1$s more reputation to unlock the trial");
+        add("screen.woldsvaults.greed.take_trial.locked.god", "Requires god level %1$s (best: %2$s)");
         add("screen.woldsvaults.greed.shop_reroll_cost", "Shop reroll cost: %1$s rep");
         add("screen.woldsvaults.greed.shop_reroll_cost.tooltip", "The greed shop has no timed restock. Rerolling it costs reputation, and the price rises with every reroll until your next rank up.");
         add("screen.woldsvaults.greed.active_god", "Active god tree: %1$s (level %2$s)");

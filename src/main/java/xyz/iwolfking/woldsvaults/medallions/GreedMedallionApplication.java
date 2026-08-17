@@ -24,20 +24,31 @@ public final class GreedMedallionApplication {
 
     /**
      * Whether {@code player} may write {@code tier} onto {@code data} right now. Refusals are
-     * silent by design: the workbench simply produces no output and the medallion stays in its
-     * slot.
+     * silent in-game by design — the workbench simply produces no output and the medallion stays in
+     * its slot — but each one is logged at debug level, because an empty output slot is otherwise
+     * indistinguishable from the feature being broken.
      */
     public static boolean canApply(@Nullable Player player, CrystalData data, GreedMedallionTier tier) {
         if (data == null || tier == null) {
+            WoldsVaults.LOGGER.debug("Greed medallion refused: no crystal data ({}) or no tier ({}).", data, tier);
             return false;
         }
         if (data.getProperties().isUnmodifiable()) {
+            WoldsVaults.LOGGER.debug("Greed medallion {} refused: crystal is unmodifiable.", tier);
             return false;
         }
         if (((GreedMedallionCrystal) data).woldsvaults$hasMedallion()) {
+            WoldsVaults.LOGGER.debug("Greed medallion {} refused: crystal already carries medallion rank {}.",
+                    tier, ((GreedMedallionCrystal) data).woldsvaults$getMedallionRank());
             return false;
         }
-        return getGreedRank(player) >= tier.getRankIndex();
+        int rank = getGreedRank(player);
+        if (rank < tier.getRankIndex()) {
+            WoldsVaults.LOGGER.debug("Greed medallion {} refused: greed rank {} is below the required rank {}.",
+                    tier, rank, tier.getRankIndex());
+            return false;
+        }
+        return true;
     }
 
     public static void apply(CrystalData data, GreedMedallionTier tier) {

@@ -50,6 +50,10 @@ public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotConta
      * medallion slot right after the last of the base mod's six unique slots. The medallion slot has
      * to land before the output slot is added, because {@code quickMoveStack} takes the last slot in
      * the container to be the output.
+     *
+     * <p>Slots are identified by {@link Slot#getSlotIndex()} — the index inside the backing
+     * inventory — and never by {@code Slot.index}, which is the container-wide slot-list position
+     * and is only assigned once {@code addSlot} has run.
      */
     @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Liskallia/vault/container/CrystalWorkbenchContainer;addSlot(Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;"), remap = true,
     slice = @Slice(from = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getUniqueIngredients()Liskallia/vault/container/oversized/OverSizedInventory;", ordinal = 0),
@@ -57,11 +61,12 @@ public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotConta
     private Slot stackableSeals(CrystalWorkbenchContainer instance, Slot slot, Operation<Slot> original){
         var bg = slot.getNoItemIcon();
         var typedSlot = slot instanceof CrystalWorkbenchContainer.CrystalWorkbenchSlot sl ? sl : null;
+        int inventoryIndex = typedSlot == null ? -1 : typedSlot.getSlotIndex();
         Slot added;
         if (typedSlot != null && bg != null && bg.getSecond().equals(iskallia.vault.init.ModSlotIcons.SEAL_NO_ITEM)) {
-            added = original.call(instance, (new CrystalWorkbenchContainer.CrystalWorkbenchSlot(typedSlot.container, typedSlot.index, typedSlot.x, typedSlot.y) {
+            added = original.call(instance, (new CrystalWorkbenchContainer.CrystalWorkbenchSlot(typedSlot.container, inventoryIndex, typedSlot.x, typedSlot.y) {
                 public boolean mayPlace(ItemStack stack) {
-                    return instance.getEntity().getUniqueIngredients().canPlaceItem(typedSlot.index, stack);
+                    return instance.getEntity().getUniqueIngredients().canPlaceItem(inventoryIndex, stack);
                 }
 
                 @Override
@@ -75,7 +80,7 @@ public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotConta
         } else {
             added = original.call(instance, slot);
         }
-        if (typedSlot != null && typedSlot.index == WOLDSVAULTS$MEDALLION_SLOT - 1) {
+        if (inventoryIndex == WOLDSVAULTS$MEDALLION_SLOT - 1) {
             this.addSlot(woldsVaults$createMedallionSlot(instance));
         }
         return added;

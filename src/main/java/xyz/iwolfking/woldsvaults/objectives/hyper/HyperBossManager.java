@@ -59,6 +59,7 @@ import xyz.iwolfking.woldsvaults.entities.projectiles.MagicMissileEntity;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialHyper;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarConfigAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
@@ -203,9 +204,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         snapshotOrRepairGates(pillarPos);
 
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
-        double escalation = HyperVaultObjective.cfg().getBossHealthPercent()
-                * Math.pow(HyperVaultObjective.cfg().getHyperStatFactor(), cycle)
-                + HyperVaultObjective.cfg().getBossStatIncrement() * cycle;
+        double escalation = GreedTrialHyper.bossStrength(vault, HyperVaultObjective.cfg().getBossHealthPercent())
+                * Math.pow(GreedTrialHyper.cycleScaling(vault, HyperVaultObjective.cfg().getHyperStatFactor()), cycle)
+                + GreedTrialHyper.statIncrement(vault, HyperVaultObjective.cfg().getBossStatIncrement()) * cycle;
         double healthFactor = vaultHealthFactor();
         double healthPercent = (1.0 + INNATE_HEALTH_BONUS + escalation) * healthFactor
                 - 1.0 - INNATE_HEALTH_BONUS;
@@ -749,9 +750,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      */
     private void applyBossStats(LivingEntity boss) {
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
-        double damageEscalation = HyperVaultObjective.cfg().getBossDamagePercent()
-                * Math.pow(HyperVaultObjective.cfg().getHyperStatFactor(), cycle)
-                + HyperVaultObjective.cfg().getBossStatIncrement() * cycle;
+        double damageEscalation = GreedTrialHyper.bossStrength(vault, HyperVaultObjective.cfg().getBossDamagePercent())
+                * Math.pow(GreedTrialHyper.cycleScaling(vault, HyperVaultObjective.cfg().getHyperStatFactor()), cycle)
+                + GreedTrialHyper.statIncrement(vault, HyperVaultObjective.cfg().getBossStatIncrement()) * cycle;
         AttributeInstance damage = boss.getAttribute(Attributes.ATTACK_DAMAGE);
         if (damage != null && damage.getModifier(HYPER_DAMAGE_UUID) == null) {
             damage.addPermanentModifier(new AttributeModifier(HYPER_DAMAGE_UUID,

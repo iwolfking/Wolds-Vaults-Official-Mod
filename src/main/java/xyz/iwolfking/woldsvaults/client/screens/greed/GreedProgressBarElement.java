@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.client.screens.greed;
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.client.gui.framework.element.spi.AbstractSpatialElement;
 import iskallia.vault.client.gui.framework.element.spi.IRenderedElement;
+import iskallia.vault.client.gui.framework.render.Tooltips;
 import iskallia.vault.client.gui.framework.render.spi.IElementRenderer;
 import iskallia.vault.client.gui.framework.spatial.Spatials;
 import iskallia.vault.client.gui.framework.spatial.spi.ISpatial;
@@ -13,9 +14,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Supplier;
 
 /**
- * Dark grey track with a gold fill and optional centred caption. Used for both the reputation bar
- * on the main screen and the per-tier bar on every achievement row; the base framework's progress
- * bar is texture sized, which cannot stretch to an arbitrary panel width.
+ * Recessed near-black track with a gold fill and optional centred caption. Used for both the
+ * reputation bar on the main screen and the per-tier bar on every achievement row; the base
+ * framework's progress bar is texture sized, which cannot stretch to an arbitrary panel width.
+ *
+ * <p>The track deliberately does not reuse {@link GreedTheme#PLATE_DARK}: that is the colour of the
+ * content plate the bars are drawn on, so an empty bar in that colour was invisible apart from its
+ * one pixel outline and read as "there is no bar" rather than "the bar is empty". The track is a
+ * distinctly darker {@link GreedTheme#TRACK} with a one pixel top and left inner shadow, so the
+ * recess reads on an empty bar and the fill covers the shadow as it grows.</p>
  */
 public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgressBarElement> implements IRenderedElement {
     private final Supplier<Float> progress;
@@ -40,15 +47,32 @@ public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgres
         return this.visible;
     }
 
+    /**
+     * Attaches the shared {@code 6,283/20,000 (31%)} hover readout to this bar. A bar only ever
+     * shows a fraction of one bracket, so the numbers behind the fill are otherwise unreachable
+     * from the screen.
+     */
+    public GreedProgressBarElement progressTooltip(long current, long target) {
+        return this.tooltip(Tooltips.single(() -> GreedTheme.progress(current, target)));
+    }
+
     @Override
     public void render(IElementRenderer renderer, @NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
         ISpatial world = this.getWorldSpatial();
-        renderer.renderColoredQuad(poseStack, GreedTheme.PLATE_DARK, world);
-        float fraction = Math.max(0.0F, Math.min(1.0F, this.progress.get()));
-        int filled = Math.round((world.width() - 2) * fraction);
-        if (filled > 0) {
-            renderer.renderColoredQuad(poseStack, this.fillColor,
-                    Spatials.positionXYZ(world.x() + 1, world.y() + 1, world.z() + 1).size(filled, world.height() - 2));
+        renderer.renderColoredQuad(poseStack, GreedTheme.TRACK, world);
+        int interiorWidth = world.width() - 2;
+        int interiorHeight = world.height() - 2;
+        if (interiorWidth > 0 && interiorHeight > 0) {
+            renderer.renderColoredQuad(poseStack, GreedTheme.TRACK_SHADOW,
+                    Spatials.positionXYZ(world.x() + 1, world.y() + 1, world.z() + 1).size(interiorWidth, 1));
+            renderer.renderColoredQuad(poseStack, GreedTheme.TRACK_SHADOW,
+                    Spatials.positionXYZ(world.x() + 1, world.y() + 1, world.z() + 1).size(1, interiorHeight));
+            float fraction = Math.max(0.0F, Math.min(1.0F, this.progress.get()));
+            int filled = fraction <= 0.0F ? 0 : Math.max(1, Math.round(interiorWidth * fraction));
+            if (filled > 0) {
+                renderer.renderColoredQuad(poseStack, this.fillColor,
+                        Spatials.positionXYZ(world.x() + 1, world.y() + 1, world.z() + 2).size(filled, interiorHeight));
+            }
         }
         renderer.renderColoredHollowRect(poseStack, GreedTheme.GOLD_DEEP, world);
         if (this.caption == null) {
@@ -63,7 +87,7 @@ public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgres
         int textX = world.x() + (world.width() - textWidth) / 2;
         int textY = world.y() + (world.height() - 8) / 2;
         poseStack.pushPose();
-        poseStack.translate(0.0D, 0.0D, world.z() + 2.0D);
+        poseStack.translate(0.0D, 0.0D, world.z() + 3.0D);
         minecraft.font.drawShadow(poseStack, component, textX, textY, GreedTheme.TEXT_TITLE);
         poseStack.popPose();
     }

@@ -7,6 +7,7 @@ import iskallia.vault.client.gui.framework.ScreenTextures;
 import iskallia.vault.client.gui.framework.element.DynamicLabelElement;
 import iskallia.vault.client.gui.framework.element.ItemStackDisplayElement;
 import iskallia.vault.client.gui.framework.element.TextureAtlasElement;
+import iskallia.vault.client.gui.framework.element.spi.IElement;
 import iskallia.vault.client.gui.framework.render.Tooltips;
 import iskallia.vault.client.gui.framework.render.spi.IElementRenderer;
 import iskallia.vault.client.gui.framework.render.spi.ITooltipRendererFactory;
@@ -37,6 +38,8 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.lib.ui.CountDownElement;
 
@@ -53,6 +56,45 @@ import java.util.function.Supplier;
 public class MixinGreedTraderScreen  extends AbstractElementContainerScreen<GreedTraderContainer> {
     public MixinGreedTraderScreen(GreedTraderContainer container, Inventory inventory, Component title, IElementRenderer elementRenderer, ITooltipRendererFactory<AbstractElementContainerScreen<GreedTraderContainer>> tooltipRendererFactory) {
         super(container, inventory, title, elementRenderer, tooltipRendererFactory);
+    }
+
+    /**
+     * Drops the retired Quests tab from the trader's tab strip.
+     *
+     * <p>Base builds the strip as three {@code createTab(...)} results handed straight to
+     * {@code addElement}. The quest system is dead - every message the Quests screen can send is
+     * refused server-side - so its tab is simply never filed; the element is still built and then
+     * discarded, which keeps the redirect free of a null the element store would choke on.</p>
+     *
+     * <p>The ordinal is pinned against the shipped 3.21.6 jar. {@code m_7856_} issues exactly six
+     * {@code addElement} calls, in order: the left window background (63), the right window
+     * background (106), the Shop tab (142), the Quests tab (174), the Challenges tab (206) and the
+     * tab title label (261) - so the Quests tab is ordinal 3. Sibling mixins that append elements
+     * in this method do so from their own merged handler methods, not from {@code m_7856_} itself,
+     * so they cannot shift this ordinal.</p>
+     */
+    @Redirect(method = "init", remap = true,
+            at = @At(value = "INVOKE", ordinal = 3, remap = false,
+                    target = "Liskallia/vault/client/gui/screen/GreedTraderScreen;addElement(Liskallia/vault/client/gui/framework/element/spi/IElement;)Liskallia/vault/client/gui/framework/element/spi/IElement;"))
+    private IElement dropRetiredQuestsTab(GreedTraderScreen screen, IElement questsTab) {
+        return questsTab;
+    }
+
+    /**
+     * Closes the hole the removed Quests tab leaves. Base pitches the strip at 30px from y = 5, and
+     * the greed rework's Achievements tab is appended at y = 95 by a sibling mixin, so pushing Shop
+     * down one slot lands the three surviving tabs on 35 / 65 / 95 with no gap between them. The
+     * ordinal is the first of the three {@code createTab} calls in {@code m_7856_} (bytecode 139,
+     * against 171 for Quests and 203 for Challenges); index 2 is the {@code int y} argument.
+     *
+     * <p>If the Achievements tab is ever moved up to y = 65, delete this injector and the strip
+     * lands back on base's own 5 / 35 / 65.</p>
+     */
+    @ModifyArg(method = "init", remap = true, index = 2,
+            at = @At(value = "INVOKE", ordinal = 0, remap = false,
+                    target = "Liskallia/vault/client/gui/screen/GreedTraderScreen;createTab(ZLiskallia/vault/client/atlas/TextureAtlasRegion;ILjava/lang/Runnable;)Liskallia/vault/client/gui/framework/element/TabElement;"))
+    private int closeGapLeftByQuestsTab(int y) {
+        return y + 30;
     }
 
     @Inject(method = "init", at = @At("TAIL"), remap = true)

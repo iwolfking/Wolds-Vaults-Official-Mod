@@ -10,6 +10,8 @@ import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrial;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialRequirements;
 
 import java.util.function.Supplier;
 
@@ -28,17 +30,24 @@ public class MilestoneStatusMessage extends Message<MilestoneStatusMessage> {
     private final int nextRankThreshold;
     private final int unclaimedReputation;
     private final int shopRerollCost;
+    private final int trialKind;
+    private final int trialGodGate;
+    private final int bestGodLevel;
 
     public MilestoneStatusMessage() {
-        this(0, 0, 0, 0, 0);
+        this(0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public MilestoneStatusMessage(int rank, int reputation, int nextRankThreshold, int unclaimedReputation, int shopRerollCost) {
+    public MilestoneStatusMessage(int rank, int reputation, int nextRankThreshold, int unclaimedReputation,
+                                  int shopRerollCost, int trialKind, int trialGodGate, int bestGodLevel) {
         this.rank = rank;
         this.reputation = reputation;
         this.nextRankThreshold = nextRankThreshold;
         this.unclaimedReputation = unclaimedReputation;
         this.shopRerollCost = shopRerollCost;
+        this.trialKind = trialKind;
+        this.trialGodGate = trialGodGate;
+        this.bestGodLevel = bestGodLevel;
     }
 
     /**
@@ -49,15 +58,27 @@ public class MilestoneStatusMessage extends Message<MilestoneStatusMessage> {
         MilestoneNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), build(player));
     }
 
+    /**
+     * The three trial numbers are everything the "Take Trial" button needs to decide its own state
+     * without a second round trip: which flavor of trial guards the next rank (0 when none does),
+     * the god level that rank-up asks for (0 when it asks for none), and the best god level the
+     * player actually holds. Reputation readiness the screen can already work out from
+     * {@code reputation} against {@code nextRankThreshold}.
+     */
     public static MilestoneStatusMessage build(ServerPlayer player) {
         PlayerGreedTreeData treeData = PlayerGreedTreeData.get(player.server);
         int rank = treeData.getGreedTier(player);
+        int nextRank = rank + 1;
+        GreedTrial trial = GreedTrial.forRank(nextRank);
         return new MilestoneStatusMessage(
                 rank,
                 treeData.getGreedReputation(player),
-                MilestoneRankLadder.getThreshold(rank + 1),
+                MilestoneRankLadder.getThreshold(nextRank),
                 Milestones.getUnclaimedRep(player.server, player.getUUID()),
-                PlayerGreedTraderData.get(player.server).getResetCost(player.getUUID()));
+                PlayerGreedTraderData.get(player.server).getResetCost(player.getUUID()),
+                trial == null ? 0 : trial.getKind().ordinal() + 1,
+                MilestoneRankLadder.getGodLevelGate(nextRank),
+                GreedTrialRequirements.bestGodLevel(player));
     }
 
     public boolean matches(MilestoneStatusMessage other) {
@@ -66,13 +87,17 @@ public class MilestoneStatusMessage extends Message<MilestoneStatusMessage> {
                 && this.reputation == other.reputation
                 && this.nextRankThreshold == other.nextRankThreshold
                 && this.unclaimedReputation == other.unclaimedReputation
-                && this.shopRerollCost == other.shopRerollCost;
+                && this.shopRerollCost == other.shopRerollCost
+                && this.trialKind == other.trialKind
+                && this.trialGodGate == other.trialGodGate
+                && this.bestGodLevel == other.bestGodLevel;
     }
 
     @Override
     public MilestoneStatusMessage read(FriendlyByteBuf buffer) {
         return new MilestoneStatusMessage(buffer.readVarInt(), buffer.readVarInt(), buffer.readVarInt(),
-                buffer.readVarInt(), buffer.readVarInt());
+                buffer.readVarInt(), buffer.readVarInt(), buffer.readVarInt(), buffer.readVarInt(),
+                buffer.readVarInt());
     }
 
     @Override
@@ -82,12 +107,18 @@ public class MilestoneStatusMessage extends Message<MilestoneStatusMessage> {
         buffer.writeVarInt(message.nextRankThreshold);
         buffer.writeVarInt(message.unclaimedReputation);
         buffer.writeVarInt(message.shopRerollCost);
+        buffer.writeVarInt(message.trialKind);
+        buffer.writeVarInt(message.trialGodGate);
+        buffer.writeVarInt(message.bestGodLevel);
     }
 
     @Override
     public void onMessage(MilestoneStatusMessage message, Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> ClientMilestoneData.setStatus(message.rank, message.reputation,
-                message.nextRankThreshold, message.unclaimedReputation, message.shopRerollCost));
+        context.get().enqueueWork(() -> {
+            ClientMilestoneData.setStatus(message.rank, message.reputation,
+                    message.nextRankThreshold, message.unclaimedReputation, message.shopRerollCost);
+            ClientMilestoneData.setTrialStatus(message.trialKind, message.trialGodGate, message.bestGodLevel);
+        });
         context.get().setPacketHandled(true);
     }
 }

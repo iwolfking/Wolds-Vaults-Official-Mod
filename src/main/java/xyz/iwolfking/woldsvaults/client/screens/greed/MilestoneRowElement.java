@@ -174,9 +174,12 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         this.addElement(new LabelElement<>(Spatials.positionXYZ(bodyX, this.metrics.rowBarY, 1),
                 (ISize) Spatials.size(numeralWidth, 9),
                 GreedTheme.text(GreedTheme.roman(completed), GreedTheme.GOLD), LabelTextStyle.defaultStyle().center()));
-        this.addElement(new GreedProgressBarElement(
+        long target = finished ? this.definition.getFinalThreshold() : this.definition.getThreshold(completed);
+        GreedProgressBarElement bar = new GreedProgressBarElement(
                 Spatials.positionXYZ(barX, this.metrics.rowBarY, 1).size(barWidth, this.metrics.rowBarHeight),
-                () -> shown, null, finished ? GreedTheme.GOLD : GreedTheme.GOLD_DIM));
+                () -> shown, null, finished ? GreedTheme.GOLD : GreedTheme.GOLD_DIM);
+        bar.progressTooltip(value, target);
+        this.addElement(bar);
         this.addElement(new LabelElement<>(Spatials.positionXYZ(barX + barWidth + 2, this.metrics.rowBarY, 1),
                 (ISize) Spatials.size(numeralWidth, 9),
                 GreedTheme.text(finished ? GreedTheme.roman(completed) : GreedTheme.roman(completed + 1),

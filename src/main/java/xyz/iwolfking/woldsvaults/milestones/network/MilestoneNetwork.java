@@ -19,5 +19,6 @@ public class MilestoneNetwork {
         INSTANCE.register(ServerboundClaimMilestoneMessage.class, new ServerboundClaimMilestoneMessage());
         INSTANCE.register(ServerboundPinMilestoneMessage.class, new ServerboundPinMilestoneMessage());
         INSTANCE.register(ServerboundOpenMilestonesMessage.class, new ServerboundOpenMilestonesMessage());
+        INSTANCE.register(ServerboundTakeTrialMessage.class, new ServerboundTakeTrialMessage());
     }
 }

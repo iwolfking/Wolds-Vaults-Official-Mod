@@ -23,6 +23,8 @@ import xyz.iwolfking.woldsvaults.milestones.MilestoneDefinition;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
+import xyz.iwolfking.woldsvaults.milestones.network.MilestoneNetwork;
+import xyz.iwolfking.woldsvaults.milestones.network.ServerboundTakeTrialMessage;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -129,6 +131,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         hash = 31 * hash + ClientMilestoneData.getReputation();
         hash = 31 * hash + ClientMilestoneData.getNextRankThreshold();
         hash = 31 * hash + ClientMilestoneData.getShopRerollCost();
+        hash = 31 * hash + ClientMilestoneData.getBestGodLevel();
         return hash;
     }
 
@@ -225,10 +228,13 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
 
         float span = Math.max(1, nextThreshold - currentThreshold);
         float fill = Math.max(0.0F, Math.min(1.0F, (reputation - currentThreshold) / span));
-        content.addElement(new GreedProgressBarElement(Spatials.positionXYZ(barX, barY, 1).size(barWidth, m.repBarHeight),
+        GreedProgressBarElement repBar = new GreedProgressBarElement(
+                Spatials.positionXYZ(barX, barY, 1).size(barWidth, m.repBarHeight),
                 () -> fill,
                 () -> GreedTheme.text(reputation + "/" + nextThreshold, GreedTheme.TEXT_TITLE),
-                GreedTheme.GOLD_DIM));
+                GreedTheme.GOLD_DIM);
+        repBar.progressTooltip(reputation, nextThreshold);
+        content.addElement(repBar);
 
         var nextFlank = new LabelElement<>(Spatials.positionXYZ(barX + barWidth + 4, barY + (m.repBarHeight - 8) / 2, 1),
                 (ISize) Spatials.size(m.repFlankWidth, 9),
@@ -238,13 +244,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         content.addElement(nextFlank);
 
         int gainY = barY + m.repBarHeight + 7;
-        content.addElement(new GreedFillElement(Spatials.positionXYZ(columnX, gainY, 1)
-                .size(columnWidth, m.unlockBoxHeight), GreedTheme.PLATE, GreedTheme.GOLD_DEEP));
-        content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX + 4, gainY + 4, 2),
-                GreedTheme.langColored("gain_on_rank_up", GreedTheme.GOLD), LabelTextStyle.defaultStyle()));
-        content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX + 4, gainY + 15, 2),
-                (ISize) Spatials.size(columnWidth - 8, m.unlockBoxHeight - 19),
-                nextRankUnlocks(rank), LabelTextStyle.defaultStyle().wrap()));
+        buildGainBox(content, columnX, gainY, columnWidth, m, rank);
 
         int pinnedY = gainY + m.unlockBoxHeight + 6;
         content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX, pinnedY, 1),
@@ -288,6 +288,61 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
                     this.claimEnabled, true, this::requestRebuild));
             y += this.metrics.rowHeight + this.metrics.rowGap;
         }
+    }
+
+    /**
+     * The "gain on rank up" plate, which doubles as the rank-up trial gate. Once the next rank's
+     * reputation and god-alignment requirements are both met the plate turns into a single gold
+     * "Take Trial" button; below them it keeps the unlock list and spends its last line saying
+     * which requirement is still missing.
+     *
+     * <p>The readiness swap is a layout change rather than a live supplier, so it only lands on a
+     * rebuild. Rank, reputation, threshold and best god level are all part of the panel's change
+     * signature, which covers every way readiness can move.</p>
+     */
+    private static void buildGainBox(GreedScrollList content, int x, int y, int width, GreedMetrics m, int rank) {
+        content.addElement(new GreedFillElement(Spatials.positionXYZ(x, y, 1)
+                .size(width, m.unlockBoxHeight), GreedTheme.PLATE, GreedTheme.GOLD_DEEP));
+        int targetRank = rank + 1;
+        if (ClientMilestoneData.isTrialReady()) {
+            GreedButtonElement take = new GreedButtonElement(
+                    Spatials.positionXYZ(x + 3, y + 3, 2).size(width - 6, m.unlockBoxHeight - 6),
+                    () -> GreedTheme.lang("take_trial"),
+                    () -> MilestoneNetwork.INSTANCE.sendToServer(new ServerboundTakeTrialMessage()));
+            take.setHighlighted(() -> true);
+            take.tooltip(Tooltips.multi(() -> List.of(
+                    GreedTheme.langColored(ClientMilestoneData.isTrialHyper()
+                            ? "take_trial.hyper" : "take_trial.vessel", GreedTheme.TEXT),
+                    GreedTheme.langColored("take_trial.reward", GreedTheme.TEXT_DIM,
+                            MilestoneRankLadder.getTrialCoinReward(targetRank)),
+                    GreedTheme.rankName(targetRank))));
+            content.addElement(take);
+            return;
+        }
+        content.addElement(new LabelElement<>(Spatials.positionXYZ(x + 4, y + 4, 2),
+                GreedTheme.langColored("gain_on_rank_up", GreedTheme.GOLD), LabelTextStyle.defaultStyle()));
+        content.addElement(new LabelElement<>(Spatials.positionXYZ(x + 4, y + 15, 2),
+                (ISize) Spatials.size(width - 8, m.unlockBoxHeight - 30),
+                nextRankUnlocks(rank), LabelTextStyle.defaultStyle().wrap()));
+        content.addElement(new LabelElement<>(Spatials.positionXYZ(x + 4, y + m.unlockBoxHeight - 12, 2),
+                (ISize) Spatials.size(width - 8, 9), trialRequirement(), LabelTextStyle.defaultStyle()));
+    }
+
+    /**
+     * The one line under the unlock list: the requirement standing between the player and the next
+     * rank's trial. Reputation is named first because it is the gate every rank-up has; the god
+     * level only appears once the reputation bar is full.
+     */
+    private static Component trialRequirement() {
+        if (!ClientMilestoneData.hasTrial()) {
+            return GreedTheme.langColored("take_trial.none", GreedTheme.TEXT_DIM);
+        }
+        if (ClientMilestoneData.getReputation() < ClientMilestoneData.getNextRankThreshold()) {
+            return GreedTheme.langColored("take_trial.locked.reputation", GreedTheme.TEXT_DIM,
+                    ClientMilestoneData.getNextRankThreshold() - ClientMilestoneData.getReputation());
+        }
+        return GreedTheme.langColored("take_trial.locked.god", GreedTheme.TEXT_DIM,
+                ClientMilestoneData.getTrialGodGate(), ClientMilestoneData.getBestGodLevel());
     }
 
     private static Component nextRankUnlocks(int rank) {

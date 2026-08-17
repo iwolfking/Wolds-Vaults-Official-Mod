@@ -27,7 +27,18 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
      */
     protected float hyperStatFactor = HyperVaultObjective.cfg().getHyperStatFactor();
 
+    /**
+     * Non-zero only on the throwaway crystal a greed rank-up trial builds: the rank the trial is
+     * for. It is not serialized - a trial crystal never becomes an item, and a hyper crystal a
+     * player can actually hold must never claim to be a trial.
+     */
+    private transient int trialRank;
+
     public HyperVaultCrystalObjective() {
+    }
+
+    public void setTrialRank(int trialRank) {
+        this.trialRank = trialRank;
     }
 
     /**
@@ -35,6 +46,10 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
      * the entry modifiers: locked (no exit portal), fragged (difficulty locked at the highest
      * tier) and the hyper marker. Deliberately no BailObjective — the exit pillar is the only
      * way out alive.
+     *
+     * <p>A rank-up trial takes the same chain but leaves the difficulty to the trial row (the
+     * sheet runs Hard and Impossible trials as well as Fragged ones), so the hardcoded fragged
+     * lock is skipped and {@code GreedTrials} adds the row's own difficulty modifier instead.</p>
      */
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
@@ -46,7 +61,9 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
         });
         VaultModifierUtils.addModifier(vault, VaultMod.id("locked"), 1);
-        VaultModifierUtils.addModifier(vault, VaultMod.id("fragged"), 1);
+        if (this.trialRank <= 0) {
+            VaultModifierUtils.addModifier(vault, VaultMod.id("fragged"), 1);
+        }
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("hyper"), 1);
         addSigilStacks(vault, sigil);
     }

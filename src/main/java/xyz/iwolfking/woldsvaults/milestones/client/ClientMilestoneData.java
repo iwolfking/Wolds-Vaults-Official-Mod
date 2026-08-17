@@ -21,6 +21,9 @@ public class ClientMilestoneData {
     private static int nextRankThreshold;
     private static int unclaimedReputation;
     private static int shopRerollCost;
+    private static int trialKind;
+    private static int trialGodGate;
+    private static int bestGodLevel;
 
     private ClientMilestoneData() {
     }
@@ -46,6 +49,9 @@ public class ClientMilestoneData {
         nextRankThreshold = 0;
         unclaimedReputation = 0;
         shopRerollCost = 0;
+        trialKind = 0;
+        trialGodGate = 0;
+        bestGodLevel = 0;
     }
 
     public static long getValue(String milestoneId) {
@@ -94,6 +100,43 @@ public class ClientMilestoneData {
         nextRankThreshold = newNextRankThreshold;
         unclaimedReputation = newUnclaimedReputation;
         shopRerollCost = newShopRerollCost;
+    }
+
+    /**
+     * Mirrors the rank-up trial half of the status packet: {@code kind} is 0 for "the next rank has
+     * no trial", otherwise the {@code GreedTrial.Kind} ordinal plus one; {@code godGate} is the god
+     * level that rank-up demands (0 for none) and {@code bestGod} the highest the player holds.
+     */
+    public static void setTrialStatus(int kind, int godGate, int bestGod) {
+        trialKind = kind;
+        trialGodGate = godGate;
+        bestGodLevel = bestGod;
+    }
+
+    public static boolean hasTrial() {
+        return trialKind > 0;
+    }
+
+    /** True when the trial for the next rank is a hyper vault rather than a vessel fight. */
+    public static boolean isTrialHyper() {
+        return trialKind == 2;
+    }
+
+    public static int getTrialGodGate() {
+        return trialGodGate;
+    }
+
+    public static int getBestGodLevel() {
+        return bestGodLevel;
+    }
+
+    /**
+     * Whether the "Take Trial" button should be live: a trial exists for the next rank, the
+     * reputation bar is full and any god gate is met. Mirrors the server's own check so the button
+     * never lies, but the server re-runs it before building anything.
+     */
+    public static boolean isTrialReady() {
+        return hasTrial() && reputation >= nextRankThreshold && bestGodLevel >= trialGodGate;
     }
 
     public static int getRank() {
