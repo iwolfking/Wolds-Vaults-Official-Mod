@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.vhapi.VHAPI;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.models.armor.layers.HeatwaveArmorLayers;
+import xyz.iwolfking.woldsvaults.models.armor.layers.PastaArmorLayers;
 import xyz.iwolfking.woldsvaults.models.armor.layers.PlagueArmorLayers;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -56,6 +57,7 @@ public class AdditionalModels {
 
     public static final ArmorModel HEATWAVE;
     public static final ArmorModel PLAGUE;
+    public static final ArmorModel PASTA;
 
     static {
        LEVIATHAN_AXE = ModDynamicModels.Axes.REGISTRY.register(new HandHeldModel(VaultMod.id("gear/axe/leviathan"), "Leviathan Axe")).properties(new DynamicModelProperties());
@@ -108,6 +110,10 @@ public class AdditionalModels {
                 .usingLayers(new PlagueArmorLayers())
                 .addSlot(EquipmentSlot.FEET);
 
+        PASTA = new ArmorModel(VaultMod.id("gear/armor/pasta"), "Pasta Strainer")
+                .properties(new DynamicModelProperties().allowTransmogrification())
+                .usingLayers(new PastaArmorLayers())
+                .addSlot(EquipmentSlot.HEAD);
     }
 
 
