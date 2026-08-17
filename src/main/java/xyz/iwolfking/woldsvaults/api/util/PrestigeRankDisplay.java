@@ -12,7 +12,7 @@ import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
 public final class PrestigeRankDisplay {
     public static final String LEGACY_WIDGET_PREFIX = "Requires Greed Tier ";
     public static final String LEGACY_DIALOG_LABEL = "\nRequired Greed Tier: ";
-    public static final String DIALOG_LABEL = "\nRequired Rank: ";
+    public static final String DIALOG_LABEL = "\n";
 
     private PrestigeRankDisplay() {
     }
@@ -22,8 +22,8 @@ public final class PrestigeRankDisplay {
     }
 
     /**
-     * Rewrites the node tooltip's requirement line. Returns the input untouched for every other
-     * tooltip line, so the injection can stay ordinal-free.
+     * Rewrites the node tooltip's requirement line to the bare rank name ("Hunter 2"). Returns the
+     * input untouched for every other tooltip line, so the injection can stay ordinal-free.
      */
     public static String rewriteWidgetRequirement(String line) {
         if (line == null || !line.startsWith(LEGACY_WIDGET_PREFIX)) {
@@ -31,7 +31,7 @@ public final class PrestigeRankDisplay {
         }
         String tail = line.substring(LEGACY_WIDGET_PREFIX.length()).trim();
         try {
-            return "Requires Rank: " + rankName(Integer.parseInt(tail));
+            return rankName(Integer.parseInt(tail));
         } catch (NumberFormatException e) {
             WoldsVaults.LOGGER.error("Prestige tooltip requirement '{}' did not end in a rank index; leaving it as-is.", line);
             return line;

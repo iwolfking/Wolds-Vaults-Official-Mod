@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.screens.greed;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.client.gui.framework.element.spi.AbstractSpatialElement;
@@ -18,23 +19,26 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.IntSupplier;
 
 /**
- * The rank emblem on the main greed screen. It blits the 16x16 medallion item art for the rank,
- * scaled up to the badge size with no filtering, which is the chunky look the rest of the pack's
- * item art has. Ranks past Legend keep the Legend medallion.
+ * The rank emblem on the main greed screen. It blits the rank's medallion item art at whatever
+ * square resolution the texture ships in, scaled to the badge size with no filtering, which is the
+ * chunky look the rest of the pack's item art has. Ranks past Legend keep the Legend medallion.
  *
  * <p>If the art is missing from the resource manager the element falls back to the drawn badge -
  * a gold ring around a dark disc carrying the rank's short label - and logs the missing path once
- * per path. The lookup is cached, so a resource pack reload does not re-check it.</p>
+ * per path. The probe (which also reads the texture's native size) is cached, so a resource pack
+ * reload does not re-check it.</p>
  */
 public class RankMedallionElement extends AbstractSpatialElement<RankMedallionElement> implements IRenderedElement {
     private static final String TEXTURE_PREFIX = "textures/item/greed_medallion_";
-    private static final Map<ResourceLocation, Boolean> PRESENCE = new HashMap<>();
+    private static final Map<ResourceLocation, Integer> TEXTURE_SIZES = new HashMap<>();
 
     private final IntSupplier rank;
     private boolean visible = true;
@@ -59,8 +63,9 @@ public class RankMedallionElement extends AbstractSpatialElement<RankMedallionEl
         ISpatial world = this.getWorldSpatial();
         int currentRank = this.rank.getAsInt();
         ResourceLocation texture = resolveTexture(currentRank);
-        if (texture != null) {
-            drawMedallion(poseStack, texture, world);
+        int textureSize = texture == null ? 0 : TEXTURE_SIZES.getOrDefault(texture, 0);
+        if (texture != null && textureSize > 0) {
+            drawMedallion(poseStack, texture, world, textureSize);
             return;
         }
         drawFallback(renderer, poseStack, world, currentRank);
@@ -72,18 +77,27 @@ public class RankMedallionElement extends AbstractSpatialElement<RankMedallionEl
             return null;
         }
         ResourceLocation location = WoldsVaults.id(TEXTURE_PREFIX + tier.get().getPathName() + ".png");
-        Boolean cached = PRESENCE.get(location);
+        Integer cached = TEXTURE_SIZES.get(location);
         if (cached == null) {
-            cached = Minecraft.getInstance().getResourceManager().hasResource(location);
-            PRESENCE.put(location, cached);
-            if (!cached) {
-                WoldsVaults.LOGGER.warn("Greed rank medallion texture {} is missing; drawing the fallback badge instead", location);
+            cached = probeTextureSize(location);
+            TEXTURE_SIZES.put(location, cached);
+            if (cached == 0) {
+                WoldsVaults.LOGGER.warn("Greed rank medallion texture {} is missing or unreadable; drawing the fallback badge instead", location);
             }
         }
-        return cached ? location : null;
+        return cached > 0 ? location : null;
     }
 
-    private static void drawMedallion(PoseStack poseStack, ResourceLocation texture, ISpatial world) {
+    private static int probeTextureSize(ResourceLocation location) {
+        try (InputStream stream = Minecraft.getInstance().getResourceManager().getResource(location).getInputStream();
+             NativeImage image = NativeImage.read(stream)) {
+            return image.getWidth();
+        } catch (IOException e) {
+            return 0;
+        }
+    }
+
+    private static void drawMedallion(PoseStack poseStack, ResourceLocation texture, ISpatial world, int textureSize) {
         int size = Math.min(world.width(), world.height());
         int x = world.x() + (world.width() - size) / 2;
         int y = world.y() + (world.height() - size) / 2;
@@ -94,7 +108,7 @@ public class RankMedallionElement extends AbstractSpatialElement<RankMedallionEl
         RenderSystem.defaultBlendFunc();
         poseStack.pushPose();
         poseStack.translate(0.0D, 0.0D, world.z());
-        GuiComponent.blit(poseStack, x, y, size, size, 0.0F, 0.0F, 16, 16, 16, 16);
+        GuiComponent.blit(poseStack, x, y, size, size, 0.0F, 0.0F, textureSize, textureSize, textureSize, textureSize);
         poseStack.popPose();
     }
 
