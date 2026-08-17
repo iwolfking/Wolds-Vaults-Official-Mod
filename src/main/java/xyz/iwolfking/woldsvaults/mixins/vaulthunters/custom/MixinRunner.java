@@ -12,7 +12,6 @@ import iskallia.vault.core.vault.VaultLevel;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
-import iskallia.vault.core.vault.objective.AwardCrateObjective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.loot.generator.LootTableGenerator;
@@ -49,9 +48,11 @@ import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrFruit;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
+import xyz.iwolfking.woldsvaults.medallions.GreedCrateLoot;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.CrateLootGeneratorAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
-import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCrateRewards;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
@@ -89,11 +90,17 @@ public abstract class MixinRunner extends Listener {
     }
 
     /**
-     * The greed-tree crate bonus. In hyper vaults it rolls two passes: coins come from the
-     * unscaled base roll (their growth is the greedy-crate-tier multiplier), while non-coin
-     * greed items are re-rolled at the crate's accumulated quantity times the configured
-     * efficiency, so platinum/boxes/foci grow with deep runs the way one crate per vault
-     * never lets them.
+     * The greed crate loot (GCL) bonus, keyed off the crystal's greed medallion. Replaces the
+     * retired greed-tree bonus: no medallion means no bonus at all, the table is a function of the
+     * medallion's GCL tier rather than of the vault objective, and greed coins are computed in
+     * code from the medallion's base greed coins and the objective multiplier instead of being an
+     * entry inside the table. Coins riding outside the table is also what retires the old hyper
+     * double-pass - there is nothing left in the table that needs shielding from item quantity,
+     * and the design requires the GCL table to be immune to crate tiers anyway.
+     *
+     * <p>Everything is written into the crate's additional-items list, which
+     * {@code CrateLootGenerator.createLoot} appends raw. That bypass of the crate's item quantity
+     * is deliberate and must be preserved.</p>
      */
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
@@ -101,56 +108,41 @@ public abstract class MixinRunner extends Listener {
             if(isNotOwnCratePreAward(event)) {
                 return;
             }
-            int greedTier = PlayerGreedTreeData.get(event.getPlayer().getLevel()).getGreedTier(event.getPlayer().getUUID());
-            if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100 && greedTier > 0 && !VaultUtils.isRoyaleVault(vault) && !VaultUtils.isBrazierVault(vault) && !VaultUtils.isCakeVault(vault) && !VaultUtils.isSpecialVault(vault)) {
-                ResourceLocation lootTableKey = WoldsVaults.id("greed_crate_bonus_scavenger");
+            GreedMedallionTier medallion = GreedMedallionVaultState.get(vault).orElse(null);
+            if(medallion == null) {
+                return;
+            }
+            if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) < 100 || GreedCrateLoot.isExcludedVault(vault)) {
+                return;
+            }
 
-                if(!VaultRegistry.LOOT_TABLE.contains(lootTableKey)) {
-                    return;
-                }
+            List<ItemStack> additionalItems =
+                    ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds();
 
-                float hyperBonusQuantity = HyperVaultObjective.get(vault)
-                        .map(objective -> objective.getOr(AwardCrateObjective.ITEM_QUANTITY, 0.0F))
-                        .orElse(-1.0F) * HyperVaultObjective.cfg().getGreedBonusTierEfficiency();
-                boolean hyper = hyperBonusQuantity >= 0.0F;
+            int coins = GreedCrateLoot.coinsForCrate(vault, medallion);
+            if(coins > 0) {
+                additionalItems.add(new ItemStack(ModItems.GREED_COIN, coins));
+            }
 
-                LootTableGenerator generator =
-                        new LootTableGenerator(Version.latest(), VaultRegistry.LOOT_TABLE.getKey(lootTableKey), 0F);
-                generator.generate(ChunkRandom.ofNanoTime());
+            int greedCrateLootTier = medallion.getGreedCrateLootTier();
+            if(greedCrateLootTier <= 0) {
+                return;
+            }
 
-                Iterator<ItemStack> rewardIterator = generator.getItems();
-                long greedyCrateTiers = VaultModifierUtils.getCountOfModifiers(vault, WoldsVaults.id("greedy_crate_tier"));
-                while (rewardIterator.hasNext()) {
-                    ItemStack reward = rewardIterator.next();
-                    if(reward.getItem().equals(ModItems.GREED_COIN)) {
-                        int count = reward.getCount() + (greedTier - 1);
-                        if(greedyCrateTiers > 0) {
-                            count = Math.round(count * (1.0F
-                                    + HyperVaultObjective.cfg().getGreedyCoinBonusPerStack() * greedyCrateTiers));
-                        }
-                        reward.setCount(count);
-                    } else if (hyper) {
-                        continue;
-                    }
-                    ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
-                }
+            ResourceLocation lootTableKey = GreedCrateLoot.tableId(greedCrateLootTier);
+            if(!VaultRegistry.LOOT_TABLE.contains(lootTableKey)) {
+                WoldsVaults.LOGGER.error("Greed crate loot table {} is not registered; the {} medallion's crate bonus is lost. Check config/the_vault/gen/loot_tables.json.",
+                        lootTableKey, medallion.getPathName());
+                return;
+            }
 
-                if (hyper) {
-                    LootTableGenerator boosted = new LootTableGenerator(
-                            Version.latest(), VaultRegistry.LOOT_TABLE.getKey(lootTableKey), hyperBonusQuantity);
-                    boosted.generate(ChunkRandom.ofNanoTime());
-                    Iterator<ItemStack> boostedIterator = boosted.getItems();
-                    int added = 0;
-                    while (boostedIterator.hasNext()) {
-                        ItemStack reward = boostedIterator.next();
-                        if (!reward.getItem().equals(ModItems.GREED_COIN)) {
-                            ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
-                            added++;
-                        }
-                    }
-                    WoldsVaults.LOGGER.info("Hyper greed bonus rolled at x{} quantity ({} non-coin stacks).",
-                            String.format("%.1f", 1.0F + hyperBonusQuantity), added);
-                }
+            LootTableGenerator generator =
+                    new LootTableGenerator(Version.latest(), VaultRegistry.LOOT_TABLE.getKey(lootTableKey), 0F);
+            generator.generate(ChunkRandom.ofNanoTime());
+
+            Iterator<ItemStack> rewardIterator = generator.getItems();
+            while (rewardIterator.hasNext()) {
+                additionalItems.add(rewardIterator.next());
             }
         });
     }

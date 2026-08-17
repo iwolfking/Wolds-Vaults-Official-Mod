@@ -85,11 +85,13 @@ public abstract class MixinGreedTree {
      * Names anything that still pays greed reputation outside the milestone claim path.
      *
      * <p>{@code GreedTree.addGreedReputation} is the single chokepoint every grant in the game
-     * funnels through, base and addon alike. After the rework the only legitimate callers are a
-     * milestone being collected at Mr. Greedy and the Greedy Ticket item; a challenge crystal, a
-     * quest, an assassin kill and a tier crossing all used to arrive here and none of them should
-     * any more. This does not block the grant - a silent refusal would be worse to debug than a
-     * wrong number - it logs the offending caller so the path can be closed at its source.</p>
+     * funnels through, base and addon alike. After the rework the only legitimate caller is a
+     * milestone being collected at Mr. Greedy; a challenge crystal, a quest, an assassin kill and
+     * a tier crossing all used to arrive here and none of them should any more. The Greedy Ticket
+     * was the last non-milestone grant and is now the greed shop's reroll currency instead, so it
+     * no longer pays reputation at all. This does not block the grant - a silent refusal would be
+     * worse to debug than a wrong number - it logs the offending caller so the path can be closed
+     * at its source.</p>
      */
     @Inject(method = "addGreedReputation", at = @At("HEAD"))
     private void traceUnexpectedReputationGrants(int amount, CallbackInfo ci) {
@@ -101,8 +103,7 @@ public abstract class MixinGreedTree {
                 .filter(name -> !name.equals("iskallia.vault.greed.GreedTree")
                         && !name.equals("iskallia.vault.world.data.PlayerGreedTreeData"))
                 .findFirst().orElse("an unidentified caller"));
-        if (source.startsWith("xyz.iwolfking.woldsvaults.milestones.Milestones")
-                || source.startsWith("xyz.iwolfking.woldsvaults.items.GreedyTicketItem")) {
+        if (source.startsWith("xyz.iwolfking.woldsvaults.milestones.Milestones")) {
             return;
         }
         WoldsVaults.LOGGER.warn("Greed reputation {} was granted by {}, outside the milestone claim path; "

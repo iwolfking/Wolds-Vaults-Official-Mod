@@ -31,6 +31,7 @@ import iskallia.vault.item.CoinPouchItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +42,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.lib.ui.CountDownElement;
+import xyz.iwolfking.woldsvaults.api.util.GreedShopHelper;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -95,6 +98,43 @@ public class MixinGreedTraderScreen  extends AbstractElementContainerScreen<Gree
                     target = "Liskallia/vault/client/gui/screen/GreedTraderScreen;createTab(ZLiskallia/vault/client/atlas/TextureAtlasRegion;ILjava/lang/Runnable;)Liskallia/vault/client/gui/framework/element/TabElement;"))
     private int closeGapLeftByQuestsTab(int y) {
         return y + 30;
+    }
+
+    /**
+     * Reprices the Restock tooltip from reputation to greedy tickets.
+     *
+     * <p>{@code getResetCost()} is now a ticket count (see {@code MixinPlayerGreedTraderData}), so
+     * the affordability check has to read tickets too - the container's reputation balance is no
+     * longer what pays for a reroll. Ticket counting here is for display only; the server does its
+     * own count before it takes anything.</p>
+     *
+     * <p>Targeted by lambda name against the shipped 3.21.6 jar, where
+     * {@code addShopRestockButton} compiles to three synthetic methods: {@code $6} the click
+     * handler, {@code $7} the tooltip {@code Supplier<Component>}, {@code $8} the disabled
+     * {@code Supplier<Boolean>}. Mixin-added lambdas are renamed on merge, so sibling mixins
+     * cannot shift these indices. The two colour literals are base's own: -1 white,
+     * -43691 (0xFFFF5555) red.</p>
+     */
+    @Inject(method = "lambda$addShopRestockButton$7", at = @At("HEAD"), cancellable = true)
+    private void showRestockPriceInTickets(CallbackInfoReturnable<Component> cir) {
+        int resetCost = this.getMenu().getResetCost();
+        boolean affordable = countHeldGreedyTickets() >= resetCost;
+        cir.setReturnValue(new TextComponent("Restock (" + resetCost + " Greedy Tickets)")
+                .setStyle(Style.EMPTY.withColor(affordable ? -1 : -43691)));
+    }
+
+    /**
+     * Greys the Restock button out on greedy tickets rather than reputation. Pairs with
+     * {@link #showRestockPriceInTickets}, which documents how the lambda index is pinned.
+     */
+    @Inject(method = "lambda$addShopRestockButton$8", at = @At("HEAD"), cancellable = true)
+    private void disableRestockWithoutTickets(CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(countHeldGreedyTickets() < this.getMenu().getResetCost());
+    }
+
+    private static int countHeldGreedyTickets() {
+        Minecraft minecraft = Minecraft.getInstance();
+        return minecraft.player == null ? 0 : GreedShopHelper.countGreedyTickets(minecraft.player);
     }
 
     @Inject(method = "init", at = @At("TAIL"), remap = true)

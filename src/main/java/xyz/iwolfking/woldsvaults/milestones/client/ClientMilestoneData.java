@@ -156,8 +156,7 @@ public class ClientMilestoneData {
     }
 
     /**
-     * Reputation price of the next greed shop reroll. The greed shop has no timed reset — see
-     * {@code MilestoneStatusMessage}.
+     * Greedy-ticket price of the next greed shop reroll — see {@code MilestoneStatusMessage}.
      */
     public static int getShopRerollCost() {
         return shopRerollCost;

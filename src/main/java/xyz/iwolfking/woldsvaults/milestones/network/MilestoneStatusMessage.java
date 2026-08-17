@@ -18,11 +18,16 @@ import java.util.function.Supplier;
 /**
  * The greed main-screen header feed: everything the screen shows that is not a milestone counter.
  *
- * <p>{@code shopRerollCost} is a REPUTATION price, not a timer. The greed shop has no timed reset
- * of any kind: offers persist until the player pays to reroll them, and the price is
- * {@code 3 + resetCount} (capped at 36 by the addon), with the counter cleared on a greed tier-up.
- * The countdown widget already drawn on the trader screen reads the black market's shard-trade
- * reset clock and has nothing to do with the greed shop.</p>
+ * <p>{@code shopRerollCost} is a GREEDY TICKET price, not a timer and no longer reputation. It is
+ * {@code 2 + resetCount / 2}, i.e. 2 tickets rising by one every second reroll. The wire format is
+ * unchanged - still one {@code VarInt} in the same slot - only what the number counts moved.</p>
+ *
+ * <p>The shop does restock on a clock, and it is the black market's: the addon's
+ * {@code MixinPlayerBlackMarketData} rerolls the offers and clears {@code resetCount} from inside
+ * {@code PlayerBlackMarketData.BlackMarket.tick}, right before the market resets its own trades.
+ * So the countdown widget on the trader screen, which reads the shard-trade reset clock, is
+ * telling the truth for the greed shop too, and the ticket price ladder restarts with it. Base's
+ * own reset of that counter, on a greed tier-up, still fires as well.</p>
  */
 public class MilestoneStatusMessage extends Message<MilestoneStatusMessage> {
     private final int rank;

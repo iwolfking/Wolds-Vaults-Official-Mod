@@ -921,8 +921,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.take_trial.none", "No trial remains - further ranks are earned with reputation alone.");
         add("screen.woldsvaults.greed.take_trial.locked.reputation", "%1$s more reputation to unlock the trial");
         add("screen.woldsvaults.greed.take_trial.locked.god", "Requires god level %1$s (best: %2$s)");
-        add("screen.woldsvaults.greed.shop_reroll_cost", "Shop reroll cost: %1$s rep");
-        add("screen.woldsvaults.greed.shop_reroll_cost.tooltip", "The greed shop has no timed restock. Rerolling it costs reputation, and the price rises with every reroll until your next rank up.");
+        add("screen.woldsvaults.greed.shop_reroll_cost", "Shop reroll cost: %1$s tickets");
+        add("screen.woldsvaults.greed.shop_reroll_cost.tooltip", "Rerolling the greed shop costs Greedy Tickets, and the price rises every second reroll. The shop restocks and the price resets on the black market's clock.");
         add("screen.woldsvaults.greed.active_god", "Active god tree: %1$s (level %2$s)");
         add("screen.woldsvaults.greed.active_god.none", "Active god tree: None");
         add("screen.woldsvaults.greed.list.empty", "No achievements in this category");
