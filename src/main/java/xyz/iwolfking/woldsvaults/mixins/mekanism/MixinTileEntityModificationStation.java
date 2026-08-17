@@ -77,20 +77,21 @@ public abstract class MixinTileEntityModificationStation extends TileEntityMekan
        }
    }
 
-   @Inject(method = "removeModule", at = @At("HEAD"), cancellable = true)
-    public void removeModule(Player player, ModuleData<?> type, CallbackInfo ci) {
+    @Inject(method = "removeModule", at = @At("HEAD"), cancellable = true)
+    private void handleVaultGearModuleRemoval(Player player, ModuleData<?> type, CallbackInfo ci) {
         ItemStack stack = this.containerSlot.getStack();
-        if(stack.getItem() instanceof VaultGearItem) {
-            this.containerSlot.setStack(ModModuleToVaultGearModifications.removeModule(stack, type));
+
+        if (stack.getItem() instanceof VaultGearItem) {
+            if (type != null) {
+                ItemStack updatedStack = ModModuleToVaultGearModifications.removeModule(stack, type);
+                this.containerSlot.setStack(updatedStack);
+
+                ItemStack moduleItemStack = type.getItemProvider().getItemStack();
+                if (!player.getInventory().add(moduleItemStack)) {
+                    player.drop(moduleItemStack, false);
+                }
+            }
             ci.cancel();
         }
-        if (!stack.isEmpty()) {
-            IModuleContainerItem container = (IModuleContainerItem)stack.getItem();
-            if (container.hasModule(stack, type) && player.getInventory().add(type.getItemProvider().getItemStack())) {
-                container.removeModule(stack, type);
-                this.containerSlot.setStack(stack);
-            }
-        }
-
     }
 }

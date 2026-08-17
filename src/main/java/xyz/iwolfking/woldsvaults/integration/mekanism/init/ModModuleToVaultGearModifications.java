@@ -86,15 +86,10 @@ public class ModModuleToVaultGearModifications {
             ItemStack output = gearStack.copy();
 
             VaultGearData data = VaultGearData.read(output);
-            AtomicReference<VaultGearModifier<?>> modifierToRemove = new AtomicReference<>(null);
-            data.getAllModifierAffixes().forEach(vaultGearModifier -> {
-                if(vaultGearModifier.getAttribute().equals(attribute)) {
-                    modifierToRemove.set(vaultGearModifier);
-                }
-            });
+            VaultGearAttributeInstance<?> removed = data.removeAttribute(attribute, VaultGearData.Type.ALL);
 
-            if(modifierToRemove.get() != null) {
-                data.removeModifier(modifierToRemove.get());
+            if (removed != null) {
+                data.write(output);
             }
 
             data.write(output);

@@ -515,7 +515,7 @@
     "inventoryhud.MixinCuriosRenderer",
     "inventoryhud.MixinInventoryHudRenderer",
     "jei.MixinRecipesGui",
-    "mekanism.MixinGuiModificationStation",
+    "mekanism.MixinGuiModuleScrollList",
     "scannable.BlockScanResultAccessor",
     "scannable.MixinScanManager",
     "scannable.MixinScanResultProviderBlock",
