@@ -44,7 +44,7 @@ public class MixinRuneBossFightClient {
     @Unique
     private int woldsVaults$savedCooldown;
 
-    @Inject(method = "render", at = @At("HEAD"))
+    @Inject(method = "render", at = @At("HEAD"), remap = true)
     private void woldsVaults$showMagicMissileCountdown(PoseStack matrixStack, Window window, float partialTicks, CallbackInfo ci) {
         if (!ClientMagicMissileWarning.isActive()) {
             return;
@@ -64,12 +64,12 @@ public class MixinRuneBossFightClient {
         this.waveBlastCooldownDuration = 0;
     }
 
-    @ModifyConstant(method = "render", constant = @Constant(stringValue = "Wave Blast "))
+    @ModifyConstant(method = "render", constant = @Constant(stringValue = "Wave Blast "), remap = true)
     private String woldsVaults$relabelMissileCountdown(String label) {
         return this.woldsVaults$missileShown ? "Magic Missile " : label;
     }
 
-    @Inject(method = "render", at = @At("RETURN"))
+    @Inject(method = "render", at = @At("RETURN"), remap = true)
     private void woldsVaults$restoreWaveBlastCountdown(PoseStack matrixStack, Window window, float partialTicks, CallbackInfo ci) {
         if (!this.woldsVaults$missileShown) {
             return;
