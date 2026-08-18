@@ -7,6 +7,7 @@ import iskallia.vault.client.gui.framework.render.spi.ITooltipRendererFactory;
 import iskallia.vault.client.gui.framework.screen.AbstractElementContainerScreen;
 import iskallia.vault.client.gui.screen.block.CrystalWorkbenchScreen;
 import iskallia.vault.container.CrystalWorkbenchContainer;
+import iskallia.vault.item.AugmentItem;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.properties.CapacityCrystalProperties;
 import net.minecraft.ChatFormatting;
@@ -17,9 +18,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
 
 import java.util.List;
@@ -62,22 +65,38 @@ public class MixinCrystalWorkbenchScreen extends AbstractElementContainerScreen<
 
         ItemStack ingredientStack = this.getMenu().getEntity().getUniqueIngredients().getItem(5);
         if(ingredientStack.getItem() instanceof IVaultCrystalModifier vaultCrystalModifier) {
+            ItemStack capstoneStack = this.getMenu().getEntity().getUniqueIngredients().getItem(2);
+            if(!capstoneStack.isEmpty() && !ingredientStack.isEmpty()) {
+                woldsVaults$renderCursedSlot(getGuiLeft() + 147, getGuiTop() + 33, poseStack);
+                return;
+            }
+
             if(vaultCrystalModifier.hasApplied(crystalStack)) {
+                ItemStack sealStack = this.getMenu().getEntity().getUniqueIngredients().getItem(0);
+                if(!sealStack.isEmpty() && ingredientStack.getItem() instanceof VaultMapItem) {
+                    woldsVaults$renderCursedSlot(getGuiLeft() + 172, getGuiTop() + 19, poseStack);
+                }
+
+                ItemStack augmentStack = this.getMenu().getEntity().getUniqueIngredients().getItem(1);
+                if(augmentStack.getItem() instanceof AugmentItem && ingredientStack.getItem() instanceof VaultMapItem) {
+                    woldsVaults$renderCursedSlot(getGuiLeft() + 197, getGuiTop() + 33, poseStack);
+                }
                 return;
             }
 
             int capacityRequired = vaultCrystalModifier.getCapacityConsumption(ingredientStack);
             if (!capacityProps.canAccept(capacityRequired)) {
-                int x = getGuiLeft() + 147;
-                int y = getGuiTop() + 33;
-
-                renderSlotHighlight(poseStack, x, y, 20, -1670497536);
-
-                poseStack.pushPose();
-                poseStack.translate(0.0D, 0.0D, 400.0D);
-                Minecraft.getInstance().font.draw(poseStack, "☠", (float) (x + 8), (float) (y + 8), -16777216);
-                poseStack.popPose();
+                woldsVaults$renderCursedSlot(getGuiLeft() + 147, getGuiTop() + 33, poseStack);
             }
         }
+    }
+
+    @Unique
+    private void woldsVaults$renderCursedSlot(int x, int y, PoseStack poseStack) {
+        renderSlotHighlight(poseStack, x, y, 20, -1670497536);
+        poseStack.pushPose();
+        poseStack.translate(0.0D, 0.0D, 400.0D);
+        Minecraft.getInstance().font.draw(poseStack, "☠", (float) (x + 8), (float) (y + 8), -16777216);
+        poseStack.popPose();
     }
 }
