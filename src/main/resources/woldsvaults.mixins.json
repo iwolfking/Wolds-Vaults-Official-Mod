@@ -525,6 +525,7 @@
     "servertransfer.MixinThermalRecipeManagers",
     "servertransfer.MixinVHAPISyncDescriptor",
     "sophisticatedbackpacks.MixinBackpackModel",
+    "vaulthunters.accessors.ScrollableItemStackSelectorElementAccessor",
     "vaulthunters.accessors.VaultChestRendererAccessor",
     "vaulthunters.custom.MixinAbilityDialog",
     "vaulthunters.custom.MixinAugmentItem",

@@ -6,4 +6,8 @@ import net.minecraft.world.item.ItemStack;
 
 public interface IVaultCrystalModifier {
     boolean applyCrystalRecipe(AnvilContext context, CrystalData data, ItemStack ingredient, ItemStack output);
+
+    int getCapacityConsumption(ItemStack stack);
+
+    boolean hasApplied(ItemStack crystalStack);
 }

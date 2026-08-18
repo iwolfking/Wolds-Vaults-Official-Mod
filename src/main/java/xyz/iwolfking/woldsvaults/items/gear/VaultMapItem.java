@@ -21,6 +21,8 @@ import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.BasicItem;
 import iskallia.vault.item.crystal.CrystalData;
+import iskallia.vault.item.crystal.VaultCrystalItem;
+import iskallia.vault.item.crystal.modifiers.CrystalModifiers;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
 import iskallia.vault.item.crystal.properties.CapacityCrystalProperties;
 import iskallia.vault.item.crystal.theme.CrystalTheme;
@@ -249,7 +251,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
 
         VaultGearData mapData = VaultGearData.read(ingredientStack);
 
-        int size = (mapData.getFirstValue(ModGearAttributes.MAP_TIER).orElse(1) + 1) * 10;
+        int size = getCapacityConsumption(ingredientStack);
 
         if (data.getProperties() instanceof CapacityCrystalProperties properties) {
             Integer capacity = properties.getCapacity().orElse(null);
@@ -325,6 +327,27 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
             context.getInput()[1].shrink(1);
         }));
         return true;
+    }
+
+    @Override
+    public int getCapacityConsumption(ItemStack stack) {
+        if(stack.getItem() instanceof VaultMapItem) {
+            VaultGearData data = VaultGearData.read(stack);
+            return (data.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0) + 1) * 10;
+        }
+
+        return 0;
+    }
+
+    @Override
+    public boolean hasApplied(ItemStack crystalStack) {
+        if(crystalStack.getItem() instanceof VaultCrystalItem) {
+            CrystalData crystalData = CrystalData.read(crystalStack);
+            CrystalModifiers modifiers = crystalData.getModifiers();
+            return modifiers.getList().stream().anyMatch(stack -> stack.getModifier() instanceof SettableValueVaultModifier<?>);
+        }
+
+        return false;
     }
 
     public static boolean applySpecialModifiers(CrystalData data, VaultGearData mapData, VaultGearModifier.AffixType affixType, AnvilContext context, ItemStack output, boolean shouldReduceValues) {
