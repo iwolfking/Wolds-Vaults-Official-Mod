@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.items.gear;
 
 import com.google.common.collect.Multimap;
 import iskallia.vault.VaultMod;
+import iskallia.vault.client.data.ClientGreedData;
 import iskallia.vault.config.VaultCrystalConfig;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.modifier.VaultModifierStack;
@@ -233,6 +234,10 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         }
 
         Player player = context.getPlayer().get();
+
+        if(player.getLevel().isClientSide() && !ClientGreedData.isCompletedHerald()) {
+            return false;
+        }
 
         if (context.getBlockState().map((state) -> state.getBlock() instanceof AnvilBlock).orElse(false)) {
             return false;
