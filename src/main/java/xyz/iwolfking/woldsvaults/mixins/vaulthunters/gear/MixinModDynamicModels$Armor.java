@@ -20,6 +20,6 @@ public class MixinModDynamicModels$Armor {
     private static void injectArmorModels(CallbackInfo ci) {
         PIECE_REGISTRY.registerAll(AdditionalModels.HEATWAVE);
         PIECE_REGISTRY.registerAll(AdditionalModels.PLAGUE);
-
+        PIECE_REGISTRY.registerAll(AdditionalModels.PASTA);
     }
 }

@@ -20,6 +20,9 @@ public class ModGearModelRollRaritiesProvider extends AbstractVanillaGearModelRo
             builder.addForRarity(VaultGearRarity.UNIQUE, ModelType.ARMOR, models -> {
                 models.add(VaultMod.id("gear/armor/plague").toString());
             });
+            builder.addForRarity(VaultGearRarity.SPECIAL, ModelType.ARMOR, models -> {
+                models.add(VaultMod.id("gear/armor/pasta").toString());
+            });
         });
         add("new_shield_models", builder -> {
             builder.addForRarity(VaultGearRarity.valueOf("OMEGA"), ModelType.SHIELD, models -> {
