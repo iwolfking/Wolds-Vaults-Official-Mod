@@ -133,6 +133,7 @@ public class WoldsVaults {
         }
         ModNetwork.init();
         LivingEntityEvents.init();
+        RampageListenerFix.init();
         new AdditionalModels();
         ModVaultFilterAttributes.initAttributes();
         ModGameRules.initialize();
