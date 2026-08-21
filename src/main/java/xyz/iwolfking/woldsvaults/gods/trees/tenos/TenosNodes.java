@@ -1,26 +1,31 @@
 package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
 import iskallia.vault.core.vault.influence.VaultGod;
-import iskallia.vault.gear.attribute.VaultGearAttribute;
-import iskallia.vault.init.ModGearAttributes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
- * Node identity for the Tenos (The Omniscient) god tree, sheet rows r92-r118.
+ * The Tenos (The Omniscient) effect ids Java has to name, sheet rows r92-r118, and the gate reads
+ * its handlers, listeners and mixins make.
  *
- * <p>A stat the sheet lists as a pair ({@code 25%+, 50%+}) is two ids, not one node with two
- * ranks: the shallow placements in the tree are the base id at the first value and the deep ones
- * are the {@code _ii} id at the second, each paying its own value per star with no ceiling. Both
- * bands are plain {@link StatEntry} rows, so the provider needs to know nothing about banding.
- * Which placement is which is decided by depth in
- * {@code tree-drafts/export_tenos_wiring.py}, not here.
+ * <p>The tuned numbers behind these ids live in {@code god_node_effects_tenos.json} and are read
+ * through {@link TenosNodeHandlers#params}, never from a Java constant. A stat the sheet lists as a
+ * pair ({@code 25%+, 50%+}) is two ids, not one node with two ranks: the shallow placements are the
+ * base id at the first value and the deep ones are the {@code _ii} id at the second. Both bands are
+ * plain {@code gear_attribute_scaled} effects and are config alone, so nothing here needs to know
+ * about banding; which placement is which is decided by depth in
+ * {@code tree-drafts/export_tenos_wiring.py}.
+ *
+ * <p>Liveness is answered by {@link GodNodeGate} behind the shared once-a-second cache, which is
+ * what retires this tree's own gate reads - including the four uncached ones the item quantity and
+ * item rarity stat listeners used to make on every single read. One call covers both kinds of node:
+ * a minor counts when Tenos is the active tree or when it is bound to a transfer slot of whichever
+ * tree is, and a major only on the active tree - the node type comes from the registry, so a caller
+ * no longer picks between a minor reader and a major one.
  */
 public final class TenosNodes {
     public static final VaultGod GOD = VaultGod.TENOS;
@@ -62,70 +67,32 @@ public final class TenosNodes {
     public static final String WIDE_INFLUENCE_II = "tenos_wide_influence_ii";
     public static final String ADVANCED_EXTRACTION_II = "tenos_advanced_extraction_ii";
 
-    /** Plain stat rows, per point: the subset eligible for foreign-tree carryover. */
-    public static final Map<String, StatEntry> BASIC_STATS = basicStats();
-
-    /** Every minor node of this tree, i.e. everything transferable into a minor-transfer slot. */
-    public static final Set<String> MINORS = Set.of(
-            OMEGA_VAULT, MANA_STARVED, DEEP_RESERVES, BARTER_EXPERT, NOSE_FOR_TREASURE,
-            DOMAIN_EXPANSION, INDIANA_JONES, EXPERT_LOOTER, MASTER_OF_CHESTS, GLOBAL_VEINS,
-            DRILLMASTER, SACKED, SACK_OF_MOBS, UNSTOPPABLE_GREED, WEALTHY_PATRON, GOLD_PLATING,
-            CASH_HUNTER, CHALLENGE_TACKLER);
-
-    /** Nodes registered with no behaviour, and why. Kept so ids stay reserved and reportable. */
-    public static final Map<String, String> INERT = Map.of();
-
     private TenosNodes() {
     }
 
-    private static Map<String, StatEntry> basicStats() {
-        Map<String, StatEntry> stats = new LinkedHashMap<>();
-        stats.put(HOARDER, new StatEntry(HOARDER, ModGearAttributes.ITEM_QUANTITY));
-        stats.put(TREASURER, new StatEntry(TREASURER, ModGearAttributes.ITEM_RARITY));
-        stats.put(MAGICAL, new StatEntry(MAGICAL, ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE));
-        stats.put(RESERVES, new StatEntry(RESERVES, ModGearAttributes.MANA_ADDITIVE_PERCENTILE));
-        stats.put(CAREFUL, new StatEntry(CAREFUL, ModGearAttributes.TRAP_DISARMING));
-        stats.put(WIDE_INFLUENCE, new StatEntry(WIDE_INFLUENCE, ModGearAttributes.AREA_OF_EFFECT));
-        stats.put(ADVANCED_EXTRACTION, new StatEntry(ADVANCED_EXTRACTION, ModGearAttributes.COPIOUSLY));
-        stats.put(HOARDER_II, new StatEntry(HOARDER_II, ModGearAttributes.ITEM_QUANTITY));
-        stats.put(TREASURER_II, new StatEntry(TREASURER_II, ModGearAttributes.ITEM_RARITY));
-        stats.put(MAGICAL_II, new StatEntry(MAGICAL_II, ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE));
-        stats.put(RESERVES_II, new StatEntry(RESERVES_II, ModGearAttributes.MANA_ADDITIVE_PERCENTILE));
-        stats.put(CAREFUL_II, new StatEntry(CAREFUL_II, ModGearAttributes.TRAP_DISARMING));
-        stats.put(WIDE_INFLUENCE_II, new StatEntry(WIDE_INFLUENCE_II, ModGearAttributes.AREA_OF_EFFECT));
-        stats.put(ADVANCED_EXTRACTION_II, new StatEntry(ADVANCED_EXTRACTION_II, ModGearAttributes.COPIOUSLY));
-        return Map.copyOf(stats);
+    /** The registry key a node's global damage factor or vault modifier is stored under. */
+    public static ResourceLocation key(String effectId) {
+        return WoldsVaults.id(effectId);
     }
 
-    public static boolean owns(String nodeId) {
-        return nodeId != null && nodeId.startsWith("tenos_");
+    /** Effective points the player holds in a Tenos effect right now, gated and cached. */
+    public static int points(ServerPlayer player, String effectId) {
+        return GodNodeGate.points(player, GOD, effectId);
     }
 
-    /** Raw ledger read for one node, ignoring which god is active. */
-    public static int ledgerPoints(ServerPlayer player, String nodeId) {
-        if (player.getServer() == null) {
+    public static boolean isActive(ServerPlayer player, String effectId) {
+        return points(player, effectId) > 0;
+    }
+
+    /**
+     * Raw ledger read, ignoring which god is active. Only the piety source needs this: piety is
+     * summed outside the attribute fold and applies its own carryover scale.
+     */
+    public static int investedPoints(ServerPlayer player, String effectId) {
+        MinecraftServer server = player.getServer();
+        if (server == null) {
             return 0;
         }
-        return GodAlignmentData.get(player.getServer()).getPointsIn(player.getUUID(), GOD, nodeId);
-    }
-
-    /** Points a player has in a Tenos minor, honouring minor-transfer selection. */
-    public static int minorPoints(ServerPlayer player, String nodeId) {
-        return GodNodeGate.minorPoints(player, GOD, nodeId);
-    }
-
-    public static boolean hasMinor(ServerPlayer player, String nodeId) {
-        return minorPoints(player, nodeId) > 0;
-    }
-
-    public static boolean hasMajor(ServerPlayer player, String nodeId) {
-        return GodNodeGate.isActiveMajor(player, GOD, nodeId);
-    }
-
-    /** A stat row: one gear attribute and the configured value one spent point contributes. */
-    public record StatEntry(String nodeId, VaultGearAttribute<Float> attribute) {
-        public float perPoint() {
-            return GodNodeValues.value(this.nodeId);
-        }
+        return GodAlignmentData.get(server).getPointsIn(player.getUUID(), GOD, effectId);
     }
 }

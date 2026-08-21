@@ -4,6 +4,7 @@ import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectDefaults;
 import xyz.iwolfking.woldsvaults.gods.node.handlers.GearAttributeScaledHandler;
 import xyz.iwolfking.woldsvaults.gods.node.handlers.PietyHandler;
 import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaNodeHandlers;
+import xyz.iwolfking.woldsvaults.gods.trees.tenos.TenosNodeHandlers;
 import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers;
 import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodeHandlers;
 
@@ -40,5 +41,6 @@ public final class GodNodeHandlerTypes {
         IdonaNodeHandlers.register();
         VelaraNodeHandlers.register();
         WendarrNodeHandlers.register();
+        TenosNodeHandlers.register();
     }
 }

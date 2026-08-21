@@ -33,9 +33,14 @@ public final class TenosVaultUtil {
         return players;
     }
 
-    public static boolean anyRunnerHasMinor(Vault vault, String nodeId) {
+    /**
+     * Whether any runner in the vault holds a live Tenos effect. Only the nodes whose effect is
+     * inherently vault wide ask this; a node with a per-player effect is dispatched per player by
+     * the god core instead.
+     */
+    public static boolean anyRunnerHas(Vault vault, String effectId) {
         for (ServerPlayer player : runners(vault)) {
-            if (TenosNodes.hasMinor(player, nodeId)) {
+            if (TenosNodes.isActive(player, effectId)) {
                 return true;
             }
         }

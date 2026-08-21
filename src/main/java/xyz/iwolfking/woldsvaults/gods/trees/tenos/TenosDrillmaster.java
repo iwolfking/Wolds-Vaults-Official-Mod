@@ -1,67 +1,31 @@
 package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.server.ServerLifecycleHooks;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
-
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Drillmaster (r111): raises the Fortune cap from 5 to 7 for this player.
  *
- * <p>The cap lives on the enchantment read path, and that path is one of the hottest methods in
- * the game, so the node membership is sampled once a second into a set and the read path only ever
- * does a hash lookup - never a god data lookup.
+ * <p>The cap lives on the enchantment read path, which is one of the hottest methods in the game,
+ * so this used to sample node membership into a private set once a second rather than ask the god
+ * data on every read. The shared {@code GodNodeCache} answers exactly that question at exactly that
+ * cost - two map lookups, no curios walk and no saved-data read - so the private set, its tick
+ * sampler and its logout listener are gone and the answer is live rather than up to a second stale.
+ *
+ * <p>The {@link ServerPlayer} test is what keeps client-side enchantment reads on base-mod
+ * behaviour, which the sampled set gave for free by only ever being populated server side.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class TenosDrillmaster {
-    public static int raisedFortuneCap() {
-        return GodNodeValues.count(TenosNodes.DRILLMASTER, "raised_fortune_cap");
-    }
-
-    private static final int SAMPLE_INTERVAL_TICKS = 20;
-
-    private static final Set<UUID> HOLDERS = ConcurrentHashMap.newKeySet();
-    private static int tickCounter;
-
     private TenosDrillmaster() {
     }
 
-    /** Called from the enchantment cap map; must stay allocation free. */
+    /** Called from the enchantment cap map on every enchantment read. */
     public static boolean hasRaisedFortuneCap(LivingEntity entity) {
-        return !HOLDERS.isEmpty() && entity != null && HOLDERS.contains(entity.getUUID());
+        return entity instanceof ServerPlayer player && TenosNodes.isActive(player, TenosNodes.DRILLMASTER);
     }
 
-    @SubscribeEvent
-    public static void sample(TickEvent.ServerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || ++tickCounter < SAMPLE_INTERVAL_TICKS) {
-            return;
-        }
-        tickCounter = 0;
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server == null) {
-            return;
-        }
-        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            if (TenosNodes.hasMinor(player, TenosNodes.DRILLMASTER)) {
-                HOLDERS.add(player.getUUID());
-            } else {
-                HOLDERS.remove(player.getUUID());
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        HOLDERS.remove(event.getPlayer().getUUID());
+    public static int raisedFortuneCap() {
+        return TenosNodeHandlers.params(TenosNodes.DRILLMASTER,
+                TenosNodeHandlers.DrillmasterParams.class).raised_fortune_cap();
     }
 }

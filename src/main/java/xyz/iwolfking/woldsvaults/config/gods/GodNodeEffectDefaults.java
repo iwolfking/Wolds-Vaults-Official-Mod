@@ -216,42 +216,56 @@ public final class GodNodeEffectDefaults {
         put(map, "wendarr_quick_search", "wendarr_quick_search", new float[]{}, "rate", 0.7F);
     }
 
+    /**
+     * Tenos, ported off {@link #LEGACY_HANDLER}. Its fourteen plain stat effects bind the shared
+     * {@code gear_attribute_scaled} type and Pious Devotion the shared {@code piety} type, so both
+     * are config alone; every effect Java has to know about binds a type named after itself, so an
+     * unbound or misspelt effect fails the load instead of falling through to the catch-all.
+     */
     private static void tenos(GodNodeEffectsConfig.EffectMap map) {
-        put(map, "tenos_hoarder", new float[]{0.25F});
-        put(map, "tenos_hoarder_ii", new float[]{0.5F});
-        put(map, "tenos_treasurer", new float[]{0.25F});
-        put(map, "tenos_treasurer_ii", new float[]{0.5F});
-        put(map, "tenos_magical", new float[]{0.4F});
-        put(map, "tenos_magical_ii", new float[]{0.8F});
-        put(map, "tenos_reserves", new float[]{0.1F});
-        put(map, "tenos_reserves_ii", new float[]{0.2F});
-        put(map, "tenos_careful", new float[]{0.15F});
-        put(map, "tenos_careful_ii", new float[]{0.3F});
-        put(map, "tenos_wide_influence", new float[]{0.1F});
-        put(map, "tenos_wide_influence_ii", new float[]{0.2F});
-        put(map, "tenos_advanced_extraction", new float[]{0.2F});
-        put(map, "tenos_advanced_extraction_ii", new float[]{0.4F});
-        put(map, "tenos_pious_devotion", new float[]{10.0F});
-        put(map, "tenos_omega_vault", new float[]{}, "weight_multiplier", 2.0D);
-        put(map, "tenos_looting_engine", new float[]{}, "reference", 1200.0F);
-        put(map, "tenos_mana_starved", new float[]{}, "max_bonus", 1.0F, "threshold", 0.5F);
-        put(map, "tenos_deep_reserves", new float[]{}, "multiplier", 0.5F);
-        put(map, "tenos_barter_expert", new float[]{}, "rich_palette_chance", 0.5F);
-        put(map, "tenos_nose_for_treasure", new float[]{}, "treasure_door_bonus", 0.25D);
-        put(map, "tenos_domain_expansion", new float[]{}, "per_cell", 0.025F, "cap", 1.5F);
-        put(map, "tenos_massive_chests", new float[]{}, "rolls", 20, "rarity_multiplier", 0.5F);
-        put(map, "tenos_indiana_jones", new float[]{}, "reference", 1000.0F);
-        put(map, "tenos_expert_looter", new float[]{}, "rolls", 4);
-        put(map, "tenos_master_of_chests", new float[]{}, "cascading_stacks", 15);
-        put(map, "tenos_global_veins", new float[]{}, "levels", 8);
-        put(map, "tenos_drillmaster", new float[]{}, "raised_fortune_cap", 7);
-        put(map, "tenos_sacked", new float[]{});
-        put(map, "tenos_sack_of_mobs", new float[]{}, "log_base", 1000.0F);
-        put(map, "tenos_unstoppable_greed", new float[]{}, "ratio", 0.1F);
-        put(map, "tenos_wealthy_patron", new float[]{}, "per_unique", 0.03F);
-        put(map, "tenos_gold_plating", new float[]{},
+        put(map, "tenos_hoarder", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:item_quantity");
+        put(map, "tenos_hoarder_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:item_quantity");
+        put(map, "tenos_treasurer", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:item_rarity");
+        put(map, "tenos_treasurer_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:item_rarity");
+        put(map, "tenos_magical", GEAR_ATTRIBUTE_SCALED, new float[]{0.4F}, "attribute", "the_vault:mana_regen");
+        put(map, "tenos_magical_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.8F}, "attribute", "the_vault:mana_regen");
+        put(map, "tenos_reserves", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:mana_additive_percentile");
+        put(map, "tenos_reserves_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.2F},
+                "attribute", "the_vault:mana_additive_percentile");
+        put(map, "tenos_careful", GEAR_ATTRIBUTE_SCALED, new float[]{0.15F}, "attribute", "the_vault:trap_disarming");
+        put(map, "tenos_careful_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.3F}, "attribute", "the_vault:trap_disarming");
+        put(map, "tenos_wide_influence", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:area_of_effect");
+        put(map, "tenos_wide_influence_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.2F},
+                "attribute", "the_vault:area_of_effect");
+        put(map, "tenos_advanced_extraction", GEAR_ATTRIBUTE_SCALED, new float[]{0.2F},
+                "attribute", "the_vault:copiously");
+        put(map, "tenos_advanced_extraction_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.4F},
+                "attribute", "the_vault:copiously");
+        put(map, "tenos_pious_devotion", PIETY, new float[]{10.0F});
+        put(map, "tenos_omega_vault", "tenos_omega_vault", new float[]{}, "weight_multiplier", 2.0D);
+        put(map, "tenos_looting_engine", "tenos_looting_engine", new float[]{}, "reference", 1200.0F);
+        put(map, "tenos_mana_starved", "tenos_mana_starved", new float[]{}, "max_bonus", 1.0F, "threshold", 0.5F);
+        put(map, "tenos_deep_reserves", "tenos_deep_reserves", new float[]{}, "multiplier", 0.5F);
+        put(map, "tenos_barter_expert", "tenos_barter_expert", new float[]{}, "rich_palette_chance", 0.5F);
+        put(map, "tenos_nose_for_treasure", "tenos_nose_for_treasure", new float[]{}, "treasure_door_bonus", 0.25D);
+        put(map, "tenos_domain_expansion", "tenos_domain_expansion", new float[]{}, "per_cell", 0.025F, "cap", 1.5F);
+        put(map, "tenos_massive_chests", "tenos_massive_chests", new float[]{},
+                "rolls", 20, "rarity_multiplier", 0.5F);
+        put(map, "tenos_indiana_jones", "tenos_indiana_jones", new float[]{}, "reference", 1000.0F);
+        put(map, "tenos_expert_looter", "tenos_expert_looter", new float[]{}, "rolls", 4);
+        put(map, "tenos_master_of_chests", "tenos_master_of_chests", new float[]{}, "cascading_stacks", 15);
+        put(map, "tenos_global_veins", "tenos_global_veins", new float[]{}, "levels", 8);
+        put(map, "tenos_drillmaster", "tenos_drillmaster", new float[]{}, "raised_fortune_cap", 7);
+        put(map, "tenos_sacked", "tenos_sacked", new float[]{});
+        put(map, "tenos_sack_of_mobs", "tenos_sack_of_mobs", new float[]{}, "log_base", 1000.0F);
+        put(map, "tenos_unstoppable_greed", "tenos_unstoppable_greed", new float[]{}, "ratio", 0.1F);
+        put(map, "tenos_wealthy_patron", "tenos_wealthy_patron", new float[]{}, "per_unique", 0.03F);
+        put(map, "tenos_gold_plating", "tenos_gold_plating", new float[]{},
                 "damage_multiplier", 0.25F, "cost_coefficient", 2.0F, "cost_offset", 10.0F);
-        put(map, "tenos_cash_hunter", new float[]{}, "efficiency", 0.25F);
-        put(map, "tenos_challenge_tackler", new float[]{}, "extra_crate_tier_ratio", 0.5F, "tiers_per_stack", 1.0F);
+        put(map, "tenos_cash_hunter", "tenos_cash_hunter", new float[]{}, "efficiency", 0.25F);
+        put(map, "tenos_challenge_tackler", "tenos_challenge_tackler", new float[]{},
+                "extra_crate_tier_ratio", 0.5F, "tiers_per_stack", 1.0F);
     }
 }

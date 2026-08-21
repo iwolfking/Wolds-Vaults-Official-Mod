@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
 import iskallia.vault.config.sigil.SigilConfig;
-import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultLevel;
 import iskallia.vault.core.vault.modifier.modifier.CrateItemQuantityModifier;
@@ -11,7 +10,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Challenge Tackler (r118): sigils provide 50% more crate tiers.
@@ -33,31 +31,20 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
  * joining, for a relog and across a server restart, which a static set would not.
  */
 public final class TenosChallengeTackler {
-    public static float extraCrateTierRatio() {
-        return GodNodeValues.number(TenosNodes.CHALLENGE_TACKLER, "extra_crate_tier_ratio");
-    }
     public static final ResourceLocation CRATE_TIER = WoldsVaults.id("tenos_challenge_tackler");
 
     /** The crate tier modifier every shipped sigil uses, and the one this node mirrors. */
     private static final ResourceLocation SIGIL_CRATE_TIER = new ResourceLocation("the_vault", "crate_tier");
-    public static float tiersPerStack() {
-        return GodNodeValues.number(TenosNodes.CHALLENGE_TACKLER, "tiers_per_stack");
-    }
-
-    private static final Object OWNER = new Object();
 
     private TenosChallengeTackler() {
     }
 
-    static void register() {
-        CommonEvents.LISTENER_JOIN.register(OWNER, data -> boost(data.getVault()));
-    }
-
-    private static void boost(Vault vault) {
+    /**
+     * Grants the node's share of the sigil's own crate tiers to a vault that has not been granted
+     * them yet. The caller has already established that a runner holds the node.
+     */
+    public static void boost(Vault vault, TenosNodeHandlers.ChallengeTacklerParams params) {
         if (vault == null) {
-            return;
-        }
-        if (!TenosVaultUtil.anyRunnerHasMinor(vault, TenosNodes.CHALLENGE_TACKLER)) {
             return;
         }
         String sigil = vault.has(Vault.SIGIL) ? vault.get(Vault.SIGIL) : null;
@@ -68,7 +55,7 @@ public final class TenosChallengeTackler {
         SigilConfig.getConfig(sigil).ifPresent(config -> {
             SigilConfig.LevelEntry entry = config.getLevel(level.get());
             int sigilTiers = entry.getExtraCrateTiers();
-            int extra = Math.round(sigilTiers * extraCrateTierRatio());
+            int extra = Math.round(sigilTiers * params.extra_crate_tier_ratio());
             if (extra <= 0) {
                 return;
             }
@@ -87,7 +74,7 @@ public final class TenosChallengeTackler {
             if (VaultModifierUtils.getCountOfModifiers(vault, CRATE_TIER) > 0) {
                 return;
             }
-            if (resolveTierModifier() == null) {
+            if (resolveTierModifier(params.tiers_per_stack()) == null) {
                 return;
             }
             VaultModifierUtils.addModifier(vault, CRATE_TIER, extra);
@@ -99,7 +86,7 @@ public final class TenosChallengeTackler {
      * modifier registry is cleared on every config reload, the same reason Omega Vault's modifier
      * is built this way.
      */
-    private static VaultModifier<?> resolveTierModifier() {
+    private static VaultModifier<?> resolveTierModifier(float tiersPerStack) {
         VaultModifier<?> existing = VaultModifierRegistry.get(CRATE_TIER);
         if (existing != null) {
             return existing;
@@ -107,7 +94,7 @@ public final class TenosChallengeTackler {
         try {
             CrateItemQuantityModifier modifier = new CrateItemQuantityModifier(
                     CRATE_TIER,
-                    new CrateItemQuantityModifier.Properties(tiersPerStack()),
+                    new CrateItemQuantityModifier.Properties(tiersPerStack),
                     new VaultModifier.Display("Crate Tier", TextColor.parseColor("#38C9C0"),
                             "Increases the reward crate tier once per modifier"));
             VaultModifierRegistry.register(CRATE_TIER, modifier);

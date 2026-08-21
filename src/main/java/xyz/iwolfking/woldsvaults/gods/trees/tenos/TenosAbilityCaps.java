@@ -14,9 +14,13 @@ import java.util.Map;
  * the intended shape - the extra tiers exist, but only Global Veins unlocks them.
  *
  * <p>The gate is the same one the node's own attribute contribution uses
- * ({@link TenosNodes#minorPoints}): points spent in the node on the ACTIVE tree, or the node
- * selected in the active god's minor-transfer slots. Points spent on a tree that is not active do
- * not count, which is why the cap moves with the equipped charm.
+ * ({@link TenosNodes#points}), now answered from the shared gate cache: points spent in the node
+ * on the ACTIVE tree, or the node selected in the active god's minor-transfer slots. Points spent
+ * on a tree that is not active do not count, which is why the cap moves with the equipped charm.
+ *
+ * <p>The lift per point is read from the effect at query time rather than held in the table. This
+ * class is loaded during mod construction, before the config pass runs, so a constant taken from
+ * config here would hold whatever existed at class-init time and never see a reload.
  */
 public final class TenosAbilityCaps {
     /**
@@ -25,7 +29,7 @@ public final class TenosAbilityCaps {
      * miner specialisation has tiers past 30 to reach.
      */
     private static final Map<String, Gate> GATES = Map.of(
-            "Vein_Miner_Chain", new Gate(TenosNodes.GLOBAL_VEINS, 30, TenosAttributeProvider.globalVeinsLevels()));
+            "Vein_Miner_Chain", new Gate(TenosNodes.GLOBAL_VEINS, 30));
 
     private TenosAbilityCaps() {
     }
@@ -43,14 +47,16 @@ public final class TenosAbilityCaps {
         if (gate == null) {
             return Integer.MAX_VALUE;
         }
-        int points = TenosNodes.minorPoints(player, gate.nodeId());
+        int points = TenosNodes.points(player, gate.nodeId());
         if (points <= 0) {
             return gate.baseCap();
         }
-        return gate.baseCap() + gate.levelsPerPoint() * points;
+        int levelsPerPoint = TenosNodeHandlers.params(gate.nodeId(),
+                TenosNodeHandlers.GlobalVeinsParams.class).levels();
+        return gate.baseCap() + levelsPerPoint * points;
     }
 
-    /** A gated skill: which node lifts it, the cap without that node, and the lift per point. */
-    public record Gate(String nodeId, int baseCap, int levelsPerPoint) {
+    /** A gated skill: which node lifts it, and the cap without that node. */
+    public record Gate(String nodeId, int baseCap) {
     }
 }

@@ -21,7 +21,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Every Tenos node that reshapes a live player stat, on one listener per stat.
@@ -30,33 +29,17 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
  * snapshot, which is what these need: chest rate, distance from the portal and trap disarm all
  * change constantly, so they cannot ride the snapshot the way plain stat nodes do.
  *
+ * <p>That is also what makes {@link #lootMultiplier} one of the hottest paths in the mod: item
+ * quantity and item rarity are read on every chest, coin pile and ore. Each of its four node
+ * questions is a {@link TenosNodes#isActive} call, which is answered from the shared
+ * {@code GodNodeCache} rather than by walking the curios handler and the alignment saved data four
+ * times per read.
+ *
  * <p>Anything that needs to read a player's own item quantity, item rarity or trap disarm reads
  * the attribute snapshot directly instead of calling the helper for that stat, because the helper
  * fires the very event these listeners are attached to.
  */
 public final class TenosLootStats {
-    public static float lootingEngineReference() {
-        return GodNodeValues.number(TenosNodes.LOOTING_ENGINE, "reference");
-    }
-    public static float indianaJonesReference() {
-        return GodNodeValues.number(TenosNodes.INDIANA_JONES, "reference");
-    }
-    public static float massiveChestsRarityMultiplier() {
-        return GodNodeValues.number(TenosNodes.MASSIVE_CHESTS, "rarity_multiplier");
-    }
-    public static float wealthyPatronPerUnique() {
-        return GodNodeValues.number(TenosNodes.WEALTHY_PATRON, "per_unique");
-    }
-    public static float unstoppableGreedRatio() {
-        return GodNodeValues.number(TenosNodes.UNSTOPPABLE_GREED, "ratio");
-    }
-    public static float domainExpansionPerCell() {
-        return GodNodeValues.number(TenosNodes.DOMAIN_EXPANSION, "per_cell");
-    }
-    public static float domainExpansionCap() {
-        return GodNodeValues.number(TenosNodes.DOMAIN_EXPANSION, "cap");
-    }
-
     private static final Object OWNER = new Object();
 
     private TenosLootStats() {
@@ -74,7 +57,8 @@ public final class TenosLootStats {
             }
         });
         CommonEvents.PLAYER_STAT.of(PlayerStat.TRAP_DISARM_CHANCE).register(OWNER, data -> {
-            if (data.getEntity() instanceof ServerPlayer player && TenosNodes.hasMinor(player, TenosNodes.INDIANA_JONES)) {
+            if (data.getEntity() instanceof ServerPlayer player
+                    && TenosNodes.isActive(player, TenosNodes.INDIANA_JONES)) {
                 data.setValue(0.0F);
             }
         });
@@ -96,8 +80,9 @@ public final class TenosLootStats {
         multiplier *= lootingEngine(player);
         multiplier *= indianaJones(player);
         multiplier *= wealthyPatron(player);
-        if (rarity && TenosNodes.hasMajor(player, TenosNodes.MASSIVE_CHESTS)) {
-            multiplier *= massiveChestsRarityMultiplier();
+        if (rarity && TenosNodes.isActive(player, TenosNodes.MASSIVE_CHESTS)) {
+            multiplier *= TenosNodeHandlers.params(TenosNodes.MASSIVE_CHESTS,
+                    TenosNodeHandlers.MassiveChestsParams.class).rarity_multiplier();
         }
         return multiplier;
     }
@@ -109,11 +94,12 @@ public final class TenosLootStats {
      * is what makes it small.
      */
     private static float lootingEngine(ServerPlayer player) {
-        if (!TenosNodes.hasMajor(player, TenosNodes.LOOTING_ENGINE)) {
+        if (!TenosNodes.isActive(player, TenosNodes.LOOTING_ENGINE)) {
             return 1.0F;
         }
-        float chestsPerMinute = ChestRateTracker.getChestsPerMinute(player);
-        return (float) Math.cbrt((lootingEngineReference() + chestsPerMinute) / lootingEngineReference());
+        float reference = TenosNodeHandlers.params(TenosNodes.LOOTING_ENGINE,
+                TenosNodeHandlers.LootingEngineParams.class).reference();
+        return (float) Math.cbrt((reference + ChestRateTracker.getChestsPerMinute(player)) / reference);
     }
 
     /**
@@ -123,26 +109,33 @@ public final class TenosLootStats {
      * only ever be neutral, never a loot penalty.
      */
     private static float indianaJones(ServerPlayer player) {
-        if (!TenosNodes.hasMinor(player, TenosNodes.INDIANA_JONES)) {
+        if (!TenosNodes.isActive(player, TenosNodes.INDIANA_JONES)) {
             return 1.0F;
         }
         float disarmPercent = Math.max(0.0F, rawStat(player, ModGearAttributes.TRAP_DISARMING)) * 100.0F;
-        return (float) Math.cbrt((indianaJonesReference() + disarmPercent) / indianaJonesReference());
+        float reference = TenosNodeHandlers.params(TenosNodes.INDIANA_JONES,
+                TenosNodeHandlers.IndianaJonesParams.class).reference();
+        return (float) Math.cbrt((reference + disarmPercent) / reference);
     }
 
     private static float wealthyPatron(ServerPlayer player) {
-        if (!TenosNodes.hasMinor(player, TenosNodes.WEALTHY_PATRON)) {
+        if (!TenosNodes.isActive(player, TenosNodes.WEALTHY_PATRON)) {
             return 1.0F;
         }
         int uniques = countUniqueArmour(player);
-        return uniques <= 0 ? 1.0F : (float) Math.pow(1.0F + wealthyPatronPerUnique(), uniques);
+        if (uniques <= 0) {
+            return 1.0F;
+        }
+        return (float) Math.pow(1.0F + TenosNodeHandlers.params(TenosNodes.WEALTHY_PATRON,
+                TenosNodeHandlers.WealthyPatronParams.class).per_unique(), uniques);
     }
 
     private static float unstoppableGreed(ServerPlayer player) {
-        if (!TenosNodes.hasMinor(player, TenosNodes.UNSTOPPABLE_GREED)) {
+        if (!TenosNodes.isActive(player, TenosNodes.UNSTOPPABLE_GREED)) {
             return 1.0F;
         }
-        return 1.0F + unstoppableGreedRatio() * lootStatSum(player);
+        return 1.0F + TenosNodeHandlers.params(TenosNodes.UNSTOPPABLE_GREED,
+                TenosNodeHandlers.UnstoppableGreedParams.class).ratio() * lootStatSum(player);
     }
 
     /** The player's raw item quantity plus item rarity, straight off the snapshot. */
@@ -178,14 +171,16 @@ public final class TenosLootStats {
      * grid origin, so the distance means what a player would say it means.
      */
     private static float domainExpansion(ServerPlayer player) {
-        if (!TenosNodes.hasMinor(player, TenosNodes.DOMAIN_EXPANSION)) {
+        if (!TenosNodes.isActive(player, TenosNodes.DOMAIN_EXPANSION)) {
             return 1.0F;
         }
         int cells = cellsFromEntrance(player);
         if (cells <= 0) {
             return 1.0F;
         }
-        return Math.min(domainExpansionCap(), 1.0F + domainExpansionPerCell() * cells);
+        TenosNodeHandlers.DomainExpansionParams params = TenosNodeHandlers.params(TenosNodes.DOMAIN_EXPANSION,
+                TenosNodeHandlers.DomainExpansionParams.class);
+        return Math.min(params.cap(), 1.0F + params.per_cell() * cells);
     }
 
     private static int cellsFromEntrance(ServerPlayer player) {
