@@ -48,7 +48,6 @@ public class LockedTreasureContainerBlock extends TreasureContainerBlock {
         builder.add(UNLOCKED);
     }
 
-    // TODO: colored particles
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide()) {
@@ -56,14 +55,20 @@ public class LockedTreasureContainerBlock extends TreasureContainerBlock {
         }
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof TreasureContainerTileEntity treasureContainer) {
-            if (!treasureContainer.isGenerated() && this.consumeKey(player, hand, state.getValue(TYPE))) {
+            boolean unlocked = state.getOptionalValue(UNLOCKED).orElse(false);
+            if (!unlocked && this.consumeKey(player, hand, state.getValue(TYPE))) {
                 treasureContainer.generateLoot(player);
                 level.setBlock(pos, state.setValue(UNLOCKED, true), Block.UPDATE_ALL);
                 return InteractionResult.CONSUME;
             }
-            if (!treasureContainer.isGenerated()) {
+
+            if (!unlocked) {
                 player.displayClientMessage(new TextComponent("This treasure chest requires ").append(state.getValue(TYPE).getKey().getDescription()).append(" to open"), true);
                 return InteractionResult.FAIL;
+            }
+
+            if (!treasureContainer.isGenerated()) {
+                treasureContainer.generateLoot(player);
             }
 
             if (player instanceof ServerPlayer serverPlayer) {
@@ -122,4 +127,5 @@ public class LockedTreasureContainerBlock extends TreasureContainerBlock {
         return state;
     }
 
+    // playerWillDestroy is inherited for treasure affinity loot generation
 }
