@@ -56,7 +56,7 @@ public final class IdonaHitHandlers {
         if (!(event.getSource().getEntity() instanceof ServerPlayer player)) {
             return;
         }
-        if (isPercentageBased()) {
+        if (GlobalDamageMultiplierRegistry.isPercentageBased(event.getSource())) {
             return;
         }
         if (ActiveGodResolver.getActiveGod(player).isEmpty()) {
@@ -73,12 +73,6 @@ public final class IdonaHitHandlers {
         if (product != 1.0F) {
             event.setAmount(event.getAmount() * product);
         }
-    }
-
-    private static boolean isPercentageBased() {
-        return GlobalDamageMultiplierRegistry.PERCENT_DAMAGE.isSet()
-                || ActiveFlags.IS_DOT_ATTACKING.isSet()
-                || ActiveFlags.IS_GLACIAL_SHATTER_ATTACKING.isSet();
     }
 
     /**

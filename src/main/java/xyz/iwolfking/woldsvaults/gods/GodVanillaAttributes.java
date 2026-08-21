@@ -72,28 +72,34 @@ public final class GodVanillaAttributes {
 
     /**
      * Registers that {@code effectId} moves a vanilla attribute. Declarations are static - one
-     * per effect and attribute, made during setup - which is what lets {@link #reconcile} find
-     * and remove a stray modifier from a previous session without any saved bookkeeping.
+     * per effect, attribute and operation, made during setup - which is what lets
+     * {@link #reconcile} find and remove a stray modifier from a previous session without any
+     * saved bookkeeping.
      */
     public static void declare(String effectId, VaultGod god, Attribute target,
                                AttributeModifier.Operation operation, VanillaAmount amount) {
-        UUID id = modifierId(effectId, target);
+        UUID id = modifierId(effectId, target, operation);
         Declaration declaration = new Declaration(effectId, god, target, operation, id,
                 "wolds_god_node/" + effectId, amount);
         Declaration previous = DECLARATIONS.put(id.toString(), declaration);
         if (previous != null) {
-            WoldsVaults.LOGGER.error("God node effect {} declared vanilla attribute {} twice; the later "
-                    + "declaration wins.", effectId, target.getRegistryName());
+            WoldsVaults.LOGGER.error("God node effect {} declared vanilla attribute {} as {} twice; the later "
+                    + "declaration wins.", effectId, target.getRegistryName(), operation);
         }
     }
 
     /**
-     * The fixed modifier UUID for one {@code (effectId, attribute)} pair. Derived from the pair's
-     * name, so it is identical across sessions and across a rebuild of the config.
+     * The fixed modifier UUID for one {@code (effectId, attribute, operation)} triple. Derived from
+     * the triple's name, so it is identical across sessions and across a rebuild of the config.
+     *
+     * <p>The operation is part of the key because a vanilla {@code AttributeInstance} indexes its
+     * modifiers by UUID: without it one effect could not hold both a {@code MULTIPLY_TOTAL} and an
+     * {@code ADDITION} claim on the same attribute, which is exactly the shape the shipped Velara
+     * armour and health nodes need.
      */
-    public static UUID modifierId(String effectId, Attribute target) {
-        return UUID.nameUUIDFromBytes(("woldsvaults:god_node:" + effectId + ":" + target.getRegistryName())
-                .getBytes(StandardCharsets.UTF_8));
+    public static UUID modifierId(String effectId, Attribute target, AttributeModifier.Operation operation) {
+        return UUID.nameUUIDFromBytes(("woldsvaults:god_node:" + effectId + ":" + target.getRegistryName()
+                + ":" + operation.name()).getBytes(StandardCharsets.UTF_8));
     }
 
     /**

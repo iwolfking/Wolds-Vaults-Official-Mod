@@ -151,7 +151,18 @@ public final class GlobalDamageMultiplierRegistry {
         }
     }
 
-    private static boolean isPercentageBased(DamageSource source) {
+    /**
+     * Whether a hit computes its damage as a fraction of the target's health, and so must not be
+     * scaled by anything that means "more damage". True for anything flagged
+     * {@code IS_DOT_ATTACKING} or {@code IS_GLACIAL_SHATTER_ATTACKING}, anything running under
+     * {@link #PERCENT_DAMAGE}, and any damage source id passed to
+     * {@link #excludeDamageSource(String)}.
+     *
+     * <p>This is the one implementation of that test. Every damage multiplier in the god core -
+     * this registry, the god node combat pipeline and the per-god hit handlers - asks here, because
+     * two hand-rolled copies of it had already drifted apart once.
+     */
+    public static boolean isPercentageBased(DamageSource source) {
         return PERCENT_DAMAGE.isSet()
                 || ActiveFlags.IS_DOT_ATTACKING.isSet()
                 || ActiveFlags.IS_GLACIAL_SHATTER_ATTACKING.isSet()

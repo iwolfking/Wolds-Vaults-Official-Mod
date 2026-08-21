@@ -73,6 +73,19 @@ public final class GodNodeState {
         VAULTS.remove(vaultId);
     }
 
+    /**
+     * Drops one effect's slice of a vault's scratch and leaves every other effect's alone. The
+     * vault-wide {@link #clearVault(UUID)} belongs to vault teardown; a node that is finished with
+     * its own vault state while the vault is still running uses this, or it takes every other
+     * node's live state down with it.
+     */
+    public static void clearVault(UUID vaultId, String effectId) {
+        Map<String, Object> scratch = VAULTS.get(vaultId);
+        if (scratch != null) {
+            scratch.remove(effectId);
+        }
+    }
+
     /** Drops everything, for a full server shutdown or a debug reset. */
     public static void clearAll() {
         PLAYERS.clear();

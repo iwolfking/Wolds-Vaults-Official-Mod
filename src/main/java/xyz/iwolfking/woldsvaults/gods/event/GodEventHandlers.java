@@ -15,6 +15,7 @@ import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.GodVanillaAttributes;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 
 /**
@@ -32,7 +33,8 @@ public final class GodEventHandlers {
      * god keep displaying the pre-swap charm until a dimension change. Server side additionally
      * schedules a snapshot rebuild, which is what folds the newly active tree's values in and
      * reconciles the vanilla-attribute bridges - without it a charm swap only takes effect on the
-     * next unrelated gear change.
+     * next unrelated gear change - and runs the tick contributors' deactivation diff, which is what
+     * takes back anything the outgoing tree applied outside the snapshot.
      */
     @SubscribeEvent
     public static void onCurioChange(CurioChangeEvent event) {
@@ -42,6 +44,7 @@ public final class GodEventHandlers {
             GodNodeCache.invalidate(player);
             if (player instanceof ServerPlayer serverPlayer) {
                 AttributeSnapshotHelper.getInstance().refreshSnapshotDelayed(serverPlayer);
+                GodNodeTicker.reconcile(serverPlayer);
             }
         }
     }
@@ -61,8 +64,16 @@ public final class GodEventHandlers {
         }
     }
 
+    /**
+     * The tick contributors are deactivated first, while the player is still a live entity and
+     * their scratch is still there, because that is the only moment a contributor can take back a
+     * modifier or an effect it applied to them.
+     */
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        if (event.getPlayer() instanceof ServerPlayer player) {
+            GodNodeTicker.deactivateAll(player);
+        }
         ActiveGodResolver.invalidate(event.getPlayer());
         GodNodeCache.invalidate(event.getPlayer().getUUID());
         GodNodeState.clear(event.getPlayer().getUUID());
@@ -78,6 +89,7 @@ public final class GodEventHandlers {
         GodNodeCache.invalidate(event.getPlayer());
         if (event.getPlayer() instanceof ServerPlayer player) {
             GodVanillaAttributes.reconcile(player);
+            GodNodeTicker.reconcile(player);
         }
     }
 
