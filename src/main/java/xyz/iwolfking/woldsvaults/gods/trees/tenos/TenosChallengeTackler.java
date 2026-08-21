@@ -11,6 +11,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Challenge Tackler (r118): sigils provide 50% more crate tiers.
@@ -32,12 +33,16 @@ import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
  * joining, for a relog and across a server restart, which a static set would not.
  */
 public final class TenosChallengeTackler {
-    public static final float EXTRA_CRATE_TIER_RATIO = 0.5F;
+    public static float extraCrateTierRatio() {
+        return GodNodeValues.number(TenosNodes.CHALLENGE_TACKLER, "extra_crate_tier_ratio");
+    }
     public static final ResourceLocation CRATE_TIER = WoldsVaults.id("tenos_challenge_tackler");
 
     /** The crate tier modifier every shipped sigil uses, and the one this node mirrors. */
     private static final ResourceLocation SIGIL_CRATE_TIER = new ResourceLocation("the_vault", "crate_tier");
-    private static final float TIERS_PER_STACK = 1.0F;
+    public static float tiersPerStack() {
+        return GodNodeValues.number(TenosNodes.CHALLENGE_TACKLER, "tiers_per_stack");
+    }
 
     private static final Object OWNER = new Object();
 
@@ -63,7 +68,7 @@ public final class TenosChallengeTackler {
         SigilConfig.getConfig(sigil).ifPresent(config -> {
             SigilConfig.LevelEntry entry = config.getLevel(level.get());
             int sigilTiers = entry.getExtraCrateTiers();
-            int extra = Math.round(sigilTiers * EXTRA_CRATE_TIER_RATIO);
+            int extra = Math.round(sigilTiers * extraCrateTierRatio());
             if (extra <= 0) {
                 return;
             }
@@ -102,7 +107,7 @@ public final class TenosChallengeTackler {
         try {
             CrateItemQuantityModifier modifier = new CrateItemQuantityModifier(
                     CRATE_TIER,
-                    new CrateItemQuantityModifier.Properties(TIERS_PER_STACK),
+                    new CrateItemQuantityModifier.Properties(tiersPerStack()),
                     new VaultModifier.Display("Crate Tier", TextColor.parseColor("#38C9C0"),
                             "Increases the reward crate tier once per modifier"));
             VaultModifierRegistry.register(CRATE_TIER, modifier);

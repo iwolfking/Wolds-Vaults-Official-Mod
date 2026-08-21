@@ -6,13 +6,15 @@ import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 import java.util.List;
 import java.util.Set;
 
 /**
- * Node identity for the Idona god tree: the id of every node, the per-point value table behind
- * each one, and the gates the handlers use to decide whether a node is live for a player.
+ * Node identity for the Idona god tree: the id of every node, the accessors that read its tuned
+ * numbers out of {@code god_node_effects_idona.json}, and the gates the handlers use to decide
+ * whether a node is live for a player.
  *
  * <p>A stat the sheet lists as a pair ({@code 25%+, 50%+}) is two ids, not one node with two
  * ranks: the shallow placements in the tree carry the base id at the first value and the deep
@@ -78,50 +80,123 @@ public final class IdonaNodes {
             FORTUNATE, SNEAKY_ADVANTAGE, SUPER_STACKER, STACK_HOARDER, PRISON_WARDEN,
             STACK_STACK_STACK, GREEDBANE, KING_HUNTER, ENFORCER, POWER_DUMP);
 
-    static final float[] V_HARD_HITTER = {0.25F};
-    static final float[] V_HARD_HITTER_II = {0.50F};
-    static final float[] V_ELITE_CASTER = {0.25F};
-    static final float[] V_ELITE_CASTER_II = {0.50F};
-    static final float[] V_PIOUS_DEVOTION = {10.0F};
-    static final float[] V_FULL_OF_SOUL = {0.50F};
-    static final float[] V_FORTUNATE = {0.025F};
-    static final float[] V_FORTUNATE_II = {0.04F};
-    static final float[] V_STACK_STACK_STACK = {1.0F};
-    static final float[] V_KING_HUNTER = {0.75F};
-    static final float[] V_ENFORCER = {0.75F};
-
-    static final float KINETIC_IMPACT_PER_PERCENT = 0.001F;
-    static final float SURROUNDED_PER_MOB = 0.025F;
-    static final double SURROUNDED_RADIUS = 20.0D;
-    static final float CRUSHING_BLOWS_MULTIPLIER = 1.15F;
-    static final int UNDER_PRESSURE_WINDOW_TICKS = 15 * 60 * 20;
-    static final float UNDER_PRESSURE_MAX = 2.0F;
-    static final float PINCUSHION_PER_HIT = 0.005F;
-    static final double BANKED_ANGER_BASE = 100000.0D;
-    static final float SOULSTEALER_MULTIPLIER = 1.5F;
-    static final float LUCKIEST_HIT_CHANCE_SCALE = 0.1F;
-    static final float THWACK_MULTIPLIER = 2.0F;
-    static final float WEAPONMASTER_TWO_HANDED = 1.5F;
-    static final double WEAPONMASTER_DUAL_WIELD_ATTACK_SPEED = 0.3D;
-    static final float CLEAVE_EXPERT_EFFICIENCY = 0.2F;
-    static final float TRUE_RAGE_EFFICIENCY = 0.5F;
-    static final float SNEAKY_ADVANTAGE_PER_EFFECT = 0.05F;
-    static final float SUPER_STACKER_MULTIPLIER = 1.25F;
-    static final float STACK_HOARDER_MULTIPLIER = 1.5F;
-    static final float PRISON_WARDEN_MULTIPLIER = 2.0F;
-    static final int PRISON_WARDEN_DURATION_TICKS = 30 * 20;
-    static final float GREEDBANE_MULTIPLIER = 1.5F;
-    static final float POWER_DUMP_PER_MANA = 0.0025F;
-    static final int POWER_DUMP_SURPLUS_TTL_TICKS = 45 * 20;
-    static final int POWER_DUMP_CONTINUOUS_GRACE_TICKS = 30;
-
-    static final float ARCHMAGE_MANA_PERCENTILE = 1.0F;
-    static final int ARCHMAGE_MANA_FLAT = 200;
-    static final float ARCHMAGE_MANA_REGEN = 8.0F;
-    static final float ARCHMAGE_ABILITY_DAMAGE = 2.0F;
-    static final float ARCHMAGE_CDR_CAP = 0.05F;
-
     private IdonaNodes() {
+    }
+
+    static float kineticImpactPerPercent() {
+        return GodNodeValues.number(KINETIC_IMPACT, "per_percent");
+    }
+
+    static float surroundedPerMob() {
+        return GodNodeValues.number(SURROUNDED, "per_mob");
+    }
+
+    static double surroundedRadius() {
+        return GodNodeValues.precise(SURROUNDED, "radius");
+    }
+
+    static float crushingBlowsMultiplier() {
+        return GodNodeValues.number(CRUSHING_BLOWS, "multiplier");
+    }
+
+    static int underPressureWindowTicks() {
+        return GodNodeValues.count(UNDER_PRESSURE, "window_ticks");
+    }
+
+    static float underPressureMax() {
+        return GodNodeValues.number(UNDER_PRESSURE, "max");
+    }
+
+    static float pincushionPerHit() {
+        return GodNodeValues.number(PINCUSHION, "per_hit");
+    }
+
+    static double bankedAngerBase() {
+        return GodNodeValues.precise(BANKED_ANGER, "base");
+    }
+
+    static float soulstealerMultiplier() {
+        return GodNodeValues.number(SOULSTEALER, "multiplier");
+    }
+
+    static float luckiestHitChanceScale() {
+        return GodNodeValues.number(LUCKIEST_HIT, "chance_scale");
+    }
+
+    static float thwackMultiplier() {
+        return GodNodeValues.number(THWACK, "multiplier");
+    }
+
+    static float weaponmasterTwoHanded() {
+        return GodNodeValues.number(WEAPONMASTER, "two_handed");
+    }
+
+    static double weaponmasterDualWieldAttackSpeed() {
+        return GodNodeValues.precise(WEAPONMASTER, "dual_wield_attack_speed");
+    }
+
+    static float cleaveExpertEfficiency() {
+        return GodNodeValues.number(CLEAVE_EXPERT, "efficiency");
+    }
+
+    static float trueRageEfficiency() {
+        return GodNodeValues.number(TRUE_RAGE, "efficiency");
+    }
+
+    static float sneakyAdvantagePerEffect() {
+        return GodNodeValues.number(SNEAKY_ADVANTAGE, "per_effect");
+    }
+
+    static float superStackerMultiplier() {
+        return GodNodeValues.number(SUPER_STACKER, "multiplier");
+    }
+
+    static float stackHoarderMultiplier() {
+        return GodNodeValues.number(STACK_HOARDER, "multiplier");
+    }
+
+    static float prisonWardenMultiplier() {
+        return GodNodeValues.number(PRISON_WARDEN, "multiplier");
+    }
+
+    static int prisonWardenDurationTicks() {
+        return GodNodeValues.count(PRISON_WARDEN, "duration_ticks");
+    }
+
+    static float greedbaneMultiplier() {
+        return GodNodeValues.number(GREEDBANE, "multiplier");
+    }
+
+    static float powerDumpPerMana() {
+        return GodNodeValues.number(POWER_DUMP, "per_mana");
+    }
+
+    static int powerDumpSurplusTtlTicks() {
+        return GodNodeValues.count(POWER_DUMP, "surplus_ttl_ticks");
+    }
+
+    static int powerDumpContinuousGraceTicks() {
+        return GodNodeValues.count(POWER_DUMP, "continuous_grace_ticks");
+    }
+
+    static float archmageManaPercentile() {
+        return GodNodeValues.number(GRAND_ARCHMAGE, "mana_percentile");
+    }
+
+    static int archmageManaFlat() {
+        return GodNodeValues.count(GRAND_ARCHMAGE, "mana_flat");
+    }
+
+    static float archmageManaRegen() {
+        return GodNodeValues.number(GRAND_ARCHMAGE, "mana_regen");
+    }
+
+    static float archmageAbilityDamage() {
+        return GodNodeValues.number(GRAND_ARCHMAGE, "ability_damage");
+    }
+
+    static float archmageCdrCap() {
+        return GodNodeValues.number(GRAND_ARCHMAGE, "cooldown_reduction_cap");
     }
 
     /** The registry key a node's global damage factor is stored under. */
@@ -130,10 +205,12 @@ public final class IdonaNodes {
     }
 
     /**
-     * Total value of a two-value stat node at {@code points}. Values below the table are read
-     * directly; values above it extrapolate by the last listed increment.
+     * Total value of a two-value stat node at {@code points}, read from the effect's configured
+     * per-point table. Values below the table are read directly; values above it extrapolate by
+     * the last listed increment.
      */
-    public static float valueAt(float[] table, int points) {
+    public static float valueAt(String effectId, int points) {
+        float[] table = GodNodeValues.table(effectId);
         if (points <= 0 || table.length == 0) {
             return 0.0F;
         }

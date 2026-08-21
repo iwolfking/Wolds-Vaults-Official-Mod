@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Turns the player's spent Tenos points into vault gear attributes. Two behaviour nodes are
@@ -29,7 +30,9 @@ import java.util.Map;
  */
 public final class TenosAttributeProvider implements GodTreeAttributeProviders.Provider {
     public static final String VEIN_MINER_ABILITY = "Vein_Miner";
-    public static final int GLOBAL_VEINS_LEVELS = 8;
+    public static int globalVeinsLevels() {
+        return GodNodeValues.count(TenosNodes.GLOBAL_VEINS, "levels");
+    }
 
     @Override
     public List<VaultGearAttributeInstance<?>> getGearAttributes(ServerPlayer player, GodNodeAttributeSource.Scope scope) {
@@ -78,7 +81,7 @@ public final class TenosAttributeProvider implements GodTreeAttributeProviders.P
     private static void addNonBasic(ServerPlayer player, String nodeId, int points, List<VaultGearAttributeInstance<?>> result) {
         switch (nodeId) {
             case TenosNodes.GLOBAL_VEINS -> result.add(VaultGearAttributeInstance.cast(ModGearAttributes.ABILITY_LEVEL,
-                    new AbilityLevelAttribute(VEIN_MINER_ABILITY, GLOBAL_VEINS_LEVELS * points)));
+                    new AbilityLevelAttribute(VEIN_MINER_ABILITY, globalVeinsLevels() * points)));
             case TenosNodes.SACKED -> addSackCopy(player, result);
             default -> {
             }

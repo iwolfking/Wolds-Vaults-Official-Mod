@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Gold Plating (r116): 75% of incoming damage is blocked, paid for with
@@ -34,9 +35,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class TenosGoldPlating {
-    public static final float DAMAGE_MULTIPLIER = 0.25F;
-    public static final float COST_COEFFICIENT = 2.0F;
-    public static final float COST_OFFSET = 10.0F;
+    public static float damageMultiplier() {
+        return GodNodeValues.number(TenosNodes.GOLD_PLATING, "damage_multiplier");
+    }
+    public static float costCoefficient() {
+        return GodNodeValues.number(TenosNodes.GOLD_PLATING, "cost_coefficient");
+    }
+    public static float costOffset() {
+        return GodNodeValues.number(TenosNodes.GOLD_PLATING, "cost_offset");
+    }
 
     private static final ResourceLocation STAGE_ID = WoldsVaults.id("tenos_gold_plating");
     private static final int SETTLE_INTERVAL_TICKS = 20;
@@ -55,10 +62,10 @@ public final class TenosGoldPlating {
             if (!TenosNodes.hasMinor(player, TenosNodes.GOLD_PLATING)) {
                 return amount;
             }
-            float reduced = amount * DAMAGE_MULTIPLIER;
+            float reduced = amount * damageMultiplier();
             float resisted = amount - reduced;
             if (resisted > 0.0F) {
-                DEBT.merge(player.getUUID(), (double) (COST_COEFFICIENT * (float) Math.log10(COST_OFFSET + resisted)), Double::sum);
+                DEBT.merge(player.getUUID(), (double) (costCoefficient() * (float) Math.log10(costOffset() + resisted)), Double::sum);
             }
             return reduced;
         });

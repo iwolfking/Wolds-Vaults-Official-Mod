@@ -37,7 +37,7 @@ public final class IdonaStatHooks {
         if (points <= 0 || !IdonaTargeting.isBattlestaff(player.getItemBySlot(EquipmentSlot.MAINHAND))) {
             return;
         }
-        data.setValue(data.getValue() * (float) Math.pow(IdonaNodes.THWACK_MULTIPLIER, points));
+        data.setValue(data.getValue() * (float) Math.pow(IdonaNodes.thwackMultiplier(), points));
     }
 
     /**
@@ -53,13 +53,13 @@ public final class IdonaStatHooks {
             float multiplier = 1.0F;
             int archmage = IdonaNodes.majorPoints(player, IdonaNodes.GRAND_ARCHMAGE);
             if (archmage > 0) {
-                multiplier *= (float) Math.pow(IdonaNodes.ARCHMAGE_ABILITY_DAMAGE, archmage);
+                multiplier *= (float) Math.pow(IdonaNodes.archmageAbilityDamage(), archmage);
             }
             int powerDump = IdonaNodes.minorPoints(player, IdonaNodes.POWER_DUMP);
             if (powerDump > 0) {
                 float extra = IdonaState.getPowerDumpExtra(player);
                 if (extra > 0.0F) {
-                    multiplier *= 1.0F + extra * IdonaNodes.POWER_DUMP_PER_MANA * powerDump;
+                    multiplier *= 1.0F + extra * IdonaNodes.powerDumpPerMana() * powerDump;
                 }
             }
             if (multiplier != 1.0F) {
@@ -71,7 +71,7 @@ public final class IdonaStatHooks {
                 && player.getLevel().isClientSide()) {
             int archmage = clientArchmagePoints(player);
             if (archmage > 0) {
-                data.setValue(data.getValue() * (float) Math.pow(IdonaNodes.ARCHMAGE_ABILITY_DAMAGE, archmage));
+                data.setValue(data.getValue() * (float) Math.pow(IdonaNodes.archmageAbilityDamage(), archmage));
             }
         }
     }
@@ -100,7 +100,7 @@ public final class IdonaStatHooks {
         if (points <= 0) {
             return;
         }
-        data.setChance(data.getChance() * (float) Math.pow(IdonaNodes.SOULSTEALER_MULTIPLIER, points));
+        data.setChance(data.getChance() * (float) Math.pow(IdonaNodes.soulstealerMultiplier(), points));
     }
 
     /**
@@ -116,7 +116,7 @@ public final class IdonaStatHooks {
         if (points <= 0) {
             return 0;
         }
-        float total = IdonaNodes.valueAt(IdonaNodes.V_PIOUS_DEVOTION, points);
+        float total = IdonaNodes.valueAt(IdonaNodes.PIOUS_DEVOTION, points);
         if (ActiveGodResolver.isActive(serverPlayer, IdonaNodes.GOD)) {
             return Math.round(total);
         }

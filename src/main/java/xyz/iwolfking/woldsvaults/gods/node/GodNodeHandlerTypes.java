@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.gods.node;
 
+import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectDefaults;
+
 /**
  * The single place every built-in god node handler type is registered, in the shape the base
  * mod's talent adapters use:
@@ -23,5 +25,6 @@ public final class GodNodeHandlerTypes {
             return;
         }
         bootstrapped = true;
+        GodNodeHandlers.register(GodNodeEffectDefaults.LEGACY_HANDLER, LegacyGodNodeHandler::new);
     }
 }

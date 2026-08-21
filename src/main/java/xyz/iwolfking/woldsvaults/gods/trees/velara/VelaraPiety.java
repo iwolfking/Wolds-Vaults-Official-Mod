@@ -22,6 +22,6 @@ public final class VelaraPiety implements PietyBonusSource {
             return 0;
         }
         float scale = ActiveGodResolver.isActive(player, VaultGod.VELARA) ? 1.0F : GodCarryover.FOREIGN_TREE_SCALE;
-        return Math.round(VelaraValues.PIOUS_DEVOTION_PIETY_PER_POINT * points * scale);
+        return Math.round(VelaraValues.piousDevotionPietyPerPoint() * points * scale);
     }
 }

@@ -18,6 +18,6 @@ public final class Perserverence {
         if (!VelaraNodeState.isActive(player, VelaraNode.PERSERVERENCE)) {
             return bleedOutTicks;
         }
-        return Math.round(bleedOutTicks * (1.0F + VelaraValues.PERSERVERENCE_TIMER_BONUS));
+        return Math.round(bleedOutTicks * (1.0F + VelaraValues.perserverenceTimerBonus()));
     }
 }

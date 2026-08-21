@@ -47,12 +47,12 @@ public final class VelaraAttributeProvider implements GodTreeAttributeProviders.
     @Override
     public List<VaultGearAttributeInstance<?>> getGearAttributes(ServerPlayer player, GodNodeAttributeSource.Scope scope) {
         List<VaultGearAttributeInstance<?>> values = new ArrayList<>();
-        addBanded(values, player, VelaraNode.TOUGH, VelaraNode.TOUGH_II, ModGearAttributes.HEALTH_PERCENTILE, VelaraValues.TOUGH_HEALTH_PERCENT);
-        addBanded(values, player, VelaraNode.ARMORED, VelaraNode.ARMORED_II, ModGearAttributes.ARMOR_PERCENTILE, VelaraValues.ARMORED_ARMOR_PERCENT);
-        addBanded(values, player, VelaraNode.HEALTHY, VelaraNode.HEALTHY_II, ModGearAttributes.HEALING_EFFECTIVENESS, VelaraValues.HEALTHY_HEALING);
-        addBanded(values, player, VelaraNode.FAST_REFLEXES, VelaraNode.FAST_REFLEXES_II, xyz.iwolfking.woldsvaults.init.ModGearAttributes.DODGE_PERCENT, VelaraValues.FAST_REFLEXES_DODGE);
-        addBanded(values, player, VelaraNode.GUARDED, VelaraNode.GUARDED_II, ModGearAttributes.BLOCK, VelaraValues.GUARDED_BLOCK);
-        addBanded(values, player, VelaraNode.THORNY, VelaraNode.THORNY_II, ModGearAttributes.THORNS_DAMAGE_FLAT, VelaraValues.THORNY_FLAT);
+        addBanded(values, player, VelaraNode.TOUGH, VelaraNode.TOUGH_II, ModGearAttributes.HEALTH_PERCENTILE);
+        addBanded(values, player, VelaraNode.ARMORED, VelaraNode.ARMORED_II, ModGearAttributes.ARMOR_PERCENTILE);
+        addBanded(values, player, VelaraNode.HEALTHY, VelaraNode.HEALTHY_II, ModGearAttributes.HEALING_EFFECTIVENESS);
+        addBanded(values, player, VelaraNode.FAST_REFLEXES, VelaraNode.FAST_REFLEXES_II, xyz.iwolfking.woldsvaults.init.ModGearAttributes.DODGE_PERCENT);
+        addBanded(values, player, VelaraNode.GUARDED, VelaraNode.GUARDED_II, ModGearAttributes.BLOCK);
+        addBanded(values, player, VelaraNode.THORNY, VelaraNode.THORNY_II, ModGearAttributes.THORNS_DAMAGE_FLAT);
         addEffectAvoidance(values, player);
         if (scope == GodNodeAttributeSource.Scope.ALL) {
             addUtilized(values, VelaraNodeState.investedPoints(player, VelaraNode.UTILIZED));
@@ -77,8 +77,9 @@ public final class VelaraAttributeProvider implements GodTreeAttributeProviders.
     }
 
     private static void addBanded(List<VaultGearAttributeInstance<?>> values, ServerPlayer player, VelaraNode lesser,
-                                  VelaraNode greater, VaultGearAttribute<Float> attribute, float[] bands) {
-        float value = VelaraValues.banded(bands, VelaraNodeState.investedPoints(player, lesser),
+                                  VelaraNode greater, VaultGearAttribute<Float> attribute) {
+        float value = VelaraValues.banded(VelaraValues.bands(lesser, greater),
+                VelaraNodeState.investedPoints(player, lesser),
                 VelaraNodeState.investedPoints(player, greater));
         if (value > 0.0F) {
             values.add(new VaultGearAttributeInstance<>(attribute, value));
@@ -90,11 +91,11 @@ public final class VelaraAttributeProvider implements GodTreeAttributeProviders.
             return;
         }
         values.add(new VaultGearAttributeInstance<>(ModGearAttributes.ABILITY_LEVEL,
-                new AbilityLevelAttribute("UTILITY", VelaraValues.UTILIZED_ABILITY_LEVELS)));
+                new AbilityLevelAttribute("UTILITY", VelaraValues.utilizedAbilityLevels())));
     }
 
     private static void addEffectAvoidance(List<VaultGearAttributeInstance<?>> values, ServerPlayer player) {
-        float chance = VelaraValues.banded(VelaraValues.IMMUNE_AVOIDANCE,
+        float chance = VelaraValues.banded(VelaraValues.bands(VelaraNode.IMMUNE, VelaraNode.IMMUNE_II),
                 VelaraNodeState.investedPoints(player, VelaraNode.IMMUNE),
                 VelaraNodeState.investedPoints(player, VelaraNode.IMMUNE_II));
         if (chance <= 0.0F) {

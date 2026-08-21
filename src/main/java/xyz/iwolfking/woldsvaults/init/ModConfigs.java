@@ -4,6 +4,7 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import xyz.iwolfking.vhapi.api.data.api.CustomRecyclerOutputs;
 import xyz.iwolfking.vhapi.api.loaders.workstation.lib.CustomVaultRecyclerConfig;
 import xyz.iwolfking.woldsvaults.config.*;
+import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
 import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
 import xyz.iwolfking.woldsvaults.config.gods.GodTreeConfig;
 import xyz.iwolfking.woldsvaults.config.gods.GodTreeGuiStylesConfig;
@@ -12,7 +13,10 @@ import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 import java.util.EnumMap;
@@ -65,6 +69,11 @@ public class ModConfigs {
 
     public static ImplicitDeckModifiersConfig IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig();
 
+    public static GodLevelsConfig GOD_LEVELS;
+
+    public static GreedRanksConfig GREED_RANKS;
+    public static GreedMilestonesConfig GREED_MILESTONES;
+
     public static final Map<VaultGod, GodTreeConfig> GOD_TREES = new EnumMap<>(VaultGod.class);
     public static final Map<VaultGod, GodTreeGuiStylesConfig> GOD_TREE_GUI_STYLES = new EnumMap<>(VaultGod.class);
     public static final Map<VaultGod, GodNodeEffectsConfig> GOD_NODE_EFFECTS = new EnumMap<>(VaultGod.class);
@@ -107,7 +116,20 @@ public class ModConfigs {
         ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
         IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
+        registerGreedProgression();
         registerGodTrees();
+    }
+
+    /**
+     * Reads the rank ladder and the milestone table and installs them on their single readers. The
+     * ladder goes first: the shipped challenge-milestone reputation is derived from it, so a pack
+     * that retunes rank thresholds and regenerates the milestone file gets a consistent pair.
+     */
+    private static void registerGreedProgression() {
+        GREED_RANKS = new GreedRanksConfig().readConfig();
+        MilestoneRankLadder.load(GREED_RANKS);
+        GREED_MILESTONES = new GreedMilestonesConfig().readConfig();
+        MilestoneRegistry.load(GREED_MILESTONES);
     }
 
     /**
@@ -117,6 +139,7 @@ public class ModConfigs {
      * god's progression.
      */
     private static void registerGodTrees() {
+        GOD_LEVELS = new GodLevelsConfig().readConfig();
         GOD_TREES.clear();
         GOD_TREE_GUI_STYLES.clear();
         GOD_NODE_EFFECTS.clear();
@@ -126,6 +149,7 @@ public class ModConfigs {
             GOD_TREE_GUI_STYLES.put(god, new GodTreeGuiStylesConfig(name).readConfig());
             GOD_NODE_EFFECTS.put(god, new GodNodeEffectsConfig(name).readConfig());
         }
+        GodNodeValues.load(GOD_NODE_EFFECTS);
         GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
     }
 }

@@ -4,6 +4,7 @@ import iskallia.vault.core.vault.stat.VaultChestType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,14 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * when the player leaves the vault or the vault ends. It rides along in {@link MilestoneData}
  * rather than in its own store, because everything it feeds is judged on the way out of a vault
  * and would otherwise be silently reset by a relog.</p>
+ *
+ * <p>The numbers the two composites are judged against are not held here: they belong to the
+ * milestones, so they come from {@link MilestoneRegistry} and are pack config like every other
+ * milestone threshold.</p>
  */
 public class MilestoneVaultState {
-    public static final long VAULT_OF_VAULTS_MOBS = 10_000L;
-    public static final long VAULT_OF_VAULTS_CHESTS = 1_000L;
-    public static final long VAULT_OF_VAULTS_DOORS = 10L;
-    public static final long VAULT_OF_VAULTS_ORES = 1_000L;
-    public static final long DEDICATED_LOOTER_TARGET = 25_000L;
-
     private static final Map<UUID, Map<UUID, MilestoneVaultState>> STATES = new ConcurrentHashMap<>();
     private static final Map<UUID, UUID> ACTIVE = new ConcurrentHashMap<>();
 
@@ -201,29 +200,19 @@ public class MilestoneVaultState {
     }
 
     private void advanceDedicated(VaultChestType type) {
-        VaultChestType expected = dedicatedOrder(this.dedicatedPhase);
-        if (expected == null || expected != type) {
+        List<VaultChestType> order = MilestoneRegistry.getDedicatedLooterOrder();
+        if (this.dedicatedPhase >= order.size() || order.get(this.dedicatedPhase) != type) {
             return;
         }
         this.dedicatedProgress++;
-        if (this.dedicatedProgress >= DEDICATED_LOOTER_TARGET) {
+        if (this.dedicatedProgress >= MilestoneRegistry.getDedicatedLooterTarget()) {
             this.dedicatedPhase++;
             this.dedicatedProgress = 0L;
         }
     }
 
-    private static VaultChestType dedicatedOrder(int phase) {
-        return switch (phase) {
-            case 0 -> VaultChestType.WOODEN;
-            case 1 -> VaultChestType.GILDED;
-            case 2 -> VaultChestType.ORNATE;
-            case 3 -> VaultChestType.LIVING;
-            default -> null;
-        };
-    }
-
     public boolean isDedicatedLooterDone() {
-        return this.dedicatedPhase >= 4;
+        return this.dedicatedPhase >= MilestoneRegistry.getDedicatedLooterOrder().size();
     }
 
     public void onMobKill() {
@@ -255,19 +244,22 @@ public class MilestoneVaultState {
     }
 
     /**
-     * "Complete an Impressive Vault": 10k mobs, 1k of each of the four normal chests, 10 of every
-     * door type, 1000 ores. The objective completion itself is checked by the caller.
+     * "Complete an Impressive Vault": the configured mob kills, that many of each of the four
+     * normal chests, that many of every door type and that many ores, all inside this one run. The
+     * objective completion itself is checked by the caller.
      */
     public boolean isVaultOfVaultsDone() {
-        return this.mobKills >= VAULT_OF_VAULTS_MOBS
-                && this.chests[VaultChestType.WOODEN.ordinal()] >= VAULT_OF_VAULTS_CHESTS
-                && this.chests[VaultChestType.GILDED.ordinal()] >= VAULT_OF_VAULTS_CHESTS
-                && this.chests[VaultChestType.ORNATE.ordinal()] >= VAULT_OF_VAULTS_CHESTS
-                && this.chests[VaultChestType.LIVING.ordinal()] >= VAULT_OF_VAULTS_CHESTS
-                && this.treasureDoors >= VAULT_OF_VAULTS_DOORS
-                && this.vendoors >= VAULT_OF_VAULTS_DOORS
-                && this.dungeonDoors >= VAULT_OF_VAULTS_DOORS
-                && this.ores >= VAULT_OF_VAULTS_ORES;
+        long chestsPerType = MilestoneRegistry.getVaultOfVaultsChestsPerType();
+        long doorsPerType = MilestoneRegistry.getVaultOfVaultsDoorsPerType();
+        return this.mobKills >= MilestoneRegistry.getVaultOfVaultsMobs()
+                && this.chests[VaultChestType.WOODEN.ordinal()] >= chestsPerType
+                && this.chests[VaultChestType.GILDED.ordinal()] >= chestsPerType
+                && this.chests[VaultChestType.ORNATE.ordinal()] >= chestsPerType
+                && this.chests[VaultChestType.LIVING.ordinal()] >= chestsPerType
+                && this.treasureDoors >= doorsPerType
+                && this.vendoors >= doorsPerType
+                && this.dungeonDoors >= doorsPerType
+                && this.ores >= MilestoneRegistry.getVaultOfVaultsOres();
     }
 
     public long getWoodenBoxes() {

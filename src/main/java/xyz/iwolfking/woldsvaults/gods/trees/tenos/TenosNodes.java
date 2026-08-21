@@ -6,6 +6,7 @@ import iskallia.vault.init.ModGearAttributes;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -79,20 +80,20 @@ public final class TenosNodes {
 
     private static Map<String, StatEntry> basicStats() {
         Map<String, StatEntry> stats = new LinkedHashMap<>();
-        stats.put(HOARDER, new StatEntry(ModGearAttributes.ITEM_QUANTITY, 0.25F));
-        stats.put(TREASURER, new StatEntry(ModGearAttributes.ITEM_RARITY, 0.25F));
-        stats.put(MAGICAL, new StatEntry(ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, 0.40F));
-        stats.put(RESERVES, new StatEntry(ModGearAttributes.MANA_ADDITIVE_PERCENTILE, 0.10F));
-        stats.put(CAREFUL, new StatEntry(ModGearAttributes.TRAP_DISARMING, 0.15F));
-        stats.put(WIDE_INFLUENCE, new StatEntry(ModGearAttributes.AREA_OF_EFFECT, 0.10F));
-        stats.put(ADVANCED_EXTRACTION, new StatEntry(ModGearAttributes.COPIOUSLY, 0.20F));
-        stats.put(HOARDER_II, new StatEntry(ModGearAttributes.ITEM_QUANTITY, 0.50F));
-        stats.put(TREASURER_II, new StatEntry(ModGearAttributes.ITEM_RARITY, 0.50F));
-        stats.put(MAGICAL_II, new StatEntry(ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, 0.80F));
-        stats.put(RESERVES_II, new StatEntry(ModGearAttributes.MANA_ADDITIVE_PERCENTILE, 0.20F));
-        stats.put(CAREFUL_II, new StatEntry(ModGearAttributes.TRAP_DISARMING, 0.30F));
-        stats.put(WIDE_INFLUENCE_II, new StatEntry(ModGearAttributes.AREA_OF_EFFECT, 0.20F));
-        stats.put(ADVANCED_EXTRACTION_II, new StatEntry(ModGearAttributes.COPIOUSLY, 0.40F));
+        stats.put(HOARDER, new StatEntry(HOARDER, ModGearAttributes.ITEM_QUANTITY));
+        stats.put(TREASURER, new StatEntry(TREASURER, ModGearAttributes.ITEM_RARITY));
+        stats.put(MAGICAL, new StatEntry(MAGICAL, ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE));
+        stats.put(RESERVES, new StatEntry(RESERVES, ModGearAttributes.MANA_ADDITIVE_PERCENTILE));
+        stats.put(CAREFUL, new StatEntry(CAREFUL, ModGearAttributes.TRAP_DISARMING));
+        stats.put(WIDE_INFLUENCE, new StatEntry(WIDE_INFLUENCE, ModGearAttributes.AREA_OF_EFFECT));
+        stats.put(ADVANCED_EXTRACTION, new StatEntry(ADVANCED_EXTRACTION, ModGearAttributes.COPIOUSLY));
+        stats.put(HOARDER_II, new StatEntry(HOARDER_II, ModGearAttributes.ITEM_QUANTITY));
+        stats.put(TREASURER_II, new StatEntry(TREASURER_II, ModGearAttributes.ITEM_RARITY));
+        stats.put(MAGICAL_II, new StatEntry(MAGICAL_II, ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE));
+        stats.put(RESERVES_II, new StatEntry(RESERVES_II, ModGearAttributes.MANA_ADDITIVE_PERCENTILE));
+        stats.put(CAREFUL_II, new StatEntry(CAREFUL_II, ModGearAttributes.TRAP_DISARMING));
+        stats.put(WIDE_INFLUENCE_II, new StatEntry(WIDE_INFLUENCE_II, ModGearAttributes.AREA_OF_EFFECT));
+        stats.put(ADVANCED_EXTRACTION_II, new StatEntry(ADVANCED_EXTRACTION_II, ModGearAttributes.COPIOUSLY));
         return Map.copyOf(stats);
     }
 
@@ -121,7 +122,10 @@ public final class TenosNodes {
         return GodNodeGate.isActiveMajor(player, GOD, nodeId);
     }
 
-    /** A stat row: one gear attribute and the value one spent point contributes. */
-    public record StatEntry(VaultGearAttribute<Float> attribute, float perPoint) {
+    /** A stat row: one gear attribute and the configured value one spent point contributes. */
+    public record StatEntry(String nodeId, VaultGearAttribute<Float> attribute) {
+        public float perPoint() {
+            return GodNodeValues.value(this.nodeId);
+        }
     }
 }

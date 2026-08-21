@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
 import xyz.iwolfking.woldsvaults.gods.GodCarryover;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 
 /**
@@ -12,7 +13,10 @@ import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
  * carried at a quarter like every other foreign-tree value when Wendarr is not the active god.
  */
 public final class WendarrPiety implements PietyBonusSource {
-    public static final float PIETY_PER_POINT = 10.0F;
+    /** Piety granted per invested Pious Devotion point, from that node's per-point table. */
+    public static float pietyPerPoint() {
+        return GodNodeValues.value(WendarrNodes.PIOUS_DEVOTION);
+    }
 
     @Override
     public int getBonusPiety(Player player, VaultGod god) {
@@ -24,6 +28,6 @@ public final class WendarrPiety implements PietyBonusSource {
             return 0;
         }
         float scale = ActiveGodResolver.isActive(player, WendarrNodes.GOD) ? 1.0F : GodCarryover.FOREIGN_TREE_SCALE;
-        return Math.round(PIETY_PER_POINT * points * scale);
+        return Math.round(pietyPerPoint() * points * scale);
     }
 }

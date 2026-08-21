@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Turns the player's spent Wendarr points into vault gear attributes. Plain stat rows come
@@ -27,10 +28,18 @@ import java.util.Optional;
  * state and are therefore only emitted at {@link GodNodeAttributeSource.Scope#ALL}.
  */
 public final class WendarrAttributeProvider implements GodTreeAttributeProviders.Provider {
-    public static final float DECKLESS_FRUIT_PER_SLOT = 0.01F;
-    public static final float DECKLESS_SPEED_PER_SLOT = 0.05F;
-    public static final float DECKLESS_COOLDOWN_PER_SLOT = 0.05F;
-    public static final float EFFICIENT_STEPS_RATIO = 0.25F;
+    public static float decklessFruitPerSlot() {
+        return GodNodeValues.number(WendarrNodes.THE_DECKLESS, "fruit_per_slot");
+    }
+    public static float decklessSpeedPerSlot() {
+        return GodNodeValues.number(WendarrNodes.THE_DECKLESS, "speed_per_slot");
+    }
+    public static float decklessCooldownPerSlot() {
+        return GodNodeValues.number(WendarrNodes.THE_DECKLESS, "cooldown_per_slot");
+    }
+    public static float efficientStepsRatio() {
+        return GodNodeValues.number(WendarrNodes.EFFICIENT_STEPS, "ratio");
+    }
 
     @Override
     public List<VaultGearAttributeInstance<?>> getGearAttributes(ServerPlayer player, GodNodeAttributeSource.Scope scope) {
@@ -97,9 +106,9 @@ public final class WendarrAttributeProvider implements GodTreeAttributeProviders
             return;
         }
         float scale = emptySlots * points;
-        result.add(VaultGearAttributeInstance.cast(ModGearAttributes.FRUIT_EFFECTIVENESS, DECKLESS_FRUIT_PER_SLOT * scale));
-        result.add(VaultGearAttributeInstance.cast(ModGearAttributes.MOVEMENT_SPEED, DECKLESS_SPEED_PER_SLOT * scale));
-        result.add(VaultGearAttributeInstance.cast(ModGearAttributes.COOLDOWN_REDUCTION, DECKLESS_COOLDOWN_PER_SLOT * scale));
+        result.add(VaultGearAttributeInstance.cast(ModGearAttributes.FRUIT_EFFECTIVENESS, decklessFruitPerSlot() * scale));
+        result.add(VaultGearAttributeInstance.cast(ModGearAttributes.MOVEMENT_SPEED, decklessSpeedPerSlot() * scale));
+        result.add(VaultGearAttributeInstance.cast(ModGearAttributes.COOLDOWN_REDUCTION, decklessCooldownPerSlot() * scale));
     }
 
     private static void addEfficientSteps(ServerPlayer player, int points, List<VaultGearAttributeInstance<?>> result) {
@@ -107,7 +116,7 @@ public final class WendarrAttributeProvider implements GodTreeAttributeProviders
         if (fruitEfficiency <= 0.0F) {
             return;
         }
-        result.add(VaultGearAttributeInstance.cast(ModGearAttributes.MOVEMENT_SPEED, fruitEfficiency * EFFICIENT_STEPS_RATIO * points));
+        result.add(VaultGearAttributeInstance.cast(ModGearAttributes.MOVEMENT_SPEED, fruitEfficiency * efficientStepsRatio() * points));
     }
 
     /**

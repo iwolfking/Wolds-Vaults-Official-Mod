@@ -43,7 +43,7 @@ public abstract class MixinEnchantmentHelper {
         if(MAX_ENCHANTMENT_LEVEL_VALUE_MAP.containsKey(enchantment)) {
             int maxLevel = MAX_ENCHANTMENT_LEVEL_VALUE_MAP.get(enchantment);
             if(enchantment == Enchantments.BLOCK_FORTUNE && TenosDrillmaster.hasRaisedFortuneCap(entity)) {
-                maxLevel = TenosDrillmaster.RAISED_FORTUNE_CAP;
+                maxLevel = TenosDrillmaster.raisedFortuneCap();
             }
             if(i > maxLevel) {
                 return maxLevel;

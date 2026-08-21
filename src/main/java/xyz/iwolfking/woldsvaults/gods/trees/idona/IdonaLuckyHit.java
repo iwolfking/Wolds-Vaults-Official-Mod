@@ -38,7 +38,7 @@ public final class IdonaLuckyHit {
         if (points <= 0) {
             return chance;
         }
-        return chance * (float) Math.pow(IdonaNodes.LUCKIEST_HIT_CHANCE_SCALE, points);
+        return chance * (float) Math.pow(IdonaNodes.luckiestHitChanceScale(), points);
     }
 
     /**

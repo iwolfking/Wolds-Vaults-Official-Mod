@@ -46,7 +46,7 @@ public final class TenosUnstoppableGreed {
                 GlobalDamageMultiplierRegistry.remove(player, DAMAGE_KEY);
                 continue;
             }
-            float factor = 1.0F + TenosLootStats.UNSTOPPABLE_GREED_RATIO * TenosLootStats.lootStatSum(player);
+            float factor = 1.0F + TenosLootStats.unstoppableGreedRatio() * TenosLootStats.lootStatSum(player);
             GlobalDamageMultiplierRegistry.register(player, DAMAGE_KEY, Math.max(1.0F, factor));
         }
     }

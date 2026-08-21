@@ -17,6 +17,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Sack of Mobs (r113): damage scales as {@code log1000(1000 + kills)}, counting only kills scored
@@ -29,7 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class TenosSackOfMobs {
-    public static final float LOG_BASE = 1000.0F;
+    public static float logBase() {
+        return GodNodeValues.number(TenosNodes.SACK_OF_MOBS, "log_base");
+    }
 
     private static final ResourceLocation DAMAGE_KEY = WoldsVaults.id("tenos_sack_of_mobs");
     private static final int RECONCILE_INTERVAL_TICKS = 20;
@@ -80,7 +83,7 @@ public final class TenosSackOfMobs {
             return;
         }
         int kills = KILLS.getOrDefault(player.getUUID(), 0);
-        float factor = (float) (Math.log(LOG_BASE + kills) / Math.log(LOG_BASE));
+        float factor = (float) (Math.log(logBase() + kills) / Math.log(logBase()));
         GlobalDamageMultiplierRegistry.register(player, DAMAGE_KEY, factor);
     }
 

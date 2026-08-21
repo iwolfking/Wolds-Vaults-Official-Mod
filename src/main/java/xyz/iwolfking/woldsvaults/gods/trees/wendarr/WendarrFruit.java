@@ -14,6 +14,7 @@ import xyz.iwolfking.woldsvaults.api.util.HealthReductionHelper;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * The Wendarr fruit family. Every entry point here is called from a seam the addon already owns
@@ -22,12 +23,22 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class WendarrFruit {
-    public static final float GLUTTON_TIME_MULTIPLIER = 0.33F;
-    public static final float GLUTTON_ROT_MULTIPLIER = 0.20F;
-    public static final float PRISTINE_ROT_MULTIPLIER = 0.85F;
-    public static final float EXPERT_EATER_SAVE_CHANCE = 0.10F;
+    public static float gluttonTimeMultiplier() {
+        return GodNodeValues.number(WendarrNodes.GLUTTON, "time_multiplier");
+    }
+    public static float gluttonRotMultiplier() {
+        return GodNodeValues.number(WendarrNodes.GLUTTON, "rot_multiplier");
+    }
+    public static float pristineRotMultiplier() {
+        return GodNodeValues.number(WendarrNodes.PRISTINE_CONDITION, "rot_multiplier");
+    }
+    public static float expertEaterSaveChance() {
+        return GodNodeValues.number(WendarrNodes.EXPERT_EATER, "save_chance");
+    }
     public static final double DEFAULT_HEALTH_SCALING = HealthReductionHelper.DEFAULT_MULT_SCALING;
-    public static final double TOUGH_STOMACH_HEALTH_SCALING = 0.86;
+    public static double toughStomachHealthScaling() {
+        return GodNodeValues.precise(WendarrNodes.TOUGH_STOMACH, "health_scaling");
+    }
 
     private static final Set<UUID> SAVED_FRUIT = ConcurrentHashMap.newKeySet();
 
@@ -47,7 +58,7 @@ public final class WendarrFruit {
                 shaped = effectiveness <= 0.0F ? 0.0F : (float) Math.sqrt(effectiveness);
             }
             if (WendarrNodes.hasMinor(serverPlayer, WendarrNodes.GLUTTON)) {
-                shaped = GLUTTON_TIME_MULTIPLIER * (1.0F + shaped) - 1.0F;
+                shaped = gluttonTimeMultiplier() * (1.0F + shaped) - 1.0F;
             }
         }
         return shaped;
@@ -63,10 +74,10 @@ public final class WendarrFruit {
         }
         float adjusted = rotChance;
         if (WendarrNodes.hasMinor(player, WendarrNodes.PRISTINE_CONDITION)) {
-            adjusted *= PRISTINE_ROT_MULTIPLIER;
+            adjusted *= pristineRotMultiplier();
         }
         if (WendarrNodes.hasMinor(player, WendarrNodes.GLUTTON)) {
-            adjusted *= GLUTTON_ROT_MULTIPLIER;
+            adjusted *= gluttonRotMultiplier();
         }
         return adjusted;
     }
@@ -78,7 +89,7 @@ public final class WendarrFruit {
      */
     public static double healthScaling(ServerPlayer player) {
         if (player != null && WendarrNodes.hasMinor(player, WendarrNodes.TOUGH_STOMACH)) {
-            return TOUGH_STOMACH_HEALTH_SCALING;
+            return toughStomachHealthScaling();
         }
         return DEFAULT_HEALTH_SCALING;
     }
@@ -96,7 +107,7 @@ public final class WendarrFruit {
         if (!WendarrNodes.hasMinor(serverPlayer, WendarrNodes.EXPERT_EATER)) {
             return;
         }
-        if (serverPlayer.getRandom().nextFloat() < EXPERT_EATER_SAVE_CHANCE) {
+        if (serverPlayer.getRandom().nextFloat() < expertEaterSaveChance()) {
             SAVED_FRUIT.add(serverPlayer.getUUID());
         }
     }

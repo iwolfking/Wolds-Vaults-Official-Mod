@@ -10,6 +10,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.tenos.TreasureDoorPalettesAccessor;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Barter Expert (r102): vendoors this player opens have a 50% chance to use the rich pedestal
@@ -24,7 +25,9 @@ import java.util.List;
  * failure is logged once, and every vendoor keeps its stock behaviour.
  */
 public final class TenosVendoors {
-    public static final float RICH_PALETTE_CHANCE = 0.50F;
+    public static float richPaletteChance() {
+        return GodNodeValues.number(TenosNodes.BARTER_EXPERT, "rich_palette_chance");
+    }
     public static final ResourceLocation RICH_PALETTE = VaultMod.id("vendor_rooms/vendor_rooms_map");
 
     private static final Object OWNER = new Object();
@@ -41,7 +44,7 @@ public final class TenosVendoors {
             if (!TenosNodes.hasMinor(player, TenosNodes.BARTER_EXPERT)) {
                 return;
             }
-            if (player.getRandom().nextFloat() >= RICH_PALETTE_CHANCE) {
+            if (player.getRandom().nextFloat() >= richPaletteChance()) {
                 return;
             }
             BlockEntity tile = data.getLevel().getBlockEntity(data.getPos());

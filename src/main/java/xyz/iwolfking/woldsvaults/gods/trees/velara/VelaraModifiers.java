@@ -51,22 +51,22 @@ public final class VelaraModifiers {
         double healthFlat = 0.0D;
 
         if (VelaraNodeState.isActive(player, VelaraNode.THE_STONEWALL)) {
-            armorMultiplier *= VelaraValues.STONEWALL_ARMOR_MULTIPLIER;
+            armorMultiplier *= VelaraValues.stonewallArmorMultiplier();
         }
         if (VelaraNodeState.isActive(player, VelaraNode.CACTUS)) {
-            armorMultiplier *= VelaraValues.CACTUS_ARMOR_MULTIPLIER;
+            armorMultiplier *= VelaraValues.cactusArmorMultiplier();
         }
         if (VelaraNodeState.isActive(player, VelaraNode.IMMORTAL)) {
-            armorMultiplier *= VelaraValues.IMMORTAL_ARMOR_MULTIPLIER;
-            healthMultiplier *= VelaraValues.IMMORTAL_HEALTH_MULTIPLIER;
-            armorFlat += VelaraValues.IMMORTAL_FLAT_ARMOR;
-            healthFlat += VelaraValues.IMMORTAL_FLAT_HEALTH;
+            armorMultiplier *= VelaraValues.immortalArmorMultiplier();
+            healthMultiplier *= VelaraValues.immortalHealthMultiplier();
+            armorFlat += VelaraValues.immortalFlatArmor();
+            healthFlat += VelaraValues.immortalFlatHealth();
         }
         if (VelaraNodeState.isActive(player, VelaraNode.STEADFAST)) {
             armorMultiplier *= 1.0D + steadfastArmorBonus(player);
         }
         if (charmCount > 0 && VelaraNodeState.isActive(player, VelaraNode.DEFENDER_OF_THE_FAITH)) {
-            double defender = 1.0D + VelaraValues.DEFENDER_PER_CHARM * charmCount;
+            double defender = 1.0D + VelaraValues.defenderPerCharm() * charmCount;
             armorMultiplier *= defender;
             healthMultiplier *= defender;
         }
@@ -94,8 +94,8 @@ public final class VelaraModifiers {
         AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
         float knockbackResistance = snapshot.getAttributeValue(ModGearAttributes.KNOCKBACK_RESISTANCE,
                 VaultGearAttributeTypeMerger.floatSum());
-        float excess = knockbackResistance - VelaraValues.STEADFAST_KNOCKBACK_FLOOR;
-        return excess <= 0.0F ? 0.0D : excess * VelaraValues.STEADFAST_ARMOR_PER_EXCESS;
+        float excess = knockbackResistance - VelaraValues.steadfastKnockbackFloor();
+        return excess <= 0.0F ? 0.0D : excess * VelaraValues.steadfastArmorPerExcess();
     }
 
     private static int countPartyCharmGods(ServerPlayer player) {

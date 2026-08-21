@@ -30,6 +30,24 @@ base {
     archivesName = "wolds-vaults-official-mod"
 }
 
+// Location of the Wold's Vaults packwiz repo. God tree datagen writes its config there and the
+// drift gate reads it back. Override with -PwvPackDir=<path> or the WV_PACK_DIR environment
+// variable; otherwise the nearest ancestor holding a "Wolds-Vaults" checkout wins, which covers
+// both the main clone and a git worktree.
+ext.wvPackDir = {
+    def explicit = project.findProperty('wvPackDir') ?: System.getenv('WV_PACK_DIR')
+    if (explicit != null && !explicit.toString().isEmpty()) {
+        return new File(explicit.toString())
+    }
+    for (File dir = projectDir; dir != null; dir = dir.parentFile) {
+        File candidate = new File(dir, 'Wolds-Vaults')
+        if (new File(candidate, 'config/the_vault').isDirectory()) {
+            return candidate
+        }
+    }
+    return null
+}()
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
@@ -128,6 +146,9 @@ minecraft {
             workingDirectory project.file('run-data')
             environment 'WV_DATAGEN', 'true'
             jvmArgs '-Duser.language=en', '-Duser.country=US' // dots as decimal separators
+            if (wvPackDir != null) {
+                property 'woldsvaults.packDir', wvPackDir.absolutePath
+            }
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing-mod', 'the_vault', '--existing-mod', 'compressium', '--existing-mod', 'occultism'
         }
@@ -482,4 +503,50 @@ tasks.jarJar.finalizedBy(tasks.deleteSlimJar)
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+// runData cannot be run on demand in this checkout, so the god tree config is hand-synced against
+// ModGodTreesProvider. This replays the provider's builder calls and diffs them against the config
+// that ships, so drift fails the build instead of shipping a tree nobody generated.
+tasks.register('checkGodTreeSync') {
+    group = 'verification'
+    description = 'Fails if ModGodTreesProvider and the shipped god tree config have drifted apart.'
+    def script = file('gradle/scripts/check_provider_sync.py')
+    def provider = file('src/main/java/xyz/iwolfking/woldsvaults/datagen/ModGodTreesProvider.java')
+    def packDir = wvPackDir
+    inputs.file(script)
+    inputs.file(provider)
+    outputs.upToDateWhen { false }
+    doLast {
+        if (packDir == null) {
+            logger.error("checkGodTreeSync SKIPPED: no Wold's Vaults pack checkout found. Pass " +
+                    "-PwvPackDir=<pack repo root> or set WV_PACK_DIR to gate god tree drift.")
+            return
+        }
+        def python = ['python', 'python3', 'py'].find { candidate ->
+            try {
+                new ProcessBuilder(candidate, '--version').redirectErrorStream(true).start().waitFor() == 0
+            } catch (IOException ignored) {
+                false
+            }
+        }
+        if (python == null) {
+            logger.error('checkGodTreeSync SKIPPED: no python interpreter on PATH (tried python, ' +
+                    'python3, py). God tree drift is NOT being gated on this machine.')
+            return
+        }
+        def command = [python, script.absolutePath,
+                       '--provider', provider.absolutePath,
+                       '--config', new File(packDir, 'config/the_vault/gods').absolutePath]
+        def process = new ProcessBuilder(command).directory(projectDir).redirectErrorStream(true).start()
+        process.inputStream.eachLine { logger.lifecycle(it) }
+        if (process.waitFor() != 0) {
+            throw new GradleException('ModGodTreesProvider and the shipped god tree config disagree; ' +
+                    'rerun god tree datagen or fix the provider.')
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn 'checkGodTreeSync'
 }

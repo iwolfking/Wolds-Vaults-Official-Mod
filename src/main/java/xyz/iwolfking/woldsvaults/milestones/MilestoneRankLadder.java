@@ -1,13 +1,21 @@
 package xyz.iwolfking.woldsvaults.milestones;
 
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.config.GreedRanksConfig;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * The one definition of the greed rank ladder. Its shape - the reputation threshold of every rank,
+ * how many ranks a band holds, what each band is called and which band jumps carry a god alignment
+ * gate - is pack data in {@code config/the_vault/gods/greed_ranks.json}, installed here by
+ * {@code ModConfigs.register}. Nothing else in the addon re-derives any of it.
+ */
 public class MilestoneRankLadder {
     public static final int FIRST_RANK = 1;
     public static final int LEGEND_RANK = 16;
     public static final int LEGEND_PLUS_STEP = 250;
-
-    private static final int[] THRESHOLDS = {
-            0, 75, 100, 125, 150, 175, 200, 250, 300, 400, 500, 550, 600, 800, 900, 1000
-    };
 
     public static final int SCAVENGER_1 = 1;
     public static final int SCAVENGER_2 = 2;
@@ -26,21 +34,81 @@ public class MilestoneRankLadder {
     public static final int CHAMPION_3 = 15;
     public static final int LEGEND = 16;
 
-    /**
-     * God-alignment gate on a rank-up, indexed by the rank being climbed TO. Only the four band
-     * jumps that open a new band carry one; every other entry is zero. The gate is satisfied by
-     * reaching the level in any single god, not by a sum across gods.
-     */
-    private static final int[] GOD_LEVEL_GATES = new int[LEGEND_RANK + 1];
+    private static int[] thresholds;
+    private static int[] godLevelGates;
+    private static String[] bandNames;
+    private static int bandSize;
 
     static {
-        GOD_LEVEL_GATES[HUNTER_1] = 2;
-        GOD_LEVEL_GATES[MASTER_1] = 4;
-        GOD_LEVEL_GATES[CHAMPION_1] = 6;
-        GOD_LEVEL_GATES[LEGEND] = 8;
+        apply(GreedRanksConfig.defaults());
     }
 
     private MilestoneRankLadder() {
+    }
+
+    /**
+     * Installs a ladder read from config. A file that does not describe a ladder of exactly
+     * {@link #LEGEND_RANK} ranks, or that names too few bands to cover them, is refused with an
+     * error naming the problem and the shipped defaults are used instead: a half-applied ladder
+     * would silently move every rank gate, medallion name and trial requirement in the game.
+     */
+    public static void load(GreedRanksConfig config) {
+        if (isUsable(config)) {
+            apply(config);
+            return;
+        }
+        apply(GreedRanksConfig.defaults());
+    }
+
+    private static boolean isUsable(GreedRanksConfig config) {
+        List<Integer> configured = config.getThresholds();
+        if (configured == null || configured.size() != LEGEND_RANK) {
+            WoldsVaults.LOGGER.error("greed_ranks.json lists {} rank thresholds but the ladder is {} ranks long; using the shipped ladder instead",
+                    configured == null ? 0 : configured.size(), LEGEND_RANK);
+            return false;
+        }
+        if (config.getBandSize() <= 0) {
+            WoldsVaults.LOGGER.error("greed_ranks.json sets bandSize to {}, which cannot divide the ladder; using the shipped ladder instead",
+                    config.getBandSize());
+            return false;
+        }
+        List<String> names = config.getBandNames();
+        int required = (LEGEND_RANK - FIRST_RANK) / config.getBandSize() + 1;
+        if (names == null || names.size() < required) {
+            WoldsVaults.LOGGER.error("greed_ranks.json names {} bands but a {} rank ladder in bands of {} needs {}; using the shipped ladder instead",
+                    names == null ? 0 : names.size(), LEGEND_RANK, config.getBandSize(), required);
+            return false;
+        }
+        return true;
+    }
+
+    private static void apply(GreedRanksConfig config) {
+        List<Integer> configured = config.getThresholds();
+        thresholds = new int[configured.size()];
+        for (int index = 0; index < configured.size(); index++) {
+            thresholds[index] = configured.get(index);
+        }
+        bandSize = config.getBandSize();
+        bandNames = config.getBandNames().toArray(new String[0]);
+        godLevelGates = new int[LEGEND_RANK + 1];
+        Map<String, Integer> gates = config.getGodLevelGates();
+        if (gates == null) {
+            return;
+        }
+        for (Map.Entry<String, Integer> gate : gates.entrySet()) {
+            int rank;
+            try {
+                rank = Integer.parseInt(gate.getKey().trim());
+            } catch (NumberFormatException e) {
+                WoldsVaults.LOGGER.error("greed_ranks.json god level gate key '{}' is not a rank number; that gate is ignored", gate.getKey());
+                continue;
+            }
+            if (rank < FIRST_RANK || rank > LEGEND_RANK) {
+                WoldsVaults.LOGGER.error("greed_ranks.json god level gate is keyed to rank {}, which is outside the ladder; that gate is ignored", rank);
+                continue;
+            }
+            godLevelGates[rank] = gate.getValue() == null ? 0 : gate.getValue();
+        }
     }
 
     /**
@@ -52,9 +120,9 @@ public class MilestoneRankLadder {
             return 0;
         }
         if (rank <= LEGEND_RANK) {
-            return THRESHOLDS[rank - 1];
+            return thresholds[rank - 1];
         }
-        return THRESHOLDS[LEGEND_RANK - 1] + (rank - LEGEND_RANK) * LEGEND_PLUS_STEP;
+        return thresholds[LEGEND_RANK - 1] + (rank - LEGEND_RANK) * LEGEND_PLUS_STEP;
     }
 
     /**
@@ -68,13 +136,13 @@ public class MilestoneRankLadder {
     /**
      * God alignment level the player must hold with at least one god before the rank-up trial for
      * the given rank can be taken. Zero for every rank without a gate, including every rank past
-     * Legend — Legend+ is a reputation-only climb.
+     * Legend - Legend+ is a reputation-only climb.
      */
     public static int getGodLevelGate(int rank) {
         if (rank < FIRST_RANK || rank > LEGEND_RANK) {
             return 0;
         }
-        return GOD_LEVEL_GATES[rank];
+        return godLevelGates[rank];
     }
 
     /**
@@ -85,7 +153,32 @@ public class MilestoneRankLadder {
         if (rank <= FIRST_RANK || rank > LEGEND_RANK) {
             return false;
         }
-        return (rank - 1) % 3 == 0;
+        return (rank - FIRST_RANK) % bandSize == 0;
+    }
+
+    /**
+     * Band a rank sits in: {@code scavenger} through {@code champion}, then {@code legend}, and
+     * empty for a rank off the ladder. Medallion registry paths, medallion display names, band
+     * colours and the rank badges on the reputation bar all read this instead of keeping a copy.
+     */
+    public static String getBandName(int rank) {
+        if (rank < FIRST_RANK || rank > LEGEND_RANK) {
+            return "";
+        }
+        int band = (rank - FIRST_RANK) / bandSize;
+        return band < bandNames.length ? bandNames[band] : bandNames[bandNames.length - 1];
+    }
+
+    /**
+     * Position of a rank inside its band, 1-based. Legend returns 0 because it is a band of one
+     * and is named without a step - {@code legend}, not {@code legend_1}.
+     */
+    public static int getTierInBand(int rank) {
+        if (rank < FIRST_RANK || rank > LEGEND_RANK) {
+            return 0;
+        }
+        int position = (rank - FIRST_RANK) % bandSize;
+        return position == 0 && rank == LEGEND_RANK ? 0 : position + 1;
     }
 
     /**

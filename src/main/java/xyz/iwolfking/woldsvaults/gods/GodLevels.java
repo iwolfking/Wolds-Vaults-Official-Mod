@@ -1,58 +1,63 @@
 package xyz.iwolfking.woldsvaults.gods;
 
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * The god alignment progression curve: cumulative XP thresholds, god point grants and
  * minor-transfer-slot capacity. Pure arithmetic, no state; safe on both logical sides.
+ *
+ * <p>Every number comes from {@code config/the_vault/gods/god_levels.json} and is read per call
+ * rather than held in a constant, because this class is reachable from code that loads before
+ * the config pass runs.
  */
 public final class GodLevels {
-    public static final int MAX_DEFINED_LEVEL = 10;
-    public static final long XP_PER_LEVEL_PAST_MAX = 150000L;
-    public static final int ULTIMATE_UNLOCK_LEVEL = 5;
-
-    private static final long[] CUMULATIVE_XP = {
-            20000L, 60000L, 120000L, 200000L, 300000L, 400000L, 500000L, 650000L, 800000L, 1000000L
-    };
-
-    private static final int POINTS_AT_LEVEL_ONE = 3;
-    private static final int POINTS_PER_LEVEL_TO_MAX = 3;
-    private static final int POINTS_PER_LEVEL_PAST_MAX = 2;
-
-    private static final int[] MTS_UNLOCK_LEVELS = {2, 4, 7};
+    private static final GodLevelsConfig FALLBACK = GodLevelsConfig.defaults();
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
 
     private GodLevels() {
     }
 
     /**
      * Total accumulated XP required to be at {@code level}. Level 0 costs nothing; levels past
-     * {@link #MAX_DEFINED_LEVEL} each cost a further {@link #XP_PER_LEVEL_PAST_MAX}.
+     * the last defined level each cost a further {@code xpPerLevelPastMax}.
      */
     public static long xpForLevel(int level) {
         if (level <= 0) {
             return 0L;
         }
-        if (level <= MAX_DEFINED_LEVEL) {
-            return CUMULATIVE_XP[level - 1];
+        GodLevelsConfig config = config();
+        long[] cumulative = config.getCumulativeXp();
+        int max = config.getMaxDefinedLevel();
+        if (level <= max) {
+            return cumulative[level - 1];
         }
-        return CUMULATIVE_XP[MAX_DEFINED_LEVEL - 1] + (long) (level - MAX_DEFINED_LEVEL) * XP_PER_LEVEL_PAST_MAX;
+        return cumulative[max - 1] + (long) (level - max) * config.getXpPerLevelPastMax();
     }
 
     /**
      * The highest level reachable with {@code xp} accumulated. Unbounded above by design — the
-     * curve is linear past {@link #MAX_DEFINED_LEVEL}.
+     * curve is linear past the last defined level.
      */
     public static int levelForXp(long xp) {
-        if (xp < CUMULATIVE_XP[0]) {
+        GodLevelsConfig config = config();
+        long[] cumulative = config.getCumulativeXp();
+        int max = config.getMaxDefinedLevel();
+        if (xp < cumulative[0]) {
             return 0;
         }
         int level = 0;
-        while (level < MAX_DEFINED_LEVEL && xp >= CUMULATIVE_XP[level]) {
+        while (level < max && xp >= cumulative[level]) {
             level++;
         }
-        if (level < MAX_DEFINED_LEVEL) {
+        if (level < max) {
             return level;
         }
-        long past = xp - CUMULATIVE_XP[MAX_DEFINED_LEVEL - 1];
-        return MAX_DEFINED_LEVEL + (int) (past / XP_PER_LEVEL_PAST_MAX);
+        long past = xp - cumulative[max - 1];
+        return max + (int) (past / config.getXpPerLevelPastMax());
     }
 
     /**
@@ -63,10 +68,12 @@ public final class GodLevels {
         if (level <= 0) {
             return 0;
         }
-        int points = POINTS_AT_LEVEL_ONE;
-        points += POINTS_PER_LEVEL_TO_MAX * Math.min(level - 1, MAX_DEFINED_LEVEL - 1);
-        if (level > MAX_DEFINED_LEVEL) {
-            points += POINTS_PER_LEVEL_PAST_MAX * (level - MAX_DEFINED_LEVEL);
+        GodLevelsConfig config = config();
+        int max = config.getMaxDefinedLevel();
+        int points = config.getPointsAtLevelOne();
+        points += config.getPointsPerLevelToMax() * Math.min(level - 1, max - 1);
+        if (level > max) {
+            points += config.getPointsPerLevelPastMax() * (level - max);
         }
         return points;
     }
@@ -77,7 +84,7 @@ public final class GodLevels {
      */
     public static int minorTransferSlots(int level) {
         int slots = 0;
-        for (int unlock : MTS_UNLOCK_LEVELS) {
+        for (int unlock : config().getMinorTransferSlotLevels()) {
             if (level >= unlock) {
                 slots++;
             }
@@ -86,7 +93,7 @@ public final class GodLevels {
     }
 
     public static boolean hasUltimate(int level) {
-        return level >= ULTIMATE_UNLOCK_LEVEL;
+        return level >= config().getUltimateUnlockLevel();
     }
 
     /**
@@ -100,5 +107,17 @@ public final class GodLevels {
             return xpLevel;
         }
         return Math.min(xpLevel, Math.max(sacrificesCompleted, 0));
+    }
+
+    private static GodLevelsConfig config() {
+        GodLevelsConfig config = ModConfigs.GOD_LEVELS;
+        if (config != null) {
+            return config;
+        }
+        if (WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("God level curve was read before config/the_vault/gods/god_levels.json "
+                    + "was loaded; falling back to the shipped curve");
+        }
+        return FALLBACK;
     }
 }

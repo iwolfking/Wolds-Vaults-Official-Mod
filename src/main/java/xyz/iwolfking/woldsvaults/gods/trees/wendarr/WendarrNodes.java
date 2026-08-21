@@ -6,6 +6,7 @@ import iskallia.vault.init.ModGearAttributes;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,8 +16,9 @@ import java.util.Set;
  * Node identity for the Wendarr (The Timekeeper) god tree, sheet rows r63-r88.
  *
  * <p>Ids are the single source of truth shared by the attribute provider, every functional
- * handler and the minor-transfer resolver. Plain stat rows carry their attribute and per-point
- * value here; everything else is behaviour and lives in a dedicated handler.
+ * handler and the minor-transfer resolver. Plain stat rows carry their attribute here and read
+ * their per-point value from {@code god_node_effects_wendarr.json}; everything else is behaviour
+ * and lives in a dedicated handler.
  */
 public final class WendarrNodes {
     public static final VaultGod GOD = VaultGod.WENDARR;
@@ -54,7 +56,7 @@ public final class WendarrNodes {
 
     /** Stat-shaped minor rows: full value on the active tree and through minor transfer only. */
     public static final Map<String, StatEntry> MINOR_STATS = Map.of(
-            FRUITY, new StatEntry(ModGearAttributes.FRUIT_EFFECTIVENESS, 0.25F));
+            FRUITY, new StatEntry(FRUITY, ModGearAttributes.FRUIT_EFFECTIVENESS));
 
     /** Every minor node of this tree, i.e. everything transferable into a minor-transfer slot. */
     public static final Set<String> MINORS = Set.of(
@@ -73,10 +75,10 @@ public final class WendarrNodes {
 
     private static Map<String, StatEntry> basicStats() {
         Map<String, StatEntry> stats = new LinkedHashMap<>();
-        stats.put(FRUIT_CONISSOUR, new StatEntry(ModGearAttributes.FRUIT_EFFECTIVENESS, 0.01F));
-        stats.put(SPEEDY, new StatEntry(ModGearAttributes.MOVEMENT_SPEED, 0.05F));
-        stats.put(HEAVILY_EFFECTED, new StatEntry(ModGearAttributes.EFFECT_DURATION, 0.10F));
-        stats.put(SPEEDY_CASTER, new StatEntry(ModGearAttributes.COOLDOWN_REDUCTION, 0.05F));
+        stats.put(FRUIT_CONISSOUR, new StatEntry(FRUIT_CONISSOUR, ModGearAttributes.FRUIT_EFFECTIVENESS));
+        stats.put(SPEEDY, new StatEntry(SPEEDY, ModGearAttributes.MOVEMENT_SPEED));
+        stats.put(HEAVILY_EFFECTED, new StatEntry(HEAVILY_EFFECTED, ModGearAttributes.EFFECT_DURATION));
+        stats.put(SPEEDY_CASTER, new StatEntry(SPEEDY_CASTER, ModGearAttributes.COOLDOWN_REDUCTION));
         return Map.copyOf(stats);
     }
 
@@ -105,7 +107,10 @@ public final class WendarrNodes {
         return GodAlignmentData.get(player.getServer()).getPointsIn(player.getUUID(), GOD, nodeId);
     }
 
-    /** A stat row: one gear attribute and the value one spent point contributes. */
-    public record StatEntry(VaultGearAttribute<Float> attribute, float perPoint) {
+    /** A stat row: one gear attribute and the configured value one spent point contributes. */
+    public record StatEntry(String nodeId, VaultGearAttribute<Float> attribute) {
+        public float perPoint() {
+            return GodNodeValues.value(this.nodeId);
+        }
     }
 }

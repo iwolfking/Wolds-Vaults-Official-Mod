@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Gardener (r83): Woldian Gardens ({@code woldsvaults:iskallian_leaves}) drop 50% more fruit and
@@ -23,8 +24,12 @@ import java.util.List;
  * code, with no new loot-table JSON for the pack to carry.
  */
 public final class WendarrGardener {
-    public static final float EXTRA_FRUIT_CHANCE = 0.50F;
-    public static final float STARFRUIT_UPGRADE_CHANCE = 0.05F;
+    public static float extraFruitChance() {
+        return GodNodeValues.number(WendarrNodes.GARDENER, "extra_fruit_chance");
+    }
+    public static float starfruitUpgradeChance() {
+        return GodNodeValues.number(WendarrNodes.GARDENER, "starfruit_upgrade_chance");
+    }
 
     private static final Object OWNER = new Object();
 
@@ -54,13 +59,13 @@ public final class WendarrGardener {
             if (!(stack.getItem() instanceof ItemVaultFruit)) {
                 continue;
             }
-            if (starFruit != null && stack.getItem() != starFruit && player.getRandom().nextFloat() < STARFRUIT_UPGRADE_CHANCE) {
+            if (starFruit != null && stack.getItem() != starFruit && player.getRandom().nextFloat() < starfruitUpgradeChance()) {
                 ItemStack upgraded = new ItemStack(starFruit, stack.getCount());
                 stack.setCount(0);
                 extra.add(upgraded);
                 continue;
             }
-            if (player.getRandom().nextFloat() < EXTRA_FRUIT_CHANCE) {
+            if (player.getRandom().nextFloat() < extraFruitChance()) {
                 extra.add(stack.copy());
             }
         }

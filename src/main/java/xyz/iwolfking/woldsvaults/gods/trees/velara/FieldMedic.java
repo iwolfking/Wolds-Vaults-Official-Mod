@@ -48,6 +48,6 @@ public final class FieldMedic {
         if (!VelaraParty.isAlly(medic, event.getEntityLiving().getUUID())) {
             return;
         }
-        event.setAmount(event.getAmount() * VelaraValues.FIELD_MEDIC_MULTIPLIER);
+        event.setAmount(event.getAmount() * VelaraValues.fieldMedicMultiplier());
     }
 }

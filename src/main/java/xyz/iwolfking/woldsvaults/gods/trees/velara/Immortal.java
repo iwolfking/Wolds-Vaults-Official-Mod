@@ -63,7 +63,7 @@ public final class Immortal {
         }
         long now = server.getTickCount();
         Long last = LAST_REVIVE.get(player.getUUID());
-        if (last != null && now - last < VelaraValues.IMMORTAL_REVIVE_COOLDOWN_TICKS) {
+        if (last != null && now - last < VelaraValues.immortalReviveCooldownTicks()) {
             return;
         }
         LAST_REVIVE.put(player.getUUID(), now);
@@ -84,8 +84,8 @@ public final class Immortal {
 
     static void updateGlobalFactor(ServerPlayer player) {
         if (VelaraNodeState.isActive(player, VelaraNode.IMMORTAL)) {
-            if (GlobalDamageMultiplierRegistry.getFactor(player, DAMAGE_FACTOR_KEY) != VelaraValues.IMMORTAL_DAMAGE_MULTIPLIER) {
-                GlobalDamageMultiplierRegistry.register(player, DAMAGE_FACTOR_KEY, VelaraValues.IMMORTAL_DAMAGE_MULTIPLIER);
+            if (GlobalDamageMultiplierRegistry.getFactor(player, DAMAGE_FACTOR_KEY) != VelaraValues.immortalDamageMultiplier()) {
+                GlobalDamageMultiplierRegistry.register(player, DAMAGE_FACTOR_KEY, VelaraValues.immortalDamageMultiplier());
             }
         } else {
             GlobalDamageMultiplierRegistry.remove(player, DAMAGE_FACTOR_KEY);

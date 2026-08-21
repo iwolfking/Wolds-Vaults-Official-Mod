@@ -25,7 +25,7 @@ public final class TenosAbilityCaps {
      * miner specialisation has tiers past 30 to reach.
      */
     private static final Map<String, Gate> GATES = Map.of(
-            "Vein_Miner_Chain", new Gate(TenosNodes.GLOBAL_VEINS, 30, TenosAttributeProvider.GLOBAL_VEINS_LEVELS));
+            "Vein_Miner_Chain", new Gate(TenosNodes.GLOBAL_VEINS, 30, TenosAttributeProvider.globalVeinsLevels()));
 
     private TenosAbilityCaps() {
     }

@@ -13,6 +13,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Drillmaster (r111): raises the Fortune cap from 5 to 7 for this player.
@@ -23,7 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class TenosDrillmaster {
-    public static final int RAISED_FORTUNE_CAP = 7;
+    public static int raisedFortuneCap() {
+        return GodNodeValues.count(TenosNodes.DRILLMASTER, "raised_fortune_cap");
+    }
 
     private static final int SAMPLE_INTERVAL_TICKS = 20;
 

@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Pylon Whisperer (r82): pylons the player activates give 50% greater effects.
@@ -23,7 +24,9 @@ import java.util.List;
  * node promises stronger pylons, not longer ones.
  */
 public final class WendarrPylons {
-    public static final float PYLON_BOOST = 1.5F;
+    public static float pylonBoost() {
+        return GodNodeValues.number(WendarrNodes.PYLON_WHISPERER, "boost");
+    }
 
     private static final List<String> MAGNITUDE_KEYS = List.of(
             "ticks", "addend", "capAddend", "amount", "amplifier", "charges", "missingManaPercent");
@@ -71,11 +74,11 @@ public final class WendarrPylons {
 
     private static Tag scale(Tag original, NumericTag numeric) {
         if (original instanceof IntTag) {
-            return IntTag.valueOf(Math.round(numeric.getAsInt() * PYLON_BOOST));
+            return IntTag.valueOf(Math.round(numeric.getAsInt() * pylonBoost()));
         }
         if (original instanceof FloatTag) {
-            return FloatTag.valueOf(numeric.getAsFloat() * PYLON_BOOST);
+            return FloatTag.valueOf(numeric.getAsFloat() * pylonBoost());
         }
-        return DoubleTag.valueOf(numeric.getAsDouble() * PYLON_BOOST);
+        return DoubleTag.valueOf(numeric.getAsDouble() * pylonBoost());
     }
 }

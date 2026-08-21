@@ -66,7 +66,7 @@ public final class VelaraDamage {
         if (player == null || !VelaraNodeState.isActive(player, VelaraNode.FLEETING_PHYSICALITY)) {
             return amount;
         }
-        return FleetingPhysicality.isVulnerable(player) ? amount * VelaraValues.FLEETING_DAMAGE_MULTIPLIER : amount;
+        return FleetingPhysicality.isVulnerable(player) ? amount * VelaraValues.fleetingDamageMultiplier() : amount;
     }
 
     /**
@@ -88,7 +88,7 @@ public final class VelaraDamage {
         if (!source.isMagic() || !source.isBypassArmor() || source.isBypassInvul()) {
             return amount;
         }
-        float armor = player.getArmorValue() * VelaraValues.MAGIC_ARMOR_EFFICIENCY;
+        float armor = player.getArmorValue() * VelaraValues.magicArmorEfficiency();
         if (armor <= 0.0F) {
             return amount;
         }
@@ -114,8 +114,8 @@ public final class VelaraDamage {
         if (shepherd == null) {
             return amount;
         }
-        float syphoned = amount * VelaraValues.SACRIFICE_SYPHON;
-        float delivered = syphoned * (1.0F - VelaraValues.SACRIFICE_RESISTANCE);
+        float syphoned = amount * VelaraValues.sacrificeSyphon();
+        float delivered = syphoned * (1.0F - VelaraValues.sacrificeResistance());
         deliver(shepherd, event.getSource(), delivered);
         return amount - syphoned;
     }

@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Cash Hunter (r117): item quantity applies to coin piles at 25% efficiency.
@@ -22,7 +23,9 @@ import java.util.List;
  * holders. That is a design decision, so only the quantity half ships.
  */
 public final class TenosCoinPiles {
-    public static final float EFFICIENCY = 0.25F;
+    public static float efficiency() {
+        return GodNodeValues.number(TenosNodes.CASH_HUNTER, "efficiency");
+    }
 
     private static final Object OWNER = new Object();
 
@@ -35,7 +38,7 @@ public final class TenosCoinPiles {
             if (player == null || !TenosNodes.hasMinor(player, TenosNodes.CASH_HUNTER)) {
                 return;
             }
-            float bonus = ItemQuantityHelper.getItemQuantity(player) * EFFICIENCY;
+            float bonus = ItemQuantityHelper.getItemQuantity(player) * efficiency();
             if (bonus <= 0.0F) {
                 return;
             }

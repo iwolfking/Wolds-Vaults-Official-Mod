@@ -121,9 +121,15 @@ public class GodNodeEffectsConfig extends Config {
         }
     }
 
+    /**
+     * Restores the shipped effect table of this config's god. {@code Config#readConfig} treats a
+     * missing or unreadable file as a request to regenerate from defaults, so this is what a
+     * fresh install runs on: it has to reproduce the values the trees ship with, not an empty
+     * table, or the whole tree would come up at zero.
+     */
     @Override
     protected void reset() {
-        this.effects = new EffectMap();
+        this.effects = GodNodeEffectDefaults.effects(this.god);
     }
 
     public Map<String, Entry> getEffects() {

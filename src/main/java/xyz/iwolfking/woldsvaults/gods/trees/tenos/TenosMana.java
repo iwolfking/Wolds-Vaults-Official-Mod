@@ -13,6 +13,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Mana Starved (r100) and Deep Reserves (r101).
@@ -25,9 +26,15 @@ import java.util.UUID;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class TenosMana {
-    public static final float DEEP_RESERVES_MULTIPLIER = 0.5F;
-    public static final float MANA_STARVED_MAX_BONUS = 1.0F;
-    public static final float MANA_STARVED_THRESHOLD = 0.5F;
+    public static float deepReservesMultiplier() {
+        return GodNodeValues.number(TenosNodes.DEEP_RESERVES, "multiplier");
+    }
+    public static float manaStarvedMaxBonus() {
+        return GodNodeValues.number(TenosNodes.MANA_STARVED, "max_bonus");
+    }
+    public static float manaStarvedThreshold() {
+        return GodNodeValues.number(TenosNodes.MANA_STARVED, "threshold");
+    }
 
     private static final UUID DEEP_RESERVES_UUID = UUID.fromString("1f2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d");
     private static final int RECONCILE_INTERVAL_TICKS = 20;
@@ -51,11 +58,11 @@ public final class TenosMana {
             return 1.0F;
         }
         float fraction = Mana.get(player) / max;
-        if (fraction >= MANA_STARVED_THRESHOLD) {
+        if (fraction >= manaStarvedThreshold()) {
             return 1.0F;
         }
-        float depth = (MANA_STARVED_THRESHOLD - fraction) / MANA_STARVED_THRESHOLD;
-        return 1.0F + MANA_STARVED_MAX_BONUS * depth;
+        float depth = (manaStarvedThreshold() - fraction) / manaStarvedThreshold();
+        return 1.0F + manaStarvedMaxBonus() * depth;
     }
 
     @SubscribeEvent
@@ -80,7 +87,7 @@ public final class TenosMana {
             }
             if (wanted) {
                 manaMax.addTransientModifier(new AttributeModifier(DEEP_RESERVES_UUID, "TenosDeepReserves",
-                        DEEP_RESERVES_MULTIPLIER, AttributeModifier.Operation.MULTIPLY_BASE));
+                        deepReservesMultiplier(), AttributeModifier.Operation.MULTIPLY_BASE));
             } else {
                 manaMax.removeModifier(DEEP_RESERVES_UUID);
             }

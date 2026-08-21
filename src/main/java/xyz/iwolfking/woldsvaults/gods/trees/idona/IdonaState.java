@@ -47,7 +47,7 @@ public final class IdonaState {
 
     /** Marks a mob as having survived a glacial prison; the mark expires on its own. */
     public static void markPrisonSurvivor(int targetId, long gameTime) {
-        PRISON_MARKS.put(targetId, gameTime + IdonaNodes.PRISON_WARDEN_DURATION_TICKS);
+        PRISON_MARKS.put(targetId, gameTime + IdonaNodes.prisonWardenDurationTicks());
     }
 
     public static boolean isPrisonSurvivor(int targetId, long gameTime) {
@@ -68,7 +68,7 @@ public final class IdonaState {
             POWER_DUMP_EXPIRY.remove(player.getUUID());
         } else {
             POWER_DUMP_EXTRA.put(player.getUUID(), extraMana);
-            POWER_DUMP_EXPIRY.put(player.getUUID(), player.getLevel().getGameTime() + IdonaNodes.POWER_DUMP_SURPLUS_TTL_TICKS);
+            POWER_DUMP_EXPIRY.put(player.getUUID(), player.getLevel().getGameTime() + IdonaNodes.powerDumpSurplusTtlTicks());
         }
     }
 
@@ -98,7 +98,7 @@ public final class IdonaState {
      */
     public static void markContinuousManaPayment(ServerPlayer player) {
         CONTINUOUS_MANA_UNTIL.put(player.getUUID(),
-                player.getLevel().getGameTime() + IdonaNodes.POWER_DUMP_CONTINUOUS_GRACE_TICKS);
+                player.getLevel().getGameTime() + IdonaNodes.powerDumpContinuousGraceTicks());
     }
 
     /** Set for the duration of a cleave sweep so the hit handler can tell cleave from other AoE. */

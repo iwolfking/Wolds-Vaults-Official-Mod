@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * The Wendarr nodes that act on the vault itself: Extender (r76), Speed Demon (r87) and
@@ -33,10 +34,18 @@ import java.util.concurrent.ConcurrentHashMap;
  * second cadence rather than only on join.
  */
 public final class WendarrClockNodes {
-    public static final int EXTENDER_TICKS = 4800;
-    public static final float SPEED_DEMON_RATE = 0.75F;
-    public static final float QUICK_SEARCH_RATE = 0.70F;
-    public static final float SPEED_DEMON_STAT_MULTIPLIER = 1.1F;
+    public static int extenderTicks() {
+        return GodNodeValues.count(WendarrNodes.EXTENDER, "ticks");
+    }
+    public static float speedDemonRate() {
+        return GodNodeValues.number(WendarrNodes.SPEED_DEMON, "rate");
+    }
+    public static float quickSearchRate() {
+        return GodNodeValues.number(WendarrNodes.QUICK_SEARCH, "rate");
+    }
+    public static float speedDemonStatMultiplier() {
+        return GodNodeValues.number(WendarrNodes.SPEED_DEMON, "stat_multiplier");
+    }
     public static final ResourceLocation OMEGA_FORTUNE_SMALL = WoldsVaults.id("omega_fortune_small");
 
     private static final ResourceLocation SPEED_DEMON_RATE_KEY = WoldsVaults.id("wendarr_speed_demon");
@@ -91,7 +100,7 @@ public final class WendarrClockNodes {
         if (clock == null) {
             return;
         }
-        clock.addModifier(new GreedExtension(player, EXTENDER_TICKS));
+        clock.addModifier(new GreedExtension(player, extenderTicks()));
     }
 
     private static String extenderKey(Vault vault, ServerPlayer player) {
@@ -109,8 +118,8 @@ public final class WendarrClockNodes {
             speedDemon |= WendarrNodes.hasMinor(player, WendarrNodes.SPEED_DEMON);
             quickSearch |= WendarrNodes.hasMinor(player, WendarrNodes.QUICK_SEARCH);
         }
-        applyRate(vault, SPEED_DEMON_RATE_KEY, SPEED_DEMON_RATE, speedDemon);
-        applyRate(vault, QUICK_SEARCH_RATE_KEY, QUICK_SEARCH_RATE, quickSearch);
+        applyRate(vault, SPEED_DEMON_RATE_KEY, speedDemonRate(), speedDemon);
+        applyRate(vault, QUICK_SEARCH_RATE_KEY, quickSearchRate(), quickSearch);
         if (quickSearch) {
             attachOmegaFortune(vault);
         }
@@ -142,7 +151,7 @@ public final class WendarrClockNodes {
         for (ServerPlayer player : runners) {
             boolean changed = active ? SPEED_DEMON_PLAYERS.add(player.getUUID()) : SPEED_DEMON_PLAYERS.remove(player.getUUID());
             if (active) {
-                GlobalDamageMultiplierRegistry.register(player, SPEED_DEMON_DAMAGE_KEY, SPEED_DEMON_STAT_MULTIPLIER);
+                GlobalDamageMultiplierRegistry.register(player, SPEED_DEMON_DAMAGE_KEY, speedDemonStatMultiplier());
             } else if (changed) {
                 GlobalDamageMultiplierRegistry.remove(player, SPEED_DEMON_DAMAGE_KEY);
             }
@@ -161,7 +170,7 @@ public final class WendarrClockNodes {
         armor.removeModifier(SPEED_DEMON_ARMOR_UUID);
         if (active) {
             armor.addTransientModifier(new AttributeModifier(SPEED_DEMON_ARMOR_UUID, "WendarrSpeedDemonArmor",
-                    SPEED_DEMON_STAT_MULTIPLIER - 1.0F, AttributeModifier.Operation.MULTIPLY_BASE));
+                    speedDemonStatMultiplier() - 1.0F, AttributeModifier.Operation.MULTIPLY_BASE));
         }
     }
 
@@ -170,7 +179,7 @@ public final class WendarrClockNodes {
                 PlayerStat.TRAP_DISARM_CHANCE, PlayerStat.ABILITY_POWER_MULTIPLIER)) {
             CommonEvents.PLAYER_STAT.of(stat).register(OWNER, data -> {
                 if (data.getEntity() instanceof ServerPlayer player && SPEED_DEMON_PLAYERS.contains(player.getUUID())) {
-                    data.setValue(data.getValue() * SPEED_DEMON_STAT_MULTIPLIER);
+                    data.setValue(data.getValue() * speedDemonStatMultiplier());
                 }
             });
         }

@@ -16,7 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
  * <p>There is no event for mana cost -  {@code ABILITY_CAST} carries no cost field and fires after
  * the spend -  so the cost override is a mixin on {@code ManaCostHelper.adjustManaCost}, and the
  * surplus is carried in per-player state. The surplus stays alive for a bounded window
- * ({@code POWER_DUMP_SURPLUS_TTL_TICKS}) because instant abilities like Fireball and totems read
+ * ({@code surplus_ttl_ticks}) because instant abilities like Fireball and totems read
  * their ability power at impact or pulse time, not at cast time.
  */
 public final class IdonaPowerDump {

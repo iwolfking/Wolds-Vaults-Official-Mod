@@ -4,20 +4,31 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
- * Builder for one god's constellation tree definition, serialized to
- * {@code data/woldsvaults/god_trees/<god>.json} and parsed at runtime by
- * {@code GodTreeDefinition}. Edges are undirected; every node costs one god point. Ids must be
- * unique and every edge endpoint must be a declared node - {@link #build()} throws otherwise so
- * a broken layout fails the datagen run instead of shipping.
+ * Builder for one god's constellation, emitted as the pack config pair
+ * {@code config/the_vault/gods/god_tree_<god>.json} and
+ * {@code config/the_vault/gods/god_tree_<god>_gui_styles.json}. What a node is and how the
+ * lattice connects goes in the first; where a node is drawn goes in the second, which is the
+ * same split {@code greed_nodes.json} and {@code greed_gui_styles.json} already use.
+ *
+ * <p>Edges are undirected id pairs; every node costs one god point. Ids must be unique and every
+ * edge endpoint must be a declared node - {@link #buildTree()} throws otherwise so a broken
+ * layout fails the datagen run instead of shipping.
  */
 public final class GodTreeBuilder {
+    private static final String FRAME_STAT = "CIRCLE";
+    private static final String FRAME_NOTABLE = "SQUARE";
+    private static final int DEFAULT_COST = 1;
+
     private final String god;
     private final JsonArray nodes = new JsonArray();
     private final JsonArray edges = new JsonArray();
     private final JsonArray labels = new JsonArray();
+    private final Map<String, JsonObject> styles = new LinkedHashMap<>();
     private final Set<String> ids = new HashSet<>();
     private final Set<String> edgeKeys = new HashSet<>();
 
@@ -64,9 +75,9 @@ public final class GodTreeBuilder {
         if (!this.edgeKeys.add(key)) {
             throw new IllegalStateException("Duplicate god tree edge " + from + " <-> " + to);
         }
-        JsonObject edge = new JsonObject();
-        edge.addProperty("from", from);
-        edge.addProperty("to", to);
+        JsonArray edge = new JsonArray();
+        edge.add(from);
+        edge.add(to);
         this.edges.add(edge);
         return this;
     }
@@ -91,32 +102,45 @@ public final class GodTreeBuilder {
         if (effect != null) {
             node.addProperty("effect", effect);
         }
-        if (icon != null) {
-            node.addProperty("icon", icon);
-        }
-        node.addProperty("x", x);
-        node.addProperty("y", y);
-        if (!enabled) {
-            node.addProperty("enabled", false);
-        }
+        node.addProperty("cost", DEFAULT_COST);
+        node.addProperty("enabled", enabled);
         this.nodes.add(node);
+
+        JsonObject style = new JsonObject();
+        style.addProperty("x", x);
+        style.addProperty("y", y);
+        style.addProperty("frameType", "stat".equals(type) ? FRAME_STAT : FRAME_NOTABLE);
+        if (icon != null) {
+            style.addProperty("icon", icon);
+        }
+        this.styles.put(id, style);
         return this;
     }
 
-    public JsonObject build() {
+    /** The topology half, {@code god_tree_<god>.json}, read by {@code GodTreeConfig}. */
+    public JsonObject buildTree() {
         for (var element : this.edges) {
-            JsonObject edge = element.getAsJsonObject();
-            String from = edge.get("from").getAsString();
-            String to = edge.get("to").getAsString();
+            JsonArray edge = element.getAsJsonArray();
+            String from = edge.get(0).getAsString();
+            String to = edge.get(1).getAsString();
             if (!this.ids.contains(from) || !this.ids.contains(to)) {
-                throw new IllegalStateException("God tree edge references undeclared node: " + from + " <-> " + to);
+                throw new IllegalStateException("God tree edge references undeclared node: " + from + " <-> " + to
+                        + " in " + this.god + "'s tree");
             }
         }
         JsonObject root = new JsonObject();
-        root.addProperty("god", this.god);
         root.add("nodes", this.nodes);
         root.add("edges", this.edges);
         root.add("labels", this.labels);
+        return root;
+    }
+
+    /** The layout half, {@code god_tree_<god>_gui_styles.json}, read by {@code GodTreeGuiStylesConfig}. */
+    public JsonObject buildStyles() {
+        JsonObject entries = new JsonObject();
+        this.styles.forEach(entries::add);
+        JsonObject root = new JsonObject();
+        root.add("styles", entries);
         return root;
     }
 }

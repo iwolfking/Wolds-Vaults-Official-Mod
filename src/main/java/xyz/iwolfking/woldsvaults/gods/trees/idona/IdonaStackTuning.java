@@ -25,7 +25,7 @@ public final class IdonaStackTuning {
         if (points <= 0) {
             return resolvedMax;
         }
-        double scaled = resolvedMax * Math.pow(IdonaNodes.SUPER_STACKER_MULTIPLIER, points);
+        double scaled = resolvedMax * Math.pow(IdonaNodes.superStackerMultiplier(), points);
         return (int) Math.min(Integer.MAX_VALUE, Math.floor(scaled));
     }
 
@@ -38,7 +38,7 @@ public final class IdonaStackTuning {
         if (points <= 0) {
             return ticks;
         }
-        double scaled = ticks * Math.pow(IdonaNodes.STACK_HOARDER_MULTIPLIER, points);
+        double scaled = ticks * Math.pow(IdonaNodes.stackHoarderMultiplier(), points);
         return (int) Math.min(Integer.MAX_VALUE, Math.floor(scaled));
     }
 }

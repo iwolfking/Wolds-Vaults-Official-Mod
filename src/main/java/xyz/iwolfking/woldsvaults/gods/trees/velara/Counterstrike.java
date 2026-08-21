@@ -50,7 +50,7 @@ public final class Counterstrike {
         if (!(attacker instanceof LivingEntity target) || target == player || !target.isAlive()) {
             return;
         }
-        if (player.getRandom().nextFloat() > VelaraValues.COUNTERSTRIKE_CHANCE) {
+        if (player.getRandom().nextFloat() > VelaraValues.counterstrikeChance()) {
             return;
         }
         float damage = (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);

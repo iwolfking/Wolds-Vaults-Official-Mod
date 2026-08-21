@@ -68,13 +68,13 @@ public final class VelaraTicker {
 
     private static void collectAuras(ServerPlayer player, Map<UUID, Integer> presence, Set<UUID> sanitized) {
         if (VelaraNodeState.isActive(player, VelaraNode.PRESENCE)) {
-            for (ServerPlayer ally : VelaraParty.alliesNear(player, VelaraValues.PRESENCE_RADIUS)) {
+            for (ServerPlayer ally : VelaraParty.alliesNear(player, VelaraValues.presenceRadius())) {
                 presence.merge(ally.getUUID(), 1, Integer::sum);
             }
         }
         if (VelaraNodeState.isActive(player, VelaraNode.SANITATION)) {
             sanitized.add(player.getUUID());
-            for (ServerPlayer ally : VelaraParty.alliesNear(player, VelaraValues.SANITATION_RADIUS)) {
+            for (ServerPlayer ally : VelaraParty.alliesNear(player, VelaraValues.sanitationRadius())) {
                 sanitized.add(ally.getUUID());
             }
         }

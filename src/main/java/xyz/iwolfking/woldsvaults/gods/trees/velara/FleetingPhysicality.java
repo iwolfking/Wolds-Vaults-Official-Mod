@@ -22,11 +22,11 @@ public final class FleetingPhysicality {
     }
 
     public static boolean isImmune(ServerPlayer player) {
-        return phase(player) < VelaraValues.FLEETING_IMMUNE_TICKS;
+        return phase(player) < VelaraValues.fleetingImmuneTicks();
     }
 
     public static boolean isVulnerable(ServerPlayer player) {
-        return phase(player) >= VelaraValues.FLEETING_IMMUNE_TICKS;
+        return phase(player) >= VelaraValues.fleetingImmuneTicks();
     }
 
     public static void clear(UUID playerId) {
@@ -45,6 +45,6 @@ public final class FleetingPhysicality {
             ANCHORS.put(player.getUUID(), now);
             return 0L;
         }
-        return elapsed % VelaraValues.FLEETING_CYCLE_TICKS;
+        return elapsed % VelaraValues.fleetingCycleTicks();
     }
 }

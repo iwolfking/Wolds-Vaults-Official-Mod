@@ -17,6 +17,7 @@ import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * The Tenos nodes that shape the vault around the player: Omega Vault (r98), Nose for Treasure
@@ -41,9 +42,15 @@ import java.util.Map;
  * act while the vault already carries one.
  */
 public final class TenosWorldNodes {
-    public static final double OMEGA_VAULT_WEIGHT_MULTIPLIER = 2.0;
-    public static final double TREASURE_DOOR_BONUS = 0.25;
-    public static final int MASTER_OF_CHESTS_CASCADING_STACKS = 15;
+    public static double omegaVaultWeightMultiplier() {
+        return GodNodeValues.precise(TenosNodes.OMEGA_VAULT, "weight_multiplier");
+    }
+    public static double treasureDoorBonus() {
+        return GodNodeValues.precise(TenosNodes.NOSE_FOR_TREASURE, "treasure_door_bonus");
+    }
+    public static int masterOfChestsCascadingStacks() {
+        return GodNodeValues.count(TenosNodes.MASTER_OF_CHESTS, "cascading_stacks");
+    }
     public static final ResourceLocation MASTER_OF_CHESTS_CASCADE = WoldsVaults.id("tenos_master_of_chests");
 
     /** The pack's five one-percent cascade rows, the children of {@code woldsvaults:omega_cascading}. */
@@ -72,7 +79,7 @@ public final class TenosWorldNodes {
             if (!TenosVaultUtil.anyRunnerHasMinor(data.getVault(), TenosNodes.NOSE_FOR_TREASURE)) {
                 return;
             }
-            data.setProbability(data.getProbability() + TREASURE_DOOR_BONUS * data.getBaseProbability());
+            data.setProbability(data.getProbability() + treasureDoorBonus() * data.getBaseProbability());
         });
         CommonEvents.LISTENER_JOIN.register(OWNER, data -> reconcile(data.getVault()));
         CommonEvents.LISTENER_TICK.register(OWNER, data -> {
@@ -137,14 +144,14 @@ public final class TenosWorldNodes {
                         + "Check vault_modifiers.json.", child);
                 return null;
             }
-            children.put(child, MASTER_OF_CHESTS_CASCADING_STACKS);
+            children.put(child, masterOfChestsCascadingStacks());
         }
         try {
             GroupedModifier modifier = new GroupedModifier(
                     MASTER_OF_CHESTS_CASCADE,
                     new GroupedModifier.Properties(children),
                     new VaultModifier.Display("Master of Chests", TextColor.parseColor("#3FFBF4"),
-                            "+" + MASTER_OF_CHESTS_CASCADING_STACKS + "% Cascading for all chests and coins."));
+                            "+" + masterOfChestsCascadingStacks() + "% Cascading for all chests and coins."));
             VaultModifierRegistry.register(MASTER_OF_CHESTS_CASCADE, modifier);
             return modifier;
         } catch (Exception e) {
@@ -168,7 +175,7 @@ public final class TenosWorldNodes {
         try {
             PoolReferenceWeightModifier modifier = new PoolReferenceWeightModifier(
                     OMEGA_FORTUNE_DOUBLE,
-                    new PoolReferenceWeightModifier.Properties(List.of(OMEGA_ROOMS_POOL), OMEGA_VAULT_WEIGHT_MULTIPLIER),
+                    new PoolReferenceWeightModifier.Properties(List.of(OMEGA_ROOMS_POOL), omegaVaultWeightMultiplier()),
                     new VaultModifier.Display("Omega Sprout", TextColor.parseColor("#6AFF00"), "2x Omega Room Chance"));
             VaultModifierRegistry.register(OMEGA_FORTUNE_DOUBLE, modifier);
             return modifier;

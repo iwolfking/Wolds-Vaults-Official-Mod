@@ -92,7 +92,7 @@ public final class IdonaHitHandlers {
             return 1.0F;
         }
         int priorHits = IdonaState.recordPincushionHit(player, target.getId());
-        return 1.0F + IdonaNodes.PINCUSHION_PER_HIT * priorHits * points;
+        return 1.0F + IdonaNodes.pincushionPerHit() * priorHits * points;
     }
 
     private static float sneakyAdvantage(ServerPlayer player, LivingEntity target) {
@@ -101,7 +101,7 @@ public final class IdonaHitHandlers {
             return 1.0F;
         }
         int effects = IdonaTargeting.countNegativeEffects(target);
-        return effects <= 0 ? 1.0F : 1.0F + IdonaNodes.SNEAKY_ADVANTAGE_PER_EFFECT * effects * points;
+        return effects <= 0 ? 1.0F : 1.0F + IdonaNodes.sneakyAdvantagePerEffect() * effects * points;
     }
 
     private static float greedbane(ServerPlayer player, LivingEntity target) {
@@ -112,7 +112,7 @@ public final class IdonaHitHandlers {
         if (!IdonaTargeting.isGreedAssassin(target) && !IdonaTargeting.isGreedChampion(target)) {
             return 1.0F;
         }
-        return (float) Math.pow(IdonaNodes.GREEDBANE_MULTIPLIER, points);
+        return (float) Math.pow(IdonaNodes.greedbaneMultiplier(), points);
     }
 
     private static float prisonWarden(ServerPlayer player, LivingEntity target) {
@@ -123,7 +123,7 @@ public final class IdonaHitHandlers {
         if (!IdonaState.isPrisonSurvivor(target.getId(), target.level.getGameTime())) {
             return 1.0F;
         }
-        return (float) Math.pow(IdonaNodes.PRISON_WARDEN_MULTIPLIER, points);
+        return (float) Math.pow(IdonaNodes.prisonWardenMultiplier(), points);
     }
 
     private static float weaponmaster(ServerPlayer player) {
@@ -134,7 +134,7 @@ public final class IdonaHitHandlers {
         if (!IdonaTargeting.isTwoHanded(player.getItemBySlot(EquipmentSlot.MAINHAND))) {
             return 1.0F;
         }
-        return (float) Math.pow(IdonaNodes.WEAPONMASTER_TWO_HANDED, points);
+        return (float) Math.pow(IdonaNodes.weaponmasterTwoHanded(), points);
     }
 
     /**
@@ -157,7 +157,7 @@ public final class IdonaHitHandlers {
         if (rage <= 1.0F) {
             return 1.0F;
         }
-        float efficiency = cleaving ? IdonaNodes.CLEAVE_EXPERT_EFFICIENCY : IdonaNodes.TRUE_RAGE_EFFICIENCY;
+        float efficiency = cleaving ? IdonaNodes.cleaveExpertEfficiency() : IdonaNodes.trueRageEfficiency();
         return 1.0F + (rage - 1.0F) * efficiency * points;
     }
 

@@ -37,10 +37,10 @@ public final class AdaptiveArmor {
             if (current == null || !current.attackerId.equals(attackerId)) {
                 return new Run(attackerId);
             }
-            current.stacks = Math.min(current.stacks + 1, VelaraValues.ADAPTIVE_ARMOR_MAX_STACKS);
+            current.stacks = Math.min(current.stacks + 1, VelaraValues.adaptiveArmorMaxStacks());
             return current;
         });
-        return 1.0F - VelaraValues.ADAPTIVE_ARMOR_PER_STACK * run.stacks;
+        return 1.0F - VelaraValues.adaptiveArmorPerStack() * run.stacks;
     }
 
     public static int getStacks(UUID defenderId) {

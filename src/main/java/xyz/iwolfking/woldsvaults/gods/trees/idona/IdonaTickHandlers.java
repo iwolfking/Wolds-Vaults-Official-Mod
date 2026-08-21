@@ -101,7 +101,7 @@ public final class IdonaTickHandlers {
             GlobalDamageMultiplierRegistry.remove(player, KINETIC_IMPACT_KEY);
             return;
         }
-        float factor = (float) (1.0D + percentAboveBase * IdonaNodes.KINETIC_IMPACT_PER_PERCENT * points);
+        float factor = (float) (1.0D + percentAboveBase * IdonaNodes.kineticImpactPerPercent() * points);
         GlobalDamageMultiplierRegistry.register(player, KINETIC_IMPACT_KEY, factor);
     }
 
@@ -111,7 +111,7 @@ public final class IdonaTickHandlers {
             GlobalDamageMultiplierRegistry.remove(player, SURROUNDED_KEY);
             return;
         }
-        double radius = IdonaNodes.SURROUNDED_RADIUS;
+        double radius = IdonaNodes.surroundedRadius();
         double radiusSq = radius * radius;
         AABB box = new AABB(player.position(), player.position()).inflate(radius);
         List<Mob> nearby = player.getLevel().getEntitiesOfClass(Mob.class, box,
@@ -120,7 +120,7 @@ public final class IdonaTickHandlers {
             GlobalDamageMultiplierRegistry.remove(player, SURROUNDED_KEY);
             return;
         }
-        float factor = 1.0F + IdonaNodes.SURROUNDED_PER_MOB * nearby.size() * points;
+        float factor = 1.0F + IdonaNodes.surroundedPerMob() * nearby.size() * points;
         GlobalDamageMultiplierRegistry.register(player, SURROUNDED_KEY, factor);
     }
 
@@ -140,9 +140,9 @@ public final class IdonaTickHandlers {
             GlobalDamageMultiplierRegistry.remove(player, UNDER_PRESSURE_KEY);
             return;
         }
-        int ticks = Math.max(0, Math.min(remaining.get(), IdonaNodes.UNDER_PRESSURE_WINDOW_TICKS));
-        float progress = 1.0F - (float) ticks / IdonaNodes.UNDER_PRESSURE_WINDOW_TICKS;
-        float factor = 1.0F + (IdonaNodes.UNDER_PRESSURE_MAX - 1.0F) * progress * points;
+        int ticks = Math.max(0, Math.min(remaining.get(), IdonaNodes.underPressureWindowTicks()));
+        float progress = 1.0F - (float) ticks / IdonaNodes.underPressureWindowTicks();
+        float factor = 1.0F + (IdonaNodes.underPressureMax() - 1.0F) * progress * points;
         GlobalDamageMultiplierRegistry.register(player, UNDER_PRESSURE_KEY, factor);
     }
 
@@ -194,7 +194,7 @@ public final class IdonaTickHandlers {
                     player.getGameProfile().getName());
             taken = 0.0D;
         }
-        double curve = Math.log(IdonaNodes.BANKED_ANGER_BASE + taken) / Math.log(IdonaNodes.BANKED_ANGER_BASE);
+        double curve = Math.log(IdonaNodes.bankedAngerBase() + taken) / Math.log(IdonaNodes.bankedAngerBase());
         float factor = (float) Math.pow(curve, points);
         GlobalDamageMultiplierRegistry.register(player, BANKED_ANGER_KEY, factor);
     }
@@ -211,7 +211,7 @@ public final class IdonaTickHandlers {
             PlayerDamageHelper.removeMultiplier(player, CRUSHING_BLOWS_ID);
             return;
         }
-        float value = (float) Math.pow(IdonaNodes.CRUSHING_BLOWS_MULTIPLIER, points);
+        float value = (float) Math.pow(IdonaNodes.crushingBlowsMultiplier(), points);
         if (PlayerDamageHelper.hasMultiplier(player, CRUSHING_BLOWS_ID)) {
             return;
         }

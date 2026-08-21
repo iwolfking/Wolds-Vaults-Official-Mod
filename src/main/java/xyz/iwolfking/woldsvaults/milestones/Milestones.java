@@ -118,6 +118,23 @@ public class Milestones {
     }
 
     /**
+     * Whether a milestone's declared {@link MilestoneCounter} is the one the calling mutator
+     * implements. Nothing else reads the declaration, so without this check a milestone's counting
+     * behaviour is decided purely by which mutator a call site happened to pick - and the mismatch
+     * that matters, a DISTINCT milestone advanced with {@link #advance} instead of
+     * {@link #addToken}, silently double counts every repeat of the same token. A mismatch is
+     * refused rather than applied, because the wrong operation corrupts a counter the save keeps.
+     */
+    private static boolean counterIs(MilestoneDefinition definition, MilestoneCounter expected, String operation) {
+        if (definition.getCounter() == expected) {
+            return true;
+        }
+        WoldsVaults.LOGGER.error("Milestone '{}' declares counter {} but {}() is a {} operation; the call is ignored",
+                definition.getId(), definition.getCounter(), operation, expected);
+        return false;
+    }
+
+    /**
      * Reports the dimension fallback firing, throttled per player, because it means the engine
      * lost a listener registration for somebody who is demonstrably inside a vault.
      */
@@ -145,6 +162,9 @@ public class Milestones {
             WoldsVaults.LOGGER.warn("Milestone advance for unknown id '{}' ignored", milestoneId);
             return;
         }
+        if (!counterIs(definition, MilestoneCounter.ACCUMULATE, "advance")) {
+            return;
+        }
         if (isGated(player, definition)) {
             return;
         }
@@ -169,6 +189,9 @@ public class Milestones {
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
             WoldsVaults.LOGGER.warn("Milestone advance for unknown id '{}' ignored", milestoneId);
+            return;
+        }
+        if (!counterIs(definition, MilestoneCounter.ACCUMULATE, "advanceFractional")) {
             return;
         }
         if (isGated(player, definition)) {
@@ -199,6 +222,9 @@ public class Milestones {
             WoldsVaults.LOGGER.warn("Milestone reach for unknown id '{}' ignored", milestoneId);
             return;
         }
+        if (!counterIs(definition, MilestoneCounter.HIGHEST, "reach")) {
+            return;
+        }
         if (isGated(player, definition)) {
             return;
         }
@@ -222,6 +248,9 @@ public class Milestones {
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
             WoldsVaults.LOGGER.warn("Milestone token for unknown id '{}' ignored", milestoneId);
+            return;
+        }
+        if (!counterIs(definition, MilestoneCounter.DISTINCT, "addToken")) {
             return;
         }
         if (isGated(player, definition)) {

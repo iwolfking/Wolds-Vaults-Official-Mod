@@ -48,7 +48,7 @@ public final class VelaraStatBus {
         }
         int stacks = VelaraAuras.getPresenceStacks(player);
         if (stacks > 0) {
-            data.setValue(data.getValue() + VelaraValues.PRESENCE_RESISTANCE * stacks);
+            data.setValue(data.getValue() + VelaraValues.presenceResistance() * stacks);
         }
     }
 
@@ -59,13 +59,13 @@ public final class VelaraStatBus {
         }
         float value = data.getValue();
         value += healingFlowBonus(player);
-        value += VelaraValues.PRESENCE_HEALING * VelaraAuras.getPresenceStacks(player);
+        value += VelaraValues.presenceHealing() * VelaraAuras.getPresenceStacks(player);
         if (VelaraNodeState.isActive(player, VelaraNode.IMMORTAL)) {
-            value *= VelaraValues.IMMORTAL_HEALING_MULTIPLIER;
+            value *= VelaraValues.immortalHealingMultiplier();
         }
         if (VelaraNodeState.isActive(player, VelaraNode.BOUNCE_BACK)
-                && player.getHealth() <= player.getMaxHealth() * VelaraValues.BOUNCE_BACK_HEALTH_THRESHOLD) {
-            value *= VelaraValues.BOUNCE_BACK_MULTIPLIER;
+                && player.getHealth() <= player.getMaxHealth() * VelaraValues.bounceBackHealthThreshold()) {
+            value *= VelaraValues.bounceBackMultiplier();
         }
         data.setValue(value);
     }
@@ -80,7 +80,7 @@ public final class VelaraStatBus {
         if (player == null || !VelaraNodeState.isActive(player, VelaraNode.MALEDICTION)) {
             return;
         }
-        data.setValue(Math.min(data.getValue(), VelaraValues.MALEDICTION_FORCED_HEALING));
+        data.setValue(Math.min(data.getValue(), VelaraValues.maledictionForcedHealing()));
     }
 
     private static float healingFlowBonus(ServerPlayer player) {
@@ -90,7 +90,7 @@ public final class VelaraStatBus {
         AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
         float manaRegen = snapshot.getAttributeValue(ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE,
                 VaultGearAttributeTypeMerger.floatSum());
-        return manaRegen * VelaraValues.HEALING_FLOW_PER_MANA_REGEN;
+        return manaRegen * VelaraValues.healingFlowPerManaRegen();
     }
 
     /**
@@ -130,7 +130,7 @@ public final class VelaraStatBus {
     private static float thornsFactor(ServerPlayer player) {
         float factor = 1.0F;
         if (VelaraNodeState.isActive(player, VelaraNode.CACTUS)) {
-            factor *= VelaraValues.CACTUS_THORNS_MULTIPLIER;
+            factor *= VelaraValues.cactusThornsMultiplier();
         }
         if (VelaraNodeState.isActive(player, VelaraNode.MALEDICTION)) {
             AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
@@ -146,7 +146,7 @@ public final class VelaraStatBus {
         if (player == null || !VelaraNodeState.isActive(player, VelaraNode.THE_STONEWALL)) {
             return;
         }
-        data.setValue(data.getValue() * VelaraValues.STONEWALL_SPEED_MULTIPLIER);
+        data.setValue(data.getValue() * VelaraValues.stonewallSpeedMultiplier());
     }
 
     /**
@@ -162,12 +162,12 @@ public final class VelaraStatBus {
         }
         int levels = 0;
         if (VelaraNodeState.isActive(player, VelaraNode.INDOMITABLE)) {
-            levels += VelaraValues.INDOMITABLE_REGENERATION_LEVELS;
+            levels += VelaraValues.indomitableRegenerationLevels();
         }
         if (VelaraNodeState.isActive(player, VelaraNode.IMMORTAL)) {
-            levels += VelaraValues.IMMORTAL_REGENERATION_LEVELS;
+            levels += VelaraValues.immortalRegenerationLevels();
         }
-        levels += VelaraValues.PRESENCE_REGENERATION_LEVELS * VelaraAuras.getPresenceStacks(player);
+        levels += VelaraValues.presenceRegenerationLevels() * VelaraAuras.getPresenceStacks(player);
         if (levels > 0) {
             data.getEffects().addAmplifier(MobEffects.REGENERATION, levels);
         }

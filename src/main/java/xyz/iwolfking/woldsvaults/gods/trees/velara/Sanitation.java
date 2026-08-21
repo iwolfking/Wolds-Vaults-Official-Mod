@@ -34,11 +34,11 @@ public final class Sanitation {
             return instance;
         }
         int duration = instance.getDuration();
-        if (duration <= VelaraValues.SANITATION_DURATION_DIVISOR) {
+        if (duration <= VelaraValues.sanitationDurationDivisor()) {
             return instance;
         }
         MobEffectInstance shortened = new MobEffectInstance(instance.getEffect(),
-                duration / VelaraValues.SANITATION_DURATION_DIVISOR, instance.getAmplifier(),
+                duration / VelaraValues.sanitationDurationDivisor(), instance.getAmplifier(),
                 instance.isAmbient(), instance.isVisible(), instance.showIcon());
         shortened.setCurativeItems(instance.getCurativeItems());
         return shortened;

@@ -121,15 +121,11 @@ public final class GreedTheme {
         if (rank == MilestoneRankLadder.LEGEND_RANK) {
             return "Leg";
         }
-        int band = (rank - 1) / 3;
-        int step = (rank - 1) % 3 + 1;
-        return switch (band) {
-            case 0 -> "S" + step;
-            case 1 -> "L" + step;
-            case 2 -> "H" + step;
-            case 3 -> "M" + step;
-            default -> "C" + step;
-        };
+        String band = MilestoneRankLadder.getBandName(rank);
+        if (band.isEmpty()) {
+            return "-";
+        }
+        return Character.toUpperCase(band.charAt(0)) + String.valueOf(MilestoneRankLadder.getTierInBand(rank));
     }
 
     /**

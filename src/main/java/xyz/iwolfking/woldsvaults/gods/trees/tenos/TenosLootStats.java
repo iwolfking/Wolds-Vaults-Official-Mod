@@ -21,6 +21,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Every Tenos node that reshapes a live player stat, on one listener per stat.
@@ -34,13 +35,27 @@ import java.util.Optional;
  * fires the very event these listeners are attached to.
  */
 public final class TenosLootStats {
-    public static final float LOOTING_ENGINE_REFERENCE = 1200.0F;
-    public static final float INDIANA_JONES_REFERENCE = 1000.0F;
-    public static final float MASSIVE_CHESTS_RARITY_MULTIPLIER = 0.5F;
-    public static final float WEALTHY_PATRON_PER_UNIQUE = 0.03F;
-    public static final float UNSTOPPABLE_GREED_RATIO = 0.10F;
-    public static final float DOMAIN_EXPANSION_PER_CELL = 0.025F;
-    public static final float DOMAIN_EXPANSION_CAP = 1.5F;
+    public static float lootingEngineReference() {
+        return GodNodeValues.number(TenosNodes.LOOTING_ENGINE, "reference");
+    }
+    public static float indianaJonesReference() {
+        return GodNodeValues.number(TenosNodes.INDIANA_JONES, "reference");
+    }
+    public static float massiveChestsRarityMultiplier() {
+        return GodNodeValues.number(TenosNodes.MASSIVE_CHESTS, "rarity_multiplier");
+    }
+    public static float wealthyPatronPerUnique() {
+        return GodNodeValues.number(TenosNodes.WEALTHY_PATRON, "per_unique");
+    }
+    public static float unstoppableGreedRatio() {
+        return GodNodeValues.number(TenosNodes.UNSTOPPABLE_GREED, "ratio");
+    }
+    public static float domainExpansionPerCell() {
+        return GodNodeValues.number(TenosNodes.DOMAIN_EXPANSION, "per_cell");
+    }
+    public static float domainExpansionCap() {
+        return GodNodeValues.number(TenosNodes.DOMAIN_EXPANSION, "cap");
+    }
 
     private static final Object OWNER = new Object();
 
@@ -82,7 +97,7 @@ public final class TenosLootStats {
         multiplier *= indianaJones(player);
         multiplier *= wealthyPatron(player);
         if (rarity && TenosNodes.hasMajor(player, TenosNodes.MASSIVE_CHESTS)) {
-            multiplier *= MASSIVE_CHESTS_RARITY_MULTIPLIER;
+            multiplier *= massiveChestsRarityMultiplier();
         }
         return multiplier;
     }
@@ -98,7 +113,7 @@ public final class TenosLootStats {
             return 1.0F;
         }
         float chestsPerMinute = ChestRateTracker.getChestsPerMinute(player);
-        return (float) Math.cbrt((LOOTING_ENGINE_REFERENCE + chestsPerMinute) / LOOTING_ENGINE_REFERENCE);
+        return (float) Math.cbrt((lootingEngineReference() + chestsPerMinute) / lootingEngineReference());
     }
 
     /**
@@ -112,7 +127,7 @@ public final class TenosLootStats {
             return 1.0F;
         }
         float disarmPercent = Math.max(0.0F, rawStat(player, ModGearAttributes.TRAP_DISARMING)) * 100.0F;
-        return (float) Math.cbrt((INDIANA_JONES_REFERENCE + disarmPercent) / INDIANA_JONES_REFERENCE);
+        return (float) Math.cbrt((indianaJonesReference() + disarmPercent) / indianaJonesReference());
     }
 
     private static float wealthyPatron(ServerPlayer player) {
@@ -120,14 +135,14 @@ public final class TenosLootStats {
             return 1.0F;
         }
         int uniques = countUniqueArmour(player);
-        return uniques <= 0 ? 1.0F : (float) Math.pow(1.0F + WEALTHY_PATRON_PER_UNIQUE, uniques);
+        return uniques <= 0 ? 1.0F : (float) Math.pow(1.0F + wealthyPatronPerUnique(), uniques);
     }
 
     private static float unstoppableGreed(ServerPlayer player) {
         if (!TenosNodes.hasMinor(player, TenosNodes.UNSTOPPABLE_GREED)) {
             return 1.0F;
         }
-        return 1.0F + UNSTOPPABLE_GREED_RATIO * lootStatSum(player);
+        return 1.0F + unstoppableGreedRatio() * lootStatSum(player);
     }
 
     /** The player's raw item quantity plus item rarity, straight off the snapshot. */
@@ -170,7 +185,7 @@ public final class TenosLootStats {
         if (cells <= 0) {
             return 1.0F;
         }
-        return Math.min(DOMAIN_EXPANSION_CAP, 1.0F + DOMAIN_EXPANSION_PER_CELL * cells);
+        return Math.min(domainExpansionCap(), 1.0F + domainExpansionPerCell() * cells);
     }
 
     private static int cellsFromEntrance(ServerPlayer player) {

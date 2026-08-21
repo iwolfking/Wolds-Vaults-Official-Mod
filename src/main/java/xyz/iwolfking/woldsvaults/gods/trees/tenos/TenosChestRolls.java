@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Massive Chests (r105) and Expert Looter (r107): "chests roll with +N maximum item stacks".
@@ -17,8 +18,12 @@ import net.minecraft.world.entity.player.Player;
  * generated and then silently discarded when the slot list ran out.
  */
 public final class TenosChestRolls {
-    public static final int MASSIVE_CHESTS_ROLLS = 20;
-    public static final int EXPERT_LOOTER_ROLLS = 4;
+    public static int massiveChestsRolls() {
+        return GodNodeValues.count(TenosNodes.MASSIVE_CHESTS, "rolls");
+    }
+    public static int expertLooterRolls() {
+        return GodNodeValues.count(TenosNodes.EXPERT_LOOTER, "rolls");
+    }
 
     private TenosChestRolls() {
     }
@@ -30,9 +35,9 @@ public final class TenosChestRolls {
         }
         int bonus = 0;
         if (TenosNodes.hasMajor(serverPlayer, TenosNodes.MASSIVE_CHESTS)) {
-            bonus += MASSIVE_CHESTS_ROLLS;
+            bonus += massiveChestsRolls();
         }
-        bonus += EXPERT_LOOTER_ROLLS * TenosNodes.minorPoints(serverPlayer, TenosNodes.EXPERT_LOOTER);
+        bonus += expertLooterRolls() * TenosNodes.minorPoints(serverPlayer, TenosNodes.EXPERT_LOOTER);
         return bonus;
     }
 }
