@@ -10,7 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.gods.network.ClientboundSacrificeMenuMessage;
-import xyz.iwolfking.woldsvaults.gods.network.GodNetwork;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundRequestSacrificeMenuMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundSelectSacrificeGodMessage;
 
@@ -55,7 +55,7 @@ public class SacrificeAltarScreen extends Screen {
     public void tick() {
         if (++this.pollTicks >= 20) {
             this.pollTicks = 0;
-            GodNetwork.INSTANCE.sendToServer(new ServerboundRequestSacrificeMenuMessage());
+            NetworkHandler.INSTANCE.sendToServer(new ServerboundRequestSacrificeMenuMessage());
         }
     }
 
@@ -176,7 +176,7 @@ public class SacrificeAltarScreen extends Screen {
         for (int i = 0; i < gods.length; i++) {
             if (plateBounds(i).contains(mouseX, mouseY)) {
                 if (this.data.selectedGod != gods[i]) {
-                    GodNetwork.INSTANCE.sendToServer(new ServerboundSelectSacrificeGodMessage(gods[i]));
+                    NetworkHandler.INSTANCE.sendToServer(new ServerboundSelectSacrificeGodMessage(gods[i]));
                 }
                 return true;
             }

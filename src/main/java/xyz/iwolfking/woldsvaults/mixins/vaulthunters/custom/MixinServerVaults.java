@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.milestones.Milestones;
 
+import java.util.List;
 import java.util.UUID;
 
 @Mixin(value = ServerVaults.class, remap = false)
@@ -37,6 +38,10 @@ public class MixinServerVaults {
      * verbatim - the slot is still marked complete so {@code completedChallengeIds} keeps growing,
      * the tree is still saved and synced, customisation discoveries still run, and the completion
      * is still announced - only the reputation grant and its chat suffix are gone.
+     *
+     * <p>The slot is resolved by matching the finished vault's id against every challenge slot
+     * rather than through the tree's active-slot helper, which returns the first attempted slot
+     * and so could never resolve the second of two challenges held at once.</p>
      */
     @Inject(method = "checkChallengeCompletion", at = @At("HEAD"), cancellable = true)
     private static void completeChallengeWithoutReputation(Vault vault, CallbackInfo ci) {
@@ -55,17 +60,25 @@ public class MixinServerVaults {
         if (greedTree == null) {
             return;
         }
-        GreedChallengeSlot activeSlot = greedTree.getActiveChallengeSlot();
-        if (activeSlot == null || !vaultId.equals(activeSlot.getChallengeVaultId())) {
+        List<GreedChallengeSlot> slots = greedTree.getChallengeSlots();
+        int slotIndex = -1;
+        for (int i = 0; i < slots.size(); i++) {
+            if (vaultId.equals(slots.get(i).getChallengeVaultId())) {
+                slotIndex = i;
+                break;
+            }
+        }
+        if (slotIndex < 0) {
             return;
         }
+        GreedChallengeSlot activeSlot = slots.get(slotIndex);
         StatsCollector stats = vault.get(Vault.STATS);
         StatCollector ownerStats = stats.get(ownerId);
         if (ownerStats == null || ownerStats.getCompletion() != Completion.COMPLETED) {
             return;
         }
         String challengeId = activeSlot.getChallengeId();
-        greedTree.completeChallenge(greedTree.getActiveChallengeSlotIndex());
+        greedTree.completeChallenge(slotIndex);
         treeData.setDirty();
         String challengeName = "Unknown Challenge";
         if (ModConfigs.GREED_TRADER != null) {

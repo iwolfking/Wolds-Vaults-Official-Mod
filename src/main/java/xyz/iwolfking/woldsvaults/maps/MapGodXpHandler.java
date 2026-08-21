@@ -14,7 +14,7 @@ import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.network.ClientboundVaultGodXpMessage;
-import xyz.iwolfking.woldsvaults.gods.network.GodNetwork;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 
 import java.util.UUID;
 
@@ -79,7 +79,7 @@ public final class MapGodXpHandler {
             return;
         }
         GodAlignmentData data = GodAlignmentData.get(player.server);
-        GodNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
+        NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
                 new ClientboundVaultGodXpMessage(vaultId, binding.god(), data.previewScaledXp(player, xp)));
         data.addGodXp(player, binding.god(), xp);
     }

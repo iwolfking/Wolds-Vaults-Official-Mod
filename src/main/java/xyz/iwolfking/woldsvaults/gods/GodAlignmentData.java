@@ -18,7 +18,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.PrestigePowerHelper;
 import xyz.iwolfking.woldsvaults.gods.event.GodLevelUpEvent;
 import xyz.iwolfking.woldsvaults.gods.network.GodAlignmentSyncMessage;
-import xyz.iwolfking.woldsvaults.gods.network.GodNetwork;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.prestige.GodExperiencePrestigePower;
 
 import javax.annotation.Nonnull;
@@ -131,15 +131,19 @@ public class GodAlignmentData extends SavedData {
     }
 
     /**
-     * The spent-point ledger for a tree, node id to points invested. Wave-2 node content reads
-     * this to decide which nodes are unlocked and at what tier.
+     * The spent-point ledger for a tree, ledger key to points invested. Node content reads this
+     * to decide which effects are unlocked and at what tier. Ledger keys are effect keys chosen
+     * by each tree's node definitions, not tree-node positions.
      */
     public Map<String, Integer> getSpentLedger(UUID playerId, VaultGod god) {
         return Collections.unmodifiableMap(this.getState(playerId, god).spentPoints);
     }
 
-    public int getPointsIn(UUID playerId, VaultGod god, String nodeId) {
-        return this.getState(playerId, god).spentPoints.getOrDefault(nodeId, 0);
+    /**
+     * Points banked under one ledger key, which is an effect key rather than a tree-node position.
+     */
+    public int getPointsIn(UUID playerId, VaultGod god, String ledgerKey) {
+        return this.getState(playerId, god).spentPoints.getOrDefault(ledgerKey, 0);
     }
 
     public int getMinorTransferSlots(UUID playerId, VaultGod god) {
@@ -241,41 +245,6 @@ public class GodAlignmentData extends SavedData {
         this.sync(player);
     }
 
-    /**
-     * Invests points into a node. Fails without side effects when the player has fewer unspent
-     * points than requested.
-     */
-    public boolean spendPoints(ServerPlayer player, VaultGod god, String nodeId, int points) {
-        if (points <= 0 || this.getUnspentPoints(player.getUUID(), god) < points) {
-            return false;
-        }
-        GodState state = this.getState(player.getUUID(), god);
-        state.spentPoints.merge(nodeId, points, Integer::sum);
-        this.setDirty();
-        this.sync(player);
-        return true;
-    }
-
-    /**
-     * Returns points invested in a node back to the player's pool. Fails without side effects
-     * when the node holds fewer points than requested.
-     */
-    public boolean refundPoints(ServerPlayer player, VaultGod god, String nodeId, int points) {
-        GodState state = this.getState(player.getUUID(), god);
-        int invested = state.spentPoints.getOrDefault(nodeId, 0);
-        if (points <= 0 || invested < points) {
-            return false;
-        }
-        if (invested == points) {
-            state.spentPoints.remove(nodeId);
-        } else {
-            state.spentPoints.put(nodeId, invested - points);
-        }
-        this.setDirty();
-        this.sync(player);
-        return true;
-    }
-
     public void refundAll(ServerPlayer player, VaultGod god) {
         GodState state = this.getState(player.getUUID(), god);
         state.spentPoints.clear();
@@ -354,7 +323,7 @@ public class GodAlignmentData extends SavedData {
         for (VaultGod god : VaultGod.values()) {
             pietyByGod.put(god, piety(player, god));
         }
-        GodNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
+        NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
                 new GodAlignmentSyncMessage(this.players.getOrDefault(player.getUUID(), new EnumMap<>(VaultGod.class)), pietyByGod));
     }
 

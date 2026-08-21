@@ -16,10 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.client.screens.gods.GodTreeScreen;
 import xyz.iwolfking.woldsvaults.client.screens.gods.GodTreeTheme;
-import xyz.iwolfking.woldsvaults.gods.network.GodNetwork;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundOpenGodTreeMessage;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedMilestonesScreen;
-import xyz.iwolfking.woldsvaults.milestones.network.MilestoneNetwork;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundOpenMilestonesMessage;
 
 import java.util.Arrays;
@@ -56,9 +55,9 @@ public class MixinSkillTabContainerElement {
     @Inject(method = "<init>", at = @At("RETURN"), remap = false)
     private void addGreedMilestonesTab(IPosition position, int selectedIndex, CallbackInfo ci) {
         this.woldsVaults$addTab(GreedMilestonesScreen.TAB_INDEX, selectedIndex, ScreenTextures.TAB_ICON_GREED,
-                () -> MilestoneNetwork.INSTANCE.sendToServer(new ServerboundOpenMilestonesMessage()));
+                () -> NetworkHandler.INSTANCE.sendToServer(new ServerboundOpenMilestonesMessage()));
         this.woldsVaults$addTab(GodTreeScreen.TAB_INDEX, selectedIndex, GodTreeTheme.TAB_ICON_GODS,
-                () -> GodNetwork.INSTANCE.sendToServer(new ServerboundOpenGodTreeMessage()));
+                () -> NetworkHandler.INSTANCE.sendToServer(new ServerboundOpenGodTreeMessage()));
     }
 
     private void woldsVaults$addTab(int index, int selectedIndex, TextureAtlasRegion icon, Runnable open) {

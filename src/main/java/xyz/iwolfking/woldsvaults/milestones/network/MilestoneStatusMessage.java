@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
 import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrial;
@@ -60,7 +61,7 @@ public class MilestoneStatusMessage extends Message<MilestoneStatusMessage> {
      * the flusher whenever any of the five numbers has moved.
      */
     public static void sendTo(ServerPlayer player) {
-        MilestoneNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), build(player));
+        NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), build(player));
     }
 
     /**

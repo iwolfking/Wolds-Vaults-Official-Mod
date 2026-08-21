@@ -21,7 +21,7 @@ import net.minecraft.network.chat.TextComponent;
 import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
 import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
-import xyz.iwolfking.woldsvaults.gods.network.GodNetwork;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundUnlockGodNodeMessage;
 import xyz.iwolfking.woldsvaults.gods.tree.GodTreeDefinition;
 import xyz.iwolfking.woldsvaults.gods.tree.GodTrees;
@@ -162,7 +162,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         if (minecraft.player != null) {
             minecraft.player.playSound(ModSounds.SKILL_TREE_LEARN_SFX, 1.0F, 1.0F);
         }
-        GodNetwork.INSTANCE.sendToServer(new ServerboundUnlockGodNodeMessage(this.god, this.selectedNodeId));
+        NetworkHandler.INSTANCE.sendToServer(new ServerboundUnlockGodNodeMessage(this.god, this.selectedNodeId));
     }
 
     private void renderDescriptions(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {

@@ -200,6 +200,7 @@ public class MilestoneData extends SavedData {
                 this.pinned.put(playerId, playerTag.getString("pinned"));
             }
         }
+        MilestoneVaultState.loadAll(tag.getList("vaultStates", Tag.TAG_COMPOUND));
     }
 
     @Nonnull
@@ -241,6 +242,7 @@ public class MilestoneData extends SavedData {
             players.add(playerTag);
         }
         tag.put("players", players);
+        tag.put("vaultStates", MilestoneVaultState.saveAll());
         return tag;
     }
 

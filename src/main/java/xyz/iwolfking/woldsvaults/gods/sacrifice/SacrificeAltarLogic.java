@@ -21,7 +21,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.network.ClientboundSacrificeMenuMessage;
-import xyz.iwolfking.woldsvaults.gods.network.GodNetwork;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -44,7 +44,7 @@ public final class SacrificeAltarLogic {
     }
 
     public static void openMenu(ServerPlayer player) {
-        GodNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), buildSnapshot(player));
+        NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), buildSnapshot(player));
     }
 
     public static void selectGod(ServerPlayer player, VaultGod god) {

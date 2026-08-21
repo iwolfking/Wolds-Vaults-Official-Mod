@@ -1,12 +1,15 @@
 package xyz.iwolfking.woldsvaults.gods.trees.idona;
 
 import iskallia.vault.core.event.CommonEvents;
+import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.player.Listener;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Map;
@@ -134,13 +137,29 @@ public final class IdonaState {
         PRISON_MARKS.remove(id);
     }
 
+    /**
+     * Drops prison marks whose duration has already elapsed. Marks are keyed by entity id, which
+     * belongs to no player and to no vault, so the only sweep that is safe to run while other
+     * parties are still in their own runs is one that removes entries a lookup would have thrown
+     * away anyway.
+     */
+    private static void pruneExpiredPrisonMarks(long gameTime) {
+        PRISON_MARKS.values().removeIf(expiry -> expiry <= gameTime);
+    }
+
     static void registerVaultHooks() {
         CommonEvents.LISTENER_LEAVE.register(IdonaState.class, data ->
                 data.getListener().ifPresent(Listener.ID, IdonaState::clear));
         CommonEvents.VAULT_END.register(IdonaState.class, data -> {
-            PINCUSHION.clear();
-            POWER_DUMP_EXTRA.clear();
-            PRISON_MARKS.clear();
+            Vault vault = data.getVault();
+            if (vault != null && vault.has(Vault.LISTENERS)) {
+                vault.get(Vault.LISTENERS).getAll()
+                        .forEach(listener -> listener.ifPresent(Listener.ID, IdonaState::clear));
+            }
+            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+            if (server != null) {
+                pruneExpiredPrisonMarks(server.overworld().getGameTime());
+            }
         });
     }
 }

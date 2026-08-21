@@ -23,7 +23,7 @@ import xyz.iwolfking.woldsvaults.milestones.MilestoneDefinition;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
-import xyz.iwolfking.woldsvaults.milestones.network.MilestoneNetwork;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundTakeTrialMessage;
 
 import java.util.ArrayList;
@@ -307,7 +307,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             GreedButtonElement take = new GreedButtonElement(
                     Spatials.positionXYZ(x + 3, y + 3, 2).size(width - 6, m.unlockBoxHeight - 6),
                     () -> GreedTheme.lang("take_trial"),
-                    () -> MilestoneNetwork.INSTANCE.sendToServer(new ServerboundTakeTrialMessage()));
+                    () -> NetworkHandler.INSTANCE.sendToServer(new ServerboundTakeTrialMessage()));
             take.setHighlighted(() -> true);
             take.tooltip(Tooltips.multi(() -> List.of(
                     GreedTheme.langColored(ClientMilestoneData.isTrialHyper()

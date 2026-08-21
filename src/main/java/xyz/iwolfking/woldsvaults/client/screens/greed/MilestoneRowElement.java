@@ -16,7 +16,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneDefinition;
 import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
-import xyz.iwolfking.woldsvaults.milestones.network.MilestoneNetwork;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundClaimMilestoneMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundPinMilestoneMessage;
 
@@ -78,7 +78,7 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                 Spatials.positionXYZ(2, this.metrics.rowPinY, 1).size(this.metrics.rowPinWidth, this.metrics.rowPinHeight),
                 () -> GreedTheme.lang(pinned ? "pin.unpin" : "pin.pin"),
                 () -> {
-                    MilestoneNetwork.INSTANCE.sendToServer(new ServerboundPinMilestoneMessage(pinned ? ServerboundPinMilestoneMessage.UNPIN : id));
+                    NetworkHandler.INSTANCE.sendToServer(new ServerboundPinMilestoneMessage(pinned ? ServerboundPinMilestoneMessage.UNPIN : id));
                     ClientMilestoneData.setPinned(pinned ? null : id);
                     onChanged.run();
                 });
@@ -99,7 +99,7 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                         .size(this.metrics.rowChipWidth - 4, this.metrics.rowClaimHeight),
                 () -> GreedTheme.lang("claim"),
                 () -> {
-                    MilestoneNetwork.INSTANCE.sendToServer(new ServerboundClaimMilestoneMessage(id));
+                    NetworkHandler.INSTANCE.sendToServer(new ServerboundClaimMilestoneMessage(id));
                     onChanged.run();
                 });
         claimButton.setDisabled(() -> !claimEnabled || ClientMilestoneData.getUnclaimedRep(id) <= 0);

@@ -16,6 +16,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -126,10 +127,20 @@ public class MilestoneEvents {
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {
             MilestoneData.get(player.server).flush();
-            MilestoneVaultState.releasePlayer(player.getUUID());
+            MilestoneVaultState.unregisterPlayer(player.getUUID());
             Milestones.forget(player.getUUID());
             MilestoneFlusher.forget(player.getUUID());
         }
+    }
+
+    /**
+     * Drops any per-vault scratch left behind by an earlier world. The scratch is static, so on an
+     * integrated server it outlives the world it belongs to; clearing it here rather than on
+     * shutdown keeps it intact for the save that a stopping server has not written yet.
+     */
+    @SubscribeEvent
+    public static void onServerAboutToStart(ServerAboutToStartEvent event) {
+        MilestoneVaultState.reset();
     }
 
     @SubscribeEvent
