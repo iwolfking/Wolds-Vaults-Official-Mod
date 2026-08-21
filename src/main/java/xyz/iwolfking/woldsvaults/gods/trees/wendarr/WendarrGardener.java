@@ -12,7 +12,6 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 import java.util.ArrayList;
 import java.util.List;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Gardener (r83): Woldian Gardens ({@code woldsvaults:iskallian_leaves}) drop 50% more fruit and
@@ -24,13 +23,6 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
  * code, with no new loot-table JSON for the pack to carry.
  */
 public final class WendarrGardener {
-    public static float extraFruitChance() {
-        return GodNodeValues.number(WendarrNodes.GARDENER, "extra_fruit_chance");
-    }
-    public static float starfruitUpgradeChance() {
-        return GodNodeValues.number(WendarrNodes.GARDENER, "starfruit_upgrade_chance");
-    }
-
     private static final Object OWNER = new Object();
 
     private WendarrGardener() {
@@ -42,7 +34,7 @@ public final class WendarrGardener {
             if (player == null || !data.getState().is(ModBlocks.ISKALLIAN_LEAVES_BLOCK)) {
                 return;
             }
-            if (!WendarrNodes.hasMinor(player, WendarrNodes.GARDENER)) {
+            if (!WendarrNodes.isActive(player, WendarrNodes.GARDENER)) {
                 return;
             }
             enrich(player, data.getLoot());
@@ -50,6 +42,8 @@ public final class WendarrGardener {
     }
 
     private static void enrich(ServerPlayer player, List<ItemStack> loot) {
+        WendarrNodeHandlers.GardenerParams params = WendarrNodeHandlers.params(WendarrNodes.GARDENER,
+                WendarrNodeHandlers.GardenerParams.class);
         Item starFruit = ForgeRegistries.ITEMS.getValue(VaultMod.id("star_fruit"));
         if (starFruit == null) {
             WoldsVaults.LOGGER.error("Gardener could not resolve the_vault:star_fruit; only the extra-fruit half will apply.");
@@ -59,13 +53,14 @@ public final class WendarrGardener {
             if (!(stack.getItem() instanceof ItemVaultFruit)) {
                 continue;
             }
-            if (starFruit != null && stack.getItem() != starFruit && player.getRandom().nextFloat() < starfruitUpgradeChance()) {
+            if (starFruit != null && stack.getItem() != starFruit
+                    && player.getRandom().nextFloat() < params.starfruit_upgrade_chance()) {
                 ItemStack upgraded = new ItemStack(starFruit, stack.getCount());
                 stack.setCount(0);
                 extra.add(upgraded);
                 continue;
             }
-            if (player.getRandom().nextFloat() < extraFruitChance()) {
+            if (player.getRandom().nextFloat() < params.extra_fruit_chance()) {
                 extra.add(stack.copy());
             }
         }

@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.List;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
  * Pylon Whisperer (r82): pylons the player activates give 50% greater effects.
@@ -24,10 +23,6 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
  * node promises stronger pylons, not longer ones.
  */
 public final class WendarrPylons {
-    public static float pylonBoost() {
-        return GodNodeValues.number(WendarrNodes.PYLON_WHISPERER, "boost");
-    }
-
     private static final List<String> MAGNITUDE_KEYS = List.of(
             "ticks", "addend", "capAddend", "amount", "amplifier", "charges", "missingManaPercent");
     private static final Object OWNER = new Object();
@@ -40,7 +35,7 @@ public final class WendarrPylons {
             if (!(data.getPlayer() instanceof ServerPlayer player)) {
                 return;
             }
-            if (!WendarrNodes.hasMinor(player, WendarrNodes.PYLON_WHISPERER)) {
+            if (!WendarrNodes.isActive(player, WendarrNodes.PYLON_WHISPERER)) {
                 return;
             }
             PylonBuff.Config<?> boosted = boost(data.getPylonBuffConfig());
@@ -54,13 +49,15 @@ public final class WendarrPylons {
         if (config == null) {
             return null;
         }
+        float boost = WendarrNodeHandlers.params(WendarrNodes.PYLON_WHISPERER,
+                WendarrNodeHandlers.PylonWhispererParams.class).boost();
         try {
             CompoundTag nbt = config.serializeNBT();
             boolean scaled = false;
             for (String key : MAGNITUDE_KEYS) {
                 Tag tag = nbt.get(key);
                 if (tag instanceof NumericTag numeric) {
-                    nbt.put(key, scale(tag, numeric));
+                    nbt.put(key, scale(tag, numeric, boost));
                     scaled = true;
                 }
             }
@@ -72,13 +69,13 @@ public final class WendarrPylons {
         }
     }
 
-    private static Tag scale(Tag original, NumericTag numeric) {
+    private static Tag scale(Tag original, NumericTag numeric, float boost) {
         if (original instanceof IntTag) {
-            return IntTag.valueOf(Math.round(numeric.getAsInt() * pylonBoost()));
+            return IntTag.valueOf(Math.round(numeric.getAsInt() * boost));
         }
         if (original instanceof FloatTag) {
-            return FloatTag.valueOf(numeric.getAsFloat() * pylonBoost());
+            return FloatTag.valueOf(numeric.getAsFloat() * boost);
         }
-        return DoubleTag.valueOf(numeric.getAsDouble() * pylonBoost());
+        return DoubleTag.valueOf(numeric.getAsDouble() * boost);
     }
 }

@@ -32,7 +32,7 @@ public abstract class MixinVoidFluidExtensionTemporalBreaking {
             return decrement;
         }
         ServerPlayer player = world.getServer().getPlayerList().getPlayer(playerId);
-        if (player == null || !WendarrNodes.hasMinor(player, WendarrNodes.TEMPORAL_BREAKING)) {
+        if (player == null || !WendarrNodes.isActive(player, WendarrNodes.TEMPORAL_BREAKING)) {
             return decrement;
         }
         return Math.max(1, decrement / 2);

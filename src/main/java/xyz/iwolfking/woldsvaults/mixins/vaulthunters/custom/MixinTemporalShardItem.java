@@ -51,7 +51,7 @@ public abstract class MixinTemporalShardItem implements IdentifiableItem{
             return duration;
         }
         float multiplier = 1.0F;
-        if (WendarrNodes.hasMinor(serverPlayer, WendarrNodes.CLOCK_ARTIFICIER)) {
+        if (WendarrNodes.isActive(serverPlayer, WendarrNodes.CLOCK_ARTIFICIER)) {
             multiplier *= WendarrShards.clockArtificierMultiplier();
         }
         multiplier *= 1.0F + xyz.iwolfking.woldsvaults.gods.charms.MythicCharmStats.snapshotSum(serverPlayer,

@@ -5,6 +5,7 @@ import xyz.iwolfking.woldsvaults.gods.node.handlers.GearAttributeScaledHandler;
 import xyz.iwolfking.woldsvaults.gods.node.handlers.PietyHandler;
 import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaNodeHandlers;
 import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers;
+import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodeHandlers;
 
 /**
  * The single place every built-in god node handler type is registered, in the shape the base
@@ -38,5 +39,6 @@ public final class GodNodeHandlerTypes {
         GodNodeHandlers.register(PietyHandler.TYPE, PietyHandler::new);
         IdonaNodeHandlers.register();
         VelaraNodeHandlers.register();
+        WendarrNodeHandlers.register();
     }
 }

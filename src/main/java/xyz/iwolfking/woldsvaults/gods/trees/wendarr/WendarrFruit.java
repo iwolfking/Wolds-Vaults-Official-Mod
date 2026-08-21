@@ -5,42 +5,24 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.HealthReductionHelper;
-
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
+import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 
 /**
  * The Wendarr fruit family. Every entry point here is called from a seam the addon already owns
  * ({@code MixinItemVaultFruit}, {@code MixinRunner}, {@code HealthReductionHelper}) so no new
  * mixin is introduced for fruit; a call that finds no active node returns its input unchanged.
+ *
+ * <p>Expert Eater's saved-fruit flag is the tree's only piece of live per-player state, and it
+ * lives in the shared {@link GodNodeState} scratch keyed by that effect, so the god core's own
+ * teardown on logout, vault-listener leave and respec covers it.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class WendarrFruit {
-    public static float gluttonTimeMultiplier() {
-        return GodNodeValues.number(WendarrNodes.GLUTTON, "time_multiplier");
-    }
-    public static float gluttonRotMultiplier() {
-        return GodNodeValues.number(WendarrNodes.GLUTTON, "rot_multiplier");
-    }
-    public static float pristineRotMultiplier() {
-        return GodNodeValues.number(WendarrNodes.PRISTINE_CONDITION, "rot_multiplier");
-    }
-    public static float expertEaterSaveChance() {
-        return GodNodeValues.number(WendarrNodes.EXPERT_EATER, "save_chance");
-    }
     public static final double DEFAULT_HEALTH_SCALING = HealthReductionHelper.DEFAULT_MULT_SCALING;
-    public static double toughStomachHealthScaling() {
-        return GodNodeValues.precise(WendarrNodes.TOUGH_STOMACH, "health_scaling");
-    }
-
-    private static final Set<UUID> SAVED_FRUIT = ConcurrentHashMap.newKeySet();
 
     private WendarrFruit() {
     }
@@ -48,17 +30,18 @@ public final class WendarrFruit {
     /**
      * Replaces the fruit-efficiency time term. The addon's shipped curve is {@code e / (1 + e)},
      * which asymptotes the total time gain at 2x; Legend of the Pear swaps it for {@code sqrt(e)},
-     * which keeps growing. Glutton then scales the whole {@code 1 + f} time factor by 0.33, so the
-     * two compose exactly as the sheet describes rather than fighting over the same term.
+     * which keeps growing. Glutton then scales the whole {@code 1 + f} time factor by its
+     * configured multiplier, so the two compose exactly as the sheet describes rather than
+     * fighting over the same term.
      */
     public static float adjustEffectiveness(Player player, float effectiveness) {
         float shaped = effectiveness <= 0.0F ? 0.0F : effectiveness / (1.0F + effectiveness);
         if (player instanceof ServerPlayer serverPlayer) {
-            if (WendarrNodes.hasMajor(serverPlayer, WendarrNodes.LEGEND_OF_THE_PEAR)) {
+            if (WendarrNodes.isActive(serverPlayer, WendarrNodes.LEGEND_OF_THE_PEAR)) {
                 shaped = effectiveness <= 0.0F ? 0.0F : (float) Math.sqrt(effectiveness);
             }
-            if (WendarrNodes.hasMinor(serverPlayer, WendarrNodes.GLUTTON)) {
-                shaped = gluttonTimeMultiplier() * (1.0F + shaped) - 1.0F;
+            if (WendarrNodes.isActive(serverPlayer, WendarrNodes.GLUTTON)) {
+                shaped = gluttonParams().time_multiplier() * (1.0F + shaped) - 1.0F;
             }
         }
         return shaped;
@@ -73,11 +56,12 @@ public final class WendarrFruit {
             return 0.0F;
         }
         float adjusted = rotChance;
-        if (WendarrNodes.hasMinor(player, WendarrNodes.PRISTINE_CONDITION)) {
-            adjusted *= pristineRotMultiplier();
+        if (WendarrNodes.isActive(player, WendarrNodes.PRISTINE_CONDITION)) {
+            adjusted *= WendarrNodeHandlers.params(WendarrNodes.PRISTINE_CONDITION,
+                    WendarrNodeHandlers.PristineConditionParams.class).rot_multiplier();
         }
-        if (WendarrNodes.hasMinor(player, WendarrNodes.GLUTTON)) {
-            adjusted *= gluttonRotMultiplier();
+        if (WendarrNodes.isActive(player, WendarrNodes.GLUTTON)) {
+            adjusted *= gluttonParams().rot_multiplier();
         }
         return adjusted;
     }
@@ -88,8 +72,9 @@ public final class WendarrFruit {
      * A saved fruit (Expert Eater) skips the penalty entirely.
      */
     public static double healthScaling(ServerPlayer player) {
-        if (player != null && WendarrNodes.hasMinor(player, WendarrNodes.TOUGH_STOMACH)) {
-            return toughStomachHealthScaling();
+        if (player != null && WendarrNodes.isActive(player, WendarrNodes.TOUGH_STOMACH)) {
+            return WendarrNodeHandlers.params(WendarrNodes.TOUGH_STOMACH,
+                    WendarrNodeHandlers.ToughStomachParams.class).health_scaling();
         }
         return DEFAULT_HEALTH_SCALING;
     }
@@ -103,17 +88,19 @@ public final class WendarrFruit {
         if (!(player instanceof ServerPlayer serverPlayer)) {
             return;
         }
-        SAVED_FRUIT.remove(serverPlayer.getUUID());
-        if (!WendarrNodes.hasMinor(serverPlayer, WendarrNodes.EXPERT_EATER)) {
+        GodNodeState.clear(serverPlayer.getUUID(), WendarrNodes.EXPERT_EATER);
+        if (!WendarrNodes.isActive(serverPlayer, WendarrNodes.EXPERT_EATER)) {
             return;
         }
-        if (serverPlayer.getRandom().nextFloat() < expertEaterSaveChance()) {
-            SAVED_FRUIT.add(serverPlayer.getUUID());
+        float chance = WendarrNodeHandlers.params(WendarrNodes.EXPERT_EATER,
+                WendarrNodeHandlers.ExpertEaterParams.class).save_chance();
+        if (serverPlayer.getRandom().nextFloat() < chance) {
+            GodNodeState.put(serverPlayer.getUUID(), WendarrNodes.EXPERT_EATER, Boolean.TRUE);
         }
     }
 
     public static boolean isFruitSaved(ServerPlayer player) {
-        return player != null && SAVED_FRUIT.contains(player.getUUID());
+        return player != null && GodNodeState.peek(player.getUUID(), WendarrNodes.EXPERT_EATER).isPresent();
     }
 
     @SubscribeEvent
@@ -124,9 +111,10 @@ public final class WendarrFruit {
         if (!(event.getItem().getItem() instanceof ItemVaultFruit)) {
             return;
         }
-        if (!SAVED_FRUIT.remove(player.getUUID())) {
+        if (!isFruitSaved(player)) {
             return;
         }
+        GodNodeState.clear(player.getUUID(), WendarrNodes.EXPERT_EATER);
         ItemStack result = event.getResultStack();
         if (result.isEmpty()) {
             event.setResultStack(new ItemStack(event.getItem().getItem(), 1));
@@ -135,8 +123,7 @@ public final class WendarrFruit {
         }
     }
 
-    @SubscribeEvent
-    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        SAVED_FRUIT.remove(event.getPlayer().getUUID());
+    private static WendarrNodeHandlers.GluttonParams gluttonParams() {
+        return WendarrNodeHandlers.params(WendarrNodes.GLUTTON, WendarrNodeHandlers.GluttonParams.class);
     }
 }

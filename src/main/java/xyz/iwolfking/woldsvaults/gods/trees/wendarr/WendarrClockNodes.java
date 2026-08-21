@@ -4,8 +4,6 @@ import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
-import iskallia.vault.core.vault.time.TickClock;
-import iskallia.vault.core.vault.time.modifier.GreedExtension;
 import iskallia.vault.util.calc.PlayerStat;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,100 +12,53 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
 import xyz.iwolfking.woldsvaults.gods.combat.VaultClockRate;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 
 /**
- * The Wendarr nodes that act on the vault itself: Extender (r76), Speed Demon (r87) and
- * Quick Search (r88).
+ * The party-wide half of Speed Demon (r87) and Quick Search (r88).
  *
- * <p>Speed Demon and Quick Search both shorten the vault second through the wave-1 clock-rate
- * primitive. Each uses a single fixed factor key, so a second player with the same node changes
- * nothing ("does not stack") while the two different nodes still multiply with each other. Clock
- * rate factors are per vault and in memory only, so the reconcile below re-applies them on a one
- * second cadence rather than only on join.
+ * <p>Both shorten the vault second through the wave-1 clock-rate primitive, and each uses a single
+ * fixed factor key, so a second player with the same node changes nothing ("does not stack") while
+ * the two different nodes still multiply with each other. Speed Demon's compensation - the stat
+ * multiplier, the global damage factor and the armour bonus - is an aura on every runner of the
+ * vault, not only on the holder.
+ *
+ * <p>Neither of those is a per-player quantity, so neither can be expressed by a handler acting on
+ * the player it ticks for. {@link #reconcile} is the one pass that recomputes the whole vault from
+ * its current runners; the two tick contributors in {@link WendarrTimeHandlers} drive it on the
+ * shared cadence, their deactivation drives it when a holder loses the node or logs out, and the
+ * listener-leave hook below drives it when a holder walks out of the vault. Clock rate factors are
+ * per vault and in memory only, which is why the pass re-applies rather than only sets.
  */
 public final class WendarrClockNodes {
-    public static int extenderTicks() {
-        return GodNodeValues.count(WendarrNodes.EXTENDER, "ticks");
-    }
-    public static float speedDemonRate() {
-        return GodNodeValues.number(WendarrNodes.SPEED_DEMON, "rate");
-    }
-    public static float quickSearchRate() {
-        return GodNodeValues.number(WendarrNodes.QUICK_SEARCH, "rate");
-    }
-    public static float speedDemonStatMultiplier() {
-        return GodNodeValues.number(WendarrNodes.SPEED_DEMON, "stat_multiplier");
-    }
     public static final ResourceLocation OMEGA_FORTUNE_SMALL = WoldsVaults.id("omega_fortune_small");
 
-    private static final ResourceLocation SPEED_DEMON_RATE_KEY = WoldsVaults.id("wendarr_speed_demon");
-    private static final ResourceLocation QUICK_SEARCH_RATE_KEY = WoldsVaults.id("wendarr_quick_search");
     private static final ResourceLocation SPEED_DEMON_DAMAGE_KEY = WoldsVaults.id("wendarr_speed_demon_damage");
     private static final UUID SPEED_DEMON_ARMOR_UUID = UUID.fromString("6b6c9a2e-4d1f-4f8c-9d2a-51f0b7c3a911");
-    private static final int RECONCILE_INTERVAL_TICKS = 20;
-
-    private static final Set<UUID> SPEED_DEMON_PLAYERS = ConcurrentHashMap.newKeySet();
-    private static final Set<String> EXTENDED_GRANTED = ConcurrentHashMap.newKeySet();
     private static final Object OWNER = new Object();
 
     private WendarrClockNodes() {
     }
 
     static void register() {
-        CommonEvents.LISTENER_JOIN.register(OWNER, data -> onJoin(data.getVault()));
         CommonEvents.LISTENER_LEAVE.register(OWNER, data -> {
-            data.getListener().getPlayer().ifPresent(player -> EXTENDED_GRANTED.remove(extenderKey(data.getVault(), player)));
+            data.getListener().getPlayer().ifPresent(WendarrClockNodes::clearAura);
             reconcile(data.getVault());
-        });
-        CommonEvents.LISTENER_TICK.register(OWNER, data -> {
-            Vault vault = data.getVault();
-            TickClock clock = vault.get(Vault.CLOCK);
-            if (clock != null && clock.get(TickClock.GLOBAL_TIME) % RECONCILE_INTERVAL_TICKS == 0) {
-                reconcile(vault);
-            }
         });
         registerSpeedDemonStats();
     }
 
-    private static void onJoin(Vault vault) {
-        for (ServerPlayer player : WendarrVaultTime.runners(vault)) {
-            grantExtenderTime(vault, player);
-        }
-        reconcile(vault);
-    }
-
     /**
-     * Extender grants its time per player and stacks across a party, exactly like the shipped
-     * greed vault-time node, so it reuses the base mod's own {@link GreedExtension} rather than
-     * writing {@code DISPLAY_TIME} by hand.
+     * Recomputes one vault's clock rate factors and Speed Demon aura from the runners currently in
+     * it. Idempotent, and safe to call with no vault - a holder who is not in a vault has nothing
+     * to reconcile.
      */
-    private static void grantExtenderTime(Vault vault, ServerPlayer player) {
-        if (!WendarrNodes.hasMinor(player, WendarrNodes.EXTENDER)) {
-            return;
-        }
-        if (!EXTENDED_GRANTED.add(extenderKey(vault, player))) {
-            return;
-        }
-        TickClock clock = vault.get(Vault.CLOCK);
-        if (clock == null) {
-            return;
-        }
-        clock.addModifier(new GreedExtension(player, extenderTicks()));
-    }
-
-    private static String extenderKey(Vault vault, ServerPlayer player) {
-        return vault.get(Vault.ID) + ":" + player.getUUID();
-    }
-
-    private static void reconcile(Vault vault) {
+    static void reconcile(Vault vault) {
         if (vault == null) {
             return;
         }
@@ -115,15 +66,31 @@ public final class WendarrClockNodes {
         boolean speedDemon = false;
         boolean quickSearch = false;
         for (ServerPlayer player : runners) {
-            speedDemon |= WendarrNodes.hasMinor(player, WendarrNodes.SPEED_DEMON);
-            quickSearch |= WendarrNodes.hasMinor(player, WendarrNodes.QUICK_SEARCH);
+            speedDemon |= WendarrNodes.isActive(player, WendarrNodes.SPEED_DEMON);
+            quickSearch |= WendarrNodes.isActive(player, WendarrNodes.QUICK_SEARCH);
         }
-        applyRate(vault, SPEED_DEMON_RATE_KEY, speedDemonRate(), speedDemon);
-        applyRate(vault, QUICK_SEARCH_RATE_KEY, quickSearchRate(), quickSearch);
+        applyRate(vault, WendarrNodes.key(WendarrNodes.SPEED_DEMON),
+                WendarrNodeHandlers.params(WendarrNodes.SPEED_DEMON,
+                        WendarrNodeHandlers.SpeedDemonParams.class).rate(), speedDemon);
+        applyRate(vault, WendarrNodes.key(WendarrNodes.QUICK_SEARCH),
+                WendarrNodeHandlers.params(WendarrNodes.QUICK_SEARCH,
+                        WendarrNodeHandlers.QuickSearchParams.class).rate(), quickSearch);
         if (quickSearch) {
             attachOmegaFortune(vault);
         }
         applySpeedDemonAura(runners, speedDemon);
+    }
+
+    /**
+     * Takes the Speed Demon aura off one player unconditionally. The removals are idempotent on
+     * purpose: the shared teardown may already have dropped this player's scratch by the time a
+     * leave or a logout reaches here, and a conditional removal would then leave the damage factor
+     * and the armour modifier applied with nothing left to notice them.
+     */
+    static void clearAura(ServerPlayer player) {
+        GodNodeState.clear(player.getUUID(), WendarrNodes.SPEED_DEMON);
+        GlobalDamageMultiplierRegistry.remove(player, SPEED_DEMON_DAMAGE_KEY);
+        applyArmorBonus(player, 1.0F);
     }
 
     private static void applyRate(Vault vault, ResourceLocation key, float factor, boolean active) {
@@ -148,29 +115,32 @@ public final class WendarrClockNodes {
     }
 
     private static void applySpeedDemonAura(List<ServerPlayer> runners, boolean active) {
+        float multiplier = WendarrNodeHandlers.params(WendarrNodes.SPEED_DEMON,
+                WendarrNodeHandlers.SpeedDemonParams.class).stat_multiplier();
         for (ServerPlayer player : runners) {
-            boolean changed = active ? SPEED_DEMON_PLAYERS.add(player.getUUID()) : SPEED_DEMON_PLAYERS.remove(player.getUUID());
+            boolean had = GodNodeState.peek(player.getUUID(), WendarrNodes.SPEED_DEMON).isPresent();
             if (active) {
-                GlobalDamageMultiplierRegistry.register(player, SPEED_DEMON_DAMAGE_KEY, speedDemonStatMultiplier());
-            } else if (changed) {
-                GlobalDamageMultiplierRegistry.remove(player, SPEED_DEMON_DAMAGE_KEY);
-            }
-            if (changed) {
-                applyArmorBonus(player, active);
+                GodNodeState.put(player.getUUID(), WendarrNodes.SPEED_DEMON, Boolean.TRUE);
+                GlobalDamageMultiplierRegistry.register(player, SPEED_DEMON_DAMAGE_KEY, multiplier);
+                if (!had) {
+                    applyArmorBonus(player, multiplier);
+                }
+            } else if (had) {
+                clearAura(player);
             }
         }
     }
 
     /** Armour is a vanilla attribute, not a {@code PlayerStat}, so it needs its own modifier. */
-    private static void applyArmorBonus(ServerPlayer player, boolean active) {
+    private static void applyArmorBonus(ServerPlayer player, float multiplier) {
         AttributeInstance armor = player.getAttribute(Attributes.ARMOR);
         if (armor == null) {
             return;
         }
         armor.removeModifier(SPEED_DEMON_ARMOR_UUID);
-        if (active) {
+        if (multiplier != 1.0F) {
             armor.addTransientModifier(new AttributeModifier(SPEED_DEMON_ARMOR_UUID, "WendarrSpeedDemonArmor",
-                    speedDemonStatMultiplier() - 1.0F, AttributeModifier.Operation.MULTIPLY_BASE));
+                    multiplier - 1.0F, AttributeModifier.Operation.MULTIPLY_BASE));
         }
     }
 
@@ -178,15 +148,15 @@ public final class WendarrClockNodes {
         for (PlayerStat stat : List.of(PlayerStat.ITEM_QUANTITY, PlayerStat.ITEM_RARITY,
                 PlayerStat.TRAP_DISARM_CHANCE, PlayerStat.ABILITY_POWER_MULTIPLIER)) {
             CommonEvents.PLAYER_STAT.of(stat).register(OWNER, data -> {
-                if (data.getEntity() instanceof ServerPlayer player && SPEED_DEMON_PLAYERS.contains(player.getUUID())) {
-                    data.setValue(data.getValue() * speedDemonStatMultiplier());
+                if (!(data.getEntity() instanceof ServerPlayer player)) {
+                    return;
                 }
+                if (GodNodeState.peek(player.getUUID(), WendarrNodes.SPEED_DEMON).isEmpty()) {
+                    return;
+                }
+                data.setValue(data.getValue() * WendarrNodeHandlers.params(WendarrNodes.SPEED_DEMON,
+                        WendarrNodeHandlers.SpeedDemonParams.class).stat_multiplier());
             });
         }
-    }
-
-    public static void clearPlayer(UUID playerId) {
-        SPEED_DEMON_PLAYERS.remove(playerId);
-        EXTENDED_GRANTED.removeIf(key -> key.endsWith(":" + playerId));
     }
 }

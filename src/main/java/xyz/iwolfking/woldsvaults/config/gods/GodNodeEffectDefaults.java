@@ -170,36 +170,50 @@ public final class GodNodeEffectDefaults {
         put(map, "velara_utilized", "velara_utilized", new float[]{}, "ability_levels", 3);
     }
 
+    /**
+     * Wendarr, ported off {@link #LEGACY_HANDLER}. Its five plain stat effects bind the shared
+     * {@code gear_attribute_scaled} type and Pious Devotion the shared {@code piety} type, so both
+     * are config alone; every effect Java has to know about binds a type named after itself, so an
+     * unbound or misspelt effect fails the load instead of falling through to the catch-all. The
+     * two extraction effects are bound to their own deferred types rather than the catch-all,
+     * which is what keeps a deliberately inert node distinguishable from an unported one.
+     */
     private static void wendarr(GodNodeEffectsConfig.EffectMap map) {
-        put(map, "wendarr_fruit_conissour", new float[]{0.01F});
-        put(map, "wendarr_speedy", new float[]{0.05F});
-        put(map, "wendarr_heavily_effected", new float[]{0.1F});
-        put(map, "wendarr_speedy_caster", new float[]{0.05F});
-        put(map, "wendarr_fruity", new float[]{0.25F});
-        put(map, "wendarr_pious_devotion", new float[]{10.0F});
-        put(map, "wendarr_master_imbuer", new float[]{});
-        put(map, "wendarr_extraction_superviser", new float[]{});
-        put(map, "wendarr_expert_eater", new float[]{}, "save_chance", 0.1F);
-        put(map, "wendarr_pristine_condition", new float[]{}, "rot_multiplier", 0.85F);
-        put(map, "wendarr_efficient_steps", new float[]{}, "ratio", 0.25F);
-        put(map, "wendarr_legend_of_the_pear", new float[]{});
-        put(map, "wendarr_glutton", new float[]{}, "time_multiplier", 0.33F, "rot_multiplier", 0.2F);
-        put(map, "wendarr_paced_strikes", new float[]{}, "reference_minutes", 50.0F);
-        put(map, "wendarr_edge_of_time", new float[]{},
+        put(map, "wendarr_fruit_conissour", GEAR_ATTRIBUTE_SCALED, new float[]{0.01F},
+                "attribute", "the_vault:fruit_effectiveness");
+        put(map, "wendarr_speedy", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F}, "attribute", "the_vault:movement_speed");
+        put(map, "wendarr_heavily_effected", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:effect_duration");
+        put(map, "wendarr_speedy_caster", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F},
+                "attribute", "the_vault:cooldown_reduction");
+        put(map, "wendarr_fruity", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F},
+                "attribute", "the_vault:fruit_effectiveness");
+        put(map, "wendarr_pious_devotion", PIETY, new float[]{10.0F});
+        put(map, "wendarr_master_imbuer", "wendarr_master_imbuer", new float[]{});
+        put(map, "wendarr_extraction_superviser", "wendarr_extraction_superviser", new float[]{});
+        put(map, "wendarr_expert_eater", "wendarr_expert_eater", new float[]{}, "save_chance", 0.1F);
+        put(map, "wendarr_pristine_condition", "wendarr_pristine_condition", new float[]{}, "rot_multiplier", 0.85F);
+        put(map, "wendarr_efficient_steps", "wendarr_efficient_steps", new float[]{}, "ratio", 0.25F);
+        put(map, "wendarr_legend_of_the_pear", "wendarr_legend_of_the_pear", new float[]{});
+        put(map, "wendarr_glutton", "wendarr_glutton", new float[]{},
+                "time_multiplier", 0.33F, "rot_multiplier", 0.2F);
+        put(map, "wendarr_paced_strikes", "wendarr_paced_strikes", new float[]{}, "reference_minutes", 50.0F);
+        put(map, "wendarr_edge_of_time", "wendarr_edge_of_time", new float[]{},
                 "multiplier", 10.0F, "drain_min_ticks", 20, "drain_max_ticks", 60);
-        put(map, "wendarr_extender", new float[]{}, "ticks", 4800);
-        put(map, "wendarr_temporal_breaking", new float[]{});
-        put(map, "wendarr_plushie_lover", new float[]{});
-        put(map, "wendarr_temporal_shielding", new float[]{}, "reduction", 0.1F);
-        put(map, "wendarr_tough_stomach", new float[]{}, "health_scaling", 0.86D);
-        put(map, "wendarr_clock_artificier", new float[]{}, "multiplier", 1.5F);
-        put(map, "wendarr_pylon_whisperer", new float[]{}, "boost", 1.5F);
-        put(map, "wendarr_gardener", new float[]{}, "extra_fruit_chance", 0.5F, "starfruit_upgrade_chance", 0.05F);
-        put(map, "wendarr_armored_extractors", new float[]{});
-        put(map, "wendarr_the_deckless", new float[]{},
+        put(map, "wendarr_extender", "wendarr_extender", new float[]{}, "ticks", 4800);
+        put(map, "wendarr_temporal_breaking", "wendarr_temporal_breaking", new float[]{});
+        put(map, "wendarr_plushie_lover", "wendarr_plushie_lover", new float[]{});
+        put(map, "wendarr_temporal_shielding", "wendarr_temporal_shielding", new float[]{}, "reduction", 0.1F);
+        put(map, "wendarr_tough_stomach", "wendarr_tough_stomach", new float[]{}, "health_scaling", 0.86D);
+        put(map, "wendarr_clock_artificier", "wendarr_clock_artificier", new float[]{}, "multiplier", 1.5F);
+        put(map, "wendarr_pylon_whisperer", "wendarr_pylon_whisperer", new float[]{}, "boost", 1.5F);
+        put(map, "wendarr_gardener", "wendarr_gardener", new float[]{},
+                "extra_fruit_chance", 0.5F, "starfruit_upgrade_chance", 0.05F);
+        put(map, "wendarr_armored_extractors", "wendarr_armored_extractors", new float[]{});
+        put(map, "wendarr_the_deckless", "wendarr_the_deckless", new float[]{},
                 "fruit_per_slot", 0.01F, "speed_per_slot", 0.05F, "cooldown_per_slot", 0.05F);
-        put(map, "wendarr_speed_demon", new float[]{}, "rate", 0.75F, "stat_multiplier", 1.1F);
-        put(map, "wendarr_quick_search", new float[]{}, "rate", 0.7F);
+        put(map, "wendarr_speed_demon", "wendarr_speed_demon", new float[]{}, "rate", 0.75F, "stat_multiplier", 1.1F);
+        put(map, "wendarr_quick_search", "wendarr_quick_search", new float[]{}, "rate", 0.7F);
     }
 
     private static void tenos(GodNodeEffectsConfig.EffectMap map) {

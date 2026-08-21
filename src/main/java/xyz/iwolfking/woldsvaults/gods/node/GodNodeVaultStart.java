@@ -78,6 +78,8 @@ public final class GodNodeVaultStart {
         }
         ServerPlayer player = listener.getPlayer().orElse(null);
         if (player == null) {
+            WoldsVaults.LOGGER.warn("A listener joined a vault with no resolvable player; god vault "
+                    + "contributors did not run for them, so any vault-start node they own is inert this run.");
             return;
         }
         if (!claim(vault, player.getUUID())) {

@@ -1,24 +1,27 @@
 package xyz.iwolfking.woldsvaults.gods.trees.wendarr;
 
 import iskallia.vault.core.vault.influence.VaultGod;
-import iskallia.vault.gear.attribute.VaultGearAttribute;
-import iskallia.vault.init.ModGearAttributes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
- * Node identity for the Wendarr (The Timekeeper) god tree, sheet rows r63-r88.
+ * The Wendarr (The Timekeeper) effect ids Java has to name, sheet rows r63-r88, and the gate reads
+ * its handlers, listeners and mixins make.
  *
- * <p>Ids are the single source of truth shared by the attribute provider, every functional
- * handler and the minor-transfer resolver. Plain stat rows carry their attribute here and read
- * their per-point value from {@code god_node_effects_wendarr.json}; everything else is behaviour
- * and lives in a dedicated handler.
+ * <p>The tuned numbers behind these ids live in {@code god_node_effects_wendarr.json} and are read
+ * through {@link WendarrNodeHandlers#params}, never from a Java constant. The five plain stat
+ * effects bind the shared {@code gear_attribute_scaled} type and are config alone, which is the
+ * shape a new stat node is expected to take.
+ *
+ * <p>Liveness is answered by {@link GodNodeGate} behind the shared once-a-second cache, which is
+ * what retires this tree's own gate reads. One call covers both kinds of node: a minor counts when
+ * Wendarr is the active tree or when it is bound to a transfer slot of whichever tree is, and a
+ * major only on the active tree - the node type comes from the registry, so a caller no longer
+ * picks between a minor reader and a major one.
  */
 public final class WendarrNodes {
     public static final VaultGod GOD = VaultGod.WENDARR;
@@ -51,66 +54,32 @@ public final class WendarrNodes {
     public static final String SPEED_DEMON = "wendarr_speed_demon";
     public static final String QUICK_SEARCH = "wendarr_quick_search";
 
-    /** Plain stat rows (sheet type "Stat"): the subset eligible for foreign-tree carryover. */
-    public static final Map<String, StatEntry> BASIC_STATS = basicStats();
-
-    /** Stat-shaped minor rows: full value on the active tree and through minor transfer only. */
-    public static final Map<String, StatEntry> MINOR_STATS = Map.of(
-            FRUITY, new StatEntry(FRUITY, ModGearAttributes.FRUIT_EFFECTIVENESS));
-
-    /** Every minor node of this tree, i.e. everything transferable into a minor-transfer slot. */
-    public static final Set<String> MINORS = Set.of(
-            EXPERT_EATER, PRISTINE_CONDITION, EFFICIENT_STEPS, GLUTTON, PACED_STRIKES, EXTENDER,
-            TEMPORAL_BREAKING, PLUSHIE_LOVER, TEMPORAL_SHIELDING, TOUGH_STOMACH, CLOCK_ARTIFICIER,
-            PYLON_WHISPERER, GARDENER, FRUITY, ARMORED_EXTRACTORS, THE_DECKLESS, SPEED_DEMON,
-            QUICK_SEARCH);
-
-    /** Nodes registered with no behaviour, and why. Kept so ids stay reserved and reportable. */
-    public static final Map<String, String> INERT = Map.of(
-            EXTRACTION_SUPERVISER, "Extraction vaults are shelved (SCOPING_SYNTHESIS 5-bis #17); no extractor entity exists.",
-            ARMORED_EXTRACTORS, "Extraction vaults are shelved (SCOPING_SYNTHESIS 5-bis #17); no extractor entity exists.");
-
     private WendarrNodes() {
     }
 
-    private static Map<String, StatEntry> basicStats() {
-        Map<String, StatEntry> stats = new LinkedHashMap<>();
-        stats.put(FRUIT_CONISSOUR, new StatEntry(FRUIT_CONISSOUR, ModGearAttributes.FRUIT_EFFECTIVENESS));
-        stats.put(SPEEDY, new StatEntry(SPEEDY, ModGearAttributes.MOVEMENT_SPEED));
-        stats.put(HEAVILY_EFFECTED, new StatEntry(HEAVILY_EFFECTED, ModGearAttributes.EFFECT_DURATION));
-        stats.put(SPEEDY_CASTER, new StatEntry(SPEEDY_CASTER, ModGearAttributes.COOLDOWN_REDUCTION));
-        return Map.copyOf(stats);
+    /** The registry key a node's global damage factor or vault clock rate factor is stored under. */
+    public static ResourceLocation key(String effectId) {
+        return WoldsVaults.id(effectId);
     }
 
-    public static boolean owns(String nodeId) {
-        return nodeId != null && nodeId.startsWith("wendarr_");
+    /** Effective points the player holds in a Wendarr effect right now, gated and cached. */
+    public static int points(ServerPlayer player, String effectId) {
+        return GodNodeGate.points(player, GOD, effectId);
     }
 
-    /** Points a player has in a Wendarr minor, honouring minor-transfer selection. */
-    public static int minorPoints(ServerPlayer player, String nodeId) {
-        return GodNodeGate.minorPoints(player, GOD, nodeId);
+    public static boolean isActive(ServerPlayer player, String effectId) {
+        return points(player, effectId) > 0;
     }
 
-    public static boolean hasMinor(ServerPlayer player, String nodeId) {
-        return minorPoints(player, nodeId) > 0;
-    }
-
-    public static boolean hasMajor(ServerPlayer player, String nodeId) {
-        return GodNodeGate.isActiveMajor(player, GOD, nodeId);
-    }
-
-    /** Raw ledger points, ignoring which god is equipped. Only the carryover paths use this. */
-    public static int ledgerPoints(ServerPlayer player, String nodeId) {
-        if (player.getServer() == null) {
+    /**
+     * Raw ledger read, ignoring which god is active. Only the piety source needs this: piety is
+     * summed outside the attribute fold and applies its own carryover scale.
+     */
+    public static int investedPoints(ServerPlayer player, String effectId) {
+        MinecraftServer server = player.getServer();
+        if (server == null) {
             return 0;
         }
-        return GodAlignmentData.get(player.getServer()).getPointsIn(player.getUUID(), GOD, nodeId);
-    }
-
-    /** A stat row: one gear attribute and the configured value one spent point contributes. */
-    public record StatEntry(String nodeId, VaultGearAttribute<Float> attribute) {
-        public float perPoint() {
-            return GodNodeValues.value(this.nodeId);
-        }
+        return GodAlignmentData.get(server).getPointsIn(player.getUUID(), GOD, effectId);
     }
 }
