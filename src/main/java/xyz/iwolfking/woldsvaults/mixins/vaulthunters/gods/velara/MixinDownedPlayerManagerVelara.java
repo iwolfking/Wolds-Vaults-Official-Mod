@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.gods.trees.velara.Perserverence;
-import xyz.iwolfking.woldsvaults.gods.trees.velara.SacrificeFlocks;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraPerserverence;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraSacrificeFlocks;
 
 /**
  * Perserverence and Sacrifice's integration with the downed system. The bleed-out timer is
@@ -29,11 +29,11 @@ public class MixinDownedPlayerManagerVelara {
     @ModifyVariable(method = "enterDownedState", ordinal = 1,
             at = @At(value = "INVOKE_ASSIGN", target = "Liskallia/vault/config/DownedConfig;getBleedOutTicks(Ljava/lang/String;I)I"))
     private static int velaraPerserverenceTimer(int bleedOutTicks, ServerPlayer player, Vault vault) {
-        return Perserverence.adjustBleedOutTicks(player, bleedOutTicks);
+        return VelaraPerserverence.adjustBleedOutTicks(player, bleedOutTicks);
     }
 
     @Inject(method = "enterDownedState", at = @At("TAIL"))
     private static void velaraRedistributeFlock(ServerPlayer player, Vault vault, CallbackInfo ci) {
-        SacrificeFlocks.rebuildFor(player);
+        VelaraSacrificeFlocks.rebuildFor(player);
     }
 }

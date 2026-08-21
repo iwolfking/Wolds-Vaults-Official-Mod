@@ -18,10 +18,10 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
  * and the node is inert rather than wrong.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
-public final class FieldMedic {
+public final class VelaraFieldMedic {
     private static final ThreadLocal<LivingEntity> CURRENT_HEALER = new ThreadLocal<>();
 
-    private FieldMedic() {
+    private VelaraFieldMedic() {
     }
 
     public static void pushHealer(LivingEntity healer) {
@@ -42,7 +42,7 @@ public final class FieldMedic {
         if (!(healer instanceof ServerPlayer medic) || healer == event.getEntityLiving()) {
             return;
         }
-        if (!VelaraNodeState.isActive(medic, VelaraNode.FIELD_MEDIC)) {
+        if (!VelaraNodes.isActive(medic, VelaraNodes.FIELD_MEDIC)) {
             return;
         }
         if (!VelaraParty.isAlly(medic, event.getEntityLiving().getUUID())) {

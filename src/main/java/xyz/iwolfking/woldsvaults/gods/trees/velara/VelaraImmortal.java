@@ -12,32 +12,30 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
-
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Immortal's behavioural legs: the 300 second self-revive and the x0.5 damage penalty.
  *
- * <p>The stat legs are elsewhere -  health and armour ride vanilla attribute modifiers in
+ * <p>The stat legs are elsewhere - health and armour ride vanilla attribute modifiers in
  * {@link VelaraModifiers}, healing efficiency and regeneration ride {@link VelaraStatBus}.
  *
  * <p>The x0.5 goes through {@link GlobalDamageMultiplierRegistry} rather than a vanilla
  * {@code ATTACK_DAMAGE} modifier, which covers ability power as well as weapon damage in one
  * place. It is multiplicative with every other global factor, which is the intended reading of
  * "have your attack and ability power multiplied by 0.5x".
+ *
+ * <p>The revive cooldown is a tick stamp in the shared {@link GodNodeState} scratch, so it is
+ * torn down on logout and on leaving a vault like every other node's state.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
-public final class Immortal {
+public final class VelaraImmortal {
     /** The base mod's own "already revived this death" tag; setting it makes phoenix and downed stand down. */
     private static final String VAULT_REVIVE_TAG = "the_vault_revived_tick";
     private static final ResourceLocation DAMAGE_FACTOR_KEY = WoldsVaults.id("velara_immortal");
 
-    private static final Map<UUID, Long> LAST_REVIVE = new ConcurrentHashMap<>();
-
-    private Immortal() {
+    private VelaraImmortal() {
     }
 
     /**
@@ -52,7 +50,7 @@ public final class Immortal {
         if (event.isCanceled() || player.getTags().contains(VAULT_REVIVE_TAG)) {
             return;
         }
-        if (!VelaraNodeState.isActive(player, VelaraNode.IMMORTAL) || event.getSource().isBypassInvul()) {
+        if (!VelaraNodes.isActive(player, VelaraNodes.IMMORTAL) || event.getSource().isBypassInvul()) {
             return;
         }
         MinecraftServer server = player.getServer();
@@ -62,15 +60,15 @@ public final class Immortal {
             return;
         }
         long now = server.getTickCount();
-        Long last = LAST_REVIVE.get(player.getUUID());
+        Long last = GodNodeState.<Long>peek(player.getUUID(), VelaraNodes.IMMORTAL).orElse(null);
         if (last != null && now - last < VelaraValues.immortalReviveCooldownTicks()) {
             return;
         }
-        LAST_REVIVE.put(player.getUUID(), now);
+        GodNodeState.put(player.getUUID(), VelaraNodes.IMMORTAL, now);
         revive(player);
         player.addTag(VAULT_REVIVE_TAG);
         event.setCanceled(true);
-        SacrificeFlocks.rebuildFor(player);
+        VelaraSacrificeFlocks.rebuildFor(player);
     }
 
     private static void revive(ServerPlayer player) {
@@ -83,16 +81,12 @@ public final class Immortal {
     }
 
     static void updateGlobalFactor(ServerPlayer player) {
-        if (VelaraNodeState.isActive(player, VelaraNode.IMMORTAL)) {
+        if (VelaraNodes.isActive(player, VelaraNodes.IMMORTAL)) {
             if (GlobalDamageMultiplierRegistry.getFactor(player, DAMAGE_FACTOR_KEY) != VelaraValues.immortalDamageMultiplier()) {
                 GlobalDamageMultiplierRegistry.register(player, DAMAGE_FACTOR_KEY, VelaraValues.immortalDamageMultiplier());
             }
         } else {
             GlobalDamageMultiplierRegistry.remove(player, DAMAGE_FACTOR_KEY);
         }
-    }
-
-    static void clear(UUID playerId) {
-        LAST_REVIVE.remove(playerId);
     }
 }

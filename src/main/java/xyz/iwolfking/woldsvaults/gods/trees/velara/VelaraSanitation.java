@@ -15,8 +15,8 @@ import net.minecraft.world.entity.player.Player;
  * snapshot re-applies every tick are unaffected, which is correct -  those are not debuffs being
  * inflicted.
  */
-public final class Sanitation {
-    private Sanitation() {
+public final class VelaraSanitation {
+    private VelaraSanitation() {
     }
 
     /**

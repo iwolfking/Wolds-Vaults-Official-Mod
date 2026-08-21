@@ -10,12 +10,12 @@ import net.minecraft.server.level.ServerPlayer;
  * mixin under {@code mixins/vaulthunters/gods/velara}. Read as the player's own timer, not as a
  * bonus to anyone they revive.
  */
-public final class Perserverence {
-    private Perserverence() {
+public final class VelaraPerserverence {
+    private VelaraPerserverence() {
     }
 
     public static int adjustBleedOutTicks(ServerPlayer player, int bleedOutTicks) {
-        if (!VelaraNodeState.isActive(player, VelaraNode.PERSERVERENCE)) {
+        if (!VelaraNodes.isActive(player, VelaraNodes.PERSERVERENCE)) {
             return bleedOutTicks;
         }
         return Math.round(bleedOutTicks * (1.0F + VelaraValues.perserverenceTimerBonus()));

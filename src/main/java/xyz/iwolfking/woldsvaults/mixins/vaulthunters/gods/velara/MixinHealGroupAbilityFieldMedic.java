@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.gods.trees.velara.FieldMedic;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraFieldMedic;
 
 /**
  * Attribution for Field Medic. {@code LivingHealEvent} carries no healer, so the caster is stamped
@@ -19,11 +19,11 @@ public class MixinHealGroupAbilityFieldMedic {
 
     @Inject(method = "doAction", at = @At("HEAD"))
     private void velaraPushHealer(SkillContext context, CallbackInfoReturnable<Ability.ActionResult> cir) {
-        context.getSource().as(ServerPlayer.class).ifPresent(FieldMedic::pushHealer);
+        context.getSource().as(ServerPlayer.class).ifPresent(VelaraFieldMedic::pushHealer);
     }
 
     @Inject(method = "doAction", at = @At("RETURN"))
     private void velaraPopHealer(SkillContext context, CallbackInfoReturnable<Ability.ActionResult> cir) {
-        FieldMedic.popHealer();
+        VelaraFieldMedic.popHealer();
     }
 }

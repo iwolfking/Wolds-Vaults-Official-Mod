@@ -26,7 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodPiety;
-import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraAttributeProvider;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraBadEffects;
 import xyz.iwolfking.woldsvaults.items.gear.MythicVaultCharmItem;
 
 import javax.annotation.Nullable;
@@ -620,12 +620,12 @@ public final class MythicCharmRolls {
             }
             case AVOIDANCE: {
                 float chance = qualityValue(roll, stored.quality()) * scale * legendaryMultiplier;
-                List<MobEffect> badEffects = VelaraAttributeProvider.resolveBadEffects();
+                List<MobEffect> badEffects = VelaraBadEffects.resolve();
                 if (badEffects.isEmpty()) {
                     return null;
                 }
                 return new VaultGearModifier<>((VaultGearAttribute) roll.attribute(),
-                        new EffectAvoidanceListGearAttribute(badEffects, VelaraAttributeProvider.BAD_EFFECTS_KEY, chance));
+                        new EffectAvoidanceListGearAttribute(badEffects, VelaraBadEffects.KEY, chance));
             }
             default:
                 return null;

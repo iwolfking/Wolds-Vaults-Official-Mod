@@ -43,29 +43,28 @@ public final class VelaraModifiers {
 
     static void update(ServerPlayer player, boolean inVault) {
         int charmCount = inVault ? countPartyCharmGods(player) : 0;
-        VelaraAuras.setDefenderCharmCount(player.getUUID(), charmCount);
 
         double armorMultiplier = 1.0D;
         double healthMultiplier = 1.0D;
         double armorFlat = 0.0D;
         double healthFlat = 0.0D;
 
-        if (VelaraNodeState.isActive(player, VelaraNode.THE_STONEWALL)) {
+        if (VelaraNodes.isActive(player, VelaraNodes.THE_STONEWALL)) {
             armorMultiplier *= VelaraValues.stonewallArmorMultiplier();
         }
-        if (VelaraNodeState.isActive(player, VelaraNode.CACTUS)) {
+        if (VelaraNodes.isActive(player, VelaraNodes.CACTUS)) {
             armorMultiplier *= VelaraValues.cactusArmorMultiplier();
         }
-        if (VelaraNodeState.isActive(player, VelaraNode.IMMORTAL)) {
+        if (VelaraNodes.isActive(player, VelaraNodes.IMMORTAL)) {
             armorMultiplier *= VelaraValues.immortalArmorMultiplier();
             healthMultiplier *= VelaraValues.immortalHealthMultiplier();
             armorFlat += VelaraValues.immortalFlatArmor();
             healthFlat += VelaraValues.immortalFlatHealth();
         }
-        if (VelaraNodeState.isActive(player, VelaraNode.STEADFAST)) {
+        if (VelaraNodes.isActive(player, VelaraNodes.STEADFAST)) {
             armorMultiplier *= 1.0D + steadfastArmorBonus(player);
         }
-        if (charmCount > 0 && VelaraNodeState.isActive(player, VelaraNode.DEFENDER_OF_THE_FAITH)) {
+        if (charmCount > 0 && VelaraNodes.isActive(player, VelaraNodes.DEFENDER_OF_THE_FAITH)) {
             double defender = 1.0D + VelaraValues.defenderPerCharm() * charmCount;
             armorMultiplier *= defender;
             healthMultiplier *= defender;

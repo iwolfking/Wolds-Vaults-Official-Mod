@@ -42,7 +42,7 @@ import iskallia.vault.util.calc.ThornsHelper;
 import iskallia.vault.util.damage.DamageUtil;
 import iskallia.vault.world.data.PlayerTalentsData;
 import iskallia.vault.world.data.ServerVaults;
-import xyz.iwolfking.woldsvaults.gods.trees.velara.Counterstrike;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraCounterstrike;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
 import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import net.minecraft.core.BlockPos;
@@ -135,7 +135,7 @@ public class LivingEntityEvents {
 
         if (dodge && entity instanceof ServerPlayer dodgingPlayer) {
             Milestones.advance(dodgingPlayer, MilestoneIds.WOOSH, 1L);
-            Counterstrike.onDefended(dodgingPlayer, source);
+            VelaraCounterstrike.onDefended(dodgingPlayer, source);
         }
 
         event.setCanceled(dodge);

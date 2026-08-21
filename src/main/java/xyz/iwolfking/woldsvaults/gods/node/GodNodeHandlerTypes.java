@@ -1,6 +1,9 @@
 package xyz.iwolfking.woldsvaults.gods.node;
 
 import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectDefaults;
+import xyz.iwolfking.woldsvaults.gods.node.handlers.GearAttributeScaledHandler;
+import xyz.iwolfking.woldsvaults.gods.node.handlers.PietyHandler;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers;
 
 /**
  * The single place every built-in god node handler type is registered, in the shape the base
@@ -12,6 +15,9 @@ import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectDefaults;
  * guarantee that holds: the addon's configs are read from the base mod's parallel common-setup
  * dispatch, before any {@code enqueueWork} tree setup runs, so a tree module that registered its
  * handlers from its own setup would register them after validation had already rejected them.
+ *
+ * <p>The cross-god types come first and each tree then contributes its own, so a god's handler
+ * types live with that god while the ordering guarantee stays in one place.
  */
 public final class GodNodeHandlerTypes {
     private static boolean bootstrapped;
@@ -26,5 +32,9 @@ public final class GodNodeHandlerTypes {
         }
         bootstrapped = true;
         GodNodeHandlers.register(GodNodeEffectDefaults.LEGACY_HANDLER, LegacyGodNodeHandler::new);
+        GodNodeHandlers.register(GearAttributeScaledHandler.TYPE, GearAttributeScaledHandler.Params.class,
+                GearAttributeScaledHandler::new);
+        GodNodeHandlers.register(PietyHandler.TYPE, PietyHandler::new);
+        VelaraNodeHandlers.register();
     }
 }

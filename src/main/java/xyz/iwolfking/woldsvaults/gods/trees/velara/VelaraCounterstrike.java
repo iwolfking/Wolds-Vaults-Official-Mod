@@ -20,8 +20,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
  * chaining, echoing and fatal-strike re-entry, which is the class of bug the addon already had to
  * fight for proc fangs.
  */
-public final class Counterstrike {
-    private Counterstrike() {
+public final class VelaraCounterstrike {
+    private VelaraCounterstrike() {
     }
 
     static void register() {
@@ -43,7 +43,7 @@ public final class Counterstrike {
         if (!(defender instanceof ServerPlayer player) || VelaraActiveFlags.IS_COUNTERSTRIKING.isSet()) {
             return;
         }
-        if (!VelaraNodeState.isActive(player, VelaraNode.COUNTERSTRIKE) || !isMelee(source)) {
+        if (!VelaraNodes.isActive(player, VelaraNodes.COUNTERSTRIKE) || !isMelee(source)) {
             return;
         }
         Entity attacker = source.getEntity();

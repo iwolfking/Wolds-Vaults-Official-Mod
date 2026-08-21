@@ -6,6 +6,7 @@ import iskallia.vault.world.data.DownedPlayerManager;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,7 +15,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Per-vault flock manager for Sacrifice.
@@ -26,18 +26,20 @@ import java.util.concurrent.ConcurrentHashMap;
  * "redistribute on death" is just another rebuild.
  *
  * <p>Grouping is by {@code /party}, since a shepherd can only protect party members. Players under
- * Immortal are excluded from every flock -  the sheet states Sacrifice cannot affect them.
+ * Immortal are excluded from every flock - the sheet states Sacrifice cannot affect them.
+ *
+ * <p>Both halves of the assignment live in the shared {@link GodNodeState} scratch: each protected
+ * player's shepherd under their own player scratch, and the roster of protected players under the
+ * running vault's scratch. Vault-scoped state is replaced by vault id and never wholesale, so one
+ * party finishing a vault cannot clear another party's flock.
  */
-public final class SacrificeFlocks {
-    private static final Map<UUID, UUID> SHEPHERD_BY_PROTECTED = new ConcurrentHashMap<>();
-    private static final Map<UUID, List<UUID>> PROTECTED_BY_VAULT = new ConcurrentHashMap<>();
-
-    private SacrificeFlocks() {
+public final class VelaraSacrificeFlocks {
+    private VelaraSacrificeFlocks() {
     }
 
     /** The player currently absorbing damage for {@code protectedPlayer}, or null. */
     public static ServerPlayer getShepherd(ServerPlayer protectedPlayer) {
-        UUID shepherdId = SHEPHERD_BY_PROTECTED.get(protectedPlayer.getUUID());
+        UUID shepherdId = GodNodeState.<UUID>peek(protectedPlayer.getUUID(), VelaraNodes.SACRIFICE).orElse(null);
         if (shepherdId == null) {
             return null;
         }
@@ -96,17 +98,18 @@ public final class SacrificeFlocks {
         if (assigned.isEmpty()) {
             return;
         }
-        SHEPHERD_BY_PROTECTED.putAll(assigned);
-        PROTECTED_BY_VAULT.put(vaultId, new ArrayList<>(assigned.keySet()));
+        assigned.forEach((protectedId, shepherdId) ->
+                GodNodeState.put(protectedId, VelaraNodes.SACRIFICE, shepherdId));
+        GodNodeState.putVault(vaultId, VelaraNodes.SACRIFICE, new ArrayList<>(assigned.keySet()));
     }
 
     private static void partition(List<ServerPlayer> group, Map<UUID, UUID> assigned) {
         List<ServerPlayer> shepherds = new ArrayList<>();
         List<ServerPlayer> flock = new ArrayList<>();
         for (ServerPlayer player : group) {
-            if (VelaraNodeState.isActive(player, VelaraNode.SACRIFICE) && !DownedPlayerManager.isPlayerDowned(player)) {
+            if (VelaraNodes.isActive(player, VelaraNodes.SACRIFICE) && !DownedPlayerManager.isPlayerDowned(player)) {
                 shepherds.add(player);
-            } else if (!VelaraNodeState.isActive(player, VelaraNode.IMMORTAL) && !DownedPlayerManager.isPlayerDowned(player)) {
+            } else if (!VelaraNodes.isActive(player, VelaraNodes.IMMORTAL) && !DownedPlayerManager.isPlayerDowned(player)) {
                 flock.add(player);
             }
         }
@@ -121,15 +124,17 @@ public final class SacrificeFlocks {
         }
     }
 
+    /**
+     * Drops one vault's partition. The roster is replaced with an empty list rather than cleared
+     * outright, because the vault scratch is shared with every other node that stores per-vault
+     * state and clearing it by vault id alone would take theirs with it.
+     */
     public static void clearVault(UUID vaultId) {
-        List<UUID> tracked = PROTECTED_BY_VAULT.remove(vaultId);
-        if (tracked != null) {
-            tracked.forEach(SHEPHERD_BY_PROTECTED::remove);
+        List<UUID> tracked = GodNodeState.<List<UUID>>peekVault(vaultId, VelaraNodes.SACRIFICE).orElse(null);
+        if (tracked == null) {
+            return;
         }
-    }
-
-    public static void clearPlayer(UUID playerId) {
-        SHEPHERD_BY_PROTECTED.remove(playerId);
-        SHEPHERD_BY_PROTECTED.values().removeIf(playerId::equals);
+        tracked.forEach(playerId -> GodNodeState.clear(playerId, VelaraNodes.SACRIFICE));
+        GodNodeState.putVault(vaultId, VelaraNodes.SACRIFICE, new ArrayList<UUID>());
     }
 }

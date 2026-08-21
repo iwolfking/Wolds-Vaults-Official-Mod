@@ -1,190 +1,198 @@
 package xyz.iwolfking.woldsvaults.gods.trees.velara;
 
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.AdaptiveArmorParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.BounceBackParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.CactusParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.CounterstrikeParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.DefenderOfTheFaithParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.FieldMedicParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.FleetingPhysicalityParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.HealingFlowParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.ImmortalParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.IndomitableParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.MagicArmorParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.MaledictionParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.PerserverenceParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.PresenceParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.SacrificeParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.SanitationParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.SteadfastParams;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.StonewallParams;
 
 /**
- * Every tuned number of the Velara tree, read from
- * {@code config/the_vault/gods/god_node_effects_velara.json}.
+ * Every tuned number Velara's listeners read, resolved through the node registry's typed
+ * parameters rather than through Java constants.
  *
- * <p>A banded stat is two effects, not one: the shallow placements pay the base id's value and
- * the deep ones pay the {@code _ii} id's, each linear in its own star count with no ceiling -
- * see {@link #banded}.
+ * <p>Values are read through methods rather than held in {@code static final} fields because the
+ * tree is class-loaded during mod construction, before the config pass runs: a constant
+ * initialised from config would bake whatever was loaded at class-init time and never see a
+ * config reload.
+ *
+ * <p>The stat nodes have no entry here at all. Their values are the handler's per-point table and
+ * never reach Java, which is what makes a new stat node a config-only change.
  */
 public final class VelaraValues {
     private VelaraValues() {
     }
 
-    /** The {@code {shallow, deep}} pair of a banded stat, as {@link #banded} expects it. */
-    public static float[] bands(VelaraNode lesser, VelaraNode greater) {
-        return GodNodeValues.bands(lesser.getId(), greater.getId());
-    }
-
-    public static int piousDevotionPietyPerPoint() {
-        return Math.round(GodNodeValues.value(VelaraNode.PIOUS_DEVOTION.getId()));
-    }
-
     public static float counterstrikeChance() {
-        return GodNodeValues.number(VelaraNode.COUNTERSTRIKE.getId(), "chance");
+        return VelaraNodeHandlers.params(VelaraNodes.COUNTERSTRIKE, CounterstrikeParams.class).chance();
     }
 
     public static float magicArmorEfficiency() {
-        return GodNodeValues.number(VelaraNode.MAGIC_ARMOR.getId(), "efficiency");
+        return VelaraNodeHandlers.params(VelaraNodes.MAGIC_ARMOR, MagicArmorParams.class).efficiency();
     }
 
     public static float defenderPerCharm() {
-        return GodNodeValues.number(VelaraNode.DEFENDER_OF_THE_FAITH.getId(), "per_charm");
+        return VelaraNodeHandlers.params(VelaraNodes.DEFENDER_OF_THE_FAITH, DefenderOfTheFaithParams.class).per_charm();
     }
 
     public static float perserverenceTimerBonus() {
-        return GodNodeValues.number(VelaraNode.PERSERVERENCE.getId(), "timer_bonus");
+        return VelaraNodeHandlers.params(VelaraNodes.PERSERVERENCE, PerserverenceParams.class).timer_bonus();
     }
 
     public static float adaptiveArmorPerStack() {
-        return GodNodeValues.number(VelaraNode.ADAPTIVE_ARMOR.getId(), "per_stack");
+        return VelaraNodeHandlers.params(VelaraNodes.ADAPTIVE_ARMOR, AdaptiveArmorParams.class).per_stack();
     }
 
     public static int adaptiveArmorMaxStacks() {
-        return GodNodeValues.count(VelaraNode.ADAPTIVE_ARMOR.getId(), "max_stacks");
+        return VelaraNodeHandlers.params(VelaraNodes.ADAPTIVE_ARMOR, AdaptiveArmorParams.class).max_stacks();
     }
 
     public static float bounceBackMultiplier() {
-        return GodNodeValues.number(VelaraNode.BOUNCE_BACK.getId(), "multiplier");
+        return VelaraNodeHandlers.params(VelaraNodes.BOUNCE_BACK, BounceBackParams.class).multiplier();
     }
 
     public static float bounceBackHealthThreshold() {
-        return GodNodeValues.number(VelaraNode.BOUNCE_BACK.getId(), "health_threshold");
+        return VelaraNodeHandlers.params(VelaraNodes.BOUNCE_BACK, BounceBackParams.class).health_threshold();
     }
 
     public static int indomitableRegenerationLevels() {
-        return GodNodeValues.count(VelaraNode.INDOMITABLE.getId(), "regeneration_levels");
+        return VelaraNodeHandlers.params(VelaraNodes.INDOMITABLE, IndomitableParams.class).regeneration_levels();
     }
 
     public static float fieldMedicMultiplier() {
-        return GodNodeValues.number(VelaraNode.FIELD_MEDIC.getId(), "multiplier");
+        return VelaraNodeHandlers.params(VelaraNodes.FIELD_MEDIC, FieldMedicParams.class).multiplier();
     }
 
     public static float stonewallSpeedMultiplier() {
-        return GodNodeValues.number(VelaraNode.THE_STONEWALL.getId(), "speed_multiplier");
+        return VelaraNodeHandlers.params(VelaraNodes.THE_STONEWALL, StonewallParams.class).speed_multiplier();
     }
 
     public static float stonewallArmorMultiplier() {
-        return GodNodeValues.number(VelaraNode.THE_STONEWALL.getId(), "armor_multiplier");
+        return VelaraNodeHandlers.params(VelaraNodes.THE_STONEWALL, StonewallParams.class).armor_multiplier();
     }
 
     public static float cactusArmorMultiplier() {
-        return GodNodeValues.number(VelaraNode.CACTUS.getId(), "armor_multiplier");
+        return VelaraNodeHandlers.params(VelaraNodes.CACTUS, CactusParams.class).armor_multiplier();
     }
 
     public static float cactusThornsMultiplier() {
-        return GodNodeValues.number(VelaraNode.CACTUS.getId(), "thorns_multiplier");
+        return VelaraNodeHandlers.params(VelaraNodes.CACTUS, CactusParams.class).thorns_multiplier();
     }
 
     public static float maledictionForcedHealing() {
-        return GodNodeValues.number(VelaraNode.MALEDICTION.getId(), "forced_healing");
+        return VelaraNodeHandlers.params(VelaraNodes.MALEDICTION, MaledictionParams.class).forced_healing();
     }
 
     public static int fleetingImmuneTicks() {
-        return GodNodeValues.count(VelaraNode.FLEETING_PHYSICALITY.getId(), "immune_ticks");
-    }
-
-    public static int fleetingVulnerableTicks() {
-        return GodNodeValues.count(VelaraNode.FLEETING_PHYSICALITY.getId(), "vulnerable_ticks");
+        return fleeting().immune_ticks();
     }
 
     /** One full immune-then-vulnerable rotation, so the two halves can never drift apart. */
     public static int fleetingCycleTicks() {
-        return fleetingImmuneTicks() + fleetingVulnerableTicks();
+        return fleeting().cycleTicks();
     }
 
     public static float fleetingDamageMultiplier() {
-        return GodNodeValues.number(VelaraNode.FLEETING_PHYSICALITY.getId(), "damage_multiplier");
+        return fleeting().damage_multiplier();
     }
 
     public static float steadfastKnockbackFloor() {
-        return GodNodeValues.number(VelaraNode.STEADFAST.getId(), "knockback_floor");
+        return VelaraNodeHandlers.params(VelaraNodes.STEADFAST, SteadfastParams.class).knockback_floor();
     }
 
     public static float steadfastArmorPerExcess() {
-        return GodNodeValues.number(VelaraNode.STEADFAST.getId(), "armor_per_excess");
+        return VelaraNodeHandlers.params(VelaraNodes.STEADFAST, SteadfastParams.class).armor_per_excess();
     }
 
     public static float sanitationRadius() {
-        return GodNodeValues.number(VelaraNode.SANITATION.getId(), "radius");
+        return VelaraNodeHandlers.params(VelaraNodes.SANITATION, SanitationParams.class).radius();
     }
 
     public static int sanitationDurationDivisor() {
-        return GodNodeValues.count(VelaraNode.SANITATION.getId(), "duration_divisor");
+        return VelaraNodeHandlers.params(VelaraNodes.SANITATION, SanitationParams.class).duration_divisor();
     }
 
     public static float presenceRadius() {
-        return GodNodeValues.number(VelaraNode.PRESENCE.getId(), "radius");
+        return presence().radius();
     }
 
     public static float presenceResistance() {
-        return GodNodeValues.number(VelaraNode.PRESENCE.getId(), "resistance");
+        return presence().resistance();
     }
 
     public static float presenceHealing() {
-        return GodNodeValues.number(VelaraNode.PRESENCE.getId(), "healing");
+        return presence().healing();
     }
 
     public static int presenceRegenerationLevels() {
-        return GodNodeValues.count(VelaraNode.PRESENCE.getId(), "regeneration_levels");
+        return presence().regeneration_levels();
     }
 
     public static float healingFlowPerManaRegen() {
-        return GodNodeValues.number(VelaraNode.HEALING_FLOW.getId(), "per_mana_regen");
-    }
-
-    public static int utilizedAbilityLevels() {
-        return GodNodeValues.count(VelaraNode.UTILIZED.getId(), "ability_levels");
+        return VelaraNodeHandlers.params(VelaraNodes.HEALING_FLOW, HealingFlowParams.class).per_mana_regen();
     }
 
     public static float sacrificeSyphon() {
-        return GodNodeValues.number(VelaraNode.SACRIFICE.getId(), "syphon");
+        return VelaraNodeHandlers.params(VelaraNodes.SACRIFICE, SacrificeParams.class).syphon();
     }
 
     public static float sacrificeResistance() {
-        return GodNodeValues.number(VelaraNode.SACRIFICE.getId(), "resistance");
+        return VelaraNodeHandlers.params(VelaraNodes.SACRIFICE, SacrificeParams.class).resistance();
     }
 
     public static float immortalHealthMultiplier() {
-        return GodNodeValues.number(VelaraNode.IMMORTAL.getId(), "health_multiplier");
+        return immortal().health_multiplier();
     }
 
     public static float immortalArmorMultiplier() {
-        return GodNodeValues.number(VelaraNode.IMMORTAL.getId(), "armor_multiplier");
+        return immortal().armor_multiplier();
     }
 
     public static float immortalHealingMultiplier() {
-        return GodNodeValues.number(VelaraNode.IMMORTAL.getId(), "healing_multiplier");
+        return immortal().healing_multiplier();
     }
 
     public static float immortalFlatHealth() {
-        return GodNodeValues.number(VelaraNode.IMMORTAL.getId(), "flat_health");
+        return immortal().flat_health();
     }
 
     public static float immortalFlatArmor() {
-        return GodNodeValues.number(VelaraNode.IMMORTAL.getId(), "flat_armor");
+        return immortal().flat_armor();
     }
 
     public static int immortalRegenerationLevels() {
-        return GodNodeValues.count(VelaraNode.IMMORTAL.getId(), "regeneration_levels");
+        return immortal().regeneration_levels();
     }
 
     public static float immortalDamageMultiplier() {
-        return GodNodeValues.number(VelaraNode.IMMORTAL.getId(), "damage_multiplier");
+        return immortal().damage_multiplier();
     }
 
     public static int immortalReviveCooldownTicks() {
-        return GodNodeValues.count(VelaraNode.IMMORTAL.getId(), "revive_cooldown_ticks");
+        return immortal().revive_cooldown_ticks();
     }
 
-    /**
-     * Total value of a banded stat: {@code bands[0]} for every shallow star owned plus
-     * {@code bands[1]} for every deep one. Neither band caps.
-     */
-    public static float banded(float[] bands, int lesser, int greater) {
-        return bands[0] * Math.max(lesser, 0) + bands[1] * Math.max(greater, 0);
+    private static FleetingPhysicalityParams fleeting() {
+        return VelaraNodeHandlers.params(VelaraNodes.FLEETING_PHYSICALITY, FleetingPhysicalityParams.class);
+    }
+
+    private static PresenceParams presence() {
+        return VelaraNodeHandlers.params(VelaraNodes.PRESENCE, PresenceParams.class);
+    }
+
+    private static ImmortalParams immortal() {
+        return VelaraNodeHandlers.params(VelaraNodes.IMMORTAL, ImmortalParams.class);
     }
 }

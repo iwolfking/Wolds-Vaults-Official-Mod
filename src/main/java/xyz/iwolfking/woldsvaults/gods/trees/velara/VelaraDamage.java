@@ -47,10 +47,10 @@ public final class VelaraDamage {
 
     private static float adaptiveArmor(LivingDamageEvent event, float amount) {
         ServerPlayer player = defender(event);
-        if (player == null || !VelaraNodeState.isActive(player, VelaraNode.ADAPTIVE_ARMOR)) {
+        if (player == null || !VelaraNodes.isActive(player, VelaraNodes.ADAPTIVE_ARMOR)) {
             return amount;
         }
-        return amount * AdaptiveArmor.advanceAndGetMultiplier(player, event.getSource());
+        return amount * VelaraAdaptiveArmor.advanceAndGetMultiplier(player, event.getSource());
     }
 
     /**
@@ -63,10 +63,10 @@ public final class VelaraDamage {
             return amount;
         }
         ServerPlayer player = defender(event);
-        if (player == null || !VelaraNodeState.isActive(player, VelaraNode.FLEETING_PHYSICALITY)) {
+        if (player == null || !VelaraNodes.isActive(player, VelaraNodes.FLEETING_PHYSICALITY)) {
             return amount;
         }
-        return FleetingPhysicality.isVulnerable(player) ? amount * VelaraValues.fleetingDamageMultiplier() : amount;
+        return VelaraFleetingPhysicality.isVulnerable(player) ? amount * VelaraValues.fleetingDamageMultiplier() : amount;
     }
 
     /**
@@ -81,7 +81,7 @@ public final class VelaraDamage {
      */
     private static float magicArmor(LivingDamageEvent event, float amount) {
         ServerPlayer player = defender(event);
-        if (player == null || !VelaraNodeState.isActive(player, VelaraNode.MAGIC_ARMOR)) {
+        if (player == null || !VelaraNodes.isActive(player, VelaraNodes.MAGIC_ARMOR)) {
             return amount;
         }
         DamageSource source = event.getSource();
@@ -107,10 +107,10 @@ public final class VelaraDamage {
             return amount;
         }
         ServerPlayer player = defender(event);
-        if (player == null || VelaraNodeState.isActive(player, VelaraNode.IMMORTAL)) {
+        if (player == null || VelaraNodes.isActive(player, VelaraNodes.IMMORTAL)) {
             return amount;
         }
-        ServerPlayer shepherd = SacrificeFlocks.getShepherd(player);
+        ServerPlayer shepherd = VelaraSacrificeFlocks.getShepherd(player);
         if (shepherd == null) {
             return amount;
         }
@@ -136,7 +136,7 @@ public final class VelaraDamage {
             VelaraActiveFlags.IS_SACRIFICE_SYPHONING.pop();
         }
         if (shepherd.isDeadOrDying()) {
-            SacrificeFlocks.rebuildFor(shepherd);
+            VelaraSacrificeFlocks.rebuildFor(shepherd);
         }
     }
 
@@ -166,6 +166,6 @@ public final class VelaraDamage {
         if (!(entity instanceof ServerPlayer player)) {
             return false;
         }
-        return VelaraNodeState.isActive(player, VelaraNode.FLEETING_PHYSICALITY) && FleetingPhysicality.isImmune(player);
+        return VelaraNodes.isActive(player, VelaraNodes.FLEETING_PHYSICALITY) && VelaraFleetingPhysicality.isImmune(player);
     }
 }

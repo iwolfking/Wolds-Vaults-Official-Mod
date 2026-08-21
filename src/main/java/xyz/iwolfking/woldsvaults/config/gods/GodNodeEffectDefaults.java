@@ -12,14 +12,17 @@ import java.util.Locale;
  * fallback {@link xyz.iwolfking.woldsvaults.gods.GodNodeValues} reads when a configured file is
  * missing an effect or a field.
  *
- * <p>{@code values} is the per-point table; every other key is a named scalar that effect's
- * behaviour reads. Both are transcribed one-for-one from the Java constants the god modules used
- * to carry, and every effect binds the {@code legacy} handler because its behaviour still lives
- * in its own god module rather than on a capability handler.
+ * <p>{@code values} is the per-point table; every other key is a parameter of that effect's
+ * handler type. Both are transcribed one-for-one from the Java constants the god modules used to
+ * carry. An effect still bound to {@link #LEGACY_HANDLER} is one whose god has not been ported
+ * yet, and that binding disappears a tree at a time.
  */
 public final class GodNodeEffectDefaults {
     /** Handler type of an effect whose values are configured but whose behaviour is still its god module's. */
     public static final String LEGACY_HANDLER = "legacy";
+
+    private static final String GEAR_ATTRIBUTE_SCALED = "gear_attribute_scaled";
+    private static final String PIETY = "piety";
 
     private GodNodeEffectDefaults() {
     }
@@ -43,22 +46,34 @@ public final class GodNodeEffectDefaults {
     }
 
     /**
-     * Builds one effect entry. {@code fields} alternate name and boxed number, and land on the
-     * entry object exactly as they appear in the file, so the written config and this table are
-     * the same document.
+     * Builds one entry of an effect that has not been ported onto a handler yet. {@code fields}
+     * alternate name and value, and land on the entry object exactly as they appear in the file,
+     * so the written config and this table are the same document.
      */
     private static void put(GodNodeEffectsConfig.EffectMap map, String id, float[] values, Object... fields) {
+        put(map, id, LEGACY_HANDLER, values, fields);
+    }
+
+    /** As {@link #put}, for an effect bound to a real handler type. */
+    private static void put(GodNodeEffectsConfig.EffectMap map, String id, String handler, float[] values,
+                            Object... fields) {
         JsonObject json = new JsonObject();
-        json.addProperty("handler", LEGACY_HANDLER);
+        json.addProperty("handler", handler);
         JsonArray table = new JsonArray();
         for (float value : values) {
             table.add(value);
         }
         json.add("values", table);
         for (int i = 0; i + 1 < fields.length; i += 2) {
-            json.addProperty((String) fields[i], (Number) fields[i + 1]);
+            String name = (String) fields[i];
+            Object value = fields[i + 1];
+            if (value instanceof Number number) {
+                json.addProperty(name, number);
+            } else {
+                json.addProperty(name, String.valueOf(value));
+            }
         }
-        map.put(id, new GodNodeEffectsConfig.Entry(LEGACY_HANDLER, values, json));
+        map.put(id, new GodNodeEffectsConfig.Entry(handler, values, json));
     }
 
     private static void idona(GodNodeEffectsConfig.EffectMap map) {
@@ -99,46 +114,53 @@ public final class GodNodeEffectDefaults {
                 "per_mana", 0.0025F, "surplus_ttl_ticks", 900, "continuous_grace_ticks", 30);
     }
 
+    /**
+     * Velara, the first tree ported off {@link #LEGACY_HANDLER}. Its twelve plain stat effects
+     * bind the shared {@code gear_attribute_scaled} type and are config alone; every effect with
+     * behaviour binds a type named after itself, so an unbound or misspelt effect fails the load
+     * instead of falling through to the catch-all.
+     */
     private static void velara(GodNodeEffectsConfig.EffectMap map) {
-        put(map, "velara_tough", new float[]{0.25F});
-        put(map, "velara_tough_ii", new float[]{0.5F});
-        put(map, "velara_armored", new float[]{0.25F});
-        put(map, "velara_armored_ii", new float[]{0.5F});
-        put(map, "velara_immune", new float[]{0.05F});
-        put(map, "velara_immune_ii", new float[]{0.1F});
-        put(map, "velara_healthy", new float[]{0.2F});
-        put(map, "velara_healthy_ii", new float[]{0.4F});
-        put(map, "velara_fast_reflexes", new float[]{0.02F});
-        put(map, "velara_fast_reflexes_ii", new float[]{0.05F});
-        put(map, "velara_guarded", new float[]{0.02F});
-        put(map, "velara_guarded_ii", new float[]{0.05F});
-        put(map, "velara_thorny", new float[]{25.0F});
-        put(map, "velara_thorny_ii", new float[]{50.0F});
-        put(map, "velara_pious_devotion", new float[]{10.0F});
-        put(map, "velara_counterstrike", new float[]{}, "chance", 0.5F);
-        put(map, "velara_magic_armor", new float[]{}, "efficiency", 0.5F);
-        put(map, "velara_defender_of_the_faith", new float[]{}, "per_charm", 0.05F);
-        put(map, "velara_sacrifice", new float[]{}, "syphon", 0.66F, "resistance", 0.33F);
-        put(map, "velara_perserverence", new float[]{}, "timer_bonus", 0.5F);
-        put(map, "velara_adaptive_armor", new float[]{}, "per_stack", 0.1F, "max_stacks", 6);
-        put(map, "velara_bounce_back", new float[]{}, "multiplier", 2.0F, "health_threshold", 0.1F);
-        put(map, "velara_indomitable", new float[]{}, "regeneration_levels", 3);
-        put(map, "velara_field_medic", new float[]{}, "multiplier", 1.5F);
-        put(map, "velara_the_stonewall", new float[]{}, "speed_multiplier", 0.33F, "armor_multiplier", 1.5F);
-        put(map, "velara_cactus", new float[]{}, "armor_multiplier", 0.33F, "thorns_multiplier", 2.0F);
-        put(map, "velara_malediction", new float[]{}, "forced_healing", 0.5F);
-        put(map, "velara_immortal", new float[]{},
+        put(map, "velara_tough", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:health_percentile");
+        put(map, "velara_tough_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:health_percentile");
+        put(map, "velara_armored", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:armor_percentile");
+        put(map, "velara_armored_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:armor_percentile");
+        put(map, "velara_immune", "velara_effect_avoidance", new float[]{0.05F});
+        put(map, "velara_immune_ii", "velara_effect_avoidance", new float[]{0.1F});
+        put(map, "velara_healthy", GEAR_ATTRIBUTE_SCALED, new float[]{0.2F}, "attribute", "the_vault:healing_effectiveness");
+        put(map, "velara_healthy_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.4F}, "attribute", "the_vault:healing_effectiveness");
+        put(map, "velara_fast_reflexes", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F}, "attribute", "woldsvaults:dodge_percent");
+        put(map, "velara_fast_reflexes_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F}, "attribute", "woldsvaults:dodge_percent");
+        put(map, "velara_guarded", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F}, "attribute", "the_vault:block");
+        put(map, "velara_guarded_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F}, "attribute", "the_vault:block");
+        put(map, "velara_thorny", GEAR_ATTRIBUTE_SCALED, new float[]{25.0F}, "attribute", "the_vault:thorns_damage_flat");
+        put(map, "velara_thorny_ii", GEAR_ATTRIBUTE_SCALED, new float[]{50.0F}, "attribute", "the_vault:thorns_damage_flat");
+        put(map, "velara_pious_devotion", PIETY, new float[]{10.0F});
+        put(map, "velara_counterstrike", "velara_counterstrike", new float[]{}, "chance", 0.5F);
+        put(map, "velara_magic_armor", "velara_magic_armor", new float[]{}, "efficiency", 0.5F);
+        put(map, "velara_defender_of_the_faith", "velara_defender_of_the_faith", new float[]{}, "per_charm", 0.05F);
+        put(map, "velara_sacrifice", "velara_sacrifice", new float[]{}, "syphon", 0.66F, "resistance", 0.33F);
+        put(map, "velara_perserverence", "velara_perserverence", new float[]{}, "timer_bonus", 0.5F);
+        put(map, "velara_adaptive_armor", "velara_adaptive_armor", new float[]{}, "per_stack", 0.1F, "max_stacks", 6);
+        put(map, "velara_bounce_back", "velara_bounce_back", new float[]{}, "multiplier", 2.0F, "health_threshold", 0.1F);
+        put(map, "velara_indomitable", "velara_indomitable", new float[]{}, "regeneration_levels", 3);
+        put(map, "velara_field_medic", "velara_field_medic", new float[]{}, "multiplier", 1.5F);
+        put(map, "velara_the_stonewall", "velara_the_stonewall", new float[]{},
+                "speed_multiplier", 0.33F, "armor_multiplier", 1.5F);
+        put(map, "velara_cactus", "velara_cactus", new float[]{}, "armor_multiplier", 0.33F, "thorns_multiplier", 2.0F);
+        put(map, "velara_malediction", "velara_malediction", new float[]{}, "forced_healing", 0.5F);
+        put(map, "velara_immortal", "velara_immortal", new float[]{},
                 "health_multiplier", 1.33F, "armor_multiplier", 1.33F, "healing_multiplier", 1.5F,
                 "flat_health", 20.0F, "flat_armor", 50.0F, "regeneration_levels", 10, "damage_multiplier", 0.5F,
                 "revive_cooldown_ticks", 6000);
-        put(map, "velara_fleeting_physicality", new float[]{},
+        put(map, "velara_fleeting_physicality", "velara_fleeting_physicality", new float[]{},
                 "immune_ticks", 200, "vulnerable_ticks", 400, "damage_multiplier", 3.0F);
-        put(map, "velara_steadfast", new float[]{}, "knockback_floor", 1.0F, "armor_per_excess", 1.0F);
-        put(map, "velara_sanitation", new float[]{}, "radius", 50.0F, "duration_divisor", 3);
-        put(map, "velara_presence", new float[]{},
+        put(map, "velara_steadfast", "velara_steadfast", new float[]{}, "knockback_floor", 1.0F, "armor_per_excess", 1.0F);
+        put(map, "velara_sanitation", "velara_sanitation", new float[]{}, "radius", 50.0F, "duration_divisor", 3);
+        put(map, "velara_presence", "velara_presence", new float[]{},
                 "radius", 100.0F, "resistance", 0.1F, "healing", 1.0F, "regeneration_levels", 2);
-        put(map, "velara_healing_flow", new float[]{}, "per_mana_regen", 0.04F);
-        put(map, "velara_utilized", new float[]{}, "ability_levels", 3);
+        put(map, "velara_healing_flow", "velara_healing_flow", new float[]{}, "per_mana_regen", 0.04F);
+        put(map, "velara_utilized", "velara_utilized", new float[]{}, "ability_levels", 3);
     }
 
     private static void wendarr(GodNodeEffectsConfig.EffectMap map) {
