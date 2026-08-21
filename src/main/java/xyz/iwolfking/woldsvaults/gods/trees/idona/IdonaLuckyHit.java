@@ -34,11 +34,13 @@ public final class IdonaLuckyHit {
         if (!(entity instanceof ServerPlayer player)) {
             return chance;
         }
-        int points = IdonaNodes.minorPoints(player, IdonaNodes.LUCKIEST_HIT);
+        int points = IdonaNodes.points(player, IdonaNodes.LUCKIEST_HIT);
         if (points <= 0) {
             return chance;
         }
-        return chance * (float) Math.pow(IdonaNodes.luckiestHitChanceScale(), points);
+        float scale = IdonaNodeHandlers.params(IdonaNodes.LUCKIEST_HIT,
+                IdonaNodeHandlers.LuckiestHitParams.class).chance_scale();
+        return chance * (float) Math.pow(scale, points);
     }
 
     /**
@@ -59,7 +61,7 @@ public final class IdonaLuckyHit {
      * only consumer of over-100 lucky hit chance either way.
      */
     private static void applyOvercrit(ServerPlayer attacker, LivingHurtEvent event) {
-        int points = IdonaNodes.minorPoints(attacker, IdonaNodes.OVERCRIT);
+        int points = IdonaNodes.points(attacker, IdonaNodes.OVERCRIT);
         if (points <= 0) {
             return;
         }
@@ -86,7 +88,7 @@ public final class IdonaLuckyHit {
      * exponential damage loop.
      */
     private static void applyLuckiestHit(ServerPlayer attacker, LivingHurtEvent event) {
-        if (!IdonaNodes.isMinorActive(attacker, IdonaNodes.LUCKIEST_HIT)) {
+        if (!IdonaNodes.isActive(attacker, IdonaNodes.LUCKIEST_HIT)) {
             return;
         }
         TalentTree tree = PlayerTalentsData.get(attacker.getLevel()).getTalents(attacker);

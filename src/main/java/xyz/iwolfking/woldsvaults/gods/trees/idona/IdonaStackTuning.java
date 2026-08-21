@@ -21,11 +21,13 @@ public final class IdonaStackTuning {
         if (resolvedMax <= 0) {
             return resolvedMax;
         }
-        int points = IdonaNodes.minorPoints(player, IdonaNodes.SUPER_STACKER);
+        int points = IdonaNodes.points(player, IdonaNodes.SUPER_STACKER);
         if (points <= 0) {
             return resolvedMax;
         }
-        double scaled = resolvedMax * Math.pow(IdonaNodes.superStackerMultiplier(), points);
+        float multiplier = IdonaNodeHandlers.params(IdonaNodes.SUPER_STACKER,
+                IdonaNodeHandlers.SuperStackerParams.class).multiplier();
+        double scaled = resolvedMax * Math.pow(multiplier, points);
         return (int) Math.min(Integer.MAX_VALUE, Math.floor(scaled));
     }
 
@@ -34,11 +36,13 @@ public final class IdonaStackTuning {
         if (ticks <= 0 || !(entity instanceof ServerPlayer player)) {
             return ticks;
         }
-        int points = IdonaNodes.minorPoints(player, IdonaNodes.STACK_HOARDER);
+        int points = IdonaNodes.points(player, IdonaNodes.STACK_HOARDER);
         if (points <= 0) {
             return ticks;
         }
-        double scaled = ticks * Math.pow(IdonaNodes.stackHoarderMultiplier(), points);
+        float multiplier = IdonaNodeHandlers.params(IdonaNodes.STACK_HOARDER,
+                IdonaNodeHandlers.StackHoarderParams.class).multiplier();
+        double scaled = ticks * Math.pow(multiplier, points);
         return (int) Math.min(Integer.MAX_VALUE, Math.floor(scaled));
     }
 }

@@ -5,10 +5,13 @@ import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
 import iskallia.vault.VaultMod;
+import iskallia.vault.gear.item.VaultGearItem;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -87,6 +90,20 @@ public final class IdonaTargeting {
 
     public static boolean isBattlestaff(ItemStack stack) {
         return stack.getItem() instanceof VaultBattleStaffItem;
+    }
+
+    /**
+     * Two mainhand-intended vault gear items, one in each hand - the same test the addon's Better
+     * Combat snapshot mixin already uses, so the two Weaponmaster branches stay mutually exclusive
+     * with the offhand-stat suppression that applies to battlestaffs.
+     */
+    public static boolean isDualWielding(ServerPlayer player) {
+        ItemStack main = player.getItemBySlot(EquipmentSlot.MAINHAND);
+        ItemStack off = player.getItemBySlot(EquipmentSlot.OFFHAND);
+        return main.getItem() instanceof VaultGearItem mainGear
+                && off.getItem() instanceof VaultGearItem offGear
+                && mainGear.isIntendedForSlot(main, EquipmentSlot.MAINHAND)
+                && offGear.isIntendedForSlot(off, EquipmentSlot.MAINHAND);
     }
 
     public static boolean isTwoHanded(ItemStack stack) {

@@ -76,41 +76,48 @@ public final class GodNodeEffectDefaults {
         map.put(id, new GodNodeEffectsConfig.Entry(handler, values, json));
     }
 
+    /**
+     * Idona, ported off {@link #LEGACY_HANDLER}. Its seven plain stat effects bind the shared
+     * {@code gear_attribute_scaled} type and Pious Devotion the shared {@code piety} type, so both
+     * are config alone; every effect Java has to know about binds a type named after itself, so an
+     * unbound or misspelt effect fails the load instead of falling through to the catch-all.
+     */
     private static void idona(GodNodeEffectsConfig.EffectMap map) {
-        put(map, "idona_hard_hitter", new float[]{0.25F});
-        put(map, "idona_hard_hitter_ii", new float[]{0.5F});
-        put(map, "idona_elite_caster", new float[]{0.25F});
-        put(map, "idona_elite_caster_ii", new float[]{0.5F});
-        put(map, "idona_pious_devotion", new float[]{10.0F});
-        put(map, "idona_full_of_soul", new float[]{0.5F});
-        put(map, "idona_fortunate", new float[]{0.025F});
-        put(map, "idona_fortunate_ii", new float[]{0.04F});
-        put(map, "idona_stack_stack_stack", new float[]{1.0F});
-        put(map, "idona_king_hunter", new float[]{0.75F});
-        put(map, "idona_enforcer", new float[]{0.75F});
-        put(map, "idona_kinetic_impact", new float[]{}, "per_percent", 0.001F);
-        put(map, "idona_surrounded", new float[]{}, "per_mob", 0.025F, "radius", 20.0D);
-        put(map, "idona_grand_archmage", new float[]{},
+        put(map, "idona_hard_hitter", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:damage_increase");
+        put(map, "idona_hard_hitter_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:damage_increase");
+        put(map, "idona_elite_caster", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:ability_power_percent");
+        put(map, "idona_elite_caster_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:ability_power_percent");
+        put(map, "idona_pious_devotion", PIETY, new float[]{10.0F});
+        put(map, "idona_full_of_soul", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:soul_chance_percentile");
+        put(map, "idona_fortunate", GEAR_ATTRIBUTE_SCALED, new float[]{0.025F}, "attribute", "the_vault:lucky_hit_chance");
+        put(map, "idona_fortunate_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.04F}, "attribute", "the_vault:lucky_hit_chance");
+        put(map, "idona_stack_stack_stack", "idona_stack_stack_stack", new float[]{1.0F});
+        put(map, "idona_king_hunter", "idona_king_hunter", new float[]{0.75F});
+        put(map, "idona_enforcer", "idona_enforcer", new float[]{0.75F});
+        put(map, "idona_kinetic_impact", "idona_kinetic_impact", new float[]{}, "per_percent", 0.001F);
+        put(map, "idona_surrounded", "idona_surrounded", new float[]{}, "per_mob", 0.025F, "radius", 20.0D);
+        put(map, "idona_grand_archmage", "idona_grand_archmage", new float[]{},
                 "mana_percentile", 1.0F, "mana_flat", 200, "mana_regen", 8.0F, "ability_damage", 2.0F,
                 "cooldown_reduction_cap", 0.05F);
-        put(map, "idona_ultra_rampaging", new float[]{});
-        put(map, "idona_overcrit", new float[]{});
-        put(map, "idona_true_rage", new float[]{}, "efficiency", 0.5F);
-        put(map, "idona_crushing_blows", new float[]{}, "multiplier", 1.15F);
-        put(map, "idona_under_pressure", new float[]{}, "window_ticks", 18000, "max", 2.0F);
-        put(map, "idona_pincushion", new float[]{}, "per_hit", 0.005F);
-        put(map, "idona_banked_anger", new float[]{}, "base", 100000.0D);
-        put(map, "idona_soulstealer", new float[]{}, "multiplier", 1.5F);
-        put(map, "idona_luckiest_hit", new float[]{}, "chance_scale", 0.1F);
-        put(map, "idona_thwack", new float[]{}, "multiplier", 2.0F);
-        put(map, "idona_weaponmaster", new float[]{}, "two_handed", 1.5F, "dual_wield_attack_speed", 0.3D);
-        put(map, "idona_cleave_expert", new float[]{}, "efficiency", 0.2F);
-        put(map, "idona_sneaky_advantage", new float[]{}, "per_effect", 0.05F);
-        put(map, "idona_super_stacker", new float[]{}, "multiplier", 1.25F);
-        put(map, "idona_stack_hoarder", new float[]{}, "multiplier", 1.5F);
-        put(map, "idona_prison_warden", new float[]{}, "multiplier", 2.0F, "duration_ticks", 600);
-        put(map, "idona_greedbane", new float[]{}, "multiplier", 1.5F);
-        put(map, "idona_power_dump", new float[]{},
+        put(map, "idona_ultra_rampaging", "idona_ultra_rampaging", new float[]{});
+        put(map, "idona_overcrit", "idona_overcrit", new float[]{});
+        put(map, "idona_true_rage", "idona_true_rage", new float[]{}, "efficiency", 0.5F);
+        put(map, "idona_crushing_blows", "idona_crushing_blows", new float[]{}, "multiplier", 1.15F);
+        put(map, "idona_under_pressure", "idona_under_pressure", new float[]{}, "window_ticks", 18000, "max", 2.0F);
+        put(map, "idona_pincushion", "idona_pincushion", new float[]{}, "per_hit", 0.005F);
+        put(map, "idona_banked_anger", "idona_banked_anger", new float[]{}, "base", 100000.0D);
+        put(map, "idona_soulstealer", "idona_soulstealer", new float[]{}, "multiplier", 1.5F);
+        put(map, "idona_luckiest_hit", "idona_luckiest_hit", new float[]{}, "chance_scale", 0.1F);
+        put(map, "idona_thwack", "idona_thwack", new float[]{}, "multiplier", 2.0F);
+        put(map, "idona_weaponmaster", "idona_weaponmaster", new float[]{},
+                "two_handed", 1.5F, "dual_wield_attack_speed", 0.3D);
+        put(map, "idona_cleave_expert", "idona_cleave_expert", new float[]{}, "efficiency", 0.2F);
+        put(map, "idona_sneaky_advantage", "idona_sneaky_advantage", new float[]{}, "per_effect", 0.05F);
+        put(map, "idona_super_stacker", "idona_super_stacker", new float[]{}, "multiplier", 1.25F);
+        put(map, "idona_stack_hoarder", "idona_stack_hoarder", new float[]{}, "multiplier", 1.5F);
+        put(map, "idona_prison_warden", "idona_prison_warden", new float[]{}, "multiplier", 2.0F, "duration_ticks", 600);
+        put(map, "idona_greedbane", "idona_greedbane", new float[]{}, "multiplier", 1.5F);
+        put(map, "idona_power_dump", "idona_power_dump", new float[]{},
                 "per_mana", 0.0025F, "surplus_ttl_ticks", 900, "continuous_grace_ticks", 30);
     }
 

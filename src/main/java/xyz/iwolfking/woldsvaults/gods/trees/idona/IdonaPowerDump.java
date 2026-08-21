@@ -29,7 +29,7 @@ public final class IdonaPowerDump {
      * while they are running.
      */
     public static float adjustCost(ServerPlayer player, Skill skill, float cost) {
-        int points = IdonaNodes.minorPoints(player, IdonaNodes.POWER_DUMP);
+        int points = IdonaNodes.points(player, IdonaNodes.POWER_DUMP);
         if (points <= 0) {
             return cost;
         }
