@@ -12,11 +12,15 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
+import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
+import xyz.iwolfking.woldsvaults.gods.GodNodeState;
+import xyz.iwolfking.woldsvaults.gods.GodVanillaAttributes;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 
 /**
- * Lifecycle glue for the god core: keeps the active-god cache honest across equipment and
- * dimension changes, syncs alignment state to joining players, and announces level-ups.
+ * Lifecycle glue for the god core: keeps the active-god cache and the shared gate cache honest
+ * across equipment and dimension changes, tears down live node state on logout, syncs alignment
+ * state to joining players, and announces level-ups.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GodEventHandlers {
@@ -35,23 +39,33 @@ public final class GodEventHandlers {
         LivingEntity entity = event.getEntityLiving();
         if (entity instanceof Player player) {
             ActiveGodResolver.invalidate(player);
+            GodNodeCache.invalidate(player);
             if (player instanceof ServerPlayer serverPlayer) {
                 AttributeSnapshotHelper.getInstance().refreshSnapshotDelayed(serverPlayer);
             }
         }
     }
 
+    /**
+     * The login reconcile is what repairs a save left dirty by a crash: any vanilla attribute
+     * modifier a god node wrote before the process died is removed here, before the player can
+     * observe the inflated stat.
+     */
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player && player.getServer() != null) {
             ActiveGodResolver.invalidate(player);
+            GodNodeCache.invalidate(player);
             GodAlignmentData.get(player.getServer()).sync(player);
+            GodVanillaAttributes.reconcile(player);
         }
     }
 
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         ActiveGodResolver.invalidate(event.getPlayer());
+        GodNodeCache.invalidate(event.getPlayer().getUUID());
+        GodNodeState.clear(event.getPlayer().getUUID());
     }
 
     /**
@@ -61,17 +75,24 @@ public final class GodEventHandlers {
     @SubscribeEvent
     public static void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         ActiveGodResolver.invalidate(event.getPlayer());
+        GodNodeCache.invalidate(event.getPlayer());
+        if (event.getPlayer() instanceof ServerPlayer player) {
+            GodVanillaAttributes.reconcile(player);
+        }
     }
 
     @SubscribeEvent
     public static void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
         ActiveGodResolver.invalidate(event.getPlayer());
+        GodNodeCache.invalidate(event.getPlayer());
     }
 
     @SubscribeEvent
     public static void onClone(PlayerEvent.Clone event) {
         ActiveGodResolver.invalidate(event.getPlayer());
         ActiveGodResolver.invalidate(event.getOriginal());
+        GodNodeCache.invalidate(event.getPlayer());
+        GodNodeCache.invalidate(event.getOriginal());
     }
 
     @SubscribeEvent

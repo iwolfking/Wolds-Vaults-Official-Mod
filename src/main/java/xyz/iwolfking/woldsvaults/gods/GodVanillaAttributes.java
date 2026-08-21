@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.gods;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.init.ModAttributes;
@@ -10,24 +11,37 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
 
 /**
- * Bridges god tree contributions onto real vanilla attributes for the gear attributes the base
- * mod only ever consumes from equipped gear. {@code VaultGearHelper} turns mana and attack-speed
- * gear attributes into vanilla {@code AttributeModifier}s on the item - nothing reads them from
- * the attribute snapshot - so god values folded only into the snapshot would silently do nothing
- * (Grand Archmage's mana, Weaponmaster's dual-wield attack speed). The vanilla-attribute talents
- * and prestige powers set the precedent this follows.
+ * The single choke point between god tree nodes and real vanilla attributes, and the only place
+ * in the god core allowed to create an {@code AttributeModifier}.
  *
- * <p>{@code GodCarryover} calls {@link #reconcile} with the exact post-scale instance list it
- * folded into the snapshot, every time the snapshot is rebuilt - so these modifiers appear,
- * update and disappear on the same cadence as every other god stat. Modifiers are transient
- * (never saved to NBT) under fixed UUIDs, applied with the same vanilla operation
+ * <p>Two things arrive here. First, the gear attributes the base mod only ever consumes from
+ * equipped gear: {@code VaultGearHelper} turns mana and attack-speed gear attributes into vanilla
+ * modifiers on the item - nothing reads them from the attribute snapshot - so god values folded
+ * only into the snapshot would silently do nothing (Grand Archmage's mana, Weaponmaster's
+ * dual-wield attack speed). Second, nodes that must move a vanilla attribute outright (movement
+ * speed, armor), which {@link #declare} registers.
+ *
+ * <p>Vanilla modifiers persist on the entity until explicitly removed, and this codebase has
+ * already shipped that leak once, so every modifier written here uses a UUID derived
+ * deterministically from its {@code (effectId, attribute)} pair - never a random one.
+ * {@link #reconcile(ServerPlayer)} walks every declaration, applies the value each one currently
+ * wants and removes the modifier of any declaration that wants nothing, which is what lets a
+ * respec, a charm swap or a save left dirty by a crash come back to baseline without a relog.
+ *
+ * <p>{@code GodCarryover} calls {@link #reconcile(ServerPlayer, List)} with the exact post-scale
+ * instance list it folded into the snapshot, every time the snapshot is rebuilt - so these
+ * modifiers appear, update and disappear on the same cadence as every other god stat. Modifiers
+ * are transient (never saved to NBT), applied with the same vanilla operation
  * {@code VaultGearHelper} uses for the matching gear attribute, and only touched when the value
  * actually changed.
  */
@@ -36,10 +50,64 @@ public final class GodVanillaAttributes {
                           AttributeModifier.Operation operation, UUID id, String name) {
     }
 
+    /**
+     * A node effect's claim on one vanilla attribute. {@code amount} is asked for the value the
+     * effect wants right now and must return zero when it wants none.
+     */
+    @FunctionalInterface
+    public interface VanillaAmount {
+        double get(GodNodeContext context);
+    }
+
+    private record Declaration(String effectId, VaultGod god, Attribute target,
+                               AttributeModifier.Operation operation, UUID id, String name, VanillaAmount amount) {
+    }
+
     private static List<Bridge> bridges;
+    private static final Map<String, Declaration> DECLARATIONS = new ConcurrentHashMap<>();
     private static final Set<String> WARNED_MISSING = ConcurrentHashMap.newKeySet();
 
     private GodVanillaAttributes() {
+    }
+
+    /**
+     * Registers that {@code effectId} moves a vanilla attribute. Declarations are static - one
+     * per effect and attribute, made during setup - which is what lets {@link #reconcile} find
+     * and remove a stray modifier from a previous session without any saved bookkeeping.
+     */
+    public static void declare(String effectId, VaultGod god, Attribute target,
+                               AttributeModifier.Operation operation, VanillaAmount amount) {
+        UUID id = modifierId(effectId, target);
+        Declaration declaration = new Declaration(effectId, god, target, operation, id,
+                "wolds_god_node/" + effectId, amount);
+        Declaration previous = DECLARATIONS.put(id.toString(), declaration);
+        if (previous != null) {
+            WoldsVaults.LOGGER.error("God node effect {} declared vanilla attribute {} twice; the later "
+                    + "declaration wins.", effectId, target.getRegistryName());
+        }
+    }
+
+    /**
+     * The fixed modifier UUID for one {@code (effectId, attribute)} pair. Derived from the pair's
+     * name, so it is identical across sessions and across a rebuild of the config.
+     */
+    public static UUID modifierId(String effectId, Attribute target) {
+        return UUID.nameUUIDFromBytes(("woldsvaults:god_node:" + effectId + ":" + target.getRegistryName())
+                .getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Diffs every declared vanilla attribute against what is applied to {@code player} and removes
+     * the strays. Runs on node purchase, refund, charm change, dimension change and login - the
+     * login pass is what repairs a save left dirty by a crash.
+     */
+    public static void reconcile(ServerPlayer player) {
+        for (Declaration declaration : DECLARATIONS.values()) {
+            double total = GodNodeGate.context(player, declaration.god(), declaration.effectId())
+                    .map(declaration.amount()::get)
+                    .orElse(0.0D);
+            apply(player, declaration.target(), declaration.operation(), declaration.id(), declaration.name(), total);
+        }
     }
 
     private static List<Bridge> bridges() {
@@ -63,8 +131,9 @@ public final class GodVanillaAttributes {
 
     /**
      * Applies the bridged share of {@code contributions} as vanilla attribute modifiers, removing
-     * any bridge modifier whose contribution has gone. Runs on every snapshot rebuild, so a charm
-     * swap or refund clears its modifiers on the next rebuild without any per-node bookkeeping.
+     * any bridge modifier whose contribution has gone, then reconciles the declared vanilla
+     * attributes. Runs on every snapshot rebuild, so a charm swap or refund clears its modifiers
+     * on the next rebuild without any per-node bookkeeping.
      */
     public static void reconcile(ServerPlayer player, List<VaultGearAttributeInstance<?>> contributions) {
         for (Bridge bridge : bridges()) {
@@ -74,24 +143,26 @@ public final class GodVanillaAttributes {
                     total += number.doubleValue();
                 }
             }
-            apply(player, bridge, total);
+            apply(player, bridge.target(), bridge.operation(), bridge.id(), bridge.name(), total);
         }
+        reconcile(player);
     }
 
-    private static void apply(ServerPlayer player, Bridge bridge, double total) {
-        AttributeInstance instance = player.getAttribute(bridge.target());
+    private static void apply(ServerPlayer player, Attribute target, AttributeModifier.Operation operation,
+                              UUID id, String name, double total) {
+        AttributeInstance instance = player.getAttribute(target);
         if (instance == null) {
-            String name = String.valueOf(bridge.target().getRegistryName());
-            if (WARNED_MISSING.add(name)) {
+            String attributeName = String.valueOf(target.getRegistryName());
+            if (WARNED_MISSING.add(attributeName)) {
                 WoldsVaults.LOGGER.warn("Player has no attribute instance for {}; god tree bridge {} cannot apply.",
-                        name, bridge.name());
+                        attributeName, name);
             }
             return;
         }
-        AttributeModifier existing = instance.getModifier(bridge.id());
+        AttributeModifier existing = instance.getModifier(id);
         if (Math.abs(total) < 1.0E-6D) {
             if (existing != null) {
-                instance.removeModifier(bridge.id());
+                instance.removeModifier(id);
             }
             return;
         }
@@ -99,8 +170,8 @@ public final class GodVanillaAttributes {
             if (existing.getAmount() == total) {
                 return;
             }
-            instance.removeModifier(bridge.id());
+            instance.removeModifier(id);
         }
-        instance.addTransientModifier(new AttributeModifier(bridge.id(), bridge.name(), total, bridge.operation()));
+        instance.addTransientModifier(new AttributeModifier(id, name, total, operation));
     }
 }

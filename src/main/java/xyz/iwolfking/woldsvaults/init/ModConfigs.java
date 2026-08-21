@@ -1,14 +1,23 @@
 package xyz.iwolfking.woldsvaults.init;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import xyz.iwolfking.vhapi.api.data.api.CustomRecyclerOutputs;
 import xyz.iwolfking.vhapi.api.loaders.workstation.lib.CustomVaultRecyclerConfig;
 import xyz.iwolfking.woldsvaults.config.*;
+import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodTreeConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodTreeGuiStylesConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
+
+import java.util.EnumMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class ModConfigs {
     public static GenericLootableConfig GEM_BOX;
@@ -56,6 +65,10 @@ public class ModConfigs {
 
     public static ImplicitDeckModifiersConfig IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig();
 
+    public static final Map<VaultGod, GodTreeConfig> GOD_TREES = new EnumMap<>(VaultGod.class);
+    public static final Map<VaultGod, GodTreeGuiStylesConfig> GOD_TREE_GUI_STYLES = new EnumMap<>(VaultGod.class);
+    public static final Map<VaultGod, GodNodeEffectsConfig> GOD_NODE_EFFECTS = new EnumMap<>(VaultGod.class);
+
     public static void register() {
         GEM_BOX = new GenericLootableConfig("gem_box").readConfig();
         SUPPLY_BOX = new GenericLootableConfig("supply_box").readConfig();
@@ -94,5 +107,25 @@ public class ModConfigs {
         ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
         IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
+        registerGodTrees();
+    }
+
+    /**
+     * Reads the three config files each god tree owns - topology, styles and effects - and
+     * rebuilds the node registry from them. The registry validates as it builds and is fatal on
+     * the first inconsistency, so a mistyped tree stops the load instead of silently deleting a
+     * god's progression.
+     */
+    private static void registerGodTrees() {
+        GOD_TREES.clear();
+        GOD_TREE_GUI_STYLES.clear();
+        GOD_NODE_EFFECTS.clear();
+        for (VaultGod god : VaultGod.values()) {
+            String name = god.getName().toLowerCase(Locale.ROOT);
+            GOD_TREES.put(god, new GodTreeConfig(name).readConfig());
+            GOD_TREE_GUI_STYLES.put(god, new GodTreeGuiStylesConfig(name).readConfig());
+            GOD_NODE_EFFECTS.put(god, new GodNodeEffectsConfig(name).readConfig());
+        }
+        GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
     }
 }

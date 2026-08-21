@@ -18,15 +18,21 @@ import java.util.concurrent.ConcurrentHashMap;
  * invalidated on equipment and dimension changes by {@link xyz.iwolfking.woldsvaults.gods.event.GodEventHandlers}.
  * Charms cannot be swapped inside a vault by design; if one ever is, the cache is simply re-filled
  * on the next lookup.
+ *
+ * <p>The cache is partitioned by logical side. On an integrated server both sides share the JVM
+ * and the player UUID, and the tree screens resolve on the client, so one map keyed by UUID would
+ * let a client lookup answer a server question. Invalidation drops both sides, because a dropped
+ * entry only costs a re-resolve.
  */
 public final class ActiveGodResolver {
-    private static final Map<UUID, Optional<VaultGod>> CACHE = new ConcurrentHashMap<>();
+    private static final Map<UUID, Optional<VaultGod>> SERVER = new ConcurrentHashMap<>();
+    private static final Map<UUID, Optional<VaultGod>> CLIENT = new ConcurrentHashMap<>();
 
     private ActiveGodResolver() {
     }
 
     public static Optional<VaultGod> getActiveGod(Player player) {
-        return CACHE.computeIfAbsent(player.getUUID(), id -> resolve(player));
+        return cacheFor(player).computeIfAbsent(player.getUUID(), id -> resolve(player));
     }
 
     public static boolean isActive(Player player, VaultGod god) {
@@ -34,15 +40,21 @@ public final class ActiveGodResolver {
     }
 
     public static void invalidate(Player player) {
-        CACHE.remove(player.getUUID());
+        invalidate(player.getUUID());
     }
 
     public static void invalidate(UUID playerId) {
-        CACHE.remove(playerId);
+        SERVER.remove(playerId);
+        CLIENT.remove(playerId);
     }
 
     public static void invalidateAll() {
-        CACHE.clear();
+        SERVER.clear();
+        CLIENT.clear();
+    }
+
+    private static Map<UUID, Optional<VaultGod>> cacheFor(Player player) {
+        return player.level != null && player.level.isClientSide() ? CLIENT : SERVER;
     }
 
     private static Optional<VaultGod> resolve(Player player) {
