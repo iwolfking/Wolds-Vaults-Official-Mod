@@ -3,8 +3,9 @@ package xyz.iwolfking.woldsvaults.gods.trees.velara;
 /**
  * Every tuned number of the Velara tree, transcribed from the God Tree Nodes sheet.
  *
- * <p>Two-value stat nodes are two-point nodes: the arrays hold the total value at one point and
- * at two points, not a per-point increment, so a two-point Tough is +50% health rather than +75%.
+ * <p>A two-value stat array is the pair of BANDS the sheet lists ({@code 25%+, 50%+}): index 0 is
+ * what one shallow star of that stat pays, index 1 is what one deep star pays. Both bands are
+ * linear in their own star count and neither has a ceiling -  see {@link #banded}.
  */
 public final class VelaraValues {
     public static final float[] TOUGH_HEALTH_PERCENT = {0.25F, 0.50F};
@@ -61,11 +62,11 @@ public final class VelaraValues {
     private VelaraValues() {
     }
 
-    /** The value of a ranked stat node at {@code points} invested; 0 when nothing is invested. */
-    public static float atRank(float[] table, int points) {
-        if (points <= 0) {
-            return 0.0F;
-        }
-        return table[Math.min(points, table.length) - 1];
+    /**
+     * Total value of a banded stat: {@code bands[0]} for every shallow star owned plus
+     * {@code bands[1]} for every deep one. Neither band caps.
+     */
+    public static float banded(float[] bands, int lesser, int greater) {
+        return bands[0] * Math.max(lesser, 0) + bands[1] * Math.max(greater, 0);
     }
 }

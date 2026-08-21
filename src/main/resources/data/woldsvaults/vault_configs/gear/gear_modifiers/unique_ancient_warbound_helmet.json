@@ -121,6 +121,24 @@
             }
           }
         ]
+      },
+      {
+        "attribute": "the_vault:splitting_javelins",
+        "group": "UniqueSplittingJavelins",
+        "identifier": "the_vault:u_splitting_javelins",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 2,
+              "max": 3,
+              "step": 1
+            }
+          }
+        ]
       }
     ]
   }

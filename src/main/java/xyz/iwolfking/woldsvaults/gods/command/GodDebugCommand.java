@@ -7,12 +7,15 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import iskallia.vault.core.vault.influence.VaultGod;
+import iskallia.vault.gear.VaultGearState;
+import iskallia.vault.gear.data.VaultGearData;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,6 +23,9 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
+import xyz.iwolfking.woldsvaults.gods.GodPiety;
+import xyz.iwolfking.woldsvaults.gods.charms.MythicCharmRolls;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,6 +67,23 @@ public final class GodDebugCommand {
         root.then(Commands.literal("activegod")
                 .then(Commands.argument("player", EntityArgument.player())
                         .executes(GodDebugCommand::activeGod)));
+
+        root.then(Commands.literal("charm")
+                .then(Commands.argument("player", EntityArgument.player())
+                        .then(godArgument()
+                                .executes(context -> giveMythicCharm(context, -1, false))
+                                .then(Commands.literal("legendary")
+                                        .executes(context -> giveMythicCharm(context, -1, true)))
+                                .then(Commands.argument("piety", IntegerArgumentType.integer(0))
+                                        .executes(context -> giveMythicCharm(context,
+                                                IntegerArgumentType.getInteger(context, "piety"), false))
+                                        .then(Commands.literal("legendary")
+                                                .executes(context -> giveMythicCharm(context,
+                                                        IntegerArgumentType.getInteger(context, "piety"), true)))))));
+
+        root.then(Commands.literal("sacrifice")
+                .then(Commands.argument("player", EntityArgument.player())
+                        .then(godArgument().executes(GodDebugCommand::grantSacrifice))));
 
         root.then(Commands.literal("mts")
                 .then(Commands.literal("list")
@@ -194,5 +217,53 @@ public final class GodDebugCommand {
                 ? "Unbound " + node + " from " + god.getName() + "."
                 : node + " was not bound to " + god.getName() + "."), true);
         return removed ? 1 : 0;
+    }
+
+    /**
+     * Gives an already-identified mythic charm of the given god, rolled either at the player's
+     * current piety or at an explicit piety override - the tester's shortcut past the drop and
+     * identification flow.
+     */
+    /**
+     * Grants one cauldron sacrifice gate for the god outright: item progress toward the gate is
+     * cleared and the completed count advances, promoting any levels the accumulated XP already
+     * paid for.
+     */
+    private static int grantSacrifice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = EntityArgument.getPlayer(context, "player");
+        VaultGod god = god(context);
+        xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrificeData.get(player.getLevel())
+                .clearProgress(player.getUUID(), god);
+        GodAlignmentData alignment = GodAlignmentData.get(player.getServer());
+        alignment.completeSacrifice(player, god);
+        context.getSource().sendSuccess(new TextComponent("Granted %s a %s sacrifice (%d completed)."
+                .formatted(player.getGameProfile().getName(), god.getName(),
+                        alignment.getSacrifices(player.getUUID(), god))), true);
+        return 1;
+    }
+
+    private static int giveMythicCharm(CommandContext<CommandSourceStack> context, int pietyOverride,
+                                       boolean forceLegendary) throws CommandSyntaxException {
+        ServerPlayer player = EntityArgument.getPlayer(context, "player");
+        VaultGod god = god(context);
+        ItemStack stack = new ItemStack(ModItems.MYTHIC_VAULT_CHARM);
+        VaultGearData data = VaultGearData.read(stack);
+        data.setState(VaultGearState.IDENTIFIED);
+        data.setItemLevel(0);
+        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.CHARM_VAULT_GOD, god);
+        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_LOOT, Boolean.TRUE);
+        if (forceLegendary) {
+            data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_LEGENDARY, Boolean.TRUE);
+        }
+        data.write(stack);
+        int unitsOverride = pietyOverride >= 0 ? pietyOverride / GodPiety.PIETY_PER_UNIT : -1;
+        MythicCharmRolls.initialize(stack, player, unitsOverride);
+        if (!player.getInventory().add(stack)) {
+            player.drop(stack, false);
+        }
+        context.getSource().sendSuccess(new TextComponent("Gave %s an identified mythic %s charm (%s piety)."
+                .formatted(player.getGameProfile().getName(), god.getName(),
+                        pietyOverride >= 0 ? String.valueOf(pietyOverride) : "current")), true);
+        return 1;
     }
 }

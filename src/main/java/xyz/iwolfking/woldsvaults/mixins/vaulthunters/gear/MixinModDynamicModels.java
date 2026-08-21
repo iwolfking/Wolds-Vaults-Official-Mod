@@ -18,5 +18,7 @@ public class MixinModDynamicModels {
     @Inject(method = "initItemAssociations", at = @At("TAIL"))
     private static void addJewelAssociation(CallbackInfo ci) {
         REGISTRIES.associate(ModItems.JEWEL, Jewels.REGISTRY);
+        REGISTRIES.associate(xyz.iwolfking.woldsvaults.init.ModItems.MYTHIC_VAULT_CHARM,
+                xyz.iwolfking.woldsvaults.models.MythicCharms.REGISTRY);
     }
 }

@@ -1,0 +1,1825 @@
+{
+  "god": "tenos",
+  "nodes": [
+    {
+      "id": "tenos_start_hoard",
+      "name": "The Hoard",
+      "type": "root",
+      "x": -284,
+      "y": 529
+    },
+    {
+      "id": "tenos_looting_engine",
+      "name": "Looting Engine",
+      "type": "major",
+      "effect": "tenos_looting_engine",
+      "icon": "the_vault:textures/gui/greed/nodes/arcane_rail.png",
+      "x": 4,
+      "y": 104
+    },
+    {
+      "id": "tenos_start_chest",
+      "name": "The Chest",
+      "type": "root",
+      "x": 0,
+      "y": -31
+    },
+    {
+      "id": "tenos_massive_chests",
+      "name": "Massive Chests",
+      "type": "major",
+      "effect": "tenos_massive_chests",
+      "icon": "the_vault:textures/gui/greed/nodes/copiously.png",
+      "x": 0,
+      "y": -445
+    },
+    {
+      "id": "tenos_pile_0_0_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": -170,
+      "y": 454
+    },
+    {
+      "id": "tenos_pile_0_1_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": -170,
+      "y": 500
+    },
+    {
+      "id": "tenos_pile_0_2_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": -170,
+      "y": 558
+    },
+    {
+      "id": "tenos_pile_0_3_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": -170,
+      "y": 605
+    },
+    {
+      "id": "tenos_pile_1_0_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": -56,
+      "y": 454
+    },
+    {
+      "id": "tenos_pile_1_1_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": -56,
+      "y": 500
+    },
+    {
+      "id": "tenos_pile_1_2_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -56,
+      "y": 558
+    },
+    {
+      "id": "tenos_pile_1_3_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": -56,
+      "y": 605
+    },
+    {
+      "id": "tenos_sacked",
+      "name": "Sacked",
+      "type": "minor",
+      "effect": "tenos_sacked",
+      "icon": "the_vault:textures/gui/greed/nodes/loot_goblin.png",
+      "x": 58,
+      "y": 454
+    },
+    {
+      "id": "tenos_pile_2_1_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 58,
+      "y": 500
+    },
+    {
+      "id": "tenos_pile_2_2_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 58,
+      "y": 558
+    },
+    {
+      "id": "tenos_sack_of_mobs",
+      "name": "Sack of Mobs",
+      "type": "minor",
+      "effect": "tenos_sack_of_mobs",
+      "icon": "the_vault:textures/gui/greed/nodes/horde_dmg.png",
+      "x": 58,
+      "y": 605
+    },
+    {
+      "id": "tenos_pile_3_0_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 172,
+      "y": 454
+    },
+    {
+      "id": "tenos_pile_3_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 172,
+      "y": 500
+    },
+    {
+      "id": "tenos_pile_3_2_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 172,
+      "y": 558
+    },
+    {
+      "id": "tenos_pile_3_3_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 172,
+      "y": 605
+    },
+    {
+      "id": "tenos_pile_4_0_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 252,
+      "y": 483
+    },
+    {
+      "id": "tenos_pile_4_1_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 299,
+      "y": 515
+    },
+    {
+      "id": "tenos_drillmaster",
+      "name": "Drillmaster",
+      "type": "minor",
+      "effect": "tenos_drillmaster",
+      "icon": "the_vault:textures/gui/greed/nodes/mining_speed.png",
+      "x": 338,
+      "y": 541
+    },
+    {
+      "id": "tenos_pile_5_0_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 257,
+      "y": 387
+    },
+    {
+      "id": "tenos_pile_5_1_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 315,
+      "y": 387
+    },
+    {
+      "id": "tenos_pile_5_2_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 380,
+      "y": 387
+    },
+    {
+      "id": "tenos_global_veins",
+      "name": "Global Veins",
+      "type": "minor",
+      "effect": "tenos_global_veins",
+      "icon": "the_vault:textures/gui/greed/nodes/vein_miner.png",
+      "x": 213,
+      "y": 410
+    },
+    {
+      "id": "tenos_pile_6_1_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 213,
+      "y": 346
+    },
+    {
+      "id": "tenos_pile_6_2_advanced_extraction_ii",
+      "name": "Advanced Extraction II",
+      "type": "stat",
+      "effect": "tenos_advanced_extraction_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/copiously.png",
+      "x": 214,
+      "y": 288
+    },
+    {
+      "id": "tenos_pile_6_3_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 214,
+      "y": 241
+    },
+    {
+      "id": "tenos_pile_7_0_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 99,
+      "y": 392
+    },
+    {
+      "id": "tenos_pile_7_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 99,
+      "y": 346
+    },
+    {
+      "id": "tenos_pile_7_2_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 99,
+      "y": 288
+    },
+    {
+      "id": "tenos_pile_7_3_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 99,
+      "y": 241
+    },
+    {
+      "id": "tenos_gold_plating",
+      "name": "Gold Plating",
+      "type": "minor",
+      "effect": "tenos_gold_plating",
+      "icon": "the_vault:textures/gui/greed/nodes/greed_assasin_dmg_reduction.png",
+      "x": -15,
+      "y": 392
+    },
+    {
+      "id": "tenos_pile_8_1_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": -15,
+      "y": 346
+    },
+    {
+      "id": "tenos_pile_8_2_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": -15,
+      "y": 288
+    },
+    {
+      "id": "tenos_cash_hunter",
+      "name": "Cash Hunter",
+      "type": "minor",
+      "effect": "tenos_cash_hunter",
+      "icon": "the_vault:textures/gui/greed/nodes/kill_coin.png",
+      "x": -15,
+      "y": 241
+    },
+    {
+      "id": "tenos_pile_9_0_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": -173,
+      "y": 268
+    },
+    {
+      "id": "tenos_pile_9_1_advanced_extraction_ii",
+      "name": "Advanced Extraction II",
+      "type": "stat",
+      "effect": "tenos_advanced_extraction_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/copiously.png",
+      "x": -127,
+      "y": 262
+    },
+    {
+      "id": "tenos_pile_9_2_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -70,
+      "y": 255
+    },
+    {
+      "id": "tenos_pile_10_0_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": -120,
+      "y": 134
+    },
+    {
+      "id": "tenos_pile_10_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -67,
+      "y": 156
+    },
+    {
+      "id": "tenos_chest_l_0_0_wide_influence",
+      "name": "Wide Influence",
+      "type": "stat",
+      "effect": "tenos_wide_influence",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -60,
+      "y": -31
+    },
+    {
+      "id": "tenos_chest_l_0_1_careful",
+      "name": "Careful",
+      "type": "stat",
+      "effect": "tenos_careful",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -60,
+      "y": 23
+    },
+    {
+      "id": "tenos_chest_l_1_0_careful",
+      "name": "Careful",
+      "type": "stat",
+      "effect": "tenos_careful",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -120,
+      "y": -31
+    },
+    {
+      "id": "tenos_chest_l_1_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -120,
+      "y": 23
+    },
+    {
+      "id": "tenos_chest_l_2_0_wide_influence",
+      "name": "Wide Influence",
+      "type": "stat",
+      "effect": "tenos_wide_influence",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -181,
+      "y": -31
+    },
+    {
+      "id": "tenos_challenge_tackler",
+      "name": "Challenge Tackler",
+      "type": "minor",
+      "effect": "tenos_challenge_tackler",
+      "icon": "the_vault:textures/gui/greed/nodes/greed_assassin_rep.png",
+      "x": -181,
+      "y": 23
+    },
+    {
+      "id": "tenos_chest_l_3_0_careful",
+      "name": "Careful",
+      "type": "stat",
+      "effect": "tenos_careful",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -288,
+      "y": -91
+    },
+    {
+      "id": "tenos_chest_l_3_1_wide_influence",
+      "name": "Wide Influence",
+      "type": "stat",
+      "effect": "tenos_wide_influence",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -337,
+      "y": -68
+    },
+    {
+      "id": "tenos_chest_l_4_0_wide_influence",
+      "name": "Wide Influence",
+      "type": "stat",
+      "effect": "tenos_wide_influence",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -297,
+      "y": -177
+    },
+    {
+      "id": "tenos_chest_l_4_1_careful",
+      "name": "Careful",
+      "type": "stat",
+      "effect": "tenos_careful",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -351,
+      "y": -177
+    },
+    {
+      "id": "tenos_chest_l_5_0_magical_ii",
+      "name": "Magical II",
+      "type": "stat",
+      "effect": "tenos_magical_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_regeneration.png",
+      "x": -234,
+      "y": -238
+    },
+    {
+      "id": "tenos_chest_l_5_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -297,
+      "y": -238
+    },
+    {
+      "id": "tenos_chest_l_5_2_wide_influence_ii",
+      "name": "Wide Influence II",
+      "type": "stat",
+      "effect": "tenos_wide_influence_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -351,
+      "y": -238
+    },
+    {
+      "id": "tenos_chest_l_6_0_wide_influence_ii",
+      "name": "Wide Influence II",
+      "type": "stat",
+      "effect": "tenos_wide_influence_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -234,
+      "y": -298
+    },
+    {
+      "id": "tenos_chest_l_6_1_careful_ii",
+      "name": "Careful II",
+      "type": "stat",
+      "effect": "tenos_careful_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -297,
+      "y": -298
+    },
+    {
+      "id": "tenos_chest_l_6_2_wide_influence_ii",
+      "name": "Wide Influence II",
+      "type": "stat",
+      "effect": "tenos_wide_influence_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -351,
+      "y": -298
+    },
+    {
+      "id": "tenos_omega_vault",
+      "name": "Omega Vault",
+      "type": "minor",
+      "effect": "tenos_omega_vault",
+      "icon": "the_vault:textures/gui/greed/nodes/chaos_cube.png",
+      "x": -231,
+      "y": -358
+    },
+    {
+      "id": "tenos_chest_l_7_1_wide_influence_ii",
+      "name": "Wide Influence II",
+      "type": "stat",
+      "effect": "tenos_wide_influence_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -289,
+      "y": -382
+    },
+    {
+      "id": "tenos_nose_for_treasure",
+      "name": "Nose for Treasure",
+      "type": "minor",
+      "effect": "tenos_nose_for_treasure",
+      "icon": "the_vault:textures/gui/greed/nodes/door_hunter.png",
+      "x": -339,
+      "y": -402
+    },
+    {
+      "id": "tenos_chest_l_8_0_careful_ii",
+      "name": "Careful II",
+      "type": "stat",
+      "effect": "tenos_careful_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -180,
+      "y": -382
+    },
+    {
+      "id": "tenos_chest_l_8_1_magical_ii",
+      "name": "Magical II",
+      "type": "stat",
+      "effect": "tenos_magical_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_regeneration.png",
+      "x": -181,
+      "y": -445
+    },
+    {
+      "id": "tenos_chest_l_8_2_wide_influence_ii",
+      "name": "Wide Influence II",
+      "type": "stat",
+      "effect": "tenos_wide_influence_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -181,
+      "y": -499
+    },
+    {
+      "id": "tenos_chest_l_9_0_wide_influence_ii",
+      "name": "Wide Influence II",
+      "type": "stat",
+      "effect": "tenos_wide_influence_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -120,
+      "y": -445
+    },
+    {
+      "id": "tenos_chest_l_9_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -120,
+      "y": -499
+    },
+    {
+      "id": "tenos_chest_l_10_0_careful_ii",
+      "name": "Careful II",
+      "type": "stat",
+      "effect": "tenos_careful_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -60,
+      "y": -445
+    },
+    {
+      "id": "tenos_chest_l_10_1_wide_influence_ii",
+      "name": "Wide Influence II",
+      "type": "stat",
+      "effect": "tenos_wide_influence_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": -60,
+      "y": -499
+    },
+    {
+      "id": "tenos_chest_r_0_0_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 60,
+      "y": -31
+    },
+    {
+      "id": "tenos_chest_r_0_1_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 60,
+      "y": 23
+    },
+    {
+      "id": "tenos_chest_r_1_0_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 120,
+      "y": -31
+    },
+    {
+      "id": "tenos_chest_r_1_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 120,
+      "y": 23
+    },
+    {
+      "id": "tenos_chest_r_2_0_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 181,
+      "y": -31
+    },
+    {
+      "id": "tenos_barter_expert",
+      "name": "Barter Expert",
+      "type": "minor",
+      "effect": "tenos_barter_expert",
+      "icon": "the_vault:textures/gui/greed/nodes/totem.png",
+      "x": 181,
+      "y": 23
+    },
+    {
+      "id": "tenos_chest_r_3_0_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 288,
+      "y": -91
+    },
+    {
+      "id": "tenos_chest_r_3_1_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 337,
+      "y": -68
+    },
+    {
+      "id": "tenos_chest_r_4_0_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 297,
+      "y": -177
+    },
+    {
+      "id": "tenos_chest_r_4_1_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 351,
+      "y": -177
+    },
+    {
+      "id": "tenos_chest_r_5_0_reserves_ii",
+      "name": "Reserves II",
+      "type": "stat",
+      "effect": "tenos_reserves_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_percentile.png",
+      "x": 234,
+      "y": -238
+    },
+    {
+      "id": "tenos_chest_r_5_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 297,
+      "y": -238
+    },
+    {
+      "id": "tenos_chest_r_5_2_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 351,
+      "y": -238
+    },
+    {
+      "id": "tenos_chest_r_6_0_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 234,
+      "y": -298
+    },
+    {
+      "id": "tenos_chest_r_6_1_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 297,
+      "y": -298
+    },
+    {
+      "id": "tenos_chest_r_6_2_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 351,
+      "y": -298
+    },
+    {
+      "id": "tenos_expert_looter",
+      "name": "Expert Looter",
+      "type": "minor",
+      "effect": "tenos_expert_looter",
+      "icon": "the_vault:textures/gui/greed/nodes/hunter.png",
+      "x": 231,
+      "y": -358
+    },
+    {
+      "id": "tenos_chest_r_7_1_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 289,
+      "y": -382
+    },
+    {
+      "id": "tenos_master_of_chests",
+      "name": "Master of Chests",
+      "type": "minor",
+      "effect": "tenos_master_of_chests",
+      "icon": "the_vault:textures/gui/greed/nodes/chaining.png",
+      "x": 339,
+      "y": -402
+    },
+    {
+      "id": "tenos_chest_r_8_0_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 180,
+      "y": -382
+    },
+    {
+      "id": "tenos_chest_r_8_1_reserves_ii",
+      "name": "Reserves II",
+      "type": "stat",
+      "effect": "tenos_reserves_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_percentile.png",
+      "x": 181,
+      "y": -445
+    },
+    {
+      "id": "tenos_chest_r_8_2_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 181,
+      "y": -499
+    },
+    {
+      "id": "tenos_chest_r_9_0_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 120,
+      "y": -445
+    },
+    {
+      "id": "tenos_chest_r_9_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 120,
+      "y": -499
+    },
+    {
+      "id": "tenos_chest_r_10_0_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 60,
+      "y": -445
+    },
+    {
+      "id": "tenos_chest_r_10_1_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 60,
+      "y": -499
+    },
+    {
+      "id": "tenos_start_chalice",
+      "name": "The Chalice",
+      "type": "root",
+      "x": -653,
+      "y": -77
+    },
+    {
+      "id": "tenos_chalice_st_magical",
+      "name": "Magical",
+      "type": "stat",
+      "effect": "tenos_magical",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_regeneration.png",
+      "x": -668,
+      "y": -126
+    },
+    {
+      "id": "tenos_chalice_bl_reserves",
+      "name": "Reserves",
+      "type": "stat",
+      "effect": "tenos_reserves",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_percentile.png",
+      "x": -727,
+      "y": -141
+    },
+    {
+      "id": "tenos_chalice_br_magical",
+      "name": "Magical",
+      "type": "stat",
+      "effect": "tenos_magical",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_regeneration.png",
+      "x": -628,
+      "y": -171
+    },
+    {
+      "id": "tenos_chalice_cup_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -685,
+      "y": -182
+    },
+    {
+      "id": "tenos_chalice_rl_magical_ii",
+      "name": "Magical II",
+      "type": "stat",
+      "effect": "tenos_magical_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_regeneration.png",
+      "x": -765,
+      "y": -181
+    },
+    {
+      "id": "tenos_chalice_rr_reserves_ii",
+      "name": "Reserves II",
+      "type": "stat",
+      "effect": "tenos_reserves_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_percentile.png",
+      "x": -619,
+      "y": -226
+    },
+    {
+      "id": "tenos_mana_starved",
+      "name": "Mana Starved",
+      "type": "minor",
+      "effect": "tenos_mana_starved",
+      "icon": "the_vault:textures/gui/greed/nodes/mana.png",
+      "x": -790,
+      "y": -225
+    },
+    {
+      "id": "tenos_deep_reserves",
+      "name": "Deep Reserves",
+      "type": "minor",
+      "effect": "tenos_deep_reserves",
+      "icon": "the_vault:textures/gui/greed/nodes/mana_barrier.png",
+      "x": -622,
+      "y": -277
+    },
+    {
+      "id": "tenos_start_scales",
+      "name": "The Scales",
+      "type": "root",
+      "x": 659,
+      "y": -54
+    },
+    {
+      "id": "tenos_scales_po_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 672,
+      "y": -106
+    },
+    {
+      "id": "tenos_scales_bm_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 685,
+      "y": -158
+    },
+    {
+      "id": "tenos_scales_al_treasurer",
+      "name": "Treasurer",
+      "type": "stat",
+      "effect": "tenos_treasurer",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 619,
+      "y": -182
+    },
+    {
+      "id": "tenos_scales_ar_hoarder",
+      "name": "Hoarder",
+      "type": "stat",
+      "effect": "tenos_hoarder",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 751,
+      "y": -135
+    },
+    {
+      "id": "tenos_scales_hl_hoarder_ii",
+      "name": "Hoarder II",
+      "type": "stat",
+      "effect": "tenos_hoarder_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": 617,
+      "y": -229
+    },
+    {
+      "id": "tenos_scales_hr_treasurer_ii",
+      "name": "Treasurer II",
+      "type": "stat",
+      "effect": "tenos_treasurer_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/item_rarity.png",
+      "x": 775,
+      "y": -175
+    },
+    {
+      "id": "tenos_unstoppable_greed",
+      "name": "Unstoppable Greed",
+      "type": "minor",
+      "effect": "tenos_unstoppable_greed",
+      "icon": "the_vault:textures/gui/greed/nodes/atk_ap.png",
+      "x": 565,
+      "y": -218
+    },
+    {
+      "id": "tenos_wealthy_patron",
+      "name": "Wealthy Patron",
+      "type": "minor",
+      "effect": "tenos_wealthy_patron",
+      "icon": "the_vault:textures/gui/greed/nodes/armour.png",
+      "x": 815,
+      "y": -140
+    },
+    {
+      "id": "tenos_start_compass",
+      "name": "The Compass",
+      "type": "root",
+      "x": 665,
+      "y": 496
+    },
+    {
+      "id": "tenos_compass_ll_wide_influence",
+      "name": "Wide Influence",
+      "type": "stat",
+      "effect": "tenos_wide_influence",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": 605,
+      "y": 473
+    },
+    {
+      "id": "tenos_compass_lr_careful",
+      "name": "Careful",
+      "type": "stat",
+      "effect": "tenos_careful",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": 687,
+      "y": 437
+    },
+    {
+      "id": "tenos_compass_mid_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 627,
+      "y": 412
+    },
+    {
+      "id": "tenos_compass_tip_wide_influence_ii",
+      "name": "Wide Influence II",
+      "type": "stat",
+      "effect": "tenos_wide_influence_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/area_of_effect.png",
+      "x": 602,
+      "y": 371
+    },
+    {
+      "id": "tenos_domain_expansion",
+      "name": "Domain Expansion",
+      "type": "minor",
+      "effect": "tenos_domain_expansion",
+      "icon": "the_vault:textures/gui/greed/nodes/nova.png",
+      "x": 588,
+      "y": 324
+    },
+    {
+      "id": "tenos_start_lantern",
+      "name": "The Lantern",
+      "type": "root",
+      "x": -657,
+      "y": 499
+    },
+    {
+      "id": "tenos_lantern_gl_careful",
+      "name": "Careful",
+      "type": "stat",
+      "effect": "tenos_careful",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -688,
+      "y": 446
+    },
+    {
+      "id": "tenos_lantern_gr_advanced_extraction",
+      "name": "Advanced Extraction",
+      "type": "stat",
+      "effect": "tenos_advanced_extraction",
+      "icon": "the_vault:textures/gui/greed/nodes/copiously.png",
+      "x": -599,
+      "y": 480
+    },
+    {
+      "id": "tenos_lantern_bod_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "tenos_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -630,
+      "y": 427
+    },
+    {
+      "id": "tenos_lantern_top_careful_ii",
+      "name": "Careful II",
+      "type": "stat",
+      "effect": "tenos_careful_ii",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -610,
+      "y": 382
+    },
+    {
+      "id": "tenos_indiana_jones",
+      "name": "Indiana Jones",
+      "type": "minor",
+      "effect": "tenos_indiana_jones",
+      "icon": "the_vault:textures/gui/greed/nodes/trap_disarm.png",
+      "x": -594,
+      "y": 335
+    }
+  ],
+  "edges": [
+    {
+      "from": "tenos_cash_hunter",
+      "to": "tenos_pile_7_3_hoarder_ii"
+    },
+    {
+      "from": "tenos_drillmaster",
+      "to": "tenos_pile_3_3_treasurer"
+    },
+    {
+      "from": "tenos_drillmaster",
+      "to": "tenos_pile_5_2_hoarder_ii"
+    },
+    {
+      "from": "tenos_global_veins",
+      "to": "tenos_pile_7_0_treasurer_ii"
+    },
+    {
+      "from": "tenos_gold_plating",
+      "to": "tenos_pile_7_0_treasurer_ii"
+    },
+    {
+      "from": "tenos_gold_plating",
+      "to": "tenos_pile_9_0_treasurer_ii"
+    },
+    {
+      "from": "tenos_pile_0_0_hoarder",
+      "to": "tenos_pile_0_1_treasurer"
+    },
+    {
+      "from": "tenos_pile_0_0_hoarder",
+      "to": "tenos_pile_1_0_treasurer"
+    },
+    {
+      "from": "tenos_pile_0_0_hoarder",
+      "to": "tenos_pile_1_1_hoarder"
+    },
+    {
+      "from": "tenos_pile_0_1_treasurer",
+      "to": "tenos_pile_0_2_hoarder"
+    },
+    {
+      "from": "tenos_pile_0_1_treasurer",
+      "to": "tenos_pile_1_1_hoarder"
+    },
+    {
+      "from": "tenos_pile_0_2_hoarder",
+      "to": "tenos_pile_0_3_treasurer"
+    },
+    {
+      "from": "tenos_pile_0_2_hoarder",
+      "to": "tenos_pile_1_2_pious_devotion"
+    },
+    {
+      "from": "tenos_pile_0_2_hoarder",
+      "to": "tenos_pile_1_3_hoarder"
+    },
+    {
+      "from": "tenos_pile_0_3_treasurer",
+      "to": "tenos_pile_1_3_hoarder"
+    },
+    {
+      "from": "tenos_pile_10_0_treasurer_ii",
+      "to": "tenos_pile_9_0_treasurer_ii"
+    },
+    {
+      "from": "tenos_pile_10_0_treasurer_ii",
+      "to": "tenos_pile_9_1_advanced_extraction_ii"
+    },
+    {
+      "from": "tenos_pile_10_1_pious_devotion",
+      "to": "tenos_pile_9_2_pious_devotion"
+    },
+    {
+      "from": "tenos_pile_1_0_treasurer",
+      "to": "tenos_sacked"
+    },
+    {
+      "from": "tenos_pile_1_1_hoarder",
+      "to": "tenos_pile_2_1_hoarder"
+    },
+    {
+      "from": "tenos_pile_1_2_pious_devotion",
+      "to": "tenos_pile_2_2_treasurer"
+    },
+    {
+      "from": "tenos_pile_1_3_hoarder",
+      "to": "tenos_pile_2_2_treasurer"
+    },
+    {
+      "from": "tenos_pile_1_3_hoarder",
+      "to": "tenos_sack_of_mobs"
+    },
+    {
+      "from": "tenos_pile_2_1_hoarder",
+      "to": "tenos_pile_3_1_pious_devotion"
+    },
+    {
+      "from": "tenos_pile_2_2_treasurer",
+      "to": "tenos_pile_3_2_hoarder"
+    },
+    {
+      "from": "tenos_pile_2_2_treasurer",
+      "to": "tenos_pile_3_3_treasurer"
+    },
+    {
+      "from": "tenos_pile_3_0_hoarder",
+      "to": "tenos_pile_4_0_treasurer"
+    },
+    {
+      "from": "tenos_pile_3_0_hoarder",
+      "to": "tenos_sacked"
+    },
+    {
+      "from": "tenos_pile_3_1_pious_devotion",
+      "to": "tenos_pile_4_0_treasurer"
+    },
+    {
+      "from": "tenos_pile_3_2_hoarder",
+      "to": "tenos_pile_4_1_hoarder"
+    },
+    {
+      "from": "tenos_pile_3_3_treasurer",
+      "to": "tenos_pile_4_1_hoarder"
+    },
+    {
+      "from": "tenos_pile_3_3_treasurer",
+      "to": "tenos_sack_of_mobs"
+    },
+    {
+      "from": "tenos_pile_4_0_treasurer",
+      "to": "tenos_pile_5_0_pious_devotion"
+    },
+    {
+      "from": "tenos_pile_4_1_hoarder",
+      "to": "tenos_pile_5_1_treasurer_ii"
+    },
+    {
+      "from": "tenos_pile_5_0_pious_devotion",
+      "to": "tenos_pile_5_1_treasurer_ii"
+    },
+    {
+      "from": "tenos_pile_5_0_pious_devotion",
+      "to": "tenos_pile_6_1_hoarder_ii"
+    },
+    {
+      "from": "tenos_pile_5_1_treasurer_ii",
+      "to": "tenos_pile_6_2_advanced_extraction_ii"
+    },
+    {
+      "from": "tenos_pile_5_2_hoarder_ii",
+      "to": "tenos_pile_6_3_treasurer_ii"
+    },
+    {
+      "from": "tenos_pile_6_1_hoarder_ii",
+      "to": "tenos_pile_6_2_advanced_extraction_ii"
+    },
+    {
+      "from": "tenos_pile_6_1_hoarder_ii",
+      "to": "tenos_pile_7_1_pious_devotion"
+    },
+    {
+      "from": "tenos_pile_6_2_advanced_extraction_ii",
+      "to": "tenos_pile_6_3_treasurer_ii"
+    },
+    {
+      "from": "tenos_pile_6_2_advanced_extraction_ii",
+      "to": "tenos_pile_7_2_hoarder_ii"
+    },
+    {
+      "from": "tenos_pile_6_2_advanced_extraction_ii",
+      "to": "tenos_pile_7_3_hoarder_ii"
+    },
+    {
+      "from": "tenos_pile_6_3_treasurer_ii",
+      "to": "tenos_pile_7_3_hoarder_ii"
+    },
+    {
+      "from": "tenos_pile_7_1_pious_devotion",
+      "to": "tenos_pile_8_1_hoarder_ii"
+    },
+    {
+      "from": "tenos_pile_7_2_hoarder_ii",
+      "to": "tenos_pile_8_2_treasurer_ii"
+    },
+    {
+      "from": "tenos_pile_7_3_hoarder_ii",
+      "to": "tenos_pile_8_2_treasurer_ii"
+    },
+    {
+      "from": "tenos_pile_8_1_hoarder_ii",
+      "to": "tenos_pile_9_1_advanced_extraction_ii"
+    },
+    {
+      "from": "tenos_pile_8_2_treasurer_ii",
+      "to": "tenos_pile_9_2_pious_devotion"
+    },
+    {
+      "from": "tenos_challenge_tackler",
+      "to": "tenos_chest_l_1_1_pious_devotion"
+    },
+    {
+      "from": "tenos_challenge_tackler",
+      "to": "tenos_chest_l_3_1_wide_influence"
+    },
+    {
+      "from": "tenos_chest_l_0_0_wide_influence",
+      "to": "tenos_chest_l_1_0_careful"
+    },
+    {
+      "from": "tenos_chest_l_0_0_wide_influence",
+      "to": "tenos_chest_l_1_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_l_0_1_careful",
+      "to": "tenos_chest_l_1_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_l_10_0_careful_ii",
+      "to": "tenos_chest_l_9_0_wide_influence_ii"
+    },
+    {
+      "from": "tenos_chest_l_10_0_careful_ii",
+      "to": "tenos_chest_l_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_l_10_1_wide_influence_ii",
+      "to": "tenos_chest_l_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_l_1_0_careful",
+      "to": "tenos_chest_l_1_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_l_1_0_careful",
+      "to": "tenos_chest_l_2_0_wide_influence"
+    },
+    {
+      "from": "tenos_chest_l_1_1_pious_devotion",
+      "to": "tenos_chest_l_2_0_wide_influence"
+    },
+    {
+      "from": "tenos_chest_l_2_0_wide_influence",
+      "to": "tenos_chest_l_3_0_careful"
+    },
+    {
+      "from": "tenos_chest_l_2_0_wide_influence",
+      "to": "tenos_chest_l_3_1_wide_influence"
+    },
+    {
+      "from": "tenos_chest_l_3_0_careful",
+      "to": "tenos_chest_l_4_0_wide_influence"
+    },
+    {
+      "from": "tenos_chest_l_3_1_wide_influence",
+      "to": "tenos_chest_l_4_0_wide_influence"
+    },
+    {
+      "from": "tenos_chest_l_3_1_wide_influence",
+      "to": "tenos_chest_l_4_1_careful"
+    },
+    {
+      "from": "tenos_chest_l_4_0_wide_influence",
+      "to": "tenos_chest_l_5_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_l_4_0_wide_influence",
+      "to": "tenos_chest_l_5_2_wide_influence_ii"
+    },
+    {
+      "from": "tenos_chest_l_4_1_careful",
+      "to": "tenos_chest_l_5_2_wide_influence_ii"
+    },
+    {
+      "from": "tenos_chest_l_5_0_magical_ii",
+      "to": "tenos_chest_l_5_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_l_5_0_magical_ii",
+      "to": "tenos_chest_l_6_0_wide_influence_ii"
+    },
+    {
+      "from": "tenos_chest_l_5_1_pious_devotion",
+      "to": "tenos_chest_l_5_2_wide_influence_ii"
+    },
+    {
+      "from": "tenos_chest_l_5_1_pious_devotion",
+      "to": "tenos_chest_l_6_1_careful_ii"
+    },
+    {
+      "from": "tenos_chest_l_5_2_wide_influence_ii",
+      "to": "tenos_chest_l_6_1_careful_ii"
+    },
+    {
+      "from": "tenos_chest_l_5_2_wide_influence_ii",
+      "to": "tenos_chest_l_6_2_wide_influence_ii"
+    },
+    {
+      "from": "tenos_chest_l_6_0_wide_influence_ii",
+      "to": "tenos_omega_vault"
+    },
+    {
+      "from": "tenos_chest_l_6_1_careful_ii",
+      "to": "tenos_chest_l_7_1_wide_influence_ii"
+    },
+    {
+      "from": "tenos_chest_l_6_2_wide_influence_ii",
+      "to": "tenos_nose_for_treasure"
+    },
+    {
+      "from": "tenos_chest_l_7_1_wide_influence_ii",
+      "to": "tenos_chest_l_8_1_magical_ii"
+    },
+    {
+      "from": "tenos_chest_l_8_0_careful_ii",
+      "to": "tenos_omega_vault"
+    },
+    {
+      "from": "tenos_chest_l_8_1_magical_ii",
+      "to": "tenos_chest_l_9_0_wide_influence_ii"
+    },
+    {
+      "from": "tenos_chest_l_8_1_magical_ii",
+      "to": "tenos_chest_l_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_l_8_2_wide_influence_ii",
+      "to": "tenos_chest_l_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_l_8_2_wide_influence_ii",
+      "to": "tenos_nose_for_treasure"
+    },
+    {
+      "from": "tenos_chest_l_9_0_wide_influence_ii",
+      "to": "tenos_chest_l_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_barter_expert",
+      "to": "tenos_chest_r_1_1_pious_devotion"
+    },
+    {
+      "from": "tenos_barter_expert",
+      "to": "tenos_chest_r_3_1_hoarder"
+    },
+    {
+      "from": "tenos_chest_r_0_0_hoarder",
+      "to": "tenos_chest_r_1_0_treasurer"
+    },
+    {
+      "from": "tenos_chest_r_0_0_hoarder",
+      "to": "tenos_chest_r_1_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_r_0_1_treasurer",
+      "to": "tenos_chest_r_1_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_r_10_0_hoarder_ii",
+      "to": "tenos_chest_r_9_0_treasurer_ii"
+    },
+    {
+      "from": "tenos_chest_r_10_0_hoarder_ii",
+      "to": "tenos_chest_r_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_r_10_1_treasurer_ii",
+      "to": "tenos_chest_r_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_r_1_0_treasurer",
+      "to": "tenos_chest_r_1_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_r_1_0_treasurer",
+      "to": "tenos_chest_r_2_0_hoarder"
+    },
+    {
+      "from": "tenos_chest_r_1_1_pious_devotion",
+      "to": "tenos_chest_r_2_0_hoarder"
+    },
+    {
+      "from": "tenos_chest_r_2_0_hoarder",
+      "to": "tenos_chest_r_3_0_treasurer"
+    },
+    {
+      "from": "tenos_chest_r_2_0_hoarder",
+      "to": "tenos_chest_r_3_1_hoarder"
+    },
+    {
+      "from": "tenos_chest_r_3_0_treasurer",
+      "to": "tenos_chest_r_4_0_hoarder"
+    },
+    {
+      "from": "tenos_chest_r_3_1_hoarder",
+      "to": "tenos_chest_r_4_0_hoarder"
+    },
+    {
+      "from": "tenos_chest_r_3_1_hoarder",
+      "to": "tenos_chest_r_4_1_treasurer"
+    },
+    {
+      "from": "tenos_chest_r_4_0_hoarder",
+      "to": "tenos_chest_r_5_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_r_4_0_hoarder",
+      "to": "tenos_chest_r_5_2_hoarder_ii"
+    },
+    {
+      "from": "tenos_chest_r_4_1_treasurer",
+      "to": "tenos_chest_r_5_2_hoarder_ii"
+    },
+    {
+      "from": "tenos_chest_r_5_0_reserves_ii",
+      "to": "tenos_chest_r_5_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_r_5_0_reserves_ii",
+      "to": "tenos_chest_r_6_0_treasurer_ii"
+    },
+    {
+      "from": "tenos_chest_r_5_1_pious_devotion",
+      "to": "tenos_chest_r_5_2_hoarder_ii"
+    },
+    {
+      "from": "tenos_chest_r_5_1_pious_devotion",
+      "to": "tenos_chest_r_6_1_hoarder_ii"
+    },
+    {
+      "from": "tenos_chest_r_5_2_hoarder_ii",
+      "to": "tenos_chest_r_6_1_hoarder_ii"
+    },
+    {
+      "from": "tenos_chest_r_5_2_hoarder_ii",
+      "to": "tenos_chest_r_6_2_treasurer_ii"
+    },
+    {
+      "from": "tenos_chest_r_6_0_treasurer_ii",
+      "to": "tenos_expert_looter"
+    },
+    {
+      "from": "tenos_chest_r_6_1_hoarder_ii",
+      "to": "tenos_chest_r_7_1_hoarder_ii"
+    },
+    {
+      "from": "tenos_chest_r_6_2_treasurer_ii",
+      "to": "tenos_master_of_chests"
+    },
+    {
+      "from": "tenos_chest_r_7_1_hoarder_ii",
+      "to": "tenos_chest_r_8_1_reserves_ii"
+    },
+    {
+      "from": "tenos_chest_r_8_0_hoarder_ii",
+      "to": "tenos_expert_looter"
+    },
+    {
+      "from": "tenos_chest_r_8_1_reserves_ii",
+      "to": "tenos_chest_r_9_0_treasurer_ii"
+    },
+    {
+      "from": "tenos_chest_r_8_1_reserves_ii",
+      "to": "tenos_chest_r_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_r_8_2_treasurer_ii",
+      "to": "tenos_chest_r_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chest_r_8_2_treasurer_ii",
+      "to": "tenos_master_of_chests"
+    },
+    {
+      "from": "tenos_chest_r_9_0_treasurer_ii",
+      "to": "tenos_chest_r_9_1_pious_devotion"
+    },
+    {
+      "from": "tenos_chalice_bl_reserves",
+      "to": "tenos_chalice_cup_pious_devotion"
+    },
+    {
+      "from": "tenos_chalice_bl_reserves",
+      "to": "tenos_chalice_rl_magical_ii"
+    },
+    {
+      "from": "tenos_chalice_bl_reserves",
+      "to": "tenos_chalice_st_magical"
+    },
+    {
+      "from": "tenos_chalice_br_magical",
+      "to": "tenos_chalice_cup_pious_devotion"
+    },
+    {
+      "from": "tenos_chalice_br_magical",
+      "to": "tenos_chalice_rr_reserves_ii"
+    },
+    {
+      "from": "tenos_chalice_br_magical",
+      "to": "tenos_chalice_st_magical"
+    },
+    {
+      "from": "tenos_chalice_cup_pious_devotion",
+      "to": "tenos_chalice_st_magical"
+    },
+    {
+      "from": "tenos_chalice_rl_magical_ii",
+      "to": "tenos_mana_starved"
+    },
+    {
+      "from": "tenos_chalice_rr_reserves_ii",
+      "to": "tenos_deep_reserves"
+    },
+    {
+      "from": "tenos_chalice_st_magical",
+      "to": "tenos_start_chalice"
+    },
+    {
+      "from": "tenos_scales_al_treasurer",
+      "to": "tenos_scales_bm_pious_devotion"
+    },
+    {
+      "from": "tenos_scales_al_treasurer",
+      "to": "tenos_scales_hl_hoarder_ii"
+    },
+    {
+      "from": "tenos_scales_al_treasurer",
+      "to": "tenos_scales_po_hoarder"
+    },
+    {
+      "from": "tenos_scales_ar_hoarder",
+      "to": "tenos_scales_bm_pious_devotion"
+    },
+    {
+      "from": "tenos_scales_ar_hoarder",
+      "to": "tenos_scales_hr_treasurer_ii"
+    },
+    {
+      "from": "tenos_scales_ar_hoarder",
+      "to": "tenos_scales_po_hoarder"
+    },
+    {
+      "from": "tenos_scales_bm_pious_devotion",
+      "to": "tenos_scales_po_hoarder"
+    },
+    {
+      "from": "tenos_scales_hl_hoarder_ii",
+      "to": "tenos_unstoppable_greed"
+    },
+    {
+      "from": "tenos_scales_hr_treasurer_ii",
+      "to": "tenos_wealthy_patron"
+    },
+    {
+      "from": "tenos_scales_po_hoarder",
+      "to": "tenos_start_scales"
+    },
+    {
+      "from": "tenos_compass_ll_wide_influence",
+      "to": "tenos_compass_lr_careful"
+    },
+    {
+      "from": "tenos_compass_ll_wide_influence",
+      "to": "tenos_compass_mid_pious_devotion"
+    },
+    {
+      "from": "tenos_compass_ll_wide_influence",
+      "to": "tenos_start_compass"
+    },
+    {
+      "from": "tenos_compass_lr_careful",
+      "to": "tenos_compass_mid_pious_devotion"
+    },
+    {
+      "from": "tenos_compass_lr_careful",
+      "to": "tenos_start_compass"
+    },
+    {
+      "from": "tenos_compass_mid_pious_devotion",
+      "to": "tenos_compass_tip_wide_influence_ii"
+    },
+    {
+      "from": "tenos_compass_tip_wide_influence_ii",
+      "to": "tenos_domain_expansion"
+    },
+    {
+      "from": "tenos_indiana_jones",
+      "to": "tenos_lantern_top_careful_ii"
+    },
+    {
+      "from": "tenos_lantern_bod_pious_devotion",
+      "to": "tenos_lantern_gl_careful"
+    },
+    {
+      "from": "tenos_lantern_bod_pious_devotion",
+      "to": "tenos_lantern_gr_advanced_extraction"
+    },
+    {
+      "from": "tenos_lantern_bod_pious_devotion",
+      "to": "tenos_lantern_top_careful_ii"
+    },
+    {
+      "from": "tenos_lantern_gl_careful",
+      "to": "tenos_lantern_gr_advanced_extraction"
+    },
+    {
+      "from": "tenos_lantern_gl_careful",
+      "to": "tenos_start_lantern"
+    },
+    {
+      "from": "tenos_lantern_gr_advanced_extraction",
+      "to": "tenos_start_lantern"
+    },
+    {
+      "from": "tenos_chest_l_0_0_wide_influence",
+      "to": "tenos_start_chest"
+    },
+    {
+      "from": "tenos_chest_l_0_1_careful",
+      "to": "tenos_start_chest"
+    },
+    {
+      "from": "tenos_chest_l_10_0_careful_ii",
+      "to": "tenos_massive_chests"
+    },
+    {
+      "from": "tenos_chest_l_10_1_wide_influence_ii",
+      "to": "tenos_massive_chests"
+    },
+    {
+      "from": "tenos_chest_r_0_0_hoarder",
+      "to": "tenos_start_chest"
+    },
+    {
+      "from": "tenos_chest_r_0_1_treasurer",
+      "to": "tenos_start_chest"
+    },
+    {
+      "from": "tenos_chest_r_10_0_hoarder_ii",
+      "to": "tenos_massive_chests"
+    },
+    {
+      "from": "tenos_chest_r_10_1_treasurer_ii",
+      "to": "tenos_massive_chests"
+    },
+    {
+      "from": "tenos_looting_engine",
+      "to": "tenos_pile_10_0_treasurer_ii"
+    },
+    {
+      "from": "tenos_looting_engine",
+      "to": "tenos_pile_10_1_pious_devotion"
+    },
+    {
+      "from": "tenos_pile_0_0_hoarder",
+      "to": "tenos_start_hoard"
+    },
+    {
+      "from": "tenos_pile_0_1_treasurer",
+      "to": "tenos_start_hoard"
+    },
+    {
+      "from": "tenos_pile_0_2_hoarder",
+      "to": "tenos_start_hoard"
+    },
+    {
+      "from": "tenos_pile_0_3_treasurer",
+      "to": "tenos_start_hoard"
+    }
+  ],
+  "labels": [
+    {
+      "text": "The Hoard",
+      "x": 484,
+      "y": 387
+    },
+    {
+      "text": "The Doors",
+      "x": -423,
+      "y": -238
+    },
+    {
+      "text": "The Haul",
+      "x": 423,
+      "y": -238
+    },
+    {
+      "text": "The Chalice",
+      "x": -684,
+      "y": 18
+    },
+    {
+      "text": "The Scales",
+      "x": 684,
+      "y": 41
+    },
+    {
+      "text": "The Lantern",
+      "x": -630,
+      "y": 593
+    },
+    {
+      "text": "The Compass",
+      "x": 630,
+      "y": 591
+    }
+  ]
+}

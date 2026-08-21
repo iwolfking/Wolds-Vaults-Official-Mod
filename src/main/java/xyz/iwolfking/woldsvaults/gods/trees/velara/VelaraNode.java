@@ -6,14 +6,25 @@ package xyz.iwolfking.woldsvaults.gods.trees.velara;
  * <p>{@link Kind} decides which {@link xyz.iwolfking.woldsvaults.gods.GodNodeGate} query a node
  * answers to: stat and major nodes are strictly bound to the active tree, minor nodes also run
  * when selected in the active god's minor-transfer slots.
+ *
+ * <p>A stat the sheet lists as a pair ({@code 25%+, 50%+}) is two ids, not one node with two
+ * ranks: the shallow placements in the tree are the base id and the deep ones are the
+ * {@code _ii} id, each paying its own value per star with no ceiling. Which placement is which
+ * is decided by depth in {@code tree-drafts/export_velara_wiring.py}, not here.
  */
 public enum VelaraNode {
     TOUGH("velara_tough", Kind.STAT),
+    TOUGH_II("velara_tough_ii", Kind.STAT),
     ARMORED("velara_armored", Kind.STAT),
+    ARMORED_II("velara_armored_ii", Kind.STAT),
     IMMUNE("velara_immune", Kind.STAT),
+    IMMUNE_II("velara_immune_ii", Kind.STAT),
     HEALTHY("velara_healthy", Kind.STAT),
+    HEALTHY_II("velara_healthy_ii", Kind.STAT),
     FAST_REFLEXES("velara_fast_reflexes", Kind.STAT),
+    FAST_REFLEXES_II("velara_fast_reflexes_ii", Kind.STAT),
     GUARDED("velara_guarded", Kind.STAT),
+    GUARDED_II("velara_guarded_ii", Kind.STAT),
     PIOUS_DEVOTION("velara_pious_devotion", Kind.STAT),
     COUNTERSTRIKE("velara_counterstrike", Kind.MINOR),
     MAGIC_ARMOR("velara_magic_armor", Kind.MINOR),
@@ -27,6 +38,7 @@ public enum VelaraNode {
     THE_STONEWALL("velara_the_stonewall", Kind.MINOR),
     CACTUS("velara_cactus", Kind.MINOR),
     THORNY("velara_thorny", Kind.STAT),
+    THORNY_II("velara_thorny_ii", Kind.STAT),
     MALEDICTION("velara_malediction", Kind.MINOR),
     IMMORTAL("velara_immortal", Kind.MAJOR),
     FLEETING_PHYSICALITY("velara_fleeting_physicality", Kind.MINOR),

@@ -51,11 +51,12 @@ public final class IdonaLuckyHit {
     }
 
     /**
-     * Lucky hit chance above the cap is wasted today -  the roll is a single comparison against the
-     * clamped value. Overcrit turns that waste into tiers: every whole 100% of excess chance is a
-     * guaranteed extra tier, the fractional remainder rolls for one more, and the hit is multiplied
-     * by {@code 1 + tier}. At exactly the cap the excess is zero and the node does nothing, which
-     * is what "lucky hit chance over 100" means in a pack whose cap is 100%.
+     * Lucky hit chance above 100% is wasted today -  the roll is a single comparison and always
+     * succeeds past one. Overcrit turns that waste into tiers: every whole 100% of excess chance
+     * is a guaranteed extra tier, the fractional remainder rolls for one more, and the hit is
+     * multiplied by {@code 1 + tier}. The excess is measured against a hard 100% rather than the
+     * configured cap, because the pack's display cap has been raised past it - the node is the
+     * only consumer of over-100 lucky hit chance either way.
      */
     private static void applyOvercrit(ServerPlayer attacker, LivingHurtEvent event) {
         int points = IdonaNodes.minorPoints(attacker, IdonaNodes.OVERCRIT);
@@ -63,7 +64,7 @@ public final class IdonaLuckyHit {
             return;
         }
         float unlimited = LuckyHitHelper.getLuckyHitChanceUnlimited(attacker);
-        float limit = AttributeLimitHelper.getLuckyHitChanceLimit(attacker);
+        float limit = Math.min(AttributeLimitHelper.getLuckyHitChanceLimit(attacker), 1.0F);
         float excess = unlimited - limit;
         if (excess <= 0.0F || !Float.isFinite(excess)) {
             return;

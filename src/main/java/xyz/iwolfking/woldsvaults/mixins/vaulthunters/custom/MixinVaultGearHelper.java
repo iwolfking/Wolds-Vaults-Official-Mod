@@ -1,10 +1,15 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.gear.VaultGearHelper;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.VaultGearType;
+import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.GearDataCache;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -14,6 +19,9 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,8 +31,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
+
+import java.util.UUID;
 
 @Mixin(value = VaultGearHelper.class, remap = false)
 public class MixinVaultGearHelper {
@@ -37,5 +48,50 @@ public class MixinVaultGearHelper {
                 data.write(stack);
             }
         }
+    }
+
+    /**
+     * Applies {@code health_boost} as a MULTIPLY_TOTAL modifier on max health.
+     *
+     * <p>the_vault's own {@code health_percentile} uses MULTIPLY_BASE, which lands in the same
+     * additive bucket as the +% health from cards. This one has to multiply the finished total
+     * instead, so a 0.10 roll reads as a clean 1.10x on whatever health the player already had.</p>
+     */
+    @ModifyReturnValue(method = "getModifiers(Liskallia/vault/gear/data/AttributeGearData;)Lcom/google/common/collect/Multimap;", at = @At("RETURN"))
+    private static Multimap<Attribute, AttributeModifier> addTotalHealthMultiplier(Multimap<Attribute, AttributeModifier> original, AttributeGearData data) {
+        if (!data.hasAttribute(ModGearAttributes.HEALTH_BOOST)) {
+            return original;
+        }
+        float boost = data.get(ModGearAttributes.HEALTH_BOOST, VaultGearAttributeTypeMerger.floatSum());
+        if (boost == 0.0F) {
+            return original;
+        }
+        UUID identifier = data.getIdentifier();
+        if (identifier == null) {
+            WoldsVaults.LOGGER.error("health_boost skipped on gear with no identifier; cannot derive a stable attribute modifier id");
+            return original;
+        }
+        AttributeModifier modifier = new AttributeModifier(seededId(identifier, Attributes.MAX_HEALTH, AttributeModifier.Operation.MULTIPLY_TOTAL), "VaultGear %s".formatted(Attributes.MAX_HEALTH.getDescriptionId()), boost, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        return ImmutableMultimap.<Attribute, AttributeModifier>builder().putAll(original).put(Attributes.MAX_HEALTH, modifier).build();
+    }
+
+    /**
+     * Mirrors VaultGearHelper's private seededId so the added modifier gets a stable id in the same
+     * scheme as every other gear-derived modifier, and therefore cannot collide with the ADDITION
+     * or MULTIPLY_BASE health modifiers produced from the same item.
+     */
+    private static UUID seededId(UUID seed, Attribute attribute, AttributeModifier.Operation operation) {
+        long attrHash = hashName(attribute.getRegistryName().toString());
+        attrHash ^= hashName(operation.name());
+        return new UUID(seed.getMostSignificantBits() ^ attrHash, seed.getLeastSignificantBits() ^ attrHash);
+    }
+
+    private static long hashName(String str) {
+        long hash = 1125899906842597L;
+        int length = str.length();
+        for (int i = 0; i < length; ++i) {
+            hash = 31L * hash + (long) str.charAt(i);
+        }
+        return hash;
     }
 }

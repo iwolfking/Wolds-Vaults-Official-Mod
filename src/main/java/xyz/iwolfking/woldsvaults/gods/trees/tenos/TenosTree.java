@@ -5,6 +5,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
+import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 
 /**
  * Startup for the Tenos god tree. Self-contained on purpose: the tree registers its own attribute
@@ -20,6 +21,7 @@ public final class TenosTree {
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             GodTreeAttributeProviders.register(TenosNodes.GOD, new TenosAttributeProvider());
+            PietyBonusSource.register(new TenosPiety());
             ChestRateTracker.register();
             TenosLootStats.register();
             TenosWorldNodes.register();

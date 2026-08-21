@@ -10,8 +10,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
+import xyz.iwolfking.woldsvaults.gods.network.ClientboundVaultGodXpMessage;
+import xyz.iwolfking.woldsvaults.gods.network.GodNetwork;
 
 import java.util.UUID;
 
@@ -75,6 +78,9 @@ public final class MapGodXpHandler {
                     vaultId, objectiveKey, player.getGameProfile().getName(), binding.god().getName());
             return;
         }
-        GodAlignmentData.get(player.server).addGodXp(player, binding.god(), xp);
+        GodAlignmentData data = GodAlignmentData.get(player.server);
+        GodNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
+                new ClientboundVaultGodXpMessage(vaultId, binding.god(), data.previewScaledXp(player, xp)));
+        data.addGodXp(player, binding.god(), xp);
     }
 }

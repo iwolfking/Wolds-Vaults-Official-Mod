@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
+import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 
 /**
  * Startup for the Wendarr god tree. Self-contained on purpose: the tree registers its own
@@ -26,6 +27,7 @@ public final class WendarrTree {
         public static void onCommonSetup(FMLCommonSetupEvent event) {
             event.enqueueWork(() -> {
                 GodTreeAttributeProviders.register(WendarrNodes.GOD, new WendarrAttributeProvider());
+                PietyBonusSource.register(new WendarrPiety());
                 WendarrClockNodes.register();
                 WendarrCombatNodes.register();
                 WendarrGardener.register();

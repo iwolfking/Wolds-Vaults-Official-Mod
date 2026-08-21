@@ -1,0 +1,2104 @@
+{
+  "god": "wendarr",
+  "nodes": [
+    {
+      "id": "wendarr_start_top",
+      "name": "Top of the Glass",
+      "type": "root",
+      "x": 0,
+      "y": -439
+    },
+    {
+      "id": "wendarr_start_bot",
+      "name": "Bottom of the Glass",
+      "type": "root",
+      "x": 0,
+      "y": 439
+    },
+    {
+      "id": "wendarr_legend_of_the_pear",
+      "name": "Legend of the Pear",
+      "type": "major",
+      "effect": "wendarr_legend_of_the_pear",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 0,
+      "y": -63
+    },
+    {
+      "id": "wendarr_edge_of_time",
+      "name": "Edge of Time",
+      "type": "major",
+      "effect": "wendarr_edge_of_time",
+      "icon": "the_vault:textures/gui/greed/nodes/double_damage.png",
+      "x": 0,
+      "y": 63
+    },
+    {
+      "id": "wendarr_fr_pl_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": -338,
+      "y": 0
+    },
+    {
+      "id": "wendarr_fr_pr_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": 338,
+      "y": 0
+    },
+    {
+      "id": "wendarr_tl_0_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -57,
+      "y": -439
+    },
+    {
+      "id": "wendarr_tl_0_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -57,
+      "y": -477
+    },
+    {
+      "id": "wendarr_tl_1_0_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": -115,
+      "y": -459
+    },
+    {
+      "id": "wendarr_tl_1_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -115,
+      "y": -497
+    },
+    {
+      "id": "wendarr_tl_2_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -173,
+      "y": -459
+    },
+    {
+      "id": "wendarr_pristine_condition",
+      "name": "Pristine Condition",
+      "type": "minor",
+      "effect": "wendarr_pristine_condition",
+      "icon": "the_vault:textures/gui/greed/nodes/cleanse.png",
+      "x": -175,
+      "y": -497
+    },
+    {
+      "id": "wendarr_tl_3_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -237,
+      "y": -428
+    },
+    {
+      "id": "wendarr_tl_3_1_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": -265,
+      "y": -453
+    },
+    {
+      "id": "wendarr_tl_4_0_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -259,
+      "y": -360
+    },
+    {
+      "id": "wendarr_tl_4_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -297,
+      "y": -358
+    },
+    {
+      "id": "wendarr_tl_5_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -198,
+      "y": -325
+    },
+    {
+      "id": "wendarr_tl_5_1_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": -230,
+      "y": -299
+    },
+    {
+      "id": "wendarr_tl_5_2_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -259,
+      "y": -274
+    },
+    {
+      "id": "wendarr_tl_6_0_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -161,
+      "y": -282
+    },
+    {
+      "id": "wendarr_tl_6_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -193,
+      "y": -255
+    },
+    {
+      "id": "wendarr_tl_6_2_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": -221,
+      "y": -230
+    },
+    {
+      "id": "wendarr_tough_stomach",
+      "name": "Tough Stomach",
+      "type": "minor",
+      "effect": "wendarr_tough_stomach",
+      "icon": "the_vault:textures/gui/greed/nodes/health.png",
+      "x": -124,
+      "y": -238
+    },
+    {
+      "id": "wendarr_tl_7_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -155,
+      "y": -211
+    },
+    {
+      "id": "wendarr_expert_eater",
+      "name": "Expert Eater",
+      "type": "minor",
+      "effect": "wendarr_expert_eater",
+      "icon": "the_vault:textures/gui/greed/nodes/copiously.png",
+      "x": -184,
+      "y": -187
+    },
+    {
+      "id": "wendarr_tl_8_0_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": -87,
+      "y": -195
+    },
+    {
+      "id": "wendarr_tl_8_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -118,
+      "y": -168
+    },
+    {
+      "id": "wendarr_tl_8_2_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -147,
+      "y": -143
+    },
+    {
+      "id": "wendarr_tl_9_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -50,
+      "y": -151
+    },
+    {
+      "id": "wendarr_tl_9_1_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": -81,
+      "y": -124
+    },
+    {
+      "id": "wendarr_tl_9_2_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -110,
+      "y": -100
+    },
+    {
+      "id": "wendarr_tl_10_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -29,
+      "y": -94
+    },
+    {
+      "id": "wendarr_tr_0_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 57,
+      "y": -459
+    },
+    {
+      "id": "wendarr_tr_0_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 57,
+      "y": -497
+    },
+    {
+      "id": "wendarr_tr_1_0_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 115,
+      "y": -459
+    },
+    {
+      "id": "wendarr_tr_1_1_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": 115,
+      "y": -497
+    },
+    {
+      "id": "wendarr_tr_2_0_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": 173,
+      "y": -459
+    },
+    {
+      "id": "wendarr_clock_artificier",
+      "name": "Clock Artificier",
+      "type": "minor",
+      "effect": "wendarr_clock_artificier",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 175,
+      "y": -497
+    },
+    {
+      "id": "wendarr_tr_3_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 237,
+      "y": -428
+    },
+    {
+      "id": "wendarr_tr_3_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 265,
+      "y": -453
+    },
+    {
+      "id": "wendarr_tr_4_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 259,
+      "y": -360
+    },
+    {
+      "id": "wendarr_tr_4_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 297,
+      "y": -358
+    },
+    {
+      "id": "wendarr_tr_5_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 198,
+      "y": -325
+    },
+    {
+      "id": "wendarr_tr_5_1_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": 230,
+      "y": -299
+    },
+    {
+      "id": "wendarr_tr_5_2_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 259,
+      "y": -274
+    },
+    {
+      "id": "wendarr_tr_6_0_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": 161,
+      "y": -282
+    },
+    {
+      "id": "wendarr_tr_6_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 193,
+      "y": -255
+    },
+    {
+      "id": "wendarr_tr_6_2_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 221,
+      "y": -230
+    },
+    {
+      "id": "wendarr_glutton",
+      "name": "Glutton",
+      "type": "minor",
+      "effect": "wendarr_glutton",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 124,
+      "y": -238
+    },
+    {
+      "id": "wendarr_tr_7_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 155,
+      "y": -211
+    },
+    {
+      "id": "wendarr_fruity",
+      "name": "Fruity",
+      "type": "minor",
+      "effect": "wendarr_fruity",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 184,
+      "y": -187
+    },
+    {
+      "id": "wendarr_tr_8_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 87,
+      "y": -195
+    },
+    {
+      "id": "wendarr_tr_8_1_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": 118,
+      "y": -168
+    },
+    {
+      "id": "wendarr_tr_8_2_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 147,
+      "y": -143
+    },
+    {
+      "id": "wendarr_tr_9_0_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 50,
+      "y": -151
+    },
+    {
+      "id": "wendarr_tr_9_1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 81,
+      "y": -124
+    },
+    {
+      "id": "wendarr_tr_9_2_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": 110,
+      "y": -100
+    },
+    {
+      "id": "wendarr_tr_10_0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 29,
+      "y": -94
+    },
+    {
+      "id": "wendarr_bl_0_0_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -57,
+      "y": 439
+    },
+    {
+      "id": "wendarr_bl_0_1_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -57,
+      "y": 477
+    },
+    {
+      "id": "wendarr_bl_1_0_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -115,
+      "y": 459
+    },
+    {
+      "id": "wendarr_bl_1_1_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": -115,
+      "y": 497
+    },
+    {
+      "id": "wendarr_bl_2_0_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": -173,
+      "y": 459
+    },
+    {
+      "id": "wendarr_efficient_steps",
+      "name": "Efficient Steps",
+      "type": "minor",
+      "effect": "wendarr_efficient_steps",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -175,
+      "y": 497
+    },
+    {
+      "id": "wendarr_bl_3_0_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -237,
+      "y": 428
+    },
+    {
+      "id": "wendarr_bl_3_1_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -265,
+      "y": 453
+    },
+    {
+      "id": "wendarr_bl_4_0_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -259,
+      "y": 360
+    },
+    {
+      "id": "wendarr_bl_4_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -297,
+      "y": 358
+    },
+    {
+      "id": "wendarr_bl_5_0_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -198,
+      "y": 325
+    },
+    {
+      "id": "wendarr_bl_5_1_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": -230,
+      "y": 299
+    },
+    {
+      "id": "wendarr_bl_5_2_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -259,
+      "y": 274
+    },
+    {
+      "id": "wendarr_bl_6_0_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -161,
+      "y": 282
+    },
+    {
+      "id": "wendarr_bl_6_1_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -193,
+      "y": 255
+    },
+    {
+      "id": "wendarr_bl_6_2_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": -221,
+      "y": 230
+    },
+    {
+      "id": "wendarr_temporal_shielding",
+      "name": "Temporal Shielding",
+      "type": "minor",
+      "effect": "wendarr_temporal_shielding",
+      "icon": "the_vault:textures/gui/greed/nodes/resistance.png",
+      "x": -124,
+      "y": 238
+    },
+    {
+      "id": "wendarr_bl_7_1_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -155,
+      "y": 211
+    },
+    {
+      "id": "wendarr_paced_strikes",
+      "name": "Paced Strikes",
+      "type": "minor",
+      "effect": "wendarr_paced_strikes",
+      "icon": "the_vault:textures/gui/greed/nodes/double_damage.png",
+      "x": -184,
+      "y": 187
+    },
+    {
+      "id": "wendarr_bl_8_0_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": -87,
+      "y": 195
+    },
+    {
+      "id": "wendarr_bl_8_1_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -118,
+      "y": 168
+    },
+    {
+      "id": "wendarr_bl_8_2_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -147,
+      "y": 143
+    },
+    {
+      "id": "wendarr_bl_9_0_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -50,
+      "y": 151
+    },
+    {
+      "id": "wendarr_bl_9_1_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": -81,
+      "y": 124
+    },
+    {
+      "id": "wendarr_bl_9_2_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -110,
+      "y": 100
+    },
+    {
+      "id": "wendarr_bl_10_0_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": -29,
+      "y": 94
+    },
+    {
+      "id": "wendarr_br_0_0_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 57,
+      "y": 439
+    },
+    {
+      "id": "wendarr_br_0_1_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 57,
+      "y": 477
+    },
+    {
+      "id": "wendarr_br_1_0_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 115,
+      "y": 459
+    },
+    {
+      "id": "wendarr_br_1_1_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 115,
+      "y": 497
+    },
+    {
+      "id": "wendarr_br_2_0_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 173,
+      "y": 459
+    },
+    {
+      "id": "wendarr_armored_extractors",
+      "name": "Armored Extractors",
+      "type": "minor",
+      "effect": "wendarr_armored_extractors",
+      "icon": "the_vault:textures/gui/greed/nodes/armour.png",
+      "x": 175,
+      "y": 497,
+      "enabled": false
+    },
+    {
+      "id": "wendarr_br_3_0_extraction_superviser",
+      "name": "Extraction Superviser",
+      "type": "stat",
+      "effect": "wendarr_extraction_superviser",
+      "icon": "the_vault:textures/gui/greed/nodes/mining_speed.png",
+      "x": 237,
+      "y": 428,
+      "enabled": false
+    },
+    {
+      "id": "wendarr_br_3_1_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 265,
+      "y": 453
+    },
+    {
+      "id": "wendarr_br_4_0_extraction_superviser",
+      "name": "Extraction Superviser",
+      "type": "stat",
+      "effect": "wendarr_extraction_superviser",
+      "icon": "the_vault:textures/gui/greed/nodes/mining_speed.png",
+      "x": 259,
+      "y": 360,
+      "enabled": false
+    },
+    {
+      "id": "wendarr_br_4_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 297,
+      "y": 358
+    },
+    {
+      "id": "wendarr_br_5_0_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 198,
+      "y": 325
+    },
+    {
+      "id": "wendarr_br_5_1_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 230,
+      "y": 299
+    },
+    {
+      "id": "wendarr_br_5_2_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 259,
+      "y": 274
+    },
+    {
+      "id": "wendarr_br_6_0_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 161,
+      "y": 282
+    },
+    {
+      "id": "wendarr_br_6_1_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 193,
+      "y": 255
+    },
+    {
+      "id": "wendarr_br_6_2_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 221,
+      "y": 230
+    },
+    {
+      "id": "wendarr_temporal_breaking",
+      "name": "Temporal Breaking",
+      "type": "minor",
+      "effect": "wendarr_temporal_breaking",
+      "icon": "the_vault:textures/gui/greed/nodes/stun_chance.png",
+      "x": 124,
+      "y": 238
+    },
+    {
+      "id": "wendarr_br_7_1_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 155,
+      "y": 211
+    },
+    {
+      "id": "wendarr_extender",
+      "name": "Extender",
+      "type": "minor",
+      "effect": "wendarr_extender",
+      "icon": "the_vault:textures/gui/greed/nodes/utility.png",
+      "x": 184,
+      "y": 187
+    },
+    {
+      "id": "wendarr_br_8_0_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 87,
+      "y": 195
+    },
+    {
+      "id": "wendarr_br_8_1_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 118,
+      "y": 168
+    },
+    {
+      "id": "wendarr_br_8_2_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 147,
+      "y": 143
+    },
+    {
+      "id": "wendarr_br_9_0_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 50,
+      "y": 151
+    },
+    {
+      "id": "wendarr_br_9_1_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 81,
+      "y": 124
+    },
+    {
+      "id": "wendarr_br_9_2_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": 110,
+      "y": 100
+    },
+    {
+      "id": "wendarr_br_10_0_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 29,
+      "y": 94
+    },
+    {
+      "id": "wendarr_start_swift",
+      "name": "The Swift",
+      "type": "root",
+      "x": 377,
+      "y": -168
+    },
+    {
+      "id": "wendarr_swift_b1_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": 420,
+      "y": -187
+    },
+    {
+      "id": "wendarr_swift_wl1_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": 447,
+      "y": -153
+    },
+    {
+      "id": "wendarr_swift_wr1_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 413,
+      "y": -229
+    },
+    {
+      "id": "wendarr_swift_head_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 466,
+      "y": -207
+    },
+    {
+      "id": "wendarr_swift_wl2_speedy_caster",
+      "name": "Speedy Caster",
+      "type": "stat",
+      "effect": "wendarr_speedy_caster",
+      "icon": "the_vault:textures/gui/greed/nodes/cooldown_reduction.png",
+      "x": 489,
+      "y": -125
+    },
+    {
+      "id": "wendarr_swift_wr2_speedy",
+      "name": "Speedy",
+      "type": "stat",
+      "effect": "wendarr_speedy",
+      "icon": "the_vault:textures/gui/greed/nodes/movement_speed.png",
+      "x": 420,
+      "y": -280
+    },
+    {
+      "id": "wendarr_speed_demon",
+      "name": "Speed Demon",
+      "type": "minor",
+      "effect": "wendarr_speed_demon",
+      "icon": "the_vault:textures/gui/greed/nodes/attack_speed.png",
+      "x": 528,
+      "y": -103
+    },
+    {
+      "id": "wendarr_quick_search",
+      "name": "Quick Search",
+      "type": "minor",
+      "effect": "wendarr_quick_search",
+      "icon": "the_vault:textures/gui/greed/nodes/door_hunter.png",
+      "x": 430,
+      "y": -323
+    },
+    {
+      "id": "wendarr_start_deck",
+      "name": "The Deck",
+      "type": "root",
+      "x": 377,
+      "y": 168
+    },
+    {
+      "id": "wendarr_deck_c0_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 410,
+      "y": 183
+    },
+    {
+      "id": "wendarr_deck_cl1_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 394,
+      "y": 215
+    },
+    {
+      "id": "wendarr_deck_cr1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 423,
+      "y": 149
+    },
+    {
+      "id": "wendarr_deck_c1_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 461,
+      "y": 205
+    },
+    {
+      "id": "wendarr_deck_cl2_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": 404,
+      "y": 263
+    },
+    {
+      "id": "wendarr_deck_cr2_heavily_effected",
+      "name": "Heavily Effected",
+      "type": "stat",
+      "effect": "wendarr_heavily_effected",
+      "icon": "the_vault:textures/gui/greed/nodes/effect_duration.png",
+      "x": 465,
+      "y": 124
+    },
+    {
+      "id": "wendarr_plushie_lover",
+      "name": "Plushie Lover",
+      "type": "minor",
+      "effect": "wendarr_plushie_lover",
+      "icon": "the_vault:textures/gui/greed/nodes/taunt_charm.png",
+      "x": 420,
+      "y": 307
+    },
+    {
+      "id": "wendarr_the_deckless",
+      "name": "The Deckless",
+      "type": "minor",
+      "effect": "wendarr_the_deckless",
+      "icon": "the_vault:textures/gui/greed/nodes/chaos_cube.png",
+      "x": 509,
+      "y": 106
+    },
+    {
+      "id": "wendarr_start_spanner",
+      "name": "The Spanner",
+      "type": "root",
+      "x": -377,
+      "y": -168
+    },
+    {
+      "id": "wendarr_spanner_h1_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": -418,
+      "y": -186
+    },
+    {
+      "id": "wendarr_spanner_h2_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -458,
+      "y": -204
+    },
+    {
+      "id": "wendarr_spanner_jl_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": -472,
+      "y": -246
+    },
+    {
+      "id": "wendarr_spanner_jr_master_imbuer",
+      "name": "Master Imbuer",
+      "type": "stat",
+      "effect": "wendarr_master_imbuer",
+      "icon": "the_vault:textures/gui/greed/nodes/imbuement_change.png",
+      "x": -499,
+      "y": -187
+    },
+    {
+      "id": "wendarr_pylon_whisperer",
+      "name": "Pylon Whisperer",
+      "type": "minor",
+      "effect": "wendarr_pylon_whisperer",
+      "icon": "the_vault:textures/gui/greed/nodes/totem.png",
+      "x": -515,
+      "y": -229
+    },
+    {
+      "id": "wendarr_start_bough",
+      "name": "The Bough",
+      "type": "root",
+      "x": -377,
+      "y": 168
+    },
+    {
+      "id": "wendarr_bough_b1_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -418,
+      "y": 186
+    },
+    {
+      "id": "wendarr_bough_ll_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -461,
+      "y": 166
+    },
+    {
+      "id": "wendarr_bough_lr_pious_devotion",
+      "name": "Pious Devotion",
+      "type": "stat",
+      "effect": "wendarr_pious_devotion",
+      "icon": "the_vault:textures/gui/greed/nodes/smite.png",
+      "x": -427,
+      "y": 229
+    },
+    {
+      "id": "wendarr_bough_b2_fruit_conissour",
+      "name": "Fruit Conissour",
+      "type": "stat",
+      "effect": "wendarr_fruit_conissour",
+      "icon": "the_vault:textures/gui/greed/nodes/fruit_effectiveness.png",
+      "x": -474,
+      "y": 211
+    },
+    {
+      "id": "wendarr_gardener",
+      "name": "Gardener",
+      "type": "minor",
+      "effect": "wendarr_gardener",
+      "icon": "the_vault:textures/gui/greed/nodes/item_quantity.png",
+      "x": -509,
+      "y": 226
+    }
+  ],
+  "edges": [
+    {
+      "from": "wendarr_expert_eater",
+      "to": "wendarr_tl_6_2_heavily_effected"
+    },
+    {
+      "from": "wendarr_expert_eater",
+      "to": "wendarr_tl_8_2_fruit_conissour"
+    },
+    {
+      "from": "wendarr_pristine_condition",
+      "to": "wendarr_tl_1_1_pious_devotion"
+    },
+    {
+      "from": "wendarr_pristine_condition",
+      "to": "wendarr_tl_3_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_0_0_fruit_conissour",
+      "to": "wendarr_tl_0_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_0_0_fruit_conissour",
+      "to": "wendarr_tl_1_0_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_0_1_fruit_conissour",
+      "to": "wendarr_tl_1_0_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_0_1_fruit_conissour",
+      "to": "wendarr_tl_1_1_pious_devotion"
+    },
+    {
+      "from": "wendarr_tl_10_0_fruit_conissour",
+      "to": "wendarr_tl_9_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_10_0_fruit_conissour",
+      "to": "wendarr_tl_9_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_1_0_heavily_effected",
+      "to": "wendarr_tl_1_1_pious_devotion"
+    },
+    {
+      "from": "wendarr_tl_1_0_heavily_effected",
+      "to": "wendarr_tl_2_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_1_1_pious_devotion",
+      "to": "wendarr_tl_2_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_2_0_fruit_conissour",
+      "to": "wendarr_tl_3_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_2_0_fruit_conissour",
+      "to": "wendarr_tl_3_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_3_0_fruit_conissour",
+      "to": "wendarr_tl_4_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_tl_3_1_heavily_effected",
+      "to": "wendarr_tl_4_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_tl_3_1_heavily_effected",
+      "to": "wendarr_tl_4_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_4_0_pious_devotion",
+      "to": "wendarr_tl_5_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_4_0_pious_devotion",
+      "to": "wendarr_tl_5_2_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_4_1_fruit_conissour",
+      "to": "wendarr_tl_5_2_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_5_0_fruit_conissour",
+      "to": "wendarr_tl_5_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_5_0_fruit_conissour",
+      "to": "wendarr_tl_6_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_tl_5_1_heavily_effected",
+      "to": "wendarr_tl_5_2_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_5_1_heavily_effected",
+      "to": "wendarr_tl_6_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_5_2_fruit_conissour",
+      "to": "wendarr_tl_6_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_5_2_fruit_conissour",
+      "to": "wendarr_tl_6_2_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_6_0_pious_devotion",
+      "to": "wendarr_tough_stomach"
+    },
+    {
+      "from": "wendarr_tl_6_1_fruit_conissour",
+      "to": "wendarr_tl_7_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_7_1_fruit_conissour",
+      "to": "wendarr_tl_8_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_8_0_heavily_effected",
+      "to": "wendarr_tl_9_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_8_0_heavily_effected",
+      "to": "wendarr_tough_stomach"
+    },
+    {
+      "from": "wendarr_tl_8_1_fruit_conissour",
+      "to": "wendarr_tl_9_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_8_1_fruit_conissour",
+      "to": "wendarr_tl_9_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_tl_8_2_fruit_conissour",
+      "to": "wendarr_tl_9_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_tl_9_0_fruit_conissour",
+      "to": "wendarr_tl_9_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_tl_9_1_heavily_effected",
+      "to": "wendarr_tl_9_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_clock_artificier",
+      "to": "wendarr_tr_1_1_master_imbuer"
+    },
+    {
+      "from": "wendarr_clock_artificier",
+      "to": "wendarr_tr_3_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_fruity",
+      "to": "wendarr_tr_6_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_fruity",
+      "to": "wendarr_tr_8_2_heavily_effected"
+    },
+    {
+      "from": "wendarr_glutton",
+      "to": "wendarr_tr_6_0_master_imbuer"
+    },
+    {
+      "from": "wendarr_glutton",
+      "to": "wendarr_tr_8_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_0_0_fruit_conissour",
+      "to": "wendarr_tr_0_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_0_0_fruit_conissour",
+      "to": "wendarr_tr_1_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_tr_0_0_fruit_conissour",
+      "to": "wendarr_tr_1_1_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_0_1_fruit_conissour",
+      "to": "wendarr_tr_1_1_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_10_0_fruit_conissour",
+      "to": "wendarr_tr_9_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_tr_10_0_fruit_conissour",
+      "to": "wendarr_tr_9_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_1_0_pious_devotion",
+      "to": "wendarr_tr_1_1_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_1_0_pious_devotion",
+      "to": "wendarr_tr_2_0_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_1_1_master_imbuer",
+      "to": "wendarr_tr_2_0_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_2_0_master_imbuer",
+      "to": "wendarr_tr_3_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_2_0_master_imbuer",
+      "to": "wendarr_tr_3_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_3_0_fruit_conissour",
+      "to": "wendarr_tr_4_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_3_1_fruit_conissour",
+      "to": "wendarr_tr_4_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_3_1_fruit_conissour",
+      "to": "wendarr_tr_4_1_pious_devotion"
+    },
+    {
+      "from": "wendarr_tr_4_0_fruit_conissour",
+      "to": "wendarr_tr_5_1_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_4_0_fruit_conissour",
+      "to": "wendarr_tr_5_2_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_4_1_pious_devotion",
+      "to": "wendarr_tr_5_2_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_5_0_fruit_conissour",
+      "to": "wendarr_tr_5_1_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_5_0_fruit_conissour",
+      "to": "wendarr_tr_6_0_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_5_1_master_imbuer",
+      "to": "wendarr_tr_5_2_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_5_1_master_imbuer",
+      "to": "wendarr_tr_6_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_5_2_fruit_conissour",
+      "to": "wendarr_tr_6_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_5_2_fruit_conissour",
+      "to": "wendarr_tr_6_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_tr_6_1_fruit_conissour",
+      "to": "wendarr_tr_7_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_7_1_fruit_conissour",
+      "to": "wendarr_tr_8_1_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_8_0_fruit_conissour",
+      "to": "wendarr_tr_9_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_tr_8_1_master_imbuer",
+      "to": "wendarr_tr_9_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_8_1_master_imbuer",
+      "to": "wendarr_tr_9_2_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_8_2_heavily_effected",
+      "to": "wendarr_tr_9_2_master_imbuer"
+    },
+    {
+      "from": "wendarr_tr_9_0_pious_devotion",
+      "to": "wendarr_tr_9_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tr_9_1_fruit_conissour",
+      "to": "wendarr_tr_9_2_master_imbuer"
+    },
+    {
+      "from": "wendarr_bl_0_0_speedy",
+      "to": "wendarr_bl_0_1_speedy"
+    },
+    {
+      "from": "wendarr_bl_0_0_speedy",
+      "to": "wendarr_bl_1_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_bl_0_1_speedy",
+      "to": "wendarr_bl_1_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_bl_0_1_speedy",
+      "to": "wendarr_bl_1_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_10_0_speedy",
+      "to": "wendarr_bl_9_0_speedy"
+    },
+    {
+      "from": "wendarr_bl_10_0_speedy",
+      "to": "wendarr_bl_9_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_1_0_pious_devotion",
+      "to": "wendarr_bl_1_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_1_0_pious_devotion",
+      "to": "wendarr_bl_2_0_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_1_1_speedy_caster",
+      "to": "wendarr_bl_2_0_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_1_1_speedy_caster",
+      "to": "wendarr_efficient_steps"
+    },
+    {
+      "from": "wendarr_bl_2_0_speedy_caster",
+      "to": "wendarr_bl_3_0_speedy"
+    },
+    {
+      "from": "wendarr_bl_2_0_speedy_caster",
+      "to": "wendarr_bl_3_1_speedy"
+    },
+    {
+      "from": "wendarr_bl_3_0_speedy",
+      "to": "wendarr_bl_4_0_speedy"
+    },
+    {
+      "from": "wendarr_bl_3_1_speedy",
+      "to": "wendarr_bl_4_0_speedy"
+    },
+    {
+      "from": "wendarr_bl_3_1_speedy",
+      "to": "wendarr_bl_4_1_pious_devotion"
+    },
+    {
+      "from": "wendarr_bl_3_1_speedy",
+      "to": "wendarr_efficient_steps"
+    },
+    {
+      "from": "wendarr_bl_4_0_speedy",
+      "to": "wendarr_bl_5_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_4_0_speedy",
+      "to": "wendarr_bl_5_2_speedy"
+    },
+    {
+      "from": "wendarr_bl_4_1_pious_devotion",
+      "to": "wendarr_bl_5_2_speedy"
+    },
+    {
+      "from": "wendarr_bl_5_0_speedy",
+      "to": "wendarr_bl_5_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_5_0_speedy",
+      "to": "wendarr_bl_6_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_bl_5_1_speedy_caster",
+      "to": "wendarr_bl_5_2_speedy"
+    },
+    {
+      "from": "wendarr_bl_5_1_speedy_caster",
+      "to": "wendarr_bl_6_1_speedy"
+    },
+    {
+      "from": "wendarr_bl_5_2_speedy",
+      "to": "wendarr_bl_6_1_speedy"
+    },
+    {
+      "from": "wendarr_bl_5_2_speedy",
+      "to": "wendarr_bl_6_2_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_6_0_pious_devotion",
+      "to": "wendarr_temporal_shielding"
+    },
+    {
+      "from": "wendarr_bl_6_1_speedy",
+      "to": "wendarr_bl_7_1_speedy"
+    },
+    {
+      "from": "wendarr_bl_6_2_speedy_caster",
+      "to": "wendarr_paced_strikes"
+    },
+    {
+      "from": "wendarr_bl_7_1_speedy",
+      "to": "wendarr_bl_8_1_speedy"
+    },
+    {
+      "from": "wendarr_bl_8_0_speedy_caster",
+      "to": "wendarr_bl_9_0_speedy"
+    },
+    {
+      "from": "wendarr_bl_8_0_speedy_caster",
+      "to": "wendarr_temporal_shielding"
+    },
+    {
+      "from": "wendarr_bl_8_1_speedy",
+      "to": "wendarr_bl_9_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_8_1_speedy",
+      "to": "wendarr_bl_9_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_bl_8_2_speedy",
+      "to": "wendarr_bl_9_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_bl_8_2_speedy",
+      "to": "wendarr_paced_strikes"
+    },
+    {
+      "from": "wendarr_bl_9_0_speedy",
+      "to": "wendarr_bl_9_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_9_1_speedy_caster",
+      "to": "wendarr_bl_9_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_armored_extractors",
+      "to": "wendarr_br_1_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_armored_extractors",
+      "to": "wendarr_br_3_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_0_0_speedy_caster",
+      "to": "wendarr_br_0_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_0_0_speedy_caster",
+      "to": "wendarr_br_1_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_br_0_1_speedy_caster",
+      "to": "wendarr_br_1_0_pious_devotion"
+    },
+    {
+      "from": "wendarr_br_0_1_speedy_caster",
+      "to": "wendarr_br_1_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_10_0_speedy_caster",
+      "to": "wendarr_br_9_0_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_10_0_speedy_caster",
+      "to": "wendarr_br_9_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_1_0_pious_devotion",
+      "to": "wendarr_br_1_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_1_0_pious_devotion",
+      "to": "wendarr_br_2_0_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_1_1_heavily_effected",
+      "to": "wendarr_br_2_0_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_2_0_heavily_effected",
+      "to": "wendarr_br_3_0_extraction_superviser"
+    },
+    {
+      "from": "wendarr_br_2_0_heavily_effected",
+      "to": "wendarr_br_3_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_3_0_extraction_superviser",
+      "to": "wendarr_br_4_0_extraction_superviser"
+    },
+    {
+      "from": "wendarr_br_3_1_speedy_caster",
+      "to": "wendarr_br_4_0_extraction_superviser"
+    },
+    {
+      "from": "wendarr_br_3_1_speedy_caster",
+      "to": "wendarr_br_4_1_pious_devotion"
+    },
+    {
+      "from": "wendarr_br_4_0_extraction_superviser",
+      "to": "wendarr_br_5_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_4_0_extraction_superviser",
+      "to": "wendarr_br_5_2_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_4_1_pious_devotion",
+      "to": "wendarr_br_5_2_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_5_0_speedy_caster",
+      "to": "wendarr_br_5_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_5_0_speedy_caster",
+      "to": "wendarr_br_6_0_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_5_1_heavily_effected",
+      "to": "wendarr_br_5_2_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_5_1_heavily_effected",
+      "to": "wendarr_br_6_1_pious_devotion"
+    },
+    {
+      "from": "wendarr_br_5_2_speedy_caster",
+      "to": "wendarr_br_6_1_pious_devotion"
+    },
+    {
+      "from": "wendarr_br_5_2_speedy_caster",
+      "to": "wendarr_br_6_2_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_6_0_speedy_caster",
+      "to": "wendarr_temporal_breaking"
+    },
+    {
+      "from": "wendarr_br_6_1_pious_devotion",
+      "to": "wendarr_br_7_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_6_2_heavily_effected",
+      "to": "wendarr_extender"
+    },
+    {
+      "from": "wendarr_br_7_1_speedy_caster",
+      "to": "wendarr_br_8_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_8_0_heavily_effected",
+      "to": "wendarr_br_9_0_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_8_0_heavily_effected",
+      "to": "wendarr_temporal_breaking"
+    },
+    {
+      "from": "wendarr_br_8_1_speedy_caster",
+      "to": "wendarr_br_9_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_8_1_speedy_caster",
+      "to": "wendarr_br_9_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_br_8_2_speedy_caster",
+      "to": "wendarr_br_9_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_br_8_2_speedy_caster",
+      "to": "wendarr_extender"
+    },
+    {
+      "from": "wendarr_br_9_0_speedy_caster",
+      "to": "wendarr_br_9_1_heavily_effected"
+    },
+    {
+      "from": "wendarr_br_9_1_heavily_effected",
+      "to": "wendarr_br_9_2_pious_devotion"
+    },
+    {
+      "from": "wendarr_quick_search",
+      "to": "wendarr_swift_wr2_speedy"
+    },
+    {
+      "from": "wendarr_speed_demon",
+      "to": "wendarr_swift_wl2_speedy_caster"
+    },
+    {
+      "from": "wendarr_start_swift",
+      "to": "wendarr_swift_b1_speedy"
+    },
+    {
+      "from": "wendarr_swift_b1_speedy",
+      "to": "wendarr_swift_head_speedy_caster"
+    },
+    {
+      "from": "wendarr_swift_b1_speedy",
+      "to": "wendarr_swift_wl1_speedy"
+    },
+    {
+      "from": "wendarr_swift_b1_speedy",
+      "to": "wendarr_swift_wr1_speedy_caster"
+    },
+    {
+      "from": "wendarr_swift_head_speedy_caster",
+      "to": "wendarr_swift_wl1_speedy"
+    },
+    {
+      "from": "wendarr_swift_head_speedy_caster",
+      "to": "wendarr_swift_wr1_speedy_caster"
+    },
+    {
+      "from": "wendarr_swift_wl1_speedy",
+      "to": "wendarr_swift_wl2_speedy_caster"
+    },
+    {
+      "from": "wendarr_swift_wr1_speedy_caster",
+      "to": "wendarr_swift_wr2_speedy"
+    },
+    {
+      "from": "wendarr_deck_c0_fruit_conissour",
+      "to": "wendarr_deck_c1_heavily_effected"
+    },
+    {
+      "from": "wendarr_deck_c0_fruit_conissour",
+      "to": "wendarr_deck_cl1_heavily_effected"
+    },
+    {
+      "from": "wendarr_deck_c0_fruit_conissour",
+      "to": "wendarr_deck_cr1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_deck_c0_fruit_conissour",
+      "to": "wendarr_start_deck"
+    },
+    {
+      "from": "wendarr_deck_c1_heavily_effected",
+      "to": "wendarr_deck_cl1_heavily_effected"
+    },
+    {
+      "from": "wendarr_deck_c1_heavily_effected",
+      "to": "wendarr_deck_cr1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_deck_cl1_heavily_effected",
+      "to": "wendarr_deck_cl2_fruit_conissour"
+    },
+    {
+      "from": "wendarr_deck_cl2_fruit_conissour",
+      "to": "wendarr_plushie_lover"
+    },
+    {
+      "from": "wendarr_deck_cr1_fruit_conissour",
+      "to": "wendarr_deck_cr2_heavily_effected"
+    },
+    {
+      "from": "wendarr_deck_cr2_heavily_effected",
+      "to": "wendarr_the_deckless"
+    },
+    {
+      "from": "wendarr_pylon_whisperer",
+      "to": "wendarr_spanner_jl_master_imbuer"
+    },
+    {
+      "from": "wendarr_pylon_whisperer",
+      "to": "wendarr_spanner_jr_master_imbuer"
+    },
+    {
+      "from": "wendarr_spanner_h1_master_imbuer",
+      "to": "wendarr_spanner_h2_pious_devotion"
+    },
+    {
+      "from": "wendarr_spanner_h1_master_imbuer",
+      "to": "wendarr_start_spanner"
+    },
+    {
+      "from": "wendarr_spanner_h2_pious_devotion",
+      "to": "wendarr_spanner_jl_master_imbuer"
+    },
+    {
+      "from": "wendarr_spanner_h2_pious_devotion",
+      "to": "wendarr_spanner_jr_master_imbuer"
+    },
+    {
+      "from": "wendarr_spanner_jl_master_imbuer",
+      "to": "wendarr_spanner_jr_master_imbuer"
+    },
+    {
+      "from": "wendarr_bough_b1_fruit_conissour",
+      "to": "wendarr_bough_ll_fruit_conissour"
+    },
+    {
+      "from": "wendarr_bough_b1_fruit_conissour",
+      "to": "wendarr_bough_lr_pious_devotion"
+    },
+    {
+      "from": "wendarr_bough_b1_fruit_conissour",
+      "to": "wendarr_start_bough"
+    },
+    {
+      "from": "wendarr_bough_b2_fruit_conissour",
+      "to": "wendarr_bough_ll_fruit_conissour"
+    },
+    {
+      "from": "wendarr_bough_b2_fruit_conissour",
+      "to": "wendarr_bough_lr_pious_devotion"
+    },
+    {
+      "from": "wendarr_bough_b2_fruit_conissour",
+      "to": "wendarr_gardener"
+    },
+    {
+      "from": "wendarr_bl_0_0_speedy",
+      "to": "wendarr_start_bot"
+    },
+    {
+      "from": "wendarr_bl_0_1_speedy",
+      "to": "wendarr_br_0_1_speedy_caster"
+    },
+    {
+      "from": "wendarr_bl_0_1_speedy",
+      "to": "wendarr_start_bot"
+    },
+    {
+      "from": "wendarr_bl_10_0_speedy",
+      "to": "wendarr_edge_of_time"
+    },
+    {
+      "from": "wendarr_bl_4_1_pious_devotion",
+      "to": "wendarr_fr_pl_master_imbuer"
+    },
+    {
+      "from": "wendarr_bl_9_0_speedy",
+      "to": "wendarr_br_10_0_speedy_caster"
+    },
+    {
+      "from": "wendarr_br_0_0_speedy_caster",
+      "to": "wendarr_start_bot"
+    },
+    {
+      "from": "wendarr_br_0_1_speedy_caster",
+      "to": "wendarr_start_bot"
+    },
+    {
+      "from": "wendarr_br_10_0_speedy_caster",
+      "to": "wendarr_edge_of_time"
+    },
+    {
+      "from": "wendarr_br_4_1_pious_devotion",
+      "to": "wendarr_fr_pr_master_imbuer"
+    },
+    {
+      "from": "wendarr_fr_pl_master_imbuer",
+      "to": "wendarr_tl_4_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_fr_pr_master_imbuer",
+      "to": "wendarr_tr_4_1_pious_devotion"
+    },
+    {
+      "from": "wendarr_legend_of_the_pear",
+      "to": "wendarr_tl_10_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_legend_of_the_pear",
+      "to": "wendarr_tr_10_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_start_top",
+      "to": "wendarr_tl_0_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_start_top",
+      "to": "wendarr_tl_0_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_start_top",
+      "to": "wendarr_tr_0_0_fruit_conissour"
+    },
+    {
+      "from": "wendarr_start_top",
+      "to": "wendarr_tr_0_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_0_1_fruit_conissour",
+      "to": "wendarr_tr_0_1_fruit_conissour"
+    },
+    {
+      "from": "wendarr_tl_9_0_fruit_conissour",
+      "to": "wendarr_tr_10_0_fruit_conissour"
+    }
+  ],
+  "labels": [
+    {
+      "text": "The Feast",
+      "x": -305,
+      "y": -234
+    },
+    {
+      "text": "The Harvest",
+      "x": 305,
+      "y": -234
+    },
+    {
+      "text": "The Runner",
+      "x": -305,
+      "y": 234
+    },
+    {
+      "text": "The Clockwork",
+      "x": 305,
+      "y": 234
+    },
+    {
+      "text": "The Swift",
+      "x": 333,
+      "y": -148
+    },
+    {
+      "text": "The Deck",
+      "x": 333,
+      "y": 148
+    },
+    {
+      "text": "The Spanner",
+      "x": -333,
+      "y": -148
+    },
+    {
+      "text": "The Bough",
+      "x": -333,
+      "y": 148
+    }
+  ]
+}

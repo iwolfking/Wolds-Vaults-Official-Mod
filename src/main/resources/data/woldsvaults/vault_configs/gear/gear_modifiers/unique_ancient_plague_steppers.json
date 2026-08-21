@@ -102,6 +102,24 @@
             }
           }
         ]
+      },
+      {
+        "attribute": "the_vault:radiation_wave",
+        "group": "UniqueRadiationWave",
+        "identifier": "the_vault:u_radiation_wave",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 4.0,
+              "max": 6.0,
+              "step": 0.5
+            }
+          }
+        ]
       }
     ]
   }

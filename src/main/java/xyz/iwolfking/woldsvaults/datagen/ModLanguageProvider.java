@@ -970,6 +970,19 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.unlock.15", "+1 shop slot, -10% greed shop cost");
         add("screen.woldsvaults.greed.unlock.16", "+1 shop slot. Needs level 8 with any god.");
         add("screen.woldsvaults.greed.unlock.legend_plus", "+1 shop slot per further 250 reputation");
+        add("screen.woldsvaults.gods.title", "Gods");
+        add("screen.woldsvaults.gods.uncharted", "%1$s's constellation has not been charted yet.");
+                add("item.woldsvaults.idona_god_neuralizer", "Idona God Neuralizer");
+        add("item.woldsvaults.velara_god_neuralizer", "Velara God Neuralizer");
+        add("item.woldsvaults.tenos_god_neuralizer", "Tenos God Neuralizer");
+        add("item.woldsvaults.wendarr_god_neuralizer", "Wendarr God Neuralizer");
+        add("item.woldsvaults.red_vault_essence", "Red Vault Essence");
+        add("item.woldsvaults.mythic_vault_charm", "Vault God Charm");
+        add("item.woldsvaults.mythic_vault_charm.idona", "Idona's Charm");
+        add("item.woldsvaults.mythic_vault_charm.velara", "Velara's Charm");
+        add("item.woldsvaults.mythic_vault_charm.tenos", "Tenos' Charm");
+        add("item.woldsvaults.mythic_vault_charm.wendarr", "Wendarr's Charm");
+        add("key.woldsvaults.toggle_charm_blessing", "Toggle Charm Blessing");
     }
 
     public static final LinkedHashMap<String, String> REGISTERED_LANGUAGE_KEYS = new LinkedHashMap<>();

@@ -43,27 +43,47 @@ public final class IdonaStatHooks {
     /**
      * Grand Archmage's ability-damage doubling and Power Dump's mana-to-damage conversion both land
      * on the ability-power multiplier, which the base mod applies multiplicatively on a base of
-     * 1.0 -  exactly the semantics both nodes are written in.
+     * 1.0 -  exactly the semantics both nodes are written in. The statistics screen invokes this
+     * same player-stat event on the CLIENT, so the Archmage multiplier is also computed there from
+     * the synced ledger - otherwise the screen under-reports while real damage is boosted. Power
+     * Dump's transient surplus stays server-only by design.
      */
     private static void abilityDamage(PlayerStatEvent.Data data) {
-        if (!(data.getEntity() instanceof ServerPlayer player)) {
+        if (data.getEntity() instanceof ServerPlayer player) {
+            float multiplier = 1.0F;
+            int archmage = IdonaNodes.majorPoints(player, IdonaNodes.GRAND_ARCHMAGE);
+            if (archmage > 0) {
+                multiplier *= (float) Math.pow(IdonaNodes.ARCHMAGE_ABILITY_DAMAGE, archmage);
+            }
+            int powerDump = IdonaNodes.minorPoints(player, IdonaNodes.POWER_DUMP);
+            if (powerDump > 0) {
+                float extra = IdonaState.getPowerDumpExtra(player);
+                if (extra > 0.0F) {
+                    multiplier *= 1.0F + extra * IdonaNodes.POWER_DUMP_PER_MANA * powerDump;
+                }
+            }
+            if (multiplier != 1.0F) {
+                data.setValue(data.getValue() * multiplier);
+            }
             return;
         }
-        float multiplier = 1.0F;
-        int archmage = IdonaNodes.majorPoints(player, IdonaNodes.GRAND_ARCHMAGE);
-        if (archmage > 0) {
-            multiplier *= (float) Math.pow(IdonaNodes.ARCHMAGE_ABILITY_DAMAGE, archmage);
-        }
-        int powerDump = IdonaNodes.minorPoints(player, IdonaNodes.POWER_DUMP);
-        if (powerDump > 0) {
-            float extra = IdonaState.getPowerDumpExtra(player);
-            if (extra > 0.0F) {
-                multiplier *= 1.0F + extra * IdonaNodes.POWER_DUMP_PER_MANA * powerDump;
+        if (data.getEntity() instanceof net.minecraft.world.entity.player.Player player
+                && player.getLevel().isClientSide()) {
+            int archmage = clientArchmagePoints(player);
+            if (archmage > 0) {
+                data.setValue(data.getValue() * (float) Math.pow(IdonaNodes.ARCHMAGE_ABILITY_DAMAGE, archmage));
             }
         }
-        if (multiplier != 1.0F) {
-            data.setValue(data.getValue() * multiplier);
+    }
+
+    private static int clientArchmagePoints(net.minecraft.world.entity.player.Player player) {
+        if (xyz.iwolfking.woldsvaults.gods.ActiveGodResolver.getActiveGod(player).orElse(null)
+                != iskallia.vault.core.vault.influence.VaultGod.IDONA) {
+            return 0;
         }
+        return xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData
+                .getSpentLedger(iskallia.vault.core.vault.influence.VaultGod.IDONA)
+                .getOrDefault(IdonaNodes.GRAND_ARCHMAGE, 0);
     }
 
     /**

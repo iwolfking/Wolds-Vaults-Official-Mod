@@ -122,6 +122,24 @@
             }
           }
         ]
+      },
+      {
+        "attribute": "the_vault:quaking_hit",
+        "group": "UniqueQuakingHit",
+        "identifier": "the_vault:u_quaking_hit",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 1,
+              "max": 4,
+              "step": 1
+            }
+          }
+        ]
       }
     ]
   }

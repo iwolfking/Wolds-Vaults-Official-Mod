@@ -4,6 +4,7 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.init.ModGearAttributes;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
 
 import java.util.LinkedHashMap;
@@ -13,8 +14,12 @@ import java.util.Set;
 /**
  * Node identity for the Tenos (The Omniscient) god tree, sheet rows r92-r118.
  *
- * <p>Every Tenos stat row is a two-point node, so the values here are per point: Hoarder at two
- * points is +50% item quantity, matching the sheet's "25%+, 50%+" columns.
+ * <p>A stat the sheet lists as a pair ({@code 25%+, 50%+}) is two ids, not one node with two
+ * ranks: the shallow placements in the tree are the base id at the first value and the deep ones
+ * are the {@code _ii} id at the second, each paying its own value per star with no ceiling. Both
+ * bands are plain {@link StatEntry} rows, so the provider needs to know nothing about banding.
+ * Which placement is which is decided by depth in
+ * {@code tree-drafts/export_tenos_wiring.py}, not here.
  */
 public final class TenosNodes {
     public static final VaultGod GOD = VaultGod.TENOS;
@@ -46,6 +51,15 @@ public final class TenosNodes {
     public static final String GOLD_PLATING = "tenos_gold_plating";
     public static final String CASH_HUNTER = "tenos_cash_hunter";
     public static final String CHALLENGE_TACKLER = "tenos_challenge_tackler";
+    public static final String PIOUS_DEVOTION = "tenos_pious_devotion";
+
+    public static final String HOARDER_II = "tenos_hoarder_ii";
+    public static final String TREASURER_II = "tenos_treasurer_ii";
+    public static final String MAGICAL_II = "tenos_magical_ii";
+    public static final String RESERVES_II = "tenos_reserves_ii";
+    public static final String CAREFUL_II = "tenos_careful_ii";
+    public static final String WIDE_INFLUENCE_II = "tenos_wide_influence_ii";
+    public static final String ADVANCED_EXTRACTION_II = "tenos_advanced_extraction_ii";
 
     /** Plain stat rows, per point: the subset eligible for foreign-tree carryover. */
     public static final Map<String, StatEntry> BASIC_STATS = basicStats();
@@ -58,9 +72,7 @@ public final class TenosNodes {
             CASH_HUNTER, CHALLENGE_TACKLER);
 
     /** Nodes registered with no behaviour, and why. Kept so ids stay reserved and reportable. */
-    public static final Map<String, String> INERT = Map.of(
-            MASTER_OF_CHESTS, "\"Omega cascading\" is not a stat: cascade runs at worldgen before any player exists, "
-                    + "so the effect would be decided by whoever starts the vault. Needs a design ruling (doc 3.11, 8.5).");
+    public static final Map<String, String> INERT = Map.of();
 
     private TenosNodes() {
     }
@@ -74,11 +86,26 @@ public final class TenosNodes {
         stats.put(CAREFUL, new StatEntry(ModGearAttributes.TRAP_DISARMING, 0.15F));
         stats.put(WIDE_INFLUENCE, new StatEntry(ModGearAttributes.AREA_OF_EFFECT, 0.10F));
         stats.put(ADVANCED_EXTRACTION, new StatEntry(ModGearAttributes.COPIOUSLY, 0.20F));
+        stats.put(HOARDER_II, new StatEntry(ModGearAttributes.ITEM_QUANTITY, 0.50F));
+        stats.put(TREASURER_II, new StatEntry(ModGearAttributes.ITEM_RARITY, 0.50F));
+        stats.put(MAGICAL_II, new StatEntry(ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, 0.80F));
+        stats.put(RESERVES_II, new StatEntry(ModGearAttributes.MANA_ADDITIVE_PERCENTILE, 0.20F));
+        stats.put(CAREFUL_II, new StatEntry(ModGearAttributes.TRAP_DISARMING, 0.30F));
+        stats.put(WIDE_INFLUENCE_II, new StatEntry(ModGearAttributes.AREA_OF_EFFECT, 0.20F));
+        stats.put(ADVANCED_EXTRACTION_II, new StatEntry(ModGearAttributes.COPIOUSLY, 0.40F));
         return Map.copyOf(stats);
     }
 
     public static boolean owns(String nodeId) {
         return nodeId != null && nodeId.startsWith("tenos_");
+    }
+
+    /** Raw ledger read for one node, ignoring which god is active. */
+    public static int ledgerPoints(ServerPlayer player, String nodeId) {
+        if (player.getServer() == null) {
+            return 0;
+        }
+        return GodAlignmentData.get(player.getServer()).getPointsIn(player.getUUID(), GOD, nodeId);
     }
 
     /** Points a player has in a Tenos minor, honouring minor-transfer selection. */

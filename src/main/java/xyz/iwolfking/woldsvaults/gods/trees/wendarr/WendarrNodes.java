@@ -4,6 +4,7 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.init.ModGearAttributes;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
 
 import java.util.LinkedHashMap;
@@ -26,6 +27,7 @@ public final class WendarrNodes {
     public static final String MASTER_IMBUER = "wendarr_master_imbuer";
     public static final String EXTRACTION_SUPERVISER = "wendarr_extraction_superviser";
     public static final String SPEEDY_CASTER = "wendarr_speedy_caster";
+    public static final String PIOUS_DEVOTION = "wendarr_pious_devotion";
     public static final String EXPERT_EATER = "wendarr_expert_eater";
     public static final String PRISTINE_CONDITION = "wendarr_pristine_condition";
     public static final String EFFICIENT_STEPS = "wendarr_efficient_steps";
@@ -93,6 +95,14 @@ public final class WendarrNodes {
 
     public static boolean hasMajor(ServerPlayer player, String nodeId) {
         return GodNodeGate.isActiveMajor(player, GOD, nodeId);
+    }
+
+    /** Raw ledger points, ignoring which god is equipped. Only the carryover paths use this. */
+    public static int ledgerPoints(ServerPlayer player, String nodeId) {
+        if (player.getServer() == null) {
+            return 0;
+        }
+        return GodAlignmentData.get(player.getServer()).getPointsIn(player.getUUID(), GOD, nodeId);
     }
 
     /** A stat row: one gear attribute and the value one spent point contributes. */

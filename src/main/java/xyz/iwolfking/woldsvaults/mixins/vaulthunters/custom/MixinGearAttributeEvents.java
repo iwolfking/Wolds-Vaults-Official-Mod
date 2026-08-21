@@ -197,9 +197,27 @@ public class MixinGearAttributeEvents {
         || ActiveFlags.IS_DOT_ATTACKING.isSet()
         || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
         || WoldActiveFlags.IS_AOE2_ATTACK.isSet()
+        || hasLuckyHitCleave(event)
         ) {
             ci.cancel();
         }
+    }
+
+    /**
+     * Yields the base cleave to the ancient lucky-hit cleave when the attacker carries
+     * {@code lucky_hit_aoe}. Both cleaves guard on the same ATTACK_AOE player flag, and this one
+     * runs first at NORMAL priority, so without this the weaker unboosted cleave would win the race
+     * whenever a player carried both modifiers.
+     */
+    private static boolean hasLuckyHitCleave(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof LivingEntity attacker)) {
+            return false;
+        }
+        if (!AttributeSnapshotHelper.canHaveSnapshot(attacker)) {
+            return false;
+        }
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(attacker);
+        return snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.LUCKY_HIT_AOE, VaultGearAttributeTypeMerger.intSum()) > 0;
     }
 
     /**

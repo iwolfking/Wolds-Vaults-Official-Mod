@@ -19,6 +19,15 @@ public final class GodNetwork {
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> INSTANCE.register(GodAlignmentSyncMessage.class, new GodAlignmentSyncMessage()));
+        event.enqueueWork(() -> {
+            INSTANCE.register(GodAlignmentSyncMessage.class, new GodAlignmentSyncMessage());
+            INSTANCE.register(ServerboundOpenGodTreeMessage.class, new ServerboundOpenGodTreeMessage());
+            INSTANCE.register(ServerboundUnlockGodNodeMessage.class, new ServerboundUnlockGodNodeMessage());
+            INSTANCE.register(ClientboundVaultGodXpMessage.class, new ClientboundVaultGodXpMessage());
+            INSTANCE.register(ServerboundToggleCharmTemporalMessage.class, new ServerboundToggleCharmTemporalMessage());
+            INSTANCE.register(ClientboundSacrificeMenuMessage.class, new ClientboundSacrificeMenuMessage());
+            INSTANCE.register(ServerboundSelectSacrificeGodMessage.class, new ServerboundSelectSacrificeGodMessage());
+            INSTANCE.register(ServerboundRequestSacrificeMenuMessage.class, new ServerboundRequestSacrificeMenuMessage());
+        });
     }
 }

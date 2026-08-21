@@ -6,14 +6,14 @@ package xyz.iwolfking.woldsvaults.gods;
  */
 public final class GodLevels {
     public static final int MAX_DEFINED_LEVEL = 10;
-    public static final long XP_PER_LEVEL_PAST_MAX = 50000L;
+    public static final long XP_PER_LEVEL_PAST_MAX = 150000L;
     public static final int ULTIMATE_UNLOCK_LEVEL = 5;
 
     private static final long[] CUMULATIVE_XP = {
-            20000L, 50000L, 80000L, 120000L, 160000L, 220000L, 280000L, 350000L, 400000L, 475000L
+            20000L, 60000L, 120000L, 200000L, 300000L, 400000L, 500000L, 650000L, 800000L, 1000000L
     };
 
-    private static final int POINTS_AT_LEVEL_ONE = 2;
+    private static final int POINTS_AT_LEVEL_ONE = 3;
     private static final int POINTS_PER_LEVEL_TO_MAX = 3;
     private static final int POINTS_PER_LEVEL_PAST_MAX = 2;
 
@@ -56,8 +56,8 @@ public final class GodLevels {
     }
 
     /**
-     * Total god points granted by reaching {@code level}: +2 at level 1, +3 for each of levels
-     * 2 through 10, +2 for every level beyond that.
+     * Total god points granted by reaching {@code level}: +3 per level through 10 (30 at the
+     * standard cap), +2 for every level beyond that.
      */
     public static int totalPointsForLevel(int level) {
         if (level <= 0) {
@@ -87,5 +87,18 @@ public final class GodLevels {
 
     public static boolean hasUltimate(int level) {
         return level >= ULTIMATE_UNLOCK_LEVEL;
+    }
+
+    /**
+     * The effective god level: the XP-derived level capped by completed cauldron sacrifices. Each
+     * sacrifice opens exactly one level gate; once every defined gate is done, XP alone rules.
+     * XP keeps accumulating past an unopened gate - only the level readout waits.
+     */
+    public static int gatedLevel(long xp, int sacrificesCompleted) {
+        int xpLevel = levelForXp(xp);
+        if (sacrificesCompleted >= xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices.GATE_COUNT) {
+            return xpLevel;
+        }
+        return Math.min(xpLevel, Math.max(sacrificesCompleted, 0));
     }
 }

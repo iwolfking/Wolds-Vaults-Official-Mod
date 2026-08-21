@@ -14,16 +14,20 @@ import java.util.Set;
  * Node identity for the Idona god tree: the id of every node, the per-point value table behind
  * each one, and the gates the handlers use to decide whether a node is live for a player.
  *
- * <p>Value tables are read as "total at N points", not "increment per point" -  the design sheet
- * lists two-point stat nodes as a pair of totals ({@code 25%+, 50%+}) and those pairs are not
- * always linear (Fortunate is 2.5% then 4%). Points beyond the last listed entry extrapolate by
- * the final increment, so a node can never silently stop scaling if the point cap is raised.
+ * <p>A stat the sheet lists as a pair ({@code 25%+, 50%+}) is two ids, not one node with two
+ * ranks: the shallow placements in the tree carry the base id at the first value and the deep
+ * ones carry the {@code _ii} id at the second, each paying its own value per star with no
+ * ceiling. The pairs are not always linear, which is why they are two tables and not a
+ * multiplier (Fortunate is 2.5% then 4%). Which placement is which is decided by depth in
+ * {@code tree-drafts/export_idona_bands.py}, not here.
  */
 public final class IdonaNodes {
     public static final VaultGod GOD = VaultGod.IDONA;
 
     public static final String HARD_HITTER = "idona_hard_hitter";
+    public static final String HARD_HITTER_II = "idona_hard_hitter_ii";
     public static final String ELITE_CASTER = "idona_elite_caster";
+    public static final String ELITE_CASTER_II = "idona_elite_caster_ii";
     public static final String PIOUS_DEVOTION = "idona_pious_devotion";
     public static final String KINETIC_IMPACT = "idona_kinetic_impact";
     public static final String SURROUNDED = "idona_surrounded";
@@ -41,6 +45,7 @@ public final class IdonaNodes {
     public static final String WEAPONMASTER = "idona_weaponmaster";
     public static final String CLEAVE_EXPERT = "idona_cleave_expert";
     public static final String FORTUNATE = "idona_fortunate";
+    public static final String FORTUNATE_II = "idona_fortunate_ii";
     public static final String SNEAKY_ADVANTAGE = "idona_sneaky_advantage";
     public static final String SUPER_STACKER = "idona_super_stacker";
     public static final String STACK_HOARDER = "idona_stack_hoarder";
@@ -53,8 +58,8 @@ public final class IdonaNodes {
 
     /** Stat nodes -  the only ones that carry over to a foreign tree at 25%. */
     public static final Set<String> STAT_NODES = Set.of(
-            HARD_HITTER, ELITE_CASTER, PIOUS_DEVOTION, FULL_OF_SOUL, FORTUNATE,
-            STACK_STACK_STACK, KING_HUNTER, ENFORCER);
+            HARD_HITTER, HARD_HITTER_II, ELITE_CASTER, ELITE_CASTER_II, PIOUS_DEVOTION,
+            FULL_OF_SOUL, FORTUNATE, FORTUNATE_II, STACK_STACK_STACK, KING_HUNTER, ENFORCER);
 
     /** Minor nodes -  the transferable set, resolvable through a foreign god's transfer slots. */
     public static final Set<String> MINOR_NODES = Set.of(
@@ -73,11 +78,14 @@ public final class IdonaNodes {
             FORTUNATE, SNEAKY_ADVANTAGE, SUPER_STACKER, STACK_HOARDER, PRISON_WARDEN,
             STACK_STACK_STACK, GREEDBANE, KING_HUNTER, ENFORCER, POWER_DUMP);
 
-    static final float[] V_HARD_HITTER = {0.25F, 0.50F};
-    static final float[] V_ELITE_CASTER = {0.25F, 0.50F};
+    static final float[] V_HARD_HITTER = {0.25F};
+    static final float[] V_HARD_HITTER_II = {0.50F};
+    static final float[] V_ELITE_CASTER = {0.25F};
+    static final float[] V_ELITE_CASTER_II = {0.50F};
     static final float[] V_PIOUS_DEVOTION = {10.0F};
     static final float[] V_FULL_OF_SOUL = {0.50F};
-    static final float[] V_FORTUNATE = {0.025F, 0.04F};
+    static final float[] V_FORTUNATE = {0.025F};
+    static final float[] V_FORTUNATE_II = {0.04F};
     static final float[] V_STACK_STACK_STACK = {1.0F};
     static final float[] V_KING_HUNTER = {0.75F};
     static final float[] V_ENFORCER = {0.75F};
@@ -104,6 +112,8 @@ public final class IdonaNodes {
     static final int PRISON_WARDEN_DURATION_TICKS = 30 * 20;
     static final float GREEDBANE_MULTIPLIER = 1.5F;
     static final float POWER_DUMP_PER_MANA = 0.0025F;
+    static final int POWER_DUMP_SURPLUS_TTL_TICKS = 45 * 20;
+    static final int POWER_DUMP_CONTINUOUS_GRACE_TICKS = 30;
 
     static final float ARCHMAGE_MANA_PERCENTILE = 1.0F;
     static final int ARCHMAGE_MANA_FLAT = 200;

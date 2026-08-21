@@ -14,6 +14,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.client.screens.gods.GodTreeScreen;
+import xyz.iwolfking.woldsvaults.client.screens.gods.GodTreeTheme;
+import xyz.iwolfking.woldsvaults.gods.network.GodNetwork;
+import xyz.iwolfking.woldsvaults.gods.network.ServerboundOpenGodTreeMessage;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedMilestonesScreen;
 import xyz.iwolfking.woldsvaults.milestones.network.MilestoneNetwork;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundOpenMilestonesMessage;
@@ -45,22 +49,28 @@ public class MixinSkillTabContainerElement {
 
     /**
      * Appends the greed rework tab in the slot the greed tree vacated, rebuilding the base's own
-     * tab geometry (31px pitch, selected tabs sitting four pixels higher). The element is filed
-     * straight into the container's store because the base's {@code addElement} is protected and
-     * this mixin does not extend the element hierarchy.
+     * tab geometry (31px pitch, selected tabs sitting four pixels higher), then the gods tab one
+     * slot further along. The elements are filed straight into the container's store because the
+     * base's {@code addElement} is protected and this mixin does not extend the element hierarchy.
      */
     @Inject(method = "<init>", at = @At("RETURN"), remap = false)
     private void addGreedMilestonesTab(IPosition position, int selectedIndex, CallbackInfo ci) {
-        int index = GreedMilestonesScreen.TAB_INDEX;
+        this.woldsVaults$addTab(GreedMilestonesScreen.TAB_INDEX, selectedIndex, ScreenTextures.TAB_ICON_GREED,
+                () -> MilestoneNetwork.INSTANCE.sendToServer(new ServerboundOpenMilestonesMessage()));
+        this.woldsVaults$addTab(GodTreeScreen.TAB_INDEX, selectedIndex, GodTreeTheme.TAB_ICON_GODS,
+                () -> GodNetwork.INSTANCE.sendToServer(new ServerboundOpenGodTreeMessage()));
+    }
+
+    private void woldsVaults$addTab(int index, int selectedIndex, TextureAtlasRegion icon, Runnable open) {
         boolean selected = selectedIndex == index;
         TextureAtlasElement<?> background = selected
                 ? new TextureAtlasElement<>(ScreenTextures.TAB_BACKGROUND_TOP_SELECTED)
                 : new TextureAtlasElement<>(Spatials.positionY(4), ScreenTextures.TAB_BACKGROUND_TOP);
         TabElement<?> tab = new TabElement<>(Spatials.positionX(31 * index - 10), background,
-                new TextureAtlasElement<>(Spatials.positionXYZ(6, 9, 1), ScreenTextures.TAB_ICON_GREED),
+                new TextureAtlasElement<>(Spatials.positionXYZ(6, 9, 1), icon),
                 () -> {
                     if (!selected) {
-                        MilestoneNetwork.INSTANCE.sendToServer(new ServerboundOpenMilestonesMessage());
+                        open.run();
                     }
                 });
         ((ContainerElement<?>) (Object) this).getElementStore().addElement(tab);

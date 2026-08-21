@@ -21,6 +21,7 @@ import xyz.iwolfking.woldsvaults.api.lib.item.MultiLootableItem;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
 import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.items.*;
+import xyz.iwolfking.woldsvaults.items.gear.MythicVaultCharmItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
@@ -134,6 +135,7 @@ public class ModItems {
     public static BasicItem ALL_SEEING_EYE_CAPSTONE;
     public static BasicItem ENCHANTED_CAPSTONE;
     public static ConcealedChaosItem CONCEALED_CHAOS;
+    public static MythicVaultCharmItem MYTHIC_VAULT_CHARM;
     public static BasicItem COMMUNITY_TOKEN;
     public static BasicItem RESEARCH_TOKEN;
 
@@ -194,6 +196,11 @@ public class ModItems {
     public static BasicItem BLUE_VAULT_ESSENCE;
     public static BasicItem YELLOW_VAULT_ESSENCE;
     public static BasicItem GREEN_VAULT_ESSENCE;
+    public static BasicItem RED_VAULT_ESSENCE;
+    public static xyz.iwolfking.woldsvaults.items.GodNeuralizerItem IDONA_GOD_NEURALIZER;
+    public static xyz.iwolfking.woldsvaults.items.GodNeuralizerItem VELARA_GOD_NEURALIZER;
+    public static xyz.iwolfking.woldsvaults.items.GodNeuralizerItem TENOS_GOD_NEURALIZER;
+    public static xyz.iwolfking.woldsvaults.items.GodNeuralizerItem WENDARR_GOD_NEURALIZER;
     public static PoltergeistPlum POLTERGEIST_PLUM;
 
     //Zealot items
@@ -412,9 +419,15 @@ public class ModItems {
         registry.register(MOLTEN_TRINKET_BUCKET);
         registry.register(GREED_TREE_RESET_ITEM);
         registry.register(CONCEALED_CHAOS);
+        registry.register(MYTHIC_VAULT_CHARM);
         registry.register(YELLOW_VAULT_ESSENCE);
         registry.register(BLUE_VAULT_ESSENCE);
         registry.register(GREEN_VAULT_ESSENCE);
+        registry.register(RED_VAULT_ESSENCE);
+        registry.register(IDONA_GOD_NEURALIZER);
+        registry.register(VELARA_GOD_NEURALIZER);
+        registry.register(TENOS_GOD_NEURALIZER);
+        registry.register(WENDARR_GOD_NEURALIZER);
         registry.register(LEAD_DYE_BASE);
         COLORED_UNOBTANIUMS.forEach((s, bi) -> {
             registry.register(bi);
@@ -548,6 +561,11 @@ public class ModItems {
         YELLOW_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("yellow_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         BLUE_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("blue_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         GREEN_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("green_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        RED_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("red_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        IDONA_GOD_NEURALIZER = new xyz.iwolfking.woldsvaults.items.GodNeuralizerItem(WoldsVaults.id("idona_god_neuralizer"), iskallia.vault.core.vault.influence.VaultGod.IDONA);
+        VELARA_GOD_NEURALIZER = new xyz.iwolfking.woldsvaults.items.GodNeuralizerItem(WoldsVaults.id("velara_god_neuralizer"), iskallia.vault.core.vault.influence.VaultGod.VELARA);
+        TENOS_GOD_NEURALIZER = new xyz.iwolfking.woldsvaults.items.GodNeuralizerItem(WoldsVaults.id("tenos_god_neuralizer"), iskallia.vault.core.vault.influence.VaultGod.TENOS);
+        WENDARR_GOD_NEURALIZER = new xyz.iwolfking.woldsvaults.items.GodNeuralizerItem(WoldsVaults.id("wendarr_god_neuralizer"), iskallia.vault.core.vault.influence.VaultGod.WENDARR);
 
         POGOMINIUM_INGOT = new BasicItem(WoldsVaults.id("pogominium_ingot"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         INFUSED_DRIFTWOOD = new BasicItem(WoldsVaults.id("infused_driftwood"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
@@ -620,5 +638,6 @@ public class ModItems {
         SCAVENGER_POUCH_ITEM = new ItemScavengerPouch(WoldsVaults.id("scavenger_pouch"));
         GREED_TREE_RESET_ITEM = new GreedTreeResetItem(WoldsVaults.id("greed_neuralizer"));
         CONCEALED_CHAOS = new ConcealedChaosItem(WoldsVaults.id("concealed_chaos"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        MYTHIC_VAULT_CHARM = new MythicVaultCharmItem(WoldsVaults.id("mythic_vault_charm"));
     }
 }

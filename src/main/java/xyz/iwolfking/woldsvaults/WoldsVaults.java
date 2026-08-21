@@ -55,6 +55,7 @@ import xyz.iwolfking.woldsvaults.api.data.recipes.CachedInfuserRecipeData;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
+import xyz.iwolfking.woldsvaults.modifiers.gear.ancient.AncientModifierEvents;
 import xyz.iwolfking.woldsvaults.models.AdditionalModels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
@@ -132,6 +133,7 @@ public class WoldsVaults {
         }
         ModNetwork.init();
         LivingEntityEvents.init();
+        AncientModifierEvents.init();
         new AdditionalModels();
         ModVaultFilterAttributes.initAttributes();
         ModGameRules.initialize();

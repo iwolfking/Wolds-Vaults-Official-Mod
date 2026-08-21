@@ -46,21 +46,24 @@ public final class IdonaAttributeProvider implements GodTreeAttributeProviders.P
     }
 
     private void addStatNodes(ServerPlayer player, List<VaultGearAttributeInstance<?>> values) {
-        int hardHitter = IdonaNodes.ledgerPoints(player, IdonaNodes.HARD_HITTER);
-        if (hardHitter > 0) {
-            add(values, ModGearAttributes.DAMAGE_INCREASE, IdonaNodes.valueAt(IdonaNodes.V_HARD_HITTER, hardHitter));
+        float hardHitter = banded(player, IdonaNodes.HARD_HITTER, IdonaNodes.V_HARD_HITTER,
+                IdonaNodes.HARD_HITTER_II, IdonaNodes.V_HARD_HITTER_II);
+        if (hardHitter > 0.0F) {
+            add(values, ModGearAttributes.DAMAGE_INCREASE, hardHitter);
         }
-        int eliteCaster = IdonaNodes.ledgerPoints(player, IdonaNodes.ELITE_CASTER);
-        if (eliteCaster > 0) {
-            add(values, ModGearAttributes.ABILITY_POWER_PERCENT, IdonaNodes.valueAt(IdonaNodes.V_ELITE_CASTER, eliteCaster));
+        float eliteCaster = banded(player, IdonaNodes.ELITE_CASTER, IdonaNodes.V_ELITE_CASTER,
+                IdonaNodes.ELITE_CASTER_II, IdonaNodes.V_ELITE_CASTER_II);
+        if (eliteCaster > 0.0F) {
+            add(values, ModGearAttributes.ABILITY_POWER_PERCENT, eliteCaster);
         }
         int fullOfSoul = IdonaNodes.ledgerPoints(player, IdonaNodes.FULL_OF_SOUL);
         if (fullOfSoul > 0) {
             add(values, ModGearAttributes.SOUL_QUANTITY_PERCENTILE, IdonaNodes.valueAt(IdonaNodes.V_FULL_OF_SOUL, fullOfSoul));
         }
-        int fortunate = IdonaNodes.ledgerPoints(player, IdonaNodes.FORTUNATE);
-        if (fortunate > 0) {
-            add(values, ModGearAttributes.LUCKY_HIT_CHANCE, IdonaNodes.valueAt(IdonaNodes.V_FORTUNATE, fortunate));
+        float fortunate = banded(player, IdonaNodes.FORTUNATE, IdonaNodes.V_FORTUNATE,
+                IdonaNodes.FORTUNATE_II, IdonaNodes.V_FORTUNATE_II);
+        if (fortunate > 0.0F) {
+            add(values, ModGearAttributes.LUCKY_HIT_CHANCE, fortunate);
         }
         int stacks = IdonaNodes.ledgerPoints(player, IdonaNodes.STACK_STACK_STACK);
         if (stacks > 0) {
@@ -117,6 +120,16 @@ public final class IdonaAttributeProvider implements GodTreeAttributeProviders.P
                 && off.getItem() instanceof VaultGearItem offGear
                 && mainGear.isIntendedForSlot(main, EquipmentSlot.MAINHAND)
                 && offGear.isIntendedForSlot(off, EquipmentSlot.MAINHAND);
+    }
+
+    /**
+     * Total value of a banded stat: the shallow placements and the deep ones are separate ledger
+     * entries, and each band pays its own value for every star owned in it.
+     */
+    private static float banded(ServerPlayer player, String lesser, float[] lesserValue,
+                                String greater, float[] greaterValue) {
+        return IdonaNodes.valueAt(lesserValue, IdonaNodes.ledgerPoints(player, lesser))
+                + IdonaNodes.valueAt(greaterValue, IdonaNodes.ledgerPoints(player, greater));
     }
 
     private static void add(List<VaultGearAttributeInstance<?>> values, VaultGearAttribute<Float> attribute, float value) {

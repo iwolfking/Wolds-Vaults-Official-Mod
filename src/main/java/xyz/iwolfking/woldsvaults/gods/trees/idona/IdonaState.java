@@ -26,6 +26,8 @@ public final class IdonaState {
     private static final Map<UUID, Map<Integer, Integer>> PINCUSHION = new ConcurrentHashMap<>();
     private static final Map<Integer, Long> PRISON_MARKS = new ConcurrentHashMap<>();
     private static final Map<UUID, Float> POWER_DUMP_EXTRA = new ConcurrentHashMap<>();
+    private static final Map<UUID, Long> POWER_DUMP_EXPIRY = new ConcurrentHashMap<>();
+    private static final Map<UUID, Long> CONTINUOUS_MANA_UNTIL = new ConcurrentHashMap<>();
     private static final ThreadLocal<ServerPlayer> CLEAVING_PLAYER = new ThreadLocal<>();
 
     private IdonaState() {
@@ -60,13 +62,40 @@ public final class IdonaState {
     public static void setPowerDumpExtra(ServerPlayer player, float extraMana) {
         if (extraMana <= 0.0F) {
             POWER_DUMP_EXTRA.remove(player.getUUID());
+            POWER_DUMP_EXPIRY.remove(player.getUUID());
         } else {
             POWER_DUMP_EXTRA.put(player.getUUID(), extraMana);
+            POWER_DUMP_EXPIRY.put(player.getUUID(), player.getLevel().getGameTime() + IdonaNodes.POWER_DUMP_SURPLUS_TTL_TICKS);
         }
     }
 
     public static float getPowerDumpExtra(ServerPlayer player) {
-        return POWER_DUMP_EXTRA.getOrDefault(player.getUUID(), 0.0F);
+        UUID id = player.getUUID();
+        Float extra = POWER_DUMP_EXTRA.get(id);
+        if (extra == null) {
+            return 0.0F;
+        }
+        long now = player.getLevel().getGameTime();
+        Long expiry = POWER_DUMP_EXPIRY.get(id);
+        if (expiry != null && expiry <= now) {
+            POWER_DUMP_EXTRA.remove(id);
+            POWER_DUMP_EXPIRY.remove(id);
+            return 0.0F;
+        }
+        if (CONTINUOUS_MANA_UNTIL.getOrDefault(id, 0L) > now) {
+            return 0.0F;
+        }
+        return extra;
+    }
+
+    /**
+     * Called whenever a hold or toggle ability pays its running mana cost. While these payments
+     * keep arriving the Power Dump surplus is suppressed outright, so channelled ability damage
+     * can never ride a surplus banked by an earlier instant cast.
+     */
+    public static void markContinuousManaPayment(ServerPlayer player) {
+        CONTINUOUS_MANA_UNTIL.put(player.getUUID(),
+                player.getLevel().getGameTime() + IdonaNodes.POWER_DUMP_CONTINUOUS_GRACE_TICKS);
     }
 
     /** Set for the duration of a cleave sweep so the hit handler can tell cleave from other AoE. */
@@ -85,6 +114,8 @@ public final class IdonaState {
     public static void clear(UUID playerId) {
         PINCUSHION.remove(playerId);
         POWER_DUMP_EXTRA.remove(playerId);
+        POWER_DUMP_EXPIRY.remove(playerId);
+        CONTINUOUS_MANA_UNTIL.remove(playerId);
     }
 
     @SubscribeEvent

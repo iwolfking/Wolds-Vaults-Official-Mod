@@ -118,9 +118,11 @@
             }
           }
         ]
-      },
+      }
+    ],
+    "SUFFIX": [
       {
-        "attribute": "the_vault:on_hit_aoe",
+        "attribute": "the_vault:lucky_hit_aoe",
         "group": "ModOnHitType",
         "identifier": "the_vault:u_on_hit_aoe",
         "tags": [
@@ -133,7 +135,7 @@
             "weight": 2,
             "value": {
               "min": 5,
-              "max": 7,
+              "max": 5,
               "step": 1
             }
           }

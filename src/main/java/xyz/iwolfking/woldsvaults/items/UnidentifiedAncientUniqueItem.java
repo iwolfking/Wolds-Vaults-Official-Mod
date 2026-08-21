@@ -390,6 +390,10 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
      * chance cannot also fire and award an ancient milestone for a testing item.
      */
     public static ItemStack createAncientUnique(ResourceLocation uniqueKey, Player player) {
+        return createAncientUnique(uniqueKey, player, ANCIENT_ITEM_LEVEL);
+    }
+
+    public static ItemStack createAncientUnique(ResourceLocation uniqueKey, Player player, int itemLevel) {
         UniqueGearConfig.Entry entry = ModConfigs.UNIQUE_GEAR.getEntry(uniqueKey).orElse(null);
         if (entry == null) {
             WoldsVaults.LOGGER.error("Unique {} has an ancient config but no entry in the unique registry; skipping.", uniqueKey);
@@ -403,7 +407,7 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         }
 
         VaultGearData data = VaultGearData.read(stack);
-        data.setItemLevel(ANCIENT_ITEM_LEVEL);
+        data.setItemLevel(itemLevel);
         data.setRarity(VaultGearRarity.UNIQUE);
         data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_ROLL_TYPE, UNIQUE_ROLL_TYPE);
         data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_UNIQUE_POOL, ModConfigs.UNIQUE_GEAR.findPoolForUnique(uniqueKey).orElse(UniqueGearConfig.DEFAULT_POOL));

@@ -27,8 +27,10 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -88,7 +90,28 @@ public class GodAlignmentData extends SavedData {
     }
 
     public int getLevel(UUID playerId, VaultGod god) {
-        return GodLevels.levelForXp(this.getState(playerId, god).xp);
+        GodState state = this.getState(playerId, god);
+        return GodLevels.gatedLevel(state.xp, state.sacrifices);
+    }
+
+    public int getSacrifices(UUID playerId, VaultGod god) {
+        return this.getState(playerId, god).sacrifices;
+    }
+
+    /**
+     * Completes one sacrifice gate for a god, promoting through any levels the accumulated XP had
+     * already paid for and firing one {@link GodLevelUpEvent} per level gained.
+     */
+    public void completeSacrifice(ServerPlayer player, VaultGod god) {
+        GodState state = this.getState(player.getUUID(), god);
+        int before = GodLevels.gatedLevel(state.xp, state.sacrifices);
+        state.sacrifices++;
+        int after = GodLevels.gatedLevel(state.xp, state.sacrifices);
+        this.setDirty();
+        for (int level = before + 1; level <= after; level++) {
+            MinecraftForge.EVENT_BUS.post(new GodLevelUpEvent(player, god, level));
+        }
+        this.sync(player);
     }
 
     public int getSpentPoints(UUID playerId, VaultGod god) {
@@ -154,15 +177,23 @@ public class GodAlignmentData extends SavedData {
         }
         amount = applyGodExperiencePowers(player, amount);
         GodState state = this.getState(player.getUUID(), god);
-        int before = GodLevels.levelForXp(state.xp);
+        int before = GodLevels.gatedLevel(state.xp, state.sacrifices);
         state.xp += amount;
-        int after = GodLevels.levelForXp(state.xp);
+        int after = GodLevels.gatedLevel(state.xp, state.sacrifices);
         this.setDirty();
         for (int level = before + 1; level <= after; level++) {
             MinecraftForge.EVENT_BUS.post(new GodLevelUpEvent(player, god, level));
         }
         this.sync(player);
         return after - before;
+    }
+
+    /**
+     * The amount {@link #addGodXp} would bank for {@code amount} raw experience, without banking
+     * it - for display paths that must show the exact post-prestige figure.
+     */
+    public long previewScaledXp(ServerPlayer player, long amount) {
+        return applyGodExperiencePowers(player, amount);
     }
 
     /**
@@ -186,13 +217,16 @@ public class GodAlignmentData extends SavedData {
     }
 
     /**
-     * Forces a god level by rewriting accumulated XP to that level's threshold. Fires
-     * {@link GodLevelUpEvent} for every level crossed upwards; downgrades fire nothing.
+     * Forces a god level by rewriting accumulated XP to that level's threshold and granting any
+     * sacrifice gates the level requires. Fires {@link GodLevelUpEvent} for every level crossed
+     * upwards; downgrades fire nothing.
      */
     public void setLevel(ServerPlayer player, VaultGod god, int level) {
         GodState state = this.getState(player.getUUID(), god);
-        int before = GodLevels.levelForXp(state.xp);
+        int before = GodLevels.gatedLevel(state.xp, state.sacrifices);
         state.xp = GodLevels.xpForLevel(Math.max(level, 0));
+        state.sacrifices = Math.max(state.sacrifices, Math.min(Math.max(level, 0),
+                xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices.GATE_COUNT));
         this.setDirty();
         for (int gained = before + 1; gained <= level; gained++) {
             MinecraftForge.EVENT_BUS.post(new GodLevelUpEvent(player, god, gained));
@@ -243,9 +277,42 @@ public class GodAlignmentData extends SavedData {
     }
 
     public void refundAll(ServerPlayer player, VaultGod god) {
-        this.getState(player.getUUID(), god).spentPoints.clear();
+        GodState state = this.getState(player.getUUID(), god);
+        state.spentPoints.clear();
+        state.treeNodes.clear();
         this.setDirty();
         this.sync(player);
+    }
+
+    /** The tree-node positions a player has bought in a god's constellation tree. */
+    public Set<String> getPurchasedTreeNodes(UUID playerId, VaultGod god) {
+        return Collections.unmodifiableSet(this.getState(playerId, god).treeNodes);
+    }
+
+    public boolean isTreeNodePurchased(UUID playerId, VaultGod god, String nodeId) {
+        return this.getState(playerId, god).treeNodes.contains(nodeId);
+    }
+
+    /**
+     * Buys one tree node: records the position as owned and banks its cost under the node's
+     * ledger key, where the effect handlers read it. Fails without side effects when the
+     * position is already owned or the player lacks the points. Graph-level validation (the
+     * node exists, is enabled, and touches an owned neighbour) belongs to the caller - this
+     * method only guards the ledger's own invariants.
+     */
+    public boolean purchaseTreeNode(ServerPlayer player, VaultGod god, String nodeId, String ledgerKey, int cost) {
+        GodState state = this.getState(player.getUUID(), god);
+        if (state.treeNodes.contains(nodeId)) {
+            return false;
+        }
+        if (cost <= 0 || this.getUnspentPoints(player.getUUID(), god) < cost) {
+            return false;
+        }
+        state.treeNodes.add(nodeId);
+        state.spentPoints.merge(ledgerKey, cost, Integer::sum);
+        this.setDirty();
+        this.sync(player);
+        return true;
     }
 
     /**
@@ -283,8 +350,12 @@ public class GodAlignmentData extends SavedData {
     }
 
     public void sync(ServerPlayer player) {
+        EnumMap<VaultGod, Integer> pietyByGod = new EnumMap<>(VaultGod.class);
+        for (VaultGod god : VaultGod.values()) {
+            pietyByGod.put(god, piety(player, god));
+        }
         GodNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
-                new GodAlignmentSyncMessage(this.players.getOrDefault(player.getUUID(), new EnumMap<>(VaultGod.class))));
+                new GodAlignmentSyncMessage(this.players.getOrDefault(player.getUUID(), new EnumMap<>(VaultGod.class)), pietyByGod));
     }
 
     public void load(CompoundTag tag) {
@@ -329,19 +400,29 @@ public class GodAlignmentData extends SavedData {
         return tag;
     }
 
-    /** One player's alignment with one god. Level is derived from {@link #xp}, never stored. */
+    /**
+     * One player's alignment with one god. Level is derived from {@link #xp} capped by
+     * {@link #sacrifices}, never stored. States saved before the sacrifice system existed are
+     * grandfathered: a missing sacrifices tag counts every level the XP already paid for as
+     * sacrificed.
+     */
     public static class GodState {
         public long xp;
         public int bonusPoints;
         public int altarCompletions;
+        public int sacrifices;
         public final Map<String, Integer> spentPoints = new LinkedHashMap<>();
         public final List<String> minorTransfers = new ArrayList<>();
+        public final Set<String> treeNodes = new LinkedHashSet<>();
 
         public static GodState fromNbt(CompoundTag tag) {
             GodState state = new GodState();
             state.xp = tag.getLong("xp");
             state.bonusPoints = tag.getInt("bonus_points");
             state.altarCompletions = tag.getInt("altar_completions");
+            state.sacrifices = tag.contains("sacrifices", Tag.TAG_ANY_NUMERIC)
+                    ? tag.getInt("sacrifices")
+                    : GodLevels.levelForXp(state.xp);
             ListTag spent = tag.getList("spent", Tag.TAG_COMPOUND);
             for (int i = 0; i < spent.size(); i++) {
                 CompoundTag entry = spent.getCompound(i);
@@ -351,6 +432,10 @@ public class GodAlignmentData extends SavedData {
             for (int i = 0; i < transfers.size(); i++) {
                 state.minorTransfers.add(transfers.getString(i));
             }
+            ListTag purchased = tag.getList("tree_nodes", Tag.TAG_STRING);
+            for (int i = 0; i < purchased.size(); i++) {
+                state.treeNodes.add(purchased.getString(i));
+            }
             return state;
         }
 
@@ -359,6 +444,7 @@ public class GodAlignmentData extends SavedData {
             tag.putLong("xp", this.xp);
             tag.putInt("bonus_points", this.bonusPoints);
             tag.putInt("altar_completions", this.altarCompletions);
+            tag.putInt("sacrifices", this.sacrifices);
             ListTag spent = new ListTag();
             this.spentPoints.forEach((node, points) -> {
                 CompoundTag entry = new CompoundTag();
@@ -370,6 +456,9 @@ public class GodAlignmentData extends SavedData {
             ListTag transfers = new ListTag();
             this.minorTransfers.forEach(node -> transfers.add(StringTag.valueOf(node)));
             tag.put("minor_transfers", transfers);
+            ListTag purchased = new ListTag();
+            this.treeNodes.forEach(node -> purchased.add(StringTag.valueOf(node)));
+            tag.put("tree_nodes", purchased);
             return tag;
         }
     }
