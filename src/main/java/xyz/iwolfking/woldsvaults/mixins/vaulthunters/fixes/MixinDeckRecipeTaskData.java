@@ -30,4 +30,29 @@ import java.util.stream.Collectors;
 @Mixin(value = DeckRecipeTaskData.class, remap = false)
 public abstract class MixinDeckRecipeTaskData extends SavedData {
 
+    @Shadow
+    public static DeckRecipeTaskData get(MinecraftServer server) {
+        throw new UnsupportedOperationException("Implemented via mixin");
+    }
+
+    @Shadow
+    @Final
+    private Map<UUID, DeckRecipeTaskData.PlayerEntry> playerEntries;
+
+    @Shadow
+    private static CompoundTag getTaskDefinition(Task task) {
+        throw new UnsupportedOperationException("Implemented via mixin");
+    }
+
+    @Shadow
+    public abstract void ensureTracking(ServerPlayer player);
+
+    /**
+     * @author iwolfking
+     * @reason Don't run this, he be broken
+     */
+    @Overwrite
+    public static void onConfigReload(DeckCraftingRecipesConfig config) {
+
+    }
 }
