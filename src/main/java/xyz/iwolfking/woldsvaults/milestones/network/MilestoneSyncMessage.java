@@ -16,6 +16,8 @@ import java.util.function.Supplier;
  * never out of step with a claim or a pin.
  */
 public class MilestoneSyncMessage extends Message<MilestoneSyncMessage> {
+    private static final int MAX_DECODED_ENTRIES = 1024;
+
     private final boolean full;
     private final Map<String, Long> values;
     private final Map<String, Integer> claimedTiers;
@@ -39,12 +41,12 @@ public class MilestoneSyncMessage extends Message<MilestoneSyncMessage> {
     public MilestoneSyncMessage read(FriendlyByteBuf buffer) {
         boolean full = buffer.readBoolean();
         int size = buffer.readVarInt();
-        Map<String, Long> values = new HashMap<>(Math.max(16, size));
+        Map<String, Long> values = new HashMap<>(initialCapacity(size));
         for (int i = 0; i < size; i++) {
             values.put(buffer.readUtf(), buffer.readVarLong());
         }
         int claimedSize = buffer.readVarInt();
-        Map<String, Integer> claimedTiers = new HashMap<>(Math.max(16, claimedSize));
+        Map<String, Integer> claimedTiers = new HashMap<>(initialCapacity(claimedSize));
         for (int i = 0; i < claimedSize; i++) {
             claimedTiers.put(buffer.readUtf(), buffer.readVarInt());
         }
@@ -78,5 +80,16 @@ public class MilestoneSyncMessage extends Message<MilestoneSyncMessage> {
             ClientMilestoneData.setPinned(message.pinned.isEmpty() ? null : message.pinned);
         });
         context.get().setPacketHandled(true);
+    }
+
+    /**
+     * Bounds the map capacity a decoded packet may ask for. The count is attacker-controlled, and
+     * {@code new HashMap<>(size)} allocates its whole backing array on the first put, so an
+     * unbounded count turns a few bytes on the wire into a multi-gigabyte allocation on the netty
+     * thread. The loops that follow are still bounded by the frame length, so a lying count only
+     * costs a rehash.
+     */
+    private static int initialCapacity(int size) {
+        return Math.min(Math.max(16, size), MAX_DECODED_ENTRIES);
     }
 }

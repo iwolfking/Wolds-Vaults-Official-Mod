@@ -1,12 +1,13 @@
 package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
 import iskallia.vault.core.vault.influence.VaultGod;
+
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
+import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 
 /**
  * The Tenos (The Omniscient) effect ids Java has to name, sheet rows r92-r118, and the gate reads
@@ -89,10 +90,6 @@ public final class TenosNodes {
      * summed outside the attribute fold and applies its own carryover scale.
      */
     public static int investedPoints(ServerPlayer player, String effectId) {
-        MinecraftServer server = player.getServer();
-        if (server == null) {
-            return 0;
-        }
-        return GodAlignmentData.get(server).getPointsIn(player.getUUID(), GOD, effectId);
+        return GodVaultUtil.investedPoints(player, GOD, effectId);
     }
 }

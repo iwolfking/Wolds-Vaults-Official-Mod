@@ -87,12 +87,15 @@ public final class TenosVaultHandlers {
     }
 
     /**
-     * The attack-damage half of Unstoppable Greed. It rides the global damage registry rather than
-     * a dynamic gear attribute on purpose: emitting {@code damage_increase} from a stat contributor
-     * would mean reading the player's own item quantity while their snapshot is still being built.
-     * Item quantity and rarity only move on gear changes, so a one second refresh is
-     * indistinguishable from live. The ability-power half is a {@code PLAYER_STAT} listener in
-     * {@link TenosLootStats}, because ability power has a stat entry and attack damage does not.
+     * Unstoppable Greed. It rides the global damage registry rather than a dynamic gear attribute
+     * on purpose: emitting {@code damage_increase} from a stat contributor would mean reading the
+     * player's own item quantity while their snapshot is still being built. Item quantity and
+     * rarity only move on gear changes, so a one second refresh is indistinguishable from live.
+     *
+     * <p>The registry is the whole of this node, not the attack-damage half of it. It scales every
+     * hit whose true source is a player, ability damage included, so pairing it with a
+     * {@code PLAYER_STAT} listener on {@code ABILITY_POWER_MULTIPLIER} squared the multiplier on
+     * every ability.
      */
     public record UnstoppableGreedHandler(GodEffect effect) implements TickContributor {
         @Override

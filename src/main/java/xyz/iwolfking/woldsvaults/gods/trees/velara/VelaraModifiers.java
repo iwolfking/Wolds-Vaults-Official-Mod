@@ -11,8 +11,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
+import xyz.iwolfking.woldsvaults.gods.GodVanillaAttributes;
 
-import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -29,16 +29,16 @@ import java.util.UUID;
  * That is the shape the talent-modifier leak in this pack taught: stable ids, no churn.
  */
 public final class VelaraModifiers {
-    private static final UUID ARMOR_MULTIPLIER_ID = stableId("velara_armor_multiplier");
-    private static final UUID ARMOR_FLAT_ID = stableId("velara_armor_flat");
-    private static final UUID HEALTH_MULTIPLIER_ID = stableId("velara_health_multiplier");
-    private static final UUID HEALTH_FLAT_ID = stableId("velara_health_flat");
+    private static final UUID ARMOR_MULTIPLIER_ID = GodVanillaAttributes.modifierId(
+            "velara_defense", Attributes.ARMOR, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    private static final UUID ARMOR_FLAT_ID = GodVanillaAttributes.modifierId(
+            "velara_defense", Attributes.ARMOR, AttributeModifier.Operation.ADDITION);
+    private static final UUID HEALTH_MULTIPLIER_ID = GodVanillaAttributes.modifierId(
+            "velara_defense", Attributes.MAX_HEALTH, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    private static final UUID HEALTH_FLAT_ID = GodVanillaAttributes.modifierId(
+            "velara_defense", Attributes.MAX_HEALTH, AttributeModifier.Operation.ADDITION);
 
     private VelaraModifiers() {
-    }
-
-    private static UUID stableId(String key) {
-        return UUID.nameUUIDFromBytes(("woldsvaults:" + key).getBytes(StandardCharsets.UTF_8));
     }
 
     static void update(ServerPlayer player, boolean inVault) {

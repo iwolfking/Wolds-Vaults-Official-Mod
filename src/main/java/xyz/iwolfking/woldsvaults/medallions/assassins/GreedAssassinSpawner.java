@@ -47,11 +47,6 @@ public final class GreedAssassinSpawner {
     private static final ResourceLocation GROUP_TANK = VaultMod.id("tank");
     private static final ResourceLocation GROUP_HORDE = VaultMod.id("horde");
     private static final ResourceLocation GROUP_ASSASSIN = VaultMod.id("assassin");
-    private static final double HORDE_BASE_CHANCE = 2.0E-4D;
-    private static final double ELITE_BASE_CHANCE = 0.01D;
-    private static final double TIER_CHANCE_STEP = 0.15D;
-    private static final double DECAY_FACTOR = 0.5D;
-    private static final double RECOVERY_TICKS = 6000.0D;
     private static final int MIN_SPAWN_DISTANCE = 24;
     private static final int SPAWN_DISTANCE_RANGE = 8;
     private static final int SPAWN_ATTEMPTS = 40;
@@ -98,12 +93,13 @@ public final class GreedAssassinSpawner {
     }
 
     /**
-     * Interim spawn-rate curve: {@code 1 + 0.15 * (rankIndex - 1)}, so Scavenger 1 rolls the base
-     * chance untouched and Legend rolls it at 3.25x. This is a placeholder shape, not a tuned one -
-     * the design doc asks only that spawn pressure rise on every tier row.
+     * Spawn-rate curve: {@code 1 + rankChanceStep * (rankIndex - 1)}, so the first medallion rolls
+     * the base chance untouched and each rank above it adds one step. The shipped step of 0.15 puts
+     * Legend at 3.25x; the design doc asks only that spawn pressure rise on every tier row, so the
+     * exact shape is left to {@code greed_medallions.json}.
      */
     private static double tierChanceMultiplier(GreedMedallionTier tier) {
-        return 1.0D + TIER_CHANCE_STEP * (tier.getRankIndex() - 1);
+        return 1.0D + GreedMedallionTier.spawnCurve().rankChanceStep * (tier.getRankIndex() - 1);
     }
 
     /**
@@ -113,11 +109,11 @@ public final class GreedAssassinSpawner {
      */
     private static double baseSpawnChance(LivingEntity killed) {
         if (ModConfigs.ENTITY_GROUPS.isInGroup(GROUP_HORDE, killed)) {
-            return HORDE_BASE_CHANCE;
+            return GreedMedallionTier.spawnCurve().hordeBaseChance;
         }
         if (ModConfigs.ENTITY_GROUPS.isInGroup(GROUP_ASSASSIN, killed)
                 || ModConfigs.ENTITY_GROUPS.isInGroup(GROUP_TANK, killed)) {
-            return ELITE_BASE_CHANCE;
+            return GreedMedallionTier.spawnCurve().eliteBaseChance;
         }
         return 0.0D;
     }
@@ -219,17 +215,24 @@ public final class GreedAssassinSpawner {
         private long lastSpawnTick;
 
         private double recoveredDecay(long currentTick) {
-            return this.lastSpawnTick > 0L ? (currentTick - this.lastSpawnTick) / RECOVERY_TICKS : 0.0D;
+            return this.lastSpawnTick > 0L
+                    ? (currentTick - this.lastSpawnTick) / GreedMedallionTier.spawnCurve().recoveryTicks
+                    : 0.0D;
         }
 
         double applyDecay(double baseChance, long currentTick) {
             double effectiveDecay = Math.max(0.0D, this.assassinsSpawned - recoveredDecay(currentTick));
-            return baseChance / (1.0D + effectiveDecay * DECAY_FACTOR);
+            return baseChance / (1.0D + effectiveDecay * GreedMedallionTier.spawnCurve().decayFactor);
         }
 
         void onAssassinSpawned(long currentTick) {
             this.assassinsSpawned = (int) Math.max(0.0D, this.assassinsSpawned - recoveredDecay(currentTick)) + 1;
             this.lastSpawnTick = currentTick;
         }
+    }
+
+    /** Drops every player's spawn-decay history; the anti-farm window is per-session, not per-save. */
+    public static void clearDecayTrackers() {
+        DECAY_TRACKERS.clear();
     }
 }

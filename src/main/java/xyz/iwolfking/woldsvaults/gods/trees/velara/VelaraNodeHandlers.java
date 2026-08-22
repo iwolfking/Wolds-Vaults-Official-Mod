@@ -1,17 +1,20 @@
 package xyz.iwolfking.woldsvaults.gods.trees.velara;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.attribute.ability.AbilityLevelAttribute;
 import iskallia.vault.gear.attribute.custom.effect.EffectAvoidanceListGearAttribute;
 import iskallia.vault.init.ModGearAttributes;
+
 import net.minecraft.world.effect.MobEffect;
+
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
-import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandler;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandlers;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
+import xyz.iwolfking.woldsvaults.gods.node.ListenerBoundHandler;
 import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
 
 import java.util.List;
@@ -45,24 +48,24 @@ public final class VelaraNodeHandlers {
     public static void register() {
         GodNodeHandlers.register(EFFECT_AVOIDANCE, EffectAvoidanceHandler::new);
         GodNodeHandlers.register(VelaraNodes.UTILIZED, UtilizedParams.class, UtilizedHandler::new);
-        GodNodeHandlers.register(VelaraNodes.COUNTERSTRIKE, CounterstrikeParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.MAGIC_ARMOR, MagicArmorParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.DEFENDER_OF_THE_FAITH, DefenderOfTheFaithParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.SACRIFICE, SacrificeParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.PERSERVERENCE, PerserverenceParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.ADAPTIVE_ARMOR, AdaptiveArmorParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.BOUNCE_BACK, BounceBackParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.INDOMITABLE, IndomitableParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.FIELD_MEDIC, FieldMedicParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.THE_STONEWALL, StonewallParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.CACTUS, CactusParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.MALEDICTION, MaledictionParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.IMMORTAL, ImmortalParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.FLEETING_PHYSICALITY, FleetingPhysicalityParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.STEADFAST, SteadfastParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.SANITATION, SanitationParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.PRESENCE, PresenceParams.class, ListenerBound::new);
-        GodNodeHandlers.register(VelaraNodes.HEALING_FLOW, HealingFlowParams.class, ListenerBound::new);
+        GodNodeHandlers.register(VelaraNodes.COUNTERSTRIKE, CounterstrikeParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.MAGIC_ARMOR, MagicArmorParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.DEFENDER_OF_THE_FAITH, DefenderOfTheFaithParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.SACRIFICE, SacrificeParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.PERSERVERENCE, PerserverenceParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.ADAPTIVE_ARMOR, AdaptiveArmorParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.BOUNCE_BACK, BounceBackParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.INDOMITABLE, IndomitableParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.FIELD_MEDIC, FieldMedicParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.THE_STONEWALL, StonewallParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.CACTUS, CactusParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.MALEDICTION, MaledictionParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.IMMORTAL, ImmortalParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.FLEETING_PHYSICALITY, FleetingPhysicalityParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.STEADFAST, SteadfastParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.SANITATION, SanitationParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.PRESENCE, PresenceParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(VelaraNodes.HEALING_FLOW, HealingFlowParams.class, ListenerBoundHandler::new);
     }
 
     /**
@@ -72,12 +75,7 @@ public final class VelaraNodeHandlers {
      * zero that would read as a balance change.
      */
     public static <T extends GodEffectParams> T params(String effectId, Class<T> type) {
-        GodEffect effect = GodNodeRegistry.effect(effectId).orElse(null);
-        if (effect == null) {
-            throw GodTreeConfigException.fail("Velara effect '" + effectId + "' was read before the god node "
-                    + "registry finished loading, or is missing from god_node_effects_velara.json");
-        }
-        return effect.params(type);
+        return GodNodeRegistry.params(VaultGod.VELARA, effectId, type);
     }
 
     /**
@@ -86,9 +84,6 @@ public final class VelaraNodeHandlers {
      * dispatched twice, once by the capability driver and once by the listener that actually
      * owns the ordering.
      */
-    public record ListenerBound(GodEffect effect) implements GodNodeHandler {
-    }
-
     /** Immune: a chance to avoid every effect in {@link VelaraBadEffects}, linear in stars owned. */
     public record EffectAvoidanceHandler(GodEffect effect) implements StatContributor {
         @Override

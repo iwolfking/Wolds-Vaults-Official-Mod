@@ -1,62 +1,77 @@
 package xyz.iwolfking.woldsvaults.medallions;
 
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
- * The sixteen greed medallion tiers and their vault-side numbers, exactly as tabled in the greed
- * rework design doc. Rank index matches the interim greed-tier integer convention used across the
- * rework (Scavenger 1 = 1 ... Hunter 1 = 7, Master 1 = 10, Legend = 16), so a medallion's rank can
- * be compared directly against {@code PlayerGreedTreeData#getGreedTier}.
+ * The sixteen greed medallion tiers. The enum is the identity of a tier - what the item registry,
+ * the textures and the one NBT int riding the crystal all refer to - and its rank index matches the
+ * greed rank convention used across the rework (Scavenger 1 = 1 ... Hunter 1 = 7, Master 1 = 10,
+ * Legend = 16), so a medallion's rank compares directly against
+ * {@code PlayerGreedTreeData#getGreedTier}.
  *
- * <p>Percent columns are stored as whole percents (25 = +25%). {@code trapDisarmPenalty} is the
- * magnitude of the reduction; consumers subtract it. All medallion bonuses are multiplicative with
- * every other source per the design doc. The band a tier sits in and its step inside that band are
- * deliberately not tabled here: they are the rank ladder's shape and come from
- * {@link MilestoneRankLadder}.</p>
+ * <p>Every number a tier carries is pack data in
+ * {@code config/the_vault/gods/greed_medallions.json}, installed by {@code ModConfigs.register}.
+ * The enum runs on the shipped table from its own class init, because the medallion items are
+ * registered during mod construction and their registry paths are read long before configs are.
+ *
+ * <p>Percent columns are whole percents (25 = +25%). {@code trapDisarmPenalty} is the magnitude of
+ * the reduction; consumers subtract it. All medallion bonuses are multiplicative with every other
+ * source per the design doc. The band a tier sits in and its step inside that band are not here
+ * either: they are the rank ladder's shape and come from {@link MilestoneRankLadder}.</p>
  */
 public enum GreedMedallionTier {
-    SCAVENGER_1(1, 2, 25, 0, 0, 0, 0, 0, 0),
-    SCAVENGER_2(2, 3, 45, 5, 0, 0, 0, 0, 0),
-    SCAVENGER_3(3, 3, 60, 5, 1, 0, 0, 0, 0),
-    LOOTER_1(4, 4, 90, 10, 1, 0, 0, 0, 0),
-    LOOTER_2(5, 5, 125, 15, 1, 10, 50, 33, 0),
-    LOOTER_3(6, 5, 150, 20, 2, 10, 75, 33, 0),
-    HUNTER_1(7, 6, 225, 25, 2, 15, 100, 33, 0),
-    HUNTER_2(8, 7, 300, 25, 3, 15, 125, 50, 25),
-    HUNTER_3(9, 8, 400, 30, 4, 20, 175, 50, 25),
-    MASTER_1(10, 9, 550, 35, 4, 20, 175, 50, 25),
-    MASTER_2(11, 10, 700, 35, 4, 25, 200, 60, 35),
-    MASTER_3(12, 11, 950, 40, 5, 25, 200, 60, 35),
-    CHAMPION_1(13, 12, 1250, 40, 5, 30, 250, 60, 40),
-    CHAMPION_2(14, 13, 1600, 45, 6, 30, 275, 65, 45),
-    CHAMPION_3(15, 14, 2000, 45, 6, 35, 300, 70, 45),
-    LEGEND(16, 15, 2500, 50, 7, 40, 350, 75, 50);
+    SCAVENGER_1(1),
+    SCAVENGER_2(2),
+    SCAVENGER_3(3),
+    LOOTER_1(4),
+    LOOTER_2(5),
+    LOOTER_3(6),
+    HUNTER_1(7),
+    HUNTER_2(8),
+    HUNTER_3(9),
+    MASTER_1(10),
+    MASTER_2(11),
+    MASTER_3(12),
+    CHAMPION_1(13),
+    CHAMPION_2(14),
+    CHAMPION_3(15),
+    LEGEND(16);
+
+    private static GreedMedallionsConfig.Tier[] tiers;
+    private static GreedMedallionsConfig.Gates gates;
+    private static GreedMedallionsConfig.Spawn spawn;
+
+    static {
+        apply(GreedMedallionsConfig.defaults());
+    }
 
     private final int rankIndex;
-    private final int baseGreedCoins;
-    private final int mobHealthDamageBonus;
-    private final int crateLootBonus;
-    private final int greedCrateLootTier;
-    private final int chestRollsBonus;
-    private final int trapDisarmPenalty;
-    private final int mobSpawnBonus;
-    private final int objectiveDifficultyBonus;
 
-    GreedMedallionTier(int rankIndex, int baseGreedCoins,
-                       int mobHealthDamageBonus, int crateLootBonus, int greedCrateLootTier,
-                       int chestRollsBonus, int trapDisarmPenalty, int mobSpawnBonus,
-                       int objectiveDifficultyBonus) {
+    GreedMedallionTier(int rankIndex) {
         this.rankIndex = rankIndex;
-        this.baseGreedCoins = baseGreedCoins;
-        this.mobHealthDamageBonus = mobHealthDamageBonus;
-        this.crateLootBonus = crateLootBonus;
-        this.greedCrateLootTier = greedCrateLootTier;
-        this.chestRollsBonus = chestRollsBonus;
-        this.trapDisarmPenalty = trapDisarmPenalty;
-        this.mobSpawnBonus = mobSpawnBonus;
-        this.objectiveDifficultyBonus = objectiveDifficultyBonus;
+    }
+
+    /**
+     * Installs a medallion table read from config. A file that does not describe every rank is
+     * refused whole and the shipped table used instead: half a table would leave some medallions
+     * silently doing nothing, which reads in play as a broken item rather than a broken config.
+     */
+    public static void load(GreedMedallionsConfig config) {
+        if (isUsable(config)) {
+            apply(config);
+            return;
+        }
+        apply(GreedMedallionsConfig.defaults());
+    }
+
+    /** The assassin spawn-rate curve, for the spawner that is its only reader. */
+    public static GreedMedallionsConfig.Spawn spawnCurve() {
+        return spawn;
     }
 
     public static Optional<GreedMedallionTier> byRankIndex(int rankIndex) {
@@ -66,6 +81,37 @@ public enum GreedMedallionTier {
             }
         }
         return Optional.empty();
+    }
+
+    private static boolean isUsable(GreedMedallionsConfig config) {
+        Map<String, GreedMedallionsConfig.Tier> configured = config.getTiers();
+        if (configured == null) {
+            WoldsVaults.LOGGER.error("greed_medallions.json lists no tiers; using the shipped table instead");
+            return false;
+        }
+        for (GreedMedallionTier tier : values()) {
+            if (configured.get(String.valueOf(tier.rankIndex)) == null) {
+                WoldsVaults.LOGGER.error("greed_medallions.json has no entry for rank {} ({}); using the shipped "
+                        + "table instead", tier.rankIndex, tier.name());
+                return false;
+            }
+        }
+        if (config.getGates() == null || config.getSpawn() == null) {
+            WoldsVaults.LOGGER.error("greed_medallions.json is missing its gates or spawn block; using the shipped "
+                    + "table instead");
+            return false;
+        }
+        return true;
+    }
+
+    private static void apply(GreedMedallionsConfig config) {
+        GreedMedallionsConfig.Tier[] applied = new GreedMedallionsConfig.Tier[values().length + 1];
+        for (GreedMedallionTier tier : values()) {
+            applied[tier.rankIndex] = config.getTiers().get(String.valueOf(tier.rankIndex));
+        }
+        tiers = applied;
+        gates = config.getGates();
+        spawn = config.getSpawn();
     }
 
     /**
@@ -90,62 +136,66 @@ public enum GreedMedallionTier {
     }
 
     public int getBaseGreedCoins() {
-        return this.baseGreedCoins;
+        return this.row().baseGreedCoins;
     }
 
     public int getMobHealthDamageBonus() {
-        return this.mobHealthDamageBonus;
+        return this.row().mobHealthDamageBonus;
     }
 
     public int getCrateLootBonus() {
-        return this.crateLootBonus;
+        return this.row().crateLootBonus;
     }
 
     public int getGreedCrateLootTier() {
-        return this.greedCrateLootTier;
+        return this.row().greedCrateLootTier;
     }
 
     public int getChestRollsBonus() {
-        return this.chestRollsBonus;
+        return this.row().chestRollsBonus;
     }
 
     public int getTrapDisarmPenalty() {
-        return this.trapDisarmPenalty;
+        return this.row().trapDisarmPenalty;
     }
 
     public int getMobSpawnBonus() {
-        return this.mobSpawnBonus;
+        return this.row().mobSpawnBonus;
     }
 
     public int getObjectiveDifficultyBonus() {
-        return this.objectiveDifficultyBonus;
+        return this.row().objectiveDifficultyBonus;
     }
 
     public boolean assassinsInheritVaultModifiers() {
-        return this.rankIndex >= LOOTER_1.rankIndex;
+        return this.rankIndex >= gates.assassinsInheritVaultModifiers;
     }
 
     public boolean assassinsInflictNegativeEffects() {
-        return this.rankIndex >= HUNTER_1.rankIndex;
+        return this.rankIndex >= gates.assassinsInflictNegativeEffects;
     }
 
     public boolean assassinsGainBuffingAuras() {
-        return this.rankIndex >= HUNTER_3.rankIndex;
+        return this.rankIndex >= gates.assassinsGainBuffingAuras;
     }
 
     public boolean assassinsGainInfernalModifiers() {
-        return this.rankIndex >= CHAMPION_1.rankIndex;
+        return this.rankIndex >= gates.assassinsGainInfernalModifiers;
     }
 
     /**
-     * Vault Champion behaviors (Master 1 hunt, Legend enrage) are deferred; these exist so the
-     * later champion wave has its gates already tabled.
+     * Vault Champion behaviors (hunt, enrage) are deferred; these exist so the later champion wave
+     * has its gates already tabled and tunable.
      */
     public boolean vaultChampionHunts() {
-        return this.rankIndex >= MASTER_1.rankIndex;
+        return this.rankIndex >= gates.vaultChampionHunts;
     }
 
     public boolean vaultChampionEnraged() {
-        return this.rankIndex >= LEGEND.rankIndex;
+        return this.rankIndex >= gates.vaultChampionEnraged;
+    }
+
+    private GreedMedallionsConfig.Tier row() {
+        return tiers[this.rankIndex];
     }
 }

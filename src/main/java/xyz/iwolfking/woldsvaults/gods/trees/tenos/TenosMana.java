@@ -5,6 +5,7 @@ import iskallia.vault.mana.Mana;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import xyz.iwolfking.woldsvaults.gods.GodVanillaAttributes;
 
 import java.util.UUID;
 
@@ -19,7 +20,8 @@ import java.util.UUID;
  * charm swap or a refund.
  */
 public final class TenosMana {
-    private static final UUID DEEP_RESERVES_UUID = UUID.fromString("1f2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c5d");
+    private static final UUID DEEP_RESERVES_UUID = GodVanillaAttributes.modifierId(
+            "tenos_deep_reserves", ModAttributes.MANA_MAX, AttributeModifier.Operation.MULTIPLY_BASE);
 
     private TenosMana() {
     }

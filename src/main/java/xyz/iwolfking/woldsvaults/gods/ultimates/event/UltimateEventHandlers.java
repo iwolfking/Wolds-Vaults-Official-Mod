@@ -8,6 +8,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -114,5 +115,18 @@ public final class UltimateEventHandlers {
         CopeDeGraceState.clear(player);
         SaviorState.clear(player);
         BulletTimeState.end(player);
+    }
+
+    /**
+     * Drops every ultimate's live state when the server stops. Per-player teardown already covers
+     * logout, death and dimension change; this is the integrated-server case, where the JVM
+     * outlives the world and a state left behind would apply to the next world's player of the
+     * same id.
+     */
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        CopeDeGraceState.clearAll();
+        SaviorState.clearAll();
+        BulletTimeState.clearAll();
     }
 }

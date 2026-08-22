@@ -28,6 +28,8 @@ public class MilestoneVaultState {
     private static final Map<UUID, Map<UUID, MilestoneVaultState>> STATES = new ConcurrentHashMap<>();
     private static final Map<UUID, UUID> ACTIVE = new ConcurrentHashMap<>();
 
+    private static volatile boolean scratchDirty;
+
     private final long[] chests = new long[VaultChestType.values().length];
     private long woodenBoxes;
     private long mobKills;
@@ -97,6 +99,7 @@ public class MilestoneVaultState {
     }
 
     public static void release(UUID vaultId) {
+        scratchDirty = true;
         Map<UUID, MilestoneVaultState> vault = STATES.remove(vaultId);
         if (vault != null) {
             vault.keySet().forEach(playerId -> ACTIVE.remove(playerId, vaultId));
@@ -111,6 +114,7 @@ public class MilestoneVaultState {
      * the state they left.
      */
     public static void unregisterPlayer(UUID playerId) {
+        scratchDirty = true;
         ACTIVE.remove(playerId);
     }
 
@@ -191,6 +195,7 @@ public class MilestoneVaultState {
     }
 
     public void onChestLooted(VaultChestType type, boolean box) {
+        scratchDirty = true;
         if (box) {
             this.woodenBoxes++;
             return;
@@ -200,6 +205,7 @@ public class MilestoneVaultState {
     }
 
     private void advanceDedicated(VaultChestType type) {
+        scratchDirty = true;
         List<VaultChestType> order = MilestoneRegistry.getDedicatedLooterOrder();
         if (this.dedicatedPhase >= order.size() || order.get(this.dedicatedPhase) != type) {
             return;
@@ -216,26 +222,32 @@ public class MilestoneVaultState {
     }
 
     public void onMobKill() {
+        scratchDirty = true;
         this.mobKills++;
     }
 
     public void onOreMined() {
+        scratchDirty = true;
         this.ores++;
     }
 
     public void onTreasureDoor() {
+        scratchDirty = true;
         this.treasureDoors++;
     }
 
     public void onVendoor() {
+        scratchDirty = true;
         this.vendoors++;
     }
 
     public void onDungeonDoor() {
+        scratchDirty = true;
         this.dungeonDoors++;
     }
 
     public void onDamaged() {
+        scratchDirty = true;
         this.damaged = true;
     }
 
@@ -271,36 +283,57 @@ public class MilestoneVaultState {
     }
 
     public void markBaselinesReady() {
+        scratchDirty = true;
         this.baselinesReady = true;
     }
 
     public int takeBingoDelta(int total) {
+        scratchDirty = true;
         int delta = Math.max(0, total - this.bingoLines);
         this.bingoLines = Math.max(this.bingoLines, total);
         return delta;
     }
 
     public int takeScavengerBingoDelta(int total) {
+        scratchDirty = true;
         int delta = Math.max(0, total - this.scavengerBingoLines);
         this.scavengerBingoLines = Math.max(this.scavengerBingoLines, total);
         return delta;
     }
 
     public int takeChaosDelta(int total) {
+        scratchDirty = true;
         int delta = Math.max(0, total - this.chaosCompleted);
         this.chaosCompleted = Math.max(this.chaosCompleted, total);
         return delta;
     }
 
     public int takeElixirDelta(int total) {
+        scratchDirty = true;
         int delta = Math.max(0, total - this.elixirCollected);
         this.elixirCollected = Math.max(this.elixirCollected, total);
         return delta;
     }
 
     public int takeRuneBossDelta(int total) {
+        scratchDirty = true;
         int delta = Math.max(0, total - this.runeBossKills);
         this.runeBossKills = Math.max(this.runeBossKills, total);
         return delta;
+    }
+
+    /**
+     * Whether the scratch has changed since this was last called, clearing the flag.
+     *
+     * <p>The scratch is serialised into {@link MilestoneData} but is not one of its fields, so its
+     * mutators cannot set that save's own pending flag. Without this the scratch was written under
+     * a dirty flag none of its writers touched, and only reached disk when an unrelated counter
+     * happened to move in the same window - so a run that advanced nothing, a bail with no
+     * progress, never persisted its own release and left the entry behind across a restart.
+     */
+    static boolean consumeDirty() {
+        boolean dirty = scratchDirty;
+        scratchDirty = false;
+        return dirty;
     }
 }

@@ -1,24 +1,28 @@
 package xyz.iwolfking.woldsvaults.gods.trees.wendarr;
 
 import iskallia.vault.core.card.CardDeck;
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.item.CardDeckItem;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
+import top.theillusivec4.curios.api.CuriosCapability;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import top.theillusivec4.curios.api.CuriosCapability;
+
 import xyz.iwolfking.woldsvaults.api.lib.ICardDeckCache;
 import xyz.iwolfking.woldsvaults.gods.GodFocusGear;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
+import xyz.iwolfking.woldsvaults.gods.node.DeferredHandler;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
-import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandler;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandlers;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
+import xyz.iwolfking.woldsvaults.gods.node.ListenerBoundHandler;
 import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
 import xyz.iwolfking.woldsvaults.gods.node.TickContributor;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
@@ -63,18 +67,18 @@ public final class WendarrNodeHandlers {
                 WendarrTimeHandlers.EdgeOfTimeHandler::new);
         GodNodeHandlers.register(WendarrNodes.TEMPORAL_SHIELDING, TemporalShieldingParams.class,
                 WendarrTimeHandlers.TemporalShieldingHandler::new);
-        GodNodeHandlers.register(WendarrNodes.EXPERT_EATER, ExpertEaterParams.class, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.PRISTINE_CONDITION, PristineConditionParams.class, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.LEGEND_OF_THE_PEAR, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.GLUTTON, GluttonParams.class, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.TOUGH_STOMACH, ToughStomachParams.class, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.GARDENER, GardenerParams.class, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.PYLON_WHISPERER, PylonWhispererParams.class, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.CLOCK_ARTIFICIER, ClockArtificierParams.class, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.TEMPORAL_BREAKING, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.MASTER_IMBUER, ListenerBound::new);
-        GodNodeHandlers.register(WendarrNodes.EXTRACTION_SUPERVISER, Deferred::new);
-        GodNodeHandlers.register(WendarrNodes.ARMORED_EXTRACTORS, Deferred::new);
+        GodNodeHandlers.register(WendarrNodes.EXPERT_EATER, ExpertEaterParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.PRISTINE_CONDITION, PristineConditionParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.LEGEND_OF_THE_PEAR, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.GLUTTON, GluttonParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.TOUGH_STOMACH, ToughStomachParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.GARDENER, GardenerParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.PYLON_WHISPERER, PylonWhispererParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.CLOCK_ARTIFICIER, ClockArtificierParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.TEMPORAL_BREAKING, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.MASTER_IMBUER, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.EXTRACTION_SUPERVISER, DeferredHandler::new);
+        GodNodeHandlers.register(WendarrNodes.ARMORED_EXTRACTORS, DeferredHandler::new);
     }
 
     /**
@@ -84,12 +88,7 @@ public final class WendarrNodeHandlers {
      * zero that would read as a balance change.
      */
     public static <T extends GodEffectParams> T params(String effectId, Class<T> type) {
-        GodEffect effect = GodNodeRegistry.effect(effectId).orElse(null);
-        if (effect == null) {
-            throw GodTreeConfigException.fail("Wendarr effect '" + effectId + "' was read before the god node "
-                    + "registry finished loading, or is missing from god_node_effects_wendarr.json");
-        }
-        return effect.params(type);
+        return GodNodeRegistry.params(VaultGod.WENDARR, effectId, type);
     }
 
     /**
@@ -98,9 +97,6 @@ public final class WendarrNodeHandlers {
      * capability on purpose: a handler that claimed one would be dispatched twice, once by the
      * capability driver and once by the listener that actually owns the ordering.
      */
-    public record ListenerBound(GodEffect effect) implements GodNodeHandler {
-    }
-
     /**
      * A node the tree places but has no behaviour for yet. Extraction Superviser and Armored
      * Extractors are both this: extraction vaults are shelved (SCOPING_SYNTHESIS 5-bis #17) and no
@@ -108,9 +104,6 @@ public final class WendarrNodeHandlers {
      * own rather than to the catch-all is what lets load-time validation tell a deliberately
      * deferred node from an unported one.
      */
-    public record Deferred(GodEffect effect) implements GodNodeHandler {
-    }
-
     /**
      * The Deckless: every empty card deck slot pays fruit efficiency, movement speed and cooldown
      * reduction, per invested point. Read from the live deck at snapshot time rather than banked,

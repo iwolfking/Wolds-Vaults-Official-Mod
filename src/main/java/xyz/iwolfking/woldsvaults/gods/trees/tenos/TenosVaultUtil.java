@@ -1,15 +1,15 @@
 package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.world.data.ServerVaults;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
+import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
+
 import java.util.List;
 
-/** Small vault lookups shared by the Tenos handlers. */
 public final class TenosVaultUtil {
     private TenosVaultUtil() {
     }
@@ -23,14 +23,7 @@ public final class TenosVaultUtil {
     }
 
     public static List<ServerPlayer> runners(Vault vault) {
-        List<ServerPlayer> players = new ArrayList<>();
-        if (vault == null) {
-            return players;
-        }
-        for (Runner runner : vault.get(Vault.LISTENERS).getAll(Runner.class)) {
-            runner.getPlayer().ifPresent(players::add);
-        }
-        return players;
+        return GodVaultUtil.runners(vault);
     }
 
     /**

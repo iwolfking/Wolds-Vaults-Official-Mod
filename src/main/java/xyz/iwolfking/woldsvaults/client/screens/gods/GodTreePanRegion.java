@@ -19,8 +19,11 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.phys.Vec2;
 import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
-import xyz.iwolfking.woldsvaults.gods.tree.GodTreeDefinition;
-import xyz.iwolfking.woldsvaults.gods.tree.GodTrees;
+import iskallia.vault.config.entry.SkillStyle;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.node.GodNode;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.gods.node.GodTreeModel;
 
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
@@ -48,10 +51,10 @@ public class GodTreePanRegion extends Screen {
     protected final GodTreeScreen parentScreen;
     protected final GodTreeDialog dialog;
     protected final Map<String, GodNodeWidget> nodeWidgets = new HashMap<>();
-    protected final List<GodTreeDefinition.Edge> edges = new LinkedList<>();
+    protected final List<GodTreeModel.Edge> edges = new LinkedList<>();
     protected final List<float[]> backgroundStars = new ArrayList<>();
     protected VaultGod god;
-    protected GodTreeDefinition tree;
+    protected GodTreeModel tree;
     protected GodNodeWidget selectedWidget;
     protected Vec2 viewportTranslation = new Vec2(0.0F, 0.0F);
     protected float viewportScale = 0.5F;
@@ -85,16 +88,22 @@ public class GodTreePanRegion extends Screen {
         this.nodeWidgets.clear();
         this.edges.clear();
         this.selectedWidget = null;
-        this.tree = GodTrees.get(this.god).orElse(null);
+        this.tree = GodNodeRegistry.tree(this.god).orElse(null);
         this.rebuildBackgroundStars();
         if (this.tree == null) {
             return;
         }
-        for (GodTreeDefinition.Node node : this.tree.getNodes()) {
+        for (GodNode node : this.tree.getNodes()) {
+            SkillStyle style = this.tree.getStyle(node.id());
+            if (style == null) {
+                WoldsVaults.LOGGER.error("God tree node {} has no style entry in god_tree_{}_gui_styles.json; "
+                        + "it cannot be drawn.", node.id(), this.god.getName().toLowerCase(java.util.Locale.ROOT));
+                continue;
+            }
             boolean unlocked = ClientGodAlignmentData.isTreeNodePurchased(this.god, node.id());
             boolean available = this.tree.isPurchasable(node.id(),
                     id -> ClientGodAlignmentData.isTreeNodePurchased(this.god, id));
-            GodNodeWidget widget = new GodNodeWidget(node, this.god, unlocked, available);
+            GodNodeWidget widget = new GodNodeWidget(node, style, this.god, unlocked, available);
             this.nodeWidgets.put(node.id(), widget);
         }
         this.edges.addAll(this.tree.getEdges());
@@ -119,11 +128,15 @@ public class GodTreePanRegion extends Screen {
         float minY = -1050.0F;
         float maxY = 520.0F;
         if (this.tree != null) {
-            for (GodTreeDefinition.Node node : this.tree.getNodes()) {
-                minX = Math.min(minX, node.x() - 260);
-                maxX = Math.max(maxX, node.x() + 260);
-                minY = Math.min(minY, node.y() - 260);
-                maxY = Math.max(maxY, node.y() + 260);
+            for (GodNode node : this.tree.getNodes()) {
+                SkillStyle style = this.tree.getStyle(node.id());
+                if (style == null) {
+                    continue;
+                }
+                minX = Math.min(minX, style.x - 260);
+                maxX = Math.max(maxX, style.x + 260);
+                minY = Math.min(minY, style.y - 260);
+                maxY = Math.max(maxY, style.y + 260);
             }
         }
         Random random = new Random(STAR_SEED + this.god.ordinal() * 7919L);
@@ -303,7 +316,7 @@ public class GodTreePanRegion extends Screen {
         int dim = GodTreeTheme.accentDim(this.god);
         int deep = GodTreeTheme.accentDeep(this.god);
         ScreenDrawHelper.draw(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR, buf -> {
-            for (GodTreeDefinition.Edge edge : this.edges) {
+            for (GodTreeModel.Edge edge : this.edges) {
                 GodNodeWidget from = this.nodeWidgets.get(edge.from());
                 GodNodeWidget to = this.nodeWidgets.get(edge.to());
                 if (from == null || to == null) {
@@ -358,7 +371,7 @@ public class GodTreePanRegion extends Screen {
     private void renderConstellationLabels(PoseStack renderStack) {
         Minecraft minecraft = Minecraft.getInstance();
         int color = (GodTreeTheme.accentDim(this.god) & 0xFFFFFF) | 0xAA000000;
-        for (GodTreeDefinition.Label label : this.tree.getLabels()) {
+        for (GodTreeModel.Label label : this.tree.getLabels()) {
             String text = label.text().toUpperCase(java.util.Locale.ROOT);
             int width = minecraft.font.width(text);
             minecraft.font.draw(renderStack, text, label.x() - width / 2.0F, label.y(), color);

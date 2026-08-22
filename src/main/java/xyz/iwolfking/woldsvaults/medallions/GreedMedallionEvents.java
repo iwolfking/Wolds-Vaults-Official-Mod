@@ -42,7 +42,7 @@ public final class GreedMedallionEvents {
             }
             float penalty = GreedMedallionEffects.trapDisarmPenalty(player);
             if (penalty > 0.0F) {
-                data.setValue(data.getValue() - penalty);
+                data.setValue(Math.max(0.0F, data.getValue() - penalty));
             }
         });
     }

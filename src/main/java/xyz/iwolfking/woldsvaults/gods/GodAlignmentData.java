@@ -43,6 +43,13 @@ import java.util.UUID;
 public class GodAlignmentData extends SavedData {
     protected static final String DATA_NAME = "woldsvaults_GodAlignment";
 
+    /**
+     * What a read of a player and god with no record yet returns. Shared and never written to:
+     * every mutator takes {@link #mutableState} instead, so the only way to reach this instance is
+     * a read, and a read of an absent record has nothing to say beyond "zero of everything".
+     */
+    private static final GodState EMPTY = new GodState();
+
     private final Map<UUID, EnumMap<VaultGod, GodState>> players = new HashMap<>();
 
     private GodAlignmentData() {
@@ -80,7 +87,24 @@ public class GodAlignmentData extends SavedData {
                 + PietyBonusSource.total(player, god);
     }
 
+    /**
+     * A player's standing with one god, without creating it. Every gate check and every attribute
+     * snapshot rebuild lands here, so inserting on read would grow this save by one empty record
+     * per player per god merely for having been asked about, and write those records out on the
+     * next unrelated {@code setDirty}.
+     *
+     * <p>The returned state must not be written through: a player with no record yet gets
+     * {@link #EMPTY}, which is shared. {@link #mutableState} is the only path that inserts, and
+     * every mutator below takes it.
+     */
     public GodState getState(UUID playerId, VaultGod god) {
+        EnumMap<VaultGod, GodState> states = this.players.get(playerId);
+        GodState state = states == null ? null : states.get(god);
+        return state == null ? EMPTY : state;
+    }
+
+    /** The stored state of a player and god, created on first write. Mutators only. */
+    private GodState mutableState(UUID playerId, VaultGod god) {
         return this.players.computeIfAbsent(playerId, id -> new EnumMap<>(VaultGod.class))
                 .computeIfAbsent(god, g -> new GodState());
     }
@@ -103,7 +127,7 @@ public class GodAlignmentData extends SavedData {
      * already paid for and firing one {@link GodLevelUpEvent} per level gained.
      */
     public void completeSacrifice(ServerPlayer player, VaultGod god) {
-        GodState state = this.getState(player.getUUID(), god);
+        GodState state = this.mutableState(player.getUUID(), god);
         int before = GodLevels.gatedLevel(state.xp, state.sacrifices);
         state.sacrifices++;
         int after = GodLevels.gatedLevel(state.xp, state.sacrifices);
@@ -180,7 +204,7 @@ public class GodAlignmentData extends SavedData {
             return 0;
         }
         amount = applyGodExperiencePowers(player, amount);
-        GodState state = this.getState(player.getUUID(), god);
+        GodState state = this.mutableState(player.getUUID(), god);
         int before = GodLevels.gatedLevel(state.xp, state.sacrifices);
         state.xp += amount;
         int after = GodLevels.gatedLevel(state.xp, state.sacrifices);
@@ -226,7 +250,7 @@ public class GodAlignmentData extends SavedData {
      * upwards; downgrades fire nothing.
      */
     public void setLevel(ServerPlayer player, VaultGod god, int level) {
-        GodState state = this.getState(player.getUUID(), god);
+        GodState state = this.mutableState(player.getUUID(), god);
         int before = GodLevels.gatedLevel(state.xp, state.sacrifices);
         state.xp = GodLevels.xpForLevel(Math.max(level, 0));
         state.sacrifices = Math.max(state.sacrifices, Math.min(Math.max(level, 0),
@@ -239,14 +263,14 @@ public class GodAlignmentData extends SavedData {
     }
 
     public void addBonusPoints(ServerPlayer player, VaultGod god, int amount) {
-        GodState state = this.getState(player.getUUID(), god);
+        GodState state = this.mutableState(player.getUUID(), god);
         state.bonusPoints = Math.max(state.bonusPoints + amount, -GodLevels.totalPointsForLevel(GodLevels.levelForXp(state.xp)));
         this.setDirty();
         this.sync(player);
     }
 
     public void refundAll(ServerPlayer player, VaultGod god) {
-        GodState state = this.getState(player.getUUID(), god);
+        GodState state = this.mutableState(player.getUUID(), god);
         state.spentPoints.clear();
         state.treeNodes.clear();
         this.setDirty();
@@ -270,7 +294,7 @@ public class GodAlignmentData extends SavedData {
      * method only guards the ledger's own invariants.
      */
     public boolean purchaseTreeNode(ServerPlayer player, VaultGod god, String nodeId, String ledgerKey, int cost) {
-        GodState state = this.getState(player.getUUID(), god);
+        GodState state = this.mutableState(player.getUUID(), god);
         if (state.treeNodes.contains(nodeId)) {
             return false;
         }
@@ -289,7 +313,7 @@ public class GodAlignmentData extends SavedData {
      * this god has unlocked is already taken, or when the node is already bound.
      */
     public boolean addMinorTransfer(ServerPlayer player, VaultGod god, String nodeId) {
-        GodState state = this.getState(player.getUUID(), god);
+        GodState state = this.mutableState(player.getUUID(), god);
         if (state.minorTransfers.contains(nodeId)) {
             return false;
         }
@@ -303,16 +327,17 @@ public class GodAlignmentData extends SavedData {
     }
 
     public boolean removeMinorTransfer(ServerPlayer player, VaultGod god, String nodeId) {
-        if (!this.getState(player.getUUID(), god).minorTransfers.remove(nodeId)) {
+        if (!this.getState(player.getUUID(), god).minorTransfers.contains(nodeId)) {
             return false;
         }
+        this.mutableState(player.getUUID(), god).minorTransfers.remove(nodeId);
         this.setDirty();
         this.sync(player);
         return true;
     }
 
     public int incrementAltarCompletions(UUID playerId, VaultGod god) {
-        GodState state = this.getState(playerId, god);
+        GodState state = this.mutableState(playerId, god);
         state.altarCompletions++;
         this.setDirty();
         return state.altarCompletions;

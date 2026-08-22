@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
-import iskallia.vault.config.Config;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,8 +17,13 @@ import java.util.Map;
  * medallion tier table, the greed screens and the trial gates all ask the ladder rather than
  * re-deriving any of this. The defaults below are the shipped ladder, so a missing file
  * regenerates to exactly the values the addon has always used.</p>
+ *
+ * <p>The ladder itself rejects a band size that cannot divide the ladder and a band-name list too
+ * short to cover it, logging both and running on the shipped ladder, so there is nothing left for
+ * {@link #isValid()} to add; {@link PackAuthoredConfig} is here for the kept-on-parse-failure
+ * guarantee.</p>
  */
-public class GreedRanksConfig extends Config {
+public class GreedRanksConfig extends PackAuthoredConfig {
     @Expose private Map<String, String> documentation;
     @Expose private int bandSize;
     @Expose private List<String> bandNames;

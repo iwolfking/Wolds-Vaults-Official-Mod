@@ -16,7 +16,8 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import xyz.iwolfking.woldsvaults.gods.tree.GodTreeDefinition;
+import iskallia.vault.config.entry.SkillStyle;
+import xyz.iwolfking.woldsvaults.gods.node.GodNode;
 
 import javax.annotation.Nonnull;
 import java.awt.Rectangle;
@@ -30,7 +31,8 @@ import java.util.List;
  * like the old greed tree's circle nodes.
  */
 public class GodNodeWidget extends AbstractWidget {
-    private final GodTreeDefinition.Node node;
+    private final GodNode node;
+    private final SkillStyle style;
     private final VaultGod god;
     private final boolean unlocked;
     private final boolean available;
@@ -39,10 +41,11 @@ public class GodNodeWidget extends AbstractWidget {
     private final int twinklePhase;
     private boolean selected;
 
-    public GodNodeWidget(GodTreeDefinition.Node node, VaultGod god, boolean unlocked, boolean available) {
-        super(node.x() - sizeFor(node) / 2, node.y() - sizeFor(node) / 2,
+    public GodNodeWidget(GodNode node, SkillStyle style, VaultGod god, boolean unlocked, boolean available) {
+        super(style.x - sizeFor(node) / 2, style.y - sizeFor(node) / 2,
                 sizeFor(node), sizeFor(node), new TextComponent(node.name()));
         this.node = node;
+        this.style = style;
         this.god = god;
         this.unlocked = unlocked;
         this.available = available;
@@ -52,7 +55,7 @@ public class GodNodeWidget extends AbstractWidget {
         this.selected = false;
     }
 
-    private static int sizeFor(GodTreeDefinition.Node node) {
+    private static int sizeFor(GodNode node) {
         return switch (node.type()) {
             case MAJOR -> 44;
             case MINOR -> 30;
@@ -61,7 +64,7 @@ public class GodNodeWidget extends AbstractWidget {
         };
     }
 
-    private static int iconSizeFor(GodTreeDefinition.Node node) {
+    private static int iconSizeFor(GodNode node) {
         return switch (node.type()) {
             case MAJOR -> 16;
             case MINOR -> 14;
@@ -79,7 +82,7 @@ public class GodNodeWidget extends AbstractWidget {
         };
     }
 
-    public GodTreeDefinition.Node getNode() {
+    public GodNode getNode() {
         return this.node;
     }
 
@@ -147,7 +150,7 @@ public class GodNodeWidget extends AbstractWidget {
     }
 
     private void renderIcon(PoseStack renderStack) {
-        ResourceLocation icon = this.node.icon();
+        ResourceLocation icon = this.style.icon;
         if (icon == null || this.iconSize <= 0) {
             return;
         }

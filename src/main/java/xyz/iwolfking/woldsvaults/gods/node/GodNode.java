@@ -10,7 +10,8 @@ import javax.annotation.Nullable;
  * names the shared mechanic the placement feeds - many placements share one effect, and the
  * effect is the key god points are banked under.
  */
-public record GodNode(String id, VaultGod god, GodNodeType type, @Nullable String effect, int cost, boolean enabled) {
+public record GodNode(String id, VaultGod god, String name, GodNodeType type, @Nullable String effect, int cost,
+                      boolean enabled) {
     /** The key this node's god points are banked under - its effect, or its own id for roots. */
     public String ledgerKey() {
         return this.effect != null ? this.effect : this.id;

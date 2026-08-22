@@ -1,11 +1,12 @@
 package xyz.iwolfking.woldsvaults.gods.trees.velara;
 
 import iskallia.vault.core.vault.influence.VaultGod;
-import net.minecraft.server.MinecraftServer;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
+
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
+import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 
 /**
  * The Velara effect ids Java has to name, and the gate reads its listeners make.
@@ -20,6 +21,8 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
  * is; a major only on the active tree. Handlers never ask which case they are in.
  */
 public final class VelaraNodes {
+    public static final VaultGod GOD = VaultGod.VELARA;
+
     public static final String PIOUS_DEVOTION = "velara_pious_devotion";
     public static final String COUNTERSTRIKE = "velara_counterstrike";
     public static final String MAGIC_ARMOR = "velara_magic_armor";
@@ -46,7 +49,7 @@ public final class VelaraNodes {
 
     /** Effective points the player holds in a Velara effect right now, gated and cached. */
     public static int points(ServerPlayer player, String effectId) {
-        return GodNodeGate.points(player, VaultGod.VELARA, effectId);
+        return GodNodeGate.points(player, GOD, effectId);
     }
 
     public static boolean isActive(ServerPlayer player, String effectId) {
@@ -63,10 +66,6 @@ public final class VelaraNodes {
      * summed outside the attribute fold and applies its own carryover scale.
      */
     public static int investedPoints(ServerPlayer player, String effectId) {
-        MinecraftServer server = player.getServer();
-        if (server == null) {
-            return 0;
-        }
-        return GodAlignmentData.get(server).getPointsIn(player.getUUID(), VaultGod.VELARA, effectId);
+        return GodVaultUtil.investedPoints(player, GOD, effectId);
     }
 }

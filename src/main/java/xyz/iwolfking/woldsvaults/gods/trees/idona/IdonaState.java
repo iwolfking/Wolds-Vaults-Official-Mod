@@ -6,6 +6,7 @@ import iskallia.vault.core.vault.player.Listener;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -126,13 +127,27 @@ public final class IdonaState {
         powerDump(player.getUUID()).continuousUntil = player.getLevel().getGameTime() + grace;
     }
 
-    /** Set for the duration of a cleave sweep so the hit handler can tell cleave from other AoE. */
-    public static void beginCleave(ServerPlayer player) {
+    /**
+     * Marks the current thread as being inside a cleave sweep so the hit handler can tell cleave
+     * from other AoE, and returns whatever scope it replaced.
+     *
+     * <p>The previous value is handed back rather than dropped so a cleave that lands inside
+     * another cleave restores the outer sweep instead of clearing the flag for it. Callers must
+     * pair this with {@link #popCleave(ServerPlayer)} in a {@code finally}.
+     */
+    public static ServerPlayer pushCleave(ServerPlayer player) {
+        ServerPlayer previous = CLEAVING_PLAYER.get();
         CLEAVING_PLAYER.set(player);
+        return previous;
     }
 
-    public static void endCleave() {
-        CLEAVING_PLAYER.remove();
+    /** Restores the scope {@link #pushCleave(ServerPlayer)} replaced. */
+    public static void popCleave(ServerPlayer previous) {
+        if (previous == null) {
+            CLEAVING_PLAYER.remove();
+        } else {
+            CLEAVING_PLAYER.set(previous);
+        }
     }
 
     public static boolean isCleaving(ServerPlayer player) {
@@ -185,5 +200,15 @@ public final class IdonaState {
                 pruneExpiredPrisonMarks(server.overworld().getGameTime());
             }
         });
+    }
+
+    /**
+     * Drops the prison marks when the server stops. Their expiries are stamped against the
+     * overworld game time, which restarts with the next world, so a mark left behind by the
+     * previous world would never expire on its own.
+     */
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        PRISON_MARKS.clear();
     }
 }

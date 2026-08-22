@@ -26,6 +26,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -71,6 +72,55 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
 
     public static void setTemporalRemaining(ItemStack stack, int ticks) {
         stack.getOrCreateTag().putInt(MythicCharmRolls.TEMPORAL_REMAINING_TAG, Math.max(0, ticks));
+    }
+
+    /**
+     * The identity a running blessing is banked against, assigned on first use.
+     *
+     * <p>A blessing has to settle its elapsed time against the charm that granted it, not against
+     * whatever charm happens to be equipped when it ends - otherwise swapping charms mid-blessing
+     * charged the wrong one and unequipping charged nothing at all.
+     */
+    public static UUID getOrCreateBlessingId(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        if (!tag.hasUUID(MythicCharmRolls.BLESSING_ID_TAG)) {
+            tag.putUUID(MythicCharmRolls.BLESSING_ID_TAG, UUID.randomUUID());
+        }
+        return tag.getUUID(MythicCharmRolls.BLESSING_ID_TAG);
+    }
+
+    /**
+     * The player's mythic charm carrying {@code blessingId}, equipped or in their inventory, or
+     * {@link ItemStack#EMPTY} if they no longer hold it.
+     */
+    public static ItemStack findByBlessingId(Player player, UUID blessingId) {
+        if (blessingId == null) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack equipped = VaultCharmItem.getCharm(player).orElse(ItemStack.EMPTY);
+        if (matchesBlessingId(equipped, blessingId)) {
+            return equipped;
+        }
+        for (ItemStack stack : player.getInventory().items) {
+            if (matchesBlessingId(stack, blessingId)) {
+                return stack;
+            }
+        }
+        for (ItemStack stack : player.getInventory().offhand) {
+            if (matchesBlessingId(stack, blessingId)) {
+                return stack;
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    private static boolean matchesBlessingId(ItemStack stack, UUID blessingId) {
+        if (!isMythic(stack)) {
+            return false;
+        }
+        CompoundTag tag = stack.getTag();
+        return tag != null && tag.hasUUID(MythicCharmRolls.BLESSING_ID_TAG)
+                && blessingId.equals(tag.getUUID(MythicCharmRolls.BLESSING_ID_TAG));
     }
 
     @Override

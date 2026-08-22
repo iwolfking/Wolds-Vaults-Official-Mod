@@ -10,6 +10,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 import iskallia.vault.config.Config;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.config.PackAuthoredConfig;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -27,12 +29,17 @@ import java.util.Map;
  * handler's parameters are arbitrary extra fields whose shape only the handler type knows, and
  * because the map key is the effect id every failure message has to name.
  *
- * <p>Deliberately total: this deserializer never rejects an entry. {@code Config#readConfig}
+ * <p>The deserializer is deliberately total and never rejects an entry: {@code Config#readConfig}
  * treats any exception raised while reading as "file missing" and overwrites the file with
- * defaults, so throwing here would silently destroy a mistyped tree. Every assertion lives in
- * {@code GodNodeValidator}, which runs after the read and is allowed to be fatal.
+ * defaults, so throwing here would destroy a mistyped file rather than report it. Judgement is
+ * split in two afterwards instead. {@link #isValid()} makes the calls that need only this file -
+ * an entry with no handler, or a {@code values} key that is not an array of numbers - and answers
+ * them by naming the file in the reload report and falling back to the shipped table. Everything
+ * that needs the tree beside it - a handler type that is not registered, an effect on no node, a
+ * gear attribute that does not exist - stays fatal in {@code GodTreeLoader} and
+ * {@code GodNodeValidator}, because no single file's defaults can repair a mismatch between two.
  */
-public class GodNodeEffectsConfig extends Config {
+public class GodNodeEffectsConfig extends PackAuthoredConfig {
     private static final Gson GSON = Config.GSON.newBuilder()
             .registerTypeAdapter(EffectMap.class, EffectMap.Serializer.INSTANCE)
             .create();
@@ -119,6 +126,36 @@ public class GodNodeEffectsConfig extends Config {
         if (oldConfigInstance instanceof GodNodeEffectsConfig previous) {
             this.god = previous.god;
         }
+    }
+
+    /**
+     * The two mistakes in this file that need nothing else to spot. An entry with no handler names
+     * no behaviour at all, and a {@code values} key that failed to parse as an array of numbers
+     * would otherwise reach the loader as a null table. Both are reported and answered with the
+     * shipped table for this god rather than a boot failure.
+     */
+    @Override
+    protected boolean isValid() {
+        if (this.effects == null || this.effects.isEmpty()) {
+            return this.invalid("it defines no effects");
+        }
+        for (Map.Entry<String, Entry> entry : this.effects.entrySet()) {
+            Entry effect = entry.getValue();
+            if (effect == null || effect.handler() == null || effect.handler().isBlank()) {
+                return this.invalid("effect '" + entry.getKey() + "' names no handler");
+            }
+            if (effect.values() == null) {
+                return this.invalid("effect '" + entry.getKey() + "' has a 'values' key that is not an array of "
+                        + "numbers");
+            }
+        }
+        return true;
+    }
+
+    private boolean invalid(String reason) {
+        WoldsVaults.LOGGER.error("God node effect config {} is unusable: {}. Falling back to the shipped effect "
+                + "table.", this.getName(), reason);
+        return false;
     }
 
     /**

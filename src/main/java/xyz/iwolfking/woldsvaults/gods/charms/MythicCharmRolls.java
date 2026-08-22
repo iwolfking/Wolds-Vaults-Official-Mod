@@ -62,6 +62,7 @@ public final class MythicCharmRolls {
     public static final String TEMPORAL_REMAINING_TAG = "woldsMythicTemporalRemaining";
     public static final String TEMPORAL_VAULT_TAG = "woldsMythicTemporalVault";
     public static final String UNITS_TAG = "woldsMythicUnits";
+    public static final String BLESSING_ID_TAG = "woldsMythicBlessingId";
     public static final String PINNED_TAG = "woldsMythicPinned";
     public static final String ROLLS_TAG = "woldsMythicRolls";
     public static final float LEGENDARY_MULTIPLIER = 1.5F;

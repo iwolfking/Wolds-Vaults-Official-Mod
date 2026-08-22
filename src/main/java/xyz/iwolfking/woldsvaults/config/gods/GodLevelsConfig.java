@@ -1,7 +1,7 @@
 package xyz.iwolfking.woldsvaults.config.gods;
 
 import com.google.gson.annotations.Expose;
-import iskallia.vault.config.Config;
+import xyz.iwolfking.woldsvaults.config.PackAuthoredConfig;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.io.File;
@@ -16,9 +16,12 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * <p>Every scalar is boxed so that an absent key is distinguishable from a configured zero -
  * several of these are legitimately zero - and every reader falls back to the shipped value with
- * an error naming the key rather than silently flattening the curve.
+ * an error naming the key rather than silently flattening the curve. Because every field already
+ * degrades that way there is nothing left for {@link #isValid()} to reject; what this config wants
+ * from {@link PackAuthoredConfig} is the guarantee that a hand-edit which fails to parse is kept
+ * rather than overwritten.
  */
-public class GodLevelsConfig extends Config {
+public class GodLevelsConfig extends PackAuthoredConfig {
     private static final long[] DEFAULT_CUMULATIVE_XP = {
             20000L, 60000L, 120000L, 200000L, 300000L, 400000L, 500000L, 650000L, 800000L, 1000000L
     };

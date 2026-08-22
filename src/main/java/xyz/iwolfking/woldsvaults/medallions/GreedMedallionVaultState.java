@@ -1,6 +1,10 @@
 package xyz.iwolfking.woldsvaults.medallions;
 
 import iskallia.vault.core.vault.Vault;
+import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * ends. Nothing here persists; a vault that outlives a server restart simply loses its medallion
  * effects, which matches how the clock-rate carrier behaves.
  */
+@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GreedMedallionVaultState {
     private static final Map<UUID, GreedMedallionTier> ACTIVE = new ConcurrentHashMap<>();
 
@@ -45,5 +50,15 @@ public final class GreedMedallionVaultState {
 
     public static void clearAll() {
         ACTIVE.clear();
+    }
+
+    /**
+     * Drops every vault's medallion when the server stops. On an integrated server the JVM
+     * outlives the world, so an entry left behind would apply the previous world's medallion to a
+     * vault that reuses its id.
+     */
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        clearAll();
     }
 }

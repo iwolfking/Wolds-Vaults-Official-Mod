@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.medallions;
 
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -47,12 +49,15 @@ public final class GreedMedallionObjectiveTargets {
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> CommonEvents.VAULT_END.register(OWNER, data -> {
-            Vault vault = data.getVault();
-            if (vault != null && vault.has(Vault.ID)) {
-                release(vault.get(Vault.ID));
-            }
-        }));
+        event.enqueueWork(() -> {
+            CommonEvents.VAULT_END.register(OWNER, data -> {
+                Vault vault = data.getVault();
+                if (vault != null && vault.has(Vault.ID)) {
+                    release(vault.get(Vault.ID));
+                }
+            });
+            MinecraftForge.EVENT_BUS.addListener(GreedMedallionObjectiveTargets::onServerStopping);
+        });
     }
 
     /**
@@ -88,5 +93,18 @@ public final class GreedMedallionObjectiveTargets {
         if (vaultId != null && REGISTERED.remove(vaultId)) {
             CommonEvents.OBJECTIVE_TARGET.release(vaultId);
         }
+    }
+
+    /**
+     * Drops every vault's registration when the server stops. A vault that never ended - a crash
+     * mid-run - otherwise leaves both its listener and its id behind for the life of the process.
+     *
+     * <p>Added to the Forge bus by hand rather than with {@code @SubscribeEvent}, because this
+     * class subscribes the mod bus and Forge rejects a mod-bus subscriber that declares a handler
+     * for a game event.
+     */
+    private static void onServerStopping(ServerStoppingEvent event) {
+        REGISTERED.forEach(CommonEvents.OBJECTIVE_TARGET::release);
+        REGISTERED.clear();
     }
 }

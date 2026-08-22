@@ -13,8 +13,8 @@ import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
-import xyz.iwolfking.woldsvaults.gods.GodNodeValues;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
@@ -73,6 +73,7 @@ public class ModConfigs {
 
     public static GreedRanksConfig GREED_RANKS;
     public static GreedMilestonesConfig GREED_MILESTONES;
+    public static GreedMedallionsConfig GREED_MEDALLIONS;
 
     public static final Map<VaultGod, GodTreeConfig> GOD_TREES = new EnumMap<>(VaultGod.class);
     public static final Map<VaultGod, GodTreeGuiStylesConfig> GOD_TREE_GUI_STYLES = new EnumMap<>(VaultGod.class);
@@ -121,15 +122,18 @@ public class ModConfigs {
     }
 
     /**
-     * Reads the rank ladder and the milestone table and installs them on their single readers. The
-     * ladder goes first: the shipped challenge-milestone reputation is derived from it, so a pack
-     * that retunes rank thresholds and regenerates the milestone file gets a consistent pair.
+     * Reads the rank ladder, the milestone table and the medallion table and installs them on their
+     * single readers. The ladder goes first: the shipped challenge-milestone reputation is derived
+     * from it, and a medallion's registry path is its rank's band name, so a pack that retunes rank
+     * thresholds and regenerates the other two files gets a consistent set.
      */
     private static void registerGreedProgression() {
         GREED_RANKS = new GreedRanksConfig().readConfig();
         MilestoneRankLadder.load(GREED_RANKS);
         GREED_MILESTONES = new GreedMilestonesConfig().readConfig();
         MilestoneRegistry.load(GREED_MILESTONES);
+        GREED_MEDALLIONS = new GreedMedallionsConfig().readConfig();
+        GreedMedallionTier.load(GREED_MEDALLIONS);
     }
 
     /**
@@ -149,7 +153,6 @@ public class ModConfigs {
             GOD_TREE_GUI_STYLES.put(god, new GodTreeGuiStylesConfig(name).readConfig());
             GOD_NODE_EFFECTS.put(god, new GodNodeEffectsConfig(name).readConfig());
         }
-        GodNodeValues.load(GOD_NODE_EFFECTS);
         GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
     }
 }

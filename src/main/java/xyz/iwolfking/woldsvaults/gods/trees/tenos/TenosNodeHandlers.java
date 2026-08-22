@@ -1,18 +1,21 @@
 package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.ability.AbilityLevelAttribute;
 import iskallia.vault.init.ModGearAttributes;
+
 import net.minecraft.world.item.ItemStack;
+
 import xyz.iwolfking.woldsvaults.gods.GodFocusGear;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
-import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandler;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandlers;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
+import xyz.iwolfking.woldsvaults.gods.node.ListenerBoundHandler;
 import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 
@@ -61,17 +64,17 @@ public final class TenosNodeHandlers {
                 TenosVaultHandlers.GoldPlatingHandler::new);
         GodNodeHandlers.register(TenosNodes.DEEP_RESERVES, DeepReservesParams.class,
                 TenosVaultHandlers.DeepReservesHandler::new);
-        GodNodeHandlers.register(TenosNodes.LOOTING_ENGINE, LootingEngineParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.MANA_STARVED, ManaStarvedParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.BARTER_EXPERT, BarterExpertParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.NOSE_FOR_TREASURE, NoseForTreasureParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.DOMAIN_EXPANSION, DomainExpansionParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.MASSIVE_CHESTS, MassiveChestsParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.INDIANA_JONES, IndianaJonesParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.EXPERT_LOOTER, ExpertLooterParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.DRILLMASTER, DrillmasterParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.WEALTHY_PATRON, WealthyPatronParams.class, ListenerBound::new);
-        GodNodeHandlers.register(TenosNodes.CASH_HUNTER, CashHunterParams.class, ListenerBound::new);
+        GodNodeHandlers.register(TenosNodes.LOOTING_ENGINE, LootingEngineParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.MANA_STARVED, ManaStarvedParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.BARTER_EXPERT, BarterExpertParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.NOSE_FOR_TREASURE, NoseForTreasureParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.DOMAIN_EXPANSION, DomainExpansionParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.MASSIVE_CHESTS, MassiveChestsParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.INDIANA_JONES, IndianaJonesParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.EXPERT_LOOTER, ExpertLooterParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.DRILLMASTER, DrillmasterParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.WEALTHY_PATRON, WealthyPatronParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.CASH_HUNTER, CashHunterParams.class, ListenerBoundHandler::new);
     }
 
     /**
@@ -81,12 +84,7 @@ public final class TenosNodeHandlers {
      * zero that would read as a balance change.
      */
     public static <T extends GodEffectParams> T params(String effectId, Class<T> type) {
-        GodEffect effect = GodNodeRegistry.effect(effectId).orElse(null);
-        if (effect == null) {
-            throw GodTreeConfigException.fail("Tenos effect '" + effectId + "' was read before the god node "
-                    + "registry finished loading, or is missing from god_node_effects_tenos.json");
-        }
-        return effect.params(type);
+        return GodNodeRegistry.params(VaultGod.TENOS, effectId, type);
     }
 
     /**
@@ -95,9 +93,6 @@ public final class TenosNodeHandlers {
      * capability on purpose: a handler that claimed one would be dispatched twice, once by the
      * capability driver and once by the listener that actually owns the ordering.
      */
-    public record ListenerBound(GodEffect effect) implements GodNodeHandler {
-    }
-
     /**
      * Global Veins: added ability levels on the vein miner ability, which is exactly what the base
      * mod's added-ability-level attribute already expresses. The value is an

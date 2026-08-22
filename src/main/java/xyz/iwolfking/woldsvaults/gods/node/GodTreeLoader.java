@@ -97,7 +97,9 @@ public final class GodTreeLoader {
             if (cost < 0) {
                 throw GodTreeConfigException.fail("God tree node '" + entry.id + "' has negative cost " + cost);
             }
-            GodNode node = new GodNode(entry.id, god, type, effect, cost, entry.enabled == null || entry.enabled);
+            String name = entry.name == null || entry.name.isBlank() ? entry.id : entry.name;
+            GodNode node = new GodNode(entry.id, god, name, type, effect, cost,
+                    entry.enabled == null || entry.enabled);
             if (nodes.put(entry.id, node) != null) {
                 throw GodTreeConfigException.fail("Duplicate god tree node id '" + entry.id + "' in "
                         + god.getName() + "'s tree");

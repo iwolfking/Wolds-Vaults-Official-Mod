@@ -46,7 +46,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class CharmTemporalManager {
-    private record ActiveBlessing(UUID vaultId, UUID contextId, long activatedAt) {
+    /**
+     * A running blessing. {@code settledAt} is the game time its elapsed cost was last banked, not
+     * the activation time: the sweep settles once a second so at most a second of time can ever be
+     * outstanding, and {@code charmId} names the charm it is banked against so the cost cannot be
+     * charged to a charm swapped in afterwards or escaped by unequipping.
+     */
+    private record ActiveBlessing(UUID vaultId, UUID contextId, long settledAt, UUID charmId) {
     }
 
     private static final Map<UUID, ActiveBlessing> ACTIVE = new ConcurrentHashMap<>();
@@ -99,7 +105,8 @@ public final class CharmTemporalManager {
                     context.set(ModifierContext.UUID, contextId);
                     context.set(ModifierContext.TICKS_LEFT, remaining);
                 });
-        ACTIVE.put(player.getUUID(), new ActiveBlessing(vault.get(Vault.ID), contextId, player.getLevel().getGameTime()));
+        ACTIVE.put(player.getUUID(), new ActiveBlessing(vault.get(Vault.ID), contextId,
+                player.getLevel().getGameTime(), MythicVaultCharmItem.getOrCreateBlessingId(charm)));
         player.displayClientMessage(new TextComponent("Blessing active: ")
                 .append(modifier.getChatDisplayNameComponent(blessing.getCount()))
                 .append(new TextComponent(" (" + remaining / 20 + "s)")).withStyle(ChatFormatting.GOLD), true);
@@ -110,18 +117,34 @@ public final class CharmTemporalManager {
         if (active == null) {
             return;
         }
-        long elapsed = Math.max(0L, player.getLevel().getGameTime() - active.activatedAt());
-        ItemStack charm = VaultCharmItem.getCharm(player).orElse(ItemStack.EMPTY);
-        int remaining = 0;
-        if (MythicVaultCharmItem.isMythic(charm)) {
-            remaining = Math.max(0, MythicVaultCharmItem.getTemporalRemaining(charm) - (int) elapsed);
-            MythicVaultCharmItem.setTemporalRemaining(charm, remaining);
-        }
+        int remaining = settle(player, active);
         expireVaultEntry(player, active);
         if (announce) {
-            player.displayClientMessage(new TextComponent("Blessing withdrawn (" + remaining / 20 + "s banked).")
-                    .withStyle(ChatFormatting.GOLD), true);
+            player.displayClientMessage(new TextComponent("Blessing withdrawn ("
+                    + Math.max(0, remaining) / 20 + "s banked).").withStyle(ChatFormatting.GOLD), true);
         }
+    }
+
+    /**
+     * Banks the time elapsed since {@code active} was last settled against the charm that granted
+     * it, and returns what is left on that charm - or -1 if the player no longer holds it.
+     *
+     * <p>Settling incrementally rather than once at the end is what makes the books hard to dodge:
+     * a lump sum charged on deactivation was skipped entirely when the charm was unequipped first,
+     * which handed back a full clock for free.
+     */
+    private static int settle(ServerPlayer player, ActiveBlessing active) {
+        ItemStack charm = MythicVaultCharmItem.findByBlessingId(player, active.charmId());
+        if (charm.isEmpty()) {
+            WoldsVaults.LOGGER.warn("{} no longer holds the charm backing their blessing; {} ticks went unbanked.",
+                    player.getGameProfile().getName(),
+                    Math.max(0L, player.getLevel().getGameTime() - active.settledAt()));
+            return -1;
+        }
+        long elapsed = Math.max(0L, player.getLevel().getGameTime() - active.settledAt());
+        int remaining = Math.max(0, MythicVaultCharmItem.getTemporalRemaining(charm) - (int) elapsed);
+        MythicVaultCharmItem.setTemporalRemaining(charm, remaining);
+        return remaining;
     }
 
     /**
@@ -181,11 +204,15 @@ public final class CharmTemporalManager {
             boolean inSameVault = ServerVaults.get(player.getLevel())
                     .map(vault -> vault.has(Vault.ID) && vault.get(Vault.ID).equals(active.vaultId()))
                     .orElse(false);
-            ItemStack charm = VaultCharmItem.getCharm(player).orElse(ItemStack.EMPTY);
-            long elapsed = player.getLevel().getGameTime() - active.activatedAt();
-            boolean outOfTime = !MythicVaultCharmItem.isMythic(charm)
-                    || MythicVaultCharmItem.getTemporalRemaining(charm) - elapsed <= 0;
-            if (!inSameVault || outOfTime) {
+            int remaining = settle(player, active);
+            if (remaining < 0) {
+                ACTIVE.remove(tracked.getKey());
+                expireVaultEntry(player, active);
+                continue;
+            }
+            ACTIVE.put(tracked.getKey(), new ActiveBlessing(active.vaultId(), active.contextId(),
+                    player.getLevel().getGameTime(), active.charmId()));
+            if (!inSameVault || remaining <= 0) {
                 deactivate(player, inSameVault);
             }
         }

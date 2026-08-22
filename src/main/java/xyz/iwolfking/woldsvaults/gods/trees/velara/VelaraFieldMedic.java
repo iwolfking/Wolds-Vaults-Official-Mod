@@ -24,12 +24,24 @@ public final class VelaraFieldMedic {
     private VelaraFieldMedic() {
     }
 
-    public static void pushHealer(LivingEntity healer) {
+    /**
+     * Attributes the heals raised on this thread to {@code healer}, returning whatever attribution
+     * it replaced so a nested group heal restores the outer one instead of clearing it. Callers
+     * must pair this with {@link #popHealer(LivingEntity)} in a {@code finally}.
+     */
+    public static LivingEntity pushHealer(LivingEntity healer) {
+        LivingEntity previous = CURRENT_HEALER.get();
         CURRENT_HEALER.set(healer);
+        return previous;
     }
 
-    public static void popHealer() {
-        CURRENT_HEALER.remove();
+    /** Restores the attribution {@link #pushHealer(LivingEntity)} replaced. */
+    public static void popHealer(LivingEntity previous) {
+        if (previous == null) {
+            CURRENT_HEALER.remove();
+        } else {
+            CURRENT_HEALER.set(previous);
+        }
     }
 
     /**

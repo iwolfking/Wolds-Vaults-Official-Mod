@@ -134,6 +134,24 @@ public final class GodNodeRegistry {
         return byCapability.getOrDefault(capability, Collections.emptyList());
     }
 
+    /**
+     * The typed params of {@code effectId}, for a tree module reading its own configuration.
+     *
+     * <p>Fails loud and names the file rather than returning null, because the only ways to get
+     * here without an effect are reading before the registry finished loading or an effect missing
+     * from that god's config - and both are silent zeroes inside a vault if they are allowed
+     * through.
+     */
+    public static <T extends GodEffectParams> T params(VaultGod god, String effectId, Class<T> type) {
+        GodEffect effect = effects.get(effectId);
+        if (effect == null) {
+            throw GodTreeConfigException.fail(god.getName() + " effect '" + effectId + "' was read before the "
+                    + "god node registry finished loading, or is missing from god_node_effects_"
+                    + god.getName().toLowerCase(java.util.Locale.ROOT) + ".json");
+        }
+        return effect.params(type);
+    }
+
     public static boolean isEmpty() {
         return effects.isEmpty();
     }

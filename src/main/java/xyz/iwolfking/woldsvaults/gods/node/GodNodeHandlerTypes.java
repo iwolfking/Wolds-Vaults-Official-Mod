@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.gods.node;
 
-import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectDefaults;
 import xyz.iwolfking.woldsvaults.gods.node.handlers.GearAttributeScaledHandler;
 import xyz.iwolfking.woldsvaults.gods.node.handlers.PietyHandler;
 import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaNodeHandlers;
@@ -34,7 +33,6 @@ public final class GodNodeHandlerTypes {
             return;
         }
         bootstrapped = true;
-        GodNodeHandlers.register(GodNodeEffectDefaults.LEGACY_HANDLER, LegacyGodNodeHandler::new);
         GodNodeHandlers.register(GearAttributeScaledHandler.TYPE, GearAttributeScaledHandler.Params.class,
                 GearAttributeScaledHandler::new);
         GodNodeHandlers.register(PietyHandler.TYPE, PietyHandler::new);

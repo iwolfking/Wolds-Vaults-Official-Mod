@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 import iskallia.vault.core.event.CommonEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -101,5 +102,11 @@ public final class ChestRateTracker {
         private synchronized float perMinute() {
             return total() * 60.0F / WINDOW_SECONDS;
         }
+    }
+
+    /** Drops every open window when the server stops. */
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        WINDOWS.clear();
     }
 }

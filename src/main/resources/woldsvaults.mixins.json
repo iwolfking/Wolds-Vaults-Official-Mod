@@ -389,6 +389,7 @@
     "vaulthunters.custom.MixinVaultCrystalConfig",
     "vaulthunters.custom.MixinVaultCrystalItem",
     "vaulthunters.custom.MixinVaultDollItem",
+    "vaulthunters.custom.MixinVaultEndEvent",
     "vaulthunters.custom.MixinVaultFireball",
     "vaulthunters.custom.MixinVaultGearHelper",
     "vaulthunters.custom.MixinVaultThrownJavelin",

@@ -12,7 +12,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
@@ -150,6 +152,15 @@ public final class SacrificeAltarLogic {
         }
     }
 
+    /**
+     * Pulls in the item entities the owner's current gate still needs.
+     *
+     * <p>Only the owner's own drops qualify. Deposits are one-way and credit the tile owner, so a
+     * filter on item id alone let a chunkloaded altar swallow anything any player dropped nearby -
+     * death drops included - and there is no way to get it back. Items still inside their pickup
+     * delay are skipped as well, which keeps an accidental drop recoverable for the two seconds
+     * before the altar takes it.
+     */
     private static void vacuumNeededItems(ServerLevel level, BlockPos pos, GreedCauldronTileEntity tile) {
         UUID ownerId = tile.getOwnerUuid();
         GodSacrificeData sacrifices = GodSacrificeData.get(level);
@@ -164,6 +175,9 @@ public final class SacrificeAltarLogic {
         }
         AABB range = new AABB(pos).inflate(PULL_RANGE);
         List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, range, entity -> {
+            if (!ownerId.equals(entity.getThrower()) || entity.hasPickUpDelay()) {
+                return false;
+            }
             ResourceLocation id = ForgeRegistries.ITEMS.getKey(entity.getItem().getItem());
             if (id == null) {
                 return false;
@@ -222,8 +236,8 @@ public final class SacrificeAltarLogic {
                     + god.getName() + " will accept the sacrifice.").withStyle(ChatFormatting.GRAY), true);
             return;
         }
-        sacrifices.clearProgress(owner.getUUID(), god);
         alignment.completeSacrifice(owner, god);
+        sacrifices.clearProgress(owner.getUUID(), god);
         for (int i = 0; i < 5; i++) {
             GreedCauldronTileEntity.spawnConsumeParticles(level, pos);
         }
@@ -233,5 +247,29 @@ public final class SacrificeAltarLogic {
         WoldsVaults.LOGGER.info("{} completed the {} sacrifice for {}.",
                 owner.getGameProfile().getName(), gate.label(), god.getName());
         openMenu(owner);
+    }
+
+    /**
+     * Whether {@code player} owns the cauldron at {@code pos}. The base block only answered its
+     * interaction for the owner, and the altar keeps that rule: the menu is built from the
+     * clicking player's own ledger, so opening it on someone else's altar would show one player's
+     * progress on another player's block while every deposit still credits the owner.
+     */
+    public static boolean isOwner(BlockGetter level, BlockPos pos, Player player) {
+        if (player == null) {
+            return false;
+        }
+        return level.getBlockEntity(pos) instanceof GreedCauldronTileEntity tile
+                && player.getUUID().equals(tile.getOwnerUuid());
+    }
+
+    /** Drops the redstone edge memory of an altar that no longer exists. */
+    public static void forget(ServerLevel level, BlockPos pos) {
+        LAST_POWERED.remove(GlobalPos.of(level.dimension(), pos.immutable()));
+    }
+
+    /** Drops every altar's redstone edge memory when the server stops. */
+    public static void clearAll() {
+        LAST_POWERED.clear();
     }
 }

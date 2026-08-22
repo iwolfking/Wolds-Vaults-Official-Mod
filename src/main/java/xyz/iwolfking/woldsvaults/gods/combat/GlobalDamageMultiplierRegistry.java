@@ -10,6 +10,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -222,5 +223,11 @@ public final class GlobalDamageMultiplierRegistry {
                 this.references.set(this.references.get() - 1);
             }
         }
+    }
+
+    /** Drops every player's factors when the server stops, so they cannot cross a world switch. */
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        FACTORS.clear();
     }
 }

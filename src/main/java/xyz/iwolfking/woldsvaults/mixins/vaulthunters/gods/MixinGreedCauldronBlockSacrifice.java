@@ -23,11 +23,19 @@ public abstract class MixinGreedCauldronBlockSacrifice {
      * @reason the Greed Cauldron is now the god sacrificial altar: right-click opens the
      * sacrifice menu instead of the retired hand-in demand flow. Cancelling at HEAD replaces the
      * old interaction wholesale.
+     *
+     * <p>The owner check base performed is kept. The menu is built from the clicking player's own
+     * ledger, so without it a non-owner saw their own progress on someone else's altar while every
+     * deposit into it still credited the owner. A non-owner gets base's PASS.
      */
     @Inject(method = "use", at = @At("HEAD"), cancellable = true, remap = true)
     private void woldsVaults$openSacrificeMenu(BlockState state, Level level, BlockPos pos, Player player,
                                                InteractionHand hand, BlockHitResult hit,
                                                CallbackInfoReturnable<InteractionResult> cir) {
+        if (!SacrificeAltarLogic.isOwner(level, pos, player)) {
+            cir.setReturnValue(InteractionResult.PASS);
+            return;
+        }
         if (!level.isClientSide() && hand == InteractionHand.MAIN_HAND && player instanceof ServerPlayer serverPlayer) {
             SacrificeAltarLogic.openMenu(serverPlayer);
         }

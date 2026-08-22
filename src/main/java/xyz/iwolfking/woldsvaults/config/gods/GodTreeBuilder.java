@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.datagen.lib;
+package xyz.iwolfking.woldsvaults.config.gods;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

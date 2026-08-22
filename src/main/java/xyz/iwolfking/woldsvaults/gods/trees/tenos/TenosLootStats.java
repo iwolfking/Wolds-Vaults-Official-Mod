@@ -67,11 +67,6 @@ public final class TenosLootStats {
                 data.setValue(data.getValue() * domainExpansion(player));
             }
         });
-        CommonEvents.PLAYER_STAT.of(PlayerStat.ABILITY_POWER_MULTIPLIER).register(OWNER, data -> {
-            if (data.getEntity() instanceof ServerPlayer player) {
-                data.setValue(data.getValue() * unstoppableGreed(player));
-            }
-        });
     }
 
     /** The product of every Tenos multiplier that applies to item quantity or item rarity. */
@@ -128,14 +123,6 @@ public final class TenosLootStats {
         }
         return (float) Math.pow(1.0F + TenosNodeHandlers.params(TenosNodes.WEALTHY_PATRON,
                 TenosNodeHandlers.WealthyPatronParams.class).per_unique(), uniques);
-    }
-
-    private static float unstoppableGreed(ServerPlayer player) {
-        if (!TenosNodes.isActive(player, TenosNodes.UNSTOPPABLE_GREED)) {
-            return 1.0F;
-        }
-        return 1.0F + TenosNodeHandlers.params(TenosNodes.UNSTOPPABLE_GREED,
-                TenosNodeHandlers.UnstoppableGreedParams.class).ratio() * lootStatSum(player);
     }
 
     /** The player's raw item quantity plus item rarity, straight off the snapshot. */

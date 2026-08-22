@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -14,8 +15,8 @@ import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
-import xyz.iwolfking.woldsvaults.gods.GodVanillaAttributes;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
+import xyz.iwolfking.woldsvaults.gods.sacrifice.SacrificeAltarLogic;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 
 /**
@@ -35,6 +36,11 @@ public final class GodEventHandlers {
      * reconciles the vanilla-attribute bridges - without it a charm swap only takes effect on the
      * next unrelated gear change - and runs the tick contributors' deactivation diff, which is what
      * takes back anything the outgoing tree applied outside the snapshot.
+     *
+     * <p>The alignment sync is what refreshes piety. Piety is reputation and god level and the
+     * bonus the active tree's Pious Devotion pays, so swapping charms changes it without any
+     * alignment mutation having happened - and the tree screen and greed panel read the synced
+     * copy, not the server's live one.
      */
     @SubscribeEvent
     public static void onCurioChange(CurioChangeEvent event) {
@@ -42,17 +48,18 @@ public final class GodEventHandlers {
         if (entity instanceof Player player) {
             ActiveGodResolver.invalidate(player);
             GodNodeCache.invalidate(player);
-            if (player instanceof ServerPlayer serverPlayer) {
+            if (player instanceof ServerPlayer serverPlayer && serverPlayer.getServer() != null) {
                 AttributeSnapshotHelper.getInstance().refreshSnapshotDelayed(serverPlayer);
                 GodNodeTicker.reconcile(serverPlayer);
+                GodAlignmentData.get(serverPlayer.getServer()).sync(serverPlayer);
             }
         }
     }
 
     /**
-     * The login reconcile is what repairs a save left dirty by a crash: any vanilla attribute
-     * modifier a god node wrote before the process died is removed here, before the player can
-     * observe the inflated stat.
+     * No vanilla-attribute repair runs here on purpose. Every modifier the god core writes is
+     * transient, so none of them survive to a new session and there is nothing a login pass could
+     * find to remove.
      */
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
@@ -60,7 +67,6 @@ public final class GodEventHandlers {
             ActiveGodResolver.invalidate(player);
             GodNodeCache.invalidate(player);
             GodAlignmentData.get(player.getServer()).sync(player);
-            GodVanillaAttributes.reconcile(player);
         }
     }
 
@@ -88,7 +94,6 @@ public final class GodEventHandlers {
         ActiveGodResolver.invalidate(event.getPlayer());
         GodNodeCache.invalidate(event.getPlayer());
         if (event.getPlayer() instanceof ServerPlayer player) {
-            GodVanillaAttributes.reconcile(player);
             GodNodeTicker.reconcile(player);
         }
     }
@@ -112,5 +117,18 @@ public final class GodEventHandlers {
         event.getPlayer().sendMessage(new TranslatableComponent("message.woldsvaults.god_level_up",
                 event.getGod().getHoverChatComponent(),
                 event.getNewLevel()).withStyle(ChatFormatting.GOLD), net.minecraft.Util.NIL_UUID);
+    }
+
+    /**
+     * Drops every server-scoped god cache when the server stops. On an integrated server the JVM
+     * outlives the world, so without this the next world loads with the previous one's resolved
+     * gods, gate results and vault scratch still in memory.
+     */
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        GodNodeState.clearAll();
+        GodNodeCache.invalidateAll();
+        ActiveGodResolver.invalidateAll();
+        SacrificeAltarLogic.clearAll();
     }
 }

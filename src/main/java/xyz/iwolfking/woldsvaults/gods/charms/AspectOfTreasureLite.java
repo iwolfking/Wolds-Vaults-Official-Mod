@@ -41,6 +41,8 @@ public final class AspectOfTreasureLite {
 
     private static void register() {
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(AspectOfTreasureLite::onDamageTaken);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(AspectOfTreasureLite::onLogout);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(AspectOfTreasureLite::onServerStopping);
         CommonEvents.PLAYER_STAT.of(PlayerStat.ITEM_QUANTITY).register(AspectOfTreasureLite.class, data -> {
             if (data.getEntity() instanceof ServerPlayer player) {
                 data.setValue(data.getValue() + bonus(player));
@@ -93,5 +95,19 @@ public final class AspectOfTreasureLite {
         if (event.getSource().getEntity() instanceof ServerPlayer attacker) {
             STACKS.remove(attacker.getUUID());
         }
+    }
+
+    /**
+     * Drops a leaving player's stacks. Nothing else removed them: they are keyed by player id and
+     * only ever reset by combat, so a player who logged out mid-stack left an entry behind for the
+     * life of the process.
+     */
+    private static void onLogout(net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent event) {
+        STACKS.remove(event.getPlayer().getUUID());
+    }
+
+    /** Drops every player's stacks when the server stops, so they cannot cross a world switch. */
+    private static void onServerStopping(net.minecraftforge.event.server.ServerStoppingEvent event) {
+        STACKS.clear();
     }
 }

@@ -1,19 +1,23 @@
 package xyz.iwolfking.woldsvaults.gods.trees.idona;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.init.ModGearAttributes;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
+
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
 import xyz.iwolfking.woldsvaults.gods.node.CombatContributor;
+import xyz.iwolfking.woldsvaults.gods.node.DeferredHandler;
 import xyz.iwolfking.woldsvaults.gods.node.GodDamageContext;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
-import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandler;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandlers;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
+import xyz.iwolfking.woldsvaults.gods.node.ListenerBoundHandler;
 import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
 
 /**
@@ -68,14 +72,14 @@ public final class IdonaNodeHandlers {
                 IdonaTickHandlers.BankedAngerHandler::new);
         GodNodeHandlers.register(IdonaNodes.CRUSHING_BLOWS, CrushingBlowsParams.class,
                 IdonaTickHandlers.CrushingBlowsHandler::new);
-        GodNodeHandlers.register(IdonaNodes.SOULSTEALER, SoulstealerParams.class, ListenerBound::new);
-        GodNodeHandlers.register(IdonaNodes.THWACK, ThwackParams.class, ListenerBound::new);
-        GodNodeHandlers.register(IdonaNodes.LUCKIEST_HIT, LuckiestHitParams.class, ListenerBound::new);
-        GodNodeHandlers.register(IdonaNodes.OVERCRIT, ListenerBound::new);
-        GodNodeHandlers.register(IdonaNodes.SUPER_STACKER, SuperStackerParams.class, ListenerBound::new);
-        GodNodeHandlers.register(IdonaNodes.STACK_HOARDER, StackHoarderParams.class, ListenerBound::new);
-        GodNodeHandlers.register(IdonaNodes.POWER_DUMP, PowerDumpParams.class, ListenerBound::new);
-        GodNodeHandlers.register(IdonaNodes.ULTRA_RAMPAGING, Deferred::new);
+        GodNodeHandlers.register(IdonaNodes.SOULSTEALER, SoulstealerParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(IdonaNodes.THWACK, ThwackParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(IdonaNodes.LUCKIEST_HIT, LuckiestHitParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(IdonaNodes.OVERCRIT, ListenerBoundHandler::new);
+        GodNodeHandlers.register(IdonaNodes.SUPER_STACKER, SuperStackerParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(IdonaNodes.STACK_HOARDER, StackHoarderParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(IdonaNodes.POWER_DUMP, PowerDumpParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(IdonaNodes.ULTRA_RAMPAGING, DeferredHandler::new);
     }
 
     /**
@@ -85,12 +89,7 @@ public final class IdonaNodeHandlers {
      * zero that would read as a balance change.
      */
     public static <T extends GodEffectParams> T params(String effectId, Class<T> type) {
-        GodEffect effect = GodNodeRegistry.effect(effectId).orElse(null);
-        if (effect == null) {
-            throw GodTreeConfigException.fail("Idona effect '" + effectId + "' was read before the god node "
-                    + "registry finished loading, or is missing from god_node_effects_idona.json");
-        }
-        return effect.params(type);
+        return GodNodeRegistry.params(VaultGod.IDONA, effectId, type);
     }
 
     /**
@@ -99,17 +98,11 @@ public final class IdonaNodeHandlers {
      * one would be dispatched twice, once by the capability driver and once by the listener that
      * actually owns the ordering.
      */
-    public record ListenerBound(GodEffect effect) implements GodNodeHandler {
-    }
-
     /**
      * A node the tree places but has no behaviour for yet. Binding it to a type of its own rather
      * than to the catch-all is what lets load-time validation tell a deliberately deferred node
      * from an unported one.
      */
-    public record Deferred(GodEffect effect) implements GodNodeHandler {
-    }
-
     /**
      * Stack Stack Stack: added maximum stacks for every stacking talent, one whole stack per
      * point. The count is an integer gear attribute rather than a float one, which is why it does

@@ -68,4 +68,12 @@ public final class SaviorState {
             this.remainingTicks = remainingTicks;
         }
     }
+
+    /**
+     * Drops every player's state. Called on server stop only: the modifiers these states apply are
+     * transient, so the entries are what outlive a world, not the modifiers themselves.
+     */
+    public static void clearAll() {
+        STATES.clear();
+    }
 }

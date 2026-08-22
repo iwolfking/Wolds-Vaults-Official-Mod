@@ -1,10 +1,13 @@
 package xyz.iwolfking.woldsvaults.gods.trees.wendarr;
 
 import iskallia.vault.core.vault.influence.VaultGod;
+
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.GodPietySource;
 import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
 import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
@@ -32,7 +35,7 @@ public final class WendarrTree {
     public static void setup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             GodTreeAttributeProviders.register(VaultGod.WENDARR, new GodTreeStatProvider(VaultGod.WENDARR));
-            PietyBonusSource.register(new WendarrPiety());
+            PietyBonusSource.register(new GodPietySource(WendarrNodes.GOD, WendarrNodes.PIOUS_DEVOTION));
             WendarrClockNodes.register();
             WendarrCombatNodes.register();
             WendarrGardener.register();

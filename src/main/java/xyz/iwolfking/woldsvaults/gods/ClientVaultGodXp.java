@@ -37,4 +37,10 @@ public final class ClientVaultGodXp {
         }
         return Optional.of(award);
     }
+
+    /** Drops the pending award so a mirror from one server cannot outlive the disconnect. */
+    public static void clear() {
+        award = null;
+        expiresAt = 0L;
+    }
 }

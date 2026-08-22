@@ -1,10 +1,13 @@
 package xyz.iwolfking.woldsvaults.gods.trees.idona;
 
 import iskallia.vault.core.vault.influence.VaultGod;
+
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.GodPietySource;
 import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
 import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
@@ -31,7 +34,7 @@ public final class IdonaTree {
     public static void setup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             GodTreeAttributeProviders.register(VaultGod.IDONA, new GodTreeStatProvider(VaultGod.IDONA));
-            PietyBonusSource.register(new IdonaPiety());
+            PietyBonusSource.register(new GodPietySource(IdonaNodes.GOD, IdonaNodes.PIOUS_DEVOTION));
             IdonaStatHooks.register();
             IdonaState.registerVaultHooks();
             WoldsVaults.LOGGER.info("Registered {} Idona god tree nodes",

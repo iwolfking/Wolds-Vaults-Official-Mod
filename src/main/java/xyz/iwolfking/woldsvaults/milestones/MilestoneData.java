@@ -22,6 +22,8 @@ import java.util.UUID;
  * memory and only marked for persistence on a throttle (see {@link MilestoneFlusher}) or on the
  * events that must never lose progress, so that millions of increments cost no save traffic.
  */
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+
 public class MilestoneData extends SavedData {
     protected static final String DATA_NAME = "woldsvaults_Milestones";
 
@@ -34,6 +36,8 @@ public class MilestoneData extends SavedData {
     private final Map<UUID, Map<String, Integer>> claimedTiers = new HashMap<>();
     private final Map<UUID, String> pinned = new HashMap<>();
     private final Map<UUID, Set<String>> pendingSync = new HashMap<>();
+    private static final int DATA_VERSION = 1;
+
     private boolean pendingSave;
 
     private MilestoneData() {
@@ -147,8 +151,14 @@ public class MilestoneData extends SavedData {
      * Marks the store for persistence and clears the throttle flag. Called on tier crossings, on
      * the periodic flush, and unconditionally on vault leave, vault end, logout and server stop.
      */
+    /**
+     * Marks the save dirty if anything has changed since the last flush, counters or per-vault
+     * scratch. The scratch is asked separately because it rides in this save without being one of
+     * its fields, so its writers cannot set {@link #pendingSave} themselves.
+     */
     public void flush() {
-        if (this.pendingSave) {
+        boolean scratch = MilestoneVaultState.consumeDirty();
+        if (this.pendingSave || scratch) {
             this.pendingSave = false;
             this.setDirty();
         }
@@ -163,6 +173,12 @@ public class MilestoneData extends SavedData {
         this.tokens.clear();
         this.claimedTiers.clear();
         this.pinned.clear();
+        int version = tag.contains("dataVersion") ? tag.getInt("dataVersion") : 0;
+        if (version > DATA_VERSION) {
+            WoldsVaults.LOGGER.error("Milestone save is version {} but this build understands {}; loading it as-is. "
+                    + "Progress written by a newer build may not survive being saved back.", version, DATA_VERSION);
+        }
+        Set<String> unknown = new LinkedHashSet<>();
         ListTag players = tag.getList("players", Tag.TAG_COMPOUND);
         for (int i = 0; i < players.size(); i++) {
             CompoundTag playerTag = players.getCompound(i);
@@ -171,6 +187,9 @@ public class MilestoneData extends SavedData {
             CompoundTag valuesTag = playerTag.getCompound("counters");
             for (String key : valuesTag.getAllKeys()) {
                 values.put(key, valuesTag.getLong(key));
+                if (!MilestoneRegistry.contains(key)) {
+                    unknown.add(key);
+                }
             }
             if (!values.isEmpty()) {
                 this.counters.put(playerId, values);
@@ -192,6 +211,9 @@ public class MilestoneData extends SavedData {
             Map<String, Integer> playerClaimed = new HashMap<>();
             for (String key : claimedTag.getAllKeys()) {
                 playerClaimed.put(key, claimedTag.getInt(key));
+                if (!MilestoneRegistry.contains(key)) {
+                    unknown.add(key);
+                }
             }
             if (!playerClaimed.isEmpty()) {
                 this.claimedTiers.put(playerId, playerClaimed);
@@ -200,12 +222,18 @@ public class MilestoneData extends SavedData {
                 this.pinned.put(playerId, playerTag.getString("pinned"));
             }
         }
+        if (!unknown.isEmpty() && !MilestoneRegistry.getAll().isEmpty()) {
+            WoldsVaults.LOGGER.warn("Milestone save holds {} id(s) no milestone is registered for: {}. They are kept "
+                    + "as-is and count toward nothing; if a milestone was renamed, its progress is under the old id.",
+                    unknown.size(), unknown);
+        }
         MilestoneVaultState.loadAll(tag.getList("vaultStates", Tag.TAG_COMPOUND));
     }
 
     @Nonnull
     @Override
     public CompoundTag save(@Nonnull CompoundTag tag) {
+        tag.putInt("dataVersion", DATA_VERSION);
         ListTag players = new ListTag();
         Set<UUID> ids = new HashSet<>(this.counters.keySet());
         ids.addAll(this.tokens.keySet());

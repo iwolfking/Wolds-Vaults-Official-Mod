@@ -65,5 +65,6 @@ public class GreedAssassinEvents {
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         GreedAssassinRegistry.clearAll();
+        GreedAssassinSpawner.clearDecayTrackers();
     }
 }

@@ -23,8 +23,12 @@ import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundUnlockGodNodeMessage;
-import xyz.iwolfking.woldsvaults.gods.tree.GodTreeDefinition;
-import xyz.iwolfking.woldsvaults.gods.tree.GodTrees;
+import iskallia.vault.config.entry.SkillStyle;
+import net.minecraft.resources.ResourceLocation;
+import xyz.iwolfking.woldsvaults.gods.node.GodNode;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeType;
+import xyz.iwolfking.woldsvaults.gods.node.GodTreeModel;
 
 import java.awt.Rectangle;
 
@@ -35,12 +39,14 @@ import java.awt.Rectangle;
  * Descriptions come from {@code ModConfigs.SKILL_DESCRIPTIONS} keyed by the node's effect id
  * (its own id for start stars), the same pipeline every other skill screen reads.
  */
+import javax.annotation.Nullable;
+
 public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
     private static final int COLOR_MUTED = 0xC4C4C4;
 
     private VaultGod god;
     private String selectedNodeId;
-    private GodTreeDefinition.Node selectedNode;
+    private GodNode selectedNode;
     private MutableComponent descriptionContentComponent;
 
     public GodTreeDialog(GodTreeScreen parentScreen, VaultGod god) {
@@ -59,9 +65,22 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         this.update();
     }
 
+    /**
+     * The selected node's icon, which lives with its position in the tree's style config rather
+     * than on the node itself, or null for a node the styles do not give one.
+     */
+    @Nullable
+    private ResourceLocation selectedIcon() {
+        if (this.selectedNode == null) {
+            return null;
+        }
+        SkillStyle style = GodNodeRegistry.tree(this.god).map(tree -> tree.getStyle(this.selectedNode.id())).orElse(null);
+        return style == null ? null : style.icon;
+    }
+
     @Override
     public void update() {
-        GodTreeDefinition tree = GodTrees.get(this.god).orElse(null);
+        GodTreeModel tree = GodNodeRegistry.tree(this.god).orElse(null);
         this.selectedNode = tree != null && this.selectedNodeId != null ? tree.getNode(this.selectedNodeId) : null;
         if (this.selectedNode == null) {
             this.selectedNodeId = null;
@@ -97,12 +116,12 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         this.descriptionComponent = new ScrollableContainer(this::renderDescriptions);
         this.descriptionContentComponent = ModConfigs.SKILL_DESCRIPTIONS.getDescriptionFor(this.selectedNode.ledgerKey()).copy();
         if (this.selectedNode.enabled() && !this.isCharmActive()) {
-            GodTreeDefinition.NodeType type = this.selectedNode.type();
-            if (type == GodTreeDefinition.NodeType.MINOR || type == GodTreeDefinition.NodeType.MAJOR) {
+            GodNodeType type = this.selectedNode.type();
+            if (type == GodNodeType.MINOR || type == GodNodeType.MAJOR) {
                 this.descriptionContentComponent.append(new TextComponent("\n\nOnly functions while a "
                         + this.god.getName() + " charm is equipped.")
                         .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFF7A6A))));
-            } else if (type == GodTreeDefinition.NodeType.STAT && unlocked) {
+            } else if (type == GodNodeType.STAT && unlocked) {
                 this.descriptionContentComponent.append(new TextComponent("\n\nCarrying over at 25% while "
                         + this.god.getName() + " is not your active god.")
                         .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));
@@ -204,8 +223,8 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
             subColor = COLOR_MUTED;
         } else {
             boolean unlocked = ClientGodAlignmentData.isTreeNodePurchased(this.god, this.selectedNodeId);
-            boolean functional = this.selectedNode.type() == GodTreeDefinition.NodeType.MINOR
-                    || this.selectedNode.type() == GodTreeDefinition.NodeType.MAJOR;
+            boolean functional = this.selectedNode.type() == GodNodeType.MINOR
+                    || this.selectedNode.type() == GodNodeType.MAJOR;
             heading = this.selectedNode.name();
             headingColor = unlocked ? accent : 0xFFFFFF;
             if (!this.selectedNode.enabled()) {
@@ -217,9 +236,10 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
             } else if (unlocked) {
                 subText = "Unlocked";
                 subColor = accent;
-            } else if (GodTrees.get(this.god).map(tree -> tree.isPurchasable(this.selectedNodeId,
+            } else if (GodNodeRegistry.tree(this.god).map(tree -> tree.isPurchasable(this.selectedNodeId,
                     id -> ClientGodAlignmentData.isTreeNodePurchased(this.god, id))).orElse(false)) {
-                subText = "Available - 1 God Point";
+                int cost = this.selectedNode.cost();
+                subText = "Available - " + cost + (cost == 1 ? " God Point" : " God Points");
                 subColor = COLOR_MUTED;
             } else {
                 subText = "Locked";
@@ -233,9 +253,9 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         if (this.selectedNode == null) {
             GodTreeTheme.godIcon(this.god).blit(matrixStack, 0, 11, 0, 16, 16);
-        } else if (this.selectedNode.icon() != null) {
+        } else if (this.selectedIcon() != null) {
             boolean unlocked = ClientGodAlignmentData.isTreeNodePurchased(this.god, this.selectedNodeId);
-            RenderSystem.setShaderTexture(0, this.selectedNode.icon());
+            RenderSystem.setShaderTexture(0, this.selectedIcon());
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, unlocked ? 1.0F : 0.6F);
             GuiComponent.blit(matrixStack, 0, 11, 0.0F, 0.0F, 16, 16, 16, 16);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-"""Check that ModGodTreesProvider and the shipped god tree config still say the same thing.
+"""Check that GodTreeDefaults and the shipped god tree config still say the same thing.
 
 `runData` is broken in this checkout (pre-existing, `ModItemModelProvider.researchToken` dies on
 a missing base-mod texture), so `config/the_vault/gods/god_tree_<god>.json` and its
-`_gui_styles.json` companion are hand-synced. This parses the provider's builder calls, replays
-them the way `GodTreeBuilder` would, and diffs the result against the config that ships.
+`_gui_styles.json` companion are hand-synced. This parses the shipped defaults' builder calls,
+replays them the way `GodTreeBuilder` would, and diffs the result against the config that ships.
+
+Its sibling `check_effect_sync.py` does the same for the effect, medallion and rank tables.
 
 Wired into `gradlew check` as `checkGodTreeSync`. Run by hand with:
 
-    python check_provider_sync.py --provider <ModGodTreesProvider.java> --config <gods config dir>
+    python check_provider_sync.py --provider <GodTreeDefaults.java> --config <gods config dir>
 """
 
 import argparse
@@ -18,9 +20,9 @@ from pathlib import Path
 import re
 
 DEFAULT_PROVIDER = (Path(__file__).resolve().parents[2]
-                    / "src/main/java/xyz/iwolfking/woldsvaults/datagen/ModGodTreesProvider.java")
+                    / "src/main/java/xyz/iwolfking/woldsvaults/config/gods/GodTreeDefaults.java")
 
-METHOD = re.compile(r'^    private static (?:GodTreeBuilder (\w+)\(\)'
+METHOD = re.compile(r'^    (?:private|public) static (?:GodTreeBuilder (\w+)\(\)'
                     r'|void (\w+)\(GodTreeBuilder tree(?:, String id, int x, int y)?\)) \{$')
 ROOT = re.compile(r'^\s*tree\.root\("([\w]+)", "([^"]*)", (-?\d+), (-?\d+)\);$')
 TYPED = re.compile(r'^\s*tree\.(minor|major|stat|disabledMinor|disabledMajor|disabledStat)'
@@ -163,7 +165,7 @@ def check(god, methods, config_dir):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--provider", type=Path, default=DEFAULT_PROVIDER,
-                        help="path to ModGodTreesProvider.java")
+                        help="path to GodTreeDefaults.java")
     parser.add_argument("--config", type=Path, required=False,
                         help="path to the pack's config/the_vault/gods directory")
     args = parser.parse_args()

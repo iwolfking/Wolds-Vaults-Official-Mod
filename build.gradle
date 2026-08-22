@@ -505,48 +505,83 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
-// runData cannot be run on demand in this checkout, so the god tree config is hand-synced against
-// ModGodTreesProvider. This replays the provider's builder calls and diffs them against the config
-// that ships, so drift fails the build instead of shipping a tree nobody generated.
+// The addon ships two copies of everything the greed rework tunes: a Java table a config reset()
+// writes, and the pack file the game actually reads. They have to agree - when they drift, the pack
+// plays on the config until anything regenerates it and then silently plays on the Java instead.
+// These gates hold each pair together. runData cannot be run on demand in this checkout, so both
+// sides are hand-synced and this is the only thing checking them.
+ext.driftGateRunner = {
+    if (wvPackDir == null) {
+        return [failure: "no Wold's Vaults pack checkout found; pass -PwvPackDir=<pack repo root> or " +
+                "set WV_PACK_DIR"]
+    }
+    def python = ['python', 'python3', 'py'].find { candidate ->
+        try {
+            new ProcessBuilder(candidate, '--version').redirectErrorStream(true).start().waitFor() == 0
+        } catch (IOException ignored) {
+            false
+        }
+    }
+    if (python == null) {
+        return [failure: 'no python interpreter on PATH (tried python, python3, py)']
+    }
+    return [python: python, packDir: wvPackDir]
+}
+
+// A gate that cannot run is a gate that is not gating, so a missing pack checkout or interpreter
+// fails the build rather than logging past itself. -PallowUngatedConfig=true is the deliberate way
+// past it, on a machine that genuinely has neither.
+ext.runDriftGate = { String taskName, File script, List<String> gateArgs ->
+    def runner = driftGateRunner()
+    if (runner.failure != null) {
+        if (project.findProperty('allowUngatedConfig') == 'true') {
+            logger.lifecycle("${taskName} SKIPPED (allowUngatedConfig): ${runner.failure}")
+            return
+        }
+        throw new GradleException("${taskName} cannot run: ${runner.failure}. Config drift is NOT being " +
+                'gated; pass -PallowUngatedConfig=true to build anyway.')
+    }
+    def command = [runner.python, script.absolutePath] + gateArgs
+    def process = new ProcessBuilder(command).directory(projectDir).redirectErrorStream(true).start()
+    process.inputStream.eachLine { logger.lifecycle(it) }
+    if (process.waitFor() != 0) {
+        throw new GradleException("${taskName} failed: the Java defaults and the shipped pack config " +
+                'disagree. Reconcile them before building.')
+    }
+}
+
 tasks.register('checkGodTreeSync') {
     group = 'verification'
-    description = 'Fails if ModGodTreesProvider and the shipped god tree config have drifted apart.'
+    description = 'Fails if GodTreeDefaults and the shipped god tree config have drifted apart.'
     def script = file('gradle/scripts/check_provider_sync.py')
-    def provider = file('src/main/java/xyz/iwolfking/woldsvaults/datagen/ModGodTreesProvider.java')
-    def packDir = wvPackDir
+    def provider = file('src/main/java/xyz/iwolfking/woldsvaults/config/gods/GodTreeDefaults.java')
     inputs.file(script)
     inputs.file(provider)
     outputs.upToDateWhen { false }
     doLast {
-        if (packDir == null) {
-            logger.error("checkGodTreeSync SKIPPED: no Wold's Vaults pack checkout found. Pass " +
-                    "-PwvPackDir=<pack repo root> or set WV_PACK_DIR to gate god tree drift.")
-            return
-        }
-        def python = ['python', 'python3', 'py'].find { candidate ->
-            try {
-                new ProcessBuilder(candidate, '--version').redirectErrorStream(true).start().waitFor() == 0
-            } catch (IOException ignored) {
-                false
-            }
-        }
-        if (python == null) {
-            logger.error('checkGodTreeSync SKIPPED: no python interpreter on PATH (tried python, ' +
-                    'python3, py). God tree drift is NOT being gated on this machine.')
-            return
-        }
-        def command = [python, script.absolutePath,
-                       '--provider', provider.absolutePath,
-                       '--config', new File(packDir, 'config/the_vault/gods').absolutePath]
-        def process = new ProcessBuilder(command).directory(projectDir).redirectErrorStream(true).start()
-        process.inputStream.eachLine { logger.lifecycle(it) }
-        if (process.waitFor() != 0) {
-            throw new GradleException('ModGodTreesProvider and the shipped god tree config disagree; ' +
-                    'rerun god tree datagen or fix the provider.')
-        }
+        runDriftGate('checkGodTreeSync', script,
+                ['--provider', provider.absolutePath,
+                 '--config', new File(wvPackDir, 'config/the_vault/gods').absolutePath])
+    }
+}
+
+tasks.register('checkGodEffectSync') {
+    group = 'verification'
+    description = 'Fails if the god effect, medallion or rank tables have drifted from their pack config.'
+    def script = file('gradle/scripts/check_effect_sync.py')
+    def sources = files('src/main/java/xyz/iwolfking/woldsvaults/config/gods/GodNodeEffectDefaults.java',
+            'src/main/java/xyz/iwolfking/woldsvaults/config/GreedMedallionsConfig.java',
+            'src/main/java/xyz/iwolfking/woldsvaults/config/GreedRanksConfig.java')
+    inputs.file(script)
+    inputs.files(sources)
+    outputs.upToDateWhen { false }
+    doLast {
+        runDriftGate('checkGodEffectSync', script,
+                ['--src', file('src/main/java').absolutePath,
+                 '--config', new File(wvPackDir, 'config/the_vault').absolutePath])
     }
 }
 
 tasks.named('check') {
-    dependsOn 'checkGodTreeSync'
+    dependsOn 'checkGodTreeSync', 'checkGodEffectSync'
 }

@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
-import iskallia.vault.config.Config;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
@@ -25,7 +24,7 @@ import java.util.Map;
  * <p>{@code MilestoneRegistry} is the only reader. The defaults below are the shipped balance, so a
  * missing file regenerates to exactly the progression the addon has always had.</p>
  */
-public class GreedMilestonesConfig extends Config {
+public class GreedMilestonesConfig extends PackAuthoredConfig {
     private static final long MINUTE = 20L * 60L;
     private static final long HOUR = MINUTE * 60L;
 

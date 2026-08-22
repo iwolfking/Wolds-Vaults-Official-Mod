@@ -3,10 +3,13 @@ package xyz.iwolfking.woldsvaults.gods.trees.velara;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.influence.VaultGod;
+
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.GodPietySource;
 import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
 import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
@@ -19,6 +22,17 @@ import xyz.iwolfking.woldsvaults.gods.node.GodTreeStatProvider;
  * <p>The handler types themselves are not registered here: they must exist before the god tree
  * configs are validated, which happens earlier than this, so {@code VelaraNodeHandlers.register()}
  * is called from the shared bootstrap in {@code GodNodeHandlerTypes} instead.
+ *
+ * <p>Eighteen of Velara's twenty handler types bind {@code ListenerBoundHandler}, far more than
+ * any other tree, and that is deliberate rather than unfinished. Velara is the defensive party
+ * tree, and its mechanics are the shapes the four capability seams cannot carry: Fleeting
+ * Physicality cancels a hit outright, Immortal revives on death, Field Medic attributes a heal to
+ * its caster, and Stonewall, Cactus, Immortal, Steadfast and Defender of the Faith compose
+ * multiplicatively into one modifier per attribute using a census of the whole party. A
+ * {@code CombatContributor} can only scale an amount and a {@code TickContributor} only ever sees
+ * one player and one effect, so porting these would mean widening both interfaces for the three
+ * trees that do fit them cleanly. The two effects that are ported - Immune and Utilized - are
+ * exactly the two plain stat nodes.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class VelaraTree {
@@ -31,7 +45,7 @@ public final class VelaraTree {
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             GodTreeAttributeProviders.register(VaultGod.VELARA, new GodTreeStatProvider(VaultGod.VELARA));
-            PietyBonusSource.register(new VelaraPiety());
+            PietyBonusSource.register(new GodPietySource(VelaraNodes.GOD, VelaraNodes.PIOUS_DEVOTION));
             VelaraStatBus.register();
             VelaraCounterstrike.register();
             VelaraDamage.register();

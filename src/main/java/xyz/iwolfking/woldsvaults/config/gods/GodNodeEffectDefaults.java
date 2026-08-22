@@ -8,18 +8,18 @@ import java.util.Locale;
 /**
  * The shipped value of every god node effect, in the shape {@code god_node_effects_<god>.json}
  * stores it. This is the default state {@link GodNodeEffectsConfig#reset()} writes, so a fresh
- * install with no pack file regenerates the same numbers the trees shipped with, and it is the
- * fallback {@link xyz.iwolfking.woldsvaults.gods.GodNodeValues} reads when a configured file is
- * missing an effect or a field.
+ * install with no pack file regenerates the same numbers the trees shipped with.
+ *
+ * <p>It is a reset source and nothing else: at runtime every effect's numbers come from the loaded
+ * config through {@link xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry}, so a value changed
+ * here without also changing the shipped pack file changes nothing on an install that already has
+ * one. The {@code checkGodEffectSync} build gate holds that pair together.
  *
  * <p>{@code values} is the per-point table; every other key is a parameter of that effect's
  * handler type. Both are transcribed one-for-one from the Java constants the god modules used to
- * carry. An effect still bound to {@link #LEGACY_HANDLER} is one whose god has not been ported
- * yet, and that binding disappears a tree at a time.
+ * carry.
  */
 public final class GodNodeEffectDefaults {
-    /** Handler type of an effect whose values are configured but whose behaviour is still its god module's. */
-    public static final String LEGACY_HANDLER = "legacy";
 
     private static final String GEAR_ATTRIBUTE_SCALED = "gear_attribute_scaled";
     private static final String PIETY = "piety";
@@ -45,14 +45,6 @@ public final class GodNodeEffectDefaults {
         return map;
     }
 
-    /**
-     * Builds one entry of an effect that has not been ported onto a handler yet. {@code fields}
-     * alternate name and value, and land on the entry object exactly as they appear in the file,
-     * so the written config and this table are the same document.
-     */
-    private static void put(GodNodeEffectsConfig.EffectMap map, String id, float[] values, Object... fields) {
-        put(map, id, LEGACY_HANDLER, values, fields);
-    }
 
     /** As {@link #put}, for an effect bound to a real handler type. */
     private static void put(GodNodeEffectsConfig.EffectMap map, String id, String handler, float[] values,
@@ -77,7 +69,7 @@ public final class GodNodeEffectDefaults {
     }
 
     /**
-     * Idona, ported off {@link #LEGACY_HANDLER}. Its seven plain stat effects bind the shared
+     * Idona. Its seven plain stat effects bind the shared
      * {@code gear_attribute_scaled} type and Pious Devotion the shared {@code piety} type, so both
      * are config alone; every effect Java has to know about binds a type named after itself, so an
      * unbound or misspelt effect fails the load instead of falling through to the catch-all.
@@ -122,7 +114,7 @@ public final class GodNodeEffectDefaults {
     }
 
     /**
-     * Velara, the first tree ported off {@link #LEGACY_HANDLER}. Its twelve plain stat effects
+     * Velara. Its twelve plain stat effects
      * bind the shared {@code gear_attribute_scaled} type and are config alone; every effect with
      * behaviour binds a type named after itself, so an unbound or misspelt effect fails the load
      * instead of falling through to the catch-all.
@@ -136,8 +128,8 @@ public final class GodNodeEffectDefaults {
         put(map, "velara_immune_ii", "velara_effect_avoidance", new float[]{0.1F});
         put(map, "velara_healthy", GEAR_ATTRIBUTE_SCALED, new float[]{0.2F}, "attribute", "the_vault:healing_effectiveness");
         put(map, "velara_healthy_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.4F}, "attribute", "the_vault:healing_effectiveness");
-        put(map, "velara_fast_reflexes", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F}, "attribute", "woldsvaults:dodge_percent");
-        put(map, "velara_fast_reflexes_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F}, "attribute", "woldsvaults:dodge_percent");
+        put(map, "velara_fast_reflexes", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F}, "attribute", "the_vault:dodge_percent");
+        put(map, "velara_fast_reflexes_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F}, "attribute", "the_vault:dodge_percent");
         put(map, "velara_guarded", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F}, "attribute", "the_vault:block");
         put(map, "velara_guarded_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F}, "attribute", "the_vault:block");
         put(map, "velara_thorny", GEAR_ATTRIBUTE_SCALED, new float[]{25.0F}, "attribute", "the_vault:thorns_damage_flat");
@@ -171,7 +163,7 @@ public final class GodNodeEffectDefaults {
     }
 
     /**
-     * Wendarr, ported off {@link #LEGACY_HANDLER}. Its five plain stat effects bind the shared
+     * Wendarr. Its five plain stat effects bind the shared
      * {@code gear_attribute_scaled} type and Pious Devotion the shared {@code piety} type, so both
      * are config alone; every effect Java has to know about binds a type named after itself, so an
      * unbound or misspelt effect fails the load instead of falling through to the catch-all. The
@@ -217,7 +209,7 @@ public final class GodNodeEffectDefaults {
     }
 
     /**
-     * Tenos, ported off {@link #LEGACY_HANDLER}. Its fourteen plain stat effects bind the shared
+     * Tenos. Its fourteen plain stat effects bind the shared
      * {@code gear_attribute_scaled} type and Pious Devotion the shared {@code piety} type, so both
      * are config alone; every effect Java has to know about binds a type named after itself, so an
      * unbound or misspelt effect fails the load instead of falling through to the catch-all.

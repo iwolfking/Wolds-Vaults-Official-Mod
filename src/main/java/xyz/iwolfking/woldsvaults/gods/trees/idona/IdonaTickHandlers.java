@@ -188,9 +188,6 @@ public final class IdonaTickHandlers {
         @Override
         public void tick(GodNodeContext context) {
             ServerPlayer player = context.player();
-            if (PlayerDamageHelper.hasMultiplier(player, CRUSHING_BLOWS_ID)) {
-                return;
-            }
             float value = (float) Math.pow(this.effect.params(IdonaNodeHandlers.CrushingBlowsParams.class).multiplier(),
                     context.points());
             PlayerDamageHelper.applyMultiplier(CRUSHING_BLOWS_ID, player, value,

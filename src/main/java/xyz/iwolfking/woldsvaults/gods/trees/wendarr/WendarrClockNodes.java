@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
+import xyz.iwolfking.woldsvaults.gods.GodVanillaAttributes;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
 import xyz.iwolfking.woldsvaults.gods.combat.VaultClockRate;
 
@@ -39,7 +40,8 @@ public final class WendarrClockNodes {
     public static final ResourceLocation OMEGA_FORTUNE_SMALL = WoldsVaults.id("omega_fortune_small");
 
     private static final ResourceLocation SPEED_DEMON_DAMAGE_KEY = WoldsVaults.id("wendarr_speed_demon_damage");
-    private static final UUID SPEED_DEMON_ARMOR_UUID = UUID.fromString("6b6c9a2e-4d1f-4f8c-9d2a-51f0b7c3a911");
+    private static final UUID SPEED_DEMON_ARMOR_UUID = GodVanillaAttributes.modifierId(
+            "wendarr_speed_demon", Attributes.ARMOR, AttributeModifier.Operation.MULTIPLY_TOTAL);
     private static final Object OWNER = new Object();
 
     private WendarrClockNodes() {
@@ -144,9 +146,15 @@ public final class WendarrClockNodes {
         }
     }
 
+    /**
+     * The non-damage half of Speed Demon. Ability power is deliberately absent: the aura already
+     * registers a factor in the global damage registry, which scales every hit whose true source
+     * is a player, so listening on {@code ABILITY_POWER_MULTIPLIER} as well squared the multiplier
+     * on every ability.
+     */
     private static void registerSpeedDemonStats() {
         for (PlayerStat stat : List.of(PlayerStat.ITEM_QUANTITY, PlayerStat.ITEM_RARITY,
-                PlayerStat.TRAP_DISARM_CHANCE, PlayerStat.ABILITY_POWER_MULTIPLIER)) {
+                PlayerStat.TRAP_DISARM_CHANCE)) {
             CommonEvents.PLAYER_STAT.of(stat).register(OWNER, data -> {
                 if (!(data.getEntity() instanceof ServerPlayer player)) {
                     return;

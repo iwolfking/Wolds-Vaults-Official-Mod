@@ -20,7 +20,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
-import xyz.iwolfking.woldsvaults.gods.GodVanillaAttributes;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 
 import javax.annotation.Nullable;
@@ -67,7 +66,6 @@ public class GodNeuralizerItem extends BasicItem {
         GodNodeCache.invalidate(serverPlayer);
         AttributeSnapshotHelper.getInstance().refreshSnapshotDelayed(serverPlayer);
         GodNodeTicker.reconcile(serverPlayer);
-        GodVanillaAttributes.reconcile(serverPlayer);
         if (!serverPlayer.getAbilities().instabuild) {
             stack.shrink(1);
         }

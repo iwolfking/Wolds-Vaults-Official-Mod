@@ -1,10 +1,13 @@
 package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
 import iskallia.vault.core.vault.influence.VaultGod;
+
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.GodPietySource;
 import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
 import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
@@ -32,7 +35,7 @@ public final class TenosTree {
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             GodTreeAttributeProviders.register(VaultGod.TENOS, new GodTreeStatProvider(VaultGod.TENOS));
-            PietyBonusSource.register(new TenosPiety());
+            PietyBonusSource.register(new GodPietySource(TenosNodes.GOD, TenosNodes.PIOUS_DEVOTION));
             ChestRateTracker.register();
             TenosLootStats.register();
             TenosWorldNodes.register();
