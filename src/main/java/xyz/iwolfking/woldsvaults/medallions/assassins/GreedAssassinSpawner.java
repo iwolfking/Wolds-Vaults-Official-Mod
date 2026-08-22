@@ -118,7 +118,8 @@ public final class GreedAssassinSpawner {
         return 0.0D;
     }
 
-    static ServerPlayer resolveKiller(LivingDeathEvent event) {
+    /** The player credited with a kill, following an Eternal back to its owner. Shared with the champion's rage hooks. */
+    public static ServerPlayer resolveKiller(LivingDeathEvent event) {
         Entity killer = event.getSource().getEntity();
         if (killer instanceof EternalEntity eternal) {
             killer = eternal.getOwner().right().orElse(null);

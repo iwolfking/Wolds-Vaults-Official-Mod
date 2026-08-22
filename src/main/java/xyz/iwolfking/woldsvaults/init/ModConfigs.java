@@ -74,6 +74,7 @@ public class ModConfigs {
     public static GreedRanksConfig GREED_RANKS;
     public static GreedMilestonesConfig GREED_MILESTONES;
     public static GreedMedallionsConfig GREED_MEDALLIONS;
+    public static GreedChampionConfig GREED_CHAMPION;
 
     public static final Map<VaultGod, GodTreeConfig> GOD_TREES = new EnumMap<>(VaultGod.class);
     public static final Map<VaultGod, GodTreeGuiStylesConfig> GOD_TREE_GUI_STYLES = new EnumMap<>(VaultGod.class);
@@ -134,6 +135,7 @@ public class ModConfigs {
         MilestoneRegistry.load(GREED_MILESTONES);
         GREED_MEDALLIONS = new GreedMedallionsConfig().readConfig();
         GreedMedallionTier.load(GREED_MEDALLIONS);
+        GREED_CHAMPION = new GreedChampionConfig().readConfig();
     }
 
     /**

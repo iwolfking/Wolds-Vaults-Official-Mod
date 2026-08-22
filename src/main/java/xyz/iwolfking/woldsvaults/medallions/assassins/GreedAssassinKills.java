@@ -18,10 +18,10 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 /**
  * The medallion-era replacement for {@code GreedAssassinSpawnHandler#handleGreedAssassinKill}.
  *
- * <p>Two changes. The coin drop is no longer a 1-3 roll but exactly the medallion's base greed coin
- * value, which is what makes assassins one of the two main greed coin faucets in the rework. And
- * the greed reputation grant is gone entirely: reputation is a milestone-only currency now, so an
- * assassin kill pays coins and nothing else.</p>
+ * <p>Two changes. The coin drop is no longer a 1-3 roll but half the medallion's base greed coin
+ * value, which is what makes assassins one of the two main greed coin faucets in the rework without
+ * making them the only one worth farming. And the greed reputation grant is gone entirely:
+ * reputation is a milestone-only currency now, so an assassin kill pays coins and nothing else.</p>
  */
 public final class GreedAssassinKills {
     private GreedAssassinKills() {
@@ -38,7 +38,7 @@ public final class GreedAssassinKills {
             WoldsVaults.LOGGER.warn("Greed assassin died with no medallion tier on it and in no medallion vault - dropping no coins.");
             return;
         }
-        int coinCount = tier.getBaseGreedCoins();
+        int coinCount = Math.max(1, tier.getBaseGreedCoins() / 2);
         ItemStack coins = new ItemStack(ModItems.GREED_COIN, coinCount);
         ItemEntity coinEntity = new ItemEntity(killed.level, killed.getX(), killed.getY(), killed.getZ(), coins);
         coinEntity.setNoPickUpDelay();
