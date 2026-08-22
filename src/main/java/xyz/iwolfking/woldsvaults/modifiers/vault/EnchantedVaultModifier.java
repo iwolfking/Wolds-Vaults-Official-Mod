@@ -12,9 +12,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
+import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
+import java.util.List;
 
 public class EnchantedVaultModifier extends VaultModifier<EnchantedVaultModifier.Properties> {
 
@@ -39,14 +41,24 @@ public class EnchantedVaultModifier extends VaultModifier<EnchantedVaultModifier
                 }
 
                 if(event.player.getRandom().nextDouble() < this.properties.getChance()) {
-                    EnchantedEventsRegistry.getEvents().getRandom().ifPresent(vaultEvent -> {
-                        if(!vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()
-                                && HyperModifierPolicy.isBannedEnchantedEvent(vaultEvent.getId())) {
-                            WoldsVaults.LOGGER.info("Skipped enchanted event {} — it is banned in Hyper vaults.", vaultEvent.getId());
-                            return;
-                        }
-                        vaultEvent.triggerEvent(event.player::getOnPos, (ServerPlayer) event.player, vault, false, VaultEvent.EventDisplayType.LEGACY);
-                    });
+                    VaultEvent vaultEvent;
+                    if(!this.properties.eventTags.isEmpty()) {
+                        vaultEvent = EnchantedEventsRegistry.getEventsWithTags(this.properties.eventTags).getRandom().orElse(null);
+                    }
+                    else {
+                        vaultEvent = EnchantedEventsRegistry.getEvents().getRandom().orElse(null);
+                    }
+
+                    if(vaultEvent == null) {
+                        return;
+                    }
+
+                    if(!vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()
+                            && HyperModifierPolicy.isBannedEnchantedEvent(vaultEvent.getId())) {
+                        WoldsVaults.LOGGER.info("Skipped enchanted event {} — it is banned in Hyper vaults.", vaultEvent.getId());
+                        return;
+                    }
+                    vaultEvent.triggerEvent(event.player::getOnPos, (ServerPlayer) event.player, vault, false, VaultEvent.EventDisplayType.LEGACY);
                 }
             }
         });
@@ -57,10 +69,19 @@ public class EnchantedVaultModifier extends VaultModifier<EnchantedVaultModifier
         private final double chance;
         @Expose
         private final int ticksPerCheck;
+        @Expose
+        private final List<EventTag> eventTags;
 
         public Properties(double chance, int ticksPerCheck) {
             this.chance = chance;
             this.ticksPerCheck = ticksPerCheck;
+            this.eventTags = List.of();
+        }
+
+        public Properties(double chance, int ticksPerCheck, List<EventTag> tags) {
+            this.chance = chance;
+            this.ticksPerCheck = ticksPerCheck;
+            this.eventTags = tags;
         }
 
 
