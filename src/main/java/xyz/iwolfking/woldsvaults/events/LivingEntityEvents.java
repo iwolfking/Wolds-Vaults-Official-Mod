@@ -107,6 +107,22 @@ public class LivingEntityEvents {
 
     public static void init() {
          ANCHOR_SLAM_SOUND  = Registry.SOUND_EVENT.get(ResourceLocation.parse("bettercombat:anchor_slam"));
+         registerLeechHealingEfficiencyExclusion();
+    }
+
+    /**
+     * Excludes leech healing from healing efficiency bonuses. {@link ActiveFlags#IS_LEECHING} is held for the whole
+     * leech heal, so this only affects the multiplier PlayerRecoveryHelper applies to heals coming out of
+     * PlayerLeechHelper - gear leech, the Life Steal lucky hit talent, Rampage Leech, the Vampire archetype bonus and
+     * the leeching vault modifier. Registered at the lowest priority so it runs after every other contributor, and
+     * clamped rather than overwritten so healing efficiency penalties such as Grievous Wound still apply.
+     */
+    private static void registerLeechHealingEfficiencyExclusion() {
+        CommonEvents.PLAYER_STAT.of(PlayerStat.HEALING_EFFECTIVENESS).register(LivingEntityEvents.class, data -> {
+            if(ActiveFlags.IS_LEECHING.isSet()) {
+                data.setValue(Math.min(data.getValue(), 1.0F));
+            }
+        }, Integer.MIN_VALUE);
     }
 
     @SubscribeEvent
