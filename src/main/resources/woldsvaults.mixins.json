@@ -220,6 +220,7 @@
     "vaulthunters.altar.VaultAltarTileEntityAccessor",
     "vaulthunters.block.MixinCoinPileBlock",
     "vaulthunters.block.MixinVaultChestBlock",
+    "vaulthunters.block.MixinVaultChestTileEntitySlots",
     "vaulthunters.compat.angelring.MixinAngelBlock",
     "vaulthunters.compat.ensorcellation.MixinEnchanterEnchantSelectorModel",
     "vaulthunters.compat.ensorcellation.MixinEnchantmentUtil",

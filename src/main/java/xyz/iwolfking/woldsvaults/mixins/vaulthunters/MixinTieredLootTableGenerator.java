@@ -78,13 +78,21 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         return adjusted;
     }
 
-    /** Mapped strongboxes cap at 72-162 rolls by tier instead of the constructor's 54. */
+    /**
+     * Mapped strongboxes cap at 72-162 rolls by tier instead of the constructor's 54. The Tenos
+     * chest nodes lift the cap by the same amount they add to the base roll, so Massive Chests
+     * reaches 74 rather than piling rolls onto a cap that would throw them away again.
+     */
     @ModifyExpressionValue(
             method = "generate",
             at = @At(value = "FIELD", target = "Liskallia/vault/core/world/loot/generator/TieredLootTableGenerator;maxRolls:I", opcode = Opcodes.GETFIELD)
     )
     private int raiseStrongboxMaxRolls(int maxRolls) {
-        return this.woldsvaults$mapTier >= 0 ? StrongboxTierScaling.maxRolls(this.woldsvaults$mapTier) : maxRolls;
+        if (this.woldsvaults$mapTier >= 0) {
+            return StrongboxTierScaling.maxRolls(this.woldsvaults$mapTier);
+        }
+        Entity source = ((TieredLootTableGenerator) (Object) this).getSource();
+        return source instanceof Player player ? maxRolls + TenosChestRolls.bonusRolls(player) : maxRolls;
     }
 
     /**

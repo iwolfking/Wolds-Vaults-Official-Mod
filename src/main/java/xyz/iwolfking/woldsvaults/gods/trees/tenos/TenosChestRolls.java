@@ -13,8 +13,13 @@ import net.minecraft.world.entity.player.Player;
  * either creates no items, while Massive Chests pays a real, unconditional halving of item rarity.
  * So the implemented mechanic is the third reading from the scoping doc: <b>+N extra loot rolls</b>
  * before the roll cap, +20 for Massive Chests and +4 for Expert Looter, additive with each other.
- * The 27-slot fill cap is lifted for those chests as well, otherwise the extra stacks would be
- * generated and then silently discarded when the slot list ran out.
+ *
+ * <p>The bonus is added to the table's base roll, so item quantity multiplies it like any other
+ * roll, and it lifts the generator's roll cap by the same amount - 54 to 74 for Massive Chests -
+ * because rolls generated past the cap are simply clamped away. Somewhere to put the resulting
+ * stacks comes from {@link xyz.iwolfking.woldsvaults.loot.VaultChestSlots}: every in-vault chest
+ * holds 54 slots of which the screen shows 27, so the surplus lands in the hidden slots and drops
+ * when the chest is broken instead of being discarded during placement.
  */
 public final class TenosChestRolls {
     private TenosChestRolls() {
