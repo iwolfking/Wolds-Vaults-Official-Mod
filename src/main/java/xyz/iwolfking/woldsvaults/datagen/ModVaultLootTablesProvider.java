@@ -28,6 +28,55 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
     private static final int[] standardLevels = new int[]{0, 20, 50, 100};
     @Override
     public void registerLootTables() {
+        add(WoldsVaults.id("trove_sand"), lootBuilder -> {
+           lootBuilder.entry(entryBuilder -> {
+              entryBuilder.rolls(1, 1)
+                      .pool(1, poolBuilder -> {
+                          poolBuilder
+                                  .item(10, ModBlocks.VAULT_GOLD.getRegistryName().toString(), 4, 8)
+                                  .item(5, ModBlocks.VAULT_PLATINUM.getRegistryName().toString(), 1, 2)
+                                  .item(8, ModItems.VAULT_CATALYST.getRegistryName().toString(), 1, 1)
+                                  .item(2, xyz.iwolfking.woldsvaults.init.ModItems.OMEGA_BOX.getRegistryName().toString(), 1, 1)
+                                  .item(8, ModItems.JEWEL_POUCH.getRegistryName().toString(), 4, 8)
+                                  .item(4, ModItems.POG.getRegistryName().toString(), 4, 4)
+                                  .item(1, ModItems.COMPANION_EGG.getRegistryName().toString(), 4, 4)
+                                  .item(2, ModItems.COMPANION_HEAL.getRegistryName().toString(), 4, 4)
+                                  .item(3, ModItems.ECHO_GEM.getRegistryName().toString(), 4, 4)
+                                  .item(6, ModItems.BLACK_OPAL_GEM.getRegistryName().toString(), 3, 6)
+                                  .item(8, ModItems.KEY_PIECE.getRegistryName().toString(), 4, 4)
+                                  .item(2, ModItems.TRINKET.getRegistryName().toString(), 1, 1);
+                          boosterPack(poolBuilder, 15, VaultMod.id("treasure_pack"));
+                          deckCore(poolBuilder, 4, "@default");
+                          inscription(poolBuilder, 6, VaultMod.id("random"));
+                          infusedCatalyst(poolBuilder, 15, VaultMod.id("treasure_bonus").toString());
+                      });
+           });
+        });
+        add(WoldsVaults.id("trove_sand_map"), lootBuilder -> {
+            lootBuilder.entry(entryBuilder -> {
+                entryBuilder.rolls(1, 1)
+                        .pool(1, poolBuilder -> {
+                            poolBuilder
+                                    .item(10, ModBlocks.VAULT_GOLD.getRegistryName().toString(), 4, 8)
+                                    .item(5, ModBlocks.VAULT_PLATINUM.getRegistryName().toString(), 1, 2)
+                                    .item(8, ModItems.VAULT_CATALYST.getRegistryName().toString(), 1, 1)
+                                    .item(2, xyz.iwolfking.woldsvaults.init.ModItems.OMEGA_BOX.getRegistryName().toString(), 1, 1)
+                                    .item(8, ModItems.JEWEL_POUCH.getRegistryName().toString(), 4, 8)
+                                    .item(4, ModItems.POG.getRegistryName().toString(), 4, 4)
+                                    .item(1, ModItems.COMPANION_EGG.getRegistryName().toString(), 4, 4)
+                                    .item(2, ModItems.COMPANION_HEAL.getRegistryName().toString(), 4, 4)
+                                    .item(3, ModItems.ECHO_GEM.getRegistryName().toString(), 2, 3)
+                                    .item(6, ModItems.BLACK_OPAL_GEM.getRegistryName().toString(), 3, 6)
+                                    .item(8, ModItems.KEY_PIECE.getRegistryName().toString(), 4, 4)
+                                    .item(2, ModItems.TRINKET.getRegistryName().toString(), 1, 1);
+                            boosterPack(poolBuilder, 15, VaultMod.id("treasure_pack"));
+                            inscription(poolBuilder, 4, VaultMod.id("random"));
+                            deckCore(poolBuilder, 3, "@default", "greater");
+                            infusedCatalyst(poolBuilder, 6, VaultMod.id("treasure_bonus").toString());
+                            vaultMap(poolBuilder, 2, "gear_completion", -1);
+                        });
+            });
+        });
         add(VaultMod.id("survival_gear_cache"), lootBuilder -> {
             lootBuilder.entry(entryBuilder -> {
                 entryBuilder.rolls(1, 1)
@@ -427,6 +476,12 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
     private void deckCore(AbstractLootTableProvider.PoolBuilder poolBuilder, int weight, String pool) {
         poolBuilder.itemNbt(weight, ModItems.DECK_SOCKET.getRegistryName().toString(), 1, 1, nbt -> {
             nbt.put("Modifier", pool.toString());
+        });
+    }
+
+    private void infusedCatalyst(AbstractLootTableProvider.PoolBuilder poolBuilder, int weight, String pool) {
+        poolBuilder.itemNbt(weight, ModItems.VAULT_CATALYST_INFUSED.getRegistryName().toString(), 1, 1, nbt -> {
+            nbt.put("pool", pool.toString());
         });
     }
 }

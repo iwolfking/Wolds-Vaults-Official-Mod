@@ -1,6 +1,16 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:trove_sand",
+      "name": "Trove Sand",
+      "1.0": "woldsvaults:trove_sand"
+    },
+    {
+      "id": "woldsvaults:trove_sand_map",
+      "name": "Trove Sand Map",
+      "1.0": "woldsvaults:trove_sand_map"
+    },
+    {
       "id": "the_vault:survival_gear_cache",
       "name": "Survival Gear Cache",
       "1.0": "the_vault:survival_gear_cache"

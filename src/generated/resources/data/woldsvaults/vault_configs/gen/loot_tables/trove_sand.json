@@ -1,0 +1,206 @@
+{
+  "entries": [
+    {
+      "roll": {
+        "type": "uniform",
+        "min": 1,
+        "max": 1
+      },
+      "pool": [
+        {
+          "weight": 1,
+          "pool": [
+            {
+              "weight": 10,
+              "item": {
+                "id": "the_vault:vault_gold",
+                "count": {
+                  "type": "uniform",
+                  "min": 4,
+                  "max": 8
+                }
+              }
+            },
+            {
+              "weight": 5,
+              "item": {
+                "id": "the_vault:vault_platinum",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 8,
+              "item": {
+                "id": "the_vault:vault_catalyst",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "woldsvaults:omega_box",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 8,
+              "item": {
+                "id": "the_vault:jewel_pouch",
+                "count": {
+                  "type": "uniform",
+                  "min": 4,
+                  "max": 8
+                }
+              }
+            },
+            {
+              "weight": 4,
+              "item": {
+                "id": "the_vault:gem_pog",
+                "count": {
+                  "type": "uniform",
+                  "min": 4,
+                  "max": 4
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:companion_egg",
+                "count": {
+                  "type": "uniform",
+                  "min": 4,
+                  "max": 4
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:companion_heal",
+                "count": {
+                  "type": "uniform",
+                  "min": 4,
+                  "max": 4
+                }
+              }
+            },
+            {
+              "weight": 3,
+              "item": {
+                "id": "the_vault:gem_echo",
+                "count": {
+                  "type": "uniform",
+                  "min": 4,
+                  "max": 4
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:gem_black_opal",
+                "count": {
+                  "type": "uniform",
+                  "min": 3,
+                  "max": 6
+                }
+              }
+            },
+            {
+              "weight": 8,
+              "item": {
+                "id": "the_vault:key_piece",
+                "count": {
+                  "type": "uniform",
+                  "min": 4,
+                  "max": 4
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:trinket",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 15,
+              "item": {
+                "id": "the_vault:booster_pack",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "id": "the_vault:treasure_pack"
+                }
+              }
+            },
+            {
+              "weight": 4,
+              "item": {
+                "id": "the_vault:deck_socket",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "Modifier": "@default"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:inscription",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "pool": "the_vault:random"
+                }
+              }
+            },
+            {
+              "weight": 15,
+              "item": {
+                "id": "the_vault:vault_catalyst_infused",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "pool": "the_vault:treasure_bonus"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
