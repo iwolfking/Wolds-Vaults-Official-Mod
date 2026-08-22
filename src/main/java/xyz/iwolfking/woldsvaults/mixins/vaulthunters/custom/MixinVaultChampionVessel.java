@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -46,16 +47,29 @@ public abstract class MixinVaultChampionVessel {
     /**
      * The Vessel's own {@code hurt} refuses everything that is not a player's hand before the
      * invulnerability check below is ever consulted, so relaxing that alone would change nothing.
-     * Widening this one test is what actually lets a pet, an Eternal or a player's damage-over-time
-     * reach a Champion; the dodge roll, the health floor and everything else in the method are left
-     * exactly as they are.
+     * This is what actually lets a pet, an Eternal or a summon reach a Champion.
+     *
+     * <p>It works by widening the one test that gate is made of. {@code hurt} calls
+     * {@code getEntity()} exactly once, at bytecode offset 24, and the value it returns is consumed
+     * immediately by {@code instanceof Player} and by nothing else - the damage itself is applied
+     * from the original {@code source} further down. So substituting the Champion's own quarry when
+     * the real attacker is some other living thing opens the gate without touching attribution,
+     * credit or the amount. Verified against the shipped 3.21.6 bytecode, and it is the reason this
+     * is a substitution rather than an override.
+     *
+     * <p>Sources with no living attacker at all are left refused: that is suffocation, cacti and
+     * unowned magic, none of which should chip a boss down while the player stands back.</p>
      */
-    @ModifyExpressionValue(method = "hurt", at = @At(value = "INSTANCEOF", ordinal = 0), remap = true)
-    private boolean woldsvaults$championAcceptsLivingAttackers(boolean original, DamageSource source, float amount) {
-        if (original || !VaultChampion.isChampion((TheVesselEntity) (Object) this)) {
+    @ModifyExpressionValue(method = "hurt",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/damagesource/DamageSource;getEntity()Lnet/minecraft/world/entity/Entity;"),
+            remap = true)
+    private Entity woldsvaults$championAcceptsLivingAttackers(Entity original) {
+        TheVesselEntity self = (TheVesselEntity) (Object) this;
+        if (original instanceof Player || !(original instanceof LivingEntity)
+                || !VaultChampion.isChampion(self)) {
             return original;
         }
-        return source.getEntity() instanceof LivingEntity;
+        return self.getTarget() instanceof Player quarry ? quarry : original;
     }
 
     /**

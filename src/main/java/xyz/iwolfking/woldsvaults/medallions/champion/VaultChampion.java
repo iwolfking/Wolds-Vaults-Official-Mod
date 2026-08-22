@@ -30,7 +30,6 @@ public final class VaultChampion {
     private static final String RANK_KEY = "woldsvaults:greed_champion_rank";
     private static final String SUMMONER_KEY = "woldsvaults:greed_champion_summoner";
     private static final String HUNT_TARGET_KEY = "woldsvaults:greed_champion_hunt_target";
-    private static final GreedChampionConfig FALLBACK = GreedChampionConfig.defaults();
 
     private VaultChampion() {
     }
@@ -68,15 +67,27 @@ public final class VaultChampion {
         entity.getPersistentData().putUUID(HUNT_TARGET_KEY, target);
     }
 
+    private static GreedChampionConfig fallback;
+
     /**
      * The live champion config, falling back to the shipped defaults when the pack file has not been
      * read yet or did not survive validation. Mixins on the Vessel sit on a damage path and can run
-     * before configs are registered, so this can never be allowed to return null - and the fallback is
-     * held rather than built, because building one per hit would be an allocation per swing.
+     * before configs are registered, so this can never be allowed to return null.
+     *
+     * <p>The fallback is built on demand and then kept. Building one per call would allocate on every
+     * swing, but building one eagerly in a static initialiser would drag the base mod's {@code Config}
+     * class - and the very large registry-backed GSON graph attached to it - into whatever class-load
+     * first touched this, which on the {@code Mob} target could be early in world load.</p>
      */
     public static GreedChampionConfig config() {
         GreedChampionConfig config = ModConfigs.GREED_CHAMPION;
-        return config != null && config.isValid() ? config : FALLBACK;
+        if (config != null && config.isValid()) {
+            return config;
+        }
+        if (fallback == null) {
+            fallback = GreedChampionConfig.defaults();
+        }
+        return fallback;
     }
 
     /** The stat block for the tier stamped on this entity, or null if it carries none. */
