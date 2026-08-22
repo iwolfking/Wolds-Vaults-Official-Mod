@@ -1651,12 +1651,15 @@
       "the_vault:mildly_enchanted": {
         "properties": {
           "chance": 0.25,
-          "ticksPerCheck": 900
+          "ticksPerCheck": 900,
+          "eventTags": [
+            "POSITIVE"
+          ]
         },
         "display": {
           "name": "Mildly Enchanted",
           "color": "#CE93D8",
-          "description": "25% chance for an Event to occur every 45 seconds",
+          "description": "25% chance for a Positive Event to occur every 45 seconds",
           "descriptionFormatted": "Chance to trigger an Enchanted Elixir event every 45 seconds",
           "icon": "the_vault:gui/modifiers/mildly_enchanted"
         }
@@ -1664,12 +1667,15 @@
       "the_vault:enchanted": {
         "properties": {
           "chance": 0.05,
-          "ticksPerCheck": 200
+          "ticksPerCheck": 200,
+          "eventTags": [
+            "POSITIVE"
+          ]
         },
         "display": {
           "name": "Enchanted",
           "color": "#CE93D8",
-          "description": "5% chance for an Event to occur every 10 seconds",
+          "description": "5% chance for a Positive Event to occur every 10 seconds",
           "descriptionFormatted": "Chance to trigger an Enchanted Elixir event every 10 seconds",
           "icon": "the_vault:gui/modifiers/enchanted"
         }

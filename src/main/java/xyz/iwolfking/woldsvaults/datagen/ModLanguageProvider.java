@@ -325,6 +325,16 @@ public class ModLanguageProvider extends LanguageProvider {
         add("jei.the_vault.god_altar_idona_loot", "God Altar (Idona)");
         add("jei.the_vault.god_altar_tenos_loot", "God Altar (Tenos)");
         add("jei.the_vault.god_altar_velara_loot", "God Altar (Velara)");
+        add("jei.the_vault.treasure_chest_idona_loot", "Treasure Chest (Idona)");
+        add("jei.the_vault.treasure_chest_idona_map_loot", "Treasure Chest (Idona - Map)");
+        add("jei.the_vault.treasure_chest_tenos_loot", "Treasure Chest (Tenos)");
+        add("jei.the_vault.treasure_chest_tenos_map_loot", "Treasure Chest (Tenos - Map)");
+        add("jei.the_vault.treasure_chest_wendarr_loot", "Treasure Chest (Wendarr)");
+        add("jei.the_vault.treasure_chest_wendarr_map_loot", "Treasure Chest (Wendarr - Map)");
+        add("jei.the_vault.treasure_chest_velara_loot", "Treasure Chest (Velara)");
+        add("jei.the_vault.treasure_chest_velara_map_loot", "Treasure Chest (Velara - Map)");
+        add("jei.the_vault.trove_sand_loot", "Trove Sand");
+        add("jei.the_vault.trove_sand_map_loot", "Trove Sand (Map)");
         add("jei.woldsvaults.trinket_fusion", "Trinket Fusion Forge");
         add("item.the_vault.gem_iskallium", "§5Woldium Gem");
         add("item.the_vault.key_iskallium", "§5Woldium Key");
