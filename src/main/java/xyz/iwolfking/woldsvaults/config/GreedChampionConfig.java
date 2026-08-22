@@ -46,6 +46,13 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         @Expose public double movementSpeedCap;
         @Expose public boolean scaleTeleportCooldown;
         @Expose public boolean inheritVaultModifiers;
+        @Expose public float sizeMultiplier;
+    }
+
+    /** Where the Champion's health bar sits, relative to the top centre of the screen. */
+    public static class Hud {
+        @Expose public int offsetX;
+        @Expose public int offsetY;
     }
 
     /** Hunt behaviour: how it finds you and how it refuses to lose you. */
@@ -105,6 +112,7 @@ public class GreedChampionConfig extends PackAuthoredConfig {
     @Expose private Map<String, Rank> ranks;
     @Expose private Scaling scaling;
     @Expose private Hunt hunt;
+    @Expose private Hud hud;
     @Expose private Lightning lightning;
     @Expose private TrueDamage trueDamage;
     @Expose private Aura aura;
@@ -131,8 +139,8 @@ public class GreedChampionConfig extends PackAuthoredConfig {
     @Override
     public boolean isValid() {
         return this.ranks != null && !this.ranks.isEmpty() && this.scaling != null && this.hunt != null
-                && this.lightning != null && this.trueDamage != null && this.aura != null
-                && this.rage != null && this.rewards != null;
+                && this.hud != null && this.lightning != null && this.trueDamage != null
+                && this.aura != null && this.rage != null && this.rewards != null;
     }
 
     public Rank getRank(int rankIndex) {
@@ -145,6 +153,10 @@ public class GreedChampionConfig extends PackAuthoredConfig {
 
     public Hunt getHunt() {
         return this.hunt;
+    }
+
+    public Hud getHud() {
+        return this.hud;
     }
 
     public Lightning getLightning() {
@@ -180,8 +192,11 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         this.documentation.put("movementSpeedCap", "Hard ceiling on effective movement speed. Vanilla pathfinding degrades badly above roughly 1.0; the leash teleport closes distance instead");
         this.documentation.put("scaleTeleportCooldown", "Whether attackSpeedMultiplier also shortens the 200-tick teleport cooldown. Off by default: scaling it puts the grab-and-stun on a very short cycle at Legend");
         this.documentation.put("inheritVaultModifiers", "Replay the crystal's mob attribute modifiers onto the Champion. Max-health modifiers are excluded regardless, to keep the pool from compounding into float overflow");
+        this.documentation.put("sizeMultiplier", "Scales the Champion's model and hitbox through the base mod's entity-scale capability, the same one the Grow effect uses. 1.0 is the Vessel's own size - a 0.9 x 3.5 hitbox drawn at the renderer's fixed 1.5x model scale. Clamped by that capability to 8.0");
+        this.documentation.put("hud", "Pixel offset of the health bar from the top centre of the screen");
         this.documentation.put("aggroRadius", "How far the Champion will acquire a target on its own");
         this.documentation.put("leashDistance", "Beyond this the Champion teleports in front of its quarry, ignoring every cooldown. This is what makes the hunt inescapable");
+        this.documentation.put("spawnRingMax", "Fallback search radius. The Champion lands on the player; this is only how far out it looks when there is no room to stand there");
         this.documentation.put("dormantTicks", "How long the Champion stands inert after spawning before it activates");
         this.documentation.put("orphanTicks", "How long a Champion with no runner left in the vault survives before it is discarded");
         this.documentation.put("lightning", "Being out of position for chargeTicks forces a lightning storm. One shared counter: above, below or far all charge the same one");
@@ -206,12 +221,17 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         this.scaling.movementSpeedCap = 1.0D;
         this.scaling.scaleTeleportCooldown = false;
         this.scaling.inheritVaultModifiers = true;
+        this.scaling.sizeMultiplier = 1.5F;
+
+        this.hud = new Hud();
+        this.hud.offsetX = 0;
+        this.hud.offsetY = 8;
 
         this.hunt = new Hunt();
         this.hunt.aggroRadius = 40.0D;
         this.hunt.leashDistance = 35.0D;
-        this.hunt.spawnRingMin = 20.0D;
-        this.hunt.spawnRingMax = 32.0D;
+        this.hunt.spawnRingMin = 0.0D;
+        this.hunt.spawnRingMax = 8.0D;
         this.hunt.dormantTicks = 40;
         this.hunt.orphanTicks = 200;
         this.hunt.managerIntervalTicks = 20;

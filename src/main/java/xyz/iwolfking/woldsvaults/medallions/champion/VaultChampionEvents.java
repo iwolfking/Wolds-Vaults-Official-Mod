@@ -110,7 +110,6 @@ public final class VaultChampionEvents {
 
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
-        VaultChampionKills.clearAllBars();
         VaultChampionState.clearAll();
         VaultChampionAura.clear();
     }

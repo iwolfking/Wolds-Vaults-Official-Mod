@@ -98,7 +98,7 @@ public final class VaultChampionManager {
         }
         Entity entity = level.getEntity(championId);
         if (!(entity instanceof TheVesselEntity champion) || !champion.isAlive()) {
-            VaultChampionKills.removeBar(championId);
+            VaultChampionKills.closeBar(vault);
             state.setLiveChampion(null);
             return;
         }
@@ -157,7 +157,6 @@ public final class VaultChampionManager {
         champion.getPersistentData().putInt(ORPHAN_KEY, orphaned);
         if (orphaned >= config.getHunt().orphanTicks) {
             WoldsVaults.LOGGER.debug("Discarding a Vault Champion with no runner left to hunt.");
-            VaultChampionKills.removeBar(champion.getUUID());
             champion.discard();
         }
     }
@@ -269,10 +268,10 @@ public final class VaultChampionManager {
         UUID vaultId = vault.get(Vault.ID);
         for (VaultChampionState.PlayerState state : VaultChampionState.players(vaultId).values()) {
             if (state.getLiveChampion() != null) {
-                VaultChampionKills.removeBar(state.getLiveChampion());
                 discardIfPresent(server, state.getLiveChampion());
             }
         }
+        VaultChampionKills.closeBar(vault);
         VaultChampionState.release(vaultId);
     }
 

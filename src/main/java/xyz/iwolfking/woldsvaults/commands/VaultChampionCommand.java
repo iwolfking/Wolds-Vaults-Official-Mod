@@ -60,7 +60,7 @@ public class VaultChampionCommand {
         if (state != null) {
             state.setLiveChampion(champion.getUUID());
         }
-        VaultChampionKills.openBar(vault, champion);
+        VaultChampionKills.syncBar(vault, champion);
         context.getSource().sendSuccess(new TextComponent("Spawned a Vault Champion with a pool of "
                 + (long) VaultChampionKills.poolOf(champion) + ".").withStyle(ChatFormatting.GREEN), false);
         return 1;

@@ -122,6 +122,6 @@ public final class VaultChampionRage {
         }
         state.setArmed(false);
         state.setLiveChampion(champion.getUUID());
-        VaultChampionKills.openBar(vault, champion);
+        VaultChampionKills.syncBar(vault, champion);
     }
 }

@@ -8,7 +8,10 @@ import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.entity.EntityScaler;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.entity.champion.ChampionPromoter;
+import iskallia.vault.init.ModCapabilities;
 import iskallia.vault.init.ModEntities;
+import iskallia.vault.init.ModNetwork;
+import iskallia.vault.network.message.ScaleDataSyncMessage;
 import iskallia.vault.world.VaultDifficulty;
 import iskallia.vault.world.data.WorldSettings;
 import net.minecraft.ChatFormatting;
@@ -23,7 +26,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
@@ -88,6 +90,7 @@ public final class VaultChampionSpawner {
         level.addFreshEntity(champion);
         champion.setTarget(summoner);
         champion.setHealth(champion.getMaxHealth());
+        applySize(champion, config.getScaling().sizeMultiplier);
         announce(level, vault, spawnPos);
         WoldsVaults.LOGGER.info("Vault Champion spawned at rank {} for {}: pool {}, attack damage {}, speed {}.",
                 tier.getRankIndex(), summoner.getGameProfile().getName(),
@@ -203,6 +206,26 @@ public final class VaultChampionSpawner {
         return instance == null ? 0.0D : instance.getValue();
     }
 
+    /**
+     * Grows the Champion through the base mod's entity-scale capability - the one the Grow effect
+     * drives. It is the only route that moves both halves: a client mixin on the GeckoLib renderer
+     * reads it for the model, and one on {@code getDimensions} reads it for the hitbox. Setting the
+     * hitbox alone would leave a boss that fills a doorway while still looking its old size.
+     *
+     * <p>Sent to trackers and to the entity itself, because the capability is not synced on its own
+     * and a client that never hears about it draws the Champion at 1.0.</p>
+     */
+    private static void applySize(TheVesselEntity champion, float multiplier) {
+        if (multiplier <= 0.0F || multiplier == 1.0F) {
+            return;
+        }
+        champion.getCapability(ModCapabilities.ENTITY_SCALE).ifPresent(scale -> {
+            scale.setScale(multiplier, 1);
+            ModNetwork.sendTrackingAndSelf(new ScaleDataSyncMessage(champion, scale.getTargetScale(),
+                    scale.getTransitionDuration()), champion);
+        });
+    }
+
     private static void announce(ServerLevel level, Vault vault, BlockPos pos) {
         for (ServerPlayer runner : GodVaultUtil.runners(vault)) {
             runner.displayClientMessage(new TextComponent("The ").withStyle(ChatFormatting.GRAY)
@@ -215,25 +238,47 @@ public final class VaultChampionSpawner {
                 60, 0.6D, 1.2D, 0.6D, 0.02D);
     }
 
+    /**
+     * Lands the Champion on the player.
+     *
+     * <p>It arrives on top of you rather than somewhere across the room, which is the whole point of a
+     * hunter: an ambush you have to react to, not a boss you have to go looking for. The ring is only
+     * a fallback for the case where there is genuinely nowhere to stand at your feet - it widens a
+     * block at a time and takes the first spot that fits, so even then the Champion is as close as the
+     * geometry allows.</p>
+     */
     private static BlockPos findSpawnPos(ServerLevel level, BlockPos playerPos, GreedChampionConfig.Hunt hunt) {
+        BlockPos onPlayer = fitAt(level, playerPos.getX(), playerPos.getZ(), playerPos.getY());
+        if (onPlayer != null) {
+            return onPlayer;
+        }
+        int maxRadius = (int) Math.max(1.0D, hunt.spawnRingMax);
+        for (int radius = 1; radius <= maxRadius; radius++) {
+            for (int attempt = 0; attempt < SPAWN_ATTEMPTS; attempt++) {
+                double angle = Math.PI * 2 * level.random.nextDouble();
+                int x = playerPos.getX() + (int) Math.round(Math.cos(angle) * radius);
+                int z = playerPos.getZ() + (int) Math.round(Math.sin(angle) * radius);
+                BlockPos found = fitAt(level, x, z, playerPos.getY());
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        return null;
+    }
+
+    /** The first height near {@code referenceY} where the Champion's hitbox fits without collision. */
+    private static BlockPos fitAt(ServerLevel level, int x, int z, int referenceY) {
         EntityType<?> type = ModEntities.THE_VESSEL;
-        double range = Math.max(0.0D, hunt.spawnRingMax - hunt.spawnRingMin);
-        for (int attempt = 0; attempt < SPAWN_ATTEMPTS; attempt++) {
-            double angle = Math.PI * 2 * level.random.nextDouble();
-            double distance = hunt.spawnRingMin + range * level.random.nextDouble();
-            int x = playerPos.getX() + (int) (Math.cos(angle) * distance);
-            int z = playerPos.getZ() + (int) (Math.sin(angle) * distance);
-            for (int yOffset = -MAX_Y_SEARCH; yOffset <= MAX_Y_SEARCH; yOffset++) {
-                int y = playerPos.getY() + yOffset;
-                BlockPos floor = new BlockPos(x, y - 1, z);
-                if (!level.getBlockState(floor).isValidSpawn(level, floor, type)) {
-                    continue;
+        for (int yOffset = 0; yOffset <= MAX_Y_SEARCH; yOffset++) {
+            for (int sign = 1; sign >= -1; sign -= 2) {
+                int y = referenceY + yOffset * sign;
+                if (level.noCollision(type.getAABB(x + 0.5D, y, z + 0.5D))) {
+                    return new BlockPos(x, y, z);
                 }
-                AABB box = type.getAABB(x + 0.5D, y, z + 0.5D);
-                if (!level.noCollision(box)) {
-                    continue;
+                if (yOffset == 0) {
+                    break;
                 }
-                return new BlockPos(x, y, z);
             }
         }
         return null;

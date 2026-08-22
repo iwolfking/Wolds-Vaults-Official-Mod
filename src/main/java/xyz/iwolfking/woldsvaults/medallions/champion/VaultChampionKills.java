@@ -8,11 +8,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.BossEvent;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,12 +19,11 @@ import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
+import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.network.message.ChampionHudMessage;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The damage pool, the boss bar that draws it, and what happens when it empties.
@@ -46,8 +43,6 @@ public final class VaultChampionKills {
     private static final String DEFEATED_KEY = "woldsvaults:greed_champion_defeated";
     private static final String WAKE_KEY = "woldsvaults:greed_champion_wake";
     private static final float SCIENTIFIC_THRESHOLD = 1.0E10F;
-
-    private static final Map<UUID, ServerBossEvent> BARS = new ConcurrentHashMap<>();
 
     private VaultChampionKills() {
     }
@@ -124,12 +119,12 @@ public final class VaultChampionKills {
         double y = champion.getY();
         double z = champion.getZ();
 
-        removeBar(champion.getUUID());
         level.sendParticles(ParticleTypes.LARGE_SMOKE, x, y + 1.5D, z, 120, 0.8D, 1.5D, 0.8D, 0.03D);
         level.sendParticles(ParticleTypes.SMOKE, x, y + 1.0D, z, 80, 0.6D, 1.0D, 0.6D, 0.05D);
         level.playSound(null, x, y, z, ModSounds.GREED_COINS_SHAKE, SoundSource.HOSTILE, 2.0F, 0.7F);
         champion.discard();
 
+        closeBar(vault);
         if (summoner != null && vault != null) {
             VaultChampionState.PlayerState state = VaultChampionState.get(vault, summoner);
             if (state != null) {
@@ -167,76 +162,30 @@ public final class VaultChampionKills {
     }
 
     /**
-     * Creates this Champion's bar and shows it to every runner in the vault. Tracking range would be
-     * the vanilla default, which is wrong here - anyone in the vault can help fight it, so anyone in
-     * the vault should be able to see how the fight is going.
+     * Pushes the health bar to every runner in the vault.
+     *
+     * <p>The Champion is the greed trial's Vessel, so it gets the greed trial's bar rather than a
+     * vanilla boss bar - which, on a wither-adjacent boss, read as exactly the wrong thing. That bar
+     * is drawn client side from the base mod's own greed HUD sheet, so what goes over the wire is the
+     * pool, the damage dealt against it and the Vessel's time-ramp multiplier.
+     *
+     * <p>Sent to every runner rather than to trackers, because anyone in the vault can join the fight
+     * and should be able to see how it is going.</p>
      */
-    public static void openBar(Vault vault, LivingEntity champion) {
-        ServerBossEvent bar = new ServerBossEvent(barName(champion), BossEvent.BossBarColor.PURPLE,
-                BossEvent.BossBarOverlay.PROGRESS);
-        bar.setProgress(1.0F);
-        setAudience(bar, vault);
-        BARS.put(champion.getUUID(), bar);
-    }
-
-    /** Refreshes progress, name and audience. Called on the manager's cadence, not every tick. */
     public static void syncBar(Vault vault, LivingEntity champion) {
-        ServerBossEvent bar = BARS.get(champion.getUUID());
-        if (bar == null) {
-            openBar(vault, champion);
-            return;
-        }
         double pool = poolOf(champion);
-        double dealt = dealtOf(champion);
-        float remaining = pool <= 0.0D ? 1.0F : (float) Math.max(0.0D, 1.0D - dealt / pool);
-        bar.setProgress(remaining);
-        bar.setName(barName(champion));
-        bar.setColor(remaining <= 0.25F ? BossEvent.BossBarColor.RED : BossEvent.BossBarColor.PURPLE);
-        setAudience(bar, vault);
-    }
-
-    /**
-     * Rebuilds who can see the bar. It has to shrink as well as grow: a runner who extracts mid-fight
-     * would otherwise keep a boss bar on their screen for the rest of the session.
-     */
-    private static void setAudience(ServerBossEvent bar, Vault vault) {
-        List<ServerPlayer> runners = GodVaultUtil.runners(vault);
-        for (ServerPlayer stale : new java.util.ArrayList<>(bar.getPlayers())) {
-            if (!runners.contains(stale)) {
-                bar.removePlayer(stale);
-            }
-        }
-        for (ServerPlayer runner : runners) {
-            bar.addPlayer(runner);
+        float multiplier = champion instanceof TheVesselEntity vessel ? vessel.getDamageMultiplier() : 1.0F;
+        ChampionHudMessage message = new ChampionHudMessage(true, (float) dealtOf(champion), (float) pool, multiplier);
+        for (ServerPlayer runner : GodVaultUtil.runners(vault)) {
+            ModNetwork.sendToClient(message, runner);
         }
     }
 
-    public static void removeBar(UUID championId) {
-        ServerBossEvent bar = BARS.remove(championId);
-        if (bar != null) {
-            bar.removeAllPlayers();
-            bar.setVisible(false);
+    /** Clears the bar for everyone still in the vault. */
+    public static void closeBar(Vault vault) {
+        ChampionHudMessage message = new ChampionHudMessage(false, 0.0F, 0.0F, 1.0F);
+        for (ServerPlayer runner : GodVaultUtil.runners(vault)) {
+            ModNetwork.sendToClient(message, runner);
         }
-    }
-
-    public static void clearAllBars() {
-        BARS.values().forEach(bar -> {
-            bar.removeAllPlayers();
-            bar.setVisible(false);
-        });
-        BARS.clear();
-    }
-
-    /**
-     * The bar caption, carrying the remaining pool as a number. Switches to scientific notation past
-     * ten billion, the same place the greed trial's own readout does, because a Legend pool with vault
-     * modifiers on top runs to ten digits and would otherwise overrun the bar.
-     */
-    private static Component barName(LivingEntity champion) {
-        double pool = poolOf(champion);
-        double remaining = Math.max(0.0D, pool - dealtOf(champion));
-        String format = remaining >= SCIENTIFIC_THRESHOLD || pool >= SCIENTIFIC_THRESHOLD ? "%.3e / %.3e" : "%.0f / %.0f";
-        return new TextComponent("Vault Champion  ").withStyle(ChatFormatting.DARK_PURPLE)
-                .append(new TextComponent(String.format(format, remaining, pool)).withStyle(ChatFormatting.GRAY));
     }
 }
