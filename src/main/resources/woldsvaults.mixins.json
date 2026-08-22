@@ -514,6 +514,7 @@
     "bettercombat.MixinWeaponRegistry",
     "inventoryhud.MixinCuriosRenderer",
     "inventoryhud.MixinInventoryHudRenderer",
+    "jei.MixinItemStackRenderer",
     "jei.MixinRecipesGui",
     "mekanism.MixinGuiModuleScrollList",
     "scannable.BlockScanResultAccessor",
