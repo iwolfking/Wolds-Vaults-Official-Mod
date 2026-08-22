@@ -49,7 +49,7 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         @Expose public float sizeMultiplier;
     }
 
-    /** Where the Champion's health bar sits, relative to the top centre of the screen. */
+    /** Where the Champion's health bar sits, relative to the vault objective's own HUD. */
     public static class Hud {
         @Expose public int offsetX;
         @Expose public int offsetY;
@@ -193,7 +193,7 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         this.documentation.put("scaleTeleportCooldown", "Whether attackSpeedMultiplier also shortens the 200-tick teleport cooldown. Off by default: scaling it puts the grab-and-stun on a very short cycle at Legend");
         this.documentation.put("inheritVaultModifiers", "Replay the crystal's mob attribute modifiers onto the Champion. Max-health modifiers are excluded regardless, to keep the pool from compounding into float overflow");
         this.documentation.put("sizeMultiplier", "Scales the Champion's model and hitbox through the base mod's entity-scale capability, the same one the Grow effect uses. 1.0 is the Vessel's own size - a 0.9 x 3.5 hitbox drawn at the renderer's fixed 1.5x model scale. Clamped by that capability to 8.0");
-        this.documentation.put("hud", "Pixel offset of the health bar from the top centre of the screen");
+        this.documentation.put("hud", "Pixel offset of the health bar from the vault objective's HUD, which the bar hangs underneath. Following that module rather than the screen means the bar tracks it wherever the player has dragged and rescaled it; offsetY is just the gap below");
         this.documentation.put("aggroRadius", "How far the Champion will acquire a target on its own");
         this.documentation.put("leashDistance", "Beyond this the Champion teleports in front of its quarry, ignoring every cooldown. This is what makes the hunt inescapable");
         this.documentation.put("spawnRingMax", "Fallback search radius. The Champion lands on the player; this is only how far out it looks when there is no room to stand there");
@@ -225,7 +225,7 @@ public class GreedChampionConfig extends PackAuthoredConfig {
 
         this.hud = new Hud();
         this.hud.offsetX = 0;
-        this.hud.offsetY = 8;
+        this.hud.offsetY = 30;
 
         this.hunt = new Hunt();
         this.hunt.aggroRadius = 40.0D;
