@@ -113,12 +113,44 @@ public final class HyperModifierPolicy {
     private static final Set<ResourceLocation> BANNED_ENCHANTED_EVENTS = Set.of(
             WoldsVaults.id("mob_invisibility"));
 
+    /**
+     * cast_on_kill modifiers that may not enter a hyper vault from any source the player did
+     * not choose. Each fires an ability on every mob death, so a vault already spawning mobs
+     * by the hundred turns them into a per-kill entity and particle storm.
+     *
+     * <p>Enforced on the crystal-application path (Totemic and Nova Explosion reach hyper
+     * crystals as map affixes) and on the bingo task-reward pull. Deliberately NOT applied to
+     * the charm, the temporal shard, deck cards or the companion_temporal pool: those are the
+     * player asking for the effect. Also folded into {@link #isBanned} so the derived hyper
+     * pools stay clean if one of these ids is ever added to a source pool upstream.
+     *
+     * <p>kill_nuke and kill_totem are the grouped carriers; kill_nova and kill_frostnova are
+     * kill_nuke's children and roll individually as UNUSUAL map affixes. bingo_kill_nuke
+     * ("Mini Nova") is a distinct id whose only path is BallisticBingoObjective, which hyper
+     * never instantiates — its entry here is future-proofing, not a live fix.
+     */
+    private static final Set<ResourceLocation> BANNED_CAST_ON_KILL = Set.of(
+            ResourceLocation.parse("the_vault:kill_nuke"),
+            ResourceLocation.parse("the_vault:kill_nova"),
+            ResourceLocation.parse("the_vault:kill_frostnova"),
+            ResourceLocation.parse("the_vault:kill_totem"),
+            ResourceLocation.parse("the_vault:bingo_kill_nuke"));
+
     private HyperModifierPolicy() {
     }
 
     /** Datagen-time filter for the derived hyper pools. */
     public static boolean isBanned(String modifierId) {
-        return BANNED.contains(modifierId);
+        return BANNED.contains(modifierId)
+                || BANNED_CAST_ON_KILL.contains(ResourceLocation.parse(modifierId));
+    }
+
+    /**
+     * True when this cast-on-kill modifier may not be granted to a hyper vault by a map or an
+     * internal reward pull.
+     */
+    public static boolean isBannedCastOnKill(ResourceLocation modifierId) {
+        return modifierId != null && BANNED_CAST_ON_KILL.contains(modifierId);
     }
 
     /** True when this enchanted-crystal event may not fire in hyper vaults. */
