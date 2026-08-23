@@ -2,10 +2,7 @@ package xyz.iwolfking.woldsvaults.mixins.sophvaultupgrades;
 
 import iskallia.vault.block.TreasureDoorBlock;
 import iskallia.vault.block.entity.TreasureContainerTileEntity;
-import iskallia.vault.core.event.CommonEvents;
-import iskallia.vault.core.world.data.tile.PartialTile;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -13,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.p3pp3rf1y.sophisticatedcore.api.IStorageWrapper;
-import net.p3pp3rf1y.sophisticatedcore.inventory.ItemStackKey;
 import net.p3pp3rf1y.sophisticatedcore.upgrades.UpgradeWrapperBase;
 import net.p3pp3rf1y.sophisticatedcore.util.InventoryHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,8 +20,8 @@ import xyz.iwolfking.sophisticatedvaultupgrades.upgrades.activation.ActivationUp
 import xyz.iwolfking.sophisticatedvaultupgrades.upgrades.activation.ActivationUpgradeWrapper;
 import xyz.iwolfking.woldsvaults.blocks.LockedTreasureContainerBlock;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import static xyz.iwolfking.woldsvaults.blocks.LockedTreasureContainerBlock.UNLOCKED;
@@ -42,19 +38,17 @@ public class MixinActivationUpgradeWrapper extends UpgradeWrapperBase<Activation
         BlockEntity blockEntity = world.getBlockEntity(blockPos);
 
         if(blockState.getBlock() instanceof LockedTreasureContainerBlock && blockEntity instanceof TreasureContainerTileEntity treasureContainer) {
-            Set<ItemStackKey> itemsToRemove = new HashSet<>();
-            boolean isOpen = blockState.getOptionalValue(UNLOCKED).orElse(false);
-            if (!isOpen && !treasureContainer.isGenerated()) {
+            List<ItemStack> itemsToRemove = new ArrayList<>();
+            boolean unlocked = blockState.getOptionalValue(UNLOCKED).orElse(false);
+            if (!unlocked) {
                 storageWrapper.getInventoryForUpgradeProcessing().getTrackedStacks().forEach(itemStackKey -> {
                     if (itemStackKey.getStack().getItem() == blockState.getValue(TreasureDoorBlock.TYPE).getKey()) {
-                        itemsToRemove.add(itemStackKey);
-
-                        treasureContainer.generateLoot(player);
+                        itemsToRemove.add(new ItemStack(itemStackKey.getStack().getItem(), 1));
                         world.setBlock(blockPos, blockState.setValue(UNLOCKED, true), Block.UPDATE_ALL);
                     }
                 });
-                for (ItemStackKey key : itemsToRemove) {
-                    InventoryHelper.extractFromInventory(key.stack(), storageWrapper.getInventoryForUpgradeProcessing(), false);
+                for (ItemStack stack : itemsToRemove) {
+                    InventoryHelper.extractFromInventory(stack, storageWrapper.getInventoryForUpgradeProcessing(), false);
                 }
                 cir.setReturnValue(true);
             } else {

@@ -4,6 +4,7 @@ import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.VaultCrystalItem;
 import iskallia.vault.item.crystal.properties.CapacityCrystalProperties;
 import iskallia.vault.recipe.anvil.AnvilContext;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +22,7 @@ public class ConcealedChaosItem extends Item implements IVaultCrystalModifier {
 
     @Override
     public boolean applyCrystalRecipe(AnvilContext context, CrystalData data, ItemStack ingredient, ItemStack output) {
-        int size = 50;
+        int size = getCapacityConsumption(ingredient);
 
         if (data.getProperties() instanceof CapacityCrystalProperties properties) {
             Integer capacity = properties.getCapacity().orElse(null);
@@ -54,5 +55,34 @@ public class ConcealedChaosItem extends Item implements IVaultCrystalModifier {
             context.getInput()[1].shrink(1);
         }));
         return true;
+    }
+
+    @Override
+    public int getCapacityConsumption(ItemStack stack) {
+        return 50;
+    }
+
+    public boolean hasApplied(ItemStack crystalStack) {
+        if (crystalStack.getItem() instanceof VaultCrystalItem && crystalStack.hasTag()) {
+            CompoundTag nbt = crystalStack.getTag();
+            if (nbt != null && nbt.contains("scheduledTasks")) {
+                CompoundTag scheduledTasks = nbt.getCompound("scheduledTasks");
+
+                for (String key : scheduledTasks.getAllKeys()) {
+                    CompoundTag taskTag = scheduledTasks.getCompound(key);
+                    String id = taskTag.contains("id") ? taskTag.getString("id") : key;
+
+                    int suffixIndex = id.lastIndexOf('#');
+                    if (suffixIndex > 0) {
+                        id = id.substring(0, suffixIndex);
+                    }
+
+                    if (id.equals(ConcealedChaosBackfireTask.ID) || id.equals(VaultCrystalItem.AddModifiersTask.ID)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

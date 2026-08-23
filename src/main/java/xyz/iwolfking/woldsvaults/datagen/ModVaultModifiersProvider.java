@@ -214,8 +214,12 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 hunterBuilder.entry(PartialTile.of(PartialBlockState.of(ModBlocks.GOD_ALTAR).set(GodAltarBlock.GOD, VaultGod.WENDARR), PartialCompoundNbt.empty()), 64, "god_altars", 16748800);
             } , "God Altar Hunter (Wendarr)", "#FF9100", "Highlights Wendarr God Altars in this Vault", null, VaultMod.id("gui/modifiers/god_token_wendarr"));
 
-            enchantedEventChance(modifierBuilder, VaultMod.id("mildly_enchanted"),0.25F,  900, "Mildly Enchanted", "#CE93D8", "25% chance for an Event to occur every 45 seconds", "Chance to trigger an Enchanted Elixir event every 45 seconds", VaultMod.id("gui/modifiers/mildly_enchanted"));
-            enchantedEventChance(modifierBuilder, VaultMod.id("enchanted"),0.05F,  200, "Enchanted", "#CE93D8", "5% chance for an Event to occur every 10 seconds", "Chance to trigger an Enchanted Elixir event every 10 seconds", VaultMod.id("gui/modifiers/enchanted"));
+            enchantedEventChance(modifierBuilder, VaultMod.id("mildly_enchanted"),0.25F,  900, tags -> {
+                tags.add(EventTag.POSITIVE);
+            }, "Mildly Enchanted", "#CE93D8", "25% chance for a Positive Event to occur every 45 seconds", "Chance to trigger an Enchanted Elixir event every 45 seconds", VaultMod.id("gui/modifiers/mildly_enchanted"));
+            enchantedEventChance(modifierBuilder, VaultMod.id("enchanted"),0.05F,  200, tags -> {
+                tags.add(EventTag.POSITIVE);
+            }, "Enchanted", "#CE93D8", "5% chance for a Positive Event to occur every 10 seconds", "Chance to trigger an Enchanted Elixir event every 10 seconds", VaultMod.id("gui/modifiers/enchanted"));
             enchantedEventChance(modifierBuilder, VaultMod.id("bingo_enchanted"),1.0F,  1200, "Enchanted", "#CE93D8", "100% chance for an Event to occur every minute", "Chance to trigger an Enchanted Elixir event every minute", VaultMod.id("gui/modifiers/enchanted"));
 
             chestBreakBomb(modifierBuilder, VaultMod.id("armed_chest"),0.04F, weightedBuilder -> {
@@ -688,7 +692,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
 
     /**
      * An inert marker def (chance_artifact with chance 0, the "challenged" pattern): the stack
-     * count IS the data, read at crate award by HyperCrateRewards / MixinRunner.
+     * count IS the data, read at crate award by HyperCrateRewards / MixinRunner.bingo_enchanted
      */
     public static void hyperMarker(ModifierBuilder builder, ResourceLocation modifierId, String name, String color, String description, ResourceLocation icon) {
         builder.type(VaultMod.id("modifier_type/chance_artifact").toString(), (typeBuilder) -> typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
@@ -735,12 +739,29 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
         }));
     }
 
+    public static void enchantedEventChance(ModifierBuilder builder, ResourceLocation modifierId, float chance, int ticksPerCheck, Consumer<BasicListBuilder<EventTag>> eventTagsConsumer, String name, String color, String description, String formattedDescription, ResourceLocation icon) {
+        builder.type(VaultMod.id("modifier_type/enchanted_event_chance").toString(), (typeBuilder) -> typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
+            modifierEntryBuilder.property("chance", chance);
+            modifierEntryBuilder.property("ticksPerCheck", ticksPerCheck);
+            JsonArray eventTags = new JsonArray();
+            BasicListBuilder<EventTag> listBuilder = new BasicListBuilder<>();
+            eventTagsConsumer.accept(listBuilder);
+            listBuilder.build().forEach(tag -> {
+                eventTags.add(tag.name());
+            });
+            modifierEntryBuilder.property("eventTags", eventTags);
+            createModifierDisplay(modifierEntryBuilder, name, color, description, formattedDescription, icon);
+        }));
+    }
+
     public static void resourceLocation(ModifierBuilder builder, ResourceLocation modifierTypeId, ResourceLocation modifierId, ResourceLocation id, String name, String color, String description, String formattedDescription, ResourceLocation icon) {
         builder.type(modifierTypeId.toString(), (typeBuilder) -> typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
             modifierEntryBuilder.property("id", id);
             createModifierDisplay(modifierEntryBuilder, name, color, description, formattedDescription, icon);
         }));
     }
+
+
 
 
 }

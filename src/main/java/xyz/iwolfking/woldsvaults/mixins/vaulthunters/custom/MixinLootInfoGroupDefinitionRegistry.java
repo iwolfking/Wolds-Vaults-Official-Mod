@@ -27,6 +27,14 @@ public abstract class MixinLootInfoGroupDefinitionRegistry {
         register("gilded_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.GILDED_CHEST));
         register("wooden_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.WOODEN_CHEST));
         register("treasure_chest_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
+        register("treasure_chest_velara", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
+        register("treasure_chest_velara_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
+        register("treasure_chest_tenos", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
+        register("treasure_chest_tenos_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
+        register("treasure_chest_idona", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
+        register("treasure_chest_idona_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
+        register("treasure_chest_wendarr", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
+        register("treasure_chest_wendarr_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
         register("tombstone", () -> new ItemStack(ModBlocks.GRAVEYARD_LOOT_BLOCK));
         register("god_altar_velara", () -> new ItemStack(ModItems.VELARA_APPLE));
         register("god_altar_tenos", () -> new ItemStack(ModItems.TOME_OF_TENOS));
@@ -41,6 +49,8 @@ public abstract class MixinLootInfoGroupDefinitionRegistry {
         register("survival_gear_cache", () -> new ItemStack(ModBlocks.getCrateFor("survival")));
         register("completion_crate_chaos", () -> new ItemStack(iskallia.vault.init.ModItems.VAULT_CATALYST_CHAOS));
         register("treasure_pillar", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_PEDESTAL));
+        register("trove_sand", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_SAND));
+        register("trove_sand_map", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_SAND));
     }
 
     @Shadow

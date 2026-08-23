@@ -64,10 +64,10 @@ public class MixinRuneBossFightClient {
         this.waveBlastCooldownDuration = 0;
     }
 
-    @ModifyConstant(method = "render", constant = @Constant(stringValue = "Wave Blast "))
-    private String woldsVaults$relabelMissileCountdown(String label) {
-        return this.woldsVaults$missileShown ? "Magic Missile " : label;
-    }
+//    @ModifyConstant(method = "render", constant = @Constant(stringValue = "Wave Blast "), remap = true)
+//    private String woldsVaults$relabelMissileCountdown(String label) {
+//        return this.woldsVaults$missileShown ? "Magic Missile " : label;
+//    }
 
     @Inject(method = "render", at = @At("RETURN"))
     private void woldsVaults$restoreWaveBlastCountdown(PoseStack matrixStack, Window window, float partialTicks, CallbackInfo ci) {

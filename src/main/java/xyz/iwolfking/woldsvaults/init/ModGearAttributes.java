@@ -93,6 +93,8 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Integer> CRASHWAVE = attr("crashwave", VaultGearAttributeType.intType(), (ConfigurableAttributeGenerator<Integer, ?>)ModGearAttributeGenerators.intRange(), new IntegerValueModifierReader(8833629, value -> "+Crashing into a wall while riptiding releases a <$uniqueHighlight>shockwave<reset> of radius " + value), VaultGearAttributeComparator.intComparator());
     public static final VaultGearAttribute<Float> HEALTH_BOOST = attr("health_boost", VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Total Health", 8057198), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> RADIATION_WAVE = attr("radiation_wave", VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), new FloatValueModifierReader("Radiation Radius", 5149489, value -> "+Irradiates enemies within <$uniqueHighlight>" + value + "<reset> blocks, slowing them the longer they linger"), VaultGearAttributeComparator.floatComparator());
+    //Mod Integration Attributes
+    public static final VaultGearAttribute<Boolean> RADIATION_IMMUNITY = woldsAttr("radiation_immunity", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Radiation Immunity", 5539999), VaultGearAttributeComparator.booleanComparator());
 
 
     //Map Modifiers
@@ -251,6 +253,7 @@ public class ModGearAttributes {
                       registry.register(CRASHWAVE);
                       registry.register(HEALTH_BOOST);
                       registry.register(RADIATION_WAVE);
+                      registry.register(RADIATION_IMMUNITY);
        }
   
     public static void registerVanillaAssociations() {
