@@ -41,22 +41,12 @@ import java.util.Locale;
 import java.util.UUID;
 
 /**
- * The mythic god charm: everything a regular vault god charm is - curio charm slot, uses, active
- * god selection, piety scaling - plus implicits and suffixes on top of the prefixes, wider piety
- * roll tables, base-system legendary potential and a toggleable temporal blessing driven by the
- * charm keybind. Unlike regular charms, mythics fully re-materialize from their stored draws
- * whenever the owner's piety changes (see {@link MythicCharmRolls}), so this item replaces the
- * base inventory-tick ratio rescale with its own and keeps rescaling while worn.
- *
- * <p>The tooltip keeps the base charm's info lines (uses, piety, god) but renders the affix body
- * through the standard {@link VaultGearTooltipItem} groups, so implicits, prefixes and suffixes
- * look exactly as they do on gear. The multiplier implicits that map to vanilla attributes
- * (attack damage, armor, max health, movement speed) are delivered through the curio
- * attribute-modifier pathway as multiply-total modifiers, which applies them on both sides and
- * shows them in every attribute readout.
+ * The mythic god charm: implicits and suffixes on top of the prefixes, wider piety roll tables and a
+ * keybind-toggled temporal blessing. Re-materializes from its stored draws on every piety change.
  */
 public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearTooltipItem {
     private static final ResourceLocation BASE_CHARM_ID = new ResourceLocation("the_vault", "vault_god_charm");
+    private static final String MYTHIC_ROLL_TYPE = "Mythic";
 
     public MythicVaultCharmItem(ResourceLocation id) {
         super(id);
@@ -123,10 +113,22 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
     }
 
     /**
-     * Replaces the base charm's inventory tick: the base implementation ratio-rescales prefixes
-     * only, which would corrupt a mythic's implicits and suffixes, so this runs the mythic
-     * re-materialization instead.
+     * A mythic charm can only ever identify as Mythic, so a stack that arrives without a roll type
+     * reads as Mythic instead of the pack default. Runs before the base tick would fill in that
+     * default; the loot entries still stamp the roll type themselves, this is the safety net.
      */
+    @Override
+    public void vaultGearTick(ItemStack stack, ServerPlayer player) {
+        VaultGearData data = VaultGearData.read(stack);
+        if (!data.hasAttribute(iskallia.vault.init.ModGearAttributes.GEAR_ROLL_TYPE)
+                && !data.hasAttribute(iskallia.vault.init.ModGearAttributes.GEAR_ROLL_TYPE_POOL)) {
+            data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.GEAR_ROLL_TYPE, MYTHIC_ROLL_TYPE);
+            data.write(stack);
+        }
+        super.vaultGearTick(stack, player);
+    }
+
+    /** Runs the mythic re-materialization in place of the base charm's prefix-only ratio rescale. */
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof ServerPlayer serverPlayer) {

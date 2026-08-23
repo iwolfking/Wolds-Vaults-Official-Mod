@@ -6,9 +6,12 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.util.LootInitialization;
+import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -71,6 +74,8 @@ public final class GodDebugCommand {
 
         root.then(Commands.literal("charm")
                 .then(Commands.argument("player", EntityArgument.player())
+                        .then(Commands.literal("unidentified")
+                                .executes(GodDebugCommand::giveUnidentifiedMythicCharm))
                         .then(godArgument()
                                 .executes(context -> giveMythicCharm(context, -1, false))
                                 .then(Commands.literal("legendary")
@@ -274,6 +279,29 @@ public final class GodDebugCommand {
         context.getSource().sendSuccess(new TextComponent("Gave %s an identified mythic %s charm (%s piety)."
                 .formatted(player.getGameProfile().getName(), god.getName(),
                         pietyOverride >= 0 ? String.valueOf(pietyOverride) : "current")), true);
+        return 1;
+    }
+
+    /**
+     * Gives the unidentified mythic charm exactly as the mapped living chest tables drop it: the
+     * loot entry's raw nbt run through the vault loot initialization, so name, tooltip, tint and
+     * the identify flow match a real drop. Inside a vault the stack is initialized as that vault's
+     * loot; outside it is level 100 and not loot, so it cannot roll legendary.
+     */
+    private static int giveUnidentifiedMythicCharm(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = EntityArgument.getPlayer(context, "player");
+        ItemStack stack = new ItemStack(ModItems.MYTHIC_VAULT_CHARM);
+        stack.getOrCreateTag().putString("the_vault:gear_roll_type", "Mythic");
+        Vault vault = ServerVaults.get(player.getLevel()).orElse(null);
+        stack = vault != null
+                ? LootInitialization.initializeVaultLoot(stack, vault, player.blockPosition())
+                : LootInitialization.initializeVaultLoot(stack, 100);
+        if (!player.getInventory().add(stack)) {
+            player.drop(stack, false);
+        }
+        context.getSource().sendSuccess(new TextComponent("Gave %s an unidentified mythic charm (%s)."
+                .formatted(player.getGameProfile().getName(),
+                        vault != null ? "initialized as loot of the current vault" : "level 100, not vault loot")), true);
         return 1;
     }
 }
