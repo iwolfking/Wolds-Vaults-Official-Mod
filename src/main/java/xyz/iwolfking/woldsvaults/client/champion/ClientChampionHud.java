@@ -29,11 +29,13 @@ public final class ClientChampionHud {
         ClientChampionHud.lastUpdate = gameTime();
     }
 
+    /** Drops the mirror, including the staleness stamp, so a younger world's game time cannot read an old update as fresh. */
     public static void clear() {
         active = false;
         dealt = 0.0F;
         pool = 0.0F;
         damageMultiplier = 1.0F;
+        lastUpdate = Long.MIN_VALUE / 2;
     }
 
     public static boolean isActive() {

@@ -42,6 +42,21 @@ public class GreedRanksConfig extends PackAuthoredConfig {
         return config;
     }
 
+    /**
+     * A config instance holding an explicit ladder. The greed login sync puts the server's live
+     * ladder on the wire in this shape so the client can run it through exactly the same validation
+     * a ladder read off disk goes through, rather than trusting a packet blindly.
+     */
+    public static GreedRanksConfig of(int bandSize, List<String> bandNames, List<Integer> thresholds,
+                                      Map<String, Integer> godLevelGates) {
+        GreedRanksConfig config = defaults();
+        config.bandSize = bandSize;
+        config.bandNames = new ArrayList<>(bandNames);
+        config.thresholds = new ArrayList<>(thresholds);
+        config.godLevelGates = new LinkedHashMap<>(godLevelGates);
+        return config;
+    }
+
     @Override
     public String getName() {
         return "gods" + File.separator + "greed_ranks";

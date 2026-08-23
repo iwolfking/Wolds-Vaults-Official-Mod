@@ -24,6 +24,7 @@ import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.GodPiety;
+import xyz.iwolfking.woldsvaults.gods.MinorTransferSlots;
 import xyz.iwolfking.woldsvaults.gods.charms.MythicCharmRolls;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
@@ -89,16 +90,17 @@ public final class GodDebugCommand {
                 .then(Commands.literal("list")
                         .then(Commands.argument("player", EntityArgument.player())
                                 .then(godArgument().executes(GodDebugCommand::listMinorTransfers))))
-                .then(Commands.literal("add")
+                .then(Commands.literal("set")
                         .then(Commands.argument("player", EntityArgument.player())
                                 .then(godArgument()
-                                        .then(Commands.argument("node", StringArgumentType.string())
-                                                .executes(GodDebugCommand::addMinorTransfer)))))
-                .then(Commands.literal("remove")
+                                        .then(Commands.argument("slot", IntegerArgumentType.integer(1))
+                                                .then(Commands.argument("node", StringArgumentType.string())
+                                                        .executes(GodDebugCommand::setMinorTransfer))))))
+                .then(Commands.literal("clear")
                         .then(Commands.argument("player", EntityArgument.player())
                                 .then(godArgument()
-                                        .then(Commands.argument("node", StringArgumentType.string())
-                                                .executes(GodDebugCommand::removeMinorTransfer))))));
+                                        .then(Commands.argument("slot", IntegerArgumentType.integer(1))
+                                                .executes(GodDebugCommand::clearMinorTransfer))))));
 
         event.getDispatcher().register(root);
     }
@@ -190,40 +192,48 @@ public final class GodDebugCommand {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");
         VaultGod god = god(context);
         GodAlignmentData data = data(context);
-        List<String> transfers = data.getMinorTransfers(player.getUUID(), god);
-        context.getSource().sendSuccess(new TextComponent("%s %s minor transfers (%d/%d): %s"
-                .formatted(player.getGameProfile().getName(), god.getName(), transfers.size(),
-                        data.getMinorTransferSlots(player.getUUID(), god), transfers)), false);
-        return transfers.size();
+        int capacity = data.getMinorTransferSlots(player.getUUID(), god);
+        StringBuilder slots = new StringBuilder();
+        for (int slot = 0; slot < GodLevels.maxMinorTransferSlots(); slot++) {
+            if (slot > 0) {
+                slots.append(" | ");
+            }
+            slots.append("slot ").append(slot + 1).append(": ");
+            if (slot >= capacity) {
+                slots.append("locked (level ").append(GodLevels.minorTransferSlotUnlockLevel(slot)).append(')');
+            } else {
+                slots.append(data.getMinorTransferSlot(player.getUUID(), god, slot).orElse("-"));
+            }
+        }
+        List<String> live = data.getMinorTransfers(player.getUUID(), god);
+        context.getSource().sendSuccess(new TextComponent("%s %s transfer slots (%d live of %d unlocked): %s"
+                .formatted(player.getGameProfile().getName(), god.getName(), live.size(), capacity, slots)), false);
+        return live.size();
     }
 
-    private static int addMinorTransfer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    private static int setMinorTransfer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");
         VaultGod god = god(context);
+        int slot = IntegerArgumentType.getInteger(context, "slot") - 1;
         String node = StringArgumentType.getString(context, "node");
-        boolean added = data(context).addMinorTransfer(player, god, node);
-        context.getSource().sendSuccess(new TextComponent(added
-                ? "Bound " + node + " to a " + god.getName() + " minor transfer slot."
-                : "Could not bind " + node + ": no free " + god.getName() + " slot, or it is already bound."), true);
-        return added ? 1 : 0;
+        MinorTransferSlots.Result result = MinorTransferSlots.assign(player, god, slot, node);
+        context.getSource().sendSuccess(new TextComponent(result == MinorTransferSlots.Result.OK
+                ? "Put " + node + " in " + god.getName() + " transfer slot " + (slot + 1) + "."
+                : "Could not put " + node + " in " + god.getName() + " transfer slot " + (slot + 1) + ": " + result + "."), true);
+        return result == MinorTransferSlots.Result.OK ? 1 : 0;
     }
 
-    private static int removeMinorTransfer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    private static int clearMinorTransfer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");
         VaultGod god = god(context);
-        String node = StringArgumentType.getString(context, "node");
-        boolean removed = data(context).removeMinorTransfer(player, god, node);
-        context.getSource().sendSuccess(new TextComponent(removed
-                ? "Unbound " + node + " from " + god.getName() + "."
-                : node + " was not bound to " + god.getName() + "."), true);
-        return removed ? 1 : 0;
+        int slot = IntegerArgumentType.getInteger(context, "slot") - 1;
+        MinorTransferSlots.Result result = MinorTransferSlots.assign(player, god, slot, "");
+        context.getSource().sendSuccess(new TextComponent(result == MinorTransferSlots.Result.OK
+                ? "Cleared " + god.getName() + " transfer slot " + (slot + 1) + "."
+                : "Could not clear " + god.getName() + " transfer slot " + (slot + 1) + ": " + result + "."), true);
+        return result == MinorTransferSlots.Result.OK ? 1 : 0;
     }
 
-    /**
-     * Gives an already-identified mythic charm of the given god, rolled either at the player's
-     * current piety or at an explicit piety override - the tester's shortcut past the drop and
-     * identification flow.
-     */
     /**
      * Grants one cauldron sacrifice gate for the god outright: item progress toward the gate is
      * cleared and the completed count advances, promoting any levels the accumulated XP already
@@ -242,6 +252,11 @@ public final class GodDebugCommand {
         return 1;
     }
 
+    /**
+     * Gives an already-identified mythic charm of the given god, rolled either at the player's
+     * current piety or at an explicit piety override - the tester's shortcut past the drop and
+     * identification flow.
+     */
     private static int giveMythicCharm(CommandContext<CommandSourceStack> context, int pietyOverride,
                                        boolean forceLegendary) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");

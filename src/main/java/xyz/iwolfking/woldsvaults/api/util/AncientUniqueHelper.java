@@ -245,14 +245,14 @@ public class AncientUniqueHelper {
     }
 
     /**
-     * Black-market uniques are meant to bypass the drop-provenance gate once the player is Hunter 1.
-     * Black-market offers are initialized through LootInitialization with no vault, so they carry no stamp
-     * and cannot currently be told apart from a crafted unique. Stamping them needs a mixin on the nested
-     * PlayerBlackMarketData.SelectedTrade#initialize, which needs a new mixins.json entry; until that lands
-     * this returns false and black-market ancients are disabled.
+     * Black-market uniques bypass the drop-provenance gate. They are initialized through
+     * LootInitialization with no vault and so never carry the base IS_LOOT stamp, which is why
+     * MixinBlackMarketSelectedTrade gives them a stamp of their own at the moment the offer is built.
+     * No rank test lives here: getBaseIdentifyChance already returns zero below Hunter 1, so a black
+     * market unique first becomes eligible at exactly the rank the drop-provenance route does.
      */
     public static boolean isBlackMarketOrigin(VaultGearData data) {
-        return false;
+        return data.getFirstValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.BLACK_MARKET_ORIGIN).orElse(false);
     }
 
     /**

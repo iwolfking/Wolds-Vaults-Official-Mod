@@ -79,6 +79,21 @@ public final class GodNodeCache {
         return god.name() + "/" + effectId;
     }
 
+    /**
+     * The one rule for how much of a tree a player receives outside the node gate: full value for
+     * the active charm's god, the foreign-tree quarter for every other god while some charm is
+     * equipped, and nothing at all while no charm is equipped. The snapshot fold, the piety sources
+     * and the imbuement reader all ask here rather than re-deriving it, and {@link #compute}'s stat
+     * branch is this same rule applied to one effect.
+     */
+    public static float treeScale(ServerPlayer player, VaultGod god) {
+        Optional<VaultGod> active = ActiveGodResolver.getActiveGod(player);
+        if (active.isEmpty()) {
+            return 0.0F;
+        }
+        return active.get() == god ? 1.0F : GodCarryover.FOREIGN_TREE_SCALE;
+    }
+
     private static Gated compute(ServerPlayer player, VaultGod god, String effectId) {
         MinecraftServer server = player.getServer();
         if (server == null) {
@@ -89,19 +104,16 @@ public final class GodNodeCache {
         if (points <= 0) {
             return Gated.NONE;
         }
-        Optional<VaultGod> active = ActiveGodResolver.getActiveGod(player);
-        if (active.isEmpty()) {
-            return Gated.NONE;
-        }
-        if (active.get() == god) {
+        float scale = treeScale(player, god);
+        if (scale >= 1.0F) {
             return new Gated(points, 1.0F);
         }
         GodNodeType type = GodNodeRegistry.effectType(effectId);
-        if (type == GodNodeType.MINOR && data.getMinorTransfers(player.getUUID(), active.get()).contains(effectId)) {
+        if (type == GodNodeType.MINOR && data.getMinorTransfers(player.getUUID(), god).contains(effectId)) {
             return new Gated(points, 1.0F);
         }
-        if (type == GodNodeType.STAT) {
-            return new Gated(points, GodCarryover.FOREIGN_TREE_SCALE);
+        if (type == GodNodeType.STAT && scale > 0.0F) {
+            return new Gated(points, scale);
         }
         return Gated.NONE;
     }

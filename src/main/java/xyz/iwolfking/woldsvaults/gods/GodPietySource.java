@@ -8,8 +8,9 @@ import xyz.iwolfking.woldsvaults.gods.node.handlers.PietyHandler;
 
 /**
  * A god tree's Pious Devotion node as a piety source: the effect's configured piety per invested
- * point toward that god, carried at a quarter like every other foreign-tree value when the god is
- * not the active one, so the value of investing does not vanish the moment the charm changes.
+ * point toward that god, scaled by the same tree-scale rule every other stat contribution uses
+ * ({@link GodNodeCache#treeScale}), so the value of investing does not vanish the moment the charm
+ * changes to another god.
  *
  * <p>One implementation serves all four trees. Each tree previously shipped its own copy, and the
  * four differed only in which god they answered for - which is the parameter.
@@ -29,7 +30,10 @@ public record GodPietySource(VaultGod god, String effectId) implements PietyBonu
         if (handler == null) {
             return 0;
         }
-        float scale = ActiveGodResolver.isActive(player, this.god) ? 1.0F : GodCarryover.FOREIGN_TREE_SCALE;
+        float scale = GodNodeCache.treeScale(serverPlayer, this.god);
+        if (scale <= 0.0F) {
+            return 0;
+        }
         return Math.round(handler.perPoint() * points * scale);
     }
 }

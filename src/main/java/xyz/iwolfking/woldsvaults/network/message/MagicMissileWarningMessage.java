@@ -1,8 +1,9 @@
 package xyz.iwolfking.woldsvaults.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import xyz.iwolfking.woldsvaults.client.hyper.ClientMagicMissileWarning;
 
 import java.util.function.Supplier;
 
@@ -12,6 +13,10 @@ import java.util.function.Supplier;
  * telegraphs (a zero window clears the display immediately). Kept as its own channel message
  * rather than extra RuneBossFight sync fields so the fight's bit format — which also backs
  * saved vaults — stays untouched.
+ *
+ * <p>The handler reaches the client-only warning mirror through {@code DistExecutor}, and the
+ * message is registered clientbound-only, so a packet arriving at a dedicated server can neither
+ * load a client class nor be accepted at all.
  */
 public class MagicMissileWarningMessage {
     private final int remainingTicks;
@@ -33,7 +38,9 @@ public class MagicMissileWarningMessage {
 
     public static void handle(MagicMissileWarningMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> ClientMagicMissileWarning.update(message.remainingTicks, message.windowTicks));
+        context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                () -> () -> xyz.iwolfking.woldsvaults.client.hyper.ClientMagicMissileWarning.update(
+                        message.remainingTicks, message.windowTicks)));
         context.setPacketHandled(true);
     }
 }

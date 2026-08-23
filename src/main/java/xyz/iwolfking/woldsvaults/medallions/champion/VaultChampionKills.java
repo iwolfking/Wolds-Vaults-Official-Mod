@@ -146,10 +146,29 @@ public final class VaultChampionKills {
 
     private static void dropRewards(ServerLevel level, GreedMedallionTier tier, double x, double y, double z) {
         GreedChampionConfig.Rewards rewards = VaultChampion.config().getRewards();
-        int coins = rewards.greedCoinsPerRank * tier.getRankIndex();
-        int tickets = rewards.greedyTicketsPerRank * tier.getRankIndex();
-        drop(level, new ItemStack(ModItems.GREED_COIN, coins), x, y, z);
-        drop(level, new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.GREEDY_TICKET, tickets), x, y, z);
+        dropAll(level, new ItemStack(ModItems.GREED_COIN), rewards.greedCoinsPerRank * tier.getRankIndex(), x, y, z);
+        dropAll(level, new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.GREEDY_TICKET),
+                rewards.greedyTicketsPerRank * tier.getRankIndex(), x, y, z);
+    }
+
+    /**
+     * Drops {@code count} of an item as however many stacks that takes. The payout is the per-rank
+     * reward times the rank index, which passes a stack at the top of the table - and an
+     * {@code ItemStack} built over its own max size is not a legal stack: hoppers, the player
+     * inventory and any merge it meets will quietly cut it back down.
+     */
+    private static void dropAll(ServerLevel level, ItemStack prototype, int count, double x, double y, double z) {
+        int max = prototype.getMaxStackSize();
+        if (count <= 0 || max <= 0) {
+            return;
+        }
+        for (int remaining = count; remaining > 0; ) {
+            int size = Math.min(remaining, max);
+            ItemStack stack = prototype.copy();
+            stack.setCount(size);
+            drop(level, stack, x, y, z);
+            remaining -= size;
+        }
     }
 
     private static void drop(ServerLevel level, ItemStack stack, double x, double y, double z) {

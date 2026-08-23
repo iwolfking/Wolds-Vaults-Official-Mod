@@ -5,6 +5,7 @@ import iskallia.vault.core.util.RegionPos;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.WorldManager;
 import iskallia.vault.core.vault.ClassicPortalLogic;
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.core.world.generator.GridGenerator;
 import iskallia.vault.core.world.generator.VaultGenerator;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
@@ -19,6 +20,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 
 import java.util.Optional;
 
@@ -92,9 +94,30 @@ public final class TenosLootStats {
         if (!TenosNodes.isActive(player, TenosNodes.LOOTING_ENGINE)) {
             return 1.0F;
         }
-        float reference = TenosNodeHandlers.params(TenosNodes.LOOTING_ENGINE,
+        return lootingEngineFactor(lootingEngineReference(), ChestRateTracker.getChestsPerMinute(player));
+    }
+
+    private static float lootingEngineReference() {
+        return TenosNodeHandlers.params(TenosNodes.LOOTING_ENGINE,
                 TenosNodeHandlers.LootingEngineParams.class).reference();
-        return (float) Math.cbrt((reference + ChestRateTracker.getChestsPerMinute(player)) / reference);
+    }
+
+    private static float lootingEngineFactor(float reference, float chestsPerMinute) {
+        return (float) Math.cbrt((reference + chestsPerMinute) / reference);
+    }
+
+    /** The gods tab preview of Looting Engine: the multiplier the player's current chest rate gives. */
+    static GodNodePreviews.Preview previewLootingEngine(ServerPlayer player) {
+        float reference = lootingEngineReference();
+        float rate = ChestRateTracker.getChestsPerMinute(player);
+        float factor = lootingEngineFactor(reference, rate);
+        String referenceText = GodNodePreviews.number(reference);
+        return new GodNodePreviews.Working(VaultGod.TENOS)
+                .formula("Item Quantity and Rarity multiplier", "cubeRoot((" + referenceText + " + c) / " + referenceText + ")")
+                .input("c", "your chests per minute, averaged over the last five minutes", GodNodePreviews.number(rate))
+                .result("cubeRoot(" + GodNodePreviews.number(reference + rate) + " / " + referenceText + ")", factor)
+                .inactive(!TenosNodes.isActive(player, TenosNodes.LOOTING_ENGINE))
+                .build(factor);
     }
 
     /**
@@ -107,10 +130,34 @@ public final class TenosLootStats {
         if (!TenosNodes.isActive(player, TenosNodes.INDIANA_JONES)) {
             return 1.0F;
         }
-        float disarmPercent = Math.max(0.0F, rawStat(player, ModGearAttributes.TRAP_DISARMING)) * 100.0F;
-        float reference = TenosNodeHandlers.params(TenosNodes.INDIANA_JONES,
+        return indianaJonesFactor(indianaJonesReference(), indianaJonesDisarmPercent(player));
+    }
+
+    private static float indianaJonesReference() {
+        return TenosNodeHandlers.params(TenosNodes.INDIANA_JONES,
                 TenosNodeHandlers.IndianaJonesParams.class).reference();
+    }
+
+    private static float indianaJonesDisarmPercent(ServerPlayer player) {
+        return Math.max(0.0F, rawStat(player, ModGearAttributes.TRAP_DISARMING)) * 100.0F;
+    }
+
+    private static float indianaJonesFactor(float reference, float disarmPercent) {
         return (float) Math.cbrt((reference + disarmPercent) / reference);
+    }
+
+    /** The gods tab preview of Indiana Jones: the multiplier the player's current trap disarm gives. */
+    static GodNodePreviews.Preview previewIndianaJones(ServerPlayer player) {
+        float reference = indianaJonesReference();
+        float disarm = indianaJonesDisarmPercent(player);
+        float factor = indianaJonesFactor(reference, disarm);
+        String referenceText = GodNodePreviews.number(reference);
+        return new GodNodePreviews.Working(VaultGod.TENOS)
+                .formula("Item Quantity and Rarity multiplier", "cubeRoot((" + referenceText + " + trap disarm) / " + referenceText + ")")
+                .input("trap disarm", "your Trap Disarming from gear, in percent (negative counts as 0)", GodNodePreviews.number(disarm))
+                .result("cubeRoot(" + GodNodePreviews.number(reference + disarm) + " / " + referenceText + ")", factor)
+                .inactive(!TenosNodes.isActive(player, TenosNodes.INDIANA_JONES))
+                .build(factor);
     }
 
     private static float wealthyPatron(ServerPlayer player) {

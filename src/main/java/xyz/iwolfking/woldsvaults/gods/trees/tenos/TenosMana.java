@@ -13,8 +13,9 @@ import java.util.UUID;
  * Mana Starved (r100) and Deep Reserves (r101).
  *
  * <p>Deep Reserves is a transient attribute modifier rather than a gear attribute, because the
- * sheet asks for a 1.5x multiplier and gear attributes contribute additively. Applying and removing
- * it is driven by {@link TenosVaultHandlers.DeepReservesHandler} on the shared ticker: the base mod
+ * sheet asks for a 1.5x multiplier and gear attributes contribute additively. Its configured
+ * {@code multiplier} is the {@code MULTIPLY_BASE} increment rather than the factor its name reads
+ * as, so 0.5 is 1.5x. Applying and removing it is driven by {@link TenosVaultHandlers.DeepReservesHandler} on the shared ticker: the base mod
  * rewrites {@code MANA_MAX}'s <em>base</em> value every single tick, so a modifier is the only safe
  * place to put a multiplier, and the ticker's own deactivation pass is what takes it back on a
  * charm swap or a refund.
@@ -49,7 +50,10 @@ public final class TenosMana {
         return 1.0F + params.max_bonus() * depth;
     }
 
-    /** Adds Deep Reserves' maximum mana multiplier if it is not already on the player. */
+    /**
+     * Adds Deep Reserves' maximum mana modifier if it is not already on the player. {@code multiplier}
+     * is the {@code MULTIPLY_BASE} increment, so 0.5 is 1.5x maximum mana.
+     */
     public static void applyDeepReserves(ServerPlayer player, float multiplier) {
         AttributeInstance manaMax = player.getAttribute(ModAttributes.MANA_MAX);
         if (manaMax == null || manaMax.getModifier(DEEP_RESERVES_UUID) != null) {

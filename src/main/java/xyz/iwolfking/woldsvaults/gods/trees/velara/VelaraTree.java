@@ -9,10 +9,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.GodPietySource;
 import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
 import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeStatProvider;
 
 /**
@@ -49,6 +51,7 @@ public final class VelaraTree {
             VelaraStatBus.register();
             VelaraCounterstrike.register();
             VelaraDamage.register();
+            GodNodeTicker.registerTreePass(VelaraTicker::pass);
             registerVaultLifecycle();
             WoldsVaults.LOGGER.info("Registered {} Velara god tree nodes",
                     GodNodeRegistry.tree(VaultGod.VELARA).map(tree -> tree.getNodes().size()).orElse(0));
@@ -56,14 +59,21 @@ public final class VelaraTree {
     }
 
     /**
-     * Only the two hooks the shared teardown cannot express. Node scratch is dropped for a leaving
+     * Only the hooks the shared teardown cannot express. Node scratch is dropped for a leaving
      * listener and a logging-out player by the god core; what is left is rebuilding the Sacrifice
-     * partition when a runner joins, and dropping the partition of a vault that has ended - by
-     * vault id, so another party's flock is untouched.
+     * partition when a runner joins, dropping the partition of a vault that has ended - by vault
+     * id, so another party's flock is untouched - and re-arming Immortal's revive on the way out.
+     *
+     * <p>Immortal's cooldown is the one piece of Velara state that outlives a relog, because a
+     * transient one was a disconnect away from being free. Vault exit is where it is given back:
+     * the cooldown is meant to be a limit inside a run, not something carried into the next one.
      */
     private static void registerVaultLifecycle() {
         CommonEvents.LISTENER_JOIN.register(LISTENER_REF, data ->
                 data.getListener().getPlayer().ifPresent(VelaraSacrificeFlocks::rebuildFor));
+        CommonEvents.LISTENER_LEAVE.register(LISTENER_REF, data ->
+                data.getListener().getPlayer().ifPresent(player ->
+                        GodNodeState.clearPersistent(player, VelaraNodes.IMMORTAL)));
         CommonEvents.VAULT_END.register(LISTENER_REF, data -> {
             if (data.getVault().has(Vault.ID)) {
                 VelaraSacrificeFlocks.clearVault(data.getVault().get(Vault.ID));

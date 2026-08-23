@@ -537,8 +537,9 @@ public class Milestones {
     }
 
     /**
-     * Ancient uniques do not exist yet; this is the seam their identify path will call once they
-     * ship. Registered as a counter today so saves written now stay forward compatible.
+     * Counts one ancient unique the player has identified. Live: {@code MixinGearRollHelper} calls
+     * this once a roll has resolved to an ancient and its name has been written onto the gear, so
+     * an ordinary roll on the same path never reaches here.
      */
     public static void onAncientUniqueIdentified(ServerPlayer player) {
         advance(player, MilestoneIds.ARCHEOLOGIST, 1L);

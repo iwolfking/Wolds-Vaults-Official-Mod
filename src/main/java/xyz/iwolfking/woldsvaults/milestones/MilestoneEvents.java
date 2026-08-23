@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.milestones;
 
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.event.ActiveFlags;
+import iskallia.vault.world.data.PlayerGreedData;
 import iskallia.vault.world.data.PlayerGreedTreeData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -53,10 +54,32 @@ public class MilestoneEvents {
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {
+            healUnrankedHeraldWinner(player);
             healReputationBelowRankFloor(player);
             healGodMilestones(player);
             MilestoneFlusher.syncAll(player);
         }
+    }
+
+    /**
+     * Puts a player who already beat the Herald onto the first rank of the ladder.
+     *
+     * <p>{@code MixinPlayerGreedDataHerald} does this the moment the Herald falls, but only for
+     * completions that happen after it shipped. Every save that beat the Herald before then is
+     * stuck at tier 0, and tier 0 has no trial to climb out of - rank 1 is the ladder's entry, not
+     * something a trial awards - so without this the ladder stays permanently out of reach. Runs
+     * before the other two heals so the reputation floor and the login sync both see the new rank,
+     * and is idempotent: a ranked save is skipped, and so is one that has not met the Herald.</p>
+     */
+    private static void healUnrankedHeraldWinner(ServerPlayer player) {
+        PlayerGreedTreeData treeData = PlayerGreedTreeData.get(player.server);
+        if (treeData.getGreedTier(player) != 0
+                || !PlayerGreedData.get(player.server).get(player.getUUID()).hasCompletedHerald()) {
+            return;
+        }
+        treeData.setGreedTier(player, MilestoneRankLadder.FIRST_RANK);
+        WoldsVaults.LOGGER.info("Healed greed rank for {}: the Herald was already beaten but the rank was still 0, set to {}",
+                player.getGameProfile().getName(), MilestoneRankLadder.FIRST_RANK);
     }
 
     /**

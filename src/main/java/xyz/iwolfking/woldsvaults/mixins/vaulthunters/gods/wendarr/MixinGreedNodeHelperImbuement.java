@@ -5,9 +5,10 @@ import iskallia.vault.greed.GreedNodeHelper;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
-import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
-import xyz.iwolfking.woldsvaults.gods.GodCarryover;
+import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
+import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
+import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodes;
 
 /**
@@ -17,23 +18,25 @@ import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodes;
  * other stat node does. Its single consumption site reads
  * {@code GreedNodeHelper.getImbuementChanceBonus}, so the god contribution is added to that
  * helper's result -  the god tree becomes a second source alongside the greed tree rather than
- * replacing it.
+ * replacing it. The chance per point is the effect's configured table
+ * ({@code god_node_effects_wendarr.json}, {@code values[0]}) and the gate is the shared one, so the
+ * node pays exactly what every other stat node pays on an active, foreign or absent charm.
  */
 @Mixin(value = GreedNodeHelper.class, remap = false)
 public abstract class MixinGreedNodeHelperImbuement {
-    private static final float IMBUEMENT_CHANCE_PER_POINT = 0.05F;
-
     @ModifyReturnValue(method = "getImbuementChanceBonus", at = @At("RETURN"))
     private static float woldsvaults$addGodImbuementChance(float bonus, ServerPlayer player) {
         if (player == null || player.getServer() == null) {
             return bonus;
         }
-        int points = GodAlignmentData.get(player.getServer())
-                .getPointsIn(player.getUUID(), WendarrNodes.GOD, WendarrNodes.MASTER_IMBUER);
-        if (points <= 0) {
+        GodNodeCache.Gated gated = GodNodeGate.gate(player, WendarrNodes.GOD, WendarrNodes.MASTER_IMBUER);
+        if (!gated.isActive()) {
             return bonus;
         }
-        float scale = ActiveGodResolver.isActive(player, WendarrNodes.GOD) ? 1.0F : GodCarryover.FOREIGN_TREE_SCALE;
-        return bonus + IMBUEMENT_CHANCE_PER_POINT * points * scale;
+        GodEffect effect = GodNodeRegistry.effect(WendarrNodes.MASTER_IMBUER).orElse(null);
+        if (effect == null) {
+            return bonus;
+        }
+        return bonus + effect.value(0) * gated.points() * gated.scale();
     }
 }

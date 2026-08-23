@@ -106,7 +106,7 @@ public final class GodTreeDefaults {
         hardHitterII(tree, "idona_sw_11_1_hard_hitter_ii", 215, -147);
         piousDevotion(tree, "idona_sw_11_2_pious_devotion", 183, -179);
         hardHitterII(tree, "idona_sw_11_3_hard_hitter_ii", 150, -212);
-        tree.disabledMajor("idona_ultra_rampaging", "Ultra Rampaging", "idona_ultra_rampaging", icon("rampage"), 235, -199);
+        tree.major("idona_ultra_rampaging", "Ultra Rampaging", "idona_ultra_rampaging", icon("rampage"), 235, -199);
         tree.edge("idona_banked_anger", "idona_sw_11_0_hard_hitter_ii");
         tree.edge("idona_banked_anger", "idona_sw_9_0_hard_hitter_ii");
         tree.edge("idona_cleave_expert", "idona_sw_10_2_hard_hitter_ii");

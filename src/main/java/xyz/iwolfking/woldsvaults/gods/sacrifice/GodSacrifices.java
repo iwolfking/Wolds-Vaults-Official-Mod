@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.gods.sacrifice;
 
 import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
@@ -12,8 +14,9 @@ import java.util.Map;
  * The god sacrifice gate tables, straight from the design sheet's "God Sacrifices" page. Each god
  * has eleven gates - Initiation (level 0 to 1) then Level 1 through Level 10 - and each gate lists
  * the items the Greed Cauldron must be fed before the sacrifice can fire. Completing gate N opens
- * god level N+1; past the defined gates, levels flow on experience alone. Item ids resolve lazily
- * against the item registry at lookup, and unresolvable ids are reported by the altar logic.
+ * god level N+1; past the defined gates, levels flow on experience alone. The altar matches
+ * deposits by registry id, so an id that resolves to no item is a gate nobody can ever finish;
+ * {@link #validateItems} reports every such id once the item registry is complete.
  */
 public final class GodSacrifices {
     public static final int GATE_COUNT = 11;
@@ -34,6 +37,24 @@ public final class GodSacrifices {
 
     public static String gateLabel(int index) {
         return index == 0 ? "Initiation" : "Level " + index + " Sacrifice";
+    }
+
+    /**
+     * Logs every gate entry whose item id is not in the item registry. Called once from common
+     * setup; a missing item does not fail the load - the other gates still work - but it is the
+     * only warning anyone gets that the affected gate is unfinishable.
+     */
+    public static void validateItems() {
+        for (Map.Entry<VaultGod, List<Gate>> godGates : GATES.entrySet()) {
+            for (Gate gate : godGates.getValue()) {
+                for (Entry entry : gate.entries()) {
+                    if (!ForgeRegistries.ITEMS.containsKey(entry.item())) {
+                        WoldsVaults.LOGGER.error("God sacrifice gate '{}' for {} asks for {} x{}, which is not a registered item; that gate cannot be completed.",
+                                gate.label(), godGates.getKey().getName(), entry.item(), entry.count());
+                    }
+                }
+            }
+        }
     }
 
     /** The gate a player with {@code sacrificesCompleted} completed sacrifices works on next. */

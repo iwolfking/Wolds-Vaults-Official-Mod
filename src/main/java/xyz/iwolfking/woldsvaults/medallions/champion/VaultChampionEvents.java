@@ -7,6 +7,7 @@ import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
@@ -17,6 +18,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultTrueDamage;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
+import xyz.iwolfking.woldsvaults.gods.combat.FuryIncome;
 
 /**
  * Startup and lifecycle for the Vault Champion. Self-contained in the same way the medallion and god
@@ -59,6 +61,9 @@ public final class VaultChampionEvents {
                     if (amount > 0.0F && VaultChampion.isChampion(event.getEntityLiving())
                             && VaultChampionKills.accumulate(event.getEntityLiving(), amount)) {
                         VaultChampionKills.markDefeated(event.getEntityLiving());
+                        if (event.getSource().getEntity() instanceof ServerPlayer slayer) {
+                            FuryIncome.awardKill(slayer, event.getEntityLiving());
+                        }
                     }
                     return amount;
                 });
@@ -112,5 +117,6 @@ public final class VaultChampionEvents {
     public static void onServerStopping(ServerStoppingEvent event) {
         VaultChampionState.clearAll();
         VaultChampionAura.clear();
+        VaultChampionManager.resetSessionState();
     }
 }

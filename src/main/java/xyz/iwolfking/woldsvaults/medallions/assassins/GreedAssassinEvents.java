@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -34,9 +35,11 @@ public class GreedAssassinEvents {
      *
      * <p>The true-damage hit fires its own {@code LivingHurtEvent} with the assassin as the attacker,
      * which would land straight back here; the flag the helper sets for the duration of that hit is
-     * what stops it recursing and what stops one swing applying two debuffs.</p>
+     * what stops it recursing and what stops one swing applying two debuffs. This runs below the
+     * dodge roll on purpose: a swing the player dodged is cancelled before it gets here, so it
+     * spawns neither the follow-up hit nor the debuff.</p>
      */
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void onAssassinHit(LivingHurtEvent event) {
         if (!(event.getEntityLiving() instanceof ServerPlayer player) || WoldActiveFlags.IS_TRUE_DAMAGE.isSet()) {
             return;

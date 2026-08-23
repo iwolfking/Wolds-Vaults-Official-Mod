@@ -27,4 +27,16 @@ public abstract class MixinGreedCauldronSideInputSacrifice {
                                              CallbackInfoReturnable<ItemStack> cir) {
         cir.setReturnValue(SacrificeAltarLogic.pipeInsert(this.tile, stack, simulate));
     }
+
+    /**
+     * @author PoorMansPhysicist
+     * @reason the base handler still answers validity from the retired demand data, which is
+     * empty on a fresh world, so every inserter that pre-checks {@code isItemValid} before calling
+     * {@code insertItem} silently never feeds the altar. Validity is now "the owner's current gate
+     * still needs this item", the same test the insert itself applies.
+     */
+    @Inject(method = "isItemValid", at = @At("HEAD"), cancellable = true)
+    private void woldsVaults$sacrificeValidity(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(SacrificeAltarLogic.pipeAccepts(this.tile, stack));
+    }
 }

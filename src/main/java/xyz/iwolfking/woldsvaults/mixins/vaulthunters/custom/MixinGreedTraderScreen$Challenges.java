@@ -53,10 +53,12 @@ import java.util.List;
  *
  * <p>The reward line reads the crystal's milestone instead of the retired
  * {@code getChallengeReputationReward} config formula, so the number on the offer is exactly the
- * number the achievements tab pays out for it. Both reimplementations are HEAD-cancels rather than
- * {@code @Overwrite}s so base keeps its own selection, rebuild-on-sync and layout plumbing; the
- * mixin extends {@code GreedTraderScreen} - the target's own superclass - to reach the protected
- * element helpers without shadowing each one.</p>
+ * number the achievements tab pays out for it. It is drawn only on the detail panel a row opens,
+ * base's own placement for reward text: a row is barely wider than a challenge name, and printing
+ * the reputation there too left the two colliding. Both reimplementations are HEAD-cancels rather
+ * than {@code @Overwrite}s so base keeps its own selection, rebuild-on-sync and layout plumbing;
+ * the mixin extends {@code GreedTraderScreen} - the target's own superclass - to reach the
+ * protected element helpers without shadowing each one.</p>
  */
 @Mixin(value = GreedTraderScreen.Challenges.class, remap = false)
 public abstract class MixinGreedTraderScreen$Challenges extends GreedTraderScreen {
@@ -129,15 +131,6 @@ public abstract class MixinGreedTraderScreen$Challenges extends GreedTraderScree
                 row.addElement(new TextureAtlasElement<>(Spatials.positionXY(ROW_W - 4 - 15, 1),
                         TextureAtlasRegion.of(ModTextureAtlases.QUESTS, VaultMod.id("gui/quests/check"))));
                 reserved += 15;
-            } else {
-                int reputation = woldsvaults$reputation(slot.getChallengeId());
-                if (reputation > 0) {
-                    String rewardText = "+" + reputation;
-                    int rewardWidth = Minecraft.getInstance().font.width(rewardText);
-                    row.addElement(new LabelElement<>(Spatials.positionXY(ROW_W - 4 - rewardWidth, 5),
-                            woldsvaults$coloured(rewardText, REWARD_COLOUR), LabelTextStyle.defaultStyle()));
-                    reserved += rewardWidth + 3;
-                }
             }
             row.addElement(new LabelElement<>(Spatials.positionXY(4, 5), Spatials.size(ROW_W - 4 - reserved, 9),
                     woldsvaults$coloured(entry.getDisplayName(), slot.isAttempted() ? ACTIVE_COLOUR : NAME_COLOUR),

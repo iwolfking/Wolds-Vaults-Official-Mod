@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import iskallia.vault.world.data.PlayerGreedTraderData;
 import iskallia.vault.world.data.PlayerGreedTreeData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -19,19 +20,27 @@ public abstract class MixinPlayerGreedTreeData {
     @Shadow
     public abstract int getGreedReputation(Player player);
 
+    @Shadow
+    public abstract int getGreedTier(Player player);
+
     @Unique
     private boolean woldsvaults$alignInProgress;
 
     @Unique
     private int woldsvaults$reputationBeforeTierChange;
 
+    @Unique
+    private int woldsvaults$tierBeforeTierChange;
+
     /**
-     * Records the reputation a force-set is about to destroy. Base's {@code setGreedTier} zeroes
-     * the reputation on its second line, so the TAIL hook below cannot read the old value itself.
+     * Records the reputation a force-set is about to destroy and the rank it is leaving. Base's
+     * {@code setGreedTier} zeroes the reputation on its second line and has already overwritten the
+     * tier by the time the TAIL hooks below run, so neither old value can be read there.
      */
     @Inject(method = "setGreedTier", at = @At("HEAD"))
     private void captureReputationBeforeTierChange(ServerPlayer player, int tier, CallbackInfo ci) {
         this.woldsvaults$reputationBeforeTierChange = this.getGreedReputation(player);
+        this.woldsvaults$tierBeforeTierChange = this.getGreedTier(player);
     }
 
     /**
@@ -64,6 +73,22 @@ public abstract class MixinPlayerGreedTreeData {
                     MilestoneRankLadder.getThreshold(tier)));
         } finally {
             this.woldsvaults$alignInProgress = false;
+        }
+    }
+
+    /**
+     * Restocks Mr. Greedy's shop on every rank-up, whatever moved the rank.
+     *
+     * <p>Base only rerolls from {@code incrementGreedTier}, which the rework never calls: a trial
+     * win and {@code /the_vault greed set_tier} both go through {@code setGreedTier}, which reroll
+     * nothing. The shop's tier pools are cumulative, so a player who ranked up without this kept
+     * staring at their old tier's offers until they paid for a reroll. Guarded on the rank actually
+     * having risen, so a force-set down or a repeat set to the same rank leaves the shop alone.</p>
+     */
+    @Inject(method = "setGreedTier", at = @At("TAIL"))
+    private void restockShopOnRankUp(ServerPlayer player, int tier, CallbackInfo ci) {
+        if (tier > this.woldsvaults$tierBeforeTierChange && player.server != null) {
+            PlayerGreedTraderData.get(player.server).rerollOffers(player);
         }
     }
 

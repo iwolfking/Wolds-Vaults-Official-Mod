@@ -4,9 +4,9 @@ import java.util.Locale;
 
 /**
  * The four node kinds every god tree shares. The type drives gating: a root is a free entry
- * point, a stat node carries at a quarter onto a foreign tree, a minor node also runs when it is
- * bound to one of the active god's minor-transfer slots, and a major node is strictly bound to
- * the active tree.
+ * point, a stat node carries at a quarter onto a foreign tree, a minor node also runs while its
+ * own god carries it in a minor-transfer slot, and a major node is strictly bound to the active
+ * tree.
  */
 public enum GodNodeType {
     ROOT,

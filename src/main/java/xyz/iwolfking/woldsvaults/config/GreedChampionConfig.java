@@ -59,7 +59,6 @@ public class GreedChampionConfig extends PackAuthoredConfig {
     public static class Hunt {
         @Expose public double aggroRadius;
         @Expose public double leashDistance;
-        @Expose public double spawnRingMin;
         @Expose public double spawnRingMax;
         @Expose public int dormantTicks;
         @Expose public int orphanTicks;
@@ -74,7 +73,7 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         @Expose public int chargeTicks;
     }
 
-    /** The unnegatable second hit both the Champion and greed assassins land. */
+    /** The irreducible - but still dodgeable and blockable - second hit both the Champion and greed assassins land. */
     public static class TrueDamage {
         @Expose public float champion;
         @Expose public float assassin;
@@ -182,7 +181,7 @@ public class GreedChampionConfig extends PackAuthoredConfig {
     @Override
     protected void reset() {
         this.documentation = new LinkedHashMap<>();
-        this.documentation.put("ranks", "One entry per medallion rank that can summon a Champion. Ranks with no entry never spawn one; as shipped that is every rank below Master 1 (rank 10)");
+        this.documentation.put("ranks", "One entry per medallion tier that can summon a Champion, keyed by the tier's rank index - this is the medallion in the vault, never the player's own greed rank, so anyone running a qualifying medallion vault can meet one. Tiers with no entry never spawn one; as shipped that is every medallion below Master 1 (10)");
         this.documentation.put("healthPool", "Damage the Champion must absorb before it is defeated, at the level anchor and before difficulty, medallion and vault modifiers. It is a damage pool, not entity health: the Vessel cannot be killed, so emptying the pool discards it");
         this.documentation.put("damageMultiplier", "Multiplier on baseAttackDamage. The Vessel's own time ramp (1.2x/min for five minutes then 1.35x/min) applies on top");
         this.documentation.put("movementSpeedMultiplier", "Multiplier on the Vessel's 0.25 base movement speed, then clamped to movementSpeedCap");
@@ -199,10 +198,12 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         this.documentation.put("spawnRingMax", "Fallback search radius. The Champion lands on the player; this is only how far out it looks when there is no room to stand there");
         this.documentation.put("dormantTicks", "How long the Champion stands inert after spawning before it activates");
         this.documentation.put("orphanTicks", "How long a Champion with no runner left in the vault survives before it is discarded");
+        this.documentation.put("managerIntervalTicks", "How often the server re-binds the hunt target, drags the Champion back onto its quarry, decays rage and pushes the health bar");
         this.documentation.put("lightning", "Being out of position for chargeTicks forces a lightning storm. One shared counter: above, below or far all charge the same one");
-        this.documentation.put("trueDamage", "Flat unnegatable damage landed as a second event on every melee hit, bypassing armor, resistance and invulnerability frames. Deliberately does not scale with anything");
+        this.documentation.put("trueDamage", "Flat damage landed as a second event on every melee hit. Nothing reduces it - armor, resistance, gear and god nodes are all bypassed or floored out - but it can still be dodged, blocked or refused by an immunity like any other hit. Deliberately does not scale with anything");
         this.documentation.put("aura", "Inside this radius of a Champion or assassin, players cannot avoid harmful effects. Time Acceleration is exempt");
         this.documentation.put("rage", "Per-player, per-vault. Rises on the listed actions, decays every tick. Once rage reaches the threshold a roll every rollIntervalTicks can ARM a spawn, which then fires on the player's next rage-increasing action");
+        this.documentation.put("rollIntervalTicks", "How often that arming roll is made. Independent of managerIntervalTicks: this is the whole spawn cadence, so halving it doubles how often a Champion turns up");
         this.documentation.put("baseThreshold", "Rage needed before rolls begin. Multiplied by thresholdMultiplierPerKill for each Champion this player has already defeated this vault");
         this.documentation.put("rewards", "Multiplied by the medallion's rank index. Rank 10 (Master 1) with the shipped values pays 50 greed coins and 20 tickets");
 
@@ -230,7 +231,6 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         this.hunt = new Hunt();
         this.hunt.aggroRadius = 40.0D;
         this.hunt.leashDistance = 35.0D;
-        this.hunt.spawnRingMin = 0.0D;
         this.hunt.spawnRingMax = 8.0D;
         this.hunt.dormantTicks = 40;
         this.hunt.orphanTicks = 200;

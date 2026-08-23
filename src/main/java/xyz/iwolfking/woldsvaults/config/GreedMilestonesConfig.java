@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
@@ -34,13 +35,29 @@ public class GreedMilestonesConfig extends PackAuthoredConfig {
         @Expose @Nullable public Integer requiredRank;
 
         /**
-         * Whether this entry describes a milestone at all: at least one tier, and one reputation
-         * value per tier. {@code MilestoneDefinition} would throw on either, and a config typo
-         * should not take the milestone engine down with it.
+         * Whether this entry describes a milestone at all: at least one tier, one reputation value
+         * per tier, and thresholds that strictly ascend. {@code MilestoneDefinition} would throw on
+         * the first two, and a config typo should not take the milestone engine down with it.
+         *
+         * <p>The ordering check is here because nothing downstream enforces it and the failure is
+         * silent: tier completion is counted by walking the list until a threshold is not met, so a
+         * table that dips - or repeats a value - retires every tier past the dip permanently and the
+         * reputation banked behind them can never be claimed. {@code MilestoneRegistry} answers a
+         * refusal by falling back to that milestone's shipped table and naming it in the log.</p>
          */
         public boolean isUsable() {
-            return this.thresholds != null && !this.thresholds.isEmpty()
-                    && this.reputation != null && this.reputation.size() == this.thresholds.size();
+            if (this.thresholds == null || this.thresholds.isEmpty()
+                    || this.reputation == null || this.reputation.size() != this.thresholds.size()) {
+                return false;
+            }
+            for (int index = 1; index < this.thresholds.size(); index++) {
+                if (this.thresholds.get(index) <= this.thresholds.get(index - 1)) {
+                    WoldsVaults.LOGGER.error("A greed_milestones.json entry puts tier {} at {} and tier {} at {}; thresholds must strictly ascend, so the entry is refused",
+                            index, this.thresholds.get(index), index - 1, this.thresholds.get(index - 1));
+                    return false;
+                }
+            }
+            return true;
         }
 
         public long[] thresholds() {
@@ -172,6 +189,8 @@ public class GreedMilestonesConfig extends PackAuthoredConfig {
         tiers(MilestoneIds.DUNGEONEER, new long[]{5L, 15L, 50L, 125L}, new int[]{10, 20, 40, 60});
         tiers(MilestoneIds.VILLAIN, new long[]{1L, 15L, 60L, 250L}, new int[]{5, 10, 20, 30});
         tiers(MilestoneIds.FLAWLESS_VICTORY, new long[]{3L, 10L, 25L, 50L}, new int[]{15, 20, 30, 60});
+        tiers(MilestoneIds.ASSASSIN_ASSASSINATOR,
+                new long[]{10L, 50L, 150L, 400L, 1000L}, new int[]{20, 40, 75, 100, 125});
         tiers(MilestoneIds.FAIL_VAULTS, new long[]{5L, 15L, 40L, 100L, 200L}, new int[]{10, 20, 40, 70, 90});
         tiers(MilestoneIds.MASTER_SMITH, new long[]{1L}, new int[]{75});
         tiers(MilestoneIds.IDONAS_CHAMPION,
@@ -193,7 +212,7 @@ public class GreedMilestonesConfig extends PackAuthoredConfig {
         tiers(MilestoneIds.SEND_A_PRAYER, new long[]{25L, 75L, 200L, 400L, 750L}, new int[]{10, 20, 35, 50, 75});
         tiers(MilestoneIds.BORN_AGAIN, new long[]{3L, 10L, 25L, 100L}, new int[]{5, 10, 20, 30});
         tiers(MilestoneIds.PAL_TRAINER, new long[]{1L, 5L, 10L, 25L}, new int[]{10, 20, 30, 50});
-        tiers(MilestoneIds.VAULT_VETERAN, new long[]{1L, 2L, 3L, 4L, 5L}, new int[]{0, 0, 0, 0, 0});
+        tiers(MilestoneIds.VAULT_VETERAN, new long[]{1L, 2L, 3L, 4L, 5L}, new int[]{50, 100, 200, 300, 500});
         challenge(MilestoneIds.UNSTABLE_SHUFFLE, MilestoneRankLadder.LOOTER_1);
         challenge(MilestoneIds.PITCH_BLACK, MilestoneRankLadder.LOOTER_1);
         challenge(MilestoneIds.TRAPPED, MilestoneRankLadder.LOOTER_3);

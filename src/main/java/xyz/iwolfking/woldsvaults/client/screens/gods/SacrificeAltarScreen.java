@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,6 +17,8 @@ import xyz.iwolfking.woldsvaults.gods.network.ServerboundSelectSacrificeGodMessa
 
 import javax.annotation.Nullable;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Greed Cauldron's sacrificial-altar menu: pick the god to sacrifice toward, see the current
@@ -28,6 +31,9 @@ public class SacrificeAltarScreen extends Screen {
     private static final int PANEL_HEIGHT = 212;
     private static final int PLATE_WIDTH = 62;
     private static final int PLATE_HEIGHT = 30;
+    private static final int FOOTER_MARGIN = 16;
+    private static final int HINT_LINE_HEIGHT = 7;
+    private static final float HINT_SCALE = 0.75F;
 
     private ClientboundSacrificeMenuMessage data;
     private int pollTicks;
@@ -41,6 +47,9 @@ public class SacrificeAltarScreen extends Screen {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.screen instanceof SacrificeAltarScreen open) {
             open.data = message;
+            return;
+        }
+        if (message.refreshOnly) {
             return;
         }
         minecraft.setScreen(new SacrificeAltarScreen(message));
@@ -152,18 +161,29 @@ public class SacrificeAltarScreen extends Screen {
                 hoveredStack = stack;
             }
         }
-        int footerY = y + PANEL_HEIGHT - 34;
         boolean itemsComplete = snapshot.entries.stream().allMatch(entry -> entry.have() >= entry.required());
         String offering = itemsComplete ? "Offering complete." : "Offering incomplete.";
         String xpLine = snapshot.xpReady ? "God experience full." : "God experience not yet full.";
-        this.font.drawShadow(matrixStack, offering + "  " + xpLine, x + 16, footerY,
-                itemsComplete && snapshot.xpReady ? 0xFF7BE87B : 0xFF9A93A8);
+        int textLeft = x + FOOTER_MARGIN;
+        int wrapWidth = PANEL_WIDTH - 2 * FOOTER_MARGIN;
+        List<FormattedCharSequence> status = this.font.split(new TextComponent(offering + "  " + xpLine), wrapWidth);
+        List<FormattedCharSequence> hints = new ArrayList<>();
+        hints.addAll(this.font.split(new TextComponent("Feed the cauldron by pipe, hopper or tossed item - offerings cannot be taken back."),
+                (int) (wrapWidth / HINT_SCALE)));
+        hints.addAll(this.font.split(new TextComponent("Apply a redstone signal to the cauldron to perform the sacrifice."),
+                (int) (wrapWidth / HINT_SCALE)));
+        int footerY = y + PANEL_HEIGHT - 10 - (status.size() * 10 + hints.size() * HINT_LINE_HEIGHT);
+        int statusColor = itemsComplete && snapshot.xpReady ? 0xFF7BE87B : 0xFF9A93A8;
+        for (int i = 0; i < status.size(); i++) {
+            this.font.drawShadow(matrixStack, status.get(i), textLeft, footerY + i * 10, statusColor);
+        }
+        int hintTop = footerY + status.size() * 10 + 2;
         matrixStack.pushPose();
-        matrixStack.scale(0.75F, 0.75F, 1.0F);
-        this.font.drawShadow(matrixStack, "Feed the cauldron by pipe, hopper or tossed item - offerings cannot be taken back.",
-                (x + 16) / 0.75F, (footerY + 12) / 0.75F, 0xFF7A7488);
-        this.font.drawShadow(matrixStack, "Apply a redstone signal to the cauldron to perform the sacrifice.",
-                (x + 16) / 0.75F, (footerY + 21) / 0.75F, 0xFF7A7488);
+        matrixStack.scale(HINT_SCALE, HINT_SCALE, 1.0F);
+        for (int i = 0; i < hints.size(); i++) {
+            this.font.drawShadow(matrixStack, hints.get(i), textLeft / HINT_SCALE,
+                    (hintTop + i * HINT_LINE_HEIGHT) / HINT_SCALE, 0xFF7A7488);
+        }
         matrixStack.popPose();
         if (!hoveredStack.isEmpty()) {
             this.renderTooltip(matrixStack, hoveredStack, mouseX, mouseY);

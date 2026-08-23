@@ -184,13 +184,15 @@ public enum GreedMedallionTier {
     }
 
     /**
-     * Vault Champion behaviors (hunt, enrage) are deferred; these exist so the later champion wave
-     * has its gates already tabled and tunable.
+     * From this rank up, a medallion builds rage and can summon a Vault Champion at all - and every
+     * such rank needs a matching entry in {@code gods/greed_champion.json}, which is what actually
+     * decides what one is made of.
      */
     public boolean vaultChampionHunts() {
         return this.rankIndex >= gates.vaultChampionHunts;
     }
 
+    /** From this rank up, the arming roll uses the higher legend chance rather than the base one. */
     public boolean vaultChampionEnraged() {
         return this.rankIndex >= gates.vaultChampionEnraged;
     }

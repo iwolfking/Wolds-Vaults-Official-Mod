@@ -74,8 +74,10 @@ public final class GreedTrialHyper {
 
     /**
      * Whether the exit pillar should be offered after this cycle. Ordinary hyper vaults always
-     * offer it; a trial only offers it once the required cycles are done, and by then the vault is
-     * already ending itself, so in practice a trial never shows one.
+     * offer it; a trial withholds it until the required cycles are done, so the only pillar a trial
+     * ever spawns is the one on its final cycle - which is the same cycle the trial passes on, so
+     * the pillar and the payout arrive together and the player can leave under their own power
+     * rather than waiting out the outro.
      */
     public static boolean shouldOfferExit(Vault vault) {
         int required = requiredCycles(vault);

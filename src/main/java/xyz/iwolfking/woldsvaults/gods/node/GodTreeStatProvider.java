@@ -56,8 +56,9 @@ public final class GodTreeStatProvider implements GodTreeAttributeProviders.Prov
     /**
      * Minor-transfer resolution. Returns nothing while this tree is the active one: the
      * {@link GodNodeAttributeSource.Scope#ALL} pass above already contributed every minor of this
-     * god, and any node id is accepted into a minor-transfer slot, so a player who parks one of
-     * this god's minors in this god's own slots would otherwise receive it twice.
+     * god, and a god's transfer slots only ever carry that god's own learned minors
+     * ({@code MinorTransferSlots.isTransferable}), so the slots are by definition dormant while
+     * their god is the active one.
      */
     @Override
     public List<VaultGearAttributeInstance<?>> getMinorTransferAttributes(ServerPlayer player, Collection<String> nodeIds) {

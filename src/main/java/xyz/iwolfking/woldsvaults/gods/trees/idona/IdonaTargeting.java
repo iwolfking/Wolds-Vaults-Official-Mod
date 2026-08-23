@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.items.gear.VaultBattleStaffItem;
+import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampion;
 
 import java.util.regex.Pattern;
 
@@ -52,12 +53,12 @@ public final class IdonaTargeting {
     }
 
     /**
-     * The greed champion half of Greedbane. The entity is introduced by the Medallions half of the
-     * greed rework and does not exist in any config, entity group or class today, so this predicate
-     * is deliberately constant-false; wiring it up is a one-line change once the entity lands.
+     * The greed champion half of Greedbane. The champion is a {@code TheVesselEntity} carrying the
+     * spawner's own tag rather than a dedicated class, so the identity question belongs to
+     * {@link VaultChampion} and this delegates to it instead of re-deriving the tag here.
      */
     public static boolean isGreedChampion(Entity entity) {
-        return false;
+        return VaultChampion.isChampion(entity);
     }
 
     /**

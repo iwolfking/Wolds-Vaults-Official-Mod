@@ -16,6 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * {@code GreedMedallionVaultState} and {@code VaultClockRate} keep - a vault that outlives a server
  * restart simply starts its rage over, which is the right failure for a within-run counter.
  *
+ * <p>The Champion itself is not in-memory in that sense. It persists in the world, so a restart that
+ * empties this map leaves a live boss with no record; {@code VaultChampionManager} re-adopts it from
+ * the entity's own NBT rather than letting the vault treat it as gone and arm another.
+ *
  * <p>The entries are held by vault id rather than by level so a finished vault's
  * {@code VirtualWorld} is never kept alive by this map.</p>
  */
@@ -31,6 +35,7 @@ public final class VaultChampionState {
         private int championKills;
         private boolean armed;
         private UUID liveChampion;
+        private int missingTicks;
 
         public double getRage() {
             return this.rage;
@@ -54,6 +59,21 @@ public final class VaultChampionState {
 
         public void setLiveChampion(UUID liveChampion) {
             this.liveChampion = liveChampion;
+            this.missingTicks = 0;
+        }
+
+        /**
+         * Books one manager tick on which the live Champion did not resolve to an entity, and answers
+         * how long that has been true for. An unloaded chunk is the ordinary reason: the record is
+         * kept so the vault cannot arm a second Champion while the first is simply out of sight.
+         */
+        public int noteChampionMissing(int ticks) {
+            this.missingTicks += Math.max(0, ticks);
+            return this.missingTicks;
+        }
+
+        public void noteChampionPresent() {
+            this.missingTicks = 0;
         }
 
         public void addRage(double amount) {
@@ -73,6 +93,7 @@ public final class VaultChampionState {
             this.rage = 0.0D;
             this.armed = false;
             this.liveChampion = null;
+            this.missingTicks = 0;
             this.championKills++;
         }
 

@@ -22,6 +22,27 @@ public final class GodTreeTheme {
     public static final TextureAtlasRegion TAB_ICON_GODS =
             TextureAtlasRegion.of(ModTextureAtlases.SCREEN, WoldsVaults.id("gui/screen/tab_icon_gods"));
 
+    /** The order this tab shows the gods in everywhere: Idona, Velara, Wendarr, Tenos. */
+    public static final VaultGod[] DISPLAY_ORDER = {VaultGod.IDONA, VaultGod.VELARA, VaultGod.WENDARR, VaultGod.TENOS};
+
+    /** The God's Mastery item sprite, the face of the overview page. */
+    public static final ResourceLocation GODS_MASTERY_ICON = WoldsVaults.id("textures/item/gods_mastery.png");
+
+    public static final int OVERVIEW_ACCENT = 0xFFE6DCC0;
+    public static final int PLATE_FILL = 0xC01A1420;
+    public static final int PLATE_BORDER = 0xFF2E2430;
+    public static final int PLATE_BORDER_HOVER = 0xFF8A8A8A;
+    public static final int TEXT_MUTED = 0xFFC4C4C4;
+    public static final int TEXT_DIM = 0xFF8A8A8A;
+    public static final int STATUS_GOOD = 0xFF6EF08C;
+    public static final int STATUS_BAD = 0xFFFF5A5A;
+    public static final int SLOT_LOCKED_FILL = 0xFF1C1A22;
+    public static final int SLOT_LOCKED_RING = 0xFF5E5C68;
+    public static final int SLOT_LOCKED_CROSS = 0xD0FF5A5A;
+    public static final int SLOT_EMPTY_FILL = 0xFF14101A;
+    public static final int SLOT_EMPTY_RING = 0xFFA4A4AE;
+    public static final int POPUP_FILL = 0xE0100A14;
+
     public static final int STAR_SHEET_SIZE = 256;
     public static final int STAR_CELL = 64;
     public static final int STAR_COLUMN_STAT = 0;
@@ -44,6 +65,11 @@ public final class GodTreeTheme {
 
     public static ResourceLocation starSheet(VaultGod god) {
         return WoldsVaults.id("textures/gui/gods/stars_" + god.getName().toLowerCase(java.util.Locale.ROOT) + ".png");
+    }
+
+    /** The grey star sheet, for a transfer-slot star that is dormant because its god is the active one. */
+    public static ResourceLocation starSheetNeutral() {
+        return WoldsVaults.id("textures/gui/gods/stars_neutral.png");
     }
 
     public static TextureAtlasRegion godIcon(VaultGod god) {

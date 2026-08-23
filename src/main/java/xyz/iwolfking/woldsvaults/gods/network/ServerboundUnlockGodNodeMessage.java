@@ -8,8 +8,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
+import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
 import xyz.iwolfking.woldsvaults.gods.node.GodNode;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeModel;
 
 import java.util.function.Supplier;
@@ -78,7 +80,9 @@ public class ServerboundUnlockGodNodeMessage extends Message<ServerboundUnlockGo
                         node.cost());
                 return;
             }
+            GodNodeCache.refresh(player);
             AttributeSnapshotHelper.getInstance().refreshSnapshotDelayed(player);
+            GodNodeTicker.reconcile(player);
         });
         ctx.setPacketHandled(true);
     }

@@ -1,5 +1,10 @@
 package xyz.iwolfking.woldsvaults.gods;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,6 +14,11 @@ import java.util.function.Supplier;
 /**
  * The one scratch store for live god node state, keyed by {@code (playerId, effectId)} for
  * per-player state and by {@code (vaultId, effectId)} for state that belongs to a running vault.
+ *
+ * <p>Both of those stores are transient and vault-scoped: the player store is wiped on logout and
+ * on every vault-listener leave, the vault store at vault end. State that must outlive a vault or a
+ * relog - a revive cooldown, a deadline - belongs in {@link #persistent}, which rides the player's
+ * persisted NBT and is cleared only by the effect that owns it.
  *
  * <p>Handler classes hold no static per-player maps of their own. That rule is what makes two
  * shipped bug classes unrepresentable: state that has no logout path and leaks for the process
@@ -21,6 +31,8 @@ import java.util.function.Supplier;
  * clear the player, vault end clears the vault.
  */
 public final class GodNodeState {
+    private static final String PERSISTENT_ROOT = "woldsvaults_god_nodes";
+
     private static final Map<UUID, Map<String, Object>> PLAYERS = new ConcurrentHashMap<>();
     private static final Map<UUID, Map<String, Object>> VAULTS = new ConcurrentHashMap<>();
 
@@ -90,6 +102,47 @@ public final class GodNodeState {
     public static void clearAll() {
         PLAYERS.clear();
         VAULTS.clear();
+    }
+
+    /**
+     * The player's durable scratch for one effect: a compound under the player's persisted NBT, so
+     * it survives logout, death and a server restart, unlike {@link #get}, which is wiped on logout
+     * and on every vault leave. Nothing clears it except {@link #clearPersistent} and the effect's
+     * own code. Values are written straight into the returned compound; stamp wall-clock time rather
+     * than game time, because game time does not carry across worlds.
+     */
+    public static CompoundTag persistent(ServerPlayer player, String effectId) {
+        CompoundTag persisted = child(player.getPersistentData(), Player.PERSISTED_NBT_TAG);
+        return child(child(persisted, PERSISTENT_ROOT), effectId);
+    }
+
+    /** Whether {@link #persistent} has ever been written for this effect, without creating it. */
+    public static boolean hasPersistent(ServerPlayer player, String effectId) {
+        CompoundTag data = player.getPersistentData();
+        if (!data.contains(Player.PERSISTED_NBT_TAG, Tag.TAG_COMPOUND)) {
+            return false;
+        }
+        CompoundTag persisted = data.getCompound(Player.PERSISTED_NBT_TAG);
+        return persisted.contains(PERSISTENT_ROOT, Tag.TAG_COMPOUND)
+                && persisted.getCompound(PERSISTENT_ROOT).contains(effectId, Tag.TAG_COMPOUND);
+    }
+
+    public static void clearPersistent(ServerPlayer player, String effectId) {
+        CompoundTag data = player.getPersistentData();
+        if (!data.contains(Player.PERSISTED_NBT_TAG, Tag.TAG_COMPOUND)) {
+            return;
+        }
+        CompoundTag persisted = data.getCompound(Player.PERSISTED_NBT_TAG);
+        if (persisted.contains(PERSISTENT_ROOT, Tag.TAG_COMPOUND)) {
+            persisted.getCompound(PERSISTENT_ROOT).remove(effectId);
+        }
+    }
+
+    private static CompoundTag child(CompoundTag parent, String key) {
+        if (!parent.contains(key, Tag.TAG_COMPOUND)) {
+            parent.put(key, new CompoundTag());
+        }
+        return parent.getCompound(key);
     }
 
     @SuppressWarnings("unchecked")

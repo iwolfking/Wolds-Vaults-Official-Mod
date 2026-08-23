@@ -2,9 +2,12 @@ package xyz.iwolfking.woldsvaults.init;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
+
+import java.util.Optional;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.network.message.LuckyHitCooldownParticleMessage;
 import xyz.iwolfking.woldsvaults.network.packets.OpenFloatingTextScreenPacket;
@@ -14,6 +17,7 @@ import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage
 import xyz.iwolfking.woldsvaults.network.message.ElixirParticleMessage;
 import xyz.iwolfking.woldsvaults.network.message.ChampionHudMessage;
 import xyz.iwolfking.woldsvaults.network.message.MagicMissileWarningMessage;
+import xyz.iwolfking.woldsvaults.network.message.RampageCdmMessage;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSetTrinketSpeedCapPacket;
 import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
@@ -37,9 +41,10 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, BrewingAltarParticleMessage.class, BrewingAltarParticleMessage::encode, BrewingAltarParticleMessage::decode, BrewingAltarParticleMessage::handle);
         CHANNEL.registerMessage(id++, ClientboundSyncGamerulesMessage.class, ClientboundSyncGamerulesMessage::encode, ClientboundSyncGamerulesMessage::decode, ClientboundSyncGamerulesMessage::handle);
         CHANNEL.registerMessage(id++, ElixirParticleMessage.class, ElixirParticleMessage::encode, ElixirParticleMessage::decode, ElixirParticleMessage::handle);
-        CHANNEL.registerMessage(id++, MagicMissileWarningMessage.class, MagicMissileWarningMessage::encode, MagicMissileWarningMessage::decode, MagicMissileWarningMessage::handle);
-        CHANNEL.registerMessage(id++, ChampionHudMessage.class, ChampionHudMessage::encode, ChampionHudMessage::decode, ChampionHudMessage::handle);
+        CHANNEL.registerMessage(id++, MagicMissileWarningMessage.class, MagicMissileWarningMessage::encode, MagicMissileWarningMessage::decode, MagicMissileWarningMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, ChampionHudMessage.class, ChampionHudMessage::encode, ChampionHudMessage::decode, ChampionHudMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, LuckyHitCooldownParticleMessage.class, LuckyHitCooldownParticleMessage::encode, LuckyHitCooldownParticleMessage::decode, LuckyHitCooldownParticleMessage::handle);
+        CHANNEL.registerMessage(id++, RampageCdmMessage.class, RampageCdmMessage::encode, RampageCdmMessage::decode, RampageCdmMessage::handle);
         CHANNEL.registerMessage(id++, ServerboundSetTrinketSpeedCapPacket.class, ServerboundSetTrinketSpeedCapPacket::encode, ServerboundSetTrinketSpeedCapPacket::decode, ServerboundSetTrinketSpeedCapPacket::handle);
     }
 

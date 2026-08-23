@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.gods.trees.velara;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.GrantedEffectEvent;
 import iskallia.vault.core.event.common.PlayerStatEvent;
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.snapshot.AttributeSnapshot;
@@ -11,6 +12,7 @@ import iskallia.vault.util.calc.PlayerStat;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 
 /**
  * The single Velara listener set on {@code CommonEvents.PLAYER_STAT} and
@@ -19,9 +21,16 @@ import net.minecraft.world.entity.LivingEntity;
  * <p>One listener per stat rather than one per node: {@code PLAYER_STAT} dispatch is O(listeners)
  * and fires on every hit, heal and thorns computation, so every Velara contribution to a stat is
  * folded inside a single handler where ordering is also explicit rather than emergent.
+ *
+ * <p>Ordering contract: additive legs register at the bus default priority, every leg that
+ * multiplies the running value registers at {@code MULTIPLICATIVE_PRIORITY} and Malediction's cap
+ * last at {@code MALEDICTION_PRIORITY} - the bus dispatches in descending priority, so a Velara
+ * multiplier always scales a total every additive contributor has already finished adding to,
+ * rather than whichever share happened to be registered first.
  */
 public final class VelaraStatBus {
     static final Object LISTENER_REF = new Object();
+    private static final int MULTIPLICATIVE_PRIORITY = -500;
     private static final int MALEDICTION_PRIORITY = -1000;
 
     private VelaraStatBus() {
@@ -30,10 +39,10 @@ public final class VelaraStatBus {
     static void register() {
         CommonEvents.PLAYER_STAT.of(PlayerStat.RESISTANCE).register(LISTENER_REF, VelaraStatBus::onResistance);
         CommonEvents.PLAYER_STAT.of(PlayerStat.HEALING_EFFECTIVENESS).register(LISTENER_REF, VelaraStatBus::onHealingEffectiveness);
+        CommonEvents.PLAYER_STAT.of(PlayerStat.HEALING_EFFECTIVENESS).register(LISTENER_REF, VelaraStatBus::multiplyHealingEffectiveness, MULTIPLICATIVE_PRIORITY);
         CommonEvents.PLAYER_STAT.of(PlayerStat.HEALING_EFFECTIVENESS).register(LISTENER_REF, VelaraStatBus::clampMalediction, MALEDICTION_PRIORITY);
-        CommonEvents.PLAYER_STAT.of(PlayerStat.THORNS_DAMAGE_MULTIPLIER).register(LISTENER_REF, VelaraStatBus::onThornsMultiplier);
-        CommonEvents.PLAYER_STAT.of(PlayerStat.THORNS_DAMAGE_FLAT).register(LISTENER_REF, VelaraStatBus::onThornsFlat);
-        CommonEvents.PLAYER_STAT.of(PlayerStat.SPEED).register(LISTENER_REF, VelaraStatBus::onSpeed);
+        CommonEvents.PLAYER_STAT.of(PlayerStat.THORNS_DAMAGE_MULTIPLIER).register(LISTENER_REF, VelaraStatBus::onThornsMultiplier, MULTIPLICATIVE_PRIORITY);
+        CommonEvents.PLAYER_STAT.of(PlayerStat.THORNS_DAMAGE_FLAT).register(LISTENER_REF, VelaraStatBus::onThornsFlat, MULTIPLICATIVE_PRIORITY);
         CommonEvents.GRANTED_EFFECT.register(LISTENER_REF, VelaraStatBus::onGrantedEffects);
     }
 
@@ -52,6 +61,7 @@ public final class VelaraStatBus {
         }
     }
 
+    /** Healing Flow and Presence, both flat additions, at the default priority beside base's own. */
     private static void onHealingEffectiveness(PlayerStatEvent.Data data) {
         ServerPlayer player = serverPlayer(data.getEntity());
         if (player == null) {
@@ -60,6 +70,16 @@ public final class VelaraStatBus {
         float value = data.getValue();
         value += healingFlowBonus(player);
         value += VelaraValues.presenceHealing() * VelaraAuras.getPresenceStacks(player);
+        data.setValue(value);
+    }
+
+    /** Immortal and Bounce Back, both multipliers, so they run below every additive contributor. */
+    private static void multiplyHealingEffectiveness(PlayerStatEvent.Data data) {
+        ServerPlayer player = serverPlayer(data.getEntity());
+        if (player == null) {
+            return;
+        }
+        float value = data.getValue();
         if (VelaraNodes.isActive(player, VelaraNodes.IMMORTAL)) {
             value *= VelaraValues.immortalHealingMultiplier();
         }
@@ -94,11 +114,10 @@ public final class VelaraStatBus {
     }
 
     /**
-     * Thorns multiplier. The base mod's {@code ThornsHelper.getThornsDamageMultiplier} adds this
-     * event's return value to the gear sum it already seeded the event with, so a listener that
-     * wants a total of {@code k x gear} has to return {@code (k - 1) x gear}. That compensation is
-     * load bearing: if the base double-count is ever fixed to an assignment, this leg silently
-     * becomes {@code (k - 1) x gear} and must be rewritten.
+     * Thorns multiplier. {@code MixinThornsHelper} removes the base mod's double count of the gear
+     * sum, so this leg now scales the seeded value directly and reads exactly like its flat
+     * counterpart below. It carried a {@code (k - 1)} compensation while the double count stood;
+     * the two changes are one change and neither works without the other.
      */
     private static void onThornsMultiplier(PlayerStatEvent.Data data) {
         ServerPlayer player = serverPlayer(data.getEntity());
@@ -107,7 +126,7 @@ public final class VelaraStatBus {
         }
         float factor = thornsFactor(player);
         if (factor != 1.0F) {
-            data.setValue(data.getValue() * (factor - 1.0F));
+            data.setValue(data.getValue() * factor);
         }
     }
 
@@ -133,20 +152,31 @@ public final class VelaraStatBus {
             factor *= VelaraValues.cactusThornsMultiplier();
         }
         if (VelaraNodes.isActive(player, VelaraNodes.MALEDICTION)) {
-            AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
-            float healing = snapshot.getAttributeValue(ModGearAttributes.HEALING_EFFECTIVENESS,
-                    VaultGearAttributeTypeMerger.floatSum());
-            factor *= (float) Math.cbrt(Math.max(0.0D, 1.0D + healing));
+            factor *= maledictionFactor(gearHealingEfficiency(player));
         }
         return factor;
     }
 
-    private static void onSpeed(PlayerStatEvent.Data data) {
-        ServerPlayer player = serverPlayer(data.getEntity());
-        if (player == null || !VelaraNodes.isActive(player, VelaraNodes.THE_STONEWALL)) {
-            return;
-        }
-        data.setValue(data.getValue() * VelaraValues.stonewallSpeedMultiplier());
+    private static float gearHealingEfficiency(ServerPlayer player) {
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
+        return snapshot.getAttributeValue(ModGearAttributes.HEALING_EFFECTIVENESS, VaultGearAttributeTypeMerger.floatSum());
+    }
+
+    private static float maledictionFactor(float healing) {
+        return (float) Math.cbrt(Math.max(0.0D, 1.0D + healing));
+    }
+
+    /** The gods tab preview of Malediction: the thorns multiplier the player's gear healing efficiency gives. */
+    static GodNodePreviews.Preview previewMalediction(ServerPlayer player) {
+        float healing = gearHealingEfficiency(player);
+        float factor = maledictionFactor(healing);
+        return new GodNodePreviews.Working(VaultGod.VELARA)
+                .formula("Thorns multiplier", "cubeRoot(1 + healing efficiency)")
+                .input("healing efficiency", "your gear's healing efficiency, before this star forces it to -50%",
+                        GodNodePreviews.signedPercent(healing))
+                .result("cubeRoot(" + GodNodePreviews.number(Math.max(0.0D, 1.0D + healing)) + ")", factor)
+                .inactive(!VelaraNodes.isActive(player, VelaraNodes.MALEDICTION))
+                .build(factor);
     }
 
     /**

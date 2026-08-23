@@ -30,33 +30,36 @@ public final class TenosVaultHandlers {
     private TenosVaultHandlers() {
     }
 
-    /** Omega Vault: doubled omega room weight, as a modifier attached once per vault. */
+    /**
+     * Omega Vault: doubled omega room weight, as {@code woldsvaults:omega_fortune_double} attached
+     * once per vault. The whole of its number lives in {@code vault_modifiers.json}.
+     */
     public record OmegaVaultHandler(GodEffect effect) implements VaultContributor, TickContributor {
         @Override
         public void onVaultStart(GodNodeContext context, Vault vault) {
-            TenosWorldNodes.reconcileOmegaRooms(vault,
-                    this.effect.params(TenosNodeHandlers.OmegaVaultParams.class).weight_multiplier());
+            TenosWorldNodes.reconcileOmegaRooms(vault);
         }
 
         @Override
         public void tick(GodNodeContext context) {
-            TenosWorldNodes.reconcileOmegaRooms(TenosVaultUtil.vaultOf(context.player()),
-                    this.effect.params(TenosNodeHandlers.OmegaVaultParams.class).weight_multiplier());
+            TenosWorldNodes.reconcileOmegaRooms(TenosVaultUtil.vaultOf(context.player()));
         }
     }
 
-    /** Master of Chests: the pack's one-percent cascade rows, attached once per vault. */
+    /**
+     * Master of Chests: {@code woldsvaults:tenos_master_of_chests}, a group over the pack's
+     * one-percent cascade rows, attached once per vault. Its stack count per row lives in
+     * {@code vault_modifiers.json}.
+     */
     public record MasterOfChestsHandler(GodEffect effect) implements VaultContributor, TickContributor {
         @Override
         public void onVaultStart(GodNodeContext context, Vault vault) {
-            TenosWorldNodes.reconcileCascading(vault,
-                    this.effect.params(TenosNodeHandlers.MasterOfChestsParams.class).cascading_stacks());
+            TenosWorldNodes.reconcileCascading(vault);
         }
 
         @Override
         public void tick(GodNodeContext context) {
-            TenosWorldNodes.reconcileCascading(TenosVaultUtil.vaultOf(context.player()),
-                    this.effect.params(TenosNodeHandlers.MasterOfChestsParams.class).cascading_stacks());
+            TenosWorldNodes.reconcileCascading(TenosVaultUtil.vaultOf(context.player()));
         }
     }
 

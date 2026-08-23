@@ -16,8 +16,8 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeState;
  * ({@code MixinItemVaultFruit}, {@code MixinRunner}, {@code HealthReductionHelper}) so no new
  * mixin is introduced for fruit; a call that finds no active node returns its input unchanged.
  *
- * <p>Expert Eater's saved-fruit flag is the tree's only piece of live per-player state, and it
- * lives in the shared {@link GodNodeState} scratch keyed by that effect, so the god core's own
+ * <p>Expert Eater's saved-fruit flag lives in the shared {@link GodNodeState} scratch keyed by
+ * that effect, like every other piece of live per-player state in this tree, so the god core's own
  * teardown on logout, vault-listener leave and respec covers it.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)

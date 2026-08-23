@@ -18,11 +18,14 @@ import java.util.UUID;
  * distinguish the two at runtime, and the {@code greed_champion} tag is the only marker that does
  * it: a type check would catch the trial boss and break the fight the rank-up trials depend on.
  *
- * <p>Three values ride the entity's persistent data, which survives save and load and outlives the
+ * <p>Four values ride the entity's persistent data, which survives save and load and outlives the
  * in-memory vault state. The medallion rank is what every stat and reward reads. The summoner is
  * immutable and owns the rage bookkeeping - whose counter resets on defeat, whose threshold
  * escalates. The hunt target is mutable and is who the Champion is actually chasing; the two part
- * company the moment the summoner dies or leaves and the Champion re-binds to someone else.</p>
+ * company the moment the summoner dies or leaves and the Champion re-binds to someone else. The
+ * vault id is what lets a Champion be re-adopted after a restart: together with the damage pool on
+ * {@code VaultChampionKills}, these are the whole of a Champion's identity, so the manager can
+ * rebuild its bookkeeping from the entity alone.</p>
  */
 public final class VaultChampion {
     public static final String CHAMPION_TAG = "greed_champion";
@@ -30,6 +33,7 @@ public final class VaultChampion {
     private static final String RANK_KEY = "woldsvaults:greed_champion_rank";
     private static final String SUMMONER_KEY = "woldsvaults:greed_champion_summoner";
     private static final String HUNT_TARGET_KEY = "woldsvaults:greed_champion_hunt_target";
+    private static final String VAULT_KEY = "woldsvaults:greed_champion_vault";
 
     private VaultChampion() {
     }
@@ -38,11 +42,24 @@ public final class VaultChampion {
         return entity instanceof TheVesselEntity && entity.getTags().contains(CHAMPION_TAG);
     }
 
-    public static void stamp(Entity entity, GreedMedallionTier tier, UUID summoner) {
+    public static void stamp(Entity entity, GreedMedallionTier tier, UUID summoner, UUID vaultId) {
         CompoundTag data = entity.getPersistentData();
         data.putInt(RANK_KEY, tier.getRankIndex());
         data.putUUID(SUMMONER_KEY, summoner);
         data.putUUID(HUNT_TARGET_KEY, summoner);
+        if (vaultId != null) {
+            data.putUUID(VAULT_KEY, vaultId);
+        }
+    }
+
+    /**
+     * The vault this Champion was summoned in, or null on one stamped before the key existed. Read
+     * only when the manager re-adopts a Champion it has no record of, to tell a boss that belongs to
+     * the vault running in this level from an entity left behind by a previous one.
+     */
+    public static UUID getVaultId(Entity entity) {
+        CompoundTag data = entity.getPersistentData();
+        return data.hasUUID(VAULT_KEY) ? data.getUUID(VAULT_KEY) : null;
     }
 
     public static Optional<GreedMedallionTier> getTier(Entity entity) {

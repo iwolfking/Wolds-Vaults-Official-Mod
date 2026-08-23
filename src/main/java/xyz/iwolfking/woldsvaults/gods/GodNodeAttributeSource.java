@@ -16,7 +16,7 @@ import java.util.List;
  *
  * <p>The carryover fold ({@link GodCarryover}) is the only caller: it asks for the active tree at
  * {@link Scope#ALL}, each foreign tree at {@link Scope#BASIC} (whose values it then scales to 25%),
- * and the active tree's minor-transfer selections at full value.
+ * and the minors carried by every non-active god's transfer slots at full value.
  */
 public interface GodNodeAttributeSource {
     GodNodeAttributeSource NOOP = new GodNodeAttributeSource() {
@@ -43,7 +43,7 @@ public interface GodNodeAttributeSource {
 
     /**
      * Resolves the given minor node ids, wherever they live, into their gear attribute
-     * contributions. Ids come from the active god's minor-transfer slots.
+     * contributions. Ids come from the transfer slots of every god that is not the active one.
      */
     List<VaultGearAttributeInstance<?>> getMinorTransferAttributes(ServerPlayer player, Collection<String> nodeIds);
 

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -60,22 +61,9 @@ public final class ClientGodAlignmentData {
         return state == null ? 0 : state.sacrifices;
     }
 
-    public static int getSpentPoints(VaultGod god) {
-        GodAlignmentData.GodState state = states.get(god);
-        if (state == null) {
-            return 0;
-        }
-        int spent = 0;
-        for (int points : state.spentPoints.values()) {
-            spent += points;
-        }
-        return spent;
-    }
-
     public static int getUnspentPoints(VaultGod god) {
         GodAlignmentData.GodState state = states.get(god);
-        int bonus = state == null ? 0 : state.bonusPoints;
-        return GodLevels.totalPointsForLevel(getLevel(god)) + bonus - getSpentPoints(god);
+        return state == null ? GodLevels.totalPointsForLevel(getLevel(god)) : state.unspentPoints(getLevel(god));
     }
 
     public static Map<String, Integer> getSpentLedger(VaultGod god) {
@@ -83,13 +71,52 @@ public final class ClientGodAlignmentData {
         return state == null ? Collections.emptyMap() : Collections.unmodifiableMap(state.spentPoints);
     }
 
+    /**
+     * The effect ids a god's transfer slots carry, under the same rules as the server's
+     * {@link GodAlignmentData#getMinorTransfers}: unlocked slots only, learned minors of that god
+     * only.
+     */
     public static List<String> getMinorTransfers(VaultGod god) {
         GodAlignmentData.GodState state = states.get(god);
-        return state == null ? Collections.emptyList() : Collections.unmodifiableList(state.minorTransfers);
+        if (state == null) {
+            return Collections.emptyList();
+        }
+        return MinorTransferSlots.liveTransfers(god, state, getMinorTransferSlots(god), id -> { });
     }
 
     public static int getMinorTransferSlots(VaultGod god) {
         return GodLevels.minorTransferSlots(getLevel(god));
+    }
+
+    /** The raw content of one transfer slot, empty for a hole or a slot never written. */
+    public static Optional<String> getMinorTransferSlot(VaultGod god, int slot) {
+        GodAlignmentData.GodState state = states.get(god);
+        if (state == null || slot < 0 || slot >= state.minorTransfers.size() || state.minorTransfers.get(slot).isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(state.minorTransfers.get(slot));
+    }
+
+    /**
+     * Whether a slot is unlocked and holds something that counts - a learned minor star of that
+     * god. Anything else is drawn as an empty slot.
+     */
+    public static boolean isMinorTransferLive(VaultGod god, int slot) {
+        if (slot < 0 || slot >= getMinorTransferSlots(god)) {
+            return false;
+        }
+        return getMinorTransferSlot(god, slot)
+                .map(id -> MinorTransferSlots.isTransferable(god, id, getSpentLedger(god)))
+                .orElse(false);
+    }
+
+    /** The slot index holding {@code effectId} in {@code god}'s transfer slots, or -1. */
+    public static int findMinorTransferSlot(VaultGod god, String effectId) {
+        GodAlignmentData.GodState state = states.get(god);
+        if (state == null || effectId == null || effectId.isEmpty()) {
+            return -1;
+        }
+        return state.minorTransfers.indexOf(effectId);
     }
 
     public static int getAltarCompletions(VaultGod god) {

@@ -6,6 +6,7 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +36,7 @@ public final class GodTreeModel {
     private final Map<String, GodEffect> effects;
     private final Map<String, GodNodeHandler> handlers;
     private final Map<String, GodNodeType> effectTypes;
+    private final Map<String, GodNode> placements;
 
     GodTreeModel(VaultGod god, Map<String, GodNode> nodes, List<Edge> edges, Map<String, Set<String>> adjacency,
                  List<Label> labels, Map<String, SkillStyle> styles, Map<String, GodEffect> effects,
@@ -48,6 +50,11 @@ public final class GodTreeModel {
         this.effects = Collections.unmodifiableMap(effects);
         this.handlers = Collections.unmodifiableMap(handlers);
         this.effectTypes = Collections.unmodifiableMap(effectTypes);
+        Map<String, GodNode> firstPlacements = new LinkedHashMap<>();
+        for (GodNode node : nodes.values()) {
+            firstPlacements.putIfAbsent(node.ledgerKey(), node);
+        }
+        this.placements = Collections.unmodifiableMap(firstPlacements);
     }
 
     public VaultGod getGod() {
@@ -102,6 +109,16 @@ public final class GodTreeModel {
     @Nullable
     public GodNodeType getEffectType(String effectId) {
         return this.effectTypes.get(effectId);
+    }
+
+    /**
+     * The first placement that banks under {@code ledgerKey} - the node itself for a minor or
+     * major, any one of its stars for a stat effect - or null when nothing in this tree banks
+     * there. This is how a transfer slot's stored effect id finds its icon and name again.
+     */
+    @Nullable
+    public GodNode placementOf(String ledgerKey) {
+        return this.placements.get(ledgerKey);
     }
 
     public boolean isEmpty() {

@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandlers;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
@@ -26,7 +27,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
  * Devotion binds the shared {@code piety} type, so none of those is named here. What is left is one
  * type per effect Java has to know about: the two stat effects that pay a non-float attribute or
  * read live gear, the vault and ticker effects in {@link TenosVaultHandlers}, and the rest as
- * {@link ListenerBound} - numbers in config, validated at load, behaviour still reached through the
+ * {@link ListenerBoundHandler} - numbers in config, validated at load, behaviour still reached through the
  * base mod events, the shared final damage stage and the mixins that own the ordering.
  *
  * <p>Params component names are the config keys verbatim, including their underscores. The codec
@@ -50,10 +51,8 @@ public final class TenosNodeHandlers {
     public static void register() {
         GodNodeHandlers.register(TenosNodes.GLOBAL_VEINS, GlobalVeinsParams.class, GlobalVeinsHandler::new);
         GodNodeHandlers.register(TenosNodes.SACKED, SackedHandler::new);
-        GodNodeHandlers.register(TenosNodes.OMEGA_VAULT, OmegaVaultParams.class,
-                TenosVaultHandlers.OmegaVaultHandler::new);
-        GodNodeHandlers.register(TenosNodes.MASTER_OF_CHESTS, MasterOfChestsParams.class,
-                TenosVaultHandlers.MasterOfChestsHandler::new);
+        GodNodeHandlers.register(TenosNodes.OMEGA_VAULT, TenosVaultHandlers.OmegaVaultHandler::new);
+        GodNodeHandlers.register(TenosNodes.MASTER_OF_CHESTS, TenosVaultHandlers.MasterOfChestsHandler::new);
         GodNodeHandlers.register(TenosNodes.CHALLENGE_TACKLER, ChallengeTacklerParams.class,
                 TenosVaultHandlers.ChallengeTacklerHandler::new);
         GodNodeHandlers.register(TenosNodes.SACK_OF_MOBS, SackOfMobsParams.class,
@@ -75,6 +74,12 @@ public final class TenosNodeHandlers {
         GodNodeHandlers.register(TenosNodes.DRILLMASTER, DrillmasterParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(TenosNodes.WEALTHY_PATRON, WealthyPatronParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(TenosNodes.CASH_HUNTER, CashHunterParams.class, ListenerBoundHandler::new);
+        GodNodePreviews.register(TenosNodes.LOOTING_ENGINE, GodNodePreviews.LOOTING_ENGINE_FORMULA,
+                TenosLootStats::previewLootingEngine);
+        GodNodePreviews.register(TenosNodes.INDIANA_JONES, GodNodePreviews.INDIANA_JONES_FORMULA,
+                TenosLootStats::previewIndianaJones);
+        GodNodePreviews.register(TenosNodes.SACK_OF_MOBS, GodNodePreviews.SACK_OF_MOBS_FORMULA,
+                TenosSackOfMobs::preview);
     }
 
     /**
@@ -87,12 +92,6 @@ public final class TenosNodeHandlers {
         return GodNodeRegistry.params(VaultGod.TENOS, effectId, type);
     }
 
-    /**
-     * An effect whose numbers are config and whose behaviour is reached through the base mod's own
-     * events, through the shared final damage stage or through a mixin. It implements no
-     * capability on purpose: a handler that claimed one would be dispatched twice, once by the
-     * capability driver and once by the listener that actually owns the ordering.
-     */
     /**
      * Global Veins: added ability levels on the vein miner ability, which is exactly what the base
      * mod's added-ability-level attribute already expresses. The value is an
@@ -131,14 +130,7 @@ public final class TenosNodeHandlers {
     public record GlobalVeinsParams(int levels) implements GodEffectParams {
     }
 
-    public record OmegaVaultParams(double weight_multiplier) implements GodEffectParams {
-    }
-
-    public record MasterOfChestsParams(int cascading_stacks) implements GodEffectParams {
-    }
-
-    public record ChallengeTacklerParams(float extra_crate_tier_ratio,
-                                         float tiers_per_stack) implements GodEffectParams {
+    public record ChallengeTacklerParams(float extra_crate_tier_ratio) implements GodEffectParams {
     }
 
     public record SackOfMobsParams(float log_base) implements GodEffectParams {

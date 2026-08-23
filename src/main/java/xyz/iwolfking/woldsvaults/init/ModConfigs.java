@@ -13,7 +13,9 @@ import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
@@ -143,6 +145,13 @@ public class ModConfigs {
      * rebuilds the node registry from them. The registry validates as it builds and is fatal on
      * the first inconsistency, so a mistyped tree stops the load instead of silently deleting a
      * god's progression.
+     *
+     * <p>Fatal on the first load only. This runs from the tail of the base mod's config
+     * registration, so on a live {@code reload} an exception here would abort everything the addon
+     * registers after it - the mythic gear configs, the map tiers, the roll types, the tool recipes
+     * and their sync - and leave a half-applied config set. On a reload the failure is reported
+     * through the base mod's invalid-config list instead, and the previously loaded trees stay in
+     * place, because the registry only publishes a complete set.
      */
     private static void registerGodTrees() {
         GOD_LEVELS = new GodLevelsConfig().readConfig();
@@ -155,6 +164,19 @@ public class ModConfigs {
             GOD_TREE_GUI_STYLES.put(god, new GodTreeGuiStylesConfig(name).readConfig());
             GOD_NODE_EFFECTS.put(god, new GodNodeEffectsConfig(name).readConfig());
         }
-        GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
+        if (!godTreesLoadedOnce) {
+            GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
+            godTreesLoadedOnce = true;
+            return;
+        }
+        try {
+            GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
+        } catch (GodTreeConfigException e) {
+            WoldsVaults.LOGGER.error("God tree configs were rejected on reload; the previously loaded trees stay in "
+                    + "place. Fix the named file and reload again.", e);
+            iskallia.vault.init.ModConfigs.INVALID_CONFIGS.add("gods/god_tree_* - " + e.getMessage());
+        }
     }
+
+    private static boolean godTreesLoadedOnce;
 }

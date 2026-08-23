@@ -23,6 +23,12 @@ import java.util.function.Supplier;
 public class ClientboundSacrificeMenuMessage extends Message<ClientboundSacrificeMenuMessage> {
     @Nullable
     public VaultGod selectedGod;
+    /**
+     * True for a snapshot that only updates an altar screen the player already has open; only
+     * the block's own right-click opens the screen, so a sacrifice fired by redstone while the
+     * owner is elsewhere cannot pop a menu on them.
+     */
+    public boolean refreshOnly;
     public final EnumMap<VaultGod, GodSnapshot> gods = new EnumMap<>(VaultGod.class);
 
     public static class GodSnapshot {
@@ -39,6 +45,7 @@ public class ClientboundSacrificeMenuMessage extends Message<ClientboundSacrific
     @Override
     public ClientboundSacrificeMenuMessage read(FriendlyByteBuf buffer) {
         ClientboundSacrificeMenuMessage message = new ClientboundSacrificeMenuMessage();
+        message.refreshOnly = buffer.readBoolean();
         message.selectedGod = buffer.readBoolean() ? buffer.readEnum(VaultGod.class) : null;
         int godCount = buffer.readVarInt();
         for (int i = 0; i < godCount; i++) {
@@ -61,6 +68,7 @@ public class ClientboundSacrificeMenuMessage extends Message<ClientboundSacrific
 
     @Override
     public void write(ClientboundSacrificeMenuMessage message, FriendlyByteBuf buffer) {
+        buffer.writeBoolean(message.refreshOnly);
         buffer.writeBoolean(message.selectedGod != null);
         if (message.selectedGod != null) {
             buffer.writeEnum(message.selectedGod);

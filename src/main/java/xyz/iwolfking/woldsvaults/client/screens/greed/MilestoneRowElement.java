@@ -140,7 +140,9 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                 line.append(GreedTheme.text("/", GreedTheme.TEXT_DIM));
             }
             boolean current = !finished && tier == completed;
-            line.append(GreedTheme.text(GreedTheme.compact(this.definition.getThreshold(tier)),
+            long threshold = this.definition.getThreshold(tier);
+            line.append(GreedTheme.text(this.definition.isDuration()
+                            ? GreedTheme.duration(threshold) : GreedTheme.compact(threshold),
                     current ? GreedTheme.GOLD : GreedTheme.TEXT));
         }
         line.append(GreedTheme.text(" | ", GreedTheme.TEXT_DIM));
@@ -178,7 +180,11 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         GreedProgressBarElement bar = new GreedProgressBarElement(
                 Spatials.positionXYZ(barX, this.metrics.rowBarY, 1).size(barWidth, this.metrics.rowBarHeight),
                 () -> shown, null, finished ? GreedTheme.GOLD : GreedTheme.GOLD_DIM);
-        bar.progressTooltip(value, target);
+        if (this.definition.isDuration()) {
+            bar.durationTooltip(value, target);
+        } else {
+            bar.progressTooltip(value, target);
+        }
         this.addElement(bar);
         this.addElement(new LabelElement<>(Spatials.positionXYZ(barX + barWidth + 2, this.metrics.rowBarY, 1),
                 (ISize) Spatials.size(numeralWidth, 9),

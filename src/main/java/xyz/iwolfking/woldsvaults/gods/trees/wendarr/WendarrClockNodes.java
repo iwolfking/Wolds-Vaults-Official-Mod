@@ -5,7 +5,9 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.util.calc.PlayerStat;
+import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -16,8 +18,11 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.GodVanillaAttributes;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
 import xyz.iwolfking.woldsvaults.gods.combat.VaultClockRate;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -29,12 +34,26 @@ import java.util.UUID;
  * multiplier, the global damage factor and the armour bonus - is an aura on every runner of the
  * vault, not only on the holder.
  *
- * <p>Neither of those is a per-player quantity, so neither can be expressed by a handler acting on
- * the player it ticks for. {@link #reconcile} is the one pass that recomputes the whole vault from
- * its current runners; the two tick contributors in {@link WendarrTimeHandlers} drive it on the
- * shared cadence, their deactivation drives it when a holder loses the node or logs out, and the
- * listener-leave hook below drives it when a holder walks out of the vault. Clock rate factors are
- * per vault and in memory only, which is why the pass re-applies rather than only sets.
+ * <p>Both are vault-sticky by design. The first live holder marks the vault in the per-vault
+ * scratch of {@link GodNodeState} and applies the clock rate, the aura and Quick Search's room
+ * modifier; nothing takes any of that off again for the rest of the run. A holder who leaves, logs
+ * out, respecs or swaps a charm does not get to slow a clock the whole party has already been
+ * racing against, and the minutes a faster clock has already spent cannot be handed back. The
+ * vault dies with its clock, and vault end drops the scratch with it.
+ *
+ * <p>{@link #reconcile} is that one pass. It is driven per vault, not per holder: a
+ * {@link GodNodeTicker.TreePass} runs it once a second for every vault that has an online runner,
+ * so a marked vault keeps applying long after its last holder has gone - a runner who joins a
+ * marked vault after the holder left still gets the aura, because the mark belongs to the vault.
+ * Every application it makes is conditional on that application being absent, so a repeat pass is
+ * a no-op and only genuinely missing state is restored - the aura on a late joiner, or a clock rate
+ * factor, which is per vault and in memory only. What the pass never does is remove; the marks are
+ * one-way.
+ *
+ * <p>The aura's per-player half is still cleaned up per player, by {@link #clearAura} on
+ * vault-listener leave and on the holder's own deactivation: the damage factor and the armour
+ * modifier are transient state on the player, not on the vault, and would otherwise follow the
+ * player out of the vault.
  */
 public final class WendarrClockNodes {
     public static final ResourceLocation OMEGA_FORTUNE_SMALL = WoldsVaults.id("omega_fortune_small");
@@ -48,46 +67,66 @@ public final class WendarrClockNodes {
     }
 
     static void register() {
-        CommonEvents.LISTENER_LEAVE.register(OWNER, data -> {
-            data.getListener().getPlayer().ifPresent(WendarrClockNodes::clearAura);
-            reconcile(data.getVault());
-        });
+        CommonEvents.LISTENER_LEAVE.register(OWNER,
+                data -> data.getListener().getPlayer().ifPresent(WendarrClockNodes::clearAura));
+        GodNodeTicker.registerTreePass(WendarrClockNodes::pass);
         registerSpeedDemonStats();
     }
 
     /**
-     * Recomputes one vault's clock rate factors and Speed Demon aura from the runners currently in
-     * it. Idempotent, and safe to call with no vault - a holder who is not in a vault has nothing
-     * to reconcile.
+     * The ticker pass: reconciles each vault that has at least one online runner, once, whether or
+     * not anyone in it still holds either node.
+     */
+    private static void pass(MinecraftServer server, List<ServerPlayer> players) {
+        Set<UUID> seen = new HashSet<>();
+        for (ServerPlayer player : players) {
+            Vault vault = ServerVaults.get(player.level).orElse(null);
+            if (vault == null || !vault.has(Vault.ID) || !seen.add(vault.get(Vault.ID))) {
+                continue;
+            }
+            reconcile(vault);
+        }
+    }
+
+    /**
+     * Marks one vault for whichever of the two nodes a runner currently holds, then makes sure
+     * everything either mark stands for is in place. Idempotent, and safe to call with no vault - a
+     * holder who is not in a vault has nothing to reconcile.
      */
     static void reconcile(Vault vault) {
-        if (vault == null) {
+        UUID vaultId = vault != null && vault.has(Vault.ID) ? vault.get(Vault.ID) : null;
+        if (vaultId == null) {
             return;
         }
         List<ServerPlayer> runners = WendarrVaultTime.runners(vault);
-        boolean speedDemon = false;
-        boolean quickSearch = false;
         for (ServerPlayer player : runners) {
-            speedDemon |= WendarrNodes.isActive(player, WendarrNodes.SPEED_DEMON);
-            quickSearch |= WendarrNodes.isActive(player, WendarrNodes.QUICK_SEARCH);
+            if (WendarrNodes.isActive(player, WendarrNodes.SPEED_DEMON)) {
+                mark(vaultId, WendarrNodes.SPEED_DEMON);
+            }
+            if (WendarrNodes.isActive(player, WendarrNodes.QUICK_SEARCH)) {
+                mark(vaultId, WendarrNodes.QUICK_SEARCH);
+            }
         }
-        applyRate(vault, WendarrNodes.key(WendarrNodes.SPEED_DEMON),
-                WendarrNodeHandlers.params(WendarrNodes.SPEED_DEMON,
-                        WendarrNodeHandlers.SpeedDemonParams.class).rate(), speedDemon);
-        applyRate(vault, WendarrNodes.key(WendarrNodes.QUICK_SEARCH),
-                WendarrNodeHandlers.params(WendarrNodes.QUICK_SEARCH,
-                        WendarrNodeHandlers.QuickSearchParams.class).rate(), quickSearch);
-        if (quickSearch) {
+        if (isMarked(vaultId, WendarrNodes.SPEED_DEMON)) {
+            applyRate(vault, WendarrNodes.key(WendarrNodes.SPEED_DEMON),
+                    WendarrNodeHandlers.params(WendarrNodes.SPEED_DEMON,
+                            WendarrNodeHandlers.SpeedDemonParams.class).rate());
+            applySpeedDemonAura(runners);
+        }
+        if (isMarked(vaultId, WendarrNodes.QUICK_SEARCH)) {
+            applyRate(vault, WendarrNodes.key(WendarrNodes.QUICK_SEARCH),
+                    WendarrNodeHandlers.params(WendarrNodes.QUICK_SEARCH,
+                            WendarrNodeHandlers.QuickSearchParams.class).rate());
             attachOmegaFortune(vault);
         }
-        applySpeedDemonAura(runners, speedDemon);
     }
 
     /**
      * Takes the Speed Demon aura off one player unconditionally. The removals are idempotent on
      * purpose: the shared teardown may already have dropped this player's scratch by the time a
      * leave or a logout reaches here, and a conditional removal would then leave the damage factor
-     * and the armour modifier applied with nothing left to notice them.
+     * and the armour modifier applied with nothing left to notice them. The vault's own mark is
+     * untouched, so a runner who is still in it has the aura back on the next tick.
      */
     static void clearAura(ServerPlayer player) {
         GodNodeState.clear(player.getUUID(), WendarrNodes.SPEED_DEMON);
@@ -95,12 +134,23 @@ public final class WendarrClockNodes {
         applyArmorBonus(player, 1.0F);
     }
 
-    private static void applyRate(Vault vault, ResourceLocation key, float factor, boolean active) {
-        if (active) {
-            VaultClockRate.setRateFactor(vault, key, factor);
-        } else {
-            VaultClockRate.removeRateFactor(vault, key);
+    private static void mark(UUID vaultId, String effectId) {
+        GodNodeState.getVault(vaultId, effectId, () -> Boolean.TRUE);
+    }
+
+    private static boolean isMarked(UUID vaultId, String effectId) {
+        return GodNodeState.peekVault(vaultId, effectId).isPresent();
+    }
+
+    /**
+     * Clock rate factors are per vault and in memory only, so the pass sets the factor when the
+     * vault is not already carrying it and leaves it alone when it is.
+     */
+    private static void applyRate(Vault vault, ResourceLocation key, float factor) {
+        if (VaultClockRate.view(vault).containsKey(key)) {
+            return;
         }
+        VaultClockRate.setRateFactor(vault, key, factor);
     }
 
     /** Quick Search's room half is the shipped 4x omega weight modifier, attached once per vault. */
@@ -116,20 +166,16 @@ public final class WendarrClockNodes {
         VaultModifierUtils.addModifier(vault, OMEGA_FORTUNE_SMALL, 1);
     }
 
-    private static void applySpeedDemonAura(List<ServerPlayer> runners, boolean active) {
+    private static void applySpeedDemonAura(List<ServerPlayer> runners) {
         float multiplier = WendarrNodeHandlers.params(WendarrNodes.SPEED_DEMON,
                 WendarrNodeHandlers.SpeedDemonParams.class).stat_multiplier();
         for (ServerPlayer player : runners) {
-            boolean had = GodNodeState.peek(player.getUUID(), WendarrNodes.SPEED_DEMON).isPresent();
-            if (active) {
-                GodNodeState.put(player.getUUID(), WendarrNodes.SPEED_DEMON, Boolean.TRUE);
-                GlobalDamageMultiplierRegistry.register(player, SPEED_DEMON_DAMAGE_KEY, multiplier);
-                if (!had) {
-                    applyArmorBonus(player, multiplier);
-                }
-            } else if (had) {
-                clearAura(player);
+            if (GodNodeState.peek(player.getUUID(), WendarrNodes.SPEED_DEMON).isPresent()) {
+                continue;
             }
+            GodNodeState.put(player.getUUID(), WendarrNodes.SPEED_DEMON, Boolean.TRUE);
+            GlobalDamageMultiplierRegistry.register(player, SPEED_DEMON_DAMAGE_KEY, multiplier);
+            applyArmorBonus(player, multiplier);
         }
     }
 

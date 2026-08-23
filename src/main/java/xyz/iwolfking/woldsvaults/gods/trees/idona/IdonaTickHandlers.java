@@ -190,6 +190,10 @@ public final class IdonaTickHandlers {
             ServerPlayer player = context.player();
             float value = (float) Math.pow(this.effect.params(IdonaNodeHandlers.CrushingBlowsParams.class).multiplier(),
                     context.points());
+            PlayerDamageHelper.DamageMultiplier applied = PlayerDamageHelper.getMultiplier(player, CRUSHING_BLOWS_ID);
+            if (applied != null && applied.getMultiplier() == value) {
+                return;
+            }
             PlayerDamageHelper.applyMultiplier(CRUSHING_BLOWS_ID, player, value,
                     PlayerDamageHelper.Operation.STACKING_MULTIPLY, false);
         }
@@ -197,6 +201,24 @@ public final class IdonaTickHandlers {
         @Override
         public void onDeactivated(ServerPlayer player, String effectId) {
             PlayerDamageHelper.removeMultiplier(player, CRUSHING_BLOWS_ID);
+        }
+    }
+
+    /**
+     * Ultra Rampaging's hold on the shared ticker. The node's behaviour lives in
+     * {@code gods.combat} (Fury income, decay, the CDM rewrite and the drawback), none of which is
+     * periodic per player, so the tick itself does nothing; what the ticker is here for is the
+     * deactivation diff - losing the charm or refunding the node zeroes the Fury pool on the same
+     * event, so a swap back cannot resume a pool that was earned under the node.
+     */
+    public record UltraRampagingHandler(GodEffect effect) implements TickContributor {
+        @Override
+        public void tick(GodNodeContext context) {
+        }
+
+        @Override
+        public void onDeactivated(ServerPlayer player, String effectId) {
+            xyz.iwolfking.woldsvaults.gods.combat.PlayerFuryHelper.clear(player);
         }
     }
 

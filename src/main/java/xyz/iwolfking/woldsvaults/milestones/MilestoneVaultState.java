@@ -31,7 +31,6 @@ public class MilestoneVaultState {
     private static volatile boolean scratchDirty;
 
     private final long[] chests = new long[VaultChestType.values().length];
-    private long woodenBoxes;
     private long mobKills;
     private long ores;
     private long treasureDoors;
@@ -156,7 +155,6 @@ public class MilestoneVaultState {
     private CompoundTag save() {
         CompoundTag tag = new CompoundTag();
         tag.putLongArray("chests", this.chests);
-        tag.putLong("woodenBoxes", this.woodenBoxes);
         tag.putLong("mobKills", this.mobKills);
         tag.putLong("ores", this.ores);
         tag.putLong("treasureDoors", this.treasureDoors);
@@ -177,7 +175,6 @@ public class MilestoneVaultState {
     private void load(CompoundTag tag) {
         long[] saved = tag.getLongArray("chests");
         System.arraycopy(saved, 0, this.chests, 0, Math.min(saved.length, this.chests.length));
-        this.woodenBoxes = tag.getLong("woodenBoxes");
         this.mobKills = tag.getLong("mobKills");
         this.ores = tag.getLong("ores");
         this.treasureDoors = tag.getLong("treasureDoors");
@@ -194,12 +191,17 @@ public class MilestoneVaultState {
         this.baselinesReady = tag.getBoolean("baselinesReady");
     }
 
+    /**
+     * Records one looted vault chest against the two composite "in one vault" milestones. Wooden
+     * boxes report as {@code box} and are dropped: they generate as WOODEN, and counting them would
+     * let a room full of boxes finish both Vault of Vaults' wooden quota and Dedicated Looter's
+     * first phase without a chest being opened.
+     */
     public void onChestLooted(VaultChestType type, boolean box) {
-        scratchDirty = true;
         if (box) {
-            this.woodenBoxes++;
             return;
         }
+        scratchDirty = true;
         this.chests[type.ordinal()]++;
         this.advanceDedicated(type);
     }
@@ -272,10 +274,6 @@ public class MilestoneVaultState {
                 && this.vendoors >= doorsPerType
                 && this.dungeonDoors >= doorsPerType
                 && this.ores >= MilestoneRegistry.getVaultOfVaultsOres();
-    }
-
-    public long getWoodenBoxes() {
-        return this.woodenBoxes;
     }
 
     public boolean areBaselinesReady() {

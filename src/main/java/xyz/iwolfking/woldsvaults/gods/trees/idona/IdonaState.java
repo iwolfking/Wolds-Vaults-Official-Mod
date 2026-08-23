@@ -30,11 +30,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class IdonaState {
-    /** The Power Dump reservoir: mana banked by an instant cast, and the two windows that gate it. */
+    /**
+     * The Power Dump reservoir: mana banked by an instant cast, the two windows that gate it, and
+     * the surplus staged by the cost override but not yet paid for.
+     */
     public static final class PowerDump {
         private float extra;
         private long expiry;
         private long continuousUntil;
+        private float pending;
     }
 
     private static final Map<Integer, Long> PRISON_MARKS = new ConcurrentHashMap<>();
@@ -83,20 +87,38 @@ public final class IdonaState {
         return true;
     }
 
-    public static void setPowerDumpExtra(ServerPlayer player, float extraMana) {
+    /**
+     * Stages the surplus an instant cast would bank. The cost override runs on the affordability
+     * check as well as on payment, so nothing is banked here; {@link #commitPowerDumpExtra} moves
+     * the stage into the reservoir once mana has actually been paid, and
+     * {@link #discardPowerDumpStage} drops it when the cast turned out to be free.
+     */
+    public static void stagePowerDumpExtra(ServerPlayer player, float extraMana) {
+        powerDump(player.getUUID()).pending = Math.max(extraMana, 0.0F);
+    }
+
+    /**
+     * Banks the staged surplus: a zero stage clears the live surplus, because an instant cast that
+     * had no mana to spare was still a cast and must not ride an older surplus.
+     */
+    public static void commitPowerDumpExtra(ServerPlayer player) {
+        PowerDump reservoir = powerDump(player.getUUID());
+        float extraMana = reservoir.pending;
+        reservoir.pending = 0.0F;
         if (extraMana <= 0.0F) {
-            PowerDump reservoir = GodNodeState.<PowerDump>peek(player.getUUID(), IdonaNodes.POWER_DUMP).orElse(null);
-            if (reservoir != null) {
-                reservoir.extra = 0.0F;
-                reservoir.expiry = 0L;
-            }
+            reservoir.extra = 0.0F;
+            reservoir.expiry = 0L;
             return;
         }
         int ttl = IdonaNodeHandlers.params(IdonaNodes.POWER_DUMP,
                 IdonaNodeHandlers.PowerDumpParams.class).surplus_ttl_ticks();
-        PowerDump reservoir = powerDump(player.getUUID());
         reservoir.extra = extraMana;
         reservoir.expiry = player.getLevel().getGameTime() + ttl;
+    }
+
+    public static void discardPowerDumpStage(ServerPlayer player) {
+        GodNodeState.<PowerDump>peek(player.getUUID(), IdonaNodes.POWER_DUMP)
+                .ifPresent(reservoir -> reservoir.pending = 0.0F);
     }
 
     public static float getPowerDumpExtra(ServerPlayer player) {

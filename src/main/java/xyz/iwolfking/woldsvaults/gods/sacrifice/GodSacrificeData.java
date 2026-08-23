@@ -50,7 +50,8 @@ public class GodSacrificeData extends SavedData {
 
     @Nullable
     public VaultGod getSelectedGod(UUID playerId) {
-        return this.progress(playerId).selectedGod;
+        PlayerProgress progress = this.players.get(playerId);
+        return progress == null ? null : progress.selectedGod;
     }
 
     public void setSelectedGod(UUID playerId, VaultGod god) {
@@ -59,13 +60,11 @@ public class GodSacrificeData extends SavedData {
     }
 
     public Map<ResourceLocation, Integer> getProgress(UUID playerId, VaultGod god) {
-        return Collections.unmodifiableMap(this.progress(playerId).deposits
-                .computeIfAbsent(god, g -> new LinkedHashMap<>()));
+        return Collections.unmodifiableMap(this.deposits(playerId, god));
     }
 
     public int getDeposited(UUID playerId, VaultGod god, ResourceLocation item) {
-        return this.progress(playerId).deposits
-                .computeIfAbsent(god, g -> new LinkedHashMap<>()).getOrDefault(item, 0);
+        return this.deposits(playerId, god).getOrDefault(item, 0);
     }
 
     /**
@@ -97,8 +96,7 @@ public class GodSacrificeData extends SavedData {
     }
 
     public boolean isGateComplete(UUID playerId, VaultGod god, GodSacrifices.Gate gate) {
-        Map<ResourceLocation, Integer> deposits = this.progress(playerId).deposits
-                .computeIfAbsent(god, g -> new LinkedHashMap<>());
+        Map<ResourceLocation, Integer> deposits = this.deposits(playerId, god);
         for (GodSacrifices.Entry entry : gate.entries()) {
             if (deposits.getOrDefault(entry.item(), 0) < entry.count()) {
                 return false;
@@ -108,12 +106,24 @@ public class GodSacrificeData extends SavedData {
     }
 
     public void clearProgress(UUID playerId, VaultGod god) {
-        this.progress(playerId).deposits.remove(god);
-        this.setDirty();
+        PlayerProgress progress = this.players.get(playerId);
+        if (progress != null && progress.deposits.remove(god) != null) {
+            this.setDirty();
+        }
     }
 
+    /** The mutable entry for a player, created on first write; reads go through {@link #deposits}. */
     private PlayerProgress progress(UUID playerId) {
         return this.players.computeIfAbsent(playerId, id -> new PlayerProgress());
+    }
+
+    /** A read-only view of what a player has fed one god's gate; empty, and never inserted, when nothing has been. */
+    private Map<ResourceLocation, Integer> deposits(UUID playerId, VaultGod god) {
+        PlayerProgress progress = this.players.get(playerId);
+        if (progress == null) {
+            return Map.of();
+        }
+        return progress.deposits.getOrDefault(god, Map.of());
     }
 
     public void load(CompoundTag tag) {

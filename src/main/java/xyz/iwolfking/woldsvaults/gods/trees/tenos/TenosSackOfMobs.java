@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -8,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -51,8 +53,28 @@ public final class TenosSackOfMobs {
 
     /** Republishes the player's damage factor from their current kill count. */
     public static void updateMultiplier(ServerPlayer player, float logBase) {
-        float factor = (float) (Math.log(logBase + kills(player).get()) / Math.log(logBase));
-        GlobalDamageMultiplierRegistry.register(player, TenosNodes.key(TenosNodes.SACK_OF_MOBS), factor);
+        GlobalDamageMultiplierRegistry.register(player, TenosNodes.key(TenosNodes.SACK_OF_MOBS),
+                factor(logBase, kills(player).get()));
+    }
+
+    private static float factor(float logBase, int kills) {
+        return (float) (Math.log(logBase + kills) / Math.log(logBase));
+    }
+
+    /** The gods tab preview of Sack of Mobs: the multiplier the player's sack kills this vault give. */
+    static GodNodePreviews.Preview preview(ServerPlayer player) {
+        float logBase = TenosNodeHandlers.params(TenosNodes.SACK_OF_MOBS,
+                TenosNodeHandlers.SackOfMobsParams.class).log_base();
+        int kills = GodNodeState.<AtomicInteger>peek(player.getUUID(), TenosNodes.SACK_OF_MOBS)
+                .map(AtomicInteger::get).orElse(0);
+        float factor = factor(logBase, kills);
+        String baseText = GodNodePreviews.number(logBase);
+        return new GodNodePreviews.Working(VaultGod.TENOS)
+                .formula("Damage multiplier", "log" + baseText + "(" + baseText + " + kills)")
+                .input("kills", "kills this vault while holding a vault sack", String.valueOf(kills))
+                .result("log" + baseText + "(" + GodNodePreviews.number(logBase + kills) + ")", factor)
+                .inactive(!TenosNodes.isActive(player, TenosNodes.SACK_OF_MOBS))
+                .build(factor);
     }
 
     private static AtomicInteger kills(ServerPlayer player) {

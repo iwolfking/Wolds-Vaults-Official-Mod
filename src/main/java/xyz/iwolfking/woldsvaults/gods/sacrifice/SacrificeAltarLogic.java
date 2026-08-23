@@ -4,7 +4,6 @@ import iskallia.vault.block.entity.GreedCauldronTileEntity;
 import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -27,9 +26,7 @@ import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Server logic for the Greed Cauldron's sacrificial-altar role: builds the menu snapshot,
@@ -40,18 +37,44 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class SacrificeAltarLogic {
     private static final double PULL_RANGE = 4.0;
-    private static final Map<GlobalPos, Boolean> LAST_POWERED = new ConcurrentHashMap<>();
 
     private SacrificeAltarLogic() {
     }
 
+    /** Opens the altar screen on the player, or refreshes it if it is already open. Only the block's right-click calls this. */
     public static void openMenu(ServerPlayer player) {
         NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), buildSnapshot(player));
     }
 
+    /**
+     * Refreshes the altar screen if the player has it open and does nothing otherwise. Every
+     * server-side change to the ledger routes through here rather than {@link #openMenu}, so a
+     * redstone-fired sacrifice or a god selection can never pop the screen on a player who is
+     * mid-vault.
+     */
+    public static void refreshMenu(ServerPlayer player) {
+        ClientboundSacrificeMenuMessage snapshot = buildSnapshot(player);
+        snapshot.refreshOnly = true;
+        NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), snapshot);
+    }
+
     public static void selectGod(ServerPlayer player, VaultGod god) {
         GodSacrificeData.get(player.getLevel()).setSelectedGod(player.getUUID(), god);
-        openMenu(player);
+        refreshMenu(player);
+    }
+
+    /**
+     * Whether the cauldron's piped intake would take any of {@code stack} right now: the owner's
+     * selected god's current gate still needs that item. This is the answer the side handler's
+     * {@code isItemValid} must give, because inserters that pre-check validity never call
+     * {@code insertItem} for an item the handler calls invalid.
+     */
+    public static boolean pipeAccepts(GreedCauldronTileEntity tile, ItemStack stack) {
+        if (tile.getLevel() == null || tile.getLevel().isClientSide() || tile.getOwnerUuid() == null
+                || stack.isEmpty() || !(tile.getLevel() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        return depositForOwner(serverLevel, tile.getOwnerUuid(), stack, true) > 0;
     }
 
     public static ClientboundSacrificeMenuMessage buildSnapshot(ServerPlayer player) {
@@ -140,11 +163,7 @@ public final class SacrificeAltarLogic {
             tile.syncFromSavedData(net.minecraft.world.item.Items.AIR, 0, 1.0D);
         }
         vacuumNeededItems(level, pos, tile);
-        GlobalPos key = GlobalPos.of(level.dimension(), pos.immutable());
-        boolean powered = level.hasNeighborSignal(pos);
-        boolean wasPowered = LAST_POWERED.getOrDefault(key, false);
-        LAST_POWERED.put(key, powered);
-        if (powered && !wasPowered) {
+        if (((SacrificeAltarEdge) tile).woldsvaults$observePower(level.hasNeighborSignal(pos))) {
             ServerPlayer owner = level.getServer().getPlayerList().getPlayer(tile.getOwnerUuid());
             if (owner != null) {
                 attemptSacrifice(owner, level, pos);
@@ -246,7 +265,7 @@ public final class SacrificeAltarLogic {
                 .withStyle(ChatFormatting.GOLD), false);
         WoldsVaults.LOGGER.info("{} completed the {} sacrifice for {}.",
                 owner.getGameProfile().getName(), gate.label(), god.getName());
-        openMenu(owner);
+        refreshMenu(owner);
     }
 
     /**
@@ -261,15 +280,5 @@ public final class SacrificeAltarLogic {
         }
         return level.getBlockEntity(pos) instanceof GreedCauldronTileEntity tile
                 && player.getUUID().equals(tile.getOwnerUuid());
-    }
-
-    /** Drops the redstone edge memory of an altar that no longer exists. */
-    public static void forget(ServerLevel level, BlockPos pos) {
-        LAST_POWERED.remove(GlobalPos.of(level.dimension(), pos.immutable()));
-    }
-
-    /** Drops every altar's redstone edge memory when the server stops. */
-    public static void clearAll() {
-        LAST_POWERED.clear();
     }
 }

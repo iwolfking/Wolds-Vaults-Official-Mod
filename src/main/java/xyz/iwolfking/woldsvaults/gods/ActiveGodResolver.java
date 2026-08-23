@@ -39,6 +39,20 @@ public final class ActiveGodResolver {
         return getActiveGod(player).filter(active -> active == god).isPresent();
     }
 
+    /**
+     * Whether a curio slot going from {@code from} to {@code to} can have changed the active god.
+     * Curios fires its change event on any NBT delta, and a charm's NBT moves every second while a
+     * blessing counts down and every ten ticks while a mythic charm rescales, so the listeners that
+     * re-resolve the god, rebuild the snapshot, reconcile the ticker and re-sync the alignment on a
+     * swap ask this first: same item resolving to the same god is not a swap.
+     */
+    public static boolean mayChangeActiveGod(net.minecraft.world.item.ItemStack from, net.minecraft.world.item.ItemStack to) {
+        if (from.getItem() != to.getItem()) {
+            return true;
+        }
+        return !VaultCharmItem.getGod(from).equals(VaultCharmItem.getGod(to));
+    }
+
     public static void invalidate(Player player) {
         invalidate(player.getUUID());
     }

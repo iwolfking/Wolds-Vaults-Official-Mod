@@ -69,6 +69,14 @@ public final class GreedTrials {
             refuse(player, "You cannot start a rank-up trial from inside a Vault.");
             return;
         }
+        if (isAlreadyInAVault(player)) {
+            refuse(player, "You already have a Vault open. Finish or leave it before taking a rank-up trial.");
+            return;
+        }
+        if (PlayerGreedTreeData.get(player.server).getGreedTier(player) < MilestoneRankLadder.FIRST_RANK) {
+            refuse(player, "Defeat the Herald to join the greed ladder before taking a rank-up trial.");
+            return;
+        }
         int rank = GreedTrialRequirements.nextRank(player);
         GreedTrial trial = GreedTrial.forRank(rank);
         if (trial == null) {
@@ -87,6 +95,35 @@ public final class GreedTrials {
             case HYPER -> startHyper(player, trial);
             case VESSEL -> startVessel(player, trial);
         }
+    }
+
+    /**
+     * Whether the player is already attached to a live vault, trial or not.
+     *
+     * <p>{@code ServerVaults.isInVault} only asks which level the player's body is standing in, and
+     * that is not the same question. {@link #open} adds the runner to the new vault synchronously
+     * but leaves the hyper flavor's teleport to the vault's own next tick, so between the click and
+     * that tick the player is a runner of a live trial while still standing in the overworld - and a
+     * second click in that window would build a whole second trial vault, orphaning the first along
+     * with its rank mark. The listener map is the authoritative answer and needs no new state.</p>
+     *
+     * <p>The owner check on top catches a trial whose runner add failed: the mark is written before
+     * the runner is, so a vault marked as this player's trial counts even with an empty listener
+     * map. Ordinary vaults are not checked that way - a party member's vault has an owner who is
+     * not in it, and only listeners of it should be blocked.</p>
+     */
+    private static boolean isAlreadyInAVault(ServerPlayer player) {
+        UUID playerId = player.getUUID();
+        for (Vault vault : ServerVaults.getAll()) {
+            Listeners listeners = vault.getOptional(Vault.LISTENERS).orElse(null);
+            if (listeners != null && listeners.contains(playerId)) {
+                return true;
+            }
+            if (trialRank(vault) > 0 && playerId.equals(vault.getOptional(Vault.OWNER).orElse(null))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -218,7 +255,12 @@ public final class GreedTrials {
                 .append((Component) new TextComponent("+" + coins + " Greed Coins").withStyle(ChatFormatting.YELLOW)), false);
     }
 
-    /** Drops the trial mark without paying anything - death, bail or a timeout all land here. */
+    /**
+     * Drops the trial mark without paying anything. Only the vessel trial's own loss path calls
+     * this; every other failure route - a hyper trial that runs out of time, a bail, a disconnect
+     * that empties the vault - kills the vault without passing through here, and
+     * {@link GreedTrialCleanup} sweeps those marks instead.
+     */
     public static void forfeit(Vault vault, ServerPlayer player) {
         if (player == null || player.getServer() == null) {
             return;

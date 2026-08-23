@@ -168,8 +168,10 @@ public abstract class MixinVaultChampionVessel {
     }
 
     /**
-     * The flat, unnegatable second hit. It rides every melee connection the Champion makes, including
-     * the ones inside the blitz combo and the runaway clap, because all of them route through here.
+     * The flat second hit that nothing reduces, though it can still be dodged or blocked on its own
+     * roll. It rides every melee connection the Champion makes, including the ones inside the blitz
+     * combo and the runaway clap, because all of them route through here; a swing that missed or
+     * was dodged returns {@code false} and lands no follow-up.
      */
     @Inject(method = "doHurtTarget", at = @At("RETURN"), remap = true)
     private void woldsvaults$championTrueDamage(net.minecraft.world.entity.Entity target,

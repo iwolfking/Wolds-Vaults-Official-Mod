@@ -34,6 +34,7 @@ public class MilestoneRegistry {
 
     private static GreedMilestonesConfig config;
     private static List<VaultChestType> dedicatedOrder = DEFAULT_DEDICATED_ORDER;
+    private static volatile Map<String, LocalNumbers> localNumbers = Map.of();
 
     /**
      * Vault objective keys that "Seen It All" requires: exactly the objectives that award god
@@ -87,7 +88,81 @@ public class MilestoneRegistry {
         BY_ID.clear();
         BY_CATEGORY.clear();
         BY_CHALLENGE_CRYSTAL.clear();
+        localNumbers = Map.of();
         bootstrap();
+        GreedChallengeOffers.resetAudit();
+    }
+
+    /**
+     * Installs the milestone numbers a server sent, so the client's screens read the host's balance
+     * instead of the {@code greed_milestones.json} sitting on the player's own disk.
+     *
+     * <p>Only the numbers travel; the structure - which milestones exist, what each counts, which
+     * challenge crystal each tracks - is code and is identical on both sides, so the definitions
+     * already built here are updated in place rather than rebuilt. That keeps every existing reader
+     * ({@link #get}, {@link #getAll}, {@link #getByCategory}) pointing at the same objects.</p>
+     *
+     * <p>The local numbers are stashed on the first install and put back by {@link #restoreLocal},
+     * which the client mirror calls on disconnect. A milestone the server does not mention keeps
+     * its local numbers and is reported: that means the two sides disagree about which milestones
+     * exist, which is a version mismatch rather than a config difference.</p>
+     */
+    public static void applyServerTables(Map<String, long[]> thresholds,
+                                         Map<String, int[]> reputation,
+                                         Map<String, Integer> requiredRanks) {
+        stashLocal();
+        for (MilestoneDefinition definition : ORDERED) {
+            long[] sentThresholds = thresholds.get(definition.getId());
+            int[] sentReputation = reputation.get(definition.getId());
+            if (sentThresholds == null || sentReputation == null) {
+                WoldsVaults.LOGGER.warn("The server sent no numbers for milestone '{}'; the client keeps its own for that one", definition.getId());
+                continue;
+            }
+            try {
+                definition.applyNumbers(sentThresholds, sentReputation,
+                        requiredRanks.getOrDefault(definition.getId(), 0));
+            } catch (IllegalArgumentException e) {
+                WoldsVaults.LOGGER.error("The server's numbers for milestone '{}' are inconsistent; the client keeps its own for that one",
+                        definition.getId(), e);
+            }
+        }
+    }
+
+    /**
+     * Puts the locally configured numbers back, undoing {@link #applyServerTables}. Idempotent, and
+     * a no-op when no server table was ever installed.
+     */
+    public static void restoreLocal() {
+        if (localNumbers.isEmpty()) {
+            return;
+        }
+        localNumbers.forEach((id, numbers) -> {
+            MilestoneDefinition definition = BY_ID.get(id);
+            if (definition != null) {
+                definition.applyNumbers(numbers.thresholds, numbers.reputation, numbers.requiredRank);
+            }
+        });
+        localNumbers = Map.of();
+    }
+
+    private static void stashLocal() {
+        if (!localNumbers.isEmpty()) {
+            return;
+        }
+        Map<String, LocalNumbers> stash = new LinkedHashMap<>();
+        for (MilestoneDefinition definition : ORDERED) {
+            long[] thresholds = new long[definition.getTierCount()];
+            int[] reputation = new int[definition.getTierCount()];
+            for (int tier = 0; tier < thresholds.length; tier++) {
+                thresholds[tier] = definition.getThreshold(tier);
+                reputation[tier] = definition.getReputation(tier);
+            }
+            stash.put(definition.getId(), new LocalNumbers(thresholds, reputation, definition.getRequiredRank()));
+        }
+        localNumbers = Map.copyOf(stash);
+    }
+
+    private record LocalNumbers(long[] thresholds, int[] reputation, int requiredRank) {
     }
 
     public static MilestoneDefinition get(String id) {
@@ -311,6 +386,7 @@ public class MilestoneRegistry {
         count(MilestoneIds.DUNGEONEER, MilestoneCategory.COMBAT);
         count(MilestoneIds.VILLAIN, MilestoneCategory.COMBAT);
         count(MilestoneIds.FLAWLESS_VICTORY, MilestoneCategory.COMBAT);
+        count(MilestoneIds.ASSASSIN_ASSASSINATOR, MilestoneCategory.COMBAT);
 
         count(MilestoneIds.FAIL_VAULTS, MilestoneCategory.MISC);
         oneShot(MilestoneIds.MASTER_SMITH, MilestoneCategory.MISC);

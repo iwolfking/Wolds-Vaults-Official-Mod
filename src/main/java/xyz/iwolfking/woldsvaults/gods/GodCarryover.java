@@ -17,8 +17,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The 25% carryover fold. Folds god tree gear attributes into a player's attribute snapshot:
- * the active tree at full value, every foreign tree's basic nodes at a quarter, and the active
- * tree's minor-transfer selections at full value.
+ * the active tree at full value, every foreign tree's basic nodes at a quarter, nothing from any
+ * tree while no charm is equipped, and the minor stars carried by the transfer slots of every god
+ * that is not the active one at full value. The scale per tree comes from
+ * {@link GodNodeCache#treeScale}, the same rule the node gate applies, so this fold and the
+ * gate-driven effects can never disagree about what a tree is worth.
  *
  * <p>Folding into the snapshot rather than tracking vanilla attribute modifiers is deliberate —
  * the snapshot is rebuilt from scratch on every refresh, so a charm swap cannot leak stats, and
@@ -47,13 +50,22 @@ public final class GodCarryover {
         List<VaultGearAttributeInstance<?>> applied = new ArrayList<>();
         Optional<VaultGod> active = ActiveGodResolver.getActiveGod(player);
         for (VaultGod god : VaultGod.values()) {
-            if (active.isPresent() && active.get() == god) {
+            float scale = GodNodeCache.treeScale(player, god);
+            if (scale >= 1.0F) {
                 contribute(snapshot, source.getGearAttributes(player, god, GodNodeAttributeSource.Scope.ALL), 1.0F, applied);
-            } else {
-                contribute(snapshot, source.getGearAttributes(player, god, GodNodeAttributeSource.Scope.BASIC), FOREIGN_TREE_SCALE, applied);
+            } else if (scale > 0.0F) {
+                contribute(snapshot, source.getGearAttributes(player, god, GodNodeAttributeSource.Scope.BASIC), scale, applied);
             }
         }
-        active.ifPresent(god -> contribute(snapshot, source.getMinorTransferAttributes(player, minorTransfersOf(player, god)), 1.0F, applied));
+        List<String> carried = new ArrayList<>();
+        for (VaultGod god : VaultGod.values()) {
+            if (active.isEmpty() || active.get() != god) {
+                carried.addAll(minorTransfersOf(player, god));
+            }
+        }
+        if (!carried.isEmpty()) {
+            contribute(snapshot, source.getMinorTransferAttributes(player, carried), 1.0F, applied);
+        }
         GodVanillaAttributes.reconcile(player, applied);
     }
 

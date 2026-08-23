@@ -40,6 +40,8 @@ import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.api.core.competition.PlayerRewardStorage;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.events.*;
+import xyz.iwolfking.woldsvaults.gods.combat.FuryIncome;
+import xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.ArsAPIRegistration;
 import xyz.iwolfking.woldsvaults.integration.cctweaked.CCTweakedSetup;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.MekanismRecipeDeserializers;
@@ -133,6 +135,9 @@ public class WoldsVaults {
         }
         ModNetwork.init();
         LivingEntityEvents.init();
+        RampageListenerFix.init();
+        FuryIncome.init();
+        GodSacrifices.validateItems();
         AncientModifierEvents.init();
         new AdditionalModels();
         ModVaultFilterAttributes.initAttributes();

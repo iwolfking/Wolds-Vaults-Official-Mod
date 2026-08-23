@@ -4,11 +4,14 @@ import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
- * A damage source that is meant to arrive at its authored value whatever the target is wearing.
+ * A damage source that is meant to arrive at its authored value if it lands at all.
  *
- * <p>The three vanilla bypasses are the same set the base mod uses for its own unnegatable hits -
- * {@code EliteHuskEntity} and {@code VaultMod.DMG_VAULT_TIMER} both build a source this way - and
- * between them they skip armor and toughness, Resistance and Protection, and invulnerability frames.
+ * <p>It bypasses armor and magic - armor and toughness, Resistance and Protection - but
+ * deliberately not invulnerability: {@code bypassInvul} is the flag the pack's dodge roll and the
+ * base mod's shield block both refuse to roll against, and a true hit is meant to be dodgeable
+ * and blockable. Leaving it off is also what keeps creative and spectator players, and anyone
+ * inside an immunity window, out of reach. The invulnerability <em>frames</em> a true hit has to
+ * land through are handled by {@link VaultTrueDamage#deal} directly; the flag never skipped those.
  *
  * <p>Vanilla mitigation is only half the problem in this pack: god nodes, gear attributes and Second
  * Chance all reduce damage from event handlers that never look at these flags. The authored amount
@@ -22,7 +25,6 @@ public class TrueDamageSource extends EntityDamageSource {
         super("mob", attacker);
         this.authoredAmount = authoredAmount;
         this.bypassArmor();
-        this.bypassInvul();
         this.bypassMagic();
     }
 

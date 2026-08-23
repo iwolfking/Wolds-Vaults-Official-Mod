@@ -92,8 +92,27 @@ public final class GodLevels {
         return slots;
     }
 
+    /** How many minor-transfer slots the curve can ever grant a god: one per configured unlock level. */
+    public static int maxMinorTransferSlots() {
+        return config().getMinorTransferSlotLevels().length;
+    }
+
+    /**
+     * The god level that opens minor-transfer slot {@code slot} (zero-based), or -1 for a slot the
+     * curve never grants.
+     */
+    public static int minorTransferSlotUnlockLevel(int slot) {
+        int[] levels = config().getMinorTransferSlotLevels();
+        return slot >= 0 && slot < levels.length ? levels[slot] : -1;
+    }
+
     public static boolean hasUltimate(int level) {
-        return level >= config().getUltimateUnlockLevel();
+        return level >= ultimateUnlockLevel();
+    }
+
+    /** The god level that grants a god's ultimate; the number the locked messages quote. */
+    public static int ultimateUnlockLevel() {
+        return config().getUltimateUnlockLevel();
     }
 
     /**

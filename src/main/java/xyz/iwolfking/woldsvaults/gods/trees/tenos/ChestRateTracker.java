@@ -2,15 +2,9 @@ package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 
 import iskallia.vault.core.event.CommonEvents;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStoppingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Optional;
 
 /**
  * Per-player chests-per-minute rate over a five minute sliding window, feeding Looting Engine.
@@ -20,14 +14,18 @@ import java.util.concurrent.ConcurrentHashMap;
  * {@code SlidingTimedTargetTaskCounter} registers a server-tick listener per instance, which would
  * mean one listener per tracked player. Nothing here ticks; the window is derived from timestamps.
  *
+ * <p>The window is one player's live scratch for Looting Engine, so it lives in
+ * {@link GodNodeState} under that effect rather than in a map of this class's own, and the god
+ * core's own teardown on logout and vault-listener leave is what drops it. Vault entry clears it
+ * too, from the join listener below: a rate carried in from the last run or from the loot the
+ * player was opening outside one would pay Looting Engine for chests this vault never saw.
+ *
  * <p>Fed from {@code CHEST_LOOT_GENERATION}, the same event the milestone engine listens to, but
  * through its own independent subscription so neither system can disturb the other.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ChestRateTracker {
     public static final int WINDOW_SECONDS = 300;
 
-    private static final Map<UUID, Window> WINDOWS = new ConcurrentHashMap<>();
     private static final Object OWNER = new Object();
 
     private ChestRateTracker() {
@@ -40,25 +38,18 @@ public final class ChestRateTracker {
                 credit(player);
             }
         });
+        CommonEvents.LISTENER_JOIN.register(OWNER, data -> data.getListener().getPlayer().ifPresent(
+                player -> GodNodeState.clear(player.getUUID(), TenosNodes.LOOTING_ENGINE)));
     }
 
     public static void credit(ServerPlayer player) {
-        WINDOWS.computeIfAbsent(player.getUUID(), id -> new Window()).add();
+        GodNodeState.get(player.getUUID(), TenosNodes.LOOTING_ENGINE, Window::new).add();
     }
 
     /** Chests opened per minute, averaged over the last {@value #WINDOW_SECONDS} seconds. */
     public static float getChestsPerMinute(ServerPlayer player) {
-        Window window = WINDOWS.get(player.getUUID());
-        return window == null ? 0.0F : window.perMinute();
-    }
-
-    public static void clearPlayer(UUID playerId) {
-        WINDOWS.remove(playerId);
-    }
-
-    @SubscribeEvent
-    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        clearPlayer(event.getPlayer().getUUID());
+        Optional<Window> window = GodNodeState.peek(player.getUUID(), TenosNodes.LOOTING_ENGINE);
+        return window.map(Window::perMinute).orElse(0.0F);
     }
 
     private static final class Window {
@@ -102,11 +93,5 @@ public final class ChestRateTracker {
         private synchronized float perMinute() {
             return total() * 60.0F / WINDOW_SECONDS;
         }
-    }
-
-    /** Drops every open window when the server stops. */
-    @SubscribeEvent
-    public static void onServerStopping(ServerStoppingEvent event) {
-        WINDOWS.clear();
     }
 }

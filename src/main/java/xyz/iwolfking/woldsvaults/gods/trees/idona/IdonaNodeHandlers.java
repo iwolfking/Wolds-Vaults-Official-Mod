@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.gods.combat.UltraRampagingConfig;
 import xyz.iwolfking.woldsvaults.gods.node.CombatContributor;
 import xyz.iwolfking.woldsvaults.gods.node.DeferredHandler;
 import xyz.iwolfking.woldsvaults.gods.node.GodDamageContext;
@@ -29,8 +30,8 @@ import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
  * attribute or into a non-float one, the damage effects that reach the game through the shared
  * {@link CombatContributor} pipeline in {@link IdonaHitHandlers}, the slowly-varying damage
  * factors on the shared ticker in {@link IdonaTickHandlers}, and the rest as
- * {@link ListenerBound} - numbers in config, validated at load, behaviour still reached through
- * the base mod events and mixins that own the ordering.
+ * {@link ListenerBoundHandler} - numbers in config, validated at load, behaviour still reached
+ * through the base mod events and mixins that own the ordering.
  *
  * <p>Params component names are the config keys verbatim, including their underscores. The codec
  * binds by component name, so renaming one here silently means renaming it in the config file
@@ -79,7 +80,8 @@ public final class IdonaNodeHandlers {
         GodNodeHandlers.register(IdonaNodes.SUPER_STACKER, SuperStackerParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(IdonaNodes.STACK_HOARDER, StackHoarderParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(IdonaNodes.POWER_DUMP, PowerDumpParams.class, ListenerBoundHandler::new);
-        GodNodeHandlers.register(IdonaNodes.ULTRA_RAMPAGING, DeferredHandler::new);
+        GodNodeHandlers.register(IdonaNodes.ULTRA_RAMPAGING, UltraRampagingConfig.class,
+                IdonaTickHandlers.UltraRampagingHandler::new);
     }
 
     /**
@@ -92,17 +94,6 @@ public final class IdonaNodeHandlers {
         return GodNodeRegistry.params(VaultGod.IDONA, effectId, type);
     }
 
-    /**
-     * An effect whose numbers are config and whose behaviour is reached through the base mod's own
-     * events or through a mixin. It implements no capability on purpose: a handler that claimed
-     * one would be dispatched twice, once by the capability driver and once by the listener that
-     * actually owns the ordering.
-     */
-    /**
-     * A node the tree places but has no behaviour for yet. Binding it to a type of its own rather
-     * than to the catch-all is what lets load-time validation tell a deliberately deferred node
-     * from an unported one.
-     */
     /**
      * Stack Stack Stack: added maximum stacks for every stacking talent, one whole stack per
      * point. The count is an integer gear attribute rather than a float one, which is why it does

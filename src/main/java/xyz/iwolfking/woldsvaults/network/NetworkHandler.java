@@ -2,14 +2,18 @@ package xyz.iwolfking.woldsvaults.network;
 
 import com.blakebr0.cucumber.network.BaseNetworkHandler;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.network.ClientboundGodNodePreviewMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ClientboundSacrificeMenuMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ClientboundVaultGodXpMessage;
 import xyz.iwolfking.woldsvaults.gods.network.GodAlignmentSyncMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundOpenGodTreeMessage;
+import xyz.iwolfking.woldsvaults.gods.network.ServerboundRequestGodNodePreviewMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundRequestSacrificeMenuMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundSelectSacrificeGodMessage;
+import xyz.iwolfking.woldsvaults.gods.network.ServerboundSetMinorTransferMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundToggleCharmTemporalMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundUnlockGodNodeMessage;
+import xyz.iwolfking.woldsvaults.milestones.network.GreedTablesMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.MilestoneStatusMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.MilestoneSyncMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundClaimMilestoneMessage;
@@ -44,5 +48,9 @@ public class NetworkHandler {
         INSTANCE.register(ServerboundPinMilestoneMessage.class, new ServerboundPinMilestoneMessage());
         INSTANCE.register(ServerboundOpenMilestonesMessage.class, new ServerboundOpenMilestonesMessage());
         INSTANCE.register(ServerboundTakeTrialMessage.class, new ServerboundTakeTrialMessage());
+        INSTANCE.register(ServerboundSetMinorTransferMessage.class, new ServerboundSetMinorTransferMessage());
+        INSTANCE.register(ServerboundRequestGodNodePreviewMessage.class, new ServerboundRequestGodNodePreviewMessage());
+        INSTANCE.register(ClientboundGodNodePreviewMessage.class, new ClientboundGodNodePreviewMessage());
+        INSTANCE.register(GreedTablesMessage.class, new GreedTablesMessage());
     }
 }

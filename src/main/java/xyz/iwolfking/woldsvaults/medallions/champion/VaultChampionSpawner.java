@@ -25,6 +25,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
@@ -32,6 +33,10 @@ import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -83,7 +88,7 @@ public final class VaultChampionSpawner {
         champion.addTag(VaultChampion.CHAMPION_TAG);
         champion.addTag(ChampionPromoter.NO_CHAMPION_TAG);
         EntityScaler.setScaled(champion);
-        VaultChampion.stamp(champion, tier, summoner.getUUID());
+        VaultChampion.stamp(champion, tier, summoner.getUUID(), vault.has(Vault.ID) ? vault.get(Vault.ID) : null);
         applyStats(vault, level, tier, stats, config, champion);
         champion.setPersistenceRequired();
         VaultChampionKills.setWakeTime(champion, level.getGameTime() + config.getHunt().dormantTicks);
@@ -139,14 +144,26 @@ public final class VaultChampionSpawner {
      * <p>Max-health modifiers are refused. The pool is already the product of the rank table, the
      * level, the difficulty and the medallion; letting a crystal's health modifiers compound on top
      * is the same chain that produced the hundred-billion-health boss the hyper manager documents,
-     * and unlike damage there is no play reason to want it.</p>
+     * and unlike damage there is no play reason to want it.
+     *
+     * <p>Only the ones this pass added are stripped, found by diffing the attribute's modifier set
+     * against the snapshot taken before the replay. The modifier's own uuid is derived from the
+     * context rather than being the context's, so it cannot be predicted from here - and clearing
+     * the attribute wholesale would take anything the Vessel or another system had already put
+     * there with it.</p>
      */
     private static void inheritVaultModifiers(Vault vault, TheVesselEntity champion) {
         if (!vault.has(Vault.MODIFIERS)) {
             return;
         }
         Modifiers modifiers = vault.get(Vault.MODIFIERS);
-        double health = champion.getMaxHealth();
+        AttributeInstance maxHealth = champion.getAttribute(Attributes.MAX_HEALTH);
+        Set<UUID> preexisting = new HashSet<>();
+        if (maxHealth != null) {
+            for (AttributeModifier modifier : maxHealth.getModifiers()) {
+                preexisting.add(modifier.getId());
+            }
+        }
         int applied = 0;
         for (Modifiers.Entry entry : modifiers.getEntries()) {
             VaultModifier<?> modifier = entry.getModifier().orElse(null);
@@ -159,10 +176,19 @@ public final class VaultChampionSpawner {
                 applied++;
             }
         }
-        AttributeInstance maxHealth = champion.getAttribute(Attributes.MAX_HEALTH);
-        if (maxHealth != null && maxHealth.getValue() != health) {
-            new java.util.ArrayList<>(maxHealth.getModifiers()).forEach(maxHealth::removeModifier);
-            champion.setHealth(champion.getMaxHealth());
+        if (maxHealth != null) {
+            List<AttributeModifier> added = new ArrayList<>();
+            for (AttributeModifier modifier : maxHealth.getModifiers()) {
+                if (!preexisting.contains(modifier.getId())) {
+                    added.add(modifier);
+                }
+            }
+            if (!added.isEmpty()) {
+                added.forEach(maxHealth::removeModifier);
+                champion.setHealth(champion.getMaxHealth());
+                WoldsVaults.LOGGER.debug("Refused {} inherited max-health modifiers on the Vault Champion.",
+                        added.size());
+            }
         }
         WoldsVaults.LOGGER.debug("Vault Champion inherited {} vault mob attribute modifiers.", applied);
     }
@@ -213,9 +239,11 @@ public final class VaultChampionSpawner {
      * hitbox alone would leave a boss that fills a doorway while still looking its old size.
      *
      * <p>Sent to trackers and to the entity itself, because the capability is not synced on its own
-     * and a client that never hears about it draws the Champion at 1.0.</p>
+     * and a client that never hears about it draws the Champion at 1.0. Nothing in the base mod
+     * re-sends it when a client starts tracking an entity it already knows nothing about, so the
+     * manager calls this again on a Champion it re-adopts after a restart.</p>
      */
-    private static void applySize(TheVesselEntity champion, float multiplier) {
+    static void applySize(TheVesselEntity champion, float multiplier) {
         if (multiplier <= 0.0F || multiplier == 1.0F) {
             return;
         }

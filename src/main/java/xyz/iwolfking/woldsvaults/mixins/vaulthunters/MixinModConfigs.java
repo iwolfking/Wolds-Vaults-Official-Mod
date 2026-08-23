@@ -41,11 +41,6 @@ public class MixinModConfigs {
   
     private static final int TOTAL_MAP_TIERS = 6;
 
-    @Inject(method = "register", at = @At("HEAD"), remap = false)
-    private static void wtf(CallbackInfo ci) {
-
-    }
-
     /**
      * Registers the per-unique ancient tier configs immediately after the base gear config map is built.
      * This must not be a TAIL injection: vhapi applies its vault_configs overlay from its own TAIL

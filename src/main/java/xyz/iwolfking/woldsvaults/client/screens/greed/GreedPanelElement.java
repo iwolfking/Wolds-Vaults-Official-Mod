@@ -24,6 +24,7 @@ import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
+import xyz.iwolfking.woldsvaults.milestones.network.ServerboundClaimMilestoneMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundTakeTrialMessage;
 
 import java.util.ArrayList;
@@ -245,7 +246,10 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         int gainY = barY + m.repBarHeight + 7;
         buildGainBox(content, columnX, gainY, columnWidth, m, rank);
 
-        int pinnedY = gainY + m.unlockBoxHeight + 6;
+        int claimAllY = gainY + m.unlockBoxHeight + 3;
+        buildClaimAll(content, columnX, claimAllY, columnWidth, m);
+
+        int pinnedY = claimAllY + m.rowClaimHeight + 5;
         content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX, pinnedY, 1),
                 GreedTheme.langColored("pinned_task", GreedTheme.GOLD), LabelTextStyle.defaultStyle()));
         MilestoneDefinition pinned = MilestoneRegistry.get(ClientMilestoneData.getPinned());
@@ -270,6 +274,29 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
                 LabelTextStyle.defaultStyle());
         rerollLabel.tooltip(Tooltips.multi(() -> List.of(GreedTheme.lang("shop_reroll_cost.tooltip"))));
         content.addElement(rerollLabel);
+    }
+
+    /**
+     * The one control for {@code Milestones#claimAll}, which until now had no button anywhere. It
+     * lives under the rank-up plate on the main tab and mirrors the per-row claim chip exactly:
+     * live label, disabled with nothing banked, and disabled with the Mr. Greedy hint on the player
+     * tab, where the server refuses claims regardless.
+     */
+    private void buildClaimAll(GreedScrollList content, int columnX, int y, int columnWidth, GreedMetrics m) {
+        boolean claimEnabled = this.claimEnabled;
+        GreedButtonElement claimAll = new GreedButtonElement(
+                Spatials.positionXYZ(columnX, y, 1).size(columnWidth, m.rowClaimHeight),
+                () -> GreedTheme.lang("claim_all", ClientMilestoneData.getUnclaimedReputation()),
+                () -> {
+                    NetworkHandler.INSTANCE.sendToServer(new ServerboundClaimMilestoneMessage());
+                    this.requestRebuild();
+                });
+        claimAll.setDisabled(() -> !claimEnabled || ClientMilestoneData.getUnclaimedReputation() <= 0);
+        claimAll.setHighlighted(() -> claimEnabled && ClientMilestoneData.getUnclaimedReputation() > 0);
+        claimAll.tooltip(Tooltips.multi(() -> claimEnabled
+                ? List.of(GreedTheme.lang("claim_all.tooltip"))
+                : List.of(GreedTheme.lang("claim.tooltip.player"))));
+        content.addElement(claimAll);
     }
 
     private void buildList(GreedScrollList content) {
@@ -333,6 +360,9 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
      * level only appears once the reputation bar is full.
      */
     private static Component trialRequirement() {
+        if (ClientMilestoneData.getRank() <= 0) {
+            return GreedTheme.langColored("take_trial.herald", GreedTheme.TEXT_DIM);
+        }
         if (!ClientMilestoneData.hasTrial()) {
             return GreedTheme.langColored("take_trial.none", GreedTheme.TEXT_DIM);
         }

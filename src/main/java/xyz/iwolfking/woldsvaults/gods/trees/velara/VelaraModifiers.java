@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * The Velara nodes whose effect is a multiplier on vanilla health or armour.
+ * The Velara nodes whose effect is a multiplier on vanilla health, armour or movement speed.
  *
  * <p>Percentile gear attributes are additive with each other, so they cannot express "x1.5 armour"
  * -  The Stonewall, Cactus, Immortal, Steadfast and Defender of the Faith all say "multiplies", and
@@ -27,10 +27,17 @@ import java.util.UUID;
  * modifiers do exactly that, so every multiplicative leg is folded into one modifier per attribute
  * with a fixed UUID, removed before re-added, and only touched when its value actually changes.
  * That is the shape the talent-modifier leak in this pack taught: stable ids, no churn.
+ *
+ * <p>The Stonewall's speed penalty rides the same pass for a different reason:
+ * {@code PlayerStat.SPEED} is declared by the base mod but nothing in it or in this addon ever
+ * computes that stat, so a listener on it never fires. Vanilla {@code generic.movement_speed} is
+ * the only seam that actually moves a player, so the penalty is written there instead.
  */
 public final class VelaraModifiers {
     private static final UUID ARMOR_MULTIPLIER_ID = GodVanillaAttributes.modifierId(
             "velara_defense", Attributes.ARMOR, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    private static final UUID SPEED_MULTIPLIER_ID = GodVanillaAttributes.modifierId(
+            VelaraNodes.THE_STONEWALL, Attributes.MOVEMENT_SPEED, AttributeModifier.Operation.MULTIPLY_TOTAL);
     private static final UUID ARMOR_FLAT_ID = GodVanillaAttributes.modifierId(
             "velara_defense", Attributes.ARMOR, AttributeModifier.Operation.ADDITION);
     private static final UUID HEALTH_MULTIPLIER_ID = GodVanillaAttributes.modifierId(
@@ -46,11 +53,13 @@ public final class VelaraModifiers {
 
         double armorMultiplier = 1.0D;
         double healthMultiplier = 1.0D;
+        double speedMultiplier = 1.0D;
         double armorFlat = 0.0D;
         double healthFlat = 0.0D;
 
         if (VelaraNodes.isActive(player, VelaraNodes.THE_STONEWALL)) {
             armorMultiplier *= VelaraValues.stonewallArmorMultiplier();
+            speedMultiplier *= VelaraValues.stonewallSpeedMultiplier();
         }
         if (VelaraNodes.isActive(player, VelaraNodes.CACTUS)) {
             armorMultiplier *= VelaraValues.cactusArmorMultiplier();
@@ -78,6 +87,8 @@ public final class VelaraModifiers {
                 healthMultiplier - 1.0D, AttributeModifier.Operation.MULTIPLY_TOTAL);
         applyModifier(player, Attributes.MAX_HEALTH, HEALTH_FLAT_ID, "Velara health",
                 healthFlat, AttributeModifier.Operation.ADDITION);
+        applyModifier(player, Attributes.MOVEMENT_SPEED, SPEED_MULTIPLIER_ID, "Velara speed multiplier",
+                speedMultiplier - 1.0D, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
         if (player.getHealth() > player.getMaxHealth()) {
             player.setHealth(player.getMaxHealth());
@@ -130,6 +141,7 @@ public final class VelaraModifiers {
         removeModifier(player, Attributes.ARMOR, ARMOR_FLAT_ID);
         removeModifier(player, Attributes.MAX_HEALTH, HEALTH_MULTIPLIER_ID);
         removeModifier(player, Attributes.MAX_HEALTH, HEALTH_FLAT_ID);
+        removeModifier(player, Attributes.MOVEMENT_SPEED, SPEED_MULTIPLIER_ID);
         if (player.getHealth() > player.getMaxHealth()) {
             player.setHealth(player.getMaxHealth());
         }

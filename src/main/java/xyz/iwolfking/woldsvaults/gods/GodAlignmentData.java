@@ -22,6 +22,7 @@ import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.prestige.GodExperiencePrestigePower;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -30,14 +31,17 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * World SavedData holding every player's alignment with each of the four Vault Gods: accumulated
  * XP (level is always derived from it, never stored), the ledger of god points spent per tree
- * node, granted bonus points, lifetime god-altar completions and the player's minor-transfer-slot
- * selections. Changes on the server are pushed to the owning player with
+ * node, granted bonus points, lifetime god-altar completions and the player's minor-transfer
+ * slots (positional: index = slot, an empty string = an empty slot; see
+ * {@link MinorTransferSlots}). Changes on the server are pushed to the owning player with
  * {@link GodAlignmentSyncMessage}; {@link ClientGodAlignmentData} mirrors them client-side.
  */
 public class GodAlignmentData extends SavedData {
@@ -49,6 +53,8 @@ public class GodAlignmentData extends SavedData {
      * a read, and a read of an absent record has nothing to say beyond "zero of everything".
      */
     private static final GodState EMPTY = new GodState();
+
+    private static final Set<String> WARNED_STALE_TRANSFERS = ConcurrentHashMap.newKeySet();
 
     private final Map<UUID, EnumMap<VaultGod, GodState>> players = new HashMap<>();
 
@@ -139,19 +145,15 @@ public class GodAlignmentData extends SavedData {
     }
 
     public int getSpentPoints(UUID playerId, VaultGod god) {
-        int spent = 0;
-        for (int points : this.getState(playerId, god).spentPoints.values()) {
-            spent += points;
-        }
-        return spent;
+        return this.getState(playerId, god).spentPoints();
     }
 
     public int getTotalPoints(UUID playerId, VaultGod god) {
-        return GodLevels.totalPointsForLevel(this.getLevel(playerId, god)) + this.getState(playerId, god).bonusPoints;
+        return this.getState(playerId, god).totalPoints(this.getLevel(playerId, god));
     }
 
     public int getUnspentPoints(UUID playerId, VaultGod god) {
-        return this.getTotalPoints(playerId, god) - this.getSpentPoints(playerId, god);
+        return this.getState(playerId, god).unspentPoints(this.getLevel(playerId, god));
     }
 
     /**
@@ -174,8 +176,42 @@ public class GodAlignmentData extends SavedData {
         return GodLevels.minorTransferSlots(this.getLevel(playerId, god));
     }
 
+    /**
+     * The effect ids {@code god}'s transfer slots currently carry for the player: one per filled
+     * slot below the god's unlocked capacity, restricted to what
+     * {@link MinorTransferSlots#isTransferable} accepts. A stale entry - a refunded star, a renamed
+     * effect, data written under older rules - is reported once and otherwise reads as empty, and
+     * the next write to the god's slots drops it.
+     */
     public List<String> getMinorTransfers(UUID playerId, VaultGod god) {
-        return Collections.unmodifiableList(this.getState(playerId, god).minorTransfers);
+        GodState state = this.getState(playerId, god);
+        return MinorTransferSlots.liveTransfers(god, state, this.getMinorTransferSlots(playerId, god), id -> {
+            if (WARNED_STALE_TRANSFERS.add(playerId + "/" + god.getName() + "/" + id)) {
+                WoldsVaults.LOGGER.warn("Ignoring {}'s {} transfer slot entry '{}': it is not a learned minor star of "
+                        + "that god. It will be dropped the next time those slots are written.", playerId, god.getName(), id);
+            }
+        });
+    }
+
+    /**
+     * The raw content of one transfer slot, or empty for a hole, a slot never written, or one the
+     * curve does not grant. Whether the content counts is the reader's question - see
+     * {@link MinorTransferSlots#isTransferable}.
+     */
+    public Optional<String> getMinorTransferSlot(UUID playerId, VaultGod god, int slot) {
+        List<String> slots = this.getState(playerId, god).minorTransfers;
+        if (slot < 0 || slot >= slots.size() || slots.get(slot).isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(slots.get(slot));
+    }
+
+    /** The slot index holding {@code effectId} in {@code god}'s transfer slots, or -1. */
+    public int findMinorTransferSlot(UUID playerId, VaultGod god, String effectId) {
+        if (effectId == null || effectId.isEmpty()) {
+            return -1;
+        }
+        return this.getState(playerId, god).minorTransfers.indexOf(effectId);
     }
 
     public int getAltarCompletions(UUID playerId, VaultGod god) {
@@ -262,17 +298,28 @@ public class GodAlignmentData extends SavedData {
         this.sync(player);
     }
 
+    /**
+     * Grants or removes bonus god points. The floor is the points the player's <em>gated</em> level
+     * grants, the same number {@link #getTotalPoints} reads, so a removal can never push the unspent
+     * total negative while a sacrifice gate is still holding the level below what the XP would pay.
+     */
     public void addBonusPoints(ServerPlayer player, VaultGod god, int amount) {
         GodState state = this.mutableState(player.getUUID(), god);
-        state.bonusPoints = Math.max(state.bonusPoints + amount, -GodLevels.totalPointsForLevel(GodLevels.levelForXp(state.xp)));
+        state.bonusPoints = Math.max(state.bonusPoints + amount,
+                -GodLevels.totalPointsForLevel(GodLevels.gatedLevel(state.xp, state.sacrifices)));
         this.setDirty();
         this.sync(player);
     }
 
+    /**
+     * Gives a god's whole constellation back: points, owned positions and the transfer slots,
+     * which only ever carry this god's own stars and so have nothing left to carry.
+     */
     public void refundAll(ServerPlayer player, VaultGod god) {
         GodState state = this.mutableState(player.getUUID(), god);
         state.spentPoints.clear();
         state.treeNodes.clear();
+        state.minorTransfers.clear();
         this.setDirty();
         this.sync(player);
     }
@@ -309,28 +356,41 @@ public class GodAlignmentData extends SavedData {
     }
 
     /**
-     * Binds a foreign minor node to one of this god's minor-transfer slots. Fails when every slot
-     * this god has unlocked is already taken, or when the node is already bound.
+     * Writes one of {@code god}'s transfer slots: {@code effectId} goes into {@code slot}, leaving
+     * any other slot it occupied, and null or empty clears the slot. Only the list's own
+     * invariant is guarded here - the slot must be one the curve can grant - because
+     * {@link MinorTransferSlots#assign} owns the validation of what may be slotted. Stale entries
+     * elsewhere in the list are dropped on the way through. Returns whether anything changed.
      */
-    public boolean addMinorTransfer(ServerPlayer player, VaultGod god, String nodeId) {
+    public boolean setMinorTransfer(ServerPlayer player, VaultGod god, int slot, @Nullable String effectId) {
+        if (slot < 0 || slot >= GodLevels.maxMinorTransferSlots()) {
+            return false;
+        }
+        String id = effectId == null ? "" : effectId;
         GodState state = this.mutableState(player.getUUID(), god);
-        if (state.minorTransfers.contains(nodeId)) {
+        List<String> slots = state.minorTransfers;
+        while (slots.size() <= slot) {
+            slots.add("");
+        }
+        boolean changed = false;
+        for (int i = 0; i < slots.size(); i++) {
+            String current = slots.get(i);
+            if (current.isEmpty()) {
+                continue;
+            }
+            boolean duplicate = i != slot && current.equals(id);
+            if (duplicate || !MinorTransferSlots.isTransferable(god, current, state.spentPoints)) {
+                slots.set(i, "");
+                changed = true;
+            }
+        }
+        if (!slots.get(slot).equals(id)) {
+            slots.set(slot, id);
+            changed = true;
+        }
+        if (!changed) {
             return false;
         }
-        if (state.minorTransfers.size() >= this.getMinorTransferSlots(player.getUUID(), god)) {
-            return false;
-        }
-        state.minorTransfers.add(nodeId);
-        this.setDirty();
-        this.sync(player);
-        return true;
-    }
-
-    public boolean removeMinorTransfer(ServerPlayer player, VaultGod god, String nodeId) {
-        if (!this.getState(player.getUUID(), god).minorTransfers.contains(nodeId)) {
-            return false;
-        }
-        this.mutableState(player.getUUID(), god).minorTransfers.remove(nodeId);
         this.setDirty();
         this.sync(player);
         return true;
@@ -408,6 +468,24 @@ public class GodAlignmentData extends SavedData {
         public final Map<String, Integer> spentPoints = new LinkedHashMap<>();
         public final List<String> minorTransfers = new ArrayList<>();
         public final Set<String> treeNodes = new LinkedHashSet<>();
+
+        /** Points sunk into the tree, over every ledger key. */
+        public int spentPoints() {
+            int spent = 0;
+            for (int points : this.spentPoints.values()) {
+                spent += points;
+            }
+            return spent;
+        }
+
+        /** Points {@code level} grants plus the bonus points on top; the one definition both sides read. */
+        public int totalPoints(int level) {
+            return GodLevels.totalPointsForLevel(level) + this.bonusPoints;
+        }
+
+        public int unspentPoints(int level) {
+            return this.totalPoints(level) - this.spentPoints();
+        }
 
         public static GodState fromNbt(CompoundTag tag) {
             GodState state = new GodState();

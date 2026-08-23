@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.gods.combat.RampageAccess;
 import xyz.iwolfking.woldsvaults.gods.node.CombatContributor;
 import xyz.iwolfking.woldsvaults.gods.node.GodCombatPipeline;
 import xyz.iwolfking.woldsvaults.gods.node.GodDamageContext;
@@ -150,11 +151,11 @@ public final class IdonaHitHandlers {
     }
 
     /**
-     * True Rage re-exports the base attack-damage multiplier registry onto a path it deliberately
-     * skips. The registry ignores anything flagged as area damage, which is how attack-damage
-     * abilities deal their damage; this node gives that damage a fraction of the multiplier back.
-     * The cleave sweep is the other such path and belongs to Cleave Expert, so the two guards are
-     * complements and never both pay for one hit.
+     * True Rage re-exports the Rampage damage bonus onto a path Rampage deliberately skips.
+     * Rampage ignores anything flagged as area damage, which is how attack-damage abilities deal
+     * theirs; this node gives that damage a fraction of the bonus back. The cleave sweep is the
+     * other such path and belongs to Cleave Expert, so the two guards are complements and never
+     * both pay for one hit.
      */
     public record TrueRageHandler(GodEffect effect) implements CombatContributor {
         @Override
@@ -177,6 +178,18 @@ public final class IdonaHitHandlers {
         }
     }
 
+    /**
+     * The shared re-export both nodes use.
+     *
+     * <p>Reads the Rampage bonus through {@link RampageAccess} rather than through
+     * {@code PlayerDamageHelper}. Until the_vault 3.21.6 those were the same number, because
+     * Rampage registered itself in that registry; it no longer does, and what remains there is
+     * Aspect of Berserk, the Berserker archetype and Barbarian's rage. Reading the registry here
+     * would re-export the wrong bonus entirely.
+     *
+     * <p>Because the bonus is read through the ability, Ultra Rampaging's Fury scaling is already
+     * folded into it. Both nodes therefore grow with Fury, which is intended.
+     */
     private static void rampageExport(GodNodeContext context, GodDamageContext damage, float efficiency) {
         if (damage.isPercentageBased()) {
             return;
@@ -184,10 +197,10 @@ public final class IdonaHitHandlers {
         if (!ActiveFlags.IS_AOE_ATTACKING.isSet() || ActiveFlags.IS_AP_ATTACKING.isSet()) {
             return;
         }
-        float rage = PlayerDamageHelper.getDamageMultiplier(context.player(), true, false);
-        if (rage <= 1.0F) {
+        float rampage = RampageAccess.effectiveDamageIncrease(context.player());
+        if (rampage <= 0.0F) {
             return;
         }
-        damage.multiply(1.0F + (rage - 1.0F) * efficiency * context.points());
+        damage.multiply(1.0F + rampage * efficiency * context.points());
     }
 }

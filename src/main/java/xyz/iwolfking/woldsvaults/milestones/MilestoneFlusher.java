@@ -5,6 +5,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
+import xyz.iwolfking.woldsvaults.milestones.network.GreedTablesMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.MilestoneStatusMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.MilestoneSyncMessage;
 
@@ -85,11 +86,20 @@ public class MilestoneFlusher {
 
     /**
      * Sends the player's entire milestone set plus their claim marks, pin and header numbers. Used
-     * on login so the client mirror starts complete, and after a pin change.
+     * on login so the client mirror starts complete, and again whenever the greed screen is opened.
+     *
+     * <p>The greed balance tables ride the same beat, ahead of the counters so the client never
+     * measures a freshly synced counter against a stale threshold. They only move when the server
+     * reloads its configs, so re-sending them is redundant on every call after the first - and that
+     * redundancy is what lets a server-side config reload reach an already-connected client the
+     * next time they open the screen instead of waiting for a relog.</p>
      */
     public static void syncAll(ServerPlayer player) {
         MilestoneData data = MilestoneData.get(player.server);
         data.clearPendingSync(player.getUUID());
+        NetworkHandler.INSTANCE.send(
+                net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
+                GreedTablesMessage.build());
         NetworkHandler.INSTANCE.send(
                 net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
                 new MilestoneSyncMessage(true, new HashMap<>(data.getAllValues(player.getUUID())),

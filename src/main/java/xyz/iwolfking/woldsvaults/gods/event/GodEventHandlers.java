@@ -16,7 +16,6 @@ import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
-import xyz.iwolfking.woldsvaults.gods.sacrifice.SacrificeAltarLogic;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 
 /**
@@ -45,15 +44,46 @@ public final class GodEventHandlers {
     @SubscribeEvent
     public static void onCurioChange(CurioChangeEvent event) {
         LivingEntity entity = event.getEntityLiving();
-        if (entity instanceof Player player) {
+        if (!(entity instanceof Player player)) {
+            return;
+        }
+        boolean godMayChange = ActiveGodResolver.mayChangeActiveGod(event.getFrom(), event.getTo());
+        if (godMayChange) {
             ActiveGodResolver.invalidate(player);
             GodNodeCache.invalidate(player);
-            if (player instanceof ServerPlayer serverPlayer && serverPlayer.getServer() != null) {
-                AttributeSnapshotHelper.getInstance().refreshSnapshotDelayed(serverPlayer);
-                GodNodeTicker.reconcile(serverPlayer);
-                GodAlignmentData.get(serverPlayer.getServer()).sync(serverPlayer);
-            }
         }
+        if (!(player instanceof ServerPlayer serverPlayer) || serverPlayer.getServer() == null) {
+            return;
+        }
+        if (godMayChange) {
+            AttributeSnapshotHelper.getInstance().refreshSnapshotDelayed(serverPlayer);
+            GodNodeTicker.reconcile(serverPlayer);
+            GodAlignmentData.get(serverPlayer.getServer()).sync(serverPlayer);
+        } else if (!isBlessingCountdownOnly(event.getFrom(), event.getTo())) {
+            AttributeSnapshotHelper.getInstance().refreshSnapshotDelayed(serverPlayer);
+        }
+    }
+
+    /**
+     * Curios raises its change event on any NBT delta, and a worn mythic charm's NBT moves once a
+     * second for the whole length of a blessing just to count the clock down. That delta changes
+     * nothing the snapshot reads, so it must not cost a snapshot rebuild; a delta in anything else
+     * on the charm - a piety rescale of its rolls, for one - still does.
+     */
+    private static boolean isBlessingCountdownOnly(net.minecraft.world.item.ItemStack from,
+                                                   net.minecraft.world.item.ItemStack to) {
+        if (from.getItem() != to.getItem() || from.getCount() != to.getCount()) {
+            return false;
+        }
+        net.minecraft.world.item.ItemStack before = from.copy();
+        net.minecraft.world.item.ItemStack after = to.copy();
+        if (before.getTag() != null) {
+            before.getTag().remove(xyz.iwolfking.woldsvaults.gods.charms.MythicCharmRolls.TEMPORAL_REMAINING_TAG);
+        }
+        if (after.getTag() != null) {
+            after.getTag().remove(xyz.iwolfking.woldsvaults.gods.charms.MythicCharmRolls.TEMPORAL_REMAINING_TAG);
+        }
+        return net.minecraft.world.item.ItemStack.matches(before, after);
     }
 
     /**
@@ -129,6 +159,5 @@ public final class GodEventHandlers {
         GodNodeState.clearAll();
         GodNodeCache.invalidateAll();
         ActiveGodResolver.invalidateAll();
-        SacrificeAltarLogic.clearAll();
     }
 }

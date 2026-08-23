@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.milestones.client;
 
 import xyz.iwolfking.woldsvaults.milestones.MilestoneDefinition;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 
 import java.util.Collections;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 /**
  * Client mirror of the local player's milestone counters, claim state, pin and greed header
- * numbers. Data only — the milestones screen is a later wave and reads this.
+ * numbers. Data only; the greed screens under {@code client.screens.greed} are its readers.
  */
 public class ClientMilestoneData {
     private static final Map<String, Long> VALUES = new HashMap<>();
@@ -40,7 +41,15 @@ public class ClientMilestoneData {
         CLAIMED_TIERS.putAll(claimedTiers);
     }
 
+    /**
+     * Drops everything the last server told this client, the balance tables it sent included. Those
+     * are put back to the local config's numbers rather than left standing: they are static, so
+     * without this they would stay the previous server's until the next login sync landed - which
+     * is exactly the window in which a player opens the greed screen after joining somewhere else.
+     */
     public static void clear() {
+        MilestoneRankLadder.restoreLocal();
+        MilestoneRegistry.restoreLocal();
         VALUES.clear();
         CLAIMED_TIERS.clear();
         pinned = null;

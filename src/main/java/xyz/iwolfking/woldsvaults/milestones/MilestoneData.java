@@ -7,6 +7,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -22,8 +23,6 @@ import java.util.UUID;
  * memory and only marked for persistence on a throttle (see {@link MilestoneFlusher}) or on the
  * events that must never lose progress, so that millions of increments cost no save traffic.
  */
-import xyz.iwolfking.woldsvaults.WoldsVaults;
-
 public class MilestoneData extends SavedData {
     protected static final String DATA_NAME = "woldsvaults_Milestones";
 
@@ -143,14 +142,6 @@ public class MilestoneData extends SavedData {
         this.pendingSync.remove(playerId);
     }
 
-    public boolean hasPendingSave() {
-        return this.pendingSave;
-    }
-
-    /**
-     * Marks the store for persistence and clears the throttle flag. Called on tier crossings, on
-     * the periodic flush, and unconditionally on vault leave, vault end, logout and server stop.
-     */
     /**
      * Marks the save dirty if anything has changed since the last flush, counters or per-vault
      * scratch. The scratch is asked separately because it rides in this save without being one of
@@ -162,10 +153,6 @@ public class MilestoneData extends SavedData {
             this.pendingSave = false;
             this.setDirty();
         }
-    }
-
-    public void markPendingSave() {
-        this.pendingSave = true;
     }
 
     public void load(CompoundTag tag) {

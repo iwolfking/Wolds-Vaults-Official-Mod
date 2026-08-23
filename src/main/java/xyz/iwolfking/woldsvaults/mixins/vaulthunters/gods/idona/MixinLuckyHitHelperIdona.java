@@ -1,23 +1,24 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.idona;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import iskallia.vault.util.calc.LuckyHitHelper;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaLuckyHit;
 
 @Mixin(value = LuckyHitHelper.class, remap = false)
 public class MixinLuckyHitHelperIdona {
     /**
      * @author PoorMansPhysicist
-     * @reason Luckiest Hit multiplies lucky hit chance by 0.1. Injected at the tail of the
-     * unlimited getter, alongside the addon's existing luck injection, so the clamp and every
-     * downstream reader (including Overcrit) see the reduced value.
+     * @reason Luckiest Hit multiplies lucky hit chance by 0.1. A return-value modifier rather than
+     * a cancellable RETURN inject, because the addon's luck mixin modifies the same getter and two
+     * cancellable injects on one method let only the first one run; return-value modifiers chain,
+     * so the clamp and every downstream reader (including Overcrit) see luck applied and then the
+     * reduction.
      */
-    @Inject(method = "getLuckyHitChanceUnlimited", at = @At("TAIL"), cancellable = true)
-    private static void applyLuckiestHit(LivingEntity entity, CallbackInfoReturnable<Float> cir) {
-        cir.setReturnValue(IdonaLuckyHit.scaleChance(entity, cir.getReturnValue()));
+    @ModifyReturnValue(method = "getLuckyHitChanceUnlimited", at = @At("RETURN"))
+    private static float applyLuckiestHit(float chance, LivingEntity entity) {
+        return IdonaLuckyHit.scaleChance(entity, chance);
     }
 }

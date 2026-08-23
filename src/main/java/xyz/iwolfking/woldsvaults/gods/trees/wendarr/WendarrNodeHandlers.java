@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandlers;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
@@ -36,7 +37,7 @@ import java.util.Optional;
  * binds the shared {@code piety} type, so none of those is named here. What is left is one type
  * per effect Java has to know about: the three stat effects computed from live player state, the
  * vault-clock and damage effects in {@link WendarrTimeHandlers}, and the rest as
- * {@link ListenerBound} - numbers in config, validated at load, behaviour still reached through
+ * {@link ListenerBoundHandler} - numbers in config, validated at load, behaviour still reached through
  * the base mod events, the shared final damage stage and the mixins that own the ordering.
  *
  * <p>Params component names are the config keys verbatim, including their underscores. The codec
@@ -79,6 +80,8 @@ public final class WendarrNodeHandlers {
         GodNodeHandlers.register(WendarrNodes.MASTER_IMBUER, ListenerBoundHandler::new);
         GodNodeHandlers.register(WendarrNodes.EXTRACTION_SUPERVISER, DeferredHandler::new);
         GodNodeHandlers.register(WendarrNodes.ARMORED_EXTRACTORS, DeferredHandler::new);
+        GodNodePreviews.register(WendarrNodes.PACED_STRIKES, GodNodePreviews.PACED_STRIKES_FORMULA,
+                WendarrTimeHandlers::previewPacedStrikes);
     }
 
     /**
@@ -91,19 +94,6 @@ public final class WendarrNodeHandlers {
         return GodNodeRegistry.params(VaultGod.WENDARR, effectId, type);
     }
 
-    /**
-     * An effect whose numbers are config and whose behaviour is reached through the base mod's own
-     * events, through the shared final damage stage or through a mixin. It implements no
-     * capability on purpose: a handler that claimed one would be dispatched twice, once by the
-     * capability driver and once by the listener that actually owns the ordering.
-     */
-    /**
-     * A node the tree places but has no behaviour for yet. Extraction Superviser and Armored
-     * Extractors are both this: extraction vaults are shelved (SCOPING_SYNTHESIS 5-bis #17) and no
-     * extractor entity exists, so their placements ship disabled. Binding them to a type of their
-     * own rather than to the catch-all is what lets load-time validation tell a deliberately
-     * deferred node from an unported one.
-     */
     /**
      * The Deckless: every empty card deck slot pays fruit efficiency, movement speed and cooldown
      * reduction, per invested point. Read from the live deck at snapshot time rather than banked,

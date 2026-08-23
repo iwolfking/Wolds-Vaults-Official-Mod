@@ -1,7 +1,8 @@
 package xyz.iwolfking.woldsvaults.gods.trees.velara;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -26,13 +27,18 @@ import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
  * place. It is multiplicative with every other global factor, which is the intended reading of
  * "have your attack and ability power multiplied by 0.5x".
  *
- * <p>The revive cooldown is a tick stamp in the shared {@link GodNodeState} scratch, so it is
- * torn down on logout and on leaving a vault like every other node's state.
+ * <p>The revive cooldown is a wall-clock deadline in {@link GodNodeState#persistent}, not in the
+ * transient scratch: the scratch is wiped on logout, so a 300 second cooldown stored there was a
+ * relog away from being free. It is re-armed deliberately on vault exit instead - a run's cooldown
+ * does not follow the player into the next run - which {@link VelaraTree} wires on
+ * {@code LISTENER_LEAVE}.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VelaraImmortal {
     /** The base mod's own "already revived this death" tag; setting it makes phoenix and downed stand down. */
     private static final String VAULT_REVIVE_TAG = "the_vault_revived_tick";
+    private static final String READY_AT_KEY = "revive_ready_at";
+    private static final long MILLIS_PER_TICK = 50L;
     private static final ResourceLocation DAMAGE_FACTOR_KEY = WoldsVaults.id("velara_immortal");
 
     private VelaraImmortal() {
@@ -53,18 +59,12 @@ public final class VelaraImmortal {
         if (!VelaraNodes.isActive(player, VelaraNodes.IMMORTAL) || event.getSource().isBypassInvul()) {
             return;
         }
-        MinecraftServer server = player.getServer();
-        if (server == null) {
-            WoldsVaults.LOGGER.error("Immortal could not read the server tick for {}; the self-revive was skipped.",
-                    player.getGameProfile().getName());
+        CompoundTag cooldown = GodNodeState.persistent(player, VelaraNodes.IMMORTAL);
+        long now = System.currentTimeMillis();
+        if (cooldown.contains(READY_AT_KEY, Tag.TAG_LONG) && now < cooldown.getLong(READY_AT_KEY)) {
             return;
         }
-        long now = server.getTickCount();
-        Long last = GodNodeState.<Long>peek(player.getUUID(), VelaraNodes.IMMORTAL).orElse(null);
-        if (last != null && now - last < VelaraValues.immortalReviveCooldownTicks()) {
-            return;
-        }
-        GodNodeState.put(player.getUUID(), VelaraNodes.IMMORTAL, now);
+        cooldown.putLong(READY_AT_KEY, now + VelaraValues.immortalReviveCooldownTicks() * MILLIS_PER_TICK);
         revive(player);
         player.addTag(VAULT_REVIVE_TAG);
         event.setCanceled(true);

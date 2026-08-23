@@ -12,10 +12,10 @@ import iskallia.vault.client.util.ClientScheduler;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.util.MiscUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.phys.Vec2;
 import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
@@ -23,8 +23,10 @@ import iskallia.vault.config.entry.SkillStyle;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodNode;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeType;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeModel;
 
+import javax.annotation.Nullable;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -41,8 +43,13 @@ import java.util.Random;
  * {@link GodNodeWidget} star per node. Pan and zoom follow the old greed tree's feel and persist
  * per god across opens. Everything here reads the client alignment mirror; the server stays
  * authoritative through the unlock message.
+ *
+ * <p>It is a region of {@link GodTreeScreen}, not a screen of its own: the parent drives its
+ * rendering and forwards mouse input, so it is a {@link GuiComponent} for the draw helpers and a
+ * {@link GuiEventListener} for the input surface, and nothing more - no {@code init}, no font or
+ * client fields that would only ever be null here.</p>
  */
-public class GodTreePanRegion extends Screen {
+public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
     private static final Map<VaultGod, Vec2> persistedTranslations = new EnumMap<>(VaultGod.class);
     private static final Map<VaultGod, Float> persistedScales = new EnumMap<>(VaultGod.class);
     private static final int BACKGROUND_STARS = 420;
@@ -60,9 +67,10 @@ public class GodTreePanRegion extends Screen {
     protected float viewportScale = 0.5F;
     protected boolean dragging;
     protected Vec2 grabbedPos = new Vec2(0.0F, 0.0F);
+    @Nullable
+    private TransferSlotPopup popup;
 
     public GodTreePanRegion(GodTreeScreen parentScreen, GodTreeDialog dialog, VaultGod god) {
-        super(new TextComponent("Gods Tab"));
         this.parentScreen = parentScreen;
         this.dialog = dialog;
         this.setGod(god);
@@ -79,8 +87,14 @@ public class GodTreePanRegion extends Screen {
     public void setGod(VaultGod god) {
         this.god = god;
         this.selectedWidget = null;
+        this.popup = null;
         this.update();
         this.loadViewportTransforms();
+    }
+
+    /** Dismisses the transfer-slot picker, if one is open. */
+    public void closePopup() {
+        this.popup = null;
     }
 
     public void update() {
@@ -91,6 +105,7 @@ public class GodTreePanRegion extends Screen {
         this.tree = GodNodeRegistry.tree(this.god).orElse(null);
         this.rebuildBackgroundStars();
         if (this.tree == null) {
+            this.popup = null;
             return;
         }
         for (GodNode node : this.tree.getNodes()) {
@@ -112,6 +127,12 @@ public class GodTreePanRegion extends Screen {
             if (reselected != null) {
                 this.selectedWidget = reselected;
                 reselected.select();
+            }
+        }
+        if (this.popup != null) {
+            GodNodeWidget anchor = this.nodeWidgets.get(this.popup.anchorNodeId());
+            if (anchor == null || !anchor.isUnlocked()) {
+                this.popup = null;
             }
         }
     }
@@ -182,29 +203,53 @@ public class GodTreePanRegion extends Screen {
         return Math.max(0.25F, Math.min(2.0F, scale));
     }
 
+    /**
+     * Left-click selects a star or starts a drag; right-click selects a star and, on a learned
+     * minor, opens the transfer-slot picker beside it. While the picker is open a left-click on
+     * one of its circles goes to the picker; any other click closes it and then does its normal
+     * job, so clicking another star both dismisses the picker and selects the star.
+     */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.getBounds().contains(mouseX, mouseY) && button == 0) {
-            Point2D.Float midpoint = MiscUtils.getMidpoint(this.getBounds());
-            int containerMouseX = (int) ((mouseX - midpoint.x) / this.viewportScale - this.viewportTranslation.x);
-            int containerMouseY = (int) ((mouseY - midpoint.y) / this.viewportScale - this.viewportTranslation.y);
-            for (GodNodeWidget widget : this.nodeWidgets.values()) {
-                if (!widget.isMouseOver(containerMouseX, containerMouseY)) {
-                    continue;
-                }
-                if (this.selectedWidget != null) {
-                    this.selectedWidget.deselect();
-                }
-                this.selectedWidget = widget;
-                widget.select();
-                this.dialog.setSelectedNode(widget.getNode().id());
+        if (!this.getBounds().contains(mouseX, mouseY) || (button != 0 && button != 1)) {
+            return false;
+        }
+        Point2D.Float midpoint = MiscUtils.getMidpoint(this.getBounds());
+        int containerMouseX = (int) ((mouseX - midpoint.x) / this.viewportScale - this.viewportTranslation.x);
+        int containerMouseY = (int) ((mouseY - midpoint.y) / this.viewportScale - this.viewportTranslation.y);
+        if (button == 0 && this.popup != null) {
+            GodNodeWidget anchor = this.nodeWidgets.get(this.popup.anchorNodeId());
+            int slot = anchor == null ? -1 : this.popup.slotAt(anchor, containerMouseX, containerMouseY);
+            if (slot >= 0) {
+                this.popup.click(slot);
                 return true;
             }
-            this.grabbedPos = new Vec2((float) mouseX, (float) mouseY);
-            this.dragging = true;
+        }
+        this.popup = null;
+        GodNodeWidget hit = null;
+        for (GodNodeWidget widget : this.nodeWidgets.values()) {
+            if (widget.isMouseOver(containerMouseX, containerMouseY)) {
+                hit = widget;
+                break;
+            }
+        }
+        if (hit != null) {
+            if (this.selectedWidget != null) {
+                this.selectedWidget.deselect();
+            }
+            this.selectedWidget = hit;
+            hit.select();
+            this.dialog.setSelectedNode(hit.getNode().id());
+            if (button == 1 && hit.getNode().type() == GodNodeType.MINOR && hit.isUnlocked()) {
+                this.popup = new TransferSlotPopup(this.god, hit.getNode());
+            }
             return true;
         }
-        return false;
+        if (button == 0) {
+            this.grabbedPos = new Vec2((float) mouseX, (float) mouseY);
+            this.dragging = true;
+        }
+        return true;
     }
 
     @Override
@@ -271,6 +316,12 @@ public class GodTreePanRegion extends Screen {
         this.renderConstellationLabels(renderStack);
         for (GodNodeWidget widget : this.nodeWidgets.values()) {
             widget.renderWidget(renderStack, containerBounds, mouseX, mouseY, containerMouseX, containerMouseY, pTicks, postRender);
+        }
+        if (this.popup != null) {
+            GodNodeWidget anchor = this.nodeWidgets.get(this.popup.anchorNodeId());
+            if (anchor != null) {
+                this.popup.render(renderStack, anchor, this.tree, containerMouseX, containerMouseY, mouseX, mouseY, postRender);
+            }
         }
         renderStack.popPose();
     }

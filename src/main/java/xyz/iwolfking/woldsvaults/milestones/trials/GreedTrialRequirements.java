@@ -15,7 +15,11 @@ public final class GreedTrialRequirements {
     private GreedTrialRequirements() {
     }
 
-    /** The rank the player is currently climbing toward. */
+    /**
+     * The rank the player is currently climbing toward. Tier 0 means the Herald has not been beaten
+     * yet, so this answers 1 - the ladder's entry rank, which beating the Herald awards outright
+     * and which has no trial of its own.
+     */
     public static int nextRank(ServerPlayer player) {
         return PlayerGreedTreeData.get(player.server).getGreedTier(player) + 1;
     }
@@ -44,9 +48,13 @@ public final class GreedTrialRequirements {
     }
 
     /**
-     * Whether the player may start the trial for the given rank right now. A rank with no trial
-     * row (past Legend, or the starting rank) is never takeable - Legend+ climbs on reputation
-     * alone and is handled by the milestone coherence hook, not by a trial.
+     * Whether the player may start the trial for the given rank right now. A rank with no trial row
+     * is never takeable, which today means the entry rank and every rank past Legend.
+     *
+     * <p>Legend is therefore the ceiling as shipped. {@link MilestoneRankLadder} prices Legend+
+     * ranks and the greed screens render them, but nothing in the addon promotes anyone past
+     * Legend: the only writers of the rank are the trial payout, which stops at the last trial row,
+     * and the Herald award. A Legend+ climb needs a promoter of its own before it exists in game.</p>
      */
     public static boolean isReady(ServerPlayer player, int rank) {
         return GreedTrial.forRank(rank) != null && hasReputation(player, rank) && hasGodLevel(player, rank);

@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.gods.node;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * The one periodic pass every god tree shares. It drops the gate cache once a second - which is
@@ -34,14 +36,39 @@ import java.util.concurrent.ConcurrentHashMap;
  * gate lost for any reason; {@link #reconcile(ServerPlayer)} runs the same diff immediately for the
  * paths that already know the gate has moved (charm swap, dimension change, refund), and
  * {@link #deactivateAll(ServerPlayer)} drains a player on logout while they are still a live entity.
+ *
+ * <p>A tree whose periodic work is a computation over more than one player at once - a radius
+ * scan, a party census, a per-vault partition - cannot be expressed as a {@link TickContributor},
+ * which only ever sees one player and one effect. Rather than let such a tree stand up a second
+ * server tick listener beside this one, it registers a {@link TreePass} here and runs inside the
+ * same pass, after the cache refresh and after every contributor, so it reads a cache no older
+ * than this pass.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GodNodeTicker {
     private static final int PERIOD_TICKS = 20;
 
     private static final Map<UUID, Set<String>> LIVE = new ConcurrentHashMap<>();
+    private static final List<TreePass> TREE_PASSES = new CopyOnWriteArrayList<>();
+
+    /**
+     * One god tree's cross-player periodic pass. Runs once per ticker pass with every online
+     * player, not once per player.
+     */
+    public interface TreePass {
+        void run(MinecraftServer server, List<ServerPlayer> players);
+    }
 
     private GodNodeTicker() {
+    }
+
+    /**
+     * Adds a tree pass to the shared ticker. Called once from a tree's setup; passes run in
+     * registration order and a pass that throws is logged and skipped, never allowed to take the
+     * rest of the ticker down with it.
+     */
+    public static void registerTreePass(TreePass pass) {
+        TREE_PASSES.add(pass);
     }
 
     @SubscribeEvent
@@ -58,12 +85,25 @@ public final class GodNodeTicker {
             GodNodeCache.refresh(player);
         }
         List<GodEffect> ticking = GodNodeRegistry.effectsWith(TickContributor.class);
-        if (ticking.isEmpty()) {
-            return;
+        if (!ticking.isEmpty()) {
+            for (ServerPlayer player : players) {
+                pass(player, ticking, true);
+            }
         }
-        for (ServerPlayer player : players) {
-            pass(player, ticking, true);
+        for (TreePass treePass : TREE_PASSES) {
+            try {
+                treePass.run(server, players);
+            } catch (RuntimeException e) {
+                WoldsVaults.LOGGER.error("God tree pass {} threw; this pass was skipped.",
+                        treePass.getClass().getName(), e);
+            }
         }
+    }
+
+    /** Drops the live-effect diff for a server that is going away, so a single-player world reload starts clean. */
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        LIVE.clear();
     }
 
     /**

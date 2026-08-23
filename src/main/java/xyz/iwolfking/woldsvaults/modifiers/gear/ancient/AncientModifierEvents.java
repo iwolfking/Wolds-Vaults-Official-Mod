@@ -31,6 +31,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
+import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaState;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 import java.util.List;
@@ -105,11 +106,19 @@ public class AncientModifierEvents {
             nearby.remove(attacker);
             nearby.removeIf(mob -> (attacker instanceof EternalEntity || attacker instanceof Player) && mob instanceof EternalEntity || mob instanceof PetEntity);
             nearby.removeIf(mob -> mob.isInvulnerableTo(event.getSource()));
-            nearby.forEach(mob -> {
-                Vec3 movement = mob.getDeltaMovement();
-                mob.hurt(event.getSource(), cleaveDamage);
-                mob.setDeltaMovement(movement);
-            });
+            ServerPlayer cleaver = attacker instanceof ServerPlayer serverPlayer ? serverPlayer : null;
+            ServerPlayer previous = cleaver == null ? null : IdonaState.pushCleave(cleaver);
+            try {
+                nearby.forEach(mob -> {
+                    Vec3 movement = mob.getDeltaMovement();
+                    mob.hurt(event.getSource(), cleaveDamage);
+                    mob.setDeltaMovement(movement);
+                });
+            } finally {
+                if (cleaver != null) {
+                    IdonaState.popCleave(previous);
+                }
+            }
             if (attacker instanceof Player player) {
                 PlayerActiveFlags.set(player, PlayerActiveFlags.Flag.ATTACK_AOE, 2);
             }

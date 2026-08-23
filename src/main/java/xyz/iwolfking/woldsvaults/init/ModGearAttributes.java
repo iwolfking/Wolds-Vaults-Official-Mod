@@ -86,6 +86,7 @@ public class ModGearAttributes {
 
     //Ancient Unique Modifiers
     public static final VaultGearAttribute<Boolean> ANCIENT_UNIQUE = woldsAttr("ancient_unique", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.none());
+    public static final VaultGearAttribute<Boolean> BLACK_MARKET_ORIGIN = woldsAttr("black_market_origin", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.none());
     public static final VaultGearAttribute<Integer> LUCKY_HIT_AOE = attr("lucky_hit_aoe", VaultGearAttributeType.intType(), (ConfigurableAttributeGenerator<Integer, ?>)ModGearAttributeGenerators.intRange(), new IntegerValueModifierReader(14901010, value -> "+On hits will always <$uniqueHighlight>cleave<reset>, dealing part of your damage in a radius, boosted by <$uniqueHighlight>Lucky Hit<reset>"), VaultGearAttributeComparator.intComparator());
     public static final VaultGearAttribute<Integer> QUAKING_HIT = attr("quaking_hit", VaultGearAttributeType.intType(), (ConfigurableAttributeGenerator<Integer, ?>)ModGearAttributeGenerators.intRange(), new IntegerValueModifierReader(9139029, value -> "+Hitting a stunned enemy casts an <$uniqueHighlight>Earthquake<reset> of level " + value), VaultGearAttributeComparator.intComparator());
     public static final VaultGearAttribute<Integer> SPLITTING_JAVELINS = attr("splitting_javelins", VaultGearAttributeType.intType(), (ConfigurableAttributeGenerator<Integer, ?>)ModGearAttributeGenerators.intRange(), new IntegerValueModifierReader(3085471, value -> "+Scatter javelins split into <$uniqueHighlight>" + value + "<reset> javelins before scattering"), VaultGearAttributeComparator.intComparator());
@@ -243,6 +244,7 @@ public class ModGearAttributes {
                       registry.register(TEMPORAL_SHARD_DURATION);
                       registry.register(FRUIT_SAVER);
                       registry.register(ANCIENT_UNIQUE);
+                      registry.register(BLACK_MARKET_ORIGIN);
                       registry.register(LUCKY_HIT_AOE);
                       registry.register(QUAKING_HIT);
                       registry.register(SPLITTING_JAVELINS);

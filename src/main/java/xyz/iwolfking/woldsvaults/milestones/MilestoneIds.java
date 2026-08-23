@@ -41,6 +41,7 @@ public class MilestoneIds {
     public static final String DUNGEONEER = "dungeoneer";
     public static final String VILLAIN = "villain";
     public static final String FLAWLESS_VICTORY = "flawless_victory";
+    public static final String ASSASSIN_ASSASSINATOR = "assassin_assassinator";
 
     public static final String FAIL_VAULTS = "fail_vaults";
     public static final String MASTER_SMITH = "master_smith";

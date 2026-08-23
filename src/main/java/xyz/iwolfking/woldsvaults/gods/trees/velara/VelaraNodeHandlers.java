@@ -11,6 +11,7 @@ import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandlers;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
@@ -25,8 +26,8 @@ import java.util.List;
  * <p>The twelve plain stat effects bind the shared {@code gear_attribute_scaled} type and Pious
  * Devotion binds the shared {@code piety} type, so neither is named here. What is left is one
  * type per behavioural effect: the two that are pure stat contributions implement
- * {@link StatContributor}, and the rest are {@link ListenerBound}, meaning their numbers live in
- * config and are validated at load while their behaviour is still reached through Velara's own
+ * {@link StatContributor}, and the rest bind {@link ListenerBoundHandler}, meaning their numbers
+ * live in config and are validated at load while their behaviour is still reached through Velara's own
  * ordered listeners - the damage stage, the player-stat bus, the downed hooks - because the
  * capability seams those effects would need do not exist yet.
  *
@@ -66,6 +67,8 @@ public final class VelaraNodeHandlers {
         GodNodeHandlers.register(VelaraNodes.SANITATION, SanitationParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(VelaraNodes.PRESENCE, PresenceParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(VelaraNodes.HEALING_FLOW, HealingFlowParams.class, ListenerBoundHandler::new);
+        GodNodePreviews.register(VelaraNodes.MALEDICTION, GodNodePreviews.MALEDICTION_FORMULA,
+                VelaraStatBus::previewMalediction);
     }
 
     /**
@@ -78,12 +81,6 @@ public final class VelaraNodeHandlers {
         return GodNodeRegistry.params(VaultGod.VELARA, effectId, type);
     }
 
-    /**
-     * An effect whose numbers are config and whose behaviour is reached through the Velara tree's
-     * own listeners. It implements no capability on purpose: a handler that claimed one would be
-     * dispatched twice, once by the capability driver and once by the listener that actually
-     * owns the ordering.
-     */
     /** Immune: a chance to avoid every effect in {@link VelaraBadEffects}, linear in stars owned. */
     public record EffectAvoidanceHandler(GodEffect effect) implements StatContributor {
         @Override

@@ -4,23 +4,34 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.client.gui.component.ScrollableContainer;
 import iskallia.vault.client.gui.helper.FontHelper;
+import iskallia.vault.client.gui.helper.Renderable;
 import iskallia.vault.client.gui.helper.UIHelper;
 import iskallia.vault.client.gui.screen.player.legacy.tab.split.spi.AbstractDialog;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModSounds;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.util.FormattedCharSequence;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
 import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
 import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
+import xyz.iwolfking.woldsvaults.gods.ClientGodNodePreviews;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundUnlockGodNodeMessage;
 import iskallia.vault.config.entry.SkillStyle;
@@ -31,23 +42,48 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodeType;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeModel;
 
 import java.awt.Rectangle;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The right-hand pane of the gods tab. With a star selected it shows the node's name, its
  * standing, the shared skill description for its effect and the unlock button; with nothing
  * selected it shows the god's own summary - level, experience, points and how the tree works.
  * Descriptions come from {@code ModConfigs.SKILL_DESCRIPTIONS} keyed by the node's effect id
- * (its own id for start stars), the same pipeline every other skill screen reads.
+ * (its own id for start stars), the same pipeline every other skill screen reads. A node whose
+ * description carries a live formula shows the value the server last answered for it instead,
+ * with the worked math as hover text the screen draws on top.
  */
 import javax.annotation.Nullable;
 
 public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
     private static final int COLOR_MUTED = 0xC4C4C4;
+    private static final int TEXT_PADDING = 10;
+    private static final int LINE_HEIGHT = 10;
+    private static final int TEXT_COLOR = 0xFF192022;
+    private static final Set<String> WARNED_FORMULAS = new HashSet<>();
 
     private VaultGod god;
     private String selectedNodeId;
     private GodNode selectedNode;
     private MutableComponent descriptionContentComponent;
+    private List<FormattedCharSequence> renderedLines = List.of();
+
+    /** The description's scroll container, with its scroll offset exposed so hover hit-testing can undo it. */
+    private static final class DescriptionContainer extends ScrollableContainer {
+        DescriptionContainer(Renderable renderer) {
+            super(renderer);
+        }
+
+        int scrollOffset() {
+            return this.yOffset;
+        }
+
+        boolean hasBounds() {
+            return this.bounds != null;
+        }
+    }
 
     public GodTreeDialog(GodTreeScreen parentScreen, VaultGod god) {
         super(parentScreen);
@@ -86,7 +122,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
             this.selectedNodeId = null;
             this.learnButton = null;
             this.descriptionContentComponent = this.buildGodSummary();
-            this.descriptionComponent = new ScrollableContainer(this::renderDescriptions);
+            this.descriptionComponent = new DescriptionContainer(this::renderDescriptions);
             return;
         }
         boolean unlocked = ClientGodAlignmentData.isTreeNodePurchased(this.god, this.selectedNodeId);
@@ -113,20 +149,110 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         }
         this.learnButton = new Button(0, 0, 0, 0, new TextComponent(buttonText), button -> this.unlockNode(), Button.NO_TOOLTIP);
         this.learnButton.active = buttonActive;
-        this.descriptionComponent = new ScrollableContainer(this::renderDescriptions);
-        this.descriptionContentComponent = ModConfigs.SKILL_DESCRIPTIONS.getDescriptionFor(this.selectedNode.ledgerKey()).copy();
+        this.descriptionComponent = new DescriptionContainer(this::renderDescriptions);
+        this.descriptionContentComponent = this.buildNodeDescription(unlocked);
+    }
+
+    /** Rebuilds the selected node's text in place - after a preview answer - without resetting the scroll. */
+    public void refreshPreview() {
+        if (this.selectedNode != null) {
+            this.descriptionContentComponent = this.buildNodeDescription(
+                    ClientGodAlignmentData.isTreeNodePurchased(this.god, this.selectedNodeId));
+        }
+    }
+
+    /** The effect id the dialog is showing, for the screen's preview polling, or null for the god summary. */
+    @Nullable
+    public String selectedEffectId() {
+        return this.selectedNode == null ? null : this.selectedNode.ledgerKey();
+    }
+
+    private MutableComponent buildNodeDescription(boolean unlocked) {
+        MutableComponent description = this.withPreview(
+                ModConfigs.SKILL_DESCRIPTIONS.getDescriptionFor(this.selectedNode.ledgerKey()).copy());
+        GodNodeType type = this.selectedNode.type();
+        int transferSlot = this.transferSlotOf(this.selectedNode);
         if (this.selectedNode.enabled() && !this.isCharmActive()) {
-            GodNodeType type = this.selectedNode.type();
-            if (type == GodNodeType.MINOR || type == GodNodeType.MAJOR) {
-                this.descriptionContentComponent.append(new TextComponent("\n\nOnly functions while a "
+            if (type == GodNodeType.MINOR && transferSlot >= 0) {
+                description.append(new TextComponent("\n\nCarried by transfer slot "
+                        + GreedTheme.roman(transferSlot + 1) + " - applies while " + this.god.getName()
+                        + " is not your active god.")
+                        .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.STATUS_GOOD & 0xFFFFFF))));
+            } else if (type == GodNodeType.MINOR || type == GodNodeType.MAJOR) {
+                description.append(new TextComponent("\n\nOnly functions while a "
                         + this.god.getName() + " charm is equipped.")
                         .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFF7A6A))));
             } else if (type == GodNodeType.STAT && unlocked) {
-                this.descriptionContentComponent.append(new TextComponent("\n\nCarrying over at 25% while "
+                description.append(new TextComponent("\n\nCarrying over at 25% while "
                         + this.god.getName() + " is not your active god.")
                         .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));
             }
         }
+        if (type == GodNodeType.MINOR && unlocked && this.selectedNode.enabled()) {
+            description.append(new TextComponent(transferSlot >= 0
+                    ? "\n\nRight-click this star to move it to another transfer slot or take it out."
+                    : "\n\nRight-click this star to put it in a transfer slot.")
+                    .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));
+        }
+        return description;
+    }
+
+    /**
+     * Swaps a live formula in the description for the value the server last resolved it to,
+     * keeping the formula's colour and hanging the worked math off it as hover text, then adds
+     * the hover hint. Without an answered preview the description stays as written. A description
+     * that no longer contains the formula text is logged once and gets the value appended instead.
+     */
+    private MutableComponent withPreview(MutableComponent description) {
+        String effectId = this.selectedNode.ledgerKey();
+        ClientGodNodePreviews.Preview preview = ClientGodNodePreviews.get(effectId).orElse(null);
+        if (preview == null) {
+            return description;
+        }
+        HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, GodNodePreviews.hoverText(preview.lines()));
+        MutableComponent value = new TextComponent(GodNodePreviews.percentText(preview.multiplier()));
+        MutableComponent result = description;
+        boolean replaced = false;
+        if (preview.formulaText().equals(description.getContents())) {
+            result = value.setStyle(description.getStyle().withHoverEvent(hover));
+            for (Component sibling : description.getSiblings()) {
+                result.append(sibling);
+            }
+            replaced = true;
+        } else {
+            List<Component> siblings = description.getSiblings();
+            for (int i = 0; i < siblings.size(); i++) {
+                Component sibling = siblings.get(i);
+                if (preview.formulaText().equals(sibling.getContents())) {
+                    siblings.set(i, value.setStyle(sibling.getStyle().withHoverEvent(hover)));
+                    replaced = true;
+                    break;
+                }
+            }
+        }
+        if (!replaced) {
+            if (WARNED_FORMULAS.add(effectId)) {
+                WoldsVaults.LOGGER.warn("God node '{}' answered a live preview for formula '{}' but its description "
+                        + "does not contain that text; showing the value after the description instead.",
+                        effectId, preview.formulaText());
+            }
+            result.append(new TextComponent(" Currently ").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xDDDDDD))))
+                    .append(value.setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.accent(this.god) & 0xFFFFFF))
+                            .withHoverEvent(hover)))
+                    .append(new TextComponent(".").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xDDDDDD))));
+        }
+        result.append(new TextComponent(" (Hover the bonus percentage for math logic)")
+                .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));
+        return result;
+    }
+
+    /** The transfer slot carrying a node, or -1; only a learned minor in an unlocked slot counts. */
+    private int transferSlotOf(GodNode node) {
+        if (node.type() != GodNodeType.MINOR) {
+            return -1;
+        }
+        int slot = ClientGodAlignmentData.findMinorTransferSlot(this.god, node.ledgerKey());
+        return slot >= 0 && ClientGodAlignmentData.isMinorTransferLive(this.god, slot) ? slot : -1;
     }
 
     private MutableComponent buildGodSummary() {
@@ -186,9 +312,46 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
 
     private void renderDescriptions(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         Rectangle bounds = this.descriptionComponent.getRenderableBounds();
-        int renderedLineCount = UIHelper.renderWrappedText(matrixStack, this.descriptionContentComponent, bounds.width, 10);
-        this.descriptionComponent.setInnerHeight(renderedLineCount * 10 + 20);
+        Font font = Minecraft.getInstance().font;
+        MutableComponent text = this.descriptionContentComponent;
+        List<FormattedText> lines = UIHelper.getLines(ComponentUtils.mergeStyles(text.copy(), text.getStyle()),
+                bounds.width - 3 * TEXT_PADDING);
+        this.renderedLines = Language.getInstance().getVisualOrder(lines);
+        for (int i = 0; i < this.renderedLines.size(); i++) {
+            font.draw(matrixStack, this.renderedLines.get(i), TEXT_PADDING, LINE_HEIGHT * i + TEXT_PADDING, TEXT_COLOR);
+        }
+        this.descriptionComponent.setInnerHeight(this.renderedLines.size() * LINE_HEIGHT + 20);
         RenderSystem.enableDepthTest();
+    }
+
+    /**
+     * The style under the mouse when it carries hover text - the live value of a formula node -
+     * for the screen to draw as a tooltip above everything else, or null.
+     */
+    @Nullable
+    public Style hoveredStyle(double mouseX, double mouseY) {
+        if (this.bounds == null || !(this.descriptionComponent instanceof DescriptionContainer container)
+                || !container.hasBounds()) {
+            return null;
+        }
+        Rectangle renderable = container.getRenderableBounds();
+        int originX = this.bounds.x + 5 + renderable.x + 1;
+        int originY = this.bounds.y + 5 + renderable.y + 1;
+        if (mouseX < originX || mouseY < originY || mouseX >= originX + renderable.width - 2
+                || mouseY >= originY + renderable.height - 2) {
+            return null;
+        }
+        int localX = (int) (mouseX - originX) - TEXT_PADDING;
+        int localY = (int) (mouseY - originY) - TEXT_PADDING + container.scrollOffset();
+        if (localX < 0 || localY < 0) {
+            return null;
+        }
+        int line = localY / LINE_HEIGHT;
+        if (line >= this.renderedLines.size()) {
+            return null;
+        }
+        Style style = Minecraft.getInstance().font.getSplitter().componentStyleAtWidth(this.renderedLines.get(line), localX);
+        return style != null && style.getHoverEvent() != null ? style : null;
     }
 
     @Override
@@ -227,9 +390,13 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
                     || this.selectedNode.type() == GodNodeType.MAJOR;
             heading = this.selectedNode.name();
             headingColor = unlocked ? accent : 0xFFFFFF;
+            int transferSlot = this.transferSlotOf(this.selectedNode);
             if (!this.selectedNode.enabled()) {
                 subText = "Coming Soon";
                 subColor = COLOR_MUTED;
+            } else if (unlocked && transferSlot >= 0) {
+                subText = "Unlocked - Transfer slot " + GreedTheme.roman(transferSlot + 1);
+                subColor = accent;
             } else if (unlocked && functional && !this.isCharmActive()) {
                 subText = "Unlocked - Inactive";
                 subColor = COLOR_MUTED;

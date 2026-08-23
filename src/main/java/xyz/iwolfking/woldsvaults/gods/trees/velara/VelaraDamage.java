@@ -20,8 +20,9 @@ import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
  * <p>All four reducers ride {@link FinalDamageStage} rather than {@code PlayerStat.RESISTANCE}:
  * resistance is hard capped at 50% (95% with cap gear), which would silently swallow Adaptive
  * Armor's -60% and make Fleeting Physicality's x3 and Sacrifice's syphon incoherent. The Sacrifice
- * syphon registers at an explicitly later order than every reduction, so a shepherd absorbs the
- * amount that survived the protected player's own mitigation rather than the raw hit.
+ * syphon registers at {@link FinalDamageStage#ORDER_SPLIT}, ahead of every reduction, so the hit is
+ * divided while it is still unmitigated and each of the two players then mitigates only their own
+ * share of it.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VelaraDamage {
@@ -37,7 +38,7 @@ public final class VelaraDamage {
         FinalDamageStage.register(ADAPTIVE_ARMOR, FinalDamageStage.ORDER_REDUCTION, VelaraDamage::adaptiveArmor);
         FinalDamageStage.register(FLEETING_PHYSICALITY, FinalDamageStage.ORDER_REDUCTION, VelaraDamage::fleetingPhysicality);
         FinalDamageStage.register(MAGIC_ARMOR, FinalDamageStage.ORDER_REDUCTION, VelaraDamage::magicArmor);
-        FinalDamageStage.register(SACRIFICE_SYPHON, FinalDamageStage.ORDER_REDUCTION + 90, VelaraDamage::sacrificeSyphon);
+        FinalDamageStage.register(SACRIFICE_SYPHON, FinalDamageStage.ORDER_SPLIT, VelaraDamage::sacrificeSyphon);
     }
 
     private static ServerPlayer defender(LivingDamageEvent event) {
@@ -96,11 +97,19 @@ public final class VelaraDamage {
     }
 
     /**
-     * Sacrifice's syphon. Two thirds of what would have landed on a flock member is moved onto
-     * their shepherd, arriving a further third lighter. The shepherd receives it through
+     * Sacrifice's syphon. Two thirds of the unmitigated hit is moved onto the flock member's
+     * shepherd, arriving a further third lighter, and the third that stays behind is what the
+     * flock member's own reducers then run against - the split is a division of raw damage, not of
+     * what one of the two had already survived. The shepherd receives their share through
      * {@code hurt} with the original source so their own armour, resistance and Adaptive Armor
-     * still count, which is what "additional 33% resistance" implies; the guard flag stops that
-     * second pass from syphoning again and stops mutual Sacrifice pairs from looping.
+     * count on top of the 33%; the guard flag is what stops that second pass from syphoning again,
+     * which is the only loop that can arise - the partition never puts a Sacrifice user in a flock,
+     * so two Sacrifice users can never be each other's shepherd.
+     *
+     * <p>A delivery that throws gives the hit back: the flock member keeps the full amount rather
+     * than the syphoned share evaporating. A delivery the shepherd survives untouched - their own
+     * Fleeting immunity cancelling it, say - still counts as delivered, because that is the
+     * shepherd's own mitigation doing its job on damage that did reach them.
      */
     private static float sacrificeSyphon(LivingDamageEvent event, float amount) {
         if (VelaraActiveFlags.IS_SACRIFICE_SYPHONING.isSet() || amount <= 0.0F) {
@@ -116,18 +125,27 @@ public final class VelaraDamage {
         }
         float syphoned = amount * VelaraValues.sacrificeSyphon();
         float delivered = syphoned * (1.0F - VelaraValues.sacrificeResistance());
-        deliver(shepherd, event.getSource(), delivered);
+        if (!deliver(shepherd, event.getSource(), delivered)) {
+            return amount;
+        }
         return amount - syphoned;
     }
 
-    private static void deliver(ServerPlayer shepherd, DamageSource source, float delivered) {
+    /**
+     * Hands the shepherd their share, and reports whether it reached them. Only a thrown delivery
+     * is a failure; the caller then leaves the whole hit with the flock member rather than
+     * destroying the syphoned share.
+     */
+    private static boolean deliver(ServerPlayer shepherd, DamageSource source, float delivered) {
         int savedInvulnerable = shepherd.invulnerableTime;
         int savedHurtTime = shepherd.hurtTime;
+        boolean landed = true;
         VelaraActiveFlags.IS_SACRIFICE_SYPHONING.push();
         try {
             shepherd.invulnerableTime = 0;
             shepherd.hurt(source, delivered);
         } catch (RuntimeException e) {
+            landed = false;
             WoldsVaults.LOGGER.error("Sacrifice failed to syphon {} damage onto {}; the hit stays with its original target.",
                     delivered, shepherd.getGameProfile().getName(), e);
         } finally {
@@ -138,12 +156,19 @@ public final class VelaraDamage {
         if (shepherd.isDeadOrDying()) {
             VelaraSacrificeFlocks.rebuildFor(shepherd);
         }
+        return landed;
     }
 
     /**
      * The immune half of Fleeting Physicality, cancelled at the same seam and with the same
      * {@code bypassInvul} carve-out the base mod's Immortality effect uses, so the vault timer and
      * anything else built to ignore invulnerability still lands.
+     *
+     * <p>Unlike the vulnerable half, this one has no exemption for a syphoned Sacrifice hit: the
+     * whole point of immunity is that damage arriving at this player stops, and damage routed here
+     * by someone else's Sacrifice is still damage arriving at this player. The syphon guard flag
+     * exists to stop the second pass syphoning again, not to make a shepherd unable to defend
+     * themselves.
      */
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onAttack(LivingAttackEvent event) {
@@ -160,7 +185,7 @@ public final class VelaraDamage {
     }
 
     private static boolean shouldBlockEntirely(LivingEntity entity, DamageSource source) {
-        if (source.isBypassInvul() || VelaraActiveFlags.IS_SACRIFICE_SYPHONING.isSet()) {
+        if (source.isBypassInvul()) {
             return false;
         }
         if (!(entity instanceof ServerPlayer player)) {

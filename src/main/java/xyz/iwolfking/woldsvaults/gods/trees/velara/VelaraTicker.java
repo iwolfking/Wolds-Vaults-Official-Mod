@@ -3,11 +3,9 @@ package xyz.iwolfking.woldsvaults.gods.trees.velara;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.HashMap;
@@ -28,27 +26,18 @@ import java.util.UUID;
  * player. The scans are gated on being inside a vault; the attribute modifiers are not, because
  * the stat nodes they sit beside come through the attribute snapshot everywhere.
  *
- * <p>Resolving which nodes are live is no longer done here: {@code GodNodeCache} is dropped on the
- * same cadence by the shared ticker, and invalidated immediately on charm change, login, logout,
- * dimension change and respawn by the god core's own lifecycle handlers.
+ * <p>It is not a tick listener of its own. It is a {@code GodNodeTicker.TreePass} registered by
+ * {@link VelaraTree}, so it runs inside the one shared once-a-second pass, after the gate cache
+ * has been refreshed for every player - resolving which nodes are live is not done here at all,
+ * and the cache is invalidated immediately on charm change, login, logout, dimension change and
+ * respawn by the god core's own lifecycle handlers.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VelaraTicker {
-    private static final int PERIOD_TICKS = 20;
-
     private VelaraTicker() {
     }
 
-    @SubscribeEvent
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
-            return;
-        }
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server == null || server.getTickCount() % PERIOD_TICKS != 0) {
-            return;
-        }
-        List<ServerPlayer> players = server.getPlayerList().getPlayers();
+    static void pass(MinecraftServer server, List<ServerPlayer> players) {
         if (players.isEmpty()) {
             return;
         }

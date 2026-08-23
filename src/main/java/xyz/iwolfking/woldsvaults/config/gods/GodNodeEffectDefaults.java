@@ -91,7 +91,14 @@ public final class GodNodeEffectDefaults {
         put(map, "idona_grand_archmage", "idona_grand_archmage", new float[]{},
                 "mana_percentile", 1.0F, "mana_flat", 200, "mana_regen", 8.0F, "ability_damage", 2.0F,
                 "cooldown_reduction_cap", 0.05F);
-        put(map, "idona_ultra_rampaging", "idona_ultra_rampaging", new float[]{});
+        put(map, "idona_ultra_rampaging", "idona_ultra_rampaging", new float[]{},
+                "fury_per_hit", 100.0F, "fury_per_kill", 200.0F,
+                "fury_boss_hit_multiplier", 2.0F, "fury_boss_kill_multiplier", 10.0F,
+                "fury_per_hp_fraction_lost", 6000.0F,
+                "fury_decay_per_tick", 0.985F, "fury_decay_scale_from", 6000.0F,
+                "fury_decay_scale_divisor", 2000.0F, "fury_floor", 25.0F, "fury_cap", 15000.0F,
+                "cdm_additive_divisor", 6500.0F, "cdm_multiplier_base", 1.03F, "cdm_sqrt_from", 6000.0F,
+                "incoming_divisor", 3000.0F, "incoming_scale", 0.5F);
         put(map, "idona_overcrit", "idona_overcrit", new float[]{});
         put(map, "idona_true_rage", "idona_true_rage", new float[]{}, "efficiency", 0.5F);
         put(map, "idona_crushing_blows", "idona_crushing_blows", new float[]{}, "multiplier", 1.15F);
@@ -181,7 +188,7 @@ public final class GodNodeEffectDefaults {
         put(map, "wendarr_fruity", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F},
                 "attribute", "the_vault:fruit_effectiveness");
         put(map, "wendarr_pious_devotion", PIETY, new float[]{10.0F});
-        put(map, "wendarr_master_imbuer", "wendarr_master_imbuer", new float[]{});
+        put(map, "wendarr_master_imbuer", "wendarr_master_imbuer", new float[]{0.05F});
         put(map, "wendarr_extraction_superviser", "wendarr_extraction_superviser", new float[]{});
         put(map, "wendarr_expert_eater", "wendarr_expert_eater", new float[]{}, "save_chance", 0.1F);
         put(map, "wendarr_pristine_condition", "wendarr_pristine_condition", new float[]{}, "rot_multiplier", 0.85F);
@@ -236,7 +243,7 @@ public final class GodNodeEffectDefaults {
         put(map, "tenos_advanced_extraction_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.4F},
                 "attribute", "the_vault:copiously");
         put(map, "tenos_pious_devotion", PIETY, new float[]{10.0F});
-        put(map, "tenos_omega_vault", "tenos_omega_vault", new float[]{}, "weight_multiplier", 2.0D);
+        put(map, "tenos_omega_vault", "tenos_omega_vault", new float[]{});
         put(map, "tenos_looting_engine", "tenos_looting_engine", new float[]{}, "reference", 1200.0F);
         put(map, "tenos_mana_starved", "tenos_mana_starved", new float[]{}, "max_bonus", 1.0F, "threshold", 0.5F);
         put(map, "tenos_deep_reserves", "tenos_deep_reserves", new float[]{}, "multiplier", 0.5F);
@@ -247,7 +254,7 @@ public final class GodNodeEffectDefaults {
                 "rolls", 20, "rarity_multiplier", 0.5F);
         put(map, "tenos_indiana_jones", "tenos_indiana_jones", new float[]{}, "reference", 1000.0F);
         put(map, "tenos_expert_looter", "tenos_expert_looter", new float[]{}, "rolls", 4);
-        put(map, "tenos_master_of_chests", "tenos_master_of_chests", new float[]{}, "cascading_stacks", 15);
+        put(map, "tenos_master_of_chests", "tenos_master_of_chests", new float[]{});
         put(map, "tenos_global_veins", "tenos_global_veins", new float[]{}, "levels", 8);
         put(map, "tenos_drillmaster", "tenos_drillmaster", new float[]{}, "raised_fortune_cap", 7);
         put(map, "tenos_sacked", "tenos_sacked", new float[]{});
@@ -258,6 +265,6 @@ public final class GodNodeEffectDefaults {
                 "damage_multiplier", 0.25F, "cost_coefficient", 2.0F, "cost_offset", 10.0F);
         put(map, "tenos_cash_hunter", "tenos_cash_hunter", new float[]{}, "efficiency", 0.25F);
         put(map, "tenos_challenge_tackler", "tenos_challenge_tackler", new float[]{},
-                "extra_crate_tier_ratio", 0.5F, "tiers_per_stack", 1.0F);
+                "extra_crate_tier_ratio", 0.5F);
     }
 }

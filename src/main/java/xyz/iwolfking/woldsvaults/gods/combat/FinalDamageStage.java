@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class FinalDamageStage {
+    public static final int ORDER_SPLIT = -100;
     public static final int ORDER_REDUCTION = 0;
     public static final int ORDER_CAP = 100;
     public static final int ORDER_FLOOR = 200;
@@ -38,8 +39,9 @@ public final class FinalDamageStage {
 
     /**
      * Registers or replaces a sub-stage. Lower {@code order} runs earlier; use
-     * {@link #ORDER_REDUCTION}, {@link #ORDER_CAP} and {@link #ORDER_FLOOR} as anchors so
-     * reductions land before caps and floors always have the last word.
+     * {@link #ORDER_SPLIT}, {@link #ORDER_REDUCTION}, {@link #ORDER_CAP} and {@link #ORDER_FLOOR}
+     * as anchors, so that anything moving damage to another entity does it before the defender's
+     * own mitigation, reductions land before caps, and floors always have the last word.
      */
     public static void register(ResourceLocation id, int order, SubStage stage) {
         if (SUB_STAGES.put(id, new Entry(id, order, stage)) != null) {

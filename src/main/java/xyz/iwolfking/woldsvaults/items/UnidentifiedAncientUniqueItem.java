@@ -76,6 +76,12 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
      * hand with an instant identify or flips the stack into the rolling state and lets inventoryTick do
      * the work. A stack of more than one splits a single piece off so the roll, which can only ever
      * produce one item, never destroys the rest of the stack.
+     *
+     * <p>The tome branch hands back whatever now sits in the hand slot - the freshly placed ancient
+     * for a single stack, the shrunk remainder otherwise - rather than the stack it was given. The
+     * game-mode handler re-syncs the slot from the returned stack, and returning the stale one only
+     * worked while it still looked untouched; it must never be returned empty, because the handler
+     * would then clear the slot the ancient was just written into.</p>
      */
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
@@ -93,7 +99,7 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
                 return InteractionResultHolder.fail(heldStack);
             }
             level.playSound(null, player.blockPosition(), ModSounds.IDENTIFICATION_SFX, SoundSource.PLAYERS, 0.3F, 1.0F);
-            return InteractionResultHolder.sidedSuccess(heldStack, false);
+            return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), false);
         }
 
         ItemStack rolling = heldStack.getCount() > 1 ? heldStack.split(1) : heldStack;

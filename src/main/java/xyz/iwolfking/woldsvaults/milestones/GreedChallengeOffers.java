@@ -16,13 +16,55 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
  * crystal with no milestone and therefore rank 0, still opens on its configured tier.</p>
  */
 public final class GreedChallengeOffers {
+    private static volatile boolean audited;
+
     private GreedChallengeOffers() {
+    }
+
+    /**
+     * Re-arms the gate audit so a config reload is checked again. Called from
+     * {@link MilestoneRegistry#load}, which is where the rank tags are rebuilt.
+     */
+    public static void resetAudit() {
+        audited = false;
+    }
+
+    /**
+     * Reports every crystal whose config {@code minTier} sits above its milestone's rank tag.
+     *
+     * <p>The two gates are ANDed, so the higher one wins: a crystal tagged for Looter 1 but
+     * configured with {@code minTier} 5 is quietly unbuyable until Looter 2, while the reputation
+     * its milestone pays - which is derived from the tag - stays priced for Looter 1. The mismatch
+     * has no symptom in game beyond a crystal that never appears, so it is called out here rather
+     * than left to be rediscovered by hand.</p>
+     *
+     * <p>Runs once per registry load, on the first unlock question asked after it, because
+     * {@code ModConfigs.GREED_TRADER} belongs to the base mod and is not guaranteed to have been
+     * read by the time the addon installs its own configs. Crystals with no milestone are skipped:
+     * they carry no tag, and {@code minTier} is deliberately their only gate.</p>
+     */
+    private static void auditGates() {
+        if (audited || ModConfigs.GREED_TRADER == null) {
+            return;
+        }
+        audited = true;
+        for (GreedChallengeEntry entry : ModConfigs.GREED_TRADER.getChallenges()) {
+            if (entry == null) {
+                continue;
+            }
+            int requiredRank = MilestoneRegistry.getChallengeRequiredRank(entry.getChallengeCrystalId());
+            if (requiredRank > 0 && entry.getMinTier() > requiredRank) {
+                WoldsVaults.LOGGER.warn("Challenge crystal '{}' is gated at minTier {} in greed_trader.json but its milestone is tagged rank {}; it stays locked until rank {}",
+                        entry.getChallengeCrystalId(), entry.getMinTier(), requiredRank, entry.getMinTier());
+            }
+        }
     }
 
     /**
      * Whether the given rank may be offered and sold this challenge entry.
      */
     public static boolean isUnlocked(GreedChallengeEntry entry, int rank) {
+        auditGates();
         if (entry == null) {
             return false;
         }

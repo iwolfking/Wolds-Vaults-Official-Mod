@@ -14,6 +14,11 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
@@ -33,8 +38,9 @@ import java.util.function.IntSupplier;
  *
  * <p>If the art is missing from the resource manager the element falls back to the drawn badge -
  * a gold ring around a dark disc carrying the rank's short label - and logs the missing path once
- * per path. The probe (which also reads the texture's native size) is cached, so a resource pack
- * reload does not re-check it.</p>
+ * per path. The probe (which also reads the texture's native size) is cached until the next
+ * resource reload, so a pack that adds or fixes the art is picked up without a restart and a
+ * probe that ran mid-reload cannot pin the fallback for the session.</p>
  */
 public class RankMedallionElement extends AbstractSpatialElement<RankMedallionElement> implements IRenderedElement {
     private static final String TEXTURE_PREFIX = "textures/item/greed_medallion_";
@@ -86,6 +92,18 @@ public class RankMedallionElement extends AbstractSpatialElement<RankMedallionEl
             }
         }
         return cached > 0 ? location : null;
+    }
+
+    /** Forgets every probe when resources reload; the next render re-probes against the new packs. */
+    @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    public static final class ReloadHook {
+        private ReloadHook() {
+        }
+
+        @SubscribeEvent
+        public static void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
+            event.registerReloadListener((ResourceManagerReloadListener) manager -> TEXTURE_SIZES.clear());
+        }
     }
 
     private static int probeTextureSize(ResourceLocation location) {

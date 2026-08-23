@@ -56,6 +56,10 @@ public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgres
         return this.tooltip(Tooltips.single(() -> GreedTheme.progress(current, target)));
     }
 
+    public GreedProgressBarElement durationTooltip(long current, long target) {
+        return this.tooltip(Tooltips.single(() -> GreedTheme.durationProgress(current, target)));
+    }
+
     @Override
     public void render(IElementRenderer renderer, @NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
         ISpatial world = this.getWorldSpatial();

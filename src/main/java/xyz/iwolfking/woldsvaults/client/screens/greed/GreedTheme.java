@@ -78,6 +78,48 @@ public final class GreedTheme {
     }
 
     /**
+     * Compact elapsed time for the threshold lists of the tick-counting milestones: 36000 ticks
+     * becomes 30m, 180000 becomes 2h30m. Those rows would otherwise print a raw tick count, which
+     * is the one number on the screen a player has no way to read.
+     */
+    public static String duration(long ticks) {
+        long minutes = Math.max(0L, ticks) / (20L * 60L);
+        long hours = minutes / 60L;
+        long remainder = minutes % 60L;
+        if (hours <= 0L) {
+            return remainder + "m";
+        }
+        return remainder == 0L ? hours + "h" : hours + "h" + remainder + "m";
+    }
+
+    /**
+     * Elapsed time at the resolution the hover readout has room for, so that a bar barely off zero
+     * still moves: hours and minutes once past an hour, minutes and seconds below it.
+     */
+    public static String durationExact(long ticks) {
+        long seconds = Math.max(0L, ticks) / 20L;
+        long hours = seconds / 3600L;
+        long minutes = (seconds % 3600L) / 60L;
+        if (hours > 0L) {
+            return hours + "h " + minutes + "m";
+        }
+        if (minutes > 0L) {
+            return minutes + "m " + (seconds % 60L) + "s";
+        }
+        return (seconds % 60L) + "s";
+    }
+
+    /**
+     * {@link #progress(long, long)} for a tick counter, with both ends formatted as elapsed time.
+     */
+    public static Component durationProgress(long current, long target) {
+        long ceiling = Math.max(target, 0L);
+        long shown = Math.min(Math.max(current, 0L), ceiling);
+        int percent = ceiling <= 0L ? 0 : (int) Math.min(100L, shown * 100L / ceiling);
+        return text(durationExact(shown) + "/" + durationExact(ceiling) + " (" + percent + "%)", GOLD);
+    }
+
+    /**
      * Full precision with thousands separators, for the hover readouts behind a progress bar.
      * {@link #compact(long)} stays the choice for anything drawn inside a row, where five
      * thresholds share one line.
