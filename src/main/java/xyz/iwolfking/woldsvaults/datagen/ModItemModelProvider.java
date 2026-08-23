@@ -8,6 +8,7 @@ import iskallia.vault.init.ModConfigs;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -376,11 +377,23 @@ public class ModItemModelProvider extends ItemModelProvider {
                         VaultMod.id("gui/skills/" + skillId));
     }
 
+    /**
+     * Model for one research token. The style table is the base mod's default config, which names a
+     * handful of icons whose textures the shipped jar does not carry, and {@code texture} hard-fails
+     * on a missing texture - so datagen used to die on the first of them. Those styles are skipped
+     * with a log line instead: a model pointing at a texture nobody ships would render as missing
+     * either way, and the rest of datagen is worth more than failing over it.
+     */
+    @Nullable
     public ItemModelBuilder researchToken(ResourceLocation icon) {
+        ResourceLocation texture = VaultMod.id("gui/researches/" + ResourceLocUtils.getStrippedPath(icon));
+        if (!existingFileHelper.exists(texture, PackType.CLIENT_RESOURCES, ".png", "textures")) {
+            WoldsVaults.LOGGER.warn("Research icon texture {} does not exist; skipping its token model.", texture);
+            return null;
+        }
         return getBuilder(WoldsVaults.id("item/researches/" + ResourceLocUtils.getStrippedPath(icon)).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0",
-                        VaultMod.id("gui/researches/" + ResourceLocUtils.getStrippedPath(icon)));
+                .texture("layer0", texture);
     }
 
     public ItemModelBuilder etching(ResourceLocation icon) {

@@ -4,13 +4,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import xyz.iwolfking.vhapi.api.datagen.AbstractAbilityProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.gods.ultimates.BulletTimeAbility;
-import xyz.iwolfking.woldsvaults.gods.ultimates.CopeDeGraceAbility;
-import xyz.iwolfking.woldsvaults.gods.ultimates.EyesOfGodAbility;
-import xyz.iwolfking.woldsvaults.gods.ultimates.SaviorAbility;
-import xyz.iwolfking.woldsvaults.gods.ultimates.StirringsOfPowerAbility;
-import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateIds;
-import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateLevels;
 
 import java.io.IOException;
 
@@ -21,7 +14,6 @@ public class ModAbilitiesProvider extends AbstractAbilityProvider {
 
     @Override
     public void registerConfigs() {
-        addGodUltimates();
 
 //        add("replace/diffuse", builder -> {
 //            builder.addSpecializedAbility("Expunge", "Diffuse", 8, 0, 1, 2, i ->
@@ -147,34 +139,4 @@ public class ModAbilitiesProvider extends AbstractAbilityProvider {
 
     }
 
-    /**
-     * The god ultimates: one ability node with five specializations, index 0 being the dormant
-     * placeholder every player starts on. The file name carries no merge keyword, so the loader
-     * appends this node to the base ability tree rather than replacing anything.
-     *
-     * <p>Every specialization is a <em>one-tier</em> skill on purpose. Ultimate strength comes from
-     * the god-alignment level tables, not from the skill tier, which is what makes ability-level
-     * gear unable to scale a god ultimate. The node also costs no skill points, because it is
-     * granted by god progression rather than bought.
-     */
-    private void addGodUltimates() {
-        add("god_ultimates", builder -> builder.addSpecializedAbility(UltimateIds.STIRRINGS_OF_POWER,
-                "Stirrings of Power", 1, 0, 0, 5, i -> switch (i) {
-                    case 1 -> createTieredSkill(UltimateIds.COPE_DE_GRACE, "Cope de Grace", 0, 0, 1, 1,
-                            i2 -> createAndAssignId("cope_de_grace", i2 + 1,
-                                    new CopeDeGraceAbility(0, 0, 0, UltimateLevels.COOLDOWN_TICKS, 0.0F)));
-                    case 2 -> createTieredSkill(UltimateIds.SAVIOR, "Savior", 0, 0, 1, 1,
-                            i2 -> createAndAssignId("savior", i2 + 1,
-                                    new SaviorAbility(0, 0, 0, UltimateLevels.COOLDOWN_TICKS, 0.0F)));
-                    case 3 -> createTieredSkill(UltimateIds.EYES_OF_GOD, "Eyes of God", 0, 0, 1, 1,
-                            i2 -> createAndAssignId("eyes_of_god", i2 + 1,
-                                    new EyesOfGodAbility(0, 0, 0, UltimateLevels.COOLDOWN_TICKS, 0.0F)));
-                    case 4 -> createTieredSkill(UltimateIds.BULLET_TIME, "Bullet Time", 0, 0, 1, 1,
-                            i2 -> createAndAssignId("bullet_time", i2 + 1,
-                                    new BulletTimeAbility(0, 0, 0, UltimateLevels.COOLDOWN_TICKS, 0.0F)));
-                    default -> createTieredSkill(UltimateIds.DORMANT, "Stirrings of Power", 0, 0, 1, 1,
-                            i2 -> createAndAssignId("stirrings_of_power", i2 + 1,
-                                    new StirringsOfPowerAbility(0, 0, 0, 0, 0.0F)));
-                }).build());
-    }
 }

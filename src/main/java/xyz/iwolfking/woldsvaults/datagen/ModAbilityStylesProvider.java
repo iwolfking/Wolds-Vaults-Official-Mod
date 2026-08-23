@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import iskallia.vault.VaultMod;
 import iskallia.vault.config.AbilitiesGUIConfig;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
@@ -42,12 +41,12 @@ public class ModAbilityStylesProvider extends AbstractAbilityGUIStylesProvider {
         });
 
         add("god_ultimates", builder -> {
-            builder.add(UltimateIds.STIRRINGS_OF_POWER, 280, 134, styleBuilder -> {
-                styleBuilder.specialization(UltimateIds.DORMANT, VaultMod.id("gui/abilities/empower"));
-                styleBuilder.specialization(UltimateIds.COPE_DE_GRACE, VaultMod.id("gui/abilities/rampage_berserk"));
-                styleBuilder.specialization(UltimateIds.SAVIOR, VaultMod.id("gui/abilities/heal_group"));
-                styleBuilder.specialization(UltimateIds.EYES_OF_GOD, VaultMod.id("gui/abilities/hunter"));
-                styleBuilder.specialization(UltimateIds.BULLET_TIME, VaultMod.id("gui/abilities/ghost_walk"));
+            builder.add(UltimateIds.STIRRINGS_OF_POWER, 70, 265, styleBuilder -> {
+                styleBuilder.specialization(UltimateIds.DORMANT, WoldsVaults.id("gui/abilities/stirrings_of_power"));
+                styleBuilder.specialization(UltimateIds.COPE_DE_GRACE, WoldsVaults.id("gui/abilities/cope_de_grace"));
+                styleBuilder.specialization(UltimateIds.SAVIOR, WoldsVaults.id("gui/abilities/savior"));
+                styleBuilder.specialization(UltimateIds.EYES_OF_GOD, WoldsVaults.id("gui/abilities/eyes_of_god"));
+                styleBuilder.specialization(UltimateIds.BULLET_TIME, WoldsVaults.id("gui/abilities/bullet_time"));
             });
         });
     }

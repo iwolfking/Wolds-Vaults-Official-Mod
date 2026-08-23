@@ -1,0 +1,64 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModAbility",
+        "identifier": "the_vault:mod_fear",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 8,
+            "value": {
+              "abilityKey": "Taunt_Repel",
+              "levelChange": 11
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ability_area_of_effect_percent",
+        "group": "ModEnhancement",
+        "identifier": "the_vault:fear_effect_increase",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 5,
+            "value": {
+              "min": 1.0,
+              "max": 1.33,
+              "step": 0.01,
+              "abilityKey": "Taunt_Repel"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModJavelinLevel",
+        "identifier": "the_vault:mod_javelin_base_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Javelin_Base",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModImplodeLevel",
+        "identifier": "the_vault:mod_implode_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "abilityKey": "Implode",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:javelin_implode",
+        "group": "ModImplodingJavelin",
+        "identifier": "the_vault:mod_imploding_javelin",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "flag": true
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ability_mana_cost_percent",
+        "group": "ModJavelinManaIncrease",
+        "identifier": "the_vault:javelin_mana_cost",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 1.5,
+              "max": 2.0,
+              "step": 0.01,
+              "abilityKey": "Javelin_Base"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ability_cooldown_percent",
+        "group": "ModJavelinCooldownIncrease",
+        "identifier": "the_vault:javelin_cooldown_increase",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 10.0,
+              "max": 14.0,
+              "step": 0.5,
+              "abilityKey": "Javelin_Base"
+            }
+          }
+        ]
+      }
+    ],
+    "SUFFIX": [
+      {
+        "attribute": "the_vault:mana_regen",
+        "group": "ModManaRegen",
+        "identifier": "the_vault:mod_mana_regen",
+        "tags": [
+          "focusManaRegen"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 1.0,
+              "max": 1.33,
+              "step": 0.01
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

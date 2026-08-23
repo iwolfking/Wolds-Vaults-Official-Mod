@@ -9,6 +9,7 @@ import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.datagen.ExpertisesDescriptionHelper;
 import xyz.iwolfking.woldsvaults.api.util.datagen.PrestigePowersDescriptionsHelper;
@@ -1533,7 +1534,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             description.add(JsonDescription.text(" to greed assassins and the greed champion."));
         });
         builder.addDescription("idona_power_dump", description -> {
-            description.add(JsonDescription.text("All abilities consume "));
+            description.add(JsonDescription.text("Instant abilities consume "));
             description.add(JsonDescription.text("100% of your mana bar", "#0353d7"));
             description.add(JsonDescription.text(", and gain "));
             description.add(JsonDescription.text("0.25% extra damage", ember));
@@ -1551,10 +1552,15 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             description.add(JsonDescription.text(" - but you lose the ability to swing vault weapons."));
         });
         builder.addDescription("idona_ultra_rampaging", description -> {
-            description.add(JsonDescription.text("Gain massive ramping damage per hit and per kill that decays very rapidly, at the cost of "));
-            description.add(JsonDescription.text("taking more damage", "#C23627"));
-            description.add(JsonDescription.text(".\n\n"));
-            description.add(JsonDescription.text("Coming soon.", "gray"));
+            description.add(JsonDescription.text("Hitting, killing and being hurt build "));
+            description.add(JsonDescription.text("Fury", ember));
+            description.add(JsonDescription.text(", which bleeds away in seconds. Fury both "));
+            description.add(JsonDescription.text("adds to and multiplies your Rampage damage", ember));
+            description.add(JsonDescription.text(", so a fight that keeps moving keeps you at a far higher multiplier."));
+            description.add(JsonDescription.text("\n\nBosses pay double on hit and ten times on death."));
+            description.add(JsonDescription.text("\n\nWhile you hold Fury you also "));
+            description.add(JsonDescription.text("take up to twice as much damage", "#C23627"));
+            description.add(JsonDescription.text("."));
         });
         godRoot(builder, "idona_start_sw", "Idona's sword", "attack damage, up close", ember);
         godRoot(builder, "idona_start_st", "Idona's staff", "ability power and range", ember);
@@ -1595,8 +1601,8 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         godNode(builder, "wendarr_clock_artificier", "+50% duration", gold, " on temporal shards you consume.");
         builder.addDescription("wendarr_paced_strikes", description -> {
             description.add(JsonDescription.text("Multiplies all damage you deal by "));
-            description.add(JsonDescription.text("sqrt((50 + t) / 50)", gold));
-            description.add(JsonDescription.text(", where t is the vault time left in minutes."));
+            description.add(JsonDescription.text(GodNodePreviews.PACED_STRIKES_FORMULA, gold));
+            description.add(JsonDescription.text(", scaling with the vault time left."));
         });
         builder.addDescription("wendarr_temporal_shielding", description -> {
             description.add(JsonDescription.text("Take "));
@@ -1715,7 +1721,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         });
         builder.addDescription("velara_malediction", description -> {
             description.add(JsonDescription.text("Multiplies thorns by "));
-            description.add(JsonDescription.text("cubeRoot(1 + healing efficiency)", leaf));
+            description.add(JsonDescription.text(GodNodePreviews.MALEDICTION_FORMULA, leaf));
             description.add(JsonDescription.text(", but forces your healing efficiency to "));
             description.add(JsonDescription.text("-50%", leaf));
             description.add(JsonDescription.text(" and stops you raising it."));
@@ -1803,7 +1809,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         builder.addDescription("tenos_indiana_jones", description -> {
             description.add(JsonDescription.text("You no longer benefit from Trap Disarming", sky));
             description.add(JsonDescription.text(", but it multiplies your Item Quantity and Rarity by "));
-            description.add(JsonDescription.text("cubeRoot((1000 + trap disarm) / 1000)", sky));
+            description.add(JsonDescription.text(GodNodePreviews.INDIANA_JONES_FORMULA, sky));
             description.add(JsonDescription.text("."));
         });
         builder.addDescription("tenos_expert_looter", description -> {
@@ -1817,7 +1823,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         godNode(builder, "tenos_sacked", "Doubles every stat", sky, " your held loot sack grants.");
         builder.addDescription("tenos_sack_of_mobs", description -> {
             description.add(JsonDescription.text("Multiplies your damage by "));
-            description.add(JsonDescription.text("log1000(1000 + kills)", sky));
+            description.add(JsonDescription.text(GodNodePreviews.SACK_OF_MOBS_FORMULA, sky));
             description.add(JsonDescription.text(", counting only kills scored this vault while holding a vault sack."));
         });
         godNode(builder, "tenos_unstoppable_greed", "Adds 10%", sky, " of your Item Quantity and Rarity, summed, to your Attack Damage and Ability Power.");
@@ -1832,8 +1838,8 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         godNode(builder, "tenos_challenge_tackler", "+50% crate tiers", sky, " from the sigil you went in with.");
         builder.addDescription("tenos_looting_engine", description -> {
             description.add(JsonDescription.text("Multiplies Item Quantity and Rarity by "));
-            description.add(JsonDescription.text("cubeRoot((1200 + c) / 1200)", sky));
-            description.add(JsonDescription.text(", where c is your chests per minute averaged over the last five minutes."));
+            description.add(JsonDescription.text(GodNodePreviews.LOOTING_ENGINE_FORMULA, sky));
+            description.add(JsonDescription.text(", scaling with your chests per minute averaged over the last five minutes."));
         });
         builder.addDescription("tenos_massive_chests", description -> {
             description.add(JsonDescription.text("Chests roll "));

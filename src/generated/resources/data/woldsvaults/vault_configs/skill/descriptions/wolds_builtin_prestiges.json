@@ -1,5 +1,277 @@
 {
   "descriptions": {
+    "HealthIncrease": [
+      {
+        "text": "Increases your "
+      },
+      {
+        "text": "Health ",
+        "color": "#008700"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 15 Hearts",
+        "color": "$text"
+      }
+    ],
+    "ShieldOfLastingGuard": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Block Chance ",
+        "color": "#00F5B2"
+      },
+      {
+        "text": "Cap."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+10.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "RelicHunterII": [
+      {
+        "text": "Increases the chance for an identified "
+      },
+      {
+        "text": "Unique ",
+        "color": "gold"
+      },
+      {
+        "text": "to be "
+      },
+      {
+        "text": "Ancient ",
+        "color": "#FFD700"
+      },
+      {
+        "text": "by a further "
+      },
+      {
+        "text": "50%",
+        "color": "yellow"
+      },
+      {
+        "text": ", stacking additively with Relic Hunter."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "SpiritsHand": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Reach ",
+        "color": "#82D4FC"
+      },
+      {
+        "text": "Cap inside vaults."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+50.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "SuperCrystalsIII": [
+      {
+        "text": "Further increases the capacity of any "
+      },
+      {
+        "text": "Vault Crystals",
+        "color": "aqua"
+      },
+      {
+        "text": " you craft."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25 extra capacity\n",
+        "color": "#FFD700"
+      }
+    ],
+    "BarrierOfResilience": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Resistance ",
+        "color": "#FEDD00"
+      },
+      {
+        "text": "Cap."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "RelicHunter": [
+      {
+        "text": "Increases the chance for an identified "
+      },
+      {
+        "text": "Unique ",
+        "color": "gold"
+      },
+      {
+        "text": "to be "
+      },
+      {
+        "text": "Ancient ",
+        "color": "#FFD700"
+      },
+      {
+        "text": "by "
+      },
+      {
+        "text": "50%",
+        "color": "yellow"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "LegendOfPower": [
+      {
+        "text": "Unreleased",
+        "color": "red"
+      },
+      {
+        "text": ". This Legend power cannot be learned yet."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "GodsDiscipleII": [
+      {
+        "text": "Every "
+      },
+      {
+        "text": "God Experience ",
+        "color": "#B2F44B"
+      },
+      {
+        "text": "award you earn is increased by a further "
+      },
+      {
+        "text": "15%",
+        "color": "yellow"
+      },
+      {
+        "text": ", stacking additively with God's Disciple."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "LegendOfRiches": [
+      {
+        "text": "Unreleased",
+        "color": "red"
+      },
+      {
+        "text": ". This Legend power cannot be learned yet."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "GodsDisciple": [
+      {
+        "text": "Every "
+      },
+      {
+        "text": "God Experience ",
+        "color": "#B2F44B"
+      },
+      {
+        "text": "award you earn is increased by "
+      },
+      {
+        "text": "20%",
+        "color": "yellow"
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "SuperCrystalsII": [
+      {
+        "text": "Further increases the capacity of any "
+      },
+      {
+        "text": "Vault Crystals",
+        "color": "aqua"
+      },
+      {
+        "text": " you craft."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25 extra capacity\n",
+        "color": "#FFD700"
+      }
+    ],
     "Artificer": [
       {
         "text": "When you identify "
@@ -30,24 +302,51 @@
         "color": "$text"
       }
     ],
-    "HealthIncrease": [
+    "ToolsmithII": [
       {
-        "text": "Increases your "
+        "text": "When crafting "
       },
       {
-        "text": "Health ",
-        "color": "#008700"
+        "text": "Vault Tools ",
+        "color": "#82D4FC"
       },
       {
-        "text": "."
+        "text": "they gain a further "
+      },
+      {
+        "text": "75 ",
+        "color": "yellow"
+      },
+      {
+        "text": "additional capacity."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      }
+    ],
+    "SpiritsHandII": [
+      {
+        "text": "Further increases the "
+      },
+      {
+        "text": "Reach ",
+        "color": "#82D4FC"
+      },
+      {
+        "text": "Cap inside vaults."
       },
       {
         "text": "\n\n",
         "color": "$text"
       },
       {
-        "text": "1 15 Hearts",
+        "text": "1 ",
         "color": "$text"
+      },
+      {
+        "text": "+100.0%\n",
+        "color": "#FFD700"
       }
     ],
     "Toolsmith": [
@@ -71,30 +370,6 @@
       {
         "text": "\n\n",
         "color": "$text"
-      }
-    ],
-    "ShieldOfLastingGuard": [
-      {
-        "text": "Increases the "
-      },
-      {
-        "text": "Block Chance ",
-        "color": "#00F5B2"
-      },
-      {
-        "text": "Cap."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+10.0%\n",
-        "color": "#FFD700"
       }
     ],
     "SoulFetcher": [
@@ -161,16 +436,16 @@
         "color": "$text"
       }
     ],
-    "SpiritsHand": [
+    "FruityII": [
       {
-        "text": "Increases the "
+        "text": "Further increases the time granted by any "
       },
       {
-        "text": "Reach ",
-        "color": "#82D4FC"
+        "text": "Vault Fruit",
+        "color": "#FFD700"
       },
       {
-        "text": "Cap inside vaults."
+        "text": "."
       },
       {
         "text": "\n\n",
@@ -183,6 +458,19 @@
       {
         "text": "+50.0%\n",
         "color": "#FFD700"
+      }
+    ],
+    "LegendOfTime": [
+      {
+        "text": "Unreleased",
+        "color": "red"
+      },
+      {
+        "text": ". This Legend power cannot be learned yet."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
       }
     ],
     "PrismaticPouch": [
@@ -208,30 +496,6 @@
         "color": "$text"
       }
     ],
-    "BarrierOfResilience": [
-      {
-        "text": "Increases the "
-      },
-      {
-        "text": "Resistance ",
-        "color": "#FEDD00"
-      },
-      {
-        "text": "Cap."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5.0%\n",
-        "color": "#FFD700"
-      }
-    ],
     "WeaverOfTime": [
       {
         "text": "Increases the "
@@ -254,270 +518,6 @@
       {
         "text": "+5.0%\n",
         "color": "#FFD700"
-      }
-    ],
-    "ToolsmithII": [
-      {
-        "text": "When crafting "
-      },
-      {
-        "text": "Vault Tools ",
-        "color": "#82D4FC"
-      },
-      {
-        "text": "they gain a further "
-      },
-      {
-        "text": "75 ",
-        "color": "yellow"
-      },
-      {
-        "text": "additional capacity."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
-    "SuperCrystalsII": [
-      {
-        "text": "Further increases the capacity of any "
-      },
-      {
-        "text": "Vault Crystals",
-        "color": "aqua"
-      },
-      {
-        "text": " you craft."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25 extra capacity\n",
-        "color": "#FFD700"
-      }
-    ],
-    "SuperCrystalsIII": [
-      {
-        "text": "Further increases the capacity of any "
-      },
-      {
-        "text": "Vault Crystals",
-        "color": "aqua"
-      },
-      {
-        "text": " you craft."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+25 extra capacity\n",
-        "color": "#FFD700"
-      }
-    ],
-    "SpiritsHandII": [
-      {
-        "text": "Further increases the "
-      },
-      {
-        "text": "Reach ",
-        "color": "#82D4FC"
-      },
-      {
-        "text": "Cap inside vaults."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+100.0%\n",
-        "color": "#FFD700"
-      }
-    ],
-    "FruityII": [
-      {
-        "text": "Further increases the time granted by any "
-      },
-      {
-        "text": "Vault Fruit",
-        "color": "#FFD700"
-      },
-      {
-        "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+50.0%\n",
-        "color": "#FFD700"
-      }
-    ],
-    "GodsDisciple": [
-      {
-        "text": "Every "
-      },
-      {
-        "text": "God Experience ",
-        "color": "#B2F44B"
-      },
-      {
-        "text": "award you earn is increased by "
-      },
-      {
-        "text": "20%",
-        "color": "yellow"
-      },
-      {
-        "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
-    "GodsDiscipleII": [
-      {
-        "text": "Every "
-      },
-      {
-        "text": "God Experience ",
-        "color": "#B2F44B"
-      },
-      {
-        "text": "award you earn is increased by a further "
-      },
-      {
-        "text": "15%",
-        "color": "yellow"
-      },
-      {
-        "text": ", stacking additively with God's Disciple."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
-    "RelicHunter": [
-      {
-        "text": "Increases the chance for an identified "
-      },
-      {
-        "text": "Unique ",
-        "color": "gold"
-      },
-      {
-        "text": "to be "
-      },
-      {
-        "text": "Ancient ",
-        "color": "#FFD700"
-      },
-      {
-        "text": "by "
-      },
-      {
-        "text": "50%",
-        "color": "yellow"
-      },
-      {
-        "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
-    "RelicHunterII": [
-      {
-        "text": "Increases the chance for an identified "
-      },
-      {
-        "text": "Unique ",
-        "color": "gold"
-      },
-      {
-        "text": "to be "
-      },
-      {
-        "text": "Ancient ",
-        "color": "#FFD700"
-      },
-      {
-        "text": "by a further "
-      },
-      {
-        "text": "50%",
-        "color": "yellow"
-      },
-      {
-        "text": ", stacking additively with Relic Hunter."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
-    "LegendOfTime": [
-      {
-        "text": "Unreleased",
-        "color": "red"
-      },
-      {
-        "text": ". This Legend power cannot be learned yet."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
-    "LegendOfPower": [
-      {
-        "text": "Unreleased",
-        "color": "red"
-      },
-      {
-        "text": ". This Legend power cannot be learned yet."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
-    "LegendOfRiches": [
-      {
-        "text": "Unreleased",
-        "color": "red"
-      },
-      {
-        "text": ". This Legend power cannot be learned yet."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ]
   }

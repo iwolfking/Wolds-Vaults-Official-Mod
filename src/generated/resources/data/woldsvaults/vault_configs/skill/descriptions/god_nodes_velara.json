@@ -1,23 +1,5 @@
 {
   "descriptions": {
-    "velara_tough": [
-      {
-        "text": "+25% Health",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
-      }
-    ],
-    "velara_tough_ii": [
-      {
-        "text": "+50% Health",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
-      }
-    ],
     "velara_armored": [
       {
         "text": "+25% Armor",
@@ -27,40 +9,16 @@
         "text": " per star."
       }
     ],
-    "velara_armored_ii": [
+    "velara_start_briar": [
       {
-        "text": "+50% Armor",
+        "text": "The first star of the Briar - "
+      },
+      {
+        "text": "refusing to go down",
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
-      }
-    ],
-    "velara_immune": [
-      {
-        "text": "+5% chance to avoid",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger, per star."
-      }
-    ],
-    "velara_immune_ii": [
-      {
-        "text": "+10% chance to avoid",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger, per star."
-      }
-    ],
-    "velara_healthy": [
-      {
-        "text": "+20% Healing Efficiency",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_healthy_ii": [
@@ -72,142 +30,6 @@
         "text": " per star."
       }
     ],
-    "velara_fast_reflexes": [
-      {
-        "text": "+2% Dodge",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
-      }
-    ],
-    "velara_fast_reflexes_ii": [
-      {
-        "text": "+5% Dodge",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
-      }
-    ],
-    "velara_guarded": [
-      {
-        "text": "+2% Block",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
-      }
-    ],
-    "velara_guarded_ii": [
-      {
-        "text": "+5% Block",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
-      }
-    ],
-    "velara_thorny": [
-      {
-        "text": "+25 Thorns Damage",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
-      }
-    ],
-    "velara_thorny_ii": [
-      {
-        "text": "+50 Thorns Damage",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
-      }
-    ],
-    "velara_pious_devotion": [
-      {
-        "text": "+10 Piety",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per star."
-      }
-    ],
-    "velara_counterstrike": [
-      {
-        "text": "50% chance",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " to land a free attack on an enemy whose melee strike you blocked or dodged."
-      }
-    ],
-    "velara_magic_armor": [
-      {
-        "text": "Your armor's damage reduction now applies to magic damage at "
-      },
-      {
-        "text": "50% efficiency",
-        "color": "#6ef08c"
-      },
-      {
-        "text": "."
-      }
-    ],
-    "velara_defender_of_the_faith": [
-      {
-        "text": "+5% Health and Armor",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " for each distinct god carried on a charm by your vault party, yourself included."
-      }
-    ],
-    "velara_perserverence": [
-      {
-        "text": "+50% longer downed timer",
-        "color": "#6ef08c"
-      },
-      {
-        "text": "."
-      }
-    ],
-    "velara_adaptive_armor": [
-      {
-        "text": "-10% damage taken per stack, up to 6 stacks",
-        "color": "#6ef08c"
-      },
-      {
-        "text": ". Every consecutive hit from the same enemy adds a stack; a hit from anything else starts the run over."
-      }
-    ],
-    "velara_bounce_back": [
-      {
-        "text": "2x Healing Efficiency",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " while below "
-      },
-      {
-        "text": "10% max health",
-        "color": "#6ef08c"
-      },
-      {
-        "text": "."
-      }
-    ],
-    "velara_indomitable": [
-      {
-        "text": "+3 Regeneration levels",
-        "color": "#6ef08c"
-      },
-      {
-        "text": ". Stacks with other sources of regeneration."
-      }
-    ],
     "velara_field_medic": [
       {
         "text": "1.5x healing",
@@ -217,32 +39,46 @@
         "text": " on every heal you give an ally. Never applies to healing yourself."
       }
     ],
-    "velara_the_stonewall": [
+    "velara_immune": [
       {
-        "text": "0.33x Movement Speed",
+        "text": "+5% chance to avoid",
         "color": "#6ef08c"
       },
       {
-        "text": ", but "
+        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger, per star."
+      }
+    ],
+    "velara_start_fern": [
+      {
+        "text": "The first star of the Fern - "
       },
       {
-        "text": "1.5x Armor",
+        "text": "auras cast over the party",
         "color": "#6ef08c"
       },
       {
         "text": "."
       }
     ],
-    "velara_cactus": [
+    "velara_armored_ii": [
       {
-        "text": "0.33x Armor",
+        "text": "+50% Armor",
         "color": "#6ef08c"
       },
       {
-        "text": ", but "
+        "text": " per star."
+      }
+    ],
+    "velara_healing_flow": [
+      {
+        "text": "+1% Healing Efficiency",
+        "color": "#6ef08c"
       },
       {
-        "text": "2x Thorns",
+        "text": " per "
+      },
+      {
+        "text": "25% Mana Regeneration",
         "color": "#6ef08c"
       },
       {
@@ -268,6 +104,109 @@
         "text": " and stops you raising it."
       }
     ],
+    "velara_magic_armor": [
+      {
+        "text": "Your armor's damage reduction now applies to magic damage at "
+      },
+      {
+        "text": "50% efficiency",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_the_stonewall": [
+      {
+        "text": "0.33x Movement Speed",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ", but "
+      },
+      {
+        "text": "1.5x Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_healthy": [
+      {
+        "text": "+20% Healing Efficiency",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "velara_immune_ii": [
+      {
+        "text": "+10% chance to avoid",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger, per star."
+      }
+    ],
+    "velara_guarded": [
+      {
+        "text": "+2% Block",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "velara_indomitable": [
+      {
+        "text": "+3 Regeneration levels",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Stacks with other sources of regeneration."
+      }
+    ],
+    "velara_presence": [
+      {
+        "text": "+10% Resistance, +100% Healing Efficiency and +2 Regeneration",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " to allies within 100 blocks. Cannot be applied to yourself."
+      }
+    ],
+    "velara_thorny_ii": [
+      {
+        "text": "+50 Thorns Damage",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "velara_counterstrike": [
+      {
+        "text": "50% chance",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " to land a free attack on an enemy whose melee strike you blocked or dodged."
+      }
+    ],
+    "velara_start_mercy": [
+      {
+        "text": "The first star of the Mercy - "
+      },
+      {
+        "text": "healing, allies and staying up",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
     "velara_immortal": [
       {
         "text": "1.33x max Health and Armor, 1.5x Healing Efficiency, +20 base Health, +50 base Armor, +10 Regeneration levels",
@@ -291,6 +230,31 @@
         "text": ". Sacrifice cannot syphon through you."
       }
     ],
+    "velara_pious_devotion": [
+      {
+        "text": "+10 Piety",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "velara_cactus": [
+      {
+        "text": "0.33x Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ", but "
+      },
+      {
+        "text": "2x Thorns",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
     "velara_fleeting_physicality": [
       {
         "text": "10 seconds of damage immunity",
@@ -307,22 +271,6 @@
         "text": ", over and over. The vault timer still gets through."
       }
     ],
-    "velara_steadfast": [
-      {
-        "text": "Knockback Resistance above 100%",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " is converted to "
-      },
-      {
-        "text": "Armor %",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " at 1 to 1."
-      }
-    ],
     "velara_sanitation": [
       {
         "text": "Negative effects on you and allies within 50 blocks last "
@@ -335,38 +283,13 @@
         "text": ". Does not stack."
       }
     ],
-    "velara_presence": [
+    "velara_fast_reflexes_ii": [
       {
-        "text": "+10% Resistance, +100% Healing Efficiency and +2 Regeneration",
+        "text": "+5% Dodge",
         "color": "#6ef08c"
       },
       {
-        "text": " to allies within 100 blocks. Cannot be applied to yourself."
-      }
-    ],
-    "velara_healing_flow": [
-      {
-        "text": "+1% Healing Efficiency",
-        "color": "#6ef08c"
-      },
-      {
-        "text": " per "
-      },
-      {
-        "text": "25% Mana Regeneration",
-        "color": "#6ef08c"
-      },
-      {
-        "text": "."
-      }
-    ],
-    "velara_utilized": [
-      {
-        "text": "+3 to all Utility ability levels",
-        "color": "#6ef08c"
-      },
-      {
-        "text": "."
+        "text": " per star."
       }
     ],
     "velara_sacrifice": [
@@ -397,52 +320,99 @@
         "text": "."
       }
     ],
-    "velara_start_mercy": [
+    "velara_fast_reflexes": [
       {
-        "text": "The first star of the Mercy - "
+        "text": "+2% Dodge",
+        "color": "#6ef08c"
       },
       {
-        "text": "healing, allies and staying up",
+        "text": " per star."
+      }
+    ],
+    "velara_utilized": [
+      {
+        "text": "+3 to all Utility ability levels",
         "color": "#6ef08c"
       },
       {
         "text": "."
       }
     ],
-    "velara_start_fern": [
+    "velara_thorny": [
       {
-        "text": "The first star of the Fern - "
+        "text": "+25 Thorns Damage",
+        "color": "#6ef08c"
       },
       {
-        "text": "auras cast over the party",
+        "text": " per star."
+      }
+    ],
+    "velara_perserverence": [
+      {
+        "text": "+50% longer downed timer",
         "color": "#6ef08c"
       },
       {
         "text": "."
       }
     ],
-    "velara_start_briar": [
+    "velara_steadfast": [
       {
-        "text": "The first star of the Briar - "
+        "text": "Knockback Resistance above 100%",
+        "color": "#6ef08c"
       },
       {
-        "text": "refusing to go down",
+        "text": " is converted to "
+      },
+      {
+        "text": "Armor %",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " at 1 to 1."
+      }
+    ],
+    "velara_bounce_back": [
+      {
+        "text": "2x Healing Efficiency",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " while below "
+      },
+      {
+        "text": "10% max health",
         "color": "#6ef08c"
       },
       {
         "text": "."
       }
     ],
-    "velara_start_bloom": [
+    "velara_guarded_ii": [
       {
-        "text": "The first star of the Bloom - "
-      },
-      {
-        "text": "the answer to a blocked hit",
+        "text": "+5% Block",
         "color": "#6ef08c"
       },
       {
-        "text": "."
+        "text": " per star."
+      }
+    ],
+    "velara_adaptive_armor": [
+      {
+        "text": "-10% damage taken per stack, up to 6 stacks",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Every consecutive hit from the same enemy adds a stack; a hit from anything else starts the run over."
+      }
+    ],
+    "velara_tough": [
+      {
+        "text": "+25% Health",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " per star."
       }
     ],
     "velara_start_sapling": [
@@ -451,6 +421,36 @@
       },
       {
         "text": "utility that grows on you",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_tough_ii": [
+      {
+        "text": "+50% Health",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "velara_defender_of_the_faith": [
+      {
+        "text": "+5% Health and Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " for each distinct god carried on a charm by your vault party, yourself included."
+      }
+    ],
+    "velara_start_bloom": [
+      {
+        "text": "The first star of the Bloom - "
+      },
+      {
+        "text": "the answer to a blocked hit",
         "color": "#6ef08c"
       },
       {

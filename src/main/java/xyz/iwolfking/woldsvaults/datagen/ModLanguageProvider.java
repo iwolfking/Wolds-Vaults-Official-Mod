@@ -175,8 +175,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModEffects.STEADFAST, "Steadfast");
         add("message.woldsvaults.filled_bottle_alchemy_archive", "You have all effects unlocked! Your %1$s has been refilled!");
         add("message.woldsvaults.god_level_up", "Your alignment with %1$s has reached level %2$s.");
-        add("message.woldsvaults.stirrings_dormant", "The gods are silent.");
-        add("message.woldsvaults.ultimate_locked", "Your god has not yet granted this power.");
+        add("message.woldsvaults.stirrings_dormant", "The gods are silent. Equip a god charm and reach god level %1$s with that god to awaken their ultimate.");
+        add("message.woldsvaults.ultimate_locked", "%1$s has not granted this power. Equip their charm and reach god level %2$s.");
         add("message.woldsvaults.eyes_of_god_outside_vault", "Eyes of God only sees inside a vault.");
         add("message.woldsvaults.eyes_of_god_revealed", "Revealed %s rooms.");
         add("command.woldsvaults.prevent_back_into_vault", "You cannot return into The Vault!");
@@ -564,6 +564,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("key.the_vault.quickselect.expunge", "Select and use ability: Diffuse");
         add("key.the_vault.quickselect.necromancy", "Select and use ability: Necromancy");
         add("key.the_vault.quickselect.fangs", "Select and use ability: Fangs");
+        add("key.the_vault.quickselect.stirrings_of_power", "Select and use ability: Stirrings of Power");
         add("woldsvaults.subtitle.saferspaces_proc", "Safer Spaces activated!");
         add("the_vault.gear_modification.tab.mythical", "Mythical");
         add("item.woldsvaults.pogominium_ingot", "POG-ominium Ingot");
@@ -777,6 +778,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.dungeoneer", "Dungeoneer");
         add("milestone.woldsvaults.villain", "Villain");
         add("milestone.woldsvaults.flawless_victory", "Flawless Victory");
+        add("milestone.woldsvaults.assassin_assassinator", "Assassin Assassinator");
         add("milestone.woldsvaults.fail_vaults", "If You Fail Once, Try Again");
         add("milestone.woldsvaults.master_smith", "Master Smith");
         add("milestone.woldsvaults.idonas_champion", "Idona's Champion");
@@ -860,6 +862,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.dungeoneer.desc", "Dungeon bosses killed");
         add("milestone.woldsvaults.villain.desc", "Cockroaches killed");
         add("milestone.woldsvaults.flawless_victory.desc", "Vaults completed without taking damage");
+        add("milestone.woldsvaults.assassin_assassinator.desc", "Greed assassins killed");
         add("milestone.woldsvaults.fail_vaults.desc", "Vaults failed");
         add("milestone.woldsvaults.master_smith.desc", "Max out vault forge proficiency");
         add("milestone.woldsvaults.idonas_champion.desc", "Highest Idona alignment level reached");
@@ -919,6 +922,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.take_trial.vessel", "A fight with the Vessel. Deal the required damage before the timer runs out.");
         add("screen.woldsvaults.greed.take_trial.reward", "Reward: rank up and %1$s greed coins");
         add("screen.woldsvaults.greed.take_trial.none", "No trial remains - further ranks are earned with reputation alone.");
+        add("screen.woldsvaults.greed.take_trial.herald", "Defeat the Herald to join the greed ladder.");
         add("screen.woldsvaults.greed.take_trial.locked.reputation", "%1$s more reputation to unlock the trial");
         add("screen.woldsvaults.greed.take_trial.locked.god", "Requires god level %1$s (best: %2$s)");
         add("screen.woldsvaults.greed.shop_reroll_cost", "Shop reroll cost: %1$s tickets");
@@ -929,6 +933,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.claim", "Claim");
         add("screen.woldsvaults.greed.claim.tooltip", "Collect the reputation this achievement has banked");
         add("screen.woldsvaults.greed.claim.tooltip.player", "Reputation is collected from Mr. Greedy");
+        add("screen.woldsvaults.greed.claim_all", "Claim All (%1$s)");
+        add("screen.woldsvaults.greed.claim_all.tooltip", "Collect the reputation every achievement has banked");
         add("screen.woldsvaults.greed.pin.pin", "Pin");
         add("screen.woldsvaults.greed.pin.unpin", "Unpin");
         add("screen.woldsvaults.greed.pin.pin.tooltip", "Track this achievement on the main greed screen. You may pin one at a time.");
