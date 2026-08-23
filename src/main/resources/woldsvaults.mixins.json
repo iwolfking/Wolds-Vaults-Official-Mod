@@ -95,6 +95,7 @@
     "industrialforegoing.MixinEnchantmentApplicatorTile",
     "infernalmobs.MixinInfernalMobsClient",
     "infernalmobs.MixinInfernalMobsCore",
+    "ispawner.MixinSpawnerManager",
     "infernalmobs.MixinMobModsPacket",
     "integrateddynamics.MixinClientProxy",
     "integrateddynamics.MixinCraftingProcessOverrideCraftingTable",
