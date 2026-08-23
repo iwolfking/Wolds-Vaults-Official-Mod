@@ -17,25 +17,12 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
 
 /**
- * Immortal's behavioural legs: the 300 second self-revive and the x0.5 damage penalty.
- *
- * <p>The stat legs are elsewhere - health and armour ride vanilla attribute modifiers in
- * {@link VelaraModifiers}, healing efficiency and regeneration ride {@link VelaraStatBus}.
- *
- * <p>The x0.5 goes through {@link GlobalDamageMultiplierRegistry} rather than a vanilla
- * {@code ATTACK_DAMAGE} modifier, which covers ability power as well as weapon damage in one
- * place. It is multiplicative with every other global factor, which is the intended reading of
- * "have your attack and ability power multiplied by 0.5x".
- *
- * <p>The revive cooldown is a wall-clock deadline in {@link GodNodeState#persistent}, not in the
- * transient scratch: the scratch is wiped on logout, so a 300 second cooldown stored there was a
- * relog away from being free. It is re-armed deliberately on vault exit instead - a run's cooldown
- * does not follow the player into the next run - which {@link VelaraTree} wires on
- * {@code LISTENER_LEAVE}.
+ * Immortal's self-revive and damage penalty. The revive cooldown is a wall-clock deadline in
+ * {@link GodNodeState#persistent}, re-armed on vault exit.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VelaraImmortal {
-    /** The base mod's own "already revived this death" tag; setting it makes phoenix and downed stand down. */
+    /** The base mod's "already revived this death" tag; setting it stands phoenix and downed down. */
     private static final String VAULT_REVIVE_TAG = "the_vault_revived_tick";
     private static final String READY_AT_KEY = "revive_ready_at";
     private static final long MILLIS_PER_TICK = 50L;
@@ -44,10 +31,7 @@ public final class VelaraImmortal {
     private VelaraImmortal() {
     }
 
-    /**
-     * Runs above the base mod's death handler so Immortal resolves before phoenix gear and before
-     * the downed system, which would otherwise knock the player down instead of reviving them.
-     */
+    /** Runs above the base mod's death handler, so Immortal resolves before phoenix gear and downed. */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onDeath(LivingDeathEvent event) {
         if (!(event.getEntityLiving() instanceof ServerPlayer player) || player.getLevel().isClientSide()) {

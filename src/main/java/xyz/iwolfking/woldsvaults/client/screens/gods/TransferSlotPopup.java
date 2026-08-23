@@ -29,11 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The slot picker that opens beside a learned minor star on a right-click: one circle per
- * transfer slot the star's god has unlocked, stacked down the star's left side in tree space so
- * the picker pans and zooms with the chart. A click on a circle asks the server to put the star
- * there - or to take it out again when the circle already holds it - and the picker stays open,
- * repainting from the next alignment sync. Opening and closing are the pan region's business.
+ * The slot picker that opens beside a learned minor star: one circle per unlocked transfer slot, in
+ * tree space. A click assigns or clears the slot; the picker stays open and repaints from the next sync.
  */
 final class TransferSlotPopup {
     private static final int CIRCLE = 26;
@@ -58,7 +55,7 @@ final class TransferSlotPopup {
         return ClientGodAlignmentData.getMinorTransferSlots(this.god);
     }
 
-    /** Circle centres in tree space for the star's current widget position, top slot first. */
+    /** Circle centres in tree space, top slot first. */
     private List<float[]> circles(GodNodeWidget anchorWidget) {
         int count = this.slotCount();
         List<float[]> centres = new ArrayList<>(count);
@@ -192,7 +189,6 @@ final class TransferSlotPopup {
         return placement == null ? effectId : placement.name();
     }
 
-    /** Puts the anchor star into the slot, or takes it out when the slot already holds it. */
     void click(int slot) {
         String content = ClientGodAlignmentData.getMinorTransferSlot(this.god, slot).orElse("");
         String target = content.equals(this.anchor.ledgerKey()) ? "" : this.anchor.ledgerKey();

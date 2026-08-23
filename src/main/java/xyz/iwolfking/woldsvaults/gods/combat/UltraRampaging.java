@@ -21,29 +21,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Ultra Rampaging: the damage math Fury drives, and the one place that decides whether it applies.
- *
- * <p>The node does not add a damage multiplier of its own. It rewrites the number Rampage already
- * uses - {@code AbstractRampageAbility#getDamageIncrease} - so the boost inherits every gate the
- * ordinary Rampage bonus has, and every node that reads that number reads the boosted one. That
- * includes True Rage and Cleave Expert, which is intended: those two becoming much larger nodes is
- * part of this node's design, not a side effect to be tuned out.
- *
- * <p>Two halves, joined at {@code cdm_sqrt_from}:
- *
- * <pre>
- *   additive = 100 * cbrt(fury / 6500)                     percentage points added to the CDM
- *   mult     = fury &lt;= 6000 ? 1.03^(fury / 100)
- *                           : 1.03^60 + sqrt(fury / 6000 - 1)
- *   CDM      = (CDM_base + additive) * mult
- * </pre>
- *
- * <p>The square-root half exists so the multiplier cannot balloon: left purely exponential, a
- * cleave build in a dense room reached ×3600 melee damage. The constant is the exponential's own
- * value at the handover, {@code 1.03^60 = 5.8916}, and the {@code -1} sits inside the root, so the
- * curve is exactly continuous there - a player crossing the threshold sees no step. With the Fury
- * cap at 15000 the whole design is hard-bounded at ×17.52 melee on a tier-8 Rampage and ×28.19 on
- * a tier-8 Berserker specialization.
+ * Ultra Rampaging: the damage math Fury drives. The node adds no multiplier of its own; it rewrites
+ * {@code AbstractRampageAbility#getDamageIncrease}.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class UltraRampaging {
@@ -57,12 +36,7 @@ public final class UltraRampaging {
     private UltraRampaging() {
     }
 
-    /**
-     * The node's tuned numbers, falling back to {@link UltraRampagingConfig#defaults()} if the god
-     * node registry has not loaded yet. The fallback is logged once rather than every read: Fury
-     * decays on the server tick, so a silent fallback here would be a config change nobody could
-     * see, and a per-read log would be thousands of lines a minute.
-     */
+    /** The node's tuned numbers, falling back to {@link UltraRampagingConfig#defaults()} with an error. */
     public static UltraRampagingConfig config() {
         Optional<GodEffect> effect = GodNodeRegistry.effect(IdonaNodes.ULTRA_RAMPAGING);
         if (effect.isPresent() && effect.get().params() instanceof UltraRampagingConfig params) {
@@ -83,7 +57,6 @@ public final class UltraRampaging {
         return IdonaNodes.isActive(player, IdonaNodes.ULTRA_RAMPAGING);
     }
 
-    /** Percentage points Fury adds to the CDM before the multiplier is applied. */
     public static float additivePercent(float fury, UltraRampagingConfig config) {
         if (fury <= 0.0F) {
             return 0.0F;
@@ -91,10 +64,7 @@ public final class UltraRampaging {
         return 100.0F * (float) Math.cbrt(fury / config.cdm_additive_divisor());
     }
 
-    /**
-     * The multiplier Fury applies to the whole CDM. Exponential up to {@code cdm_sqrt_from},
-     * square root above it, continuous at the handover by construction.
-     */
+    /** The multiplier Fury applies to the CDM: exponential up to {@code cdm_sqrt_from}, root above. */
     public static float furyMultiplier(float fury, UltraRampagingConfig config) {
         if (fury <= 0.0F) {
             return 1.0F;
@@ -115,14 +85,7 @@ public final class UltraRampaging {
         return 1.0F + (float) Math.sqrt(fury / config.incoming_divisor()) * config.incoming_scale();
     }
 
-    /**
-     * Rewrites one Rampage specialization's damage increase for the Fury the player holds.
-     *
-     * <p>Expressed as {@code base * multiplier + addend} rather than by rebuilding the whole
-     * expression, because both terms depend only on Fury. That is what lets the per-player curve
-     * be cached and reused across the four calls the base mod makes per hit, one per Rampage
-     * effect, without recomputing a cube root and a power each time.
-     */
+    /** Rewrites one Rampage specialization's damage increase for the Fury the player holds. */
     public static float applyCdm(ServerPlayer player, float baseIncrease) {
         Curve curve = curve(player);
         if (curve == null) {
@@ -152,19 +115,10 @@ public final class UltraRampaging {
         return curve;
     }
 
-    /** Drops the cached curve so the next read recomputes it against the new Fury. */
     static void onFuryChanged(ServerPlayer player) {
         CURVES.remove(player.getUUID());
     }
 
-    /**
-     * Pushes the melee factor to the client when the number it would render changes.
-     *
-     * <p>Compared as the rendered integer rather than as a float, so a Fury value drifting by
-     * fractions of a percent does not generate traffic. Fury only moves on a gain or on the
-     * ten-tick decay, so in practice this is at most a couple of packets a second per player, and
-     * only while the node is live.
-     */
     @SubscribeEvent
     public static void syncDisplay(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
@@ -185,11 +139,7 @@ public final class UltraRampaging {
         }
     }
 
-    /**
-     * The CDM as a whole percent, floored rather than rounded. The damage itself is never floored -
-     * that would be a needless discontinuity - but the readout is, so the number on screen is one
-     * the player has definitely earned rather than one rounded up to.
-     */
+    /** The CDM as a whole percent, floored rather than rounded. */
     private static int displayPercent(ServerPlayer player) {
         if (PlayerFuryHelper.get(player) <= 0.0F && !RampageAccess.hasAnyRampageEffect(player)) {
             return 0;

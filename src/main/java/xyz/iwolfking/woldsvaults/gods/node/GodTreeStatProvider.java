@@ -15,19 +15,9 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * The one attribute provider every god tree registers. It walks the registry rather than a
- * hand-written list, so a tree's stat nodes are entirely config: every effect of this god whose
- * handler is a {@link StatContributor} contributes, and nothing else has to be told about it.
- *
- * <p>Points are read straight from the purchase ledger, unscaled. The caller
- * ({@link xyz.iwolfking.woldsvaults.gods.GodCarryover}) already decides whether this tree is the
- * active one and scales a foreign tree's basic nodes to a quarter itself, so scaling here as well
- * would apply the carryover twice - which is why the context is built at scale {@code 1.0}
- * instead of through {@link xyz.iwolfking.woldsvaults.gods.GodNodeGate}.
- *
- * <p>{@link GodNodeAttributeSource.Scope#BASIC} is exactly the {@link GodNodeType#STAT} nodes -
- * the subset eligible for carryover - and {@link GodNodeAttributeSource.Scope#ALL} is every stat
- * contribution the tree has, including the ones minor and major nodes make.
+ * The one attribute provider every god tree registers: every effect of this god whose handler is a
+ * {@link StatContributor} contributes. The context is built at scale {@code 1.0} rather than through
+ * {@code GodNodeGate}, since the caller applies carryover itself.
  */
 public final class GodTreeStatProvider implements GodTreeAttributeProviders.Provider {
     private final VaultGod god;
@@ -53,13 +43,7 @@ public final class GodTreeStatProvider implements GodTreeAttributeProviders.Prov
         return values;
     }
 
-    /**
-     * Minor-transfer resolution. Returns nothing while this tree is the active one: the
-     * {@link GodNodeAttributeSource.Scope#ALL} pass above already contributed every minor of this
-     * god, and a god's transfer slots only ever carry that god's own learned minors
-     * ({@code MinorTransferSlots.isTransferable}), so the slots are by definition dormant while
-     * their god is the active one.
-     */
+    /** Minor-transfer resolution; returns nothing while this tree is the active one. */
     @Override
     public List<VaultGearAttributeInstance<?>> getMinorTransferAttributes(ServerPlayer player, Collection<String> nodeIds) {
         if (nodeIds.isEmpty() || ActiveGodResolver.isActive(player, this.god)) {

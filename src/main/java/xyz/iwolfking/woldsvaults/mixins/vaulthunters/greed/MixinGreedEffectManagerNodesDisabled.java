@@ -14,19 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
-/**
- * Design decision D32: on login the base mod re-applies every unlocked greed node's effect. Two
- * node types put real vanilla attribute modifiers on the player ({@code greed_gear_attribute} via
- * {@code GearAttributeSkill}, {@code greed_stat_boost} directly), so simply skipping the rebuild
- * would leave any already-applied modifier in place. This replaces the rebuild with the inverse
- * pass: those two node types have their modifiers REMOVED, so a player who logs in after the update
- * comes back clean.
- *
- * <p>Only the two modifier-carrying types are touched. {@code greed_skill_point}'s removal hook
- * subtracts granted skill points, which would be a data change rather than a neutralisation, so it
- * is deliberately skipped - the greed skill points a player was already given stay given, and the
- * node's own rebuild hook is a no-op in the base mod anyway.
- */
+/** Inverts the greed effect rebuild: gear attribute and stat boost node modifiers are removed. */
 @Mixin(value = GreedEffectManager.class, remap = false)
 public abstract class MixinGreedEffectManagerNodesDisabled {
     @Inject(method = "rebuildEffects(Lnet/minecraft/server/level/ServerPlayer;)V", at = @At("HEAD"), cancellable = true)

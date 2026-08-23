@@ -35,13 +35,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The medallion-era replacement for {@code GreedAssassinSpawnHandler#trySpawnGreedAssassin}.
- *
- * <p>Two things change from the base roll. Gating is now purely the crystal's medallion: a vault
- * without one never spawns an assassin no matter the killer's rank, and a level that is not a vault
- * at all cannot reach this code, so overworld kills are silent. Rate is then scaled off the
- * medallion's rank to honour the {@code +Assassins} entry on every tier row, while the base
- * per-mob-class chances and the whole spawn-decay system are kept as they were.</p>
+ * Rolls greed assassin spawns off a vault mob kill. The crystal's medallion is the whole gate, whatever
+ * the killer's rank, and its rank scales the base per-mob-class chance.
  */
 public final class GreedAssassinSpawner {
     private static final ResourceLocation GROUP_TANK = VaultMod.id("tank");
@@ -93,19 +88,16 @@ public final class GreedAssassinSpawner {
     }
 
     /**
-     * Spawn-rate curve: {@code 1 + rankChanceStep * (rankIndex - 1)}, so the first medallion rolls
-     * the base chance untouched and each rank above it adds one step. The shipped step of 0.15 puts
-     * Legend at 3.25x; the design doc asks only that spawn pressure rise on every tier row, so the
-     * exact shape is left to {@code greed_medallions.json}.
+     * Spawn-rate curve: {@code 1 + rankChanceStep * (rankIndex - 1)}. Values come from
+     * {@code greed_medallions.json}.
      */
     private static double tierChanceMultiplier(GreedMedallionTier tier) {
         return 1.0D + GreedMedallionTier.spawnCurve().rankChanceStep * (tier.getRankIndex() - 1);
     }
 
     /**
-     * The base chances of the original handler with its greed-tier term dropped: horde mobs keep
-     * the tier-1 value and elites keep their flat chance, leaving the medallion multiplier as the
-     * single tier scaling rather than compounding two of them.
+     * The base per-mob-class chance, carrying no greed-tier term; the medallion multiplier is the only tier
+     * scaling.
      */
     private static double baseSpawnChance(LivingEntity killed) {
         if (ModConfigs.ENTITY_GROUPS.isInGroup(GROUP_HORDE, killed)) {
@@ -118,7 +110,7 @@ public final class GreedAssassinSpawner {
         return 0.0D;
     }
 
-    /** The player credited with a kill, following an Eternal back to its owner. Shared with the champion's rage hooks. */
+    /** The player credited with a kill, following an Eternal back to its owner. */
     public static ServerPlayer resolveKiller(LivingDeathEvent event) {
         Entity killer = event.getSource().getEntity();
         if (killer instanceof EternalEntity eternal) {
@@ -208,8 +200,8 @@ public final class GreedAssassinSpawner {
     }
 
     /**
-     * The base handler's per-player anti-farm curve, kept verbatim: each spawn halves the next
-     * roll's odds again, and the pressure recovers linearly over five minutes.
+     * Per-player anti-farm curve: each spawn cuts the next roll's odds further, recovering linearly over
+     * {@code recoveryTicks}.
      */
     private static final class SpawnDecayTracker {
         private int assassinsSpawned;
@@ -232,7 +224,6 @@ public final class GreedAssassinSpawner {
         }
     }
 
-    /** Drops every player's spawn-decay history; the anti-farm window is per-session, not per-save. */
     public static void clearDecayTrackers() {
         DECAY_TRACKERS.clear();
     }

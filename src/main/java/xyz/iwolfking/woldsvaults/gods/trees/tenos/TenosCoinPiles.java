@@ -9,17 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Cash Hunter (r117): item quantity applies to coin piles at 25% efficiency.
- *
- * <p>The coin pile builds its generator with item quantity hardcoded to zero, so the bonus cannot
- * be fed in through the generator; it is applied to the generated stacks on the POST phase
- * instead, with the fractional part resolved stochastically so small bonuses are not rounded away.
- *
- * <p>The item rarity half of the sheet row is cut, by design-owner ruling 2026-08-22. Coin piles
- * use {@code LootTableGenerator}, which has no rarity field and no sub-pool reweighting of any
- * kind, so honouring it would mean moving coin piles onto {@code TieredLootTableGenerator} and
- * changing coin loot for every player rather than only node holders. The node is quantity-only and
- * its description says so.
+ * Cash Hunter: applies the player's item quantity to coin pile loot at a reduced efficiency, by
+ * duplicating generated stacks. The fractional part is resolved stochastically.
  */
 public final class TenosCoinPiles {
     private static final Object OWNER = new Object();

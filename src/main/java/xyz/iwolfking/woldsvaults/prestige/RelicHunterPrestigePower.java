@@ -8,12 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 
 import java.util.Optional;
 
-/**
- * Relic Hunter: a multiplicative bonus on the ancient unique identify chance, applied additively
- * across owned copies. Both shipped ranks carry 0.5, so the design sheet's Champion 3 result is
- * 0.8% x (1 + 0.5 + 0.5) = 1.6%. Consumed by
- * {@link xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper#getRelicHunterMultiplier}.
- */
+/** Relic Hunter: a multiplicative bonus on the ancient unique identify chance, summed across copies. */
 public class RelicHunterPrestigePower extends PrestigePower {
     private float chanceMultiplier;
 

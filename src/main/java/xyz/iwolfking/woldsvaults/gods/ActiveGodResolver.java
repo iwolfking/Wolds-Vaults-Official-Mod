@@ -10,19 +10,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Resolves which god tree is active for a player: the god of the vault god charm equipped in the
- * curios {@code charm} slot. A charm with no uses left is already filtered out by
- * {@link VaultCharmItem#getCharm}, so a broken charm resolves to empty and disables its tree.
- *
- * <p>Resolution walks the curios handler and reads gear NBT, so results are cached per player and
- * invalidated on equipment and dimension changes by {@link xyz.iwolfking.woldsvaults.gods.event.GodEventHandlers}.
- * Charms cannot be swapped inside a vault by design; if one ever is, the cache is simply re-filled
- * on the next lookup.
- *
- * <p>The cache is partitioned by logical side. On an integrated server both sides share the JVM
- * and the player UUID, and the tree screens resolve on the client, so one map keyed by UUID would
- * let a client lookup answer a server question. Invalidation drops both sides, because a dropped
- * entry only costs a re-resolve.
+ * Which god tree is active for a player: the god of the charm in the curios {@code charm} slot, empty
+ * for a broken charm. Cached per player and per logical side until invalidated.
  */
 public final class ActiveGodResolver {
     private static final Map<UUID, Optional<VaultGod>> SERVER = new ConcurrentHashMap<>();
@@ -39,13 +28,7 @@ public final class ActiveGodResolver {
         return getActiveGod(player).filter(active -> active == god).isPresent();
     }
 
-    /**
-     * Whether a curio slot going from {@code from} to {@code to} can have changed the active god.
-     * Curios fires its change event on any NBT delta, and a charm's NBT moves every second while a
-     * blessing counts down and every ten ticks while a mythic charm rescales, so the listeners that
-     * re-resolve the god, rebuild the snapshot, reconcile the ticker and re-sync the alignment on a
-     * swap ask this first: same item resolving to the same god is not a swap.
-     */
+    /** Whether a curio slot going from {@code from} to {@code to} can have changed the active god. */
     public static boolean mayChangeActiveGod(net.minecraft.world.item.ItemStack from, net.minecraft.world.item.ItemStack to) {
         if (from.getItem() != to.getItem()) {
             return true;

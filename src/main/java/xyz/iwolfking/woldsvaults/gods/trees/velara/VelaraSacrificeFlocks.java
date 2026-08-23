@@ -17,21 +17,8 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Per-vault flock manager for Sacrifice.
- *
- * <p>A flock is the set of allies whose damage one Sacrifice user absorbs. The sheet requires that
- * multiple Sacrifice users in the same party split the flock evenly rather than overlapping, and
- * that a Sacrifice user going down hands their flock to the survivors, so the assignment is a
- * partition recomputed from scratch rather than a per-player flag: partitions cannot drift, and
- * "redistribute on death" is just another rebuild.
- *
- * <p>Grouping is by {@code /party}, since a shepherd can only protect party members. Players under
- * Immortal are excluded from every flock - the sheet states Sacrifice cannot affect them.
- *
- * <p>Both halves of the assignment live in the shared {@link GodNodeState} scratch: each protected
- * player's shepherd under their own player scratch, and the roster of protected players under the
- * running vault's scratch. Vault-scoped state is replaced by vault id and never wholesale, so one
- * party finishing a vault cannot clear another party's flock.
+ * Per-vault flock manager for Sacrifice: an even partition of each party across its Sacrifice
+ * users, rebuilt from scratch. Downed players and players under Immortal are excluded.
  */
 public final class VelaraSacrificeFlocks {
     private VelaraSacrificeFlocks() {
@@ -62,7 +49,6 @@ public final class VelaraSacrificeFlocks {
         }
     }
 
-    /** Rebuilds the partition for the vault a player is in, used when a shepherd drops out. */
     public static void rebuildFor(ServerPlayer player) {
         MinecraftServer server = player.getServer();
         if (server == null) {
@@ -124,11 +110,7 @@ public final class VelaraSacrificeFlocks {
         }
     }
 
-    /**
-     * Drops one vault's partition. The roster is replaced with an empty list rather than cleared
-     * outright, because the vault scratch is shared with every other node that stores per-vault
-     * state and clearing it by vault id alone would take theirs with it.
-     */
+    /** Drops one vault's partition, leaving every other node's per-vault scratch intact. */
     public static void clearVault(UUID vaultId) {
         List<UUID> tracked = GodNodeState.<List<UUID>>peekVault(vaultId, VelaraNodes.SACRIFICE).orElse(null);
         if (tracked == null) {

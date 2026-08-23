@@ -14,21 +14,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Sack of Mobs (r113): damage scales as {@code log1000(1000 + kills)}, counting only kills scored
- * this vault while a loot sack was held.
- *
- * <p>No such counter exists anywhere in either mod - the base mod's mob stat is keyed per mob type
- * and knows nothing about held items - so it is kept here, per player and per vault. It lives in
- * the shared {@link GodNodeState} player scratch rather than in a map of this class's own, which
- * is what resets it when the player leaves the vault and again on logout without this class owning
- * either listener.
- *
- * <p>The kill count only moves on a kill, so counting stays on the Forge death event; the
- * multiplier derived from it is pushed into the shared global damage registry once a second by
- * {@link TenosVaultHandlers.SackOfMobsHandler} rather than being recomputed on every hit, and that
- * handler's deactivation pass is what takes the factor back off.
- */
+/** Sack of Mobs: {@code log_base(base + kills)} over this vault's kills with a loot sack held. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class TenosSackOfMobs {
     private TenosSackOfMobs() {
@@ -51,7 +37,6 @@ public final class TenosSackOfMobs {
         kills(player).incrementAndGet();
     }
 
-    /** Republishes the player's damage factor from their current kill count. */
     public static void updateMultiplier(ServerPlayer player, float logBase) {
         GlobalDamageMultiplierRegistry.register(player, TenosNodes.key(TenosNodes.SACK_OF_MOBS),
                 factor(logBase, kills(player).get()));
@@ -61,7 +46,6 @@ public final class TenosSackOfMobs {
         return (float) (Math.log(logBase + kills) / Math.log(logBase));
     }
 
-    /** The gods tab preview of Sack of Mobs: the multiplier the player's sack kills this vault give. */
     static GodNodePreviews.Preview preview(ServerPlayer player) {
         float logBase = TenosNodeHandlers.params(TenosNodes.SACK_OF_MOBS,
                 TenosNodeHandlers.SackOfMobsParams.class).log_base();

@@ -37,18 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * The pannable star chart of one god's constellation tree: a deep-space backdrop with a fixed
- * scatter of twinkling background stars, the lattice drawn as glowing constellation lines, and a
- * {@link GodNodeWidget} star per node. Pan and zoom follow the old greed tree's feel and persist
- * per god across opens. Everything here reads the client alignment mirror; the server stays
- * authoritative through the unlock message.
- *
- * <p>It is a region of {@link GodTreeScreen}, not a screen of its own: the parent drives its
- * rendering and forwards mouse input, so it is a {@link GuiComponent} for the draw helpers and a
- * {@link GuiEventListener} for the input surface, and nothing more - no {@code init}, no font or
- * client fields that would only ever be null here.</p>
- */
+/** The pannable star chart of one god's tree, a region of {@link GodTreeScreen}. Pan and zoom persist per god. */
 public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
     private static final Map<VaultGod, Vec2> persistedTranslations = new EnumMap<>(VaultGod.class);
     private static final Map<VaultGod, Float> persistedScales = new EnumMap<>(VaultGod.class);
@@ -92,7 +81,6 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         this.loadViewportTransforms();
     }
 
-    /** Dismisses the transfer-slot picker, if one is open. */
     public void closePopup() {
         this.popup = null;
     }
@@ -137,11 +125,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         }
     }
 
-    /**
-     * Deterministic background starfield spread over the tree's bounding box plus margin, in
-     * tree space so it pans and zooms with the constellation. Entries are x, y, size and a
-     * twinkle phase.
-     */
+    /** Deterministic background starfield in tree space; entries are x, y, size and twinkle phase. */
     private void rebuildBackgroundStars() {
         this.backgroundStars.clear();
         float minX = -700.0F;
@@ -203,12 +187,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         return Math.max(0.25F, Math.min(2.0F, scale));
     }
 
-    /**
-     * Left-click selects a star or starts a drag; right-click selects a star and, on a learned
-     * minor, opens the transfer-slot picker beside it. While the picker is open a left-click on
-     * one of its circles goes to the picker; any other click closes it and then does its normal
-     * job, so clicking another star both dismisses the picker and selects the star.
-     */
+    /** Left-click selects or drags a star; right-click on a learned minor opens the transfer-slot picker. */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (!this.getBounds().contains(mouseX, mouseY) || (button != 0 && button != 1)) {
@@ -352,12 +331,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         buf.vertex(pose, x - half, y - half, 0.0F).color(r, g, b, a).endVertex();
     }
 
-    /**
-     * Constellation lines: every lattice edge as a soft wide band with a bright core, in the
-     * god's accent. A line between two owned stars burns bright; a line touching a purchasable
-     * star glows at half strength; the rest sit dim against the sky. Lines stop short of the
-     * node centers so the stars keep their points.
-     */
+    /** Draws every lattice edge in the god's accent, brightest between two owned stars. */
     private void renderConstellationLines(PoseStack renderStack) {
         RenderSystem.setShader(net.minecraft.client.renderer.GameRenderer::getPositionColorShader);
         RenderSystem.enableBlend();

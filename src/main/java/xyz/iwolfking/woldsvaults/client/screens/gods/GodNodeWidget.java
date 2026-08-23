@@ -25,10 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * One star of a god's constellation: a frame from the god's star sheet (wide four-point for
- * stats, eight-point for minors, an ornate burst for majors, a ringed spark for starts), the
- * node's icon in the middle, and a slow shimmer once the star is lit. Hit-testing is radial
- * like the old greed tree's circle nodes.
+ * One star of a god's constellation: a star-sheet frame chosen by node type, plus the node's icon. Hit-testing is
+ * radial.
  */
 public class GodNodeWidget extends AbstractWidget {
     private final GodNode node;

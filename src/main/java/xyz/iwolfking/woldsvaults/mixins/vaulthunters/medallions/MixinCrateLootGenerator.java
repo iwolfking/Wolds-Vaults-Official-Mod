@@ -12,14 +12,7 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 @Mixin(value = CrateLootGenerator.class, remap = false)
 public class MixinCrateLootGenerator {
 
-    /**
-     * Greed medallions multiply completion crate loot. The crate's roll count is
-     * {@code roll * (1 + itemQuantity)}, so scaling the item quantity to
-     * {@code (1 + itemQuantity) * (1 + bonus) - 1} multiplies the expected item count by exactly
-     * {@code 1 + bonus} - which is the multiplicative stacking the design asks for, and cannot be
-     * had by scaling the quantity stat directly. Only {@code createLoot} is touched, so the
-     * /give-loot command path keeps its unmodified numbers.
-     */
+    /** Multiplies completion crate loot by the medallion bonus. Only {@code createLoot} is touched. */
     @ModifyExpressionValue(
             method = "createLoot",
             at = @At(value = "FIELD", target = "Liskallia/vault/core/vault/CrateLootGenerator;itemQuantity:F", opcode = Opcodes.GETFIELD)

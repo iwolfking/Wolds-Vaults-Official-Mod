@@ -29,11 +29,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Server logic for the Greed Cauldron's sacrificial-altar role: builds the menu snapshot,
- * routes deposits (pipes, the item vacuum, anything hitting the side item handler) into
- * {@link GodSacrificeData} against the cauldron owner's selected god, and fires the sacrifice on
- * a rising redstone edge once the gate's items are complete and the owner's god XP has filled the
- * level. Deposited items are consumed on acceptance and can never be retrieved, by design.
+ * Server logic for the Greed Cauldron's sacrificial-altar role: builds the menu snapshot, routes deposits
+ * into {@link GodSacrificeData} against the owner's selected god, and fires the sacrifice on a rising
+ * redstone edge once the gate is complete and the owner's god XP has filled the level.
  */
 public final class SacrificeAltarLogic {
     private static final double PULL_RANGE = 4.0;
@@ -41,17 +39,11 @@ public final class SacrificeAltarLogic {
     private SacrificeAltarLogic() {
     }
 
-    /** Opens the altar screen on the player, or refreshes it if it is already open. Only the block's right-click calls this. */
     public static void openMenu(ServerPlayer player) {
         NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), buildSnapshot(player));
     }
 
-    /**
-     * Refreshes the altar screen if the player has it open and does nothing otherwise. Every
-     * server-side change to the ledger routes through here rather than {@link #openMenu}, so a
-     * redstone-fired sacrifice or a god selection can never pop the screen on a player who is
-     * mid-vault.
-     */
+    /** Refreshes the altar screen if the player has it open, and never opens it. */
     public static void refreshMenu(ServerPlayer player) {
         ClientboundSacrificeMenuMessage snapshot = buildSnapshot(player);
         snapshot.refreshOnly = true;
@@ -64,10 +56,8 @@ public final class SacrificeAltarLogic {
     }
 
     /**
-     * Whether the cauldron's piped intake would take any of {@code stack} right now: the owner's
-     * selected god's current gate still needs that item. This is the answer the side handler's
-     * {@code isItemValid} must give, because inserters that pre-check validity never call
-     * {@code insertItem} for an item the handler calls invalid.
+     * Whether the cauldron's piped intake would take any of {@code stack} right now, backing the side handler's
+     * {@code isItemValid}.
      */
     public static boolean pipeAccepts(GreedCauldronTileEntity tile, ItemStack stack) {
         if (tile.getLevel() == null || tile.getLevel().isClientSide() || tile.getOwnerUuid() == null
@@ -101,8 +91,8 @@ public final class SacrificeAltarLogic {
     }
 
     /**
-     * Routes an insertion from the cauldron's side item handler into the owner's selected god's
-     * current gate. Returns the remainder stack; the accepted portion is consumed outright.
+     * Routes a side-handler insertion into the owner's current gate; returns the remainder, the accepted portion
+     * being consumed.
      */
     public static ItemStack pipeInsert(GreedCauldronTileEntity tile, ItemStack stack, boolean simulate) {
         if (tile.getLevel() == null || tile.getLevel().isClientSide() || tile.getOwnerUuid() == null
@@ -151,8 +141,8 @@ public final class SacrificeAltarLogic {
     }
 
     /**
-     * Replacement for the base cauldron tick: vacuums nearby item entities the owner's current
-     * gate still needs, and fires the sacrifice on a rising redstone edge.
+     * Replacement for the base cauldron tick: vacuums nearby needed items and fires the sacrifice on a rising
+     * redstone edge.
      */
     public static void tickCauldron(ServerLevel level, BlockPos pos, GreedCauldronTileEntity tile) {
         if (tile.getOwnerUuid() == null || level.getGameTime() % 5L != 0L) {
@@ -172,13 +162,8 @@ public final class SacrificeAltarLogic {
     }
 
     /**
-     * Pulls in the item entities the owner's current gate still needs.
-     *
-     * <p>Only the owner's own drops qualify. Deposits are one-way and credit the tile owner, so a
-     * filter on item id alone let a chunkloaded altar swallow anything any player dropped nearby -
-     * death drops included - and there is no way to get it back. Items still inside their pickup
-     * delay are skipped as well, which keeps an accidental drop recoverable for the two seconds
-     * before the altar takes it.
+     * Pulls in the item entities the owner's current gate still needs: only the owner's own drops, past their
+     * pickup delay.
      */
     private static void vacuumNeededItems(ServerLevel level, BlockPos pos, GreedCauldronTileEntity tile) {
         UUID ownerId = tile.getOwnerUuid();
@@ -268,12 +253,6 @@ public final class SacrificeAltarLogic {
         refreshMenu(owner);
     }
 
-    /**
-     * Whether {@code player} owns the cauldron at {@code pos}. The base block only answered its
-     * interaction for the owner, and the altar keeps that rule: the menu is built from the
-     * clicking player's own ledger, so opening it on someone else's altar would show one player's
-     * progress on another player's block while every deposit still credits the owner.
-     */
     public static boolean isOwner(BlockGetter level, BlockPos pos, Player player) {
         if (player == null) {
             return false;

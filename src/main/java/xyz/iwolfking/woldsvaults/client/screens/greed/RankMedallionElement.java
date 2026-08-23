@@ -32,15 +32,8 @@ import java.util.Optional;
 import java.util.function.IntSupplier;
 
 /**
- * The rank emblem on the main greed screen. It blits the rank's medallion item art at whatever
- * square resolution the texture ships in, scaled to the badge size with no filtering, which is the
- * chunky look the rest of the pack's item art has. Ranks past Legend keep the Legend medallion.
- *
- * <p>If the art is missing from the resource manager the element falls back to the drawn badge -
- * a gold ring around a dark disc carrying the rank's short label - and logs the missing path once
- * per path. The probe (which also reads the texture's native size) is cached until the next
- * resource reload, so a pack that adds or fixes the art is picked up without a restart and a
- * probe that ran mid-reload cannot pin the fallback for the session.</p>
+ * The rank emblem on the main greed screen, blitting the medallion item art unfiltered; ranks past
+ * Legend keep the Legend medallion. Missing art falls back to a drawn badge and logs the path once.
  */
 public class RankMedallionElement extends AbstractSpatialElement<RankMedallionElement> implements IRenderedElement {
     private static final String TEXTURE_PREFIX = "textures/item/greed_medallion_";
@@ -94,7 +87,6 @@ public class RankMedallionElement extends AbstractSpatialElement<RankMedallionEl
         return cached > 0 ? location : null;
     }
 
-    /** Forgets every probe when resources reload; the next render re-probes against the new packs. */
     @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static final class ReloadHook {
         private ReloadHook() {

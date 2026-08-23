@@ -17,18 +17,8 @@ import java.util.function.Supplier;
 @Mixin(value = ServerboundGreedTraderResetMessage.class, remap = false)
 public class MixinServerboundGreedTraderResetMessage {
     /**
-     * Pays for the shop reroll with greedy tickets instead of reputation.
-     *
-     * <p>Base reads the price off {@code PlayerGreedTraderData.getResetCost}, checks it against the
-     * player's greed reputation and deducts from the greed tree. That price is now a ticket count,
-     * so the whole handler is replaced rather than patched: reputation is left alone and the
-     * tickets come out of the inventory the same way greed coins do, containers included. The
-     * reroll counter itself is still base's - {@code resetShop} bumps it and syncs the client -
-     * and the black market's daily tick still clears it.</p>
-     *
-     * <p>Refusing on an unaffordable reroll is logged at debug: the restock button is already
-     * disabled client-side when the player cannot pay, so reaching this branch means the client's
-     * ticket count and the server's disagree.</p>
+     * Pays for the shop reroll with greedy tickets instead of reputation, taken from the inventory the
+     * way greed coins are, containers included. An unaffordable reroll is refused and logged at debug.
      */
     @Inject(method = "handle", at = @At("HEAD"), cancellable = true)
     private static void payRerollWithGreedyTickets(ServerboundGreedTraderResetMessage message,

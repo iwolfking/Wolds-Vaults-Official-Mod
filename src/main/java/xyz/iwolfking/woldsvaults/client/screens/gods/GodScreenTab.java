@@ -4,10 +4,7 @@ import iskallia.vault.core.vault.influence.VaultGod;
 
 import javax.annotation.Nullable;
 
-/**
- * The pages of the gods tab in the order their tabs run down the chart's left edge: the God's
- * Mastery overview on top, then the four constellations in the pack's customary god order.
- */
+/** The pages of the gods tab, in the order their tabs run down the chart's left edge. */
 public enum GodScreenTab {
     OVERVIEW(null),
     IDONA(VaultGod.IDONA),

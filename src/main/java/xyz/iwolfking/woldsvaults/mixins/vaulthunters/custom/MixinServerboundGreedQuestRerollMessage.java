@@ -11,10 +11,7 @@ import java.util.function.Supplier;
 
 @Mixin(value = ServerboundGreedQuestRerollMessage.class, remap = false)
 public class MixinServerboundGreedQuestRerollMessage {
-    /**
-     * Refuses paid greed quest rerolls before any greed coins are consumed. The quest system is
-     * retired, so the reroll would charge for nothing.
-     */
+    /** Refuses paid greed quest rerolls before any greed coins are consumed. */
     @Inject(method = "handle", at = @At("HEAD"), cancellable = true)
     private static void refuseQuestReroll(ServerboundGreedQuestRerollMessage message, Supplier<NetworkEvent.Context> contextSupplier, CallbackInfo ci) {
         contextSupplier.get().setPacketHandled(true);

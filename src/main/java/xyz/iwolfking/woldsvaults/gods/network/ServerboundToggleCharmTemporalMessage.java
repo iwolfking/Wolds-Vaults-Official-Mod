@@ -8,11 +8,7 @@ import xyz.iwolfking.woldsvaults.gods.charms.CharmTemporalManager;
 
 import java.util.function.Supplier;
 
-/**
- * Serverbound press of the charm blessing keybind: toggles the equipped mythic charm's temporal
- * blessing on the current vault. All validation lives server-side in
- * {@link CharmTemporalManager}.
- */
+/** Toggles the equipped mythic charm's temporal blessing. All validation lives in {@link CharmTemporalManager}. */
 public class ServerboundToggleCharmTemporalMessage extends Message<ServerboundToggleCharmTemporalMessage> {
     public ServerboundToggleCharmTemporalMessage() {
     }

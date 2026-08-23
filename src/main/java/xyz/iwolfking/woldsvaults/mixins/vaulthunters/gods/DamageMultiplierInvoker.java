@@ -8,11 +8,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-/**
- * Factory access to the private DamageMultiplier constructor, which is the only place the
- * {@code isAPMult} flag can be set. Every public factory in PlayerDamageHelper hardcodes it to
- * false, leaving the ability-power side of the registry with no producer.
- */
+/** Factory access to the private {@code DamageMultiplier} constructor, which sets {@code isAPMult}. */
 @Mixin(value = PlayerDamageHelper.DamageMultiplier.class, remap = false)
 public interface DamageMultiplierInvoker {
     @Invoker("<init>")

@@ -15,12 +15,8 @@ public abstract class MixinVaultCharmItemMythicTemporal {
 
     /**
      * @author PoorMansPhysicist
-     * @reason the base one-shot god charm temporal keybind reads the blessing attribute off the
-     * snapshot and would apply a mythic charm's temporal at its FULL duration, once per vault,
-     * without touching the charm's remaining blessing time - bypassing the toggle budget and
-     * stacking with it. This method's single caller is that message handler, so answering
-     * "already used" for mythic stacks retires the one-shot path for them; mythic blessings flow
-     * only through the toggle keybind.
+     * @reason answering "already used" for a mythic stack closes the base one-shot temporal path for
+     * it, so a mythic charm's blessings flow only through the toggle keybind and its budget
      */
     @Inject(method = "hasUsedTemporalIn", at = @At("HEAD"), cancellable = true)
     private static void woldsVaults$mythicUsesToggleOnly(ItemStack stack, UUID vaultId,

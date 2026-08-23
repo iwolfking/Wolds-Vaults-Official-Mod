@@ -14,10 +14,7 @@ import xyz.iwolfking.woldsvaults.milestones.Milestones;
 public class MixinLuckyHitTalentIdona {
     /**
      * @author PoorMansPhysicist
-     * @reason the only place a lucky hit is known to have procced. Every earlier return in this
-     * method is a failed roll or a disqualified hit, so the tail is reached exactly once per real
-     * lucky hit -  which is what the Five Leaf Clover milestone needs (it otherwise only sees the
-     * addon's own three talents) and where Overcrit and Luckiest Hit apply.
+     * @reason the tail is reached exactly once per lucky hit that procced
      */
     @Inject(method = "doLuckyHit", at = @At("TAIL"))
     private static void onLuckyHitResolved(LivingHurtEvent event, CallbackInfo ci) {

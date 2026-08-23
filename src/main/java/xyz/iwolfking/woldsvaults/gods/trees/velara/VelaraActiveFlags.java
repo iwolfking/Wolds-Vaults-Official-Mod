@@ -1,11 +1,6 @@
 package xyz.iwolfking.woldsvaults.gods.trees.velara;
 
-/**
- * Re-entrancy guards for the two Velara nodes that push damage back into the hit pipeline,
- * matching the shape of the addon's own {@code WoldActiveFlags}. Every new damage producer needs
- * one, or Sacrifice users protecting each other and Counterstrike procs off their own retaliation
- * recurse until the stack runs out.
- */
+/** Re-entrancy guards for the Velara nodes that push damage back into the hit pipeline. */
 public enum VelaraActiveFlags {
     IS_SACRIFICE_SYPHONING,
     IS_COUNTERSTRIKING;

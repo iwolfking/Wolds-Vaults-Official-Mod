@@ -10,10 +10,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * Clientbound milestone delta. Carries only the counters that changed since the previous flush,
- * or the player's whole set when {@code full} is set (login). Every delta also carries the claimed
- * tier count for the same milestones and the currently pinned milestone id, so the client store is
- * never out of step with a claim or a pin.
+ * Clientbound milestone delta, or the whole set when {@code full} is set. Also carries their
+ * claimed tier counts and the pinned milestone id.
  */
 public class MilestoneSyncMessage extends Message<MilestoneSyncMessage> {
     private static final int MAX_DECODED_ENTRIES = 1024;
@@ -82,13 +80,7 @@ public class MilestoneSyncMessage extends Message<MilestoneSyncMessage> {
         context.get().setPacketHandled(true);
     }
 
-    /**
-     * Bounds the map capacity a decoded packet may ask for. The count is attacker-controlled, and
-     * {@code new HashMap<>(size)} allocates its whole backing array on the first put, so an
-     * unbounded count turns a few bytes on the wire into a multi-gigabyte allocation on the netty
-     * thread. The loops that follow are still bounded by the frame length, so a lying count only
-     * costs a rehash.
-     */
+    /** Clamps the map capacity a decoded packet may ask for to 16..{@link #MAX_DECODED_ENTRIES}. */
     private static int initialCapacity(int size) {
         return Math.min(Math.max(16, size), MAX_DECODED_ENTRIES);
     }

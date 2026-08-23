@@ -8,11 +8,7 @@ import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrials;
 
 import java.util.function.Supplier;
 
-/**
- * "Take Trial" click from the greed main tab. Carries nothing: which trial the player is owed is
- * a pure function of their rank, so trusting a client-sent rank would be a free rank-up. The
- * server re-derives it and re-checks every requirement in {@link GreedTrials#take}.
- */
+/** "Take Trial" click; carries no payload, {@link GreedTrials#take} derives and checks everything. */
 public class ServerboundTakeTrialMessage extends Message<ServerboundTakeTrialMessage> {
     public ServerboundTakeTrialMessage() {
     }

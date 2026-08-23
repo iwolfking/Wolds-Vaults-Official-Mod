@@ -129,10 +129,7 @@ public class MilestoneCommand {
         return 1;
     }
 
-    /**
-     * Debug: forces a milestone to exactly the counter value that completes the given tier.
-     * Tier 0 resets the counter to nothing.
-     */
+    /** Forces a milestone to the counter value that completes the given tier; tier 0 resets it. */
     private static int setTier(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");
         String id = StringArgumentType.getString(context, "id");
@@ -154,9 +151,7 @@ public class MilestoneCommand {
         return 1;
     }
 
-    /**
-     * Debug claim. Bypasses the greed trader container gate that the real claim message enforces.
-     */
+    /** Claims without the greed trader container gate the real claim message enforces. */
     private static int claim(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");
         String id = StringArgumentType.getString(context, "id");

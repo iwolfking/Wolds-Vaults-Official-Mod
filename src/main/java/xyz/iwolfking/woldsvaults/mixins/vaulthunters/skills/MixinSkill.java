@@ -50,7 +50,6 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("fangs_maw", EvokerFangsMawAbility.class, EvokerFangsMawAbility::new);
         this.register("meteor_storm", MeteorStormAbility.class, MeteorStormAbility::new);
 
-        //God ultimates
         this.register("stirrings_of_power", StirringsOfPowerAbility.class, StirringsOfPowerAbility::new);
         this.register("cope_de_grace", CopeDeGraceAbility.class, CopeDeGraceAbility::new);
         this.register("savior", SaviorAbility.class, SaviorAbility::new);
@@ -66,7 +65,6 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("relic_hunter_power", RelicHunterPrestigePower.class, RelicHunterPrestigePower::new);
         this.register("unreleased_power", UnreleasedPrestigePower.class, UnreleasedPrestigePower::new);
 
-        //Talents
         this.register("wold_axe_talent", WoldsAxeSpecializationTalent.class, WoldsAxeSpecializationTalent::new);
         this.register("stack_on_hit_talent", StackOnHitAttributeTalent.class, StackOnHitAttributeTalent::new);
         this.register("execution_lucky_hit", ExecutionDamageLuckyHitTalent.class, ExecutionDamageLuckyHitTalent::new);

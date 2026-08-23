@@ -12,11 +12,7 @@ import xyz.iwolfking.woldsvaults.milestones.container.GreedMilestonesContainer;
 
 import java.util.function.Supplier;
 
-/**
- * Serverbound request to open the greed tab of the player menu. Opens the slotless
- * {@link GreedMilestonesContainer} and pushes a full milestone sync so the screen never renders a
- * stale header while it waits for the next delta beat.
- */
+/** Opens the greed tab as a {@link GreedMilestonesContainer} and pushes a full milestone sync. */
 public class ServerboundOpenMilestonesMessage extends Message<ServerboundOpenMilestonesMessage> {
     public ServerboundOpenMilestonesMessage() {
     }

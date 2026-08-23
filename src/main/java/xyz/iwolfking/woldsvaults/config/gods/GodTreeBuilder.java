@@ -9,15 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Builder for one god's constellation, emitted as the pack config pair
- * {@code config/the_vault/gods/god_tree_<god>.json} and
- * {@code config/the_vault/gods/god_tree_<god>_gui_styles.json}. What a node is and how the
- * lattice connects goes in the first; where a node is drawn goes in the second, which is the
- * same split {@code greed_nodes.json} and {@code greed_gui_styles.json} already use.
- *
- * <p>Edges are undirected id pairs; every node costs one god point. Ids must be unique and every
- * edge endpoint must be a declared node - {@link #buildTree()} throws otherwise so a broken
- * layout fails the datagen run instead of shipping.
+ * Builder for one god's constellation, emitted as {@code god_tree_<god>.json} (topology) and
+ * {@code god_tree_<god>_gui_styles.json} (layout). Edges are undirected id pairs and every node costs
+ * one god point; a duplicate id or an edge naming an undeclared node throws.
  */
 public final class GodTreeBuilder {
     private static final String FRAME_STAT = "CIRCLE";
@@ -52,20 +46,15 @@ public final class GodTreeBuilder {
         return this.add(id, name, "major", effect, icon, x, y, true);
     }
 
-    /**
-     * A major whose mechanics are not implemented yet: rendered and inspectable in the tree, but
-     * refused by the purchase path on both sides until it is re-declared with {@link #major}.
-     */
+    /** A major rendered and inspectable in the tree, but refused by the purchase path on both sides. */
     public GodTreeBuilder disabledMajor(String id, String name, String effect, String icon, int x, int y) {
         return this.add(id, name, "major", effect, icon, x, y, false);
     }
 
-    /** A stat placement reserved for a shelved mechanic, like {@link #disabledMajor}. */
     public GodTreeBuilder disabledStat(String id, String name, String effect, String icon, int x, int y) {
         return this.add(id, name, "stat", effect, icon, x, y, false);
     }
 
-    /** A minor reserved for a shelved mechanic, like {@link #disabledMajor}. */
     public GodTreeBuilder disabledMinor(String id, String name, String effect, String icon, int x, int y) {
         return this.add(id, name, "minor", effect, icon, x, y, false);
     }

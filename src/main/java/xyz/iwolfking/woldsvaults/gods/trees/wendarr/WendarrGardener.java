@@ -13,15 +13,7 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Gardener (r83): Woldian Gardens ({@code woldsvaults:iskallian_leaves}) drop 50% more fruit and
- * roll starfruit far more often.
- *
- * <p>Both halves land on the POST phase of the lootable-block event. The generator the tile entity
- * builds hardcodes item quantity to zero, so the extra fruit cannot come from a quantity feed; and
- * doing the starfruit upgrade here rather than by swapping the loot table keeps the whole node in
- * code, with no new loot-table JSON for the pack to carry.
- */
+/** Gardener: Woldian Gardens drop extra fruit and upgrade fruit to starfruit, on the POST phase. */
 public final class WendarrGardener {
     private static final Object OWNER = new Object();
 

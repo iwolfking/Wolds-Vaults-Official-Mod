@@ -13,10 +13,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-/**
- * Clientbound snapshot of the receiving player's own alignment with all four gods. Sent on login
- * and on every server-side mutation of {@link GodAlignmentData}.
- */
+/** The player's alignment with all four gods; sent on login and on every mutation of {@link GodAlignmentData}. */
 public class GodAlignmentSyncMessage extends Message<GodAlignmentSyncMessage> {
     private final EnumMap<VaultGod, GodAlignmentData.GodState> states;
     private final EnumMap<VaultGod, Integer> piety;

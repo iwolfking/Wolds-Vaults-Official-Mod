@@ -25,21 +25,8 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import java.util.Optional;
 
 /**
- * Every Tenos node that reshapes a live player stat, on one listener per stat.
- *
- * <p>{@code PLAYER_STAT} is invoked at each read site rather than cached in the attribute
- * snapshot, which is what these need: chest rate, distance from the portal and trap disarm all
- * change constantly, so they cannot ride the snapshot the way plain stat nodes do.
- *
- * <p>That is also what makes {@link #lootMultiplier} one of the hottest paths in the mod: item
- * quantity and item rarity are read on every chest, coin pile and ore. Each of its four node
- * questions is a {@link TenosNodes#isActive} call, which is answered from the shared
- * {@code GodNodeCache} rather than by walking the curios handler and the alignment saved data four
- * times per read.
- *
- * <p>Anything that needs to read a player's own item quantity, item rarity or trap disarm reads
- * the attribute snapshot directly instead of calling the helper for that stat, because the helper
- * fires the very event these listeners are attached to.
+ * Every Tenos node that reshapes a live player stat, one {@code PLAYER_STAT} listener per stat.
+ * Reads of the player's own item quantity, rarity or trap disarm must use {@link #rawStat}.
  */
 public final class TenosLootStats {
     private static final Object OWNER = new Object();
@@ -71,7 +58,6 @@ public final class TenosLootStats {
         });
     }
 
-    /** The product of every Tenos multiplier that applies to item quantity or item rarity. */
     private static float lootMultiplier(ServerPlayer player, boolean rarity) {
         float multiplier = 1.0F;
         multiplier *= lootingEngine(player);
@@ -84,12 +70,7 @@ public final class TenosLootStats {
         return multiplier;
     }
 
-    /**
-     * Looting Engine (r99): {@code ((1200 + c) / 1200) ^ (1/3)} with {@code c} the five minute
-     * sliding average of chests per minute, exactly as the sheet writes it. Note that at realistic
-     * rates the cube root leaves this worth about 1.02x - the constant, not the implementation,
-     * is what makes it small.
-     */
+    /** Looting Engine: {@code cbrt((reference + c) / reference)}, {@code c} being chests per minute. */
     private static float lootingEngine(ServerPlayer player) {
         if (!TenosNodes.isActive(player, TenosNodes.LOOTING_ENGINE)) {
             return 1.0F;
@@ -106,7 +87,6 @@ public final class TenosLootStats {
         return (float) Math.cbrt((reference + chestsPerMinute) / reference);
     }
 
-    /** The gods tab preview of Looting Engine: the multiplier the player's current chest rate gives. */
     static GodNodePreviews.Preview previewLootingEngine(ServerPlayer player) {
         float reference = lootingEngineReference();
         float rate = ChestRateTracker.getChestsPerMinute(player);
@@ -120,12 +100,7 @@ public final class TenosLootStats {
                 .build(factor);
     }
 
-    /**
-     * Indiana Jones (r106) trades trap disarm for loot. The disarm value is read off the snapshot
-     * rather than through {@code TrapDisarmChanceHelper}, which would re-enter the listener that
-     * zeroes it. Negative disarm (greed medallions roll -350%) is clamped to zero so the trade can
-     * only ever be neutral, never a loot penalty.
-     */
+    /** Indiana Jones: {@code cbrt((reference + disarm%) / reference)}; negative disarm counts as 0. */
     private static float indianaJones(ServerPlayer player) {
         if (!TenosNodes.isActive(player, TenosNodes.INDIANA_JONES)) {
             return 1.0F;
@@ -146,7 +121,6 @@ public final class TenosLootStats {
         return (float) Math.cbrt((reference + disarmPercent) / reference);
     }
 
-    /** The gods tab preview of Indiana Jones: the multiplier the player's current trap disarm gives. */
     static GodNodePreviews.Preview previewIndianaJones(ServerPlayer player) {
         float reference = indianaJonesReference();
         float disarm = indianaJonesDisarmPercent(player);
@@ -172,7 +146,6 @@ public final class TenosLootStats {
                 TenosNodeHandlers.WealthyPatronParams.class).per_unique(), uniques);
     }
 
-    /** The player's raw item quantity plus item rarity, straight off the snapshot. */
     public static float lootStatSum(ServerPlayer player) {
         return rawStat(player, ModGearAttributes.ITEM_QUANTITY) + rawStat(player, ModGearAttributes.ITEM_RARITY);
     }
@@ -199,11 +172,7 @@ public final class TenosLootStats {
         return count;
     }
 
-    /**
-     * Domain Expansion (r104): area of effect grows by 0.025x per cell of taxicab distance from
-     * the vault entrance, capped at 1.5x. The entrance is the real spawn point rather than the
-     * grid origin, so the distance means what a player would say it means.
-     */
+    /** Domain Expansion: area of effect grows per cell of distance from the entrance, up to a cap. */
     private static float domainExpansion(ServerPlayer player) {
         if (!TenosNodes.isActive(player, TenosNodes.DOMAIN_EXPANSION)) {
             return 1.0F;

@@ -6,13 +6,8 @@ import net.minecraft.world.entity.LivingEntity;
 import javax.annotation.Nullable;
 
 /**
- * One hit, as the god node combat pipeline sees it. Mutable by design: each
- * {@link CombatContributor} in the ordered pipeline reads the running amount and may replace it,
- * and the pipeline writes the result back to the event once.
- *
- * <p>{@code percentageBased} is resolved once by the pipeline instead of by each contributor -
- * the two hand-rolled copies of that test in the old per-god handlers had already drifted apart,
- * which is the class of bug this type exists to make impossible.
+ * One hit, as the god node combat pipeline sees it. Mutable: each {@link CombatContributor} may
+ * replace the running amount, and the pipeline writes the result back to the event once.
  */
 public final class GodDamageContext {
     private final LivingEntity attacker;

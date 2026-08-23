@@ -1,6 +1,6 @@
 package xyz.iwolfking.woldsvaults.gods.trees.wendarr;
 
-/** Tuning for Clock Artificier (r81), kept out of the mixin so the number lives with the tree. */
+/** Tuning for Clock Artificier, read by its mixin. */
 public final class WendarrShards {
     private WendarrShards() {
     }

@@ -18,28 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
 
 /**
- * The bridge between god gear attributes and real vanilla attributes, and the shared source of
- * the modifier UUIDs the god core writes.
- *
- * <p>What arrives here are the gear attributes the base mod only ever consumes from equipped
- * gear: {@code VaultGearHelper} turns mana and attack-speed gear attributes into vanilla
- * modifiers on the item - nothing reads them from the attribute snapshot - so god values folded
- * only into the snapshot would silently do nothing (Grand Archmage's mana, Weaponmaster's
- * dual-wield attack speed).
- *
- * <p>{@code GodCarryover} calls {@link #reconcile(ServerPlayer, List)} with the exact post-scale
- * instance list it folded into the snapshot, every time the snapshot is rebuilt - so these
- * modifiers appear, update and disappear on the same cadence as every other god stat. Modifiers
- * are transient (never saved to NBT), applied with the same vanilla operation
- * {@code VaultGearHelper} uses for the matching gear attribute, and only touched when the value
- * actually changed.
- *
- * <p>Nodes that move a vanilla attribute outright - Velara's armour and health, Tenos mana,
- * Wendarr's Speed Demon aura - do not come through here. Their values depend on live party
- * composition, in-vault state or an ability duration, so they are recomputed on the shared ticker
- * rather than on the discrete events a static declaration could be reconciled against. What they
- * do share is {@link #modifierId}, so every vanilla modifier the god core writes still derives its
- * UUID the same deterministic way, never a random one.
+ * Bridges the gear attributes the base mod only consumes from equipped gear - mana, attack speed - onto
+ * vanilla attributes, as transient modifiers reconciled on every snapshot rebuild. Also owns the shared
+ * modifier UUID scheme, {@link #modifierId}.
  */
 public final class GodVanillaAttributes {
     private record Bridge(VaultGearAttribute<?> source, Attribute target,
@@ -54,13 +35,8 @@ public final class GodVanillaAttributes {
 
 
     /**
-     * The fixed modifier UUID for one {@code (effectId, attribute, operation)} triple. Derived from
-     * the triple's name, so it is identical across sessions and across a rebuild of the config.
-     *
-     * <p>The operation is part of the key because a vanilla {@code AttributeInstance} indexes its
-     * modifiers by UUID: without it one effect could not hold both a {@code MULTIPLY_TOTAL} and an
-     * {@code ADDITION} claim on the same attribute, which is exactly the shape the shipped Velara
-     * armour and health nodes need.
+     * The fixed modifier UUID for one {@code (effectId, attribute, operation)} triple, derived from its
+     * name. Keying on the operation lets one effect hold two claims on the same attribute.
      */
     public static UUID modifierId(String effectId, Attribute target, AttributeModifier.Operation operation) {
         return UUID.nameUUIDFromBytes(("woldsvaults:god_node:" + effectId + ":" + target.getRegistryName()
@@ -87,11 +63,7 @@ public final class GodVanillaAttributes {
         return bridges;
     }
 
-    /**
-     * Applies the bridged share of {@code contributions} as vanilla attribute modifiers, removing
-     * any bridge modifier whose contribution has gone. Runs on every snapshot rebuild, so a charm
-     * swap or refund clears its modifiers on the next rebuild without any per-node bookkeeping.
-     */
+    /** Applies the bridged share of {@code contributions}, removing any bridge modifier that has gone. */
     public static void reconcile(ServerPlayer player, List<VaultGearAttributeInstance<?>> contributions) {
         for (Bridge bridge : bridges()) {
             double total = 0.0D;

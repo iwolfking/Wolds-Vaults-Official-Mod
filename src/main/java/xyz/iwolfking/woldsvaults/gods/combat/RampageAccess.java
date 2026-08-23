@@ -14,21 +14,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 
 /**
- * The Rampage damage bonus a player is actually receiving right now, as a fraction.
- *
- * <p>This exists because the number moved. In the_vault 3.21.5 Rampage registered an
- * {@code ADDITIVE_MULTIPLY} entry in {@code PlayerDamageHelper}, so anything wanting to read it
- * could ask that registry. In 3.21.6 that registration is gone: {@code RampageAbility} multiplies
- * {@code LivingHurtEvent} directly at {@code EventPriority.LOW}, and the registry now holds only
- * Aspect of Berserk, the Berserker archetype and Barbarian's rage. Reading the registry to find
- * "the Rampage bonus" therefore returns entirely the wrong number.
- *
- * <p>The lookup mirrors {@code RampageAbility#applyActiveRampageDamage}: one pass per Rampage
- * effect the base mod checks, taking the first unlocked ability of the matching class. The four
- * are combined multiplicatively because that is how the base mod applies them - one
- * {@code setAmount(amount * (1 + increase))} per active effect - so the fraction returned here is
- * exactly what a qualifying melee hit is multiplied by, whether one specialization is live or
- * (unusually) several.
+ * The Rampage damage bonus a player is actually receiving right now, as a fraction. The four
+ * Rampage effects combine multiplicatively, matching how the base mod applies them.
  */
 public final class RampageAccess {
     private RampageAccess() {
@@ -55,14 +42,7 @@ public final class RampageAccess {
         return false;
     }
 
-    /**
-     * The combined Rampage damage increase in effect for this player, Ultra Rampaging included.
-     *
-     * <p>Ultra Rampaging needs no special handling here: it rewrites {@code getDamageIncrease}
-     * itself, so calling that method returns the boosted value automatically. Returns zero when no
-     * Rampage effect is active, which is the correct reading - Rampage that is toggled off
-     * multiplies nothing, however much Fury the player is holding.
-     */
+    /** The combined Rampage increase, Ultra Rampaging included; zero when no Rampage effect is active. */
     public static float effectiveDamageIncrease(ServerPlayer player) {
         if (!(player.level instanceof ServerLevel level)) {
             return 0.0F;

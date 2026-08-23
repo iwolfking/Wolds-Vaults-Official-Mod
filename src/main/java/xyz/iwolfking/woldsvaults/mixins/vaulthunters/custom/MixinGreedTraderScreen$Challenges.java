@@ -42,23 +42,8 @@ import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
 import java.util.List;
 
 /**
- * Turns Mr. Greedy's challenge tab into a menu of everything the player's rank has unlocked.
- *
- * <p>Base offered exactly one rolled challenge at a time, hid the accept button while any challenge
- * was in flight, and put an abandon button next to it as the only way to see a different one. The
- * server now files one slot per unlocked, uncompleted crystal, so both halves of this tab are
- * rebuilt against that list: every challenge is a row, any row can be taken, and abandoning is
- * gone. The elements, textures and geometry are base's own - this is the same tab, filled
- * differently.</p>
- *
- * <p>The reward line reads the crystal's milestone instead of the retired
- * {@code getChallengeReputationReward} config formula, so the number on the offer is exactly the
- * number the achievements tab pays out for it. It is drawn only on the detail panel a row opens,
- * base's own placement for reward text: a row is barely wider than a challenge name, and printing
- * the reputation there too left the two colliding. Both reimplementations are HEAD-cancels rather
- * than {@code @Overwrite}s so base keeps its own selection, rebuild-on-sync and layout plumbing;
- * the mixin extends {@code GreedTraderScreen} - the target's own superclass - to reach the
- * protected element helpers without shadowing each one.</p>
+ * Turns Mr. Greedy's challenge tab into a menu of every unlocked challenge: one row per server-filed
+ * slot, any row takeable, no abandon button. The reward line is drawn only on a row's detail panel.
  */
 @Mixin(value = GreedTraderScreen.Challenges.class, remap = false)
 public abstract class MixinGreedTraderScreen$Challenges extends GreedTraderScreen {
@@ -275,11 +260,7 @@ public abstract class MixinGreedTraderScreen$Challenges extends GreedTraderScree
         return new TextComponent(text).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(colour)));
     }
 
-    /**
-     * What finishing this crystal is worth: the reputation of the next uncollected tier of the
-     * milestone it completes, read from the client's own milestone mirror so the offer and the
-     * achievements row can never disagree. Crystals with no milestone are worth nothing.
-     */
+    /** The reputation of the next uncollected tier of this crystal's milestone, or zero if it has none. */
     private static int woldsvaults$reputation(String challengeCrystalId) {
         MilestoneDefinition definition = MilestoneRegistry.getByChallengeCrystal(challengeCrystalId);
         if (definition == null) {

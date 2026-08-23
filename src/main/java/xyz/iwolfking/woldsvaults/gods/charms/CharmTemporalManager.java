@@ -28,30 +28,13 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Server-side lifecycle for the mythic charm's toggleable temporal blessing. Activating adds the
- * charm's rolled vault modifier as its own modifier entry with the charm's remaining blessing
- * time as {@code TICKS_LEFT}; deactivating zeroes the LIVE entry's clock - the vault's own expiry
- * sweep then removes it - and banks the unspent time back onto the charm. The live context must
- * come from {@code Entry#getContext()}; {@code Modifiers#getContext(Entry)} hands out a detached
- * copy and writing the copy leaves the real entry ticking. Because every activation is an
- * independent modifier entry with its own context UUID, it composes with any other copy of the
- * same modifier already on the vault (a temporal, another player's charm, the crystal itself) and
- * removing ours can never touch theirs.
- *
- * <p>A once-per-second sweep settles the books if the player logs out, dies, leaves the vault or
- * unequips the charm while the blessing is running. The blessing follows its owner: the source
- * vault is resolved by its id across all server levels, so the entry is expired even when the
- * owner is no longer standing in that vault - otherwise a group could keep the modifier running
- * while the owner banks the time back.
+ * Server-side lifecycle for the mythic charm's toggleable temporal blessing: activating adds the
+ * charm's rolled modifier as its own vault entry, clocked with the charm's remaining blessing time,
+ * and deactivating zeroes that clock and banks the unspent time back.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class CharmTemporalManager {
-    /**
-     * A running blessing. {@code settledAt} is the game time its elapsed cost was last banked, not
-     * the activation time: the sweep settles once a second so at most a second of time can ever be
-     * outstanding, and {@code charmId} names the charm it is banked against so the cost cannot be
-     * charged to a charm swapped in afterwards or escaped by unequipping.
-     */
+    /** A running blessing; {@code settledAt} is when its cost was last banked, not the activation. */
     private record ActiveBlessing(UUID vaultId, UUID contextId, long settledAt, UUID charmId) {
     }
 
@@ -125,14 +108,7 @@ public final class CharmTemporalManager {
         }
     }
 
-    /**
-     * Banks the time elapsed since {@code active} was last settled against the charm that granted
-     * it, and returns what is left on that charm - or -1 if the player no longer holds it.
-     *
-     * <p>Settling incrementally rather than once at the end is what makes the books hard to dodge:
-     * a lump sum charged on deactivation was skipped entirely when the charm was unequipped first,
-     * which handed back a full clock for free.
-     */
+    /** Banks the elapsed time against the charm; returns what is left, or -1 if it is gone. */
     private static int settle(ServerPlayer player, ActiveBlessing active) {
         ItemStack charm = MythicVaultCharmItem.findByBlessingId(player, active.charmId());
         if (charm.isEmpty()) {
@@ -148,14 +124,8 @@ public final class CharmTemporalManager {
     }
 
     /**
-     * Zeroes the remaining time of EVERY entry carrying our context UUID so the vault's own
-     * expiry sweep removes them - grouped modifiers (Rock Solid and friends) flatten into one
-     * entry per child, all stamped with the same UUID at activation, so stopping at the first
-     * match would leave the other children running forever. The source vault is looked up by id
-     * across all server levels rather than through the player's current level, so a blessing is
-     * withdrawn even when its owner has already left the vault. Touching only LIVE contexts
-     * ({@code Entry#getContext()} - {@code Modifiers#getContext(Entry)} returns a detached copy)
-     * of our own entries is what keeps other copies of the same modifier untouched.
+     * Zeroes the remaining time of every entry carrying our context UUID, for the vault's own
+     * expiry sweep to remove. Writes live contexts only; {@code Modifiers#getContext} copies.
      */
     private static void expireVaultEntry(ServerPlayer player, ActiveBlessing active) {
         net.minecraft.server.MinecraftServer server = player.getServer();
@@ -178,10 +148,7 @@ public final class CharmTemporalManager {
         }
     }
 
-    /**
-     * Settles a running blessing when its preconditions stop holding: player left the vault, the
-     * charm is gone or out of time. Runs once a second on the server tick.
-     */
+    /** Settles a running blessing once a second, ending it if the vault, charm or time is gone. */
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END || ACTIVE.isEmpty()) {

@@ -19,12 +19,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Aspect of Treasure Lite - the mythic charm's weaker copy of the Aspect of Treasure prestige
- * power. Opening chests builds stacks; each stack adds the charm's rolled percentage to item
- * quantity AND item rarity; taking OR dealing damage resets the stacks, matching the prestige
- * power's combat reset; the stack cap is one per fifty piety, read from the charm's stored
- * scale units. Because it contributes through the same additive player-stat events the prestige
- * power uses, the two stack together additively by construction.
+ * Aspect of Treasure Lite: opening a chest adds a stack worth the charm's rolled percentage of item
+ * quantity and item rarity, taking or dealing damage clears them, and the cap is one stack per
+ * {@link #UNITS_PER_STACK} scale units on the charm.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class AspectOfTreasureLite {
@@ -97,16 +94,10 @@ public final class AspectOfTreasureLite {
         }
     }
 
-    /**
-     * Drops a leaving player's stacks. Nothing else removed them: they are keyed by player id and
-     * only ever reset by combat, so a player who logged out mid-stack left an entry behind for the
-     * life of the process.
-     */
     private static void onLogout(net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent event) {
         STACKS.remove(event.getPlayer().getUUID());
     }
 
-    /** Drops every player's stacks when the server stops, so they cannot cross a world switch. */
     private static void onServerStopping(net.minecraftforge.event.server.ServerStoppingEvent event) {
         STACKS.clear();
     }

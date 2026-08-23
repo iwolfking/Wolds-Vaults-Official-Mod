@@ -11,11 +11,7 @@ import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaLuckyHit;
 public class MixinLuckyHitHelperIdona {
     /**
      * @author PoorMansPhysicist
-     * @reason Luckiest Hit multiplies lucky hit chance by 0.1. A return-value modifier rather than
-     * a cancellable RETURN inject, because the addon's luck mixin modifies the same getter and two
-     * cancellable injects on one method let only the first one run; return-value modifiers chain,
-     * so the clamp and every downstream reader (including Overcrit) see luck applied and then the
-     * reduction.
+     * @reason Luckiest Hit multiplies lucky hit chance by 0.1
      */
     @ModifyReturnValue(method = "getLuckyHitChanceUnlimited", at = @At("RETURN"))
     private static float applyLuckiestHit(float chance, LivingEntity entity) {

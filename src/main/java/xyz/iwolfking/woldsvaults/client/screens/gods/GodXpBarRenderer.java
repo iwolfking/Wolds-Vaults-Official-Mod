@@ -17,12 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * The god experience bar both the star chart and the overview draw: a slim bar filling toward the
- * next level in the god's accent, optionally with the god's icon and level number over it, and a
- * hover tooltip with the exact experience numbers and the sacrifice standing. The tooltip goes to
- * a sink rather than straight to the screen so each surface can layer it where it needs to.
- */
+/** The god experience bar the star chart and the overview share. Hover text is handed to a sink, not drawn. */
 public final class GodXpBarRenderer {
     public static final int BAR_HEIGHT = 5;
 
@@ -66,7 +61,7 @@ public final class GodXpBarRenderer {
         }
     }
 
-    /** The hover text: level with exact experience, then the sacrifice standing. */
+    /** Hover text: level with exact experience, then the sacrifice standing. */
     public static List<Component> tooltipLines(VaultGod god) {
         int level = ClientGodAlignmentData.getLevel(god);
         long xp = ClientGodAlignmentData.getXp(god);
@@ -79,13 +74,11 @@ public final class GodXpBarRenderer {
         return lines;
     }
 
-    /** Whether the sacrifice the player's current level waits on has been performed. */
     public static boolean sacrificePerformed(VaultGod god) {
         int sacrifices = ClientGodAlignmentData.getSacrifices(god);
         return sacrifices >= GodSacrifices.GATE_COUNT || sacrifices > ClientGodAlignmentData.getLevel(god);
     }
 
-    /** The one-line sacrifice standing, worded as the chart's bar tooltip has always worded it. */
     public static Component sacrificeLine(VaultGod god) {
         int level = ClientGodAlignmentData.getLevel(god);
         long xp = ClientGodAlignmentData.getXp(god);

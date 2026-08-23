@@ -9,18 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampionAura;
 
-/**
- * The second half of the effect-piercing aura.
- *
- * <p>Forcing a harmful effect onto a player is not enough on its own: the base mod sweeps every effect
- * a player has immunity to off them again, every single tick. Without this the aura would apply an
- * effect and watch it vanish before the next frame.
- *
- * <p>The sweep is suspended only while the player is standing inside an aura, and only then. Step out
- * and it resumes on the next tick, which is why immunity-granted protection reasserts itself
- * immediately on leaving while avoidance-granted protection leaves the effect running - avoidance only
- * ever rolls at the moment of application, and that moment has passed.</p>
- */
+/** Suspends the per-tick sweep that strips immune effects, but only while the player stands in an aura. */
 @Mixin(value = GearAttributeEvents.class, remap = false)
 public abstract class MixinGearAttributeEventsImmunity {
 

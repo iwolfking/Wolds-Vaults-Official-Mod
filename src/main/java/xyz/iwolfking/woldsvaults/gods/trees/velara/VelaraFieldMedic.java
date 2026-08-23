@@ -9,13 +9,8 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /**
- * Field Medic: 1.5x on healing the player gives to allies, never on healing themselves.
- *
- * <p>{@code LivingHealEvent} carries no healer and nothing in either codebase attributes a heal to
- * its source, so the healer is carried on a thread local pushed around the handful of call sites
- * that heal someone else. Those pushes live in the mixins under
- * {@code mixins/vaulthunters/gods/velara}; with none of them loaded the flag is simply never set
- * and the node is inert rather than wrong.
+ * Field Medic: a multiplier on healing the player gives to allies, never to themselves. The healer
+ * is carried on a thread local pushed from mixins.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VelaraFieldMedic {
@@ -24,18 +19,13 @@ public final class VelaraFieldMedic {
     private VelaraFieldMedic() {
     }
 
-    /**
-     * Attributes the heals raised on this thread to {@code healer}, returning whatever attribution
-     * it replaced so a nested group heal restores the outer one instead of clearing it. Callers
-     * must pair this with {@link #popHealer(LivingEntity)} in a {@code finally}.
-     */
+    /** Attributes heals on this thread to {@code healer}. Pair with {@link #popHealer} in a finally. */
     public static LivingEntity pushHealer(LivingEntity healer) {
         LivingEntity previous = CURRENT_HEALER.get();
         CURRENT_HEALER.set(healer);
         return previous;
     }
 
-    /** Restores the attribution {@link #pushHealer(LivingEntity)} replaced. */
     public static void popHealer(LivingEntity previous) {
         if (previous == null) {
             CURRENT_HEALER.remove();
@@ -44,10 +34,7 @@ public final class VelaraFieldMedic {
         }
     }
 
-    /**
-     * Applied after {@code PlayerRecoveryHelper}, so the multiplier lands on top of the
-     * recipient's own healing efficiency rather than beside it.
-     */
+    /** Runs after {@code PlayerRecoveryHelper}, so the multiplier lands on top of healing efficiency. */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onHeal(LivingHealEvent event) {
         LivingEntity healer = CURRENT_HEALER.get();

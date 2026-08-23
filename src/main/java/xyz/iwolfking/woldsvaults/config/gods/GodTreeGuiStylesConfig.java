@@ -13,10 +13,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Where one god's nodes are drawn - {@code config/the_vault/gods/god_tree_<god>_gui_styles.json}.
- * Reuses the base mod's {@link SkillStyle}, the same entry the talent and greed style configs
- * store, so free-form node positions, frame type and icon are expressed exactly as the pack's
- * other trees already express them.
+ * Where one god's nodes are drawn - {@code config/the_vault/gods/god_tree_<god>_gui_styles.json}:
+ * position, frame type and icon per node id, as the base mod's {@link SkillStyle}.
  */
 public class GodTreeGuiStylesConfig extends PackAuthoredConfig {
     private String god;
@@ -39,11 +37,7 @@ public class GodTreeGuiStylesConfig extends PackAuthoredConfig {
         }
     }
 
-    /**
-     * A style file with no entries draws every node of the tree stacked at the origin, which reads
-     * as a rendering bug rather than a config mistake. Reporting it here and falling back to the
-     * shipped layout keeps the tree legible while naming the file that needs fixing.
-     */
+    /** Refuses a file with no node styles, falling back to the shipped layout. */
     @Override
     protected boolean isValid() {
         if (this.styles == null || this.styles.isEmpty()) {
@@ -54,11 +48,7 @@ public class GodTreeGuiStylesConfig extends PackAuthoredConfig {
         return true;
     }
 
-    /**
-     * Restores the shipped layout rather than an empty one, for the same reason
-     * {@link GodTreeConfig#reset()} does: an empty reset is written straight back over the file,
-     * and a tree with no styles draws every node stacked at the origin.
-     */
+    /** Restores the shipped layout from {@link GodTreeDefaults} rather than an empty one. */
     @Override
     protected void reset() {
         this.styles = new LinkedHashMap<>();

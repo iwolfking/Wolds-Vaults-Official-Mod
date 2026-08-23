@@ -27,27 +27,10 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The whole of Copé de Grâce apart from the ability shell: the fifteen-second infusion, the
- * per-hit compounding stacks it builds, the damage it books while it runs, and the terminal dash
- * that spends that book.
- *
- * <p>Three seams carry it.
- *
- * <ul>
- *   <li><b>Attack damage</b> is a timed {@code STACKING_MULTIPLY} entry in the base mod's own
- *       multiplier registry, and its {@code onTimeout} consumer is what fires the dash — the
- *       timeout already runs on the server tick, so the happy path needs no second timer.
- *   <li><b>Ability power</b> is the mirror entry on the previously dead ability-power side of that
- *       same registry, through the wave-1 producer.
- *   <li><b>Resistance</b> is <em>not</em> the resistance stat. Copé's 0.5-0.85 is its own
- *       damage-reduction source, multiplicative with armour and with ordinary resistance, so it is
- *       a final-damage sub-stage and needs no cap mixin to reach its top value.
- * </ul>
- *
- * <p>Compounding is additive within the buff and multiplicative with everything outside it: four
- * hits at 5% give a 1.20x factor, published as a single global damage factor that is rewritten as
- * the count climbs. The book the dash spends is post-armour damage, sampled after every other
- * final-damage sub-stage has had its say.
+ * Copé de Grâce behaviour: the infusion, the per-hit compounding stacks, the post-armour damage it books,
+ * and the terminal dash that spends the book. Attack damage and ability power are timed
+ * {@code STACKING_MULTIPLY} registry entries whose timeout fires the dash; the resistance is a
+ * final-damage sub-stage of its own, not the resistance stat.
  */
 public final class CopeDeGraceState {
     private static final float DASH_RANGE = 4.0F;
@@ -55,14 +38,7 @@ public final class CopeDeGraceState {
     private static final int SAFETY_GRACE_TICKS = 40;
     private static final double DASH_MAGNITUDE = 1.8D;
 
-    /**
-     * Anti-overflow guard on the damage book, not a balance number. The book is a {@code double}
-     * but the dash spends it as a {@code float}, and a {@code float} above ~3.4e38 is
-     * {@code Infinity}, which turns an entity's health into {@code NaN} rather than killing it.
-     * 1e15 sits far above anything real play produces - the pack's hardest recorded hits are around
-     * 1e11, and 15 s of them booked together stay several orders below this - while still catching
-     * a runaway multiplicative loop before it reaches the float ceiling.
-     */
+    /** Anti-overflow guard on the damage book, not a balance number: the dash spends the book as a {@code float}. */
     private static final double ACCUMULATOR_CAP = 1.0E15D;
 
     private static final Map<UUID, State> STATES = new ConcurrentHashMap<>();
@@ -73,7 +49,6 @@ public final class CopeDeGraceState {
     private CopeDeGraceState() {
     }
 
-    /** Installs the two final-damage sub-stages the infusion needs. Called once, from setup. */
     public static void register() {
         FinalDamageStage.register(UltimateIds.COPE_RESISTANCE_STAGE, FinalDamageStage.ORDER_REDUCTION,
                 CopeDeGraceState::reduceIncoming);
@@ -130,9 +105,8 @@ public final class CopeDeGraceState {
     }
 
     /**
-     * Fired from inside the damage helper's own tick, while it is iterating its multiplier map, so
-     * this path must not remove anything from that map — the paired ability-power entry carries the
-     * same duration and retires itself on the same pass.
+     * Fired inside the damage helper's own tick while it iterates its multiplier map, so this path must not remove
+     * entries from it.
      */
     private static void onInfusionTimeout(ServerPlayer player) {
         State state = STATES.remove(player.getUUID());
@@ -142,8 +116,8 @@ public final class CopeDeGraceState {
     }
 
     /**
-     * Ends the infusion and launches the dash: a forward impulse plus a one-second sweep that hurts
-     * every entity it passes once, for the booked damage times the level's compounding share.
+     * Ends the infusion and launches the dash: a forward impulse plus a one-second sweep hitting each entity once
+     * for the booked damage times the level's compounding share.
      */
     private static void releaseDash(ServerPlayer player, State state, boolean tearDownMultipliers) {
         GlobalDamageMultiplierRegistry.remove(player, UltimateIds.COPE_STACKS_FACTOR);
@@ -165,10 +139,8 @@ public final class CopeDeGraceState {
     }
 
     /**
-     * Runs the infusion clocks and the dash sweeps. The clock here is a safety net rather than the
-     * primary timer — the damage multiplier's own timeout is — so it runs a grace period past the
-     * nominal duration and only catches an infusion whose multiplier stopped ticking, which happens
-     * when its owner was offline at the moment it should have expired.
+     * Runs the infusion clocks and the dash sweeps; the infusion clock is only a safety net past the nominal
+     * duration, the multiplier's own timeout being the primary timer.
      */
     public static void tick(MinecraftServer server) {
         if (!STATES.isEmpty()) {
@@ -250,10 +222,6 @@ public final class CopeDeGraceState {
         }
     }
 
-    /**
-     * Drops every player's state. Called on server stop only: the modifiers these states apply are
-     * transient, so the entries are what outlive a world, not the modifiers themselves.
-     */
     public static void clearAll() {
         STATES.clear();
         DASHES.clear();

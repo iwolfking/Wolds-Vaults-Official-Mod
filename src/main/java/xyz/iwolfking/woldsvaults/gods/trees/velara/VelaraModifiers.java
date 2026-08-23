@@ -19,19 +19,8 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * The Velara nodes whose effect is a multiplier on vanilla health, armour or movement speed.
- *
- * <p>Percentile gear attributes are additive with each other, so they cannot express "x1.5 armour"
- * -  The Stonewall, Cactus, Immortal, Steadfast and Defender of the Faith all say "multiplies", and
- * they must compose multiplicatively with one another too. Vanilla {@code MULTIPLY_TOTAL}
- * modifiers do exactly that, so every multiplicative leg is folded into one modifier per attribute
- * with a fixed UUID, removed before re-added, and only touched when its value actually changes.
- * That is the shape the talent-modifier leak in this pack taught: stable ids, no churn.
- *
- * <p>The Stonewall's speed penalty rides the same pass for a different reason:
- * {@code PlayerStat.SPEED} is declared by the base mod but nothing in it or in this addon ever
- * computes that stat, so a listener on it never fires. Vanilla {@code generic.movement_speed} is
- * the only seam that actually moves a player, so the penalty is written there instead.
+ * The Velara nodes that multiply vanilla health, armour or movement speed. Every leg folds into one
+ * fixed-UUID modifier per attribute, rewritten only when its value changes.
  */
 public final class VelaraModifiers {
     private static final UUID ARMOR_MULTIPLIER_ID = GodVanillaAttributes.modifierId(
@@ -95,11 +84,7 @@ public final class VelaraModifiers {
         }
     }
 
-    /**
-     * Steadfast reads the raw knockback-resistance sum from the snapshot rather than the vanilla
-     * attribute: {@code generic.knockback_resistance} is a ranged attribute clamped to [0, 1] and
-     * nothing in this pack widens it, so everything above 100% is invisible there.
-     */
+    /** Steadfast's armour bonus, from the unclamped knockback-resistance sum on the snapshot. */
     private static double steadfastArmorBonus(ServerPlayer player) {
         AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
         float knockbackResistance = snapshot.getAttributeValue(ModGearAttributes.KNOCKBACK_RESISTANCE,

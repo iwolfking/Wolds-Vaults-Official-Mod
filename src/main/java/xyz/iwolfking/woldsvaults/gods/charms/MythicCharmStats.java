@@ -27,13 +27,8 @@ import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import javax.annotation.Nullable;
 
 /**
- * Consumers for the mythic charm stats that have no base pipeline of their own: the ability power
- * multiplier joins the base {@code ABILITY_POWER_MULTIPLIER} player-stat event (which the ability
- * power helper and the statistics screen both run through, on both sides), boss damage multiplies
- * hits against anything in the pack's {@code the_vault:bosses} entity group, and fruit saver
- * gives eaten vault fruits a chance to not be consumed. The item quantity, item rarity and trap
- * disarm multipliers live in the attribute-snapshot mixin instead, and the vanilla-attribute
- * multipliers ride the charm's curio attribute modifiers.
+ * Consumers for the mythic charm stats with no base pipeline of their own: ability power
+ * multiplier, boss damage against the {@code the_vault:bosses} group, and fruit saver.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class MythicCharmStats {
@@ -58,11 +53,7 @@ public final class MythicCharmStats {
         });
     }
 
-    /**
-     * Maps a base stat attribute to the mythic multiplier that scales it at the snapshot level.
-     * Consulted by the attribute-snapshot mixin on every merged read, so the multiplied value
-     * reaches gameplay and the statistics screen through the same door.
-     */
+    /** Maps a base stat attribute to the mythic multiplier that scales it at the snapshot level. */
     @Nullable
     public static VaultGearAttribute<Float> snapshotMultiplierFor(VaultGearAttribute<?> attribute) {
         if (attribute == iskallia.vault.init.ModGearAttributes.ITEM_QUANTITY) {

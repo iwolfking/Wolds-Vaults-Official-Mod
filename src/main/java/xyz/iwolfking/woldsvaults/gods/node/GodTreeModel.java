@@ -13,12 +13,8 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 /**
- * One god's tree, assembled from its three config files and validated. Immutable; per-player
- * purchase state lives in the alignment saved data, never here.
- *
- * <p>The lattice is a true multi-parent graph - most nodes touch several neighbours and the limbs
- * contain loops - so reachability is expressed through adjacency rather than a parent field: a
- * node is purchasable when it is a root or when any adjacent node is already owned.
+ * One god's tree, assembled from its three config files and validated. Immutable, and a
+ * multi-parent graph, so reachability runs off adjacency rather than a parent field.
  */
 public final class GodTreeModel {
     public record Edge(String from, String to) {
@@ -101,21 +97,13 @@ public final class GodTreeModel {
         return this.handlers.get(effectId);
     }
 
-    /**
-     * The node type every placement of {@code effectId} shares. The gate needs one type per
-     * effect to decide carryover, and the loader has already asserted that placements of one
-     * effect never disagree.
-     */
+    /** The node type every placement of {@code effectId} shares. */
     @Nullable
     public GodNodeType getEffectType(String effectId) {
         return this.effectTypes.get(effectId);
     }
 
-    /**
-     * The first placement that banks under {@code ledgerKey} - the node itself for a minor or
-     * major, any one of its stars for a stat effect - or null when nothing in this tree banks
-     * there. This is how a transfer slot's stored effect id finds its icon and name again.
-     */
+    /** The first placement that banks under {@code ledgerKey}, or null when nothing here does. */
     @Nullable
     public GodNode placementOf(String ledgerKey) {
         return this.placements.get(ledgerKey);
@@ -125,11 +113,7 @@ public final class GodTreeModel {
         return this.nodes.isEmpty();
     }
 
-    /**
-     * Whether a node can be bought right now by a player whose owned tree nodes are given by
-     * {@code purchased}: it must exist, be enabled, not be owned yet, and be a root or touch at
-     * least one owned neighbour.
-     */
+    /** Whether a node exists, is enabled, is unowned, and is a root or touches an owned neighbour. */
     public boolean isPurchasable(String nodeId, Predicate<String> purchased) {
         GodNode node = this.nodes.get(nodeId);
         if (node == null || !node.enabled() || purchased.test(nodeId)) {

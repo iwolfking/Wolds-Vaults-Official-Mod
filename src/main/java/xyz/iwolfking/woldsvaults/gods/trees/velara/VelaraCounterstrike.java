@@ -9,16 +9,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 /**
- * Counterstrike: a 50% chance to hit back after blocking or dodging a melee strike.
- *
- * <p>The block half needs no patching -  the addon's own {@code blockAttack} overwrite already
- * fires {@code CommonEvents.ENTITY_DAMAGE_BLOCK}, so this registers on that event. The dodge half
- * has no event at all; the addon's dodge site calls {@link #onDefended} directly.
- *
- * <p>The retaliation is a raw damage instance rather than a simulated weapon swing, matching the
- * sheet's "raw damage (ability)" classification. That deliberately keeps it out of cleave,
- * chaining, echoing and fatal-strike re-entry, which is the class of bug the addon already had to
- * fight for proc fangs.
+ * Counterstrike: a chance to hit back for the player's attack damage after blocking or dodging
+ * melee. The retaliation is a raw damage instance, not a weapon swing.
  */
 public final class VelaraCounterstrike {
     private VelaraCounterstrike() {
@@ -35,10 +27,7 @@ public final class VelaraCounterstrike {
         }
     }
 
-    /**
-     * Rolls and resolves a counterstrike after the player avoided {@code source}. Safe to call for
-     * any avoided hit -  non-melee sources and players without the node are filtered here.
-     */
+    /** Rolls and resolves a counterstrike. Safe to call for any avoided hit; filtered here. */
     public static void onDefended(LivingEntity defender, DamageSource source) {
         if (!(defender instanceof ServerPlayer player) || VelaraActiveFlags.IS_COUNTERSTRIKING.isSet()) {
             return;

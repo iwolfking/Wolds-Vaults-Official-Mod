@@ -22,18 +22,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 /**
- * The vessel half of the rank-up trials, driven from {@code MixinRebirthObjective}.
- *
- * <p>The base mod's greed trial is an endless endurance fight: the vessel cannot be killed (its
- * health is clamped at a floor of one and both {@code die} and {@code kill} are neutered), phases
- * double their damage goal forever, and the only way the run ends is the player dying. A rank-up
- * trial keeps the arena and the vessel but replaces that shape with a single phase whose damage
- * goal is the sheet's health pool, a five-minute clock, and a win the moment the pool is emptied -
- * the vessel is never required to die, which is just as well because it cannot.</p>
- *
- * <p>The sheet's damage and speed numbers land as flat attribute multipliers on top of the
- * vessel's own built-in ramp (1.2x damage per minute for the first five, +5% speed per minute),
- * which is the "ramps up over the fight" the design doc asks for.</p>
+ * The vessel half of the rank-up trials, driven from {@code MixinRebirthObjective}: one phase whose
+ * damage goal is the row's health pool, won the moment that pool is emptied.
  */
 public final class GreedTrialVessel {
     private static final UUID DAMAGE_UUID =
@@ -54,12 +44,7 @@ public final class GreedTrialVessel {
         return trial(vault) != null;
     }
 
-    /**
-     * Runs one tick of the trial layer: scales the vessel, keeps the displayed damage goal honest,
-     * and ends the vault the moment the health pool is emptied or the clock runs out. Called from
-     * the tail of {@code RebirthObjective#tickServer}, so it sees the same state the base tick just
-     * finished writing.
-     */
+    /** One tick of the trial layer: scale the vessel, set the goal, end the vault when it is met. */
     public static void tick(Objective objective, VirtualWorld world, Vault vault) {
         GreedTrial trial = trial(vault);
         if (trial == null || objective.getOr(RebirthObjective.TRIAL_ENDED, false)) {
@@ -80,11 +65,7 @@ public final class GreedTrialVessel {
         }
     }
 
-    /**
-     * Applies the row's damage and speed multipliers to the live vessel. Idempotent through the two
-     * fixed modifier ids, so it can run every tick and simply no-ops once the vessel has them; the
-     * vessel spawns several ticks after the objective starts, which is why this is not a one-shot.
-     */
+    /** Applies the row's damage and speed multipliers to the live vessel. Idempotent. */
     private static void applyVesselScaling(Objective objective, VirtualWorld world, GreedTrial trial) {
         UUID bossId = objective.getOr(RebirthObjective.BOSS_ID, null);
         if (bossId == null) {
@@ -107,11 +88,7 @@ public final class GreedTrialVessel {
         attribute.addPermanentModifier(new AttributeModifier(id, name, amount, AttributeModifier.Operation.MULTIPLY_TOTAL));
     }
 
-    /**
-     * Ends a vessel trial, win or lose. Both outcomes hand the outro back to the base objective by
-     * setting {@code TRIAL_END_TELEPORT_DELAY}, whose own tick teleports every runner home on their
-     * stored join state and marks the vault finished; a win uses the standard fifteen seconds.
-     */
+    /** Ends a vessel trial: marks completion, pays or forfeits, hands the outro to the objective. */
     public static void finish(Objective objective, VirtualWorld world, Vault vault, boolean won) {
         objective.set(RebirthObjective.TRIAL_ENDED, true);
         objective.set(RebirthObjective.TRIAL_END_TELEPORT_DELAY,
@@ -139,24 +116,14 @@ public final class GreedTrialVessel {
         }
     }
 
-    /**
-     * The base mod's own phase damage goal, saturating at {@code Integer.MAX_VALUE} exactly as its
-     * private version does. Used only to recognise an untouched goal.
-     */
+    /** The base mod's own phase damage goal, saturating at {@code Integer.MAX_VALUE}. */
     public static int baseGoal(int phase) {
         int shift = Math.min(Math.max(phase, 0), 30);
         long doubled = 50_000L << shift;
         return doubled > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) doubled;
     }
 
-    /**
-     * The goal the greed trial HUD should draw. The synced {@code PHASE_DAMAGE_GOAL} is trusted
-     * whenever it differs from the base curve, which is exactly when a rank-up trial has overwritten
-     * it; an ordinary greed trial keeps the float curve, which is what the client mixin exists for
-     * (the base field saturates at {@code Integer.MAX_VALUE} from phase 16 on).
-     *
-     * <p>Client-safe: pure arithmetic on a value the server already synced, with no world lookup.</p>
-     */
+    /** The HUD's goal: the synced one when it differs from the base curve, else the float curve. */
     public static float displayGoal(int phase, int syncedGoal) {
         if (syncedGoal > 0 && syncedGoal != baseGoal(phase)) {
             return (float) syncedGoal;

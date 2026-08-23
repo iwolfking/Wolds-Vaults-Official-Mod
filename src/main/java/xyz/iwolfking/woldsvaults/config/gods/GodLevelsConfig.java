@@ -10,16 +10,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The god alignment progression curve - {@code config/the_vault/gods/god_levels.json}: the
- * cumulative XP thresholds, the linear tail past the last defined level, the god points each
- * level grants, and the levels that unlock a minor-transfer slot or the god's ultimate.
- *
- * <p>Every scalar is boxed so that an absent key is distinguishable from a configured zero -
- * several of these are legitimately zero - and every reader falls back to the shipped value with
- * an error naming the key rather than silently flattening the curve. Because every field already
- * degrades that way there is nothing left for {@link #isValid()} to reject; what this config wants
- * from {@link PackAuthoredConfig} is the guarantee that a hand-edit which fails to parse is kept
- * rather than overwritten.
+ * The god alignment progression curve - {@code config/the_vault/gods/god_levels.json}: cumulative XP
+ * thresholds, the linear tail past the last defined level, god points per level, and the levels that
+ * unlock a minor-transfer slot or the ultimate. An absent or unusable key falls back, with an error.
  */
 public class GodLevelsConfig extends PackAuthoredConfig {
     private static final long[] DEFAULT_CUMULATIVE_XP = {
@@ -77,11 +70,7 @@ public class GodLevelsConfig extends PackAuthoredConfig {
         return this.cumulativeXp;
     }
 
-    /**
-     * The last level the XP table defines, never past the end of that table: the two are read
-     * together on every lookup, so a table shortened without its scalar would otherwise index
-     * out of bounds on the first level query.
-     */
+    /** The last level the XP table defines, clamped to the length of that table. */
     public int getMaxDefinedLevel() {
         int configured = this.maxDefinedLevel == null ? DEFAULT_MAX_DEFINED_LEVEL : this.maxDefinedLevel;
         if (this.maxDefinedLevel == null) {

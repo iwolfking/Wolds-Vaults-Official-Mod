@@ -21,30 +21,12 @@ import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 import xyz.iwolfking.woldsvaults.gods.node.ListenerBoundHandler;
 import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
 
-/**
- * Every handler type the Idona tree owns, and the typed parameters each one reads.
- *
- * <p>Seven plain stat effects bind the shared {@code gear_attribute_scaled} type and Pious
- * Devotion binds the shared {@code piety} type, so none of those is named here. What is left is
- * one type per effect Java has to know about: the stat effects that pay into more than one
- * attribute or into a non-float one, the damage effects that reach the game through the shared
- * {@link CombatContributor} pipeline in {@link IdonaHitHandlers}, the slowly-varying damage
- * factors on the shared ticker in {@link IdonaTickHandlers}, and the rest as
- * {@link ListenerBoundHandler} - numbers in config, validated at load, behaviour still reached
- * through the base mod events and mixins that own the ordering.
- *
- * <p>Params component names are the config keys verbatim, including their underscores. The codec
- * binds by component name, so renaming one here silently means renaming it in the config file
- * too.
- */
+/** Idona handler types and their params, whose component names are the config keys verbatim. */
 public final class IdonaNodeHandlers {
     private IdonaNodeHandlers() {
     }
 
-    /**
-     * Registers every Idona handler type. Called from {@code GodNodeHandlerTypes.bootstrap()},
-     * which is the only point guaranteed to run before the god tree configs are validated.
-     */
+    /** Registers every Idona handler type. Must run before the god tree configs are validated. */
     public static void register() {
         GodNodeHandlers.register(IdonaNodes.STACK_STACK_STACK, StackStackStackHandler::new);
         GodNodeHandlers.register(IdonaNodes.KING_HUNTER, KingHunterHandler::new);
@@ -84,21 +66,12 @@ public final class IdonaNodeHandlers {
                 IdonaTickHandlers.UltraRampagingHandler::new);
     }
 
-    /**
-     * The loaded parameters of one Idona effect. Absence is a programming error rather than a
-     * config error - load-time validation has already asserted that every placed effect exists
-     * and resolves its handler - so it fails loudly naming the effect instead of degrading to a
-     * zero that would read as a balance change.
-     */
+    /** The loaded parameters of one Idona effect. Throws naming the effect if it is absent. */
     public static <T extends GodEffectParams> T params(String effectId, Class<T> type) {
         return GodNodeRegistry.params(VaultGod.IDONA, effectId, type);
     }
 
-    /**
-     * Stack Stack Stack: added maximum stacks for every stacking talent, one whole stack per
-     * point. The count is an integer gear attribute rather than a float one, which is why it does
-     * not bind the shared scaled type.
-     */
+    /** Stack Stack Stack: added maximum stacks for every stacking talent, rounded to whole stacks. */
     public record StackStackStackHandler(GodEffect effect) implements StatContributor {
         @Override
         public void contribute(GodNodeContext context, GodStatSink sink) {
@@ -136,13 +109,7 @@ public final class IdonaNodeHandlers {
         }
     }
 
-    /**
-     * Grand Archmage's mana pool, mana regen and cooldown-reduction cap. Flat grants rather than
-     * per-point ones: it is a single major placement, so a point count never enters the numbers.
-     * Its other two halves - the ability-damage multiplier and the weapon-swing suppression - are
-     * listener-bound, because a player stat and a cancelled hurt event are neither of them a
-     * capability seam.
-     */
+    /** Grand Archmage's mana pool, mana regen and cooldown-reduction cap, granted flat. */
     public record GrandArchmageHandler(GodEffect effect) implements StatContributor {
         @Override
         public void contribute(GodNodeContext context, GodStatSink sink) {
@@ -154,12 +121,7 @@ public final class IdonaNodeHandlers {
         }
     }
 
-    /**
-     * Weaponmaster's two branches, which are mutually exclusive by weapon. The dual-wield branch
-     * is attack speed and is a stat contribution, re-evaluated whenever the snapshot is rebuilt;
-     * the two-handed branch is a per-hit damage multiplier and runs pre-mitigation on the shared
-     * combat pipeline, where every other Idona damage multiplier already composes.
-     */
+    /** Weaponmaster: attack speed while dual-wielding, damage on normal two-handed attacks. */
     public record WeaponmasterHandler(GodEffect effect) implements StatContributor, CombatContributor {
         @Override
         public void contribute(GodNodeContext context, GodStatSink sink) {
@@ -184,10 +146,7 @@ public final class IdonaNodeHandlers {
         }
     }
 
-    /**
-     * The per-point table summed over the points held. A one-entry table is simply linear and
-     * uncapped in the star count, which is what every shipped Idona stat node does.
-     */
+    /** The per-point table summed over the points held. */
     private static float total(GodNodeContext context) {
         float total = 0.0F;
         for (int point = 0; point < context.points(); point++) {

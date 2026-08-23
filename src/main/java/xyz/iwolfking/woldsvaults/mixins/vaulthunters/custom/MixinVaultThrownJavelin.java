@@ -32,13 +32,8 @@ public abstract class MixinVaultThrownJavelin implements SplittingJavelin {
     }
 
     /**
-     * Inserts the ancient Helm of the Warbound pre-split ahead of the normal scatter.
-     *
-     * <p>A scatter javelin normally converts its first wall hit straight into
-     * {@code getNumberOfJavelins()} ricochets. With {@code splitting_javelins} the first hit instead
-     * produces that many plain scatter javelins, each of which still carries bounce count zero and
-     * therefore performs the full ordinary scatter on its own next wall hit. The copies are flagged
-     * so the split happens exactly once per throw rather than compounding.</p>
+     * With {@code splitting_javelins}, the first wall hit produces {@code getNumberOfJavelins()} scatter
+     * javelins at bounce count zero instead of ricochets. Copies are flagged, so a throw splits once.
      */
     @Redirect(method = "onHitBlock", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/entity/VaultThrownJavelin;ricochet(Lnet/minecraft/world/phys/Vec3;ILnet/minecraft/world/level/Level;)V", remap = false))
     private void woldsvaults$preSplitScatter(VaultThrownJavelin javelin, Vec3 normal, int numRicochets, Level world) {
@@ -59,11 +54,7 @@ public abstract class MixinVaultThrownJavelin implements SplittingJavelin {
         return AttributeSnapshotHelper.getInstance().getSnapshot(thrower).getAttributeValue(ModGearAttributes.SPLITTING_JAVELINS, VaultGearAttributeTypeMerger.intSum());
     }
 
-    /**
-     * Mirrors the spread geometry of VaultThrownJavelin#ricochet, but keeps the spawned javelins at
-     * bounce count zero so each one still owes a full scatter, which the stock method cannot do
-     * because it always increments the bounce count.
-     */
+    /** Mirrors {@code VaultThrownJavelin#ricochet}'s spread, leaving the spawned javelins at bounce zero. */
     @Unique
     private static void woldsvaults$spawnSplit(VaultThrownJavelin source, Vec3 normal, int splitCount, Level world) {
         Player thrower = source.getThrower();

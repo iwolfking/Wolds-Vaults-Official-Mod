@@ -13,15 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Which live vaults are rank-up trials, and for which rank. Keyed by {@code Vault.ID} so the mark
- * survives a server restart mid-trial - the alternative, a transient field on the objective, would
- * silently turn a reloaded trial back into an ordinary vault and hand out the wrong rewards.
- *
- * <p>Both trial flavors share this store. The hyper objective could have carried its own persisted
- * field, but the vessel trial runs on the base mod's {@code RebirthObjective}, which cannot be
- * given one, so a single vault-keyed table keeps the two paths reading the same source.</p>
- */
+/** Persisted table of which live vaults are rank-up trials, and for which rank, by {@code Vault.ID}. */
 public class GreedTrialData extends SavedData {
     protected static final String DATA_NAME = "woldsvaults_GreedTrials";
 
@@ -50,7 +42,7 @@ public class GreedTrialData extends SavedData {
         return vaultId == null ? 0 : this.trials.getOrDefault(vaultId, 0);
     }
 
-    /** A snapshot of every marked vault id, safe to iterate while clearing entries. */
+    /** A copy of every marked vault id, safe to iterate while clearing entries. */
     public Set<UUID> getMarkedVaults() {
         return new HashSet<>(this.trials.keySet());
     }

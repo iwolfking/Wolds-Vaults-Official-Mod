@@ -37,21 +37,14 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * World SavedData holding every player's alignment with each of the four Vault Gods: accumulated
- * XP (level is always derived from it, never stored), the ledger of god points spent per tree
- * node, granted bonus points, lifetime god-altar completions and the player's minor-transfer
- * slots (positional: index = slot, an empty string = an empty slot; see
- * {@link MinorTransferSlots}). Changes on the server are pushed to the owning player with
- * {@link GodAlignmentSyncMessage}; {@link ClientGodAlignmentData} mirrors them client-side.
+ * World SavedData holding every player's alignment with each Vault God: accumulated XP (level derives
+ * from it, never stored), the god-point ledger, bonus points, altar completions and the positional
+ * minor-transfer slots. Changes are pushed to the owning player with {@link GodAlignmentSyncMessage}.
  */
 public class GodAlignmentData extends SavedData {
     protected static final String DATA_NAME = "woldsvaults_GodAlignment";
 
-    /**
-     * What a read of a player and god with no record yet returns. Shared and never written to:
-     * every mutator takes {@link #mutableState} instead, so the only way to reach this instance is
-     * a read, and a read of an absent record has nothing to say beyond "zero of everything".
-     */
+    /** What a read of a player and god with no record yet returns. Shared, and never written to. */
     private static final GodState EMPTY = new GodState();
 
     private static final Set<String> WARNED_STALE_TRANSFERS = ConcurrentHashMap.newKeySet();
@@ -75,12 +68,7 @@ public class GodAlignmentData extends SavedData {
         return get(level.getServer());
     }
 
-    /**
-     * Piety with a god: ten per point of base god reputation plus twenty per god alignment level.
-     * Reputation is read from the base mod's {@link PlayerReputationData}, whose cap the addon
-     * already raises per player through God's Mastery. Server side only — this reads world saved
-     * data, so client display must be fed by a synced value rather than by calling this.
-     */
+    /** Piety: 10 per reputation point, 20 per god level, plus {@link PietyBonusSource}. Server side only. */
     public static int piety(Player player, VaultGod god) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
@@ -93,23 +81,13 @@ public class GodAlignmentData extends SavedData {
                 + PietyBonusSource.total(player, god);
     }
 
-    /**
-     * A player's standing with one god, without creating it. Every gate check and every attribute
-     * snapshot rebuild lands here, so inserting on read would grow this save by one empty record
-     * per player per god merely for having been asked about, and write those records out on the
-     * next unrelated {@code setDirty}.
-     *
-     * <p>The returned state must not be written through: a player with no record yet gets
-     * {@link #EMPTY}, which is shared. {@link #mutableState} is the only path that inserts, and
-     * every mutator below takes it.
-     */
+    /** A player's standing with one god, without creating a record; the shared {@link #EMPTY} is read-only. */
     public GodState getState(UUID playerId, VaultGod god) {
         EnumMap<VaultGod, GodState> states = this.players.get(playerId);
         GodState state = states == null ? null : states.get(god);
         return state == null ? EMPTY : state;
     }
 
-    /** The stored state of a player and god, created on first write. Mutators only. */
     private GodState mutableState(UUID playerId, VaultGod god) {
         return this.players.computeIfAbsent(playerId, id -> new EnumMap<>(VaultGod.class))
                 .computeIfAbsent(god, g -> new GodState());
@@ -128,10 +106,7 @@ public class GodAlignmentData extends SavedData {
         return this.getState(playerId, god).sacrifices;
     }
 
-    /**
-     * Completes one sacrifice gate for a god, promoting through any levels the accumulated XP had
-     * already paid for and firing one {@link GodLevelUpEvent} per level gained.
-     */
+    /** Completes one sacrifice gate, firing a {@link GodLevelUpEvent} per level the XP had already paid for. */
     public void completeSacrifice(ServerPlayer player, VaultGod god) {
         GodState state = this.mutableState(player.getUUID(), god);
         int before = GodLevels.gatedLevel(state.xp, state.sacrifices);
@@ -156,18 +131,11 @@ public class GodAlignmentData extends SavedData {
         return this.getState(playerId, god).unspentPoints(this.getLevel(playerId, god));
     }
 
-    /**
-     * The spent-point ledger for a tree, ledger key to points invested. Node content reads this
-     * to decide which effects are unlocked and at what tier. Ledger keys are effect keys chosen
-     * by each tree's node definitions, not tree-node positions.
-     */
+    /** The spent-point ledger for a tree: effect key to points invested, not tree-node positions. */
     public Map<String, Integer> getSpentLedger(UUID playerId, VaultGod god) {
         return Collections.unmodifiableMap(this.getState(playerId, god).spentPoints);
     }
 
-    /**
-     * Points banked under one ledger key, which is an effect key rather than a tree-node position.
-     */
     public int getPointsIn(UUID playerId, VaultGod god, String ledgerKey) {
         return this.getState(playerId, god).spentPoints.getOrDefault(ledgerKey, 0);
     }
@@ -176,13 +144,7 @@ public class GodAlignmentData extends SavedData {
         return GodLevels.minorTransferSlots(this.getLevel(playerId, god));
     }
 
-    /**
-     * The effect ids {@code god}'s transfer slots currently carry for the player: one per filled
-     * slot below the god's unlocked capacity, restricted to what
-     * {@link MinorTransferSlots#isTransferable} accepts. A stale entry - a refunded star, a renamed
-     * effect, data written under older rules - is reported once and otherwise reads as empty, and
-     * the next write to the god's slots drops it.
-     */
+    /** The effect ids {@code god}'s slots carry; a stale entry reads empty and is dropped on the next write. */
     public List<String> getMinorTransfers(UUID playerId, VaultGod god) {
         GodState state = this.getState(playerId, god);
         return MinorTransferSlots.liveTransfers(god, state, this.getMinorTransferSlots(playerId, god), id -> {
@@ -193,11 +155,7 @@ public class GodAlignmentData extends SavedData {
         });
     }
 
-    /**
-     * The raw content of one transfer slot, or empty for a hole, a slot never written, or one the
-     * curve does not grant. Whether the content counts is the reader's question - see
-     * {@link MinorTransferSlots#isTransferable}.
-     */
+    /** The raw content of one transfer slot; empty for a hole, a slot never written, or one not granted. */
     public Optional<String> getMinorTransferSlot(UUID playerId, VaultGod god, int slot) {
         List<String> slots = this.getState(playerId, god).minorTransfers;
         if (slot < 0 || slot >= slots.size() || slots.get(slot).isEmpty()) {
@@ -218,9 +176,7 @@ public class GodAlignmentData extends SavedData {
         return this.getState(playerId, god).altarCompletions;
     }
 
-    /**
-     * Lifetime god-altar completions across all four gods — the {@code n} of the altar XP formula.
-     */
+    /** Lifetime god-altar completions across all four gods - the {@code n} of the altar XP formula. */
     public int getTotalAltarCompletions(UUID playerId) {
         int total = 0;
         for (VaultGod god : VaultGod.values()) {
@@ -229,12 +185,7 @@ public class GodAlignmentData extends SavedData {
         return total;
     }
 
-    /**
-     * Adds god XP, promoting through as many levels as the amount covers and firing one
-     * {@link GodLevelUpEvent} per level gained. Returns the number of levels gained. The amount is
-     * scaled by the player's God's Disciple prestige powers before it is banked, so every award
-     * path that funnels through here picks the bonus up.
-     */
+    /** Adds god XP scaled by God's Disciple powers, firing {@link GodLevelUpEvent} per level; returns levels. */
     public int addGodXp(ServerPlayer player, VaultGod god, long amount) {
         if (amount <= 0L) {
             return 0;
@@ -252,19 +203,12 @@ public class GodAlignmentData extends SavedData {
         return after - before;
     }
 
-    /**
-     * The amount {@link #addGodXp} would bank for {@code amount} raw experience, without banking
-     * it - for display paths that must show the exact post-prestige figure.
-     */
+    /** The amount {@link #addGodXp} would bank for {@code amount} raw experience, without banking it. */
     public long previewScaledXp(ServerPlayer player, long amount) {
         return applyGodExperiencePowers(player, amount);
     }
 
-    /**
-     * Scales a god XP award by the owned God's Disciple prestige powers. The powers add together
-     * before the multiply, so the shipped +20% and +15% ranks give +35% rather than +38%. Rounds up
-     * so that small awards still move by at least the full base amount.
-     */
+    /** Scales a god XP award by the God's Disciple powers, which add before the multiply. Rounds up. */
     private static long applyGodExperiencePowers(ServerPlayer player, long amount) {
         if (player.getServer() == null) {
             WoldsVaults.LOGGER.debug("God XP awarded with no server attached; skipping God's Disciple scaling.");
@@ -280,11 +224,7 @@ public class GodAlignmentData extends SavedData {
         return (long) Math.ceil((double) amount * (1.0D + (double) bonus));
     }
 
-    /**
-     * Forces a god level by rewriting accumulated XP to that level's threshold and granting any
-     * sacrifice gates the level requires. Fires {@link GodLevelUpEvent} for every level crossed
-     * upwards; downgrades fire nothing.
-     */
+    /** Forces a god level, granting the sacrifice gates it needs; only levels gained fire an event. */
     public void setLevel(ServerPlayer player, VaultGod god, int level) {
         GodState state = this.mutableState(player.getUUID(), god);
         int before = GodLevels.gatedLevel(state.xp, state.sacrifices);
@@ -298,11 +238,7 @@ public class GodAlignmentData extends SavedData {
         this.sync(player);
     }
 
-    /**
-     * Grants or removes bonus god points. The floor is the points the player's <em>gated</em> level
-     * grants, the same number {@link #getTotalPoints} reads, so a removal can never push the unspent
-     * total negative while a sacrifice gate is still holding the level below what the XP would pay.
-     */
+    /** Grants or removes bonus god points, floored at what the player's gated level grants. */
     public void addBonusPoints(ServerPlayer player, VaultGod god, int amount) {
         GodState state = this.mutableState(player.getUUID(), god);
         state.bonusPoints = Math.max(state.bonusPoints + amount,
@@ -311,10 +247,7 @@ public class GodAlignmentData extends SavedData {
         this.sync(player);
     }
 
-    /**
-     * Gives a god's whole constellation back: points, owned positions and the transfer slots,
-     * which only ever carry this god's own stars and so have nothing left to carry.
-     */
+    /** Gives a god's whole constellation back: points, owned positions and the transfer slots. */
     public void refundAll(ServerPlayer player, VaultGod god) {
         GodState state = this.mutableState(player.getUUID(), god);
         state.spentPoints.clear();
@@ -324,7 +257,6 @@ public class GodAlignmentData extends SavedData {
         this.sync(player);
     }
 
-    /** The tree-node positions a player has bought in a god's constellation tree. */
     public Set<String> getPurchasedTreeNodes(UUID playerId, VaultGod god) {
         return Collections.unmodifiableSet(this.getState(playerId, god).treeNodes);
     }
@@ -333,13 +265,7 @@ public class GodAlignmentData extends SavedData {
         return this.getState(playerId, god).treeNodes.contains(nodeId);
     }
 
-    /**
-     * Buys one tree node: records the position as owned and banks its cost under the node's
-     * ledger key, where the effect handlers read it. Fails without side effects when the
-     * position is already owned or the player lacks the points. Graph-level validation (the
-     * node exists, is enabled, and touches an owned neighbour) belongs to the caller - this
-     * method only guards the ledger's own invariants.
-     */
+    /** Buys one tree node, banking its cost under the ledger key; graph validation belongs to the caller. */
     public boolean purchaseTreeNode(ServerPlayer player, VaultGod god, String nodeId, String ledgerKey, int cost) {
         GodState state = this.mutableState(player.getUUID(), god);
         if (state.treeNodes.contains(nodeId)) {
@@ -356,11 +282,8 @@ public class GodAlignmentData extends SavedData {
     }
 
     /**
-     * Writes one of {@code god}'s transfer slots: {@code effectId} goes into {@code slot}, leaving
-     * any other slot it occupied, and null or empty clears the slot. Only the list's own
-     * invariant is guarded here - the slot must be one the curve can grant - because
-     * {@link MinorTransferSlots#assign} owns the validation of what may be slotted. Stale entries
-     * elsewhere in the list are dropped on the way through. Returns whether anything changed.
+     * Writes one of {@code god}'s transfer slots, leaving any other slot {@code effectId} occupied; null
+     * or empty clears it and stale entries are dropped. Returns whether anything changed.
      */
     public boolean setMinorTransfer(ServerPlayer player, VaultGod god, int slot, @Nullable String effectId) {
         if (slot < 0 || slot >= GodLevels.maxMinorTransferSlots()) {
@@ -454,12 +377,7 @@ public class GodAlignmentData extends SavedData {
         return tag;
     }
 
-    /**
-     * One player's alignment with one god. Level is derived from {@link #xp} capped by
-     * {@link #sacrifices}, never stored. States saved before the sacrifice system existed are
-     * grandfathered: a missing sacrifices tag counts every level the XP already paid for as
-     * sacrificed.
-     */
+    /** One player's alignment with one god; level derives from {@link #xp} capped by {@link #sacrifices}. */
     public static class GodState {
         public long xp;
         public int bonusPoints;
@@ -469,7 +387,6 @@ public class GodAlignmentData extends SavedData {
         public final List<String> minorTransfers = new ArrayList<>();
         public final Set<String> treeNodes = new LinkedHashSet<>();
 
-        /** Points sunk into the tree, over every ledger key. */
         public int spentPoints() {
             int spent = 0;
             for (int points : this.spentPoints.values()) {
@@ -478,7 +395,7 @@ public class GodAlignmentData extends SavedData {
             return spent;
         }
 
-        /** Points {@code level} grants plus the bonus points on top; the one definition both sides read. */
+        /** Points {@code level} grants plus the bonus points on top. */
         public int totalPoints(int level) {
             return GodLevels.totalPointsForLevel(level) + this.bonusPoints;
         }

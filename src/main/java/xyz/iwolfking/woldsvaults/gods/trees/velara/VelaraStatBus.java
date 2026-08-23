@@ -15,18 +15,8 @@ import net.minecraft.world.entity.LivingEntity;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 
 /**
- * The single Velara listener set on {@code CommonEvents.PLAYER_STAT} and
- * {@code CommonEvents.GRANTED_EFFECT}.
- *
- * <p>One listener per stat rather than one per node: {@code PLAYER_STAT} dispatch is O(listeners)
- * and fires on every hit, heal and thorns computation, so every Velara contribution to a stat is
- * folded inside a single handler where ordering is also explicit rather than emergent.
- *
- * <p>Ordering contract: additive legs register at the bus default priority, every leg that
- * multiplies the running value registers at {@code MULTIPLICATIVE_PRIORITY} and Malediction's cap
- * last at {@code MALEDICTION_PRIORITY} - the bus dispatches in descending priority, so a Velara
- * multiplier always scales a total every additive contributor has already finished adding to,
- * rather than whichever share happened to be registered first.
+ * The Velara listener set on {@code PLAYER_STAT} and {@code GRANTED_EFFECT}. The bus dispatches in
+ * descending priority: additive, then multiplicative, then Malediction's cap.
  */
 public final class VelaraStatBus {
     static final Object LISTENER_REF = new Object();
@@ -61,7 +51,7 @@ public final class VelaraStatBus {
         }
     }
 
-    /** Healing Flow and Presence, both flat additions, at the default priority beside base's own. */
+    /** Healing Flow and Presence, both flat additions. */
     private static void onHealingEffectiveness(PlayerStatEvent.Data data) {
         ServerPlayer player = serverPlayer(data.getEntity());
         if (player == null) {
@@ -73,7 +63,7 @@ public final class VelaraStatBus {
         data.setValue(value);
     }
 
-    /** Immortal and Bounce Back, both multipliers, so they run below every additive contributor. */
+    /** Immortal and Bounce Back, both multipliers on the running total. */
     private static void multiplyHealingEffectiveness(PlayerStatEvent.Data data) {
         ServerPlayer player = serverPlayer(data.getEntity());
         if (player == null) {
@@ -90,11 +80,7 @@ public final class VelaraStatBus {
         data.setValue(value);
     }
 
-    /**
-     * Malediction's healing leg, registered last on the stat so it also caps every other Velara
-     * healing source. The bus iterates priorities in descending order, so a negative priority is
-     * what "runs after everyone else" means here.
-     */
+    /** Malediction's healing leg, registered last on the stat so it caps every other source too. */
     private static void clampMalediction(PlayerStatEvent.Data data) {
         ServerPlayer player = serverPlayer(data.getEntity());
         if (player == null || !VelaraNodes.isActive(player, VelaraNodes.MALEDICTION)) {
@@ -113,12 +99,6 @@ public final class VelaraStatBus {
         return manaRegen * VelaraValues.healingFlowPerManaRegen();
     }
 
-    /**
-     * Thorns multiplier. {@code MixinThornsHelper} removes the base mod's double count of the gear
-     * sum, so this leg now scales the seeded value directly and reads exactly like its flat
-     * counterpart below. It carried a {@code (k - 1)} compensation while the double count stood;
-     * the two changes are one change and neither works without the other.
-     */
     private static void onThornsMultiplier(PlayerStatEvent.Data data) {
         ServerPlayer player = serverPlayer(data.getEntity());
         if (player == null) {
@@ -141,11 +121,7 @@ public final class VelaraStatBus {
         }
     }
 
-    /**
-     * Cactus and Malediction combined. Malediction reads the raw gear healing-efficiency sum
-     * rather than the live stat, because the live stat is the one Malediction itself forces down
-     * to -50%; feeding that back into the cube root would make the node cancel its own payout.
-     */
+    /** Cactus and Malediction combined, the latter off the raw gear healing-efficiency sum. */
     private static float thornsFactor(ServerPlayer player) {
         float factor = 1.0F;
         if (VelaraNodes.isActive(player, VelaraNodes.CACTUS)) {
@@ -166,7 +142,6 @@ public final class VelaraStatBus {
         return (float) Math.cbrt(Math.max(0.0D, 1.0D + healing));
     }
 
-    /** The gods tab preview of Malediction: the thorns multiplier the player's gear healing efficiency gives. */
     static GodNodePreviews.Preview previewMalediction(ServerPlayer player) {
         float healing = gearHealingEfficiency(player);
         float factor = maledictionFactor(healing);
@@ -179,10 +154,7 @@ public final class VelaraStatBus {
                 .build(factor);
     }
 
-    /**
-     * Regeneration levels. {@code GrantedEffects.addAmplifier} sums across sources, which is
-     * exactly the "stacks with other sources of regeneration" the sheet asks for.
-     */
+    /** Regeneration levels from Indomitable, Immortal and Presence, summed across other sources. */
     private static void onGrantedEffects(GrantedEffectEvent.Data data) {
         if (!(data.getPlayer() instanceof ServerPlayer player)) {
             return;

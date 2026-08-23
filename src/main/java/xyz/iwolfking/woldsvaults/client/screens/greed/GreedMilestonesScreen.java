@@ -13,16 +13,8 @@ import net.minecraft.world.entity.player.Inventory;
 import xyz.iwolfking.woldsvaults.milestones.container.GreedMilestonesContainer;
 
 /**
- * The greed tab of the player menu. It sits in the slot the retired greed tree used to hold and
- * carries the same six sub-tabs Mr. Greedy shows, but with claiming disabled: the server only
- * pays out reputation while the greed trader container is open.
- *
- * <p>It extends {@link AbstractSkillTabElementContainerScreen} rather than framing itself, which
- * is what makes it size and behave like the statistics, talent and prestige tabs: the base class
- * places the shared tab strip and the tab title against {@code getTabContentSpatial()}, that
- * rectangle is the near-full-window inset every other tab occupies, and the_vault's JEI plugin
- * registers a {@code RemoveJEIContainerHandler} against this very class, so JEI stops drawing
- * beside the window. The panel is then stretched to fill that same rectangle.</p>
+ * The greed tab of the player menu, carrying the same six sub-tabs Mr. Greedy shows but with claiming
+ * disabled: the server only pays out reputation while the greed trader container is open.
  */
 public class GreedMilestonesScreen extends AbstractSkillTabElementContainerScreen<GreedMilestonesContainer> {
     public static final int TAB_INDEX = 6;
@@ -53,11 +45,6 @@ public class GreedMilestonesScreen extends AbstractSkillTabElementContainerScree
         return new TranslatableComponent(GreedTheme.LANG_ROOT + "title");
     }
 
-    /**
-     * Re-sizes the panel to the tab content rectangle. Minecraft re-runs {@code init} on every
-     * window resize and gui scale change, which is the only point at which the screen's own width
-     * and height are known - they are still zero while the constructor runs.
-     */
     @Override
     protected void init() {
         super.init();

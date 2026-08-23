@@ -6,18 +6,9 @@ import com.google.gson.JsonObject;
 import java.util.Locale;
 
 /**
- * The shipped value of every god node effect, in the shape {@code god_node_effects_<god>.json}
- * stores it. This is the default state {@link GodNodeEffectsConfig#reset()} writes, so a fresh
- * install with no pack file regenerates the same numbers the trees shipped with.
- *
- * <p>It is a reset source and nothing else: at runtime every effect's numbers come from the loaded
- * config through {@link xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry}, so a value changed
- * here without also changing the shipped pack file changes nothing on an install that already has
- * one. The {@code checkGodEffectSync} build gate holds that pair together.
- *
- * <p>{@code values} is the per-point table; every other key is a parameter of that effect's
- * handler type. Both are transcribed one-for-one from the Java constants the god modules used to
- * carry.
+ * The shipped value of every god node effect, shaped as {@code god_node_effects_<god>.json} stores it:
+ * {@code values} is the per-point table, every other key a handler parameter. A reset source only -
+ * runtime values come from the loaded config, kept in step by the {@code checkGodEffectSync} gate.
  */
 public final class GodNodeEffectDefaults {
 
@@ -27,11 +18,7 @@ public final class GodNodeEffectDefaults {
     private GodNodeEffectDefaults() {
     }
 
-    /**
-     * The default effect table of one god, by lower-case god name. An unknown name yields an
-     * empty table rather than throwing, because the caller is a config reset that must not be
-     * able to fail.
-     */
+    /** The default effect table of one god, by lower-case god name; an unknown name yields an empty table. */
     public static GodNodeEffectsConfig.EffectMap effects(String god) {
         GodNodeEffectsConfig.EffectMap map = new GodNodeEffectsConfig.EffectMap();
         switch (god == null ? "" : god.toLowerCase(Locale.ROOT)) {
@@ -46,7 +33,6 @@ public final class GodNodeEffectDefaults {
     }
 
 
-    /** As {@link #put}, for an effect bound to a real handler type. */
     private static void put(GodNodeEffectsConfig.EffectMap map, String id, String handler, float[] values,
                             Object... fields) {
         JsonObject json = new JsonObject();
@@ -68,12 +54,7 @@ public final class GodNodeEffectDefaults {
         map.put(id, new GodNodeEffectsConfig.Entry(handler, values, json));
     }
 
-    /**
-     * Idona. Its seven plain stat effects bind the shared
-     * {@code gear_attribute_scaled} type and Pious Devotion the shared {@code piety} type, so both
-     * are config alone; every effect Java has to know about binds a type named after itself, so an
-     * unbound or misspelt effect fails the load instead of falling through to the catch-all.
-     */
+    /** Idona's shipped effect table. */
     private static void idona(GodNodeEffectsConfig.EffectMap map) {
         put(map, "idona_hard_hitter", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:damage_increase");
         put(map, "idona_hard_hitter_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:damage_increase");
@@ -120,12 +101,7 @@ public final class GodNodeEffectDefaults {
                 "per_mana", 0.0025F, "surplus_ttl_ticks", 900, "continuous_grace_ticks", 30);
     }
 
-    /**
-     * Velara. Its twelve plain stat effects
-     * bind the shared {@code gear_attribute_scaled} type and are config alone; every effect with
-     * behaviour binds a type named after itself, so an unbound or misspelt effect fails the load
-     * instead of falling through to the catch-all.
-     */
+    /** Velara's shipped effect table. */
     private static void velara(GodNodeEffectsConfig.EffectMap map) {
         put(map, "velara_tough", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:health_percentile");
         put(map, "velara_tough_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:health_percentile");
@@ -169,14 +145,7 @@ public final class GodNodeEffectDefaults {
         put(map, "velara_utilized", "velara_utilized", new float[]{}, "ability_levels", 3);
     }
 
-    /**
-     * Wendarr. Its five plain stat effects bind the shared
-     * {@code gear_attribute_scaled} type and Pious Devotion the shared {@code piety} type, so both
-     * are config alone; every effect Java has to know about binds a type named after itself, so an
-     * unbound or misspelt effect fails the load instead of falling through to the catch-all. The
-     * two extraction effects are bound to their own deferred types rather than the catch-all,
-     * which is what keeps a deliberately inert node distinguishable from an unported one.
-     */
+    /** Wendarr's shipped effect table; the two extraction effects bind deferred types and are inert. */
     private static void wendarr(GodNodeEffectsConfig.EffectMap map) {
         put(map, "wendarr_fruit_conissour", GEAR_ATTRIBUTE_SCALED, new float[]{0.01F},
                 "attribute", "the_vault:fruit_effectiveness");
@@ -215,12 +184,7 @@ public final class GodNodeEffectDefaults {
         put(map, "wendarr_quick_search", "wendarr_quick_search", new float[]{}, "rate", 0.7F);
     }
 
-    /**
-     * Tenos. Its fourteen plain stat effects bind the shared
-     * {@code gear_attribute_scaled} type and Pious Devotion the shared {@code piety} type, so both
-     * are config alone; every effect Java has to know about binds a type named after itself, so an
-     * unbound or misspelt effect fails the load instead of falling through to the catch-all.
-     */
+    /** Tenos's shipped effect table. */
     private static void tenos(GodNodeEffectsConfig.EffectMap map) {
         put(map, "tenos_hoarder", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:item_quantity");
         put(map, "tenos_hoarder_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:item_quantity");

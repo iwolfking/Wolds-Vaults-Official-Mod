@@ -11,13 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassinKills;
 import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassinSpawner;
 
-/**
- * Rewires greed assassins onto greed medallions at the handler's two decision points, leaving its
- * {@code onLivingDeath} dispatch (the client/server split and the assassin-tag branch) untouched.
- * Both targets are cancelled outright and re-implemented in the medallion package: the spawn roll
- * because its gate is now the vault's medallion rather than the killer's greed tier, and the kill
- * payout because it pays the medallion's fixed coin value and no longer grants greed reputation.
- */
+/** Cancels the assassin spawn roll and kill payout; both are re-implemented in the medallion package. */
 @Mixin(value = GreedAssassinSpawnHandler.class, remap = false)
 public class MixinGreedAssassinSpawnHandler {
     @Inject(method = "trySpawnGreedAssassin", at = @At("HEAD"), cancellable = true)

@@ -12,11 +12,7 @@ import xyz.iwolfking.woldsvaults.gods.container.GodTreeContainer;
 
 import java.util.function.Supplier;
 
-/**
- * Serverbound request to open the gods tab of the player menu. Opens the slotless
- * {@link GodTreeContainer} and pushes a fresh alignment sync so the star chart never renders
- * stale points or purchases.
- */
+/** Opens the gods tab: the slotless {@link GodTreeContainer} plus a fresh alignment sync. */
 public class ServerboundOpenGodTreeMessage extends Message<ServerboundOpenGodTreeMessage> {
     public ServerboundOpenGodTreeMessage() {
     }

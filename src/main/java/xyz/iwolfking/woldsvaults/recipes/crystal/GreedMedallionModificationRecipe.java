@@ -17,11 +17,7 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Applies a greed medallion to a vault crystal through the crystal workbench's normal anvil flow,
- * the same route seals, augments and layout manipulators take. Refusing simply returns false, which
- * leaves the workbench with no output and the medallion untouched in its slot.
- */
+/** Applies a greed medallion to a vault crystal through the workbench's anvil flow; false refuses. */
 public class GreedMedallionModificationRecipe extends VanillaAnvilRecipe {
     @Override
     public boolean onSimpleCraft(AnvilContext context) {

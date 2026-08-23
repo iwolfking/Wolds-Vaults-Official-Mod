@@ -10,19 +10,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Per-vault, per-player scratch state for the milestones that cannot be expressed as a plain
- * global counter: the two composite "in one vault" milestones, Flawless Victory, and the
- * baselines used to turn polled objective totals into deltas.
- *
- * <p>The scratch is keyed by (vault, player) and lives exactly as long as the run does: it is
- * created on join, kept across a logout or a restart that happens mid-run, and destroyed only
- * when the player leaves the vault or the vault ends. It rides along in {@link MilestoneData}
- * rather than in its own store, because everything it feeds is judged on the way out of a vault
- * and would otherwise be silently reset by a relog.</p>
- *
- * <p>The numbers the two composites are judged against are not held here: they belong to the
- * milestones, so they come from {@link MilestoneRegistry} and are pack config like every other
- * milestone threshold.</p>
+ * Per-vault, per-player scratch state for the composite milestones, Flawless Victory and the
+ * polled-objective baselines. Serialised inside {@link MilestoneData}; dropped when the run ends.
  */
 public class MilestoneVaultState {
     private static final Map<UUID, Map<UUID, MilestoneVaultState>> STATES = new ConcurrentHashMap<>();
@@ -59,29 +48,13 @@ public class MilestoneVaultState {
         return vault == null ? null : vault.get(playerId);
     }
 
-    /**
-     * O(1) "is this player inside a vault right now" lookup, and the vault scratch state if so.
-     * Used as the cheap gate on the hot per-kill and per-damage paths so they never have to walk
-     * the server's vault list.
-     */
+    /** The scratch state of the vault this player is registered against, or null for none. */
     public static MilestoneVaultState current(UUID playerId) {
         UUID vaultId = ACTIVE.get(playerId);
         return vaultId == null ? null : peek(vaultId, playerId);
     }
 
-    /**
-     * Whether the engine currently has this player registered against a vault. This is the fast
-     * path of the milestone vault gate, and it answers the registration rather than the scratch
-     * state, so it stays true for the window in which a listener is registered but its state has
-     * not been created yet.
-     *
-     * <p>The registration is made on {@code LISTENER_JOIN}, refreshed on every listener tick, and
-     * dropped only by {@link #release} or {@link #unregisterPlayer}. It deliberately
-     * outlives the teleport out of the vault dimension: {@code LISTENER_LEAVE} fires after the
-     * vault's own leave logic has already sent the player home, and every end-of-run milestone -
-     * Vaults Hunted, Fail Vaults, Explorer, Seen It All, Flawless Victory - is awarded from
-     * there.</p>
-     */
+    /** Whether this player is registered against a vault; outlives the teleport out of it. */
     public static boolean isTracked(UUID playerId) {
         return ACTIVE.containsKey(playerId);
     }
@@ -105,22 +78,13 @@ public class MilestoneVaultState {
         }
     }
 
-    /**
-     * Drops the "in a vault right now" registration without touching the scratch behind it. This
-     * is the logout path: the run is still going, so the damage flag Flawless Victory reads, the
-     * composite tallies and the polled baselines all have to be waiting intact when the player
-     * comes back. Rejoining re-registers them against the same vault and {@link #get} hands back
-     * the state they left.
-     */
+    /** Drops the registration but keeps the scratch, so rejoining picks the state back up. */
     public static void unregisterPlayer(UUID playerId) {
         scratchDirty = true;
         ACTIVE.remove(playerId);
     }
 
-    /**
-     * Replaces every live scratch state with the contents of a milestone save. Called only from
-     * {@link MilestoneData}'s load, so a restart taken mid-run resumes with the tallies it had.
-     */
+    /** Replaces every live scratch state with the contents of a milestone save. */
     static void loadAll(ListTag list) {
         STATES.clear();
         ACTIVE.clear();
@@ -191,12 +155,7 @@ public class MilestoneVaultState {
         this.baselinesReady = tag.getBoolean("baselinesReady");
     }
 
-    /**
-     * Records one looted vault chest against the two composite "in one vault" milestones. Wooden
-     * boxes report as {@code box} and are dropped: they generate as WOODEN, and counting them would
-     * let a room full of boxes finish both Vault of Vaults' wooden quota and Dedicated Looter's
-     * first phase without a chest being opened.
-     */
+    /** Records one looted vault chest; a chest flagged {@code box} counts for nothing. */
     public void onChestLooted(VaultChestType type, boolean box) {
         if (box) {
             return;
@@ -257,11 +216,7 @@ public class MilestoneVaultState {
         return !this.damaged;
     }
 
-    /**
-     * "Complete an Impressive Vault": the configured mob kills, that many of each of the four
-     * normal chests, that many of every door type and that many ores, all inside this one run. The
-     * objective completion itself is checked by the caller.
-     */
+    /** Whether this run met every "Vault of Vaults" quota. The caller checks vault completion. */
     public boolean isVaultOfVaultsDone() {
         long chestsPerType = MilestoneRegistry.getVaultOfVaultsChestsPerType();
         long doorsPerType = MilestoneRegistry.getVaultOfVaultsDoorsPerType();
@@ -320,15 +275,7 @@ public class MilestoneVaultState {
         return delta;
     }
 
-    /**
-     * Whether the scratch has changed since this was last called, clearing the flag.
-     *
-     * <p>The scratch is serialised into {@link MilestoneData} but is not one of its fields, so its
-     * mutators cannot set that save's own pending flag. Without this the scratch was written under
-     * a dirty flag none of its writers touched, and only reached disk when an unrelated counter
-     * happened to move in the same window - so a run that advanced nothing, a bail with no
-     * progress, never persisted its own release and left the entry behind across a restart.
-     */
+    /** Whether the scratch has changed since this was last called, clearing the flag. */
     static boolean consumeDirty() {
         boolean dirty = scratchDirty;
         scratchDirty = false;

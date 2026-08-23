@@ -6,15 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.handlers.PietyHandler;
 
-/**
- * A god tree's Pious Devotion node as a piety source: the effect's configured piety per invested
- * point toward that god, scaled by the same tree-scale rule every other stat contribution uses
- * ({@link GodNodeCache#treeScale}), so the value of investing does not vanish the moment the charm
- * changes to another god.
- *
- * <p>One implementation serves all four trees. Each tree previously shipped its own copy, and the
- * four differed only in which god they answered for - which is the parameter.
- */
+/** A Pious Devotion node as a piety source: configured piety per point, at {@link GodNodeCache#treeScale}. */
 public record GodPietySource(VaultGod god, String effectId) implements PietyBonusSource {
 
     @Override

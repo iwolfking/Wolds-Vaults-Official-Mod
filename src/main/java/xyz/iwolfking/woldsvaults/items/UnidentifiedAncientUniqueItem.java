@@ -38,25 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Dev and testing source of ancient uniques. Right-clicking puts the stack into the same rolling state
- * base unidentified vault gear uses: it ticks in the player inventory for 120 ticks through
- * GearRollHelper.tickToll, shuffling a candidate ancient every "hit" with the raffle sound, then
- * replaces itself in place with a finished, already identified level 100 ancient unique.
- * <p>
- * The produced stack is built through the same path a natural identify takes - the unique's own base
- * item out of the unique registry, then GearRollHelper.initializeGear - with the ancient marker
- * stamped before the roll so VaultGearTierConfig.getConfig routes the modifiers through the ancient
- * ranges exactly as it does for a drop that rolled ancient.
- * <p>
- * Implementing IdentifiableItem is what makes the base game's Identification Stand accept this item:
- * IdentificationStandBlock.use, IdentificationStandTileEntity.canOpenBookModel and
- * IdentificationStandRenderer all filter the player inventory on
- * "instanceof IdentifiableItem and getState == UNIDENTIFIED", and the stand then drives the item
- * through IdentifiableItem.instantIdentify, which is tickRoll followed by tickFinishRoll. The state
- * is mapped onto this item's own rolling flag rather than onto AttributeGearData, the way
- * JewelPouchItem maps it onto its stored jewel list, because this item carries no gear data.
- */
+/** Dev and testing source of ancient uniques: rolls for 120 ticks, then becomes a level 100 ancient. */
 public class UnidentifiedAncientUniqueItem extends BasicItem implements IdentifiableItem {
     private static final int ANCIENT_ITEM_LEVEL = 100;
     private static final String UNIQUE_ROLL_TYPE = "Unique";
@@ -70,19 +52,7 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         super(id, properties);
     }
 
-    /**
-     * Starts the roll rather than finishing it, mirroring base gear: VaultGearHelper.rightClick hands off
-     * to IdentifiableItem.tryStartIdentification, which either honours an Identification Tome in the off
-     * hand with an instant identify or flips the stack into the rolling state and lets inventoryTick do
-     * the work. A stack of more than one splits a single piece off so the roll, which can only ever
-     * produce one item, never destroys the rest of the stack.
-     *
-     * <p>The tome branch hands back whatever now sits in the hand slot - the freshly placed ancient
-     * for a single stack, the shrunk remainder otherwise - rather than the stack it was given. The
-     * game-mode handler re-syncs the slot from the returned stack, and returning the stale one only
-     * worked while it still looked untouched; it must never be returned empty, because the handler
-     * would then clear the slot the ancient was just written into.</p>
-     */
+    /** Starts the roll, splitting one piece off a larger stack. Returns the hand slot's stack, never empty. */
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
@@ -110,12 +80,7 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         return InteractionResultHolder.sidedSuccess(heldStack, false);
     }
 
-    /**
-     * The state the Identification Stand and every other base identification consumer read. This item has
-     * no AttributeGearData to keep a VaultGearState in, so the base default - which would parse gear data
-     * off a non-gear stack - is replaced by a read of this item's own rolling flag. It is never IDENTIFIED,
-     * because an identified stack is no longer this item at all: it has become the ancient unique.
-     */
+    /** Reads this item's own rolling flag rather than gear data; never returns {@code IDENTIFIED}. */
     @Override
     public VaultGearState getState(@NotNull ItemStack stack) {
         return isRolling(stack) ? VaultGearState.ROLLING : VaultGearState.UNIDENTIFIED;
@@ -130,54 +95,27 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         clearRollTags(stack);
     }
 
-    /**
-     * Base gear is stacksTo(1) so its canIdentify demands a count of one; this item stacks to 16 and a
-     * stack that the stand silently skipped would read in game as the stand being broken. tickFinishRoll
-     * identifies the whole stack instead, the way JewelPouchItem opens up to 32 pouches from one stand use.
-     */
     @Override
     public boolean canIdentify(@NotNull Player player, @NotNull ItemStack stack) {
         return !stack.isEmpty();
     }
 
-    /**
-     * The shuffle step of base identification. Reached once per tickToll hit while rolling, and once
-     * immediately before tickFinishRoll on every instant identify, so an instant identify lands on a
-     * uniformly drawn candidate exactly like a completed roll does.
-     */
     @Override
     public void tickRoll(@NotNull ItemStack stack, @Nullable Player player) {
         shuffleCandidate(stack, player);
     }
 
-    /**
-     * The finish step of base identification, and the seam the Identification Stand ends on. The stand has
-     * no container of its own - it sweeps the player's own inventory and hands us the live ItemStack out of
-     * Inventory.items - so the round 8 in-place swap already addresses the right slot and is reused as is.
-     * <p>
-     * The identify flag is ignored on purpose: in base it only chooses initializeAndDiscoverGear over
-     * initializeGear, and that difference is model discovery, which initializeAndDiscoverGear skips for
-     * UNIQUE rarity anyway. Every ancient this item produces is UNIQUE, so both flags mean the same thing.
-     */
+    /** Finish step of base identification. The {@code identify} flag is ignored. */
     @Override
     public void tickFinishRoll(@NotNull ItemStack stack, @Nullable Player player, boolean identify) {
         identifyStack(stack, player, stack.getCount(), NO_SLOT_HINT);
     }
 
-    /**
-     * Never reached from this item's own inventoryTick, which drives the roll directly so it can pass the
-     * slot hint; kept working rather than stubbed so any other caller of the base interface still rolls.
-     */
     @Override
     public void inventoryIdentificationTick(@NotNull Player player, @NotNull ItemStack stack) {
         tickIdentification(stack, player, NO_SLOT_HINT);
     }
 
-    /**
-     * The same driver base gear uses: every VaultGearItem calls vaultGearTick from inventoryTick, which
-     * ends in GearRollHelper.tickToll. Reusing tickToll rather than reimplementing it keeps the 120 tick
-     * duration, the decelerating shuffle cadence and both roll sounds identical to base identification.
-     */
     @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int itemSlot, boolean isSelected) {
         super.inventoryTick(stack, level, entity, itemSlot, isSelected);
@@ -194,12 +132,6 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         GearRollHelper.tickToll(stack, player, UnidentifiedAncientUniqueItem::shuffleCandidate, finished -> identifyStack(finished, player, 1, slotHint));
     }
 
-    /**
-     * The shuffling display. Base gear re-rolls its rarity and its gear model on every tickToll hit, so
-     * the slot sprite and the rarity coloured name visibly cycle while it identifies; this item has one
-     * sprite, so the cycling lands on the name instead - each hit picks a new ancient unique and the
-     * stack renders as that name until the next hit.
-     */
     private static void shuffleCandidate(ItemStack stack, Player player) {
         List<ResourceLocation> candidates = getAncientCapableUniques();
         if (candidates.isEmpty()) {
@@ -209,16 +141,7 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         stack.getOrCreateTag().putString(CANDIDATE_KEY, candidates.get(RANDOM.nextInt(candidates.size())).toString());
     }
 
-    /**
-     * The one place a finished ancient is produced, shared by every entry point: the roll finishing under
-     * inventoryTick, the off-hand Identification Tome, and the Identification Stand through
-     * IdentifiableItem.instantIdentify.
-     * <p>
-     * The first result lands on whichever unique the last shuffle hit displayed, the way base gear keeps
-     * whatever rarity and model its last tickGearRoll wrote; any further results from the same stack are
-     * fresh uniform draws. Returns false, having consumed nothing, if the stack could not be turned into
-     * at least one ancient.
-     */
+    /** Produces {@code amount} ancients from the rolling stack; false, consuming nothing, if none could be. */
     private static boolean identifyStack(ItemStack rolling, @Nullable Player player, int amount, int slotHint) {
         if (player == null) {
             WoldsVaults.LOGGER.error("An unidentified ancient unique was identified with no player to give the result to; leaving it unidentified.");
@@ -274,28 +197,7 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         }
     }
 
-    /**
-     * Swaps the finished ancient into the slot the unidentified stack was ticking in. Only ever called with
-     * one ancient per item in the rolling stack, so it consumes the whole stack: the setItem path discards
-     * it by overwriting the slot and the fallback has to empty it by hand to match, or a bulk identify of a
-     * stack of sixteen would hand over sixteen ancients while removing one.
-     * <p>
-     * The slot index inventoryTick hands out is only trustworthy for the main inventory: Inventory.tick
-     * walks items, armor and offhand and passes the index within each compartment, while Inventory.getItem
-     * addresses one flat 0-40 space, so armor and offhand indices alias onto the first main slots. The
-     * identity check catches that aliasing and the scan resolves the real slot. Anything that ticks this
-     * item outside the player inventory at all - a backpack, a curio - falls through to consuming the
-     * rolling stack where it sits and handing the result over, which is not in place but does not duplicate.
-     * <p>
-     * The Identification Stand arrives here with no slot hint and goes straight to the scan. That is correct
-     * rather than a fallback: the stand owns no container, it iterates Inventory.items and hands
-     * instantIdentify the live stack out of that list, so the stack really is in the player inventory and the
-     * scan finds it. Mutating the list under the stand's own iteration is safe - NonNullList.set delegates
-     * to List.set without touching AbstractList.modCount, so its iterator cannot fail fast. The stand's
-     * second pass, over InventoryUtil.findAllItemsInMainHand, can instead hand over a stack living inside a
-     * held backpack or shulker; that one misses the scan and takes the consume-and-give path, and the stand
-     * writes the emptied stack back into the container itself.
-     */
+    /** Swaps the ancient into the rolling stack's slot; outside the main inventory the result is given away. */
     private static void replaceInPlace(Player player, ItemStack rolling, ItemStack ancient, int itemSlot) {
         Inventory inventory = player.getInventory();
         if (itemSlot >= 0 && itemSlot < inventory.getContainerSize() && inventory.getItem(itemSlot) == rolling) {
@@ -355,10 +257,7 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         tooltip.add(new TextComponent("Testing item.").withStyle(ChatFormatting.DARK_GRAY));
     }
 
-    /**
-     * Builds one finished ancient unique, or an empty stack if none could be built. Every failure
-     * path logs, because a silent empty stack here reads in game as an identification that did nothing.
-     */
+    /** Builds one finished ancient unique, or {@link ItemStack#EMPTY} if none could be built. Failures log. */
     public static ItemStack createRandomAncientUnique(Player player) {
         List<ResourceLocation> candidates = getAncientCapableUniques();
         if (candidates.isEmpty()) {
@@ -370,11 +269,7 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         return createAncientUnique(uniqueKey, player);
     }
 
-    /**
-     * Every unique that is both present in the loaded unique registry and carries an ancient name,
-     * which is the same set AncientUniqueHelper will resolve an ancient tier config for. Derived at
-     * call time rather than cached so a config reload is picked up.
-     */
+    /** Every unique in the loaded registry that carries an ancient name. Derived at call time, not cached. */
     public static List<ResourceLocation> getAncientCapableUniques() {
         List<ResourceLocation> candidates = new ArrayList<>();
         for (ResourceLocation uniqueKey : ModConfigs.UNIQUE_GEAR.getRegistry().keySet()) {
@@ -385,16 +280,7 @@ public class UnidentifiedAncientUniqueItem extends BasicItem implements Identifi
         return candidates;
     }
 
-    /**
-     * Rolls one named unique as an ancient. The ancient marker and the unique key are written to the
-     * stack before initializeGear runs, so the tier config lookup inside initializeUniqueGear already
-     * sees an ancient and rolls every modifier at ancient ranges.
-     * <p>
-     * The ancient display name and the loot stamp are applied afterwards on purpose. The base call
-     * overwrites GEAR_NAME with the plain unique name, and leaving IS_LOOT off until after the roll
-     * keeps AncientUniqueHelper.hasAncientProvenance false during the roll, so the natural identify
-     * chance cannot also fire and award an ancient milestone for a testing item.
-     */
+    /** Rolls one named unique as an ancient: the marker is set before the roll, the name and stamp after. */
     public static ItemStack createAncientUnique(ResourceLocation uniqueKey, Player player) {
         return createAncientUnique(uniqueKey, player, ANCIENT_ITEM_LEVEL);
     }

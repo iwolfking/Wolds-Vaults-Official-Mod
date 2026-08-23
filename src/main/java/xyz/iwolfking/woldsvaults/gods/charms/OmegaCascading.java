@@ -16,13 +16,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
-/**
- * Omega Cascading - the mythic charm suffix that adds cascading for every chest type and coin
- * piles. The stat is a percentage; on vault join it is converted into that many stacks of the
- * pack's one-percent {@code woldsvaults:omega_cascading} grouped modifier (wooden, gilded,
- * ornate, living and coin cascades at 1% each), rounded to the nearest whole percent. Each stack
- * is an independent modifier entry, so it composes with any cascade already on the vault.
- */
+/** Mythic charm suffix: adds whole-percent stacks of {@code woldsvaults:omega_cascading} on vault join. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class OmegaCascading {
     public static final ResourceLocation MODIFIER_ID = WoldsVaults.id("omega_cascading");

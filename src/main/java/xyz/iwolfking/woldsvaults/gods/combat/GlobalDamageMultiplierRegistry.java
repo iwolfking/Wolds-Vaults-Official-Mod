@@ -23,20 +23,12 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Per-player registry of named global damage multipliers. Every registered factor multiplies with
- * every other one (never additive), and the product is applied once per hit.
- *
- * <p>This is deliberately separate from the base mod's {@code PlayerDamageHelper} registry, which
- * excludes AoE- and AP-flagged damage. A factor registered here reaches every path where the true
- * source of the hit is a player.
+ * Per-player registry of named global damage multipliers. Every factor multiplies with every other
+ * one, and the product applies once per hit on every path whose true source is a player.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GlobalDamageMultiplierRegistry {
-    /**
-     * Reference-counted opt-out for percentage-based damage. Any producer that computes damage as
-     * a fraction of the target's health must wrap its {@code hurt} call in
-     * {@code PERCENT_DAMAGE.runWithFlag(...)} so the global product does not compound it.
-     */
+    /** Opt-out flag: a producer of %-of-health damage wraps its {@code hurt} call in {@code runWithFlag}. */
     public static final DamageFlag PERCENT_DAMAGE = new DamageFlag();
 
     private static final Map<UUID, Map<ResourceLocation, Factor>> FACTORS = new ConcurrentHashMap<>();
@@ -45,7 +37,6 @@ public final class GlobalDamageMultiplierRegistry {
     private GlobalDamageMultiplierRegistry() {
     }
 
-    /** Registers or overwrites a permanent factor. A factor of 1.0 is a no-op but still stored. */
     public static void register(Player player, ResourceLocation key, float factor) {
         register(player, key, factor, Integer.MAX_VALUE);
     }
@@ -60,7 +51,6 @@ public final class GlobalDamageMultiplierRegistry {
                 .put(key, new Factor(factor, durationTicks));
     }
 
-    /** Resets an existing factor's remaining duration without changing its value. */
     public static boolean refresh(Player player, ResourceLocation key, int durationTicks) {
         Factor factor = FACTORS.getOrDefault(player.getUUID(), Collections.emptyMap()).get(key);
         if (factor == null) {
@@ -83,7 +73,6 @@ public final class GlobalDamageMultiplierRegistry {
         return factor == null ? 1.0F : factor.value;
     }
 
-    /** The multiplicative product of every live factor for this player. */
     public static float getProduct(Player player) {
         Map<ResourceLocation, Factor> factors = FACTORS.get(player.getUUID());
         if (factors == null || factors.isEmpty()) {
@@ -110,32 +99,12 @@ public final class GlobalDamageMultiplierRegistry {
         return copy;
     }
 
-    /**
-     * Marks a damage source id as percentage-based, so the global product skips it. Producers that
-     * cannot wrap their call site in {@link #PERCENT_DAMAGE} use this instead.
-     */
+    /** Marks a damage source id as percentage-based, so the global product skips it. */
     public static void excludeDamageSource(String damageSourceId) {
         EXCLUDED_SOURCES.add(damageSourceId);
     }
 
-    /**
-     * Applies the player's global damage product to every hit they are the true source of.
-     *
-     * <p>Runs at {@link EventPriority#LOW} on {@link LivingHurtEvent} — after the base mod's
-     * {@code NORMAL}-priority damage pipeline ({@code GearAttributeEvents.increaseDamageDealt} and
-     * {@code PlayerDamageHelper.onPlayerDamage}) so it composes multiplicatively on top of them,
-     * and before {@code LuckyHitTalent} at {@code LOWEST}. {@code LivingHurtEvent} rather than
-     * {@code LivingDamageEvent} so the result is still subject to the target's armour and
-     * resistance, exactly like every other damage bonus in the game.
-     *
-     * <p>Percentage-based damage is excluded, because multiplying a fraction of the target's max
-     * health is not what "global damage multiplier" means. Excluded are: anything flagged
-     * {@code IS_DOT_ATTACKING} (damage-over-time ticks), anything flagged
-     * {@code IS_GLACIAL_SHATTER_ATTACKING} (Glacial Shatter deals max health x0.25 / x1.5),
-     * anything running under {@link #PERCENT_DAMAGE}, and any damage source id registered through
-     * {@link #excludeDamageSource(String)}. Bleed needs no exclusion — it drains health directly
-     * and never raises this event.
-     */
+    /** Applies the global damage product to hits the player is the true source of, before armour. */
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void applyGlobalMultiplier(LivingHurtEvent event) {
         DamageSource source = event.getSource();
@@ -152,17 +121,7 @@ public final class GlobalDamageMultiplierRegistry {
         }
     }
 
-    /**
-     * Whether a hit computes its damage as a fraction of the target's health, and so must not be
-     * scaled by anything that means "more damage". True for anything flagged
-     * {@code IS_DOT_ATTACKING} or {@code IS_GLACIAL_SHATTER_ATTACKING}, anything running under
-     * {@link #PERCENT_DAMAGE}, and any damage source id passed to
-     * {@link #excludeDamageSource(String)}.
-     *
-     * <p>This is the one implementation of that test. Every damage multiplier in the god core -
-     * this registry, the god node combat pipeline and the per-god hit handlers - asks here, because
-     * two hand-rolled copies of it had already drifted apart once.
-     */
+    /** Whether a hit computes its damage as a fraction of the target's health. */
     public static boolean isPercentageBased(DamageSource source) {
         return PERCENT_DAMAGE.isSet()
                 || ActiveFlags.IS_DOT_ATTACKING.isSet()
@@ -204,7 +163,6 @@ public final class GlobalDamageMultiplierRegistry {
         }
     }
 
-    /** Reference-counted thread-local flag, matching the shape of the addon's own active flags. */
     public static final class DamageFlag {
         private final ThreadLocal<Integer> references = ThreadLocal.withInitial(() -> 0);
 
@@ -225,7 +183,6 @@ public final class GlobalDamageMultiplierRegistry {
         }
     }
 
-    /** Drops every player's factors when the server stops, so they cannot cross a world switch. */
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         FACTORS.clear();

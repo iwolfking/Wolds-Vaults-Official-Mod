@@ -9,11 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- * Client-side mirror of the local player's {@link GodAlignmentData} state, replaced wholesale by
- * every sync packet. Read-only for consumers; the server remains authoritative. {@link #revision()}
- * increments on every accepted sync so screens can poll for changes without holding references.
- */
+/** Client mirror of {@link GodAlignmentData}, replaced by every sync; {@link #revision()} then increments. */
 public final class ClientGodAlignmentData {
     private static EnumMap<VaultGod, GodAlignmentData.GodState> states = new EnumMap<>(VaultGod.class);
     private static EnumMap<VaultGod, Integer> piety = new EnumMap<>(VaultGod.class);
@@ -71,11 +67,7 @@ public final class ClientGodAlignmentData {
         return state == null ? Collections.emptyMap() : Collections.unmodifiableMap(state.spentPoints);
     }
 
-    /**
-     * The effect ids a god's transfer slots carry, under the same rules as the server's
-     * {@link GodAlignmentData#getMinorTransfers}: unlocked slots only, learned minors of that god
-     * only.
-     */
+    /** The effect ids a god's transfer slots carry: unlocked slots only, learned minors of that god only. */
     public static List<String> getMinorTransfers(VaultGod god) {
         GodAlignmentData.GodState state = states.get(god);
         if (state == null) {
@@ -97,10 +89,7 @@ public final class ClientGodAlignmentData {
         return Optional.of(state.minorTransfers.get(slot));
     }
 
-    /**
-     * Whether a slot is unlocked and holds something that counts - a learned minor star of that
-     * god. Anything else is drawn as an empty slot.
-     */
+    /** Whether a slot is unlocked and holds a learned minor star of that god. */
     public static boolean isMinorTransferLive(VaultGod god, int slot) {
         if (slot < 0 || slot >= getMinorTransferSlots(god)) {
             return false;

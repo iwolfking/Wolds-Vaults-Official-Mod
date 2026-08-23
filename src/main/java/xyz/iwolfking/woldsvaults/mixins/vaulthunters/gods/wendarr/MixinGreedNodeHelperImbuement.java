@@ -12,15 +12,8 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodes;
 
 /**
- * Master Imbuer (r66): imbuement chance from the Wendarr tree.
- *
- * <p>Imbuement chance is not a vault gear attribute, so it cannot ride the snapshot the way every
- * other stat node does. Its single consumption site reads
- * {@code GreedNodeHelper.getImbuementChanceBonus}, so the god contribution is added to that
- * helper's result -  the god tree becomes a second source alongside the greed tree rather than
- * replacing it. The chance per point is the effect's configured table
- * ({@code god_node_effects_wendarr.json}, {@code values[0]}) and the gate is the shared one, so the
- * node pays exactly what every other stat node pays on an active, foreign or absent charm.
+ * Master Imbuer (r66): adds the Wendarr tree's imbuement chance on top of the greed tree's, since it is
+ * not a gear attribute. Chance per point comes from {@code god_node_effects_wendarr.json}.
  */
 @Mixin(value = GreedNodeHelper.class, remap = false)
 public abstract class MixinGreedNodeHelperImbuement {

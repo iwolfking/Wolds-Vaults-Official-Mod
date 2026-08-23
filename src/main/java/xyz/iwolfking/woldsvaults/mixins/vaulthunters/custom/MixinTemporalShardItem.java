@@ -39,12 +39,7 @@ public abstract class MixinTemporalShardItem implements IdentifiableItem{
         }
     }
 
-    /**
-     * Clock Artificier (r81) and the mythic charm's Temporal Shard Duration suffix: temporal
-     * shards the player consumes last longer. Patched at the consumption site rather than on
-     * {@code getDuration} itself, because that getter also feeds the tooltip and both bonuses are
-     * explicitly limited to shards this player uses.
-     */
+    /** Clock Artificier (r81) and the charm's Temporal Shard Duration suffix, applied at the consumption site. */
     @ModifyExpressionValue(method = "lambda$use$4", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/TemporalShardItem;getDuration(Lnet/minecraft/world/item/ItemStack;)I"))
     private static int woldsvaults$extendShardDuration(int duration, @Local(argsOnly = true) Player player) {
         if (!(player instanceof ServerPlayer serverPlayer)) {
@@ -92,7 +87,6 @@ public abstract class MixinTemporalShardItem implements IdentifiableItem{
             }
         }
 
-        // original
         AttributeGearData data = AttributeGearData.read(stack);
         if (data instanceof VaultGearData gearData) {
             return gearData.getState();

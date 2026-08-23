@@ -13,21 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.gods.trees.tenos.TenosAbilityCaps;
 
 /**
- * Enforces the god-node gate on ability levels past an ability's base cap
- * ({@link TenosAbilityCaps}). Two halves, because a tier can be reached two ways:
- *
- * <ul>
- *   <li>effective level - {@code updateBonusTier} is the single writer of a tiered skill's bonus
- *       tier, so clamping its argument caps {@code getActualTier()} whatever the bonus came from
- *       (gear, talents, prestige or the god node itself). The clamp may go negative, which is how a
- *       learned tier above the cap is pulled back down to it without touching the learned tier;</li>
- *   <li>learn time - {@code canLearn} is the gate the ability learn packet checks before spending a
- *       skill point, so a player without the node cannot buy tiers past the cap.</li>
- * </ul>
- *
- * <p>Both halves resolve the player from the skill context and do nothing when there is none, which
- * keeps client-side copies of the tree on base-mod behaviour. Nothing is written to disk: the
- * learned tier is left alone and the cap simply moves back up when the node is active again.
+ * Enforces the god-node gate on ability levels past an ability's base cap ({@link TenosAbilityCaps}) at
+ * {@code updateBonusTier} - the single writer of a bonus tier, where the clamp may go negative to pull a
+ * learned tier down - and at {@code canLearn}. Both no-op without a server player; nothing is written to disk.
  */
 @Mixin(value = TieredSkill.class, remap = false)
 public abstract class MixinTieredSkill {
@@ -35,9 +23,8 @@ public abstract class MixinTieredSkill {
     protected abstract void updateBonusTier(int bonusTier, SkillContext context);
 
     /**
-     * Re-dispatches once with the clamped value rather than editing the field, so the base mod's
-     * own regret/learn/sync transition still runs. The clamp is idempotent, so the second pass
-     * clamps to the same number and proceeds.
+     * Re-dispatches once with the clamped value rather than editing the field, so the base mod's own transition
+     * still runs; the clamp is idempotent.
      */
     @Inject(method = "updateBonusTier(ILiskallia/vault/skill/base/SkillContext;)V", at = @At("HEAD"), cancellable = true)
     private void woldsvaults$capGodGatedBonusTier(int bonusTier, SkillContext context, CallbackInfo ci) {

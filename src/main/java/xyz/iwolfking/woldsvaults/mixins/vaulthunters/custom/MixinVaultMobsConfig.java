@@ -52,12 +52,7 @@ public class MixinVaultMobsConfig {
         return original.call(instance);
     }
 
-    /**
-     * Greed medallions multiply vault mob health and damage. This lands on the attribute's <b>base
-     * value</b>, the same layer the difficulty and greed-tier factors write to, which is what makes
-     * the medallion bonus multiplicative with every vault modifier stacked on top of it - those are
-     * attached as AttributeModifiers and always apply to whatever base they find.
-     */
+    /** Multiplies vault mob health and damage by the medallion bonus, on the attribute's base value. */
     @WrapOperation(
         method = "lambda$scale$0",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;setBaseValue(D)V"),

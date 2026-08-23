@@ -61,21 +61,7 @@ public class MixinGreedTraderScreen  extends AbstractElementContainerScreen<Gree
         super(container, inventory, title, elementRenderer, tooltipRendererFactory);
     }
 
-    /**
-     * Drops the retired Quests tab from the trader's tab strip.
-     *
-     * <p>Base builds the strip as three {@code createTab(...)} results handed straight to
-     * {@code addElement}. The quest system is dead - every message the Quests screen can send is
-     * refused server-side - so its tab is simply never filed; the element is still built and then
-     * discarded, which keeps the redirect free of a null the element store would choke on.</p>
-     *
-     * <p>The ordinal is pinned against the shipped 3.21.6 jar. {@code m_7856_} issues exactly six
-     * {@code addElement} calls, in order: the left window background (63), the right window
-     * background (106), the Shop tab (142), the Quests tab (174), the Challenges tab (206) and the
-     * tab title label (261) - so the Quests tab is ordinal 3. Sibling mixins that append elements
-     * in this method do so from their own merged handler methods, not from {@code m_7856_} itself,
-     * so they cannot shift this ordinal.</p>
-     */
+    /** Drops the Quests tab from the trader's tab strip; the element is still built, then discarded. */
     @Redirect(method = "init", remap = true,
             at = @At(value = "INVOKE", ordinal = 3, remap = false,
                     target = "Liskallia/vault/client/gui/screen/GreedTraderScreen;addElement(Liskallia/vault/client/gui/framework/element/spi/IElement;)Liskallia/vault/client/gui/framework/element/spi/IElement;"))
@@ -83,16 +69,7 @@ public class MixinGreedTraderScreen  extends AbstractElementContainerScreen<Gree
         return questsTab;
     }
 
-    /**
-     * Closes the hole the removed Quests tab leaves. Base pitches the strip at 30px from y = 5, and
-     * the greed rework's Achievements tab is appended at y = 95 by a sibling mixin, so pushing Shop
-     * down one slot lands the three surviving tabs on 35 / 65 / 95 with no gap between them. The
-     * ordinal is the first of the three {@code createTab} calls in {@code m_7856_} (bytecode 139,
-     * against 171 for Quests and 203 for Challenges); index 2 is the {@code int y} argument.
-     *
-     * <p>If the Achievements tab is ever moved up to y = 65, delete this injector and the strip
-     * lands back on base's own 5 / 35 / 65.</p>
-     */
+    /** Moves the Shop tab down one slot, landing the surviving tabs on y = 35 / 65 / 95 with no gap. */
     @ModifyArg(method = "init", remap = true, index = 2,
             at = @At(value = "INVOKE", ordinal = 0, remap = false,
                     target = "Liskallia/vault/client/gui/screen/GreedTraderScreen;createTab(ZLiskallia/vault/client/atlas/TextureAtlasRegion;ILjava/lang/Runnable;)Liskallia/vault/client/gui/framework/element/TabElement;"))
@@ -100,21 +77,7 @@ public class MixinGreedTraderScreen  extends AbstractElementContainerScreen<Gree
         return y + 30;
     }
 
-    /**
-     * Reprices the Restock tooltip from reputation to greedy tickets.
-     *
-     * <p>{@code getResetCost()} is now a ticket count (see {@code MixinPlayerGreedTraderData}), so
-     * the affordability check has to read tickets too - the container's reputation balance is no
-     * longer what pays for a reroll. Ticket counting here is for display only; the server does its
-     * own count before it takes anything.</p>
-     *
-     * <p>Targeted by lambda name against the shipped 3.21.6 jar, where
-     * {@code addShopRestockButton} compiles to three synthetic methods: {@code $6} the click
-     * handler, {@code $7} the tooltip {@code Supplier<Component>}, {@code $8} the disabled
-     * {@code Supplier<Boolean>}. Mixin-added lambdas are renamed on merge, so sibling mixins
-     * cannot shift these indices. The two colour literals are base's own: -1 white,
-     * -43691 (0xFFFF5555) red.</p>
-     */
+    /** Reprices the Restock tooltip from reputation to greedy tickets. The count here is display only. */
     @Inject(method = "lambda$addShopRestockButton$7", at = @At("HEAD"), cancellable = true)
     private void showRestockPriceInTickets(CallbackInfoReturnable<Component> cir) {
         int resetCost = this.getMenu().getResetCost();
@@ -123,10 +86,7 @@ public class MixinGreedTraderScreen  extends AbstractElementContainerScreen<Gree
                 .setStyle(Style.EMPTY.withColor(affordable ? -1 : -43691)));
     }
 
-    /**
-     * Greys the Restock button out on greedy tickets rather than reputation. Pairs with
-     * {@link #showRestockPriceInTickets}, which documents how the lambda index is pinned.
-     */
+    /** Greys the Restock button out on greedy tickets rather than reputation. */
     @Inject(method = "lambda$addShopRestockButton$8", at = @At("HEAD"), cancellable = true)
     private void disableRestockWithoutTickets(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(countHeldGreedyTickets() < this.getMenu().getResetCost());
@@ -147,7 +107,6 @@ public class MixinGreedTraderScreen  extends AbstractElementContainerScreen<Gree
             itemStackDisplayElement.setScale(0.72F);
             this.addElement(itemStackDisplayElement);
 
-            //Countdown
             LocalDateTime endTime = ClientShardTradeData.getNextReset();
             LocalDateTime nowTime = LocalDateTime.now(ZoneId.of("UTC")).withNano(0);
             LocalTime diff = LocalTime.MIN.plusSeconds(ChronoUnit.SECONDS.between(nowTime, endTime));

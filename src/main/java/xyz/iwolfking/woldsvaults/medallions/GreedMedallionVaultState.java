@@ -12,11 +12,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Per-vault registry of the active greed medallion, mirroring the in-memory pattern of
- * {@code VaultClockRate}: populated when a vault is built from a medallion-bearing crystal,
- * consulted by every medallion effect hook and the assassin spawner, and released when the vault
- * ends. Nothing here persists; a vault that outlives a server restart simply loses its medallion
- * effects, which matches how the clock-rate carrier behaves.
+ * Per-vault registry of the active greed medallion, set when a vault is built from a medallion-bearing crystal and
+ * released when it ends. Nothing here persists.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GreedMedallionVaultState {
@@ -52,11 +49,6 @@ public final class GreedMedallionVaultState {
         ACTIVE.clear();
     }
 
-    /**
-     * Drops every vault's medallion when the server stops. On an integrated server the JVM
-     * outlives the world, so an entry left behind would apply the previous world's medallion to a
-     * vault that reuses its id.
-     */
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         clearAll();

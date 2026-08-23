@@ -21,17 +21,10 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class HyperVaultCrystalObjective extends WoldCrystalObjective {
-    /**
-     * Carried in crystal NBT/JSON for forward compatibility, but nothing consumes it yet:
-     * the live escalation factor is hyper_objective.json (cfg().getHyperStatFactor()).
-     */
+    /** Carried in NBT/JSON but consumed by nothing; the live factor is {@code hyper_objective.json}. */
     protected float hyperStatFactor = HyperVaultObjective.cfg().getHyperStatFactor();
 
-    /**
-     * Non-zero only on the throwaway crystal a greed rank-up trial builds: the rank the trial is
-     * for. It is not serialized - a trial crystal never becomes an item, and a hyper crystal a
-     * player can actually hold must never claim to be a trial.
-     */
+    /** Non-zero only on the throwaway crystal a rank-up trial builds: its rank. Never serialized. */
     private transient int trialRank;
 
     public HyperVaultCrystalObjective() {
@@ -42,14 +35,8 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
     }
 
     /**
-     * Attaches the hyper objective chain (objective + completion crate + DeathObjective) and
-     * the entry modifiers: locked (no exit portal), fragged (difficulty locked at the highest
-     * tier) and the hyper marker. Deliberately no BailObjective — the exit pillar is the only
-     * way out alive.
-     *
-     * <p>A rank-up trial takes the same chain but leaves the difficulty to the trial row (the
-     * sheet runs Hard and Impossible trials as well as Fragged ones), so the hardcoded fragged
-     * lock is skipped and {@code GreedTrials} adds the row's own difficulty modifier instead.</p>
+     * Attaches the hyper objective chain and the entry modifiers: locked, fragged and the hyper
+     * marker, with no BailObjective. A rank-up trial skips the fragged lock.
      */
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {

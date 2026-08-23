@@ -11,11 +11,7 @@ import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaStackTuning;
 public class MixinStackingGearAttributeTalentIdona {
     /**
      * @author PoorMansPhysicist
-     * @reason Stack Hoarder makes stacks last 50% longer. Applied after the base effect-duration
-     * adjustment so it multiplies the finished duration rather than competing with the
-     * effect_duration attribute, which would bleed into every mob effect in the game. A
-     * return-value modifier so any other modifier of this getter chains with it rather than one
-     * of them cancelling past the other.
+     * @reason Stack Hoarder makes stacks last 50% longer, multiplying the finished duration.
      */
     @ModifyReturnValue(method = "getDurationTicks", at = @At("RETURN"))
     private int applyStackHoarder(int duration, LivingEntity entity) {

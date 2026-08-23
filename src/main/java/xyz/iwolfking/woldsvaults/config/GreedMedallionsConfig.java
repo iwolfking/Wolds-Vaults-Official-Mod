@@ -8,18 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * What a greed medallion does to the vault it rides - {@code config/the_vault/gods/greed_medallions.json}.
- * Holds the eight numeric columns of every medallion tier, the rank each assassin behaviour and
- * deferred Vault Champion behaviour switches on at, and the assassin spawn-rate curve.
- *
- * <p>{@link xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier} is the only reader; the enum
- * keeps the sixteen tiers as identities - registry paths, textures, the NBT int riding the crystal -
- * and takes every number from here, the same split {@code MilestoneRankLadder} has with
- * {@code greed_ranks.json}.
- *
- * <p>Tiers are keyed by rank number, matching {@code godLevelGates} in {@code greed_ranks.json},
- * because a rank's band name is itself config and so cannot be a stable key. Rank 1 is the first
- * medallion (Scavenger 1 as shipped) and rank 16 the last (Legend).
+ * What a greed medallion does to the vault it rides - {@code config/the_vault/gods/greed_medallions.json}:
+ * the numeric columns of every tier, the rank each assassin and Champion behaviour switches on at, and
+ * the assassin spawn-rate curve. Tiers are keyed by rank number, 1 (first medallion) through 16 (Legend).
  */
 public class GreedMedallionsConfig extends PackAuthoredConfig {
 
@@ -59,7 +50,6 @@ public class GreedMedallionsConfig extends PackAuthoredConfig {
         @Expose public int vaultChampionEnraged;
     }
 
-    /** The assassin spawn-rate curve. Deliberately separable from the tier table it scales. */
     public static class Spawn {
         @Expose public double hordeBaseChance;
         @Expose public double eliteBaseChance;
@@ -73,11 +63,7 @@ public class GreedMedallionsConfig extends PackAuthoredConfig {
     @Expose private Gates gates;
     @Expose private Spawn spawn;
 
-    /**
-     * A config instance holding the shipped table without touching the disk. The medallion items
-     * are registered from the tier enum during mod construction, long before configs are read, so
-     * the enum has to have numbers to run on from its own class init.
-     */
+    /** The shipped table without touching disk; the tier enum runs on these from its own class init. */
     public static GreedMedallionsConfig defaults() {
         GreedMedallionsConfig config = new GreedMedallionsConfig();
         config.reset();
@@ -135,10 +121,7 @@ public class GreedMedallionsConfig extends PackAuthoredConfig {
         this.spawn.recoveryTicks = 6000.0D;
     }
 
-    /**
-     * A tier table missing a rank would leave that medallion silently doing nothing, so the whole
-     * file is refused and the shipped table used instead rather than half of it applied.
-     */
+    /** Refuses the whole file, falling back to the shipped table, unless every block is present. */
     @Override
     protected boolean isValid() {
         return this.tiers != null && !this.tiers.isEmpty() && this.gates != null && this.spawn != null;

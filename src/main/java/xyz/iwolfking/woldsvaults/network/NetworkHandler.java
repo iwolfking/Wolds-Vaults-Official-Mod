@@ -26,11 +26,7 @@ import xyz.iwolfking.woldsvaults.network.message.InputLimitSwitchMessage;
 public class NetworkHandler {
     public static final BaseNetworkHandler INSTANCE = new BaseNetworkHandler(WoldsVaults.id("main"));
 
-    /**
-     * Registers every cucumber message the addon sends. Called once from common setup; the
-     * registration order defines the packet discriminators, so it must stay identical on both
-     * logical sides.
-     */
+    /** Registers every cucumber message; the order defines the discriminators, so it must not change. */
     public static void onCommonSetup() {
         INSTANCE.register(EjectModeSwitchMessage.class, new EjectModeSwitchMessage());
         INSTANCE.register(InputLimitSwitchMessage.class, new InputLimitSwitchMessage());

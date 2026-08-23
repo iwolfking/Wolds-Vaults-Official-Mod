@@ -4,12 +4,8 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.server.level.ServerPlayer;
 
 /**
- * Wendarr's ultimate. Stretches the vault clock and grants dodge, attack speed and movement speed
- * for the duration. All of the behaviour lives in {@link BulletTimeState}; this is the castable
- * shell.
- *
- * <p>Note the duration deliberately does not go through {@code EffectDurationHelper}, unlike every
- * other timed ability in the addon: ability-boosting stats must not reach a god ultimate.
+ * Wendarr's ultimate, implemented in {@link BulletTimeState}; its duration is not run through
+ * {@code EffectDurationHelper}.
  */
 public class BulletTimeAbility extends GodUltimateAbility {
     public BulletTimeAbility(int unlockLevel, int learnPointCost, int regretPointCost, int cooldownTicks,
@@ -31,7 +27,6 @@ public class BulletTimeAbility extends GodUltimateAbility {
         return ActionResult.successCooldownImmediate();
     }
 
-    /** The level-scaled values the ability screen renders; see {@link UltimateLevels#displayLevel()}. */
     public UltimateLevels.BulletTime getDisplayValues() {
         return UltimateLevels.bulletTime(UltimateLevels.displayLevel());
     }

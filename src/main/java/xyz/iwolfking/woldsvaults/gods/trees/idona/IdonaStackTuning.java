@@ -3,15 +3,7 @@ package xyz.iwolfking.woldsvaults.gods.trees.idona;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 
-/**
- * Super Stacker and Stack Hoarder. Both nodes change numbers owned by the stacking-talent classes,
- * of which there are three independent implementations with no shared cap or duration helper, so
- * every one of them calls into here.
- *
- * <p>The multiplier is applied <em>after</em> the additive bonuses (Stack Master, the Pyramid
- * Scheme etching, Stack Stack Stack), because those are the flat grants a build already has and
- * multiplying the finished cap is what "1.25x max stacks" reads as.
- */
+/** Super Stacker and Stack Hoarder. Both apply after every additive stack bonus is folded in. */
 public final class IdonaStackTuning {
     private IdonaStackTuning() {
     }

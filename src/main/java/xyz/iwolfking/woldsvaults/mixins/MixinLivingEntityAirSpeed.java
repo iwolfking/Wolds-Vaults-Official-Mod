@@ -13,10 +13,8 @@ public abstract class MixinLivingEntityAirSpeed {
 
     /**
      * @author PoorMansPhysicist
-     * @reason the mythic charm's air movement speed multiplier. Airborne player movement uses the
-     * flat flying-speed constant instead of the movement speed attribute, and this friction branch
-     * is the one read of it, so multiplying here on both sides scales air control without touching
-     * ground speed. The snapshot is synced, so client prediction and server agree.
+     * @reason the mythic charm's air movement speed multiplier; airborne movement reads the flat
+     * flying-speed constant here rather than the movement speed attribute.
      */
     @ModifyReturnValue(method = "getFrictionInfluencedSpeed", at = @At("RETURN"))
     private float woldsVaults$multiplyAirSpeed(float speed) {

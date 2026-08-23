@@ -15,10 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
-/**
- * Flat greed-palette button. Base's nine-slice buttons only come in the stock colour sets, and the
- * greed screens need the gold-on-dark-grey highlight state that marks a claimable row.
- */
+/** Flat greed-palette button with a gold highlight state marking a claimable row. */
 public class GreedButtonElement extends AbstractSpatialElement<GreedButtonElement> implements IRenderedElement, IGuiEventElement {
     private final Supplier<Component> label;
     private final Runnable onClick;

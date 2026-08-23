@@ -26,9 +26,7 @@ import java.util.UUID;
 public abstract class MixinVaultCharmItemPiety {
     /**
      * @author PoorMansPhysicist
-     * @reason god charms scale off piety instead of god reputation. Ten piety equals one of the
-     * old reputation points, so redirecting the reputation read to piety scale units keeps every
-     * downstream formula - stored scale units, live rescaling, roll values - exactly as it was.
+     * @reason god charms scale off piety instead of god reputation, at ten piety per scale unit
      */
     @Redirect(method = {"shouldUpdateItem", "updateCharm"},
             at = @At(value = "INVOKE",
@@ -39,8 +37,7 @@ public abstract class MixinVaultCharmItemPiety {
 
     /**
      * @author PoorMansPhysicist
-     * @reason the charm shows its scaling currency as piety. The stored value is in scale units
-     * (one per ten piety), so the displayed number is the stored units times ten.
+     * @reason the charm shows its scaling currency as piety, which is the stored scale units times ten
      */
     @ModifyVariable(method = "appendHoverText", at = @At("STORE"), name = "reputation", remap = true)
     private int woldsVaults$displayPiety(int storedUnits) {
@@ -54,8 +51,8 @@ public abstract class MixinVaultCharmItemPiety {
 
     /**
      * @author PoorMansPhysicist
-     * @reason the piety line displays in purple on every charm. The base line is assembled inline
-     * as gray label plus white value, so the finished tooltip entry is restyled at the end.
+     * @reason the piety line displays in purple; the base line is assembled inline, so the finished
+     * tooltip entry is restyled at the end
      */
     @Inject(method = "appendHoverText", at = @At("TAIL"), remap = true)
     private void woldsVaults$purplePiety(ItemStack stack, Level worldIn, List<Component> tooltip,

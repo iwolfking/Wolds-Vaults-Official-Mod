@@ -13,10 +13,8 @@ public abstract class MixinAttributeSnapshotMultipliers {
 
     /**
      * @author PoorMansPhysicist
-     * @reason apply the mythic charm's item quantity, item rarity and trap disarm multipliers at
-     * the merged-snapshot read, the single point every consumer of those stats - loot generation,
-     * the statistics screen, tooltips - shares. The multiplier attributes themselves are not in
-     * the mapping, so the nested read cannot recurse.
+     * @reason apply the mythic charm's item quantity, item rarity and trap disarm multipliers at the
+     * merged-snapshot read, which every consumer of those stats shares
      */
     @ModifyReturnValue(method = "getAttributeValue", at = @At("RETURN"))
     private Object woldsVaults$applyMythicMultipliers(Object result, VaultGearAttribute<?> attribute,

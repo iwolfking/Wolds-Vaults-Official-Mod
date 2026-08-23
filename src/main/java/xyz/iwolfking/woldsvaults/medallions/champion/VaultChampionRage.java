@@ -19,16 +19,8 @@ import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassinSpawner;
 import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassins;
 
 /**
- * Rage: the per-player, per-vault counter that decides when a Vault Champion turns up.
- *
- * <p>It rises on the things a greedy run is actually made of - chests, ores and dangerous kills - and
- * bleeds away every tick, so it measures pace rather than total progress. A slow, careful run never
- * reaches the threshold; a run that keeps pushing does.
- *
- * <p>Passing the roll does not spawn anything. It arms a spawn, and the Champion arrives on the very
- * next chest, ore or kill. That is deliberate: a boss that materialises out of nothing reads as the
- * game picking on you, while one that arrives the instant you crack another chest reads as the
- * consequence of what you just did.</p>
+ * Rage: the per-player, per-vault counter that decides when a Vault Champion turns up. It rises on chests,
+ * ores and dangerous kills and bleeds away every tick, so it measures pace rather than total progress.
  */
 public final class VaultChampionRage {
     private static final ResourceLocation GROUP_HORDE = VaultMod.id("horde");
@@ -74,7 +66,6 @@ public final class VaultChampionRage {
         return 0.0D;
     }
 
-    /** One source of rage for one player, followed immediately by the armed-spawn check. */
     private static void award(ServerPlayer player, java.util.function.ToDoubleFunction<GreedChampionConfig> amount) {
         if (player == null || player.level.isClientSide) {
             return;
@@ -103,11 +94,7 @@ public final class VaultChampionRage {
         fireArmedSpawn(vault, tier, state, player);
     }
 
-    /**
-     * Spends an armed spawn. Blocked by the same rune-boss and hyper-boss check the roll is, so a
-     * spawn armed before a boss fight started simply waits it out rather than dropping a second boss
-     * into the arena.
-     */
+    /** Spends an armed spawn; blocked while a vault boss fight is in progress, in which case the arming waits. */
     private static void fireArmedSpawn(Vault vault, GreedMedallionTier tier,
                                        VaultChampionState.PlayerState state, ServerPlayer player) {
         if (!state.isArmed() || state.getLiveChampion() != null) {

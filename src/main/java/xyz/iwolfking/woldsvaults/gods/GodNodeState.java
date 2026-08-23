@@ -12,23 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 /**
- * The one scratch store for live god node state, keyed by {@code (playerId, effectId)} for
- * per-player state and by {@code (vaultId, effectId)} for state that belongs to a running vault.
- *
- * <p>Both of those stores are transient and vault-scoped: the player store is wiped on logout and
- * on every vault-listener leave, the vault store at vault end. State that must outlive a vault or a
- * relog - a revive cooldown, a deadline - belongs in {@link #persistent}, which rides the player's
- * persisted NBT and is cleared only by the effect that owns it.
- *
- * <p>Handler classes hold no static per-player maps of their own. That rule is what makes two
- * shipped bug classes unrepresentable: state that has no logout path and leaks for the process
- * lifetime, and a {@code VAULT_END} teardown that clears a whole static map, so any party
- * finishing a vault zeroes every other party's live state server-wide. Vault-scoped state is
- * cleared by vault id, never wholesale.
- *
- * <p>Teardown is wired once, in {@link xyz.iwolfking.woldsvaults.gods.node.GodNodeLifecycle} and
- * {@link xyz.iwolfking.woldsvaults.gods.event.GodEventHandlers}: logout and vault-listener leave
- * clear the player, vault end clears the vault.
+ * The one scratch store for live god node state, keyed by {@code (playerId, effectId)} and by
+ * {@code (vaultId, effectId)}. Both are transient - wiped on logout and vault-listener leave, and at
+ * vault end - so state that must outlive a vault or a relog belongs in {@link #persistent}.
  */
 public final class GodNodeState {
     private static final String PERSISTENT_ROOT = "woldsvaults_god_nodes";
@@ -39,16 +25,11 @@ public final class GodNodeState {
     private GodNodeState() {
     }
 
-    /**
-     * The player's scratch for one effect, created by {@code factory} on first use. Every caller
-     * for one effect id must agree on the scratch type; the cast is unchecked, so disagreeing
-     * fails fast at the call site rather than silently replacing the state.
-     */
+    /** The player's scratch for one effect, created by {@code factory} on first use; the cast is unchecked. */
     public static <T> T get(UUID playerId, String effectId, Supplier<T> factory) {
         return get(PLAYERS, playerId, effectId, factory);
     }
 
-    /** The player's scratch for one effect if it exists, without creating it. */
     public static <T> Optional<T> peek(UUID playerId, String effectId) {
         return peek(PLAYERS, playerId, effectId);
     }
@@ -68,7 +49,6 @@ public final class GodNodeState {
         }
     }
 
-    /** The running vault's scratch for one effect, created by {@code factory} on first use. */
     public static <T> T getVault(UUID vaultId, String effectId, Supplier<T> factory) {
         return get(VAULTS, vaultId, effectId, factory);
     }
@@ -85,12 +65,7 @@ public final class GodNodeState {
         VAULTS.remove(vaultId);
     }
 
-    /**
-     * Drops one effect's slice of a vault's scratch and leaves every other effect's alone. The
-     * vault-wide {@link #clearVault(UUID)} belongs to vault teardown; a node that is finished with
-     * its own vault state while the vault is still running uses this, or it takes every other
-     * node's live state down with it.
-     */
+    /** Drops one effect's slice of a vault's scratch, leaving every other effect's alone. */
     public static void clearVault(UUID vaultId, String effectId) {
         Map<String, Object> scratch = VAULTS.get(vaultId);
         if (scratch != null) {
@@ -98,25 +73,20 @@ public final class GodNodeState {
         }
     }
 
-    /** Drops everything, for a full server shutdown or a debug reset. */
     public static void clearAll() {
         PLAYERS.clear();
         VAULTS.clear();
     }
 
     /**
-     * The player's durable scratch for one effect: a compound under the player's persisted NBT, so
-     * it survives logout, death and a server restart, unlike {@link #get}, which is wiped on logout
-     * and on every vault leave. Nothing clears it except {@link #clearPersistent} and the effect's
-     * own code. Values are written straight into the returned compound; stamp wall-clock time rather
-     * than game time, because game time does not carry across worlds.
+     * The player's durable scratch for one effect: a compound under the persisted NBT, surviving logout,
+     * death and restart, cleared only by {@link #clearPersistent}. Stamp wall-clock time, not game time.
      */
     public static CompoundTag persistent(ServerPlayer player, String effectId) {
         CompoundTag persisted = child(player.getPersistentData(), Player.PERSISTED_NBT_TAG);
         return child(child(persisted, PERSISTENT_ROOT), effectId);
     }
 
-    /** Whether {@link #persistent} has ever been written for this effect, without creating it. */
     public static boolean hasPersistent(ServerPlayer player, String effectId) {
         CompoundTag data = player.getPersistentData();
         if (!data.contains(Player.PERSISTED_NBT_TAG, Tag.TAG_COMPOUND)) {

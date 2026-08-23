@@ -15,15 +15,9 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Public entry point for the milestone engine. Every progress source — bus-routed or a direct
- * call from addon-owned code — funnels through here, so tier evaluation, reputation awards,
- * persistence marking and client sync all happen in exactly one place.
- *
- * <p>That single funnel is also where the in-vault gate lives: milestones are vault achievements,
- * so every progress mutator refuses progress made outside a vault unless the milestone is one of
- * the documented exemptions on {@link #OUTSIDE_VAULT_MILESTONES}. Listeners that already checked
- * the vault state before calling in still do - those checks are now belt-and-braces, and most of
- * them need the state object for their own bookkeeping anyway.</p>
+ * Public entry point for the milestone engine: tier evaluation, reputation awards, persistence
+ * marking and client sync. Progress made outside a vault is refused unless the milestone is on
+ * {@link #OUTSIDE_VAULT_MILESTONES}.
  */
 public class Milestones {
     private static final ThreadLocal<Boolean> EVALUATING_VETERAN = ThreadLocal.withInitial(() -> Boolean.FALSE);
@@ -31,38 +25,7 @@ public class Milestones {
     private static final Map<UUID, Long> LAST_GATE_FALLBACK_LOG = new java.util.concurrent.ConcurrentHashMap<>();
     private static final long GATE_FALLBACK_LOG_INTERVAL_MS = 30_000L;
 
-    /**
-     * The milestones the in-vault gate does not apply to, because their progress source is not a
-     * vault activity that could be ground outside a vault.
-     *
-     * <ul>
-     *   <li>{@code wanted_criminal} — black market trades. The black market is an overworld
-     *       structure, so this milestone can <em>only</em> progress outside a vault.</li>
-     *   <li>{@code master_smith} — vault forge proficiency. The forge is an overworld block; the
-     *       scrap sacrifice that lands on the proficiency cap always happens outside a vault.</li>
-     *   <li>{@code pal_trainer} — companions reaching max level. The only non-command source of
-     *       companion experience is {@code CompanionItem.grantVaultCompletionXP}, which the base
-     *       mod pays out from {@code VaultPlayerStats.consume} — the vault end screen, opened
-     *       after the player is already back home.</li>
-     *   <li>{@code archeologist} — ancient uniques being identified. Identification is a
-     *       right-click on an item the player already looted, done wherever they happen to be and
-     *       in practice at base; the vault work was the drop, not the reveal.</li>
-     *   <li>{@code vault_veteran} — derived, not incremented: {@link #evaluateVeteran} sets it
-     *       from the completion state of every other milestone. Gating a derived value would only
-     *       strand it stale when the tier that completes it is awarded outside a vault.</li>
-     *   <li>{@code idonas_champion}, {@code priest_of_velara}, {@code tenos_right_hand},
-     *       {@code wendarrs_timekeeper} — set to the player's god level rather than incremented.
-     *       God levels are awarded wherever the experience lands, including at the greed cauldron
-     *       outside a vault, and {@link #reach} only ever raises them to the level the player
-     *       already has, so there is nothing here to grind.</li>
-     * </ul>
-     *
-     * <p>Every greed challenge crystal milestone is exempt too, matched structurally on
-     * {@link MilestoneDefinition#getChallengeCrystalId()} rather than listed here: the base mod
-     * evaluates crystal completion from {@code ServerVaults.onServerTick} once the vault carries
-     * {@code Vault.FINISHED}, which is set only after every listener has left, so the owner is
-     * always outside the vault by the time the milestone is completed.</p>
-     */
+    /** Milestones the in-vault gate skips; every challenge crystal milestone is exempt as well. */
     private static final Set<String> OUTSIDE_VAULT_MILESTONES = Set.of(
             MilestoneIds.WANTED_CRIMINAL,
             MilestoneIds.MASTER_SMITH,
@@ -77,20 +40,7 @@ public class Milestones {
     private Milestones() {
     }
 
-    /**
-     * Whether the milestone gate lets this player's progress through right now.
-     *
-     * <p>The fast path is the engine's own per-player vault registration, which is the only
-     * answer that is correct at {@code LISTENER_LEAVE} time: the vault teleports the player home
-     * before that event fires, so the end-of-run milestones are awarded while the player already
-     * stands in the overworld. The registration survives until the leave handler releases it.</p>
-     *
-     * <p>The fallback exists for the one case the registration cannot cover — a player who is
-     * physically inside a vault dimension without a tracked listener, which is what a mid-vault
-     * relog looks like until the next listener tick re-registers them. It is only consulted when
-     * the player's dimension is namespaced to the vault mod, so the ordinary out-of-vault call
-     * costs one map lookup and one string comparison.</p>
-     */
+    /** Whether the gate lets progress through: a tracked vault listener, else a dimension lookup. */
     public static boolean isInVault(ServerPlayer player) {
         if (MilestoneVaultState.isTracked(player.getUUID())) {
             return true;
@@ -105,10 +55,7 @@ public class Milestones {
         return true;
     }
 
-    /**
-     * Whether a milestone is one of the documented out-of-vault exemptions. Challenge crystal
-     * milestones are matched structurally so that adding a crystal cannot forget one.
-     */
+    /** Whether a milestone is one of the out-of-vault exemptions. */
     public static boolean isExemptFromVaultGate(MilestoneDefinition definition) {
         return definition.getChallengeCrystalId() != null || OUTSIDE_VAULT_MILESTONES.contains(definition.getId());
     }
@@ -117,14 +64,7 @@ public class Milestones {
         return !isExemptFromVaultGate(definition) && !isInVault(player);
     }
 
-    /**
-     * Whether a milestone's declared {@link MilestoneCounter} is the one the calling mutator
-     * implements. Nothing else reads the declaration, so without this check a milestone's counting
-     * behaviour is decided purely by which mutator a call site happened to pick - and the mismatch
-     * that matters, a DISTINCT milestone advanced with {@link #advance} instead of
-     * {@link #addToken}, silently double counts every repeat of the same token. A mismatch is
-     * refused rather than applied, because the wrong operation corrupts a counter the save keeps.
-     */
+    /** Whether the declared {@link MilestoneCounter} matches the calling mutator; else refused. */
     private static boolean counterIs(MilestoneDefinition definition, MilestoneCounter expected, String operation) {
         if (definition.getCounter() == expected) {
             return true;
@@ -134,10 +74,7 @@ public class Milestones {
         return false;
     }
 
-    /**
-     * Reports the dimension fallback firing, throttled per player, because it means the engine
-     * lost a listener registration for somebody who is demonstrably inside a vault.
-     */
+    /** Logs the dimension fallback firing, at most once per player per 30 seconds. */
     private static void logGateFallback(ServerPlayer player) {
         long now = System.currentTimeMillis();
         Long last = LAST_GATE_FALLBACK_LOG.get(player.getUUID());
@@ -149,10 +86,7 @@ public class Milestones {
                 player.getGameProfile().getName(), player.level.dimension().location());
     }
 
-    /**
-     * Adds to an accumulating counter. This is the call addon-owned action sites should use.
-     * Progress made outside a vault is dropped unless the milestone is exempt.
-     */
+    /** Adds to an accumulating counter. Progress outside a vault is dropped unless exempt. */
     public static void advance(ServerPlayer player, String milestoneId, long amount) {
         if (player == null || amount <= 0L) {
             return;
@@ -176,12 +110,7 @@ public class Milestones {
         apply(player, data, definition, current + amount);
     }
 
-    /**
-     * Adds a fractional amount to an accumulating counter, carrying the sub-unit remainder so
-     * that float-valued progress sources (alchemy) do not systematically round to zero. The gate
-     * is checked before the remainder is banked, so gated progress never accumulates in the
-     * fraction store only to be dropped when it rolls over.
-     */
+    /** Adds a fractional amount, carrying the sub-unit remainder; gated before it is banked. */
     public static void advanceFractional(ServerPlayer player, String milestoneId, double amount) {
         if (player == null || amount <= 0.0D) {
             return;
@@ -207,12 +136,7 @@ public class Milestones {
         }
     }
 
-    /**
-     * Raises a high-water-mark counter (god levels, Vault Veteran) to the given value. Every
-     * milestone that is set from state rather than incremented is exempt from the vault gate, so
-     * in practice this call is only gated for the one-shots that route through
-     * {@link #complete(ServerPlayer, String)}.
-     */
+    /** Raises a high-water-mark counter to the given value; a lower value is ignored. */
     public static void reach(ServerPlayer player, String milestoneId, long value) {
         if (player == null || value <= 0L) {
             return;
@@ -236,11 +160,7 @@ public class Milestones {
         apply(player, data, definition, value);
     }
 
-    /**
-     * Records a distinct token (a vault objective key for "Seen It All") and re-derives the
-     * counter from the size of the token set. The gate is checked before the token is stored, so
-     * a gated token is not silently consumed against a counter that never moves.
-     */
+    /** Records a distinct token and re-derives the counter from the size of the token set. */
     public static void addToken(ServerPlayer player, String milestoneId, String token) {
         if (player == null || token == null) {
             return;
@@ -263,17 +183,12 @@ public class Milestones {
         apply(player, data, definition, data.getTokens(player.getUUID(), milestoneId).size());
     }
 
-    /**
-     * Marks a one-shot milestone as done. Repeat calls are free, and the vault gate applies
-     * through {@link #reach(ServerPlayer, String, long)}.
-     */
+    /** Marks a one-shot milestone as done. Repeat calls are free. */
     public static void complete(ServerPlayer player, String milestoneId) {
         reach(player, milestoneId, 1L);
     }
 
-    /**
-     * Drops the transient per-player bookkeeping when a player disconnects.
-     */
+    /** Drops the transient per-player bookkeeping when a player disconnects. */
     public static void forget(UUID playerId) {
         LAST_LUCKY_HIT.remove(playerId);
         LAST_GATE_FALLBACK_LOG.remove(playerId);
@@ -295,11 +210,7 @@ public class Milestones {
         return definition.getCompletedTiers(MilestoneData.get(server).getValue(playerId, milestoneId));
     }
 
-    /**
-     * Debug seam for the {@code /wvmilestones set} command: forces a counter to an exact value,
-     * awarding every tier that the jump crosses. Deliberately not gated on the player being in a
-     * vault — it is an operator command, and it is normally run at spawn.
-     */
+    /** Forces a counter to an exact value, awarding every tier crossed. Not vault-gated. */
     public static void setExact(ServerPlayer player, String milestoneId, long value) {
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
@@ -334,10 +245,7 @@ public class Milestones {
         evaluateVeteran(player, data);
     }
 
-    /**
-     * Reputation the player has banked but not yet collected for a milestone: the sum over every
-     * tier that is completed but sits above the claimed high-water mark.
-     */
+    /** Reputation of every tier of a milestone that is completed but not yet claimed. */
     public static int getUnclaimedRep(MinecraftServer server, UUID playerId, String milestoneId) {
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
@@ -353,9 +261,7 @@ public class Milestones {
         return reputation;
     }
 
-    /**
-     * Total unclaimed reputation across every milestone.
-     */
+    /** Total unclaimed reputation across every milestone. */
     public static int getUnclaimedRep(MinecraftServer server, UUID playerId) {
         int total = 0;
         for (MilestoneDefinition definition : MilestoneRegistry.getAll()) {
@@ -364,12 +270,7 @@ public class Milestones {
         return total;
     }
 
-    /**
-     * Collects the banked reputation for one milestone at Mr. Greedy and returns the amount paid
-     * out, or 0 when there was nothing to collect. Only legal while the greed trader container is
-     * open: the claim is a trader interaction, so a client that sends the message with no trader
-     * screen up is refused and logged.
-     */
+    /** Collects one milestone's banked reputation, or 0. Refused unless the trader is open. */
     public static int claim(ServerPlayer player, String milestoneId) {
         if (!(player.containerMenu instanceof GreedTraderContainer)) {
             WoldsVaults.LOGGER.warn("Refused milestone claim '{}' from {}: the greed trader container is not open (menu was {})",
@@ -381,10 +282,7 @@ public class Milestones {
         return reputation;
     }
 
-    /**
-     * Claims every milestone with banked reputation, returning the total paid out. Gated on the
-     * trader container exactly like {@link #claim(ServerPlayer, String)}.
-     */
+    /** Claims every milestone with banked reputation. Trader-gated like {@link #claim}. */
     public static int claimAll(ServerPlayer player) {
         if (!(player.containerMenu instanceof GreedTraderContainer)) {
             WoldsVaults.LOGGER.warn("Refused milestone claim-all from {}: the greed trader container is not open (menu was {})",
@@ -399,10 +297,7 @@ public class Milestones {
         return total;
     }
 
-    /**
-     * The claim itself without the trader gate and without a client sync. Callers are responsible
-     * for syncing afterwards; only the debug command may call this directly.
-     */
+    /** The claim itself, without the trader gate and without a client sync. */
     public static int claimUnchecked(ServerPlayer player, String milestoneId) {
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
@@ -430,10 +325,7 @@ public class Milestones {
         return reputation;
     }
 
-    /**
-     * Debug seam for {@code /wvmilestones set-tier}: moves the claim mark down with the counter so
-     * that forcing a milestone back to a lower tier makes those tiers claimable again.
-     */
+    /** Lowers the claim mark to {@code tiers}, making those tiers claimable again. */
     public static void clampClaimedTiers(ServerPlayer player, String milestoneId, int tiers) {
         MilestoneData data = MilestoneData.get(player.server);
         if (data.getClaimedTiers(player.getUUID(), milestoneId) > tiers) {
@@ -446,10 +338,7 @@ public class Milestones {
         return MilestoneData.get(server).getPinned(playerId);
     }
 
-    /**
-     * Pins one milestone to the greed screen, or clears the pin when the id is null. Unknown ids
-     * are refused so a bad client cannot park an unresolvable id in the save.
-     */
+    /** Pins a milestone, or clears the pin when the id is null. An unknown id returns false. */
     public static boolean setPinned(ServerPlayer player, String milestoneId) {
         if (milestoneId != null && !MilestoneRegistry.contains(milestoneId)) {
             WoldsVaults.LOGGER.warn("Milestone pin for unknown id '{}' ignored", milestoneId);
@@ -474,11 +363,7 @@ public class Milestones {
         }
     }
 
-    /**
-     * "Vault Veteran" is derived: its tier is the highest T for which every other milestone has
-     * completed at least min(T, that milestone's tier count) tiers, so single-tier milestones only
-     * ever have to be finished once.
-     */
+    /** "Vault Veteran" tier is the highest T where every other milestone has min(T, its tiers) done. */
     private static void evaluateVeteran(ServerPlayer player, MilestoneData data) {
         if (EVALUATING_VETERAN.get()) {
             return;
@@ -520,10 +405,7 @@ public class Milestones {
         }
     }
 
-    /**
-     * Counts one lucky hit, deduplicated by the damage event that produced it: a single lucky hit
-     * fans out to every unlocked lucky-hit talent, and all of them route here.
-     */
+    /** Counts one lucky hit, deduplicated by the damage event that produced it. */
     public static void onLuckyHit(ServerPlayer player, Object damageEvent) {
         if (player == null || damageEvent == null) {
             return;
@@ -536,21 +418,12 @@ public class Milestones {
         advance(player, MilestoneIds.FIVE_LEAF_CLOVER, 1L);
     }
 
-    /**
-     * Counts one ancient unique the player has identified. Live: {@code MixinGearRollHelper} calls
-     * this once a roll has resolved to an ancient and its name has been written onto the gear, so
-     * an ordinary roll on the same path never reaches here.
-     */
+    /** Counts one ancient unique the player has identified. */
     public static void onAncientUniqueIdentified(ServerPlayer player) {
         advance(player, MilestoneIds.ARCHEOLOGIST, 1L);
     }
 
-    /**
-     * Counts one companion that has reached the max companion level, the level at which its
-     * ancient relic slot unlocks. Keyed on the companion's own UUID rather than counted, so that
-     * repeat calls for the same companion - re-equips, further experience gains once it is
-     * already capped - cannot inflate the counter.
-     */
+    /** Counts one max-level companion, keyed on its UUID so repeat calls cannot inflate it. */
     public static void onCompanionReachedMaxLevel(ServerPlayer player, UUID companionId) {
         if (player == null) {
             return;
@@ -563,19 +436,12 @@ public class Milestones {
         addToken(player, MilestoneIds.PAL_TRAINER, companionId.toString());
     }
 
-    /**
-     * Marks the vault forge as maxed: the player's absolute proficiency has reached the cap for
-     * their vault level, which is the Grandmaster step of the gear crafting config.
-     */
+    /** Marks the vault forge as maxed: proficiency has reached the cap for the player's level. */
     public static void onVaultForgeMaxed(ServerPlayer player) {
         complete(player, MilestoneIds.MASTER_SMITH);
     }
 
-    /**
-     * Completes the milestone that tracks a greed challenge crystal. This is the only reward a
-     * finished challenge grants now; the reputation is banked on the milestone and collected at
-     * Mr. Greedy. {@code ultra_hard} has no milestone and is silently ignored.
-     */
+    /** Completes the milestone tracking a greed challenge crystal; one without a milestone is ignored. */
     public static void onChallengeCrystalCompleted(ServerPlayer player, String challengeCrystalId) {
         MilestoneDefinition definition = MilestoneRegistry.getByChallengeCrystal(challengeCrystalId);
         if (definition == null) {

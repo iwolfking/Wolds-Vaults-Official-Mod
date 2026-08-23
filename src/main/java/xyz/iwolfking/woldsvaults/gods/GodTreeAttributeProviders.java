@@ -10,14 +10,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * The single {@link GodNodeAttributeSource} implementation, aggregating one attribute provider
- * per god tree. Tree modules call {@link #register(VaultGod, Provider)} from their setup; the
- * aggregator installs itself into {@link GodNodeAttributeSource} on the first registration.
- *
- * <p>Node ids are namespaced by tree (e.g. {@code idona_hard_hitter}); providers receive the
- * full minor-transfer id set and must ignore ids that are not theirs.
- */
+/** Aggregates one {@link Provider} per god tree; a provider must ignore minor-transfer ids not its own. */
 public final class GodTreeAttributeProviders implements GodNodeAttributeSource {
     private static final GodTreeAttributeProviders INSTANCE = new GodTreeAttributeProviders();
     private static final Map<VaultGod, Provider> PROVIDERS = new EnumMap<>(VaultGod.class);

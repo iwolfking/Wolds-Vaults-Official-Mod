@@ -12,18 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Every greed milestone's numbers - {@code config/the_vault/greed_milestones.json}. Each entry
- * holds the tier thresholds its counter is measured against and the reputation each tier banks,
- * plus the greed rank tag that gates a challenge crystal.
- *
- * <p>The two composite "in one vault" milestones cannot be expressed as a single counter, so their
- * requirements sit alongside the table: Vault of Vaults needs all four of its sub-totals inside one
- * run, and Dedicated Looter needs one chest type looted to target before the next type counts. Both
- * are read through {@code MilestoneRegistry}, which is what makes the registry able to answer what
- * a milestone actually needs rather than reporting the {@code 1} of its pass/fail counter.</p>
- *
- * <p>{@code MilestoneRegistry} is the only reader. The defaults below are the shipped balance, so a
- * missing file regenerates to exactly the progression the addon has always had.</p>
+ * Every greed milestone's numbers - {@code config/the_vault/greed_milestones.json}: tier thresholds, the
+ * reputation each tier banks, and the greed rank tag that gates a challenge crystal. Vault of Vaults and
+ * Dedicated Looter carry their real requirements alongside it, their own counter being pass/fail.
  */
 public class GreedMilestonesConfig extends PackAuthoredConfig {
     private static final long MINUTE = 20L * 60L;
@@ -34,17 +25,7 @@ public class GreedMilestonesConfig extends PackAuthoredConfig {
         @Expose public List<Integer> reputation;
         @Expose @Nullable public Integer requiredRank;
 
-        /**
-         * Whether this entry describes a milestone at all: at least one tier, one reputation value
-         * per tier, and thresholds that strictly ascend. {@code MilestoneDefinition} would throw on
-         * the first two, and a config typo should not take the milestone engine down with it.
-         *
-         * <p>The ordering check is here because nothing downstream enforces it and the failure is
-         * silent: tier completion is counted by walking the list until a threshold is not met, so a
-         * table that dips - or repeats a value - retires every tier past the dip permanently and the
-         * reputation banked behind them can never be claimed. {@code MilestoneRegistry} answers a
-         * refusal by falling back to that milestone's shipped table and naming it in the log.</p>
-         */
+        /** At least one tier, one reputation per tier, ascending thresholds; a refusal uses the shipped table. */
         public boolean isUsable() {
             if (this.thresholds == null || this.thresholds.isEmpty()
                     || this.reputation == null || this.reputation.size() != this.thresholds.size()) {
@@ -98,11 +79,7 @@ public class GreedMilestonesConfig extends PackAuthoredConfig {
     @Expose private VaultOfVaultsEntry vaultOfVaults;
     @Expose private DedicatedLooterEntry dedicatedLooter;
 
-    /**
-     * A config instance holding the shipped defaults without touching the disk, for the window
-     * between the milestone registry being first touched and {@code ModConfigs.register} handing
-     * it the file-backed copy.
-     */
+    /** The shipped defaults without touching disk, for use before the file-backed copy is registered. */
     public static GreedMilestonesConfig defaults() {
         GreedMilestonesConfig config = new GreedMilestonesConfig();
         config.reset();

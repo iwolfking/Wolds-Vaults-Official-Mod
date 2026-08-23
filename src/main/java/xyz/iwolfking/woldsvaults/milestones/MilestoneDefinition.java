@@ -39,35 +39,17 @@ public class MilestoneDefinition {
         this.requiredRank = requiredRank;
     }
 
-    /**
-     * The greed challenge crystal this milestone tracks, or null for every non-challenge milestone.
-     */
+    /** The greed challenge crystal this milestone tracks, or null for a non-challenge milestone. */
     public String getChallengeCrystalId() {
         return this.challengeCrystalId;
     }
 
-    /**
-     * The 1-based greed rank tagged on this milestone in the design sheet, or 0 when untagged.
-     * For challenge milestones this doubles as the rank at which the crystal becomes purchasable.
-     */
+    /** The 1-based greed rank tagged on this milestone, or 0 when untagged. */
     public int getRequiredRank() {
         return this.requiredRank;
     }
 
-    /**
-     * Replaces this milestone's numbers with the ones a server sent, keeping its structure - id,
-     * category, counter, challenge crystal - which is code and identical on both sides.
-     *
-     * <p>Only {@link MilestoneRegistry#applyServerTables} calls this, and only on the client, so
-     * that the screens read the host's balance instead of whatever {@code greed_milestones.json}
-     * the player happens to have on disk. The arrays are swapped whole rather than written through,
-     * so a reader mid-swap sees one complete table or the other; on an integrated server the values
-     * being installed came from these very fields, which makes the write an identity.</p>
-     *
-     * <p>A payload whose tier count does not line up is refused outright rather than half-applied:
-     * a definition with more thresholds than reputation values would throw out of the claim path
-     * later, far from the packet that caused it.</p>
-     */
+    /** Swaps in new numbers whole. Throws when the arrays are empty or of unequal length. */
     void applyNumbers(long[] newThresholds, int[] newReputation, int newRequiredRank) {
         if (newThresholds.length == 0 || newThresholds.length != newReputation.length) {
             throw new IllegalArgumentException("Milestone " + this.id + " was sent " + newThresholds.length
@@ -114,10 +96,7 @@ public class MilestoneDefinition {
         return this.descriptionKey;
     }
 
-    /**
-     * Number of fully completed tiers for a raw counter value. 0 means no tier reached,
-     * {@link #getTierCount()} means the milestone is finished.
-     */
+    /** Fully completed tiers for a raw counter value; {@link #getTierCount()} means finished. */
     public int getCompletedTiers(long value) {
         long[] table = this.thresholds;
         int tier = 0;
@@ -131,11 +110,7 @@ public class MilestoneDefinition {
         return value >= this.getFinalThreshold();
     }
 
-    /**
-     * Whether this milestone's counter is a tick count rather than a tally of things. The two that
-     * are exist because the only per-player clock the engine has is the listener tick, so their
-     * thresholds are raw ticks and every readout of them has to be formatted as elapsed time.
-     */
+    /** Whether this milestone's thresholds are raw ticks, to be read out as elapsed time. */
     public boolean isDuration() {
         return DURATION_MILESTONES.contains(this.id);
     }

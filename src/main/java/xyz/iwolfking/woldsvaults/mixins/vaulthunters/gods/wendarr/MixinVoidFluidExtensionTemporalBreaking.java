@@ -12,13 +12,8 @@ import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodes;
 import java.util.UUID;
 
 /**
- * Temporal Breaking (r77): halves how fast time acceleration eats the vault clock.
- *
- * <p>The extension is attached once per player and its {@code PLAYER} field says whose
- * acceleration this instance is draining, so scoping the reduction per player is exact -  two
- * players carrying the node each reduce only their own drain, which is what "cannot stack" means
- * here. A {@code CLOCK_MODIFIER} listener could only cancel the whole extension, never halve it,
- * which is why this is a mixin on the drain amount instead.
+ * Temporal Breaking (r77): halves how fast time acceleration eats the vault clock. Scoped to the
+ * extension's own {@code PLAYER}, so two players carrying the node each halve only their own drain.
  */
 @Mixin(value = VoidFluidExtension.class, remap = false)
 public abstract class MixinVoidFluidExtensionTemporalBreaking {

@@ -4,10 +4,8 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.server.level.ServerPlayer;
 
 /**
- * Idona's ultimate. Infuses the caster for fifteen seconds with an attack-damage and ability-power
- * multiplier, its own damage reduction and a per-hit compounding stack, then spends everything the
- * infusion killed with on a forward dash. All of the behaviour lives in {@link CopeDeGraceState};
- * this is the castable shell.
+ * Idona's ultimate: a damage and ability-power infusion with per-hit compounding, cashed out as a forward dash.
+ * Implemented in {@link CopeDeGraceState}.
  */
 public class CopeDeGraceAbility extends GodUltimateAbility {
     public CopeDeGraceAbility(int unlockLevel, int learnPointCost, int regretPointCost, int cooldownTicks,
@@ -29,7 +27,6 @@ public class CopeDeGraceAbility extends GodUltimateAbility {
         return ActionResult.successCooldownImmediate();
     }
 
-    /** The level-scaled values the ability screen renders; see {@link UltimateLevels#displayLevel()}. */
     public UltimateLevels.Cope getDisplayValues() {
         return UltimateLevels.cope(UltimateLevels.displayLevel());
     }

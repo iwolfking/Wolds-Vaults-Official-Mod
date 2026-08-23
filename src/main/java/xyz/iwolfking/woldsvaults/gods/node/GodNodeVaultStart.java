@@ -17,22 +17,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The one dispatcher for {@link VaultContributor}. Every god node that changes the vault it is
- * entering - vault modifiers, clock rate, loot, objective difficulty - is called from here, once
- * per runner per vault, and no node registers a vault listener of its own.
- *
- * <p>It rides {@code LISTENER_JOIN} rather than {@code VAULT_START}: the base mod declares
- * {@code CommonEvents.VAULT_START} but never invokes it, while {@code LISTENER_JOIN} fires from
- * {@code Listeners.add} after the listener has been initialised against the vault and before the
- * runner is handed control - which is both "the vault exists" and the per-runner granularity the
- * capability is specified at.
- *
- * <p>A player can be added to the same vault more than once (rebirth, and the vault command's
- * join), so the runners already dispatched for are recorded in the vault's own
- * {@link GodNodeState} scratch under a reserved key. That is what makes "once per runner per vault"
- * true without every handler hand-rolling its own guard, and it is scoped by vault id, so the
- * record dies with its vault at {@code VAULT_END} and one party's vault ending cannot re-arm
- * another's.
+ * The one dispatcher for {@link VaultContributor}: every god node that changes the vault being
+ * entered runs from here on {@code LISTENER_JOIN}, once per runner per vault. The guard against a
+ * player being added to the same vault twice lives in that vault's {@link GodNodeState} scratch.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class GodNodeVaultStart {
@@ -48,10 +35,7 @@ public final class GodNodeVaultStart {
                 data -> onListenerJoin(data.getVault(), data.getListener())));
     }
 
-    /**
-     * Runs every live vault contributor for one runner. Public so the god core can replay the
-     * pass for a player the join event could not resolve to a server player at the time.
-     */
+    /** Runs every live vault contributor for one runner; public so the pass can be replayed. */
     public static void dispatch(Vault vault, ServerPlayer player) {
         List<GodEffect> effects = GodNodeRegistry.effectsWith(VaultContributor.class);
         for (GodEffect effect : effects) {

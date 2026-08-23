@@ -7,21 +7,8 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import java.util.Optional;
 
 /**
- * Per-player chests-per-minute rate over a five minute sliding window, feeding Looting Engine.
- *
- * <p>A fixed ring of one-second buckets, advanced lazily from the wall clock the next time the
- * player is read or credited. That is deliberate: the base mod's
- * {@code SlidingTimedTargetTaskCounter} registers a server-tick listener per instance, which would
- * mean one listener per tracked player. Nothing here ticks; the window is derived from timestamps.
- *
- * <p>The window is one player's live scratch for Looting Engine, so it lives in
- * {@link GodNodeState} under that effect rather than in a map of this class's own, and the god
- * core's own teardown on logout and vault-listener leave is what drops it. Vault entry clears it
- * too, from the join listener below: a rate carried in from the last run or from the loot the
- * player was opening outside one would pay Looting Engine for chests this vault never saw.
- *
- * <p>Fed from {@code CHEST_LOOT_GENERATION}, the same event the milestone engine listens to, but
- * through its own independent subscription so neither system can disturb the other.
+ * Per-player chests-per-minute over a sliding window, feeding Looting Engine. It is advanced lazily
+ * from the wall clock, lives in {@link GodNodeState} and is cleared on vault entry.
  */
 public final class ChestRateTracker {
     public static final int WINDOW_SECONDS = 300;

@@ -9,18 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
-/**
- * Stamps black market gear with its origin so ancient uniques can recognise it.
- *
- * <p>A black market offer is built through {@code LootInitialization.initializeVaultLoot} with no
- * vault, so it never receives the base mod's {@code IS_LOOT} stamp and is indistinguishable from a
- * crafted unique by the time it is identified. The rework wants black market uniques eligible for
- * the ancient roll while crafted and vendor uniques stay out, which needs a stamp of its own.
- *
- * <p>It is written as a gear attribute rather than loose stack NBT because that is what survives
- * the trip from an unidentified pool item to the identified unique - the same reason the base mod
- * carries provenance that way. Non-gear trades are left untouched.
- */
+/** Stamps black market gear with a provenance attribute the ancient unique roll reads. Non-gear is untouched. */
 @Mixin(targets = "iskallia.vault.world.data.PlayerBlackMarketData$BlackMarket$SelectedTrade", remap = false)
 public abstract class MixinBlackMarketSelectedTrade {
     @WrapOperation(method = "initialize",

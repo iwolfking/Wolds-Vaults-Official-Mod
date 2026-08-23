@@ -8,10 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Client mirror of the local player's milestone counters, claim state, pin and greed header
- * numbers. Data only; the greed screens under {@code client.screens.greed} are its readers.
- */
+/** Client mirror of the local player's milestone counters, claim state, pin and greed header. */
 public class ClientMilestoneData {
     private static final Map<String, Long> VALUES = new HashMap<>();
     private static final Map<String, Integer> CLAIMED_TIERS = new HashMap<>();
@@ -41,12 +38,7 @@ public class ClientMilestoneData {
         CLAIMED_TIERS.putAll(claimedTiers);
     }
 
-    /**
-     * Drops everything the last server told this client, the balance tables it sent included. Those
-     * are put back to the local config's numbers rather than left standing: they are static, so
-     * without this they would stay the previous server's until the next login sync landed - which
-     * is exactly the window in which a player opens the greed screen after joining somewhere else.
-     */
+    /** Drops everything the last server sent, restoring the local config's balance tables. */
     public static void clear() {
         MilestoneRankLadder.restoreLocal();
         MilestoneRegistry.restoreLocal();
@@ -76,10 +68,7 @@ public class ClientMilestoneData {
         return CLAIMED_TIERS.getOrDefault(milestoneId, 0);
     }
 
-    /**
-     * Reputation banked on a milestone but not yet collected at Mr. Greedy, derived client-side
-     * from the synced counter and claim mark so the screen never needs its own round trip.
-     */
+    /** Reputation banked on a milestone but not yet collected at Mr. Greedy. */
     public static int getUnclaimedRep(String milestoneId) {
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
@@ -111,11 +100,7 @@ public class ClientMilestoneData {
         shopRerollCost = newShopRerollCost;
     }
 
-    /**
-     * Mirrors the rank-up trial half of the status packet: {@code kind} is 0 for "the next rank has
-     * no trial", otherwise the {@code GreedTrial.Kind} ordinal plus one; {@code godGate} is the god
-     * level that rank-up demands (0 for none) and {@code bestGod} the highest the player holds.
-     */
+    /** Mirrors the trial half of the status packet; {@code kind} is a Kind ordinal plus one, or 0. */
     public static void setTrialStatus(int kind, int godGate, int bestGod) {
         trialKind = kind;
         trialGodGate = godGate;
@@ -126,7 +111,7 @@ public class ClientMilestoneData {
         return trialKind > 0;
     }
 
-    /** True when the trial for the next rank is a hyper vault rather than a vessel fight. */
+    /** True when the trial for the next rank is a hyper vault. */
     public static boolean isTrialHyper() {
         return trialKind == 2;
     }
@@ -139,11 +124,7 @@ public class ClientMilestoneData {
         return bestGodLevel;
     }
 
-    /**
-     * Whether the "Take Trial" button should be live: a trial exists for the next rank, the
-     * reputation bar is full and any god gate is met. Mirrors the server's own check so the button
-     * never lies, but the server re-runs it before building anything.
-     */
+    /** Whether a trial exists, the reputation bar is full and any god gate is met. */
     public static boolean isTrialReady() {
         return hasTrial() && reputation >= nextRankThreshold && bestGodLevel >= trialGodGate;
     }
@@ -164,9 +145,7 @@ public class ClientMilestoneData {
         return unclaimedReputation;
     }
 
-    /**
-     * Greedy-ticket price of the next greed shop reroll — see {@code MilestoneStatusMessage}.
-     */
+    /** Greedy-ticket price of the next greed shop reroll. */
     public static int getShopRerollCost() {
         return shopRerollCost;
     }

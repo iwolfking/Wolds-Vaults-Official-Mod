@@ -40,18 +40,9 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Builds a Vault Champion and puts it in the world.
- *
- * <p>The sequence follows {@code KillBossObjective#spawnBoss} and the assassin spawner's ring
- * placement, with two deliberate departures. It pre-tags {@code vault_scaled}, which opts the
- * Champion out of the automatic {@code EntityScaler} pass entirely, so its health and damage are the
- * authored numbers from {@code greed_champion.json} rather than the vault mob curve layered on top of
- * them; and it tags {@code no_champion} so the elite promoter never rolls a champion elite on top of
- * a boss that is already the Champion.
- *
- * <p>It also spawns dormant. The Vessel's dormancy suppresses its AI, its damage ramp and its ability
- * to be hurt, which makes it exactly the right primitive for a two-second arrival: the fight starts
- * when the boss wakes, not when the entity appears.</p>
+ * Builds a Vault Champion and puts it in the world. It is pre-tagged {@code vault_scaled} so the automatic
+ * {@code EntityScaler} pass leaves the authored {@code greed_champion.json} numbers alone, and
+ * {@code no_champion} so the elite promoter skips it. It spawns dormant for the arrival pause.
  */
 public final class VaultChampionSpawner {
     private static final int SPAWN_ATTEMPTS = 40;
@@ -61,8 +52,8 @@ public final class VaultChampionSpawner {
     }
 
     /**
-     * Spawns a Champion hunting {@code summoner}, or returns null if no valid position was found in
-     * forty attempts. The caller owns the state bookkeeping; this only builds the entity.
+     * Spawns a Champion hunting {@code summoner}, or null when no valid position was found; the caller owns the
+     * state bookkeeping.
      */
     public static TheVesselEntity spawn(Vault vault, GreedMedallionTier tier, ServerLevel level, ServerPlayer summoner) {
         GreedChampionConfig config = VaultChampion.config();
@@ -105,10 +96,8 @@ public final class VaultChampionSpawner {
     }
 
     /**
-     * Resolves the whole stat block and writes it onto the entity. Health and the damage pool are the
-     * same number: the Vessel's health is clamped at a floor of one and can never reach zero, so the
-     * pool is what actually ends the fight, but mirroring it into max health keeps percent-of-max
-     * damage proportional to the fight rather than to the Vessel's arena value.
+     * Resolves the stat block onto the entity; max health and the damage pool are the same number, though only the
+     * pool ends the fight.
      */
     private static void applyStats(Vault vault, ServerLevel level, GreedMedallionTier tier,
                                    GreedChampionConfig.Rank stats, GreedChampionConfig config,
@@ -137,20 +126,8 @@ public final class VaultChampionSpawner {
     }
 
     /**
-     * Replays the crystal's mob attribute modifiers by hand. A hand-spawned entity never fires the
-     * Forge spawn event those modifiers ride, so without this the Champion would be the only mob in
-     * the vault carrying none of them.
-     *
-     * <p>Max-health modifiers are refused. The pool is already the product of the rank table, the
-     * level, the difficulty and the medallion; letting a crystal's health modifiers compound on top
-     * is the same chain that produced the hundred-billion-health boss the hyper manager documents,
-     * and unlike damage there is no play reason to want it.
-     *
-     * <p>Only the ones this pass added are stripped, found by diffing the attribute's modifier set
-     * against the snapshot taken before the replay. The modifier's own uuid is derived from the
-     * context rather than being the context's, so it cannot be predicted from here - and clearing
-     * the attribute wholesale would take anything the Vessel or another system had already put
-     * there with it.</p>
+     * Replays the crystal's mob attribute modifiers by hand, which a hand-spawned entity never receives.
+     * Max-health modifiers are refused, stripped by diffing against a snapshot so pre-existing ones survive.
      */
     private static void inheritVaultModifiers(Vault vault, TheVesselEntity champion) {
         if (!vault.has(Vault.MODIFIERS)) {
@@ -233,15 +210,8 @@ public final class VaultChampionSpawner {
     }
 
     /**
-     * Grows the Champion through the base mod's entity-scale capability - the one the Grow effect
-     * drives. It is the only route that moves both halves: a client mixin on the GeckoLib renderer
-     * reads it for the model, and one on {@code getDimensions} reads it for the hitbox. Setting the
-     * hitbox alone would leave a boss that fills a doorway while still looking its old size.
-     *
-     * <p>Sent to trackers and to the entity itself, because the capability is not synced on its own
-     * and a client that never hears about it draws the Champion at 1.0. Nothing in the base mod
-     * re-sends it when a client starts tracking an entity it already knows nothing about, so the
-     * manager calls this again on a Champion it re-adopts after a restart.</p>
+     * Grows the Champion through the entity-scale capability, which moves both model and hitbox; it is not synced
+     * on its own, so the manager calls this again on re-adoption.
      */
     static void applySize(TheVesselEntity champion, float multiplier) {
         if (multiplier <= 0.0F || multiplier == 1.0F) {
@@ -267,13 +237,8 @@ public final class VaultChampionSpawner {
     }
 
     /**
-     * Lands the Champion on the player.
-     *
-     * <p>It arrives on top of you rather than somewhere across the room, which is the whole point of a
-     * hunter: an ambush you have to react to, not a boss you have to go looking for. The ring is only
-     * a fallback for the case where there is genuinely nowhere to stand at your feet - it widens a
-     * block at a time and takes the first spot that fits, so even then the Champion is as close as the
-     * geometry allows.</p>
+     * Lands the Champion at the player's feet, falling back to a ring that widens a block at a time when nothing
+     * fits there.
      */
     private static BlockPos findSpawnPos(ServerLevel level, BlockPos playerPos, GreedChampionConfig.Hunt hunt) {
         BlockPos onPlayer = fitAt(level, playerPos.getX(), playerPos.getZ(), playerPos.getY());
@@ -295,7 +260,6 @@ public final class VaultChampionSpawner {
         return null;
     }
 
-    /** The first height near {@code referenceY} where the Champion's hitbox fits without collision. */
     private static BlockPos fitAt(ServerLevel level, int x, int z, int referenceY) {
         EntityType<?> type = ModEntities.THE_VESSEL;
         for (int yOffset = 0; yOffset <= MAX_Y_SEARCH; yOffset++) {

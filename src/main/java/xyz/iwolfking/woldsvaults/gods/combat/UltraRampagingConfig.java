@@ -5,29 +5,12 @@ import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 
 /**
  * Every tuned number behind Ultra Rampaging, read from {@code god_node_effects_idona.json}.
+ * Component names are the config keys verbatim; the codec binds by component name.
  *
- * <p>Component names are the config keys verbatim, because the codec binds by component name.
- * It lives in {@code gods.combat} rather than nested in {@code IdonaNodeHandlers} with the tree's
- * other params records, because the Fury system in this package reads it on the server tick
- * without a node context, and the dependency between the two packages already runs
- * {@code trees.idona -> gods.combat}.
- *
- * @param fury_per_hit             Fury for one qualifying hit on an ordinary enemy.
- * @param fury_per_kill            Fury for a kill, paid on top of the hit that caused it.
- * @param fury_boss_hit_multiplier Multiplier on {@code fury_per_hit} against a boss-type enemy.
- * @param fury_boss_kill_multiplier Multiplier on {@code fury_per_kill} against a boss-type enemy.
- * @param fury_per_hp_fraction_lost Fury per full bar of maximum health lost, scaled by the fraction
- *                                 actually lost.
- * @param fury_decay_per_tick      Per-tick retained fraction at or below the scaling threshold.
- * @param fury_decay_scale_from    Fury above which the decay exponent starts scaling.
- * @param fury_decay_scale_divisor Divisor turning Fury into that exponent.
- * @param fury_floor               Fury below which the pool is dropped to zero outright.
- * @param fury_cap                 Hard backstop on the pool.
+ * @param fury_per_hp_fraction_lost Fury per full bar of maximum health lost, scaled by the fraction lost.
  * @param cdm_additive_divisor     Divisor inside the cube root of the additive term.
  * @param cdm_multiplier_base      Per-100-Fury base of the exponential half of the multiplier.
  * @param cdm_sqrt_from            Fury at which the multiplier hands over to the square root.
- * @param incoming_divisor         Divisor inside the square root of the incoming-damage drawback.
- * @param incoming_scale           Scale on that square root.
  */
 public record UltraRampagingConfig(float fury_per_hit, float fury_per_kill,
                                    float fury_boss_hit_multiplier, float fury_boss_kill_multiplier,
@@ -39,15 +22,7 @@ public record UltraRampagingConfig(float fury_per_hit, float fury_per_kill,
                                    float incoming_divisor, float incoming_scale)
         implements GodEffectParams {
 
-    /**
-     * The values the node ships with, used only as the fallback if the effect is somehow read
-     * before the god node registry has loaded - {@link UltraRampaging#config()} logs when that
-     * happens rather than falling back silently.
-     *
-     * <p>These must match the block {@code GodNodeEffectDefaults#idona} writes. Nothing enforces
-     * that, so changing one means changing the other; a drift would show as the node behaving
-     * differently before and after the config file is first read.
-     */
+    /** The fallback before the registry loads; must match the block {@code GodNodeEffectDefaults#idona} writes. */
     public static UltraRampagingConfig defaults() {
         return new UltraRampagingConfig(100.0F, 200.0F, 2.0F, 10.0F, 6000.0F,
                 0.985F, 6000.0F, 2000.0F, 25.0F, 15000.0F,

@@ -7,32 +7,15 @@ import iskallia.vault.skill.base.Skill;
 import net.minecraft.server.level.ServerPlayer;
 
 /**
- * Power Dump. Every instant ability is charged the player's whole current mana pool -  a partial
- * bar spends whatever is there -  and the mana spent beyond the ability's own cost is converted
- * into ability damage. Hold and toggle abilities are untouched on both halves: they never pay
- * extra, and while one of them is actively draining mana the surplus boost is suppressed, so
- * channelled damage can never ride a surplus banked by an earlier instant cast.
- *
- * <p>There is no event for mana cost -  {@code ABILITY_CAST} carries no cost field and fires after
- * the spend -  so the cost override is a mixin on {@code ManaCostHelper.adjustManaCost}, and the
- * surplus is carried in per-player state. The surplus stays alive for a bounded window
- * ({@code surplus_ttl_ticks}) because instant abilities like Fireball and totems read
- * their ability power at impact or pulse time, not at cast time.
- *
- * <p>The cost override runs on the affordability check as well as on payment, so it only stages
- * the surplus; {@link #commit} banks it from the payment adjuster once mana has actually been
- * spent, and drops it when the cast turned out to be free (Ethereal), so a refused or free cast
- * never hands out a damage boost it did not pay for.
+ * Power Dump: instant abilities are charged the player's whole mana pool, and the mana spent beyond
+ * their own cost becomes ability damage for {@code surplus_ttl_ticks}. Hold and toggle abilities
+ * never pay extra, and suppress the boost while draining.
  */
 public final class IdonaPowerDump {
     private IdonaPowerDump() {
     }
 
-    /**
-     * Returns the mana an ability should actually cost. Only instant abilities are affected;
-     * per-second payers instead refresh the suppression window that holds the damage boost off
-     * while they are running.
-     */
+    /** The mana an instant ability should cost, staging any surplus. Others are unaffected. */
     public static float adjustCost(ServerPlayer player, Skill skill, float cost) {
         int points = IdonaNodes.points(player, IdonaNodes.POWER_DUMP);
         if (points <= 0) {
@@ -54,10 +37,7 @@ public final class IdonaPowerDump {
         return available;
     }
 
-    /**
-     * Banks the staged surplus once the payment adjuster has settled what an instant cast really
-     * costs. A zero result means the cast was free, so the stage is discarded instead.
-     */
+    /** Banks the staged surplus once a cast has paid. A {@code paid} of zero discards it. */
     public static float commit(ServerPlayer player, Skill skill, float paid) {
         if (!(skill instanceof InstantManaAbility) || IdonaNodes.points(player, IdonaNodes.POWER_DUMP) <= 0) {
             return paid;

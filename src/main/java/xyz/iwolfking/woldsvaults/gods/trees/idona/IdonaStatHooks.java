@@ -11,11 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
 import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 
-/**
- * Idona nodes that ride the base mod's player-stat and soul-shard events rather than a capability
- * seam. Registration is explicit (from {@link IdonaTree}) instead of a static initialiser so the
- * whole tree comes up in one place at a known point in mod setup.
- */
+/** Idona nodes that ride the base mod's player-stat and soul-shard events. */
 public final class IdonaStatHooks {
     private IdonaStatHooks() {
     }
@@ -40,14 +36,7 @@ public final class IdonaStatHooks {
         data.setValue(data.getValue() * (float) Math.pow(multiplier, points));
     }
 
-    /**
-     * Grand Archmage's ability-damage doubling and Power Dump's mana-to-damage conversion both land
-     * on the ability-power multiplier, which the base mod applies multiplicatively on a base of
-     * 1.0 - exactly the semantics both nodes are written in. The statistics screen invokes this
-     * same player-stat event on the CLIENT, so the Archmage multiplier is also computed there from
-     * the synced ledger - otherwise the screen under-reports while real damage is boosted. Power
-     * Dump's transient surplus stays server-only by design.
-     */
+    /** Grand Archmage's ability damage, on both sides, and Power Dump's, server-side only. */
     private static void abilityDamage(PlayerStatEvent.Data data) {
         if (data.getEntity() instanceof ServerPlayer player) {
             float multiplier = 1.0F;
@@ -89,11 +78,7 @@ public final class IdonaStatHooks {
         return ClientGodAlignmentData.getSpentLedger(VaultGod.IDONA).getOrDefault(IdonaNodes.GRAND_ARCHMAGE, 0);
     }
 
-    /**
-     * Soulstealer multiplies the soul chance, not the shard count: the count is rolled from a
-     * private lambda inside the mob-death logic with no event of its own, while the chance is a
-     * first-class event and is what feeds that roll.
-     */
+    /** Soulstealer multiplies the soul shard chance, not the shard count. */
     private static void soulstealer(SoulShardChanceEvent.Data data) {
         ServerPlayer player = data.getKiller();
         if (player == null) {

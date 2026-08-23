@@ -18,28 +18,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * The one dispatcher for {@link CombatContributor}. Every god node that takes part in damage math
- * runs here, inside a single {@link LivingHurtEvent} handler, in one deterministic order - no node
- * registers a Forge listener of its own, so the outcome of a hit never depends on event priority,
- * registration order or class-loading order.
- *
- * <p>Order within the pipeline is each contributor's {@link CombatContributor#order()} ascending,
- * ties broken by effect id. The outgoing leg runs before the incoming leg, so a hit between two
- * players is the attacker's nodes composed with the defender's, in that order, over one running
- * amount that is written back to the event exactly once.
- *
- * <p>This is the pre-mitigation stage, at {@link EventPriority#LOW} on {@link LivingHurtEvent} -
- * the same seam the god core's other damage listeners occupy, after the base mod's {@code NORMAL}
- * damage pipeline and before {@code LuckyHitTalent} at {@code LOWEST}, so contributions still pass
- * through the target's armour and resistance like every other damage bonus in the game. It does not
- * compete with {@link FinalDamageStage}: that is the post-mitigation stage on
- * {@link net.minecraftforge.event.entity.living.LivingDamageEvent}, and a node that must have the
- * last word on a hit after armour registers a sub-stage there instead of contributing here.
- *
- * <p>{@code percentageBased} is resolved once, here, through
- * {@link GlobalDamageMultiplierRegistry#isPercentageBased(DamageSource)} - the single
- * implementation of that test - and handed to every contributor on the context. A contributor that
- * means "more damage" must consult it; a contributor that acts on the hit some other way need not.
+ * The one dispatcher for {@link CombatContributor}: a single pre-mitigation {@link LivingHurtEvent}
+ * handler running every contributor by {@link CombatContributor#order()}, outgoing leg first. A node
+ * needing the last word after armour registers a {@link FinalDamageStage} sub-stage instead.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GodCombatPipeline {
@@ -83,7 +64,6 @@ public final class GodCombatPipeline {
         }
     }
 
-    /** The pipeline as it currently stands, for a debug command or a load-time sanity check. */
     public static List<String> listStages() {
         List<String> ids = new ArrayList<>();
         stages().forEach(stage -> ids.add(stage.effect().id()));
@@ -109,11 +89,7 @@ public final class GodCombatPipeline {
         }
     }
 
-    /**
-     * The ordered pipeline, rebuilt whenever the registry has published a new set of contributors.
-     * {@code GodNodeRegistry} hands out a fresh list instance on every config load, so comparing
-     * identity is enough to notice a reload without the registry having to announce one.
-     */
+    /** The ordered pipeline, rebuilt whenever the registry publishes a new contributor list. */
     private static List<Stage> stages() {
         List<GodEffect> current = GodNodeRegistry.effectsWith(CombatContributor.class);
         if (current != loaded) {

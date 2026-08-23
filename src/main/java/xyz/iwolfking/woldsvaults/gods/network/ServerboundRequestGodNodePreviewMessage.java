@@ -11,11 +11,8 @@ import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import java.util.function.Supplier;
 
 /**
- * Serverbound request for the live preview of one god node effect, sent by the gods tab when a
- * node is selected and again about once a second while it stays selected. The reply is a
- * {@link ClientboundGodNodePreviewMessage}; an effect without a live formula is answered as
- * static so the client stops asking. A resolver that throws is logged and answered as static
- * rather than left unanswered, so a broken preview degrades to the plain description.
+ * Serverbound request for one god node effect's live preview. An effect with no formula, or a resolver
+ * that throws, is answered as static so the client stops asking.
  */
 public class ServerboundRequestGodNodePreviewMessage extends Message<ServerboundRequestGodNodePreviewMessage> {
     private final String effectId;

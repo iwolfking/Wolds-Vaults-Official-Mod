@@ -20,32 +20,15 @@ import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
 
 import java.util.List;
 
-/**
- * Every handler type the Velara tree owns, and the typed parameters each one reads.
- *
- * <p>The twelve plain stat effects bind the shared {@code gear_attribute_scaled} type and Pious
- * Devotion binds the shared {@code piety} type, so neither is named here. What is left is one
- * type per behavioural effect: the two that are pure stat contributions implement
- * {@link StatContributor}, and the rest bind {@link ListenerBoundHandler}, meaning their numbers
- * live in config and are validated at load while their behaviour is still reached through Velara's own
- * ordered listeners - the damage stage, the player-stat bus, the downed hooks - because the
- * capability seams those effects would need do not exist yet.
- *
- * <p>Params component names are the config keys verbatim, including their underscores. The codec
- * binds by component name, so renaming one here silently means renaming it in every god's config
- * file too.
- */
+/** Velara handler types and their params, whose component names are the config keys verbatim. */
 public final class VelaraNodeHandlers {
-    /** Shared by both Immune ranks: one type, two effects, each with its own chance table. */
+    /** Shared by both Immune ranks; each effect carries its own chance table. */
     public static final String EFFECT_AVOIDANCE = "velara_effect_avoidance";
 
     private VelaraNodeHandlers() {
     }
 
-    /**
-     * Registers every Velara handler type. Called from {@code GodNodeHandlerTypes.bootstrap()},
-     * which is the only point guaranteed to run before the god tree configs are validated.
-     */
+    /** Registers every Velara handler type. Must run before the god tree configs are validated. */
     public static void register() {
         GodNodeHandlers.register(EFFECT_AVOIDANCE, EffectAvoidanceHandler::new);
         GodNodeHandlers.register(VelaraNodes.UTILIZED, UtilizedParams.class, UtilizedHandler::new);
@@ -71,12 +54,7 @@ public final class VelaraNodeHandlers {
                 VelaraStatBus::previewMalediction);
     }
 
-    /**
-     * The loaded parameters of one Velara effect. Absence is a programming error rather than a
-     * config error - load-time validation has already asserted that every placed effect exists
-     * and resolves its handler - so it fails loudly naming the effect instead of degrading to a
-     * zero that would read as a balance change.
-     */
+    /** The loaded parameters of one Velara effect. Throws naming the effect if it is absent. */
     public static <T extends GodEffectParams> T params(String effectId, Class<T> type) {
         return GodNodeRegistry.params(VaultGod.VELARA, effectId, type);
     }
@@ -101,7 +79,7 @@ public final class VelaraNodeHandlers {
         }
     }
 
-    /** Utilized: added levels to every utility ability, at a flat amount rather than per star. */
+    /** Utilized: added levels to every utility ability, flat rather than per star. */
     public record UtilizedHandler(GodEffect effect) implements StatContributor {
         @Override
         public void contribute(GodNodeContext context, GodStatSink sink) {
@@ -166,7 +144,6 @@ public final class VelaraNodeHandlers {
 
     public record FleetingPhysicalityParams(int immune_ticks, int vulnerable_ticks,
                                             float damage_multiplier) implements GodEffectParams {
-        /** One full immune-then-vulnerable rotation, so the two halves can never drift apart. */
         public int cycleTicks() {
             return this.immune_ticks + this.vulnerable_ticks;
         }

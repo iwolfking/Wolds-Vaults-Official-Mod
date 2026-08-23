@@ -18,11 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * The single world-level store for milestone progress. Counters are monotonic longs kept in
- * memory and only marked for persistence on a throttle (see {@link MilestoneFlusher}) or on the
- * events that must never lose progress, so that millions of increments cost no save traffic.
- */
+/** World-level store for milestone progress; persistence is throttled by {@link MilestoneFlusher}. */
 public class MilestoneData extends SavedData {
     protected static final String DATA_NAME = "woldsvaults_Milestones";
 
@@ -80,11 +76,7 @@ public class MilestoneData extends SavedData {
         return added;
     }
 
-    /**
-     * Adds a fractional amount and returns the whole units that have accumulated. The remainder
-     * is deliberately transient: losing under one unit on a restart is irrelevant, and keeping it
-     * out of NBT keeps the save shape simple.
-     */
+    /** Adds a fraction and returns the whole units accumulated; the remainder is not persisted. */
     public long addFraction(UUID playerId, String milestoneId, double amount) {
         Map<String, Double> player = this.fractions.computeIfAbsent(playerId, id -> new HashMap<>());
         double total = player.getOrDefault(milestoneId, 0.0D) + amount;
@@ -93,10 +85,7 @@ public class MilestoneData extends SavedData {
         return whole;
     }
 
-    /**
-     * Highest tier of a milestone whose reputation the player has already collected at Mr. Greedy.
-     * Everything above this and at or below the completed tier count is unclaimed.
-     */
+    /** Highest tier of a milestone whose reputation the player has collected at Mr. Greedy. */
     public int getClaimedTiers(UUID playerId, String milestoneId) {
         Map<String, Integer> player = this.claimedTiers.get(playerId);
         return player == null ? 0 : player.getOrDefault(milestoneId, 0);
@@ -113,9 +102,7 @@ public class MilestoneData extends SavedData {
         return player == null ? Map.of() : Collections.unmodifiableMap(player);
     }
 
-    /**
-     * The single milestone the player has pinned to the greed screen, or null when nothing is pinned.
-     */
+    /** The milestone the player has pinned to the greed screen, or null when nothing is pinned. */
     public String getPinned(UUID playerId) {
         return this.pinned.get(playerId);
     }
@@ -142,11 +129,7 @@ public class MilestoneData extends SavedData {
         this.pendingSync.remove(playerId);
     }
 
-    /**
-     * Marks the save dirty if anything has changed since the last flush, counters or per-vault
-     * scratch. The scratch is asked separately because it rides in this save without being one of
-     * its fields, so its writers cannot set {@link #pendingSave} themselves.
-     */
+    /** Marks the save dirty if the counters or the per-vault scratch changed since the last flush. */
     public void flush() {
         boolean scratch = MilestoneVaultState.consumeDirty();
         if (this.pendingSave || scratch) {
@@ -270,10 +253,7 @@ public class MilestoneData extends SavedData {
         CACHED = null;
     }
 
-    /**
-     * Cached per running server: this is on the per-kill and per-damage hot paths, and the
-     * overworld's data storage lives exactly as long as the server instance does.
-     */
+    /** Cached per running server; {@link #invalidate()} drops the cache. */
     public static MilestoneData get(MinecraftServer server) {
         MilestoneData cached = CACHED;
         if (cached != null && CACHED_SERVER == server) {

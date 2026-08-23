@@ -74,13 +74,7 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
         stack.getOrCreateTag().putInt(MythicCharmRolls.TEMPORAL_REMAINING_TAG, Math.max(0, ticks));
     }
 
-    /**
-     * The identity a running blessing is banked against, assigned on first use.
-     *
-     * <p>A blessing has to settle its elapsed time against the charm that granted it, not against
-     * whatever charm happens to be equipped when it ends - otherwise swapping charms mid-blessing
-     * charged the wrong one and unequipping charged nothing at all.
-     */
+    /** The identity a running blessing is banked against, assigned on first use. */
     public static UUID getOrCreateBlessingId(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
         if (!tag.hasUUID(MythicCharmRolls.BLESSING_ID_TAG)) {
@@ -89,10 +83,7 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
         return tag.getUUID(MythicCharmRolls.BLESSING_ID_TAG);
     }
 
-    /**
-     * The player's mythic charm carrying {@code blessingId}, equipped or in their inventory, or
-     * {@link ItemStack#EMPTY} if they no longer hold it.
-     */
+    /** The player's mythic charm carrying {@code blessingId}, or {@link ItemStack#EMPTY} if they hold none. */
     public static ItemStack findByBlessingId(Player player, UUID blessingId) {
         if (blessingId == null) {
             return ItemStack.EMPTY;
@@ -159,11 +150,7 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
         }
     }
 
-    /**
-     * The base check compares the no-uses prestige power's configured item id against this
-     * stack's own id, which would exclude mythic charms from Immortal Charms. A power configured
-     * for the base god charm counts for mythics too.
-     */
+    /** A no-uses prestige power configured for the base god charm counts for mythic charms too. */
     @Override
     public boolean isUsable(ItemStack charmStack, Player player) {
         VaultGearData data = VaultGearData.read(charmStack);
@@ -213,11 +200,7 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
         }
     }
 
-    /**
-     * Full tooltip replacement: the base charm's info lines, then the standard gear affix layout
-     * (implicit group, prefix group, suffix group through {@link VaultGearTooltipItem}) so the
-     * affixes read exactly like they do on gear, then the blessing clock and dormant draws.
-     */
+    /** Full tooltip replacement: base info lines, the affix groups, then the blessing clock and dormant draws. */
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         VaultGearData data = VaultGearData.read(stack);
@@ -282,12 +265,7 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
         }
     }
 
-    /**
-     * The standard gear affix group with per-piety roll hints on shift: each materialized
-     * modifier line gains its roll's per-10-piety gain (or per-level piety cost for threshold
-     * rolls), implicits included - the hint list from {@link MythicCharmRolls#rollHints} is
-     * aligned index-for-index with the group's modifiers.
-     */
+    /** A gear affix group whose lines gain per-piety hints from {@link MythicCharmRolls#rollHints} on shift. */
     private void addHintedAffixGroup(VaultGearData data, VaultGearModifier.AffixType type, ItemStack stack,
                                      List<Component> tooltip, boolean displayDetails, boolean shiftDown) {
         List<VaultGearModifier<?>> affixes = data.getModifiers(type);

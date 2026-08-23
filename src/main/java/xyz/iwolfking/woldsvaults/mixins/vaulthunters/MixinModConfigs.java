@@ -42,10 +42,8 @@ public class MixinModConfigs {
     private static final int TOTAL_MAP_TIERS = 6;
 
     /**
-     * Registers the per-unique ancient tier configs immediately after the base gear config map is built.
-     * This must not be a TAIL injection: vhapi applies its vault_configs overlay from its own TAIL
-     * injection into the same method, and silently skips any datapack gear config whose key is not yet
-     * present in VAULT_GEAR_CONFIG. Registering here is ordering independent.
+     * Registers the per-unique ancient tier configs right after the gear config map is built. Not a TAIL
+     * injection: vhapi's own TAIL overlay skips keys not yet in {@code VAULT_GEAR_CONFIG}.
      */
     @Inject(method = "register", at = @At(value = "FIELD", target = "Liskallia/vault/init/ModConfigs;VAULT_GEAR_CONFIG:Ljava/util/Map;", opcode = Opcodes.PUTSTATIC, shift = At.Shift.AFTER), remap = false)
     private static void registerAncientUniqueConfigs(CallbackInfo ci) {
@@ -72,12 +70,10 @@ public class MixinModConfigs {
         ((VaultGearCommonConfigAccessor)ModConfigs.VAULT_GEAR_COMMON).getCraftingPotentialRanges().put(VaultGearRarity.valueOf("MYTHIC"), new IntRangeEntry(250, 650));
 
 
-        //Initialize gear configs for map tiers
         for(int i = 1; i < TOTAL_MAP_TIERS; i++) {
             VAULT_GEAR_CONFIG.put(VaultMod.id("map_" + i), new VaultGearTierConfig(VaultMod.id("map_" + i)).readConfig());
         }
 
-        //Add new gear roll types
         VaultGearTypeConfig.RollType mythicRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.valueOf("MYTHIC"), 1)));
         ((VaultGearRollTypeConfigRollTypeAccessor)mythicRoll).setColor(12000284);
 
@@ -93,7 +89,6 @@ public class MixinModConfigs {
         ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Scrappy++", mapLoot);
 
 
-        // Resolve issues with ToolRecipes being missing
         ToolType[] basicTypes = new ToolType[]{ToolType.PICK, ToolType.AXE, ToolType.SHOVEL, ToolType.HAMMER, ToolType.SICKLE};
         ToolMaterial toolMaterial = ToolMaterial.valueOf("NULLITE");
         List<ItemStack> ingredients = List.of(

@@ -1438,12 +1438,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         return modDesc(modName, "mod", innerDescConsumer);
     }
 
-    /**
-     * Descriptions for every Idona god tree node, keyed by effect id (start stars by their node
-     * id) - the god tree dialog reads them through the shared skill descriptions config. Wording
-     * follows the design sheet's stat and extra-functionality columns; numbers highlight in
-     * Idona's ember orange.
-     */
+    /** Descriptions for every Idona god tree node, keyed by effect id; start stars by their node id. */
     private void addIdonaGodNodeDescriptions(Builder builder) {
         String ember = "#ff7a3d";
         godNode(builder, "idona_hard_hitter", "+25% Attack Damage", ember, " per star.");

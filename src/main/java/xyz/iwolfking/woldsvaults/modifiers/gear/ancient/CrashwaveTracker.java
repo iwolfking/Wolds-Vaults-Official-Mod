@@ -37,19 +37,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Detects a player slamming into terrain mid-riptide and answers it with a damage wave.
- *
- * <p>Both of the obvious signals for this are unusable on a dedicated server. A player's movement is
- * client authoritative: the server applies the position the client reports, so
- * {@code getDeltaMovement} is never refreshed from ordinary movement and stays whatever the server
- * last wrote, and {@code horizontalCollision} comes back false because the client already resolved
- * the collision before reporting the position it settled at. Neither is a bug in Forge - it is just
- * that those fields only mean something for server-driven entities.</p>
- *
- * <p>So speed is measured from the change in {@link net.minecraft.world.entity.Entity#position()}
- * between ticks, which the server does keep current, and the wall is found by casting a ray along
- * the direction of travel. Both are computed entirely server side and neither depends on a value the
- * client owns.</p>
+ * Detects a player slamming into terrain mid-riptide and answers it with a damage wave. Speed comes from
+ * the change in {@code position()} and the wall from a ray cast, since {@code getDeltaMovement} and
+ * {@code horizontalCollision} are meaningless for a client-driven player.
  */
 @Mod.EventBusSubscriber
 public class CrashwaveTracker {
@@ -134,11 +124,8 @@ public class CrashwaveTracker {
     }
 
     /**
-     * Casts along the direction of travel and returns where the player is about to bury themselves in
-     * terrain, or null if the path ahead is clear. The ray reaches a little further than the distance
-     * covered this tick so the wave lands on the tick of contact rather than the tick after it, when
-     * the player has already been stopped and their speed has collapsed. Fluids are ignored, so
-     * plunging into water is not a crash.
+     * Where the player is about to hit terrain, or null if the path ahead is clear. The ray reaches a
+     * little past this tick's travel; fluids are ignored, so plunging into water is not a crash.
      */
     private static Vec3 findImpactPoint(ServerPlayer player, Vec3 position, Vec3 travel, double perTick) {
         Vec3 from = position.add(0.0, player.getBbHeight() * 0.5, 0.0);
@@ -148,13 +135,8 @@ public class CrashwaveTracker {
     }
 
     /**
-     * Emits the wave. Damage scales with the square root of the speed ratio and the radius with its
-     * cube root, so a crash twice as fast hits ~1.41x harder over ~1.26x the radius.
-     *
-     * <p>The damage is dealt inside IS_SHOCKING_COLLISION rather than IS_AOE_ATTACKING on purpose.
-     * Both flags stop the wave from proccing lucky hit, but PlayerDamageHelper skips its multiplier
-     * pass whenever IS_AOE_ATTACKING is set, which would strip the wave of Rampage and every other
-     * +% damage source the wave is meant to benefit from.</p>
+     * Emits the wave: damage by the square root of the speed ratio, radius by its cube root. Dealt inside
+     * {@code IS_SHOCKING_COLLISION}, not {@code IS_AOE_ATTACKING}, which skips the multiplier pass.
      */
     private static void triggerCrashwave(ServerPlayer player, ItemStack trident, int baseRadius, float impactSpeed, Vec3 impact) {
         float speedRatio = impactSpeed / REFERENCE_SPEED;
@@ -178,15 +160,7 @@ public class CrashwaveTracker {
         level.playSound(null, impact.x, impact.y, impact.z, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.5F, 0.7F);
     }
 
-    /**
-     * One instantaneous burst of embers flung outward from the impact point.
-     *
-     * <p>Every particle is spawned with count zero, which is what lets the velocity be aimed exactly
-     * rather than scattered randomly: the client reads the delta arguments as a velocity vector and
-     * the speed argument as its multiplier. Directions are laid out around a ring with only a little
-     * vertical spread, so the burst reads as a flat shockwave punching outward rather than a ball of
-     * fire, and the dust particles bleed off speed quickly enough that it is gone almost at once.</p>
-     */
+    /** A ring of embers flung outward; count zero makes the delta arguments an aimed velocity vector. */
     private static void spawnCrashParticles(ServerLevel level, Vec3 impact, float radius) {
         DustParticleOptions hotDust = new DustParticleOptions(EMBER_HOT, 1.3F);
         DustParticleOptions deepDust = new DustParticleOptions(EMBER_DEEP, 1.7F);

@@ -17,9 +17,8 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import java.util.List;
 
 /**
- * A greed medallion: applied to a vault crystal in the crystal workbench to trade a large step up
- * in vault difficulty for greed coins and loot. One per crystal, locked once applied, and only
- * appliable by a player whose greed rank is at least the medallion's own.
+ * A greed medallion: applied to a vault crystal to trade difficulty for greed coins and loot. One per
+ * crystal, locked once applied, and gated on the player's greed rank.
  */
 public class GreedMedallionItem extends Item {
     private final GreedMedallionTier tier;
@@ -52,12 +51,7 @@ public class GreedMedallionItem extends Item {
         addSummary(this.tier, tooltip);
     }
 
-    /**
-     * The medallion's whole effect table, one line per non-zero column, shared by the item tooltip
-     * and anything else that needs to explain a medallion. Zero rows are omitted so a low tier
-     * reads as a short list rather than a wall of zeroes. The tier's own name is not printed - the
-     * item name already carries it.
-     */
+    /** The medallion's effect table, one line per non-zero column. The tier name is not printed. */
     public static void addSummary(GreedMedallionTier tier, List<Component> tooltip) {
         addLine(tooltip, "Base Greed Coins: " + tier.getBaseGreedCoins(), ChatFormatting.GOLD);
         addLine(tooltip, "+" + tier.getMobHealthDamageBonus() + "% Mob Health/Damage", ChatFormatting.RED);

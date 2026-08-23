@@ -17,11 +17,8 @@ import xyz.iwolfking.woldsvaults.gods.node.GodTreeModel;
 import java.util.function.Supplier;
 
 /**
- * Serverbound request to buy one node of a god's constellation tree. The server re-validates
- * everything the client checked: the tree and node exist, the node is enabled and not yet owned,
- * a root or an owned neighbour grants access, and the player has an unspent god point. On success
- * the ledger sync rides along from {@code purchaseTreeNode} and the attribute snapshot is
- * refreshed so stat nodes apply without a relog.
+ * Serverbound request to buy one node of a god's tree. The server re-validates the node, its access and
+ * the player's unspent points, then syncs the ledger and refreshes the attribute snapshot.
  */
 public class ServerboundUnlockGodNodeMessage extends Message<ServerboundUnlockGodNodeMessage> {
     private final VaultGod god;

@@ -15,8 +15,7 @@ import java.util.UUID;
 public abstract class MixinGodCharmRollHelperPiety {
     /**
      * @author PoorMansPhysicist
-     * @reason a freshly identified charm banks its scale units from piety rather than god
-     * reputation, ten piety per unit, so charm rolls pick up god levels and tree bonuses too.
+     * @reason a freshly identified charm banks its scale units from piety rather than god reputation
      */
     @Redirect(method = "initializeGodCharm",
             at = @At(value = "INVOKE",

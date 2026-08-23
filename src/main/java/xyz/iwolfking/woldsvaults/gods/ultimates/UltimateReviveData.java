@@ -13,13 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Which players Savior has already pulled back up, per vault. "Once per person per vault" is a
- * durable promise, so this is world SavedData rather than in-memory state: a server restart or a
- * disconnect mid-run must not hand a party a second free revive on the same body.
- *
- * <p>Entries are dropped when their vault ends, so the table only ever holds live runs.
- */
+/** Which players Savior has already revived, one per person per vault; entries are dropped when their vault ends. */
 public class UltimateReviveData extends SavedData {
     protected static final String DATA_NAME = "woldsvaults_GodUltimateRevives";
 
@@ -39,8 +33,8 @@ public class UltimateReviveData extends SavedData {
     }
 
     /**
-     * Claims this player's one Savior revive in this vault. Returns {@code false} if it was already
-     * spent, in which case the caller must not revive them.
+     * Claims this player's one Savior revive in this vault; {@code false} means it was already spent and they must
+     * not be revived.
      */
     public boolean claim(UUID vaultId, UUID playerId) {
         if (!this.revivedByVault.computeIfAbsent(vaultId, id -> new HashSet<>()).add(playerId)) {

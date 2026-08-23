@@ -29,12 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The God's Mastery page of the gods tab: one panel per god - icon, name, level, experience bar
- * and sacrifice standing, framed in the god's colour while that god is active - with the god's
- * minor-transfer slots stacked beneath it. A slot is locked, empty, or holds a minor star drawn in
- * the god's star frame, grey while the god is active and the constellation already applies it.
- * Everything reads the client alignment mirror and the active-god resolver; the only thing this
- * page sends is a slot clear.
+ * The God's Mastery page of the gods tab: one panel per god with its minor-transfer slots beneath.
+ * Reads the client alignment mirror; the only message it sends is a slot clear.
  */
 public final class GodOverviewPage {
     private static final int PANEL_HEIGHT = 48;
@@ -52,7 +48,7 @@ public final class GodOverviewPage {
         this.screen = screen;
     }
 
-    /** Where everything sits inside a frame; recomputed per call so the page follows window resizes. */
+    /** Where everything sits inside a frame; recomputed per call. */
     private record Layout(Rectangle inner, int panelWidth, int rowPitch, int rowsTop, int rows) {
         Rectangle panel(int column) {
             return new Rectangle(this.inner.x + NUMERAL_GUTTER + column * (this.panelWidth + GAP), this.inner.y,
@@ -248,10 +244,7 @@ public final class GodOverviewPage {
         });
     }
 
-    /**
-     * A left-click on a god panel opens that god's constellation; a right-click on a filled slot
-     * clears it. Anything else is not this page's to handle.
-     */
+    /** Left-click on a god panel opens its constellation; right-click on a filled slot clears it. */
     public boolean mouseClicked(Rectangle frame, double mouseX, double mouseY, int button) {
         Layout layout = layout(frame);
         VaultGod[] order = GodTreeTheme.DISPLAY_ORDER;

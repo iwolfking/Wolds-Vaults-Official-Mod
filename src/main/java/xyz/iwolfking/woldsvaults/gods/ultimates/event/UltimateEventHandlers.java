@@ -21,9 +21,8 @@ import xyz.iwolfking.woldsvaults.gods.ultimates.SaviorState;
 import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateSpecializationManager;
 
 /**
- * Server-side lifecycle for the god ultimates: the one tick loop the three stateful ultimates run
- * on, the periodic re-resolution that keeps Stirrings of Power morphed to the equipped charm, the
- * bullet-time dodge roll, and the teardown paths that guarantee no buff outlives its owner.
+ * Server-side lifecycle for the god ultimates: the shared tick loop, the periodic re-specialization, the
+ * bullet-time dodge roll, and the teardown paths.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class UltimateEventHandlers {
@@ -52,9 +51,8 @@ public final class UltimateEventHandlers {
     }
 
     /**
-     * Bullet time's dodge is rolled here rather than folded into the gear dodge stat, so that the
-     * hard 0.95 cap on gear dodge cannot swallow the whole of the ultimate's own ladder. Runs above
-     * the addon's gear dodge handler; cancelling stops that handler from also rolling.
+     * Rolls bullet time's own dodge above the addon's gear dodge handler; cancelling stops that handler from
+     * rolling too.
      */
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBulletTimeDodge(LivingHurtEvent event) {
@@ -69,10 +67,8 @@ public final class UltimateEventHandlers {
     }
 
     /**
-     * A charm swap changes which ultimate is owed, so the cached active god is dropped and the
-     * ability re-pointed immediately rather than waiting for the next sweep. Curios raises this
-     * event on any NBT delta - a blessing's countdown, a mythic rescale - so a change that cannot
-     * have moved the active god is ignored here.
+     * Re-points the ability on a charm swap; Curios raises this on any NBT delta, so deltas that cannot move the
+     * active god are ignored.
      */
     @SubscribeEvent
     public static void onCurioChange(CurioChangeEvent event) {
@@ -103,11 +99,8 @@ public final class UltimateEventHandlers {
     }
 
     /**
-     * Leaving the dimension means leaving the vault, so bullet time's clock factor is released and
-     * its attribute modifiers are stripped before the player can carry them into the overworld, and
-     * a running Cope de Grace infusion ends without its dash - the booked damage and the terminal
-     * sweep belong to the vault it was cast in, not to the hub's pets and villagers. The cast's own
-     * cooldown keeps running either way.
+     * Ends bullet time and any running Cope de Grace infusion, the latter without its dash; the cast's cooldown
+     * keeps running.
      */
     @SubscribeEvent
     public static void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
@@ -124,12 +117,6 @@ public final class UltimateEventHandlers {
         BulletTimeState.end(player);
     }
 
-    /**
-     * Drops every ultimate's live state when the server stops. Per-player teardown already covers
-     * logout, death and dimension change; this is the integrated-server case, where the JVM
-     * outlives the world and a state left behind would apply to the next world's player of the
-     * same id.
-     */
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         CopeDeGraceState.clearAll();

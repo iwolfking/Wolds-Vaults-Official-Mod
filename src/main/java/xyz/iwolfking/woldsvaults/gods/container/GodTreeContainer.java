@@ -5,11 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
 
-/**
- * Slotless menu behind the gods tab of the player menu. It carries no payload: the tree shapes
- * ship inside the jar ({@code GodTrees}) and the per-player purchase state arrives through
- * {@code ClientGodAlignmentData}, which the god core keeps synced.
- */
+/** Slotless menu behind the gods tab of the player menu; it carries no payload. */
 public class GodTreeContainer extends AbstractElementContainer {
     public GodTreeContainer(int windowId, Player player) {
         super(ModContainers.GOD_TREE_CONTAINER, windowId, player);

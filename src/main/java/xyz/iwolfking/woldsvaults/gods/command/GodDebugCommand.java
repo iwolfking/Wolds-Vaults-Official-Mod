@@ -235,9 +235,8 @@ public final class GodDebugCommand {
     }
 
     /**
-     * Grants one cauldron sacrifice gate for the god outright: item progress toward the gate is
-     * cleared and the completed count advances, promoting any levels the accumulated XP already
-     * paid for.
+     * Grants one cauldron sacrifice gate outright: clears item progress, advances the completed
+     * count and promotes any levels the accumulated XP already paid for.
      */
     private static int grantSacrifice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");
@@ -252,11 +251,7 @@ public final class GodDebugCommand {
         return 1;
     }
 
-    /**
-     * Gives an already-identified mythic charm of the given god, rolled either at the player's
-     * current piety or at an explicit piety override - the tester's shortcut past the drop and
-     * identification flow.
-     */
+    /** Gives an identified mythic charm, rolled at the player's piety or at {@code pietyOverride}. */
     private static int giveMythicCharm(CommandContext<CommandSourceStack> context, int pietyOverride,
                                        boolean forceLegendary) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");

@@ -20,33 +20,15 @@ import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
 
 /**
- * The Idona nodes whose multiplier depends on the hit itself - the target, the weapon or the code
- * path the damage arrived through - and therefore cannot be expressed as a per-player factor in
- * {@link xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry}.
- *
- * <p>All of them are {@link CombatContributor}s on the pre-mitigation leg of
- * {@link GodCombatPipeline}, which occupies the same {@code LOW} {@link LivingHurtEvent} seam
- * these nodes were applied at before: the bonus still passes through the target's armour and
- * resistance like every other damage bonus in the game, and it composes multiplicatively with the
- * global registry instead of racing it. Percentage-based damage is resolved once by the pipeline
- * and skipped here for the same reason the registry skips it.
- *
- * <p>What is left on Forge listeners is the two things no capability seam can express: cancelling
- * a hit outright, and reading a mob effect leaving a target.
+ * Idona nodes whose multiplier depends on the hit itself: {@link CombatContributor}s on the
+ * pre-mitigation leg of {@link GodCombatPipeline}, skipping percentage-based damage.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class IdonaHitHandlers {
     private IdonaHitHandlers() {
     }
 
-    /**
-     * Grand Archmage's downside: the player loses weapon swings entirely. Cancelling the hurt
-     * event is the only mechanism the codebase offers - there is no "base attack damage" hook -
-     * so on-hit procs that ride the same swing are suppressed with it. Thorns, tridents,
-     * boomerangs and every ability are untouched, because {@code isNormalAttack} already excludes
-     * them. It stays a listener rather than a contributor because the combat pipeline composes a
-     * running amount and has no way to cancel a hit.
-     */
+    /** Grand Archmage's downside: cancels normal weapon swings and the on-hit procs riding them. */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void suppressArchmageSwings(LivingHurtEvent event) {
         if (!(event.getSource().getEntity() instanceof ServerPlayer player)) {
@@ -70,11 +52,7 @@ public final class IdonaHitHandlers {
         markIfSurvived(event.getEntityLiving(), event.getPotionEffect() == null ? null : event.getPotionEffect().getEffect());
     }
 
-    /**
-     * There is no event for a glacial prison breaking, so the mark is taken from the effect
-     * leaving a living target: the addon's shatter overwrite removes the effect from anything that
-     * survives its burst, and an expiry means the prison ran out without shattering the mob.
-     */
+    /** Marks a living target as a glacial prison survivor when the shatter effect leaves it. */
     private static void markIfSurvived(LivingEntity entity, net.minecraft.world.effect.MobEffect effect) {
         if (entity == null || effect != ModEffects.GLACIAL_SHATTER || entity.level.isClientSide() || !entity.isAlive()) {
             return;
@@ -82,11 +60,7 @@ public final class IdonaHitHandlers {
         IdonaState.markPrisonSurvivor(entity.getId(), entity.level.getGameTime());
     }
 
-    /**
-     * Pincushion. Only real swings advance the counter: counting every damage instance would let
-     * echo ticks, proc fangs and damage-over-time inflate it by an order of magnitude - the
-     * failure mode the damage-overflow investigation documented.
-     */
+    /** Pincushion: more damage per prior hit on the target. Only normal attacks advance the counter. */
     public record PincushionHandler(GodEffect effect) implements CombatContributor {
         @Override
         public void onOutgoing(GodNodeContext context, GodDamageContext damage) {
@@ -150,13 +124,7 @@ public final class IdonaHitHandlers {
         }
     }
 
-    /**
-     * True Rage re-exports the Rampage damage bonus onto a path Rampage deliberately skips.
-     * Rampage ignores anything flagged as area damage, which is how attack-damage abilities deal
-     * theirs; this node gives that damage a fraction of the bonus back. The cleave sweep is the
-     * other such path and belongs to Cleave Expert, so the two guards are complements and never
-     * both pay for one hit.
-     */
+    /** True Rage: re-exports a fraction of the Rampage bonus onto area damage, excluding cleave. */
     public record TrueRageHandler(GodEffect effect) implements CombatContributor {
         @Override
         public void onOutgoing(GodNodeContext context, GodDamageContext damage) {
@@ -178,18 +146,7 @@ public final class IdonaHitHandlers {
         }
     }
 
-    /**
-     * The shared re-export both nodes use.
-     *
-     * <p>Reads the Rampage bonus through {@link RampageAccess} rather than through
-     * {@code PlayerDamageHelper}. Until the_vault 3.21.6 those were the same number, because
-     * Rampage registered itself in that registry; it no longer does, and what remains there is
-     * Aspect of Berserk, the Berserker archetype and Barbarian's rage. Reading the registry here
-     * would re-export the wrong bonus entirely.
-     *
-     * <p>Because the bonus is read through the ability, Ultra Rampaging's Fury scaling is already
-     * folded into it. Both nodes therefore grow with Fury, which is intended.
-     */
+    /** Applies {@code efficiency} of the Rampage bonus. Only non-ability area attacks qualify. */
     private static void rampageExport(GodNodeContext context, GodDamageContext damage, float efficiency) {
         if (damage.isPercentageBased()) {
             return;

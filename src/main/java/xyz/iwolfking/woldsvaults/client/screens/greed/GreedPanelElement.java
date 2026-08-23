@@ -34,14 +34,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * The whole greed UI below the window frame: the six-tab strip plus either the rank summary
- * (Main) or a scrollable achievement list for the tab's category. Both host screens embed this
- * one element, so the player menu and Mr. Greedy render identical content and differ only in
- * whether claiming is enabled and in who draws the window around it.
- *
- * <p>The panel is resizable. Mr. Greedy hands it his fixed pane size once; the player tab hands
- * it the tab content rectangle on every {@code init}, so it grows and shrinks with the game
- * window and swaps to the larger {@link GreedMetrics} table when there is room for it.</p>
+ * The greed UI below the window frame: the six-tab strip plus either the rank summary (Main) or the
+ * tab category's achievement list. Resizable, swapping {@link GreedMetrics} table with the panel size.
  */
 public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
     public static final int WIDTH = 345;
@@ -75,11 +69,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         this.rebuild();
     }
 
-    /**
-     * Resizes the panel to the rectangle its host screen wants it to fill and rebuilds if that
-     * actually moved. The player tab calls this from {@code init}, which Minecraft re-runs on
-     * every window resize and gui scale change.
-     */
+    /** Resizes the panel to the rectangle its host screen wants it to fill, rebuilding if that moved. */
     public void applyBounds(int width, int height) {
         int newWidth = Math.max(MIN_WIDTH, width);
         int newHeight = Math.max(MIN_HEIGHT, height);
@@ -100,21 +90,12 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         this.requestRebuild();
     }
 
-    /**
-     * Queues a rebuild for the next screen tick. Tab, pin and claim buttons all call this from
-     * inside the element store's own click dispatch, and tearing that store down mid-iteration
-     * would be a concurrent modification.
-     */
+    /** Queues a rebuild for the next screen tick; safe to call from inside click dispatch. */
     public void requestRebuild() {
         this.rebuildPending = true;
     }
 
-    /**
-     * Applies a queued rebuild, and otherwise rebuilds only when the synced milestone state
-     * actually moved. Counters tick every second while the owner is inside a vault, so an
-     * unconditional per-tick rebuild would reset the scroll position and re-allocate every row
-     * for nothing.
-     */
+    /** Applies a queued rebuild, and otherwise rebuilds only when the synced milestone state moved. */
     public void refreshIfChanged() {
         int current = signature();
         if (this.rebuildPending || current != this.lastSignature) {
@@ -136,11 +117,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         return hash;
     }
 
-    /**
-     * Tears the panel down and rebuilds it from the current client milestone mirror. Called on
-     * every tab switch, pin toggle, claim and resize, which is also how the screens pick up the
-     * sync that follows a server round trip.
-     */
+    /** Tears the panel down and rebuilds it from the current client milestone mirror. */
     public void rebuild() {
         if (this.list != null) {
             this.savedScroll = this.list.getScrollValue();
@@ -177,11 +154,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         }
     }
 
-    /**
-     * The dark plate under the tab content plus the scroll container that clips to it. Every tab
-     * including Main scrolls: the rank summary is a fixed-height stack that does not fit the
-     * trader's short pane or the player tab at gui scale 4, and clipping it beats overlapping it.
-     */
     private GreedScrollList buildContentList() {
         int width = this.panelWidth - this.metrics.margin * 2;
         int height = this.panelHeight - this.metrics.contentY - this.metrics.margin;
@@ -276,12 +248,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         content.addElement(rerollLabel);
     }
 
-    /**
-     * The one control for {@code Milestones#claimAll}, which until now had no button anywhere. It
-     * lives under the rank-up plate on the main tab and mirrors the per-row claim chip exactly:
-     * live label, disabled with nothing banked, and disabled with the Mr. Greedy hint on the player
-     * tab, where the server refuses claims regardless.
-     */
+    /** The {@code claimAll} button; disabled with a hint on the player tab, where the server refuses claims. */
     private void buildClaimAll(GreedScrollList content, int columnX, int y, int columnWidth, GreedMetrics m) {
         boolean claimEnabled = this.claimEnabled;
         GreedButtonElement claimAll = new GreedButtonElement(
@@ -316,16 +283,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         }
     }
 
-    /**
-     * The "gain on rank up" plate, which doubles as the rank-up trial gate. Once the next rank's
-     * reputation and god-alignment requirements are both met the plate turns into a single gold
-     * "Take Trial" button; below them it keeps the unlock list and spends its last line saying
-     * which requirement is still missing.
-     *
-     * <p>The readiness swap is a layout change rather than a live supplier, so it only lands on a
-     * rebuild. Rank, reputation, threshold and best god level are all part of the panel's change
-     * signature, which covers every way readiness can move.</p>
-     */
+    /** The "gain on rank up" plate; becomes a "Take Trial" button when ready, but only on a rebuild. */
     private static void buildGainBox(GreedScrollList content, int x, int y, int width, GreedMetrics m, int rank) {
         content.addElement(new GreedFillElement(Spatials.positionXYZ(x, y, 1)
                 .size(width, m.unlockBoxHeight), GreedTheme.PLATE, GreedTheme.GOLD_DEEP));
@@ -354,11 +312,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
                 (ISize) Spatials.size(width - 8, 9), trialRequirement(), LabelTextStyle.defaultStyle()));
     }
 
-    /**
-     * The one line under the unlock list: the requirement standing between the player and the next
-     * rank's trial. Reputation is named first because it is the gate every rank-up has; the god
-     * level only appears once the reputation bar is full.
-     */
+    /** The requirement still standing between the player and the next rank's trial. */
     private static Component trialRequirement() {
         if (ClientMilestoneData.getRank() <= 0) {
             return GreedTheme.langColored("take_trial.herald", GreedTheme.TEXT_DIM);

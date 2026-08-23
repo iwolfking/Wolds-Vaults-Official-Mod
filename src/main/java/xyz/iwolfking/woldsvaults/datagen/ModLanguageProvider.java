@@ -742,9 +742,7 @@ public class ModLanguageProvider extends LanguageProvider {
 
     }
 
-    /**
-     * Milestone display names and the chat lines the milestone engine sends on a tier completion.
-     */
+    /** Milestone display names and the chat lines sent on a tier completion. */
     private void addMilestoneNames() {
         add("milestone.woldsvaults.completed", "Milestone complete: %1$s - collect your reputation from Mr. Greedy");
         add("milestone.woldsvaults.tier_completed", "Milestone: %1$s (tier %2$s of %3$s) - collect your reputation from Mr. Greedy");
@@ -829,10 +827,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.celebrations", "Celebrations");
     }
 
-    /**
-     * Requirement lines shown under each achievement name on the greed screens. One per
-     * milestone id, naming the quantity its counter tracks.
-     */
+    /** Requirement lines shown under each achievement name on the greed screens, one per milestone id. */
     private void addMilestoneDescriptions() {
         add("milestone.woldsvaults.living_looter.desc", "Living chests looted");
         add("milestone.woldsvaults.ornate_looter.desc", "Ornate chests looted");
@@ -913,9 +908,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.celebrations.desc", "Complete the Celebrations challenge");
     }
 
-    /**
-     * Every label, tooltip, rank name and rank-up unlock line on the greed screens.
-     */
+    /** Every label, tooltip, rank name and rank-up unlock line on the greed screens. */
     private void addGreedScreenText() {
         add("screen.woldsvaults.greed.title", "Greed");
         add("screen.woldsvaults.greed.tab.main", "Main");

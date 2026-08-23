@@ -11,13 +11,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-/**
- * Immediate-mode drawing the gods tab shares: lines, rings and discs built from colour quads (the
- * GUI has no circle primitive), star-frame cells from a star sheet, and a plain 16px texture
- * blit. Everything draws in whatever pose the caller has set up, so the same calls serve screen
- * space and the chart's zoomed tree space alike. Every quad winds the way vanilla {@code fill}
- * does: screens render with back-face culling on, and a quad wound the other way is dropped.
- */
+/** Immediate-mode drawing the gods tab shares. Everything draws in the caller's current pose. */
 public final class GodDrawing {
     private static final int CIRCLE_SEGMENTS = 28;
 
@@ -54,7 +48,6 @@ public final class GodDrawing {
         });
     }
 
-    /** A one-pixel rectangle outline, for plates and panels. */
     public static void outline(PoseStack poseStack, int x, int y, int width, int height, int argb) {
         GuiComponent.fill(poseStack, x, y, x + width, y + 1, argb);
         GuiComponent.fill(poseStack, x, y + height - 1, x + width, y + height, argb);
@@ -74,10 +67,7 @@ public final class GodDrawing {
         line(poseStack, x + size, y, x, y + size, width, argb);
     }
 
-    /**
-     * One cell of a star-frame sheet scaled to {@code size}; column and row constants live on
-     * {@link GodTreeTheme}.
-     */
+    /** One cell of a star-frame sheet scaled to {@code size}; column and row constants live on {@link GodTreeTheme}. */
     public static void starFrame(PoseStack poseStack, ResourceLocation sheet, int column, int row, int x, int y, int size, float alpha) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
@@ -91,7 +81,7 @@ public final class GodDrawing {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    /** A whole 16x16 texture - an item sprite or a node icon - drawn at {@code size}. */
+    /** A whole 16x16 texture drawn at {@code size}. */
     public static void texture(PoseStack poseStack, ResourceLocation texture, int x, int y, int size, float alpha) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);

@@ -8,22 +8,14 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * The whole-graph load-time assertions on a built {@link GodTreeModel}. Every one of them is
- * fatal: a config typo must never degrade into a node that quietly does nothing.
- *
- * <p>Per-entry assertions - unknown handler type, unknown effect, malformed edge, duplicate id -
- * are made by {@link GodTreeLoader} as it builds; what is left here is what can only be seen once
- * the whole tree exists.
+ * The whole-graph load-time assertions on a built {@link GodTreeModel}, all of them fatal.
+ * Per-entry assertions are made by {@link GodTreeLoader} as it builds.
  */
 public final class GodNodeValidator {
     private GodNodeValidator() {
     }
 
-    /**
-     * Asserts that every effect is actually placed and every node is reachable from a root. An
-     * empty tree passes: a god whose tree has not been authored yet is a legitimate state, and an
-     * absent tree is not the same failure as a broken one.
-     */
+    /** Asserts every effect is placed and every node reachable from a root; an empty tree passes. */
     public static void validate(GodTreeModel model) {
         if (model.isEmpty() && model.getEffects().isEmpty()) {
             return;

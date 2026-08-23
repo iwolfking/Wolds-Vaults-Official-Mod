@@ -18,13 +18,8 @@ import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
 import xyz.iwolfking.woldsvaults.milestones.Milestones;
 
 /**
- * The medallion-era replacement for {@code GreedAssassinSpawnHandler#handleGreedAssassinKill}.
- *
- * <p>Two changes. The coin drop is no longer a 1-3 roll but half the medallion's base greed coin
- * value, which is what makes assassins one of the two main greed coin faucets in the rework without
- * making them the only one worth farming. And the direct greed reputation grant is gone: reputation
- * is a milestone-only currency now, so the kill pays coins and advances Assassin Assassinator, which
- * is the only route by which killing assassins still earns reputation.</p>
+ * The payout for killing a greed assassin: coins worth half the medallion's base value plus Assassin Assassinator
+ * progress, and no greed reputation directly.
  */
 public final class GreedAssassinKills {
     private GreedAssassinKills() {

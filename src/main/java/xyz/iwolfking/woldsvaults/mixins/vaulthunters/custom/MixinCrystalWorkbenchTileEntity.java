@@ -15,11 +15,7 @@ import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
 @Mixin(value = CrystalWorkbenchTileEntity.class, remap = false)
 public class MixinCrystalWorkbenchTileEntity {
 
-    /**
-     * Grows the unique-ingredient inventory from six slots to seven so the workbench has somewhere
-     * to hold a greed medallion. 6 is the only occurrence of that constant in the constructor
-     * (verified against the shipped 3.21.6 bytecode), so the constant match is unambiguous.
-     */
+    /** Grows the unique-ingredient inventory from six slots to seven, for the greed medallion. */
     @ModifyConstant(method = "<init>", constant = @Constant(intValue = 6))
     private int addMedallionSlot(int uniqueIngredientCount) {
         return uniqueIngredientCount + 1;

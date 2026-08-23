@@ -19,25 +19,16 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampion;
 
 /**
- * Server-side hooks for the two greed assassin behaviours that act after the spawn: the on-hit
- * debuff and the buffing aura pulse. Both read the tier stamped on the assassin itself rather than
- * the vault, so an assassin always behaves as the medallion that produced it.
+ * Server-side hooks for the assassin behaviours that act after the spawn: the on-hit debuff and the aura pulse.
+ * Both read the tier stamped on the assassin, not the vault's.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public class GreedAssassinEvents {
     private static final int AURA_PULSE_TICKS = 100;
 
     /**
-     * Everything an assassin does on a landed melee hit: the flat true-damage follow-up every
-     * assassin lands, and the Hunter 1+ debuff. Only direct hits count - the attacker and the
-     * damage's direct entity have to be the same assassin - so projectiles, thorns and ability
-     * damage attributed to the assassin apply neither.
-     *
-     * <p>The true-damage hit fires its own {@code LivingHurtEvent} with the assassin as the attacker,
-     * which would land straight back here; the flag the helper sets for the duration of that hit is
-     * what stops it recursing and what stops one swing applying two debuffs. This runs below the
-     * dodge roll on purpose: a swing the player dodged is cancelled before it gets here, so it
-     * spawns neither the follow-up hit nor the debuff.</p>
+     * The flat true-damage follow-up and the Hunter 1+ debuff on a landed melee hit; only direct hits count, and
+     * the true-damage flag stops the follow-up landing back here.
      */
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onAssassinHit(LivingHurtEvent event) {
@@ -57,11 +48,7 @@ public class GreedAssassinEvents {
                 .ifPresent(tier -> GreedAssassinBehaviors.applyRandomNegativeEffect(player, player.level.random));
     }
 
-    /**
-     * Hunter 3+ assassins pulse their aura every five seconds. The sweep also prunes assassins that
-     * no longer resolve, so the tracked set stays bounded without a death or unload listener of its
-     * own beyond the kill hook.
-     */
+    /** Pulses Hunter 3+ auras every five seconds; the sweep also prunes assassins that no longer resolve. */
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {

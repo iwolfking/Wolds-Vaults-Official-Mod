@@ -16,20 +16,7 @@ import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialRequirements;
 
 import java.util.function.Supplier;
 
-/**
- * The greed main-screen header feed: everything the screen shows that is not a milestone counter.
- *
- * <p>{@code shopRerollCost} is a GREEDY TICKET price, not a timer and no longer reputation. It is
- * {@code 2 + resetCount / 2}, i.e. 2 tickets rising by one every second reroll. The wire format is
- * unchanged - still one {@code VarInt} in the same slot - only what the number counts moved.</p>
- *
- * <p>The shop does restock on a clock, and it is the black market's: the addon's
- * {@code MixinPlayerBlackMarketData} rerolls the offers and clears {@code resetCount} from inside
- * {@code PlayerBlackMarketData.BlackMarket.tick}, right before the market resets its own trades.
- * So the countdown widget on the trader screen, which reads the shard-trade reset clock, is
- * telling the truth for the greed shop too, and the ticket price ladder restarts with it. Base's
- * own reset of that counter, on a greed tier-up, still fires as well.</p>
- */
+/** The greed header feed; {@code shopRerollCost} is a greedy ticket price, {@code 2 + resetCount / 2}. */
 public class MilestoneStatusMessage extends Message<MilestoneStatusMessage> {
     private final int rank;
     private final int reputation;
@@ -56,21 +43,11 @@ public class MilestoneStatusMessage extends Message<MilestoneStatusMessage> {
         this.bestGodLevel = bestGodLevel;
     }
 
-    /**
-     * Builds and sends the player's current header state. Called on login, after a claim, and by
-     * the flusher whenever any of the five numbers has moved.
-     */
     public static void sendTo(ServerPlayer player) {
         NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), build(player));
     }
 
-    /**
-     * The three trial numbers are everything the "Take Trial" button needs to decide its own state
-     * without a second round trip: which flavor of trial guards the next rank (0 when none does),
-     * the god level that rank-up asks for (0 when it asks for none), and the best god level the
-     * player actually holds. Reputation readiness the screen can already work out from
-     * {@code reputation} against {@code nextRankThreshold}.
-     */
+    /** Snapshots a player's header state; {@code trialKind} is a Kind ordinal plus one, or 0. */
     public static MilestoneStatusMessage build(ServerPlayer player) {
         PlayerGreedTreeData treeData = PlayerGreedTreeData.get(player.server);
         int rank = treeData.getGreedTier(player);

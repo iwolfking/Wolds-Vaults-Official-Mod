@@ -26,10 +26,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * A god-attuned neuralizer: consumed on use to reset that god's constellation tree, refunding
- * every spent god point and unlearning all purchased nodes. God experience, levels, sacrifices,
- * bonus points and minor-transfer bindings are untouched. Unusable inside a vault - the tree
- * snapshot mid-run would desync from the carryover fold.
+ * A god-attuned neuralizer: consumed on use to reset that god's tree, refunding every spent point.
+ * Experience, levels, sacrifices and transfer bindings are untouched. Unusable inside a vault.
  */
 public class GodNeuralizerItem extends BasicItem {
     private final VaultGod god;

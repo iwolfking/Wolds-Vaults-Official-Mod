@@ -10,38 +10,21 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import java.util.Optional;
 
 /**
- * Server-side activity checks for god tree nodes. Stat-node VALUES flow through the attribute
- * snapshot ({@link GodNodeAttributeSource}); this gate answers whether a node's FUNCTIONAL
- * behaviour (event handlers, hooks, ultimates) should run for a player right now.
- *
- * <p>Majors are strictly bound to the active tree. Minors also run while their own god carries
- * them in one of its minor-transfer slots, whichever god is active - including none - except
- * when that god is the active one, where the constellation already applies them.
- *
- * <p>{@link #gate} is the one entry point for registry-driven effects: it answers with both the
- * effective points and the scale they apply at, behind {@link GodNodeCache}. The uncached
- * {@code activePoints} and {@code minorPoints} readers below predate it and are what the
- * not-yet-ported per-god node content still calls.
+ * Whether a node's functional behaviour (handlers, hooks, ultimates) should run for a player right now.
+ * Majors are bound to the active tree; minors also run from their own god's minor-transfer slots.
  */
 public final class GodNodeGate {
     private GodNodeGate() {
     }
 
     /**
-     * The effective points and scale a player holds in one registered effect:
-     *
-     * <ul>
-     *   <li>on the active tree - full points at scale 1.0</li>
-     *   <li>a minor carried by one of its own god's transfer slots - full points at scale 1.0</li>
-     *   <li>a stat node on a foreign tree - full points at the carryover scale</li>
-     *   <li>anything else - nothing</li>
-     * </ul>
+     * The effective points and scale a player holds in one registered effect: scale 1.0 on the active
+     * tree or for a minor in its own god's slots, the carryover scale for a foreign stat node, else none.
      */
     public static GodNodeCache.Gated gate(ServerPlayer player, VaultGod god, String effectId) {
         return GodNodeCache.resolve(player, god, effectId);
     }
 
-    /** Effective points in one registered effect, gated as {@link #gate} describes. */
     public static int points(ServerPlayer player, VaultGod god, String effectId) {
         return gate(player, god, effectId).points();
     }
@@ -51,10 +34,7 @@ public final class GodNodeGate {
         return gate(player, god, effectId).scale();
     }
 
-    /**
-     * The handler-facing view of a live effect, or empty when the player does not hold it.
-     * Built per query, never cached, so a handler always reads current points, scale and piety.
-     */
+    /** The handler-facing view of a live effect, built per query, or empty when the player lacks it. */
     public static Optional<GodNodeContext> context(ServerPlayer player, VaultGod god, String effectId) {
         GodNodeCache.Gated gated = gate(player, god, effectId);
         if (!gated.isActive()) {
@@ -68,7 +48,6 @@ public final class GodNodeGate {
                 gated.scale(), GodPiety.total(player, god)));
     }
 
-    /** As {@link #context(ServerPlayer, VaultGod, String)}, for a caller that already has the effect. */
     public static Optional<GodNodeContext> context(ServerPlayer player, GodEffect effect) {
         return context(player, effect.god(), effect.id());
     }

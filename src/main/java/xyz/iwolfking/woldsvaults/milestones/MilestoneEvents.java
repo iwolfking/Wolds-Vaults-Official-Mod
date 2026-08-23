@@ -30,11 +30,7 @@ import xyz.iwolfking.woldsvaults.gods.event.GodLevelUpEvent;
 
 import java.util.UUID;
 
-/**
- * Forge-bus half of the milestone dispatcher. The events routed here are the ones the vault's
- * own {@code CommonEvents} bus only wraps, so subscribing directly avoids the wrapper's
- * five-priority dispatch amplification.
- */
+/** Forge-bus half of the milestone dispatcher. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public class MilestoneEvents {
     private MilestoneEvents() {
@@ -61,16 +57,7 @@ public class MilestoneEvents {
         }
     }
 
-    /**
-     * Puts a player who already beat the Herald onto the first rank of the ladder.
-     *
-     * <p>{@code MixinPlayerGreedDataHerald} does this the moment the Herald falls, but only for
-     * completions that happen after it shipped. Every save that beat the Herald before then is
-     * stuck at tier 0, and tier 0 has no trial to climb out of - rank 1 is the ladder's entry, not
-     * something a trial awards - so without this the ladder stays permanently out of reach. Runs
-     * before the other two heals so the reputation floor and the login sync both see the new rank,
-     * and is idempotent: a ranked save is skipped, and so is one that has not met the Herald.</p>
-     */
+    /** Puts a Herald winner still on tier 0 onto the ladder's first rank. Idempotent. */
     private static void healUnrankedHeraldWinner(ServerPlayer player) {
         PlayerGreedTreeData treeData = PlayerGreedTreeData.get(player.server);
         if (treeData.getGreedTier(player) != 0
@@ -82,19 +69,7 @@ public class MilestoneEvents {
                 player.getGameProfile().getName(), MilestoneRankLadder.FIRST_RANK);
     }
 
-    /**
-     * Raises a saved reputation that sits below its own rank's band floor back up to that floor.
-     *
-     * <p>The coherence hook on {@code setGreedTier} only fixes force-sets made after it existed;
-     * a save whose rank was set before it shipped still carries the zero base wrote, so the bar,
-     * which reads {@code (reputation - floor) / band}, is pinned empty forever no matter how much
-     * reputation is claimed. This runs once per login, writes through the data class's own setter
-     * so the greed sync fires, and is idempotent: a healed save meets the floor and is skipped.</p>
-     *
-     * <p>Rank 0 has a floor of 0, so players who have never joined the greed ladder are untouched.
-     * The write happens before {@link MilestoneFlusher#syncAll(ServerPlayer)} so the status packet
-     * that follows already carries the healed number.</p>
-     */
+    /** Raises a reputation sitting below its own rank's band floor up to that floor. Idempotent. */
     private static void healReputationBelowRankFloor(ServerPlayer player) {
         PlayerGreedTreeData treeData = PlayerGreedTreeData.get(player.server);
         int rank = treeData.getGreedTier(player);
@@ -108,20 +83,7 @@ public class MilestoneEvents {
                 player.getGameProfile().getName(), reputation, rank, floor);
     }
 
-    /**
-     * Re-reaches the four god milestones from the player's live god levels, so any historic drift
-     * between the two self-heals on the next login.
-     *
-     * <p>These four are set to a level rather than incremented, and their only live feed is
-     * {@link GodLevelUpEvent}, which fires exactly once per level gained. A level-up that is
-     * missed - a save that predates the milestone, a level gained while the milestone engine was
-     * absent, or a level forced by command - would otherwise leave the counter permanently short
-     * with no second chance to catch up. Reading the authoritative value out of
-     * {@link GodAlignmentData} makes that unrecoverable case recoverable, and it is idempotent:
-     * {@link Milestones#reach} ignores anything at or below the stored value, so a healthy save
-     * writes nothing. Structured like {@link #healReputationBelowRankFloor} and run before the
-     * login sync, so the packet the client receives already carries the healed counters.</p>
-     */
+    /** Re-reaches the four god milestones from the player's live levels. Idempotent. */
     private static void healGodMilestones(ServerPlayer player) {
         GodAlignmentData alignment = GodAlignmentData.get(player.server);
         for (VaultGod god : VaultGod.values()) {
@@ -156,11 +118,7 @@ public class MilestoneEvents {
         }
     }
 
-    /**
-     * Drops any per-vault scratch left behind by an earlier world. The scratch is static, so on an
-     * integrated server it outlives the world it belongs to; clearing it here rather than on
-     * shutdown keeps it intact for the save that a stopping server has not written yet.
-     */
+    /** Drops any per-vault scratch left behind by an earlier world. */
     @SubscribeEvent
     public static void onServerAboutToStart(ServerAboutToStartEvent event) {
         MilestoneVaultState.reset();
@@ -190,11 +148,7 @@ public class MilestoneEvents {
         }
     }
 
-    /**
-     * Runs at LOWEST so the amount seen is the final, post-mitigation damage, matching the
-     * addon's own damage instrumentation. Splits the total on {@code ActiveFlags.IS_AP_ATTACKING}
-     * to separate ability power from attack damage.
-     */
+    /** Runs at LOWEST, so the amount seen is the final post-mitigation damage. */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingDamage(LivingDamageEvent event) {
         LivingEntity victim = event.getEntityLiving();
@@ -217,11 +171,7 @@ public class MilestoneEvents {
         }
     }
 
-    /**
-     * Fans one mob death out to every kill-counting milestone. The vault state lookup is
-     * belt-and-braces against the engine's own gate now, but it is still load-bearing here: the
-     * per-vault mob counter that "Complete an Impressive Vault" reads needs the state object.
-     */
+    /** Fans one mob death out to every kill-counting milestone. Only counts inside a vault. */
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
         LivingEntity victim = event.getEntityLiving();

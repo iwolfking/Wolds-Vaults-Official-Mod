@@ -14,10 +14,8 @@ public abstract class MixinClassicListenersLogicMythicCharm {
 
     /**
      * @author PoorMansPhysicist
-     * @reason the Immortal Charms prestige power is configured against the base god charm's item
-     * id and the free-use gate compares ids exactly, so mythic charms would burn uses through it.
-     * Substituting the base charm id for mythic stacks makes every charm-targeting no-uses power
-     * cover mythics too.
+     * @reason substitute the base charm id for mythic stacks, so charm-targeting no-uses powers such as
+     * Immortal Charms, which match the item id exactly, cover mythics too
      */
     @ModifyVariable(method = "shouldAddFree", at = @At("STORE"), ordinal = 0)
     private ResourceLocation woldsVaults$mythicSharesCharmImmortality(ResourceLocation stackId) {

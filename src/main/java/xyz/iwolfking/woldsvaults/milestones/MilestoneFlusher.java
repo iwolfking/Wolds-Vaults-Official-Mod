@@ -15,10 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Throttles the two expensive parts of the engine: marking the SavedData dirty and pushing
- * counter changes to clients. Increments themselves never touch either.
- */
+/** Throttles marking the SavedData dirty and pushing counter changes to clients. */
 public class MilestoneFlusher {
     public static final int SYNC_INTERVAL = 20;
     public static final int SAVE_INTERVAL = 100;
@@ -41,10 +38,7 @@ public class MilestoneFlusher {
         }
     }
 
-    /**
-     * Pushes the greed header numbers (rank, reputation, next threshold, unclaimed total, shop
-     * reroll cost) only when one of them has actually moved, so an idle server sends nothing.
-     */
+    /** Pushes the greed header numbers to each player, only when one of them has moved. */
     private static void syncStatus(MinecraftServer server) {
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             MilestoneStatusMessage status = MilestoneStatusMessage.build(player);
@@ -84,16 +78,7 @@ public class MilestoneFlusher {
         });
     }
 
-    /**
-     * Sends the player's entire milestone set plus their claim marks, pin and header numbers. Used
-     * on login so the client mirror starts complete, and again whenever the greed screen is opened.
-     *
-     * <p>The greed balance tables ride the same beat, ahead of the counters so the client never
-     * measures a freshly synced counter against a stale threshold. They only move when the server
-     * reloads its configs, so re-sending them is redundant on every call after the first - and that
-     * redundancy is what lets a server-side config reload reach an already-connected client the
-     * next time they open the screen instead of waiting for a relog.</p>
-     */
+    /** Sends the balance tables, then the player's whole milestone set, claim marks, pin and header. */
     public static void syncAll(ServerPlayer player) {
         MilestoneData data = MilestoneData.get(player.server);
         data.clearPendingSync(player.getUUID());

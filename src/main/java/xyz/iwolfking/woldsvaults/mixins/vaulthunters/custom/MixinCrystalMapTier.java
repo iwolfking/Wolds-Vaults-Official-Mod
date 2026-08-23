@@ -21,10 +21,8 @@ import xyz.iwolfking.woldsvaults.maps.MapGodVaultState;
 import java.util.Optional;
 
 /**
- * Carries the map tier (0-5) on the crystal: imprinted at anvil craft (VaultMapItem), kept
- * through the NBT round-trips of CrystalData.copy()/read()/write(), and stashed into
- * {@link VaultMapTierCache} when the crystal configures its vault so strongbox loot generation
- * can read it. Crystals without a tier never write the tag and never touch the cache.
+ * Carries the map tier (0-5) on the crystal through {@code CrystalData} copy/read/write, and stashes it
+ * into {@link VaultMapTierCache} at configure time. A crystal without a tier writes no tag.
  */
 @Mixin(value = CrystalData.class, remap = false)
 public class MixinCrystalMapTier implements DuckMapTier, DuckMapGod {
@@ -97,11 +95,7 @@ public class MixinCrystalMapTier implements DuckMapTier, DuckMapGod {
         this.woldsvaults$mapBonusXp = nbt.contains(MAP_BONUS_XP_TAG) ? nbt.getInt(MAP_BONUS_XP_TAG) : 0;
     }
 
-    /**
-     * TAIL, so the vault's difficulty multiplier is captured after every other configure step has
-     * run - in particular after the medallion published at the HEAD of the same method, which is a
-     * multiplicative part of that difficulty.
-     */
+    /** TAIL, so the vault's difficulty multiplier is captured after every other configure step. */
     @Inject(method = "configure", at = @At("TAIL"))
     private void stashMapTierForVault(Vault vault, RandomSource random, String sigil, CallbackInfo ci) {
         if (!vault.has(Vault.ID)) {

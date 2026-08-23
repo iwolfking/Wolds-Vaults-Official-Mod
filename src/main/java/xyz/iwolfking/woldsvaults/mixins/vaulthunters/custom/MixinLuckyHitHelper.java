@@ -9,10 +9,7 @@ import xyz.iwolfking.woldsvaults.api.util.LuckHelper;
 
 @Mixin(value = LuckyHitHelper.class, remap = false)
 public class MixinLuckyHitHelper {
-    /**
-     * Luck feeds lucky hit chance. A return-value modifier so it chains with the god tree's own
-     * modifier on this getter instead of cancelling past it.
-     */
+    /** Luck feeds lucky hit chance, chaining with the god tree's own modifier on this getter. */
     @ModifyReturnValue(method = "getLuckyHitChanceUnlimited", at = @At("RETURN"))
     private static float luckAffectsChance(float chance, LivingEntity entity) {
         return LuckHelper.getLuckAffectedChance(chance, entity);

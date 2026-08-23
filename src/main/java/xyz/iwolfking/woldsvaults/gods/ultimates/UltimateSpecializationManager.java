@@ -14,23 +14,14 @@ import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import java.util.Optional;
 
 /**
- * Keeps the single {@code Stirrings of Power} ability pointed at the right ultimate.
- *
- * <p>The framework already has the primitive this needs: an ability node is a
- * {@link SpecializedSkill} holding alternative specializations behind an index, and both the HUD
- * icon and the displayed name are read from whichever specialization is selected. So the four god
- * ultimates are not four abilities, they are four specializations of one — plus a fifth, dormant
- * one for players who are owed no ultimate. Choosing for the player is the only unusual part: the
- * base mod expects the player to pick, we pick from their equipped charm and their god level.
- *
- * <p>The node is learned automatically. It costs no skill points by design, so no ability screen is
- * needed to reach it and the deferred god-tree UI is not on the critical path for casting.
+ * Keeps the single {@code Stirrings of Power} {@link SpecializedSkill} pointed at the right ultimate: four
+ * god specializations plus a dormant fifth, chosen from the equipped charm and god level rather than by
+ * the player. The node is learned automatically and costs no skill points.
  */
 public final class UltimateSpecializationManager {
     private UltimateSpecializationManager() {
     }
 
-    /** The specialization this player should currently be on. */
     public static String resolveSpecialization(ServerPlayer player) {
         if (player.getServer() == null) {
             return UltimateIds.DORMANT;
@@ -43,10 +34,7 @@ public final class UltimateSpecializationManager {
         return GodLevels.hasUltimate(level) ? UltimateIds.specializationFor(god.get()) : UltimateIds.DORMANT;
     }
 
-    /**
-     * Re-points and, if needed, learns the ability. Cheap enough to call on a timer: it is a map
-     * lookup plus an id walk, and it does nothing at all once the tree already agrees.
-     */
+    /** Re-points and, if needed, learns the ability; does nothing once the tree already agrees. */
     public static void refresh(ServerPlayer player) {
         if (player.getServer() == null) {
             return;

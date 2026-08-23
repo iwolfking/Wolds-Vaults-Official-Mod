@@ -11,12 +11,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraFieldMedic;
 
 /**
- * Attribution for Field Medic. {@code LivingHealEvent} carries no healer, so the caster is stamped
- * on a thread local for the duration of the group heal and read back by the Field Medic listener.
- *
- * <p>The stamp wraps the call rather than bracketing it with HEAD and RETURN injections. RETURN
- * does not run when the target throws, so a bracket would leave the attribution set on the server
- * thread permanently and credit every later heal on that thread, anyone's, to that caster.
+ * Attribution for Field Medic: {@code LivingHealEvent} carries no healer, so the caster is stamped on a thread
+ * local for the group heal and cleared even if it throws.
  */
 @Mixin(value = HealGroupAbility.class, remap = false)
 public class MixinHealGroupAbilityFieldMedic {

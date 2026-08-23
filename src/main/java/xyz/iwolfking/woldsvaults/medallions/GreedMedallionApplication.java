@@ -8,25 +8,16 @@ import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /**
- * The gates a greed medallion has to pass to land on a crystal.
- *
- * <p>Two of the three rules in the design doc live here: a crystal holds exactly one medallion and
- * is locked afterwards, and a player may only <i>apply</i> a medallion whose rank is at or below
- * their own greed rank. The third rule — anyone may enter the resulting vault regardless of rank —
- * needs no code, since nothing reads the medallion when a player steps through a portal.
- *
- * <p>The crafting-time rank gate the doc also describes belongs to the future Medallion Infuser and
- * is deliberately not implemented here.
+ * The gates a greed medallion has to pass to land on a crystal: one medallion per crystal, and the
+ * applying player's greed rank must be at or above the medallion's. Entering the vault is not gated.
  */
 public final class GreedMedallionApplication {
     private GreedMedallionApplication() {
     }
 
     /**
-     * Whether {@code player} may write {@code tier} onto {@code data} right now. Refusals are
-     * silent in-game by design — the workbench simply produces no output and the medallion stays in
-     * its slot — but each one is logged at debug level, because an empty output slot is otherwise
-     * indistinguishable from the feature being broken.
+     * Whether {@code player} may write {@code tier} onto {@code data}. Refusals are silent in-game and logged at
+     * debug level.
      */
     public static boolean canApply(@Nullable Player player, CrystalData data, GreedMedallionTier tier) {
         if (data == null || tier == null) {
@@ -56,9 +47,8 @@ public final class GreedMedallionApplication {
     }
 
     /**
-     * The player's greed rank on the interim convention shared across the rework: the greed tier
-     * integer is the rank index, Scavenger 1 = 1 through Legend = 16. A player that cannot be
-     * resolved server-side ranks 0, which fails every gate.
+     * The player's greed rank: the greed tier integer as a rank index, Scavenger 1 = 1 through Legend = 16, or 0
+     * when no server player resolves.
      */
     public static int getGreedRank(@Nullable Player player) {
         if (!(player instanceof ServerPlayer serverPlayer)) {

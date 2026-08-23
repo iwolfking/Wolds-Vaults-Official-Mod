@@ -13,18 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Turns one god's three config files into a {@link GodTreeModel}, asserting as it goes.
- *
- * <p>Every failure here is fatal and names the offending id. That is the whole point of the
- * loader: the old loader caught its own parse failures and returned an empty tree, so a single
- * mistyped id silently deleted a god's entire progression and rendered an uncharted sky.
- */
+/** Turns one god's three config files into a {@link GodTreeModel}; every failure is fatal and names an id. */
 public final class GodTreeLoader {
     private GodTreeLoader() {
     }
 
-    /** Builds and fully validates one god's tree. */
     public static GodTreeModel load(VaultGod god, GodTreeConfig tree, GodTreeGuiStylesConfig styles,
                                     GodNodeEffectsConfig effects) {
         Map<String, GodEffect> loadedEffects = loadEffects(god, effects);
@@ -135,11 +128,7 @@ public final class GodTreeLoader {
         }
     }
 
-    /**
-     * Collapses the node type of every placement of an effect down to one value. The gate asks
-     * for an effect, not a placement, so two placements of one effect disagreeing on type would
-     * make carryover depend on which placement was read first.
-     */
+    /** Collapses an effect's placements to one node type; two placements disagreeing is fatal. */
     private static Map<String, GodNodeType> resolveEffectTypes(VaultGod god, Map<String, GodNode> nodes) {
         Map<String, GodNodeType> types = new LinkedHashMap<>();
         for (GodNode node : nodes.values()) {

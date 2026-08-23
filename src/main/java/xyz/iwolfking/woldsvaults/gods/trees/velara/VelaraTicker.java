@@ -15,23 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * The cross-player pass the Velara tree needs once a second.
- *
- * <p>Everything here is a computation over more than one player at a time, which is why it is not
- * a set of {@code TickContributor}s: the Presence and Sanitation radius scans have to see every
- * caster before they can decide any recipient's total, the Defender of the Faith charm census
- * reads the whole party, the vanilla attribute modifiers compose several nodes multiplicatively
- * into one value per attribute, and the Sacrifice flock partition is per vault rather than per
- * player. The scans are gated on being inside a vault; the attribute modifiers are not, because
- * the stat nodes they sit beside come through the attribute snapshot everywhere.
- *
- * <p>It is not a tick listener of its own. It is a {@code GodNodeTicker.TreePass} registered by
- * {@link VelaraTree}, so it runs inside the one shared once-a-second pass, after the gate cache
- * has been refreshed for every player - resolving which nodes are live is not done here at all,
- * and the cache is invalidated immediately on charm change, login, logout, dimension change and
- * respawn by the god core's own lifecycle handlers.
- */
+/** The Velara cross-player tree pass. Aura scans run in vaults only; modifiers apply everywhere. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VelaraTicker {
     private VelaraTicker() {
@@ -70,11 +54,7 @@ public final class VelaraTicker {
         }
     }
 
-    /**
-     * Velara's own logout leg. The node state, the gate cache and the active-god cache are torn
-     * down by the god core; what is left is the vanilla attribute modifiers this tree writes,
-     * which persist on the entity until they are explicitly removed.
-     */
+    /** Removes the vanilla attribute modifiers this tree writes, which outlive the player session. */
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {

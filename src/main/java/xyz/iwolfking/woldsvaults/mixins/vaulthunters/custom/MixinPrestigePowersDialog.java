@@ -19,11 +19,7 @@ public class MixinPrestigePowersDialog {
         return PrestigeRankDisplay.DIALOG_LABEL;
     }
 
-    /**
-     * The dialog prints the gate as a bare number per tier; this is the second String.valueOf(int)
-     * in the method (knowledge cost first, level requirement third), confirmed against the shipped
-     * the_vault jar's disassembly.
-     */
+    /** Replaces the bare greed tier number the dialog prints per tier with the rank name. */
     @ModifyExpressionValue(
         method = "getAdditionalDescription",
         at = @At(value = "INVOKE", target = "Ljava/lang/String;valueOf(I)Ljava/lang/String;", ordinal = 1)

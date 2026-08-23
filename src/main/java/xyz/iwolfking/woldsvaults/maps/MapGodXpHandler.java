@@ -18,22 +18,7 @@ import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 
 import java.util.UUID;
 
-/**
- * Pays out a mapped vault's god experience. A map is a god quest: the vault it opened grants
- * experience only to the god the map was bound to, and only to players who leave it completed -
- * exactly the point where the milestone engine already reads {@code Completion} and
- * {@code Objectives.KEY}, so this listener uses the same event and the same reads.
- *
- * <p>Every runner who leaves completed is paid the full amount, by design: one map levelling a
- * whole party is the incentive to run maps together. "Leaves completed" is per runner and per
- * departure, not per vault end - a runner who stays behind after the objective falls is paid when
- * they walk out, because the binding outlives every individual exit and is only released once the
- * vault itself ends, which the base mod does after its last listener has gone. The award does not
- * care which charm, if any, the runner wears; the map names the god.
- *
- * <p>The award goes through {@link GodAlignmentData#addGodXp}, which means the God's Disciple
- * prestige powers scale it like every other god experience source.</p>
- */
+/** Pays every runner who leaves a mapped vault completed the full god xp for the map's god. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class MapGodXpHandler {
     private static final Object OWNER = new Object();

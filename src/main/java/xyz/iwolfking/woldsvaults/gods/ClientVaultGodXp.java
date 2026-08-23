@@ -5,12 +5,7 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * Client-side note of the god experience the local player earned from their most recent mapped
- * vault, keyed by vault id so a stale award can never leak onto another vault's end screen. Fed
- * by {@code ClientboundVaultGodXpMessage} just before the exit screen opens; read by the
- * end-screen mixin when it builds the experience label.
- */
+/** God experience from the local player's most recent mapped vault, keyed by vault id, expiring in 2 min. */
 public final class ClientVaultGodXp {
     public record Award(UUID vaultId, VaultGod god, long amount) {
     }
@@ -38,7 +33,6 @@ public final class ClientVaultGodXp {
         return Optional.of(award);
     }
 
-    /** Drops the pending award so a mirror from one server cannot outlive the disconnect. */
     public static void clear() {
         award = null;
         expiresAt = 0L;

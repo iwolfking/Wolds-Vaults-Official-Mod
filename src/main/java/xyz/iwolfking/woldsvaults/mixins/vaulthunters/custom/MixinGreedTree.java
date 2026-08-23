@@ -37,16 +37,8 @@ public abstract class MixinGreedTree {
     protected List<GreedChallengeSlot> challengeHistory;
 
     /**
-     * Offers every challenge the player's rank has unlocked at once instead of a single rolled
-     * slot, so the trader's challenge tab is a menu the player picks from rather than a one-shot
-     * offer they have to abandon to change.
-     *
-     * <p>The reimplementation is additive: it never clears the slot list the way base does, so
-     * challenges already accepted keep their {@code ATTEMPTED} state - and with it the crystal
-     * uuid the vault portal matches on - across a repopulate. Available slots whose crystal is no
-     * longer unlocked are dropped, which is what keeps a force-set rank downwards honest, and
-     * abandoned slots are dropped because abandoning is no longer a thing. Completed slots stay in
-     * the list so the tab keeps showing them ticked off.</p>
+     * Offers every unlocked challenge at once instead of one rolled slot. Accepted and completed slots
+     * survive; abandoned ones, and those whose crystal is no longer unlocked, are dropped.
      */
     @Inject(method = "populateChallenges", at = @At("HEAD"), cancellable = true)
     private void offerEveryUnlockedChallenge(int greedTier, CallbackInfo ci) {
@@ -81,18 +73,7 @@ public abstract class MixinGreedTree {
         }
     }
 
-    /**
-     * Names anything that still pays greed reputation outside the milestone claim path.
-     *
-     * <p>{@code GreedTree.addGreedReputation} is the single chokepoint every grant in the game
-     * funnels through, base and addon alike. After the rework the only legitimate caller is a
-     * milestone being collected at Mr. Greedy; a challenge crystal, a quest, an assassin kill and
-     * a tier crossing all used to arrive here and none of them should any more. The Greedy Ticket
-     * was the last non-milestone grant and is now the greed shop's reroll currency instead, so it
-     * no longer pays reputation at all. This does not block the grant - a silent refusal would be
-     * worse to debug than a wrong number - it logs the offending caller so the path can be closed
-     * at its source.</p>
-     */
+    /** Logs any caller of {@code addGreedReputation} outside the milestone claim path; the grant still runs. */
     @Inject(method = "addGreedReputation", at = @At("HEAD"))
     private void traceUnexpectedReputationGrants(int amount, CallbackInfo ci) {
         if (amount == 0) {
@@ -110,12 +91,7 @@ public abstract class MixinGreedTree {
                 + "reputation is only meant to move when a milestone is collected at Mr. Greedy", amount, source);
     }
 
-    /**
-     * Abandoning is retired. Every unlocked challenge is on the tab permanently, so the only thing
-     * abandoning could still do is delete an offer the player is meant to keep; a player who wants
-     * a different challenge simply accepts a different one, and a player who lost their crystal
-     * rebuys it.
-     */
+    /** Refuses challenge abandoning outright. */
     @Inject(method = "abandonChallenge", at = @At("HEAD"), cancellable = true)
     private void refuseAbandon(int slotIndex, CallbackInfo ci) {
         ci.cancel();
@@ -123,10 +99,8 @@ public abstract class MixinGreedTree {
 
     /**
      * @author iwolfking
-     * @reason The whole unlocked challenge set is offered at once, so the cycle reset is only ever
-     * about starting the set over: it must not wipe the completed slots the tab renders as ticked
-     * off, and it must not repopulate an empty list every time the last available challenge is
-     * taken. It now fires only once every configured challenge has been completed.
+     * @reason The cycle reset must not wipe completed slots or repopulate an empty list; it fires only
+     * once every configured challenge has been completed.
      */
     @Overwrite
     public void checkChallengesCycleReset() {

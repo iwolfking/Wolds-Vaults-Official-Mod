@@ -9,32 +9,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 /**
- * The Tenos nodes that shape the vault around the player: Omega Vault (r98), Nose for Treasure
- * (r103) and Master of Chests (r108).
- *
- * <p>Nose for Treasure is inherently vault wide - the placeholder event carries no player, which
- * matches the sheet, and one listener covering the whole vault is also what makes "does not stack"
- * true for free, so it keeps a listener of its own here. Omega Vault attaches a room weight
- * modifier once per vault and Master of Chests attaches a cascade group of its own built from the
- * pack's one-percent omega cascading rows, the same rows the mythic charm suffix uses; both are
- * driven by {@link TenosVaultHandlers}, which reaches them once per runner on join and again on
- * the shared ticker, so this class holds no listener for either.
- *
- * <p>Both modifier nodes work when they land mid-vault. Rooms are chosen lazily, one region at a
- * time, as chunks generate ({@code GridGenerator.generate} -> {@code ConcurrentGridCache.getOrCreate}
- * -> {@code LAYOUT_TEMPLATE_GENERATION}), and a modifier added after the vault started still gets
- * its {@code initServer} on the next modifier tick, because {@code IVaultModifierBehaviorApply}'s
- * default {@code onVaultAdd} calls it. Regions already generated keep the rooms they were given.
- *
- * <p>Both deduplicate against the vault's own modifier list rather than any in-memory set, and each
- * adds an id that belongs to it alone so its own contribution is distinguishable from the charm's
- * or the base mod's. That count is only trustworthy while the id resolves: {@code
- * Modifiers.getModifiers()} silently drops entries whose id is not in the modifier registry, and
- * the registry is cleared and rebuilt from {@code vault_modifiers.json} on every config reload.
- * Both ids are therefore declared in that file, next to the rest of the pack's modifiers, and are
- * only looked up here - a node that registered its own id would stop counting its own modifier
- * after a reload and attach a second one. Because they are declared, the guard holds for a second
- * player joining, for a relog and across a server restart.
+ * Omega Vault, Nose for Treasure and Master of Chests. The two modifier nodes deduplicate against
+ * the vault's own modifier list, under ids declared in {@code vault_modifiers.json}.
  */
 public final class TenosWorldNodes {
     public static final ResourceLocation MASTER_OF_CHESTS_CASCADE = WoldsVaults.id("tenos_master_of_chests");
@@ -60,16 +36,11 @@ public final class TenosWorldNodes {
         });
     }
 
-    /**
-     * Attaches Omega Vault's room weight modifier to a vault that does not already carry it. The
-     * caller has already established that a runner holds the node, so this only guards against
-     * granting the modifier twice.
-     */
+    /** Attaches Omega Vault's room weight modifier to a vault that does not already carry it. */
     public static void reconcileOmegaRooms(Vault vault) {
         attachOnce(vault, OMEGA_FORTUNE_DOUBLE, "Omega Vault");
     }
 
-    /** As {@link #reconcileOmegaRooms}, for Master of Chests' cascade group. */
     public static void reconcileCascading(Vault vault) {
         attachOnce(vault, MASTER_OF_CHESTS_CASCADE, "Master of Chests");
     }

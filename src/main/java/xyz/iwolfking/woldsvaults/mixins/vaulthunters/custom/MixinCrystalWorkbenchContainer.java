@@ -46,14 +46,8 @@ public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotConta
     }
 
     /**
-     * Rewrites the seal slot so stackable seals may be inserted in stacks, and appends the greed
-     * medallion slot right after the last of the base mod's six unique slots. The medallion slot has
-     * to land before the output slot is added, because {@code quickMoveStack} takes the last slot in
-     * the container to be the output.
-     *
-     * <p>Slots are identified by {@link Slot#getSlotIndex()} — the index inside the backing
-     * inventory — and never by {@code Slot.index}, which is the container-wide slot-list position
-     * and is only assigned once {@code addSlot} has run.
+     * Lets stackable seals be inserted in stacks, and appends the greed medallion slot after the six
+     * unique slots and before the output. Slots are identified by {@link Slot#getSlotIndex()}.
      */
     @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Liskallia/vault/container/CrystalWorkbenchContainer;addSlot(Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;"), remap = true,
     slice = @Slice(from = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getUniqueIngredients()Liskallia/vault/container/oversized/OverSizedInventory;", ordinal = 0),

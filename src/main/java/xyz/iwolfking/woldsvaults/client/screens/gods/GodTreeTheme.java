@@ -10,11 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /**
- * Palette and shared assets for the god constellation screens. Each god gets an accent family
- * used for its star frames, constellation lines and text highlights; Idona's is the deep
- * red/orange the design calls for, the others follow their vanilla god colors. The star frame
- * sheets are 256x256 with 64px cells - columns stat/minor/major/root, rows
- * locked/available/unlocked/selected.
+ * Palette and shared assets for the god constellation screens. Star frame sheets are 256x256 with 64px
+ * cells: columns stat/minor/major/root, rows locked/available/unlocked/selected.
  */
 public final class GodTreeTheme {
     public static final String LANG_ROOT = "screen.woldsvaults.gods.";
@@ -22,10 +19,8 @@ public final class GodTreeTheme {
     public static final TextureAtlasRegion TAB_ICON_GODS =
             TextureAtlasRegion.of(ModTextureAtlases.SCREEN, WoldsVaults.id("gui/screen/tab_icon_gods"));
 
-    /** The order this tab shows the gods in everywhere: Idona, Velara, Wendarr, Tenos. */
     public static final VaultGod[] DISPLAY_ORDER = {VaultGod.IDONA, VaultGod.VELARA, VaultGod.WENDARR, VaultGod.TENOS};
 
-    /** The God's Mastery item sprite, the face of the overview page. */
     public static final ResourceLocation GODS_MASTERY_ICON = WoldsVaults.id("textures/item/gods_mastery.png");
 
     public static final int OVERVIEW_ACCENT = 0xFFE6DCC0;
@@ -67,7 +62,7 @@ public final class GodTreeTheme {
         return WoldsVaults.id("textures/gui/gods/stars_" + god.getName().toLowerCase(java.util.Locale.ROOT) + ".png");
     }
 
-    /** The grey star sheet, for a transfer-slot star that is dormant because its god is the active one. */
+    /** The grey star sheet, for a transfer-slot star dormant under the active god. */
     public static ResourceLocation starSheetNeutral() {
         return WoldsVaults.id("textures/gui/gods/stars_neutral.png");
     }
@@ -111,7 +106,6 @@ public final class GodTreeTheme {
         };
     }
 
-    /** Chat-style color for the unspent points readout - red for Idona, per god otherwise. */
     public static int pointsColor(VaultGod god) {
         return 0xFF000000 | god.getColor();
     }

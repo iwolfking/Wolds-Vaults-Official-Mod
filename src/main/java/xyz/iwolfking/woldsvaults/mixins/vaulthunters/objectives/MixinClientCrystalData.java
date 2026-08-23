@@ -29,10 +29,7 @@ import java.util.List;
 public abstract class MixinClientCrystalData {
     @Shadow public abstract CrystalTheme getTheme();
 
-    /**
-     * The crystal's medallion, printed last so it reads as the crystal's headline property. Once
-     * written a medallion can never be replaced or removed, so there is no "none" line to print.
-     */
+    /** The crystal's medallion, printed last. A crystal without one prints no line at all. */
     @Inject(method = "addText", at = @At("TAIL"))
     private void woldsvaults$addMedallionText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level, CallbackInfo ci) {
         ((GreedMedallionCrystal) (Object) this).woldsvaults$getMedallion().ifPresent(tier ->

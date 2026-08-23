@@ -6,10 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/**
- * Additive piety contributions beyond reputation and god level, e.g. the Pious Devotion tree
- * nodes. Sources are summed into {@link GodAlignmentData#piety(Player, VaultGod)}.
- */
+/** Additive piety beyond reputation and god level, summed into {@link GodAlignmentData#piety}. */
 @FunctionalInterface
 public interface PietyBonusSource {
     List<PietyBonusSource> SOURCES = new CopyOnWriteArrayList<>();

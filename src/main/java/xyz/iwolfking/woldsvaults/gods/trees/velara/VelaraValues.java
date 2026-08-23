@@ -19,18 +19,7 @@ import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.Sanitation
 import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.SteadfastParams;
 import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraNodeHandlers.StonewallParams;
 
-/**
- * Every tuned number Velara's listeners read, resolved through the node registry's typed
- * parameters rather than through Java constants.
- *
- * <p>Values are read through methods rather than held in {@code static final} fields because the
- * tree is class-loaded during mod construction, before the config pass runs: a constant
- * initialised from config would bake whatever was loaded at class-init time and never see a
- * config reload.
- *
- * <p>The stat nodes have no entry here at all. Their values are the handler's per-point table and
- * never reach Java, which is what makes a new stat node a config-only change.
- */
+/** Every tuned number Velara's listeners read. Methods, not constants, so reloads are picked up. */
 public final class VelaraValues {
     private VelaraValues() {
     }
@@ -99,7 +88,6 @@ public final class VelaraValues {
         return fleeting().immune_ticks();
     }
 
-    /** One full immune-then-vulnerable rotation, so the two halves can never drift apart. */
     public static int fleetingCycleTicks() {
         return fleeting().cycleTicks();
     }

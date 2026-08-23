@@ -8,13 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * The one registry of god node handler types. A type string is the binding key config uses, the
- * thing load-time validation checks, and the only way a node effect reaches the game - there is
- * no second mechanism.
- *
- * <p>Registration must happen before the god tree configs are read, because validation resolves
- * every configured handler against this registry. {@link GodNodeHandlerTypes} is the single
- * place that registers the built-in types and is bootstrapped from the config load itself.
+ * The one registry of god node handler types, keyed by the type string config binds to. Every type
+ * must be registered before the god tree configs are read.
  */
 public final class GodNodeHandlers {
     private record Type(String name, @Nullable Class<? extends GodEffectParams> paramsType, Factory factory) {
@@ -35,11 +30,7 @@ public final class GodNodeHandlers {
         register(type, null, factory);
     }
 
-    /**
-     * Registers a handler type and the record its effects' extra config fields decode into.
-     * Registering the same type twice is a programming error and is fatal, so a merge that
-     * duplicates a registration cannot silently pick a winner.
-     */
+    /** Registers a handler type and the record its extra config fields decode into; twice is fatal. */
     public static synchronized void register(String type, @Nullable Class<? extends GodEffectParams> paramsType,
                                              Factory factory) {
         if (type == null || type.isBlank()) {
@@ -65,11 +56,7 @@ public final class GodNodeHandlers {
         return Collections.unmodifiableSet(new LinkedHashSet<>(TYPES.keySet()));
     }
 
-    /**
-     * Builds the handler instance for one effect. The effect's handler type must be registered;
-     * validation has already asserted that, so reaching the failure here means the registry was
-     * mutated after load.
-     */
+    /** Builds the handler instance for one effect; fails if its handler type is not registered. */
     public static GodNodeHandler create(GodEffect effect) {
         Type registered;
         synchronized (GodNodeHandlers.class) {

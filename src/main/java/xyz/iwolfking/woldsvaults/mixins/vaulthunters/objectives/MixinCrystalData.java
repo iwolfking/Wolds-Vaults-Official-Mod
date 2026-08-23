@@ -41,12 +41,7 @@ public abstract class MixinCrystalData extends CrystalEntry implements ISerializ
     @Unique
     private static final String WOLDSVAULTS$MEDALLION_KEY = "GreedMedallion";
 
-    /**
-     * Rank index of the greed medallion applied to this crystal, 0 for none. Stored as a bare int
-     * rather than a serialised tier so a rebalance of {@link GreedMedallionTier} never invalidates
-     * existing crystals. Rides {@code writeNbt}/{@code readNbt}, which also gives {@code copy()} and
-     * every workbench round-trip the right behaviour for free.
-     */
+    /** Rank index of the greed medallion on this crystal, 0 for none; a bare int, not a serialised tier. */
     @Unique
     private int woldsvaults$medallionRank = 0;
 
@@ -114,12 +109,7 @@ public abstract class MixinCrystalData extends CrystalEntry implements ISerializ
         this.woldsvaults$medallionRank = nbt.contains(WOLDSVAULTS$MEDALLION_KEY) ? nbt.getInt(WOLDSVAULTS$MEDALLION_KEY) : 0;
     }
 
-    /**
-     * Publishes the crystal's medallion to the vault being built from it. Runs at HEAD so the state
-     * is already live when {@code super.configure} walks the crystal's children, which is what lets
-     * an objective read the medallion while it is configuring itself. {@code Vault.ID} is assigned
-     * in {@code VaultFactory.create} before this call, so the id is always present here.
-     */
+    /** Publishes the medallion to the vault at HEAD, before {@code super.configure} walks the children. */
     @Inject(method = "configure", at = @At("HEAD"))
     private void woldsvaults$publishMedallion(Vault vault, RandomSource random, String sigil, CallbackInfo ci) {
         if (this.woldsvaults$medallionRank <= 0 || vault == null || !vault.has(Vault.ID)) {

@@ -7,17 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Everything the Vault Champion is made of - {@code config/the_vault/gods/greed_champion.json}.
- *
- * <p>The Champion is the base mod's {@code TheVesselEntity} re-used as a free-roaming vault boss, so
- * none of its stats can be authored on the entity itself; they are applied at spawn from this table
- * instead. Health, damage, movement speed and attack cadence are keyed by the medallion rank that
- * summoned it, matching {@code greed_medallions.json}'s own rank keying.
- *
- * <p>Deliberately its own file rather than more columns on {@code greed_medallions.json}: a medallion
- * tier is a small fixed set of vault-wide numbers a pack owner reads at a glance, while this is a
- * boss's whole stat block plus a spawn economy. It is also outside the medallion sync gate, so
- * retuning the Champion does not force a paired edit in the enum.
+ * Everything the Vault Champion is made of - {@code config/the_vault/gods/greed_champion.json}. It is a
+ * re-used {@code TheVesselEntity}, so this table is applied at spawn, keyed by the summoning medallion.
  */
 public class GreedChampionConfig extends PackAuthoredConfig {
 
@@ -39,7 +30,6 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         }
     }
 
-    /** Scaling inputs that are not per-rank. */
     public static class Scaling {
         @Expose public double baseAttackDamage;
         @Expose public int levelAnchor;
@@ -55,7 +45,6 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         @Expose public int offsetY;
     }
 
-    /** Hunt behaviour: how it finds you and how it refuses to lose you. */
     public static class Hunt {
         @Expose public double aggroRadius;
         @Expose public double leashDistance;
@@ -73,7 +62,7 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         @Expose public int chargeTicks;
     }
 
-    /** The irreducible - but still dodgeable and blockable - second hit both the Champion and greed assassins land. */
+    /** The irreducible second hit both the Champion and greed assassins land; still dodgeable and blockable. */
     public static class TrueDamage {
         @Expose public float champion;
         @Expose public float assassin;
@@ -130,11 +119,7 @@ public class GreedChampionConfig extends PackAuthoredConfig {
         return "gods" + File.separator + "greed_champion";
     }
 
-    /**
-     * Rejects a file that does not describe every block the spawner reads. A half-written table
-     * would produce a boss with some stats authored and some left at the Vessel's own arena values,
-     * which reads in play as a broken encounter rather than a broken config.
-     */
+    /** Rejects a file that does not describe every block the spawner reads. */
     @Override
     public boolean isValid() {
         return this.ranks != null && !this.ranks.isEmpty() && this.scaling != null && this.hunt != null

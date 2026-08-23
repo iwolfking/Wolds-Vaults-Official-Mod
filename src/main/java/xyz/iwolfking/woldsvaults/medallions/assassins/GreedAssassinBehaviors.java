@@ -21,10 +21,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * The per-tier assassin behaviours from the medallion table. Every number in here is interim
- * tuning: the design doc names the behaviours and the tiers that unlock them but fixes none of
- * their magnitudes, so the durations, radii and modifier counts below are first-pass values chosen
- * to be visible without being decisive, and are expected to move in playtesting.
+ * The per-tier assassin behaviours. The design sheet fixes none of their magnitudes, so the durations, radii and
+ * modifier counts here are interim tuning.
  */
 public final class GreedAssassinBehaviors {
     private static final int NEGATIVE_EFFECT_TICKS = 100;
@@ -41,11 +39,7 @@ public final class GreedAssassinBehaviors {
     private GreedAssassinBehaviors() {
     }
 
-    /**
-     * Applies everything the assassin's tier grants at spawn. {@code EntityScaler.scale} has
-     * already run by this point, so vault level scaling, mob gear and champion promotion are in
-     * place regardless of tier; only the tier-gated additions live here.
-     */
+    /** Applies the tier-gated additions at spawn; {@code EntityScaler.scale} has already run by this point. */
     public static void applyOnSpawn(Vault vault, GreedMedallionTier tier, LivingEntity assassin) {
         if (tier.assassinsInheritVaultModifiers()) {
             inheritVaultModifiers(vault, assassin);
@@ -56,12 +50,8 @@ public final class GreedAssassinBehaviors {
     }
 
     /**
-     * Looter 1+. Vault mob modifiers reach ordinary mobs through {@code CommonEvents.ENTITY_SPAWN},
-     * a Forge {@code LivingSpawnEvent} binding that an {@code addFreshEntity} spawn never fires, so
-     * an assassin would otherwise carry none of the crystal's mob modifiers. The vault's modifier
-     * stack is instead walked directly and its entity-attribute modifiers applied by hand, the same
-     * way {@code HyperBossManager} decorates its boss; {@code applyToEntity} is UUID-keyed and skips
-     * modifiers already present, so a second pass could never double-apply.
+     * Looter 1+. Applies the vault's mob attribute modifiers by hand, which an {@code addFreshEntity} spawn never
+     * receives; {@code applyToEntity} is UUID-keyed and cannot double-apply.
      */
     private static void inheritVaultModifiers(Vault vault, LivingEntity assassin) {
         if (!vault.has(Vault.MODIFIERS)) {
@@ -85,10 +75,7 @@ public final class GreedAssassinBehaviors {
         WoldsVaults.LOGGER.debug("Greed assassin inherited {} vault mob attribute modifiers.", applied);
     }
 
-    /**
-     * Champion 1+. Reuses the brutal-boss modifier pool the addon already draws infernal modifiers
-     * from, with {@code randomlyFail} off so the count is exact.
-     */
+    /** Champion 1+. Draws an exact {@value #INFERNAL_MODIFIER_COUNT} modifiers from the brutal-boss infernal pool. */
     private static void applyInfernalModifiers(LivingEntity assassin) {
         try {
             InfernalMobsCore.instance().addEntityModifiersByString(assassin,
@@ -101,20 +88,14 @@ public final class GreedAssassinBehaviors {
         }
     }
 
-    /**
-     * Hunter 1+. One random debuff per landed melee hit, five seconds each.
-     */
+    /** Hunter 1+. One random debuff per landed melee hit, five seconds each. */
     public static void applyRandomNegativeEffect(Player target, Random random) {
         int index = random.nextInt(NEGATIVE_EFFECTS.length);
         target.addEffect(new MobEffectInstance(NEGATIVE_EFFECTS[index], NEGATIVE_EFFECT_TICKS,
                 NEGATIVE_EFFECT_AMPLIFIERS[index], false, true));
     }
 
-    /**
-     * Hunter 3+. An eight block pulse granting the assassin's fellow vault mobs Strength I and
-     * Speed I for six seconds, so a pulse landing every five seconds keeps them permanently buffed
-     * while the assassin lives.
-     */
+    /** Hunter 3+. An eight block pulse granting nearby vault mobs Strength I and Speed I for six seconds. */
     public static void pulseBuffingAura(ServerLevel level, LivingEntity assassin) {
         List<LivingEntity> nearby = level.getEntitiesOfClass(LivingEntity.class,
                 assassin.getBoundingBox().inflate(AURA_RADIUS), GreedAssassins::isAuraTarget);

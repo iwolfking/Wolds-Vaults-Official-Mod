@@ -36,10 +36,8 @@ public class SigilUtils {
     }
 
     /**
-     * The vault's final difficulty expressed as a multiplier: 1.0 for a sigil-less vault, plus
-     * every difficulty source stacked on top of it. Only the crystal's sigil contributes today
-     * (its value comes from {@code sigils/definitions.json}), so a +3.0 sigil yields 4.0 — the
-     * 400% a player sees. A sigil id with no definition contributes nothing and is logged.
+     * The vault's difficulty as a multiplier: 1.0 plus the sigil's {@code difficulty} from
+     * {@code sigils/definitions.json}. An unknown sigil contributes nothing.
      */
     public static float getDifficultyMultiplier(@Nullable String sigil) {
         if(sigil == null) {
@@ -57,10 +55,8 @@ public class SigilUtils {
     }
 
     /**
-     * The vault's final difficulty multiplier including its greed medallion. The medallion's
-     * "+X% Objective Difficulty" is multiplicative with the sigil, so a +3.0 sigil in a Legend
-     * medallion vault reads 4.0 × 1.5 = 6.0. A null vault behaves exactly like
-     * {@link #getDifficultyMultiplier(String)}.
+     * As {@link #getDifficultyMultiplier(String)}, multiplied by the vault medallion's objective difficulty bonus;
+     * a null vault gives the sigil-only multiplier.
      */
     public static float getDifficultyMultiplier(@Nullable String sigil, @Nullable Vault vault) {
         float multiplier = getDifficultyMultiplier(sigil);

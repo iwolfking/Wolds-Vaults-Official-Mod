@@ -46,17 +46,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * The right-hand pane of the gods tab. With a star selected it shows the node's name, its
- * standing, the shared skill description for its effect and the unlock button; with nothing
- * selected it shows the god's own summary - level, experience, points and how the tree works.
- * Descriptions come from {@code ModConfigs.SKILL_DESCRIPTIONS} keyed by the node's effect id
- * (its own id for start stars), the same pipeline every other skill screen reads. A node whose
- * description carries a live formula shows the value the server last answered for it instead,
- * with the worked math as hover text the screen draws on top.
- */
 import javax.annotation.Nullable;
 
+/**
+ * The right-hand pane of the gods tab: the selected node's name, standing, description and unlock
+ * button, or the god's summary when nothing is selected. Descriptions come from
+ * {@code ModConfigs.SKILL_DESCRIPTIONS}, keyed by effect id.
+ */
 public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
     private static final int COLOR_MUTED = 0xC4C4C4;
     private static final int TEXT_PADDING = 10;
@@ -70,7 +66,6 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
     private MutableComponent descriptionContentComponent;
     private List<FormattedCharSequence> renderedLines = List.of();
 
-    /** The description's scroll container, with its scroll offset exposed so hover hit-testing can undo it. */
     private static final class DescriptionContainer extends ScrollableContainer {
         DescriptionContainer(Renderable renderer) {
             super(renderer);
@@ -101,10 +96,6 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         this.update();
     }
 
-    /**
-     * The selected node's icon, which lives with its position in the tree's style config rather
-     * than on the node itself, or null for a node the styles do not give one.
-     */
     @Nullable
     private ResourceLocation selectedIcon() {
         if (this.selectedNode == null) {
@@ -197,12 +188,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         return description;
     }
 
-    /**
-     * Swaps a live formula in the description for the value the server last resolved it to,
-     * keeping the formula's colour and hanging the worked math off it as hover text, then adds
-     * the hover hint. Without an answered preview the description stays as written. A description
-     * that no longer contains the formula text is logged once and gets the value appended instead.
-     */
+    /** Swaps a live formula for the server's last resolved value, with the worked math as hover text. */
     private MutableComponent withPreview(MutableComponent description) {
         String effectId = this.selectedNode.ledgerKey();
         ClientGodNodePreviews.Preview preview = ClientGodNodePreviews.get(effectId).orElse(null);
@@ -288,7 +274,6 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         return desc;
     }
 
-    /** Whether the viewed god's charm is currently equipped, resolved from the client player. */
     private boolean isCharmActive() {
         Minecraft minecraft = Minecraft.getInstance();
         return minecraft.player != null && ActiveGodResolver.isActive(minecraft.player, this.god);
@@ -324,10 +309,6 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         RenderSystem.enableDepthTest();
     }
 
-    /**
-     * The style under the mouse when it carries hover text - the live value of a formula node -
-     * for the screen to draw as a tooltip above everything else, or null.
-     */
     @Nullable
     public Style hoveredStyle(double mouseX, double mouseY) {
         if (this.bounds == null || !(this.descriptionComponent instanceof DescriptionContainer container)

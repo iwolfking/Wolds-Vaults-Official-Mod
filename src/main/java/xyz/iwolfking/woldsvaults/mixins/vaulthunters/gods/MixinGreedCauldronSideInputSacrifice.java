@@ -18,9 +18,8 @@ public abstract class MixinGreedCauldronSideInputSacrifice {
 
     /**
      * @author PoorMansPhysicist
-     * @reason the cauldron's piped-item intake now feeds the owner's selected god's sacrifice
-     * gate instead of the retired demand system. The accepted portion is consumed outright; the
-     * remainder returns to the inserting handler.
+     * @reason the cauldron's piped-item intake feeds the owner's selected god's sacrifice gate; the
+     * accepted portion is consumed and the remainder returns to the inserting handler
      */
     @Inject(method = "insertItem", at = @At("HEAD"), cancellable = true)
     private void woldsVaults$sacrificeInsert(int slot, ItemStack stack, boolean simulate,
@@ -30,10 +29,8 @@ public abstract class MixinGreedCauldronSideInputSacrifice {
 
     /**
      * @author PoorMansPhysicist
-     * @reason the base handler still answers validity from the retired demand data, which is
-     * empty on a fresh world, so every inserter that pre-checks {@code isItemValid} before calling
-     * {@code insertItem} silently never feeds the altar. Validity is now "the owner's current gate
-     * still needs this item", the same test the insert itself applies.
+     * @reason validity is "the owner's current gate still needs this item", the same test the insert
+     * itself applies, so an inserter that pre-checks {@code isItemValid} can feed the altar
      */
     @Inject(method = "isItemValid", at = @At("HEAD"), cancellable = true)
     private void woldsVaults$sacrificeValidity(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {

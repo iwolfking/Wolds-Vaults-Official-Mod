@@ -11,24 +11,14 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * The ancient unique gear modifier tables, one per ancient-eligible unique.
- *
- * <p>These were hand-authored resources until now, which meant the numbers a design sheet owns
- * lived only as shipped JSON. They are a datagen table instead, so {@code runData} rewrites them
- * and nothing under {@code src/generated} is edited by hand.
- *
- * <p>Deliberately plain Gson rather than the typed vhapi modifier builders: the sixteen distinct
- * tier-value shapes across these entries are data, not behaviour, and building them as raw objects
- * is what lets the table be checked against the configs it replaced field by field. It carries no
- * Minecraft types for the same reason - {@link #build()} can be run and diffed on its own.
+ * The ancient unique gear modifier tables, one per ancient-eligible unique. Plain Gson and no Minecraft
+ * types, so {@link #build()} runs on its own.
  */
 public final class AncientGearModifiers {
     private AncientGearModifiers() {
     }
 
-    /**
-     * Every ancient config keyed by its file name, in the order the provider writes them.
-     */
+    /** Every ancient config keyed by its file name, in the order the provider writes them. */
     public static Map<String, JsonObject> build() {
         Map<String, JsonObject> configs = new LinkedHashMap<>();
         put(configs, "unique_ancient_annmari", AncientGearModifiers::annmari);
@@ -160,11 +150,7 @@ public final class AncientGearModifiers {
         return tier;
     }
 
-    /**
-     * A tier value from alternating key and value arguments. The value types carry the difference
-     * between a whole number and a decimal, which is what keeps the emitted JSON identical to the
-     * resources this table replaced.
-     */
+    /** A tier value from alternating key/value arguments; the Java type decides whole vs decimal JSON. */
     private static JsonObject obj(Object... keyValues) {
         if (keyValues.length % 2 != 0) {
             throw new IllegalArgumentException("Tier value needs an even number of arguments");

@@ -7,12 +7,8 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * The god alignment progression curve: cumulative XP thresholds, god point grants and
- * minor-transfer-slot capacity. Pure arithmetic, no state; safe on both logical sides.
- *
- * <p>Every number comes from {@code config/the_vault/gods/god_levels.json} and is read per call
- * rather than held in a constant, because this class is reachable from code that loads before
- * the config pass runs.
+ * The god alignment progression curve: XP thresholds, god point grants and minor-transfer-slot capacity.
+ * Pure arithmetic; every number is read per call from {@code config/the_vault/gods/god_levels.json}.
  */
 public final class GodLevels {
     private static final GodLevelsConfig FALLBACK = GodLevelsConfig.defaults();
@@ -21,10 +17,7 @@ public final class GodLevels {
     private GodLevels() {
     }
 
-    /**
-     * Total accumulated XP required to be at {@code level}. Level 0 costs nothing; levels past
-     * the last defined level each cost a further {@code xpPerLevelPastMax}.
-     */
+    /** Total accumulated XP to be at {@code level}; each level past the last defined one costs the same. */
     public static long xpForLevel(int level) {
         if (level <= 0) {
             return 0L;
@@ -38,10 +31,7 @@ public final class GodLevels {
         return cumulative[max - 1] + (long) (level - max) * config.getXpPerLevelPastMax();
     }
 
-    /**
-     * The highest level reachable with {@code xp} accumulated. Unbounded above by design — the
-     * curve is linear past the last defined level.
-     */
+    /** The highest level reachable with {@code xp} accumulated; unbounded above. */
     public static int levelForXp(long xp) {
         GodLevelsConfig config = config();
         long[] cumulative = config.getCumulativeXp();
@@ -60,10 +50,7 @@ public final class GodLevels {
         return max + (int) (past / config.getXpPerLevelPastMax());
     }
 
-    /**
-     * Total god points granted by reaching {@code level}: +3 per level through 10 (30 at the
-     * standard cap), +2 for every level beyond that.
-     */
+    /** Total god points granted by reaching {@code level}, at the per-level rates {@code god_levels.json} sets. */
     public static int totalPointsForLevel(int level) {
         if (level <= 0) {
             return 0;
@@ -78,10 +65,7 @@ public final class GodLevels {
         return points;
     }
 
-    /**
-     * Minor-transfer slots unlocked by {@code level}: none by default, then one each at god
-     * levels 2, 4 and 7.
-     */
+    /** Minor-transfer slots unlocked by {@code level}: one per configured unlock level at or below it. */
     public static int minorTransferSlots(int level) {
         int slots = 0;
         for (int unlock : config().getMinorTransferSlotLevels()) {
@@ -92,15 +76,11 @@ public final class GodLevels {
         return slots;
     }
 
-    /** How many minor-transfer slots the curve can ever grant a god: one per configured unlock level. */
     public static int maxMinorTransferSlots() {
         return config().getMinorTransferSlotLevels().length;
     }
 
-    /**
-     * The god level that opens minor-transfer slot {@code slot} (zero-based), or -1 for a slot the
-     * curve never grants.
-     */
+    /** The god level that opens minor-transfer slot {@code slot} (zero-based), or -1 if never granted. */
     public static int minorTransferSlotUnlockLevel(int slot) {
         int[] levels = config().getMinorTransferSlotLevels();
         return slot >= 0 && slot < levels.length ? levels[slot] : -1;
@@ -110,16 +90,11 @@ public final class GodLevels {
         return level >= ultimateUnlockLevel();
     }
 
-    /** The god level that grants a god's ultimate; the number the locked messages quote. */
     public static int ultimateUnlockLevel() {
         return config().getUltimateUnlockLevel();
     }
 
-    /**
-     * The effective god level: the XP-derived level capped by completed cauldron sacrifices. Each
-     * sacrifice opens exactly one level gate; once every defined gate is done, XP alone rules.
-     * XP keeps accumulating past an unopened gate - only the level readout waits.
-     */
+    /** The XP-derived level capped by completed cauldron sacrifices, one gate each; XP still accumulates. */
     public static int gatedLevel(long xp, int sacrificesCompleted) {
         int xpLevel = levelForXp(xp);
         if (sacrificesCompleted >= xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices.GATE_COUNT) {

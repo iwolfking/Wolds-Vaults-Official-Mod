@@ -1,12 +1,8 @@
 package xyz.iwolfking.woldsvaults.client.screens.greed;
 
 /**
- * The pixel table both greed panels lay themselves out from. Mr. Greedy keeps his fixed 345x189
- * pane and so stays on {@link #compact()}, which is the original hand-tuned layout; the player
- * menu's greed tab fills the same near-full-window inset the talent and statistics tabs use and
- * picks up {@link #roomy()} whenever that inset is actually large enough, which grows every plate,
- * badge, bar and row by roughly a fifth. Font sizes are deliberately absent - text stays at the
- * one size Minecraft draws it.
+ * The pixel table both greed panels lay themselves out from. {@link #compact()} fits Mr. Greedy's fixed
+ * 345x189 pane; {@link #roomy()} is about a fifth larger and is used when the panel has room for it.
  */
 public final class GreedMetrics {
     private static final int ROOMY_MIN_WIDTH = 380;
@@ -76,11 +72,6 @@ public final class GreedMetrics {
                 48, 4, 78, 3, 36, 12, 19, 32, 13, 6, 19, 34, 10, 16);
     }
 
-    /**
-     * Picks the table a panel of the given size can carry. The roomy table needs about 380x230 of
-     * panel to place its stack without the main tab's bottom lines colliding with the pinned row,
-     * which the player tab clears at gui scale 3 and below but not at gui scale 4.
-     */
     public static GreedMetrics forSize(int width, int height) {
         return width >= ROOMY_MIN_WIDTH && height >= ROOMY_MIN_HEIGHT ? roomy() : compact();
     }

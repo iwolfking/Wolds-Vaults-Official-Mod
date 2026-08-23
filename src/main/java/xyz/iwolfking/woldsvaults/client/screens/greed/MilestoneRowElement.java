@@ -23,16 +23,8 @@ import xyz.iwolfking.woldsvaults.milestones.network.ServerboundPinMilestoneMessa
 import java.util.List;
 
 /**
- * One achievement row, shared verbatim by the player greed screen and Mr. Greedy's achievements
- * screen. The left chip carries the pin toggle, the banked reputation and the claim button; the
- * body carries the name, the requirement, the threshold and reputation lists with the tier being
- * worked toward highlighted, and a bar showing progress inside the current tier bracket.
- *
- * <p>Every offset comes from the {@link GreedMetrics} the owning panel picked, so the same row
- * renders tight in the trader's fixed pane and roomier in the player tab's full-window inset.</p>
- *
- * <p>Claiming is only ever enabled on the trader variant - the server refuses a claim unless the
- * greed trader container is open, so the player variant dims the button and says where to go.</p>
+ * One achievement row: pin toggle, banked reputation and claim button on the left chip; name,
+ * requirement, threshold and reputation lists and a within-tier progress bar in the body.
  */
 public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
     private final MilestoneDefinition definition;
@@ -110,11 +102,7 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         this.addElement(claimButton);
     }
 
-    /**
-     * Name and requirement on one line, with the requirement clipped to whatever room the name
-     * leaves. The label element does not clip or wrap, so an untrimmed long name would paint
-     * straight over the row border; the full text stays reachable through the row's tooltip.
-     */
+    /** Name and requirement on one line, with the requirement ellipsised to the room the name leaves. */
     private Component buildTitleLine(boolean finished, int bodyWidth) {
         Font font = Minecraft.getInstance().font;
         String name = I18n.get(this.definition.getNameKey());

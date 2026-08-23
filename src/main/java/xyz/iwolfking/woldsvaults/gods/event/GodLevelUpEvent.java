@@ -4,10 +4,7 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.Event;
 
-/**
- * Fired on the Forge event bus after a player's alignment level with a god increases.
- * Fired once per level gained, on the server.
- */
+/** Fired on the Forge event bus, server side, once per alignment level a player gains with a god. */
 public class GodLevelUpEvent extends Event {
     private final ServerPlayer player;
     private final VaultGod god;

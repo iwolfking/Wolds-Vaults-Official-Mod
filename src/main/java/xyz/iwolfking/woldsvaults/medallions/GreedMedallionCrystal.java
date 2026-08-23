@@ -3,10 +3,8 @@ package xyz.iwolfking.woldsvaults.medallions;
 import java.util.Optional;
 
 /**
- * Implemented on the base mod's {@code CrystalData} by mixin so a crystal can carry exactly one
- * greed medallion. Only the rank index is stored (absent = 0); the tier's numbers are always
- * re-derived from {@link GreedMedallionTier#byRankIndex(int)} so a rebalance of the table never
- * needs a crystal migration.
+ * Implemented on the base mod's {@code CrystalData} by mixin so a crystal can carry one greed medallion.
+ * Only the rank index is stored (0 = none); a tier's numbers are re-derived from the table.
  */
 public interface GreedMedallionCrystal {
     int woldsvaults$getMedallionRank();

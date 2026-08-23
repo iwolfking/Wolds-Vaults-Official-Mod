@@ -21,15 +21,8 @@ import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
 import xyz.iwolfking.woldsvaults.gods.combat.FuryIncome;
 
 /**
- * Startup and lifecycle for the Vault Champion. Self-contained in the same way the medallion and god
- * systems are: the feature registers its own listeners rather than being wired into the entrypoint.
- *
- * <p>Two of these hooks are worth explaining. The damage pool is accumulated from a final-stage
- * sub-stage rather than a plain event listener so that it always sees the number the player actually
- * dealt, after every reduction, cap and floor in the pack has run - a listener at the same priority
- * as the final stage would be a coin flip. And the defeat itself is deferred by one tick to the
- * entity's own update, because discarding an entity from inside its own damage event is the kind of
- * thing that works until the day it does not.</p>
+ * Startup and lifecycle for the Vault Champion. The damage pool accumulates from a final-stage sub-stage,
+ * after every reduction, cap and floor in the pack, and defeat is deferred one tick to the entity's update.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VaultChampionEvents {
@@ -69,11 +62,7 @@ public final class VaultChampionEvents {
                 });
     }
 
-    /**
-     * The Champion's own per-tick business: waking from its arrival pause and dying once its pool is
-     * empty. Gated on the tag before anything else so the cost for every other entity in the world is
-     * one class check.
-     */
+    /** The Champion's own per-tick business: waking from its arrival pause and dying once its pool is empty. */
     @SubscribeEvent
     public static void onChampionTick(LivingEvent.LivingUpdateEvent event) {
         if (!(event.getEntityLiving() instanceof TheVesselEntity champion)
@@ -91,10 +80,6 @@ public final class VaultChampionEvents {
         VaultChampionKills.tickWake(champion);
     }
 
-    /**
-     * Rage for a kill. Its own listener rather than a call inside the assassin handler, because most
-     * of what feeds it is not an assassin and the assassin path is already cancelled upstream.
-     */
     @SubscribeEvent
     public static void onKill(net.minecraftforge.event.entity.living.LivingDeathEvent event) {
         if (event.getEntityLiving().level instanceof ServerLevel level) {

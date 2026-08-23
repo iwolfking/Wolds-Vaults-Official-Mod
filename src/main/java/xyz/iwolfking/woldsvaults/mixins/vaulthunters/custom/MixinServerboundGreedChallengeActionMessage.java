@@ -14,14 +14,7 @@ import xyz.iwolfking.woldsvaults.milestones.GreedChallengeOffers;
 
 import java.util.List;
 
-/**
- * Re-checks the rank gate on the server when a challenge is actually bought.
- *
- * <p>The offer list is already filtered by rank, so a stock client can only ever send an index
- * that points at an unlocked crystal. This closes the gap a modified client leaves: the message
- * carries nothing but a slot index, and slots persist across rank changes, so the crystal a slot
- * names is re-tested against the player's current rank before it is handed over.</p>
- */
+/** Re-tests the crystal a slot names against the player's rank when a challenge is bought. */
 @Mixin(value = ServerboundGreedChallengeActionMessage.class, remap = false)
 public class MixinServerboundGreedChallengeActionMessage {
     @Inject(method = "handleAccept", at = @At("HEAD"), cancellable = true)

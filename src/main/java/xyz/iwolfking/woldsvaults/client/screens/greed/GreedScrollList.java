@@ -6,11 +6,7 @@ import iskallia.vault.client.gui.framework.element.spi.IElement;
 import iskallia.vault.client.gui.framework.spatial.Padding;
 import iskallia.vault.client.gui.framework.spatial.spi.ISpatial;
 
-/**
- * Slim-scrollbar vertical list, mirroring the private helper the base greed trader screen uses.
- * The base one is package-private to that screen, so the greed rework carries its own with the
- * child-adding methods raised to public.
- */
+/** Slim-scrollbar vertical list, with the child-adding methods raised to public. */
 public class GreedScrollList extends VerticalScrollClipContainer<GreedScrollList> {
     public GreedScrollList(ISpatial spatial) {
         super(spatial, Padding.of(0, -1, 1, 1), null, ScreenTextures.SCROLLBAR_HANDLE_SLIM,

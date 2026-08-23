@@ -9,21 +9,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 
-/**
- * The Wendarr (The Timekeeper) effect ids Java has to name, sheet rows r63-r88, and the gate reads
- * its handlers, listeners and mixins make.
- *
- * <p>The tuned numbers behind these ids live in {@code god_node_effects_wendarr.json} and are read
- * through {@link WendarrNodeHandlers#params}, never from a Java constant. The five plain stat
- * effects bind the shared {@code gear_attribute_scaled} type and are config alone, which is the
- * shape a new stat node is expected to take.
- *
- * <p>Liveness is answered by {@link GodNodeGate} behind the shared once-a-second cache, which is
- * what retires this tree's own gate reads. One call covers both kinds of node: a minor counts when
- * Wendarr is the active tree or when it is bound to a transfer slot of whichever tree is, and a
- * major only on the active tree - the node type comes from the registry, so a caller no longer
- * picks between a minor reader and a major one.
- */
+/** Wendarr (The Timekeeper) node effect ids; tuned values in {@code god_node_effects_wendarr.json}. */
 public final class WendarrNodes {
     public static final VaultGod GOD = VaultGod.WENDARR;
 
@@ -58,7 +44,6 @@ public final class WendarrNodes {
     private WendarrNodes() {
     }
 
-    /** The registry key a node's global damage factor or vault clock rate factor is stored under. */
     public static ResourceLocation key(String effectId) {
         return WoldsVaults.id(effectId);
     }
@@ -72,10 +57,7 @@ public final class WendarrNodes {
         return points(player, effectId) > 0;
     }
 
-    /**
-     * Raw ledger read, ignoring which god is active. Only the piety source needs this: piety is
-     * summed outside the attribute fold and applies its own carryover scale.
-     */
+    /** Raw ledger read, ignoring which god is active. */
     public static int investedPoints(ServerPlayer player, String effectId) {
         return GodVaultUtil.investedPoints(player, GOD, effectId);
     }

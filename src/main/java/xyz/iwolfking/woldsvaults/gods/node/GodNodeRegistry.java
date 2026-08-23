@@ -17,12 +17,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * The loaded god trees. Built once from config on every config load and read everywhere
- * afterwards; there is no second source of node data.
- *
- * <p>Effect ids are globally unique across gods, so the flat effect and handler lookups here are
- * what the gate, the ticker and the vanilla attribute bridge use without having to know which
- * tree an effect belongs to.
+ * The loaded god trees, rebuilt from config on every config load. Effect ids are globally unique
+ * across gods, so the flat effect and handler lookups here take no tree.
  */
 public final class GodNodeRegistry {
     private static final List<Class<? extends GodNodeHandler>> CAPABILITIES = List.of(
@@ -36,11 +32,7 @@ public final class GodNodeRegistry {
     private GodNodeRegistry() {
     }
 
-    /**
-     * Rebuilds every tree from config, failing loud on the first inconsistency. Nothing is
-     * published until all four gods have loaded, so a failed reload leaves the previously loaded
-     * trees in place rather than a half-built registry.
-     */
+    /** Rebuilds every tree, failing loud; nothing is published until all four gods have loaded. */
     public static void load(Map<VaultGod, GodTreeConfig> treeConfigs,
                             Map<VaultGod, GodTreeGuiStylesConfig> styleConfigs,
                             Map<VaultGod, GodNodeEffectsConfig> effectConfigs) {
@@ -129,19 +121,11 @@ public final class GodNodeRegistry {
         return capability.isInstance(handler) ? capability.cast(handler) : null;
     }
 
-    /** Every effect whose handler implements {@code capability}, in config order. */
     public static List<GodEffect> effectsWith(Class<? extends GodNodeHandler> capability) {
         return byCapability.getOrDefault(capability, Collections.emptyList());
     }
 
-    /**
-     * The typed params of {@code effectId}, for a tree module reading its own configuration.
-     *
-     * <p>Fails loud and names the file rather than returning null, because the only ways to get
-     * here without an effect are reading before the registry finished loading or an effect missing
-     * from that god's config - and both are silent zeroes inside a vault if they are allowed
-     * through.
-     */
+    /** The typed params of {@code effectId}; fails naming that god's effects file, never returns null. */
     public static <T extends GodEffectParams> T params(VaultGod god, String effectId, Class<T> type) {
         GodEffect effect = effects.get(effectId);
         if (effect == null) {

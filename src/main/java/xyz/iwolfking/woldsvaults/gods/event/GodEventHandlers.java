@@ -19,28 +19,15 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 
 /**
- * Lifecycle glue for the god core: keeps the active-god cache and the shared gate cache honest
- * across equipment and dimension changes, tears down live node state on logout, syncs alignment
- * state to joining players, and announces level-ups.
+ * Lifecycle glue for the god core: invalidates the active-god and gate caches, tears down node state
+ * on logout, syncs alignment to joining players, and announces level-ups.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GodEventHandlers {
     private GodEventHandlers() {
     }
 
-    /**
-     * Fires on both logical sides; the client cache must drop too, or screens showing the active
-     * god keep displaying the pre-swap charm until a dimension change. Server side additionally
-     * schedules a snapshot rebuild, which is what folds the newly active tree's values in and
-     * reconciles the vanilla-attribute bridges - without it a charm swap only takes effect on the
-     * next unrelated gear change - and runs the tick contributors' deactivation diff, which is what
-     * takes back anything the outgoing tree applied outside the snapshot.
-     *
-     * <p>The alignment sync is what refreshes piety. Piety is reputation and god level and the
-     * bonus the active tree's Pious Devotion pays, so swapping charms changes it without any
-     * alignment mutation having happened - and the tree screen and greed panel read the synced
-     * copy, not the server's live one.
-     */
+    /** Runs on both logical sides; the server side also rebuilds the snapshot and re-syncs alignment. */
     @SubscribeEvent
     public static void onCurioChange(CurioChangeEvent event) {
         LivingEntity entity = event.getEntityLiving();
@@ -64,12 +51,7 @@ public final class GodEventHandlers {
         }
     }
 
-    /**
-     * Curios raises its change event on any NBT delta, and a worn mythic charm's NBT moves once a
-     * second for the whole length of a blessing just to count the clock down. That delta changes
-     * nothing the snapshot reads, so it must not cost a snapshot rebuild; a delta in anything else
-     * on the charm - a piety rescale of its rolls, for one - still does.
-     */
+    /** Whether the only difference between the stacks is a charm's blessing countdown tag. */
     private static boolean isBlessingCountdownOnly(net.minecraft.world.item.ItemStack from,
                                                    net.minecraft.world.item.ItemStack to) {
         if (from.getItem() != to.getItem() || from.getCount() != to.getCount()) {
@@ -86,11 +68,6 @@ public final class GodEventHandlers {
         return net.minecraft.world.item.ItemStack.matches(before, after);
     }
 
-    /**
-     * No vanilla-attribute repair runs here on purpose. Every modifier the god core writes is
-     * transient, so none of them survive to a new session and there is nothing a login pass could
-     * find to remove.
-     */
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player && player.getServer() != null) {
@@ -100,11 +77,7 @@ public final class GodEventHandlers {
         }
     }
 
-    /**
-     * The tick contributors are deactivated first, while the player is still a live entity and
-     * their scratch is still there, because that is the only moment a contributor can take back a
-     * modifier or an effect it applied to them.
-     */
+    /** Deactivates the tick contributors before dropping the caches, while the player is still live. */
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {
@@ -115,10 +88,6 @@ public final class GodEventHandlers {
         GodNodeState.clear(event.getPlayer().getUUID());
     }
 
-    /**
-     * Vault entry and exit change whether a charm counts as usable, so the resolved god is
-     * recomputed on every dimension change and on respawn.
-     */
     @SubscribeEvent
     public static void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         ActiveGodResolver.invalidate(event.getPlayer());
@@ -149,11 +118,6 @@ public final class GodEventHandlers {
                 event.getNewLevel()).withStyle(ChatFormatting.GOLD), net.minecraft.Util.NIL_UUID);
     }
 
-    /**
-     * Drops every server-scoped god cache when the server stops. On an integrated server the JVM
-     * outlives the world, so without this the next world loads with the previous one's resolved
-     * gods, gate results and vault scratch still in memory.
-     */
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         GodNodeState.clearAll();

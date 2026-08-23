@@ -19,18 +19,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Optional;
 
-/**
- * Tenos' ultimate. Reveals every room in a square of vault cells centred on the caster, as if they
- * had walked each one.
- *
- * <p>It writes through {@code DiscoveredRoomStat.recordDiscovery} with the {@code SYSTEM} context,
- * the same path the Vault Globe uses, which means the minimap and the map overlay update with no
- * packet work of our own: {@code ROOMS_DISCOVERED} is already a client-synced stat pushed by the
- * per-tick vault sync. Rooms the caster already knows are skipped by that method's own dedupe.
- *
- * <p>The reveal is the caster's alone — party members read their own discovery stat, and the sheet
- * describes a radius around the caster, not a shared broadcast.
- */
+/** Tenos' ultimate: reveals every room in a square of vault cells centred on the caster, for the caster alone. */
 public class EyesOfGodAbility extends GodUltimateAbility {
     public EyesOfGodAbility(int unlockLevel, int learnPointCost, int regretPointCost, int cooldownTicks,
                             float manaCost) {
@@ -94,7 +83,6 @@ public class EyesOfGodAbility extends GodUltimateAbility {
         return ActionResult.successCooldownImmediate();
     }
 
-    /** The level-scaled radius the ability screen renders; see {@link UltimateLevels#displayLevel()}. */
     public int getRadius() {
         return UltimateLevels.eyesRadius(UltimateLevels.displayLevel());
     }

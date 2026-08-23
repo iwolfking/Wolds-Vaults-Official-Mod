@@ -13,9 +13,7 @@ import xyz.iwolfking.woldsvaults.gods.GodCarryover;
 public abstract class MixinAttributeSnapshotCalculatorGods {
     /**
      * @author PoorMansPhysicist
-     * @reason fold god tree gear attributes into the snapshot alongside the greed tree, so the
-     * active tree applies in full and foreign trees carry over at 25% without any per-node
-     * add/remove bookkeeping on charm swaps
+     * @reason fold god tree gear attributes into the snapshot alongside the greed tree
      */
     @Inject(method = "computeSnapshot", at = @At(value = "INVOKE",
             target = "Liskallia/vault/snapshot/AttributeSnapshotCalculator;addGreedInformationToSnapshot(Lnet/minecraft/server/level/ServerPlayer;Liskallia/vault/snapshot/AttributeSnapshot;)V",

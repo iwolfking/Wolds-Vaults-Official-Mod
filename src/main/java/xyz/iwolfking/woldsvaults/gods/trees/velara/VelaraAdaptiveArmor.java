@@ -8,23 +8,14 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import java.util.UUID;
 
 /**
- * Adaptive Armor's consecutive-hit stacks.
- *
- * <p>Stacks are per defender and keyed on the attacker's identity: a hit from the tracked attacker
- * raises the count, a hit from anything else restarts it at one, and damage with no entity behind
- * it (fall, void, the vault timer) clears the run entirely. State is transient by design - it is
- * meaningless outside the fight that built it - and lives in the shared
- * {@link GodNodeState} scratch, so logout and leaving a vault tear it down without this class
- * owning a map or a teardown path of its own.
+ * Adaptive Armor's consecutive-hit stacks, keyed on the attacker. A different attacker restarts the
+ * run at one; damage with no entity behind it clears it.
  */
 public final class VelaraAdaptiveArmor {
     private VelaraAdaptiveArmor() {
     }
 
-    /**
-     * Advances the run for this hit and returns the resulting damage multiplier. Stacks apply to
-     * the hit that creates them, so six consecutive hits from one enemy reach the -60% floor.
-     */
+    /** Advances the run and returns the multiplier. Stacks apply to the hit that creates them. */
     public static float advanceAndGetMultiplier(ServerPlayer defender, DamageSource source) {
         Entity attacker = source.getEntity();
         if (attacker == null) {

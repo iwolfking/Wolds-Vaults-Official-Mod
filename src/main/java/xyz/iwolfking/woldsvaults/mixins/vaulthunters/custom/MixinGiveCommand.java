@@ -29,15 +29,7 @@ import javax.annotation.Nullable;
 @Mixin(value = GiveCommand.class, remap = false)
 public class MixinGiveCommand {
 
-    /**
-     * Hangs an optional {@code ancient} flag off the tail of the existing unique-giving command, so
-     * {@code /the_vault give unique <name> <level> ancient} rolls a guaranteed ancient.
-     *
-     * <p>Brigadier merges nodes by name when they are added, so re-declaring the {@code unique} ->
-     * {@code uniqueName} -> {@code level} chain here does not duplicate it: the existing nodes are
-     * kept along with their suggestion providers and executor, and only the new {@code ancient} leaf
-     * is grafted on. That keeps the plain command untouched.</p>
-     */
+    /** Grafts an {@code ancient} leaf onto {@code /the_vault give unique <name> <level>}. */
     @Inject(method = "buildGearGiving", at = @At("TAIL"))
     private void woldsvaults$addAncientUniqueGiving(LiteralArgumentBuilder<CommandSourceStack> builder, CallbackInfo ci) {
         builder.then(Commands.literal("unique")
@@ -74,12 +66,7 @@ public class MixinGiveCommand {
         return 1;
     }
 
-    /**
-     * Resolves a bare unique name against the unique registry rather than assuming the_vault
-     * namespace. The stock command hardcodes {@code VaultMod.id(name)}, which cannot reach any of the
-     * addon's own uniques even though its suggestion list offers them — several ancients that need
-     * testing, Plague Steppers and Mineral Greatsword among them, live under woldsvaults.
-     */
+    /** Resolves a bare unique name against the unique registry in any namespace, or null if unknown. */
     @Unique
     @Nullable
     private static ResourceLocation woldsvaults$resolveUniqueKey(String uniqueName) {

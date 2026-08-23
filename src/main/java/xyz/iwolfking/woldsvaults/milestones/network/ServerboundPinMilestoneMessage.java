@@ -8,10 +8,7 @@ import xyz.iwolfking.woldsvaults.milestones.Milestones;
 
 import java.util.function.Supplier;
 
-/**
- * Serverbound pin request. An empty id clears the pin; anything else pins that milestone, of which
- * a player may hold exactly one.
- */
+/** Serverbound pin request. An empty id clears the pin; a player may hold exactly one. */
 public class ServerboundPinMilestoneMessage extends Message<ServerboundPinMilestoneMessage> {
     public static final String UNPIN = "";
 

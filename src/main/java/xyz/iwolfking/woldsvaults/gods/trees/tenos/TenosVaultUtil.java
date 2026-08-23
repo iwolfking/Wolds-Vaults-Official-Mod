@@ -22,14 +22,7 @@ public final class TenosVaultUtil {
     private TenosVaultUtil() {
     }
 
-    /**
-     * The vault modifier a node attaches, or null when {@code vault_modifiers.json} does not declare
-     * it. Nodes look their modifier up rather than registering it: an id missing from
-     * {@link VaultModifierRegistry} is silently dropped from {@code Modifiers.getModifiers()}, so a
-     * node that registered its own id would stop counting its own contribution the moment a config
-     * reload cleared the registry, and would attach a second copy. The complaint is made once per
-     * id, because the callers run on the shared one-second ticker.
-     */
+    /** The vault modifier, or null when {@code vault_modifiers.json} does not declare it. */
     public static VaultModifier<?> resolveModifier(ResourceLocation modifier, String node) {
         VaultModifier<?> resolved = VaultModifierRegistry.get(modifier);
         if (resolved == null && MISSING_MODIFIERS.add(modifier)) {
@@ -51,11 +44,6 @@ public final class TenosVaultUtil {
         return GodVaultUtil.runners(vault);
     }
 
-    /**
-     * Whether any runner in the vault holds a live Tenos effect. Only the nodes whose effect is
-     * inherently vault wide ask this; a node with a per-player effect is dispatched per player by
-     * the god core instead.
-     */
     public static boolean anyRunnerHas(Vault vault, String effectId) {
         for (ServerPlayer player : runners(vault)) {
             if (TenosNodes.isActive(player, effectId)) {

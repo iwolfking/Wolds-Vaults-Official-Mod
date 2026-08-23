@@ -21,34 +21,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * What one god's node effects DO - {@code config/the_vault/gods/god_node_effects_<god>.json}.
- * Each entry binds a registered handler type, the per-point value table that replaces the old
- * per-god Java constant blocks, and the handler's own parameters.
- *
- * <p>The entry map is read through its own Gson serializer rather than field binding, because a
- * handler's parameters are arbitrary extra fields whose shape only the handler type knows, and
- * because the map key is the effect id every failure message has to name.
- *
- * <p>The deserializer is deliberately total and never rejects an entry: {@code Config#readConfig}
- * treats any exception raised while reading as "file missing" and overwrites the file with
- * defaults, so throwing here would destroy a mistyped file rather than report it. Judgement is
- * split in two afterwards instead. {@link #isValid()} makes the calls that need only this file -
- * an entry with no handler, or a {@code values} key that is not an array of numbers - and answers
- * them by naming the file in the reload report and falling back to the shipped table. Everything
- * that needs the tree beside it - a handler type that is not registered, an effect on no node, a
- * gear attribute that does not exist - stays fatal in {@code GodTreeLoader} and
- * {@code GodNodeValidator}, because no single file's defaults can repair a mismatch between two.
+ * What one god's node effects do - {@code config/the_vault/gods/god_node_effects_<god>.json}: a handler
+ * type, a per-point value table and the handler's parameters per entry. The deserializer never throws.
  */
 public class GodNodeEffectsConfig extends PackAuthoredConfig {
     private static final Gson GSON = Config.GSON.newBuilder()
             .registerTypeAdapter(EffectMap.class, EffectMap.Serializer.INSTANCE)
             .create();
 
-    /**
-     * One configured effect as it appears on disk: the handler type it binds, its per-point
-     * table, and the whole entry object, from which the handler's typed params record is decoded
-     * once the handler registry can say which record that is.
-     */
+    /** One configured effect on disk: its handler type, its per-point table, and the whole entry object. */
     public record Entry(@Nullable String handler, @Nullable float[] values, JsonObject json) {
     }
 
@@ -116,11 +97,7 @@ public class GodNodeEffectsConfig extends PackAuthoredConfig {
         return "gods" + File.separator + "god_node_effects_" + this.god;
     }
 
-    /**
-     * Restores the god this config was constructed for. Gson allocates the loaded instance
-     * without running the constructor, so the name the file was read under only survives by
-     * being copied off the instance that read it.
-     */
+    /** Restores the god name, which Gson does not carry across into the loaded instance. */
     @Override
     protected void onLoad(@Nullable Config oldConfigInstance) {
         if (oldConfigInstance instanceof GodNodeEffectsConfig previous) {
@@ -128,12 +105,7 @@ public class GodNodeEffectsConfig extends PackAuthoredConfig {
         }
     }
 
-    /**
-     * The two mistakes in this file that need nothing else to spot. An entry with no handler names
-     * no behaviour at all, and a {@code values} key that failed to parse as an array of numbers
-     * would otherwise reach the loader as a null table. Both are reported and answered with the
-     * shipped table for this god rather than a boot failure.
-     */
+    /** Refuses an entry with no handler or a non-numeric {@code values}, falling back to the shipped table. */
     @Override
     protected boolean isValid() {
         if (this.effects == null || this.effects.isEmpty()) {
@@ -158,12 +130,6 @@ public class GodNodeEffectsConfig extends PackAuthoredConfig {
         return false;
     }
 
-    /**
-     * Restores the shipped effect table of this config's god. {@code Config#readConfig} treats a
-     * missing or unreadable file as a request to regenerate from defaults, so this is what a
-     * fresh install runs on: it has to reproduce the values the trees ship with, not an empty
-     * table, or the whole tree would come up at zero.
-     */
     @Override
     protected void reset() {
         this.effects = GodNodeEffectDefaults.effects(this.god);

@@ -26,19 +26,10 @@ import xyz.iwolfking.woldsvaults.objectives.ZealotObjective;
 import java.util.List;
 
 /**
- * The greed crate loot (GCL) system: which bonus loot table a completion crate rolls and how many
- * greed coins ride along with it.
- *
- * <p>This replaces the retired greed-tree crate bonus wholesale. The old system picked its table
- * from the vault <i>objective</i> (17 tables, 16 of which were dead data after commit
- * {@code c366d7ad} hardcoded {@code greed_crate_bonus_scavenger}) and scaled coins off the ambient
- * greed tier. The new one picks its table from the crystal's <b>greed medallion</b> (7 tables,
- * {@code woldsvaults:greed_crate_loot_1} through {@code _7}) and leaves the objective as nothing
- * but a scalar coin multiplier. A vault with no medallion gets no greed bonus at all.</p>
- *
- * <p>The tables themselves live pack-side in {@code config/the_vault/gen/1.0/loot_tables/} and are
- * registered in {@code config/the_vault/gen/loot_tables.json}, so retuning them needs no mod
- * rebuild.</p>
+ * The greed crate loot (GCL) system: which bonus loot table a completion crate rolls and how many greed
+ * coins ride along. The table comes from the crystal's greed medallion
+ * ({@code woldsvaults:greed_crate_loot_1} through {@code _7}, pack-side in
+ * {@code config/the_vault/gen/1.0/loot_tables/}); the objective is only a scalar coin multiplier.
  */
 public final class GreedCrateLoot {
     private static final String TABLE_PREFIX = "greed_crate_loot_";
@@ -56,19 +47,13 @@ public final class GreedCrateLoot {
     }
 
     /**
-     * The loot table key for a medallion's GCL tier. Tier 0 (Scavenger 1 and 2) has no table by
-     * design - those medallions pay greed coins only.
+     * The loot table key for a medallion's GCL tier; tier 0 (Scavenger 1 and 2) has no table and pays greed coins
+     * only.
      */
     public static ResourceLocation tableId(int greedCrateLootTier) {
         return WoldsVaults.id(TABLE_PREFIX + Math.min(MAX_TABLE, greedCrateLootTier));
     }
 
-    /**
-     * Vault types that are cut out of the greed crate system entirely: no coins and no GCL loot.
-     * Braziers cover both Monolith and the addon's Haunted Braziers, whose objective extends
-     * {@code MonolithObjective} and so is already caught by {@code isBrazierVault}; the explicit
-     * test is kept so the exclusion survives a change to that hierarchy.
-     */
     public static boolean isExcludedVault(Vault vault) {
         return VaultUtils.isRoyaleVault(vault)
                 || VaultUtils.isBrazierVault(vault)
@@ -78,10 +63,8 @@ public final class GreedCrateLoot {
     }
 
     /**
-     * Greed coins for one completion crate: {@code floor(BGC * objectiveMultiplier)}, then the
-     * greedy-crate-tier bonus stacked on top exactly as the retired system did. Greedy crate tiers
-     * are only ever granted by hyperboss kills, so outside a hyper vault the second step is a
-     * no-op.
+     * Greed coins for one crate: {@code floor(baseGreedCoins * objectiveMultiplier)}, then the greedy-crate-tier
+     * bonus, which only hyperboss kills grant.
      */
     public static int coinsForCrate(Vault vault, GreedMedallionTier medallion) {
         double multiplier = objectiveMultiplier(vault);
@@ -95,13 +78,8 @@ public final class GreedCrateLoot {
     }
 
     /**
-     * The objective's coin multiplier, per the rework spec's column G. Every objective not listed
-     * falls back to 1x rather than to nothing, which is the bug the medallion rework fixes.
-     *
-     * <p>A vault carrying several qualifying objectives resolves to the largest multiplier of the
-     * set. That also settles the two subclass overlaps for free: Ballistic Bingo extends
-     * {@code BingoObjective} and always out-scores the plain bingo line, and Unhinged Collector
-     * extends {@code ScavengerBingoObjective} and shares its line exactly.</p>
+     * The objective's coin multiplier; an unlisted objective falls back to 1x, and several qualifying objectives
+     * resolve to the largest of the set.
      */
     public static double objectiveMultiplier(Vault vault) {
         double multiplier = DEFAULT_MULTIPLIER;
@@ -141,9 +119,8 @@ public final class GreedCrateLoot {
     }
 
     /**
-     * Runes actually consumed at this vault's boss pillars, summed over every fight the vault has
-     * started. Returns -1 when the vault has no rune boss objective at all, which is how the
-     * caller tells "not a rune vault" apart from "a rune vault where nothing was fed in yet".
+     * Runes consumed at this vault's boss pillars, summed over every fight; -1 when the vault has no rune boss
+     * objective.
      */
     private static int collectedRunes(Vault vault) {
         List<RuneBossObjective> bosses = objectives(vault, RuneBossObjective.class);

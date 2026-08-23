@@ -14,20 +14,11 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
 
-/**
- * Clientbound snapshot of the receiving player's sacrificial-altar state: the selected god and,
- * per god, completed sacrifices, whether god XP has filled the pending level, and the current
- * gate's item requirements with progress. Opens the altar screen, or refreshes it when already
- * open.
- */
+/** Clientbound snapshot of the player's sacrificial-altar state, per god, with the current gate's progress. */
 public class ClientboundSacrificeMenuMessage extends Message<ClientboundSacrificeMenuMessage> {
     @Nullable
     public VaultGod selectedGod;
-    /**
-     * True for a snapshot that only updates an altar screen the player already has open; only
-     * the block's own right-click opens the screen, so a sacrifice fired by redstone while the
-     * owner is elsewhere cannot pop a menu on them.
-     */
+    /** True for a snapshot that only updates an altar screen the player already has open. */
     public boolean refreshOnly;
     public final EnumMap<VaultGod, GodSnapshot> gods = new EnumMap<>(VaultGod.class);
 

@@ -9,25 +9,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 
-/**
- * The Idona effect ids Java has to name, and the gate reads its listeners make.
- *
- * <p>The tuned numbers behind these ids live in {@code god_node_effects_idona.json} and are read
- * through {@link IdonaNodeHandlers#params}, never from a Java constant. Idona's seven plain stat
- * effects bind the shared {@code gear_attribute_scaled} type and are config alone, which is the
- * shape a new stat node is expected to take.
- *
- * <p>A stat the sheet lists as a pair ({@code 25%+, 50%+}) is two ids, not one node with two
- * ranks: the shallow placements in the tree carry the base id at the first value and the deep
- * ones carry the {@code _ii} id at the second, each paying its own value per star with no
- * ceiling. The pairs are not always linear, which is why they are two tables and not a
- * multiplier (Fortunate is 2.5% then 4%). Which placement is which is decided by depth in
- * {@code tree-drafts/export_idona_bands.py}, not here.
- *
- * <p>Liveness is answered by {@link GodNodeGate}, behind the shared once-a-second cache. A minor
- * counts when Idona is the active tree or when it is bound to a transfer slot of whichever tree
- * is; a major only on the active tree. Handlers never ask which case they are in.
- */
+/** Idona node effect ids; tuned values in {@code god_node_effects_idona.json}. */
 public final class IdonaNodes {
     public static final VaultGod GOD = VaultGod.IDONA;
 
@@ -67,7 +49,6 @@ public final class IdonaNodes {
     private IdonaNodes() {
     }
 
-    /** The registry key a node's global damage factor is stored under. */
     public static ResourceLocation key(String effectId) {
         return WoldsVaults.id(effectId);
     }
@@ -81,10 +62,7 @@ public final class IdonaNodes {
         return points(player, effectId) > 0;
     }
 
-    /**
-     * Raw ledger read, ignoring which god is active. Only the piety source needs this: piety is
-     * summed outside the attribute fold and applies its own carryover scale.
-     */
+    /** Raw ledger read, ignoring which god is active. */
     public static int investedPoints(ServerPlayer player, String effectId) {
         return GodVaultUtil.investedPoints(player, GOD, effectId);
     }

@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class WendarrVaultTime {
-    /** Reserved scratch key: ticks of vault time the player has booked but not yet paid. */
+    /** Scratch key: ticks of vault time the player has booked but not yet paid. */
     private static final String DRAIN_DEBT = "woldsvaults:wendarr_vault_time_debt";
 
     private WendarrVaultTime() {
     }
 
-    /** Removes {@code ticks} of remaining vault time, never past zero. */
+    /** Removes {@code ticks} of remaining vault time, never past zero. Adds to a stopwatch clock. */
     public static void drainTicks(Vault vault, int ticks) {
         if (vault == null || ticks <= 0) {
             return;
@@ -36,11 +36,7 @@ public final class WendarrVaultTime {
         }
     }
 
-    /**
-     * Books one hit's worth of vault time against the player. The roll is Edge of Time's
-     * configured range for both nodes that bill it, which is how the shipped tree tuned Temporal
-     * Shielding's cost.
-     */
+    /** Books one hit's worth of vault time, rolled from Edge of Time's range for either node. */
     public static void queueDrain(ServerPlayer player) {
         WendarrNodeHandlers.EdgeOfTimeParams params = WendarrNodeHandlers.params(WendarrNodes.EDGE_OF_TIME,
                 WendarrNodeHandlers.EdgeOfTimeParams.class);
@@ -49,7 +45,7 @@ public final class WendarrVaultTime {
         debt(player).addAndGet(ticks);
     }
 
-    /** Pays off everything the player owes, at most once a second and only inside a vault. */
+    /** Pays off everything the player owes. A null vault is a no-op and the debt is kept. */
     public static void settleDrain(ServerPlayer player, Vault vault) {
         if (vault == null) {
             return;

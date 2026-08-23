@@ -14,26 +14,15 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /**
- * Every way Fury enters and the drawback it carries, in one place.
- *
- * <p>What <em>earns</em> Fury and what the boosted damage <em>applies to</em> are deliberately
- * different sets. Fury is earned by any hit the player is the true source of, cleave and
- * attack-damage abilities included; the boost itself still only reaches the direct, full-charge,
- * non-critical melee swings Rampage has always been gated to. Cleave therefore feeds the swing
- * that feeds cleave, which is the loop the node is built around.
+ * Every way Fury is earned, plus the drawback it carries. Any hit the player is the true source of
+ * earns Fury, while the boost it feeds reaches only direct melee swings.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class FuryIncome {
     private FuryIncome() {
     }
 
-    /**
-     * Rune bosses, hyper bosses, the greed trial's Vessel and the Vault Champion.
-     *
-     * <p>A hyper boss is a {@code VaultBossEntity} in a hyper vault, so the class test already
-     * covers it and no vault lookup is needed. The Champion is a tagged {@code TheVesselEntity},
-     * which the second test covers without having to ask the medallion system anything.
-     */
+    /** Rune bosses, hyper bosses, the greed trial's Vessel and the Vault Champion. */
     public static boolean isBossType(Entity entity) {
         return entity instanceof VaultBossEntity || entity instanceof TheVesselEntity;
     }
@@ -65,13 +54,7 @@ public final class FuryIncome {
         awardKill(player, event.getEntityLiving());
     }
 
-    /**
-     * The kill half of the income, split out because one of the enemies that should pay it never
-     * raises {@link LivingDeathEvent}. The Vault Champion is discarded rather than killed - its
-     * fight ends by emptying a damage pool - so {@code VaultChampionEvents} calls this directly
-     * from the stage that empties it. Without that call the single most important boss in the
-     * rework would silently pay nothing.
-     */
+    /** Pays the kill half of the income; the Champion is discarded rather than killed, so it calls in directly. */
     public static void awardKill(ServerPlayer player, LivingEntity victim) {
         if (!UltraRampaging.isActive(player)) {
             return;
@@ -84,16 +67,7 @@ public final class FuryIncome {
         PlayerFuryHelper.add(player, gain);
     }
 
-    /**
-     * Registers the damage-taken reader. Called from common setup.
-     *
-     * <p>A sub-stage of {@link FinalDamageStage} rather than another {@code LOWEST} listener,
-     * because that is the one handler in this pack that owns the last word on a hit - a competing
-     * listener at the same priority would read a number that depends on class-loading order.
-     * Ordered after every reduction, cap and floor, including the Champion's damage pool, so the
-     * figure it reads is the health the bar is actually about to lose. It returns the amount
-     * untouched; it is a reader, not a stage.
-     */
+    /** Registers the damage-taken reader as a {@link FinalDamageStage} sub-stage after every cap and floor. */
     public static void init() {
         FinalDamageStage.register(WoldsVaults.id("ultra_rampaging_fury"), FinalDamageStage.ORDER_FLOOR + 300,
                 (event, amount) -> {
@@ -102,11 +76,7 @@ public final class FuryIncome {
                 });
     }
 
-    /**
-     * Fury for damage taken. The fraction is of health actually lost, so armour, resistance and
-     * absorption hearts have all already been taken off - absorbed damage is deliberately not paid
-     * for, because it never reached the player.
-     */
+    /** Pays Fury for the fraction of max health actually lost; absorbed damage pays nothing. */
     private static void awardForDamageTaken(LivingDamageEvent event, float amount) {
         if (!(event.getEntityLiving() instanceof ServerPlayer player) || !UltraRampaging.isActive(player)) {
             return;
@@ -125,17 +95,7 @@ public final class FuryIncome {
         PlayerFuryHelper.add(player, UltraRampaging.config().fury_per_hp_fraction_lost() * fraction);
     }
 
-    /**
-     * The drawback. Raw incoming damage is multiplied before armour and resistance see it, which
-     * is what "raw" means here and is why this sits at {@code HIGH} rather than down with the
-     * mitigation stages.
-     *
-     * <p>This and {@link #awardForDamageTaken} form a feedback loop - being hit harder pays more Fury,
-     * which makes the next hit harder still. It converges, because Fury income from being hit
-     * grows as the square root of Fury while the decay drain is linear in it, but it is the
-     * sharpest edge in the node and the reason a player carrying Fury is genuinely easier to kill.
-     * Per the node's design that applies even with Rampage toggled off.
-     */
+    /** Multiplies raw incoming damage by the Fury drawback, ahead of armour, even with Rampage off. */
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void amplifyIncoming(LivingHurtEvent event) {
         if (!(event.getEntityLiving() instanceof ServerPlayer player) || !UltraRampaging.isActive(player)) {

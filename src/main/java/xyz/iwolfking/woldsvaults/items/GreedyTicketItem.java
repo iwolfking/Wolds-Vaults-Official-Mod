@@ -13,14 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-/**
- * Currency for restocking Mr. Greedy's shop.
- *
- * <p>The ticket used to be consumable for +10 greed reputation. Reputation is the greed rework's
- * rank-up currency and is deliberately finite, so a consumable that mints it is a faucet straight
- * into rank progression; the reroll price moved onto tickets instead and the consume-for-rep use
- * was dropped. The item is now spent only by the greed trader's Restock button.</p>
- */
+/** Currency for restocking Mr. Greedy's shop, spent only by the greed trader's Restock button. */
 public class GreedyTicketItem extends Item {
     public GreedyTicketItem(ResourceLocation id, Properties properties) {
         super(properties);

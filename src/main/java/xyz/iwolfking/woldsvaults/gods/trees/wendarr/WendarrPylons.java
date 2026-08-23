@@ -14,13 +14,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import java.util.List;
 
 /**
- * Pylon Whisperer (r82): pylons the player activates give 50% greater effects.
- *
- * <p>{@code USE_PYLON} is the one choke point that carries both the player and a settable buff
- * config, so no mixin is needed. The config object handed over belongs to the pylon block and is
- * reused by everyone who touches it, so it is never mutated -  it is round-tripped through NBT into
- * a fresh instance whose magnitude fields are scaled. Durations are deliberately left alone: the
- * node promises stronger pylons, not longer ones.
+ * Pylon Whisperer: scales the magnitude fields, not the durations, of the buff config on pylons the
+ * player activates. The shared config is round-tripped through NBT, never mutated.
  */
 public final class WendarrPylons {
     private static final List<String> MAGNITUDE_KEYS = List.of(

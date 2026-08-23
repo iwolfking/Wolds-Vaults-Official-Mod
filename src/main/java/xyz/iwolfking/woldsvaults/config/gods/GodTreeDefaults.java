@@ -3,25 +3,9 @@ package xyz.iwolfking.woldsvaults.config.gods;
 import java.util.Locale;
 
 /**
- * The shipped constellation topology and layout of all four god trees, in the shape
- * {@code god_tree_<god>.json} and {@code god_tree_<god>_gui_styles.json} store them.
- *
- * <p>This is the tree half of what {@link GodNodeEffectDefaults} is for effect values, and it
- * exists for the same reason. The base mod's config loader catches every exception from a failed
- * read, calls {@code generateConfig()} and writes the result back over the file - so a config
- * whose {@code reset()} produced nothing turned one mistyped character in a hand-edited tree into
- * the permanent loss of that tree, followed by a boot crash on every restart, because validation
- * then found effects with no nodes to place them on. Regenerating the shipped tree here makes the
- * same mistake self-healing and leaves a fresh install with working trees before the pack's files
- * are ever read.
- *
- * <p>The layouts are the drafts exported from {@code redesign/greed-rework/tree-drafts/} in the
- * pack repo; coordinates are screen pixels with +y down, and edges are the undirected lattice
- * connections. {@code ModGodTreesProvider} writes these same builders out as the pack's files, so
- * the shipped default and the generated file are one source.
- *
- * <p>What a node's effect DOES is not written here - that is {@code god_node_effects_<god>.json},
- * which is hand-authored balance data.
+ * The shipped topology and layout of all four god trees, shaped as {@code god_tree_<god>.json} and
+ * {@code god_tree_<god>_gui_styles.json} store them; coordinates are screen pixels with +y down.
+ * {@code ModGodTreesProvider} writes these same builders out as the pack's files.
  */
 public final class GodTreeDefaults {
 

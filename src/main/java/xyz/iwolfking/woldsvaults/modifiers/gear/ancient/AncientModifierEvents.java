@@ -41,14 +41,8 @@ public class AncientModifierEvents {
     private static final String EARTHQUAKE_ABILITY_ID = "Earthquake_Base";
 
     /**
-     * Registers the ancient-unique handlers that cannot be declared with an annotated subscriber.
-     *
-     * <p>The lucky cleave is attached here, during common setup, rather than through a
-     * Mod.EventBusSubscriber class. Forge runs same-priority listeners in registration order and
-     * every annotated subscriber is registered during mod construction, so binding the cleave at
-     * setup time guarantees it runs after the_vault's own LOWEST-priority LuckyHitTalent
-     * doLuckyHit. That ordering is the whole point of the modifier: the cleave reads the hurt
-     * amount only once lucky hit and fatal strike have already scaled it.</p>
+     * Registers the ancient-unique handlers. The lucky cleave is bound at setup, not from an annotated
+     * subscriber, so it runs after the_vault's LOWEST-priority {@code doLuckyHit} has scaled the hit.
      */
     public static void init() {
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, AncientModifierEvents::luckyHitCleave);
@@ -160,12 +154,9 @@ public class AncientModifierEvents {
     }
 
     /**
-     * Resolves a shared EarthquakeAbility config instance for the requested tier.
-     *
-     * <p>Deliberately reads from ModConfigs.ABILITIES instead of the player's ability tree, so the
-     * modifier works for players who never learned Earthquake. Only triggerExplosion is ever
-     * called on the returned instance — it carries no per-player state, unlike onAction, which
-     * would put the shared config object on cooldown.</p>
+     * A shared {@code EarthquakeAbility} for the requested tier, from {@code ModConfigs.ABILITIES} rather
+     * than the player's tree. Only {@code triggerExplosion} is safe; {@code onAction} would put the
+     * shared instance on cooldown.
      */
     private static EarthquakeAbility resolveEarthquake(int level) {
         Skill skill = ModConfigs.ABILITIES.getAbilityById(EARTHQUAKE_ABILITY_ID).orElse(null);

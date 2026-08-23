@@ -8,18 +8,7 @@ import net.minecraft.world.entity.Entity;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 
-/**
- * The Velara effect ids Java has to name, and the gate reads its listeners make.
- *
- * <p>Only effects with behaviour appear here. Velara's twelve plain stat effects and its two
- * effect-avoidance effects are named nowhere in Java at all - they are handler type plus values in
- * {@code god_node_effects_velara.json} and nothing else - which is the shape a new stat node is
- * expected to take.
- *
- * <p>Liveness is answered by {@link GodNodeGate}, behind the shared once-a-second cache. A minor
- * counts when Velara is the active tree or when it is bound to a transfer slot of whichever tree
- * is; a major only on the active tree. Handlers never ask which case they are in.
- */
+/** Velara node effect ids. Only effects with behaviour appear here; stat effects are config alone. */
 public final class VelaraNodes {
     public static final VaultGod GOD = VaultGod.VELARA;
 
@@ -56,15 +45,11 @@ public final class VelaraNodes {
         return points(player, effectId) > 0;
     }
 
-    /** Node lookup for the damage buses, which see a {@code LivingEntity} rather than a player. */
     public static boolean isActive(Entity entity, String effectId) {
         return entity instanceof ServerPlayer player && isActive(player, effectId);
     }
 
-    /**
-     * Raw ledger read, ignoring which god is active. Only the piety source needs this: piety is
-     * summed outside the attribute fold and applies its own carryover scale.
-     */
+    /** Raw ledger read, ignoring which god is active. */
     public static int investedPoints(ServerPlayer player, String effectId) {
         return GodVaultUtil.investedPoints(player, GOD, effectId);
     }

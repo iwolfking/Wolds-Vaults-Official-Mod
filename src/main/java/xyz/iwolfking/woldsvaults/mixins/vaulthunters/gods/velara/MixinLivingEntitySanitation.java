@@ -8,9 +8,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraSanitation;
 
 /**
- * Sanitation's duration cut. The base mod's effect-check event can only deny an effect, never
- * shorten one, so the instance itself is rewritten on the way into {@code addEffect} -  the same
- * method the base mod already mixins.
+ * Sanitation's duration cut, applied by rewriting the instance on the way into {@code addEffect}; the base mod's
+ * effect-check event can only deny an effect, never shorten one.
  */
 @Mixin(LivingEntity.class)
 public class MixinLivingEntitySanitation {

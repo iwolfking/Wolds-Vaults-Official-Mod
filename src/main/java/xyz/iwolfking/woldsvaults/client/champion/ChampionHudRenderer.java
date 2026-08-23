@@ -14,19 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampion;
 
-/**
- * Draws the Vault Champion's health bar using the greed trial's own artwork.
- *
- * <p>The Champion is the trial's Vessel, so it gets the trial's bar: the same
- * {@code the_vault:textures/gui/greed/hud.png} sheet, the same frame and fill geometry, the same
- * centred "remaining / pool" readout and the same red damage-ramp multiplier off to the side. A
- * vanilla boss bar would have read as a wither.
- *
- * <p>Called from the tail of the objective HUD's own dispatch rather than from a screen-space overlay.
- * The objective bar is a repositionable HUD module, so its screen coordinates are whatever the player
- * has dragged them to and no fixed offset could follow it; drawing inside that dispatch inherits its
- * position, its scale and its tab-list nudge for free, and the Champion bar simply sits below it.</p>
- */
+/** Draws the Vault Champion's health bar, from inside the objective HUD's own dispatch. */
 public final class ChampionHudRenderer {
     private static final ResourceLocation HUD = VaultMod.id("textures/gui/greed/hud.png");
     private static final float SCIENTIFIC_THRESHOLD = 1.0E10F;
@@ -34,10 +22,7 @@ public final class ChampionHudRenderer {
     private ChampionHudRenderer() {
     }
 
-    /**
-     * Draws the bar if a Champion is live. The pose stack is the objective HUD's, already translated
-     * so that x = 0 is the centre of a bar and y = 0 is its top edge.
-     */
+    /** Draws the bar if a Champion is live. The pose stack's x = 0 is a bar's centre, y = 0 its top. */
     public static void render(PoseStack poseStack) {
         if (!ClientChampionHud.isActive()) {
             return;
@@ -73,11 +58,6 @@ public final class ChampionHudRenderer {
         poseStack.popPose();
     }
 
-    /**
-     * The remaining pool over its total, in the same scientific-notation cutover the greed trial's own
-     * readout uses. A Legend pool with vault modifiers on it runs to ten digits and would otherwise
-     * overrun the bar.
-     */
     private static void drawReadout(Font font, PoseStack poseStack, float remaining, float pool) {
         String format = remaining >= SCIENTIFIC_THRESHOLD || pool >= SCIENTIFIC_THRESHOLD
                 ? "%.3e / %.3e" : "%.0f / %.0f";

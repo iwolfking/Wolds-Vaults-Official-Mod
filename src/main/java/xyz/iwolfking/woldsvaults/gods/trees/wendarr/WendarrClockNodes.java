@@ -26,34 +26,9 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * The party-wide half of Speed Demon (r87) and Quick Search (r88).
- *
- * <p>Both shorten the vault second through the wave-1 clock-rate primitive, and each uses a single
- * fixed factor key, so a second player with the same node changes nothing ("does not stack") while
- * the two different nodes still multiply with each other. Speed Demon's compensation - the stat
- * multiplier, the global damage factor and the armour bonus - is an aura on every runner of the
- * vault, not only on the holder.
- *
- * <p>Both are vault-sticky by design. The first live holder marks the vault in the per-vault
- * scratch of {@link GodNodeState} and applies the clock rate, the aura and Quick Search's room
- * modifier; nothing takes any of that off again for the rest of the run. A holder who leaves, logs
- * out, respecs or swaps a charm does not get to slow a clock the whole party has already been
- * racing against, and the minutes a faster clock has already spent cannot be handed back. The
- * vault dies with its clock, and vault end drops the scratch with it.
- *
- * <p>{@link #reconcile} is that one pass. It is driven per vault, not per holder: a
- * {@link GodNodeTicker.TreePass} runs it once a second for every vault that has an online runner,
- * so a marked vault keeps applying long after its last holder has gone - a runner who joins a
- * marked vault after the holder left still gets the aura, because the mark belongs to the vault.
- * Every application it makes is conditional on that application being absent, so a repeat pass is
- * a no-op and only genuinely missing state is restored - the aura on a late joiner, or a clock rate
- * factor, which is per vault and in memory only. What the pass never does is remove; the marks are
- * one-way.
- *
- * <p>The aura's per-player half is still cleaned up per player, by {@link #clearAura} on
- * vault-listener leave and on the holder's own deactivation: the damage factor and the armour
- * modifier are transient state on the player, not on the vault, and would otherwise follow the
- * player out of the vault.
+ * The party-wide half of Speed Demon and Quick Search, each under one fixed clock-rate factor key
+ * so neither stacks with itself. Both vault marks are one-way: once set, {@link #reconcile} keeps
+ * applying them for the rest of the run.
  */
 public final class WendarrClockNodes {
     public static final ResourceLocation OMEGA_FORTUNE_SMALL = WoldsVaults.id("omega_fortune_small");
@@ -73,10 +48,7 @@ public final class WendarrClockNodes {
         registerSpeedDemonStats();
     }
 
-    /**
-     * The ticker pass: reconciles each vault that has at least one online runner, once, whether or
-     * not anyone in it still holds either node.
-     */
+    /** Reconciles each vault with at least one online runner, once per pass. */
     private static void pass(MinecraftServer server, List<ServerPlayer> players) {
         Set<UUID> seen = new HashSet<>();
         for (ServerPlayer player : players) {
@@ -88,11 +60,7 @@ public final class WendarrClockNodes {
         }
     }
 
-    /**
-     * Marks one vault for whichever of the two nodes a runner currently holds, then makes sure
-     * everything either mark stands for is in place. Idempotent, and safe to call with no vault - a
-     * holder who is not in a vault has nothing to reconcile.
-     */
+    /** Marks the vault for whichever node a runner holds and applies both marks. Idempotent. */
     static void reconcile(Vault vault) {
         UUID vaultId = vault != null && vault.has(Vault.ID) ? vault.get(Vault.ID) : null;
         if (vaultId == null) {
@@ -121,13 +89,7 @@ public final class WendarrClockNodes {
         }
     }
 
-    /**
-     * Takes the Speed Demon aura off one player unconditionally. The removals are idempotent on
-     * purpose: the shared teardown may already have dropped this player's scratch by the time a
-     * leave or a logout reaches here, and a conditional removal would then leave the damage factor
-     * and the armour modifier applied with nothing left to notice them. The vault's own mark is
-     * untouched, so a runner who is still in it has the aura back on the next tick.
-     */
+    /** Takes the Speed Demon aura off one player. The vault's own mark is untouched. */
     static void clearAura(ServerPlayer player) {
         GodNodeState.clear(player.getUUID(), WendarrNodes.SPEED_DEMON);
         GlobalDamageMultiplierRegistry.remove(player, SPEED_DEMON_DAMAGE_KEY);
@@ -142,10 +104,7 @@ public final class WendarrClockNodes {
         return GodNodeState.peekVault(vaultId, effectId).isPresent();
     }
 
-    /**
-     * Clock rate factors are per vault and in memory only, so the pass sets the factor when the
-     * vault is not already carrying it and leaves it alone when it is.
-     */
+    /** Sets the clock rate factor unless the vault already carries that key. */
     private static void applyRate(Vault vault, ResourceLocation key, float factor) {
         if (VaultClockRate.view(vault).containsKey(key)) {
             return;
@@ -153,7 +112,7 @@ public final class WendarrClockNodes {
         VaultClockRate.setRateFactor(vault, key, factor);
     }
 
-    /** Quick Search's room half is the shipped 4x omega weight modifier, attached once per vault. */
+    /** Quick Search's room half: attaches the shipped omega weight modifier once per vault. */
     private static void attachOmegaFortune(Vault vault) {
         if (VaultModifierUtils.getCountOfModifiers(vault, OMEGA_FORTUNE_SMALL) > 0) {
             return;
@@ -179,7 +138,6 @@ public final class WendarrClockNodes {
         }
     }
 
-    /** Armour is a vanilla attribute, not a {@code PlayerStat}, so it needs its own modifier. */
     private static void applyArmorBonus(ServerPlayer player, float multiplier) {
         AttributeInstance armor = player.getAttribute(Attributes.ARMOR);
         if (armor == null) {
@@ -192,12 +150,7 @@ public final class WendarrClockNodes {
         }
     }
 
-    /**
-     * The non-damage half of Speed Demon. Ability power is deliberately absent: the aura already
-     * registers a factor in the global damage registry, which scales every hit whose true source
-     * is a player, so listening on {@code ABILITY_POWER_MULTIPLIER} as well squared the multiplier
-     * on every ability.
-     */
+    /** The non-damage half of Speed Demon: item quantity, item rarity and trap disarm. */
     private static void registerSpeedDemonStats() {
         for (PlayerStat stat : List.of(PlayerStat.ITEM_QUANTITY, PlayerStat.ITEM_RARITY,
                 PlayerStat.TRAP_DISARM_CHANCE)) {

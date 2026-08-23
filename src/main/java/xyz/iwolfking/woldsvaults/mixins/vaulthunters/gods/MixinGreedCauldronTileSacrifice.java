@@ -15,7 +15,7 @@ import xyz.iwolfking.woldsvaults.gods.sacrifice.SacrificeAltarLogic;
 
 @Mixin(value = GreedCauldronTileEntity.class, remap = false)
 public abstract class MixinGreedCauldronTileSacrifice implements SacrificeAltarEdge {
-    /** Null until the first sample; mixins cannot initialise instance fields, and null is the "never sampled" state anyway. */
+    /** Null until the first sample. */
     @Unique
     private Boolean woldsvaults$lastPowered;
 
@@ -28,9 +28,8 @@ public abstract class MixinGreedCauldronTileSacrifice implements SacrificeAltarE
 
     /**
      * @author PoorMansPhysicist
-     * @reason the sacrificial-altar tick replaces the retired demand tick entirely: it vacuums
-     * item entities the owner's current sacrifice gate still needs and fires the sacrifice on a
-     * rising redstone edge.
+     * @reason the sacrificial-altar tick vacuums item entities the owner's current sacrifice gate still
+     * needs and fires the sacrifice on a rising redstone edge
      */
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
     private static void woldsVaults$sacrificeTick(Level level, BlockPos pos, BlockState state,

@@ -20,34 +20,14 @@ import xyz.iwolfking.woldsvaults.gods.node.ListenerBoundHandler;
 import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 
-/**
- * Every handler type the Tenos tree owns, and the typed parameters each one reads.
- *
- * <p>Fourteen plain stat effects bind the shared {@code gear_attribute_scaled} type and Pious
- * Devotion binds the shared {@code piety} type, so none of those is named here. What is left is one
- * type per effect Java has to know about: the two stat effects that pay a non-float attribute or
- * read live gear, the vault and ticker effects in {@link TenosVaultHandlers}, and the rest as
- * {@link ListenerBoundHandler} - numbers in config, validated at load, behaviour still reached through the
- * base mod events, the shared final damage stage and the mixins that own the ordering.
- *
- * <p>Params component names are the config keys verbatim, including their underscores. The codec
- * binds by component name, so renaming one here silently means renaming it in the config file
- * too.
- */
+/** Tenos handler types and their params, whose component names are the config keys verbatim. */
 public final class TenosNodeHandlers {
-    /**
-     * Global Veins targets the {@code Vein_Miner} ability, so its levels reach all five
-     * specialisations; only chain miner has tiers past its base cap to reach.
-     */
     public static final String VEIN_MINER_ABILITY = "Vein_Miner";
 
     private TenosNodeHandlers() {
     }
 
-    /**
-     * Registers every Tenos handler type. Called from {@code GodNodeHandlerTypes.bootstrap()},
-     * which is the only point guaranteed to run before the god tree configs are validated.
-     */
+    /** Registers every Tenos handler type. Must run before the god tree configs are validated. */
     public static void register() {
         GodNodeHandlers.register(TenosNodes.GLOBAL_VEINS, GlobalVeinsParams.class, GlobalVeinsHandler::new);
         GodNodeHandlers.register(TenosNodes.SACKED, SackedHandler::new);
@@ -82,23 +62,12 @@ public final class TenosNodeHandlers {
                 TenosSackOfMobs::preview);
     }
 
-    /**
-     * The loaded parameters of one Tenos effect. Absence is a programming error rather than a
-     * config error - load-time validation has already asserted that every placed effect exists
-     * and resolves its handler - so it fails loudly naming the effect instead of degrading to a
-     * zero that would read as a balance change.
-     */
+    /** The loaded parameters of one Tenos effect. Throws naming the effect if it is absent. */
     public static <T extends GodEffectParams> T params(String effectId, Class<T> type) {
         return GodNodeRegistry.params(VaultGod.TENOS, effectId, type);
     }
 
-    /**
-     * Global Veins: added ability levels on the vein miner ability, which is exactly what the base
-     * mod's added-ability-level attribute already expresses. The value is an
-     * {@link AbilityLevelAttribute} rather than a float, which is why it does not bind the shared
-     * scaled type. Reaching the raised chain-miner tiers is gated separately in
-     * {@link TenosAbilityCaps}.
-     */
+    /** Global Veins: added ability levels on vein miner. The tier cap is in {@link TenosAbilityCaps}. */
     public record GlobalVeinsHandler(GodEffect effect) implements StatContributor {
         @Override
         public void contribute(GodNodeContext context, GodStatSink sink) {
@@ -111,11 +80,7 @@ public final class TenosNodeHandlers {
         }
     }
 
-    /**
-     * Sacked doubles an offhand loot sack by contributing a second copy of every attribute the sack
-     * already rolls, which lands on the snapshot exactly like the gear pass did. Read from the live
-     * offhand at snapshot time, so it cannot double anything the player is not actually holding.
-     */
+    /** Sacked: contributes a second copy of every attribute on an offhand loot sack. */
     public record SackedHandler(GodEffect effect) implements StatContributor {
         @Override
         public void contribute(GodNodeContext context, GodStatSink sink) {

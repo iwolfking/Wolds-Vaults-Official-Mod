@@ -3,29 +3,15 @@ package xyz.iwolfking.woldsvaults.milestones.trials;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
 /**
- * The rank-up trial table, one row per rank that can be climbed to. Every number here comes
- * straight from the design spreadsheet's "Rank Up Trials" sheet; nothing is derived at runtime so
- * a sheet change is a one-line edit here.
- *
- * <p>Intra-band rank-ups are {@link Kind#VESSEL} trials: a single-phase greed vessel with a fixed
- * health pool that has to be emptied inside five minutes. Band jumps are {@link Kind#HYPER}
- * trials: a toned-down hyper objective that ends itself once the required number of boss cycles
- * is done.</p>
- *
- * <p>The vessel column on the sheet reads "Damage/Speed Scaling" and carries entries of the form
- * {@code 3x +20% spd}. That is read here as a damage multiplier plus a separate movement-speed
- * bonus, so rows written as a bare multiplier ({@code 1.5x}) get no speed bonus at all. The design
- * doc calls the sheet value a STARTING multiplier that "ramps up over the fight"; the ramp is the
- * vessel's own built-in one ({@code TheVesselEntity} already scales damage by 1.2 per minute for
- * the first five and speed by +5% per minute), so these values are applied as flat multipliers on
- * top of it rather than as a second, invented ramp.</p>
+ * The rank-up trial table, one row per rank that can be climbed to: intra-band rank-ups are
+ * {@link Kind#VESSEL} trials, band jumps are {@link Kind#HYPER} trials.
  */
 public final class GreedTrial {
     public enum Kind {
         VESSEL, HYPER
     }
 
-    /** Vault difficulty a hyper trial is built at, matching the sheet's "Base Difficulty" column. */
+    /** Vault difficulty a hyper trial is built at. */
     public enum Difficulty {
         HARD("hard"), IMPOSSIBLE("impossible"), FRAGGED("fragged");
 
@@ -35,7 +21,7 @@ public final class GreedTrial {
             this.modifierName = modifierName;
         }
 
-        /** the_vault modifier id path that pins a vault to this difficulty. */
+        /** The_vault modifier id path that pins a vault to this difficulty. */
         public String getModifierName() {
             return this.modifierName;
         }
@@ -140,10 +126,7 @@ public final class GreedTrial {
         return this.difficulty;
     }
 
-    /**
-     * The sheet's "N modifiers +N" column. Both halves are the same number on every row, so one
-     * value carries it: the trial vault is built with this many rolled modifiers.
-     */
+    /** How many rolled modifiers the trial vault is built with, and gains per cycle. */
     public int getModifierCount() {
         return this.modifierCount;
     }
@@ -152,15 +135,12 @@ public final class GreedTrial {
         return this.requiredCycles;
     }
 
-    /**
-     * Base hyperboss health and damage escalation as a fraction, matching
-     * {@code HyperObjectiveConfig#getBossHealthPercent}'s unit: 5.0 is the sheet's 500% H/D.
-     */
+    /** Base hyperboss health and damage escalation, in {@code bossHealthPercent} units: 5.0 is 500%. */
     public double getBossStrength() {
         return this.bossStrength;
     }
 
-    /** Per-cycle compounding factor, the trial's stand-in for {@code hyperStatFactor}. */
+    /** Per-cycle compounding factor, in place of {@code hyperStatFactor}. */
     public double getCycleScaling() {
         return this.cycleScaling;
     }

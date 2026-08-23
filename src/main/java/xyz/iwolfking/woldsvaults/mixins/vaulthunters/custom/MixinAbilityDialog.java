@@ -60,12 +60,7 @@ public class MixinAbilityDialog {
         return optional.isPresent();
     }
 
-    /**
-     * Locks the learn, unlearn and specialization buttons on the god ultimate node. Which ultimate
-     * Stirrings of Power is pointed at follows the equipped god charm and the player's god level,
-     * and the server re-resolves it on a timer, so a click here could only ever be undone a second
-     * later; the buttons are disabled rather than left to flicker.
-     */
+    /** Disables the learn, unlearn and specialization buttons on the god ultimate node. */
     @Inject(method = "update", at = @At("TAIL"))
     private void woldsVaults$lockGodUltimate(CallbackInfo ci) {
         if (this.selectedAbility == null || this.abilityTree == null) {

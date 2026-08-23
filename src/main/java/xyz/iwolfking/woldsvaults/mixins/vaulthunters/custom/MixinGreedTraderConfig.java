@@ -18,21 +18,8 @@ public class MixinGreedTraderConfig {
     private Map<Integer, List<GreedTraderConfig.TradeEntry>> tierPools;
 
     /**
-     * Turns the shop's tier pools from cumulative into replace semantics: a rank sees exactly the
-     * block declared for the highest rank at or below it, never the union of every block beneath it.
-     *
-     * <p>Base concatenates every {@code tierPools} entry whose key is at or below the rank, so a
-     * weight declared once at Scavenger 1 is still in the pool at Legend, at its original price
-     * band. That makes three things the greed rework's shop tables require impossible: a weight
-     * that stays constant across ranks (declaring 200 sixteen times would total 3200), a weight
-     * that falls with rank, and a price floor that rises with rank. It is also the source of the
-     * dead-slot bug - an entry whose pool has aged out of its {@code maxGreedTier} keeps its
-     * accumulated weight and silently drops the slot, which cost ~12-15% of every slot from greed
-     * tier 6 upward. Under replace semantics a rank can only draw entries it declared itself, so
-     * both problems go away by construction.</p>
-     *
-     * <p>{@code Math.max(1, greedTier)} is preserved from base: greed tier 0 reads the tier 1
-     * block, which is what makes "anything unlocked at greed tier 0 folds into Scavenger 1" true.</p>
+     * Turns the shop's tier pools from cumulative into replace semantics: a rank sees only the block
+     * declared for the highest rank at or below it. Greed tier 0 reads the tier 1 block.
      */
     @Inject(method = "getAvailableEntries", at = @At("HEAD"), cancellable = true)
     private void useOnlyHighestDeclaredTier(int greedTier, CallbackInfoReturnable<List<GreedTraderConfig.TradeEntry>> cir) {

@@ -12,11 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-/**
- * The server's answer to a god node preview request: either the effect has no live formula, or
- * the formula text the description carries, the multiplier it resolves to for this player right
- * now and the worked math to show on hover.
- */
+/** The server's answer to a god node preview request: "no live formula", or the formula, value and math. */
 public class ClientboundGodNodePreviewMessage extends Message<ClientboundGodNodePreviewMessage> {
     private final String effectId;
     private final String formulaText;

@@ -77,11 +77,7 @@ public abstract class MixinRunner extends Listener {
         });
     }
 
-    /**
-     * CRATE_AWARD_EVENT is a server-global bus invoked twice (PRE/POST) for every crate awarded
-     * in ANY vault; without this guard each live Runner's handlers would inject a full roll
-     * into every crate on the server.
-     */
+    /** Whether this crate award is the PRE phase or belongs to another vault; the bus is server-global. */
     @Unique
     private boolean isNotOwnCratePreAward(CrateAwardEvent.Data event) {
         return event.getPhase() != CrateAwardEvent.Phase.PRE
@@ -90,17 +86,8 @@ public abstract class MixinRunner extends Listener {
     }
 
     /**
-     * The greed crate loot (GCL) bonus, keyed off the crystal's greed medallion. Replaces the
-     * retired greed-tree bonus: no medallion means no bonus at all, the table is a function of the
-     * medallion's GCL tier rather than of the vault objective, and greed coins are computed in
-     * code from the medallion's base greed coins and the objective multiplier instead of being an
-     * entry inside the table. Coins riding outside the table is also what retires the old hyper
-     * double-pass - there is nothing left in the table that needs shielding from item quantity,
-     * and the design requires the GCL table to be immune to crate tiers anyway.
-     *
-     * <p>Everything is written into the crate's additional-items list, which
-     * {@code CrateLootGenerator.createLoot} appends raw. That bypass of the crate's item quantity
-     * is deliberate and must be preserved.</p>
+     * The greed crate loot bonus, a function of the crystal medallion's GCL tier; no medallion, no bonus.
+     * Everything is written into the crate's additional-items list, which {@code createLoot} appends raw.
      */
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
@@ -184,7 +171,6 @@ public abstract class MixinRunner extends Listener {
         float scaledEffectiveness = effectiveness / (1.0F + effectiveness);
         float adjustedRotChance = WendarrFruit.adjustRotChance(data.getPlayer(), rotChance * (1.0F - scaledEffectiveness));
 
-        //Trigger rotting stack
         if(random.nextFloat() <= adjustedRotChance) {
             long rotCount = VaultModifierUtils.getCountOfModifiers(vault, WoldsVaults.id("rotting"));
             if(rotCount >= ModConfigs.VAULT_FRUIT_CONFIG.rotAllowance) {

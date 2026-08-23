@@ -11,10 +11,8 @@ import xyz.iwolfking.woldsvaults.gods.MinorTransferSlots;
 import java.util.function.Supplier;
 
 /**
- * Serverbound request to put a learned minor star into one of its god's minor-transfer slots, or
- * to clear a slot (empty effect id). {@link MinorTransferSlots#assign} re-validates everything
- * the screen checked; a refusal is logged at WARN because the screen never offers an invalid
- * choice, so one means stale client state or a tampered client.
+ * Serverbound request to put a learned minor star into a minor-transfer slot, or clear one (empty effect
+ * id). {@link MinorTransferSlots#assign} re-validates; a refusal logs at WARN.
  */
 public class ServerboundSetMinorTransferMessage extends Message<ServerboundSetMinorTransferMessage> {
     private final VaultGod god;

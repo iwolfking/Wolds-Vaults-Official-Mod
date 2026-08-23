@@ -125,10 +125,8 @@ public class ModConfigs {
     }
 
     /**
-     * Reads the rank ladder, the milestone table and the medallion table and installs them on their
-     * single readers. The ladder goes first: the shipped challenge-milestone reputation is derived
-     * from it, and a medallion's registry path is its rank's band name, so a pack that retunes rank
-     * thresholds and regenerates the other two files gets a consistent set.
+     * Reads the rank ladder, milestone table, medallion table and champion config and installs them on their
+     * readers; the ladder must load first.
      */
     private static void registerGreedProgression() {
         GREED_RANKS = new GreedRanksConfig().readConfig();
@@ -141,17 +139,9 @@ public class ModConfigs {
     }
 
     /**
-     * Reads the three config files each god tree owns - topology, styles and effects - and
-     * rebuilds the node registry from them. The registry validates as it builds and is fatal on
-     * the first inconsistency, so a mistyped tree stops the load instead of silently deleting a
-     * god's progression.
-     *
-     * <p>Fatal on the first load only. This runs from the tail of the base mod's config
-     * registration, so on a live {@code reload} an exception here would abort everything the addon
-     * registers after it - the mythic gear configs, the map tiers, the roll types, the tool recipes
-     * and their sync - and leave a half-applied config set. On a reload the failure is reported
-     * through the base mod's invalid-config list instead, and the previously loaded trees stay in
-     * place, because the registry only publishes a complete set.
+     * Reads each god tree's topology, style and effect configs and rebuilds the node registry. An
+     * inconsistency is fatal on the first load; on a reload it goes to the base mod's invalid-config
+     * list and the previously loaded trees stay in place.
      */
     private static void registerGodTrees() {
         GOD_LEVELS = new GodLevelsConfig().readConfig();

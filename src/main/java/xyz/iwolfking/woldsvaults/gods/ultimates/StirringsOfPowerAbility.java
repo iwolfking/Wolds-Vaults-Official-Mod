@@ -8,10 +8,8 @@ import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 
 /**
- * The dormant specialization of Stirrings of Power: the state the ability sits in whenever the
- * player has no god charm equipped, or has one whose god has not reached the ultimate unlock level.
- * It does nothing on cast, costs nothing and never starts a cooldown, so a player who is not owed
- * an ultimate cannot waste one.
+ * The dormant specialization of Stirrings of Power, held below the ultimate unlock level; it costs nothing and
+ * starts no cooldown.
  */
 public class StirringsOfPowerAbility extends GodUltimateAbility {
     public StirringsOfPowerAbility(int unlockLevel, int learnPointCost, int regretPointCost, int cooldownTicks,

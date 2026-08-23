@@ -3,11 +3,7 @@ package xyz.iwolfking.woldsvaults.client.screens.greed;
 import net.minecraft.network.chat.Component;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneCategory;
 
-/**
- * The six sub-tabs shared by the player greed screen and Mr. Greedy's achievements screen. The
- * display order is the design sheet's; {@link #getCategory()} is null only for {@link #MAIN},
- * which renders the rank summary instead of an achievement list.
- */
+/** The six greed sub-tabs; {@link #getCategory()} is null only for {@link #MAIN}, the rank summary. */
 public enum GreedTab {
     MAIN(null, "tab.main"),
     OFFENSE(MilestoneCategory.COMBAT, "tab.offense"),

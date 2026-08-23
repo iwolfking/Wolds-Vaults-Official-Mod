@@ -6,17 +6,7 @@ import xyz.iwolfking.woldsvaults.client.rampage.ClientRampageCdm;
 
 import java.util.function.Supplier;
 
-/**
- * The Rampage damage bonus, as the percentage the HUD indicator renders.
- *
- * <p>Rampage stopped being visible to the client when the_vault 3.21.6 moved it out of
- * {@code PlayerDamageHelper} - the registry the base indicator reads - and into a direct
- * {@code LivingHurtEvent} multiplication. Nothing syncs it any more, so this packet does.
- *
- * <p>Sent only when the rendered integer changes, which is at most a couple of times a second and
- * only while Ultra Rampaging is live. An int rather than a float for the same reason: the client
- * has no use for precision the display cannot show.
- */
+/** The Rampage damage bonus as the percentage the HUD renders; sent only when that integer changes. */
 public class RampageCdmMessage {
     private final int percent;
 

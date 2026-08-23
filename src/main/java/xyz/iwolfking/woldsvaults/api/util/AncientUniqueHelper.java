@@ -116,10 +116,6 @@ public class AncientUniqueHelper {
         ANCIENT_CONFIG_KEYS.put(uniqueKey, VaultMod.id(CONFIG_PREFIX + uniqueKey.getPath()));
     }
 
-    /**
-     * Every parallel ancient tier config this addon owns, one per unique. Registered into
-     * ModConfigs.VAULT_GEAR_CONFIG by MixinModConfigs so that VaultGearTierConfig.getConfig can resolve them.
-     */
     public static Iterable<ResourceLocation> ancientConfigKeys() {
         return Collections.unmodifiableCollection(ANCIENT_CONFIG_KEYS.values());
     }
@@ -133,8 +129,8 @@ public class AncientUniqueHelper {
     }
 
     /**
-     * The single funnel that makes an ancient item ancient: resolves the per-unique ancient tier config
-     * so that rolling, tooltips, focus rerolls and imbuement all read the same widened ranges.
+     * Resolves the per-unique ancient tier config; empty when the item is not ancient or the config is missing or
+     * unusable.
      */
     public static Optional<VaultGearTierConfig> getAncientConfig(VaultGearData data) {
         if (!isAncient(data)) {
@@ -161,11 +157,8 @@ public class AncientUniqueHelper {
     }
 
     /**
-     * Guards against the ancient tier config being registered but empty, which happens if vhapi rejects or
-     * skips the datapack overlay that carries the actual ancient ranges. Without this an ancient would roll
-     * no modifiers at all, silently: every identifier lookup in initializeUniqueGear returns null and is
-     * skipped. Falling back to the normal unique config instead costs the player the ancient ranges but
-     * leaves them a working item. The verdict is memoised because getConfig runs on every tooltip build.
+     * Whether the ancient tier config resolves at least one of the unique's modifier identifiers; memoised per
+     * config key.
      */
     private static boolean isConfigUsable(ResourceLocation configKey, VaultGearTierConfig config, ResourceLocation uniqueKey) {
         Boolean cached = CONFIG_USABLE.get(configKey);
@@ -183,10 +176,6 @@ public class AncientUniqueHelper {
         return usable;
     }
 
-    /**
-     * Drops the memoised overlay verdicts. Called when the gear configs are rebuilt, since the overlay is
-     * reapplied from scratch on every config reload.
-     */
     public static void invalidateConfigCache() {
         CONFIG_USABLE.clear();
     }
@@ -196,9 +185,8 @@ public class AncientUniqueHelper {
     }
 
     /**
-     * Interim greed-rank gate. The rank ladder is not built yet, so this reads the raw greed-tier int:
-     * 7 / 10 / 14 are the future rank indices of Hunter 1, Master 1 and Champion 2. When the rank wave
-     * redefines the int these thresholds keep meaning the same ranks.
+     * Ancient identify chance for a raw greed tier; the 7 / 10 / 14 gates are ranks Hunter 1, Master 1 and
+     * Champion 2.
      */
     public static float getBaseIdentifyChance(int greedTier) {
         if (greedTier >= CHAMPION_TIER) {
@@ -213,11 +201,6 @@ public class AncientUniqueHelper {
         return 0.0F;
     }
 
-    /**
-     * Relic Hunter prestige multiplier on the ancient identify chance. Owned copies add their
-     * chanceMultiplier together before the multiply, so the shipped pair of 0.5 ranks gives
-     * 0.8% x (1 + 0.5 + 0.5) = 1.6% rather than the 1.8% a compounding product would produce.
-     */
     public static float getRelicHunterMultiplier(ServerPlayer player) {
         if (player.getServer() == null) {
             WoldsVaults.LOGGER.debug("Relic Hunter multiplier requested with no server; treating as no bonus.");
@@ -231,11 +214,8 @@ public class AncientUniqueHelper {
     }
 
     /**
-     * Interim provenance gate: only gear that dropped inside a vault is eligible. Medallions do not exist
-     * yet, so every vault drop counts as a greed-vault drop and the base IS_LOOT stamp carries exactly that
-     * meaning. IS_LOOT is written by VaultGearItem.initializeVaultLoot as vault != null, so crafted, vendor
-     * and black-market gear is initialized with no vault and can never become ancient. When medallions ship
-     * this is the single method that gains the medallion check.
+     * Whether the gear may become ancient: it dropped inside a vault (base {@code IS_LOOT}, which crafted and
+     * vendor gear never carries) or came from the black market.
      */
     public static boolean hasAncientProvenance(VaultGearData data) {
         if (data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false)) {
@@ -244,21 +224,11 @@ public class AncientUniqueHelper {
         return isBlackMarketOrigin(data);
     }
 
-    /**
-     * Black-market uniques bypass the drop-provenance gate. They are initialized through
-     * LootInitialization with no vault and so never carry the base IS_LOOT stamp, which is why
-     * MixinBlackMarketSelectedTrade gives them a stamp of their own at the moment the offer is built.
-     * No rank test lives here: getBaseIdentifyChance already returns zero below Hunter 1, so a black
-     * market unique first becomes eligible at exactly the rank the drop-provenance route does.
-     */
     public static boolean isBlackMarketOrigin(VaultGearData data) {
         return data.getFirstValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.BLACK_MARKET_ORIGIN).orElse(false);
     }
 
-    /**
-     * Rolls whether an identifying unique becomes ancient. Fails closed on a null or client-side player so
-     * that a serverless identify can never produce an ungated ancient.
-     */
+    /** Rolls whether an identifying unique becomes ancient; false unless {@code player} is a {@link ServerPlayer}. */
     public static boolean rollAncient(VaultGearData data, @Nullable Player player, Random random) {
         ResourceLocation uniqueKey = data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY).orElse(null);
         if (uniqueKey == null || !ANCIENT_CONFIG_KEYS.containsKey(uniqueKey)) {

@@ -22,12 +22,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * make the greed boss damage target use a float instead of an int capped at MAX_INT
- *
- * <p>Also hosts the greed rank-up trial layer. A rank-up trial reuses this objective and its arena
- * but runs a single phase whose goal is the trial row's health pool, wins the moment that pool is
- * emptied, and never grants the base trial's own rank-up. All three of those changes live here
- * because the objective is the base mod's and cannot be given a trial-aware subclass.</p>
+ * make the greed boss damage target use a float instead of an int capped at MAX_INT. Also hosts the
+ * greed rank-up trial layer: a single phase won the moment the trial row's health pool is emptied.
  */
 @Mixin(value = RebirthObjective.class, remap = false)
 abstract class MixinRebirthObjective extends Objective {
@@ -36,11 +32,7 @@ abstract class MixinRebirthObjective extends Objective {
 
     @Shadow protected abstract void completePhaseTransition(VirtualWorld world, Vault vault);
 
-    /**
-     * The vault this objective belongs to, captured every tick. {@code checkPhaseTransition} takes
-     * no arguments and the objective holds no back-reference, so the trial check has no other way
-     * to learn whether it is inside a trial vault.
-     */
+    /** The vault this objective belongs to, captured every tick; the objective holds no back-reference. */
     @Unique
     private Vault woldsVaults$vault;
 
@@ -49,10 +41,7 @@ abstract class MixinRebirthObjective extends Objective {
         return (float)(50000.0 * Math.pow(2, phase));
     }
 
-    /**
-     * Trials are single-phase, so the transition is refused outright rather than compared: the
-     * win check in the tick tail owns the trial's one damage goal.
-     */
+    /** Trials are single-phase, so the transition is refused outright. */
     @Inject(method = "checkPhaseTransition",
             at = @At(value = "INVOKE",
                     target = "Liskallia/vault/core/vault/objective/RebirthObjective;getPhaseDamageGoal(I)I",
@@ -73,12 +62,7 @@ abstract class MixinRebirthObjective extends Objective {
         GreedTrialVessel.tick(this, world, vault);
     }
 
-    /**
-     * The base trial ends when the player dies and pays a rank-up and coins for it. A rank-up
-     * trial fails on death instead, so the whole base ending is replaced: the player's death was
-     * already cancelled and healed by the objective's own handler, so the trial layer has to run
-     * the outro itself or the player would be stranded in the arena.
-     */
+    /** A rank-up trial fails on death, replacing the base ending outright and running its own outro. */
     @Inject(method = "endGreedTrial", at = @At("HEAD"), cancellable = true)
     private void woldsVaults$failTrialOnDeath(VirtualWorld world, Vault vault, ServerPlayer player, CallbackInfo ci) {
         if (!GreedTrialVessel.isTrial(vault)) {

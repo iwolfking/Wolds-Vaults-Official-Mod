@@ -20,12 +20,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * World SavedData for the Greed Cauldron sacrifice altar: each player's selected god and, per
- * god, the item counts already fed toward that god's CURRENT gate. Deposits are one-way by
- * design - nothing here supports withdrawal. Progress is kept per god so switching the selected
- * god never loses anything; the gate a god's progress counts toward is defined by the player's
- * completed-sacrifice count in {@code GodAlignmentData}, and completing a sacrifice clears that
- * god's progress for the next gate.
+ * World SavedData for the Greed Cauldron: each player's selected god and, per god, the item counts fed
+ * toward that god's current gate. Deposits are one-way, and completing a sacrifice clears that god's
+ * progress. Which gate it counts toward comes from {@code GodAlignmentData}'s completed-sacrifice count.
  */
 public class GodSacrificeData extends SavedData {
     protected static final String DATA_NAME = "woldsvaults_GodSacrifices";
@@ -68,9 +65,8 @@ public class GodSacrificeData extends SavedData {
     }
 
     /**
-     * Feeds {@code count} of an item toward a god's gate, clamped to what the gate still needs.
-     * Returns how many were actually consumed; zero when the item is not part of the gate or the
-     * gate is already satisfied for it.
+     * Feeds {@code count} of an item toward a god's gate, clamped to what it still needs; returns how many were
+     * consumed.
      */
     public int deposit(UUID playerId, VaultGod god, GodSacrifices.Gate gate, ResourceLocation item, int count) {
         int required = 0;
@@ -112,12 +108,10 @@ public class GodSacrificeData extends SavedData {
         }
     }
 
-    /** The mutable entry for a player, created on first write; reads go through {@link #deposits}. */
     private PlayerProgress progress(UUID playerId) {
         return this.players.computeIfAbsent(playerId, id -> new PlayerProgress());
     }
 
-    /** A read-only view of what a player has fed one god's gate; empty, and never inserted, when nothing has been. */
     private Map<ResourceLocation, Integer> deposits(UUID playerId, VaultGod god) {
         PlayerProgress progress = this.players.get(playerId);
         if (progress == null) {

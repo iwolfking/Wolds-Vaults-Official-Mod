@@ -10,18 +10,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * Fixes the base mod's double count of gear thorns damage.
- *
- * <p>{@code getThornsDamageMultiplier} seeds the player-stat event with the gear sum and then adds
- * the event's result back onto that same sum, so the gear contribution lands twice and every
- * player's thorns reflect (and Shell Quill) has always paid {@code 2 x gear + listeners} instead of
- * {@code gear + listeners}. Its two sibling methods assign the event result rather than adding it,
- * which is the shape this restores. Verified against the shipped 3.21.6 bytecode: the multiplier
- * method is the only one of the three carrying the extra {@code fload}/{@code fadd} pair.
- *
- * <p>The subtraction is what makes the surrounding {@code +=} behave as an assignment, so it is
- * load bearing in the other direction: if the base mod ever fixes this itself, this wrap turns into
- * an under-count and must be deleted rather than kept.
+ * Fixes the base mod's double count of gear thorns damage: {@code getThornsDamageMultiplier} seeds
+ * the player-stat event with the gear sum and then adds the result back onto that same sum.
+ * Subtracting the seed makes the surrounding {@code +=} behave as an assignment.
  */
 @Mixin(value = ThornsHelper.class, remap = false)
 public abstract class MixinThornsHelper {

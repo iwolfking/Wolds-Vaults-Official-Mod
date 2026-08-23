@@ -11,13 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = GreedQuestVaultHandler.class, remap = false)
 public class MixinGreedQuestVaultHandler {
-    /**
-     * Kills the greed quest system at its three entry points. The handler's vault listener hooks
-     * (LISTENER_JOIN, LISTENER_LEAVE) and its per-player tick are the whole of it: with attach
-     * cancelled no quest task is ever bound to a vault, with the tick cancelled nothing progresses
-     * or re-attaches, and with the completion check cancelled no quest is ever completed or paid
-     * out. Milestones replace quests as the reputation source.
-     */
+    /** Cancels the greed quest system at its three entry points: attach, tick and completion check. */
     @Inject(method = "attachQuestTask", at = @At("HEAD"), cancellable = true)
     private static void cancelQuestAttach(ServerPlayer player, Vault vault, CallbackInfo ci) {
         ci.cancel();

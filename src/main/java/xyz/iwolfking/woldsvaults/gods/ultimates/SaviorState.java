@@ -10,13 +10,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The protective half of Savior: the timed damage reduction the shockwave leaves on everyone it
- * touched.
- *
- * <p>Like Copé's, this is its own damage-reduction source rather than the resistance stat, applied
- * as a final-damage sub-stage. That is what lets the sheet's 0.55 land in full: the resistance
- * attribute is clamped at 0.5 before its hard 0.95 ceiling, so routing Savior through it would
- * silently throw away most of the top three levels.
+ * Savior's timed damage reduction, a final-damage sub-stage of its own rather than the resistance stat, whose
+ * clamp sits below the top levels.
  */
 public final class SaviorState {
     private static final Map<UUID, State> STATES = new ConcurrentHashMap<>();
@@ -69,10 +64,6 @@ public final class SaviorState {
         }
     }
 
-    /**
-     * Drops every player's state. Called on server stop only: the modifiers these states apply are
-     * transient, so the entries are what outlive a world, not the modifiers themselves.
-     */
     public static void clearAll() {
         STATES.clear();
     }

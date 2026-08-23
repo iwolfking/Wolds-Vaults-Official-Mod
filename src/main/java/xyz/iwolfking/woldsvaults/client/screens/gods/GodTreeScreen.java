@@ -37,12 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The gods tab of the player menu. Down the frame's left edge runs a column of five square tabs:
- * the God's Mastery overview on top, then one per god. A god tab shows that god's constellation
- * star chart on the left with the node dialog on the right, the god experience bar centered over
- * the sky, the unspent god points readout in the god's color and the piety readout in the frame;
- * the overview tab fills the whole frame with {@link GodOverviewPage}. The layout and input
- * routing deliberately mirror the retired greed tree screen, which this tab succeeds.
+ * The gods tab of the player menu: the God's Mastery overview, then one star chart per god. Tabs run
+ * down the frame's left edge.
  */
 public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTreeContainer>
         implements ILegacySkillTreeScreen {
@@ -95,7 +91,6 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         return new Rectangle(30, 60, this.width - 30, this.height - 30 - 60);
     }
 
-    /** The overview fills the chart's frame widened out to the dialog's right margin. */
     private Rectangle getOverviewBounds() {
         return new Rectangle(30, 60, this.width - 51, this.height - 90);
     }
@@ -116,7 +111,6 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         return new Rectangle(x, pan.y + 17, XP_BAR_WIDTH, GodXpBarRenderer.BAR_HEIGHT);
     }
 
-    /** Switches pages; a god tab also becomes the god the chart and the dialog show. */
     public void selectTab(GodScreenTab tab) {
         if (selectedTab == tab) {
             return;
@@ -216,11 +210,7 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         }
     }
 
-    /**
-     * Asks the server for the selected node's live preview: at once when the selection changes and
-     * about once a second while it stays selected, and not at all for a node the server has
-     * already called static.
-     */
+    /** Polls the server for the selected node's live preview; nodes answered as static are never polled. */
     private void pollPreview() {
         String effectId = selectedTab.isOverview() ? null : this.dialog.selectedEffectId();
         if (effectId == null || ClientGodNodePreviews.isKnownStatic(effectId)) {
@@ -288,10 +278,6 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
                 .end();
     }
 
-    /**
-     * The piety readout, embedded in the top-right run of the container border the way the talent
-     * tabs embed the vault XP bar: a small purple number sitting inside the frame.
-     */
     private void renderPietyReadout(PoseStack matrixStack, int mouseX, int mouseY) {
         Rectangle bounds = this.panRegion.getBounds();
         String pietyText = String.format("%,d Piety", ClientGodAlignmentData.getPiety(viewedGod));
@@ -312,12 +298,7 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         }
     }
 
-    /**
-     * The column of square tabs down the frame's left edge: the God's Mastery overview on top,
-     * then one icon tab per god, the selected one lit in its color, a small corner spark on
-     * whichever god's charm is currently equipped. Hover text goes through {@code postRender} so
-     * it layers above everything the page draws.
-     */
+    /** The column of square tabs down the frame's left edge. Hover text is deferred to {@code postRender}. */
     private void renderSideTabs(PoseStack matrixStack, int mouseX, int mouseY, List<Runnable> postRender) {
         VaultGod charmGod = this.minecraft != null && this.minecraft.player != null
                 ? ActiveGodResolver.getActiveGod(this.minecraft.player).orElse(null)
@@ -380,7 +361,6 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         return lines;
     }
 
-    /** The unspent-points line every skill tab carries, in the viewed god's color. */
     private void renderPointsOverlay(PoseStack matrixStack) {
         int unspent = ClientGodAlignmentData.getUnspentPoints(viewedGod);
         int rightEdge = this.getContentBounds().width;

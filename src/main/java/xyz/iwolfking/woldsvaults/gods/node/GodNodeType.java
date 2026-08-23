@@ -3,10 +3,9 @@ package xyz.iwolfking.woldsvaults.gods.node;
 import java.util.Locale;
 
 /**
- * The four node kinds every god tree shares. The type drives gating: a root is a free entry
- * point, a stat node carries at a quarter onto a foreign tree, a minor node also runs while its
- * own god carries it in a minor-transfer slot, and a major node is strictly bound to the active
- * tree.
+ * The four node kinds every god tree shares. The type drives gating: a root is a free entry point,
+ * a stat node carries at a quarter onto a foreign tree, a minor node also runs while its own god
+ * sits in a minor-transfer slot, and a major node is bound to the active tree.
  */
 public enum GodNodeType {
     ROOT,
@@ -14,10 +13,7 @@ public enum GodNodeType {
     MINOR,
     MAJOR;
 
-    /**
-     * Parses the {@code type} field of a config node. An unknown type is fatal and names the
-     * offending node, rather than degrading it to a type that silently never applies.
-     */
+    /** Parses the {@code type} field of a config node; a missing or unknown type is fatal. */
     public static GodNodeType fromName(String name, String nodeId) {
         if (name == null || name.isBlank()) {
             throw GodTreeConfigException.fail("God tree node '" + nodeId + "' has no type");

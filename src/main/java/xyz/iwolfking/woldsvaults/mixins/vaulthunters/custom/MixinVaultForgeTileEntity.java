@@ -12,13 +12,7 @@ import xyz.iwolfking.woldsvaults.milestones.Milestones;
 
 @Mixin(value = VaultForgeTileEntity.class, remap = false)
 public class MixinVaultForgeTileEntity {
-    /**
-     * Feeds the "Master Smith" milestone. Grandmaster is the top step of the gear crafting config
-     * and sits at relative proficiency 1.0, which is absolute proficiency at the cap for the
-     * player's vault level. TAIL is only reached when scrap was actually sacrificed - both early
-     * returns bail before it - so the state is checked exactly on the sacrifices that moved
-     * proficiency, including the one that lands on the cap.
-     */
+    /** Feeds the "Master Smith" milestone: checks for proficiency at the cap on every scrap sacrifice. */
     @Inject(method = "increaseProficiency", at = @At("TAIL"))
     private void countGrandmasterForge(ServerPlayer player, CallbackInfo ci) {
         int cap = VaultGearCraftingConfig.getProficiencyCap(SidedHelper.getVaultLevel(player));

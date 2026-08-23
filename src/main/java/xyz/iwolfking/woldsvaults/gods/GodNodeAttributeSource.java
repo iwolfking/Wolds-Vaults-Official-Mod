@@ -8,16 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Service seam between the god core and god tree node content. Wave 1 ships the no-op default;
- * wave 2 registers the real implementation, which reads
- * {@link GodAlignmentData#getSpentLedger(java.util.UUID, VaultGod)} to decide which nodes are
- * unlocked and returns the vault gear attributes they contribute.
- *
- * <p>The carryover fold ({@link GodCarryover}) is the only caller: it asks for the active tree at
- * {@link Scope#ALL}, each foreign tree at {@link Scope#BASIC} (whose values it then scales to 25%),
- * and the minors carried by every non-active god's transfer slots at full value.
- */
+/** The gear attributes a player's unlocked nodes contribute, per god; {@link #NOOP} until registered. */
 public interface GodNodeAttributeSource {
     GodNodeAttributeSource NOOP = new GodNodeAttributeSource() {
         @Override
@@ -31,30 +22,22 @@ public interface GodNodeAttributeSource {
         }
     };
 
-    /** Which nodes of a tree a request covers. */
     enum Scope {
-        /** Every unlocked node of the tree. */
         ALL,
-        /** Only basic (plain stat) nodes — the subset eligible for foreign-tree carryover. */
+        /** Only basic (plain stat) nodes - the subset eligible for foreign-tree carryover. */
         BASIC
     }
 
     List<VaultGearAttributeInstance<?>> getGearAttributes(ServerPlayer player, VaultGod god, Scope scope);
 
-    /**
-     * Resolves the given minor node ids, wherever they live, into their gear attribute
-     * contributions. Ids come from the transfer slots of every god that is not the active one.
-     */
+    /** Resolves the given minor node ids, whichever god they belong to, into gear attributes. */
     List<VaultGearAttributeInstance<?>> getMinorTransferAttributes(ServerPlayer player, Collection<String> nodeIds);
 
     static GodNodeAttributeSource get() {
         return Holder.current;
     }
 
-    /**
-     * Installs the node content implementation. Called once during wave-2 setup; replacing an
-     * already-installed source is logged as a mistake rather than silently accepted.
-     */
+    /** Installs the node content implementation; replacing an already-installed source is logged. */
     static void register(GodNodeAttributeSource source) {
         Holder.install(source);
     }

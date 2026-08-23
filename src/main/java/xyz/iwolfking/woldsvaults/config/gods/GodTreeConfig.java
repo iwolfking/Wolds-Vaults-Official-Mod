@@ -15,18 +15,8 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * One god's constellation topology - {@code config/the_vault/gods/god_tree_<god>.json}. Holds
- * what a node IS (id, name, type, the effect it feeds, its cost) and how the lattice connects;
- * where it is drawn lives in {@link GodTreeGuiStylesConfig} and what its effect DOES lives in
- * {@link GodNodeEffectsConfig}, mirroring the talents / talents_gui_styles / skill_descriptions
- * triad the pack's other trees use.
- *
- * <p>A missing or unreadable file regenerates the shipped tree from {@link GodTreeDefaults}
- * rather than an empty one, and {@link PackAuthoredConfig} keeps the rejected file beside it, so a
- * hand-edit that fails to parse costs neither the tree nor the edit. {@link #isValid()} catches
- * everything wrong with this file that can be seen without reading the other two; anything needing
- * all three - an effect placed on no node, a handler type that is not registered - stays fatal in
- * {@code GodTreeLoader}, because falling back to one file's defaults cannot repair those.
+ * One god's constellation topology - {@code config/the_vault/gods/god_tree_<god>.json}: node id, name,
+ * type, effect and cost, plus the lattice edges. Layout is {@link GodTreeGuiStylesConfig}'s.
  */
 public class GodTreeConfig extends PackAuthoredConfig {
     public static class NodeEntry {
@@ -61,11 +51,7 @@ public class GodTreeConfig extends PackAuthoredConfig {
         return "gods" + File.separator + "god_tree_" + this.god;
     }
 
-    /**
-     * Restores the god this config was constructed for. Gson allocates the loaded instance
-     * without running the constructor, so the name the file was read under only survives by
-     * being copied off the instance that read it.
-     */
+    /** Restores the god name, which Gson does not carry across into the loaded instance. */
     @Override
     protected void onLoad(@Nullable Config oldConfigInstance) {
         if (oldConfigInstance instanceof GodTreeConfig previous) {
@@ -74,11 +60,8 @@ public class GodTreeConfig extends PackAuthoredConfig {
     }
 
     /**
-     * Everything wrong with this file that is visible without the effect and style files: no nodes
-     * at all, a node with no id or an unknown type, a duplicate id, no root to enter the tree from,
-     * or an edge naming a node this file does not define. Failing here names the file in the base
-     * reload report and falls back to the shipped tree; unlike a parse failure it leaves the file
-     * on disk untouched, so the edit can be corrected in place.
+     * Refuses a file with no nodes, a node with no id, an unknown type, a duplicate id, no root, or an
+     * edge naming an undefined node. A refusal falls back to the shipped tree, leaving the file untouched.
      */
     @Override
     protected boolean isValid() {
@@ -123,15 +106,7 @@ public class GodTreeConfig extends PackAuthoredConfig {
         return false;
     }
 
-    /**
-     * Restores the shipped tree rather than an empty one.
-     *
-     * <p>The base config loader catches every read failure, calls {@code generateConfig()} and
-     * writes the result straight back over the file, so an empty reset turned one bad character in
-     * a hand-edited tree into permanent loss of that tree - and then a boot crash on every
-     * restart, because validation found effects with no nodes left to place them on. Regenerating
-     * from {@link GodTreeDefaults} makes that mistake self-healing.
-     */
+    /** Restores the shipped tree from {@link GodTreeDefaults} rather than an empty one. */
     @Override
     protected void reset() {
         this.nodes = new ArrayList<>();

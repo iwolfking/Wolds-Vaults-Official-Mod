@@ -37,25 +37,9 @@ import java.util.Random;
 import java.util.Set;
 
 /**
- * Roll tables, identify logic and piety rescaling for mythic god charms, straight from the design
- * sheet's "God Charm Rolls + Piety" page. Identification draws each affix as a quality step plus a
- * legendary flag and stores that draw in the charm's NBT; the visible modifiers are then
- * materialized from the stored draws at the owner's current piety. Because the draws never change,
- * the charm can be re-materialized losslessly whenever piety moves - including threshold affixes
- * (effect levels, talent levels, stack caps) that the base ratio rescale would corrupt. A stored
- * threshold draw below its piety threshold stays dormant and simply appears once piety reaches it.
- *
- * <p>Piety units for mythics are stored unclamped in {@value #UNITS_TAG} so scaling continues past
- * the base charm's 50-reputation cap; the base {@code godReputation} tag is kept in sync for the
- * base mod's display paths, which clamp on read. Rescaling only runs outside vaults - piety cannot
- * change inside one.
- *
- * <p>Legendary rolls use the base gear system verbatim: at identify, loot-dropped charms (or ones
- * carrying the {@code IS_LEGENDARY} force flag) roll once against
- * {@code VAULT_GEAR_COMMON.getLegendaryModifierChance()} plus the Legendary expertise bonus, and
- * on success exactly ONE prefix or suffix draw - never an implicit - is upgraded: its quality is
- * maxed and its value raised by {@link #LEGENDARY_MULTIPLIER}, carrying the base legendary
- * category for the usual gold display.
+ * Roll tables, identify logic and piety rescaling for mythic god charms. Identification stores each
+ * affix draw in NBT and the visible modifiers are materialized from those draws at current piety; a
+ * draw below its piety threshold stays dormant until piety reaches it.
  */
 public final class MythicCharmRolls {
     public static final String TEMPORAL_TOTAL_TAG = "woldsMythicTemporalTicks";
@@ -228,19 +212,12 @@ public final class MythicCharmRolls {
         };
     }
 
-    /**
-     * Identifies a mythic charm: binds a god (random unless already stamped), draws two or three
-     * implicits plus three prefixes and three suffixes from the god's tables, stores the draws in
-     * NBT, and materializes them at the player's current piety.
-     */
+    /** Identifies a mythic charm: binds a god, draws its affixes, materializes them at piety. */
     public static void initialize(ItemStack stack, @Nullable Player player) {
         initialize(stack, player, -1);
     }
 
-    /**
-     * As {@link #initialize(ItemStack, Player)}, with an explicit scale-unit override for testing.
-     * An overridden charm is pinned: it keeps the override instead of rescaling to real piety.
-     */
+    /** As above with a scale-unit override; an overridden charm is pinned and never rescales. */
     public static void initialize(ItemStack stack, @Nullable Player player, int unitsOverride) {
         Random random = new Random();
         VaultGearData data = VaultGearData.read(stack);
@@ -267,10 +244,7 @@ public final class MythicCharmRolls {
         VaultUsesHelper.setUses(stack, 30);
     }
 
-    /**
-     * Re-materializes the charm at the owner's current piety. Runs only for identified, unpinned
-     * mythics outside a vault; a no-op when the stored units already match.
-     */
+    /** Re-materializes at current piety. Identified, unpinned mythics only, and outside a vault. */
     public static void rescale(ItemStack stack, ServerPlayer player) {
         if (!MythicVaultCharmItem.isMythic(stack) || !VaultCharmItem.isIdentified(stack)
                 || stack.getOrCreateTag().getBoolean(PINNED_TAG)
@@ -288,11 +262,7 @@ public final class MythicCharmRolls {
         materialize(stack, units);
     }
 
-    /**
-     * The blessing clock refills for every new vault: the first time the worn charm is seen in a
-     * vault it has not been in yet, remaining time snaps back to the full total and the vault is
-     * remembered, so within one vault the drain-and-bank accounting still applies.
-     */
+    /** Refills the blessing clock the first time the charm is seen in a given vault. */
     public static void resetTemporalForVault(ItemStack stack, java.util.UUID vaultId) {
         CompoundTag tag = stack.getOrCreateTag();
         if (tag.getInt(TEMPORAL_TOTAL_TAG) <= 0) {
@@ -315,12 +285,7 @@ public final class MythicCharmRolls {
         return VaultCharmItem.getGodReputation(stack);
     }
 
-    /**
-     * Per-piety roll hints for the given affix group, aligned index-for-index with the group's
-     * MATERIALIZED modifiers (dormant draws are skipped exactly as {@link #materialize} skips
-     * them). Percent rolls report their per-10-piety gain, flat rolls their per-10-piety amount,
-     * threshold rolls the piety each level costs, and the temporal its seconds per ten piety.
-     */
+    /** Per-10-piety hints, index-aligned with the affix group's materialized modifiers. */
     public static List<String> rollHints(ItemStack stack, VaultGearModifier.AffixType type) {
         VaultGod god = VaultCharmItem.getGod(stack).orElse(null);
         if (god == null) {
@@ -451,12 +416,7 @@ public final class MythicCharmRolls {
         return Math.round((roll.max() - roll.min()) / roll.step());
     }
 
-    /**
-     * The base gear legendary system, applied to the stored draws: one roll against the shared
-     * config chance (plus the Legendary expertise bonus), loot-gated unless the
-     * {@code IS_LEGENDARY} force flag is set, upgrading exactly one prefix or suffix draw to a
-     * maxed-quality legendary. Implicits are never eligible, matching base gear.
-     */
+    /** Upgrades one prefix or suffix draw to a maxed legendary, on the base gear chance. */
     private static void applyLegendary(VaultGearData data, @Nullable Player player, VaultGod god,
                                        List<StoredRoll> rolls, Random random) {
         boolean forced = data.get(iskallia.vault.init.ModGearAttributes.IS_LEGENDARY,
@@ -514,11 +474,7 @@ public final class MythicCharmRolls {
         return (int) Math.floor(value);
     }
 
-    /**
-     * Rebuilds the charm's implicit, prefix and suffix modifiers from the stored draws at the given
-     * piety units, and settles the temporal blessing clock: unspent blessing time shifts by exactly
-     * the change in total time.
-     */
+    /** Rebuilds every modifier from the stored draws at the given piety units, and settles the clock. */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void materialize(ItemStack stack, int units) {
         VaultGearData data = VaultGearData.read(stack);

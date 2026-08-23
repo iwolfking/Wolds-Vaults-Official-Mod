@@ -19,8 +19,8 @@ import java.util.Optional;
 import java.util.Random;
 
 /**
- * Shared server logic for the reworked greed shop: the greedy-ticket reroll price, ticket
- * accounting, and the two offer types the base trader cannot express on its own.
+ * Server-side greed shop logic: greedy-ticket reroll pricing, ticket accounting, and the etching and Greedy Meal
+ * offer rolls.
  */
 public final class GreedShopHelper {
     private static final int BASE_REROLL_TICKETS = 2;
@@ -31,18 +31,13 @@ public final class GreedShopHelper {
     }
 
     /**
-     * Greedy-ticket price of the next shop reroll: 2 tickets, rising by one every second reroll
-     * (2, 2, 3, 3, 4, 4, ...). {@code resetCount} is cleared by the black market's daily tick, so
-     * the ladder restarts once a day rather than only on a rank-up.
+     * Greedy-ticket price of the next shop reroll: 2, rising by one every second reroll. {@code resetCount} is
+     * cleared by the black market's daily tick.
      */
     public static int rerollTicketCost(int resetCount) {
         return BASE_REROLL_TICKETS + Math.max(0, resetCount) / REROLLS_PER_PRICE_STEP;
     }
 
-    /**
-     * Greedy tickets the player can actually spend, counting held containers the same way the
-     * greed coin balance does.
-     */
     public static int countGreedyTickets(Player player) {
         int total = 0;
         for (InventoryUtil.ItemAccess access : InventoryUtil.findAllItems(player)) {
@@ -54,8 +49,8 @@ public final class GreedShopHelper {
     }
 
     /**
-     * Takes {@code amount} greedy tickets out of the player's inventory, or nothing at all when
-     * they cannot cover it. Mirrors {@code GreedTraderData.consumeGreedCoins}.
+     * Takes {@code amount} greedy tickets out of the player's inventory, or nothing at all when they cannot cover
+     * it.
      */
     public static boolean consumeGreedyTickets(ServerPlayer player, int amount) {
         if (amount <= 0) {
@@ -96,14 +91,8 @@ public final class GreedShopHelper {
     }
 
     /**
-     * Rolls one etching for a shop slot, split into the sheet's two tables.
-     *
-     * <p>Base {@code rollRandomEtching} draws uniformly from every etching whose
-     * {@code minGreedTier} the player has reached, which cannot express "Regular Etching" and
-     * "Powerful Etching" as two separately weighted, separately priced offers. The split reuses
-     * {@code minGreedTier} as the classifier - an etching that gates on a rank at all is a
-     * powerful one - so which table an etching sits in stays pack-tunable and no new config field
-     * is needed. The rank gate itself still applies to both tables.</p>
+     * Rolls one etching for a shop slot, or null when nothing is eligible. {@code powerful} picks the table: an
+     * etching with a nonzero {@code minGreedTier} is a powerful one.
      */
     public static PlayerGreedTraderData.TradeOffer rollEtching(GreedTraderConfig.TradeEntry entry,
                                                                int greedTier,
@@ -139,10 +128,8 @@ public final class GreedShopHelper {
     }
 
     /**
-     * Rolls the Greedy Meal with the sheet's rank scaling, {@code 2M-10M xp * 1.15^(rank - 1)}.
-     * Base cannot do this because {@code rollXpBurger} is never handed the greed tier. Scavenger 1
-     * pays the unscaled band; Legend sits at roughly 8.1x, so the top of the range stays well
-     * inside {@code int}.
+     * Rolls the Greedy Meal, scaling the entry's xp band by {@code 1.15^(greedTier - 1)} and clamping to
+     * {@code int}.
      */
     public static PlayerGreedTraderData.TradeOffer rollXpBurger(GreedTraderConfig.TradeEntry entry,
                                                                 int greedTier,

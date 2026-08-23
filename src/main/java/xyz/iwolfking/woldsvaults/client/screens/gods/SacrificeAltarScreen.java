@@ -21,10 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Greed Cauldron's sacrificial-altar menu: pick the god to sacrifice toward, see the current
- * gate's item list with live progress, and read off whether the offering and god experience are
- * ready for the redstone-triggered sacrifice. Deposits happen at the cauldron itself (pipes,
- * hoppers, tossed items); this screen is a live readout, polling the server once a second.
+ * The Greed Cauldron's sacrificial-altar menu: pick the god and read the current gate's item list with
+ * live progress. A readout only, polling the server once a second; deposits happen at the cauldron.
  */
 public class SacrificeAltarScreen extends Screen {
     private static final int PANEL_WIDTH = 276;

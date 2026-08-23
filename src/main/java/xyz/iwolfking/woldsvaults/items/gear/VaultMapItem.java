@@ -131,13 +131,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         VaultGearItem.super.tickRoll(stack, player);
     }
 
-    /**
-     * Binds an unrolled map to a random vault god and gives it its Bonus XP implicit, both of which
-     * are permanent in the sense that nothing ever re-picks the god. The bonus rolls in the map
-     * tier's "unrolled" band; touching the map in the artisan station later re-rolls it down into the
-     * much lower band, which is what discourages rerolling away the natural objective. Runs after the
-     * tier roll above so the band is picked against the tier this map actually ended up with.
-     */
+    /** Binds an unrolled map to a random god and rolls its Bonus XP implicit in the tier's unrolled band. */
     private void rollGodBinding(VaultGearData data) {
         if (!data.hasAttribute(ModGearAttributes.MAP_GOD)) {
             data.createOrReplaceAttributeValue(ModGearAttributes.MAP_GOD, MapGodXp.rollGod(rand).getName());
@@ -230,11 +224,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         addGodTooltip(stack, tooltip);
     }
 
-    /**
-     * The two god-quest lines: which god's experience this map's vault pays out, in that god's own
-     * colour, and the Bonus XP implicit on top of the objective's base amount. Both are silently
-     * skipped on a map that has neither, which is every map rolled before god binding existed.
-     */
+    /** The two god-quest lines: the god this map's vault pays, and the Bonus XP implicit. Skipped if absent. */
     private static void addGodTooltip(ItemStack stack, List<Component> tooltip) {
         MapGodXp.godOf(stack).ifPresent(god -> tooltip.add(new TextComponent("God: ")
                 .append(new TextComponent(god.getName()).withStyle(god.getChatColor()))));
@@ -367,11 +357,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         return true;
     }
 
-    /**
-     * Imprints the map's god binding and Bonus XP onto the crystal, so the vault built from it knows
-     * which god to pay and how much. A map with no binding at all can only be one rolled before god
-     * maps existed; it is logged and the resulting vault simply pays no god experience.
-     */
+    /** Imprints the map's god binding and Bonus XP onto the crystal. A map with no binding is logged. */
     private static void transferGodBinding(ItemStack mapStack, CrystalData data) {
         MapGodXp.godOf(mapStack).ifPresentOrElse(god -> {
             ((DuckMapGod) (Object) data).setMapGod(god.getName());

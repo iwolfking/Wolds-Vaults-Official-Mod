@@ -17,36 +17,15 @@ public abstract class MixinPlayerGreedTraderData {
     @Shadow
     public abstract int getResetCount(UUID playerUuid);
 
-    /**
-     * Reprices the shop reroll in greedy tickets instead of reputation.
-     *
-     * <p>Base charges {@code 3 + resetCount} reputation, which the addon used to cap at 36.
-     * Reputation is a finite rank-up currency under the greed rework, so the reroll moves onto
-     * greedy tickets at 2, then one more every second reroll. The count this reads is already
-     * cleared by the black market's daily tick (see {@code MixinPlayerBlackMarketData}), so the
-     * price ladder restarts once a day. The cap is gone with the old formula: at one step per two
-     * rerolls a single day would have to see 68 rerolls to reach the old ceiling.</p>
-     *
-     * <p>Every consumer of this number moves with it: the trader container's {@code resetCost},
-     * the restock button's tooltip, and the greed screen's reroll-cost readout.</p>
-     */
+    /** Reprices the shop reroll in greedy tickets: 2, then one more every second reroll, uncapped. */
     @Inject(method = "getResetCost", at = @At("HEAD"), cancellable = true)
     private void chargeRerollInGreedyTickets(UUID playerUuid, CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue(GreedShopHelper.rerollTicketCost(this.getResetCount(playerUuid)));
     }
 
     /**
-     * Adds the two shop offer types the greed rework's tables need and base cannot express.
-     *
-     * <p>{@code random_etching} narrows to the etchings that gate on no rank at all, and the new
-     * {@code powerful_etching} type takes the rank-gated ones - base draws uniformly from both at
-     * once, so the sheet's two separately weighted, separately priced etching rows had no way to
-     * exist. {@code xp_burger} is intercepted only to hand the roller the greed tier, which base
-     * never passes down, so the Greedy Meal can carry the sheet's {@code 1.15^rank} scaling.</p>
-     *
-     * <p>All three branches take over the return value completely, including a null result, so a
-     * failed roll drops the slot exactly as base would rather than falling through to an
-     * unfiltered etching.</p>
+     * Narrows {@code random_etching} to ungated etchings, adds {@code powerful_etching} for the gated
+     * ones, and passes the greed tier to {@code xp_burger}. All three take over the return value.
      */
     @Inject(method = "rollSingleOffer", at = @At("HEAD"), cancellable = true)
     private void rollReworkedOfferTypes(GreedTraderConfig.TradeEntry entry,

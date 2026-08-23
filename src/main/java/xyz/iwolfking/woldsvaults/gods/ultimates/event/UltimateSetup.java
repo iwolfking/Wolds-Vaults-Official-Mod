@@ -15,8 +15,8 @@ import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateReviveData;
 import java.util.UUID;
 
 /**
- * One-time wiring for the ultimates: the final-damage sub-stages the two damage-reduction
- * ultimates own, and the vault-end hook that retires spent Savior revive records.
+ * One-time wiring for the ultimates: the two final-damage sub-stages and the vault-end hook that retires spent
+ * Savior revive records.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class UltimateSetup {

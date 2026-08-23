@@ -7,14 +7,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-/**
- * Mr. Greedy's achievements tab. It is a fourth tab of the greed trader's own tab strip and reuses
- * the trader's container, which is exactly what the server-side claim gate checks - so this is the
- * only screen where the claim buttons do anything.
- *
- * <p>{@code getTab()} returns null on purpose: the base strip then draws none of Shop, Quests or
- * Challenges as selected, and its switch handler still routes clicks on them normally.</p>
- */
+/** Mr. Greedy's achievements tab: the only screen where the claim buttons do anything. */
 public class GreedTraderAchievementsScreen extends GreedTraderScreen {
     private GreedPanelElement panel;
 
@@ -23,6 +16,7 @@ public class GreedTraderAchievementsScreen extends GreedTraderScreen {
         this.setGuiSize(Spatials.size(GreedPanelElement.WIDTH + 10, GreedPanelElement.TRADER_HEIGHT + 10));
     }
 
+    /** Null, so the base strip draws none of its own tabs as selected. */
     @Override
     protected Tab getTab() {
         return null;

@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The one definition of the greed rank ladder. Its shape - the reputation threshold of every rank,
- * how many ranks a band holds, what each band is called and which band jumps carry a god alignment
- * gate - is pack data in {@code config/the_vault/gods/greed_ranks.json}, installed here by
- * {@code ModConfigs.register}. Nothing else in the addon re-derives any of it.
+ * The greed rank ladder: every rank's reputation threshold, the bands, and which ranks carry a god
+ * alignment gate. Values come from {@code config/the_vault/gods/greed_ranks.json}.
  */
 public class MilestoneRankLadder {
     public static final int FIRST_RANK = 1;
@@ -51,13 +49,9 @@ public class MilestoneRankLadder {
     }
 
     /**
-     * Installs a ladder read from config. A file that does not describe a ladder of exactly
-     * {@link #LEGEND_RANK} ranks, whose thresholds do not strictly ascend, or that names too few
-     * bands to cover the ladder, is refused with an error naming the problem and the shipped
-     * defaults are used instead: a half-applied ladder would silently move every rank gate,
-     * medallion name and trial requirement in the game, and a threshold that dips would put a rank
-     * behind a smaller number than the rank below it, which the reputation bar reads as a full bar
-     * that never ranks up.
+     * Installs a ladder read from config. Falls back to the shipped defaults, with an error, unless
+     * the ladder has exactly {@link #LEGEND_RANK} ranks, strictly ascending thresholds and enough
+     * band names to cover it.
      */
     public static void load(GreedRanksConfig config) {
         localLadder = null;
@@ -69,22 +63,7 @@ public class MilestoneRankLadder {
         apply(GreedRanksConfig.defaults());
     }
 
-    /**
-     * Installs the ladder a server sent, so the client's reputation bar, rank badges, trial gates
-     * and medallion lookups all measure against the host's ladder rather than the
-     * {@code greed_ranks.json} on the player's own disk.
-     *
-     * <p>The ladder is small and wholly numeric, so the server's copy simply replaces the local one
-     * rather than being kept alongside it: every getter here is on a hot render path and would
-     * otherwise have to branch. The local ladder is stashed on the first install and put back by
-     * {@link #restoreLocal}, which the client mirror calls on disconnect. On an integrated server
-     * the values being installed were read out of these very fields a moment earlier, so the write
-     * is an identity there.</p>
-     *
-     * <p>A payload that does not describe a ladder of the right shape is refused by the same check
-     * a config file goes through, leaving the client on its own ladder - which is the closest thing
-     * to right that is available when the two sides disagree about the ladder's length.</p>
-     */
+    /** Installs the ladder a server sent, stashing the local one; a bad payload is refused. */
     public static void applyServerLadder(GreedRanksConfig sent) {
         if (!isUsable(sent)) {
             WoldsVaults.LOGGER.error("The server's greed rank ladder was refused; the client keeps its own, so rank thresholds on screen may not match the server's");
@@ -96,10 +75,7 @@ public class MilestoneRankLadder {
         apply(sent);
     }
 
-    /**
-     * Puts the locally configured ladder back, undoing {@link #applyServerLadder}. Idempotent, and
-     * a no-op when no server ladder was ever installed.
-     */
+    /** Puts the local ladder back. Idempotent, and a no-op when no server ladder was installed. */
     public static void restoreLocal() {
         GreedRanksConfig local = localLadder;
         if (local == null) {
@@ -109,10 +85,7 @@ public class MilestoneRankLadder {
         apply(local);
     }
 
-    /**
-     * The live ladder as a config object. Used to stash the local ladder before a server's replaces
-     * it, and to put the server's ladder on the wire without a second serialisation format.
-     */
+    /** The live ladder as a config object. */
     public static GreedRanksConfig snapshot() {
         List<Integer> rankThresholds = new ArrayList<>(LEGEND_RANK);
         for (int rank = FIRST_RANK; rank <= LEGEND_RANK; rank++) {
@@ -127,16 +100,7 @@ public class MilestoneRankLadder {
         return GreedRanksConfig.of(bandSize, List.of(bandNames), rankThresholds, gates);
     }
 
-    /**
-     * Reports band names that differ from the shipped ones without refusing the ladder.
-     *
-     * <p>A greed medallion's registry id is {@code greed_medallion_<band>_<tier>}, built from these
-     * names while items are registered - which happens long before this config is read. Renaming a
-     * band therefore cannot rename the items: the ids stay on the shipped names, and every screen
-     * that resolves a medallion by band name from the live ladder stops finding one. The ladder is
-     * still applied, because the thresholds and gates in the same file are usable and refusing them
-     * over a cosmetic rename would be the larger surprise.</p>
-     */
+    /** Logs renamed bands; medallion registry ids are built from the shipped names and cannot follow. */
     private static void reportRenamedBands(List<String> names) {
         List<String> shipped = GreedRanksConfig.defaults().getBandNames();
         for (int index = 0; index < Math.min(names.size(), shipped.size()); index++) {
@@ -205,10 +169,7 @@ public class MilestoneRankLadder {
         }
     }
 
-    /**
-     * Reputation required to hold the given 1-based rank. Rank 1 (Scavenger 1) is 0 rep;
-     * every rank past Legend costs a further {@value #LEGEND_PLUS_STEP}.
-     */
+    /** Reputation to hold a 1-based rank; rank 1 is 0, each rank past Legend adds {@value #LEGEND_PLUS_STEP}. */
     public static int getThreshold(int rank) {
         if (rank <= FIRST_RANK) {
             return 0;
@@ -219,19 +180,12 @@ public class MilestoneRankLadder {
         return thresholds[LEGEND_RANK - 1] + (rank - LEGEND_RANK) * LEGEND_PLUS_STEP;
     }
 
-    /**
-     * Reputation awarded by a challenge-crystal milestone tagged with the given 1-based rank:
-     * 15% of the threshold of the rank-up immediately after the tagged rank, floored.
-     */
+    /** Reputation a milestone tagged with this rank pays: 15% of the next rank's threshold, floored. */
     public static int getChallengeReputation(int taggedRank) {
         return (int) Math.floor(0.15D * getThreshold(taggedRank + 1));
     }
 
-    /**
-     * God alignment level the player must hold with at least one god before the rank-up trial for
-     * the given rank can be taken. Zero for every rank without a gate, including every rank past
-     * Legend - Legend+ is a reputation-only climb.
-     */
+    /** God level needed with one god before this rank's trial; 0 when the rank has no gate. */
     public static int getGodLevelGate(int rank) {
         if (rank < FIRST_RANK || rank > LEGEND_RANK) {
             return 0;
@@ -239,10 +193,7 @@ public class MilestoneRankLadder {
         return godLevelGates[rank];
     }
 
-    /**
-     * True when climbing to the given rank crosses into a new band (Looter 1, Hunter 1, Master 1,
-     * Champion 1, Legend). Band jumps are the hyper trials; every other rank-up is a vessel trial.
-     */
+    /** True when climbing to the given rank crosses into a new band. */
     public static boolean isBandJump(int rank) {
         if (rank <= FIRST_RANK || rank > LEGEND_RANK) {
             return false;
@@ -250,11 +201,7 @@ public class MilestoneRankLadder {
         return (rank - FIRST_RANK) % bandSize == 0;
     }
 
-    /**
-     * Band a rank sits in: {@code scavenger} through {@code champion}, then {@code legend}, and
-     * empty for a rank off the ladder. Medallion registry paths, medallion display names, band
-     * colours and the rank badges on the reputation bar all read this instead of keeping a copy.
-     */
+    /** Band a rank sits in, {@code scavenger} to {@code legend}; empty for a rank off the ladder. */
     public static String getBandName(int rank) {
         if (rank < FIRST_RANK || rank > LEGEND_RANK) {
             return "";
@@ -263,10 +210,7 @@ public class MilestoneRankLadder {
         return band < bandNames.length ? bandNames[band] : bandNames[bandNames.length - 1];
     }
 
-    /**
-     * Position of a rank inside its band, 1-based. Legend returns 0 because it is a band of one
-     * and is named without a step - {@code legend}, not {@code legend_1}.
-     */
+    /** Position of a rank inside its band, 1-based; Legend returns 0, being a band of one. */
     public static int getTierInBand(int rank) {
         if (rank < FIRST_RANK || rank > LEGEND_RANK) {
             return 0;
@@ -275,10 +219,7 @@ public class MilestoneRankLadder {
         return position == 0 && rank == LEGEND_RANK ? 0 : position + 1;
     }
 
-    /**
-     * Greed coins paid by a successful rank-up trial: 50 per rank climbed past the first, so the
-     * Scavenger 2 trial pays 50 and the Legend trial pays 750.
-     */
+    /** Greed coins paid by a successful rank-up trial: 50 per rank climbed past the first. */
     public static int getTrialCoinReward(int rank) {
         return 50 * Math.max(0, rank - 1);
     }

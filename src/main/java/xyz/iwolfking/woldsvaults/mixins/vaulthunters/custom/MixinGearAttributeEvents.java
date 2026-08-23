@@ -82,8 +82,7 @@ public class MixinGearAttributeEvents {
 
     /**
      * @author aida
-     * @reason to make the purist talent multiplicative, and keep proc fangs from
-     * re-applying damage increases already contained in their stored damage
+     * @reason make the purist talent multiplicative, and keep proc fangs from re-applying stored increases
      */
     @Inject(method = "increaseDamageDealt",
             at = @At(value = "INVOKE",
@@ -106,8 +105,7 @@ public class MixinGearAttributeEvents {
 
     /**
      * @author PoorMansPhysicist
-     * @reason keep proc fangs from re-applying fatal strike gear crits already
-     * contained in their stored damage
+     * @reason keep proc fangs from re-applying fatal strike gear crits already in their stored damage
      */
     @Inject(method = "doFatalStrikeAttack", at = @At("HEAD"), cancellable = true)
     private static void doFatalStrikeAttack(LivingHurtEvent event, CallbackInfo ci) {
@@ -203,12 +201,7 @@ public class MixinGearAttributeEvents {
         }
     }
 
-    /**
-     * Yields the base cleave to the ancient lucky-hit cleave when the attacker carries
-     * {@code lucky_hit_aoe}. Both cleaves guard on the same ATTACK_AOE player flag, and this one
-     * runs first at NORMAL priority, so without this the weaker unboosted cleave would win the race
-     * whenever a player carried both modifiers.
-     */
+    /** Whether the attacker carries {@code lucky_hit_aoe}, in which case the base cleave yields to it. */
     private static boolean hasLuckyHitCleave(LivingHurtEvent event) {
         if (!(event.getSource().getEntity() instanceof LivingEntity attacker)) {
             return false;

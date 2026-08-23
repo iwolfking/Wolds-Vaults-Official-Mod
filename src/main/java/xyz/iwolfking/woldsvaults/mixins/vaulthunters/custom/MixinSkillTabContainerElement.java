@@ -25,17 +25,7 @@ import java.util.Arrays;
 
 @Mixin(value = SkillTabContainerElement.class, remap = false)
 public class MixinSkillTabContainerElement {
-    /**
-     * Splices the greed tree off the player menu's hardcoded tab strip. The base constructor
-     * builds a fixed icon array whose last entry (index 6) is the greed tree, then loops over it
-     * and maps the index through a switch to a serverbound open message; dropping the trailing
-     * entry drops both the tab and its click handler, leaving case 6 unreachable.
-     *
-     * <p>{@link #addGreedMilestonesTab} then re-adds index 6 as the greed rework's own tab, so the
-     * new screen lands in the exact position the greed tree used to hold. The old greed tree
-     * cannot come back with it - {@code ServerboundOpenGreedMessage} is refused server-side by
-     * {@code MixinServerboundOpenGreedMessage}.</p>
-     */
+    /** Drops the trailing greed tree entry (index 6) from the player menu's hardcoded icon array. */
     @ModifyVariable(method = "<init>", at = @At("STORE"), name = "icons", remap = false)
     private TextureAtlasRegion[] removeGreedTreeTab(TextureAtlasRegion[] icons) {
         if (icons.length < 2 || icons[icons.length - 1] != ScreenTextures.TAB_ICON_GREED) {
@@ -46,12 +36,7 @@ public class MixinSkillTabContainerElement {
         return Arrays.copyOf(icons, icons.length - 1);
     }
 
-    /**
-     * Appends the greed rework tab in the slot the greed tree vacated, rebuilding the base's own
-     * tab geometry (31px pitch, selected tabs sitting four pixels higher), then the gods tab one
-     * slot further along. The elements are filed straight into the container's store because the
-     * base's {@code addElement} is protected and this mixin does not extend the element hierarchy.
-     */
+    /** Appends the greed tab in the vacated slot and the gods tab after it, on base's 31px tab pitch. */
     @Inject(method = "<init>", at = @At("RETURN"), remap = false)
     private void addGreedMilestonesTab(IPosition position, int selectedIndex, CallbackInfo ci) {
         this.woldsVaults$addTab(GreedMilestonesScreen.TAB_INDEX, selectedIndex, ScreenTextures.TAB_ICON_GREED,

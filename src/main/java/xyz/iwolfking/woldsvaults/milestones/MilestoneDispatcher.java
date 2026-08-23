@@ -37,12 +37,7 @@ import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * The single owner of every {@code CommonEvents} listener the milestone engine needs. One
- * listener is registered per event, at common setup, and fans out internally to the counters —
- * so the number of registered references on any vault event grows by exactly one no matter how
- * many milestones exist.
- */
+/** Owns every {@code CommonEvents} listener the milestone engine needs, one per event. */
 public class MilestoneDispatcher {
     private static final Object OWNER = new Object();
     private static final ResourceLocation ORE_GROUP = VaultMod.id("ores");
@@ -201,12 +196,7 @@ public class MilestoneDispatcher {
         }
     }
 
-    /**
-     * Routes a vault block break. Ore-group blocks feed "Diggy Diggy Jewel", nullite ore feeds
-     * "Nullified"; both also feed the per-vault composite tracker. The vault state lookup is
-     * belt-and-braces against the engine's own gate now, but it is still load-bearing here: the
-     * composite tracker needs the state object.
-     */
+    /** Routes a vault block break to the ore and nullite counters. Counts nothing outside a vault. */
     public static void onBlockMined(ServerPlayer player, BlockState state) {
         if (player == null || state == null) {
             return;
@@ -244,11 +234,7 @@ public class MilestoneDispatcher {
         pollObjectives(player, objectives, state);
     }
 
-    /**
-     * Objective totals that have no player-attributed event are polled once a second and turned
-     * into deltas against a per-vault baseline. The baseline starts at whatever the objective
-     * already reports, so re-joining a vault never double counts.
-     */
+    /** Turns polled objective totals into deltas; the first poll only records the baseline. */
     private static void pollObjectives(ServerPlayer player, Objectives objectives, MilestoneVaultState state) {
         boolean first = !state.areBaselinesReady();
 

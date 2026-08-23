@@ -9,16 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.client.renderers.AncientSlotDecorator;
 
-/**
- * Paints the ancient unique slot dressing around any ancient item in any container screen, including the
- * vault's own element framework screens, whose SlotsElement only draws the empty slot plate and leaves the
- * item itself to AbstractContainerScreen.renderSlot.
- * <p>
- * Both injection points sit inside renderSlot, which calls renderAndDecorateItem and renderGuiItemDecorations
- * exactly once each, so the background lands under the item and the frame between the item and its stack
- * count and durability bar. Neither the carried stack, which is drawn later by renderFloatingItem, nor
- * tooltips pass through here, so neither can be drawn over.
- */
+/** Paints the ancient unique slot dressing in any container screen: background under, frame over the item. */
 @Mixin(AbstractContainerScreen.class)
 public abstract class MixinAbstractContainerScreen {
     @Inject(method = "renderSlot", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;renderAndDecorateItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;III)V"))

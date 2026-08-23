@@ -13,17 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-/**
- * Recessed near-black track with a gold fill and optional centred caption. Used for both the
- * reputation bar on the main screen and the per-tier bar on every achievement row; the base
- * framework's progress bar is texture sized, which cannot stretch to an arbitrary panel width.
- *
- * <p>The track deliberately does not reuse {@link GreedTheme#PLATE_DARK}: that is the colour of the
- * content plate the bars are drawn on, so an empty bar in that colour was invisible apart from its
- * one pixel outline and read as "there is no bar" rather than "the bar is empty". The track is a
- * distinctly darker {@link GreedTheme#TRACK} with a one pixel top and left inner shadow, so the
- * recess reads on an empty bar and the fill covers the shadow as it grows.</p>
- */
+/** Progress bar of arbitrary width: recessed track, gold fill and an optional centred caption. */
 public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgressBarElement> implements IRenderedElement {
     private final Supplier<Float> progress;
     private final Supplier<Component> caption;
@@ -47,11 +37,6 @@ public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgres
         return this.visible;
     }
 
-    /**
-     * Attaches the shared {@code 6,283/20,000 (31%)} hover readout to this bar. A bar only ever
-     * shows a fraction of one bracket, so the numbers behind the fill are otherwise unreachable
-     * from the screen.
-     */
     public GreedProgressBarElement progressTooltip(long current, long target) {
         return this.tooltip(Tooltips.single(() -> GreedTheme.progress(current, target)));
     }

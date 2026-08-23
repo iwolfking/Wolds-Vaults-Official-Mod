@@ -2,13 +2,7 @@ package xyz.iwolfking.woldsvaults.client.champion;
 
 import net.minecraft.client.Minecraft;
 
-/**
- * Client-side mirror of the Vault Champion's HUD state.
- *
- * <p>Carries its own staleness timeout rather than trusting a closing packet to arrive. A player who
- * disconnects mid-fight, or who is in the vault when the server stops, would otherwise be left with a
- * boss bar on their screen forever; a couple of seconds without an update simply clears it.
- */
+/** Client mirror of the Champion HUD state; inactive after {@link #STALE_TICKS} without an update. */
 public final class ClientChampionHud {
     private static final int STALE_TICKS = 60;
 
@@ -29,7 +23,6 @@ public final class ClientChampionHud {
         ClientChampionHud.lastUpdate = gameTime();
     }
 
-    /** Drops the mirror, including the staleness stamp, so a younger world's game time cannot read an old update as fresh. */
     public static void clear() {
         active = false;
         dealt = 0.0F;

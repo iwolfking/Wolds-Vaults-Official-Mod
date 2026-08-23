@@ -10,11 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * Ally resolution for the Velara support nodes. "Party" here is the explicit {@code /party}
- * system ({@link VaultPartyData}), not the vault listener roster -  a player who happens to be in
- * the same vault is not an ally unless they grouped up.
- */
+/** Ally resolution over {@link VaultPartyData}, not the vault listener roster. */
 public final class VelaraParty {
     private VelaraParty() {
     }
@@ -44,10 +40,7 @@ public final class VelaraParty {
         return partyOf(player).map(party -> party.hasMember(other)).orElse(false);
     }
 
-    /**
-     * Online party members of {@code player}, excluding the player, restricted to the same level
-     * and to a radius. A radius of zero or less skips the distance check.
-     */
+    /** Online party members on the same level, excluding {@code player}. A radius of 0 means any. */
     public static List<ServerPlayer> alliesNear(ServerPlayer player, float radius) {
         MinecraftServer server = player.getServer();
         Optional<VaultPartyData.Party> party = partyOf(player);

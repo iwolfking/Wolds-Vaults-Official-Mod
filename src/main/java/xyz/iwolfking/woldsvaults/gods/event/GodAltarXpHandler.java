@@ -14,11 +14,7 @@ import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 
 import java.util.Set;
 
-/**
- * Awards god alignment XP for completed in-vault god altars. Registered once against the base
- * mod's altar event rather than per altar, since that event dispatches to every listener on every
- * invocation.
- */
+/** Awards god alignment XP for completed in-vault god altars. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class GodAltarXpHandler {
     public static final double BASE_ALTAR_XP = 300.0D;
@@ -33,10 +29,7 @@ public final class GodAltarXpHandler {
         event.enqueueWork(() -> CommonEvents.GOD_ALTAR_EVENT.register(LISTENER_REF, GodAltarXpHandler::onAltar));
     }
 
-    /**
-     * The altar XP award: {@code 300 * cbrt((10 + n) / 10)}, where n is the player's lifetime
-     * count of completed god altars across all four gods, counted before this one.
-     */
+    /** The altar XP award; n is the lifetime count of altars completed across all four gods, before this one. */
     public static long altarXpFor(int lifetimeCompletions) {
         return Math.round(BASE_ALTAR_XP * Math.cbrt((10.0D + lifetimeCompletions) / 10.0D));
     }

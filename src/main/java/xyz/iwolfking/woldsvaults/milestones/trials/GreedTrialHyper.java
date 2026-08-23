@@ -8,16 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
-/**
- * Every place the hyper objective behaves differently because the vault is a rank-up trial. Each
- * method takes the vault and falls back to the live hyper configuration when it is not a trial, so
- * the call sites inside the hyper code stay one-liners and ordinary hyper vaults are untouched.
- *
- * <p>Two behavior changes, both from the trial spec. The exit pillar is not offered below the
- * required cycle count, so a three-cycle trial cannot be cashed out after one; and once the
- * required count is reached the vault ends itself on the usual fifteen-second countdown instead of
- * waiting for a pillar click.</p>
- */
+/** Where the hyper objective differs for a rank-up trial; outside one, the live value passes through. */
 public final class GreedTrialHyper {
     private GreedTrialHyper() {
     }
@@ -27,34 +18,24 @@ public final class GreedTrialHyper {
         return trial != null && trial.getKind() == GreedTrial.Kind.HYPER ? trial : null;
     }
 
-    /**
-     * Base boss health/damage escalation. The sheet's "Base Boss Strength" column is in the same
-     * unit as {@code bossHealthPercent}: 5.0 means +500%.
-     */
+    /** Base boss health and damage escalation, in {@code bossHealthPercent} units: 5.0 is +500%. */
     public static double bossStrength(Vault vault, double live) {
         GreedTrial trial = trial(vault);
         return trial == null ? live : trial.getBossStrength();
     }
 
-    /** Per-cycle compounding factor - the sheet's "Scaling Modifier" in place of hyperStatFactor. */
+    /** Per-cycle compounding factor, in place of {@code hyperStatFactor}. */
     public static double cycleScaling(Vault vault, double live) {
         GreedTrial trial = trial(vault);
         return trial == null ? live : trial.getCycleScaling();
     }
 
-    /**
-     * Flat per-cycle stat increment. Trials use only the sheet's base strength and per-cycle
-     * multiplier, so the live vault's extra additive ramp is switched off for them.
-     */
+    /** Flat per-cycle stat increment, always 0 inside a trial. */
     public static double statIncrement(Vault vault, double live) {
         return trial(vault) == null ? live : 0.0D;
     }
 
-    /**
-     * Modifiers dumped per boss kill. The sheet's "N modifiers +N" column is read as N modifiers
-     * granted per cycle, which with the budget below works out to N at the start of the vault and
-     * N more for every cycle cleared.
-     */
+    /** Modifiers granted per boss cycle. */
     public static int chaosPerKill(Vault vault, int live) {
         GreedTrial trial = trial(vault);
         return trial == null ? live : trial.getModifierCount();
@@ -72,13 +53,7 @@ public final class GreedTrialHyper {
         return trial == null ? 0 : trial.getRequiredCycles();
     }
 
-    /**
-     * Whether the exit pillar should be offered after this cycle. Ordinary hyper vaults always
-     * offer it; a trial withholds it until the required cycles are done, so the only pillar a trial
-     * ever spawns is the one on its final cycle - which is the same cycle the trial passes on, so
-     * the pillar and the payout arrive together and the player can leave under their own power
-     * rather than waiting out the outro.
-     */
+    /** Whether the exit pillar is offered; a trial withholds it until its cycles are done. */
     public static boolean shouldOfferExit(Vault vault) {
         int required = requiredCycles(vault);
         return required <= 0 || cycles(vault) >= required;
@@ -94,12 +69,7 @@ public final class GreedTrialHyper {
         return HyperVaultObjective.getCycleCount(vault);
     }
 
-    /**
-     * Starts the standard victory countdown for every runner still in a trial vault whose cycle
-     * target has just been met. Writing straight into the objective's EXTRACTIONS map reuses the
-     * exact path an exit-pillar click takes: damage immunity, the per-second actionbar countdown,
-     * the completion crate and the teleport out all follow from it.
-     */
+    /** Starts the standard victory countdown for every runner still in the vault. */
     public static void completeTrialVault(Vault vault, HyperVaultObjective objective, int transitionTicks) {
         CompoundTag extractions = objective.getOr(HyperVaultObjective.EXTRACTIONS, new CompoundTag());
         CompoundTag updated = extractions.copy();
@@ -124,10 +94,7 @@ public final class GreedTrialHyper {
                 net.minecraft.ChatFormatting.GOLD);
     }
 
-    /**
-     * Pays the trial out for a runner who has just been completed and extracted. Silently does
-     * nothing outside a trial vault, so the hyper completion path can call it unconditionally.
-     */
+    /** Pays the trial out for a completed runner. Does nothing outside a trial vault. */
     public static void onRunnerCompleted(Vault vault, Runner runner) {
         if (GreedTrials.trialRank(vault) <= 0) {
             return;

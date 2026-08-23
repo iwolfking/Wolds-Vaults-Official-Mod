@@ -2,16 +2,11 @@ package xyz.iwolfking.woldsvaults.medallions;
 
 import net.minecraft.ChatFormatting;
 
-/**
- * Display naming and band colouring for greed medallions, kept out of {@link GreedMedallionTier}
- * so the tier enum stays a pure data table. Band colours escalate with rank so a medallion's tier
- * is readable at a glance in the workbench, in the crystal tooltip and in chat.
- */
+/** Display naming and band colouring for greed medallions. */
 public final class GreedMedallionDisplay {
     private GreedMedallionDisplay() {
     }
 
-    /** "Scavenger 1" ... "Champion 3", "Legend". */
     public static String getDisplayName(GreedMedallionTier tier) {
         String band = capitalize(tier.getBand());
         return tier.getTierInBand() > 0 ? band + " " + tier.getTierInBand() : band;
@@ -28,11 +23,7 @@ public final class GreedMedallionDisplay {
         };
     }
 
-    /**
-     * The underlined paradigm line the design doc attaches to each band: every paradigm shift at or
-     * below this tier persists, so only the highest one is worth printing as the medallion's
-     * headline behaviour.
-     */
+    /** The medallion's headline paradigm line: the highest paradigm shift at or below this tier. */
     public static String getParadigmLine(GreedMedallionTier tier) {
         if (tier.vaultChampionEnraged()) {
             return "The Vault Champion Grows Enraged";

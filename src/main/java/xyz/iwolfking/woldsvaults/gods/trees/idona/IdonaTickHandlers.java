@@ -27,15 +27,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * The Idona nodes whose damage multiplier is a function of slowly-changing player or vault state.
- * Each one is recomputed on the shared {@link GodNodeTicker} pass and stored as a named factor in
- * {@link GlobalDamageMultiplierRegistry}, so the per-hit cost is a single map product and the
- * factors compose multiplicatively with every other god node.
- *
- * <p>Every one of them reaches outside the attribute snapshot, so every one of them implements
- * {@link TickContributor#onDeactivated} - losing the charm, refunding the node or logging out
- * takes the factor back on the same event the player sees, rather than leaving it applied until
- * something else happens to overwrite it.
+ * Idona nodes whose damage multiplier tracks slowly-changing player or vault state, recomputed on
+ * the {@link GodNodeTicker} pass into {@link GlobalDamageMultiplierRegistry}.
  */
 public final class IdonaTickHandlers {
     private static final double BASE_MOVEMENT_SPEED = 0.1D;
@@ -46,12 +39,7 @@ public final class IdonaTickHandlers {
     private IdonaTickHandlers() {
     }
 
-    /**
-     * Kinetic Impact. Reads movement speed straight off the attribute, which already has the
-     * Weighted Boots cap baked in as a MULTIPLY_TOTAL modifier. The vanilla sprint modifier is
-     * divided back out, so sprinting does not spike the damage bonus - the same treatment the cap
-     * itself gives it.
-     */
+    /** Kinetic Impact: more damage per percent of movement speed above base, sprint divided out. */
     public record KineticImpactHandler(GodEffect effect) implements TickContributor {
         @Override
         public void tick(GodNodeContext context) {
@@ -109,12 +97,7 @@ public final class IdonaTickHandlers {
         }
     }
 
-    /**
-     * Under Pressure. Scales linearly from x1 at the far end of the window to the configured
-     * maximum at zero time remaining. Counting-up vaults are converted to a remaining time from
-     * their limit, so a stopwatch objective does not invert the node; outside a vault, and in an
-     * infinite vault, the node contributes nothing.
-     */
+    /** Under Pressure: x1 at the far end of the window, {@code max} at zero time remaining. */
     public record UnderPressureHandler(GodEffect effect) implements TickContributor {
         @Override
         public void tick(GodNodeContext context) {
@@ -139,12 +122,7 @@ public final class IdonaTickHandlers {
         }
     }
 
-    /**
-     * Banked Anger. The sheet's {@code log_base(base + damageTaken)} curve, deliberately read off
-     * the vault stat collector rather than a private counter, which means it tracks mob-sourced
-     * damage only (the collector ignores sources with no attacking entity) and degrades to a flat
-     * 1.0 outside a vault.
-     */
+    /** Banked Anger: {@code log_base(base + damageTaken)} over the vault stat collector. */
     public record BankedAngerHandler(GodEffect effect) implements TickContributor {
         @Override
         public void tick(GodNodeContext context) {
@@ -178,12 +156,7 @@ public final class IdonaTickHandlers {
         }
     }
 
-    /**
-     * Crushing Blows lands in the base mod's attack-damage multiplier registry rather than the
-     * global one, because the sheet calls it an attack-damage multiplier: the base registry is
-     * exactly the bucket that excludes ability and AoE damage, and it is the same bucket True Rage
-     * and Cleave Expert re-export to the paths it skips.
-     */
+    /** Crushing Blows: a stacking multiplier in the base mod's attack-damage registry. */
     public record CrushingBlowsHandler(GodEffect effect) implements TickContributor {
         @Override
         public void tick(GodNodeContext context) {
@@ -204,13 +177,7 @@ public final class IdonaTickHandlers {
         }
     }
 
-    /**
-     * Ultra Rampaging's hold on the shared ticker. The node's behaviour lives in
-     * {@code gods.combat} (Fury income, decay, the CDM rewrite and the drawback), none of which is
-     * periodic per player, so the tick itself does nothing; what the ticker is here for is the
-     * deactivation diff - losing the charm or refunding the node zeroes the Fury pool on the same
-     * event, so a swap back cannot resume a pool that was earned under the node.
-     */
+    /** Ultra Rampaging: the tick does nothing; deactivation zeroes the player's Fury pool. */
     public record UltraRampagingHandler(GodEffect effect) implements TickContributor {
         @Override
         public void tick(GodNodeContext context) {

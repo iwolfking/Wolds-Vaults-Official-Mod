@@ -9,10 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.IntSupplier;
 
-/**
- * Flat filled rectangle with an optional one pixel border. No greed art exists, so every plate,
- * chip and highlight in these screens is drawn from this plus the base window nine-slices.
- */
+/** Flat filled rectangle with an optional one pixel border. */
 public class GreedFillElement extends AbstractSpatialElement<GreedFillElement> implements IRenderedElement {
     private final IntSupplier fillColor;
     private final IntSupplier borderColor;

@@ -35,12 +35,9 @@ public abstract class MixinVaultEndScreenGodXp {
 
     /**
      * @author PoorMansPhysicist
-     * @reason append the god experience a mapped vault paid out to the experience label of the
-     * vault end screen, colored by the map's god. Appending to the same component the base
-     * measures for the label's layout means the widened text can never overlap the vanilla
-     * number, however long it gets. The local's declared type in the shipped class is
-     * {@code Component} (javap LVT: slot 24, store at 1201), so the handler must use that exact
-     * type for the STORE discriminator to match.
+     * @reason append the god experience a mapped vault paid out to the vault end screen's experience
+     * label, colored by the map's god. The local's declared type in the shipped class is
+     * {@code Component}, which the handler must match for the STORE discriminator to bind.
      */
     @ModifyVariable(method = "<init>(Liskallia/vault/core/vault/stat/VaultSnapshot;Lnet/minecraft/network/chat/Component;Ljava/util/UUID;ZZ)V",
             at = @At("STORE"), name = "xpGainedComponent")

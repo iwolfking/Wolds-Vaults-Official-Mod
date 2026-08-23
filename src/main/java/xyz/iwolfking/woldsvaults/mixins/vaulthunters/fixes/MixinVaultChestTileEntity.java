@@ -32,20 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Chest sizes, loot placement, and the mapped-strongbox tier wiring.
- *
- * <p>The strongbox half resolves the running vault's map tier when a strongbox generates loot, hands
- * it to the loot generator (tier-scaled pools/rolls), derives the displayed rarity from the tier,
- * and lets loot fill the whole 81-slot box instead of the first 27 slots. Strongboxes outside a
- * tiered vault (regular vaults, or no cache entry after a server restart) resolve tier -1 and behave
- * exactly as before.
- *
- * <p>The placement half spends the hidden slots {@code MixinVaultChestTileEntitySlots} gives every
- * in-vault chest. The base game scans only the first 27 slots for somewhere to put loot and drops
- * whatever is left once that list runs out, so a chest that rolls more stacks than the screen can
- * show throws the surplus away. The scan now covers the whole container, ordered so the visible
- * slots fill first and the hidden ones take only genuine overflow, while the stack splitter is still
- * told about the visible slots alone so what the screen shows is unchanged.
+ * Chest sizes, loot placement, and the mapped-strongbox tier wiring. A strongbox takes the running
+ * vault's map tier - -1 outside a tiered vault - for its loot pools and rarity.
  */
 @Mixin(value = VaultChestTileEntity.class, remap = false)
 public class MixinVaultChestTileEntity {
@@ -55,8 +43,7 @@ public class MixinVaultChestTileEntity {
 
     /**
      * @author iwolfking
-     * @reason Resize strongboxes to 81 slots. Strongboxes are locked (no GUI), so the vanilla
-     * ChestMenu 54-slot ceiling never applies; loot only drops on break.
+     * @reason Resize strongboxes to 81 slots; they are locked, so the ChestMenu ceiling never applies.
      */
     @Overwrite
     private int getSize(BlockState state) {
@@ -78,11 +65,6 @@ public class MixinVaultChestTileEntity {
         return block == ModBlocks.GILDED_STRONGBOX || block == ModBlocks.ORNATE_STRONGBOX || block == ModBlocks.LIVING_STRONGBOX;
     }
 
-    /**
-     * Whether this chest holds slots the player cannot see. Strongboxes have no screen at all and
-     * treasure chests open a six-row one that already covers their container, so both keep placing
-     * loot exactly as they did.
-     */
     @Unique
     private boolean woldsvaults$hasHiddenSlots() {
         VaultChestTileEntity self = (VaultChestTileEntity) (Object) this;
@@ -124,32 +106,19 @@ public class MixinVaultChestTileEntity {
         return this.woldsvaults$mapTier >= 0 ? StrongboxTierScaling.rarityForTier(this.woldsvaults$mapTier) : rarity;
     }
 
-    /**
-     * The sweep that refills generatedStacksCount after placement. Tiered strongboxes count their
-     * whole box; every other chest keeps counting the first 27 slots, as it did before hidden slots
-     * existed.
-     */
+    /** The sweep that refills generatedStacksCount; only tiered strongboxes count their whole box. */
     @ModifyConstant(method = "generateChestLoot", constant = @Constant(intValue = 27))
     private int woldsvaults$strongboxStackSweep(int cap) {
         return this.woldsvaults$mapTier >= 0 ? ((VaultChestTileEntity) (Object) this).getContainerSize() : cap;
     }
 
-    /**
-     * The threshold above which fillLoot merges identical stacks and re-splits them at max stack
-     * size. Left at 27 for every chest, so overflowing loot is still compacted into full stacks
-     * before placement - that compaction is what lets a high-roll chest fit at all - while tiered
-     * strongboxes keep the higher threshold they shipped with.
-     */
+    /** The threshold above which fillLoot merges and re-splits stacks; raised for tiered strongboxes. */
     @ModifyConstant(method = "fillLoot", constant = @Constant(intValue = 27))
     private int woldsvaults$strongboxMergeThreshold(int cap) {
         return this.woldsvaults$mapTier >= 0 ? ((VaultChestTileEntity) (Object) this).getContainerSize() : cap;
     }
 
-    /**
-     * The slot scan. Tiered strongboxes keep their existing whole-box scan; every other in-vault
-     * chest now offers its hidden slots too, so loot past the visible 27 has somewhere to go instead
-     * of being dropped when the slot list runs out.
-     */
+    /** The slot scan: any chest with hidden slots, and any tiered strongbox, offers its whole container. */
     @ModifyConstant(method = "getAvailableSlots", constant = @Constant(intValue = 27))
     private int woldsvaults$slotScanLimit(int cap) {
         if (this.woldsvaults$mapTier >= 0) {
@@ -158,11 +127,7 @@ public class MixinVaultChestTileEntity {
         return this.woldsvaults$hasHiddenSlots() ? ((VaultChestTileEntity) (Object) this).getContainerSize() : cap;
     }
 
-    /**
-     * fillLoot pops slots off the tail of this list, so the visible slots have to come last for loot
-     * to land on screen first and reach the hidden slots only once the screen is full. The shuffle
-     * the base game applies is preserved within each group.
-     */
+    /** fillLoot pops slots off the tail of this list, so the visible slots are moved last. */
     @ModifyReturnValue(method = "getAvailableSlots", at = @At("RETURN"))
     private List<Integer> woldsvaults$visibleSlotsLast(List<Integer> slots) {
         if (!this.woldsvaults$hasHiddenSlots()) {
@@ -181,12 +146,7 @@ public class MixinVaultChestTileEntity {
         return ordered;
     }
 
-    /**
-     * shuffleAndSplitItems tears stacks apart until it has one per free slot, so handing it the
-     * hidden slots as well would shred loot that fits on screen and scatter it out of sight. It is
-     * given the visible slot count instead, which leaves fragmentation identical to before and lets
-     * real overflow reach the hidden slots whole.
-     */
+    /** shuffleAndSplitItems is given the visible slot count rather than the whole container. */
     @ModifyArg(
             method = "fillLoot",
             at = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/VaultChestTileEntity;shuffleAndSplitItems(Ljava/util/List;ILiskallia/vault/core/random/RandomSource;)V"),

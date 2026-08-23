@@ -39,31 +39,17 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import java.util.UUID;
 
 /**
- * Server-side entry and exit for greed rank-up trials: validate the requirements, build the trial
- * vault in memory and drop the player straight into it, then pay out (or not) when it ends.
- *
- * <p>The build-and-join path is the base mod's own crystal-free one, copied from
- * {@code ServerboundRebirthMessage}: fill a {@link CrystalData} that never becomes an item,
- * {@link VaultFactory#create} it, {@link ServerVaults#add} it, then add the initiator as the only
- * {@link Runner}. No crystal is consumed and none is produced.</p>
- *
- * <p>Trials are personal. Both trial flavors pin {@code ClassicListenersLogic.MAX_PLAYERS} to 1, so
- * a party member cannot tag along at all - which is the simplest correct reading of "only the
- * initiating player ranks up", since nobody else can be in the vault to begin with.</p>
+ * Server-side entry and exit for greed rank-up trials. The vault is built in memory from a
+ * {@link CrystalData} that never becomes an item, and is pinned to one player.
  */
 public final class GreedTrials {
-    /** Ticks the vault stays open after a trial is won, matching every other vault's outro. */
     public static final int VICTORY_TICKS = 300;
-    /** Shorter outro on a failed trial - there is nothing to celebrate and nothing to collect. */
     public static final int FAILURE_TICKS = 100;
 
     private GreedTrials() {
     }
 
-    /**
-     * Handles a "Take Trial" click. Re-checks every requirement server side and refuses with a
-     * chat line rather than silently doing nothing, so a stale client button is diagnosable.
-     */
+    /** Handles a "Take Trial" click; re-checks every requirement and refuses in chat. */
     public static void take(ServerPlayer player) {
         if (ServerVaults.isInVault(player.level)) {
             refuse(player, "You cannot start a rank-up trial from inside a Vault.");
@@ -97,21 +83,7 @@ public final class GreedTrials {
         }
     }
 
-    /**
-     * Whether the player is already attached to a live vault, trial or not.
-     *
-     * <p>{@code ServerVaults.isInVault} only asks which level the player's body is standing in, and
-     * that is not the same question. {@link #open} adds the runner to the new vault synchronously
-     * but leaves the hyper flavor's teleport to the vault's own next tick, so between the click and
-     * that tick the player is a runner of a live trial while still standing in the overworld - and a
-     * second click in that window would build a whole second trial vault, orphaning the first along
-     * with its rank mark. The listener map is the authoritative answer and needs no new state.</p>
-     *
-     * <p>The owner check on top catches a trial whose runner add failed: the mark is written before
-     * the runner is, so a vault marked as this player's trial counts even with an empty listener
-     * map. Ordinary vaults are not checked that way - a party member's vault has an owner who is
-     * not in it, and only listeners of it should be blocked.</p>
-     */
+    /** Whether the player is a listener of any live vault, or owner of one marked as a trial. */
     private static boolean isAlreadyInAVault(ServerPlayer player) {
         UUID playerId = player.getUUID();
         for (Vault vault : ServerVaults.getAll()) {
@@ -126,11 +98,7 @@ public final class GreedTrials {
         return false;
     }
 
-    /**
-     * A toned-down hyper vault. Difficulty, modifier budget, boss strength and per-cycle scaling
-     * all come off the trial row instead of hyper_objective.json; the crystal objective carries
-     * the target rank so the objective can mark itself the moment it is built.
-     */
+    /** Opens a hyper vault whose numbers come off the trial row, not {@code hyper_objective.json}. */
     private static void startHyper(ServerPlayer player, GreedTrial trial) {
         HyperVaultCrystalObjective objective = new HyperVaultCrystalObjective();
         objective.setTrialRank(trial.getTargetRank());
@@ -144,15 +112,7 @@ public final class GreedTrials {
         open(player, crystal, trial, null);
     }
 
-    /**
-     * A single-phase vessel fight on the base mod's rebirth arena. The rebirth crystal objective
-     * pins the clock to infinite and the player count to one; the infinite flag is stripped after
-     * the fact so the trial's five-minute limit can run.
-     *
-     * <p>The vault level is deliberately left at zero, which is what the base mod's own greed
-     * trial runs at. The sheet specifies the vessel's numbers and nothing else, and the arena's
-     * phase-transition add waves are the only other thing level would move.</p>
-     */
+    /** Opens a single-phase vessel fight on the base mod's rebirth arena, at vault level 0. */
     private static void startVessel(ServerPlayer player, GreedTrial trial) {
         CrystalData crystal = CrystalData.empty();
         crystal.setLayout(new RebirthCrystalLayout());
@@ -164,11 +124,7 @@ public final class GreedTrials {
         open(player, crystal, trial, RebirthCrystalLayout.INITIAL_ENTRY_POS);
     }
 
-    /**
-     * Creates the vault, marks it as a trial and puts the initiator in it as the sole runner.
-     * {@code entry} is the fixed arena spawn for layouts that have no classic start portal to
-     * teleport into; passing null leaves the join to the vault's own keep-in-vault logic.
-     */
+    /** Creates and marks the vault and adds the sole runner; {@code entry} may be null. */
     private static void open(ServerPlayer player, CrystalData crystal, GreedTrial trial, Vec3 entry) {
         Vault vault;
         try {
@@ -209,7 +165,7 @@ public final class GreedTrials {
         player.displayClientMessage(new TextComponent("Rank-up trial started.").withStyle(ChatFormatting.GOLD), false);
     }
 
-    /** Difficulty lock for hyper trials; vessel trials inherit the arena's own fixed difficulty. */
+    /** Difficulty lock for hyper trials; a trial row with no difficulty adds nothing. */
     private static void applyTrialModifiers(Vault vault, GreedTrial trial) {
         if (trial.getDifficulty() == null) {
             return;
@@ -221,11 +177,7 @@ public final class GreedTrials {
         return PlayerVaultStatsData.get(player.getLevel()).getVaultStats((Player) player).getVaultLevel();
     }
 
-    /**
-     * Pays a won trial: one rank up (the coherence hook on {@code setGreedTier} floors reputation
-     * to the new band) and the flat coin purse for the rank climbed. Only the vault owner is paid,
-     * which for a trial is the only player who can be inside it.
-     */
+    /** Pays a won trial to the vault owner: the marked rank plus its coin purse. */
     public static void award(Vault vault, ServerPlayer player) {
         UUID vaultId = vault.get(Vault.ID);
         int rank = GreedTrialData.get(player.server).getTargetRank(vaultId);
@@ -255,12 +207,7 @@ public final class GreedTrials {
                 .append((Component) new TextComponent("+" + coins + " Greed Coins").withStyle(ChatFormatting.YELLOW)), false);
     }
 
-    /**
-     * Drops the trial mark without paying anything. Only the vessel trial's own loss path calls
-     * this; every other failure route - a hyper trial that runs out of time, a bail, a disconnect
-     * that empties the vault - kills the vault without passing through here, and
-     * {@link GreedTrialCleanup} sweeps those marks instead.
-     */
+    /** Drops the trial mark without paying anything. */
     public static void forfeit(Vault vault, ServerPlayer player) {
         if (player == null || player.getServer() == null) {
             return;
@@ -269,7 +216,7 @@ public final class GreedTrials {
         player.displayClientMessage(new TextComponent("Rank-up trial failed.").withStyle(ChatFormatting.RED), false);
     }
 
-    /** The rank a live vault is a trial for, or 0. Safe to call on any vault, on any thread tick. */
+    /** The rank a live vault is a trial for, or 0. Safe to call on any vault. */
     public static int trialRank(Vault vault) {
         if (vault == null || !vault.has(Vault.ID)) {
             return 0;
@@ -286,7 +233,7 @@ public final class GreedTrials {
         return GreedTrial.forRank(trialRank(vault));
     }
 
-    /** True when this vault is a hyper rank-up trial, the gate on every hyper behavior change. */
+    /** True when this vault is a hyper rank-up trial running a hyper objective. */
     public static boolean isHyperTrial(Vault vault) {
         GreedTrial trial = trial(vault);
         return trial != null && trial.getKind() == GreedTrial.Kind.HYPER

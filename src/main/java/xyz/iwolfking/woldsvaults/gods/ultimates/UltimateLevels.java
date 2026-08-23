@@ -5,19 +5,10 @@ import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /**
- * The four per-level ultimate tables from the {@code God Ultimates} sheet, plus the single seam
- * that decides which level an ultimate casts at.
- *
- * <p>Ultimate level is deliberately <em>not</em> the ability's {@code TieredSkill} tier. Every
- * ultimate ships as a one-tier skill and reads its numbers from here instead, which is what makes
- * the design rule "ability-boosting nodes do not affect god ultimates" true without a mixin on the
- * hot {@code TieredSkill.updateBonusTier} path: gear that grants {@code all_abilities} levels can
- * raise {@code bonusTier} all it likes and {@code getChild} still clamps to the only tier there is.
- *
- * <p>Levels run 1 to {@value #MAX_LEVEL}: the sheet lists 1-8 by hand and then a per-level
- * increment, and every ability in this pack caps at 30. No source of ultimate levels exists yet,
- * so the default provider returns {@link #DEFAULT_LEVEL} for everyone; when one arrives it feeds
- * in through {@link #setLevelProvider(LevelProvider)} and nothing else changes.
+ * The four per-level ultimate tables and the seam that decides which level an ultimate casts at. Ultimate
+ * level is not the ability's {@code TieredSkill} tier: every ultimate ships as a one-tier skill and reads
+ * its numbers from here, so ability-boosting nodes do not raise it. Levels run 1 to {@value #MAX_LEVEL},
+ * and with no level source installed the default provider returns {@link #DEFAULT_LEVEL} for everyone.
  */
 public final class UltimateLevels {
     public static final int DEFAULT_LEVEL = 1;
@@ -31,10 +22,7 @@ public final class UltimateLevels {
     private UltimateLevels() {
     }
 
-    /**
-     * Replaces the ultimate-level source. The default returns {@link #DEFAULT_LEVEL} for every
-     * player and god; whatever eventually grants ultimate levels installs the real one.
-     */
+    /** Replaces the ultimate-level source; a null provider is refused and logged. */
     public static void setLevelProvider(LevelProvider provider) {
         if (provider == null) {
             WoldsVaults.LOGGER.error("Refusing to install a null ultimate level provider; keeping the current one.");
@@ -59,11 +47,8 @@ public final class UltimateLevels {
     }
 
     /**
-     * The level the ability screen renders its numbers at. Descriptions are built on the client
-     * from the ability instance alone, which carries no player, so this is deliberately separate
-     * from {@link #resolveLevel(ServerPlayer, VaultGod)}. While every cast is
-     * {@link #DEFAULT_LEVEL} the two agree; a real level source has to sync the cast level onto
-     * the ability before the description can follow it.
+     * The level the ability screen renders at, separate from {@link #resolveLevel(ServerPlayer, VaultGod)} because
+     * client descriptions carry no player.
      */
     public static int displayLevel() {
         return DEFAULT_LEVEL;
@@ -91,11 +76,8 @@ public final class UltimateLevels {
     }
 
     /**
-     * Radius 5 at levels 1-3, 6 at 4-6, 7 at 7-9, then one more every three levels. The whole ladder
-     * sits one above the {@code God Ultimates} sheet, which starts at 4 - a deliberate buff, and the
-     * cap moved with it. The sheet's "Level+ 0.33 (rounded down)" is unbounded; it is capped at
-     * {@value #EYES_RADIUS_CAP} here because the reveal resolves every region in a
-     * {@code (2r+1)^2} block in a single tick.
+     * Radius 5 at levels 1-3, then one more every three levels, capped at {@value #EYES_RADIUS_CAP}; the ladder
+     * sits one above the sheet, whose own value is uncapped.
      */
     public static int eyesRadius(int level) {
         return Math.min(5 + (level - 1) / 3, EYES_RADIUS_CAP);
@@ -111,18 +93,14 @@ public final class UltimateLevels {
                 0.20F + 0.05F * steps);
     }
 
-    /** Supplies the level an ultimate casts at, per player and per god. */
     @FunctionalInterface
     public interface LevelProvider {
         int getUltimateLevel(ServerPlayer player, VaultGod god);
     }
 
     /**
-     * @param abilityPowerMultiplier ability-power multiplier for the infusion
-     * @param attackDamageMultiplier attack-damage multiplier for the infusion
-     * @param resistance             own-source damage reduction, multiplicative with armour and resistance
-     * @param compoundingPerHit      additive stack added per landed hit, and the dash's share of the accumulator
-     * @param durationTicks          infusion length, 15 s at every level
+     * @param resistance        own-source damage reduction, multiplicative with armour and resistance
+     * @param compoundingPerHit additive stack added per landed hit, and the dash's share of the accumulator
      */
     public record Cope(float abilityPowerMultiplier, float attackDamageMultiplier, float resistance,
                        float compoundingPerHit, int durationTicks) {
@@ -131,11 +109,7 @@ public final class UltimateLevels {
     public record Savior(float healing, float absorption, float resistance, int durationTicks) {
     }
 
-    /**
-     * @param timerStretch the sheet's "vault timer stretch"; applied as a clock-rate factor of
-     *                     {@code 1 + stretch}, i.e. the {@code 1/(1+s)} speed reading, so a stretch
-     *                     at or above 100% slows the clock instead of freezing or reversing it
-     */
+    /** @param timerStretch applied as a clock-rate factor of {@code 1 + stretch} */
     public record BulletTime(float timerStretch, float dodgeChance, int durationTicks, float attackSpeed,
                              float movementSpeed) {
     }

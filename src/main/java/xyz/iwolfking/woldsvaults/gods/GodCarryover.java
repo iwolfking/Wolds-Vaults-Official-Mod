@@ -16,16 +16,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The 25% carryover fold. Folds god tree gear attributes into a player's attribute snapshot:
- * the active tree at full value, every foreign tree's basic nodes at a quarter, nothing from any
- * tree while no charm is equipped, and the minor stars carried by the transfer slots of every god
- * that is not the active one at full value. The scale per tree comes from
- * {@link GodNodeCache#treeScale}, the same rule the node gate applies, so this fold and the
- * gate-driven effects can never disagree about what a tree is worth.
- *
- * <p>Folding into the snapshot rather than tracking vanilla attribute modifiers is deliberate —
- * the snapshot is rebuilt from scratch on every refresh, so a charm swap cannot leak stats, and
- * the client HUD stays correct through the base mod's existing snapshot sync.
+ * Folds god tree gear attributes into the attribute snapshot: the active tree and non-active gods'
+ * transfer-slot minors in full, foreign basic nodes at {@link #FOREIGN_TREE_SCALE}, nothing with no charm.
  */
 public final class GodCarryover {
     public static final float FOREIGN_TREE_SCALE = 0.25F;
@@ -35,13 +27,7 @@ public final class GodCarryover {
     private GodCarryover() {
     }
 
-    /**
-     * Adds every god tree contribution for {@code player} to {@code snapshot}. Called from the
-     * tail of the base mod's snapshot computation; never cancels or replaces existing values.
-     * The applied post-scale instances are also handed to {@link GodVanillaAttributes}, which
-     * mirrors the few gear attributes the base mod only consumes from equipped gear onto real
-     * vanilla attribute modifiers on the same rebuild cadence.
-     */
+    /** Adds every god tree contribution to {@code snapshot}, then reconciles {@link GodVanillaAttributes}. */
     public static void addGodInformationToSnapshot(ServerPlayer player, AttributeSnapshot snapshot) {
         GodNodeAttributeSource source = GodNodeAttributeSource.get();
         if (source == GodNodeAttributeSource.NOOP) {

@@ -30,12 +30,7 @@ public abstract class MixinGreedTraderScreenAchievements extends AbstractElement
         super(container, inventory, title, elementRenderer, tooltipRendererFactory);
     }
 
-    /**
-     * Appends an Achievements tab to the greed trader's own left-hand tab strip, below Shop,
-     * Quests and Challenges, using the same geometry the base tabs use. The greed rework's
-     * achievements screen shares this container instance, which is exactly what the server-side
-     * claim gate tests, so claiming is only ever possible from here.
-     */
+    /** Appends an Achievements tab to the greed trader's tab strip; the screen it opens shares this container. */
     @Inject(method = "init", at = @At("TAIL"), remap = true)
     private void addAchievementsTab(CallbackInfo ci) {
         boolean selected = (Object) this instanceof GreedTraderAchievementsScreen;

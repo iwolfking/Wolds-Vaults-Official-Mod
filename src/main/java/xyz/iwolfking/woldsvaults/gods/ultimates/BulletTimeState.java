@@ -16,19 +16,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Wendarr's ultimate, minus the ability shell: the attack- and movement-speed buffs, the dodge
- * roll, and the stretched vault clock.
- *
- * <p>The clock half rides the wave-1 {@code VaultClockRate} primitive. The sheet's "vault timer
- * stretch" is applied as a rate <em>factor</em> of {@code 1 + stretch}, i.e. a vault second becomes
- * that many times longer. Taking the sheet's percentages as a direct subtraction instead would
- * freeze the timer at 100% and run it backwards at 120%, turning the ultimate into a time faucet;
- * the factor reading gives 0.667x clock speed at level 1 and 0.455x at level 8 and can never go
- * negative. Note the vault clock is shared, so in a party the stretch benefits everyone in the run.
- *
- * <p>Both speed buffs are transient attribute modifiers with fixed UUIDs, removed on expiry, on
- * death, on logout and on leaving the dimension, so no modifier can survive its buff the way the
- * U33 talent modifiers did.
+ * Wendarr's ultimate behaviour: the attack- and movement-speed buffs, the dodge roll, and the stretched
+ * vault clock. The sheet's timer stretch reaches {@code VaultClockRate} as a rate factor of
+ * {@code 1 + stretch}, and the vault clock is shared, so a whole party runs on the stretched clock.
  */
 public final class BulletTimeState {
     private static final Map<UUID, State> STATES = new ConcurrentHashMap<>();
@@ -51,12 +41,7 @@ public final class BulletTimeState {
         STATES.put(player.getUUID(), state);
     }
 
-    /**
-     * The bullet-time dodge chance for this player, or zero. It is deliberately an independent roll
-     * rather than an addition to the gear dodge stat: gear dodge is clamped at 0.95 and a geared
-     * player would sit on that cap already, which would make every level of the ultimate's own
-     * 0.70-0.85 ladder worthless.
-     */
+    /** The bullet-time dodge chance for this player, or zero; it is rolled independently of the gear dodge stat. */
     public static float getDodgeChance(Player player) {
         State state = STATES.get(player.getUUID());
         return state == null ? 0.0F : state.dodgeChance;
@@ -137,10 +122,6 @@ public final class BulletTimeState {
         }
     }
 
-    /**
-     * Drops every player's state. Called on server stop only: the modifiers these states apply are
-     * transient, so the entries are what outlive a world, not the modifiers themselves.
-     */
     public static void clearAll() {
         STATES.clear();
     }

@@ -32,11 +32,8 @@ public class MixinGearModificationAction {
     }
 
     /**
-     * Slashes a vault map's Bonus XP implicit whenever the map is actually modified at the artisan
-     * station. The modification call is wrapped rather than the method's tail injected: the base
-     * method pops the call's boolean and falls through to its single trailing return either way, so
-     * a tail inject also fired for a modification that ran and returned {@code false}, charging the
-     * map's bonus for a reroll that changed nothing.
+     * Slashes a vault map's Bonus XP implicit when the map is actually modified. Wraps the modification
+     * call, since a tail inject cannot tell a modification that returned {@code false} from one that ran.
      */
     @WrapOperation(method = "apply", at = @At(value = "INVOKE",
             target = "Liskallia/vault/gear/modification/GearModification;apply(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;Ljava/util/Random;)Z"))

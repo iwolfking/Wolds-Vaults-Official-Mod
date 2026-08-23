@@ -10,22 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Vault clock rate: how many game ticks one vault second lasts.
- *
- * <p>The base mod has no such concept — {@code TickTimer.tickTime()} decrements the displayed
- * time by exactly one every server tick, unconditionally. This primitive introduces the missing
- * rate: a vault second is {@value #BASE_TICKS_PER_VAULT_SECOND} game ticks by default, and named
- * factors multiply that length. A factor above 1 lengthens the vault second, so the clock runs
- * slower and the run lasts longer in real time; a factor below 1 speeds the clock up.
- *
- * <p>Applied by an accumulator on the clock itself, so fractional rates never round away: the
- * displayed time only advances once enough game ticks have accumulated. Pausing is handled for
- * free, because the base mod skips the tick entirely while the clock carries {@code PAUSED}, and
- * counting-up vaults ({@code TickStopwatch}) are covered too, because the gate sits on the shared
- * call site rather than on either subclass.
- *
- * <p>State is per vault and in memory only; it is not written to the vault snapshot, so factors
- * must be re-applied if a vault is reloaded from disk.
+ * Vault clock rate: how many game ticks one vault second lasts, with named factors multiplying that
+ * length (above 1 slows the clock). State is per vault and in memory only, never saved.
  */
 public final class VaultClockRate {
     public static final int BASE_TICKS_PER_VAULT_SECOND = 20;
@@ -35,10 +21,7 @@ public final class VaultClockRate {
     private VaultClockRate() {
     }
 
-    /**
-     * Sets a named rate factor on a vault's clock. Factors multiply with each other; the product
-     * scales the length of a vault second.
-     */
+    /** Sets a named rate factor on a vault's clock; factors multiply with each other. */
     public static boolean setRateFactor(Vault vault, ResourceLocation key, float factor) {
         State state = stateOf(vault);
         if (state == null) {
@@ -70,7 +53,6 @@ public final class VaultClockRate {
         return BASE_TICKS_PER_VAULT_SECOND * getRateFactor(vault);
     }
 
-    /** The multiplicative product of every rate factor on this vault, 1.0 when unmodified. */
     public static float getRateFactor(Vault vault) {
         State state = stateOf(vault);
         return state == null ? 1.0F : state.product();
@@ -89,7 +71,6 @@ public final class VaultClockRate {
         return ((VaultClockRateHolder) clock).woldsvaults$getClockRate();
     }
 
-    /** Per-clock rate factors plus the fractional accumulator that applies them. */
     public static final class State {
         public final Map<ResourceLocation, Float> factors = new LinkedHashMap<>();
         public float accumulator;
@@ -102,10 +83,7 @@ public final class VaultClockRate {
             return Math.max(product, MIN_FACTOR);
         }
 
-        /**
-         * Advances the accumulator by one game tick and returns how many clock ticks that
-         * releases. Zero means this game tick is swallowed by a slowed clock.
-         */
+        /** Advances the accumulator one game tick and returns how many clock ticks that releases. */
         public int consume() {
             this.accumulator += 1.0F / this.product();
             int ticks = 0;

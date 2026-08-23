@@ -31,15 +31,8 @@ import java.util.UUID;
 
 /**
  * The server-side heartbeat of the Vault Champion: rage decay, the spawn roll, the leash, hunt-target
- * re-binding, the boss bar and the aura membership set.
- *
- * <p>It drives everything from a single server tick rather than from the entity, and that is what
- * makes the hunt work at all. A vault is many rooms across, nothing forces chunks beyond the one the
- * player stands in, and an entity outside a loaded region does not tick - so a Champion that relied
- * on its own AI to chase would stop dead the moment its quarry walked away. The leash here runs on
- * the server tick and teleports the Champion back into range regardless, which turns the whole
- * problem into a non-issue and closes the airborne escape the base mod's own teleport gate leaves
- * open.</p>
+ * re-binding, the bar and the aura membership set. It all runs from the server tick rather than from the
+ * entity, so the hunt continues while the Champion's own chunk is unloaded and it does not tick.
  */
 public final class VaultChampionManager {
     private static final String ORPHAN_KEY = "woldsvaults:greed_champion_orphan";
@@ -95,10 +88,8 @@ public final class VaultChampionManager {
     }
 
     /**
-     * Warns once a session when the two spawn gates disagree. {@code greed_medallions.json} decides
-     * which ranks may summon a Champion and {@code gods/greed_champion.json} decides what one is made
-     * of; a rank that passes the first and is missing from the second builds rage to its threshold and
-     * then rolls forever against a spawn that can never happen, with nothing said in play.
+     * Warns once a session about ranks {@code greed_medallions.json} lets summon a Champion but
+     * {@code gods/greed_champion.json} has no stat block for; they build rage and never spawn.
      */
     private static void verifyRankCoverage(GreedChampionConfig config) {
         if (rankCoverageChecked) {
@@ -118,24 +109,13 @@ public final class VaultChampionManager {
         }
     }
 
-    /** Clears the state that only holds for one server session. */
     public static void resetSessionState() {
         rankCoverageChecked = false;
     }
 
     /**
-     * Re-adopts any Champion standing in the vault that no player state points at.
-     *
-     * <p>A Champion outlives the map that tracks it. It is persistent and it is saved with the world,
-     * so a server restart - or anything else that empties {@code VaultChampionState} - leaves a live
-     * boss in a vault with no record of it: no bar, no leash, no orphan countdown, and nothing to stop
-     * the next roll arming a second one. Everything needed to rebuild that record rides the entity, so
-     * the fix is to read it back rather than to write a saved-data file for what is otherwise a purely
-     * within-run counter.
-     *
-     * <p>Run on its own slow cadence and only while somebody is in the level, because a Champion in an
-     * unloaded chunk is not there to be found: the sweep has to keep coming back until the region
-     * around it loads.</p>
+     * Re-adopts any Champion in the vault that no player state points at, since a Champion is saved with the world
+     * and outlives {@code VaultChampionState}.
      */
     private static void adoptUnmanaged(Vault vault, UUID vaultId, ServerLevel level) {
         if (level.players().isEmpty()) {
@@ -161,14 +141,8 @@ public final class VaultChampionManager {
     }
 
     /**
-     * Rebuilds one Champion's bookkeeping from its own NBT: the summoner owns the record, the rank and
-     * the damage pool are already on the entity, and the hunt target is re-resolved by the next manager
-     * tick like any other. What cannot be recovered is the summoner's champion-kill count, so their
-     * next threshold escalation starts over - the same thing a restart does to rage itself.
-     *
-     * <p>Anything that cannot be bookkept is discarded rather than left roaming. A Champion with no
-     * damage pool can never be defeated, and one with no summoner has nobody to settle rage against;
-     * both would be permanent unmanaged bosses.</p>
+     * Rebuilds one Champion's bookkeeping from its own NBT; the summoner's champion-kill count cannot be
+     * recovered, so their threshold escalation starts over. One carrying no summoner, rank or pool is discarded.
      */
     private static void adopt(Vault vault, UUID vaultId, TheVesselEntity champion, Set<UUID> tracked) {
         UUID stampedVault = VaultChampion.getVaultId(champion);
@@ -205,11 +179,6 @@ public final class VaultChampionManager {
                 (long) VaultChampionKills.poolOf(champion));
     }
 
-    /**
-     * Whether a rune boss or artifact boss is alive in this level. Both resolve their entity type from
-     * config rather than a fixed id, so the shared base class is the only stable handle: hyper vaults
-     * escalate the rune boss, and the rune boss and the artifact boss both extend it.
-     */
     public static boolean bossFightInProgress(ServerLevel level) {
         List<? extends VaultBossBaseEntity> bosses = level.getEntities(
                 EntityTypeTest.<Entity, VaultBossBaseEntity>forClass(VaultBossBaseEntity.class),
@@ -218,14 +187,8 @@ public final class VaultChampionManager {
     }
 
     /**
-     * One manager tick for one player's Champion.
-     *
-     * <p>An entity that does not resolve is not a fight that ended. The usual reason is that its chunk
-     * is not loaded, and the record is what keeps the vault from arming a second Champion while the
-     * first is merely out of sight; the grace period is only there so a record whose entity is
-     * genuinely gone - removed by an operator, lost with a corrupt region file - does not lock the
-     * player out of Champions for the rest of the run. One that comes back after its record is dropped
-     * is re-adopted by the next sweep.</p>
+     * One manager tick for one player's Champion; an entity that does not resolve keeps its record for
+     * {@link #MISSING_GRACE_TICKS}, since its chunk is usually just unloaded.
      */
     private static void tickChampion(Vault vault, ServerLevel level, VaultChampionState.PlayerState state,
                                      GreedChampionConfig config, int interval) {
@@ -273,9 +236,8 @@ public final class VaultChampionManager {
     }
 
     /**
-     * Hands the Champion a new victim when its current one dies, disconnects or extracts. The stamp it
-     * rewrites is the hunt target only: the summoner keeps the rage bookkeeping, so the player who
-     * brought this on themselves is still the one whose counter resets when it goes down.
+     * Hands the Champion the nearest runner when its current victim dies, disconnects or extracts; only the hunt
+     * target is rewritten, never the summoner.
      */
     private static ServerPlayer rebind(Vault vault, TheVesselEntity champion) {
         ServerPlayer nearest = null;
@@ -309,9 +271,8 @@ public final class VaultChampionManager {
     }
 
     /**
-     * Closes the distance the moment its quarry gets too far, ignoring every cooldown the Vessel's own
-     * teleport is gated behind. Those gates include the target standing on the ground, which is how an
-     * elytra escapes the arena fight; the whole point of a free-roaming hunter is that it does not.
+     * Teleports the Champion back into range once its quarry is past the leash distance, ignoring every gate the
+     * Vessel's own teleport sits behind.
      */
     private static void leash(ServerLevel level, TheVesselEntity champion, ServerPlayer hunted,
                               GreedChampionConfig config) {
@@ -330,9 +291,8 @@ public final class VaultChampionManager {
     }
 
     /**
-     * Rolls once every {@code rage.rollIntervalTicks} to arm a spawn. It never spawns directly: the roll only sets a flag, and
-     * the Champion actually arrives on the player's next chest, ore or kill. That keeps the arrival
-     * tied to something the player did rather than to a timer they cannot see.
+     * Rolls once every {@code rage.rollIntervalTicks} to arm a spawn; it never spawns directly, the Champion
+     * arriving on the player's next chest, ore or kill.
      */
     private static void rollArm(Vault vault, ServerLevel level, UUID playerId,
                                 VaultChampionState.PlayerState state, GreedChampionConfig config) {
@@ -359,11 +319,6 @@ public final class VaultChampionManager {
         }
     }
 
-    /**
-     * Rebuilds the set of players standing inside a Champion's or an assassin's aura. Recomputed on a
-     * cadence and read as a set membership test, so the per-effect hook stays a hash lookup rather than
-     * an entity sweep.
-     */
     private static void recomputeAura(MinecraftServer server, GreedChampionConfig config) {
         GreedChampionConfig.Aura aura = config.getAura();
         double radiusSq = aura.radius * aura.radius;
@@ -408,10 +363,8 @@ public final class VaultChampionManager {
     }
 
     /**
-     * Drops every bar and every aura member, and takes every Champion in the vault with it. The sweep
-     * is by tag rather than by record: a Champion the state lost track of - one that was unloaded when
-     * its record aged out, or that a restart orphaned - is exactly the one that must not be left behind
-     * in a world that is about to be deleted.
+     * Drops every bar and aura member and discards every Champion in the vault, sweeping by tag so an untracked
+     * one is caught too.
      */
     public static void releaseVault(Vault vault, MinecraftServer server) {
         if (vault == null || !vault.has(Vault.ID)) {
@@ -430,7 +383,6 @@ public final class VaultChampionManager {
         VaultChampionState.release(vaultId);
     }
 
-    /** Discards every tagged Champion standing in the vault's level, and answers which ones those were. */
     private static Set<UUID> sweepChampions(MinecraftServer server, UUID vaultId) {
         Set<UUID> discarded = new HashSet<>();
         if (server == null) {

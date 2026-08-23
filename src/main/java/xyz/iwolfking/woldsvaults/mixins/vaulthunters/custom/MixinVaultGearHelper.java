@@ -50,13 +50,7 @@ public class MixinVaultGearHelper {
         }
     }
 
-    /**
-     * Applies {@code health_boost} as a MULTIPLY_TOTAL modifier on max health.
-     *
-     * <p>the_vault's own {@code health_percentile} uses MULTIPLY_BASE, which lands in the same
-     * additive bucket as the +% health from cards. This one has to multiply the finished total
-     * instead, so a 0.10 roll reads as a clean 1.10x on whatever health the player already had.</p>
-     */
+    /** Applies {@code health_boost} as MULTIPLY_TOTAL on max health, so a 0.10 roll is 1.10x the total. */
     @ModifyReturnValue(method = "getModifiers(Liskallia/vault/gear/data/AttributeGearData;)Lcom/google/common/collect/Multimap;", at = @At("RETURN"))
     private static Multimap<Attribute, AttributeModifier> addTotalHealthMultiplier(Multimap<Attribute, AttributeModifier> original, AttributeGearData data) {
         if (!data.hasAttribute(ModGearAttributes.HEALTH_BOOST)) {
@@ -75,11 +69,7 @@ public class MixinVaultGearHelper {
         return ImmutableMultimap.<Attribute, AttributeModifier>builder().putAll(original).put(Attributes.MAX_HEALTH, modifier).build();
     }
 
-    /**
-     * Mirrors VaultGearHelper's private seededId so the added modifier gets a stable id in the same
-     * scheme as every other gear-derived modifier, and therefore cannot collide with the ADDITION
-     * or MULTIPLY_BASE health modifiers produced from the same item.
-     */
+    /** Mirrors {@code VaultGearHelper}'s private seededId, giving the added modifier a stable, unique id. */
     private static UUID seededId(UUID seed, Attribute attribute, AttributeModifier.Operation operation) {
         long attrHash = hashName(attribute.getRegistryName().toString());
         attrHash ^= hashName(operation.name());

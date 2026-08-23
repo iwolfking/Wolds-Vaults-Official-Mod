@@ -12,10 +12,7 @@ import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaPowerDump;
 public class MixinManaCostHelperIdona {
     /**
      * @author PoorMansPhysicist
-     * @reason Power Dump charges every instant ability the whole mana bar. This is the single
-     * choke point every ability's cost passes through, and there is no event carrying an ability's
-     * mana cost, so the override has to happen here. It only stages the surplus: the affordability
-     * check runs this too, and a cast that is refused after the check must not bank anything.
+     * @reason Power Dump charges every instant ability the whole mana bar; only stages the surplus
      */
     @ModifyReturnValue(method = "adjustManaCost(Lnet/minecraft/server/level/ServerPlayer;Liskallia/vault/skill/base/Skill;F)F",
             at = @At("RETURN"))
@@ -25,9 +22,7 @@ public class MixinManaCostHelperIdona {
 
     /**
      * @author PoorMansPhysicist
-     * @reason the surplus staged above is banked only when mana is actually paid. This is the
-     * payment path's own adjuster, which runs after the affordability check has passed, and its
-     * result is zero for an Ethereal free cast - so a free cast never banks a surplus it did not pay.
+     * @reason banks the staged surplus only when mana is actually paid
      */
     @ModifyReturnValue(method = "adjustManaCostForPayment", at = @At("RETURN"))
     private static float commitPowerDump(float paid, ServerPlayer player, Skill skill, float baseCost) {

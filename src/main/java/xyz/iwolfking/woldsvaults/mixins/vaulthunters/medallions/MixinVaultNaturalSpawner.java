@@ -12,16 +12,7 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 @Mixin(value = NaturalSpawner.class, remap = false)
 public class MixinVaultNaturalSpawner {
 
-    /**
-     * Greed medallions raise the vault's mob spawn rate. The spawner keeps mob pressure at a
-     * constant population - it tops the world up to {@code baseMaxMobs + extraMaxMobs} every tick -
-     * so lifting that ceiling is what "+X% Mobs" means in practice, and it multiplies the base and
-     * modifier-granted mobs together rather than joining the additive pool that {@code mob_increase}
-     * writes to.
-     *
-     * <p>Injected on local 4 of {@code lambda$tickServer$0}, the {@code maxMobs} sum; index verified
-     * against the shipped 3.21.6 disassembly ({@code iadd; istore 4}).</p>
-     */
+    /** Multiplies the spawner's {@code maxMobs} ceiling by the crystal's greed medallion factor. */
     @ModifyVariable(method = "lambda$tickServer$0", at = @At("STORE"), index = 4)
     private int scaleMaxMobsForMedallion(int maxMobs, VirtualWorld world, Vault vault, ServerPlayer player) {
         double multiplier = GreedMedallionEffects.mobSpawnMultiplier(vault);

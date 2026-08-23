@@ -12,16 +12,8 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.tenos.TreasureDoorPale
 import java.util.List;
 
 /**
- * Barter Expert (r102): vendoors this player opens have a 50% chance to use the rich pedestal
- * table, which is the only one that can roll god, rare and omega shop pedestals.
- *
- * <p>A normal vault's vendoor room is 100% plain shop pedestals - the door <em>rate</em> is not
- * modifiable and the god/rare/omega pedestals live in a different palette entirely, so the node
- * has to swap the table rather than change any chance. The swap is an insert at index 0 because
- * the loot tile processor is first-processor-wins; appending would always lose to the plain table.
- *
- * <p>Degrades to vanilla on its own: if the accessor mixin is not applied the cast fails, the
- * failure is logged once, and every vendoor keeps its stock behaviour.
+ * Barter Expert: vendoors this player opens have a chance to use the rich pedestal table, which can
+ * roll god, rare and omega pedestals. Inserted at index 0, since the processor is first-wins.
  */
 public final class TenosVendoors {
     public static final ResourceLocation RICH_PALETTE = VaultMod.id("vendor_rooms/vendor_rooms_map");

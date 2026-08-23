@@ -19,11 +19,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * Minor-transfer slots: each god's slots carry that god's own learned minor stars to whichever god
- * is active, and go dormant while that god is the active one because the constellation already
- * applies them. This is the one place a slot assignment is validated and applied - the screen's
- * message and the debug command both come through {@link #assign} - and the one definition of
- * which slot contents count, shared by the server data and its client mirror.
+ * Minor-transfer slots: each god's slots carry that god's own learned minor stars to whichever god is
+ * active, and go dormant while that god is the active one. Assignments go through {@link #assign}.
  */
 public final class MinorTransferSlots {
     public enum Result {
@@ -41,10 +38,8 @@ public final class MinorTransferSlots {
     }
 
     /**
-     * The effect ids a god's transfer slots currently carry, read the same way on both sides:
-     * only the first {@code unlockedSlots} slots count, holes are skipped, and an entry that is no
-     * longer a learned minor star of that god is skipped and reported to {@code onStale} - the
-     * server logs it once, the client ignores it.
+     * The effect ids a god's transfer slots carry: only the first {@code unlockedSlots} count, holes are
+     * skipped, and an entry no longer transferable is skipped and reported to {@code onStale}.
      */
     public static List<String> liveTransfers(VaultGod god, GodAlignmentData.GodState state, int unlockedSlots,
                                              Consumer<String> onStale) {
@@ -65,9 +60,8 @@ public final class MinorTransferSlots {
     }
 
     /**
-     * Whether {@code effectId} is something {@code god}'s slots may carry for a player whose spent
-     * ledger with that god is {@code ledger}: a minor effect of this very god, placed and enabled in
-     * its tree, that the player has bought. Anything else sitting in a slot reads as empty.
+     * Whether {@code god}'s slots may carry {@code effectId} for a player whose ledger is {@code ledger}:
+     * a minor of this very god, placed and enabled in its tree, that the player has bought.
      */
     public static boolean isTransferable(VaultGod god, @Nullable String effectId, Map<String, Integer> ledger) {
         if (effectId == null || effectId.isEmpty()) {
@@ -85,12 +79,8 @@ public final class MinorTransferSlots {
     }
 
     /**
-     * Puts {@code effectId} into slot {@code slot} of {@code god}'s transfer slots, or clears the
-     * slot when the id is null or empty, after re-checking everything the screen checked: the slot
-     * is unlocked, the effect is an enabled minor of this god, and the player has bought it. On
-     * success the alignment is synced by the write, the gate cache is dropped, the attribute
-     * snapshot is rebuilt and the tick contributors are reconciled, so the change applies on the
-     * spot rather than on the next unrelated refresh.
+     * Puts {@code effectId} into {@code slot} of {@code god}'s transfer slots, or clears it for a null or
+     * empty id. On success the gate cache, attribute snapshot and tick contributors are all refreshed.
      */
     public static Result assign(ServerPlayer player, VaultGod god, int slot, @Nullable String effectId) {
         MinecraftServer server = player.getServer();

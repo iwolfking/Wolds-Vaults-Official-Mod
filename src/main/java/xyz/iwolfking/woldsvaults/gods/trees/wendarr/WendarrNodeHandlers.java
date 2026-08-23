@@ -30,28 +30,12 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 
 import java.util.Optional;
 
-/**
- * Every handler type the Wendarr tree owns, and the typed parameters each one reads.
- *
- * <p>Five plain stat effects bind the shared {@code gear_attribute_scaled} type and Pious Devotion
- * binds the shared {@code piety} type, so none of those is named here. What is left is one type
- * per effect Java has to know about: the three stat effects computed from live player state, the
- * vault-clock and damage effects in {@link WendarrTimeHandlers}, and the rest as
- * {@link ListenerBoundHandler} - numbers in config, validated at load, behaviour still reached through
- * the base mod events, the shared final damage stage and the mixins that own the ordering.
- *
- * <p>Params component names are the config keys verbatim, including their underscores. The codec
- * binds by component name, so renaming one here silently means renaming it in the config file
- * too.
- */
+/** Wendarr handler types and their params, whose component names are the config keys verbatim. */
 public final class WendarrNodeHandlers {
     private WendarrNodeHandlers() {
     }
 
-    /**
-     * Registers every Wendarr handler type. Called from {@code GodNodeHandlerTypes.bootstrap()},
-     * which is the only point guaranteed to run before the god tree configs are validated.
-     */
+    /** Registers every Wendarr handler type. Must run before the god tree configs are validated. */
     public static void register() {
         GodNodeHandlers.register(WendarrNodes.THE_DECKLESS, TheDecklessParams.class, TheDecklessHandler::new);
         GodNodeHandlers.register(WendarrNodes.EFFICIENT_STEPS, EfficientStepsParams.class, EfficientStepsHandler::new);
@@ -84,21 +68,12 @@ public final class WendarrNodeHandlers {
                 WendarrTimeHandlers::previewPacedStrikes);
     }
 
-    /**
-     * The loaded parameters of one Wendarr effect. Absence is a programming error rather than a
-     * config error - load-time validation has already asserted that every placed effect exists
-     * and resolves its handler - so it fails loudly naming the effect instead of degrading to a
-     * zero that would read as a balance change.
-     */
+    /** The loaded parameters of one Wendarr effect. Throws naming the effect if it is absent. */
     public static <T extends GodEffectParams> T params(String effectId, Class<T> type) {
         return GodNodeRegistry.params(VaultGod.WENDARR, effectId, type);
     }
 
-    /**
-     * The Deckless: every empty card deck slot pays fruit efficiency, movement speed and cooldown
-     * reduction, per invested point. Read from the live deck at snapshot time rather than banked,
-     * so pulling a card out of the deck moves the stats inside a vault.
-     */
+    /** The Deckless: each empty deck slot pays fruit efficiency, speed and cooldown, per point. */
     public record TheDecklessHandler(GodEffect effect) implements StatContributor {
         @Override
         public void contribute(GodNodeContext context, GodStatSink sink) {
@@ -115,14 +90,8 @@ public final class WendarrNodeHandlers {
     }
 
     /**
-     * Efficient Steps: a share of the player's fruit efficiency paid back as movement speed.
-     *
-     * <p>The stat leg cannot read fruit efficiency itself. It runs <em>inside</em> attribute
-     * snapshot construction, so asking {@code AttributeSnapshotHelper} for the value there would
-     * re-enter a half-built snapshot. The tick leg samples it on the shared ticker, well outside
-     * construction, and parks the reading in {@link GodNodeState}; fruit efficiency only moves on
-     * gear and node changes, so a one-second lag is invisible. That is what retires this tree's
-     * private sampler and its static per-player map.
+     * Efficient Steps: a share of fruit efficiency paid back as movement speed. The tick leg
+     * samples it into {@link GodNodeState}; the stat leg reads only that sample.
      */
     public record EfficientStepsHandler(GodEffect effect) implements StatContributor, TickContributor {
         @Override
@@ -149,12 +118,7 @@ public final class WendarrNodeHandlers {
         }
     }
 
-    /**
-     * Plushie Lover doubles an equipped plushie by contributing a second copy of every attribute
-     * the plushie already rolls, which lands on the snapshot exactly like the gear pass did.
-     * Cheaper and far less invasive than a multiplier on the snapshot calculator, and it cannot
-     * double anything the player is not actually wearing.
-     */
+    /** Plushie Lover: contributes a second copy of every attribute on an offhand plushie. */
     public record PlushieLoverHandler(GodEffect effect) implements StatContributor {
         @Override
         public void contribute(GodNodeContext context, GodStatSink sink) {

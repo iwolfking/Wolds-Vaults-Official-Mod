@@ -24,12 +24,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Irradiates mobs standing near a player wearing the ancient Plague Steppers.
- *
- * <p>Exposure is cumulative: a mob picks up Slowness I on entering the aura and gains a level for
- * every further five seconds it lingers, capped at Slowness III. Leaving the aura decays the
- * accumulated exposure at the same rate it built up, so a mob cannot bank a stack, step out, and
- * return at full strength.</p>
+ * Irradiates mobs near a player wearing the ancient Plague Steppers. Exposure is cumulative - Slowness I
+ * on entry, a level per further five seconds, capped at III - and decays at the same rate on leaving.
  */
 @Mod.EventBusSubscriber
 public class RadiationWaveTracker {

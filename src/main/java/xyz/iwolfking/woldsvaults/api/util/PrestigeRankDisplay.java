@@ -3,12 +3,7 @@ package xyz.iwolfking.woldsvaults.api.util;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
 
-/**
- * Turns the prestige tree's raw greed-tier gate into the rank wording the rest of the greed UI
- * uses. The int stored in {@code requiredGreedTier} is the 1..16 rank index, so the only thing the
- * prestige screens need is the matching rank name; both call sites are string rewrites on
- * the_vault's own text so that the vanilla colouring and layout are left alone.
- */
+/** Turns the prestige tree's {@code requiredGreedTier}, a 1..16 rank index, into greed rank wording. */
 public final class PrestigeRankDisplay {
     public static final String LEGACY_WIDGET_PREFIX = "Requires Greed Tier ";
     public static final String LEGACY_DIALOG_LABEL = "\nRequired Greed Tier: ";
@@ -21,10 +16,7 @@ public final class PrestigeRankDisplay {
         return GreedTheme.rankName(rank).getString();
     }
 
-    /**
-     * Rewrites the node tooltip's requirement line to the bare rank name ("Hunter 2"). Returns the
-     * input untouched for every other tooltip line, so the injection can stay ordinal-free.
-     */
+    /** Rewrites a node tooltip's requirement line to the bare rank name; any other line is returned untouched. */
     public static String rewriteWidgetRequirement(String line) {
         if (line == null || !line.startsWith(LEGACY_WIDGET_PREFIX)) {
             return line;
@@ -38,9 +30,6 @@ public final class PrestigeRankDisplay {
         }
     }
 
-    /**
-     * Rewrites the dialog's per-tier requirement value, which the_vault renders as a bare number.
-     */
     public static String rewriteDialogRequirement(String value) {
         try {
             return rankName(Integer.parseInt(value));

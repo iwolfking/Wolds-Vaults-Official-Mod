@@ -16,18 +16,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Velara's ultimate. A vault-wide shockwave that heals, shields and protects every runner in the
- * vault, and pulls downed teammates back to their feet.
- *
- * <p>The roster is {@code Vault.LISTENERS}' runners rather than the {@code /party} roster: the
- * spec says "all players in the vault", and a party member in a different vault plainly should not
- * be healed by a shockwave they are not standing in. Cast outside a vault it still works, on the
- * caster alone.
- *
- * <p>The revive half is best-effort by construction. The base mod's {@code completeRevive} is
- * private and reached through an invoker mixin, so if that mixin is ever missing the heal, shield
- * and protection still land and only the revive is skipped, with a logged error. The downed system
- * itself only ever engages in multiplayer, so a solo caster never has anyone to raise.
+ * Velara's ultimate: a vault-wide shockwave that heals, shields and protects every runner in the vault and
+ * raises downed teammates. The roster is {@code Vault.LISTENERS}' runners, not the party; cast outside a
+ * vault it affects the caster alone. If the {@code completeRevive} invoker is unavailable, only the
+ * revive is skipped.
  */
 public class SaviorAbility extends GodUltimateAbility {
     public SaviorAbility(int unlockLevel, int learnPointCost, int regretPointCost, int cooldownTicks, float manaCost) {
@@ -104,7 +96,6 @@ public class SaviorAbility extends GodUltimateAbility {
         }
     }
 
-    /** The level-scaled values the ability screen renders; see {@link UltimateLevels#displayLevel()}. */
     public UltimateLevels.Savior getDisplayValues() {
         return UltimateLevels.savior(UltimateLevels.displayLevel());
     }

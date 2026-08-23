@@ -11,12 +11,7 @@ import java.util.function.Supplier;
 
 @Mixin(value = ServerboundOpenGreedMessage.class, remap = false)
 public class MixinServerboundOpenGreedMessage {
-    /**
-     * Refuses to open the old greed tree screen. The player menu no longer offers the tab
-     * (see {@code MixinSkillTabContainerElement}), and this closes the network path a stale or
-     * modified client could still use to reach the retired tree. Unlocked greed nodes keep their
-     * effects; only the screen is gone.
-     */
+    /** Refuses to open the greed tree screen. Unlocked greed nodes keep their effects. */
     @Inject(method = "handle", at = @At("HEAD"), cancellable = true)
     private static void refuseGreedTreeScreen(ServerboundOpenGreedMessage message, Supplier<NetworkEvent.Context> contextSupplier, CallbackInfo ci) {
         contextSupplier.get().setPacketHandled(true);

@@ -31,11 +31,7 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
     @Shadow
     public float itemRarity;
 
-    /**
-     * Map tier (0-5) of the mapped strongbox this generator rolls for, set by the chest tile
-     * entity mixin before generate() runs. -1 (everything that is not a mapped strongbox) keeps
-     * every path below identical to the chest behavior.
-     */
+    /** Map tier (0-5) of the mapped strongbox this rolls for, set before {@code generate()}; -1 for none. */
     @Unique
     private int woldsvaults$mapTier = -1;
 
@@ -57,13 +53,7 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         return 1.1f * (float) Math.log(originalValue + 1.0f);
     }
 
-    /**
-     * Mapped strongboxes add a few base rolls per tier, lifting the whole quantity curve. The
-     * Tenos chest nodes (Massive Chests, Expert Looter) add their extra rolls at the same point,
-     * read off the generator's source entity - the chest tile entity sets it to the opening player.
-     * A greed medallion on the vault scales the result last, so its "+X% Chest Rolls" multiplies
-     * every additive source rather than joining them.
-     */
+    /** Adds strongbox per-tier and Tenos base rolls, then applies the medallion's "+X% Chest Rolls" last. */
     @ModifyExpressionValue(
             method = "generate",
             at = @At(value = "INVOKE", target = "Liskallia/vault/core/world/roll/IntRoll;get(Liskallia/vault/core/random/RandomSource;)I")
@@ -78,11 +68,7 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         return adjusted;
     }
 
-    /**
-     * Mapped strongboxes cap at 72-162 rolls by tier instead of the constructor's 54. The Tenos
-     * chest nodes lift the cap by the same amount they add to the base roll, so Massive Chests
-     * reaches 74 rather than piling rolls onto a cap that would throw them away again.
-     */
+    /** Mapped strongboxes cap at 72-162 rolls by tier instead of 54; Tenos chest nodes lift the cap too. */
     @ModifyExpressionValue(
             method = "generate",
             at = @At(value = "FIELD", target = "Liskallia/vault/core/world/loot/generator/TieredLootTableGenerator;maxRolls:I", opcode = Opcodes.GETFIELD)
@@ -96,12 +82,8 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
     }
 
     /**
-     * Replaces the uniform weight * (1 + itemRarity) sub-pool scaling with per-pool curves on
-     * 5-pool (mapped vault) tables; 4-pool tables keep the incoming vanilla weight. generate()
-     * fills key = [roll, w0..wn-1] before generateEntry, and the adjusted pool being built here
-     * holds one child per already-scaled sub-pool, giving the base weight and pool index directly.
-     * Mapped strongboxes (mapTier >= 0) use the tier-steepened strongbox curves; mapped chests
-     * keep the plain mythic curve.
+     * Replaces the uniform {@code weight * (1 + itemRarity)} sub-pool scaling with per-pool curves on
+     * 5-pool tables - strongbox curves for a mapped strongbox, mythic otherwise. 4-pool tables keep theirs.
      */
     @WrapOperation(
             method = "generateEntry",
@@ -119,13 +101,9 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
     }
 
     /**
-     * Routes the rarity-percentile CDF three ways. Strongboxes skip it entirely - their rarity
-     * comes from the map tier, and building the exact CDF at a T6 strongbox's 162 rolls would
-     * enumerate ~30M compositions (multi-second freeze, GBs of cache). 5-pool mapped-chest
-     * tables above EXACT_ROLL_LIMIT rolls use the O(pools) Gaussian approximation instead of
-     * growing the exact cache into the hundreds of MB lategame. Everything else (4-pool tables,
-     * low-roll 5-pool tables) keeps the exact enumeration. Returning null skips CDF::new; the
-     * paired wrap below turns the null into the substitute value.
+     * Routes the rarity-percentile CDF three ways: strongboxes skip it, 5-pool tables above
+     * {@code EXACT_ROLL_LIMIT} rolls approximate, everything else enumerates exactly. Null skips
+     * {@code CDF::new}, and {@link #routeCdfValue} substitutes the value.
      */
     @WrapOperation(
             method = "generate",
@@ -141,11 +119,7 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         return original.call(cache, cdfKey, factory);
     }
 
-    /**
-     * Pairs with {@link #routeCdfBuild}: when the CDF build was skipped, strongboxes resolve
-     * 1.0 (the value is never read - rarity comes from the map tier) and mapped chests resolve
-     * the Gaussian approximation.
-     */
+    /** Pairs with {@link #routeCdfBuild}: a skipped build resolves 1.0, or the Gaussian approximation. */
     @WrapOperation(
             method = "generate",
             at = @At(value = "INVOKE", target = "Liskallia/vault/core/world/loot/generator/TieredLootTableGenerator$CDF;get([I)D")

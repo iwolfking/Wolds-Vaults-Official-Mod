@@ -16,20 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * The god binding of every running mapped vault, stashed when a map-imprinted crystal configures
- * its vault and read when a player leaves it completed.
- *
- * <p>It is world SavedData rather than an in-memory table because the award is owed to everyone who
- * leaves the vault completed, however late: the vault only ends once its last listener has gone,
- * so a binding that lived in memory would pay the late leavers of a vault that crossed a server
- * restart nothing. The vault's own stats survive the restart; so must this.
- *
- * <p>The vault's difficulty multiplier is captured here at build time rather than read at award
- * time, because a greed medallion's contribution to it is released when the vault ends and the
- * award must not depend on which teardown listener runs first. Entries are dropped when their vault
- * ends; one left behind by a crash is harmless and tiny.</p>
- */
+/** Persisted god binding of every running mapped vault, dropped when its vault ends. */
 public final class MapGodVaultState {
     private MapGodVaultState() {
     }

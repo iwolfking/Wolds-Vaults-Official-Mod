@@ -14,14 +14,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * The one place a milestone's contract lives: which milestones exist, what each one counts, what
- * every tier of it costs and what it pays. The structure - id, category, counter, the challenge
- * crystal a milestone tracks - is code; every number behind it is pack data in
- * {@code config/the_vault/greed_milestones.json}, installed by {@code ModConfigs.register}.
- *
- * <p>That includes the two composite "in one vault" milestones, whose real requirements are not
- * expressible as the single pass/fail tier their counter carries. {@link MilestoneVaultState}
- * judges them, but it asks the registry what they need rather than tabling its own copy.</p>
+ * Which milestones exist, what each one counts, and what every tier of it costs and pays. The
+ * structure is code; the numbers come from {@code config/the_vault/greed_milestones.json}.
  */
 public class MilestoneRegistry {
     private static final Map<String, MilestoneDefinition> BY_ID = new LinkedHashMap<>();
@@ -36,12 +30,7 @@ public class MilestoneRegistry {
     private static List<VaultChestType> dedicatedOrder = DEFAULT_DEDICATED_ORDER;
     private static volatile Map<String, LocalNumbers> localNumbers = Map.of();
 
-    /**
-     * Vault objective keys that "Seen It All" requires: exactly the objectives that award god
-     * experience. The key is the crystal objective type written into {@code Objectives.KEY};
-     * anything outside this set is ignored so that new or internal objective types cannot inflate
-     * the counter.
-     */
+    /** Objective keys "Seen It All" requires, as written into {@code Objectives.KEY}. */
     public static final Set<String> SEEN_IT_ALL_TYPES = Collections.unmodifiableSet(new LinkedHashSet<>(List.of(
             "elixir", "scavenger", "unhinged_scavenger", "brutal_bosses", "rune_boss",
             "enchanted_elixir", "hyper", "alchemy", "bingo", "scavenger_bingo",
@@ -53,14 +42,7 @@ public class MilestoneRegistry {
             "scaling_unhinged_scavenger_bingo", "unhinged_scavenger_bingo",
             "scaling_ballistic_bingo", "ballistic_bingo");
 
-    /**
-     * Resolves a live {@code Objectives.KEY} to the "Seen It All" token it counts for, or null
-     * when that objective is not one of the counted ones. Three of the counted objectives are held
-     * in {@code CrystalData.OBJECTIVE} under two ids for the same class - the addon registers a
-     * {@code scaling_} id from its mod constructor and the vhapi objective registry re-registers
-     * the same class under the plain id during the registry event - so the alias table keeps the
-     * token stable regardless of which id the type lookup ends up returning.
-     */
+    /** The "Seen It All" token an {@code Objectives.KEY} counts for, or null; aliases resolve. */
     public static String seenItAllToken(String objectiveKey) {
         if (objectiveKey == null) {
             return null;
@@ -76,12 +58,7 @@ public class MilestoneRegistry {
         load(GreedMilestonesConfig.defaults());
     }
 
-    /**
-     * Rebuilds every definition from a config read off disk. Called once from
-     * {@code ModConfigs.register} and again on every config reload; the registry starts on the
-     * shipped defaults so that anything touching it before configs are read - item registration,
-     * datagen - still sees the real progression.
-     */
+    /** Rebuilds every definition from config; the registry starts on the shipped defaults. */
     public static void load(GreedMilestonesConfig loaded) {
         config = loaded;
         dedicatedOrder = readDedicatedOrder(loaded);
@@ -94,18 +71,8 @@ public class MilestoneRegistry {
     }
 
     /**
-     * Installs the milestone numbers a server sent, so the client's screens read the host's balance
-     * instead of the {@code greed_milestones.json} sitting on the player's own disk.
-     *
-     * <p>Only the numbers travel; the structure - which milestones exist, what each counts, which
-     * challenge crystal each tracks - is code and is identical on both sides, so the definitions
-     * already built here are updated in place rather than rebuilt. That keeps every existing reader
-     * ({@link #get}, {@link #getAll}, {@link #getByCategory}) pointing at the same objects.</p>
-     *
-     * <p>The local numbers are stashed on the first install and put back by {@link #restoreLocal},
-     * which the client mirror calls on disconnect. A milestone the server does not mention keeps
-     * its local numbers and is reported: that means the two sides disagree about which milestones
-     * exist, which is a version mismatch rather than a config difference.</p>
+     * Installs the numbers a server sent in place, stashing the local ones for
+     * {@link #restoreLocal}. A milestone the server omits or sends bad numbers for is left alone.
      */
     public static void applyServerTables(Map<String, long[]> thresholds,
                                          Map<String, int[]> reputation,
@@ -128,10 +95,7 @@ public class MilestoneRegistry {
         }
     }
 
-    /**
-     * Puts the locally configured numbers back, undoing {@link #applyServerTables}. Idempotent, and
-     * a no-op when no server table was ever installed.
-     */
+    /** Puts the local numbers back. Idempotent, and a no-op when no server table was installed. */
     public static void restoreLocal() {
         if (localNumbers.isEmpty()) {
             return;
@@ -181,56 +145,38 @@ public class MilestoneRegistry {
         return BY_CATEGORY.getOrDefault(category, List.of());
     }
 
-    /**
-     * The milestone that tracks a greed challenge crystal, or null when that crystal has none.
-     * {@code ultra_hard} is the one offered crystal without a milestone.
-     */
+    /** The milestone that tracks a greed challenge crystal, or null when that crystal has none. */
     public static MilestoneDefinition getByChallengeCrystal(String challengeCrystalId) {
         return challengeCrystalId == null ? null : BY_CHALLENGE_CRYSTAL.get(challengeCrystalId);
     }
 
-    /**
-     * Greed rank a challenge crystal is gated behind, from the rank tag on its milestone. Crystals
-     * with no milestone return 0, which leaves them on their config {@code minTier} gate.
-     */
+    /** Greed rank a challenge crystal is gated behind, or 0 when no milestone tags it. */
     public static int getChallengeRequiredRank(String challengeCrystalId) {
         MilestoneDefinition definition = getByChallengeCrystal(challengeCrystalId);
         return definition == null ? 0 : definition.getRequiredRank();
     }
 
-    /**
-     * Mob kills "Vault of Vaults" needs inside a single vault.
-     */
+    /** Mob kills "Vault of Vaults" needs inside a single vault. */
     public static long getVaultOfVaultsMobs() {
         return vaultOfVaults().mobKills;
     }
 
-    /**
-     * Chests of each of the four normal types "Vault of Vaults" needs inside a single vault.
-     */
+    /** Chests of each of the four normal types "Vault of Vaults" needs inside a single vault. */
     public static long getVaultOfVaultsChestsPerType() {
         return vaultOfVaults().chestsPerType;
     }
 
-    /**
-     * Doors of each type - treasure, vendoor, dungeon - "Vault of Vaults" needs inside a single
-     * vault.
-     */
+    /** Doors of each type "Vault of Vaults" needs inside a single vault. */
     public static long getVaultOfVaultsDoorsPerType() {
         return vaultOfVaults().doorsPerType;
     }
 
-    /**
-     * Ores "Vault of Vaults" needs inside a single vault.
-     */
+    /** Ores "Vault of Vaults" needs inside a single vault. */
     public static long getVaultOfVaultsOres() {
         return vaultOfVaults().ores;
     }
 
-    /**
-     * Chests of one type "Dedicated Looter" needs before the next type in its order starts
-     * counting.
-     */
+    /** Chests of one type "Dedicated Looter" needs before the next type starts counting. */
     public static long getDedicatedLooterTarget() {
         GreedMilestonesConfig.DedicatedLooterEntry entry = config.getDedicatedLooter();
         if (entry != null && entry.perChestType > 0L) {
@@ -240,10 +186,7 @@ public class MilestoneRegistry {
         return GreedMilestonesConfig.defaults().getDedicatedLooter().perChestType;
     }
 
-    /**
-     * The chest types "Dedicated Looter" must be worked through, in order. Its size is the number
-     * of phases the milestone runs for.
-     */
+    /** The chest types "Dedicated Looter" must be worked through, in order, one phase each. */
     public static List<VaultChestType> getDedicatedLooterOrder() {
         return dedicatedOrder;
     }
@@ -257,11 +200,7 @@ public class MilestoneRegistry {
         return GreedMilestonesConfig.defaults().getVaultOfVaults();
     }
 
-    /**
-     * Resolves the configured chest order once at load. An unknown or empty order is reported and
-     * answered with the shipped order, because a half-parsed order would leave the milestone
-     * permanently stuck on the phase whose chest type went missing.
-     */
+    /** Resolves the configured chest order; an empty or invalid one falls back to the shipped one. */
     private static List<VaultChestType> readDedicatedOrder(GreedMilestonesConfig loaded) {
         GreedMilestonesConfig.DedicatedLooterEntry entry = loaded.getDedicatedLooter();
         if (entry == null || entry.chestOrder == null || entry.chestOrder.isEmpty()) {
@@ -292,11 +231,7 @@ public class MilestoneRegistry {
         return definition;
     }
 
-    /**
-     * The configured numbers for a milestone. A missing or malformed entry is reported by id and
-     * answered from the shipped defaults, because dropping the milestone would silently delete a
-     * player's progress in it and stubbing it would corrupt the tier the save already holds.
-     */
+    /** The configured numbers for a milestone, falling back to the shipped defaults with an error. */
     private static GreedMilestonesConfig.Entry entry(String id) {
         GreedMilestonesConfig.Entry entry = config.getMilestone(id);
         if (entry != null && entry.isUsable()) {
@@ -322,19 +257,12 @@ public class MilestoneRegistry {
         register(id, category, MilestoneCounter.DISTINCT, null);
     }
 
-    /**
-     * A pass/fail milestone. Its counter is a high-water mark rather than an accumulator because
-     * {@link Milestones#complete} raises it to 1 through {@link Milestones#reach}, and the counter
-     * a definition declares is enforced against the mutator that touches it.
-     */
+    /** A pass/fail milestone, counted as a high-water mark that {@link Milestones#complete} sets. */
     private static void oneShot(String id, MilestoneCategory category) {
         register(id, category, MilestoneCounter.HIGHEST, null);
     }
 
-    /**
-     * Registers a challenge-crystal milestone: one tier, reputation and rank tag from config, and
-     * the crystal id that both completes it and is gated by that same rank.
-     */
+    /** Registers a challenge-crystal milestone against the crystal that completes it. */
     private static void challenge(String id, String challengeCrystalId) {
         register(id, MilestoneCategory.CHALLENGE, MilestoneCounter.HIGHEST, challengeCrystalId);
     }

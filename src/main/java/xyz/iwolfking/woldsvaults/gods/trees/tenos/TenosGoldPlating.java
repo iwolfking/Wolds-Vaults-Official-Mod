@@ -13,23 +13,8 @@ import java.util.List;
 import java.util.concurrent.atomic.DoubleAdder;
 
 /**
- * Gold Plating (r116): 75% of incoming damage is blocked, paid for with
- * {@code 2 * log10(10 + resisted)} gold per hit.
- *
- * <p>It is a damage reduction, so it sits in the shared post-mitigation {@link FinalDamageStage}
- * rather than on the pre-mitigation combat pipeline: that is what keeps it ordered against Second
- * Chance and the base mod's other reducers instead of racing them on event priority.
- *
- * <p>The charge is accumulated and settled at most once a second by
- * {@link TenosVaultHandlers.GoldPlatingHandler}, never per hit.
- * {@code CoinDefinition.extractCurrency} walks the player's whole inventory including coin pouches
- * and keyrings, so billing on every hit would be twenty full inventory scans a second per player.
- * Batching keeps the total cost exactly as specified while collapsing the scans into one.
- *
- * <p>A player who cannot pay keeps the debt: the resistance stays on and the outstanding gold is
- * taken as soon as they have it again, rather than the node flickering off mid-fight. The ledger
- * lives in the shared {@link GodNodeState} player scratch, so logout, vault-listener leave and
- * respec all clear it through the god core's own teardown.
+ * Gold Plating: a post-mitigation {@link FinalDamageStage} reduction billing
+ * {@code cost_coefficient * log10(cost_offset + resisted)} gold. An unpayable debt is carried over.
  */
 public final class TenosGoldPlating {
     private TenosGoldPlating() {

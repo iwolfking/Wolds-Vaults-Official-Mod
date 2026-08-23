@@ -5,15 +5,8 @@ import iskallia.vault.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /**
- * The unlock rule for Mr. Greedy's challenge crystals. Mr. Greedy offers every challenge the
- * player's rank has unlocked at once, so the same predicate has to answer for the offer list, for
- * the purchase the client sends back, and for pruning offers when a rank is force-set downwards -
- * this is the one place it lives.
- *
- * <p>A crystal is unlocked when the greed tier clears both gates: the rank tagged on the crystal's
- * milestone, and the config's own {@code minTier}/{@code maxTier} window. The rank gate is the
- * rework's; the config gate is kept on top of it so that {@code ultra_hard}, the one offered
- * crystal with no milestone and therefore rank 0, still opens on its configured tier.</p>
+ * The unlock rule for Mr. Greedy's challenge crystals: the greed tier must clear both the rank
+ * tagged on the crystal's milestone and the config's {@code minTier}/{@code maxTier} window.
  */
 public final class GreedChallengeOffers {
     private static volatile boolean audited;
@@ -21,28 +14,12 @@ public final class GreedChallengeOffers {
     private GreedChallengeOffers() {
     }
 
-    /**
-     * Re-arms the gate audit so a config reload is checked again. Called from
-     * {@link MilestoneRegistry#load}, which is where the rank tags are rebuilt.
-     */
+    /** Re-arms the gate audit so a config reload is checked again. */
     public static void resetAudit() {
         audited = false;
     }
 
-    /**
-     * Reports every crystal whose config {@code minTier} sits above its milestone's rank tag.
-     *
-     * <p>The two gates are ANDed, so the higher one wins: a crystal tagged for Looter 1 but
-     * configured with {@code minTier} 5 is quietly unbuyable until Looter 2, while the reputation
-     * its milestone pays - which is derived from the tag - stays priced for Looter 1. The mismatch
-     * has no symptom in game beyond a crystal that never appears, so it is called out here rather
-     * than left to be rediscovered by hand.</p>
-     *
-     * <p>Runs once per registry load, on the first unlock question asked after it, because
-     * {@code ModConfigs.GREED_TRADER} belongs to the base mod and is not guaranteed to have been
-     * read by the time the addon installs its own configs. Crystals with no milestone are skipped:
-     * they carry no tag, and {@code minTier} is deliberately their only gate.</p>
-     */
+    /** Logs crystals whose {@code minTier} sits above their milestone's rank tag, once per load. */
     private static void auditGates() {
         if (audited || ModConfigs.GREED_TRADER == null) {
             return;
@@ -60,9 +37,6 @@ public final class GreedChallengeOffers {
         }
     }
 
-    /**
-     * Whether the given rank may be offered and sold this challenge entry.
-     */
     public static boolean isUnlocked(GreedChallengeEntry entry, int rank) {
         auditGates();
         if (entry == null) {
@@ -74,9 +48,7 @@ public final class GreedChallengeOffers {
         return MilestoneRegistry.getChallengeRequiredRank(entry.getChallengeCrystalId()) <= rank;
     }
 
-    /**
-     * Same test, resolved from a crystal id against the live greed trader config.
-     */
+    /** Same test, resolved from a crystal id against the live greed trader config. */
     public static boolean isUnlocked(String challengeCrystalId, int rank) {
         if (challengeCrystalId == null) {
             return false;
@@ -88,14 +60,7 @@ public final class GreedChallengeOffers {
         return isUnlocked(ModConfigs.GREED_TRADER.getChallengeEntryById(challengeCrystalId), rank);
     }
 
-    /**
-     * Reputation a challenge crystal is worth to the given player state: the reputation of the
-     * next tier of its milestone that has not been collected yet, which for the one-tier challenge
-     * milestones is simply what the milestone pays. Crystals with no milestone are worth nothing.
-     *
-     * @param claimedTiers   tiers of that milestone whose reputation the player already collected
-     * @param completedTiers tiers of that milestone the player has finished
-     */
+    /** Reputation of the next uncollected tier of a crystal's milestone, or 0 when it has none. */
     public static int getReputation(String challengeCrystalId, int claimedTiers, int completedTiers) {
         MilestoneDefinition definition = MilestoneRegistry.getByChallengeCrystal(challengeCrystalId);
         if (definition == null) {

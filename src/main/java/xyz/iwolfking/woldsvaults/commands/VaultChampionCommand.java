@@ -21,11 +21,7 @@ import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampionManager;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampionSpawner;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampionState;
 
-/**
- * Testing and diagnostics for the Vault Champion. Everything it does is reachable in normal play by
- * building rage; this exists so the fight can be tuned without farming a vault first, and so the rage
- * curve can be read directly rather than inferred.
- */
+/** Testing and diagnostics for the Vault Champion: spawn one, and read or add rage. */
 public class VaultChampionCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {

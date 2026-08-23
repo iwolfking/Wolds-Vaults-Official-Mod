@@ -9,11 +9,7 @@ import xyz.iwolfking.woldsvaults.gods.ClientVaultGodXp;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-/**
- * Tells the leaving player how much god experience their mapped vault just paid, and for which
- * god, so the vault end screen can print it beside the vault experience. Sent before the award
- * is banked so it always lands ahead of the exit screen opening.
- */
+/** The god experience a mapped vault paid, for the end screen. Sent before the award is banked. */
 public class ClientboundVaultGodXpMessage extends Message<ClientboundVaultGodXpMessage> {
     private final UUID vaultId;
     private final VaultGod god;

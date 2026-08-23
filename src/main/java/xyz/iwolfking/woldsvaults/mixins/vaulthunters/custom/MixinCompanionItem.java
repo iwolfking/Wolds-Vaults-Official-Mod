@@ -27,12 +27,7 @@ public class MixinCompanionItem {
         }
     }
 
-    /**
-     * Feeds the "Pal Trainer" milestone. Injected at the end of the experience path rather than at
-     * the one-shot ancient relic slot unlock so that companions that were already at max level
-     * before the milestone shipped still register on their next experience grant; the milestone
-     * stores companion UUIDs, so the repeat calls that this costs are free.
-     */
+    /** Feeds the "Pal Trainer" milestone on every experience grant to a max-level companion. */
     @Inject(method = "addCompanionXP", at = @At("TAIL"))
     private static void countMaxLevelCompanion(ItemStack stack, int xpToAdd, CallbackInfo ci) {
         if (CompanionItem.getCompanionLevel(stack) < ModConfigs.COMPANIONS.getMaxLevel()) {

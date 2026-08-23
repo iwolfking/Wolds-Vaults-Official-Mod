@@ -13,12 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Drops trial marks whose vault is gone. Winning a trial clears its own mark, but every failure
- * route - death, the timer running out, a disconnect that empties the vault - ends the vault
- * without passing through the payout, so without this the table would grow one dead entry per
- * failed attempt forever.
- */
+/** Drops trial marks whose vault is gone, every 200 server ticks. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GreedTrialCleanup {
     private static final int PERIOD_TICKS = 200;

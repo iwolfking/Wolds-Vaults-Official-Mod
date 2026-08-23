@@ -18,15 +18,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * The god nodes whose description carries a live formula rather than a fixed number, and the
- * server-side resolvers that turn that formula into the bonus the player has right now.
- *
- * <p>The gods tab asks the server for the selected node's preview and the reply carries the
- * formula text to swap out of the description, the multiplier it currently resolves to and the
- * worked math shown when the value is hovered. Each tree registers its own previews beside its
- * handler types in {@code GodNodeHandlerTypes.bootstrap()}; the formula constants here are what
- * the descriptions datagen emits, so the text the screen looks for and the text the description
- * holds cannot drift apart.
+ * The god nodes whose description carries a live formula rather than a fixed number, plus the
+ * server-side resolvers behind them. The constants here are the text the descriptions datagen emits.
  */
 public final class GodNodePreviews {
     public static final String MALEDICTION_FORMULA = "cubeRoot(1 + healing efficiency)";
@@ -35,7 +28,6 @@ public final class GodNodePreviews {
     public static final String SACK_OF_MOBS_FORMULA = "log1000(1000 + kills)";
     public static final String PACED_STRIKES_FORMULA = "sqrt((50 + t) / 50)";
 
-    /** A resolved preview: the multiplier the formula gives right now and the math behind it, top line first. */
     public record Preview(double multiplier, List<Component> lines) {
     }
 
@@ -52,10 +44,7 @@ public final class GodNodePreviews {
     private GodNodePreviews() {
     }
 
-    /**
-     * Registers the live formula of one effect. Registering an effect twice is a programming error
-     * and is fatal, the same way a duplicate handler type is.
-     */
+    /** Registers the live formula of one effect; registering an effect twice is fatal. */
     public static synchronized void register(String effectId, String formulaText, Resolver resolver) {
         if (effectId == null || effectId.isBlank() || formulaText == null || formulaText.isBlank() || resolver == null) {
             throw GodTreeConfigException.fail("Refusing to register a god node preview with a blank effect id or formula");
@@ -100,7 +89,6 @@ public final class GodNodePreviews {
         return (percent < 0.0D ? "-" : "+") + number(Math.abs(percent)) + "%";
     }
 
-    /** A number for the worked math: whole when it is whole, otherwise up to two decimals. */
     public static String number(double value) {
         String text = String.format(Locale.ROOT, "%.2f", value);
         if (text.indexOf('.') >= 0) {
@@ -112,12 +100,10 @@ public final class GodNodePreviews {
         return text.equals("-0") ? "0" : text;
     }
 
-    /** A multiplier for the worked math, always to three decimals so small bonuses do not vanish. */
     public static String multiplier(double value) {
         return String.format(Locale.ROOT, "%.3f", value);
     }
 
-    /** The hover body for a preview: its lines joined with line breaks into one component. */
     public static MutableComponent hoverText(List<Component> lines) {
         MutableComponent hover = new TextComponent("");
         for (int i = 0; i < lines.size(); i++) {
@@ -129,11 +115,7 @@ public final class GodNodePreviews {
         return hover;
     }
 
-    /**
-     * Builds the hover lines of a preview in the one shape every formula node shares: the formula,
-     * each input with its meaning and current value, the worked result, and a note when the star
-     * is not currently applying.
-     */
+    /** Builds the hover lines of a preview: formula, inputs with their values, worked result, notes. */
     public static final class Working {
         private final VaultGod god;
         private final List<Component> lines = new ArrayList<>();
@@ -166,7 +148,6 @@ public final class GodNodePreviews {
             return this;
         }
 
-        /** Adds the standard note when the star is not applying to the player right now. */
         public Working inactive(boolean inactive) {
             if (inactive) {
                 this.note("This star is not active for you right now; this is what it would give.");

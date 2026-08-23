@@ -62,7 +62,6 @@ public class ModItems {
     public static VaultLootSackItem LOOT_SACK;
     public static VaultRangItem RANG;
     public static VaultMapItem MAP;
-    //public static VaultBowItem BOW;
 
     public static CombinedTrinketItem COMBINED_TRINKET;
 
@@ -94,7 +93,6 @@ public class ModItems {
     public static final BasicMobEggItem ROBOT_EGG = new BasicMobEggItem(WoldsVaults.id("robot_spawn_egg"), () -> iskallia.vault.init.ModEntities.ROBOT, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
     public static final BasicMobEggItem BLUE_BLAZE_EGG = new BasicMobEggItem(WoldsVaults.id("blue_blaze_spawn_egg"), () -> iskallia.vault.init.ModEntities.BLUE_BLAZE, 333333, DyeColor.GRAY.getId(), (new Item.Properties()).tab(VAULT_MOD_GROUP));
 
-    // Alchemy Objective things
     public static final AlchemyIngredientItem ROTTEN_HEART = new AlchemyIngredientItem(WoldsVaults.id("rotten_heart"), AlchemyIngredientItem.AlchemyIngredientType.DEADLY);
     public static final AlchemyIngredientItem ROTTEN_APPLE = new AlchemyIngredientItem(WoldsVaults.id("rotten_apple"), AlchemyIngredientItem.AlchemyIngredientType.RUTHLESS);
     public static final AlchemyIngredientItem VERDANT_GLOBULE = new AlchemyIngredientItem(WoldsVaults.id("verdant_globule"), AlchemyIngredientItem.AlchemyIngredientType.NEUTRAL);
@@ -113,14 +111,12 @@ public class ModItems {
     public static final AltarResetItem ALTAR_DECATALYZER;
     public static final GreedTreeResetItem GREED_TREE_RESET_ITEM;
 
-    //Angel Rings
     public static final ChromaticIronAngelRing CHROMATIC_IRON_ANGEL_RING;
     public static final ChromaticGoldAngelRing CHROMATIC_GOLD_ANGEL_RING;
     public static final ChromaticSteelAngelRing CHROMATIC_STEEL_ANGEL_RING;
     public static final BlackChromaticSteelAngelRing BLACK_CHROMATIC_STEEL_ANGEL_RING;
     public static final PrismaticAngelRing PRISMATIC_ANGEL_RING;
 
-    //Orbs
     public static final ExpertiseOrbItem EXPERTISE_ORB_ITEM;
     public static final SkillOrbItem SKILL_ORB_ITEM;
 
@@ -128,7 +124,6 @@ public class ModItems {
     public static final BasicItem WEAPON_TYPE_FOCUS;
     public static final BasicItem BLAZING_FOCUS;
     public static final BasicItem SUSPENSION_FOCUS;
-   // public static final BasicItem WEAPON_TYPE_SETTER;
 
     public static BasicItem FRENZY_CAPSTONE;
     public static BasicItem PROSPEROUS_CAPSTONE;
@@ -150,15 +145,14 @@ public class ModItems {
     public static GreedyTicketItem GREEDY_TICKET;
 
     /**
-     * The sixteen greed medallions, one per greed rank, keyed by tier. Registry ids follow
-     * {@code woldsvaults:greed_medallion_<pathName>} so a tier's id, model and lang key all derive
-     * from the same string.
+     * The sixteen greed medallions, one per greed rank. Registry ids are
+     * {@code woldsvaults:greed_medallion_<pathName>}.
      */
     public static final Map<GreedMedallionTier, GreedMedallionItem> GREED_MEDALLIONS = new EnumMap<>(GreedMedallionTier.class);
 
     /**
-     * Testing-only source of ancient uniques: right-clicking it yields a finished level 100 ancient
-     * unique drawn uniformly from every unique that has an ancient tier config.
+     * Testing-only source of ancient uniques: yields a level 100 ancient unique drawn uniformly from every unique
+     * with an ancient tier config.
      */
     public static UnidentifiedAncientUniqueItem UNIDENTIFIED_ANCIENT_UNIQUE;
 
@@ -203,16 +197,13 @@ public class ModItems {
     public static xyz.iwolfking.woldsvaults.items.GodNeuralizerItem WENDARR_GOD_NEURALIZER;
     public static PoltergeistPlum POLTERGEIST_PLUM;
 
-    //Zealot items
     public static BasicItem TOME_OF_TENOS;
     public static BasicItem VELARA_APPLE;
     public static BasicItem IDONA_DAGGER;
     public static BasicItem WENDARR_GEM;
 
-    //Crystal Modification Items
     public static LayoutModificationItem LAYOUT_MANIPULATOR;
 
-    //Backpack?
     public static BackpackItem XL_BACKPACK;
 
 
@@ -259,7 +250,6 @@ public class ModItems {
     public static ConfigurableFloatingTextBlockItem CONFIGURABLE_FLOATING_TEXT;
     public static TimeTrialTrophyItem TIME_TRIAL_TROPHY;
 
-    //Buckets
     public static BucketItem PRISMATIC_GLUE_BUCKET = (BucketItem) new BucketItem(ModFluids.PRISMATIC_GLUE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS)).setRegistryName(WoldsVaults.id("prismatic_glue_bucket"));
     public static BucketItem MOLTEN_TRINKET_BUCKET = (BucketItem) new BucketItem(ModFluids.MOLTEN_TRINKET, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS)).setRegistryName(WoldsVaults.id("molten_trinket_bucket"));
 
@@ -434,7 +424,6 @@ public class ModItems {
         });
         registry.register(RAINBOW_UNOBTANIUM);
 
-        //Mod dependent loading
         if(ConditionalModUtils.isModPresent("occultism")) {
             ModRitualDummyItems.registerItems(event);
         }

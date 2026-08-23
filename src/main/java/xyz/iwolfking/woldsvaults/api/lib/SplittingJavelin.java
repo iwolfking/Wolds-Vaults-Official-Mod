@@ -1,9 +1,6 @@
 package xyz.iwolfking.woldsvaults.api.lib;
 
-/**
- * Marks a thrown javelin that was produced by the ancient Helm of the Warbound pre-split, so the
- * split copies scatter normally instead of splitting again.
- */
+/** Marks a thrown javelin produced by the ancient Helm of the Warbound pre-split; such copies do not split again. */
 public interface SplittingJavelin {
     boolean woldsvaults$hasPreSplit();
 

@@ -10,12 +10,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /**
- * Startup and lifecycle for greed medallions. Self-contained in the same way the god trees are:
- * the medallion system registers its own listeners so the mod entrypoint stays untouched.
- *
- * <p>The vault-side registration itself happens in the crystal mixin, at the moment a vault is
- * built from a medallion-bearing crystal; this class only releases the entry when the vault ends
- * and hosts the effect hooks that are plain event listeners rather than mixins.
+ * Startup and lifecycle for greed medallions: releases the vault state on vault end and hosts the effect hooks
+ * that are plain listeners. Registration is in the crystal mixin.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class GreedMedallionEvents {

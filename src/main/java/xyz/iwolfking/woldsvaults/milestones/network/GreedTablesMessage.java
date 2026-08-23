@@ -16,21 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-/**
- * The greed balance tables, sent once per login alongside the full milestone sync.
- *
- * <p>The client's screens read tier thresholds, per-tier reputation, challenge rank tags and the
- * whole rank ladder to draw claim chips, progress bars, rank badges and the trial plate. All of it
- * is pack data ({@code greed_milestones.json}, {@code gods/greed_ranks.json}), and until this
- * message existed the client read its own copy - so a player whose pack was a version behind, or
- * who edited either file, saw bars and unlock ranks that did not match what the server would
- * actually pay or gate. Nothing here changes who decides anything: the server still judges every
- * claim, rank-up and crystal unlock against its own tables. This only stops the screen lying about
- * them.</p>
- *
- * <p>Structure is not sent. Which milestones exist, what each counts and which crystal each tracks
- * are code, identical on both sides by construction; only the numbers can differ.</p>
- */
+/** The greed balance tables and rank ladder, sent alongside the full milestone sync. */
 public class GreedTablesMessage extends Message<GreedTablesMessage> {
     private static final int MAX_DECODED_MILESTONES = 1024;
     private static final int MAX_DECODED_TIERS = 64;
@@ -54,12 +40,7 @@ public class GreedTablesMessage extends Message<GreedTablesMessage> {
         this.ladder = ladder;
     }
 
-    /**
-     * Snapshots the server's live tables. Read straight off the registry and the ladder rather than
-     * off the config objects, so what goes on the wire is what the server is actually using -
-     * including any milestone that fell back to its shipped numbers because its config entry was
-     * refused.
-     */
+    /** Snapshots the server's live tables, read off the registry and the ladder themselves. */
     public static GreedTablesMessage build() {
         Map<String, long[]> thresholds = new LinkedHashMap<>();
         Map<String, int[]> reputation = new LinkedHashMap<>();
@@ -78,12 +59,7 @@ public class GreedTablesMessage extends Message<GreedTablesMessage> {
         return new GreedTablesMessage(thresholds, reputation, requiredRanks, MilestoneRankLadder.snapshot());
     }
 
-    /**
-     * Bounds a decoded element count. The count is attacker-controlled and every one of them is
-     * followed by that many reads, so it cannot simply be clamped - a clamp would leave the rest of
-     * the frame unread and desynchronise the stream. An impossible count is a broken or hostile
-     * peer, so the decode is failed and the connection with it.
-     */
+    /** A decoded element count, throwing {@link DecoderException} when negative or over {@code max}. */
     private static int bounded(int count, int max, String what) {
         if (count < 0 || count > max) {
             throw new DecoderException("Greed table packet declares " + count + " " + what + "; the limit is " + max);
@@ -158,11 +134,6 @@ public class GreedTablesMessage extends Message<GreedTablesMessage> {
         });
     }
 
-    /**
-     * Installs both tables on the client. No client-only class is touched - the registry and the
-     * ladder are common code that the server side simply never receives this message on - so there
-     * is nothing here to guard with {@code DistExecutor}.
-     */
     @Override
     public void onMessage(GreedTablesMessage message, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {

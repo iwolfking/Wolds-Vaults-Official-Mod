@@ -8,14 +8,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The effect list Velara's Immune nodes avoid, and the display key their avoidance instance is
- * grouped under.
- *
- * <p>It lives on its own because two unrelated consumers need exactly the same list: the Immune
- * node handler, and the mythic charm roll that grants the same avoidance as a charm affix. A
- * charm rolling a different set from the node would read as a bug to a player comparing them.
- */
+/** The effect list Velara's Immune nodes avoid, shared with the mythic charm roll, and its key. */
 public final class VelaraBadEffects {
     public static final String KEY = "the_vault.gear_attribute.effect_avoidance.avoidance.bad_effects";
 
@@ -36,11 +29,7 @@ public final class VelaraBadEffects {
     private VelaraBadEffects() {
     }
 
-    /**
-     * The registered effects of {@link #IDS}, resolved once. An id that no loaded mod provides is
-     * logged and dropped rather than failing the list, so a pack that removes an effect loses that
-     * one entry instead of the whole node.
-     */
+    /** The registered effects of {@link #IDS}, resolved once. An unresolvable id is dropped. */
     public static synchronized List<MobEffect> resolve() {
         if (resolved != null) {
             return resolved;

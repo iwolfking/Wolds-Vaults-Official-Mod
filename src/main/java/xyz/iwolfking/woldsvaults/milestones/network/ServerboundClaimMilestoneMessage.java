@@ -8,10 +8,7 @@ import xyz.iwolfking.woldsvaults.milestones.Milestones;
 
 import java.util.function.Supplier;
 
-/**
- * Serverbound claim request from the greed trader screen. An empty id claims everything at once.
- * The server re-checks that the greed trader container is open before paying anything out.
- */
+/** Serverbound claim request from the greed trader screen. An empty id claims everything. */
 public class ServerboundClaimMilestoneMessage extends Message<ServerboundClaimMilestoneMessage> {
     public static final String CLAIM_ALL = "";
 

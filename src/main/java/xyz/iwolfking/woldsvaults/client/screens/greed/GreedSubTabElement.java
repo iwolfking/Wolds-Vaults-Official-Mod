@@ -14,10 +14,7 @@ import net.minecraft.sounds.SoundEvents;
 
 import java.util.function.Consumer;
 
-/**
- * One entry of the greed sub-tab strip: a dark grey plate that turns gold-bordered with gold text
- * while its tab is the selected one.
- */
+/** One entry of the greed sub-tab strip; turns gold-bordered with gold text while selected. */
 public class GreedSubTabElement extends ContainerElement<GreedSubTabElement> {
     private final GreedTab tab;
     private final Consumer<GreedTab> onSelect;

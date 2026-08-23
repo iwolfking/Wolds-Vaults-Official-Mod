@@ -9,16 +9,7 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.PlayerDamageHelperAppl
 import java.util.UUID;
 import java.util.function.Consumer;
 
-/**
- * Producer for the ability-power side of the base mod's damage multiplier registry.
- *
- * <p>{@code PlayerDamageHelper} splits its registry into an attack-damage bucket and an
- * ability-power bucket, but every public factory hardcodes {@code isAPMult = false}, so the AP
- * bucket always folds to 1.0 and {@code getDamageMultiplier(player, true, true)} is dead. These
- * methods register on the AP side, making that bucket live for ability and poison-nova damage.
- * They mirror the AD-side factories exactly, so AP entries tick down, time out and sync like any
- * other multiplier.
- */
+/** Registers {@code PlayerDamageHelper} multipliers on its ability-power side, which its own factories never do. */
 public final class AbilityPowerDamageMultipliers {
     private AbilityPowerDamageMultipliers() {
     }
@@ -54,7 +45,6 @@ public final class AbilityPowerDamageMultipliers {
         return PlayerDamageHelper.removeMultiplier(player, id);
     }
 
-    /** The live ability-power multiplier for this player, folded the same way the AD bucket is. */
     public static float getMultiplier(ServerPlayer player) {
         return PlayerDamageHelper.getDamageMultiplier(player, true, true);
     }

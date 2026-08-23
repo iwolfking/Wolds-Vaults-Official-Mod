@@ -20,29 +20,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * The one periodic pass every god tree shares. It drops the gate cache once a second - which is
- * what makes a node purchase, a refund or a piety change take effect without every mutator having
- * to know the cache exists - and then runs every {@link TickContributor} that is live for each
- * player.
- *
- * <p>No node registers its own tick listener. One pass per second for the whole server is the
- * budget; anything that needs finer granularity belongs on {@link CombatContributor} or on the
- * attribute snapshot, not here.
- *
- * <p>The ticker also owns the other half of a tick contributor's life. It remembers which effects
- * were live for each player on the previous pass, so an effect that has since lost its gate gets
- * exactly one {@link TickContributor#onDeactivated} call - which is the only chance a contributor
- * has to take back something it applied outside the attribute snapshot. The periodic diff covers a
- * gate lost for any reason; {@link #reconcile(ServerPlayer)} runs the same diff immediately for the
- * paths that already know the gate has moved (charm swap, dimension change, refund), and
- * {@link #deactivateAll(ServerPlayer)} drains a player on logout while they are still a live entity.
- *
- * <p>A tree whose periodic work is a computation over more than one player at once - a radius
- * scan, a party census, a per-vault partition - cannot be expressed as a {@link TickContributor},
- * which only ever sees one player and one effect. Rather than let such a tree stand up a second
- * server tick listener beside this one, it registers a {@link TreePass} here and runs inside the
- * same pass, after the cache refresh and after every contributor, so it reads a cache no older
- * than this pass.
+ * The one periodic pass every god tree shares: once a second it drops the gate cache, runs every
+ * live {@link TickContributor}, then the {@link TreePass} passes. An effect that has lost its gate
+ * gets exactly one {@link TickContributor#onDeactivated} call.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GodNodeTicker {
@@ -51,10 +31,7 @@ public final class GodNodeTicker {
     private static final Map<UUID, Set<String>> LIVE = new ConcurrentHashMap<>();
     private static final List<TreePass> TREE_PASSES = new CopyOnWriteArrayList<>();
 
-    /**
-     * One god tree's cross-player periodic pass. Runs once per ticker pass with every online
-     * player, not once per player.
-     */
+    /** One god tree's cross-player periodic pass: once per ticker pass, with every online player. */
     public interface TreePass {
         void run(MinecraftServer server, List<ServerPlayer> players);
     }
@@ -62,11 +39,7 @@ public final class GodNodeTicker {
     private GodNodeTicker() {
     }
 
-    /**
-     * Adds a tree pass to the shared ticker. Called once from a tree's setup; passes run in
-     * registration order and a pass that throws is logged and skipped, never allowed to take the
-     * rest of the ticker down with it.
-     */
+    /** Adds a tree pass to the shared ticker; passes run in registration order. */
     public static void registerTreePass(TreePass pass) {
         TREE_PASSES.add(pass);
     }
@@ -100,18 +73,12 @@ public final class GodNodeTicker {
         }
     }
 
-    /** Drops the live-effect diff for a server that is going away, so a single-player world reload starts clean. */
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         LIVE.clear();
     }
 
-    /**
-     * Runs the deactivation diff for one player right now, without ticking anything. Called from
-     * the paths that have just moved the gate - a charm swap, a dimension change, a respec - so a
-     * contributor's teardown lands on the same event the player sees rather than up to a second
-     * later.
-     */
+    /** Runs the deactivation diff for one player right now, without ticking anything. */
     public static void reconcile(ServerPlayer player) {
         List<GodEffect> ticking = GodNodeRegistry.effectsWith(TickContributor.class);
         if (!ticking.isEmpty()) {
@@ -119,12 +86,7 @@ public final class GodNodeTicker {
         }
     }
 
-    /**
-     * Deactivates every effect still live for a player and forgets them, for logout. The player is
-     * still a live entity here, so a contributor removing a vanilla modifier or a mob effect
-     * succeeds; forgetting them afterwards is what stops a re-login from firing a second
-     * deactivation for state that is already gone.
-     */
+    /** Deactivates every effect still live for a player and forgets them; call while they are still live. */
     public static void deactivateAll(ServerPlayer player) {
         Set<String> live = LIVE.remove(player.getUUID());
         if (live == null || live.isEmpty()) {

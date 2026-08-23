@@ -26,16 +26,9 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import java.util.UUID;
 
 /**
- * The damage pool, the boss bar that draws it, and what happens when it empties.
- *
- * <p>The Vessel cannot be killed. Its {@code hurt} restores any health that would drop below one and
- * both {@code die} and {@code kill} are overridden to do the same, which is what makes the endless
- * trial endless. A Champion is therefore defeated by absorbing a fixed amount of damage rather than
- * by dying: every hit is accumulated here, and when the running total reaches the pool the entity is
- * discarded in a burst of smoke and pays out.
- *
- * <p>The bar reads the pool, not the entity's health. Health is pinned near its maximum for the whole
- * fight and would never move.</p>
+ * The Champion's damage pool, the bar that draws it, and what happens when it empties. The Vessel cannot
+ * be killed, so a Champion is defeated by absorbing a fixed amount of damage and then discarded, and the
+ * bar reads the pool rather than the entity's health, which stays pinned near its maximum.
  */
 public final class VaultChampionKills {
     private static final String POOL_KEY = "woldsvaults:greed_champion_pool";
@@ -61,10 +54,7 @@ public final class VaultChampionKills {
         return champion.getPersistentData().getDouble(DEALT_KEY);
     }
 
-    /**
-     * Books one hit against the pool. Returns true when that hit emptied it, leaving the caller to
-     * run the defeat - the damage listener has the level and the killer to hand and this does not.
-     */
+    /** Books one hit against the pool; returns true when that hit emptied it, leaving the caller to run the defeat. */
     public static boolean accumulate(Entity champion, float amount) {
         if (amount <= 0.0F) {
             return false;
@@ -87,15 +77,13 @@ public final class VaultChampionKills {
         return champion.getPersistentData().getBoolean(DEFEATED_KEY);
     }
 
-    /** Arms the arrival pause. The Champion stands inert until this game time passes. */
     public static void setWakeTime(Entity champion, long gameTime) {
         champion.getPersistentData().putLong(WAKE_KEY, gameTime);
     }
 
     /**
-     * Wakes the Champion once its arrival pause is over. While dormant the Vessel suppresses its AI,
-     * refuses damage and does not advance its own damage ramp, so nothing is lost or gained by the
-     * wait on either side.
+     * Wakes the Champion once its arrival pause is over; while dormant it suppresses its AI, refuses damage and
+     * does not advance its damage ramp.
      */
     public static void tickWake(TheVesselEntity champion) {
         if (!champion.isDormant()) {
@@ -108,9 +96,8 @@ public final class VaultChampionKills {
     }
 
     /**
-     * Ends the fight. The entity is discarded rather than killed, the summoner's rage bookkeeping is
-     * settled, and the payout is dropped as world items where the Champion stood so that whoever
-     * actually did the fighting - the summoner or a friend helping out - picks it up.
+     * Ends the fight: the entity is discarded rather than killed, the summoner's rage bookkeeping is settled, and
+     * the payout drops as world items.
      */
     public static void defeat(Vault vault, ServerLevel level, LivingEntity champion) {
         GreedMedallionTier tier = VaultChampion.getTier(champion).orElse(null);
@@ -152,10 +139,8 @@ public final class VaultChampionKills {
     }
 
     /**
-     * Drops {@code count} of an item as however many stacks that takes. The payout is the per-rank
-     * reward times the rank index, which passes a stack at the top of the table - and an
-     * {@code ItemStack} built over its own max size is not a legal stack: hoppers, the player
-     * inventory and any merge it meets will quietly cut it back down.
+     * Drops {@code count} of an item as however many legal stacks that takes; the payout passes one stack at the
+     * top of the table.
      */
     private static void dropAll(ServerLevel level, ItemStack prototype, int count, double x, double y, double z) {
         int max = prototype.getMaxStackSize();
@@ -181,15 +166,8 @@ public final class VaultChampionKills {
     }
 
     /**
-     * Pushes the health bar to every runner in the vault.
-     *
-     * <p>The Champion is the greed trial's Vessel, so it gets the greed trial's bar rather than a
-     * vanilla boss bar - which, on a wither-adjacent boss, read as exactly the wrong thing. That bar
-     * is drawn client side from the base mod's own greed HUD sheet, so what goes over the wire is the
-     * pool, the damage dealt against it and the Vessel's time-ramp multiplier.
-     *
-     * <p>Sent to every runner rather than to trackers, because anyone in the vault can join the fight
-     * and should be able to see how it is going.</p>
+     * Pushes the pool, the damage dealt against it and the Vessel's time-ramp multiplier to every runner; the bar
+     * itself is the greed trial's, drawn client side.
      */
     public static void syncBar(Vault vault, LivingEntity champion) {
         double pool = poolOf(champion);
@@ -200,7 +178,6 @@ public final class VaultChampionKills {
         }
     }
 
-    /** Clears the bar for everyone still in the vault. */
     public static void closeBar(Vault vault) {
         ChampionHudMessage message = new ChampionHudMessage(false, 0.0F, 0.0F, 1.0F);
         for (ServerPlayer runner : GodVaultUtil.runners(vault)) {

@@ -9,19 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The greed rank ladder - {@code config/the_vault/gods/greed_ranks.json}. Holds the reputation
- * threshold of every rank, the size and names of the rank bands, and the god alignment level each
- * band jump is gated behind.
- *
- * <p>{@link xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder} is the only reader; the
- * medallion tier table, the greed screens and the trial gates all ask the ladder rather than
- * re-deriving any of this. The defaults below are the shipped ladder, so a missing file
- * regenerates to exactly the values the addon has always used.</p>
- *
- * <p>The ladder itself rejects a band size that cannot divide the ladder and a band-name list too
- * short to cover it, logging both and running on the shipped ladder, so there is nothing left for
- * {@link #isValid()} to add; {@link PackAuthoredConfig} is here for the kept-on-parse-failure
- * guarantee.</p>
+ * The greed rank ladder - {@code config/the_vault/gods/greed_ranks.json}: every rank's reputation
+ * threshold, the rank bands, and the god alignment level each band jump is gated behind.
  */
 public class GreedRanksConfig extends PackAuthoredConfig {
     @Expose private Map<String, String> documentation;
@@ -30,23 +19,14 @@ public class GreedRanksConfig extends PackAuthoredConfig {
     @Expose private List<Integer> thresholds;
     @Expose private Map<String, Integer> godLevelGates;
 
-    /**
-     * A config instance holding the shipped defaults without touching the disk. This is what the
-     * ladder runs on until {@code ModConfigs.register} hands it the file-backed copy, which
-     * matters because item registration names the greed medallions from the ladder and runs
-     * before configs are read.
-     */
+    /** The shipped defaults without touching disk; the ladder runs on these until the file-backed copy lands. */
     public static GreedRanksConfig defaults() {
         GreedRanksConfig config = new GreedRanksConfig();
         config.reset();
         return config;
     }
 
-    /**
-     * A config instance holding an explicit ladder. The greed login sync puts the server's live
-     * ladder on the wire in this shape so the client can run it through exactly the same validation
-     * a ladder read off disk goes through, rather than trusting a packet blindly.
-     */
+    /** A ladder handed in explicitly, so a synced ladder goes through the same validation as one from disk. */
     public static GreedRanksConfig of(int bandSize, List<String> bandNames, List<Integer> thresholds,
                                       Map<String, Integer> godLevelGates) {
         GreedRanksConfig config = defaults();

@@ -13,13 +13,8 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import java.util.UUID;
 
 /**
- * The single teardown contract for god node state. A player leaving a vault drops that player's
- * scratch; a vault ending drops that vault's scratch, scoped by vault id so one party finishing
- * cannot touch another party's live state.
- *
- * <p>Logout teardown lives on the Forge bus in
- * {@link xyz.iwolfking.woldsvaults.gods.event.GodEventHandlers}, next to the rest of the god
- * core's player lifecycle.
+ * The single teardown contract for god node state: leaving a vault drops that player's scratch, and
+ * a vault ending drops that vault's. Logout teardown lives in {@code GodEventHandlers}.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class GodNodeLifecycle {

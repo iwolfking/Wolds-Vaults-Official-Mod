@@ -10,14 +10,8 @@ import java.lang.reflect.RecordComponent;
 import java.util.Set;
 
 /**
- * Decodes and encodes {@link GodEffectParams} records against an effect's config object.
- *
- * <p>Records are read through their canonical constructor rather than through Gson's reflective
- * field binding: that is the only shape that works on every Gson version the pack has shipped,
- * it keeps records immutable, and it is what lets a missing or malformed field be reported by
- * name together with the effect id at load time instead of surfacing as a zero inside a vault.
- * Component values themselves still go through the base mod's configured Gson, so resource
- * locations, enums and item stacks decode exactly as they do everywhere else in config.
+ * Decodes and encodes {@link GodEffectParams} records against an effect's config object, through
+ * their canonical constructor and the base mod's configured Gson.
  */
 public final class GodEffectParamsCodec {
     private static final Set<String> RESERVED = Set.of("handler", "values");
@@ -26,9 +20,8 @@ public final class GodEffectParamsCodec {
     }
 
     /**
-     * Builds the params record of {@code type} from the effect's config object, using every key
-     * other than {@code handler} and {@code values}. Absent components are fatal unless the
-     * component is annotated {@link Nullable}.
+     * Builds {@code type} from every config key but {@code handler} and {@code values}; absent is fatal unless
+     * {@link Nullable}.
      */
     public static GodEffectParams decode(String effectId, String handler,
                                          Class<? extends GodEffectParams> type, JsonObject json) {
@@ -99,11 +92,7 @@ public final class GodEffectParamsCodec {
         }
     }
 
-    /**
-     * Whether a component may be absent. {@code @Nullable} on a record component is only visible
-     * on the component itself when the annotation type targets record components, so the backing
-     * field is checked as well - that is where the JSR-305 annotation the codebase uses lands.
-     */
+    /** Whether a component may be absent; the backing field is checked as well as the component. */
     private static boolean isOptional(Class<? extends GodEffectParams> type, RecordComponent component) {
         if (component.isAnnotationPresent(Nullable.class)) {
             return true;

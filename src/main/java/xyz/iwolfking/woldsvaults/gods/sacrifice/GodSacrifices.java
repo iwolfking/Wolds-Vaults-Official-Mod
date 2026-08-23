@@ -11,12 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The god sacrifice gate tables, straight from the design sheet's "God Sacrifices" page. Each god
- * has eleven gates - Initiation (level 0 to 1) then Level 1 through Level 10 - and each gate lists
- * the items the Greed Cauldron must be fed before the sacrifice can fire. Completing gate N opens
- * god level N+1; past the defined gates, levels flow on experience alone. The altar matches
- * deposits by registry id, so an id that resolves to no item is a gate nobody can ever finish;
- * {@link #validateItems} reports every such id once the item registry is complete.
+ * The god sacrifice gate tables: eleven gates per god, Initiation then Level 1 through Level 10, each
+ * listing what the Greed Cauldron must be fed. Completing gate N opens god level N+1; past the defined
+ * gates, levels flow on experience alone.
  */
 public final class GodSacrifices {
     public static final int GATE_COUNT = 11;
@@ -39,11 +36,7 @@ public final class GodSacrifices {
         return index == 0 ? "Initiation" : "Level " + index + " Sacrifice";
     }
 
-    /**
-     * Logs every gate entry whose item id is not in the item registry. Called once from common
-     * setup; a missing item does not fail the load - the other gates still work - but it is the
-     * only warning anyone gets that the affected gate is unfinishable.
-     */
+    /** Logs every gate entry whose item id is not in the item registry, which makes that gate unfinishable. */
     public static void validateItems() {
         for (Map.Entry<VaultGod, List<Gate>> godGates : GATES.entrySet()) {
             for (Gate gate : godGates.getValue()) {
@@ -57,7 +50,6 @@ public final class GodSacrifices {
         }
     }
 
-    /** The gate a player with {@code sacrificesCompleted} completed sacrifices works on next. */
     @Nullable
     public static Gate gate(VaultGod god, int sacrificesCompleted) {
         List<Gate> gates = GATES.get(god);

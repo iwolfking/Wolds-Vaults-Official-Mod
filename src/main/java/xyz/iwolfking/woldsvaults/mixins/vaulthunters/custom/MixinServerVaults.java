@@ -32,16 +32,8 @@ import java.util.UUID;
 @Mixin(value = ServerVaults.class, remap = false)
 public class MixinServerVaults {
     /**
-     * Replaces the greed challenge completion payout. Finishing a challenge crystal no longer
-     * grants reputation directly: it completes the crystal's milestone, whose reputation the player
-     * collects at Mr. Greedy like every other milestone. Everything else the base path did is kept
-     * verbatim - the slot is still marked complete so {@code completedChallengeIds} keeps growing,
-     * the tree is still saved and synced, customisation discoveries still run, and the completion
-     * is still announced - only the reputation grant and its chat suffix are gone.
-     *
-     * <p>The slot is resolved by matching the finished vault's id against every challenge slot
-     * rather than through the tree's active-slot helper, which returns the first attempted slot
-     * and so could never resolve the second of two challenges held at once.</p>
+     * Replaces the greed challenge payout: finishing a crystal completes its milestone instead of
+     * granting reputation. The slot is resolved by matching the finished vault's id against every slot.
      */
     @Inject(method = "checkChallengeCompletion", at = @At("HEAD"), cancellable = true)
     private static void completeChallengeWithoutReputation(Vault vault, CallbackInfo ci) {

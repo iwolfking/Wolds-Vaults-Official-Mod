@@ -8,21 +8,10 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * The sixteen greed medallion tiers. The enum is the identity of a tier - what the item registry,
- * the textures and the one NBT int riding the crystal all refer to - and its rank index matches the
- * greed rank convention used across the rework (Scavenger 1 = 1 ... Hunter 1 = 7, Master 1 = 10,
- * Legend = 16), so a medallion's rank compares directly against
- * {@code PlayerGreedTreeData#getGreedTier}.
- *
- * <p>Every number a tier carries is pack data in
- * {@code config/the_vault/gods/greed_medallions.json}, installed by {@code ModConfigs.register}.
- * The enum runs on the shipped table from its own class init, because the medallion items are
- * registered during mod construction and their registry paths are read long before configs are.
- *
- * <p>Percent columns are whole percents (25 = +25%). {@code trapDisarmPenalty} is the magnitude of
- * the reduction; consumers subtract it. All medallion bonuses are multiplicative with every other
- * source per the design doc. The band a tier sits in and its step inside that band are not here
- * either: they are the rank ladder's shape and come from {@link MilestoneRankLadder}.</p>
+ * The sixteen greed medallion tiers; a tier's rank index follows the greed rank convention (Scavenger 1 = 1
+ * through Legend = 16) and compares directly against {@code PlayerGreedTreeData#getGreedTier}. Every number
+ * a tier carries is pack data in {@code config/the_vault/gods/greed_medallions.json}: percent columns are
+ * whole percents, and {@code trapDisarmPenalty} is a magnitude consumers subtract.
  */
 public enum GreedMedallionTier {
     SCAVENGER_1(1),
@@ -57,9 +46,8 @@ public enum GreedMedallionTier {
     }
 
     /**
-     * Installs a medallion table read from config. A file that does not describe every rank is
-     * refused whole and the shipped table used instead: half a table would leave some medallions
-     * silently doing nothing, which reads in play as a broken item rather than a broken config.
+     * Installs a medallion table read from config; one missing any rank, the gates or the spawn block is refused
+     * whole for the shipped table.
      */
     public static void load(GreedMedallionsConfig config) {
         if (isUsable(config)) {
@@ -69,7 +57,6 @@ public enum GreedMedallionTier {
         apply(GreedMedallionsConfig.defaults());
     }
 
-    /** The assassin spawn-rate curve, for the spawner that is its only reader. */
     public static GreedMedallionsConfig.Spawn spawnCurve() {
         return spawn;
     }
@@ -114,10 +101,7 @@ public enum GreedMedallionTier {
         spawn = config.getSpawn();
     }
 
-    /**
-     * Registry path segment for this tier: {@code scavenger_1} ... {@code champion_3},
-     * {@code legend}. Item ids, textures and lang keys all derive from it.
-     */
+    /** Registry path segment for this tier: {@code scavenger_1} ... {@code champion_3}, {@code legend}. */
     public String getPathName() {
         int tierInBand = this.getTierInBand();
         return tierInBand > 0 ? this.getBand() + "_" + tierInBand : this.getBand();
@@ -184,9 +168,8 @@ public enum GreedMedallionTier {
     }
 
     /**
-     * From this rank up, a medallion builds rage and can summon a Vault Champion at all - and every
-     * such rank needs a matching entry in {@code gods/greed_champion.json}, which is what actually
-     * decides what one is made of.
+     * From this rank up a medallion builds rage and can summon a Vault Champion; each such rank needs an entry in
+     * {@code gods/greed_champion.json}.
      */
     public boolean vaultChampionHunts() {
         return this.rankIndex >= gates.vaultChampionHunts;

@@ -8,11 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 
 import java.util.Optional;
 
-/**
- * God's Disciple: a flat percentage added to every god alignment XP award. Multiple copies of this
- * power stack additively, so the two ranks the design sheet ships (+20% and +15%) reach +35% total
- * rather than compounding. Consumed by {@link xyz.iwolfking.woldsvaults.gods.GodAlignmentData#addGodXp}.
- */
+/** God's Disciple: a flat percentage on every god alignment XP award, summed across copies. */
 public class GodExperiencePrestigePower extends PrestigePower {
     private float experienceIncrease;
 

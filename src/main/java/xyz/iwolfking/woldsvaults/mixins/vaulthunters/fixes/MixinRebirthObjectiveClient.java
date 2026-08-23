@@ -16,11 +16,8 @@ import static iskallia.vault.core.vault.objective.RebirthObjective.PHASE_DAMAGE_
 import static iskallia.vault.core.vault.objective.RebirthObjective.PHASE_DAMAGE_GOAL;
 
 /**
- * make the greed boss damage target use a float instead of an int capped at MAX_INT
- *
- * <p>Both helpers route through {@code GreedTrialVessel#displayGoal}, which keeps the float curve
- * for an ordinary greed trial and switches to the synced goal when a greed rank-up trial has
- * replaced it with the trial row's health pool.</p>
+ * make the greed boss damage target use a float instead of an int capped at MAX_INT. Both helpers
+ * route through {@code GreedTrialVessel#displayGoal}, which switches goal during a rank-up trial.
  */
 @Mixin(RebirthObjective.class)
 abstract class MixinRebirthObjectiveClient extends Objective {
@@ -46,7 +43,7 @@ abstract class MixinRebirthObjectiveClient extends Objective {
     private String makeTextUseFloat(String value, @Local boolean transitioning, @Local(ordinal = 2) int currentPhase) {
         final float dealt = this.getOr(PHASE_DAMAGE_DEALT,0.0F);
         final float goal = this.woldsVaults$getPhaseDamageGoalFloat(currentPhase);
-        final float thr = 10000000000.0F; //10bn
+        final float thr = 10000000000.0F;
         String format = (dealt>=thr ? "%.5e/":"%.0f/") + (goal>=thr ? "%.5e":"%.0f");
         return transitioning ? "PHASE SHIFT" : String.format(format, dealt, goal);
     }

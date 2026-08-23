@@ -9,13 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.iwolfking.woldsvaults.gods.trees.tenos.TenosMana;
 
-/**
- * Mana Starved (r100): mana regeneration ramps from 1x at half mana to 2x at empty.
- *
- * <p>The per-tick regen call is the only writable point in the mana pipeline -
- * {@code CommonEvents.MANA_MODIFY} exposes no setters, and the base and regen attribute base
- * values are rewritten every tick so they cannot be touched either.
- */
+/** Mana Starved (r100): mana regeneration ramps from 1x at half mana to 2x at empty. */
 @Mixin(value = PlayerEvents.class, remap = false)
 public abstract class MixinPlayerEventsManaStarved {
     @ModifyExpressionValue(method = "onManaRegen", at = @At(value = "INVOKE", target = "Liskallia/vault/mana/Mana;getRegenPerSecond(Lnet/minecraft/world/entity/player/Player;)F"))

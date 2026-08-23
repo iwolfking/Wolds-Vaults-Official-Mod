@@ -9,11 +9,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
-/**
- * Stitches the mythic charm particle sprites. The base mod stitches its charm particles per god
- * for the four base rarities only; the mythic rarity's sprites ship in this jar under the same
- * {@code the_vault:particle/charm/<god>/mythic} paths the base {@code getParticleLoc} resolves.
- */
+/** Stitches the mythic charm particle sprites, which this jar ships under the base charm particle paths. */
 @Mod.EventBusSubscriber(value = {Dist.CLIENT}, bus = Mod.EventBusSubscriber.Bus.MOD, modid = WoldsVaults.MOD_ID)
 public final class MythicCharmSprites {
     private MythicCharmSprites() {

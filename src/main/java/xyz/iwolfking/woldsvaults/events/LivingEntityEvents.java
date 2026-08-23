@@ -110,13 +110,7 @@ public class LivingEntityEvents {
          registerLeechHealingEfficiencyExclusion();
     }
 
-    /**
-     * Excludes leech healing from healing efficiency bonuses. {@link ActiveFlags#IS_LEECHING} is held for the whole
-     * leech heal, so this only affects the multiplier PlayerRecoveryHelper applies to heals coming out of
-     * PlayerLeechHelper - gear leech, the Life Steal lucky hit talent, Rampage Leech, the Vampire archetype bonus and
-     * the leeching vault modifier. Registered at the lowest priority so it runs after every other contributor, and
-     * clamped rather than overwritten so healing efficiency penalties such as Grievous Wound still apply.
-     */
+    /** Clamps healing effectiveness to 1.0 while {@link ActiveFlags#IS_LEECHING} is set, at lowest priority. */
     private static void registerLeechHealingEfficiencyExclusion() {
         CommonEvents.PLAYER_STAT.of(PlayerStat.HEALING_EFFECTIVENESS).register(LivingEntityEvents.class, data -> {
             if(ActiveFlags.IS_LEECHING.isSet()) {
@@ -217,7 +211,6 @@ public class LivingEntityEvents {
         attacker.heal(soulLeechValue);
     }
 
-    //Handles Trinket Pouch saving all equipped trinkets.
     @SubscribeEvent
     public static void curioChange(CurioChangeEvent event) {
         ItemStack fromStack = event.getFrom();
@@ -256,12 +249,10 @@ public class LivingEntityEvents {
                 ItemStack updatedStack = fromStack.copy();
                 updatedStack.getOrCreateTag().put("StoredCurios", storedList);
                 Player player = (Player) entity;
-                // Try replacing the carried item (player's cursor)
                 ItemStack carried = player.containerMenu.getCarried();
                 if (ItemStack.isSameItemSameTags(carried, fromStack)) {
                     player.containerMenu.setCarried(updatedStack);
                 } else {
-                    // Fallback: try replacing in inventory
                     for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
                         ItemStack invStack = player.getInventory().getItem(i);
                         if (ItemStack.isSameItemSameTags(invStack, fromStack)) {
@@ -270,7 +261,6 @@ public class LivingEntityEvents {
                         }
                     }
 
-                    // If we still can't find it, drop it
                     if (!player.addItem(updatedStack)) {
                         entity.spawnAtLocation(updatedStack);
                     }
@@ -363,7 +353,6 @@ public class LivingEntityEvents {
 
     @SubscribeEvent
     public static void reavingDamage(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
         if(event.getEntityLiving().hasEffect(ModEffects.REAVING) || !WoldEventHelper.isNormalAttack()) {
             return;
         }
@@ -397,12 +386,7 @@ public class LivingEntityEvents {
         }
     }
 
-    /**
-     * Hyper-scoped NaN firewall for the %-max-health damage bonuses: a non-finite computed
-     * amount inside a hyper vault is replaced with the untouched pre-bonus amount and logged
-     * loudly; outside hyper vaults every value passes through unchanged (the NaN guards are
-     * deliberately hyper-only).
-     */
+    /** Returns {@code computed}, or a logged {@code fallback} when it is non-finite inside a hyper vault. */
     private static float hyperFinite(LivingEntity target, float computed, float fallback, String what) {
         if (Float.isFinite(computed) || !HyperVaultEvents.isInHyperVault(target)) {
             return computed;
@@ -414,7 +398,6 @@ public class LivingEntityEvents {
 
     @SubscribeEvent
     public static void executionDamage(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
         if(!WoldEventHelper.isNormalAttack()) {
             return;
         }
@@ -450,7 +433,6 @@ public class LivingEntityEvents {
 
     @SubscribeEvent
     public static void thornsScalingDamage(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
         if(!WoldEventHelper.isNormalAttack()) {
             return;
         }
@@ -481,7 +463,6 @@ public class LivingEntityEvents {
 
     @SubscribeEvent
     public static void apScalingDamage(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
         if(!WoldEventHelper.isNormalAttack()) {
             return;
         }
@@ -511,7 +492,6 @@ public class LivingEntityEvents {
 
     @SubscribeEvent
     public static void hexingHit(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
         if(!WoldEventHelper.isNormalAttack()) {
             return;
         }
@@ -555,15 +535,8 @@ public class LivingEntityEvents {
         || ActiveFlags.IS_LEECHING.isSet()
         || ActiveFlags.IS_AOE_ATTACKING.isSet()
         || ActiveFlags.IS_REFLECT_ATTACKING.isSet()
-//        || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
         || ActiveFlags.IS_CHARMED_ATTACKING.isSet()
         || ActiveFlags.IS_EFFECT_ATTACKING.isSet()
-//        || ActiveFlags.IS_JAVELIN_ATTACKING.isSet()
-//        || ActiveFlags.IS_SMITE_ATTACKING.isSet()
-//        || ActiveFlags.IS_SMITE_BASE_ATTACKING.isSet()
-//        || ActiveFlags.IS_CHAINING_ATTACKING.isSet()
-//        || ActiveFlags.IS_THORNS_REFLECTING.isSet()
-//        || ActiveFlags.IS_GLACIAL_SHATTER_ATTACKING.isSet()
         || (ActiveFlags.IS_AP_ATTACKING.isSet()
             && !(ActiveFlags.IS_FIRESHOT_ATTACKING.isSet()
                 || ActiveFlags.IS_ARCANE_RAIL_ATTACKING.isSet()
@@ -590,11 +563,9 @@ public class LivingEntityEvents {
             float echoingChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
             float echoingDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
             if(echoingChance != 0) {
-                //buff chances for echoing to re-proc itself
                 if (WoldActiveFlags.IS_ECHOING_ATTACKING.isSet())
                     echoingChance = (float) Math.sqrt(echoingChance);
 
-                //roll chance
                 if(player.level.random.nextFloat() <= LuckHelper.getLuckAffectedChance(echoingChance, player)) {
                     LivingEntity target = event.getEntityLiving();
 
@@ -608,23 +579,17 @@ public class LivingEntityEvents {
                         if(oldInstance == null)
                             return;
 
-//                        //[[DEBUG]]
-//                        WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Echo successfully re-procced.");
-
-                        // proc from echo/reverb
                         newDamage = event.getAmount() * oldInstance.getDecay();
                         newSource = oldInstance.getSource();
                         newDuration = EffectDurationHelper.adjustEffectDurationFloor(player, 1) * 10;
                         newDecay = oldInstance.getDecay() * 0.95F - 0.05F;
                     } else {
-                        // original proc
                         newDamage = event.getAmount() * (1+echoingDamage) * 0.667F;
                         newSource = event.getSource();
                         newDuration = EffectDurationHelper.adjustEffectDurationFloor(player, 1) * 10;
                         newDecay = 1.0F;
                     }
 
-                    //only activate on big enough hits
                     if(newDamage > 1.0f) {
                         boolean noLuck = ActiveFlagsCheck.isAnyFlagActiveLuckyHit();
                         boolean noCleave = ActiveFlags.IS_TOTEM_ATTACKING.isSet();
@@ -639,9 +604,6 @@ public class LivingEntityEvents {
                             oldInstance.reverberate();
 
                             if(oDamage > 1.0F) {
-//                                //[[DEBUG]]
-//                                WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Reverberated {} damage.", oDamage);
-
                                 WoldActiveFlags.IS_AOE2_ATTACK.maybeRunWithFlag(noCleave, () ->
                                     WoldActiveFlags.IS_UNLUCKY_ATTACK.runWithFlag(() ->
                                         WoldActiveFlags.IS_ECHOING_ATTACKING.runWithFlag(() ->
@@ -653,11 +615,6 @@ public class LivingEntityEvents {
                         }
 
                         target.addEffect(new EchoingEffectInstance(player, newDamage, newSource, newDuration, newDecay, noLuck, noCleave));
-
-//                        //[[DEBUG]]
-//                        WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Added a {} damage echo to attack.", newDamage);
-//                        WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Currently, {} damage is on top.", ((EchoingEffectInstance) target.getEffect(ModEffects.ECHOING)).getDamage());
-//                        WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Decay at {}.", ((EchoingEffectInstance) target.getEffect(ModEffects.ECHOING)).getDecay());
                     }
                 }
             }
@@ -719,15 +676,7 @@ public class LivingEntityEvents {
         }
     }
 
-    /**
-     * Handles the reduction/cancellation of fall damage for players with the Feather Trinket equipped.
-     * <p>
-     * If the player has an active and usable {@code MultiJumpTrinket}:
-     * - Fall damage is canceled if the fall distance is less than 5.0 blocks to prevent damage ticking when taking no damage.
-     * - Otherwise, the fall distance is reduced by 2.0 blocks to mitigate fall damage.
-     * <p>
-     * Called whenever a LivingEntity falls
-     */
+    /** With a usable {@code MultiJumpTrinket}, cancels falls under 5.0 blocks and cuts 2.0 off the rest. */
     @SubscribeEvent
     public static void multiJumpTrinketFallReductionEvent(LivingFallEvent event) {
         if(event.getEntityLiving() instanceof ServerPlayer player) {

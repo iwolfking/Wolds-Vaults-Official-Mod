@@ -18,21 +18,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Fury: the per-player resource behind Ultra Rampaging.
- *
- * <p>Named Fury rather than Rage on purpose. Two unrelated counters already own that word - the
- * base mod's {@code ModEffects.RAGE} (an integer mob-effect amplifier capped at 100, fed only by
- * the Barbarian archetype) and {@code VaultChampionRage} (the per-vault counter that decides when
- * a Vault Champion turns up). Neither could carry this one: the first is an integer clamped two
- * orders of magnitude below the values used here, and the second is per-vault rather than
- * per-player-per-fight.
- *
- * <p>Fury accrues and decays whether or not a Rampage ability is toggled on, so the drawback in
- * {@link UltraRampaging#incomingMultiplier} applies to a player who has stopped attacking. Taking
- * the node means being easier to kill, and that is not something the toggle switches off.
- *
- * <p>Never persisted. A counter whose half-life is measured in seconds has no meaning across a
- * save, and carrying one over a vault boundary would hand a player a free opening multiplier.
+ * Fury: the per-player resource behind Ultra Rampaging. It accrues and decays whether or not a
+ * Rampage ability is toggled on, and is never persisted.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class PlayerFuryHelper {
@@ -47,11 +34,7 @@ public final class PlayerFuryHelper {
         return FURY.getOrDefault(player.getUUID(), 0.0F);
     }
 
-    /**
-     * Adds Fury and returns the new total, clamped to the configured cap. A non-positive amount is
-     * ignored rather than allowed to drain the pool - every caller is an income source, and a
-     * negative arriving here would mean a sign error upstream that is worth surfacing.
-     */
+    /** Adds Fury and returns the new total, clamped to the configured cap; a non-positive amount is ignored. */
     public static float add(ServerPlayer player, float amount) {
         if (amount <= 0.0F) {
             if (amount < 0.0F) {
@@ -73,21 +56,7 @@ public final class PlayerFuryHelper {
         }
     }
 
-    /**
-     * The scaling drain, run once every {@value #DECAY_INTERVAL_TICKS} ticks.
-     *
-     * <p>Below the scaling threshold the retained fraction is the flat {@code 0.985^10 = 0.85973},
-     * a 2.29 s half-life. Above it the per-tick base is raised to {@code fury / divisor}, so the
-     * drain accelerates with the size of the pool. That is deliberate and load-bearing: it pins a
-     * player near the threshold, which is the shoulder between the exponential and square-root
-     * halves of {@link UltraRampaging#furyMultiplier}. The result is frequent small power spikes
-     * rather than a large stack that takes many seconds to bleed off, and the resulting swing in
-     * damage is the intended feel of the node, not a defect to be smoothed away later.
-     *
-     * <p>The drain also bounds the trough analytically: {@code f(x) = x * 0.985^(x/200)} peaks at
-     * {@code x = 200 / -ln(0.985) = 13233}, so no income rate whatsoever can leave a player above
-     * {@code 13233 / e = 4868} Fury once the decay has run.
-     */
+    /** The drain, run every {@value #DECAY_INTERVAL_TICKS} ticks; above {@code decayScaleFrom} it accelerates. */
     @SubscribeEvent
     public static void decay(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END || FURY.isEmpty()) {

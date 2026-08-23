@@ -11,10 +11,7 @@ import java.util.function.Supplier;
 
 @Mixin(value = ServerboundGreedQuestActionMessage.class, remap = false)
 public class MixinServerboundGreedQuestActionMessage {
-    /**
-     * Refuses accept/abandon/complete requests for greed quests. The quest system is retired; this
-     * stops the still-present trader quest tab from writing quest state or paying reputation.
-     */
+    /** Refuses accept, abandon and complete requests for greed quests. */
     @Inject(method = "handle", at = @At("HEAD"), cancellable = true)
     private static void refuseQuestAction(ServerboundGreedQuestActionMessage message, Supplier<NetworkEvent.Context> contextSupplier, CallbackInfo ci) {
         contextSupplier.get().setPacketHandled(true);

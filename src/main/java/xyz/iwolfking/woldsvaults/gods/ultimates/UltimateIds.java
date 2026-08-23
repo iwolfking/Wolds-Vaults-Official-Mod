@@ -7,9 +7,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import java.util.UUID;
 
 /**
- * Every identifier the god ultimates hang off: the skill ids that the ability config and the
- * morphing manager agree on, the registry keys for the damage and clock primitives, and the fixed
- * modifier UUIDs the timed buffs are torn down by.
+ * Every identifier the god ultimates hang off: skill ids, damage and clock primitive keys, and the fixed UUIDs the
+ * timed buffs are torn down by.
  */
 public final class UltimateIds {
     public static final String STIRRINGS_OF_POWER = "Stirrings_Of_Power";
@@ -33,7 +32,6 @@ public final class UltimateIds {
     private UltimateIds() {
     }
 
-    /** The specialization a god's ultimate occupies inside {@link #STIRRINGS_OF_POWER}. */
     public static String specializationFor(VaultGod god) {
         if (god == null) {
             return DORMANT;

@@ -14,14 +14,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 
-/**
- * Writes the per-unique ancient gear modifier configs from {@link AncientGearModifiers}.
- *
- * <p>Written straight through Gson rather than a vhapi config builder because these files are not
- * a config type the addon registers - they are the parallel tier configs
- * {@code AncientUniqueHelper} resolves by name, so what has to be generated is the document, not
- * an entry inside a shared one.
- */
+/** Writes the per-unique ancient gear modifier configs from {@link AncientGearModifiers} through Gson. */
 public class ModAncientGearModifiersProvider implements DataProvider {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
