@@ -42,6 +42,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
+import xyz.iwolfking.woldsvaults.api.util.DeckModifiersHelper;
 import xyz.iwolfking.woldsvaults.api.util.LuckHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrFruit;
@@ -129,15 +130,14 @@ public abstract class MixinRunner extends Listener {
 
             Iterator<ItemStack> rewardIterator = generator.getItems();
             while (rewardIterator.hasNext()) {
-                additionalItems.add(rewardIterator.next());
+                ItemStack reward = rewardIterator.next();
+                DeckModifiersHelper.initializeLootDeck(reward);
+                additionalItems.add(reward);
             }
         });
     }
 
-    /**
-     * Injects the score-gated hyper crate rewards. Failures are caught and logged because the
-     * VH event bus swallows handler exceptions silently.
-     */
+    /** Injects the score-gated hyper crate rewards. Failures are caught and logged. */
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addHyperScoreRewardsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
         CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
