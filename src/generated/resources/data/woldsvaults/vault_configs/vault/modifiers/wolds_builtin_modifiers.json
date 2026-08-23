@@ -187,6 +187,18 @@
           "descriptionFormatted": "+100% Greed Coins in the completion crate",
           "icon": "woldsvaults:gui/modifiers/greedy_crate_tier"
         }
+      },
+      "woldsvaults:artifact_chance": {
+        "properties": {
+          "chance": 0.01
+        },
+        "display": {
+          "name": "Artifact Chance",
+          "color": "#EBFF8D",
+          "description": "+1% Artifact Chance",
+          "descriptionFormatted": "+%d%% Artifact Chance",
+          "icon": "the_vault:gui/modifiers/more_artifact1"
+        }
       }
     },
     "the_vault:modifier_type/chance_catalyst": {
@@ -225,6 +237,18 @@
           "descriptionFormatted": "+%d%% Catalyst Fragments",
           "icon": "the_vault:gui/modifiers/more_catalyst"
         }
+      },
+      "woldsvaults:catalyst_chance": {
+        "properties": {
+          "chance": 0.01
+        },
+        "display": {
+          "name": "Catalyst Fragment Chance",
+          "color": "#FC00E3",
+          "description": "+1% Catalyst Fragment Chance",
+          "descriptionFormatted": "+%d%% Catalyst Fragment Chance",
+          "icon": "the_vault:gui/modifiers/more_catalyst"
+        }
       }
     },
     "the_vault:modifier_type/chance_soul_shard": {
@@ -237,6 +261,18 @@
           "color": "#6410A1",
           "description": "+50% Soul Shard Drop Rate",
           "descriptionFormatted": "+%d%% Soul Shards",
+          "icon": "the_vault:gui/modifiers/soul_shard_increase_pink"
+        }
+      },
+      "woldsvaults:soul_shard_chance": {
+        "properties": {
+          "chance": 0.01
+        },
+        "display": {
+          "name": "Soul Shard Chance",
+          "color": "#6410A1",
+          "description": "+1% Soul Shard Chance",
+          "descriptionFormatted": "+%d%% Soul Shard Chance",
           "icon": "the_vault:gui/modifiers/soul_shard_increase_pink"
         }
       }
@@ -385,6 +421,276 @@
           "descriptionFormatted": "This vault is in a safari zone.",
           "icon": "the_vault:gui/modifiers/safari"
         }
+      },
+      "woldsvaults:bonus_coin": {
+        "properties": {
+          "output": "the_vault:placeholder[type=coin_stacks]",
+          "attemptsPerChunk": 1,
+          "requiresConditions": true,
+          "roomTypeWhitelist": [
+            "COMMON",
+            "ORE"
+          ]
+        },
+        "display": {
+          "name": "Bonus Coins",
+          "color": "#ffae00",
+          "description": "+1 Bonus Coin Pile Spawns",
+          "descriptionFormatted": "+%d%% Bonus Coin Pile Spawns",
+          "icon": "the_vault:gui/modifiers/wealthy"
+        }
+      },
+      "woldsvaults:bonus_gilded": {
+        "properties": {
+          "output": "the_vault:placeholder[type=gilded_chest]",
+          "attemptsPerChunk": 1,
+          "requiresConditions": true,
+          "roomTypeWhitelist": [
+            "COMMON",
+            "ORE"
+          ]
+        },
+        "display": {
+          "name": "Bonus Gilded",
+          "color": "#FFEC00",
+          "description": "+1 Bonus Gilded Chest Spawns",
+          "descriptionFormatted": "+%d%% Bonus Gilded Chest Spawns",
+          "icon": "the_vault:gui/modifiers/gilded_chests"
+        }
+      },
+      "woldsvaults:bonus_living": {
+        "properties": {
+          "output": "the_vault:placeholder[type=living_chest]",
+          "attemptsPerChunk": 1,
+          "requiresConditions": true,
+          "roomTypeWhitelist": [
+            "COMMON",
+            "ORE"
+          ]
+        },
+        "display": {
+          "name": "Bonus Living",
+          "color": "#38d800",
+          "description": "+1 Bonus Living Chest Spawns",
+          "descriptionFormatted": "+%d%% Bonus Living Chest Spawns",
+          "icon": "the_vault:gui/modifiers/living_chests"
+        }
+      },
+      "woldsvaults:bonus_ornate": {
+        "properties": {
+          "output": "the_vault:placeholder[type=ornate_chest]",
+          "attemptsPerChunk": 1,
+          "requiresConditions": true,
+          "roomTypeWhitelist": [
+            "COMMON",
+            "ORE"
+          ]
+        },
+        "display": {
+          "name": "Bonus Ornate",
+          "color": "#c90d73",
+          "description": "+1 Bonus Ornate Chest Spawns",
+          "descriptionFormatted": "+%d%% Bonus Ornate Chest Spawns",
+          "icon": "the_vault:gui/modifiers/ornate_chests"
+        }
+      },
+      "woldsvaults:bonus_wooden": {
+        "properties": {
+          "output": "the_vault:placeholder[type=wooden_chest]",
+          "attemptsPerChunk": 1,
+          "requiresConditions": true,
+          "roomTypeWhitelist": [
+            "COMMON",
+            "ORE"
+          ]
+        },
+        "display": {
+          "name": "Bonus Wooden",
+          "color": "#fbcc3f",
+          "description": "+1 Bonus Wooden Chest Spawns",
+          "descriptionFormatted": "+%d%% Bonus Wooden Chest Spawns",
+          "icon": "the_vault:gui/modifiers/wooden"
+        }
+      },
+      "woldsvaults:bonus_wild": {
+        "properties": {
+          "output": "the_vault:wild_spawner",
+          "attemptsPerChunk": 1,
+          "requiresConditions": true,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Wild Spawners",
+          "color": "#E83F24",
+          "description": "+1 Dweller Spawner Spawns",
+          "descriptionFormatted": "+%d%% Dweller Spawner Spawns",
+          "icon": "the_vault:gui/modifiers/crowded"
+        }
+      },
+      "woldsvaults:bonus_bedrock": {
+        "properties": {
+          "output": "the_vault:vault_bedrock",
+          "attemptsPerChunk": 1,
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Collapsing",
+          "color": "#E83F24",
+          "description": "+1 Vault Bedrock Spawns",
+          "descriptionFormatted": "+%d%% Vault Bedrock Spawns",
+          "icon": "the_vault:gui/modifiers/chaotic"
+        }
+      },
+      "woldsvaults:bonus_lava": {
+        "properties": {
+          "output": "minecraft:lava",
+          "attemptsPerChunk": 1,
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Lava Pools",
+          "color": "#E83F24",
+          "description": "+1 Lava Pool Spawns",
+          "descriptionFormatted": "+%d%% Lava Pool Spawns",
+          "icon": "the_vault:gui/modifiers/volcanic"
+        }
+      },
+      "woldsvaults:bonus_void": {
+        "properties": {
+          "output": "the_vault:void_liquid",
+          "attemptsPerChunk": 1,
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Void Pools",
+          "color": "#E83F24",
+          "description": "+1 Void Pool Spawns",
+          "descriptionFormatted": "+%d%% Void Pool Spawns",
+          "icon": "the_vault:gui/modifiers/impossible"
+        }
+      },
+      "woldsvaults:bonus_fungal": {
+        "properties": {
+          "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"fungal\"}",
+          "attemptsPerChunk": 1,
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Fungal Spawns",
+          "color": "ff0000",
+          "description": "+1 Fungal Spawners",
+          "descriptionFormatted": "+%d%% Fungal Spawners",
+          "icon": "the_vault:gui/modifiers/fungal"
+        }
+      },
+      "woldsvaults:bonus_safari": {
+        "properties": {
+          "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"safari\"}",
+          "attemptsPerChunk": 1,
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Safari Spawns",
+          "color": "ff0000",
+          "description": "+1 Safari Spawners",
+          "descriptionFormatted": "+%d%% Safari Spawners",
+          "icon": "the_vault:gui/modifiers/safari"
+        }
+      },
+      "woldsvaults:bonus_frosty": {
+        "properties": {
+          "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"frosty\"}",
+          "attemptsPerChunk": 1,
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Frosty Spawns",
+          "color": "ff0000",
+          "description": "+1 Frosty Spawners",
+          "descriptionFormatted": "+%d%% Frosty Spawners",
+          "icon": "the_vault:gui/modifiers/winter"
+        }
+      },
+      "woldsvaults:bonus_electric": {
+        "properties": {
+          "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"electric\"}",
+          "attemptsPerChunk": 1,
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Storm Spawns",
+          "color": "ff0000",
+          "description": "+1 Storm Spawners",
+          "descriptionFormatted": "+%d%% Storm Spawners",
+          "icon": "the_vault:gui/modifiers/electric"
+        }
+      },
+      "woldsvaults:bonus_tnt": {
+        "properties": {
+          "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"tnt\"}",
+          "attemptsPerChunk": 1,
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Explosive Spawns",
+          "color": "ff0000",
+          "description": "+1 TNT Spawns",
+          "descriptionFormatted": "+%d%% TNT Spawns",
+          "icon": "the_vault:gui/modifiers/explosive"
+        }
+      },
+      "woldsvaults:bonus_shulker": {
+        "properties": {
+          "output": "the_vault:custom_entity_spawner{spawnerGroupName:\"shulkerbullet\"}",
+          "attemptsPerChunk": 1,
+          "requiresConditions": false,
+          "roomTypeWhitelist": [
+            "ORE",
+            "COMMON"
+          ]
+        },
+        "display": {
+          "name": "Shulker Bullet Spawns",
+          "color": "ff0000",
+          "description": "+1 Shulker Bullet Spawns",
+          "descriptionFormatted": "+%d%% Shulker Bullet Spawns",
+          "icon": "the_vault:gui/modifiers/impossible"
+        }
       }
     },
     "the_vault:modifier_type/crate_item_quantity": {
@@ -413,6 +719,18 @@
           "descriptionFormatted": "-%d%% Item Quantity",
           "icon": "the_vault:gui/modifiers/poor"
         }
+      },
+      "woldsvaults:item_quantity": {
+        "properties": {
+          "percentage": 0.01
+        },
+        "display": {
+          "name": "Item Quantity",
+          "color": "#ffcc73",
+          "description": "+1% Item Quantity",
+          "descriptionFormatted": "+%d%% Item Quantity",
+          "icon": "the_vault:gui/modifiers/item_quant_2"
+        }
       }
     },
     "the_vault:modifier_type/loot_item_rarity": {
@@ -438,6 +756,18 @@
           "description": "Item Rarity reduced by 25%",
           "descriptionFormatted": "-%d%% Item Rarity",
           "icon": "the_vault:gui/modifiers/poor"
+        }
+      },
+      "woldsvaults:item_rarity": {
+        "properties": {
+          "percentage": 0.01
+        },
+        "display": {
+          "name": "Item Rarity",
+          "color": "#ffcc73",
+          "description": "+1% Item Rarity",
+          "descriptionFormatted": "+%d%% Item Rarity",
+          "icon": "the_vault:gui/modifiers/item_quant_2"
         }
       }
     },
@@ -582,6 +912,146 @@
           "description": "+30% Mob Speed",
           "descriptionFormatted": "+%d%% Mob Speed",
           "icon": "the_vault:gui/modifiers/rapid_mobs"
+        }
+      },
+      "woldsvaults:mob_health_increase": {
+        "properties": {
+          "type": "max_health_additive_percentile",
+          "amount": 0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Increased Mob Health",
+          "color": "#dc693c",
+          "description": "+1% Increased Mob Health",
+          "descriptionFormatted": "+%d%% Increased Mob Health",
+          "icon": "the_vault:gui/modifiers/destructive"
+        }
+      },
+      "woldsvaults:mob_health_decrease": {
+        "properties": {
+          "type": "max_health_additive_percentile",
+          "amount": -0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Decreased Mob Health",
+          "color": "#dc693c",
+          "description": "+1% Decreased Mob Health",
+          "descriptionFormatted": "+%d%% Decreased Mob Health",
+          "icon": "the_vault:gui/modifiers/destructive"
+        }
+      },
+      "woldsvaults:mob_damage_increase": {
+        "properties": {
+          "type": "attack_damage_additive_percentile",
+          "amount": 0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Increased Mob Damage",
+          "color": "#dc693c",
+          "description": "+1% Increased Mob Damage",
+          "descriptionFormatted": "+%d%% Increased Mob Damage",
+          "icon": "the_vault:gui/modifiers/destructive"
+        }
+      },
+      "woldsvaults:mob_damage_decrease": {
+        "properties": {
+          "type": "attack_damage_additive_percentile",
+          "amount": -0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Decreased Mob Damage",
+          "color": "#dc693c",
+          "description": "+1% Decreased Mob Damage",
+          "descriptionFormatted": "+%d%% Decreased Mob Damage",
+          "icon": "the_vault:gui/modifiers/destructive"
+        }
+      },
+      "woldsvaults:mob_speed_increase": {
+        "properties": {
+          "type": "speed_additive_percentile",
+          "amount": 0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Increased Mob Speed",
+          "color": "#dc693c",
+          "description": "+1% Increased Mob Speed",
+          "descriptionFormatted": "+%d%% Increased Mob Speed",
+          "icon": "the_vault:gui/modifiers/destructive"
+        }
+      },
+      "woldsvaults:mob_speed_decrease": {
+        "properties": {
+          "type": "speed_additive_percentile",
+          "amount": -0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Decreased Mob Speed",
+          "color": "#dc693c",
+          "description": "+1% Decreased Mob Speed",
+          "descriptionFormatted": "+%d%% Decreased Mob Speed",
+          "icon": "the_vault:gui/modifiers/destructive"
+        }
+      },
+      "woldsvaults:mob_crit_increase": {
+        "properties": {
+          "type": "crit_chance_additive",
+          "amount": 0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Increased Mob Critical Chance",
+          "color": "#dc693c",
+          "description": "+1% Increased Mob Critical Chance",
+          "descriptionFormatted": "+%d%% Increased Mob Critical Chance",
+          "icon": "the_vault:gui/modifiers/destructive"
+        }
+      },
+      "woldsvaults:mob_crit_decrease": {
+        "properties": {
+          "type": "crit_chance_additive",
+          "amount": -0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Decreased Mob Critical Chance",
+          "color": "#dc693c",
+          "description": "+1% Decreased Mob Critical Chance",
+          "descriptionFormatted": "+%d%% Decreased Mob Critical Chance",
+          "icon": "the_vault:gui/modifiers/destructive"
+        }
+      },
+      "woldsvaults:mob_kbr_increase": {
+        "properties": {
+          "type": "knockback_resistance_additive",
+          "amount": 0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Increased Mob Knockback Resistance",
+          "color": "#dc693c",
+          "description": "+1% Increased Mob Knockback Resistance",
+          "descriptionFormatted": "+%d%% Increased Mob Knockback Resistance",
+          "icon": "the_vault:gui/modifiers/destructive"
+        }
+      },
+      "woldsvaults:mob_kbr_decrease": {
+        "properties": {
+          "type": "knockback_resistance_additive",
+          "amount": -0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Decreased Mob Knockback Resistance",
+          "color": "#dc693c",
+          "description": "+1% Decreased Mob Knockback Resistance",
+          "descriptionFormatted": "+%d%% Decreased Mob Knockback Resistance",
+          "icon": "the_vault:gui/modifiers/destructive"
         }
       }
     },
@@ -749,6 +1219,118 @@
           "description": "+2 Hearts",
           "descriptionFormatted": "+%d Hit Points",
           "icon": "the_vault:gui/modifiers/regeneration"
+        }
+      },
+      "woldsvaults:player_mana_increase": {
+        "properties": {
+          "type": "mana_regen_additive_percentile",
+          "amount": 0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Increased Mana Regeneration",
+          "color": "#849dc8",
+          "description": "+1% Mana Regeneration",
+          "descriptionFormatted": "+%d%% Mana Regeneration",
+          "icon": "the_vault:gui/modifiers/draining"
+        }
+      },
+      "woldsvaults:player_mana_decrease": {
+        "properties": {
+          "type": "mana_regen_additive_percentile",
+          "amount": -0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Decreased Mana Regeneration",
+          "color": "#849dc8",
+          "description": "-1% Mana Regeneration",
+          "descriptionFormatted": "-%d%% Mana Regeneration",
+          "icon": "the_vault:gui/modifiers/draining"
+        }
+      },
+      "woldsvaults:player_health_increase": {
+        "properties": {
+          "type": "max_health_additive",
+          "amount": 1.0,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Increased Health",
+          "color": "#FF5555",
+          "description": "+1 Health",
+          "descriptionFormatted": "+%d Health",
+          "icon": "the_vault:gui/modifiers/regeneration"
+        }
+      },
+      "woldsvaults:player_health_decrease": {
+        "properties": {
+          "type": "max_health_additive",
+          "amount": 1.0,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Decreased Health",
+          "color": "#FF5555",
+          "description": "-1 Health",
+          "descriptionFormatted": "-%d Health",
+          "icon": "the_vault:gui/modifiers/regeneration"
+        }
+      },
+      "woldsvaults:player_damage_increase": {
+        "properties": {
+          "type": "attack_damage_additive_percentile",
+          "amount": 0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Increased Damage",
+          "color": "#FF5555",
+          "description": "+1% Increased Damage",
+          "descriptionFormatted": "+%d%% Increased Damage",
+          "icon": "the_vault:gui/modifiers/god_token_idona"
+        }
+      },
+      "woldsvaults:player_damage_decrease": {
+        "properties": {
+          "type": "attack_damage_additive_percentile",
+          "amount": -0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Decreased Damage",
+          "color": "#FF5555",
+          "description": "-1% Decreased Damage",
+          "descriptionFormatted": "-%d%% Decreased Damage",
+          "icon": "the_vault:gui/modifiers/god_token_idona"
+        }
+      },
+      "woldsvaults:player_knockback_resistance_increase": {
+        "properties": {
+          "type": "knockback_resistance_additive",
+          "amount": 0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Increased Knockback Resistance",
+          "color": "#849dc8",
+          "description": "+1% Increased Knockback Resistance",
+          "descriptionFormatted": "+%d%% Increased Knockback Resistance",
+          "icon": "the_vault:gui/modifiers/draining"
+        }
+      },
+      "woldsvaults:player_knockback_resistance_decrease": {
+        "properties": {
+          "type": "knockback_resistance_additive",
+          "amount": -0.01,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Decreased Knockback Resistance",
+          "color": "#849dc8",
+          "description": "-1% Decreased Knockback Resistance",
+          "descriptionFormatted": "-%d%% Decreased Knockback Resistance",
+          "icon": "the_vault:gui/modifiers/draining"
         }
       }
     },
@@ -1144,6 +1726,32 @@
           "descriptionFormatted": "+%d%% Vault Ores",
           "icon": "the_vault:gui/modifiers/plentiful"
         }
+      },
+      "woldsvaults:ore_increase": {
+        "properties": {
+          "type": "ORE",
+          "chance": 0.01
+        },
+        "display": {
+          "name": "More Ores",
+          "color": "#FF85FF",
+          "description": "+1% More Ores",
+          "descriptionFormatted": "+%d%% More Ores",
+          "icon": "the_vault:gui/modifiers/plentiful"
+        }
+      },
+      "woldsvaults:ore_decrease": {
+        "properties": {
+          "type": "ORE",
+          "chance": -0.01
+        },
+        "display": {
+          "name": "Less Ores",
+          "color": "#FF85FF",
+          "description": "-1% More Ores",
+          "descriptionFormatted": "-%d%% More Ores",
+          "icon": "the_vault:gui/modifiers/plentiful"
+        }
       }
     },
     "the_vault:modifier_type/experience_multiplier": {
@@ -1279,6 +1887,19 @@
           "descriptionFormatted": "+%d%% Hardened Chests",
           "icon": "woldsvaults:gui/modifiers/hardened"
         }
+      },
+      "woldsvaults:more_wooden": {
+        "properties": {
+          "filter": "iskallia.vault.core.world.data.tile.TilePredicate$$Lambda$34849/0x00007f805f8e9890@796775e4",
+          "chance": 0.01
+        },
+        "display": {
+          "name": "More Wooden Chests",
+          "color": "#c7b281",
+          "description": "+1% Wooden Chests",
+          "descriptionFormatted": "+%d%% Wooden Chests",
+          "icon": "the_vault:gui/modifiers/wooden"
+        }
       }
     },
     "the_vault:modifier_type/chance_champion": {
@@ -1292,6 +1913,18 @@
           "description": "+25% Champions",
           "descriptionFormatted": "+%d%% Champions",
           "icon": "the_vault:gui/modifiers/champions_abode"
+        }
+      },
+      "woldsvaults:champion_chance": {
+        "properties": {
+          "chance": 0.01
+        },
+        "display": {
+          "name": "Champion Chance",
+          "color": "#5ece0c",
+          "description": "+1% Champion Chance",
+          "descriptionFormatted": "+%d%% Champion Chance",
+          "icon": "the_vault:gui/modifiers/champion_increase"
         }
       }
     },
@@ -3255,6 +3888,36 @@
           "descriptionFormatted": "No Vault Fruit can be used, and you take no durability damage",
           "icon": "the_vault:gui/modifiers/raid"
         }
+      },
+      "woldsvaults:combined_quant_and_rarity": {
+        "properties": {
+          "children": {
+            "woldsvaults:item_quantity": 1,
+            "woldsvaults:item_rarity": 1
+          }
+        },
+        "display": {
+          "name": "Item Quantity and Rarity",
+          "color": "#3ffbf4",
+          "description": "+1% Item Quantity and Rarity",
+          "descriptionFormatted": "+%d%% Item Quantity and Rarity",
+          "icon": "woldsvaults:gui/modifiers/impossible"
+        }
+      },
+      "woldsvaults:combined_mob_damage_and_health": {
+        "properties": {
+          "children": {
+            "woldsvaults:mob_damage_increase": 1,
+            "woldsvaults:mob_health_increase": 1
+          }
+        },
+        "display": {
+          "name": "Mob Health and Damage",
+          "color": "#3ffbf4",
+          "description": "+1% Mob Health and Damage",
+          "descriptionFormatted": "+%d%% Mob Health and Damage",
+          "icon": "woldsvaults:gui/modifiers/impossible"
+        }
       }
     },
     "woldsvaults:modifier_type/brazier_pool_modification": {
@@ -3327,6 +3990,46 @@
           "description": "Mob health and damage multiply per hyperboss kill",
           "descriptionFormatted": "Mob health and damage multiply per hyperboss kill",
           "icon": "the_vault:gui/modifiers/overpower"
+        }
+      }
+    },
+    "the_vault:modifier_type/chance_chest_trap": {
+      "woldsvaults:trap_chance": {
+        "properties": {
+          "chance": 0.01
+        },
+        "display": {
+          "name": "Trap Chance",
+          "color": "#D35B00",
+          "description": "+1% Trap Chance",
+          "descriptionFormatted": "+%d%% Trap Chance",
+          "icon": "the_vault:gui/modifiers/trapped"
+        }
+      }
+    },
+    "the_vault:modifier_type/vault_time": {
+      "woldsvaults:more_time": {
+        "properties": {
+          "timeAddedTicks": 20
+        },
+        "display": {
+          "name": "More Time",
+          "color": "#2F86AE",
+          "description": "+1 Second of Vault Time",
+          "descriptionFormatted": "+%d%% Second(s) of Vault Time",
+          "icon": "the_vault:gui/modifiers/extended"
+        }
+      },
+      "woldsvaults:less_time": {
+        "properties": {
+          "timeAddedTicks": -20
+        },
+        "display": {
+          "name": "Less Time",
+          "color": "#2F86AE",
+          "description": "-1 Second of Vault Time",
+          "descriptionFormatted": "-%d%% Second(s) of Vault Time",
+          "icon": "the_vault:gui/modifiers/extended"
         }
       }
     }
