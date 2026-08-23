@@ -1,6 +1,11 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:cosmic_chests",
+      "name": "Cosmic Chests",
+      "1.0": "woldsvaults:cosmic_chests"
+    },
+    {
       "id": "woldsvaults:trove_sand",
       "name": "Trove Sand",
       "1.0": "woldsvaults:trove_sand"

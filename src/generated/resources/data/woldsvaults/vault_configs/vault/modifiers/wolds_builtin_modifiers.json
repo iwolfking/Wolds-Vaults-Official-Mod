@@ -1887,19 +1887,6 @@
           "descriptionFormatted": "+%d%% Hardened Chests",
           "icon": "woldsvaults:gui/modifiers/hardened"
         }
-      },
-      "woldsvaults:more_wooden": {
-        "properties": {
-          "filter": "iskallia.vault.core.world.data.tile.TilePredicate$$Lambda$34849/0x00007f805f8e9890@796775e4",
-          "chance": 0.01
-        },
-        "display": {
-          "name": "More Wooden Chests",
-          "color": "#c7b281",
-          "description": "+1% Wooden Chests",
-          "descriptionFormatted": "+%d%% Wooden Chests",
-          "icon": "the_vault:gui/modifiers/wooden"
-        }
       }
     },
     "the_vault:modifier_type/chance_champion": {
@@ -3889,6 +3876,22 @@
           "icon": "the_vault:gui/modifiers/raid"
         }
       },
+      "woldsvaults:cosmic": {
+        "properties": {
+          "children": {
+            "the_vault:slowfalling": 1,
+            "woldsvaults:cosmic_chests": 1,
+            "woldsvaults:springy": 2
+          }
+        },
+        "display": {
+          "name": "Cosmic",
+          "color": "#3ffbf4",
+          "description": "This vault is anti-grav! It seems some cosmic dust is littered around...",
+          "descriptionFormatted": "This vault is anti-grav! It seems some cosmic dust is littered around...",
+          "icon": "woldsvaults:gui/modifiers/impossible"
+        }
+      },
       "woldsvaults:combined_quant_and_rarity": {
         "properties": {
           "children": {
@@ -3990,6 +3993,32 @@
           "description": "Mob health and damage multiply per hyperboss kill",
           "descriptionFormatted": "Mob health and damage multiply per hyperboss kill",
           "icon": "the_vault:gui/modifiers/overpower"
+        }
+      }
+    },
+    "the_vault:modifier_type/chest_loot": {
+      "woldsvaults:cosmic_chests": {
+        "properties": {
+          "chance": 0.1,
+          "lootTable": [
+            {
+              "level": 0,
+              "lootTable": "woldsvaults:cosmic_chests"
+            }
+          ],
+          "whitelist": [
+            "WOODEN",
+            "GILDED",
+            "ORNATE",
+            "LIVING"
+          ]
+        },
+        "display": {
+          "name": "Cosmic Chests",
+          "color": "#5a9196",
+          "description": "Wooden, Gilded, Living, and Ornate chests have a 10% chance to contain Cosmic loot.",
+          "descriptionFormatted": "Wooden, Gilded, Living, and Ornate chests have a %d%% chance to generate Cosmic loot.",
+          "icon": "the_vault:gui/modifiers/bonus_coin"
         }
       }
     },

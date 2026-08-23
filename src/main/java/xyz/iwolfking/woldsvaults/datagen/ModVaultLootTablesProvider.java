@@ -28,11 +28,23 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
     private static final int[] standardLevels = new int[]{0, 20, 50, 100};
     @Override
     public void registerLootTables() {
+        add(WoldsVaults.id("cosmic_chests"), lootBuilder -> {
+            lootBuilder.entry(entryBuilder -> {
+               entryBuilder.pool(1, poolBuilder -> {
+                   poolBuilder.item(1, ModItems.COSMIC_DUST.getRegistryName().toString(), 1, 1);
+               });
+                entryBuilder.pool(3, poolBuilder -> {
+                    poolBuilder.item(1, Blocks.AIR.getRegistryName().toString(), 1, 1);
+                });
+            });
+        });
         add(WoldsVaults.id("trove_sand"), lootBuilder -> {
            lootBuilder.entry(entryBuilder -> {
               entryBuilder.rolls(1, 1)
                       .pool(1, poolBuilder -> {
                           poolBuilder
+                                  .item(105, ModBlocks.VAULT_BRONZE.getRegistryName().toString(), 10, 16)
+                                  .item(80, ModBlocks.VAULT_SILVER.getRegistryName().toString(), 3, 6)
                                   .item(10, ModBlocks.VAULT_GOLD.getRegistryName().toString(), 4, 8)
                                   .item(5, ModBlocks.VAULT_PLATINUM.getRegistryName().toString(), 1, 2)
                                   .item(8, ModItems.VAULT_CATALYST.getRegistryName().toString(), 1, 1)

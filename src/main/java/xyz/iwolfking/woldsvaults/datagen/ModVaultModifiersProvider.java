@@ -4,6 +4,8 @@ import com.cursedcauldron.wildbackport.common.registry.WBMobEffects;
 import com.github.alexthe666.alexsmobs.effect.AMEffectRegistry;
 import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import iskallia.vault.VaultMod;
@@ -15,6 +17,7 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.core.vault.modifier.modifier.*;
 import iskallia.vault.core.vault.modifier.spi.EntityAttributeModifier;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
+import iskallia.vault.core.vault.stat.VaultChestType;
 import iskallia.vault.core.world.data.entity.*;
 import iskallia.vault.core.world.data.tile.*;
 import iskallia.vault.core.world.processor.tile.TileProcessor;
@@ -24,12 +27,14 @@ import iskallia.vault.init.ModEntities;
 import iskallia.vault.util.calc.PlayerStat;
 import iskallia.vault.world.VaultDifficulty;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.loot.ChestLoot;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultModifierProvider;
 import xyz.iwolfking.vhapi.api.datagen.lib.BasicListBuilder;
+import xyz.iwolfking.vhapi.api.datagen.lib.WeightedLevelEntryListBuilder;
 import xyz.iwolfking.vhapi.api.datagen.lib.WeightedListBuilder;
 import xyz.iwolfking.vhapi.api.datagen.lib.modifiers.ModifierBuilder;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -690,6 +695,16 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                         "Mob health and damage multiply per hyperboss kill", null, VaultMod.id("gui/modifiers/overpower"));
             }));
 
+            chestLoot(modifierBuilder, WoldsVaults.id("cosmic_chests"), 0.1F, levelLootTableBasicListBuilder -> {
+                levelLootTableBasicListBuilder.add(new ChestLootModifier.LevelLootTable(0, WoldsVaults.id("cosmic_chests")));
+            }, vaultChestTypeBasicListBuilder -> {
+                vaultChestTypeBasicListBuilder.add(VaultChestType.WOODEN).add(VaultChestType.GILDED).add(VaultChestType.ORNATE).add(VaultChestType.LIVING);
+            }, "Cosmic Chests", "#5a9196", "Wooden, Gilded, Living, and Ornate chests have a 10% chance to contain Cosmic loot.", "Wooden, Gilded, Living, and Ornate chests have a %d%% chance to generate Cosmic loot.", VaultMod.id("gui/modifiers/bonus_coin"));
+            grouped(modifierBuilder, WoldsVaults.id("cosmic"), resourceLocationIntegerMap -> {
+                resourceLocationIntegerMap.put(WoldsVaults.id("cosmic_chests"), 1);
+                resourceLocationIntegerMap.put(VaultMod.id("springy"), 2);
+                resourceLocationIntegerMap.put(VaultMod.id("slowfalling"), 1);
+            },"Cosmic", "#3ffbf4", "This vault is anti-grav! It seems some cosmic dust is littered around...", null, WoldsVaults.id("gui/modifiers/impossible"));
 
             //1/1% versions of all modifiers, to be used for Vault Maps and replace SettableVaultModifiers
             artifactChance(modifierBuilder, WoldsVaults.id("artifact_chance"), 0.01F, "Artifact Chance", "#EBFF8D", "+1% Artifact Chance", "+%d%% Artifact Chance", VaultMod.id("gui/modifiers/more_artifact1"));
@@ -817,6 +832,33 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 eventTags.add(tag.name());
             });
             modifierEntryBuilder.property("eventTags", eventTags);
+            createModifierDisplay(modifierEntryBuilder, name, color, description, formattedDescription, icon);
+        }));
+    }
+
+    public static void chestLoot(ModifierBuilder builder, ResourceLocation modifierId, float chance, Consumer<BasicListBuilder<ChestLootModifier.LevelLootTable>> chestLootTablesConsumer, Consumer<BasicListBuilder<VaultChestType>> vaultChestTypesConsumer, String name, String color, String description, String formattedDescription, ResourceLocation icon) {
+        builder.type(VaultMod.id("modifier_type/chest_loot").toString(), (typeBuilder) -> typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
+            modifierEntryBuilder.property("chance", chance);
+
+            JsonArray chestLootTables = new JsonArray();
+            BasicListBuilder<ChestLootModifier.LevelLootTable> listBuilder = new BasicListBuilder<>();
+            chestLootTablesConsumer.accept(listBuilder);
+            listBuilder.build().forEach(levelLootTable -> {
+                JsonObject table = new JsonObject();
+                table.addProperty("level", levelLootTable.getLevel());
+                table.addProperty("lootTable", levelLootTable.getLootTable().toString());
+                chestLootTables.add(table);
+            });
+            modifierEntryBuilder.property("lootTable", chestLootTables);
+
+            JsonArray whitelist = new JsonArray();
+            BasicListBuilder<VaultChestType> whitelistBuilder = new BasicListBuilder<>();
+            vaultChestTypesConsumer.accept(whitelistBuilder);
+            whitelistBuilder.build().forEach(vaultChestType -> {
+                whitelist.add(vaultChestType.name());
+            });
+            modifierEntryBuilder.property("whitelist", whitelist);
+
             createModifierDisplay(modifierEntryBuilder, name, color, description, formattedDescription, icon);
         }));
     }

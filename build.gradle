@@ -382,7 +382,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:lazy-dfu-forge-460819:3544496")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5322305")
     runtimeOnly fg.deobf("curse.maven:fastload-630620:4706140")
-    runtimeOnly fg.deobf("curse.maven:modernfix-790626:5399365")
+    implementation fg.deobf("curse.maven:modernfix-790626:5399365")
 
     // local jij mods
 
