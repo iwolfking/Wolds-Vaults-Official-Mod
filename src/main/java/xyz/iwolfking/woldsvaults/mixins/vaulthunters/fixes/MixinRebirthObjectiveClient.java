@@ -10,18 +10,21 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialVessel;
 
 import static iskallia.vault.core.vault.objective.RebirthObjective.PHASE_DAMAGE_DEALT;
+import static iskallia.vault.core.vault.objective.RebirthObjective.PHASE_DAMAGE_GOAL;
 
 /**
- * make the greed boss damage target use a float instead of an int capped at MAX_INT
+ * make the greed boss damage target use a float instead of an int capped at MAX_INT. Both helpers
+ * route through {@code GreedTrialVessel#displayGoal}, which switches goal during a rank-up trial.
  */
 @Mixin(RebirthObjective.class)
 abstract class MixinRebirthObjectiveClient extends Objective {
 
     @Unique
-    private static float woldsVaults$getPhaseDamageGoalFloat(int phase) {
-        return (float)(50000.0 * Math.pow(2, phase));
+    private float woldsVaults$getPhaseDamageGoalFloat(int phase) {
+        return GreedTrialVessel.displayGoal(phase, this.getOr(PHASE_DAMAGE_GOAL, 0));
     }
 
     @ModifyArg(method = "render",
@@ -30,7 +33,7 @@ abstract class MixinRebirthObjectiveClient extends Objective {
                              ordinal = 1),
                     index = 5)
     private int makeProgressUseFloat(int pWidth, @Local boolean transitioning, @Local(ordinal = 2) int currentPhase) {
-        final float goal = woldsVaults$getPhaseDamageGoalFloat(currentPhase);
+        final float goal = this.woldsVaults$getPhaseDamageGoalFloat(currentPhase);
         return (int)(15 + 130.0F * (transitioning ? 1.0F : Math.min(this.getOr(PHASE_DAMAGE_DEALT,0.0F)/goal, 1.0F)));
     }
 
@@ -39,8 +42,8 @@ abstract class MixinRebirthObjectiveClient extends Objective {
             remap = false, name = "damageText")
     private String makeTextUseFloat(String value, @Local boolean transitioning, @Local(ordinal = 2) int currentPhase) {
         final float dealt = this.getOr(PHASE_DAMAGE_DEALT,0.0F);
-        final float goal = woldsVaults$getPhaseDamageGoalFloat(currentPhase);
-        final float thr = 10000000000.0F; //10bn
+        final float goal = this.woldsVaults$getPhaseDamageGoalFloat(currentPhase);
+        final float thr = 10000000000.0F;
         String format = (dealt>=thr ? "%.5e/":"%.0f/") + (goal>=thr ? "%.5e":"%.0f");
         return transitioning ? "PHASE SHIFT" : String.format(format, dealt, goal);
     }

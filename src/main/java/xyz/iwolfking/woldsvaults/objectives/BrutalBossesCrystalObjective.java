@@ -57,7 +57,7 @@ public class BrutalBossesCrystalObjective extends WoldCrystalObjective {
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
-        double difficultyScale = Math.sqrt(SigilUtils.getDifficultyMultiplier(sigil));
+        double difficultyScale = Math.sqrt(SigilUtils.getDifficultyMultiplier(sigil, vault));
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
             IntSupplier limitedWave = () -> (int) ((random.nextInt(3) + 1) * difficultyScale);
 

@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaStackTuning;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 @Mixin(value = StackingGearAttributeTalent.class, remap = false)
@@ -30,6 +31,6 @@ public abstract class StackingGearAttributeTalentMixin {
 
         int maxStacksBonus = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ADDITIONAL_STACKING_STACKS, VaultGearAttributeTypeMerger.intSum());
 
-        return Math.max(0, baseMaxStacks + maxStacksBonus);
+        return IdonaStackTuning.maxStacks(player, Math.max(0, baseMaxStacks + maxStacksBonus));
     }
 }

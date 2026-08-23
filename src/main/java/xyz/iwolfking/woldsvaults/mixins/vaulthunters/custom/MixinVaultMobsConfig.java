@@ -9,6 +9,8 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.world.VaultDifficulty;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.api.util.RoyaleVaultCache;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -47,6 +50,19 @@ public class MixinVaultMobsConfig {
         }
 
         return original.call(instance);
+    }
+
+    /** Multiplies vault mob health and damage by the medallion bonus, on the attribute's base value. */
+    @WrapOperation(
+        method = "lambda$scale$0",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeInstance;setBaseValue(D)V"),
+        remap = true
+    )
+    private static void scaleMobStatsForMedallion(AttributeInstance instance, double baseValue, Operation<Void> original, @Local(argsOnly = true) LivingEntity entity) {
+        if (instance.getAttribute() == Attributes.MAX_HEALTH || instance.getAttribute() == Attributes.ATTACK_DAMAGE) {
+            baseValue *= GreedMedallionEffects.mobStatMultiplier(entity);
+        }
+        original.call(instance, baseValue);
     }
 
     @Unique

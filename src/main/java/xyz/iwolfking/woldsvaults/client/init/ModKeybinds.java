@@ -14,6 +14,7 @@ public class ModKeybinds {
     public static KeyMapping toggleBetterCombat;
     public static KeyMapping openInventoryHUD;
     public static KeyMapping configureTrinket;
+    public static KeyMapping toggleCharmBlessing;
 
     public static void registerKeyBinds() {
         isFeatherFixed = registerKeyMapping("is_feather_fixed", -1);
@@ -21,6 +22,7 @@ public class ModKeybinds {
         toggleBetterCombat = registerKeyMapping("toggle_better_combat", GLFW.GLFW_KEY_PERIOD);
         openInventoryHUD = registerKeyMapping("open_inventory_hud", GLFW.GLFW_KEY_O);
         configureTrinket = registerKeyMapping("configure_trinket", GLFW.GLFW_KEY_G, KeyConflictContext.GUI);
+        toggleCharmBlessing = registerKeyMapping("toggle_charm_blessing", -1);
     }
 
     private static KeyMapping registerKeyMapping(String name, int keyCode) {

@@ -11,12 +11,16 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
 import xyz.iwolfking.woldsvaults.api.util.HealthReductionHelper;
+import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrFruit;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import static iskallia.vault.item.ItemVaultFruit.MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID;
@@ -34,7 +38,15 @@ public abstract class MixinItemVaultFruit extends Item implements IRottenFruit {
      */
     @Overwrite
     protected void reducePlayerMaxHealth(ServerPlayer player) {
-        HealthReductionHelper.reducePlayerMaxHealth(player);
+        if (WendarrFruit.isFruitSaved(player)) {
+            return;
+        }
+        HealthReductionHelper.reducePlayerMaxHealth(player, HealthReductionHelper.DEFAULT_MULT, WendarrFruit.healthScaling(player));
+    }
+
+    @Inject(method = "onEaten", at = @At("HEAD"))
+    private void woldsvaults$rollExpertEater(Level level, Player player, CallbackInfoReturnable<Boolean> cir) {
+        WendarrFruit.rollFruitSave(player);
     }
 
     /**
@@ -48,8 +60,8 @@ public abstract class MixinItemVaultFruit extends Item implements IRottenFruit {
     }
 
     @Redirect(method = "onEaten", at = @At(value = "INVOKE", target = "Liskallia/vault/snapshot/AttributeSnapshot;getAttributeValue(Liskallia/vault/gear/attribute/VaultGearAttribute;Liskallia/vault/gear/attribute/type/VaultGearAttributeTypeMerger;)Ljava/lang/Object;"))
-    private Object cancelFruitEffectivenessTimeGain(AttributeSnapshot instance, VaultGearAttribute<Float> attribute, VaultGearAttributeTypeMerger<Float, Float> merger) {
-        return (instance.getAttributeValue(attribute, merger) / (1.0F + instance.getAttributeValue(attribute, merger)));
+    private Object cancelFruitEffectivenessTimeGain(AttributeSnapshot instance, VaultGearAttribute<Float> attribute, VaultGearAttributeTypeMerger<Float, Float> merger, Level level, Player player) {
+        return WendarrFruit.adjustEffectiveness(player, instance.getAttributeValue(attribute, merger));
     }
 
     @Override

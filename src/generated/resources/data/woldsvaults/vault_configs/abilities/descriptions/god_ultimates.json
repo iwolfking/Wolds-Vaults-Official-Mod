@@ -1,0 +1,284 @@
+{
+  "data": {
+    "Bullet_Time": {
+      "description": [
+        {
+          "text": "Infuse yourself with the power of ",
+          "color": "$text"
+        },
+        {
+          "text": "Wendarr",
+          "color": "$wendarr"
+        },
+        {
+          "text": ", stretching every tick of the ",
+          "color": "$text"
+        },
+        {
+          "text": "vault timer ",
+          "color": "$duration"
+        },
+        {
+          "text": "so the run lasts longer, while you gain ",
+          "color": "$text"
+        },
+        {
+          "text": "attack speed",
+          "color": "$speed"
+        },
+        {
+          "text": ", ",
+          "color": "$text"
+        },
+        {
+          "text": "movement speed ",
+          "color": "$speed"
+        },
+        {
+          "text": "and reflexes sharp enough to ",
+          "color": "$text"
+        },
+        {
+          "text": "dodge ",
+          "color": "$chance"
+        },
+        {
+          "text": "almost anything.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Granted by Wendarr at god level 5. Its cooldown cannot be reduced.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "timerStretch",
+        "dodgeChance",
+        "bonusAttackSpeed",
+        "bonusMovementSpeed",
+        "duration",
+        "ultimateCooldown"
+      ],
+      "next": [
+        "timerStretch",
+        "dodgeChance",
+        "bonusAttackSpeed",
+        "bonusMovementSpeed",
+        "duration",
+        "ultimateCooldown"
+      ]
+    },
+    "Cope_De_Grace": {
+      "description": [
+        {
+          "text": "Infuse yourself with the power of ",
+          "color": "$text"
+        },
+        {
+          "text": "Idona",
+          "color": "$idona"
+        },
+        {
+          "text": ", multiplying your ",
+          "color": "$text"
+        },
+        {
+          "text": "ability power ",
+          "color": "$ability_power"
+        },
+        {
+          "text": "and ",
+          "color": "$text"
+        },
+        {
+          "text": "attack damage ",
+          "color": "$damage"
+        },
+        {
+          "text": "while gaining huge amounts of ",
+          "color": "$text"
+        },
+        {
+          "text": "damage resistance",
+          "color": "$resistance"
+        },
+        {
+          "text": ", stacking multiplicatively with all other boosts.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "At the end of the infusion, ",
+          "color": "$text"
+        },
+        {
+          "text": "dash forward ",
+          "color": "$force"
+        },
+        {
+          "text": "in a brutal explosion of power, dealing huge damage to everything in your way. Every hit landed during the infusion increases the damage of this final dash.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "attackDamageMultiplier",
+        "abilityPowerMultiplier",
+        "resistance",
+        "damageCompounding",
+        "duration",
+        "ultimateCooldown"
+      ],
+      "next": [
+        "attackDamageMultiplier",
+        "abilityPowerMultiplier",
+        "resistance",
+        "damageCompounding",
+        "duration",
+        "ultimateCooldown"
+      ]
+    },
+    "Eyes_Of_God": {
+      "description": [
+        {
+          "text": "Infuse yourself with the power of ",
+          "color": "$text"
+        },
+        {
+          "text": "Tenos",
+          "color": "$tenos"
+        },
+        {
+          "text": ", instantly discovering every room in a ",
+          "color": "$text"
+        },
+        {
+          "text": "radius ",
+          "color": "$radius"
+        },
+        {
+          "text": "around you, however far away they are.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Granted by Tenos at god level 5. Its cooldown cannot be reduced.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "radius",
+        "ultimateCooldown"
+      ],
+      "next": [
+        "radius",
+        "ultimateCooldown"
+      ]
+    },
+    "Savior": {
+      "description": [
+        {
+          "text": "Infuse yourself with the power of ",
+          "color": "$text"
+        },
+        {
+          "text": "Velara",
+          "color": "$velara"
+        },
+        {
+          "text": ", sending a shockwave across the whole vault that ",
+          "color": "$text"
+        },
+        {
+          "text": "heals ",
+          "color": "$heal"
+        },
+        {
+          "text": "and ",
+          "color": "$text"
+        },
+        {
+          "text": "shields ",
+          "color": "$absorb"
+        },
+        {
+          "text": "every runner in it and grants them ",
+          "color": "$text"
+        },
+        {
+          "text": "resistance",
+          "color": "$resistance"
+        },
+        {
+          "text": ".\n\nIt also raises downed teammates, once per person per vault.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Granted by Velara at god level 5. Its cooldown cannot be reduced.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "heal",
+        "absorb",
+        "resistance",
+        "duration",
+        "ultimateCooldown"
+      ],
+      "next": [
+        "heal",
+        "absorb",
+        "resistance",
+        "duration",
+        "ultimateCooldown"
+      ]
+    },
+    "Stirrings_Of_Power_Dormant": {
+      "description": [
+        {
+          "text": "The gods stir, but none of them answer you yet.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Equip a ",
+          "color": "$text"
+        },
+        {
+          "text": "god charm ",
+          "color": "$qhighlight"
+        },
+        {
+          "text": "and reach ",
+          "color": "$text"
+        },
+        {
+          "text": "god level 5 ",
+          "color": "$level"
+        },
+        {
+          "text": "with that god, and this becomes their ultimate. Swap charms and it changes with you.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [],
+      "next": []
+    }
+  }
+}

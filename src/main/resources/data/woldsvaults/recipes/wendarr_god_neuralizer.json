@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "ingredient": {
+    "item": "woldsvaults:yellow_vault_essence"
+  },
+  "inputCount": 4,
+  "catalyst": {
+    "item": "the_vault:neuralizer"
+  },
+  "infuseDuration": 400,
+  "result": {
+    "item": "woldsvaults:wendarr_god_neuralizer"
+  }
+}

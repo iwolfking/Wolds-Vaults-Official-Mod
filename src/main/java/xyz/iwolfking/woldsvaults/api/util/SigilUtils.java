@@ -7,6 +7,7 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -35,10 +36,8 @@ public class SigilUtils {
     }
 
     /**
-     * The vault's final difficulty expressed as a multiplier: 1.0 for a sigil-less vault, plus
-     * every difficulty source stacked on top of it. Only the crystal's sigil contributes today
-     * (its value comes from {@code sigils/definitions.json}), so a +3.0 sigil yields 4.0 — the
-     * 400% a player sees. A sigil id with no definition contributes nothing and is logged.
+     * The vault's difficulty as a multiplier: 1.0 plus the sigil's {@code difficulty} from
+     * {@code sigils/definitions.json}. An unknown sigil contributes nothing.
      */
     public static float getDifficultyMultiplier(@Nullable String sigil) {
         if(sigil == null) {
@@ -53,6 +52,18 @@ public class SigilUtils {
         }
 
         return 1.0F + definition.get().getDifficulty();
+    }
+
+    /**
+     * As {@link #getDifficultyMultiplier(String)}, multiplied by the vault medallion's objective difficulty bonus;
+     * a null vault gives the sigil-only multiplier.
+     */
+    public static float getDifficultyMultiplier(@Nullable String sigil, @Nullable Vault vault) {
+        float multiplier = getDifficultyMultiplier(sigil);
+        if(vault == null) {
+            return multiplier;
+        }
+        return multiplier * (float) GreedMedallionEffects.objectiveDifficultyMultiplier(vault);
     }
 
     public static int getStackCountForSigil(String sigil) {

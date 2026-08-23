@@ -41,6 +41,8 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
@@ -167,6 +169,9 @@ public class BrutalBossesObjective extends ObeliskObjective {
                         wave.modify(Wave.COUNT, (x) -> {
                             return x + 1;
                         });
+                        if (event.getSource().getEntity() instanceof net.minecraft.server.level.ServerPlayer bossKiller) {
+                            Milestones.advance(bossKiller, MilestoneIds.BRUTALIZED, 1L);
+                        }
                         MobModifier modifier = InfernalMobsCore.getMobModifiers(event.getEntityLiving());
                         List<VaultModifier<?>> modifiersForMsg = new ArrayList<>();
 

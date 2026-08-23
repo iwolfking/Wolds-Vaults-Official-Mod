@@ -27,6 +27,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneDispatcher;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialHyper;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
@@ -89,6 +93,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 : score >= HyperVaultObjective.cfg().getCrateTierScore9() ? 9
                 : score >= HyperVaultObjective.cfg().getCrateTierScore7() ? 7 : 5) * cycle;
         VaultModifierUtils.addModifier(vault, VaultMod.id("crate_tier"), crateTiers);
+        MilestoneDispatcher.forEachRunner(vault, player -> Milestones.advance(player, MilestoneIds.HYPERION, crateTiers));
         VaultModifierUtils.addModifier(vault, VaultMod.id("refined_experience"), cycle);
         if (cycle % 2 == 0) {
             VaultModifierUtils.addModifier(vault, VaultMod.id("inert"), 1);
@@ -103,13 +108,21 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
 
         dumpChaosModifiers();
         restartDoorAnimation();
-        spawnExitPillar();
+        if (GreedTrialHyper.shouldOfferExit(vault)) {
+            spawnExitPillar();
+        } else {
+            HyperVaultObjective.broadcast(vault, "Trial: " + (GreedTrialHyper.requiredCycles(vault) - cycle)
+                    + " more cycle(s) to go — there is no way out yet.", ChatFormatting.RED);
+        }
         respawnBossPillar();
         removeBossRoomZone();
         discardFightSpawns();
 
         objective.set(HyperVaultObjective.EXIT_TICKS, HyperVaultObjective.cfg().getExitPillarTicks());
         objective.set(HyperVaultObjective.PHASE, Phase.REWARD);
+        if (GreedTrialHyper.isCycleTargetMet(vault)) {
+            GreedTrialHyper.completeTrialVault(vault, objective, HyperVaultObjective.cfg().getWinTransitionTicks());
+        }
         String tierSummary = "+" + crateTiers + " crate tiers"
                 + ", +" + greedyTiers + " greedy crate tier" + (greedyTiers > 1 ? "s" : "")
                 + ", +" + cycle + " refined experience";
@@ -172,7 +185,8 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
 
     /** Fills the granted chaos budget from hyper_mixed; one pull normally rolls the pool's full 25. */
     private void dumpChaosModifiers() {
-        int granted = HyperVaultObjective.consumeChaosBudget(vault, HyperVaultObjective.cfg().getChaosPerKill());
+        int granted = HyperVaultObjective.consumeChaosBudget(vault,
+                GreedTrialHyper.chaosPerKill(vault, HyperVaultObjective.cfg().getChaosPerKill()));
         if (granted <= 0) {
             HyperVaultObjective.broadcast(vault, "The Vault can hold no more chaos (" + HyperVaultObjective.cfg().getChaosCap() + " cap reached).", ChatFormatting.DARK_PURPLE);
             return;
@@ -229,7 +243,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
         int remaining = objective.getOr(HyperVaultObjective.EXIT_TICKS, 0) - 1;
         objective.set(HyperVaultObjective.EXIT_TICKS, Math.max(0, remaining));
-        if (remaining <= 0) {
+        if (remaining <= 0 && !GreedTrialHyper.isCycleTargetMet(vault)) {
             removeExitPillar();
             cycleManager.rollBatch();
         }

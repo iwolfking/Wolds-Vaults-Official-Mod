@@ -8,6 +8,7 @@ import iskallia.vault.init.ModConfigs;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -167,7 +168,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.BLUE_VAULT_ESSENCE);
         simpleItem(ModItems.GREEN_VAULT_ESSENCE);
         simpleItem(ModItems.LEAD_DYE_BASE);
-        //simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         withExistingParent("owned_crafting_table",
                 mcLoc("item/crafting_table"));
@@ -198,13 +198,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleResource("wizard_trinket_pouch");
 
         simpleResource("alchemy_bottle");
-        simpleLayeredResource("bubbling_contents00", "alchemy_bottle", "bubbling_contents00"); // 1 ingredient
-        simpleLayeredResource("bubbling_contents01", "alchemy_bottle", "bubbling_contents01"); // 2 ingredients
-        simpleLayeredResource("bubbling_contents02", "alchemy_bottle", "bubbling_contents02"); // 3 ingredients
-        simpleLayeredResource("bubbling_contents03", "alchemy_bottle", "bubbling_contents03"); // cooking
+        simpleLayeredResource("bubbling_contents00", "alchemy_bottle", "bubbling_contents00");
+        simpleLayeredResource("bubbling_contents01", "alchemy_bottle", "bubbling_contents01");
+        simpleLayeredResource("bubbling_contents02", "alchemy_bottle", "bubbling_contents02");
+        simpleLayeredResource("bubbling_contents03", "alchemy_bottle", "bubbling_contents03");
         generatePotionItem();
 
-        // are we fr
         itemWithTexture(ModItems.UBER_CHAOS_CATALYST, "vault_catalyst_unhinged");
         itemWithTexture(ModItems.STYLISH_FOCUS, "stylish_orb");
         itemWithTexture(ModItems.CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD, "crystal_seal_raid_infinite_hard");
@@ -217,7 +216,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         itemWithTexture(ModItems.TRINKET_POUCH, "standard_trinket_pouch");
         itemWithTexture(ModItems.GOD_OFFERING, "god_blessing_idona");
 
-        //Vault Modifier icon models
         vaultModifier(VaultMod.id("orematic"), "oremania");
         vaultModifier(VaultMod.id("resistant_mobs"));
         vaultModifier(VaultMod.id("phantasmal_mobs"));
@@ -376,11 +374,17 @@ public class ModItemModelProvider extends ItemModelProvider {
                         VaultMod.id("gui/skills/" + skillId));
     }
 
+    /** Model for one research token, or null with a log line if no texture ships for that style. */
+    @Nullable
     public ItemModelBuilder researchToken(ResourceLocation icon) {
+        ResourceLocation texture = VaultMod.id("gui/researches/" + ResourceLocUtils.getStrippedPath(icon));
+        if (!existingFileHelper.exists(texture, PackType.CLIENT_RESOURCES, ".png", "textures")) {
+            WoldsVaults.LOGGER.warn("Research icon texture {} does not exist; skipping its token model.", texture);
+            return null;
+        }
         return getBuilder(WoldsVaults.id("item/researches/" + ResourceLocUtils.getStrippedPath(icon)).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0",
-                        VaultMod.id("gui/researches/" + ResourceLocUtils.getStrippedPath(icon)));
+                .texture("layer0", texture);
     }
 
     public ItemModelBuilder etching(ResourceLocation icon) {

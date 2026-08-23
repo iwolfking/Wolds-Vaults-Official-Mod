@@ -1,0 +1,56 @@
+package xyz.iwolfking.woldsvaults.medallions;
+
+import iskallia.vault.core.vault.Vault;
+import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Per-vault registry of the active greed medallion, set when a vault is built from a medallion-bearing crystal and
+ * released when it ends. Nothing here persists.
+ */
+@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
+public final class GreedMedallionVaultState {
+    private static final Map<UUID, GreedMedallionTier> ACTIVE = new ConcurrentHashMap<>();
+
+    private GreedMedallionVaultState() {
+    }
+
+    public static void set(UUID vaultId, GreedMedallionTier tier) {
+        if (vaultId != null && tier != null) {
+            ACTIVE.put(vaultId, tier);
+        }
+    }
+
+    public static Optional<GreedMedallionTier> get(UUID vaultId) {
+        return vaultId == null ? Optional.empty() : Optional.ofNullable(ACTIVE.get(vaultId));
+    }
+
+    public static Optional<GreedMedallionTier> get(Vault vault) {
+        if (vault == null || !vault.has(Vault.ID)) {
+            return Optional.empty();
+        }
+        return get(vault.get(Vault.ID));
+    }
+
+    public static void release(UUID vaultId) {
+        if (vaultId != null) {
+            ACTIVE.remove(vaultId);
+        }
+    }
+
+    public static void clearAll() {
+        ACTIVE.clear();
+    }
+
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        clearAll();
+    }
+}

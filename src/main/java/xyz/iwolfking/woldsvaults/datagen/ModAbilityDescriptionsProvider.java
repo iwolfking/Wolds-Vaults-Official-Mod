@@ -248,6 +248,122 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
 
 
         });
+
+        add("god_ultimates", builder -> {
+            builder.addDescription("Stirrings_Of_Power_Dormant", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("The gods stir, but none of them answer you yet.\n\n"));
+                jsonElements.add(JsonDescription.simple("Equip a "));
+                jsonElements.add(JsonDescription.simple("god charm ", "$qhighlight"));
+                jsonElements.add(JsonDescription.simple("and reach "));
+                jsonElements.add(JsonDescription.simple("god level 5 ", "$level"));
+                jsonElements.add(JsonDescription.simple("with that god, and this becomes their ultimate. Swap charms and it changes with you."));
+                jsonElements.add(castAbility());
+            }, current -> {
+            }, next -> {
+            });
+
+            builder.addDescription("Cope_De_Grace", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Infuse yourself with the power of "));
+                jsonElements.add(JsonDescription.simple("Idona", "$idona"));
+                jsonElements.add(JsonDescription.simple(", multiplying your "));
+                jsonElements.add(JsonDescription.simple("ability power ", "$ability_power"));
+                jsonElements.add(JsonDescription.simple("and "));
+                jsonElements.add(JsonDescription.simple("attack damage ", "$damage"));
+                jsonElements.add(JsonDescription.simple("while gaining huge amounts of "));
+                jsonElements.add(JsonDescription.simple("damage resistance", "$resistance"));
+                jsonElements.add(JsonDescription.simple(", stacking multiplicatively with all other boosts.\n\n"));
+                jsonElements.add(JsonDescription.simple("At the end of the infusion, "));
+                jsonElements.add(JsonDescription.simple("dash forward ", "$force"));
+                jsonElements.add(JsonDescription.simple("in a brutal explosion of power, dealing huge damage to everything in your way. Every hit landed during the infusion increases the damage of this final dash."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("attackDamageMultiplier");
+                current.add("abilityPowerMultiplier");
+                current.add("resistance");
+                current.add("damageCompounding");
+                current.add("duration");
+                current.add("ultimateCooldown");
+            }, next -> {
+                next.add("attackDamageMultiplier");
+                next.add("abilityPowerMultiplier");
+                next.add("resistance");
+                next.add("damageCompounding");
+                next.add("duration");
+                next.add("ultimateCooldown");
+            });
+
+            builder.addDescription("Savior", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Infuse yourself with the power of "));
+                jsonElements.add(JsonDescription.simple("Velara", "$velara"));
+                jsonElements.add(JsonDescription.simple(", sending a shockwave across the whole vault that "));
+                jsonElements.add(JsonDescription.simple("heals ", "$heal"));
+                jsonElements.add(JsonDescription.simple("and "));
+                jsonElements.add(JsonDescription.simple("shields ", "$absorb"));
+                jsonElements.add(JsonDescription.simple("every runner in it and grants them "));
+                jsonElements.add(JsonDescription.simple("resistance", "$resistance"));
+                jsonElements.add(JsonDescription.simple(".\n\nIt also raises downed teammates, once per person per vault.\n\n"));
+                jsonElements.add(JsonDescription.simple("Granted by Velara at god level 5. Its cooldown cannot be reduced."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("heal");
+                current.add("absorb");
+                current.add("resistance");
+                current.add("duration");
+                current.add("ultimateCooldown");
+            }, next -> {
+                next.add("heal");
+                next.add("absorb");
+                next.add("resistance");
+                next.add("duration");
+                next.add("ultimateCooldown");
+            });
+
+            builder.addDescription("Eyes_Of_God", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Infuse yourself with the power of "));
+                jsonElements.add(JsonDescription.simple("Tenos", "$tenos"));
+                jsonElements.add(JsonDescription.simple(", instantly discovering every room in a "));
+                jsonElements.add(JsonDescription.simple("radius ", "$radius"));
+                jsonElements.add(JsonDescription.simple("around you, however far away they are.\n\n"));
+                jsonElements.add(JsonDescription.simple("Granted by Tenos at god level 5. Its cooldown cannot be reduced."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("radius");
+                current.add("ultimateCooldown");
+            }, next -> {
+                next.add("radius");
+                next.add("ultimateCooldown");
+            });
+
+            builder.addDescription("Bullet_Time", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Infuse yourself with the power of "));
+                jsonElements.add(JsonDescription.simple("Wendarr", "$wendarr"));
+                jsonElements.add(JsonDescription.simple(", stretching every tick of the "));
+                jsonElements.add(JsonDescription.simple("vault timer ", "$duration"));
+                jsonElements.add(JsonDescription.simple("so the run lasts longer, while you gain "));
+                jsonElements.add(JsonDescription.simple("attack speed", "$speed"));
+                jsonElements.add(JsonDescription.simple(", "));
+                jsonElements.add(JsonDescription.simple("movement speed ", "$speed"));
+                jsonElements.add(JsonDescription.simple("and reflexes sharp enough to "));
+                jsonElements.add(JsonDescription.simple("dodge ", "$chance"));
+                jsonElements.add(JsonDescription.simple("almost anything.\n\n"));
+                jsonElements.add(JsonDescription.simple("Granted by Wendarr at god level 5. Its cooldown cannot be reduced."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("timerStretch");
+                current.add("dodgeChance");
+                current.add("bonusAttackSpeed");
+                current.add("bonusMovementSpeed");
+                current.add("duration");
+                current.add("ultimateCooldown");
+            }, next -> {
+                next.add("timerStretch");
+                next.add("dodgeChance");
+                next.add("bonusAttackSpeed");
+                next.add("bonusMovementSpeed");
+                next.add("duration");
+                next.add("ultimateCooldown");
+            });
+        });
     }
 
     public JsonObject castAbility() {

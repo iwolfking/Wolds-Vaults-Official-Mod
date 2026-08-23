@@ -30,6 +30,24 @@ base {
     archivesName = "wolds-vaults-official-mod"
 }
 
+// Location of the Wold's Vaults packwiz repo. God tree datagen writes its config there and the
+// drift gate reads it back. Override with -PwvPackDir=<path> or the WV_PACK_DIR environment
+// variable; otherwise the nearest ancestor holding a "Wolds-Vaults" checkout wins, which covers
+// both the main clone and a git worktree.
+ext.wvPackDir = {
+    def explicit = project.findProperty('wvPackDir') ?: System.getenv('WV_PACK_DIR')
+    if (explicit != null && !explicit.toString().isEmpty()) {
+        return new File(explicit.toString())
+    }
+    for (File dir = projectDir; dir != null; dir = dir.parentFile) {
+        File candidate = new File(dir, 'Wolds-Vaults')
+        if (new File(candidate, 'config/the_vault').isDirectory()) {
+            return candidate
+        }
+    }
+    return null
+}()
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
@@ -128,6 +146,9 @@ minecraft {
             workingDirectory project.file('run-data')
             environment 'WV_DATAGEN', 'true'
             jvmArgs '-Duser.language=en', '-Duser.country=US' // dots as decimal separators
+            if (wvPackDir != null) {
+                property 'woldsvaults.packDir', wvPackDir.absolutePath
+            }
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing-mod', 'the_vault', '--existing-mod', 'compressium', '--existing-mod', 'occultism'
         }
@@ -482,4 +503,119 @@ tasks.jarJar.finalizedBy(tasks.deleteSlimJar)
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+// The addon ships two copies of everything the greed rework tunes: a Java table a config reset()
+// writes, and the pack file the game actually reads. They have to agree - when they drift, the pack
+// plays on the config until anything regenerates it and then silently plays on the Java instead.
+// These gates hold each pair together, and they stay the cheap check that runs on every build even
+// though runData works again (see seedRunDataConfigs).
+ext.driftGateRunner = {
+    if (wvPackDir == null) {
+        return [failure: "no Wold's Vaults pack checkout found; pass -PwvPackDir=<pack repo root> or " +
+                "set WV_PACK_DIR"]
+    }
+    def python = ['python', 'python3', 'py'].find { candidate ->
+        try {
+            new ProcessBuilder(candidate, '--version').redirectErrorStream(true).start().waitFor() == 0
+        } catch (IOException ignored) {
+            false
+        }
+    }
+    if (python == null) {
+        return [failure: 'no python interpreter on PATH (tried python, python3, py)']
+    }
+    return [python: python, packDir: wvPackDir]
+}
+
+// A gate that cannot run is a gate that is not gating, so a missing pack checkout or interpreter
+// fails the build rather than logging past itself. -PallowUngatedConfig=true is the deliberate way
+// past it, on a machine that genuinely has neither.
+ext.runDriftGate = { String taskName, File script, List<String> gateArgs ->
+    def runner = driftGateRunner()
+    if (runner.failure != null) {
+        if (project.findProperty('allowUngatedConfig') == 'true') {
+            logger.lifecycle("${taskName} SKIPPED (allowUngatedConfig): ${runner.failure}")
+            return
+        }
+        throw new GradleException("${taskName} cannot run: ${runner.failure}. Config drift is NOT being " +
+                'gated; pass -PallowUngatedConfig=true to build anyway.')
+    }
+    def command = [runner.python, script.absolutePath] + gateArgs
+    def process = new ProcessBuilder(command).directory(projectDir).redirectErrorStream(true).start()
+    process.inputStream.eachLine { logger.lifecycle(it) }
+    if (process.waitFor() != 0) {
+        throw new GradleException("${taskName} failed: the Java defaults and the shipped pack config " +
+                'disagree. Reconcile them before building.')
+    }
+}
+
+tasks.register('checkGodTreeSync') {
+    group = 'verification'
+    description = 'Fails if GodTreeDefaults and the shipped god tree config have drifted apart.'
+    def script = file('gradle/scripts/check_provider_sync.py')
+    def provider = file('src/main/java/xyz/iwolfking/woldsvaults/config/gods/GodTreeDefaults.java')
+    inputs.file(script)
+    inputs.file(provider)
+    outputs.upToDateWhen { false }
+    doLast {
+        runDriftGate('checkGodTreeSync', script,
+                ['--provider', provider.absolutePath,
+                 '--config', new File(wvPackDir, 'config/the_vault/gods').absolutePath])
+    }
+}
+
+tasks.register('checkGodEffectSync') {
+    group = 'verification'
+    description = 'Fails if the god effect, medallion or rank tables have drifted from their pack config.'
+    def script = file('gradle/scripts/check_effect_sync.py')
+    def sources = files('src/main/java/xyz/iwolfking/woldsvaults/config/gods/GodNodeEffectDefaults.java',
+            'src/main/java/xyz/iwolfking/woldsvaults/config/GreedMedallionsConfig.java',
+            'src/main/java/xyz/iwolfking/woldsvaults/config/GreedRanksConfig.java')
+    inputs.file(script)
+    inputs.files(sources)
+    outputs.upToDateWhen { false }
+    doLast {
+        runDriftGate('checkGodEffectSync', script,
+                ['--src', file('src/main/java').absolutePath,
+                 '--config', new File(wvPackDir, 'config/the_vault').absolutePath])
+    }
+}
+
+tasks.named('check') {
+    dependsOn 'checkGodTreeSync', 'checkGodEffectSync'
+}
+
+// Datagen reads the Vault Hunters configs exactly the way the game does: out of config/the_vault
+// under the run directory. An empty run-data leaves every one of them as the stub the_vault writes
+// when a config is missing, ModConfigs.TALENTS.tree comes back null, and the skill description
+// providers die on it - which is why runData used to be unrunnable here. Seeding the shipped pack
+// configs first gives the providers the same data the game has.
+tasks.register('seedRunDataConfigs') {
+    group = 'build setup'
+    description = 'Copies the shipped pack the_vault configs into run-data so datagen reads real data.'
+    outputs.upToDateWhen { false }
+    doLast {
+        if (wvPackDir == null) {
+            throw new GradleException('seedRunDataConfigs cannot run: no pack checkout found; ' +
+                    'pass -PwvPackDir=<pack repo root> or set WV_PACK_DIR. Datagen without the ' +
+                    'pack configs generates empty talent, description and gear data.')
+        }
+        def source = new File(wvPackDir, 'config/the_vault')
+        def target = file('run-data/config/the_vault')
+        copy {
+            from source
+            into target
+            duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        }
+        logger.lifecycle("seedRunDataConfigs: seeded ${target} from ${source}")
+    }
+}
+
+// Never clear src/generated/resources/.cache to force a rebuild. Several outputs - the Draconic
+// Evolution enchantment pool above all - resolve registry entries from mods that are not on the
+// datagen classpath, and regenerating them writes null ids over good data. The cache is what keeps
+// those files pinned. When one output is genuinely stale, delete that single file and re-run.
+tasks.matching { it.name == 'runData' }.configureEach {
+    dependsOn 'seedRunDataConfigs'
 }

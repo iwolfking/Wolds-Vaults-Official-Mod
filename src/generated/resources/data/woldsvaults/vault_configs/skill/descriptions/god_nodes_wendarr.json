@@ -1,0 +1,399 @@
+{
+  "descriptions": {
+    "wendarr_the_deckless": [
+      {
+        "text": "+1% Fruit Efficiency, +5% Movement Speed and +5% Cooldown Reduction",
+        "color": "#ffc854"
+      },
+      {
+        "text": " for every empty slot in your card deck."
+      }
+    ],
+    "wendarr_start_deck": [
+      {
+        "text": "The first star of the Deck - "
+      },
+      {
+        "text": "what you bring in with you",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_temporal_shielding": [
+      {
+        "text": "Take "
+      },
+      {
+        "text": "90% less damage",
+        "color": "#ffc854"
+      },
+      {
+        "text": ", but every hit taken drains "
+      },
+      {
+        "text": "1-3 seconds",
+        "color": "#ffc854"
+      },
+      {
+        "text": " of vault time."
+      }
+    ],
+    "wendarr_glutton": [
+      {
+        "text": "All fruit grants "
+      },
+      {
+        "text": "0.33x time",
+        "color": "#ffc854"
+      },
+      {
+        "text": ", but the chance to rot the vault is reduced by "
+      },
+      {
+        "text": "80%",
+        "color": "#ffc854"
+      },
+      {
+        "text": " - multiplicative with other rot reductions."
+      }
+    ],
+    "wendarr_fruity": [
+      {
+        "text": "+25% Fruit Efficiency",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_fruit_conissour": [
+      {
+        "text": "+1% Fruit Efficiency",
+        "color": "#ffc854"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "wendarr_extraction_superviser": [
+      {
+        "text": "+5% Extractor Speed",
+        "color": "#ffc854"
+      },
+      {
+        "text": " per star, for extractors you placed.\n\n"
+      },
+      {
+        "text": "Coming soon.",
+        "color": "gray"
+      }
+    ],
+    "wendarr_clock_artificier": [
+      {
+        "text": "+50% duration",
+        "color": "#ffc854"
+      },
+      {
+        "text": " on temporal shards you consume."
+      }
+    ],
+    "wendarr_speed_demon": [
+      {
+        "text": "-25% timer tick duration",
+        "color": "#ffc854"
+      },
+      {
+        "text": ", but "
+      },
+      {
+        "text": "1.1x",
+        "color": "#ffc854"
+      },
+      {
+        "text": " to most looting and combat stats, for everyone in the vault. Does not stack."
+      }
+    ],
+    "wendarr_plushie_lover": [
+      {
+        "text": "Doubles the rolled stats",
+        "color": "#ffc854"
+      },
+      {
+        "text": " of an equipped plushie."
+      }
+    ],
+    "wendarr_start_spanner": [
+      {
+        "text": "The first star of the Spanner - "
+      },
+      {
+        "text": "the vault's machinery",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_start_bough": [
+      {
+        "text": "The first star of the Bough - "
+      },
+      {
+        "text": "where fruit comes from",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_pious_devotion": [
+      {
+        "text": "+10 Piety",
+        "color": "#ffc854"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "wendarr_start_swift": [
+      {
+        "text": "The first star of the Swift - "
+      },
+      {
+        "text": "burning the clock for loot",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_speedy_caster": [
+      {
+        "text": "+5% Cooldown Reduction",
+        "color": "#ffc854"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "wendarr_armored_extractors": [
+      {
+        "text": "Extractors you place take "
+      },
+      {
+        "text": "50% less damage",
+        "color": "#ffc854"
+      },
+      {
+        "text": ".\n\n"
+      },
+      {
+        "text": "Coming soon.",
+        "color": "gray"
+      }
+    ],
+    "wendarr_pristine_condition": [
+      {
+        "text": "15% chance",
+        "color": "#ffc854"
+      },
+      {
+        "text": " to not gain a rot stack when you otherwise would - calculated separately from other rot reductions."
+      }
+    ],
+    "wendarr_master_imbuer": [
+      {
+        "text": "+5% Imbuement Chance",
+        "color": "#ffc854"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "wendarr_legend_of_the_pear": [
+      {
+        "text": "Fruit efficiency scales the time a fruit grants on a "
+      },
+      {
+        "text": "square-root curve",
+        "color": "#ffc854"
+      },
+      {
+        "text": " instead of the flattening one - far better gains at high efficiency."
+      }
+    ],
+    "wendarr_edge_of_time": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "10x all damage",
+        "color": "#ffc854"
+      },
+      {
+        "text": ", but every instance of damage you deal consumes "
+      },
+      {
+        "text": "1-3 seconds",
+        "color": "#ffc854"
+      },
+      {
+        "text": " of vault time."
+      }
+    ],
+    "wendarr_start_bot": [
+      {
+        "text": "The first star of the bottom of Wendarr's glass - "
+      },
+      {
+        "text": "spending time - speed and the clock",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_expert_eater": [
+      {
+        "text": "10% chance",
+        "color": "#ffc854"
+      },
+      {
+        "text": " to not consume a vault fruit when you eat it."
+      }
+    ],
+    "wendarr_heavily_effected": [
+      {
+        "text": "+10% Effect Duration",
+        "color": "#ffc854"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "wendarr_gardener": [
+      {
+        "text": "+50% fruit",
+        "color": "#ffc854"
+      },
+      {
+        "text": " from Woldian Gardens, and a much higher "
+      },
+      {
+        "text": "Starfruit",
+        "color": "#ffc854"
+      },
+      {
+        "text": " drop rate."
+      }
+    ],
+    "wendarr_temporal_breaking": [
+      {
+        "text": "Time acceleration is "
+      },
+      {
+        "text": "50% weaker",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". Does not stack."
+      }
+    ],
+    "wendarr_pylon_whisperer": [
+      {
+        "text": "Pylons grant "
+      },
+      {
+        "text": "50% greater effects",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_quick_search": [
+      {
+        "text": "4x omega room chance",
+        "color": "#ffc854"
+      },
+      {
+        "text": ", but "
+      },
+      {
+        "text": "-30% timer tick duration",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". Does not stack, multiplicative with other tick-duration sources."
+      }
+    ],
+    "wendarr_start_top": [
+      {
+        "text": "The first star of the top of Wendarr's glass - "
+      },
+      {
+        "text": "making time - fruit and what it is worth",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_paced_strikes": [
+      {
+        "text": "Multiplies all damage you deal by "
+      },
+      {
+        "text": "sqrt((50 + t) / 50)",
+        "color": "#ffc854"
+      },
+      {
+        "text": ", scaling with the vault time left."
+      }
+    ],
+    "wendarr_speedy": [
+      {
+        "text": "+5% Movement Speed",
+        "color": "#ffc854"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "wendarr_extender": [
+      {
+        "text": "Enter every vault with "
+      },
+      {
+        "text": "2 stacks of Extended",
+        "color": "#ffc854"
+      },
+      {
+        "text": " (+4 minutes). Stacks with other players."
+      }
+    ],
+    "wendarr_tough_stomach": [
+      {
+        "text": "Slightly reduces the "
+      },
+      {
+        "text": "max health lost per fruit",
+        "color": "#ffc854"
+      },
+      {
+        "text": " you eat, letting you eat more."
+      }
+    ],
+    "wendarr_efficient_steps": [
+      {
+        "text": "+0.25% Movement Speed",
+        "color": "#ffc854"
+      },
+      {
+        "text": " per 1% Fruit Efficiency."
+      }
+    ]
+  }
+}

@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.data.AttributeGearData;
@@ -19,6 +21,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodes;
+import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrShards;
 import xyz.iwolfking.woldsvaults.modifiers.vault.PlayerNoTemporalShardModifier;
 
 import javax.annotation.Nullable;
@@ -32,6 +37,21 @@ public abstract class MixinTemporalShardItem implements IdentifiableItem{
             player.displayClientMessage(new TextComponent("The relic does not respond."), true);
             ci.cancel();
         }
+    }
+
+    /** Clock Artificier (r81) and the charm's Temporal Shard Duration suffix, applied at the consumption site. */
+    @ModifyExpressionValue(method = "lambda$use$4", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/TemporalShardItem;getDuration(Lnet/minecraft/world/item/ItemStack;)I"))
+    private static int woldsvaults$extendShardDuration(int duration, @Local(argsOnly = true) Player player) {
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return duration;
+        }
+        float multiplier = 1.0F;
+        if (WendarrNodes.isActive(serverPlayer, WendarrNodes.CLOCK_ARTIFICIER)) {
+            multiplier *= WendarrShards.clockArtificierMultiplier();
+        }
+        multiplier *= 1.0F + xyz.iwolfking.woldsvaults.gods.charms.MythicCharmStats.snapshotSum(serverPlayer,
+                xyz.iwolfking.woldsvaults.init.ModGearAttributes.TEMPORAL_SHARD_DURATION);
+        return Math.round(duration * multiplier);
     }
 
     @Inject(method = "isIdentified", at = @At("HEAD"), cancellable = true)
@@ -67,7 +87,6 @@ public abstract class MixinTemporalShardItem implements IdentifiableItem{
             }
         }
 
-        // original
         AttributeGearData data = AttributeGearData.read(stack);
         if (data instanceof VaultGearData gearData) {
             return gearData.getState();

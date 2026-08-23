@@ -97,6 +97,7 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAcc
 import xyz.iwolfking.woldsvaults.modifiers.vault.HyperStatModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossManager;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialHyper;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCycleManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperEscalationManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
@@ -327,7 +328,8 @@ public class HyperVaultObjective extends Objective {
     public static int consumeChaosBudget(Vault vault, int requested) {
         return get(vault).map(objective -> {
             int used = objective.getOr(CHAOS_COUNT, 0);
-            int granted = Math.max(0, Math.min(requested, cfg().getChaosCap() - used));
+            int granted = Math.max(0, Math.min(requested,
+                    GreedTrialHyper.chaosCap(vault, cfg().getChaosCap()) - used));
             if (granted > 0) {
                 objective.set(CHAOS_COUNT, used + granted);
             }
@@ -599,6 +601,7 @@ public class HyperVaultObjective extends Objective {
     private void completeAndExtract(VirtualWorld world, Vault vault, Runner runner) {
         vault.ifPresent(Vault.STATS, stats -> stats.get(runner.getId()).set(StatCollector.COMPLETION, Completion.COMPLETED));
         super.tickListener(world, vault, runner);
+        GreedTrialHyper.onRunnerCompleted(vault, runner);
         broadcast(vault, runner.getPlayer().map(p -> p.getDisplayName().getString()).orElse("A runner")
                 + " escaped the HYPER Vault!", ChatFormatting.AQUA);
         if (vault.get(Vault.LISTENERS).getAll().size() <= 1) {

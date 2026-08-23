@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
@@ -19,6 +20,13 @@ import xyz.iwolfking.woldsvaults.init.ModTags;
 
 @Mixin(value = CrystalWorkbenchContainer.class, remap = false)
 public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotContainer {
+
+    @Unique
+    private static final int WOLDSVAULTS$MEDALLION_SLOT = 6;
+    @Unique
+    private static final int WOLDSVAULTS$MEDALLION_SLOT_X = 223;
+    @Unique
+    private static final int WOLDSVAULTS$MEDALLION_SLOT_Y = 19;
 
     protected MixinCrystalWorkbenchContainer(MenuType<?> menuType, int id, Player player) {
         super(menuType, id, player);
@@ -32,17 +40,27 @@ public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotConta
         else if(index == 5) {
             cir.setReturnValue(ModSlotIcons.PLACEHOLDER_NO_ITEM);
         }
+        else if(index == WOLDSVAULTS$MEDALLION_SLOT) {
+            cir.setReturnValue(ModSlotIcons.PLACEHOLDER_NO_ITEM);
+        }
     }
+
+    /**
+     * Lets stackable seals be inserted in stacks, and appends the greed medallion slot after the six
+     * unique slots and before the output. Slots are identified by {@link Slot#getSlotIndex()}.
+     */
     @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Liskallia/vault/container/CrystalWorkbenchContainer;addSlot(Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;"), remap = true,
     slice = @Slice(from = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getUniqueIngredients()Liskallia/vault/container/oversized/OverSizedInventory;", ordinal = 0),
                      to = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getOutput()Liskallia/vault/container/oversized/OverSizedInventory;")))
     private Slot stackableSeals(CrystalWorkbenchContainer instance, Slot slot, Operation<Slot> original){
         var bg = slot.getNoItemIcon();
         var typedSlot = slot instanceof CrystalWorkbenchContainer.CrystalWorkbenchSlot sl ? sl : null;
+        int inventoryIndex = typedSlot == null ? -1 : typedSlot.getSlotIndex();
+        Slot added;
         if (typedSlot != null && bg != null && bg.getSecond().equals(iskallia.vault.init.ModSlotIcons.SEAL_NO_ITEM)) {
-            return original.call(instance, (new CrystalWorkbenchContainer.CrystalWorkbenchSlot(typedSlot.container, typedSlot.index, typedSlot.x, typedSlot.y) {
+            added = original.call(instance, (new CrystalWorkbenchContainer.CrystalWorkbenchSlot(typedSlot.container, inventoryIndex, typedSlot.x, typedSlot.y) {
                 public boolean mayPlace(ItemStack stack) {
-                    return instance.getEntity().getUniqueIngredients().canPlaceItem(typedSlot.index, stack);
+                    return instance.getEntity().getUniqueIngredients().canPlaceItem(inventoryIndex, stack);
                 }
 
                 @Override
@@ -53,7 +71,22 @@ public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotConta
                     return super.getMaxStackSize(pStack);
                 }
             }).setBackground(bg.getSecond()));
+        } else {
+            added = original.call(instance, slot);
         }
-        return original.call(instance, slot);
+        if (inventoryIndex == WOLDSVAULTS$MEDALLION_SLOT - 1) {
+            this.addSlot(woldsVaults$createMedallionSlot(instance));
+        }
+        return added;
+    }
+
+    @Unique
+    private static Slot woldsVaults$createMedallionSlot(CrystalWorkbenchContainer instance) {
+        return new CrystalWorkbenchContainer.CrystalWorkbenchSlot(instance.getEntity().getUniqueIngredients(),
+                WOLDSVAULTS$MEDALLION_SLOT, WOLDSVAULTS$MEDALLION_SLOT_X, WOLDSVAULTS$MEDALLION_SLOT_Y) {
+            public boolean mayPlace(ItemStack stack) {
+                return instance.getEntity().getUniqueIngredients().canPlaceItem(WOLDSVAULTS$MEDALLION_SLOT, stack);
+            }
+        }.setBackground(ModSlotIcons.PLACEHOLDER_NO_ITEM);
     }
 }

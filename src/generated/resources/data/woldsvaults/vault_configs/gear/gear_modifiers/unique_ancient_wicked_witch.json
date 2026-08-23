@@ -1,0 +1,102 @@
+{
+  "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:durability",
+        "group": "BaseDurability",
+        "identifier": "the_vault:base_durability",
+        "tags": [
+          "resilientFocusTarget"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 29076,
+              "max": 36345,
+              "step": 1
+            }
+          }
+        ]
+      }
+    ],
+    "PREFIX": [
+      {
+        "attribute": "the_vault:effect_duration",
+        "group": "uEffectDuration",
+        "identifier": "the_vault:u_witch_effect_duration",
+        "tags": [
+          "focusDuration"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 1.0,
+              "max": 1.33,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:cooldown_reduction",
+        "group": "uCooldownReduction",
+        "identifier": "the_vault:u_witch_cooldown_reduction",
+        "tags": [
+          "focusCooldown"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": -0.4,
+              "max": -0.27,
+              "step": 0.05
+            }
+          }
+        ]
+      }
+    ],
+    "SUFFIX": [
+      {
+        "attribute": "the_vault:effect_list_avoidance",
+        "group": "uEffectAvoidance",
+        "identifier": "the_vault:u_witch_effect_avoidance",
+        "tags": [
+          "focusEffAvoidance"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 250,
+            "value": {
+              "effectKeys": [
+                "minecraft:poison",
+                "minecraft:wither",
+                "minecraft:levitation",
+                "minecraft:slowness",
+                "minecraft:blindness",
+                "minecraft:hunger",
+                "the_vault:bleed",
+                "the_vault:chilled",
+                "the_vault:corruption"
+              ],
+              "name": "the_vault.gear_attribute.effect_avoidance.avoidance.bad_effects",
+              "minChance": 0.8,
+              "maxChance": 1.0,
+              "step": 0.05
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

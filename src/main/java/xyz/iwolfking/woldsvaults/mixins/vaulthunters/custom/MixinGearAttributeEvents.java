@@ -82,8 +82,7 @@ public class MixinGearAttributeEvents {
 
     /**
      * @author aida
-     * @reason to make the purist talent multiplicative, and keep proc fangs from
-     * re-applying damage increases already contained in their stored damage
+     * @reason make the purist talent multiplicative, and keep proc fangs from re-applying stored increases
      */
     @Inject(method = "increaseDamageDealt",
             at = @At(value = "INVOKE",
@@ -106,8 +105,7 @@ public class MixinGearAttributeEvents {
 
     /**
      * @author PoorMansPhysicist
-     * @reason keep proc fangs from re-applying fatal strike gear crits already
-     * contained in their stored damage
+     * @reason keep proc fangs from re-applying fatal strike gear crits already in their stored damage
      */
     @Inject(method = "doFatalStrikeAttack", at = @At("HEAD"), cancellable = true)
     private static void doFatalStrikeAttack(LivingHurtEvent event, CallbackInfo ci) {
@@ -197,9 +195,22 @@ public class MixinGearAttributeEvents {
         || ActiveFlags.IS_DOT_ATTACKING.isSet()
         || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
         || WoldActiveFlags.IS_AOE2_ATTACK.isSet()
+        || hasLuckyHitCleave(event)
         ) {
             ci.cancel();
         }
+    }
+
+    /** Whether the attacker carries {@code lucky_hit_aoe}, in which case the base cleave yields to it. */
+    private static boolean hasLuckyHitCleave(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof LivingEntity attacker)) {
+            return false;
+        }
+        if (!AttributeSnapshotHelper.canHaveSnapshot(attacker)) {
+            return false;
+        }
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(attacker);
+        return snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.LUCKY_HIT_AOE, VaultGearAttributeTypeMerger.intSum()) > 0;
     }
 
     /**

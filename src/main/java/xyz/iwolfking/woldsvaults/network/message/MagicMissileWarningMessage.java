@@ -1,17 +1,15 @@
 package xyz.iwolfking.woldsvaults.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import xyz.iwolfking.woldsvaults.client.hyper.ClientMagicMissileWarning;
 
 import java.util.function.Supplier;
 
 /**
- * Server-to-client heartbeat of the hyperboss Magic Missile charge: the remaining charge
- * ticks and the full charge window, sent to each arena fighter every tick while the volley
- * telegraphs (a zero window clears the display immediately). Kept as its own channel message
- * rather than extra RuneBossFight sync fields so the fight's bit format — which also backs
- * saved vaults — stays untouched.
+ * Clientbound heartbeat of the hyperboss Magic Missile charge: remaining charge ticks and the full
+ * charge window, sent every tick while the volley telegraphs. A zero window clears the display.
  */
 public class MagicMissileWarningMessage {
     private final int remainingTicks;
@@ -33,7 +31,9 @@ public class MagicMissileWarningMessage {
 
     public static void handle(MagicMissileWarningMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> ClientMagicMissileWarning.update(message.remainingTicks, message.windowTicks));
+        context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                () -> () -> xyz.iwolfking.woldsvaults.client.hyper.ClientMagicMissileWarning.update(
+                        message.remainingTicks, message.windowTicks)));
         context.setPacketHandled(true);
     }
 }

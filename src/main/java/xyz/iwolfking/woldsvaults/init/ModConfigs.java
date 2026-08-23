@@ -1,14 +1,29 @@
 package xyz.iwolfking.woldsvaults.init;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import xyz.iwolfking.vhapi.api.data.api.CustomRecyclerOutputs;
 import xyz.iwolfking.vhapi.api.loaders.workstation.lib.CustomVaultRecyclerConfig;
 import xyz.iwolfking.woldsvaults.config.*;
+import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodTreeConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodTreeGuiStylesConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
+
+import java.util.EnumMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class ModConfigs {
     public static GenericLootableConfig GEM_BOX;
@@ -56,6 +71,17 @@ public class ModConfigs {
 
     public static ImplicitDeckModifiersConfig IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig();
 
+    public static GodLevelsConfig GOD_LEVELS;
+
+    public static GreedRanksConfig GREED_RANKS;
+    public static GreedMilestonesConfig GREED_MILESTONES;
+    public static GreedMedallionsConfig GREED_MEDALLIONS;
+    public static GreedChampionConfig GREED_CHAMPION;
+
+    public static final Map<VaultGod, GodTreeConfig> GOD_TREES = new EnumMap<>(VaultGod.class);
+    public static final Map<VaultGod, GodTreeGuiStylesConfig> GOD_TREE_GUI_STYLES = new EnumMap<>(VaultGod.class);
+    public static final Map<VaultGod, GodNodeEffectsConfig> GOD_NODE_EFFECTS = new EnumMap<>(VaultGod.class);
+
     public static void register() {
         GEM_BOX = new GenericLootableConfig("gem_box").readConfig();
         SUPPLY_BOX = new GenericLootableConfig("supply_box").readConfig();
@@ -94,5 +120,53 @@ public class ModConfigs {
         ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
         IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
+        registerGreedProgression();
+        registerGodTrees();
     }
+
+    /**
+     * Reads the rank ladder, milestone table, medallion table and champion config and installs them on their
+     * readers; the ladder must load first.
+     */
+    private static void registerGreedProgression() {
+        GREED_RANKS = new GreedRanksConfig().readConfig();
+        MilestoneRankLadder.load(GREED_RANKS);
+        GREED_MILESTONES = new GreedMilestonesConfig().readConfig();
+        MilestoneRegistry.load(GREED_MILESTONES);
+        GREED_MEDALLIONS = new GreedMedallionsConfig().readConfig();
+        GreedMedallionTier.load(GREED_MEDALLIONS);
+        GREED_CHAMPION = new GreedChampionConfig().readConfig();
+    }
+
+    /**
+     * Reads each god tree's topology, style and effect configs and rebuilds the node registry. An
+     * inconsistency is fatal on the first load; on a reload it goes to the base mod's invalid-config
+     * list and the previously loaded trees stay in place.
+     */
+    private static void registerGodTrees() {
+        GOD_LEVELS = new GodLevelsConfig().readConfig();
+        GOD_TREES.clear();
+        GOD_TREE_GUI_STYLES.clear();
+        GOD_NODE_EFFECTS.clear();
+        for (VaultGod god : VaultGod.values()) {
+            String name = god.getName().toLowerCase(Locale.ROOT);
+            GOD_TREES.put(god, new GodTreeConfig(name).readConfig());
+            GOD_TREE_GUI_STYLES.put(god, new GodTreeGuiStylesConfig(name).readConfig());
+            GOD_NODE_EFFECTS.put(god, new GodNodeEffectsConfig(name).readConfig());
+        }
+        if (!godTreesLoadedOnce) {
+            GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
+            godTreesLoadedOnce = true;
+            return;
+        }
+        try {
+            GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
+        } catch (GodTreeConfigException e) {
+            WoldsVaults.LOGGER.error("God tree configs were rejected on reload; the previously loaded trees stay in "
+                    + "place. Fix the named file and reload again.", e);
+            iskallia.vault.init.ModConfigs.INVALID_CONFIGS.add("gods/god_tree_* - " + e.getMessage());
+        }
+    }
+
+    private static boolean godTreesLoadedOnce;
 }

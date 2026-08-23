@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 
@@ -44,7 +45,13 @@ public abstract class MixinVaultGearTierConfig {
         else if(stack.getItem() instanceof VaultGearItem) {
             VaultGearData data = VaultGearData.read(stack);
             VaultGearRarity rarity = data.getRarity();
-            if(rarity.equals(VaultGearRarity.valueOf("MYTHIC"))) {
+            if(rarity.equals(VaultGearRarity.UNIQUE)) {
+                Optional<VaultGearTierConfig> ancientConfig = AncientUniqueHelper.getAncientConfig(data);
+                if(ancientConfig.isPresent()) {
+                    cir.setReturnValue(ancientConfig);
+                }
+            }
+            else if(rarity.equals(VaultGearRarity.valueOf("MYTHIC"))) {
                 cir.setReturnValue(getConfig(VaultMod.id(stack.getItem().getRegistryName().getPath() + "_mythic")));
             }
         }

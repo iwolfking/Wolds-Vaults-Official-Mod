@@ -73,6 +73,8 @@ import xyz.iwolfking.woldsvaults.blocks.tiles.FracturedObeliskTileEntity;
 import xyz.iwolfking.woldsvaults.events.vault.WoldCommonEvents;
 import xyz.iwolfking.woldsvaults.items.LocatorItem;
 import xyz.iwolfking.woldsvaults.modifiers.clock.KillMobTimeExtension;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
 
 import java.util.*;
@@ -652,6 +654,10 @@ public class CorruptedVaultHelper {
             }
 
             CorruptedVaultHelper.playActivationEffects(world, pos);
+
+            if (data.getPlayer() instanceof net.minecraft.server.level.ServerPlayer pillarPlayer) {
+                Milestones.advance(pillarPlayer, MilestoneIds.ETERNAL_DARKNESS, 1L);
+            }
 
             for (Objective objective : obj.get(CorruptedObjective.CHILDREN)) {
                 if (objective instanceof KillBossObjective killBoss) {

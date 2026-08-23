@@ -4,7 +4,6 @@ import iskallia.vault.container.oversized.OverSizedItemStack;
 import iskallia.vault.core.card.CardDeck;
 import iskallia.vault.core.card.modifier.deck.DeckModifier;
 import iskallia.vault.core.random.ChunkRandom;
-import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.gear.crafting.recipe.DeckForgeRecipe;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.CardDeckItem;
@@ -20,11 +19,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.vhapi.mixin.accessors.DeckModifiersConfigAccessor;
 import xyz.iwolfking.woldsvaults.api.util.DeckModifiersHelper;
 import xyz.iwolfking.woldsvaults.config.ImplicitDeckModifiersConfig;
 import xyz.iwolfking.woldsvaults.expertises.DeckMasterExpertise;
-import xyz.iwolfking.woldsvaults.modifiers.deck.ImplicitDeckModifier;
 
 import java.util.*;
 
@@ -34,7 +31,7 @@ public class MixinDeckForgeRecipe {
     @Inject(method = "addCraftingDisplayTooltip", at = @At(value = "INVOKE", target = "Liskallia/vault/item/CardDeckItem;appendLayoutPreview(Ljava/lang/String;Ljava/util/List;Z)V"))
     private void addImplicitModifierText(ItemStack result, List<Component> out, CallbackInfo ci) {
         //Special handling for this deck!
-        if(CardDeckItem.getId(result).equals("mystery")) {
+        if(DeckModifiersHelper.MYSTERY_DECK_ID.equals(CardDeckItem.getId(result))) {
             out.add(new TextComponent("Two random implicits from other decks"));
         }
 
@@ -99,29 +96,8 @@ public class MixinDeckForgeRecipe {
 
             Optional<DeckModifier<?>> implicitDeckModifier = ImplicitDeckModifiersConfig.getImplicitDeckModifier(CardDeckItem.getId(outputStack));
             //Special handling for this deck!
-            if(CardDeckItem.getId(outputStack).equals("mystery")) {
-                WeightedList<String> modifierPool = ((DeckModifiersConfigAccessor)ModConfigs.DECK_MODIFIERS).getPools().get("card_deck_implicits");
-
-                Set<Map.Entry<String, Double>> poolEntries = modifierPool.entrySet();
-
-                List<Map.Entry<String, Double>> poolList = new ArrayList<>(poolEntries.stream().toList());
-
-                Collections.shuffle(poolList);
-
-                if (poolList.size() >= 2) {
-                    DeckModifier<?> mod1 = DeckModifiersHelper.createModifierWithId(poolList.get(0).getKey());
-                    DeckModifier<?> mod2 = DeckModifiersHelper.createModifierWithId(poolList.get(1).getKey());
-
-                    if(mod1 != null) {
-                        deck.addModifier(new ImplicitDeckModifier(mod1), ChunkRandom.ofNanoTime());
-                    }
-
-                    if(mod2 != null) {
-                        deck.addModifier(new ImplicitDeckModifier(mod2), ChunkRandom.ofNanoTime());
-                    }
-
-                    modified = true;
-                }
+            if(DeckModifiersHelper.MYSTERY_DECK_ID.equals(CardDeckItem.getId(outputStack))) {
+                modified |= DeckModifiersHelper.applyMysteryImplicits(deck);
             }
             else if(implicitDeckModifier.isPresent()) {
                 DeckModifier<?> modifier = DeckModifier.ADAPTER.writeJson(implicitDeckModifier.get()).flatMap(DeckModifier.ADAPTER::readJson).orElse(null);

@@ -10,8 +10,8 @@ import static iskallia.vault.item.ItemVaultFruit.MAX_HEALTH_REDUCTION_ATTRIBUTE_
 
 public class HealthReductionHelper {
 
-    private static final double DEFAULT_MULT = 1.0849795594911;
-    private static final double DEFAULT_MULT_SCALING = 0.827;
+    public static final double DEFAULT_MULT = 1.0849795594911;
+    public static final double DEFAULT_MULT_SCALING = 0.827;
 
     public static void reducePlayerMaxHealth(ServerPlayer player, double mult, double multScaling) {
         AttributeInstance attributeInstance = player.getAttribute(Attributes.MAX_HEALTH);

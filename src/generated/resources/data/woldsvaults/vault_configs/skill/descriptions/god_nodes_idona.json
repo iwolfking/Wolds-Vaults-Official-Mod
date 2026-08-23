@@ -1,0 +1,462 @@
+{
+  "descriptions": {
+    "idona_weaponmaster": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "1.5x on hit damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " with two handed weapons, or attack "
+      },
+      {
+        "text": "1.3x faster",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " while dual wielding."
+      }
+    ],
+    "idona_elite_caster_ii": [
+      {
+        "text": "+50% Ability Power",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "idona_stack_stack_stack": [
+      {
+        "text": "+1 max stack",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " on stacking talents."
+      }
+    ],
+    "idona_ultra_rampaging": [
+      {
+        "text": "Hitting, killing and being hurt build "
+      },
+      {
+        "text": "Fury",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", which bleeds away in seconds. Fury both "
+      },
+      {
+        "text": "adds to and multiplies your Rampage damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", so a fight that keeps moving keeps you at a far higher multiplier."
+      },
+      {
+        "text": "\n\nBosses pay double on hit and ten times on death."
+      },
+      {
+        "text": "\n\nWhile you hold Fury you also "
+      },
+      {
+        "text": "take up to twice as much damage",
+        "color": "#C23627"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_crushing_blows": [
+      {
+        "text": "1.15x Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_under_pressure": [
+      {
+        "text": "Deal more damage the closer the vault is to ending - up to "
+      },
+      {
+        "text": "2x",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " as the timer runs out, scaling over the last 15 minutes."
+      }
+    ],
+    "idona_start_hoard": [
+      {
+        "text": "The first star of the Hoard - "
+      },
+      {
+        "text": "stacking talents",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_luckiest_hit": [
+      {
+        "text": "Lucky Hit chance is multiplied by "
+      },
+      {
+        "text": "0.1",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", but the effects of your lucky hit modifiers are "
+      },
+      {
+        "text": "doubled",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_greedbane": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "1.5x damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to greed assassins and the greed champion."
+      }
+    ],
+    "idona_soulstealer": [
+      {
+        "text": "1.5x Soul Shards",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_sneaky_advantage": [
+      {
+        "text": "+5% damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " for every unique negative effect on the target."
+      }
+    ],
+    "idona_start_st": [
+      {
+        "text": "The first star of Idona's staff - "
+      },
+      {
+        "text": "ability power and range",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_hard_hitter": [
+      {
+        "text": "+25% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "idona_start_gambler": [
+      {
+        "text": "The first star of the Gambler - "
+      },
+      {
+        "text": "lucky hits",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_hard_hitter_ii": [
+      {
+        "text": "+50% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "idona_kinetic_impact": [
+      {
+        "text": "Multiplies your global damage based on Movement Speed - "
+      },
+      {
+        "text": "1% per 10% speed",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", measured after the boots cap."
+      }
+    ],
+    "idona_prison_warden": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "2x damage for 30 seconds",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to enemies that survive a glacial prison."
+      }
+    ],
+    "idona_pious_devotion": [
+      {
+        "text": "+10 Piety",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "idona_pincushion": [
+      {
+        "text": "The more you hit an enemy, the more damage they take - "
+      },
+      {
+        "text": "+0.5% per hit",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", stacking."
+      }
+    ],
+    "idona_fortunate_ii": [
+      {
+        "text": "+4% Lucky Hit Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "idona_start_sw": [
+      {
+        "text": "The first star of Idona's sword - "
+      },
+      {
+        "text": "attack damage, up close",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_grand_archmage": [
+      {
+        "text": "Turn into an archmage: "
+      },
+      {
+        "text": "2x mana capacity, +200 flat mana, greatly increased mana regen, 2x Ability Damage and +5% CDR cap",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " - but you lose the ability to swing vault weapons."
+      }
+    ],
+    "idona_start_bounty": [
+      {
+        "text": "The first star of the Bounty - "
+      },
+      {
+        "text": "damage to champions, tanks, hordes and assassins",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_fortunate": [
+      {
+        "text": "+2.5% Lucky Hit Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "idona_banked_anger": [
+      {
+        "text": "Gain an increasing "
+      },
+      {
+        "text": "global damage multiplier",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " the more damage you take in the vault."
+      }
+    ],
+    "idona_elite_caster": [
+      {
+        "text": "+25% Ability Power",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "idona_enforcer": [
+      {
+        "text": "+75% Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to Hordes and Assassins."
+      }
+    ],
+    "idona_full_of_soul": [
+      {
+        "text": "+50% Soul Shard Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per star."
+      }
+    ],
+    "idona_thwack": [
+      {
+        "text": "Double Stun Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " while using a battlestaff."
+      }
+    ],
+    "idona_power_dump": [
+      {
+        "text": "Instant abilities consume "
+      },
+      {
+        "text": "100% of your mana bar",
+        "color": "#0353d7"
+      },
+      {
+        "text": ", and gain "
+      },
+      {
+        "text": "0.25% extra damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per extra mana consumed."
+      }
+    ],
+    "idona_cleave_expert": [
+      {
+        "text": "Rampage",
+        "color": "#C23627"
+      },
+      {
+        "text": " now applies to cleave at "
+      },
+      {
+        "text": "20% efficiency",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_surrounded": [
+      {
+        "text": "+2.5% global damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per enemy within 20 blocks."
+      }
+    ],
+    "idona_king_hunter": [
+      {
+        "text": "+75% Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to Champions and Tanks."
+      }
+    ],
+    "idona_super_stacker": [
+      {
+        "text": "1.25x max stacks",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " on stacking talents."
+      }
+    ],
+    "idona_overcrit": [
+      {
+        "text": "Lucky Hit chance over 100%",
+        "color": "gold"
+      },
+      {
+        "text": " now allows you to overcrit, dealing an additional "
+      },
+      {
+        "text": "damage multiplier",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " for stacked lucky hits."
+      }
+    ],
+    "idona_start_reaper": [
+      {
+        "text": "The first star of the Reaper - "
+      },
+      {
+        "text": "soul shards",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_true_rage": [
+      {
+        "text": "Rampage",
+        "color": "#C23627"
+      },
+      {
+        "text": " now applies to Attack Damage abilities at "
+      },
+      {
+        "text": "50% efficiency",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_stack_hoarder": [
+      {
+        "text": "Stacks on stacking talents last "
+      },
+      {
+        "text": "50% longer",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ]
+  }
+}

@@ -33,10 +33,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.api.util.PrestigePowerHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldGearModifierHelper;
 import xyz.iwolfking.woldsvaults.expertises.CraftsmanExpertise;
 import xyz.iwolfking.woldsvaults.expertises.EclecticGearExpertise;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.prestige.CraftingPotentialPrestigePower;
 
 import java.util.List;
@@ -91,7 +93,6 @@ public class MixinGearRollHelper {
 
     @Inject(method = "initializeGear(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/VaultGearModifierHelper;generateModifiers(Lnet/minecraft/world/item/ItemStack;Ljava/util/Random;)Liskallia/vault/gear/modification/GearModification$Result;", shift = At.Shift.AFTER))
     private static void initializeGearWithEffects(ItemStack stack, Player player, CallbackInfo ci, @Local VaultGearData data) {
-        //Don't need to process jewels and other kinds of gear.
         if(stack.getItem() instanceof CharmItem || stack.getItem() instanceof VaultNecklaceItem || stack.getItem() instanceof VaultCharmItem) {
             return;
         }
@@ -121,7 +122,6 @@ public class MixinGearRollHelper {
 
         int itemLevel = data.getItemLevel();
 
-        //Randomly add a corrupted implicit
         if(itemLevel >= 65 && rand.nextFloat() <= 0.02F + increasedSpecialRollsChance) {
             GearModification.Result result;
 
@@ -135,19 +135,16 @@ public class MixinGearRollHelper {
                 VaultGearModifierHelper.setGearCorrupted(stack);
             }
         }
-        //Randomly frozen (if not a jewel)
         else if(itemLevel >= 25 && rand.nextFloat() <= 0.02F + increasedSpecialRollsChance) {
             if(stack.getItem() instanceof JewelItem) {
                 return;
             }
             VaultGearModifierHelper.lockRandomAffix(stack, rand);
         }
-        //Randomly add unusual
         else if(itemLevel>= 20 && rand.nextFloat() <= 0.02F + increasedSpecialRollsChance) {
             WoldGearModifierHelper.removeRandomModifierAlways(stack, rand);
             WoldGearModifierHelper.addUnusualModifier(stack, player.level.getGameTime(), rand);
         }
-        //Randomly add greater modifier
         else if(itemLevel >= 40 && rand.nextFloat() <= 0.01F + increasedSpecialRollsChance) {
             VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.GREATER));
         }
@@ -173,6 +170,24 @@ public class MixinGearRollHelper {
                 jData.write(stack);
                 VaultGearModifierHelper.setGearCorrupted(stack);
             }
+        }
+    }
+
+    /** Decides whether an identifying unique becomes ancient, before the tier config resolves. */
+    @Inject(method = "initializeUniqueGear(Liskallia/vault/gear/data/VaultGearData;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At(value = "INVOKE", target = "Liskallia/vault/config/gear/VaultGearTierConfig;getConfig(Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;"))
+    private static void rollAncientUnique(VaultGearData data, ItemStack stack, Player player, CallbackInfo ci) {
+        if(!AncientUniqueHelper.rollAncient(data, player, rand)) {
+            return;
+        }
+
+        data.createOrReplaceAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE, true);
+        data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY)
+                .flatMap(AncientUniqueHelper::getAncientName)
+                .ifPresent(name -> data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_NAME, name));
+        data.write(stack);
+
+        if(player instanceof ServerPlayer serverPlayer) {
+            Milestones.onAncientUniqueIdentified(serverPlayer);
         }
     }
 
