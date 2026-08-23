@@ -14,23 +14,26 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
  * hot {@code TieredSkill.updateBonusTier} path: gear that grants {@code all_abilities} levels can
  * raise {@code bonusTier} all it likes and {@code getChild} still clamps to the only tier there is.
  *
- * <p>Wave 2 ships {@link #WAVE_2_FIXED_LEVEL}. When god-node and charm-affix ultimate levels exist,
- * they feed in through {@link #setLevelProvider(LevelProvider)} and nothing else changes.
+ * <p>Levels run 1 to {@value #MAX_LEVEL}: the sheet lists 1-8 by hand and then a per-level
+ * increment, and every ability in this pack caps at 30. No source of ultimate levels exists yet,
+ * so the default provider returns {@link #DEFAULT_LEVEL} for everyone; when one arrives it feeds
+ * in through {@link #setLevelProvider(LevelProvider)} and nothing else changes.
  */
 public final class UltimateLevels {
-    public static final int WAVE_2_FIXED_LEVEL = 1;
+    public static final int DEFAULT_LEVEL = 1;
+    public static final int MAX_LEVEL = 30;
     public static final int COOLDOWN_TICKS = 6000;
 
-    private static final int EYES_RADIUS_CAP = 8;
+    private static final int EYES_RADIUS_CAP = 9;
 
-    private static volatile LevelProvider levelProvider = (player, god) -> WAVE_2_FIXED_LEVEL;
+    private static volatile LevelProvider levelProvider = (player, god) -> DEFAULT_LEVEL;
 
     private UltimateLevels() {
     }
 
     /**
-     * Replaces the ultimate-level source. The default returns {@link #WAVE_2_FIXED_LEVEL} for every
-     * player and god; the god-tree work package installs the real one.
+     * Replaces the ultimate-level source. The default returns {@link #DEFAULT_LEVEL} for every
+     * player and god; whatever eventually grants ultimate levels installs the real one.
      */
     public static void setLevelProvider(LevelProvider provider) {
         if (provider == null) {
@@ -43,11 +46,27 @@ public final class UltimateLevels {
     public static int resolveLevel(ServerPlayer player, VaultGod god) {
         int level = levelProvider.getUltimateLevel(player, god);
         if (level < 1) {
-            WoldsVaults.LOGGER.error("Ultimate level provider returned {} for {} / {}; falling back to level 1.",
-                    level, player == null ? "null" : player.getGameProfile().getName(), god);
-            return 1;
+            WoldsVaults.LOGGER.error("Ultimate level provider returned {} for {} / {}; falling back to level {}.",
+                    level, player == null ? "null" : player.getGameProfile().getName(), god, DEFAULT_LEVEL);
+            return DEFAULT_LEVEL;
+        }
+        if (level > MAX_LEVEL) {
+            WoldsVaults.LOGGER.error("Ultimate level provider returned {} for {} / {}, above the cap of {}; clamping.",
+                    level, player == null ? "null" : player.getGameProfile().getName(), god, MAX_LEVEL);
+            return MAX_LEVEL;
         }
         return level;
+    }
+
+    /**
+     * The level the ability screen renders its numbers at. Descriptions are built on the client
+     * from the ability instance alone, which carries no player, so this is deliberately separate
+     * from {@link #resolveLevel(ServerPlayer, VaultGod)}. While every cast is
+     * {@link #DEFAULT_LEVEL} the two agree; a real level source has to sync the cast level onto
+     * the ability before the description can follow it.
+     */
+    public static int displayLevel() {
+        return DEFAULT_LEVEL;
     }
 
     public static Cope cope(int level) {
@@ -72,12 +91,14 @@ public final class UltimateLevels {
     }
 
     /**
-     * Radius 4 at levels 1-3, 5 at 4-6, 6 at 7-9, then one more every three levels. The sheet's
-     * "Level+ 0.33 (rounded down)" is unbounded; it is capped at {@value #EYES_RADIUS_CAP} here
-     * because the reveal resolves every region in a {@code (2r+1)^2} block in a single tick.
+     * Radius 5 at levels 1-3, 6 at 4-6, 7 at 7-9, then one more every three levels. The whole ladder
+     * sits one above the {@code God Ultimates} sheet, which starts at 4 - a deliberate buff, and the
+     * cap moved with it. The sheet's "Level+ 0.33 (rounded down)" is unbounded; it is capped at
+     * {@value #EYES_RADIUS_CAP} here because the reveal resolves every region in a
+     * {@code (2r+1)^2} block in a single tick.
      */
     public static int eyesRadius(int level) {
-        return Math.min(4 + (level - 1) / 3, EYES_RADIUS_CAP);
+        return Math.min(5 + (level - 1) / 3, EYES_RADIUS_CAP);
     }
 
     public static BulletTime bulletTime(int level) {

@@ -5,6 +5,7 @@ import iskallia.vault.skill.base.SkillContext;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.gods.GodLevels;
 
 /**
  * The dormant specialization of Stirrings of Power: the state the ability sits in whenever the
@@ -34,8 +35,8 @@ public class StirringsOfPowerAbility extends GodUltimateAbility {
     @Override
     protected ActionResult doAction(SkillContext context) {
         context.getSource().as(ServerPlayer.class).ifPresent(player ->
-                player.displayClientMessage(new TranslatableComponent("message.woldsvaults.stirrings_dormant")
-                        .withStyle(ChatFormatting.GRAY), true));
+                player.displayClientMessage(new TranslatableComponent("message.woldsvaults.stirrings_dormant",
+                        GodLevels.ultimateUnlockLevel()).withStyle(ChatFormatting.GRAY), true));
         return ActionResult.fail();
     }
 }

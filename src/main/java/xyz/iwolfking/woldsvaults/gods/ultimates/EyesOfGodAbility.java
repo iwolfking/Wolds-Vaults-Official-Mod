@@ -93,4 +93,9 @@ public class EyesOfGodAbility extends GodUltimateAbility {
                 .withStyle(ChatFormatting.AQUA), true);
         return ActionResult.successCooldownImmediate();
     }
+
+    /** The level-scaled radius the ability screen renders; see {@link UltimateLevels#displayLevel()}. */
+    public int getRadius() {
+        return UltimateLevels.eyesRadius(UltimateLevels.displayLevel());
+    }
 }

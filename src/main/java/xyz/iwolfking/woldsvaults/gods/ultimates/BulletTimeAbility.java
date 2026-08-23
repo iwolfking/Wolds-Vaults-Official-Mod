@@ -30,4 +30,29 @@ public class BulletTimeAbility extends GodUltimateAbility {
         BulletTimeState.begin(player, UltimateLevels.bulletTime(level));
         return ActionResult.successCooldownImmediate();
     }
+
+    /** The level-scaled values the ability screen renders; see {@link UltimateLevels#displayLevel()}. */
+    public UltimateLevels.BulletTime getDisplayValues() {
+        return UltimateLevels.bulletTime(UltimateLevels.displayLevel());
+    }
+
+    public float getTimerStretch() {
+        return this.getDisplayValues().timerStretch();
+    }
+
+    public float getDodgeChance() {
+        return this.getDisplayValues().dodgeChance();
+    }
+
+    public int getDurationTicks() {
+        return this.getDisplayValues().durationTicks();
+    }
+
+    public float getAttackSpeed() {
+        return this.getDisplayValues().attackSpeed();
+    }
+
+    public float getMovementSpeed() {
+        return this.getDisplayValues().movementSpeed();
+    }
 }

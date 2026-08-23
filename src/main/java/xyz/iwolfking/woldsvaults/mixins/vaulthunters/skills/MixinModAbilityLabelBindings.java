@@ -7,6 +7,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
+import xyz.iwolfking.woldsvaults.gods.ultimates.BulletTimeAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.CopeDeGraceAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.EyesOfGodAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.SaviorAbility;
 
 import java.util.Map;
 
@@ -122,5 +126,54 @@ public abstract class MixinModAbilityLabelBindings {
         ));
 
 
+        ModAbilityLabelBindings.register(CopeDeGraceAbility.class, Map.of(
+                "attackDamageMultiplier",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAttackDamageMultiplier()),
+                "abilityPowerMultiplier",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAbilityPowerMultiplier()),
+                "resistance",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAdditionalResistance()),
+                "damageCompounding",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getDamageCompounding()),
+                "duration",
+                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks()),
+                "ultimateCooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
+        ModAbilityLabelBindings.register(SaviorAbility.class, Map.of(
+                "heal",
+                ability -> AbilityLabelFormatters.integer((int) ability.getHealing()),
+                "absorb",
+                ability -> AbilityLabelFormatters.integer((int) ability.getAbsorption()),
+                "resistance",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAdditionalResistance()),
+                "duration",
+                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks()),
+                "ultimateCooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
+        ModAbilityLabelBindings.register(EyesOfGodAbility.class, Map.of(
+                "radius",
+                ability -> AbilityLabelFormatters.integer(ability.getRadius()),
+                "ultimateCooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
+        ModAbilityLabelBindings.register(BulletTimeAbility.class, Map.of(
+                "timerStretch",
+                ability -> AbilityLabelFormatters.percentRounded(1.0F + ability.getTimerStretch()),
+                "dodgeChance",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getDodgeChance()),
+                "bonusAttackSpeed",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAttackSpeed()),
+                "bonusMovementSpeed",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getMovementSpeed()),
+                "duration",
+                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks()),
+                "ultimateCooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
     }
 }

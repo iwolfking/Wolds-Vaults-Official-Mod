@@ -70,11 +70,14 @@ public final class UltimateEventHandlers {
 
     /**
      * A charm swap changes which ultimate is owed, so the cached active god is dropped and the
-     * ability re-pointed immediately rather than waiting for the next sweep.
+     * ability re-pointed immediately rather than waiting for the next sweep. Curios raises this
+     * event on any NBT delta - a blessing's countdown, a mythic rescale - so a change that cannot
+     * have moved the active god is ignored here.
      */
     @SubscribeEvent
     public static void onCurioChange(CurioChangeEvent event) {
-        if (event.getEntityLiving() instanceof ServerPlayer player) {
+        if (event.getEntityLiving() instanceof ServerPlayer player
+                && ActiveGodResolver.mayChangeActiveGod(event.getFrom(), event.getTo())) {
             ActiveGodResolver.invalidate(player);
             UltimateSpecializationManager.refresh(player);
         }
@@ -101,12 +104,16 @@ public final class UltimateEventHandlers {
 
     /**
      * Leaving the dimension means leaving the vault, so bullet time's clock factor is released and
-     * its attribute modifiers are stripped before the player can carry them into the overworld.
+     * its attribute modifiers are stripped before the player can carry them into the overworld, and
+     * a running Cope de Grace infusion ends without its dash - the booked damage and the terminal
+     * sweep belong to the vault it was cast in, not to the hub's pets and villagers. The cast's own
+     * cooldown keeps running either way.
      */
     @SubscribeEvent
     public static void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {
             BulletTimeState.end(player);
+            CopeDeGraceState.clear(player);
             UltimateSpecializationManager.refresh(player);
         }
     }

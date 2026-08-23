@@ -54,7 +54,16 @@ public final class CopeDeGraceState {
     private static final int DASH_WINDOW_TICKS = 20;
     private static final int SAFETY_GRACE_TICKS = 40;
     private static final double DASH_MAGNITUDE = 1.8D;
-    private static final double ACCUMULATOR_CAP = 1.0E9D;
+
+    /**
+     * Anti-overflow guard on the damage book, not a balance number. The book is a {@code double}
+     * but the dash spends it as a {@code float}, and a {@code float} above ~3.4e38 is
+     * {@code Infinity}, which turns an entity's health into {@code NaN} rather than killing it.
+     * 1e15 sits far above anything real play produces - the pack's hardest recorded hits are around
+     * 1e11, and 15 s of them booked together stay several orders below this - while still catching
+     * a runaway multiplicative loop before it reaches the float ceiling.
+     */
+    private static final double ACCUMULATOR_CAP = 1.0E15D;
 
     private static final Map<UUID, State> STATES = new ConcurrentHashMap<>();
     private static final Map<UUID, DashWindow> DASHES = new ConcurrentHashMap<>();

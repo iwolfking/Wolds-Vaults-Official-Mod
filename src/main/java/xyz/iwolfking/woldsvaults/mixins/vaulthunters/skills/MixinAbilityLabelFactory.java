@@ -77,5 +77,37 @@ public abstract class MixinAbilityLabelFactory {
                 "executeThreshold",
                 context -> label("\n Execute Threshhold: ",binding(context.config(), "executeThreshold"),"levelLo")
         );
+        FACTORY_MAP.put(
+                "ultimateCooldown",
+                context -> label("\n Cooldown: ",binding(context.config(), "ultimateCooldown"),"cooldown")
+        );
+        FACTORY_MAP.put(
+                "attackDamageMultiplier",
+                context -> label("\n Attack Damage: ",binding(context.config(), "attackDamageMultiplier"),"damage")
+        );
+        FACTORY_MAP.put(
+                "abilityPowerMultiplier",
+                context -> label("\n Ability Power: ",binding(context.config(), "abilityPowerMultiplier"),"ability_power")
+        );
+        FACTORY_MAP.put(
+                "damageCompounding",
+                context -> label("\n Dash Damage / Hit: ",binding(context.config(), "damageCompounding"),"damage")
+        );
+        FACTORY_MAP.put(
+                "dodgeChance",
+                context -> label("\n Dodge Chance: ",binding(context.config(), "dodgeChance"),"chance")
+        );
+        FACTORY_MAP.put(
+                "bonusAttackSpeed",
+                context -> label("\n Attack Speed: ",binding(context.config(), "bonusAttackSpeed"),"speed")
+        );
+        FACTORY_MAP.put(
+                "bonusMovementSpeed",
+                context -> label("\n Movement Speed: ",binding(context.config(), "bonusMovementSpeed"),"speed")
+        );
+        FACTORY_MAP.put(
+                "timerStretch",
+                context -> label("\n Vault Second Length: ",binding(context.config(), "timerStretch"),"duration")
+        );
     }
 }

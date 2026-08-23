@@ -28,4 +28,29 @@ public class CopeDeGraceAbility extends GodUltimateAbility {
         CopeDeGraceState.begin(player, UltimateLevels.cope(level));
         return ActionResult.successCooldownImmediate();
     }
+
+    /** The level-scaled values the ability screen renders; see {@link UltimateLevels#displayLevel()}. */
+    public UltimateLevels.Cope getDisplayValues() {
+        return UltimateLevels.cope(UltimateLevels.displayLevel());
+    }
+
+    public float getAttackDamageMultiplier() {
+        return this.getDisplayValues().attackDamageMultiplier();
+    }
+
+    public float getAbilityPowerMultiplier() {
+        return this.getDisplayValues().abilityPowerMultiplier();
+    }
+
+    public float getAdditionalResistance() {
+        return this.getDisplayValues().resistance();
+    }
+
+    public float getDamageCompounding() {
+        return this.getDisplayValues().compoundingPerHit();
+    }
+
+    public int getDurationTicks() {
+        return this.getDisplayValues().durationTicks();
+    }
 }

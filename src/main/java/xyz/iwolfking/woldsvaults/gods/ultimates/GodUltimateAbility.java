@@ -15,13 +15,16 @@ import xyz.iwolfking.woldsvaults.gods.GodLevels;
  * {@code Stirrings of Power} ability, so they all cast through the ordinary ability system and
  * differ only in what {@link #doUltimate(ServerPlayer, int)} does.
  *
- * <p>Two design rules live here rather than in each ultimate. First, the cooldown is fixed: the
- * override of {@link #putOnCooldown(int, SkillContext)} sets the configured value directly instead
- * of routing it through {@code CooldownHelper.adjustCooldown}, so cooldown-reduction attributes,
- * the per-ability cooldown attributes and the cooldown-skip roll cannot touch a five-minute
- * ultimate. Second, casting is gated on the caster actually being aligned to this god and having
- * reached the ultimate unlock level, which is what keeps the morphing ability honest if a
- * specialization is ever selected out of step with the player's charm.
+ * <p>Two design rules live here rather than in each ultimate. First, the five-minute cooldown is
+ * absolute: {@link #putOnCooldown(int, SkillContext)} sets the configured value directly instead of
+ * routing it through {@code CooldownHelper.adjustCooldown}, so cooldown-reduction attributes, the
+ * per-ability cooldown attributes and the cooldown-skip roll cannot shorten it, and
+ * {@link #reduceCooldownBy(int)} is refused outright so that the other half of the cooldown
+ * surface - etchings, cooldown bottles and the Arcane Cascade lucky-hit talent, which all mutate a
+ * running cooldown rather than the value it started at - cannot either. Second, casting is gated on
+ * the caster actually being aligned to this god and having reached the ultimate unlock level, which
+ * is what keeps the morphing ability honest if a specialization is ever selected out of step with
+ * the player's charm.
  */
 public abstract class GodUltimateAbility extends InstantManaAbility {
     protected GodUltimateAbility(int unlockLevel, int learnPointCost, int regretPointCost, int cooldownTicks,
@@ -42,7 +45,8 @@ public abstract class GodUltimateAbility extends InstantManaAbility {
         return context.getSource().as(ServerPlayer.class).map(player -> {
             VaultGod god = this.getGod();
             if (!isAvailable(player, god)) {
-                player.displayClientMessage(new TranslatableComponent("message.woldsvaults.ultimate_locked")
+                player.displayClientMessage(new TranslatableComponent("message.woldsvaults.ultimate_locked",
+                        god == null ? "Your god" : god.getName(), GodLevels.ultimateUnlockLevel())
                         .withStyle(ChatFormatting.GRAY), true);
                 return ActionResult.fail();
             }
@@ -57,6 +61,15 @@ public abstract class GodUltimateAbility extends InstantManaAbility {
     @Override
     public void putOnCooldown(int cooldownDelayTicks, SkillContext context) {
         this.setCooldown(this.getCooldownTicks(), cooldownDelayTicks);
+    }
+
+    /**
+     * Refuses every in-flight cooldown reduction. {@code Ability#reduceCooldownBy} is the shared
+     * entry point for vault etchings, cooldown-reduction bottles and the Arcane Cascade lucky-hit
+     * talent; a god ultimate is immune to all three.
+     */
+    @Override
+    public void reduceCooldownBy(int reduceBy) {
     }
 
     protected static boolean isAvailable(ServerPlayer player, VaultGod god) {

@@ -103,4 +103,25 @@ public class SaviorAbility extends GodUltimateAbility {
             SaviorState.apply(target, values.resistance(), values.durationTicks());
         }
     }
+
+    /** The level-scaled values the ability screen renders; see {@link UltimateLevels#displayLevel()}. */
+    public UltimateLevels.Savior getDisplayValues() {
+        return UltimateLevels.savior(UltimateLevels.displayLevel());
+    }
+
+    public float getHealing() {
+        return this.getDisplayValues().healing();
+    }
+
+    public float getAbsorption() {
+        return this.getDisplayValues().absorption();
+    }
+
+    public float getAdditionalResistance() {
+        return this.getDisplayValues().resistance();
+    }
+
+    public int getDurationTicks() {
+        return this.getDisplayValues().durationTicks();
+    }
 }
