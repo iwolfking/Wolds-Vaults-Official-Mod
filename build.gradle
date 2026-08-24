@@ -310,6 +310,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:terrablender-563928:3957976") // wild backport
     runtimeOnly fg.deobf("curse.maven:architectury-api-419699:4521465") // lot of mods
     implementation fg.deobf("curse.maven:patchouli-306770:3846086")
+    implementation fg.deobf("curse.maven:mystical-agriculture-246640:4576465")
     runtimeOnly fg.deobf("curse.maven:tropicraft-254794:4616839") // kept for backwards compat with worlds (adds dimension type)
     runtimeOnly fg.deobf("curse.maven:storage-drawers-223852:5636643")
     compileOnly fg.deobf("curse.maven:qol-hunters-1093452:7961175")
