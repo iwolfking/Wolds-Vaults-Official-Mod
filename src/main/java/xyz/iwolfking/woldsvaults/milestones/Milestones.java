@@ -23,6 +23,7 @@ public class Milestones {
     private static final ThreadLocal<Boolean> EVALUATING_VETERAN = ThreadLocal.withInitial(() -> Boolean.FALSE);
     private static final Map<UUID, Integer> LAST_LUCKY_HIT = new java.util.concurrent.ConcurrentHashMap<>();
     private static final Map<UUID, Long> LAST_GATE_FALLBACK_LOG = new java.util.concurrent.ConcurrentHashMap<>();
+    private static final Map<UUID, Long> LAST_UNRANKED_LOG = new java.util.concurrent.ConcurrentHashMap<>();
     private static final long GATE_FALLBACK_LOG_INTERVAL_MS = 30_000L;
 
     /** Milestones the in-vault gate skips; every challenge crystal milestone is exempt as well. */
@@ -60,8 +61,20 @@ public class Milestones {
         return definition.getChallengeCrystalId() != null || OUTSIDE_VAULT_MILESTONES.contains(definition.getId());
     }
 
+    /** Whether the player has beaten the Herald and joined the greed ladder. Nothing is tracked below it. */
+    public static boolean hasJoinedLadder(ServerPlayer player) {
+        return PlayerGreedTreeData.get(player.server).getGreedTier(player) >= MilestoneRankLadder.FIRST_RANK;
+    }
+
     private static boolean isGated(ServerPlayer player, MilestoneDefinition definition) {
-        return !isExemptFromVaultGate(definition) && !isInVault(player);
+        if (!isExemptFromVaultGate(definition) && !isInVault(player)) {
+            return true;
+        }
+        if (!hasJoinedLadder(player)) {
+            logUnrankedRefusal(player);
+            return true;
+        }
+        return false;
     }
 
     /** Whether the declared {@link MilestoneCounter} matches the calling mutator; else refused. */
@@ -72,6 +85,18 @@ public class Milestones {
         WoldsVaults.LOGGER.error("Milestone '{}' declares counter {} but {}() is a {} operation; the call is ignored",
                 definition.getId(), definition.getCounter(), operation, expected);
         return false;
+    }
+
+    /** Logs progress being dropped for an unranked player, at most once per player per 30 seconds. */
+    private static void logUnrankedRefusal(ServerPlayer player) {
+        long now = System.currentTimeMillis();
+        Long last = LAST_UNRANKED_LOG.get(player.getUUID());
+        if (last != null && now - last < GATE_FALLBACK_LOG_INTERVAL_MS) {
+            return;
+        }
+        LAST_UNRANKED_LOG.put(player.getUUID(), now);
+        WoldsVaults.LOGGER.info("Dropping milestone progress for {}: greed rank is 0, so the Herald has not been beaten and the ladder has not been joined.",
+                player.getGameProfile().getName());
     }
 
     /** Logs the dimension fallback firing, at most once per player per 30 seconds. */
@@ -192,6 +217,7 @@ public class Milestones {
     public static void forget(UUID playerId) {
         LAST_LUCKY_HIT.remove(playerId);
         LAST_GATE_FALLBACK_LOG.remove(playerId);
+        LAST_UNRANKED_LOG.remove(playerId);
     }
 
     public static long getValue(ServerPlayer player, String milestoneId) {

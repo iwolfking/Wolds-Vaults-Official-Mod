@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -48,6 +49,9 @@ public class GodAlignmentData extends SavedData {
     private static final GodState EMPTY = new GodState();
 
     private static final Set<String> WARNED_STALE_TRANSFERS = ConcurrentHashMap.newKeySet();
+
+    private static final Map<String, Long> LAST_UNINITIATED_NOTICE = new ConcurrentHashMap<>();
+    private static final long UNINITIATED_NOTICE_INTERVAL_MS = 30_000L;
 
     private final Map<UUID, EnumMap<VaultGod, GodState>> players = new HashMap<>();
 
@@ -185,8 +189,25 @@ public class GodAlignmentData extends SavedData {
         return total;
     }
 
-    /** Adds god XP scaled by God's Disciple powers, firing {@link GodLevelUpEvent} per level; returns levels. */
+    /** Whether the player has completed a god's Initiation offering, the first sacrifice gate. */
+    public boolean hasInitiated(UUID playerId, VaultGod god) {
+        return this.getState(playerId, god).sacrifices > 0;
+    }
+
+    /** Adds god XP, refused entirely until the god's Initiation offering is made; returns levels gained. */
     public int addGodXp(ServerPlayer player, VaultGod god, long amount) {
+        if (amount <= 0L) {
+            return 0;
+        }
+        if (!this.hasInitiated(player.getUUID(), god)) {
+            reportUninitiated(player, god, amount);
+            return 0;
+        }
+        return this.grantGodXp(player, god, amount);
+    }
+
+    /** Banks god XP without the initiation gate, for commands; scaled by God's Disciple powers. */
+    public int grantGodXp(ServerPlayer player, VaultGod god, long amount) {
         if (amount <= 0L) {
             return 0;
         }
@@ -201,6 +222,22 @@ public class GodAlignmentData extends SavedData {
         }
         this.sync(player);
         return after - before;
+    }
+
+    /** Tells the player why an award was dropped, at most once per player and god per 30 seconds. */
+    private static void reportUninitiated(ServerPlayer player, VaultGod god, long amount) {
+        String key = player.getUUID() + "/" + god.getName();
+        long now = System.currentTimeMillis();
+        Long last = LAST_UNINITIATED_NOTICE.get(key);
+        if (last != null && now - last < UNINITIATED_NOTICE_INTERVAL_MS) {
+            return;
+        }
+        LAST_UNINITIATED_NOTICE.put(key, now);
+        player.displayClientMessage(new TextComponent(god.getName()
+                + " does not know your name yet - make the Initiation offering at the Greed Cauldron.")
+                .withStyle(god.getChatColor()), true);
+        WoldsVaults.LOGGER.info("Dropped {} {} XP for {}: the Initiation offering has not been made.",
+                amount, god.getName(), player.getGameProfile().getName());
     }
 
     /** The amount {@link #addGodXp} would bank for {@code amount} raw experience, without banking it. */

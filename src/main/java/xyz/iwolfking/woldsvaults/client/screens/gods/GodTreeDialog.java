@@ -107,7 +107,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
 
     @Override
     public void update() {
-        GodTreeModel tree = GodNodeRegistry.tree(this.god).orElse(null);
+        GodTreeModel tree = GodCharting.isCharted(this.god) ? GodNodeRegistry.tree(this.god).orElse(null) : null;
         this.selectedNode = tree != null && this.selectedNodeId != null ? tree.getNode(this.selectedNodeId) : null;
         if (this.selectedNode == null) {
             this.selectedNodeId = null;
@@ -261,6 +261,12 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
                     .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));
         }
         desc.append(new TextComponent("\n"));
+        if (!GodCharting.isCharted(this.god)) {
+            desc.append(new TextComponent("Their constellation is uncharted. Reach "
+                    + GodCharting.REPUTATION_REQUIRED + " reputation with " + this.god.getName()
+                    + " to see it.\n\n")
+                    .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(accent))));
+        }
         desc.append(new TextComponent("Complete god altars or run god maps to earn god experience. "
                 + "Each level grants god points to spend on this constellation.\n\n")
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xDDDDDD))));

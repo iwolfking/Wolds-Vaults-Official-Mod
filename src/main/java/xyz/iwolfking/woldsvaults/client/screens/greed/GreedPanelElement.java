@@ -124,12 +124,19 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             this.list = null;
         }
         this.removeAllElements();
+        boolean locked = ClientMilestoneData.getRank() <= 0;
         if (this.ownFrame) {
             this.addElement(new NineSliceElement<>(Spatials.positionXYZ(0, 0, 0).size(this.panelWidth, this.panelHeight),
                     ScreenTextures.DEFAULT_WINDOW_BACKGROUND));
+            Component title = locked ? GreedTheme.lang("title") : this.tab.getTitle();
             this.addElement(new LabelElement<>(Spatials.positionXYZ(this.metrics.margin, 6, 1),
-                    this.tab.getTitle().copy().setStyle(Style.EMPTY.withColor(GreedTheme.TEXT_TITLE)),
+                    title.copy().setStyle(Style.EMPTY.withColor(GreedTheme.TEXT_TITLE)),
                     LabelTextStyle.defaultStyle()));
+        }
+        if (locked) {
+            this.buildHeraldLock();
+            ScreenLayout.requestLayout();
+            return;
         }
         this.buildTabStrip();
         GreedScrollList content = this.buildContentList();
@@ -139,6 +146,19 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             this.buildList(content);
         }
         ScreenLayout.requestLayout();
+    }
+
+    /** The whole panel before the Herald is beaten: one line of text, no tabs and no achievement list. */
+    private void buildHeraldLock() {
+        int width = this.panelWidth - this.metrics.margin * 2;
+        int height = this.panelHeight - this.metrics.contentY - this.metrics.margin;
+        this.addElement(new GreedFillElement(Spatials.positionXYZ(this.metrics.margin, this.metrics.contentY, 1)
+                .size(width, height), GreedTheme.PLATE_DARK, GreedTheme.BORDER));
+        this.addElement(new LabelElement<>(
+                Spatials.positionXYZ(this.metrics.margin + 8, this.metrics.contentY + height / 2 - 9, 2),
+                (ISize) Spatials.size(width - 16, 18),
+                GreedTheme.langColored("locked.herald", GreedTheme.TEXT_DIM),
+                LabelTextStyle.defaultStyle().center().wrap()));
     }
 
     private void buildTabStrip() {

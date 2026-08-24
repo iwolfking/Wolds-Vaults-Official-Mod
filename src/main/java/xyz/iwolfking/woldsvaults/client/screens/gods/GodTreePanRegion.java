@@ -90,7 +90,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         this.nodeWidgets.clear();
         this.edges.clear();
         this.selectedWidget = null;
-        this.tree = GodNodeRegistry.tree(this.god).orElse(null);
+        this.tree = GodCharting.isCharted(this.god) ? GodNodeRegistry.tree(this.god).orElse(null) : null;
         this.rebuildBackgroundStars();
         if (this.tree == null) {
             this.popup = null;
@@ -404,7 +404,8 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
     }
 
     private void renderUnchartedSky(PoseStack renderStack) {
-        Component text = GodTreeTheme.lang("uncharted", this.god.getName())
+        String key = GodCharting.isCharted(this.god) ? "uncharted" : "uncharted.reputation";
+        Component text = GodTreeTheme.lang(key, this.god.getName(), GodCharting.REPUTATION_REQUIRED)
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.accent(this.god) & 0xFFFFFF)));
         Minecraft minecraft = Minecraft.getInstance();
         int width = minecraft.font.width(text);

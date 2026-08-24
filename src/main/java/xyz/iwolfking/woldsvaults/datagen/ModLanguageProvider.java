@@ -911,6 +911,7 @@ public class ModLanguageProvider extends LanguageProvider {
     /** Every label, tooltip, rank name and rank-up unlock line on the greed screens. */
     private void addGreedScreenText() {
         add("screen.woldsvaults.greed.title", "Greed");
+        add("screen.woldsvaults.greed.locked.herald", "Defeat the Herald to unlock greed ranks.");
         add("screen.woldsvaults.greed.tab.main", "Main");
         add("screen.woldsvaults.greed.tab.offense", "Offense");
         add("screen.woldsvaults.greed.tab.loot", "Loot");
@@ -981,6 +982,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.unlock.legend_plus", "+1 shop slot per further 250 reputation");
         add("screen.woldsvaults.gods.title", "Gods");
         add("screen.woldsvaults.gods.uncharted", "%1$s's constellation has not been charted yet.");
+        add("screen.woldsvaults.gods.uncharted.reputation", "%1$s's constellation is uncharted - reach %2$s reputation with them.");
                 add("item.woldsvaults.idona_god_neuralizer", "Idona God Neuralizer");
         add("item.woldsvaults.velara_god_neuralizer", "Velara God Neuralizer");
         add("item.woldsvaults.tenos_god_neuralizer", "Tenos God Neuralizer");

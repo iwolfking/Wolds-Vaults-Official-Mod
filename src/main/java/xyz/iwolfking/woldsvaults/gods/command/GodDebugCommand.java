@@ -135,7 +135,7 @@ public final class GodDebugCommand {
         VaultGod god = god(context);
         long amount = LongArgumentType.getLong(context, "amount");
         GodAlignmentData data = data(context);
-        int gained = data.addGodXp(player, god, amount);
+        int gained = data.grantGodXp(player, god, amount);
         context.getSource().sendSuccess(new TextComponent("Gave %s %d %s XP (%d level(s) gained, now level %d with %d XP)."
                 .formatted(player.getGameProfile().getName(), amount, god.getName(), gained,
                         data.getLevel(player.getUUID(), god), data.getXp(player.getUUID(), god))), true);

@@ -349,7 +349,10 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         lines.add(new TextComponent(god.getName() + " - Level " + ClientGodAlignmentData.getLevel(god))
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.accent(god) & 0xFFFFFF))));
         int unspent = ClientGodAlignmentData.getUnspentPoints(god);
-        if (unspent > 0) {
+        if (!GodCharting.isCharted(god)) {
+            lines.add(new TextComponent("Uncharted - reach " + GodCharting.REPUTATION_REQUIRED + " reputation with "
+                    + god.getName()).withStyle(ChatFormatting.GRAY));
+        } else if (unspent > 0) {
             lines.add(new TextComponent(unspent + " unspent god " + (unspent == 1 ? "point" : "points"))
                     .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.pointsColor(god) & 0xFFFFFF))));
         } else {

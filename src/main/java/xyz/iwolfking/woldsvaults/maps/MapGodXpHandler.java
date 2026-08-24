@@ -71,8 +71,10 @@ public final class MapGodXpHandler {
             return;
         }
         GodAlignmentData data = GodAlignmentData.get(player.server);
-        NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
-                new ClientboundVaultGodXpMessage(vaultId, binding.god(), data.previewScaledXp(player, xp)));
+        if (data.hasInitiated(player.getUUID(), binding.god())) {
+            NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
+                    new ClientboundVaultGodXpMessage(vaultId, binding.god(), data.previewScaledXp(player, xp)));
+        }
         data.addGodXp(player, binding.god(), xp);
     }
 }
