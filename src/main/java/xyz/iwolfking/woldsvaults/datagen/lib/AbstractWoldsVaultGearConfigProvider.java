@@ -59,17 +59,12 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
         });
     }
 
-    public void addToAllNonSackOffhands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
-        OFFHANDS_NO_SACK.forEach(type -> {
-            add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
-            if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
-                add(type + MYTHIC, builder -> builder.key(VaultMod.id(type + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
+    public void addToAllOffhandsExcept(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, List<String> typesToExclude, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
+        OFFHANDS.forEach(type -> {
+            if(typesToExclude.contains(type)) {
+                return;
             }
-        });
-    }
 
-    public void addToAllNonPlushieOffhands(VaultGearTierConfig.ModifierAffixTagGroup tagGroup, Consumer<VaultGearAttributeGroupBuilder> vaultGearAttributeGroupBuilderConsumer) {
-        OFFHANDS_NO_PLUSHIE.forEach(type -> {
             add(type, builder -> builder.key(VaultMod.id(type)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
             if(tagGroup.equals(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT)) {
                 add(type + MYTHIC, builder -> builder.key(VaultMod.id(type + MYTHIC)).add(tagGroup, vaultGearAttributeGroupBuilderConsumer));
