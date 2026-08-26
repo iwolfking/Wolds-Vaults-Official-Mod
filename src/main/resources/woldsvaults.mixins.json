@@ -259,6 +259,7 @@
     "vaulthunters.custom.MixinCardScaler",
     "vaulthunters.custom.MixinCatalystAnvilRecipe",
     "vaulthunters.custom.MixinCatalystForgeRecipe",
+    "vaulthunters.custom.MixinChampionGoal",
     "vaulthunters.custom.MixinChampionLogic",
     "vaulthunters.custom.MixinChaosCrystalObjective",
     "vaulthunters.custom.MixinCharmAnvilRecipe",
