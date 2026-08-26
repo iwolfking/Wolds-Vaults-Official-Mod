@@ -76,7 +76,7 @@ public final class GodXpBarRenderer {
 
     public static boolean sacrificePerformed(VaultGod god) {
         int sacrifices = ClientGodAlignmentData.getSacrifices(god);
-        return sacrifices >= GodSacrifices.GATE_COUNT || sacrifices > ClientGodAlignmentData.getLevel(god);
+        return sacrifices >= GodSacrifices.GATE_COUNT || sacrifices > ClientGodAlignmentData.getLevel(god) + 1;
     }
 
     public static Component sacrificeLine(VaultGod god) {
@@ -86,7 +86,7 @@ public final class GodXpBarRenderer {
         if (sacrifices >= GodSacrifices.GATE_COUNT) {
             return new TextComponent("Every cauldron sacrifice has been performed.").withStyle(ChatFormatting.GRAY);
         }
-        if (sacrifices > level) {
+        if (sacrifices > level + 1) {
             return new TextComponent("Next sacrifice: already performed.").withStyle(ChatFormatting.GREEN);
         }
         String gate = GodSacrifices.gateLabel(sacrifices);

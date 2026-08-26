@@ -31,7 +31,8 @@ import java.util.UUID;
 /**
  * Server logic for the Greed Cauldron's sacrificial-altar role: builds the menu snapshot, routes deposits
  * into {@link GodSacrificeData} against the owner's selected god, and fires the sacrifice on a rising
- * redstone edge once the gate is complete and the owner's god XP has filled the level.
+ * redstone edge once the gate is complete and the owner's god XP has filled the level that gate opens.
+ * Gate 0 is the Initiation, which opens no level and so asks for no experience.
  */
 public final class SacrificeAltarLogic {
     private static final double PULL_RANGE = 4.0;
@@ -76,7 +77,7 @@ public final class SacrificeAltarLogic {
             int completed = alignment.getSacrifices(player.getUUID(), god);
             ClientboundSacrificeMenuMessage.GodSnapshot snapshot = new ClientboundSacrificeMenuMessage.GodSnapshot();
             snapshot.completed = completed;
-            snapshot.xpReady = alignment.getXp(player.getUUID(), god) >= GodLevels.xpForLevel(completed + 1);
+            snapshot.xpReady = alignment.getXp(player.getUUID(), god) >= GodLevels.xpForLevel(completed);
             GodSacrifices.Gate gate = GodSacrifices.gate(god, completed);
             if (gate != null) {
                 snapshot.gateLabel = gate.label();
@@ -235,7 +236,7 @@ public final class SacrificeAltarLogic {
                     + " is not yet complete.").withStyle(ChatFormatting.GRAY), true);
             return;
         }
-        if (alignment.getXp(owner.getUUID(), god) < GodLevels.xpForLevel(completed + 1)) {
+        if (alignment.getXp(owner.getUUID(), god) < GodLevels.xpForLevel(completed)) {
             owner.displayClientMessage(new TextComponent("You need full god experience for this level before "
                     + god.getName() + " will accept the sacrifice.").withStyle(ChatFormatting.GRAY), true);
             return;

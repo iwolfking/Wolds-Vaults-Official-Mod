@@ -11,8 +11,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The god alignment progression curve - {@code config/the_vault/gods/god_levels.json}: cumulative XP
- * thresholds, the linear tail past the last defined level, god points per level, and the levels that
- * unlock a minor-transfer slot or the ultimate. An absent or unusable key falls back, with an error.
+ * thresholds, the linear tail past the last defined level, god points per level and per reputation, the
+ * reputation that charts a constellation, and the levels that unlock a minor-transfer slot or the
+ * ultimate. An absent or unusable key falls back, with an error.
  */
 public class GodLevelsConfig extends PackAuthoredConfig {
     private static final long[] DEFAULT_CUMULATIVE_XP = {
@@ -25,6 +26,8 @@ public class GodLevelsConfig extends PackAuthoredConfig {
     private static final int DEFAULT_POINTS_PER_LEVEL_TO_MAX = 3;
     private static final int DEFAULT_POINTS_PER_LEVEL_PAST_MAX = 2;
     private static final int[] DEFAULT_MINOR_TRANSFER_SLOT_LEVELS = {2, 4, 7};
+    private static final int DEFAULT_CHARTING_REPUTATION = 10;
+    private static final int DEFAULT_REPUTATION_PER_GOD_POINT = 10;
 
     private static final Set<String> WARNED = ConcurrentHashMap.newKeySet();
 
@@ -36,6 +39,8 @@ public class GodLevelsConfig extends PackAuthoredConfig {
     @Expose private Integer pointsPerLevelToMax;
     @Expose private Integer pointsPerLevelPastMax;
     @Expose private int[] minorTransferSlotLevels;
+    @Expose private Integer chartingReputation;
+    @Expose private Integer reputationPerGodPoint;
 
     /** A config carrying only the shipped curve, for readers that run before the config pass. */
     public static GodLevelsConfig defaults() {
@@ -60,6 +65,8 @@ public class GodLevelsConfig extends PackAuthoredConfig {
         this.pointsPerLevelPastMax = DEFAULT_POINTS_PER_LEVEL_PAST_MAX;
         this.minorTransferSlotLevels =
                 Arrays.copyOf(DEFAULT_MINOR_TRANSFER_SLOT_LEVELS, DEFAULT_MINOR_TRANSFER_SLOT_LEVELS.length);
+        this.chartingReputation = DEFAULT_CHARTING_REPUTATION;
+        this.reputationPerGodPoint = DEFAULT_REPUTATION_PER_GOD_POINT;
     }
 
     public long[] getCumulativeXp() {
@@ -130,6 +137,24 @@ public class GodLevelsConfig extends PackAuthoredConfig {
             return DEFAULT_MINOR_TRANSFER_SLOT_LEVELS;
         }
         return this.minorTransferSlotLevels;
+    }
+
+    /** The reputation with a god at which their constellation is charted and its first god point granted. */
+    public int getChartingReputation() {
+        if (this.chartingReputation == null || this.chartingReputation < 0) {
+            warn("chartingReputation");
+            return DEFAULT_CHARTING_REPUTATION;
+        }
+        return this.chartingReputation;
+    }
+
+    /** How much reputation with a god buys one more god point in their tree; must be positive. */
+    public int getReputationPerGodPoint() {
+        if (this.reputationPerGodPoint == null || this.reputationPerGodPoint <= 0) {
+            warn("reputationPerGodPoint");
+            return DEFAULT_REPUTATION_PER_GOD_POINT;
+        }
+        return this.reputationPerGodPoint;
     }
 
     private static void warn(String key) {

@@ -405,7 +405,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
 
     private void renderUnchartedSky(PoseStack renderStack) {
         String key = GodCharting.isCharted(this.god) ? "uncharted" : "uncharted.reputation";
-        Component text = GodTreeTheme.lang(key, this.god.getName(), GodCharting.REPUTATION_REQUIRED)
+        Component text = GodTreeTheme.lang(key, this.god.getName(), GodCharting.reputationRequired())
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.accent(this.god) & 0xFFFFFF)));
         Minecraft minecraft = Minecraft.getInstance();
         int width = minecraft.font.width(text);

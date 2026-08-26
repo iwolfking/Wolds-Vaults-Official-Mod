@@ -3,11 +3,13 @@ package xyz.iwolfking.woldsvaults.gods.network;
 import com.blakebr0.cucumber.network.message.Message;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
+import iskallia.vault.world.data.PlayerReputationData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
+import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
 import xyz.iwolfking.woldsvaults.gods.node.GodNode;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
@@ -17,8 +19,9 @@ import xyz.iwolfking.woldsvaults.gods.node.GodTreeModel;
 import java.util.function.Supplier;
 
 /**
- * Serverbound request to buy one node of a god's tree. The server re-validates the node, its access and
- * the player's unspent points, then syncs the ledger and refreshes the attribute snapshot.
+ * Serverbound request to buy one node of a god's tree. The server re-validates the node, its access, the
+ * charting reputation and the player's unspent points, then syncs the ledger and refreshes the attribute
+ * snapshot.
  */
 public class ServerboundUnlockGodNodeMessage extends Message<ServerboundUnlockGodNodeMessage> {
     private final VaultGod god;
@@ -50,6 +53,13 @@ public class ServerboundUnlockGodNodeMessage extends Message<ServerboundUnlockGo
         ctx.enqueueWork(() -> {
             ServerPlayer player = ctx.getSender();
             if (player == null || player.getServer() == null) {
+                return;
+            }
+            int reputation = PlayerReputationData.getReputation(player.getUUID(), message.god);
+            if (reputation < GodLevels.chartingReputation()) {
+                WoldsVaults.LOGGER.warn("Refused {} the god node {}: {} reputation with {} is short of the {} that "
+                        + "charts their constellation.", player.getGameProfile().getName(), message.nodeId,
+                        reputation, message.god.getName(), GodLevels.chartingReputation());
                 return;
             }
             GodTreeModel tree = GodNodeRegistry.tree(message.god).orElse(null);

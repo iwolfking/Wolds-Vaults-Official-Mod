@@ -13,29 +13,40 @@ import java.util.Set;
 public final class ClientGodAlignmentData {
     private static EnumMap<VaultGod, GodAlignmentData.GodState> states = new EnumMap<>(VaultGod.class);
     private static EnumMap<VaultGod, Integer> piety = new EnumMap<>(VaultGod.class);
+    private static EnumMap<VaultGod, Integer> reputation = new EnumMap<>(VaultGod.class);
     private static long revision = 0L;
 
     private ClientGodAlignmentData() {
     }
 
-    public static void accept(Map<VaultGod, GodAlignmentData.GodState> synced, Map<VaultGod, Integer> syncedPiety) {
+    public static void accept(Map<VaultGod, GodAlignmentData.GodState> synced, Map<VaultGod, Integer> syncedPiety,
+                              Map<VaultGod, Integer> syncedReputation) {
         EnumMap<VaultGod, GodAlignmentData.GodState> replacement = new EnumMap<>(VaultGod.class);
         replacement.putAll(synced);
         states = replacement;
         EnumMap<VaultGod, Integer> pietyReplacement = new EnumMap<>(VaultGod.class);
         pietyReplacement.putAll(syncedPiety);
         piety = pietyReplacement;
+        EnumMap<VaultGod, Integer> reputationReplacement = new EnumMap<>(VaultGod.class);
+        reputationReplacement.putAll(syncedReputation);
+        reputation = reputationReplacement;
         revision++;
     }
 
     public static void clear() {
         states = new EnumMap<>(VaultGod.class);
         piety = new EnumMap<>(VaultGod.class);
+        reputation = new EnumMap<>(VaultGod.class);
         revision++;
     }
 
     public static int getPiety(VaultGod god) {
         return piety.getOrDefault(god, 0);
+    }
+
+    /** The player's raw reputation with {@code god}, as the server last read it. */
+    public static int getReputation(VaultGod god) {
+        return reputation.getOrDefault(god, 0);
     }
 
     public static long revision() {
@@ -59,7 +70,11 @@ public final class ClientGodAlignmentData {
 
     public static int getUnspentPoints(VaultGod god) {
         GodAlignmentData.GodState state = states.get(god);
-        return state == null ? GodLevels.totalPointsForLevel(getLevel(god)) : state.unspentPoints(getLevel(god));
+        int level = getLevel(god);
+        int reputationPoints = GodLevels.reputationPoints(getReputation(god));
+        return state == null
+                ? GodLevels.totalPointsForLevel(level) + reputationPoints
+                : state.unspentPoints(level, reputationPoints);
     }
 
     public static Map<String, Integer> getSpentLedger(VaultGod god) {

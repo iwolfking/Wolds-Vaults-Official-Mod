@@ -14,7 +14,10 @@ import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 
 import java.util.Set;
 
-/** Awards god alignment XP for completed in-vault god altars. */
+/**
+ * Awards god alignment XP for completed in-vault god altars. Altars pay whether or not the player has made
+ * the god's Initiation offering - the sacrifice gates hold the level back, not the experience.
+ */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class GodAltarXpHandler {
     public static final double BASE_ALTAR_XP = 300.0D;
@@ -53,7 +56,7 @@ public final class GodAltarXpHandler {
         GodAlignmentData alignmentData = GodAlignmentData.get(server);
         for (ServerPlayer player : players) {
             long xp = altarXpFor(alignmentData.getTotalAltarCompletions(player.getUUID()));
-            alignmentData.addGodXp(player, god, xp);
+            alignmentData.grantGodXp(player, god, xp);
             alignmentData.incrementAltarCompletions(player.getUUID(), god);
         }
     }

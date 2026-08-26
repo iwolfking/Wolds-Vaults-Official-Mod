@@ -7,7 +7,8 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * The god alignment progression curve: XP thresholds, god point grants and minor-transfer-slot capacity.
+ * The god alignment progression curve: XP thresholds, god point grants (from levels and from raw
+ * reputation), the charting threshold and minor-transfer-slot capacity.
  * Pure arithmetic; every number is read per call from {@code config/the_vault/gods/god_levels.json}.
  */
 public final class GodLevels {
@@ -94,13 +95,42 @@ public final class GodLevels {
         return config().getUltimateUnlockLevel();
     }
 
-    /** The XP-derived level capped by completed cauldron sacrifices, one gate each; XP still accumulates. */
+    /**
+     * The XP-derived level capped by completed cauldron sacrifices. Gate 0 is the Initiation and opens no
+     * level; gate N opens level N, so standing at level N takes N+1 completed gates. XP still accumulates
+     * past a closed gate.
+     */
     public static int gatedLevel(long xp, int sacrificesCompleted) {
         int xpLevel = levelForXp(xp);
         if (sacrificesCompleted >= xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices.GATE_COUNT) {
             return xpLevel;
         }
-        return Math.min(xpLevel, Math.max(sacrificesCompleted, 0));
+        return Math.min(xpLevel, Math.max(sacrificesCompleted - 1, 0));
+    }
+
+    /** The completed-gate count needed to stand at {@code level}: none at 0, else the Initiation plus one per level. */
+    public static int sacrificesForLevel(int level) {
+        if (level <= 0) {
+            return 0;
+        }
+        return Math.min(level + 1, xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices.GATE_COUNT);
+    }
+
+    /** The reputation with a god at which their constellation is charted and its first god point granted. */
+    public static int chartingReputation() {
+        return config().getChartingReputation();
+    }
+
+    public static int reputationPerGodPoint() {
+        return config().getReputationPerGodPoint();
+    }
+
+    /** God points granted by raw reputation alone, one per {@link #reputationPerGodPoint()}; uncapped. */
+    public static int reputationPoints(int reputation) {
+        if (reputation <= 0) {
+            return 0;
+        }
+        return reputation / config().getReputationPerGodPoint();
     }
 
     private static GodLevelsConfig config() {

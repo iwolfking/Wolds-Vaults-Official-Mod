@@ -40,10 +40,14 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * World SavedData holding every player's alignment with each Vault God: accumulated XP (level derives
  * from it, never stored), the god-point ledger, bonus points, altar completions and the positional
- * minor-transfer slots. Changes are pushed to the owning player with {@link GodAlignmentSyncMessage}.
+ * minor-transfer slots. God points come from levels, from raw reputation and from the bonus ledger.
+ * Changes are pushed to the owning player with {@link GodAlignmentSyncMessage}.
  */
 public class GodAlignmentData extends SavedData {
     protected static final String DATA_NAME = "woldsvaults_GodAlignment";
+
+    /** 1 renumbered the sacrifice gates: gate 0 (Initiation) stopped granting a level of its own. */
+    private static final int DATA_VERSION = 1;
 
     /** What a read of a player and god with no record yet returns. Shared, and never written to. */
     private static final GodState EMPTY = new GodState();
@@ -128,11 +132,16 @@ public class GodAlignmentData extends SavedData {
     }
 
     public int getTotalPoints(UUID playerId, VaultGod god) {
-        return this.getState(playerId, god).totalPoints(this.getLevel(playerId, god));
+        return this.getState(playerId, god).totalPoints(this.getLevel(playerId, god), reputationPoints(playerId, god));
     }
 
     public int getUnspentPoints(UUID playerId, VaultGod god) {
-        return this.getState(playerId, god).unspentPoints(this.getLevel(playerId, god));
+        return this.getState(playerId, god).unspentPoints(this.getLevel(playerId, god), reputationPoints(playerId, god));
+    }
+
+    /** The god points raw reputation with {@code god} grants on top of the ones their levels do. */
+    public static int reputationPoints(UUID playerId, VaultGod god) {
+        return GodLevels.reputationPoints(PlayerReputationData.getReputation(playerId, god));
     }
 
     /** The spent-point ledger for a tree: effect key to points invested, not tree-node positions. */
@@ -206,7 +215,7 @@ public class GodAlignmentData extends SavedData {
         return this.grantGodXp(player, god, amount);
     }
 
-    /** Banks god XP without the initiation gate, for commands; scaled by God's Disciple powers. */
+    /** Banks god XP without the initiation gate - god altars and commands; scaled by God's Disciple powers. */
     public int grantGodXp(ServerPlayer player, VaultGod god, long amount) {
         if (amount <= 0L) {
             return 0;
@@ -266,8 +275,7 @@ public class GodAlignmentData extends SavedData {
         GodState state = this.mutableState(player.getUUID(), god);
         int before = GodLevels.gatedLevel(state.xp, state.sacrifices);
         state.xp = GodLevels.xpForLevel(Math.max(level, 0));
-        state.sacrifices = Math.max(state.sacrifices, Math.min(Math.max(level, 0),
-                xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices.GATE_COUNT));
+        state.sacrifices = Math.max(state.sacrifices, GodLevels.sacrificesForLevel(level));
         this.setDirty();
         for (int gained = before + 1; gained <= level; gained++) {
             MinecraftForge.EVENT_BUS.post(new GodLevelUpEvent(player, god, gained));
@@ -279,7 +287,8 @@ public class GodAlignmentData extends SavedData {
     public void addBonusPoints(ServerPlayer player, VaultGod god, int amount) {
         GodState state = this.mutableState(player.getUUID(), god);
         state.bonusPoints = Math.max(state.bonusPoints + amount,
-                -GodLevels.totalPointsForLevel(GodLevels.gatedLevel(state.xp, state.sacrifices)));
+                -(GodLevels.totalPointsForLevel(GodLevels.gatedLevel(state.xp, state.sacrifices))
+                        + reputationPoints(player.getUUID(), god)));
         this.setDirty();
         this.sync(player);
     }
@@ -365,11 +374,14 @@ public class GodAlignmentData extends SavedData {
 
     public void sync(ServerPlayer player) {
         EnumMap<VaultGod, Integer> pietyByGod = new EnumMap<>(VaultGod.class);
+        EnumMap<VaultGod, Integer> reputationByGod = new EnumMap<>(VaultGod.class);
         for (VaultGod god : VaultGod.values()) {
             pietyByGod.put(god, piety(player, god));
+            reputationByGod.put(god, PlayerReputationData.getReputation(player.getUUID(), god));
         }
         NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
-                new GodAlignmentSyncMessage(this.players.getOrDefault(player.getUUID(), new EnumMap<>(VaultGod.class)), pietyByGod));
+                new GodAlignmentSyncMessage(this.players.getOrDefault(player.getUUID(), new EnumMap<>(VaultGod.class)),
+                        pietyByGod, reputationByGod));
     }
 
     public void load(CompoundTag tag) {
@@ -392,6 +404,31 @@ public class GodAlignmentData extends SavedData {
             }
             this.players.put(playerId, states);
         }
+        this.migrate(tag.getInt("version"));
+    }
+
+    /**
+     * Brings saved state up to {@link #DATA_VERSION}. Version 0 counted the Initiation as the gate that opened
+     * level 1, so every player who had completed any gate is credited one more; a player who had completed none
+     * still has none.
+     */
+    private void migrate(int version) {
+        if (version >= DATA_VERSION) {
+            return;
+        }
+        int migrated = 0;
+        for (EnumMap<VaultGod, GodState> states : this.players.values()) {
+            for (GodState state : states.values()) {
+                if (state.sacrifices > 0) {
+                    state.sacrifices++;
+                    migrated++;
+                }
+            }
+        }
+        this.setDirty();
+        WoldsVaults.LOGGER.info("Migrated god alignment data from version {} to {}: {} god sacrifice counts "
+                + "credited one gate so the Initiation no longer grants a level of its own.",
+                version, DATA_VERSION, migrated);
     }
 
     @Nonnull
@@ -411,6 +448,7 @@ public class GodAlignmentData extends SavedData {
             playerList.add(playerTag);
         });
         tag.put("players", playerList);
+        tag.putInt("version", DATA_VERSION);
         return tag;
     }
 
@@ -432,13 +470,13 @@ public class GodAlignmentData extends SavedData {
             return spent;
         }
 
-        /** Points {@code level} grants plus the bonus points on top. */
-        public int totalPoints(int level) {
-            return GodLevels.totalPointsForLevel(level) + this.bonusPoints;
+        /** Points {@code level} grants, plus the reputation-granted and bonus points on top. */
+        public int totalPoints(int level, int reputationPoints) {
+            return GodLevels.totalPointsForLevel(level) + reputationPoints + this.bonusPoints;
         }
 
-        public int unspentPoints(int level) {
-            return this.totalPoints(level) - this.spentPoints();
+        public int unspentPoints(int level, int reputationPoints) {
+            return this.totalPoints(level, reputationPoints) - this.spentPoints();
         }
 
         public static GodState fromNbt(CompoundTag tag) {

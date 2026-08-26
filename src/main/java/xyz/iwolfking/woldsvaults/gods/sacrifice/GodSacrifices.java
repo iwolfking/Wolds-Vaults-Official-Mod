@@ -12,7 +12,8 @@ import java.util.Map;
 
 /**
  * The god sacrifice gate tables: eleven gates per god, Initiation then Level 1 through Level 10, each
- * listing what the Greed Cauldron must be fed. Completing gate N opens god level N+1; past the defined
+ * listing what the Greed Cauldron must be fed. Completing gate N opens god level N, so the Initiation opens
+ * no level of its own and instead marks the player for the god's mapped-vault experience; past the defined
  * gates, levels flow on experience alone.
  */
 public final class GodSacrifices {

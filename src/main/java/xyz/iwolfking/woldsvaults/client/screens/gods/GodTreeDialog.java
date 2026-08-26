@@ -263,12 +263,15 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         desc.append(new TextComponent("\n"));
         if (!GodCharting.isCharted(this.god)) {
             desc.append(new TextComponent("Their constellation is uncharted. Reach "
-                    + GodCharting.REPUTATION_REQUIRED + " reputation with " + this.god.getName()
+                    + GodCharting.reputationRequired() + " reputation with " + this.god.getName()
                     + " to see it.\n\n")
                     .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(accent))));
         }
-        desc.append(new TextComponent("Complete god altars or run god maps to earn god experience. "
-                + "Each level grants god points to spend on this constellation.\n\n")
+        desc.append(new TextComponent("Complete god altars or run god maps to earn god experience. Altars pay "
+                + "whether or not you have initiated; mapped vaults only pay once the Initiation offering is "
+                + "made, and every level past that takes its own sacrifice at the Greed Cauldron. Each level "
+                + "grants god points to spend on this constellation, and so does every "
+                + GodLevels.reputationPerGodPoint() + " reputation with them.\n\n")
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xDDDDDD))));
         desc.append(new TextComponent("Equipping a god's charm makes their constellation active: minor and "
                 + "major stars only function while their god is active, and stat stars carry over to other "

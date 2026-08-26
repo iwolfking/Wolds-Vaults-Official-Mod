@@ -13,21 +13,29 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-/** The player's alignment with all four gods; sent on login and on every mutation of {@link GodAlignmentData}. */
+/**
+ * The player's alignment with all four gods; sent on login and on every mutation of {@link GodAlignmentData}.
+ * Raw reputation rides along because god points and the charting threshold both read it client side.
+ */
 public class GodAlignmentSyncMessage extends Message<GodAlignmentSyncMessage> {
     private final EnumMap<VaultGod, GodAlignmentData.GodState> states;
     private final EnumMap<VaultGod, Integer> piety;
+    private final EnumMap<VaultGod, Integer> reputation;
 
     public GodAlignmentSyncMessage() {
         this.states = new EnumMap<>(VaultGod.class);
         this.piety = new EnumMap<>(VaultGod.class);
+        this.reputation = new EnumMap<>(VaultGod.class);
     }
 
-    public GodAlignmentSyncMessage(Map<VaultGod, GodAlignmentData.GodState> states, Map<VaultGod, Integer> piety) {
+    public GodAlignmentSyncMessage(Map<VaultGod, GodAlignmentData.GodState> states, Map<VaultGod, Integer> piety,
+                                   Map<VaultGod, Integer> reputation) {
         this.states = new EnumMap<>(VaultGod.class);
         this.states.putAll(states);
         this.piety = new EnumMap<>(VaultGod.class);
         this.piety.putAll(piety);
+        this.reputation = new EnumMap<>(VaultGod.class);
+        this.reputation.putAll(reputation);
     }
 
     @Override
@@ -48,7 +56,12 @@ public class GodAlignmentSyncMessage extends Message<GodAlignmentSyncMessage> {
         for (int i = 0; i < pietyCount; i++) {
             readPiety.put(buffer.readEnum(VaultGod.class), buffer.readVarInt());
         }
-        return new GodAlignmentSyncMessage(read, readPiety);
+        EnumMap<VaultGod, Integer> readReputation = new EnumMap<>(VaultGod.class);
+        int reputationCount = buffer.readVarInt();
+        for (int i = 0; i < reputationCount; i++) {
+            readReputation.put(buffer.readEnum(VaultGod.class), buffer.readVarInt());
+        }
+        return new GodAlignmentSyncMessage(read, readPiety, readReputation);
     }
 
     @Override
@@ -63,11 +76,16 @@ public class GodAlignmentSyncMessage extends Message<GodAlignmentSyncMessage> {
             buffer.writeEnum(god);
             buffer.writeVarInt(value);
         });
+        buffer.writeVarInt(message.reputation.size());
+        message.reputation.forEach((god, value) -> {
+            buffer.writeEnum(god);
+            buffer.writeVarInt(value);
+        });
     }
 
     @Override
     public void onMessage(GodAlignmentSyncMessage message, Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> ClientGodAlignmentData.accept(message.states, message.piety));
+        context.get().enqueueWork(() -> ClientGodAlignmentData.accept(message.states, message.piety, message.reputation));
         context.get().setPacketHandled(true);
     }
 }
