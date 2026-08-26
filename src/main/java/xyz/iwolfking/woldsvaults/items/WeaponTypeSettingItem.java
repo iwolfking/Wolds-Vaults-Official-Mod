@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import java.util.List;
 
-public class WeaponTypeSettingItem extends BasicItem{
+public class WeaponTypeSettingItem extends BasicItem {
 
 
     public WeaponTypeSettingItem(ResourceLocation id, Properties properties) {

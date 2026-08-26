@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.gear.actions.modifications.unusual;
+package xyz.iwolfking.woldsvaults.api.gear.actions.modifications;
 
 import iskallia.vault.gear.modification.GearModification;
 import net.minecraft.world.entity.player.Player;

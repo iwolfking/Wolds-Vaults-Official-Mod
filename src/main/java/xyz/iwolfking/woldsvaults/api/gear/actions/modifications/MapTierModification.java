@@ -1,26 +1,26 @@
-package xyz.iwolfking.woldsvaults.api.gear.actions.modifications.unusual;
+package xyz.iwolfking.woldsvaults.api.gear.actions.modifications;
 
-import iskallia.vault.gear.VaultGearModifierHelper;
 import iskallia.vault.gear.modification.GearModification;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.WoldGearModifierHelper;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.util.Random;
 
-public class ReforgeWeaponTypeAttributes extends GearModification {
-    public ReforgeWeaponTypeAttributes() {
-        super(WoldsVaults.id("reforge_weapon_type"));
+public class MapTierModification extends GearModification {
+    public MapTierModification() {
+        super(WoldsVaults.id("reforge_map_tier"));
     }
 
     @Override
     public ItemStack getDisplayStack() {
-        return new ItemStack(ModItems.WEAPON_TYPE_FOCUS);
+        return ModItems.INSCRIBING_FOCUS.getDefaultInstance();
     }
 
     @Override
     public Result doModification(ItemStack itemStack, ItemStack itemStack1, Player player, Random random) {
-        return VaultGearModifierHelper.reForgeAllModifiersTagged(itemStack, random, "weaponType");
+        return WoldGearModifierHelper.increaseMapTier(itemStack);
     }
 }

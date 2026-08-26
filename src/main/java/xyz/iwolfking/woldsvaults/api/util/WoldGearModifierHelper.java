@@ -18,6 +18,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearModifierHelperAccessor;
 
 import java.util.ArrayList;
@@ -272,6 +274,28 @@ public class WoldGearModifierHelper {
                 }
             }
         }
+    }
+
+    public static GearModification.Result increaseMapTier(ItemStack stack) {
+        if(!(stack.getItem() instanceof VaultMapItem)) {
+            return GearModification.Result.makeActionError("no_modifiers");
+        }
+
+        VaultGearData data = VaultGearData.read(stack);
+
+        if(!data.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.MAP_TIER)) {
+            return GearModification.Result.makeActionError("no_modifiers");
+        }
+
+        int mapTier = data.getFirstValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.MAP_TIER).orElse(0);
+
+        if(mapTier == WoldConstants.MAX_MAP_TIER) {
+            return GearModification.Result.makeActionError("max_map_tier");
+        }
+
+        data.createOrReplaceAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.MAP_TIER, mapTier + 1);
+        data.write(stack);
+        return GearModification.Result.makeSuccess();
     }
 
 }

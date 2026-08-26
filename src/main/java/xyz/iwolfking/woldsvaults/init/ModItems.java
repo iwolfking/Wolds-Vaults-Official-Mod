@@ -126,6 +126,7 @@ public class ModItems {
     public static final BasicItem WEAPON_TYPE_FOCUS;
     public static final BasicItem BLAZING_FOCUS;
     public static final BasicItem SUSPENSION_FOCUS;
+    public static final BasicItem INSCRIBING_FOCUS;
    // public static final BasicItem WEAPON_TYPE_SETTER;
 
     public static BasicItem FRENZY_CAPSTONE;
@@ -357,6 +358,7 @@ public class ModItems {
         registry.register(SOUL_ICHOR);
         registry.register(BLAZING_FOCUS);
         registry.register(SUSPENSION_FOCUS);
+        registry.register(INSCRIBING_FOCUS);
         registry.register(TARGETED_MOD_BOX);
         registry.register(UNIDENTIFIED_GATEWAY_PEARL);
         registry.register(TRINKET_POUCH);
@@ -494,6 +496,7 @@ public class ModItems {
         WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         BLAZING_FOCUS = new BasicItem(WoldsVaults.id("blazing_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        INSCRIBING_FOCUS = new BasicItem(WoldsVaults.id("inscribing_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
         MERCY_ORB = new BasicItem(WoldsVaults.id("mercy_orb"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
 

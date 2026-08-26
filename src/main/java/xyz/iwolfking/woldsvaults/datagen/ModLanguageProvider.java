@@ -508,6 +508,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("the_vault.gear_modification.freeze_all.description", "Freezes a legendary, corrupted, greater, or unusual modifier");
         add("the_vault.gear_modification.freeze_all.no_modifiers", "There are no modifiers to freeze");
         add("the_vault.gear_modification.freeze_all.frozen", "There is already a frozen modifier");
+        add("the_vault.gear_modification.reforge_map_tier.no_modifiers", "There is no Map Tier to increase");
+        add("the_vault.gear_modification.reforge_map_tier.max_map_tier", "Map has the max tier");
+        add("the_vault.gear_modification.reforge_map_tier.description", "Increases tier of Vault Map");
         add("item.the_vault.companion", "Companion");
         add(new VaultDollCompletedAttribute(true), "is a completed Vault Doll", "is not a completed Vault Doll");
         add("create.item_attributes.has_unusual", "has an unusual modifier");
@@ -566,6 +569,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.woldsvaults.soul_ichor", "Soul Ichor");
         add("item.woldsvaults.blazing_focus", "Blazing Focus");
         add("item.woldsvaults.suspension_focus", "Suspension Focus");
+        add(ModItems.INSCRIBING_FOCUS, "Inscribing Focus");
         add("block.woldsvaults.etching_shop_pedestal", "Etching Vendor Pedestal");
         add("block.woldsvaults.blacksmith_shop_pedestal", "Blacksmith Vendor Pedestal");
         add("block.woldsvaults.god_shop_pedestal", "God Vendor Pedestal");
