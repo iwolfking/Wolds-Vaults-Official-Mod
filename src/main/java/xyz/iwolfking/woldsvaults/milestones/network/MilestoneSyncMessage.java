@@ -6,7 +6,9 @@ import net.minecraftforge.network.NetworkEvent;
 import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -19,20 +21,20 @@ public class MilestoneSyncMessage extends Message<MilestoneSyncMessage> {
     private final boolean full;
     private final Map<String, Long> values;
     private final Map<String, Integer> claimedTiers;
-    private final String pinned;
+    private final Set<String> pinned;
 
     public MilestoneSyncMessage() {
         this.full = false;
         this.values = new HashMap<>();
         this.claimedTiers = new HashMap<>();
-        this.pinned = "";
+        this.pinned = new HashSet<>();
     }
 
-    public MilestoneSyncMessage(boolean full, Map<String, Long> values, Map<String, Integer> claimedTiers, String pinned) {
+    public MilestoneSyncMessage(boolean full, Map<String, Long> values, Map<String, Integer> claimedTiers, Set<String> pinned) {
         this.full = full;
         this.values = values;
         this.claimedTiers = claimedTiers;
-        this.pinned = pinned == null ? "" : pinned;
+        this.pinned = pinned;
     }
 
     @Override
@@ -48,7 +50,13 @@ public class MilestoneSyncMessage extends Message<MilestoneSyncMessage> {
         for (int i = 0; i < claimedSize; i++) {
             claimedTiers.put(buffer.readUtf(), buffer.readVarInt());
         }
-        return new MilestoneSyncMessage(full, values, claimedTiers, buffer.readUtf());
+        int pinnedSize = buffer.readVarInt();
+        Set<String> pinned = new HashSet<>(initialCapacity(claimedSize));
+
+        for (int i = 0; i < pinnedSize; i++) {
+            pinned.add(buffer.readUtf());
+        }
+        return new MilestoneSyncMessage(full, values, claimedTiers, pinned);
     }
 
     @Override
@@ -64,7 +72,8 @@ public class MilestoneSyncMessage extends Message<MilestoneSyncMessage> {
             buffer.writeUtf(id);
             buffer.writeVarInt(value);
         });
-        buffer.writeUtf(message.pinned);
+        buffer.writeVarInt(message.pinned.size());
+        message.pinned.forEach(buffer::writeUtf);
     }
 
     @Override
@@ -75,7 +84,7 @@ public class MilestoneSyncMessage extends Message<MilestoneSyncMessage> {
             } else {
                 ClientMilestoneData.apply(message.values, message.claimedTiers);
             }
-            ClientMilestoneData.setPinned(message.pinned.isEmpty() ? null : message.pinned);
+            ClientMilestoneData.setPinned(message.pinned);
         });
         context.get().setPacketHandled(true);
     }

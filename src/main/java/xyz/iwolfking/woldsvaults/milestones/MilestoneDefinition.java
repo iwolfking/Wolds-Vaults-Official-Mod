@@ -1,5 +1,8 @@
 package xyz.iwolfking.woldsvaults.milestones;
 
+import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
+
+import java.util.Comparator;
 import java.util.Set;
 
 public class MilestoneDefinition {
@@ -114,4 +117,22 @@ public class MilestoneDefinition {
     public boolean isDuration() {
         return DURATION_MILESTONES.contains(this.id);
     }
+
+
+    public static Comparator<MilestoneDefinition> compareByProgress() {
+        return Comparator.comparing((MilestoneDefinition definition) -> {
+            long value = ClientMilestoneData.getValue(definition.getId());
+            int completed = definition.getCompletedTiers(value);
+            boolean finished = completed >= definition.getTierCount();
+
+            if (finished) {
+                return 1F;
+            }
+            long floor = completed == 0 ? 0L : definition.getThreshold(completed - 1);
+            long ceiling = definition.getThreshold(completed);
+            long span = ceiling - floor;
+            return span <= 0L ? 0.0F : (float) (value - floor) / (float) span;
+        }).thenComparing(MilestoneDefinition::getId);
+    }
+
 }

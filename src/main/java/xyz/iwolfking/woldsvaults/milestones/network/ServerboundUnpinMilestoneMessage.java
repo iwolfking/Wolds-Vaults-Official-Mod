@@ -8,34 +8,34 @@ import xyz.iwolfking.woldsvaults.milestones.Milestones;
 
 import java.util.function.Supplier;
 
-public class ServerboundPinMilestoneMessage extends Message<ServerboundPinMilestoneMessage> {
+public class ServerboundUnpinMilestoneMessage extends Message<ServerboundUnpinMilestoneMessage> {
 
     private final String milestoneId;
 
-    public ServerboundPinMilestoneMessage() {
+    public ServerboundUnpinMilestoneMessage() {
         this.milestoneId = "";
     }
-    public ServerboundPinMilestoneMessage(String milestoneId) {
+    public ServerboundUnpinMilestoneMessage(String milestoneId) {
         this.milestoneId = milestoneId;
     }
 
     @Override
-    public ServerboundPinMilestoneMessage read(FriendlyByteBuf buffer) {
-        return new ServerboundPinMilestoneMessage(buffer.readUtf());
+    public ServerboundUnpinMilestoneMessage read(FriendlyByteBuf buffer) {
+        return new ServerboundUnpinMilestoneMessage(buffer.readUtf());
     }
 
     @Override
-    public void write(ServerboundPinMilestoneMessage message, FriendlyByteBuf buffer) {
+    public void write(ServerboundUnpinMilestoneMessage message, FriendlyByteBuf buffer) {
         buffer.writeUtf(message.milestoneId);
     }
 
     @Override
-    public void onMessage(ServerboundPinMilestoneMessage message, Supplier<NetworkEvent.Context> context) {
+    public void onMessage(ServerboundUnpinMilestoneMessage message, Supplier<NetworkEvent.Context> context) {
         NetworkEvent.Context ctx = context.get();
         ctx.enqueueWork(() -> {
             ServerPlayer player = ctx.getSender();
             if (player != null) {
-              Milestones.pin(player, message.milestoneId);
+              Milestones.unpin(player, message.milestoneId);
             }
         });
         ctx.setPacketHandled(true);

@@ -4,16 +4,14 @@ import xyz.iwolfking.woldsvaults.milestones.MilestoneDefinition;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /** Client mirror of the local player's milestone counters, claim state, pin and greed header. */
 public class ClientMilestoneData {
     private static final Map<String, Long> VALUES = new HashMap<>();
     private static final Map<String, Integer> CLAIMED_TIERS = new HashMap<>();
+    private static final Set<String> pinned = new HashSet<>();
 
-    private static String pinned;
     private static int rank;
     private static int reputation;
     private static int nextRankThreshold;
@@ -44,7 +42,7 @@ public class ClientMilestoneData {
         MilestoneRegistry.restoreLocal();
         VALUES.clear();
         CLAIMED_TIERS.clear();
-        pinned = null;
+        pinned.clear();
         rank = 0;
         reputation = 0;
         nextRankThreshold = 0;
@@ -83,12 +81,21 @@ public class ClientMilestoneData {
         return total;
     }
 
-    public static String getPinned() {
+    public static Set<String> getPinned() {
         return pinned;
     }
 
-    public static void setPinned(String milestoneId) {
-        pinned = milestoneId;
+    public static void pin(String milestoneId) {
+        pinned.add(milestoneId);
+    }
+
+    public static void unpin(String milestoneId) {
+        pinned.remove(milestoneId);
+    }
+
+    public static void setPinned(Set<String> pins) {
+        pinned.clear();
+        pinned.addAll(pins);
     }
 
     public static void setStatus(int newRank, int newReputation, int newNextRankThreshold,

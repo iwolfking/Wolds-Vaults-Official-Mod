@@ -941,7 +941,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.claim_all.tooltip", "Collect the reputation every achievement has banked");
         add("screen.woldsvaults.greed.pin.pin", "Pin");
         add("screen.woldsvaults.greed.pin.unpin", "Unpin");
-        add("screen.woldsvaults.greed.pin.pin.tooltip", "Track this achievement on the main greed screen. You may pin one at a time.");
+        add("screen.woldsvaults.greed.pin.pin.tooltip", "Track this achievement on the main greed screen.");
         add("screen.woldsvaults.greed.pin.unpin.tooltip", "Stop tracking this achievement");
         add("screen.woldsvaults.greed.row.rep", "+%1$s Rep");
         add("screen.woldsvaults.greed.row.rep_list", "Rep: ");

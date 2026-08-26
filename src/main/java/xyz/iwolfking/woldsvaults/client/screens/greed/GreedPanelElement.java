@@ -27,11 +27,7 @@ import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundClaimMilestoneMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundTakeTrialMessage;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * The greed UI below the window frame: the six-tab strip plus either the rank summary (Main) or the
@@ -244,18 +240,23 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         int pinnedY = claimAllY + m.rowClaimHeight + 5;
         content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX, pinnedY, 1),
                 GreedTheme.langColored("pinned_task", GreedTheme.GOLD), LabelTextStyle.defaultStyle()));
-        MilestoneDefinition pinned = MilestoneRegistry.get(ClientMilestoneData.getPinned());
-        int afterPinned;
-        if (pinned == null) {
-            content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX + 4, pinnedY + 13, 1),
-                    (ISize) Spatials.size(columnWidth - 8, 9),
-                    GreedTheme.langColored("pinned_task.empty", GreedTheme.TEXT_DIM), LabelTextStyle.defaultStyle()));
-            afterPinned = pinnedY + 24;
-        } else {
-            content.addElement(new MilestoneRowElement(columnX, pinnedY + 11, columnWidth, m,
-                    pinned, false, false, this::requestRebuild));
-            afterPinned = pinnedY + 11 + m.rowHeight;
+        List<MilestoneDefinition> pinned = ClientMilestoneData.getPinned().stream().map(MilestoneRegistry::get).sorted(MilestoneDefinition.compareByProgress().reversed()).toList();
+        int afterPinned = pinnedY + 11;
+        for (var pinnedTask : pinned) {
+            if (pinnedTask == null) {
+                content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX + 4, pinnedY + 13, 1),
+                        (ISize) Spatials.size(columnWidth - 8, 9),
+                        GreedTheme.langColored("pinned_task.empty", GreedTheme.TEXT_DIM), LabelTextStyle.defaultStyle()));
+                afterPinned = pinnedY + 24;
+                pinnedY += 24;
+            } else {
+                content.addElement(new MilestoneRowElement(columnX, pinnedY + 11, columnWidth, m,
+                        pinnedTask, false, false, this::requestRebuild));
+                afterPinned = pinnedY + 11 + m.rowHeight;
+                pinnedY += 11 + m.rowHeight;
+            }
         }
+
 
         int bottomY = afterPinned + 6;
         content.addElement(new LabelElement<>(Spatials.positionXYZ(columnX, bottomY, 1),
