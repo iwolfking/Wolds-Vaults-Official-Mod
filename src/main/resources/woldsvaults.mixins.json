@@ -23,6 +23,7 @@
     "MixinLightningBolt",
     "MixinLivingEntity",
     "MixinNaturalSpawner",
+    "MixinPiglinAI",
     "MixinPlayerInventory",
     "MixinRavagerEntity",
     "MixinResultSlot",
