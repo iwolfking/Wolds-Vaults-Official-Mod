@@ -5,6 +5,7 @@ import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialHyper;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
 import java.util.Map;
@@ -143,6 +144,18 @@ public final class HyperModifierPolicy {
             return 1 + Math.max(0, HyperVaultObjective.getCycleCount(vault) - 1) / 4;
         }
         return STACK_CAPS.getOrDefault(id, Integer.MAX_VALUE);
+    }
+
+    /**
+     * The one gate every runtime add path asks: a modifier is blocked when the rank-up trial
+     * this vault is running bans it outright, or when it has reached its hyper stack cap.
+     */
+    public static boolean isBlocked(Vault vault, VaultModifier<?> modifier) {
+        if (GreedTrialHyper.isBannedInTrial(vault, modifier.getId())) {
+            WoldsVaults.LOGGER.info("Skipped rolling {} — banned in this rank-up trial.", modifier.getId());
+            return true;
+        }
+        return isStackCapped(vault, modifier);
     }
 
     /** True when adding this modifier would exceed its hyper stack cap; logs the skip. */

@@ -56,7 +56,7 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
             List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS
                     .getRandom(HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS, 0, JavaRandom.ofNanoTime());
             for (VaultModifier<?> modifier : modifiers) {
-                if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
+                if (HyperModifierPolicy.isBlocked(vault, modifier)) {
                     continue;
                 }
                 VaultModifierUtils.addModifier(vault, modifier.getId(), 1);
@@ -72,7 +72,7 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
                     WoldsVaults.LOGGER.info("Enchanted {} pull dropped {} — banned in Hyper vaults.", poolId, modifier.getId());
                     continue;
                 }
-                if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
+                if (HyperModifierPolicy.isBlocked(vault, modifier)) {
                     continue;
                 }
                 VaultModifierUtils.addModifier(vault, modifier.getId(), 1);

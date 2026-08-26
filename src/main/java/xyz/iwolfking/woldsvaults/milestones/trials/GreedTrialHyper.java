@@ -4,6 +4,7 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
@@ -37,6 +38,12 @@ public final class GreedTrialHyper {
     public static double objectiveScale(Vault vault) {
         GreedTrial trial = trial(vault);
         return trial == null ? 1.0D : trial.getObjectiveScale();
+    }
+
+    /** True when the trial this vault is running refuses the given modifier outright. */
+    public static boolean isBannedInTrial(Vault vault, ResourceLocation id) {
+        GreedTrial trial = trial(vault);
+        return trial != null && id != null && trial.getBannedModifiers().contains(id.toString());
     }
 
     /** Flat per-cycle stat increment, always 0 inside a trial. */

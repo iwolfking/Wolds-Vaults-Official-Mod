@@ -207,7 +207,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 if (added >= granted) {
                     break;
                 }
-                if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
+                if (HyperModifierPolicy.isBlocked(vault, modifier)) {
                     continue;
                 }
                 vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());
@@ -285,7 +285,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 return;
             }
             for (VaultModifier<?> modifier : modifiers) {
-                if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
+                if (HyperModifierPolicy.isBlocked(vault, modifier)) {
                     continue;
                 }
                 vault.get(Vault.MODIFIERS).addModifier(modifier, 1, true, ChunkRandom.ofNanoTime());

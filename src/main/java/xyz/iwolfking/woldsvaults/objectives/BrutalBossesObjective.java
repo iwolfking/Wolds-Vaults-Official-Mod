@@ -102,7 +102,7 @@ public class BrutalBossesObjective extends ObeliskObjective {
      */
     private void addBossKillModifier(Vault vault, VaultModifier<?> mod, List<VaultModifier<?>> modifiersForMsg) {
         if (this.getOr(NEGATIVE_POOL_ONLY, false)
-                && (HyperModifierPolicy.isStackCapped(vault, mod)
+                && (HyperModifierPolicy.isBlocked(vault, mod)
                 || HyperVaultObjective.consumeChaosBudget(vault, 1) <= 0)) {
             return;
         }
