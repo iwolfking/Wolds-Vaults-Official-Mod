@@ -30,6 +30,15 @@ public final class GreedTrialHyper {
         return trial == null ? live : trial.getCycleScaling();
     }
 
+    /**
+     * Multiplier on the elixir target and the bingo/collector requirement scale, so a trial can
+     * run its objectives easier than a live hyper vault does. 1.0 outside a hyper trial.
+     */
+    public static double objectiveScale(Vault vault) {
+        GreedTrial trial = trial(vault);
+        return trial == null ? 1.0D : trial.getObjectiveScale();
+    }
+
     /** Flat per-cycle stat increment, always 0 inside a trial. */
     public static double statIncrement(Vault vault, double live) {
         return trial(vault) == null ? live : 0.0D;

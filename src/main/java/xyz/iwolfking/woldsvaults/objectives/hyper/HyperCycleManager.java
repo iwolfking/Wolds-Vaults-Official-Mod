@@ -18,6 +18,7 @@ import iskallia.vault.task.counter.TargetTaskCounter;
 import iskallia.vault.task.source.EntityTaskSource;
 import net.minecraft.ChatFormatting;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialHyper;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BingoObjectiveAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ScavengerBingoObjectiveAccessor;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
@@ -98,11 +99,24 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
                 }
                 root.getChild(index).streamSelfAndDescendants(ProgressConfiguredTask.class).forEach(task -> {
                     if (task.getCounter() instanceof TargetTaskCounter<?, ?> counter && counter.isPopulated()) {
-                        ((BingoObjectiveAccessor) bingo).callScaleTargetWithCondition(task, counter, scale - 1.0, 1, context);
+                        ((BingoObjectiveAccessor) bingo).callScaleTargetWithCondition(task, counter,
+                                tileScale(counter, scale) - 1.0, 1, context);
                     }
                 });
             }
         });
+    }
+
+    /**
+     * The scale handed to one tile task. The game truncates integer targets when it applies the
+     * scale, so a reduced scale is raised just enough to keep the target at 1 or more — a target
+     * of 0 would mark the tile complete the moment it is rolled.
+     */
+    private static double tileScale(TargetTaskCounter<?, ?> counter, double scale) {
+        if (scale >= 1.0 || !(counter.getBaseTarget() instanceof Integer base) || base <= 0) {
+            return scale;
+        }
+        return Math.max(scale, 1.0 / base);
     }
 
     /**
@@ -221,16 +235,17 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
     }
 
     /**
-     * target = seed-derived base x (0.75 + 0.25 x cycle) x (1 + 0.45 x extra runners), recomputed
-     * every tick. The base only consumes the seeded random's leading draws, so the task set
-     * generated after it in ensureElixirGoal is unaffected.
+     * target = seed-derived base x (0.75 + 0.25 x cycle) x (1 + 0.45 x extra runners) x the
+     * trial's objective scale, recomputed every tick. The base only consumes the seeded random's
+     * leading draws, so the task set generated after it in ensureElixirGoal is unaffected.
      */
     private void rescaleElixirTarget() {
         JavaRandom seeded = JavaRandom.ofInternal(vault.get(Vault.SEED));
         int baseTarget = ModConfigs.ELIXIR.generateTarget(level, seeded);
         int cycle = objective.getOr(HyperVaultObjective.CYCLE, 0);
         double scale = (HyperVaultObjective.cfg().getElixirTargetMultiplier() + HyperVaultObjective.cfg().getElixirTargetIncrement() * cycle)
-                * HyperVaultObjective.playerRequirementScale(vault, HyperVaultObjective.cfg().getPlayerScaleElixir());
+                * HyperVaultObjective.playerRequirementScale(vault, HyperVaultObjective.cfg().getPlayerScaleElixir())
+                * GreedTrialHyper.objectiveScale(vault);
         objective.set(HyperVaultObjective.ELIXIR_TARGET, Math.max(1, (int) Math.round(baseTarget * scale)));
     }
 

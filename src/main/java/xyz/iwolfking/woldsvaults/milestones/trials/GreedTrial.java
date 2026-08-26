@@ -32,19 +32,19 @@ public final class GreedTrial {
     static {
         vessel(MilestoneRankLadder.SCAVENGER_2, 100_000L, 1.0D, 0.0D);
         vessel(MilestoneRankLadder.SCAVENGER_3, 150_000L, 1.2D, 0.0D);
-        hyper(MilestoneRankLadder.LOOTER_1, Difficulty.HARD, 10, 25, 1, 5.0D, 1.25D);
+        hyper(MilestoneRankLadder.LOOTER_1, Difficulty.HARD, 10, 25, 1, 1.0D, 1.25D, 0.5D);
         vessel(MilestoneRankLadder.LOOTER_2, 500_000L, 1.5D, 0.0D);
         vessel(MilestoneRankLadder.LOOTER_3, 850_000L, 2.0D, 0.0D);
-        hyper(MilestoneRankLadder.HUNTER_1, Difficulty.IMPOSSIBLE, 15, 25, 2, 10.0D, 1.3D);
+        hyper(MilestoneRankLadder.HUNTER_1, Difficulty.IMPOSSIBLE, 15, 30, 2, 3.0D, 1.3D, 0.75D);
         vessel(MilestoneRankLadder.HUNTER_2, 1_500_000L, 3.0D, 0.20D);
         vessel(MilestoneRankLadder.HUNTER_3, 3_000_000L, 3.0D, 0.45D);
-        hyper(MilestoneRankLadder.MASTER_1, Difficulty.IMPOSSIBLE, 20, 25, 3, 20.0D, 1.4D);
+        hyper(MilestoneRankLadder.MASTER_1, Difficulty.IMPOSSIBLE, 20, 40, 3, 10.0D, 1.4D, 1.0D);
         vessel(MilestoneRankLadder.MASTER_2, 10_000_000L, 5.0D, 0.50D);
         vessel(MilestoneRankLadder.MASTER_3, 30_000_000L, 10.0D, 0.50D);
-        hyper(MilestoneRankLadder.CHAMPION_1, Difficulty.FRAGGED, 25, 25, 3, 30.0D, 1.65D);
+        hyper(MilestoneRankLadder.CHAMPION_1, Difficulty.FRAGGED, 25, 40, 3, 20.0D, 1.65D, 1.0D);
         vessel(MilestoneRankLadder.CHAMPION_2, 150_000_000L, 15.0D, 0.75D);
         vessel(MilestoneRankLadder.CHAMPION_3, 500_000_000L, 25.0D, 1.00D);
-        hyper(MilestoneRankLadder.LEGEND, Difficulty.FRAGGED, 25, 50, 6, 50.0D, 1.85D);
+        hyper(MilestoneRankLadder.LEGEND, Difficulty.FRAGGED, 25, 50, 6, 50.0D, 1.85D, 1.0D);
     }
 
     private final int targetRank;
@@ -58,10 +58,11 @@ public final class GreedTrial {
     private final int requiredCycles;
     private final double bossStrength;
     private final double cycleScaling;
+    private final double objectiveScale;
 
     private GreedTrial(int targetRank, Kind kind, int minutes, long vesselHealth, double vesselDamageScale,
                        double vesselSpeedBonus, Difficulty difficulty, int modifierCount, int requiredCycles,
-                       double bossStrength, double cycleScaling) {
+                       double bossStrength, double cycleScaling, double objectiveScale) {
         this.targetRank = targetRank;
         this.kind = kind;
         this.minutes = minutes;
@@ -73,17 +74,19 @@ public final class GreedTrial {
         this.requiredCycles = requiredCycles;
         this.bossStrength = bossStrength;
         this.cycleScaling = cycleScaling;
+        this.objectiveScale = objectiveScale;
     }
 
     private static void vessel(int rank, long health, double damageScale, double speedBonus) {
         BY_RANK[rank] = new GreedTrial(rank, Kind.VESSEL, 5, health, damageScale, speedBonus,
-                null, 0, 0, 0.0D, 0.0D);
+                null, 0, 0, 0.0D, 0.0D, 1.0D);
     }
 
     private static void hyper(int rank, Difficulty difficulty, int modifierCount, int minutes,
-                              int requiredCycles, double bossStrength, double cycleScaling) {
+                              int requiredCycles, double bossStrength, double cycleScaling,
+                              double objectiveScale) {
         BY_RANK[rank] = new GreedTrial(rank, Kind.HYPER, minutes, 0L, 0.0D, 0.0D,
-                difficulty, modifierCount, requiredCycles, bossStrength, cycleScaling);
+                difficulty, modifierCount, requiredCycles, bossStrength, cycleScaling, objectiveScale);
     }
 
     /** The trial guarding entry into the given rank, or null when that rank has none. */
@@ -143,6 +146,15 @@ public final class GreedTrial {
     /** Per-cycle compounding factor, in place of {@code hyperStatFactor}. */
     public double getCycleScaling() {
         return this.cycleScaling;
+    }
+
+    /**
+     * Multiplier folded into the elixir target and the bingo/collector requirement scale, so an
+     * early trial can run the same objectives at a fraction of a live hyper vault's demands.
+     * 1.0 leaves them at their configured values; brutal pillars are never affected.
+     */
+    public double getObjectiveScale() {
+        return this.objectiveScale;
     }
 
     public int getCoinReward() {

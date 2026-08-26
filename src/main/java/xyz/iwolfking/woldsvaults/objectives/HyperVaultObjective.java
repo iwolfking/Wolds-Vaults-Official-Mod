@@ -309,9 +309,13 @@ public class HyperVaultObjective extends Objective {
         return get(vault).map(objective -> objective.getOr(CYCLE, 0)).orElse(0);
     }
 
-    /** Card requirements grow +10% of their base per completed boss cycle. */
+    /**
+     * Card requirements grow +10% of their base per completed boss cycle, then take the trial's
+     * objective scale (1.0 outside a rank-up trial).
+     */
     public static double cycleRequirementScale(Vault vault) {
-        return 1.0 + cfg().getCycleRequirementIncrement() * getCycleCount(vault);
+        return (1.0 + cfg().getCycleRequirementIncrement() * getCycleCount(vault))
+                * GreedTrialHyper.objectiveScale(vault);
     }
 
     /** x(1 + rate x extra runners), from the LIVE runner count — elastic on joins and deaths. */
