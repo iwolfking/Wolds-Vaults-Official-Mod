@@ -499,7 +499,7 @@
           "the_vault:base_attack_speed"
         ],
         "PREFIX": [
-          "the_vault:mod_attack_damage",
+          "the_vault:base_ap",
           "the_vault:mod_everflame_fireball"
         ],
         "SUFFIX": [

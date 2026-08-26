@@ -300,7 +300,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .model("the_vault:gear/sword/everflame")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
-                .prefix("the_vault:mod_attack_damage", "the_vault:mod_everflame_fireball")
+                .prefix("the_vault:base_ap", "the_vault:mod_everflame_fireball")
                 .suffix("the_vault:mod_area_of_effect", "the_vault:unique_everflame_modification")
                 .dropLocation("Vendoors")
                 .description("This flaming Sword gives you the ability to shoot TWO fireballs!", "$text")

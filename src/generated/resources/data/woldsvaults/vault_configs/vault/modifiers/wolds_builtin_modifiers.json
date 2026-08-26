@@ -3881,7 +3881,7 @@
           "children": {
             "the_vault:slowfalling": 1,
             "woldsvaults:cosmic_chests": 1,
-            "woldsvaults:springy": 2
+            "the_vault:springy": 2
           }
         },
         "display": {
