@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.milestones;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.block.CardboardBoxBlock;
 import iskallia.vault.block.VaultBarrelBlock;
 import iskallia.vault.block.VaultChestBlock;
 import iskallia.vault.core.event.CommonEvents;
@@ -66,6 +67,7 @@ public class MilestoneDispatcher {
         registered = true;
 
         CommonEvents.CHEST_LOOT_GENERATION.post().register(OWNER, data -> onChestLooted(data.getPlayer(), data.getState()));
+        CommonEvents.LOOTABLE_BLOCK_GENERATION_EVENT.post().register(OWNER, data -> onLootableBlockLooted(data.getPlayer(), data.getState()));
         CommonEvents.TREASURE_ROOM_OPEN.register(OWNER, data -> onTreasureDoor(data.getPlayer()));
         CommonEvents.VENDOOR_ROOM_OPEN.register(OWNER, data -> onVendoor(data.getPlayer()));
         CommonEvents.DUNGEON_ROOM_OPEN.register(OWNER, data -> onDungeonDoor(data.getPlayer()));
@@ -142,11 +144,7 @@ public class MilestoneDispatcher {
         }
         VaultChestType type = chest.getType();
         boolean box = block instanceof VaultBarrelBlock;
-        if (box) {
-            if (type == VaultChestType.WOODEN) {
-                Milestones.advance(player, MilestoneIds.AMAZON_WORKER, 1L);
-            }
-        } else {
+        if (!box) {
             String milestone = switch (type) {
                 case WOODEN -> MilestoneIds.WOODEN_LOOTER;
                 case GILDED -> MilestoneIds.GILDED_LOOTER;
@@ -161,6 +159,19 @@ public class MilestoneDispatcher {
         MilestoneVaultState state1 = stateFor(player);
         if (state1 != null) {
             state1.onChestLooted(type, box);
+        }
+    }
+
+    /**
+     * Cardboard boxes are lootable blocks rather than vault chests, so they arrive on their own
+     * event; the tile only fires it when it actually carries a loot table.
+     */
+    private static void onLootableBlockLooted(ServerPlayer player, BlockState state) {
+        if (player == null || state == null) {
+            return;
+        }
+        if (state.getBlock() instanceof CardboardBoxBlock) {
+            Milestones.advance(player, MilestoneIds.AMAZON_WORKER, 1L);
         }
     }
 

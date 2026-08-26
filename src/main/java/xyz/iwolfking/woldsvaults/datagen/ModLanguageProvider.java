@@ -836,7 +836,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.treasure_hunter.desc", "Treasure rooms opened");
         add("milestone.woldsvaults.shop_hunter.desc", "Vendoor shop rooms opened");
         add("milestone.woldsvaults.diggy_diggy_jewel.desc", "Ore blocks mined in vaults");
-        add("milestone.woldsvaults.amazon_worker.desc", "Wooden vault barrels looted");
+        add("milestone.woldsvaults.amazon_worker.desc", "Cardboard boxes looted");
         add("milestone.woldsvaults.nullified.desc", "Nullite ore blocks mined");
         add("milestone.woldsvaults.dedicated_looter.desc", "Loot 25k of every chest type in one vault");
         add("milestone.woldsvaults.bingo.desc", "Bingo lines completed");
