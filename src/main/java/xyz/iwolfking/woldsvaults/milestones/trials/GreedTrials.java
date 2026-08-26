@@ -165,8 +165,12 @@ public final class GreedTrials {
         player.displayClientMessage(new TextComponent("Rank-up trial started.").withStyle(ChatFormatting.GOLD), false);
     }
 
-    /** Difficulty lock for hyper trials; a trial row with no difficulty adds nothing. */
+    /**
+     * Every trial keeps the runner's inventory on death, and a hyper row additionally sets its
+     * difficulty floor; a row with no difficulty adds nothing beyond the inventory guard.
+     */
     private static void applyTrialModifiers(Vault vault, GreedTrial trial) {
+        VaultModifierUtils.addModifier(vault, VaultMod.id("map_afterlife"), 1);
         if (trial.getDifficulty() == null) {
             return;
         }
