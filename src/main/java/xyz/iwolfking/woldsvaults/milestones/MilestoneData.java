@@ -10,13 +10,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nonnull;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /** World-level store for milestone progress; persistence is throttled by {@link MilestoneFlusher}. */
 public class MilestoneData extends SavedData {
@@ -29,7 +23,7 @@ public class MilestoneData extends SavedData {
     private final Map<UUID, Map<String, Set<String>>> tokens = new HashMap<>();
     private final Map<UUID, Map<String, Double>> fractions = new HashMap<>();
     private final Map<UUID, Map<String, Integer>> claimedTiers = new HashMap<>();
-    private final Map<UUID, String> pinned = new HashMap<>();
+    private final Map<UUID, Set<String>> pinned = new HashMap<>();
     private final Map<UUID, Set<String>> pendingSync = new HashMap<>();
     private static final int DATA_VERSION = 1;
 
@@ -102,16 +96,24 @@ public class MilestoneData extends SavedData {
         return player == null ? Map.of() : Collections.unmodifiableMap(player);
     }
 
-    /** The milestone the player has pinned to the greed screen, or null when nothing is pinned. */
-    public String getPinned(UUID playerId) {
-        return this.pinned.get(playerId);
+    public Set<String> getPinned(UUID playerId) {
+        var playerPins = this.pinned.get(playerId);
+        if (playerPins != null) {
+           return playerPins;
+        }
+        return Set.of();
     }
 
-    public void setPinned(UUID playerId, String milestoneId) {
-        if (milestoneId == null) {
-            this.pinned.remove(playerId);
-        } else {
-            this.pinned.put(playerId, milestoneId);
+    public void pin(UUID playerId, String milestoneId) {
+        var playerPins = this.pinned.computeIfAbsent(playerId, k -> new HashSet<>());
+        playerPins.add(milestoneId);
+        this.pendingSave = true;
+    }
+
+    public void unpin(UUID playerId, String milestoneId) {
+        var playerPins = this.pinned.get(playerId);
+        if (playerPins != null) {
+            playerPins.remove(milestoneId);
         }
         this.pendingSave = true;
     }
@@ -188,8 +190,12 @@ public class MilestoneData extends SavedData {
             if (!playerClaimed.isEmpty()) {
                 this.claimedTiers.put(playerId, playerClaimed);
             }
-            if (playerTag.contains("pinned")) {
-                this.pinned.put(playerId, playerTag.getString("pinned"));
+            if (playerTag.contains("pinned", Tag.TAG_LIST)) {
+                Set<String> pinList = new HashSet<>();
+                for (Tag str : playerTag.getList("pinned", Tag.TAG_STRING)) {
+                    pinList.add(str.getAsString());
+                }
+                this.pinned.put(playerId, pinList);
             }
         }
         if (!unknown.isEmpty() && !MilestoneRegistry.getAll().isEmpty()) {
@@ -233,9 +239,13 @@ public class MilestoneData extends SavedData {
                 }
             });
             playerTag.put("claimed", claimedTag);
-            String pinnedId = this.pinned.get(playerId);
-            if (pinnedId != null) {
-                playerTag.putString("pinned", pinnedId);
+            Set<String> pinnedIDs = this.pinned.get(playerId);
+            if (pinnedIDs != null) {
+                var lt = new ListTag();
+                for (String pin: pinnedIDs) {
+                    lt.add(StringTag.valueOf(pin));
+                }
+                playerTag.put("pinned", lt);
             }
             players.add(playerTag);
         }

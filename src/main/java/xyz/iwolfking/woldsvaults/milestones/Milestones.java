@@ -360,18 +360,31 @@ public class Milestones {
         }
     }
 
-    public static String getPinned(MinecraftServer server, UUID playerId) {
+    public static Set<String> getPinned(MinecraftServer server, UUID playerId) {
         return MilestoneData.get(server).getPinned(playerId);
     }
 
-    /** Pins a milestone, or clears the pin when the id is null. An unknown id returns false. */
-    public static boolean setPinned(ServerPlayer player, String milestoneId) {
+    /** Pins a milestone An unknown id returns false. */
+    public static boolean pin(ServerPlayer player, String milestoneId) {
         if (milestoneId != null && !MilestoneRegistry.contains(milestoneId)) {
             WoldsVaults.LOGGER.warn("Milestone pin for unknown id '{}' ignored", milestoneId);
             return false;
         }
         MilestoneData data = MilestoneData.get(player.server);
-        data.setPinned(player.getUUID(), milestoneId);
+        data.pin(player.getUUID(), milestoneId);
+        data.flush();
+        MilestoneFlusher.syncAll(player);
+        return true;
+    }
+
+    /** Unpins a milestone, or clears the pin when the id is null. An unknown id returns false. */
+    public static boolean unpin(ServerPlayer player, String milestoneId) {
+        if (milestoneId != null && !MilestoneRegistry.contains(milestoneId)) {
+            WoldsVaults.LOGGER.warn("Milestone pin for unknown id '{}' ignored", milestoneId);
+            return false;
+        }
+        MilestoneData data = MilestoneData.get(player.server);
+        data.unpin(player.getUUID(), milestoneId);
         data.flush();
         MilestoneFlusher.syncAll(player);
         return true;

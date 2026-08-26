@@ -13,13 +13,7 @@ import xyz.iwolfking.woldsvaults.gods.network.ServerboundSelectSacrificeGodMessa
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundSetMinorTransferMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundToggleCharmTemporalMessage;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundUnlockGodNodeMessage;
-import xyz.iwolfking.woldsvaults.milestones.network.GreedTablesMessage;
-import xyz.iwolfking.woldsvaults.milestones.network.MilestoneStatusMessage;
-import xyz.iwolfking.woldsvaults.milestones.network.MilestoneSyncMessage;
-import xyz.iwolfking.woldsvaults.milestones.network.ServerboundClaimMilestoneMessage;
-import xyz.iwolfking.woldsvaults.milestones.network.ServerboundOpenMilestonesMessage;
-import xyz.iwolfking.woldsvaults.milestones.network.ServerboundPinMilestoneMessage;
-import xyz.iwolfking.woldsvaults.milestones.network.ServerboundTakeTrialMessage;
+import xyz.iwolfking.woldsvaults.milestones.network.*;
 import xyz.iwolfking.woldsvaults.network.message.EjectModeSwitchMessage;
 import xyz.iwolfking.woldsvaults.network.message.InputLimitSwitchMessage;
 
@@ -48,5 +42,6 @@ public class NetworkHandler {
         INSTANCE.register(ServerboundRequestGodNodePreviewMessage.class, new ServerboundRequestGodNodePreviewMessage());
         INSTANCE.register(ClientboundGodNodePreviewMessage.class, new ClientboundGodNodePreviewMessage());
         INSTANCE.register(GreedTablesMessage.class, new GreedTablesMessage());
+        INSTANCE.register(ServerboundUnpinMilestoneMessage.class, new ServerboundUnpinMilestoneMessage());
     }
 }

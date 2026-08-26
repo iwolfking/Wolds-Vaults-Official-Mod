@@ -178,7 +178,7 @@ public class MilestoneCommand {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");
         String id = StringArgumentType.getString(context, "id");
         String target = "none".equals(id) ? null : id;
-        if (!Milestones.setPinned(player, target)) {
+        if (!Milestones.pin(player, target)) {
             context.getSource().sendFailure(new TextComponent("Unknown milestone: " + id));
             return 0;
         }

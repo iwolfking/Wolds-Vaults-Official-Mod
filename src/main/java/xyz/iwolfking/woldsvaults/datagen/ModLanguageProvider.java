@@ -827,7 +827,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.celebrations", "Celebrations");
     }
 
-    /** Requirement lines shown under each achievement name on the greed screens, one per milestone id. */
+    /** Requirement lines shown under each milestone name on the greed screens, one per milestone id. */
     private void addMilestoneDescriptions() {
         add("milestone.woldsvaults.living_looter.desc", "Living chests looted");
         add("milestone.woldsvaults.ornate_looter.desc", "Ornate chests looted");
@@ -884,7 +884,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.send_a_prayer.desc", "God altars completed");
         add("milestone.woldsvaults.born_again.desc", "Phoenix revives used");
         add("milestone.woldsvaults.pal_trainer.desc", "Distinct companions raised to max level");
-        add("milestone.woldsvaults.vault_veteran.desc", "Tiers cleared on every other achievement");
+        add("milestone.woldsvaults.vault_veteran.desc", "Tiers cleared on every other milestone");
         add("milestone.woldsvaults.unstable_shuffle.desc", "Complete the Unstable Shuffle challenge");
         add("milestone.woldsvaults.pitch_black.desc", "Complete the Pitch Black challenge");
         add("milestone.woldsvaults.trapped.desc", "Complete the Trapped challenge");
@@ -919,8 +919,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.tab.misc", "Misc");
         add("screen.woldsvaults.greed.tab.challenge", "Challenge");
         add("screen.woldsvaults.greed.gain_on_rank_up", "Gain on rank up");
-        add("screen.woldsvaults.greed.pinned_task", "Pinned task");
-        add("screen.woldsvaults.greed.pinned_task.empty", "Nothing pinned. Pin an achievement from any tab to track it here.");
+        add("screen.woldsvaults.greed.pinned_task", "Pinned milestones");
+        add("screen.woldsvaults.greed.pinned_task.empty", "Nothing pinned. Pin an milestone from any tab to track it here.");
         add("screen.woldsvaults.greed.take_trial", "Take Trial");
         add("screen.woldsvaults.greed.take_trial.hyper", "A toned-down Hyper Vault. Clear the required boss cycles to pass.");
         add("screen.woldsvaults.greed.take_trial.vessel", "A fight with the Vessel. Deal the required damage before the timer runs out.");
@@ -933,16 +933,16 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.shop_reroll_cost.tooltip", "Rerolling the greed shop costs Greedy Tickets, and the price rises every second reroll. The shop restocks and the price resets on the black market's clock.");
         add("screen.woldsvaults.greed.active_god", "Active god tree: %1$s (level %2$s)");
         add("screen.woldsvaults.greed.active_god.none", "Active god tree: None");
-        add("screen.woldsvaults.greed.list.empty", "No achievements in this category");
+        add("screen.woldsvaults.greed.list.empty", "No milestones in this category");
         add("screen.woldsvaults.greed.claim", "Claim");
-        add("screen.woldsvaults.greed.claim.tooltip", "Collect the reputation this achievement has banked");
+        add("screen.woldsvaults.greed.claim.tooltip", "Collect the reputation this milestone has banked");
         add("screen.woldsvaults.greed.claim.tooltip.player", "Reputation is collected from Mr. Greedy");
         add("screen.woldsvaults.greed.claim_all", "Claim All (%1$s)");
-        add("screen.woldsvaults.greed.claim_all.tooltip", "Collect the reputation every achievement has banked");
+        add("screen.woldsvaults.greed.claim_all.tooltip", "Collect the reputation every milestone has banked");
         add("screen.woldsvaults.greed.pin.pin", "Pin");
         add("screen.woldsvaults.greed.pin.unpin", "Unpin");
-        add("screen.woldsvaults.greed.pin.pin.tooltip", "Track this achievement on the main greed screen. You may pin one at a time.");
-        add("screen.woldsvaults.greed.pin.unpin.tooltip", "Stop tracking this achievement");
+        add("screen.woldsvaults.greed.pin.pin.tooltip", "Track this milestone on the main greed screen.");
+        add("screen.woldsvaults.greed.pin.unpin.tooltip", "Stop tracking this milestone");
         add("screen.woldsvaults.greed.row.rep", "+%1$s Rep");
         add("screen.woldsvaults.greed.row.rep_list", "Rep: ");
         add("screen.woldsvaults.greed.rank.none", "Unranked");

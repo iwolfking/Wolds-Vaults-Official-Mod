@@ -16,6 +16,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneDefinition;
 import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
+import xyz.iwolfking.woldsvaults.milestones.network.ServerboundUnpinMilestoneMessage;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundClaimMilestoneMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundPinMilestoneMessage;
@@ -40,7 +41,7 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         int completed = definition.getCompletedTiers(value);
         boolean finished = completed >= definition.getTierCount();
         int unclaimed = ClientMilestoneData.getUnclaimedRep(definition.getId());
-        boolean pinned = definition.getId().equals(ClientMilestoneData.getPinned());
+        boolean pinned = ClientMilestoneData.getPinned().contains(definition.getId());
 
         this.addElement(new GreedFillElement(Spatials.positionXYZ(0, 0, 0).size(width, metrics.rowHeight),
                 finished ? GreedTheme.PLATE_LIGHT : GreedTheme.PLATE,
@@ -70,8 +71,13 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                 Spatials.positionXYZ(2, this.metrics.rowPinY, 1).size(this.metrics.rowPinWidth, this.metrics.rowPinHeight),
                 () -> GreedTheme.lang(pinned ? "pin.unpin" : "pin.pin"),
                 () -> {
-                    NetworkHandler.INSTANCE.sendToServer(new ServerboundPinMilestoneMessage(pinned ? ServerboundPinMilestoneMessage.UNPIN : id));
-                    ClientMilestoneData.setPinned(pinned ? null : id);
+                    if (pinned) {
+                        NetworkHandler.INSTANCE.sendToServer(new ServerboundUnpinMilestoneMessage(id));
+                        ClientMilestoneData.unpin(id);
+                    } else {
+                        NetworkHandler.INSTANCE.sendToServer(new ServerboundPinMilestoneMessage(id));
+                        ClientMilestoneData.pin(id);
+                    }
                     onChanged.run();
                 });
         pinButton.setHighlighted(() -> pinned);
