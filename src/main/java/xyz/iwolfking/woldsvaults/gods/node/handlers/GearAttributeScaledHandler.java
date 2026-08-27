@@ -11,8 +11,6 @@ import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
 
-import javax.annotation.Nullable;
-
 /**
  * The shared handler of every node that adds N to a float gear attribute per point invested. The
  * total sums the {@code values} table over the points held, with the last entry repeating. An effect
@@ -26,7 +24,8 @@ public record GearAttributeScaledHandler(GodEffect effect) implements StatContri
      * The float-valued gear attributes this effect's per-point table pays into. {@code secondAttribute}
      * is optional and receives the same total as {@code attribute}.
      */
-    public record Params(ResourceLocation attribute, @Nullable ResourceLocation secondAttribute)
+    public record Params(ResourceLocation attribute,
+                         @GodEffectParams.Optional ResourceLocation secondAttribute)
             implements GodEffectParams {
         @Override
         public void validate(String effectId) {

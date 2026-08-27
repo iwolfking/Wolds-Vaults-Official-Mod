@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import iskallia.vault.config.Config;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.RecordComponent;
 import java.util.Set;
@@ -21,7 +20,7 @@ public final class GodEffectParamsCodec {
 
     /**
      * Builds {@code type} from every config key but {@code handler} and {@code values}; absent is fatal unless
-     * {@link Nullable}.
+     * {@link GodEffectParams.Optional}.
      */
     public static GodEffectParams decode(String effectId, String handler,
                                          Class<? extends GodEffectParams> type, JsonObject json) {
@@ -68,7 +67,6 @@ public final class GodEffectParamsCodec {
         }
     }
 
-    @Nullable
     private static Object read(String effectId, String handler, Class<? extends GodEffectParams> type,
                                RecordComponent component, JsonObject json) {
         String name = component.getName();
@@ -92,13 +90,19 @@ public final class GodEffectParamsCodec {
         }
     }
 
-    /** Whether a component may be absent; the backing field is checked as well as the component. */
+    /**
+     * Whether a component may be absent; the backing field is checked as well as the component.
+     * The marker must be {@link GodEffectParams.Optional} and nothing else - reading an annotation
+     * reflectively loads its class, and the compile-time-only annotation libraries are not on the
+     * runtime classpath.
+     */
     private static boolean isOptional(Class<? extends GodEffectParams> type, RecordComponent component) {
-        if (component.isAnnotationPresent(Nullable.class)) {
+        if (component.isAnnotationPresent(GodEffectParams.Optional.class)) {
             return true;
         }
         try {
-            return type.getDeclaredField(component.getName()).isAnnotationPresent(Nullable.class);
+            return type.getDeclaredField(component.getName())
+                    .isAnnotationPresent(GodEffectParams.Optional.class);
         } catch (NoSuchFieldException e) {
             return false;
         }
