@@ -300,6 +300,7 @@
     "vaulthunters.custom.MixinGodCharmRollHelper",
     "vaulthunters.custom.MixinGrantedEffectHelper",
     "vaulthunters.custom.MixinGreedAssassinSpawnHandler",
+    "vaulthunters.custom.MixinGreedCardModifier",
     "vaulthunters.custom.MixinGreedQuestVaultHandler",
     "vaulthunters.custom.MixinGreedTraderConfig",
     "vaulthunters.custom.MixinGreedTraderEntity",

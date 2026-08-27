@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import iskallia.vault.core.card.*;
+import iskallia.vault.core.card.modifier.card.GreedCardModifier;
 import iskallia.vault.core.card.modifier.deck.DeckModifier;
 import iskallia.vault.core.data.serializable.ISerializable;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
@@ -188,6 +189,36 @@ public abstract class MixinCardDeck implements ICardDeckCache, ISerializable<Com
         }
 
         return value * mult;
+    }
+
+    /**
+     * @author PoorMansPhysicist
+     * @reason Greed cards must stack additively; 3.21.6 sums their raw multipliers instead
+     */
+    @Overwrite
+    public float getGreedMultiplier(CardPos targetPos, Card targetCard) {
+        float bonus = 0.0F;
+
+        for (Map.Entry<CardPos, Card> entry : this.cards.entrySet()) {
+            Card card = entry.getValue();
+            if (card == null) {
+                continue;
+            }
+
+            CardPos greedPos = entry.getKey();
+            for (CardEntry cardEntry : card.getEntries()) {
+                if (!(cardEntry.getModifier() instanceof GreedCardModifier greedModifier)) {
+                    continue;
+                }
+
+                float greedValue = greedModifier.getGreedMultiplier(card.getTier(), greedPos, targetPos, targetCard, (CardDeck) (Object) this);
+                if (greedValue > 1.0F) {
+                    bonus += greedValue - 1.0F;
+                }
+            }
+        }
+
+        return 1.0F + bonus;
     }
 
     @WrapOperation(method = "addText", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
