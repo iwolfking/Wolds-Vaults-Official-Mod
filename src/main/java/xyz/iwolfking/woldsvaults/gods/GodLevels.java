@@ -133,6 +133,11 @@ public final class GodLevels {
         return reputation / config().getReputationPerGodPoint();
     }
 
+    /** The experience one god altar pays before the repeat multiplier and any prestige scaling. */
+    public static double baseAltarXp() {
+        return config().getBaseAltarXp();
+    }
+
     private static GodLevelsConfig config() {
         GodLevelsConfig config = ModConfigs.GOD_LEVELS;
         if (config != null) {

@@ -12,8 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * The god alignment progression curve - {@code config/the_vault/gods/god_levels.json}: cumulative XP
  * thresholds, the linear tail past the last defined level, god points per level and per reputation, the
- * reputation that charts a constellation, and the levels that unlock a minor-transfer slot or the
- * ultimate. An absent or unusable key falls back, with an error.
+ * reputation that charts a constellation, the levels that unlock a minor-transfer slot or the ultimate,
+ * and the base experience one god altar pays. An absent or unusable key falls back, with an error.
  */
 public class GodLevelsConfig extends PackAuthoredConfig {
     private static final long[] DEFAULT_CUMULATIVE_XP = {
@@ -28,6 +28,7 @@ public class GodLevelsConfig extends PackAuthoredConfig {
     private static final int[] DEFAULT_MINOR_TRANSFER_SLOT_LEVELS = {2, 4, 7};
     private static final int DEFAULT_CHARTING_REPUTATION = 10;
     private static final int DEFAULT_REPUTATION_PER_GOD_POINT = 10;
+    private static final double DEFAULT_BASE_ALTAR_XP = 300.0D;
 
     private static final Set<String> WARNED = ConcurrentHashMap.newKeySet();
 
@@ -41,6 +42,7 @@ public class GodLevelsConfig extends PackAuthoredConfig {
     @Expose private int[] minorTransferSlotLevels;
     @Expose private Integer chartingReputation;
     @Expose private Integer reputationPerGodPoint;
+    @Expose private Double baseAltarXp;
 
     /** A config carrying only the shipped curve, for readers that run before the config pass. */
     public static GodLevelsConfig defaults() {
@@ -67,6 +69,7 @@ public class GodLevelsConfig extends PackAuthoredConfig {
                 Arrays.copyOf(DEFAULT_MINOR_TRANSFER_SLOT_LEVELS, DEFAULT_MINOR_TRANSFER_SLOT_LEVELS.length);
         this.chartingReputation = DEFAULT_CHARTING_REPUTATION;
         this.reputationPerGodPoint = DEFAULT_REPUTATION_PER_GOD_POINT;
+        this.baseAltarXp = DEFAULT_BASE_ALTAR_XP;
     }
 
     public long[] getCumulativeXp() {
@@ -155,6 +158,15 @@ public class GodLevelsConfig extends PackAuthoredConfig {
             return DEFAULT_REPUTATION_PER_GOD_POINT;
         }
         return this.reputationPerGodPoint;
+    }
+
+    /** The experience one god altar pays before the repeat multiplier and any prestige scaling. */
+    public double getBaseAltarXp() {
+        if (this.baseAltarXp == null || this.baseAltarXp < 0.0D) {
+            warn("baseAltarXp");
+            return DEFAULT_BASE_ALTAR_XP;
+        }
+        return this.baseAltarXp;
     }
 
     private static void warn(String key) {

@@ -710,7 +710,11 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("God Experience ", "#B2F44B"));
                     jsonElements.add(JsonDescription.simple("award you earn is increased by "));
                     jsonElements.add(JsonDescription.simple("20%", "yellow"));
-                    jsonElements.add(JsonDescription.simple("."));
+                    jsonElements.add(JsonDescription.simple(", and "));
+                    jsonElements.add(JsonDescription.simple("God Altars ", "#B2F44B"));
+                    jsonElements.add(JsonDescription.simple("pay "));
+                    jsonElements.add(JsonDescription.simple("double ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("their base experience."));
                 })
                 .addDescription("GodsDiscipleII", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("Every "));

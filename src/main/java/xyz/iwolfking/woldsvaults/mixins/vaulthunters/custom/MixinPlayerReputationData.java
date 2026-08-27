@@ -21,6 +21,7 @@ import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.api.util.GodMasteryHelper;
 import xyz.iwolfking.woldsvaults.api.util.VaultGodAffinityHelper;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
+import xyz.iwolfking.woldsvaults.gods.event.GodAltarXpHandler;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 
 import java.util.UUID;
@@ -38,6 +39,17 @@ public class MixinPlayerReputationData {
                 cir.setReturnValue(0);
             }
         }
+    }
+
+    /**
+     * Records what this player actually gained, so the altar handler can fold it into the one action bar
+     * line it sends. The only caller is {@code GodAltarTask#onSucceed}, whose own {@code repAdded} keeps
+     * just the last player of a party.
+     */
+    @Inject(method = "attemptFavour", at = @At("RETURN"))
+    private static void woldsVaults$recordFavourGained(Player player, VaultGod god,
+                                                       CallbackInfoReturnable<Integer> cir) {
+        GodAltarXpHandler.recordReputationGained(player.getUUID(), cir.getReturnValue());
     }
 
     /** Publishes the effective reputation cap (50 + God's Mastery count) before the read-side clamp below. */
