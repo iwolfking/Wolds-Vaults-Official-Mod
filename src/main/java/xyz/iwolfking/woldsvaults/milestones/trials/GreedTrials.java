@@ -166,11 +166,14 @@ public final class GreedTrials {
     }
 
     /**
-     * Every trial keeps the runner's inventory on death, and a hyper row additionally sets its
-     * difficulty floor; a row with no difficulty adds nothing beyond the inventory guard.
+     * Every trial keeps the runner's inventory on death; a row may also open with free Phoenix
+     * stacks and, for a hyper row, its difficulty floor.
      */
     private static void applyTrialModifiers(Vault vault, GreedTrial trial) {
         VaultModifierUtils.addModifier(vault, VaultMod.id("map_afterlife"), 1);
+        if (trial.getPhoenixStacks() > 0) {
+            VaultModifierUtils.addModifier(vault, VaultMod.id("phoenix"), trial.getPhoenixStacks());
+        }
         if (trial.getDifficulty() == null) {
             return;
         }

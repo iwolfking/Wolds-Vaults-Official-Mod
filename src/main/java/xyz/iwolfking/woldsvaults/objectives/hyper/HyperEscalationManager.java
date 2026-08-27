@@ -264,14 +264,18 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
     }
 
-    /** Every 2 minutes, one negative modifier per runner from the curated timer pool (vs the cap). */
+    /**
+     * Every 2 minutes by default, one negative modifier per runner from the curated timer pool
+     * (vs the cap). A trial row may stretch the period.
+     */
     private void tickAmbientEvents() {
-        int remaining = objective.getOr(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.cfg().getAmbientPeriodTicks()) - 1;
+        int period = GreedTrialHyper.ambientPeriodTicks(vault, HyperVaultObjective.cfg().getAmbientPeriodTicks());
+        int remaining = objective.getOr(HyperVaultObjective.AMBIENT_TICK, period) - 1;
         if (remaining > 0) {
             objective.set(HyperVaultObjective.AMBIENT_TICK, remaining);
             return;
         }
-        objective.set(HyperVaultObjective.AMBIENT_TICK, HyperVaultObjective.cfg().getAmbientPeriodTicks());
+        objective.set(HyperVaultObjective.AMBIENT_TICK, period);
         for (Listener listener : vault.get(Vault.LISTENERS).getAll()) {
             if (!(listener instanceof Runner) || listener.getPlayer().isEmpty()) {
                 continue;

@@ -658,9 +658,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 applied++;
             }
         }
-        if (HyperVaultObjective.clampMovementSpeed(boss)) {
+        double capFactor = HyperVaultObjective.speedCapFactor(vault);
+        if (HyperVaultObjective.clampMovementSpeed(boss, capFactor)) {
             WoldsVaults.LOGGER.info("Hyperboss movement speed capped at +{}%.",
-                    Math.round((HyperVaultObjective.cfg().getSpeedCapFactor() - 1.0) * 100.0));
+                    Math.round((capFactor - 1.0) * 100.0));
         }
         boss.addEffect(new MobEffectInstance(ModEffects.REAVING, Integer.MAX_VALUE, 0, true, false));
         boss.setHealth(boss.getMaxHealth());

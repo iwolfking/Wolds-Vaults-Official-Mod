@@ -46,6 +46,24 @@ public final class GreedTrialHyper {
         return trial != null && id != null && trial.getBannedModifiers().contains(id.toString());
     }
 
+    /** Mob movement speed ceiling as a multiple of base; the live cap outside a trial. */
+    public static double speedCapFactor(Vault vault, double live) {
+        GreedTrial trial = trial(vault);
+        return trial == null || trial.getSpeedCapFactor() <= 0.0D ? live : trial.getSpeedCapFactor();
+    }
+
+    /** Ticks between ambient negative modifier pulls; the live period outside a trial. */
+    public static int ambientPeriodTicks(Vault vault, int live) {
+        GreedTrial trial = trial(vault);
+        return trial == null || trial.getAmbientPeriodTicks() <= 0 ? live : trial.getAmbientPeriodTicks();
+    }
+
+    /** Whether brutal pillar kills pay their own positive bb_ pool instead of a hyper negative. */
+    public static boolean hasPositiveBrutalRewards(Vault vault) {
+        GreedTrial trial = trial(vault);
+        return trial != null && trial.hasPositiveBrutalRewards();
+    }
+
     /** Flat per-cycle stat increment, always 0 inside a trial. */
     public static double statIncrement(Vault vault, double live) {
         return trial(vault) == null ? live : 0.0D;

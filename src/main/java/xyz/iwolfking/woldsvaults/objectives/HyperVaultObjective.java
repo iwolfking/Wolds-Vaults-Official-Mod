@@ -615,16 +615,17 @@ public class HyperVaultObjective extends Objective {
     }
 
     /** Applies the speed cap to last tick's spawns (see the ENTITY_SPAWN registration). */
-    private void drainSpeedClampQueue() {
+    private void drainSpeedClampQueue(Vault vault) {
         if (this.speedClampQueue.isEmpty()) {
             return;
         }
+        double capFactor = speedCapFactor(vault);
         for (Mob mob : this.speedClampQueue) {
-            if (mob.isAlive() && clampMovementSpeed(mob)) {
+            if (mob.isAlive() && clampMovementSpeed(mob, capFactor)) {
                 this.speedClampCount++;
                 if (this.speedClampCount == 1 || this.speedClampCount % 200 == 0) {
                     WoldsVaults.LOGGER.info("Capped mob movement speed at +{}% ({} capped so far; latest: {}).",
-                            Math.round((cfg().getSpeedCapFactor() - 1.0) * 100.0), this.speedClampCount,
+                            Math.round((capFactor - 1.0) * 100.0), this.speedClampCount,
                             mob.getType().getRegistryName());
                 }
             }
@@ -632,19 +633,23 @@ public class HyperVaultObjective extends Objective {
         this.speedClampQueue.clear();
     }
 
+    /** The movement speed ceiling this vault enforces: the trial row's, else the configured one. */
+    public static double speedCapFactor(Vault vault) {
+        return GreedTrialHyper.speedCapFactor(vault, cfg().getSpeedCapFactor());
+    }
+
     /**
-     * Caps the entity's final movement speed at base × {@code cfg().getSpeedCapFactor()} with a single
+     * Caps the entity's final movement speed at base × {@code capFactor} with a single
      * corrective MULTIPLY_TOTAL modifier, so later potion-style speed effects still work but the
      * permanent modifier stacking cannot push past the cap. Idempotent; true if a cap was added.
      */
-    public static boolean clampMovementSpeed(LivingEntity entity) {
+    public static boolean clampMovementSpeed(LivingEntity entity, double capFactor) {
         AttributeInstance speed = entity.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speed == null || speed.getModifier(SPEED_CLAMP_UUID) != null) {
             return false;
         }
         double base = speed.getBaseValue();
         double value = speed.getValue();
-        double capFactor = cfg().getSpeedCapFactor();
         if (base <= 0.0 || value <= base * capFactor) {
             return false;
         }
@@ -662,7 +667,7 @@ public class HyperVaultObjective extends Objective {
     public void tickServer(VirtualWorld world, Vault vault) {
         this.get(FIGHTS).onTick(world, vault);
         this.get(MINIS).forEach(mini -> mini.tickServer(world, vault));
-        drainSpeedClampQueue();
+        drainSpeedClampQueue(vault);
         tickExtractions(world, vault);
         this.cycleManager.tick();
         this.bossManager.tick();

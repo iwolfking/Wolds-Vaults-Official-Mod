@@ -165,7 +165,8 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
                 int obelisks = minObelisks
                         + random.nextInt(HyperVaultObjective.cfg().getObeliskMax() - minObelisks + 1);
                 addMini(BrutalBossesObjective.of(obelisks, () -> random.nextInt(3) + 1,
-                        HyperVaultObjective.cfg().getBrutalObeliskProbability(), true));
+                        HyperVaultObjective.cfg().getBrutalObeliskProbability(), true,
+                        GreedTrialHyper.hasPositiveBrutalRewards(vault)));
             }
         }
     }
