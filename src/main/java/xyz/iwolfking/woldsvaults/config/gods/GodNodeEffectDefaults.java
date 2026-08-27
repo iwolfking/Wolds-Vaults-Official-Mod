@@ -56,6 +56,18 @@ public final class GodNodeEffectDefaults {
 
     /** Idona's shipped effect table. */
     private static void idona(GodNodeEffectsConfig.EffectMap map) {
+        put(map, "idona_start_sw", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:ability_power_percent", "secondAttribute", "the_vault:damage_increase");
+        put(map, "idona_start_st", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:ability_power_percent", "secondAttribute", "the_vault:damage_increase");
+        put(map, "idona_start_gambler", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:ability_power_percent", "secondAttribute", "the_vault:damage_increase");
+        put(map, "idona_start_hoard", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:ability_power_percent", "secondAttribute", "the_vault:damage_increase");
+        put(map, "idona_start_reaper", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:ability_power_percent", "secondAttribute", "the_vault:damage_increase");
+        put(map, "idona_start_bounty", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:ability_power_percent", "secondAttribute", "the_vault:damage_increase");
         put(map, "idona_hard_hitter", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:damage_increase");
         put(map, "idona_hard_hitter_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:damage_increase");
         put(map, "idona_elite_caster", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:ability_power_percent");
@@ -103,6 +115,18 @@ public final class GodNodeEffectDefaults {
 
     /** Velara's shipped effect table. */
     private static void velara(GodNodeEffectsConfig.EffectMap map) {
+        put(map, "velara_start_bulwark", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:health_percentile", "secondAttribute", "the_vault:armor_percentile");
+        put(map, "velara_start_mercy", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:health_percentile", "secondAttribute", "the_vault:armor_percentile");
+        put(map, "velara_start_fern", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:health_percentile", "secondAttribute", "the_vault:armor_percentile");
+        put(map, "velara_start_briar", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:health_percentile", "secondAttribute", "the_vault:armor_percentile");
+        put(map, "velara_start_bloom", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:health_percentile", "secondAttribute", "the_vault:armor_percentile");
+        put(map, "velara_start_sapling", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:health_percentile", "secondAttribute", "the_vault:armor_percentile");
         put(map, "velara_tough", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:health_percentile");
         put(map, "velara_tough_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:health_percentile");
         put(map, "velara_armored", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:armor_percentile");
@@ -147,6 +171,18 @@ public final class GodNodeEffectDefaults {
 
     /** Wendarr's shipped effect table; the two extraction effects bind deferred types and are inert. */
     private static void wendarr(GodNodeEffectsConfig.EffectMap map) {
+        put(map, "wendarr_start_top", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+        put(map, "wendarr_start_bot", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+        put(map, "wendarr_start_swift", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+        put(map, "wendarr_start_deck", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+        put(map, "wendarr_start_spanner", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+        put(map, "wendarr_start_bough", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
         put(map, "wendarr_fruit_conissour", GEAR_ATTRIBUTE_SCALED, new float[]{0.01F},
                 "attribute", "the_vault:fruit_effectiveness");
         put(map, "wendarr_speedy", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F}, "attribute", "the_vault:movement_speed");
@@ -186,6 +222,18 @@ public final class GodNodeEffectDefaults {
 
     /** Tenos's shipped effect table. */
     private static void tenos(GodNodeEffectsConfig.EffectMap map) {
+        put(map, "tenos_start_hoard", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:item_rarity", "secondAttribute", "the_vault:item_quantity");
+        put(map, "tenos_start_chest", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:item_rarity", "secondAttribute", "the_vault:item_quantity");
+        put(map, "tenos_start_chalice", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:item_rarity", "secondAttribute", "the_vault:item_quantity");
+        put(map, "tenos_start_scales", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:item_rarity", "secondAttribute", "the_vault:item_quantity");
+        put(map, "tenos_start_compass", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:item_rarity", "secondAttribute", "the_vault:item_quantity");
+        put(map, "tenos_start_lantern", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
+                "attribute", "the_vault:item_rarity", "secondAttribute", "the_vault:item_quantity");
         put(map, "tenos_hoarder", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:item_quantity");
         put(map, "tenos_hoarder_ii", GEAR_ATTRIBUTE_SCALED, new float[]{0.5F}, "attribute", "the_vault:item_quantity");
         put(map, "tenos_treasurer", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F}, "attribute", "the_vault:item_rarity");

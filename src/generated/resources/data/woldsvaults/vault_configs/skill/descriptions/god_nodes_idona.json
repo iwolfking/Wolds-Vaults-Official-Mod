@@ -25,7 +25,7 @@
         "color": "#ff7a3d"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "idona_stack_stack_stack": [
@@ -99,6 +99,13 @@
         "color": "#ff7a3d"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Ability Power and +10% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
         "text": "."
       }
     ],
@@ -160,6 +167,13 @@
         "color": "#ff7a3d"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Ability Power and +10% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
         "text": "."
       }
     ],
@@ -169,7 +183,7 @@
         "color": "#ff7a3d"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "idona_start_gambler": [
@@ -178,6 +192,13 @@
       },
       {
         "text": "lucky hits",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Ability Power and +10% Attack Damage",
         "color": "#ff7a3d"
       },
       {
@@ -190,7 +211,7 @@
         "color": "#ff7a3d"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "idona_kinetic_impact": [
@@ -223,7 +244,7 @@
         "color": "#ff7a3d"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "idona_pincushion": [
@@ -244,7 +265,7 @@
         "color": "#ff7a3d"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "idona_start_sw": [
@@ -253,6 +274,13 @@
       },
       {
         "text": "attack damage, up close",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Ability Power and +10% Attack Damage",
         "color": "#ff7a3d"
       },
       {
@@ -280,6 +308,13 @@
         "color": "#ff7a3d"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Ability Power and +10% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
         "text": "."
       }
     ],
@@ -289,7 +324,7 @@
         "color": "#ff7a3d"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "idona_banked_anger": [
@@ -310,7 +345,7 @@
         "color": "#ff7a3d"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "idona_enforcer": [
@@ -328,7 +363,7 @@
         "color": "#ff7a3d"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "idona_thwack": [
@@ -424,6 +459,13 @@
       },
       {
         "text": "soul shards",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Ability Power and +10% Attack Damage",
         "color": "#ff7a3d"
       },
       {

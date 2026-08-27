@@ -18,6 +18,13 @@
         "color": "#ffc854"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "color": "#ffc854"
+      },
+      {
         "text": "."
       }
     ],
@@ -74,7 +81,7 @@
         "color": "#ffc854"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "wendarr_extraction_superviser": [
@@ -83,7 +90,7 @@
         "color": "#ffc854"
       },
       {
-        "text": " per star, for extractors you placed.\n\n"
+        "text": " for extractors you placed.\n\n"
       },
       {
         "text": "Coming soon.",
@@ -133,6 +140,13 @@
         "color": "#ffc854"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "color": "#ffc854"
+      },
+      {
         "text": "."
       }
     ],
@@ -145,6 +159,13 @@
         "color": "#ffc854"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "color": "#ffc854"
+      },
+      {
         "text": "."
       }
     ],
@@ -154,7 +175,7 @@
         "color": "#ffc854"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "wendarr_start_swift": [
@@ -163,6 +184,13 @@
       },
       {
         "text": "burning the clock for loot",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+2% Movement Speed and +2% Cooldown Reduction",
         "color": "#ffc854"
       },
       {
@@ -175,7 +203,7 @@
         "color": "#ffc854"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "wendarr_armored_extractors": [
@@ -209,7 +237,7 @@
         "color": "#ffc854"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "wendarr_legend_of_the_pear": [
@@ -252,6 +280,13 @@
         "color": "#ffc854"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "color": "#ffc854"
+      },
+      {
         "text": "."
       }
     ],
@@ -270,7 +305,7 @@
         "color": "#ffc854"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "wendarr_gardener": [
@@ -338,6 +373,13 @@
         "color": "#ffc854"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "color": "#ffc854"
+      },
+      {
         "text": "."
       }
     ],
@@ -359,7 +401,7 @@
         "color": "#ffc854"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "wendarr_extender": [

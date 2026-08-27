@@ -6,7 +6,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_start_briar": [
@@ -15,6 +15,13 @@
       },
       {
         "text": "refusing to go down",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Health and +10% Armor",
         "color": "#6ef08c"
       },
       {
@@ -27,7 +34,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_field_medic": [
@@ -45,7 +52,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger, per star."
+        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger."
       }
     ],
     "velara_start_fern": [
@@ -54,6 +61,13 @@
       },
       {
         "text": "auras cast over the party",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Health and +10% Armor",
         "color": "#6ef08c"
       },
       {
@@ -66,7 +80,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_healing_flow": [
@@ -138,7 +152,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_immune_ii": [
@@ -147,7 +161,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger, per star."
+        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger."
       }
     ],
     "velara_guarded": [
@@ -156,7 +170,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_indomitable": [
@@ -183,7 +197,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_counterstrike": [
@@ -201,6 +215,13 @@
       },
       {
         "text": "healing, allies and staying up",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Health and +10% Armor",
         "color": "#6ef08c"
       },
       {
@@ -236,7 +257,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_cactus": [
@@ -289,7 +310,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_sacrifice": [
@@ -317,6 +338,13 @@
         "color": "#6ef08c"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Health and +10% Armor",
+        "color": "#6ef08c"
+      },
+      {
         "text": "."
       }
     ],
@@ -326,7 +354,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_utilized": [
@@ -344,7 +372,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_perserverence": [
@@ -394,7 +422,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_adaptive_armor": [
@@ -412,7 +440,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_start_sapling": [
@@ -421,6 +449,13 @@
       },
       {
         "text": "utility that grows on you",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Health and +10% Armor",
         "color": "#6ef08c"
       },
       {
@@ -433,7 +468,7 @@
         "color": "#6ef08c"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "velara_defender_of_the_faith": [
@@ -451,6 +486,13 @@
       },
       {
         "text": "the answer to a blocked hit",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Health and +10% Armor",
         "color": "#6ef08c"
       },
       {

@@ -34,8 +34,7 @@ public final class GodTreeStatProvider implements GodTreeAttributeProviders.Prov
             if (effect.god() != this.god) {
                 continue;
             }
-            if (scope == GodNodeAttributeSource.Scope.BASIC
-                    && GodNodeRegistry.effectType(effect.id()) != GodNodeType.STAT) {
+            if (scope == GodNodeAttributeSource.Scope.BASIC && !carriesToForeignTrees(effect.id())) {
                 continue;
             }
             this.contribute(player, effect, sink);
@@ -73,6 +72,12 @@ public final class GodTreeStatProvider implements GodTreeAttributeProviders.Prov
         }
         handler.contribute(new GodNodeContext(player, this.god, effect.id(), points, effect.values(), 1.0F,
                 GodPiety.total(player, this.god)), sink);
+    }
+
+    /** Plain stat nodes carry onto a foreign tree, and so do the constellation starts. */
+    private static boolean carriesToForeignTrees(String effectId) {
+        GodNodeType type = GodNodeRegistry.effectType(effectId);
+        return type == GodNodeType.STAT || type == GodNodeType.ROOT;
     }
 
     private int investedPoints(ServerPlayer player, String effectId) {

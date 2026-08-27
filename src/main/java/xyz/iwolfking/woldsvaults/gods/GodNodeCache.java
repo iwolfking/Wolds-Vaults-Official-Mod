@@ -93,7 +93,7 @@ public final class GodNodeCache {
         if (type == GodNodeType.MINOR && data.getMinorTransfers(player.getUUID(), god).contains(effectId)) {
             return new Gated(points, 1.0F);
         }
-        if (type == GodNodeType.STAT && scale > 0.0F) {
+        if ((type == GodNodeType.STAT || type == GodNodeType.ROOT) && scale > 0.0F) {
             return new Gated(points, scale);
         }
         return Gated.NONE;

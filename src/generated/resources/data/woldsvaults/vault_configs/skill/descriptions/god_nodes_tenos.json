@@ -6,7 +6,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_wide_influence": [
@@ -15,7 +15,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_start_hoard": [
@@ -24,6 +24,13 @@
       },
       {
         "text": "raw wealth, sacks and digging",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
         "color": "#5ad8ff"
       },
       {
@@ -36,7 +43,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_hoarder": [
@@ -45,7 +52,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_cash_hunter": [
@@ -63,7 +70,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_barter_expert": [
@@ -103,6 +110,13 @@
         "color": "#5ad8ff"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
         "text": "."
       }
     ],
@@ -112,7 +126,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_indiana_jones": [
@@ -176,7 +190,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_advanced_extraction": [
@@ -185,7 +199,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_sacked": [
@@ -219,7 +233,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_treasurer_ii": [
@@ -228,7 +242,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_careful_ii": [
@@ -237,7 +251,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_looting_engine": [
@@ -258,7 +272,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_expert_looter": [
@@ -282,6 +296,13 @@
         "color": "#5ad8ff"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
         "text": "."
       }
     ],
@@ -300,7 +321,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_global_veins": [
@@ -318,6 +339,13 @@
       },
       {
         "text": "what the vault opens up, and what comes out of it",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
         "color": "#5ad8ff"
       },
       {
@@ -339,7 +367,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_pious_devotion": [
@@ -348,7 +376,7 @@
         "color": "#5ad8ff"
       },
       {
-        "text": " per star."
+        "text": "."
       }
     ],
     "tenos_wealthy_patron": [
@@ -397,6 +425,13 @@
         "color": "#5ad8ff"
       },
       {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
         "text": "."
       }
     ],
@@ -418,6 +453,13 @@
       },
       {
         "text": "reach across the vault",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
         "color": "#5ad8ff"
       },
       {

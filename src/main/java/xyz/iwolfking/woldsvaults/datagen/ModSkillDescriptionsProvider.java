@@ -1441,14 +1441,14 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
     /** Descriptions for every Idona god tree node, keyed by effect id; start stars by their node id. */
     private void addIdonaGodNodeDescriptions(Builder builder) {
         String ember = "#ff7a3d";
-        godNode(builder, "idona_hard_hitter", "+25% Attack Damage", ember, " per star.");
-        godNode(builder, "idona_hard_hitter_ii", "+50% Attack Damage", ember, " per star.");
-        godNode(builder, "idona_elite_caster", "+25% Ability Power", ember, " per star.");
-        godNode(builder, "idona_elite_caster_ii", "+50% Ability Power", ember, " per star.");
-        godNode(builder, "idona_pious_devotion", "+10 Piety", ember, " per star.");
-        godNode(builder, "idona_full_of_soul", "+50% Soul Shard Chance", ember, " per star.");
-        godNode(builder, "idona_fortunate", "+2.5% Lucky Hit Chance", ember, " per star.");
-        godNode(builder, "idona_fortunate_ii", "+4% Lucky Hit Chance", ember, " per star.");
+        godNode(builder, "idona_hard_hitter", "+25% Attack Damage", ember, ".");
+        godNode(builder, "idona_hard_hitter_ii", "+50% Attack Damage", ember, ".");
+        godNode(builder, "idona_elite_caster", "+25% Ability Power", ember, ".");
+        godNode(builder, "idona_elite_caster_ii", "+50% Ability Power", ember, ".");
+        godNode(builder, "idona_pious_devotion", "+10 Piety", ember, ".");
+        godNode(builder, "idona_full_of_soul", "+50% Soul Shard Chance", ember, ".");
+        godNode(builder, "idona_fortunate", "+2.5% Lucky Hit Chance", ember, ".");
+        godNode(builder, "idona_fortunate_ii", "+4% Lucky Hit Chance", ember, ".");
         godNode(builder, "idona_stack_stack_stack", "+1 max stack", ember, " on stacking talents.");
         godNode(builder, "idona_king_hunter", "+75% Damage", ember, " to Champions and Tanks.");
         godNode(builder, "idona_enforcer", "+75% Damage", ember, " to Hordes and Assassins.");
@@ -1557,25 +1557,25 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             description.add(JsonDescription.text("take up to twice as much damage", "#C23627"));
             description.add(JsonDescription.text("."));
         });
-        godRoot(builder, "idona_start_sw", "Idona's sword", "attack damage, up close", ember);
-        godRoot(builder, "idona_start_st", "Idona's staff", "ability power and range", ember);
-        godRoot(builder, "idona_start_gambler", "the Gambler", "lucky hits", ember);
-        godRoot(builder, "idona_start_hoard", "the Hoard", "stacking talents", ember);
-        godRoot(builder, "idona_start_reaper", "the Reaper", "soul shards", ember);
-        godRoot(builder, "idona_start_bounty", "the Bounty", "damage to champions, tanks, hordes and assassins", ember);
+        godRoot(builder, "idona_start_sw", "Idona's sword", "attack damage, up close", ember, "+10% Ability Power and +10% Attack Damage");
+        godRoot(builder, "idona_start_st", "Idona's staff", "ability power and range", ember, "+10% Ability Power and +10% Attack Damage");
+        godRoot(builder, "idona_start_gambler", "the Gambler", "lucky hits", ember, "+10% Ability Power and +10% Attack Damage");
+        godRoot(builder, "idona_start_hoard", "the Hoard", "stacking talents", ember, "+10% Ability Power and +10% Attack Damage");
+        godRoot(builder, "idona_start_reaper", "the Reaper", "soul shards", ember, "+10% Ability Power and +10% Attack Damage");
+        godRoot(builder, "idona_start_bounty", "the Bounty", "damage to champions, tanks, hordes and assassins", ember, "+10% Ability Power and +10% Attack Damage");
     }
 
     private void addWendarrGodNodeDescriptions(Builder builder) {
         String gold = "#ffc854";
-        godNode(builder, "wendarr_fruit_conissour", "+1% Fruit Efficiency", gold, " per star.");
-        godNode(builder, "wendarr_speedy", "+5% Movement Speed", gold, " per star.");
-        godNode(builder, "wendarr_heavily_effected", "+10% Effect Duration", gold, " per star.");
-        godNode(builder, "wendarr_master_imbuer", "+5% Imbuement Chance", gold, " per star.");
-        godNode(builder, "wendarr_speedy_caster", "+5% Cooldown Reduction", gold, " per star.");
-        godNode(builder, "wendarr_pious_devotion", "+10 Piety", gold, " per star.");
+        godNode(builder, "wendarr_fruit_conissour", "+1% Fruit Efficiency", gold, ".");
+        godNode(builder, "wendarr_speedy", "+5% Movement Speed", gold, ".");
+        godNode(builder, "wendarr_heavily_effected", "+10% Effect Duration", gold, ".");
+        godNode(builder, "wendarr_master_imbuer", "+5% Imbuement Chance", gold, ".");
+        godNode(builder, "wendarr_speedy_caster", "+5% Cooldown Reduction", gold, ".");
+        godNode(builder, "wendarr_pious_devotion", "+10 Piety", gold, ".");
         builder.addDescription("wendarr_extraction_superviser", description -> {
             description.add(JsonDescription.text("+5% Extractor Speed", gold));
-            description.add(JsonDescription.text(" per star, for extractors you placed.\n\n"));
+            description.add(JsonDescription.text(" for extractors you placed.\n\n"));
             description.add(JsonDescription.text("Coming soon.", "gray"));
         });
         godNode(builder, "wendarr_expert_eater", "10% chance", gold, " to not consume a vault fruit when you eat it.");
@@ -1660,31 +1660,31 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             description.add(JsonDescription.text("1-3 seconds", gold));
             description.add(JsonDescription.text(" of vault time."));
         });
-        godRoot(builder, "wendarr_start_top", "the top of Wendarr's glass", "making time - fruit and what it is worth", gold);
-        godRoot(builder, "wendarr_start_bot", "the bottom of Wendarr's glass", "spending time - speed and the clock", gold);
-        godRoot(builder, "wendarr_start_swift", "the Swift", "burning the clock for loot", gold);
-        godRoot(builder, "wendarr_start_deck", "the Deck", "what you bring in with you", gold);
-        godRoot(builder, "wendarr_start_spanner", "the Spanner", "the vault's machinery", gold);
-        godRoot(builder, "wendarr_start_bough", "the Bough", "where fruit comes from", gold);
+        godRoot(builder, "wendarr_start_top", "the top of Wendarr's glass", "making time - fruit and what it is worth", gold, "+2% Movement Speed and +2% Cooldown Reduction");
+        godRoot(builder, "wendarr_start_bot", "the bottom of Wendarr's glass", "spending time - speed and the clock", gold, "+2% Movement Speed and +2% Cooldown Reduction");
+        godRoot(builder, "wendarr_start_swift", "the Swift", "burning the clock for loot", gold, "+2% Movement Speed and +2% Cooldown Reduction");
+        godRoot(builder, "wendarr_start_deck", "the Deck", "what you bring in with you", gold, "+2% Movement Speed and +2% Cooldown Reduction");
+        godRoot(builder, "wendarr_start_spanner", "the Spanner", "the vault's machinery", gold, "+2% Movement Speed and +2% Cooldown Reduction");
+        godRoot(builder, "wendarr_start_bough", "the Bough", "where fruit comes from", gold, "+2% Movement Speed and +2% Cooldown Reduction");
     }
 
     private void addVelaraGodNodeDescriptions(Builder builder) {
         String leaf = "#6ef08c";
-        godNode(builder, "velara_tough", "+25% Health", leaf, " per star.");
-        godNode(builder, "velara_tough_ii", "+50% Health", leaf, " per star.");
-        godNode(builder, "velara_armored", "+25% Armor", leaf, " per star.");
-        godNode(builder, "velara_armored_ii", "+50% Armor", leaf, " per star.");
-        godNode(builder, "velara_immune", "+5% chance to avoid", leaf, " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger, per star.");
-        godNode(builder, "velara_immune_ii", "+10% chance to avoid", leaf, " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger, per star.");
-        godNode(builder, "velara_healthy", "+20% Healing Efficiency", leaf, " per star.");
-        godNode(builder, "velara_healthy_ii", "+40% Healing Efficiency", leaf, " per star.");
-        godNode(builder, "velara_fast_reflexes", "+2% Dodge", leaf, " per star.");
-        godNode(builder, "velara_fast_reflexes_ii", "+5% Dodge", leaf, " per star.");
-        godNode(builder, "velara_guarded", "+2% Block", leaf, " per star.");
-        godNode(builder, "velara_guarded_ii", "+5% Block", leaf, " per star.");
-        godNode(builder, "velara_thorny", "+25 Thorns Damage", leaf, " per star.");
-        godNode(builder, "velara_thorny_ii", "+50 Thorns Damage", leaf, " per star.");
-        godNode(builder, "velara_pious_devotion", "+10 Piety", leaf, " per star.");
+        godNode(builder, "velara_tough", "+25% Health", leaf, ".");
+        godNode(builder, "velara_tough_ii", "+50% Health", leaf, ".");
+        godNode(builder, "velara_armored", "+25% Armor", leaf, ".");
+        godNode(builder, "velara_armored_ii", "+50% Armor", leaf, ".");
+        godNode(builder, "velara_immune", "+5% chance to avoid", leaf, " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger.");
+        godNode(builder, "velara_immune_ii", "+10% chance to avoid", leaf, " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger.");
+        godNode(builder, "velara_healthy", "+20% Healing Efficiency", leaf, ".");
+        godNode(builder, "velara_healthy_ii", "+40% Healing Efficiency", leaf, ".");
+        godNode(builder, "velara_fast_reflexes", "+2% Dodge", leaf, ".");
+        godNode(builder, "velara_fast_reflexes_ii", "+5% Dodge", leaf, ".");
+        godNode(builder, "velara_guarded", "+2% Block", leaf, ".");
+        godNode(builder, "velara_guarded_ii", "+5% Block", leaf, ".");
+        godNode(builder, "velara_thorny", "+25 Thorns Damage", leaf, ".");
+        godNode(builder, "velara_thorny_ii", "+50 Thorns Damage", leaf, ".");
+        godNode(builder, "velara_pious_devotion", "+10 Piety", leaf, ".");
         godNode(builder, "velara_counterstrike", "50% chance", leaf, " to land a free attack on an enemy whose melee strike you blocked or dodged.");
         builder.addDescription("velara_magic_armor", description -> {
             description.add(JsonDescription.text("Your armor's damage reduction now applies to magic damage at "));
@@ -1760,31 +1760,31 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             description.add(JsonDescription.text("33% resistance", leaf));
             description.add(JsonDescription.text(" against what you syphon. Several shepherds split the flock evenly instead of overlapping."));
         });
-        godRoot(builder, "velara_start_bulwark", "the Bulwark", "armour, thorns and taking the hit", leaf);
-        godRoot(builder, "velara_start_mercy", "the Mercy", "healing, allies and staying up", leaf);
-        godRoot(builder, "velara_start_fern", "the Fern", "auras cast over the party", leaf);
-        godRoot(builder, "velara_start_briar", "the Briar", "refusing to go down", leaf);
-        godRoot(builder, "velara_start_bloom", "the Bloom", "the answer to a blocked hit", leaf);
-        godRoot(builder, "velara_start_sapling", "the Sapling", "utility that grows on you", leaf);
+        godRoot(builder, "velara_start_bulwark", "the Bulwark", "armour, thorns and taking the hit", leaf, "+10% Health and +10% Armor");
+        godRoot(builder, "velara_start_mercy", "the Mercy", "healing, allies and staying up", leaf, "+10% Health and +10% Armor");
+        godRoot(builder, "velara_start_fern", "the Fern", "auras cast over the party", leaf, "+10% Health and +10% Armor");
+        godRoot(builder, "velara_start_briar", "the Briar", "refusing to go down", leaf, "+10% Health and +10% Armor");
+        godRoot(builder, "velara_start_bloom", "the Bloom", "the answer to a blocked hit", leaf, "+10% Health and +10% Armor");
+        godRoot(builder, "velara_start_sapling", "the Sapling", "utility that grows on you", leaf, "+10% Health and +10% Armor");
     }
 
     private void addTenosGodNodeDescriptions(Builder builder) {
         String sky = "#5ad8ff";
-        godNode(builder, "tenos_hoarder", "+25% Item Quantity", sky, " per star.");
-        godNode(builder, "tenos_hoarder_ii", "+50% Item Quantity", sky, " per star.");
-        godNode(builder, "tenos_treasurer", "+25% Item Rarity", sky, " per star.");
-        godNode(builder, "tenos_treasurer_ii", "+50% Item Rarity", sky, " per star.");
-        godNode(builder, "tenos_magical", "+40% Mana Regeneration", sky, " per star.");
-        godNode(builder, "tenos_magical_ii", "+80% Mana Regeneration", sky, " per star.");
-        godNode(builder, "tenos_reserves", "+10% Maximum Mana", sky, " per star.");
-        godNode(builder, "tenos_reserves_ii", "+20% Maximum Mana", sky, " per star.");
-        godNode(builder, "tenos_careful", "+15% Trap Disarming", sky, " per star.");
-        godNode(builder, "tenos_careful_ii", "+30% Trap Disarming", sky, " per star.");
-        godNode(builder, "tenos_wide_influence", "+10% Area of Effect", sky, " per star.");
-        godNode(builder, "tenos_wide_influence_ii", "+20% Area of Effect", sky, " per star.");
-        godNode(builder, "tenos_advanced_extraction", "+20% Copiously", sky, " per star.");
-        godNode(builder, "tenos_advanced_extraction_ii", "+40% Copiously", sky, " per star.");
-        godNode(builder, "tenos_pious_devotion", "+10 Piety", sky, " per star.");
+        godNode(builder, "tenos_hoarder", "+25% Item Quantity", sky, ".");
+        godNode(builder, "tenos_hoarder_ii", "+50% Item Quantity", sky, ".");
+        godNode(builder, "tenos_treasurer", "+25% Item Rarity", sky, ".");
+        godNode(builder, "tenos_treasurer_ii", "+50% Item Rarity", sky, ".");
+        godNode(builder, "tenos_magical", "+40% Mana Regeneration", sky, ".");
+        godNode(builder, "tenos_magical_ii", "+80% Mana Regeneration", sky, ".");
+        godNode(builder, "tenos_reserves", "+10% Maximum Mana", sky, ".");
+        godNode(builder, "tenos_reserves_ii", "+20% Maximum Mana", sky, ".");
+        godNode(builder, "tenos_careful", "+15% Trap Disarming", sky, ".");
+        godNode(builder, "tenos_careful_ii", "+30% Trap Disarming", sky, ".");
+        godNode(builder, "tenos_wide_influence", "+10% Area of Effect", sky, ".");
+        godNode(builder, "tenos_wide_influence_ii", "+20% Area of Effect", sky, ".");
+        godNode(builder, "tenos_advanced_extraction", "+20% Copiously", sky, ".");
+        godNode(builder, "tenos_advanced_extraction_ii", "+40% Copiously", sky, ".");
+        godNode(builder, "tenos_pious_devotion", "+10 Piety", sky, ".");
         godNode(builder, "tenos_omega_vault", "Doubles the weight", sky, " of omega rooms when the vault is built.");
         builder.addDescription("tenos_mana_starved", description -> {
             description.add(JsonDescription.text("Up to "));
@@ -1843,12 +1843,12 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             description.add(JsonDescription.text("halved", sky));
             description.add(JsonDescription.text("."));
         });
-        godRoot(builder, "tenos_start_hoard", "the Hoard", "raw wealth, sacks and digging", sky);
-        godRoot(builder, "tenos_start_chest", "the Chest", "what the vault opens up, and what comes out of it", sky);
-        godRoot(builder, "tenos_start_chalice", "the Chalice", "mana", sky);
-        godRoot(builder, "tenos_start_scales", "the Scales", "trading one stat for another", sky);
-        godRoot(builder, "tenos_start_compass", "the Compass", "reach across the vault", sky);
-        godRoot(builder, "tenos_start_lantern", "the Lantern", "going in without the tools", sky);
+        godRoot(builder, "tenos_start_hoard", "the Hoard", "raw wealth, sacks and digging", sky, "+10% Item Rarity and +10% Item Quantity");
+        godRoot(builder, "tenos_start_chest", "the Chest", "what the vault opens up, and what comes out of it", sky, "+10% Item Rarity and +10% Item Quantity");
+        godRoot(builder, "tenos_start_chalice", "the Chalice", "mana", sky, "+10% Item Rarity and +10% Item Quantity");
+        godRoot(builder, "tenos_start_scales", "the Scales", "trading one stat for another", sky, "+10% Item Rarity and +10% Item Quantity");
+        godRoot(builder, "tenos_start_compass", "the Compass", "reach across the vault", sky, "+10% Item Rarity and +10% Item Quantity");
+        godRoot(builder, "tenos_start_lantern", "the Lantern", "going in without the tools", sky, "+10% Item Rarity and +10% Item Quantity");
     }
 
     private static void godNode(Builder builder, String id, String value, String color, String tail) {
@@ -1858,10 +1858,12 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         });
     }
 
-    private static void godRoot(Builder builder, String id, String home, String theme, String color) {
+    private static void godRoot(Builder builder, String id, String home, String theme, String color, String stats) {
         builder.addDescription(id, description -> {
             description.add(JsonDescription.text("The first star of " + home + " - "));
             description.add(JsonDescription.text(theme, color));
+            description.add(JsonDescription.text(". Grants "));
+            description.add(JsonDescription.text(stats, color));
             description.add(JsonDescription.text("."));
         });
     }

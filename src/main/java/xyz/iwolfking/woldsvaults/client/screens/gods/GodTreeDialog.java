@@ -173,7 +173,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
                 description.append(new TextComponent("\n\nOnly functions while a "
                         + this.god.getName() + " charm is equipped.")
                         .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFF7A6A))));
-            } else if (type == GodNodeType.STAT && unlocked) {
+            } else if ((type == GodNodeType.STAT || type == GodNodeType.ROOT) && unlocked) {
                 description.append(new TextComponent("\n\nCarrying over at 25% while "
                         + this.god.getName() + " is not your active god.")
                         .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));

@@ -89,7 +89,9 @@ def build(god, methods):
             match = ROOT.match(line)
             if match:
                 nid, display, x, y = match.groups()
-                add(nid, display, "root", None, None, int(x), int(y), True)
+                # GodTreeBuilder.root names a root's effect after the node itself, so its ledger
+                # key stays its id while the node still pays out the constellation's start stats.
+                add(nid, display, "root", nid, None, int(x), int(y), True)
                 continue
             match = TYPED.match(line)
             if match:

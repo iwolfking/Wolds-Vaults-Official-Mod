@@ -30,8 +30,9 @@ public final class GodTreeBuilder {
         this.god = god;
     }
 
+    /** A constellation's entry point; its effect is named after the node, so its ledger key is its id. */
     public GodTreeBuilder root(String id, String name, int x, int y) {
-        return this.add(id, name, "root", null, null, x, y, true);
+        return this.add(id, name, "root", id, null, x, y, true);
     }
 
     public GodTreeBuilder stat(String id, String name, String effect, String icon, int x, int y) {
