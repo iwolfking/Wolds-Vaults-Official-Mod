@@ -129,6 +129,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     private static final int WIPE_GRACE_TICKS = 60;
 
     private final HyperEscalationManager escalation;
+    /** The wave bosses believed alive, pruned every tick; rebuilt from the world after a reload. */
+    private final List<UUID> waveBosses = new ArrayList<>();
+    private boolean waveRosterRebuilt;
     private int addTimer = HyperVaultObjective.cfg().getFightAddPeriodTicks();
     private int wipeGraceTicks = WIPE_GRACE_TICKS;
     private int missileCooldownTicks = HyperVaultObjective.cfg().getMagicMissileCooldownTicks();
@@ -535,7 +538,39 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         mob.discard();
     }
 
+    /**
+     * Wave bosses still alive. The roster is in-memory, so the first call of a freshly built manager
+     * rebuilds it from the arena - a vault reloaded mid-fight would otherwise spawn straight past the
+     * cap.
+     */
+    private int livingWaveBosses() {
+        if (!this.waveRosterRebuilt) {
+            this.waveRosterRebuilt = true;
+            this.waveBosses.clear();
+            for (Entity entity : world.getAllEntities()) {
+                if (entity instanceof LivingEntity living && living.isAlive()
+                        && entity.getTags().contains(HyperVaultObjective.BRUTAL_WAVE_TAG)) {
+                    this.waveBosses.add(entity.getUUID());
+                }
+            }
+            if (!this.waveBosses.isEmpty()) {
+                WoldsVaults.LOGGER.info("Recovered {} live brutal wave bosses after a reload; the wave cap counts them.",
+                        this.waveBosses.size());
+            }
+        }
+        this.waveBosses.removeIf(id -> !(world.getEntity(id) instanceof LivingEntity living) || !living.isAlive());
+        return this.waveBosses.size();
+    }
+
+    private boolean waveCapReached() {
+        return livingWaveBosses() >= HyperVaultObjective.cfg().getWaveAliveCap();
+    }
+
+    /** Holds at the wave cap without spending a tick, so the next wave is a full period away. */
     private void tickWaveTimer() {
+        if (waveCapReached()) {
+            return;
+        }
         int remaining = objective.getOr(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.cfg().getWavePeriodTicks()) - 1;
         if (remaining <= 0) {
             spawnBrutalWave("timed");
@@ -576,6 +611,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         int mask = objective.getOr(HyperVaultObjective.GATE_MASK, 0);
         for (int i = 0; i < gates.length && i < 31; i++) {
             if (fraction <= gates[i] && (mask & (1 << i)) == 0) {
+                if (waveCapReached()) {
+                    break;
+                }
                 mask |= 1 << i;
                 spawnBrutalWave((int) (gates[i] * 100) + "% gate");
             }
@@ -583,7 +621,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         objective.set(HyperVaultObjective.GATE_MASK, mask);
     }
 
-    /** Spawns brutal bosses around the pillar; they belong to no wave, so their deaths add no modifiers. */
+    /**
+     * Spawns brutal bosses around the pillar; they belong to no wave, so their deaths add no modifiers.
+     * The wave is trimmed so the arena never holds more than the configured cap at once.
+     */
     private void spawnBrutalWave(String reason) {
         BlockPos center = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
         if (center == null) {
@@ -591,8 +632,17 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return;
         }
         RandomSource random = JavaRandom.ofNanoTime();
-        int count = HyperVaultObjective.cfg().getWaveMobMin()
+        int rolled = HyperVaultObjective.cfg().getWaveMobMin()
                 + random.nextInt(HyperVaultObjective.cfg().getWaveMobMax() - HyperVaultObjective.cfg().getWaveMobMin() + 1);
+        int room = HyperVaultObjective.cfg().getWaveAliveCap() - livingWaveBosses();
+        int count = Math.min(rolled, room);
+        if (count <= 0) {
+            return;
+        }
+        if (count < rolled) {
+            WoldsVaults.LOGGER.info("Hyper brutal wave ({}) trimmed from {} to {}: the arena is near the {}-boss cap.",
+                    reason, rolled, count, HyperVaultObjective.cfg().getWaveAliveCap());
+        }
         int spawned = 0;
         for (int i = 0; i < count; i++) {
             if (spawnAround(center, random)) {
@@ -767,6 +817,8 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             LivingEntity spawned = BrutalBossesObjective.spawnMob(world, vault, center.getX() + x, center.getY() + y, center.getZ() + z, random);
             if (spawned != null) {
                 spawned.addTag(HyperVaultObjective.FIGHT_SPAWN_TAG);
+                spawned.addTag(HyperVaultObjective.BRUTAL_WAVE_TAG);
+                this.waveBosses.add(spawned.getUUID());
                 return true;
             }
         }

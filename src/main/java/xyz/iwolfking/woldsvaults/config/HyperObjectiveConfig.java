@@ -38,6 +38,7 @@ public class HyperObjectiveConfig extends Config {
     @Expose private int wavePeriodTicks;
     @Expose private int waveMobMin;
     @Expose private int waveMobMax;
+    @Expose private int waveAliveCap;
     @Expose private float[] healthGates;
     @Expose private int fightAddPeriodTicks;
     @Expose private int magicMissileCooldownTicks;
@@ -115,6 +116,7 @@ public class HyperObjectiveConfig extends Config {
         this.documentation.put("ambientPeriodTicks", "Ticks between ambient negative modifier pulls (one per runner per period)");
         this.documentation.put("wavePeriodTicks", "Ticks between timed brutal waves during the boss fight");
         this.documentation.put("waveMobMin/waveMobMax", "Brutal bosses per wave");
+        this.documentation.put("waveAliveCap", "Most wave brutal bosses alive at once; at the cap the wave timer and the health gates both hold");
         this.documentation.put("healthGates", "Boss health fractions that each trigger one extra brutal wave (order = persisted gate bits; do not reorder mid-vault)");
         this.documentation.put("fightAddPeriodTicks", "Ticks between lone tank/assassin arena adds during the fight");
         this.documentation.put("magicMissileCooldownTicks/magicMissileChargeTicks", "Ticks between Magic Missile volleys, and the telegraphed charge-up before each volley fires");
@@ -157,7 +159,8 @@ public class HyperObjectiveConfig extends Config {
 
         this.wavePeriodTicks = 20 * 20;
         this.waveMobMin = 2;
-        this.waveMobMax = 4;
+        this.waveMobMax = 2;
+        this.waveAliveCap = 6;
         this.healthGates = new float[]{0.8F, 0.6F, 0.4F, 0.2F};
         this.fightAddPeriodTicks = 20 * 6;
         this.magicMissileCooldownTicks = 20 * 15;
@@ -298,6 +301,11 @@ public class HyperObjectiveConfig extends Config {
 
     public int getWaveMobMax() {
         return Math.max(this.waveMobMin, this.waveMobMax);
+    }
+
+    /** Guarded so a config written before this key existed reads as the shipped cap, not as zero. */
+    public int getWaveAliveCap() {
+        return this.waveAliveCap <= 0 ? 6 : this.waveAliveCap;
     }
 
     public float[] getHealthGates() {

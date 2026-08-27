@@ -90,12 +90,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.HyperStatModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossGlow;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossManager;
 import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialHyper;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCycleManager;
@@ -146,6 +148,12 @@ public class HyperVaultObjective extends Objective {
      * can find and discard the leftover escort.
      */
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
+    /**
+     * Entity tag carried only by the brutal bosses of a fight-phase wave, on top of
+     * {@link #FIGHT_SPAWN_TAG}. The arena adds share that tag but must not count against the wave
+     * cap, and the brutal mini's own obelisk bosses carry neither.
+     */
+    public static final String BRUTAL_WAVE_TAG = "hyper_brutal_wave";
     private static final UUID SPEED_CLAMP_UUID =
             UUID.nameUUIDFromBytes("woldsvaults:hyper_speed_clamp".getBytes(StandardCharsets.UTF_8));
     /**
@@ -468,6 +476,7 @@ public class HyperVaultObjective extends Objective {
             if (event.getEntity().level == world && event.getEntity() instanceof VaultBossEntity boss
                     && this.getOr(PHASE, Phase.ROLLING) == Phase.FIGHT) {
                 this.set(BOSS_ID, boss.getUUID());
+                HyperBossGlow.mark(boss);
             }
         }));
 
@@ -709,6 +718,7 @@ public class HyperVaultObjective extends Objective {
 
     @Override
     public void releaseServer() {
+        HyperBossGlow.release(ServerLifecycleHooks.getCurrentServer(), this.getOr(BOSS_ID, null));
         this.get(MINIS).forEach(Objective::releaseServer);
         this.get(FIGHTS).onDetach();
         super.releaseServer();
