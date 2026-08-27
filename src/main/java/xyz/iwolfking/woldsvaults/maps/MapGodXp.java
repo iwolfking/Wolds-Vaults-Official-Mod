@@ -7,6 +7,8 @@ import iskallia.vault.core.vault.objective.Objectives;
 import iskallia.vault.core.vault.objective.ScavengerBingoObjective;
 import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.modification.GearModification;
+import iskallia.vault.init.ModGearModifications;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
@@ -78,6 +80,15 @@ public final class MapGodXp {
     /** Same roll for callers with no random of their own, such as the artisan-station hook. */
     public static int rollBonusPercent(int displayTier, boolean modified) {
         return rollBonusPercent(displayTier, modified, SHARED_RANDOM);
+    }
+
+    /**
+     * Whether an artisan modification leaves a map's Bonus XP alone. Adding a modifier - the
+     * Amplifying Focus, the only item bound to that operation - is free, so a map can be filled
+     * with vault modifiers without paying the implicit; every other focus still re-rolls it.
+     */
+    public static boolean preservesBonusXp(GearModification modification) {
+        return modification == ModGearModifications.ADD_MODIFIER;
     }
 
     /** Re-rolls a map's Bonus XP into its tier's "rolled" band, on any artisan modification. */
