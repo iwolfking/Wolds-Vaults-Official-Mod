@@ -56,11 +56,16 @@ public class MaxHealthDamageHelper {
 
         entity.setHealth(entity.getHealth() - healthReduction);
         if (entity.isDeadOrDying()) {
-            if(source instanceof Player player) {
-                entity.die(DamageSource.playerAttack(player));
+            try {
+                if(source instanceof Player player) {
+                    entity.die(DamageSource.playerAttack(player));
+                }
+                else {
+                    entity.die(DamageSource.MAGIC);
+                }
             }
-            else {
-                entity.die(DamageSource.MAGIC);
+            catch (Exception e) {
+                WoldsVaults.LOGGER.error("Bleed death handling threw for {} at {}; the entity is left at zero health with death processing incomplete.", entity.getType().getRegistryName(), entity.blockPosition(), e);
             }
         }
     }
