@@ -169,7 +169,7 @@ public class MilestoneRankLadder {
         }
     }
 
-    /** Reputation to hold a 1-based rank; rank 1 is 0, each rank past Legend adds {@value #LEGEND_PLUS_STEP}. */
+    /** Reputation a rank-up to this 1-based rank costs; rank 1 is 0, each rank past Legend adds {@value #LEGEND_PLUS_STEP}. */
     public static int getThreshold(int rank) {
         if (rank <= FIRST_RANK) {
             return 0;
@@ -178,6 +178,15 @@ public class MilestoneRankLadder {
             return thresholds[rank - 1];
         }
         return thresholds[LEGEND_RANK - 1] + (rank - LEGEND_RANK) * LEGEND_PLUS_STEP;
+    }
+
+    /** Reputation spent climbing from the first rank up to this one; the first rank itself costs nothing. */
+    public static int getCumulativeCost(int rank) {
+        int total = 0;
+        for (int climbed = FIRST_RANK + 1; climbed <= rank; climbed++) {
+            total += getThreshold(climbed);
+        }
+        return total;
     }
 
     /** Reputation a milestone tagged with this rank pays: 15% of the next rank's threshold, floored. */

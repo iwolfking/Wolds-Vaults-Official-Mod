@@ -287,6 +287,35 @@ public class Milestones {
         return reputation;
     }
 
+    /** Reputation a milestone has already paid out: every tier collected at Mr. Greedy. */
+    public static int getClaimedRep(MinecraftServer server, UUID playerId, String milestoneId) {
+        MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
+        if (definition == null) {
+            return 0;
+        }
+        MilestoneData data = MilestoneData.get(server);
+        int completed = definition.getCompletedTiers(data.getValue(playerId, milestoneId));
+        int claimed = Math.min(data.getClaimedTiers(playerId, milestoneId), completed);
+        int reputation = 0;
+        for (int tier = 0; tier < claimed; tier++) {
+            reputation += definition.getReputation(tier);
+        }
+        return reputation;
+    }
+
+    /**
+     * Every point of reputation the player has ever been paid, across all milestones. Milestone
+     * claims are the only path that grants reputation, so this is the balance the player would be
+     * holding had they never spent any of it on a rank-up.
+     */
+    public static int getClaimedRep(MinecraftServer server, UUID playerId) {
+        int total = 0;
+        for (MilestoneDefinition definition : MilestoneRegistry.getAll()) {
+            total += getClaimedRep(server, playerId, definition.getId());
+        }
+        return total;
+    }
+
     /** Total unclaimed reputation across every milestone. */
     public static int getUnclaimedRep(MinecraftServer server, UUID playerId) {
         int total = 0;

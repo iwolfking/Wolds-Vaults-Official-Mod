@@ -51,7 +51,6 @@ public class MilestoneEvents {
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getPlayer() instanceof ServerPlayer player) {
             healUnrankedHeraldWinner(player);
-            healReputationBelowRankFloor(player);
             healGodMilestones(player);
             MilestoneFlusher.syncAll(player);
         }
@@ -67,20 +66,6 @@ public class MilestoneEvents {
         treeData.setGreedTier(player, MilestoneRankLadder.FIRST_RANK);
         WoldsVaults.LOGGER.info("Healed greed rank for {}: the Herald was already beaten but the rank was still 0, set to {}",
                 player.getGameProfile().getName(), MilestoneRankLadder.FIRST_RANK);
-    }
-
-    /** Raises a reputation sitting below its own rank's band floor up to that floor. Idempotent. */
-    private static void healReputationBelowRankFloor(ServerPlayer player) {
-        PlayerGreedTreeData treeData = PlayerGreedTreeData.get(player.server);
-        int rank = treeData.getGreedTier(player);
-        int floor = MilestoneRankLadder.getThreshold(rank);
-        int reputation = treeData.getGreedReputation(player);
-        if (reputation >= floor) {
-            return;
-        }
-        treeData.setGreedReputation(player, floor);
-        WoldsVaults.LOGGER.info("Healed greed reputation for {}: {} was below the rank {} floor of {}",
-                player.getGameProfile().getName(), reputation, rank, floor);
     }
 
     /** Re-reaches the four god milestones from the player's live levels. Idempotent. */

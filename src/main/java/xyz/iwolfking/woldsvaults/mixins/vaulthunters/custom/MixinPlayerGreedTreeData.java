@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
 @Mixin(value = PlayerGreedTreeData.class, remap = false)
@@ -24,7 +25,7 @@ public abstract class MixinPlayerGreedTreeData {
     public abstract int getGreedTier(Player player);
 
     @Unique
-    private boolean woldsvaults$alignInProgress;
+    private boolean woldsvaults$spendInProgress;
 
     @Unique
     private int woldsvaults$reputationBeforeTierChange;
@@ -32,7 +33,7 @@ public abstract class MixinPlayerGreedTreeData {
     @Unique
     private int woldsvaults$tierBeforeTierChange;
 
-    /** Records the reputation and rank a force-set is about to overwrite, for the TAIL hooks below. */
+    /** Records the reputation and rank the tier change is about to overwrite, for the TAIL hooks below. */
     @Inject(method = "setGreedTier", at = @At("HEAD"))
     private void captureReputationBeforeTierChange(ServerPlayer player, int tier, CallbackInfo ci) {
         this.woldsvaults$reputationBeforeTierChange = this.getGreedReputation(player);
@@ -40,20 +41,40 @@ public abstract class MixinPlayerGreedTreeData {
     }
 
     /**
-     * Raises reputation to the new rank's band floor after a force-set, keeping anything already above
-     * it. The write goes through the data class's own setter, so the client sync fires.
+     * Pays the climbed rank's reputation cost and gives the remainder back. Base zeroes reputation on
+     * the second line of {@code setGreedTier}, so the balance captured at HEAD is restored here less
+     * the cost. Only a single-rank climb is charged; any other tier move returns the balance whole,
+     * because a force-set is moving ranks rather than earning them. The write goes through the data
+     * class's own setter, so the client sync fires.
      */
     @Inject(method = "setGreedTier", at = @At("TAIL"))
-    private void alignReputationToRankFloor(ServerPlayer player, int tier, CallbackInfo ci) {
-        if (this.woldsvaults$alignInProgress) {
+    private void spendReputationOnRankUp(ServerPlayer player, int tier, CallbackInfo ci) {
+        if (this.woldsvaults$spendInProgress) {
             return;
         }
-        this.woldsvaults$alignInProgress = true;
+        int held = this.woldsvaults$reputationBeforeTierChange;
+        int previous = this.woldsvaults$tierBeforeTierChange;
+        int cost = 0;
+        if (tier == previous + 1) {
+            cost = MilestoneRankLadder.getThreshold(tier);
+        } else if (tier != previous) {
+            WoldsVaults.LOGGER.info("Greed rank for {} moved from {} to {}, which is not a single-rank climb; "
+                    + "no reputation was charged and the balance of {} is kept whole",
+                    player.getGameProfile().getName(), previous, tier, held);
+        }
+        int remaining = held - cost;
+        if (remaining < 0) {
+            WoldsVaults.LOGGER.error("Greed rank-up to {} for {} costs {} reputation but only {} was held; "
+                    + "the balance is clamped to 0. Rank-ups are meant to be gated by "
+                    + "GreedTrialRequirements.hasReputation, so something reached setGreedTier around it",
+                    tier, player.getGameProfile().getName(), cost, held);
+            remaining = 0;
+        }
+        this.woldsvaults$spendInProgress = true;
         try {
-            this.setGreedReputation(player, Math.max(this.woldsvaults$reputationBeforeTierChange,
-                    MilestoneRankLadder.getThreshold(tier)));
+            this.setGreedReputation(player, remaining);
         } finally {
-            this.woldsvaults$alignInProgress = false;
+            this.woldsvaults$spendInProgress = false;
         }
     }
 

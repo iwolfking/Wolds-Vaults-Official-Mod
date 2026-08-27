@@ -8,6 +8,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import iskallia.vault.world.data.PlayerGreedTreeData;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -50,6 +51,9 @@ public class MilestoneCommand {
                         .then(Commands.argument("player", EntityArgument.player())
                                 .then(Commands.argument("id", StringArgumentType.word()).suggests(MilestoneCommand::suggestIdsOrNone)
                                         .executes(MilestoneCommand::pin))))
+                .then(Commands.literal("earned")
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .executes(MilestoneCommand::earned)))
                 .then(Commands.literal("list")
                         .executes(context -> list(context, null))
                         .then(Commands.argument("category", StringArgumentType.word()).suggests(MilestoneCommand::suggestCategories)
@@ -92,6 +96,34 @@ public class MilestoneCommand {
                 + ", next " + nextThreshold(definition, value)
                 + ", claimed " + MilestoneData.get(player.server).getClaimedTiers(player.getUUID(), id)
                 + ", unclaimed " + Milestones.getUnclaimedRep(player.server, player.getUUID(), id) + "rep)"), false);
+        return 1;
+    }
+
+    /**
+     * Read-only reputation accounting for one player. Reports the balance they would be holding had
+     * they never ranked up, what the ranks they hold cost on the ladder, and how that compares with
+     * the balance actually stored. Nothing is written.
+     */
+    private static int earned(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = EntityArgument.getPlayer(context, "player");
+        String name = player.getGameProfile().getName();
+        int claimed = Milestones.getClaimedRep(player.server, player.getUUID());
+        int unclaimed = Milestones.getUnclaimedRep(player.server, player.getUUID());
+        int rank = PlayerGreedTreeData.get(player.server).getGreedTier(player);
+        int held = PlayerGreedTreeData.get(player.server).getGreedReputation(player);
+        int spent = MilestoneRankLadder.getCumulativeCost(rank);
+        int expected = claimed - spent;
+        context.getSource().sendSuccess(new TextComponent(name + " greed reputation:"), false);
+        context.getSource().sendSuccess(new TextComponent("  earned from milestones (claimed) : " + claimed), false);
+        context.getSource().sendSuccess(new TextComponent("  banked, not yet collected        : " + unclaimed), false);
+        String band = rank < MilestoneRankLadder.FIRST_RANK ? "unranked"
+                : MilestoneRankLadder.getBandName(rank) + " " + MilestoneRankLadder.getTierInBand(rank);
+        context.getSource().sendSuccess(new TextComponent("  rank                             : " + rank
+                + " (" + band + ")"), false);
+        context.getSource().sendSuccess(new TextComponent("  ladder cost of ranks held        : " + spent), false);
+        context.getSource().sendSuccess(new TextComponent("  balance that implies             : " + expected), false);
+        context.getSource().sendSuccess(new TextComponent("  balance actually stored          : " + held
+                + " (" + (held - expected >= 0 ? "+" : "") + (held - expected) + ")"), false);
         return 1;
     }
 
