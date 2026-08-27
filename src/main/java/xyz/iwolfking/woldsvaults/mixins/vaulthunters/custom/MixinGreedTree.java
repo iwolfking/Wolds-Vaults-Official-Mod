@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.milestones.GreedChallengeOffers;
@@ -89,6 +90,18 @@ public abstract class MixinGreedTree {
         }
         WoldsVaults.LOGGER.warn("Greed reputation {} was granted by {}, outside the milestone claim path; "
                 + "reputation is only meant to move when a milestone is collected at Mr. Greedy", amount, source);
+    }
+
+    /**
+     * Lets a challenge be taken while another one is still open. Base allows a single attempt at a
+     * time and nothing ever clears that attempt when a run is failed, so one unfinished challenge
+     * locked every other row of the tab. The rework's completion path matches the finished vault
+     * against every slot rather than the one active one, so concurrent attempts resolve correctly.
+     */
+    @Redirect(method = "acceptChallenge",
+            at = @At(value = "INVOKE", target = "Liskallia/vault/greed/GreedTree;hasActiveChallenge()Z"))
+    private boolean allowConcurrentChallenges(GreedTree tree) {
+        return false;
     }
 
     /** Refuses challenge abandoning outright. */
