@@ -109,6 +109,7 @@
     "lightmanscurrency.MixinClientProxy",
     "lightmanscurrency.MixinCurioHelper",
     "lightmanscurrency.MixinEnchantedBookForCoinsTrade",
+    "lightmanscurrency.MixinEnchantedItemForCoinsTrade",
     "lightmanscurrency.MixinWalletDisplayOverlay",
     "mekanism.MixinBaseRecipeCategory",
     "mekanism.MixinRadiationManager",
