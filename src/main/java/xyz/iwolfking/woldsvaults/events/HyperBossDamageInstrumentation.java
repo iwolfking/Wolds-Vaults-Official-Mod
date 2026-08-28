@@ -30,11 +30,11 @@ import java.util.Collections;
 import java.util.UUID;
 
 /**
- * Per-hit damage diagnostics for the hyperboss, kept for future balance forensics but fully
- * gated behind {@code enableDebugMode} (woldsvaults-common.toml): with it off — the shipped
- * default — every handler is a boolean check and normal gameplay logs nothing.
+ * Per-hit damage diagnostics for the hyperboss, gated behind either {@code logHyperbossDamage}
+ * or {@code enableDebugMode} (woldsvaults-common.toml): with both off every handler is a boolean
+ * check and normal gameplay logs nothing.
  *
- * <p>With debug mode on, each hyperboss hit logs a hurt-event chain sampled at every priority
+ * <p>While on, each hyperboss hit logs a hurt-event chain sampled at every priority
  * band (attributing which band multiplied what — VH's own gear pipeline, the frenzy rework and
  * target-side effects all run in different bands), a full dump of the player's live
  * damage-multiplier registry, and a post-armor line. This is the tooling that decoded the
@@ -57,7 +57,8 @@ public final class HyperBossDamageInstrumentation {
     }
 
     private static boolean off() {
-        return !WoldsVaultsConfig.COMMON.enableDebugMode.get();
+        return !WoldsVaultsConfig.COMMON.logHyperbossDamage.get()
+                && !WoldsVaultsConfig.COMMON.enableDebugMode.get();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

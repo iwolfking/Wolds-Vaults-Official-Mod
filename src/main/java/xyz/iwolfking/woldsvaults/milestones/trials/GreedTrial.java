@@ -67,12 +67,14 @@ public final class GreedTrial {
         vessel(MilestoneRankLadder.SCAVENGER_3, 150_000L, 1.2D, 0.0D);
         hyper(MilestoneRankLadder.LOOTER_1).difficulty(Difficulty.NORMAL).modifiers(10).minutes(40)
                 .cycles(1).boss(0.0D, 1.25D).objectiveScale(0.5D).speedCap(1.3D)
-                .ambientPeriod(4800).positiveBrutalRewards().phoenix(1).bans(LOOTER_BANS).register();
+                .ambientPeriod(4800).positiveBrutalRewards().phoenix(1).bans(LOOTER_BANS)
+                .timedWaves(false).waveAliveCap(4).minionResistance(0).register();
         vessel(MilestoneRankLadder.LOOTER_2, 500_000L, 1.5D, 0.0D);
         vessel(MilestoneRankLadder.LOOTER_3, 850_000L, 2.0D, 0.0D);
         hyper(MilestoneRankLadder.HUNTER_1).difficulty(Difficulty.IMPOSSIBLE).modifiers(15).minutes(40)
-                .cycles(2).boss(3.0D, 1.3D).objectiveScale(0.75D)
-                .positiveBrutalRewards().phoenix(1).bans(SHARED_BANS).register();
+                .cycles(2).boss(1.5D, 1.3D).objectiveScale(0.75D)
+                .positiveBrutalRewards().phoenix(1).bans(SHARED_BANS)
+                .timedWaves(false).waveAliveCap(4).minionResistance(0).register();
         vessel(MilestoneRankLadder.HUNTER_2, 1_500_000L, 3.0D, 0.20D);
         vessel(MilestoneRankLadder.HUNTER_3, 3_000_000L, 3.0D, 0.45D);
         hyper(MilestoneRankLadder.MASTER_1).difficulty(Difficulty.IMPOSSIBLE).modifiers(20).minutes(50)
@@ -101,6 +103,9 @@ public final class GreedTrial {
     private final double objectiveScale;
     private final double speedCapFactor;
     private final int ambientPeriodTicks;
+    private final boolean timedWaves;
+    private final int waveAliveCap;
+    private final int minionResistanceAmplifier;
     private final boolean positiveBrutalRewards;
     private final int phoenixStacks;
     private final Set<String> bannedModifiers;
@@ -120,6 +125,9 @@ public final class GreedTrial {
         this.objectiveScale = builder.objectiveScale;
         this.speedCapFactor = builder.speedCapFactor;
         this.ambientPeriodTicks = builder.ambientPeriodTicks;
+        this.timedWaves = builder.timedWaves;
+        this.waveAliveCap = builder.waveAliveCap;
+        this.minionResistanceAmplifier = builder.minionResistanceAmplifier;
         this.positiveBrutalRewards = builder.positiveBrutalRewards;
         this.phoenixStacks = builder.phoenixStacks;
         this.bannedModifiers = builder.bannedModifiers;
@@ -163,6 +171,9 @@ public final class GreedTrial {
         private double objectiveScale = 1.0D;
         private double speedCapFactor;
         private int ambientPeriodTicks;
+        private boolean timedWaves = true;
+        private int waveAliveCap;
+        private int minionResistanceAmplifier = -1;
         private boolean positiveBrutalRewards;
         private int phoenixStacks;
         private Set<String> bannedModifiers = Set.of();
@@ -210,6 +221,21 @@ public final class GreedTrial {
 
         private Builder ambientPeriod(int ambientPeriodTicks) {
             this.ambientPeriodTicks = ambientPeriodTicks;
+            return this;
+        }
+
+        private Builder timedWaves(boolean timedWaves) {
+            this.timedWaves = timedWaves;
+            return this;
+        }
+
+        private Builder waveAliveCap(int waveAliveCap) {
+            this.waveAliveCap = waveAliveCap;
+            return this;
+        }
+
+        private Builder minionResistance(int minionResistanceAmplifier) {
+            this.minionResistanceAmplifier = minionResistanceAmplifier;
             return this;
         }
 
@@ -309,6 +335,24 @@ public final class GreedTrial {
     /** Ticks between ambient negative pulls; 0 keeps the configured hyper period. */
     public int getAmbientPeriodTicks() {
         return this.ambientPeriodTicks;
+    }
+
+    /** Whether the periodic brutal wave still fires; a row may switch the timed reinforcements off. */
+    public boolean hasTimedWaves() {
+        return this.timedWaves;
+    }
+
+    /** Most wave brutal bosses alive in the arena at once; 0 keeps the configured hyper cap. */
+    public int getWaveAliveCap() {
+        return this.waveAliveCap;
+    }
+
+    /**
+     * Resistance amplifier the boss holds while any reinforcement lives, where 0 is Resistance I;
+     * -1 keeps the live hyper value.
+     */
+    public int getMinionResistanceAmplifier() {
+        return this.minionResistanceAmplifier;
     }
 
     /**

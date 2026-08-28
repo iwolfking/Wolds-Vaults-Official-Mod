@@ -127,6 +127,8 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
 
     /** How long the arena must stay empty of living fighters before the fight counts as wiped. */
     private static final int WIPE_GRACE_TICKS = 60;
+    /** Resistance amplifier the boss holds while reinforcements live, unless a trial row lowers it. */
+    private static final int MINION_RESISTANCE_AMPLIFIER = 2;
 
     private final HyperEscalationManager escalation;
     /** The wave bosses believed alive, pruned every tick; rebuilt from the world after a reload. */
@@ -297,7 +299,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         tickMagicMissile(fights);
     }
 
-    /** While any spawned reinforcement lives, the boss holds Resistance III, refreshed once a second. */
+    /**
+     * While any spawned reinforcement lives, the boss holds Resistance, refreshed once a second. The
+     * amplifier is III outside a trial; the two lowest hyper trials drop it to I.
+     */
     private void tickBossResistance() {
         if (world.getTickCount() % 20 != 0) {
             return;
@@ -306,10 +311,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         if (bossId == null || !(world.getEntity(bossId) instanceof LivingEntity boss) || !boss.isAlive()) {
             return;
         }
+        int amplifier = GreedTrialHyper.minionResistanceAmplifier(vault, MINION_RESISTANCE_AMPLIFIER);
         for (Entity entity : world.getAllEntities()) {
             if (entity instanceof LivingEntity living && living.isAlive()
                     && entity.getTags().contains(HyperVaultObjective.FIGHT_SPAWN_TAG)) {
-                boss.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 25, 2, true, false));
+                boss.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 25, amplifier, true, false));
                 return;
             }
         }
@@ -562,13 +568,21 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         return this.waveBosses.size();
     }
 
-    private boolean waveCapReached() {
-        return livingWaveBosses() >= HyperVaultObjective.cfg().getWaveAliveCap();
+    /** The arena's ceiling on live wave brutal bosses, after any hyper trial override. */
+    private int waveAliveCap() {
+        return GreedTrialHyper.waveAliveCap(vault, HyperVaultObjective.cfg().getWaveAliveCap());
     }
 
-    /** Holds at the wave cap without spending a tick, so the next wave is a full period away. */
+    private boolean waveCapReached() {
+        return livingWaveBosses() >= waveAliveCap();
+    }
+
+    /**
+     * Holds at the wave cap without spending a tick, so the next wave is a full period away. A trial
+     * row may switch the timed wave off entirely, leaving only the health gates.
+     */
     private void tickWaveTimer() {
-        if (waveCapReached()) {
+        if (!GreedTrialHyper.hasTimedWaves(vault) || waveCapReached()) {
             return;
         }
         int remaining = objective.getOr(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.cfg().getWavePeriodTicks()) - 1;
@@ -634,14 +648,15 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         RandomSource random = JavaRandom.ofNanoTime();
         int rolled = HyperVaultObjective.cfg().getWaveMobMin()
                 + random.nextInt(HyperVaultObjective.cfg().getWaveMobMax() - HyperVaultObjective.cfg().getWaveMobMin() + 1);
-        int room = HyperVaultObjective.cfg().getWaveAliveCap() - livingWaveBosses();
+        int cap = waveAliveCap();
+        int room = cap - livingWaveBosses();
         int count = Math.min(rolled, room);
         if (count <= 0) {
             return;
         }
         if (count < rolled) {
             WoldsVaults.LOGGER.info("Hyper brutal wave ({}) trimmed from {} to {}: the arena is near the {}-boss cap.",
-                    reason, rolled, count, HyperVaultObjective.cfg().getWaveAliveCap());
+                    reason, rolled, count, cap);
         }
         int spawned = 0;
         for (int i = 0; i < count; i++) {

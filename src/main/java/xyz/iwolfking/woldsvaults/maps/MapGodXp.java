@@ -18,6 +18,7 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -36,6 +37,7 @@ public final class MapGodXp {
 
     /** Base god experience per {@code Objectives.KEY}; an objective outside this table pays nothing. */
     private static final Map<String, Double> BASE_XP = Map.ofEntries(
+            Map.entry("haunted_braziers", 1000.0D),
             Map.entry("elixir", 2000.0D),
             Map.entry("scavenger", 2000.0D),
             Map.entry("unhinged_scavenger", 2000.0D),
@@ -52,6 +54,13 @@ public final class MapGodXp {
             Map.entry("ballistic_bingo", 4000.0D),
             Map.entry("zealot", 5000.0D)
     );
+
+    /**
+     * Objectives whose award ignores the vault's difficulty multiplier. Haunted braziers take no
+     * part in the sigil/medallion difficulty scaling that raises every other objective's demands,
+     * so a difficulty roll there would pay more god experience for no extra work.
+     */
+    private static final Set<String> FLAT_DIFFICULTY = Set.of("haunted_braziers");
 
     private static final Random SHARED_RANDOM = new Random();
 
@@ -135,7 +144,7 @@ public final class MapGodXp {
         if (objectiveKey == null) {
             return 0.0D;
         }
-        String canonical = ALIASES.getOrDefault(objectiveKey, objectiveKey);
+        String canonical = canonical(objectiveKey);
         Double base = BASE_XP.get(canonical);
         if (base == null) {
             return 0.0D;
@@ -146,6 +155,10 @@ public final class MapGodXp {
             case "ballistic_bingo" -> base * Math.pow(1.025D, bingoLines(vault));
             default -> base;
         };
+    }
+
+    private static String canonical(String objectiveKey) {
+        return ALIASES.getOrDefault(objectiveKey, objectiveKey);
     }
 
     /** Completed bingo lines across whichever bingo objective the vault is running. */
@@ -166,13 +179,17 @@ public final class MapGodXp {
         return lines;
     }
 
-    /** One player's award: {@code base(objective) * cbrt(difficulty) * (1 + bonus%)}, rounded. */
+    /**
+     * One player's award: {@code base(objective) * cbrt(difficulty) * (1 + bonus%)}, rounded. An
+     * objective listed in {@link #FLAT_DIFFICULTY} drops the difficulty term.
+     */
     public static long award(Vault vault, String objectiveKey, double difficultyMultiplier, int bonusPercent) {
         double base = baseXp(vault, objectiveKey);
         if (base <= 0.0D) {
             return 0L;
         }
-        double difficulty = Math.cbrt(Math.max(difficultyMultiplier, 1.0D));
+        double difficulty = FLAT_DIFFICULTY.contains(canonical(objectiveKey))
+                ? 1.0D : Math.cbrt(Math.max(difficultyMultiplier, 1.0D));
         return Math.round(base * difficulty * (1.0D + bonusPercent / 100.0D));
     }
 }

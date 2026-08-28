@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.objectives.hyper;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,8 +44,24 @@ public final class HyperBossGlow {
         }
         team.setColor(ChatFormatting.RED);
         pruneDeadMembers(server, scoreboard, team);
-        scoreboard.addPlayerToTeam(boss.getStringUUID(), team);
+        boolean added = scoreboard.addPlayerToTeam(boss.getStringUUID(), team);
         boss.setGlowingTag(true);
+        resend(server, team, boss.getStringUUID());
+        WoldsVaults.LOGGER.info(
+                "Hyperboss glow: {} joined team {} (colour {}, {} member(s), newMember={}); glowing tag {}.",
+                boss.getType().getRegistryName(), TEAM, team.getColor(), team.getPlayers().size(), added,
+                boss.hasGlowingTag());
+    }
+
+    /**
+     * Re-sends the team and its membership to every connected player. The scoreboard already
+     * broadcasts both, so this only guards against a client that entered the vault dimension
+     * between the two packets; it is silent on the client when the team is already known.
+     */
+    private static void resend(MinecraftServer server, PlayerTeam team, String member) {
+        server.getPlayerList().broadcastAll(ClientboundSetPlayerTeamPacket.createAddOrModifyPacket(team, false));
+        server.getPlayerList().broadcastAll(ClientboundSetPlayerTeamPacket.createPlayerPacket(
+                team, member, ClientboundSetPlayerTeamPacket.Action.ADD));
     }
 
     /** Drops one boss from the team, on vault teardown; a missing team or member is not an error. */
