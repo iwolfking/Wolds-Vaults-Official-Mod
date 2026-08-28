@@ -1,0 +1,25 @@
+{
+  "tile_processors": [
+    {
+      "type": "placeholder",
+      "target": "VENDOR_PEDESTAL",
+      "levels": [
+        {
+          "level": 0,
+          "probability": 1.0,
+          "success": {
+            "the_vault:shop_pedestal": 80,
+            "woldsvaults:rare_shop_pedestal": 10,
+            "woldsvaults:god_shop_pedestal": 7,
+            "woldsvaults:omega_shop_pedestal": 3
+          },
+          "failure": {
+            "minecraft:air": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entity_processors": [],
+  "decorators": []
+}

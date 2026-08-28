@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.gods.trees.tenos;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.entity.TreasureDoorTileEntity;
 import iskallia.vault.core.event.CommonEvents;
+import iskallia.vault.core.vault.VaultRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -12,14 +13,21 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.tenos.TreasureDoorPale
 import java.util.List;
 
 /**
- * Barter Expert: vendoors this player opens have a chance to use the rich pedestal table, which can
- * roll god, rare and omega pedestals. Inserted at index 0, since the processor is first-wins.
+ * Barter Expert: every standard vendoor room this player opens rolls the richer pedestal table,
+ * which can yield god, rare and omega pedestals. The door's own palette identifies the room family,
+ * so only the doors carrying the stock vendoor table are enriched - blacksmith, card and etching
+ * vendoors keep theirs untouched, and mapped vaults get their own table. Inserted at index 0, since
+ * the processor is first-wins.
  */
 public final class TenosVendoors {
-    public static final ResourceLocation RICH_PALETTE = VaultMod.id("vendor_rooms/vendor_rooms_map");
+    private static final ResourceLocation STOCK_PALETTE = VaultMod.id("vendor_rooms/vendor_rooms");
+    private static final ResourceLocation STOCK_PALETTE_MAP = VaultMod.id("vendor_rooms/vendor_rooms_map");
+    private static final ResourceLocation RICH_PALETTE = WoldsVaults.id("vendor_rooms/barter_expert");
+    private static final ResourceLocation RICH_PALETTE_MAP = WoldsVaults.id("vendor_rooms/barter_expert_map");
 
     private static final Object OWNER = new Object();
     private static boolean accessorWarned;
+    private static boolean paletteWarned;
 
     private TenosVendoors() {
     }
@@ -30,11 +38,6 @@ public final class TenosVendoors {
                 return;
             }
             if (!TenosNodes.isActive(player, TenosNodes.BARTER_EXPERT)) {
-                return;
-            }
-            float chance = TenosNodeHandlers.params(TenosNodes.BARTER_EXPERT,
-                    TenosNodeHandlers.BarterExpertParams.class).rich_palette_chance();
-            if (player.getRandom().nextFloat() >= chance) {
                 return;
             }
             BlockEntity tile = data.getLevel().getBlockEntity(data.getPos());
@@ -55,10 +58,30 @@ public final class TenosVendoors {
             return;
         }
         List<ResourceLocation> palettes = accessor.woldsvaults$getPalettes();
-        if (palettes.isEmpty() || palettes.contains(RICH_PALETTE)) {
+        ResourceLocation rich = richPaletteFor(palettes);
+        if (rich == null || palettes.contains(rich)) {
             return;
         }
-        palettes.add(0, RICH_PALETTE);
+        if (VaultRegistry.PALETTE.getKey(rich) == null) {
+            if (!paletteWarned) {
+                paletteWarned = true;
+                WoldsVaults.LOGGER.error("Barter Expert is inert: palette {} is not registered, so vendoors keep "
+                        + "their stock pedestal table.", rich);
+            }
+            return;
+        }
+        palettes.add(0, rich);
         door.setChanged();
+    }
+
+    /** The table for this door, or null when it opens onto a room family the node leaves alone. */
+    private static ResourceLocation richPaletteFor(List<ResourceLocation> palettes) {
+        if (palettes.contains(STOCK_PALETTE_MAP)) {
+            return RICH_PALETTE_MAP;
+        }
+        if (palettes.contains(STOCK_PALETTE)) {
+            return RICH_PALETTE;
+        }
+        return null;
     }
 }

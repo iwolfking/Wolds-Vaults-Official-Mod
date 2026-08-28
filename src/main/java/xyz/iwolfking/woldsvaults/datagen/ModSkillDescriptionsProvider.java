@@ -1796,7 +1796,8 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             description.add(JsonDescription.text(" as your mana falls from half empty to empty."));
         });
         godNode(builder, "tenos_deep_reserves", "1.5x Maximum Mana", sky, ".");
-        godNode(builder, "tenos_barter_expert", "50% chance", sky, " for a vendor room to carry omega vendoor pedestals.");
+        godNode(builder, "tenos_barter_expert", "Standard vendoor rooms", sky,
+                " roll god, rare or omega pedestals: 20% of their pedestals in a normal vault, 63% in a mapped vault.");
         godNode(builder, "tenos_nose_for_treasure", "+25% Treasure Door", sky, " spawn rate, across the whole vault.");
         builder.addDescription("tenos_domain_expansion", description -> {
             description.add(JsonDescription.text("Up to "));

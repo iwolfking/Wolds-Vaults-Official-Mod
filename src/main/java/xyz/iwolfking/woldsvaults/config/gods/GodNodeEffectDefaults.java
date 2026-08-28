@@ -259,7 +259,7 @@ public final class GodNodeEffectDefaults {
         put(map, "tenos_looting_engine", "tenos_looting_engine", new float[]{}, "reference", 1200.0F);
         put(map, "tenos_mana_starved", "tenos_mana_starved", new float[]{}, "max_bonus", 1.0F, "threshold", 0.5F);
         put(map, "tenos_deep_reserves", "tenos_deep_reserves", new float[]{}, "multiplier", 0.5F);
-        put(map, "tenos_barter_expert", "tenos_barter_expert", new float[]{}, "rich_palette_chance", 0.5F);
+        put(map, "tenos_barter_expert", "tenos_barter_expert", new float[]{});
         put(map, "tenos_nose_for_treasure", "tenos_nose_for_treasure", new float[]{}, "treasure_door_bonus", 0.25D);
         put(map, "tenos_domain_expansion", "tenos_domain_expansion", new float[]{}, "per_cell", 0.025F, "cap", 1.5F);
         put(map, "tenos_massive_chests", "tenos_massive_chests", new float[]{},

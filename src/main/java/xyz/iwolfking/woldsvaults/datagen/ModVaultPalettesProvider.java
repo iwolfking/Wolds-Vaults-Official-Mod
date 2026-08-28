@@ -502,6 +502,33 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
             p.reference("the_vault:generic/spawners/group_settings");
         });
 
+        add(WoldsVaults.id("vendor_rooms/barter_expert"), new PaletteBuilder(), p -> {
+            p.placeholder(PlaceholderBlock.Type.VENDOR_PEDESTAL, placeholderBuilder -> {
+                placeholderBuilder.probability(0, 1.0, successes -> {
+                    successes.put("the_vault:shop_pedestal", 80);
+                    successes.put("woldsvaults:rare_shop_pedestal", 10);
+                    successes.put("woldsvaults:god_shop_pedestal", 7);
+                    successes.put("woldsvaults:omega_shop_pedestal", 3);
+                }, failures -> {
+                    failures.put("minecraft:air", 1);
+                });
+            });
+        });
+
+        add(WoldsVaults.id("vendor_rooms/barter_expert_map"), new PaletteBuilder(), p -> {
+            p.placeholder(PlaceholderBlock.Type.VENDOR_PEDESTAL, placeholderBuilder -> {
+                placeholderBuilder.probability(0, 1.0, successes -> {
+                    successes.put("the_vault:shop_pedestal", 20);
+                    successes.put("woldsvaults:rare_shop_pedestal", 25);
+                    successes.put("woldsvaults:god_shop_pedestal", 18);
+                    successes.put("woldsvaults:omega_shop_pedestal", 17);
+                    successes.put("woldsvaults:blacksmith_shop_pedestal", 15);
+                }, failures -> {
+                    failures.put("minecraft:air", 1);
+                });
+            });
+        });
+
     }
 
     public static String vaultOre(ItemLike oreBlock, String type) {

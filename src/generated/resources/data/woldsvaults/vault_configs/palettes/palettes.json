@@ -24,6 +24,16 @@
       "id": "woldsvaults:generic/spawners/astral_mobs",
       "name": "Generic Spawners Astral Mobs",
       "1.0": "woldsvaults:generic/spawners/astral_mobs"
+    },
+    {
+      "id": "woldsvaults:vendor_rooms/barter_expert",
+      "name": "Vendor Rooms Barter Expert",
+      "1.0": "woldsvaults:vendor_rooms/barter_expert"
+    },
+    {
+      "id": "woldsvaults:vendor_rooms/barter_expert_map",
+      "name": "Vendor Rooms Barter Expert Map",
+      "1.0": "woldsvaults:vendor_rooms/barter_expert_map"
     }
   ]
 }

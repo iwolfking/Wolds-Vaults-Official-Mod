@@ -45,7 +45,7 @@ public final class TenosNodeHandlers {
                 TenosVaultHandlers.DeepReservesHandler::new);
         GodNodeHandlers.register(TenosNodes.LOOTING_ENGINE, LootingEngineParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(TenosNodes.MANA_STARVED, ManaStarvedParams.class, ListenerBoundHandler::new);
-        GodNodeHandlers.register(TenosNodes.BARTER_EXPERT, BarterExpertParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(TenosNodes.BARTER_EXPERT, ListenerBoundHandler::new);
         GodNodeHandlers.register(TenosNodes.NOSE_FOR_TREASURE, NoseForTreasureParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(TenosNodes.DOMAIN_EXPANSION, DomainExpansionParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(TenosNodes.MASSIVE_CHESTS, MassiveChestsParams.class, ListenerBoundHandler::new);
@@ -143,9 +143,6 @@ public final class TenosNodeHandlers {
                         + "; it is a divisor and must be greater than zero");
             }
         }
-    }
-
-    public record BarterExpertParams(float rich_palette_chance) implements GodEffectParams {
     }
 
     public record NoseForTreasureParams(double treasure_door_bonus) implements GodEffectParams {

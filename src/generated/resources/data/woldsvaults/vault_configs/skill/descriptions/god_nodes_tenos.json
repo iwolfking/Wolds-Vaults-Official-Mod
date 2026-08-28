@@ -75,11 +75,11 @@
     ],
     "tenos_barter_expert": [
       {
-        "text": "50% chance",
+        "text": "Standard vendoor rooms",
         "color": "#5ad8ff"
       },
       {
-        "text": " for a vendor room to carry omega vendoor pedestals."
+        "text": " roll god, rare or omega pedestals: 20% of their pedestals in a normal vault, 63% in a mapped vault."
       }
     ],
     "tenos_domain_expansion": [
