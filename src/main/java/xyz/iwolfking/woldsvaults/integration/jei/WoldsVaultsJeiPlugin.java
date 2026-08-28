@@ -33,6 +33,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.ISubtypeRegistration;
 import net.mehvahdjukaar.cagerium.Cagerium;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -117,6 +118,12 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     @Override
     public @NotNull ResourceLocation getPluginUid() {
         return WoldsVaults.id("wolds_jei_integration");
+    }
+
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistration registration) {
+        registration.useNbtForSubtypes(ModItems.CHISELING_FOCUS);
+        // layout manipulator? but first add all in jei
     }
 
     @Override @SuppressWarnings("removal")
