@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.screens.gods;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.config.entry.SkillStyle;
 import iskallia.vault.core.vault.influence.VaultGod;
@@ -109,6 +110,7 @@ final class TransferSlotPopup {
             boolean live = content != null && MinorTransferSlots.isTransferable(this.god, content, ledger);
             boolean holdsAnchor = live && content.equals(anchorEffect);
             font.draw(poseStack, GreedTheme.roman(i + 1), left + 3, cy - 4, GodTreeTheme.TEXT_DIM);
+            RenderSystem.enableDepthTest();
             if (!live) {
                 GodDrawing.disc(poseStack, cx, cy, radius - 1.0F, GodTreeTheme.SLOT_EMPTY_FILL);
                 GodDrawing.ring(poseStack, cx, cy, radius, radius - 2.0F, GodTreeTheme.SLOT_EMPTY_RING);
@@ -147,6 +149,7 @@ final class TransferSlotPopup {
         GuiComponent.fill(poseStack, left, top, right, top + height, GodTreeTheme.POPUP_FILL);
         GodDrawing.outline(poseStack, left, top, width, height, GodTreeTheme.accentDim(this.god));
         font.draw(poseStack, text, left + 4, top + 3, GodTreeTheme.TEXT_MUTED);
+        RenderSystem.enableDepthTest();
     }
 
     private List<Component> tooltip(GodTreeModel tree, int slot, @Nullable String content, boolean live,

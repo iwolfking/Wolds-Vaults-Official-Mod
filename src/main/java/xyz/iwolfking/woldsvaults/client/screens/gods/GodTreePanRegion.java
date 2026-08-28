@@ -393,6 +393,11 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         buf.vertex(pose, x1 - px, y1 - py, 0.0F).color(r, g, b, alpha).endVertex();
     }
 
+    /**
+     * Draws the constellation names. A font batch clears the depth test that
+     * {@link UIHelper#renderOverflowHidden} clips this region with, so it is restored afterwards -
+     * without it every star drawn later escapes the star chart and paints over the whole screen.
+     */
     private void renderConstellationLabels(PoseStack renderStack) {
         Minecraft minecraft = Minecraft.getInstance();
         int color = (GodTreeTheme.accentDim(this.god) & 0xFFFFFF) | 0xAA000000;
@@ -401,6 +406,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
             int width = minecraft.font.width(text);
             minecraft.font.draw(renderStack, text, label.x() - width / 2.0F, label.y(), color);
         }
+        RenderSystem.enableDepthTest();
     }
 
     private void renderUnchartedSky(PoseStack renderStack) {
@@ -411,5 +417,6 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         int width = minecraft.font.width(text);
         Vec2 center = this.viewportTranslation;
         minecraft.font.draw(renderStack, text.copy(), -center.x - width / 2.0F, -center.y - 4.0F, 0xFFFFFF);
+        RenderSystem.enableDepthTest();
     }
 }
