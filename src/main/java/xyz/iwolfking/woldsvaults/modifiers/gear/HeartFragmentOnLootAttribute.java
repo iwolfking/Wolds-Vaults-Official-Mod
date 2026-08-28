@@ -56,11 +56,7 @@ public class HeartFragmentOnLootAttribute extends LootTriggerAttribute {
 
    @Override
    public void trigger(BlockEntity tile, RandomSource random, ServerPlayer player) {
-      WoldsVaults.LOGGER.info("triggered");
-      WoldsVaults.LOGGER.info(String.valueOf(heartGenerationChance));
-      WoldsVaults.LOGGER.info(String.valueOf(heartsGenerated));
       if (random.nextFloat() < this.getHeartGenerationChance()) {
-         WoldsVaults.LOGGER.info("spawning fragment");
          spawnHeartFragment(tile);
       }
    }

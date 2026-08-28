@@ -20,7 +20,6 @@ public class MixinResistanceHelper {
     @WrapOperation(method = "getResistance", at = @At(value = "INVOKE", target = "Liskallia/vault/util/calc/AttributeLimitHelper;getResistanceLimit(Lnet/minecraft/world/entity/LivingEntity;)F"))
     private static float colossusTitanEtchingResistanceIncrease(LivingEntity entity, Operation<Float> original) {
         if(entity.hasEffect(ModEffects.COLOSSUS)) {
-            WoldsVaults.LOGGER.info(String.valueOf(original.call(entity) + ColossusAbility.ColossusEffect.getColossusResistanceCapIncrease(entity)));
             return original.call(entity) + ColossusAbility.ColossusEffect.getColossusResistanceCapIncrease(entity);
         }
 

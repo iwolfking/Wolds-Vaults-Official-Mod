@@ -21,7 +21,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import iskallia.vault.world.data.ServerVaults;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+import xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.DamageMultiplierAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.PlayerDamageHelperAccessor;
 
@@ -131,12 +133,13 @@ public final class HyperBossDamageInstrumentation {
         }
 
         WoldsVaults.LOGGER.info(
-                "Hyperboss hurt chain: raw {} | xHIGH {} | xNORMAL {} | xLOW {} | xLOWEST {} -> final {} ({}% of max) | source={} attacker={} | boss {}/{}",
+                "Hyperboss hurt chain: raw {} | xHIGH {} | xNORMAL {} | xLOW {} | xLOWEST {} -> final {} ({}% of max) | mastery x{} | source={} attacker={} | boss {}/{}",
                 a == null ? "?" : String.format("%.1f", a[0]),
                 bandMultiplier(a, 0, 1), bandMultiplier(a, 1, 2), bandMultiplier(a, 2, 3),
                 a == null || Float.isNaN(a[3]) || a[3] == 0.0F ? "?" : String.format("%.2f", finalAmount / a[3]),
                 String.format("%.1f", finalAmount),
                 String.format("%.4f", 100.0F * finalAmount / boss.getMaxHealth()),
+                String.format("%.2f", TrialMastery.getMultiplier(ServerVaults.get(boss.level).orElse(null))),
                 event.getSource().getMsgId(), attackerInfo,
                 String.format("%.0f", boss.getHealth()), String.format("%.0f", boss.getMaxHealth()));
         if (attacker instanceof ServerPlayer serverPlayer) {

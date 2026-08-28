@@ -60,6 +60,7 @@ import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialHyper;
+import xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarConfigAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
@@ -187,6 +188,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         objective.set(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.cfg().getWavePeriodTicks());
         this.addTimer = HyperVaultObjective.cfg().getFightAddPeriodTicks();
         objective.set(HyperVaultObjective.GATE_MASK, 0);
+        TrialMastery.onBossArmed(vault, objective);
         HyperVaultObjective.broadcast(vault, "The Hyperboss awakens!", ChatFormatting.DARK_RED);
     }
 
@@ -284,6 +286,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         }
         RuneBossFights fights = objective.get(HyperVaultObjective.FIGHTS);
         if (!fights.hasPendingFight()) {
+            xyz.iwolfking.woldsvaults.events.ExecutionStrikeAudit.flush(vault, "hyperboss killed");
             escalation.onBossKilled();
             return;
         }
@@ -300,8 +303,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     }
 
     /**
-     * While any spawned reinforcement lives, the boss holds Resistance, refreshed once a second. The
-     * amplifier is III outside a trial; the two lowest hyper trials drop it to I.
+     * While any brutal wave boss lives, the boss holds Resistance III, refreshed once a second. Only
+     * wave brutals count: the tank and assassin arena adds, and the boss's own trait summons, leave
+     * it undefended, so a fight with no waves configured never grants it at all.
      *
      * <p>The same pass re-asserts the boss's red glow. The glowing flag lives in one entity's synched
      * data, and the arena has been seen to build two boss instances sharing a uuid, of which the
@@ -319,11 +323,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         if (!HyperBossGlow.isMarked(boss)) {
             HyperBossGlow.mark(boss);
         }
-        int amplifier = GreedTrialHyper.minionResistanceAmplifier(vault, MINION_RESISTANCE_AMPLIFIER);
         for (Entity entity : world.getAllEntities()) {
             if (entity instanceof LivingEntity living && living.isAlive()
-                    && entity.getTags().contains(HyperVaultObjective.FIGHT_SPAWN_TAG)) {
-                boss.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 25, amplifier, true, false));
+                    && entity.getTags().contains(HyperVaultObjective.BRUTAL_WAVE_TAG)) {
+                boss.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 25,
+                        MINION_RESISTANCE_AMPLIFIER, true, false));
                 return;
             }
         }
@@ -645,9 +649,13 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
 
     /**
      * Spawns brutal bosses around the pillar; they belong to no wave, so their deaths add no modifiers.
-     * The wave is trimmed so the arena never holds more than the configured cap at once.
+     * The wave is trimmed so the arena never holds more than the configured cap at once, and a trial
+     * row may refuse brutal reinforcements outright.
      */
     private void spawnBrutalWave(String reason) {
+        if (!GreedTrialHyper.hasBrutalWaves(vault)) {
+            return;
+        }
         BlockPos center = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
         if (center == null) {
             WoldsVaults.LOGGER.warn("Hyper brutal wave ({}) skipped: no pillar position recorded.", reason);
@@ -766,9 +774,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 Math.round(boss.getMaxHealth()));
     }
 
-    /** One debug-mode audit line per fight: player-damage multipliers and each runner's scaling gear. */
+    /** One audit line per fight: player-damage multipliers and each runner's scaling gear. */
     private void logDamageAmplifierAudit() {
-        if (!WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
+        if (!WoldsVaultsConfig.COMMON.logHyperbossDamage.get()
+                && !WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
             return;
         }
         long frenzy = VaultModifierUtils.getCountOfModifiers(vault, ResourceLocation.parse("the_vault:frenzy"));

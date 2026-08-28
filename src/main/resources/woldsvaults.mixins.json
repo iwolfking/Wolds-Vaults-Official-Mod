@@ -127,6 +127,8 @@
     "scannable.MixinScannableItems",
     "scannable.MixinScannerEnergyStorage",
     "scannable.ScannerModuleItemAccessor",
+    "vaulthunters.accessors.CustomEntitySpawnerAccessor",
+    "vaulthunters.custom.MixinCustomEntitySpawnerTileEntity",
     "secondchance.MixinSecondChanceEvents",
     "secretroomsmod.MixinDelegateWorld",
     "sophisticatedbackpacks.MixinModBlocks",

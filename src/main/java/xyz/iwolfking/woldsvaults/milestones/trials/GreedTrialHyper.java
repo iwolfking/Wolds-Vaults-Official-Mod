@@ -58,6 +58,12 @@ public final class GreedTrialHyper {
         return trial == null || trial.getAmbientPeriodTicks() <= 0 ? live : trial.getAmbientPeriodTicks();
     }
 
+    /** Whether brutal reinforcements spawn at all; always true outside a hyper trial. */
+    public static boolean hasBrutalWaves(Vault vault) {
+        GreedTrial trial = trial(vault);
+        return trial == null || trial.hasBrutalWaves();
+    }
+
     /** Whether the timed brutal wave still fires; always true outside a hyper trial. */
     public static boolean hasTimedWaves(Vault vault) {
         GreedTrial trial = trial(vault);
@@ -68,15 +74,6 @@ public final class GreedTrialHyper {
     public static int waveAliveCap(Vault vault, int live) {
         GreedTrial trial = trial(vault);
         return trial == null || trial.getWaveAliveCap() <= 0 ? live : trial.getWaveAliveCap();
-    }
-
-    /**
-     * Resistance amplifier the boss holds while any reinforcement lives, where 0 is Resistance I;
-     * the live value outside a trial.
-     */
-    public static int minionResistanceAmplifier(Vault vault, int live) {
-        GreedTrial trial = trial(vault);
-        return trial == null || trial.getMinionResistanceAmplifier() < 0 ? live : trial.getMinionResistanceAmplifier();
     }
 
     /** Whether brutal pillar kills pay their own positive bb_ pool instead of a hyper negative. */

@@ -414,18 +414,24 @@ public class LivingEntityEvents {
         if(event.getSource().getEntity() instanceof Player player) {
             float executionDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.EXECUTION_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
             if(executionDamage != 0) {
-                if(WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
-                    WoldsVaults.LOGGER.debug("[WOLD'S VAULTS] Added " + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage) + " bonus execution damage to attack.");
+                LivingEntity target = event.getEntityLiving();
+                float base = event.getAmount();
+                float bonus = (target.getMaxHealth() - target.getHealth()) * executionDamage;
+                float tier;
+                if(target instanceof TheVesselEntity) {
+                    tier = 0.01F;
                 }
-
-                if(event.getEntityLiving() instanceof TheVesselEntity) {
-                    event.setAmount(hyperFinite(event.getEntityLiving(), (event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage)) * 0.01F, event.getAmount(), "execution"));
-                }
-                else if(ChampionLogic.isChampion(event.getEntityLiving()) || InfernalMobsCore.getMobModifiers(event.getEntityLiving()) != null || event.getEntityLiving() instanceof VaultBoss || event.getEntityLiving() instanceof VaultBossEntity || event.getEntityLiving() instanceof EliteDrownedEntity || event.getEntityLiving() instanceof EliteWitherSkeleton || event.getEntityLiving() instanceof EliteEndermanEntity || event.getEntityLiving() instanceof EliteHuskEntity || event.getEntityLiving() instanceof EliteSpiderEntity || event.getEntityLiving() instanceof  EliteStrayEntity || event.getEntityLiving() instanceof  EliteZombieEntity || event.getEntityLiving() instanceof EliteWitchEntity) {
-                    event.setAmount(hyperFinite(event.getEntityLiving(), (event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage)) * 0.25F, event.getAmount(), "execution"));
+                else if(ChampionLogic.isChampion(target) || InfernalMobsCore.getMobModifiers(target) != null || target instanceof VaultBoss || target instanceof VaultBossEntity || target instanceof EliteDrownedEntity || target instanceof EliteWitherSkeleton || target instanceof EliteEndermanEntity || target instanceof EliteHuskEntity || target instanceof EliteSpiderEntity || target instanceof  EliteStrayEntity || target instanceof  EliteZombieEntity || target instanceof EliteWitchEntity) {
+                    tier = 0.25F;
                 }
                 else {
-                    event.setAmount(hyperFinite(event.getEntityLiving(), event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage), event.getAmount(), "execution"));
+                    tier = 1.0F;
+                }
+                event.setAmount(hyperFinite(target, (base + bonus) * tier, base, "execution"));
+                if(player instanceof ServerPlayer serverPlayer && ExecutionStrikeAudit.isEnabled()
+                        && HyperVaultEvents.isInHyperVault(target)) {
+                    ExecutionStrikeAudit.record(ServerVaults.get(target.level).orElse(null), serverPlayer, target,
+                            executionDamage, base, bonus, tier, event.getAmount());
                 }
             }
         }

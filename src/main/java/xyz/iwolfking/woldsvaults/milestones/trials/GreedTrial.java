@@ -68,21 +68,21 @@ public final class GreedTrial {
         hyper(MilestoneRankLadder.LOOTER_1).difficulty(Difficulty.NORMAL).modifiers(10).minutes(40)
                 .cycles(1).boss(0.0D, 1.25D).objectiveScale(0.5D).speedCap(1.3D)
                 .ambientPeriod(4800).positiveBrutalRewards().phoenix(1).bans(LOOTER_BANS)
-                .timedWaves(false).waveAliveCap(4).minionResistance(0).register();
+                .brutalWaves(false).register();
         vessel(MilestoneRankLadder.LOOTER_2, 500_000L, 1.5D, 0.0D);
         vessel(MilestoneRankLadder.LOOTER_3, 850_000L, 2.0D, 0.0D);
-        hyper(MilestoneRankLadder.HUNTER_1).difficulty(Difficulty.IMPOSSIBLE).modifiers(15).minutes(40)
-                .cycles(2).boss(1.5D, 1.3D).objectiveScale(0.75D)
+        hyper(MilestoneRankLadder.HUNTER_1).difficulty(Difficulty.HARD).modifiers(15).minutes(40)
+                .cycles(1).boss(1.5D, 1.3D).objectiveScale(0.75D)
                 .positiveBrutalRewards().phoenix(1).bans(SHARED_BANS)
-                .timedWaves(false).waveAliveCap(4).minionResistance(0).register();
+                .brutalWaves(false).register();
         vessel(MilestoneRankLadder.HUNTER_2, 1_500_000L, 3.0D, 0.20D);
         vessel(MilestoneRankLadder.HUNTER_3, 3_000_000L, 3.0D, 0.45D);
         hyper(MilestoneRankLadder.MASTER_1).difficulty(Difficulty.IMPOSSIBLE).modifiers(20).minutes(50)
-                .cycles(3).boss(10.0D, 1.4D).register();
+                .cycles(2).boss(10.0D, 1.4D).timedWaves(false).waveAliveCap(4).register();
         vessel(MilestoneRankLadder.MASTER_2, 10_000_000L, 5.0D, 0.50D);
         vessel(MilestoneRankLadder.MASTER_3, 30_000_000L, 10.0D, 0.50D);
         hyper(MilestoneRankLadder.CHAMPION_1).difficulty(Difficulty.FRAGGED).modifiers(25).minutes(50)
-                .cycles(3).boss(20.0D, 1.65D).register();
+                .cycles(3).boss(20.0D, 1.65D).timedWaves(false).waveAliveCap(4).register();
         vessel(MilestoneRankLadder.CHAMPION_2, 150_000_000L, 15.0D, 0.75D);
         vessel(MilestoneRankLadder.CHAMPION_3, 500_000_000L, 25.0D, 1.00D);
         hyper(MilestoneRankLadder.LEGEND).difficulty(Difficulty.FRAGGED).modifiers(25).minutes(60)
@@ -103,9 +103,9 @@ public final class GreedTrial {
     private final double objectiveScale;
     private final double speedCapFactor;
     private final int ambientPeriodTicks;
+    private final boolean brutalWaves;
     private final boolean timedWaves;
     private final int waveAliveCap;
-    private final int minionResistanceAmplifier;
     private final boolean positiveBrutalRewards;
     private final int phoenixStacks;
     private final Set<String> bannedModifiers;
@@ -125,9 +125,9 @@ public final class GreedTrial {
         this.objectiveScale = builder.objectiveScale;
         this.speedCapFactor = builder.speedCapFactor;
         this.ambientPeriodTicks = builder.ambientPeriodTicks;
+        this.brutalWaves = builder.brutalWaves;
         this.timedWaves = builder.timedWaves;
         this.waveAliveCap = builder.waveAliveCap;
-        this.minionResistanceAmplifier = builder.minionResistanceAmplifier;
         this.positiveBrutalRewards = builder.positiveBrutalRewards;
         this.phoenixStacks = builder.phoenixStacks;
         this.bannedModifiers = builder.bannedModifiers;
@@ -171,9 +171,9 @@ public final class GreedTrial {
         private double objectiveScale = 1.0D;
         private double speedCapFactor;
         private int ambientPeriodTicks;
+        private boolean brutalWaves = true;
         private boolean timedWaves = true;
         private int waveAliveCap;
-        private int minionResistanceAmplifier = -1;
         private boolean positiveBrutalRewards;
         private int phoenixStacks;
         private Set<String> bannedModifiers = Set.of();
@@ -224,6 +224,11 @@ public final class GreedTrial {
             return this;
         }
 
+        private Builder brutalWaves(boolean brutalWaves) {
+            this.brutalWaves = brutalWaves;
+            return this;
+        }
+
         private Builder timedWaves(boolean timedWaves) {
             this.timedWaves = timedWaves;
             return this;
@@ -231,11 +236,6 @@ public final class GreedTrial {
 
         private Builder waveAliveCap(int waveAliveCap) {
             this.waveAliveCap = waveAliveCap;
-            return this;
-        }
-
-        private Builder minionResistance(int minionResistanceAmplifier) {
-            this.minionResistanceAmplifier = minionResistanceAmplifier;
             return this;
         }
 
@@ -337,6 +337,11 @@ public final class GreedTrial {
         return this.ambientPeriodTicks;
     }
 
+    /** Whether brutal reinforcements spawn at all; false silences the timer and the health gates alike. */
+    public boolean hasBrutalWaves() {
+        return this.brutalWaves;
+    }
+
     /** Whether the periodic brutal wave still fires; a row may switch the timed reinforcements off. */
     public boolean hasTimedWaves() {
         return this.timedWaves;
@@ -345,14 +350,6 @@ public final class GreedTrial {
     /** Most wave brutal bosses alive in the arena at once; 0 keeps the configured hyper cap. */
     public int getWaveAliveCap() {
         return this.waveAliveCap;
-    }
-
-    /**
-     * Resistance amplifier the boss holds while any reinforcement lives, where 0 is Resistance I;
-     * -1 keeps the live hyper value.
-     */
-    public int getMinionResistanceAmplifier() {
-        return this.minionResistanceAmplifier;
     }
 
     /**

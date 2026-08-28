@@ -97,6 +97,7 @@ import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.HyperStatModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
+import xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossGlow;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossManager;
 import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialHyper;
@@ -228,6 +229,14 @@ public class HyperVaultObjective extends Objective {
      * HyperBossManager reads finished stats mid-fight; the previous value is deliberately kept
      * until the new boss spawns — gate checks resolve a dead entity to null and skip.
      */
+    /**
+     * The trial mastery damage bonus earned so far, in basis points; see
+     * {@link xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery}. Synced so the client can
+     * show it, and 0 in every vault that is not a rank-up trial.
+     */
+    public static final FieldKey<Integer> MASTERY_BONUS = FieldKey.of("mastery_bonus", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
+    /** Vault time left when the current cycle's objective window opened, for the mastery award. */
+    public static final FieldKey<Integer> MASTERY_WINDOW = FieldKey.of("mastery_window", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<UUID> BOSS_ID = FieldKey.of("boss_id", UUID.class).with(Version.v1_31, Adapters.UUID, DISK.all()).register(FIELDS);
     /**
      * The pillar tile's saved state: the fight consumes the pillar block when the boss summons,
@@ -674,6 +683,7 @@ public class HyperVaultObjective extends Objective {
      */
     @Override
     public void tickServer(VirtualWorld world, Vault vault) {
+        TrialMastery.ensureObjectiveWindow(vault, this);
         this.get(FIGHTS).onTick(world, vault);
         this.get(MINIS).forEach(mini -> mini.tickServer(world, vault));
         drainSpeedClampQueue(vault);

@@ -246,6 +246,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         if (remaining <= 0 && !GreedTrialHyper.isCycleTargetMet(vault)) {
             removeExitPillar();
             cycleManager.rollBatch();
+            xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery.openObjectiveWindow(vault, objective);
         }
     }
 
