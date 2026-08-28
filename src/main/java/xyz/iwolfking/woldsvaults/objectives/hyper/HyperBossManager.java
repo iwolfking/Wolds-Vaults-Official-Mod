@@ -302,6 +302,11 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     /**
      * While any spawned reinforcement lives, the boss holds Resistance, refreshed once a second. The
      * amplifier is III outside a trial; the two lowest hyper trials drop it to I.
+     *
+     * <p>The same pass re-asserts the boss's red glow. The glowing flag lives in one entity's synched
+     * data, and the arena has been seen to build two boss instances sharing a uuid, of which the
+     * entity manager keeps only the first; marking the instance the spawn event handed us can
+     * therefore mark a copy no client ever sees. The boss resolved here by uuid is always the live one.
      */
     private void tickBossResistance() {
         if (world.getTickCount() % 20 != 0) {
@@ -310,6 +315,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         UUID bossId = objective.getOr(HyperVaultObjective.BOSS_ID, null);
         if (bossId == null || !(world.getEntity(bossId) instanceof LivingEntity boss) || !boss.isAlive()) {
             return;
+        }
+        if (!HyperBossGlow.isMarked(boss)) {
+            HyperBossGlow.mark(boss);
         }
         int amplifier = GreedTrialHyper.minionResistanceAmplifier(vault, MINION_RESISTANCE_AMPLIFIER);
         for (Entity entity : world.getAllEntities()) {

@@ -47,7 +47,6 @@ public class BleedOverrideEffect extends SourceMobEffect {
 
 
             if (duration % 40 == 0) {
-                WoldsVaults.LOGGER.info("APPLYING BLEEEEED");
                 MaxHealthDamageHelper.applyBleedDamage(instance, entity, source.getEntity());
             }
 

@@ -28,6 +28,11 @@ public final class HyperBossGlow {
     private HyperBossGlow() {
     }
 
+    /** Whether the given boss already carries the glowing flag, so a re-assert can be skipped. */
+    public static boolean isMarked(LivingEntity boss) {
+        return boss.hasGlowingTag();
+    }
+
     /** Glows one hyperboss red, first dropping members whose entity no longer exists anywhere. */
     public static void mark(LivingEntity boss) {
         MinecraftServer server = boss.getServer();
@@ -48,9 +53,9 @@ public final class HyperBossGlow {
         boss.setGlowingTag(true);
         resend(server, team, boss.getStringUUID());
         WoldsVaults.LOGGER.info(
-                "Hyperboss glow: {} joined team {} (colour {}, {} member(s), newMember={}); glowing tag {}.",
-                boss.getType().getRegistryName(), TEAM, team.getColor(), team.getPlayers().size(), added,
-                boss.hasGlowingTag());
+                "Hyperboss glow: {} #{} joined team {} (colour {}, {} member(s), newMember={}); glowing tag {}.",
+                boss.getType().getRegistryName(), boss.getId(), TEAM, team.getColor().getName(),
+                team.getPlayers().size(), added, boss.hasGlowingTag());
     }
 
     /**

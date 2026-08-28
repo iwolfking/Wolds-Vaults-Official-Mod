@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -48,6 +49,20 @@ public final class HyperVaultEvents {
         return ServerVaults.get(entity.level)
                 .map(vault -> vault.get(Vault.MODIFIERS).hasModifier(WoldsVaults.id("radar")))
                 .orElse(false);
+    }
+
+    /**
+     * Denies every point of self-healing on a hyperboss. The roster's {@code heal} trait restores
+     * 2% of maximum health on a timer whose interval is divided by the vault's rune ability haste
+     * ({@code bossAbilityHaste}), and {@code life_leech_on_hit} returns a share of the damage the
+     * boss deals; both scale with the boss's own health pool, so they gate the fight harder the
+     * bigger the boss is. A hyper fight is a damage race against the vault clock instead.
+     */
+    @SubscribeEvent
+    public static void denyHyperbossSelfHealing(LivingHealEvent event) {
+        if (isHyperBoss(event.getEntityLiving())) {
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent
