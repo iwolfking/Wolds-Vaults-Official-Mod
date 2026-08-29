@@ -4,6 +4,8 @@ import com.github.klikli_dev.occultism.common.blockentity.GoldenSacrificialBowlB
 import com.github.klikli_dev.occultism.common.ritual.CraftRitual;
 import com.github.klikli_dev.occultism.common.ritual.Ritual;
 import com.github.klikli_dev.occultism.crafting.recipe.RitualRecipe;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -16,6 +18,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.integration.occultism.lib.DynamicResultRitualRecipe;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "occultism")
+        }
+)
 @Mixin(value = CraftRitual.class, remap = false)
 public abstract class MixinCraftRitual extends Ritual {
 

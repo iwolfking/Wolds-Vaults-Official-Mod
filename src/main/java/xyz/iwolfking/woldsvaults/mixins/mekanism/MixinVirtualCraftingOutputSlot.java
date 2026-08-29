@@ -4,6 +4,8 @@ import iskallia.vault.block.SkillAltarBlock;
 import iskallia.vault.item.KnowledgeBrewItem;
 import iskallia.vault.item.MentorsBrewItem;
 import iskallia.vault.item.VaultDollItem;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import mekanism.common.inventory.container.slot.InventoryContainerSlot;
 import mekanism.common.inventory.container.slot.VirtualCraftingOutputSlot;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +19,11 @@ import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.blocks.DollDismantlingBlock;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "mekanism")
+        }
+)
 @Mixin(VirtualCraftingOutputSlot.class)
 public abstract class MixinVirtualCraftingOutputSlot {
    @Inject(method = "mayPickup", at = @At("HEAD"), cancellable = true)

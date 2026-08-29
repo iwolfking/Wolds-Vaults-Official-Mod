@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.mixins.mekanism;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.gear.item.VaultGearItem;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import mekanism.api.gear.ModuleData;
 import mekanism.api.text.TextComponentUtil;
 import mekanism.client.gui.IGuiWrapper;
@@ -21,6 +23,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
+
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "mekanism")
+        }
+)
 @Mixin(value = GuiModuleScrollList.class, remap = false)
 public abstract class MixinGuiModuleScrollList extends GuiScrollList {
     @Shadow

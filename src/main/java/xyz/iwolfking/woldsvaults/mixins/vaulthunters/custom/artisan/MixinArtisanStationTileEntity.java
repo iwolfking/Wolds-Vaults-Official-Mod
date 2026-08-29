@@ -20,7 +20,7 @@ import xyz.iwolfking.woldsvaults.init.ModItems;
 @Mixin(value = VaultArtisanStationTileEntity.class, remap = false)
 public abstract class MixinArtisanStationTileEntity extends BlockEntity {
     @Shadow @Final @Mutable
-    private OverSizedInventory inventory = new OverSizedInventory.FilteredInsert(20, this, this::canInsertInput);
+    private OverSizedInventory inventory = new OverSizedInventory.FilteredInsert(21, this, this::canInsertInput);
 
     public MixinArtisanStationTileEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
@@ -36,6 +36,9 @@ public abstract class MixinArtisanStationTileEntity extends BlockEntity {
         }
         if(slot == 19) {
             cir.setReturnValue(stack.is(ModItems.SUSPENSION_FOCUS));
+        }
+        if(slot == 20) {
+            cir.setReturnValue(stack.is(ModItems.INSCRIBING_FOCUS));
         }
     }
 

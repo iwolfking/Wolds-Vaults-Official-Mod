@@ -26,8 +26,6 @@ public class ModEnigmaEggProvider extends AbstractEnigmaEggProvider {
         });
     }
 
-    private final static List<String> NAMESPACES_TO_FILTER = List.of("minecraft");
-
     public static List<SpawnEggItem> getAllSpawnEggs() {
         return ItemHelper.getAllRegisteredItems(item -> item instanceof SpawnEggItem, List.of("minecraft"), SpawnEggItem.class);
     }

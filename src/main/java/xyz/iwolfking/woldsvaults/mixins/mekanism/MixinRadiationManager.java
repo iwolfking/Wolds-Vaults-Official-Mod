@@ -3,6 +3,8 @@ package xyz.iwolfking.woldsvaults.mixins.mekanism;
 import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.gear.data.GearDataCache;
 import iskallia.vault.item.gear.VaultArmorItem;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import mekanism.common.lib.radiation.RadiationManager;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +14,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
+
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "mekanism")
+        }
+)
 @Mixin(value = RadiationManager.class, remap = false)
 public class MixinRadiationManager {
     @Inject(method = "getRadiationResistance", at = @At(value = "INVOKE", target = "Lmekanism/common/util/CapabilityUtils;getCapability(Lnet/minecraftforge/common/capabilities/ICapabilityProvider;Lnet/minecraftforge/common/capabilities/Capability;Lnet/minecraft/core/Direction;)Lnet/minecraftforge/common/util/LazyOptional;"), cancellable = true)

@@ -3,6 +3,8 @@ package xyz.iwolfking.woldsvaults.mixins.mekanism;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.CardItem;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import mekanism.client.jei.BaseRecipeCategory;
 import mekanism.client.gui.element.slot.GuiSlot;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -14,6 +16,12 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.List;
 
+
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "mekanism")
+        }
+)
 @Mixin(value = BaseRecipeCategory.class, remap = false)
 public abstract class MixinBaseRecipeCategory {
 

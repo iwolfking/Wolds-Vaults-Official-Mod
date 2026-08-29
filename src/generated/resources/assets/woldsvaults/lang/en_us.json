@@ -481,6 +481,7 @@
   "ftbquests.task.woldsvaults.enter_vault": "Enter Vault",
   "ftbquests.task.woldsvaults.vault_level": "Vault Level",
   "gas.woldsvaults.lead_gas": "Gaseous Lead",
+  "gui.woldsvaults.jei.mekanism_modification_station": "Modification Station",
   "item.scannable.vault_cake_module": "Scanner Module: Vault Cakes",
   "item.scannable.vault_chests_module": "Scanner Module: All Chests",
   "item.scannable.vault_chests_module_gilded": "Scanner Module: Gilded Chests",
