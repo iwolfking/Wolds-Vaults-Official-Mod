@@ -4,13 +4,17 @@ import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.IdentifiableItem;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.item.gear.VaultArmorItem;
+import iskallia.vault.item.gear.VaultCharmItem;
 import mekanism.api.gear.ModuleData;
 import mekanism.common.item.ItemModule;
 import mekanism.common.registries.MekanismItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.api.util.ItemHelper;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 import java.util.ArrayList;
@@ -59,6 +63,30 @@ public class ModModuleToVaultGearModifications {
         }
 
         return stack;
+    }
+
+    public static HashMap<ItemModule, ModuleModifier<?>> getRegisteredModifiers() {
+        return MODULE_TO_MODIFIER_MAP;
+    }
+
+
+    public static List<ItemStack> getMatchingGearSamples(Predicate<ItemStack> itemFilter) {
+        List<ItemStack> samples = new ArrayList<>();
+        List<Item> checkItems = WoldConstants.ALL_VAULT_GEAR_ITEMS.get();
+
+        for (Item item : checkItems) {
+            ItemStack stack = new ItemStack(item);
+
+            if(item instanceof IdentifiableItem identifiableItem && !(item instanceof VaultCharmItem)) {
+                identifiableItem.instantIdentify(null, stack);
+            }
+
+            if (itemFilter.test(stack)) {
+                samples.add(stack);
+            }
+        }
+
+        return samples;
     }
 
     public record ModuleModifier<T>(T value,

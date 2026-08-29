@@ -4,6 +4,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.ItemHelper;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractEnigmaEggProvider;
 
 import java.util.Comparator;
@@ -28,11 +29,6 @@ public class ModEnigmaEggProvider extends AbstractEnigmaEggProvider {
     private final static List<String> NAMESPACES_TO_FILTER = List.of("minecraft");
 
     public static List<SpawnEggItem> getAllSpawnEggs() {
-        return ForgeRegistries.ITEMS.getValues().stream()
-                .filter(b -> b instanceof SpawnEggItem)
-                .filter(b -> b.getRegistryName() != null && !NAMESPACES_TO_FILTER.contains(b.getRegistryName().getNamespace()))
-                .sorted(Comparator.comparing( b -> b.getRegistryName() != null ? b.getRegistryName().toString() : ""))
-                .map(b -> (SpawnEggItem) b)
-                .toList();
+        return ItemHelper.getAllRegisteredItems(item -> item instanceof SpawnEggItem, List.of("minecraft"), SpawnEggItem.class);
     }
 }
