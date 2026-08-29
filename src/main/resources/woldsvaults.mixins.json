@@ -477,6 +477,7 @@
     "vaulthunters.fixes.MixinVaultGearModifierHelper",
     "vaulthunters.fixes.MixinVaultGearRarity",
     "vaulthunters.fixes.MixinVaultGearTierConfig",
+    "vaulthunters.fixes.MixinVaultModifierItemFix",
     "vaulthunters.fixes.MixinVaultModifierRegistry",
     "vaulthunters.fixes.MixinVaultUtils",
     "vaulthunters.fixes.MixinVorpalSealCost",
