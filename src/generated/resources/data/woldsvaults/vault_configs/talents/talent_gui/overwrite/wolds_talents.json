@@ -42,6 +42,12 @@
       "frameType": "RECTANGULAR",
       "icon": "woldsvaults:gui/skills/fanged_strike"
     },
+    "Hexbreaker": {
+      "x": 564,
+      "y": 160,
+      "frameType": "RECTANGULAR",
+      "icon": "the_vault:gui/skills/hexbreaker"
+    },
     "Depleted": {
       "x": -140,
       "y": 80,

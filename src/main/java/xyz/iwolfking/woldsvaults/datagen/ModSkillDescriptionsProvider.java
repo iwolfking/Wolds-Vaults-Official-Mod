@@ -166,6 +166,20 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 TalentDescriptionsHelper.appendOverlevelDescription("Blood_Chakra", "add", "one additional max stack", "#48a188", description);
             });
 
+            builder.addDescription("Hexbreaker", description -> {
+                description.add(JsonDescription.text("Deal additional damage with abilities to mobs that have a debuff"));
+                description.add(JsonDescription.text(".\n\n1 "));
+                description.add(JsonDescription.text("+25% Damage", "#f99b21"));
+                description.add(JsonDescription.text("\n\n2 "));
+                description.add(JsonDescription.text("+50% Damage", "#f99b21"));
+                description.add(JsonDescription.text("\n\n3 "));
+                description.add(JsonDescription.text("+75% Damage", "#f99b21"));
+                description.add(JsonDescription.text("\n\n4 "));
+                description.add(JsonDescription.text("+100% Damage", "#f99b21"));
+                description.add(JsonDescription.text("\n\n"));
+                TalentDescriptionsHelper.appendOverlevelDescription("Hexbreaker", "add", "+15% Damage", "#f99b21", description);
+            });
+
             builder.addDescription("Ransack", description -> {
                 description.add(JsonDescription.text("Breaking sliceable "));
                 description.add(JsonDescription.text("Vault Chests ", "#e88a12"));

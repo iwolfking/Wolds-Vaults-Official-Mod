@@ -431,7 +431,7 @@ public class LivingEntityEvents {
     public static void bonusDebuffDamage(LivingHurtEvent event) {
         if(event.getSource().getEntity() instanceof ServerPlayer player) {
             if(ActiveFlags.IS_AP_ATTACKING.isSet()) {
-                if(event.getSource().getEntity() instanceof LivingEntity livingEntity) {
+                if(event.getEntity() instanceof LivingEntity livingEntity) {
                     if(!MobEffectHelper.hasNegativeEffect(livingEntity)) {
                         return;
                     }

@@ -545,6 +545,62 @@
         "color": "#C23627"
       }
     ],
+    "Hexbreaker": [
+      {
+        "text": "Deal additional damage with abilities to mobs that have a debuff"
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+25% Damage",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+50% Damage",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+75% Damage",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n4 "
+      },
+      {
+        "text": "+100% Damage",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Hexbreaker",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+15% Damage",
+        "color": "#f99b21"
+      }
+    ],
     "Blood_Chakra": [
       {
         "text": "Killing a mob grants "

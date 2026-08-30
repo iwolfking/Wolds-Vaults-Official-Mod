@@ -75,7 +75,8 @@ public class ModTalentStyleProvider extends WoldsTalentStyleProvider {
                 new TalentData("Mind_Meld", "woldsvaults:gui/skills/mind_meld"),
                 new ChoiceGroup(List.of(new TalentData("Potent_Elixir", "woldsvaults:gui/skills/potent_elixir"), new TalentData("Healthy_Elixir", "woldsvaults:gui/skills/healthy_elixir"))),
                 new EmptySpace(DEFAULT_X_SPACING),
-                new TalentData("Arcana", "the_vault:gui/skills/arcana")
+                new TalentData("Arcana", "the_vault:gui/skills/arcana"),
+                new TalentData("Hexbreaker", "the_vault:gui/skills/hexbreaker")
         ));
 
         //Greater Row
