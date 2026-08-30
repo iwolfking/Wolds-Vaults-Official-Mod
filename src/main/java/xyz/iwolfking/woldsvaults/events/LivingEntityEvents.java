@@ -55,6 +55,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -439,6 +440,13 @@ public class LivingEntityEvents {
                     debuffDamageTalent.ifPresent(debuffDamageBonusTalent -> event.setAmount(event.getAmount() * (1.0F + debuffDamageBonusTalent.getDamageIncrease())));
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingKnockBack(LivingKnockBackEvent event) {
+        if(WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.isSet()) {
+            event.setCanceled(true);
         }
     }
 

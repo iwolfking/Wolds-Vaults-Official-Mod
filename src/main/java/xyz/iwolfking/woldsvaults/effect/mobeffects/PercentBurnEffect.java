@@ -15,6 +15,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 
 import javax.annotation.Nullable;
@@ -54,7 +55,7 @@ public class PercentBurnEffect extends MobEffect {
         float percentPerSecond = 0.10f + (0.10f * amplifier);
         float damage = attackSnapshot * percentPerSecond;
 
-        DamageSource source = DamageSource.MAGIC;
+        DamageSource source;
 
         if (data.hasUUID(BURN_SOURCE_UUID) && target.level instanceof ServerLevel serverLevel) {
             UUID sourceId = data.getUUID(BURN_SOURCE_UUID);
@@ -64,12 +65,18 @@ public class PercentBurnEffect extends MobEffect {
                 source = DamageSource.playerAttack(serverPlayer);
             } else if (sourceEntity instanceof LivingEntity livingSource) {
                 source = DamageSource.mobAttack(livingSource);
+            } else {
+                source = DamageSource.MAGIC;
             }
+        } else {
+            source = DamageSource.MAGIC;
         }
 
-        ActiveFlags.IS_AP_ATTACKING.push();
-        target.hurt(source, damage);
-        ActiveFlags.IS_AP_ATTACKING.pop();
+        WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> {
+            ActiveFlags.IS_AP_ATTACKING.push();
+            target.hurt(source, damage);
+            ActiveFlags.IS_AP_ATTACKING.pop();
+        });
 
         spawnFireParticles(target);
     }
