@@ -93,7 +93,8 @@ public class ModTalentStyleProvider extends WoldsTalentStyleProvider {
                 new TalentData("Prime_Amplification", "the_vault:gui/skills/prime_amplification"),
                 new TalentData("Dungeon_Mastery", "the_vault:gui/skills/dungeon_mastery"),
                 new TalentData("Horde_Mastery", "the_vault:gui/skills/horde_mastery"),
-                new TalentData("Assassin_Mastery", "the_vault:gui/skills/assassin_mastery")
+                new TalentData("Assassin_Mastery", "the_vault:gui/skills/assassin_mastery"),
+                new TalentData("Blood_Chakra", "woldsvaults:gui/skills/blood_chakra")
         ));
 
         //Finale Row

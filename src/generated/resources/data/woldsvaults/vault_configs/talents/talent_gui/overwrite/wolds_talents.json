@@ -48,6 +48,12 @@
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/depleted"
     },
+    "Blood_Chakra": {
+      "x": 564,
+      "y": 240,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/blood_chakra"
+    },
     "Fatal_Strike": {
       "x": -12,
       "y": 160,

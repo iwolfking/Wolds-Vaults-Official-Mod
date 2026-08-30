@@ -146,6 +146,16 @@
         ],
         "ignoreArrow": false
       },
+      "Blood_Chakra": {
+        "dependsOn": [
+          {
+            "amount": 25,
+            "type": "talent_points_spent"
+          }
+        ],
+        "lockedBy": [],
+        "ignoreArrow": false
+      },
       "Heart_Fragments": {
         "dependsOn": [],
         "lockedBy": [
@@ -282,6 +292,18 @@
               },
               {
                 "id": "Frenzy",
+                "type": "constant"
+              },
+              {
+                "id": "Blood_Chakra",
+                "type": "constant"
+              },
+              {
+                "id": "Treasure_Seeker",
+                "type": "constant"
+              },
+              {
+                "id": "Bountiful_Harvest",
                 "type": "constant"
               }
             ],

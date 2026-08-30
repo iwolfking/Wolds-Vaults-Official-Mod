@@ -545,6 +545,104 @@
         "color": "#C23627"
       }
     ],
+    "Blood_Chakra": [
+      {
+        "text": "Killing a mob grants "
+      },
+      {
+        "text": "+3% Increased Ability Power",
+        "color": "#bd49bf"
+      },
+      {
+        "text": ". This effect can "
+      },
+      {
+        "text": "stack ",
+        "color": "yellow"
+      },
+      {
+        "text": "and lasts for a short time."
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+4 Max Stacks",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "4 seconds",
+        "color": "#7e1c80"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+6 Max Stacks",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "6 seconds",
+        "color": "#7e1c80"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+8 Max Stacks",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "8 seconds",
+        "color": "#7e1c80"
+      },
+      {
+        "text": "\n\n4 "
+      },
+      {
+        "text": "+10 Max Stacks",
+        "color": "yellow"
+      },
+      {
+        "text": ", "
+      },
+      {
+        "text": "10 seconds",
+        "color": "#7e1c80"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Blood_Chakra",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "one additional max stack",
+        "color": "#48a188"
+      }
+    ],
     "Healthy_Elixir": [
       {
         "text": "Enhances the "

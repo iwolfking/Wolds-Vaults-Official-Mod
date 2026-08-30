@@ -56,8 +56,8 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             TalentDescriptionsHelper.appendOverlevelDescription("Mana_Harvest", builder, "add", "+1 Additional Mana", "#0353d7");
             TalentDescriptionsHelper.appendOverlevelDescription("Fatal_Strike", builder, "add", "+20% Additional Damage", "#C23627");
             TalentDescriptionsHelper.appendOverlevelDescription("Heart_Fragments", builder, "add", "+3% Heart Fragment Chance", "#7DF587");
-            TalentDescriptionsHelper.appendOverlevelDescription("Mana_Steal", builder, "add", "+1% Max Mana Restored", "#19A6E4");
-            TalentDescriptionsHelper.appendOverlevelDescription("Life_Steal", builder, "add", "+2% Life Leeched", "#C23627");
+            TalentDescriptionsHelper.appendOverlevelDescription("Mana_Steal", builder, "add", "+0.5% Max Mana Restored", "#19A6E4");
+            TalentDescriptionsHelper.appendOverlevelDescription("Life_Steal", builder, "add", "+0.5% Life Leeched", "#C23627");
             TalentDescriptionsHelper.appendOverlevelDescription("Cleave", builder, "add", "+1% Additional damage and +5% Additional Range", "#5ae09c");
             TalentDescriptionsHelper.appendOverlevelDescription("Prudent", builder, "add", "+4% Additional Chance", "#5ae09c");
             TalentDescriptionsHelper.appendOverlevelDescription("Ethereal", builder,"add", "+3% Additional Chance", "#5ae09c");
@@ -138,6 +138,32 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text("+40%", "#7DF587"));
                 description.add(JsonDescription.text("\n\n"));
                 TalentDescriptionsHelper.appendOverlevelDescription("Healthy Elixir", "add", "+3% max health restored", "#7DF587", description);
+            });
+
+            builder.addDescription("Blood_Chakra", description -> {
+                description.add(JsonDescription.text("Killing a mob grants "));
+                description.add(JsonDescription.text("+3% Increased Ability Power", "#bd49bf"));
+                description.add(JsonDescription.text(". This effect can "));
+                description.add(JsonDescription.text("stack ", "yellow"));
+                description.add(JsonDescription.text("and lasts for a short time."));
+                description.add(JsonDescription.text(".\n\n1 "));
+                description.add(JsonDescription.text("+4 Max Stacks", "yellow"));
+                description.add(JsonDescription.text(", "));
+                description.add(JsonDescription.text("4 seconds", "#7e1c80"));
+                description.add(JsonDescription.text("\n\n2 "));
+                description.add(JsonDescription.text("+6 Max Stacks", "yellow"));
+                description.add(JsonDescription.text(", "));
+                description.add(JsonDescription.text("6 seconds", "#7e1c80"));
+                description.add(JsonDescription.text("\n\n3 "));
+                description.add(JsonDescription.text("+8 Max Stacks", "yellow"));
+                description.add(JsonDescription.text(", "));
+                description.add(JsonDescription.text("8 seconds", "#7e1c80"));
+                description.add(JsonDescription.text("\n\n4 "));
+                description.add(JsonDescription.text("+10 Max Stacks", "yellow"));
+                description.add(JsonDescription.text(", "));
+                description.add(JsonDescription.text("10 seconds", "#7e1c80"));
+                description.add(JsonDescription.text("\n\n"));
+                TalentDescriptionsHelper.appendOverlevelDescription("Blood_Chakra", "add", "one additional max stack", "#48a188", description);
             });
 
             builder.addDescription("Ransack", description -> {

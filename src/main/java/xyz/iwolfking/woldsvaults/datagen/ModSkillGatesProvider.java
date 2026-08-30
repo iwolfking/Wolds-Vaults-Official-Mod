@@ -141,6 +141,12 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
                 });
             });
 
+            builder.add("Blood_Chakra", skillGateEntryBuilder -> {
+                skillGateEntryBuilder.dependsOn(typeBuilder -> {
+                    typeBuilder.add(new TalentPointsSpentSkillGate(25));
+                });
+            });
+
             builder.add("Fatal_Strike", skillGateEntryBuilder -> {
                 skillGateEntryBuilder.dependsOn(typeBuilder -> {
                     typeBuilder.add(new TalentPointsSpentSkillGate(15));
@@ -185,6 +191,9 @@ public class ModSkillGatesProvider extends AbstractSkillGatesProvider {
                         choices.constant("Arcana");
                         choices.constant("Lucky_Momentum");
                         choices.constant("Frenzy");
+                        choices.constant("Blood_Chakra");
+                        choices.constant("Treasure_Seeker");
+                        choices.constant("Bountiful_Harvest");
                     });
                 });
             });
