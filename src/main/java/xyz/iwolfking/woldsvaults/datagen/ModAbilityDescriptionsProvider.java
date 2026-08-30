@@ -15,6 +15,37 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
 
     @Override
     public void registerConfigs() {
+        add("fireshot", builder -> {
+            builder.addDescription("Fireball_Fireshot", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Summon a small magical fireshot to hit mobs from afar\n\n"));
+                jsonElements.add(JsonDescription.simple("Deals an amount of "));
+                jsonElements.add(JsonDescription.simple("damage ", "$ability_power"));
+                jsonElements.add(JsonDescription.simple("based off your "));
+                jsonElements.add(JsonDescription.simple("Ability Power ", "$ability_power"));
+                jsonElements.add(JsonDescription.simple("and transfers any ", "$radius"));
+                jsonElements.add(JsonDescription.simple("on-hit effects ", "$name"));
+                jsonElements.add(JsonDescription.simple("from you with the exception of "));
+                jsonElements.add(JsonDescription.simple("Lucky Hit", "$luckyHit"));
+                jsonElements.add(JsonDescription.simple(".\n\n"));
+                jsonElements.add(JsonDescription.simple("Enemies hit will also "));
+                jsonElements.add(JsonDescription.simple("Burn ", "red"));
+                jsonElements.add(JsonDescription.simple("for the same "));
+                jsonElements.add(JsonDescription.simple("damage ", "$ability_power"));
+                jsonElements.add(JsonDescription.simple("over the next "));
+                jsonElements.add(JsonDescription.simple("10 seconds", "yellow"));
+                jsonElements.add(JsonDescription.simple("."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("ability_power");
+                current.add("cooldown");
+                current.add("manaCost");
+            }, next -> {
+                next.add("ability_power");
+                next.add("cooldown");
+                next.add("manaCost");
+            });
+        });
+
         add("chaos_cube", builder -> {
             builder.addDescription("Grenade_Base", jsonElements -> {
                jsonElements.add(JsonDescription.simple("Throw a mysterious, powerful "));

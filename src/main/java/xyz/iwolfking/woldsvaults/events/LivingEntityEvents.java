@@ -88,8 +88,10 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
+import xyz.iwolfking.woldsvaults.talent.special.DebuffDamageBonusTalent;
 import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
 
@@ -419,6 +421,22 @@ public class LivingEntityEvents {
                 }
                 else {
                     event.setAmount(hyperFinite(event.getEntityLiving(), event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage), event.getAmount(), "execution"));
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void bonusDebuffDamage(LivingHurtEvent event) {
+        if(event.getSource().getEntity() instanceof ServerPlayer player) {
+            if(ActiveFlags.IS_AP_ATTACKING.isSet()) {
+                if(event.getSource().getEntity() instanceof LivingEntity livingEntity) {
+                    if(!MobEffectHelper.hasNegativeEffect(livingEntity)) {
+                        return;
+                    }
+
+                    Optional<DebuffDamageBonusTalent> debuffDamageTalent = TalentHelper.getTalent(player, DebuffDamageBonusTalent.class);
+                    debuffDamageTalent.ifPresent(debuffDamageBonusTalent -> event.setAmount(event.getAmount() * (1.0F + debuffDamageBonusTalent.getDamageIncrease())));
                 }
             }
         }

@@ -1,0 +1,90 @@
+{
+  "data": {
+    "Fireball_Fireshot": {
+      "description": [
+        {
+          "text": "Summon a small magical fireshot to hit mobs from afar\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Deals an amount of ",
+          "color": "$text"
+        },
+        {
+          "text": "damage ",
+          "color": "$ability_power"
+        },
+        {
+          "text": "based off your ",
+          "color": "$text"
+        },
+        {
+          "text": "Ability Power ",
+          "color": "$ability_power"
+        },
+        {
+          "text": "and transfers any ",
+          "color": "$radius"
+        },
+        {
+          "text": "on-hit effects ",
+          "color": "$name"
+        },
+        {
+          "text": "from you with the exception of ",
+          "color": "$text"
+        },
+        {
+          "text": "Lucky Hit",
+          "color": "$luckyHit"
+        },
+        {
+          "text": ".\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Enemies hit will also ",
+          "color": "$text"
+        },
+        {
+          "text": "Burn ",
+          "color": "red"
+        },
+        {
+          "text": "for the same ",
+          "color": "$text"
+        },
+        {
+          "text": "damage ",
+          "color": "$ability_power"
+        },
+        {
+          "text": "over the next ",
+          "color": "$text"
+        },
+        {
+          "text": "10 seconds",
+          "color": "yellow"
+        },
+        {
+          "text": ".",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "ability_power",
+        "cooldown",
+        "manaCost"
+      ],
+      "next": [
+        "ability_power",
+        "cooldown",
+        "manaCost"
+      ]
+    }
+  }
+}

@@ -9,8 +9,11 @@ import iskallia.vault.gear.etching.EtchingHelper;
 import iskallia.vault.skill.ability.effect.spi.AbstractFireballAbility;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -20,12 +23,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
+import xyz.iwolfking.woldsvaults.effect.mobeffects.PercentBurnEffect;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 
 import java.util.Random;
 
 @Mixin(value = VaultFireball.class, remap = false)
-public abstract class MixinVaultFireball {
+public abstract class MixinVaultFireball extends AbstractArrow {
+    protected MixinVaultFireball(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
+    }
+
     @Shadow
     public abstract void explode(Vec3 pos);
 
@@ -84,5 +92,12 @@ public abstract class MixinVaultFireball {
         }
 
         return original.call(instance);
+    }
+
+    @Inject(method = "lambda$onHit$6", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), remap = true)
+    private static void applyBurnEffectToFireshot(LivingEntity living, DamageSource damageSource, float attackDamage, CallbackInfo ci) {
+        if(damageSource.getEntity() instanceof LivingEntity attacker) {
+            PercentBurnEffect.applyPercentBurn(living, attacker,220, attackDamage);
+        }
     }
 }
