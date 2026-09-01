@@ -1,0 +1,12 @@
+{
+  "type": "mekanism:pigment_extracting",
+  "input": {
+    "ingredient": {
+      "item": "woldsvaults:concentrated_void"
+    }
+  },
+  "output": {
+    "pigment": "woldsvaults:void_pigment",
+    "amount": 1000
+  }
+}

@@ -50,10 +50,22 @@ public class CardPaintingRecipe extends PaintingRecipe {
         if(result.getItem() instanceof CardItem) {
             Card card = iskallia.vault.item.CardItem.getCard(result);
 
+            if(this.getChemicalInput().testType(ModPigments.VOID_PIGMENT.getChemical())) {
+                if(card.getGroups().contains("Foil")) {
+                    if(!card.getEntries().isEmpty()) {
+                        card.getEntries().get(0).getGroups().remove("Foil");
+                        CardItem.setCard(result, card);
+                        return result;
+                    }
+                }
+            }
+
             if(this.getChemicalInput().testType(ModPigments.FOIL_PIGMENT.getChemical())) {
                 if(!card.getGroups().contains("Foil")) {
                     if(!card.getEntries().isEmpty()) {
                         card.getEntries().get(0).getGroups().add("Foil");
+                        CardItem.setCard(result, card);
+                        return result;
                     }
                 }
             }

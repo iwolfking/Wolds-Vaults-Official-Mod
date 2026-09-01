@@ -144,8 +144,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModPigments.CARD_PAINT_GREEN.getTranslationKey(), "Green Card Paint");
         add(ModPigments.CARD_PAINT_RED.getTranslationKey(), "Red Card Paint");
         add(ModPigments.CARD_PAINT_YELLOW.getTranslationKey(), "Yellow Card Paint");
+        add(ModPigments.VOID_PIGMENT.getTranslationKey(), "Void Coating");
         add(ModGases.LEAD_GAS.getTranslationKey(), "Gaseous Lead");
         add(ModItems.LEAD_DYE_BASE, "Lead Dye Base");
+        add(ModItems.CONCENTRATED_VOID, "Concentrated Void");
         add("fix.woldsvaults.schematic_terminal_no_permission", "You do not have permission to place an Overworld Inscription here!");
         add("fluid.woldsvaults.molten_trinket", "Molten Trinket");
         add("block.woldsvaults.prismatic_glue", "Prismatic Glue");

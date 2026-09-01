@@ -231,6 +231,7 @@ public class ModItems {
 
     public static BasicItem UNINFUSED_TERRASTEEL_INGOT;
     public static BasicItem LEAD_DYE_BASE;
+    public static BasicItem CONCENTRATED_VOID;
 
     public static Map<DyeColor, BasicItem> COLORED_UNOBTANIUMS = new HashMap<>();
     public static BasicItem RAINBOW_UNOBTANIUM;
@@ -401,6 +402,7 @@ public class ModItems {
         registry.register(BLUE_VAULT_ESSENCE);
         registry.register(GREEN_VAULT_ESSENCE);
         registry.register(LEAD_DYE_BASE);
+        registry.register(CONCENTRATED_VOID);
         COLORED_UNOBTANIUMS.forEach((s, bi) -> {
             registry.register(bi);
         });
@@ -582,6 +584,7 @@ public class ModItems {
 
         UNINFUSED_TERRASTEEL_INGOT = new BasicItem(WoldsVaults.id("uninfused_terrasteel_ingot"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         LEAD_DYE_BASE = new BasicItem(WoldsVaults.id("lead_dye_base"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        CONCENTRATED_VOID = new BasicItem(WoldsVaults.id("concentrated_void"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
 
         COMBINED_TRINKET = new CombinedTrinketItem(WoldsVaults.id("combined_trinket"));
 

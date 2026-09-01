@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import com.buuz135.industrial.IndustrialForegoing;
 import com.github.klikli_dev.occultism.Occultism;
 import com.github.klikli_dev.occultism.registry.OccultismItems;
 import iskallia.vault.VaultMod;
@@ -27,6 +28,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -1177,6 +1179,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ItemStackToChemicalRecipeBuilder.pigmentExtracting(ItemStackIngredientCreator.INSTANCE.from(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE), new PigmentStack(ModPigments.IDONA_RED, 125)).build(pFinishedRecipeConsumer, WoldsVaults.id("idona_red_pigment_extraction"));;
         ItemStackToChemicalRecipeBuilder.pigmentExtracting(ItemStackIngredientCreator.INSTANCE.from(MekanismItems.ANTIMATTER_PELLET), new PigmentStack(ModPigments.FOIL_PIGMENT, 2000)).build(pFinishedRecipeConsumer, WoldsVaults.id("foil_pigment"));;
         ItemStackToChemicalRecipeBuilder.pigmentExtracting(ItemStackIngredientCreator.INSTANCE.from(ModItems.LEAD_DYE_BASE), new PigmentStack(ModPigments.CARD_PAINT_BASE, 250)).build(pFinishedRecipeConsumer, WoldsVaults.id("card_paint_base"));;
+        ItemStackToChemicalRecipeBuilder.pigmentExtracting(ItemStackIngredientCreator.INSTANCE.from(ModItems.CONCENTRATED_VOID), new PigmentStack(ModPigments.VOID_PIGMENT, 1000)).build(pFinishedRecipeConsumer, WoldsVaults.id("void_pigment"));;
         ChemicalChemicalToChemicalRecipeBuilder.pigmentMixing(PigmentStackIngredientCreator.INSTANCE.from(ModPigments.CARD_PAINT_BASE, 2L), PigmentStackIngredientCreator.INSTANCE.from(ModPigments.IDONA_RED, 1L), new PigmentStack(ModPigments.CARD_PAINT_RED, 1L)).build(pFinishedRecipeConsumer, WoldsVaults.id("card_paint_red"));
         ChemicalChemicalToChemicalRecipeBuilder.pigmentMixing(PigmentStackIngredientCreator.INSTANCE.from(ModPigments.CARD_PAINT_BASE, 2L), PigmentStackIngredientCreator.INSTANCE.from(ModPigments.TENOS_BLUE, 1L), new PigmentStack(ModPigments.CARD_PAINT_BLUE, 1L)).build(pFinishedRecipeConsumer, WoldsVaults.id("card_paint_blue"));
         ChemicalChemicalToChemicalRecipeBuilder.pigmentMixing(PigmentStackIngredientCreator.INSTANCE.from(ModPigments.CARD_PAINT_BASE, 2L), PigmentStackIngredientCreator.INSTANCE.from(ModPigments.VELARA_GREEN, 1L), new PigmentStack(ModPigments.CARD_PAINT_GREEN, 1L)).build(pFinishedRecipeConsumer, WoldsVaults.id("card_paint_green"));
@@ -1186,6 +1189,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD, ModPigments.CARD_PAINT_GREEN.get(), 350L, CardEntry.Color.GREEN).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/green"));
         CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD, ModPigments.CARD_PAINT_YELLOW.get(), 350L, CardEntry.Color.YELLOW).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/yellow"));
         CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD, ModPigments.FOIL_PIGMENT.get(), 500L, null).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/foil"));
+        CardPaintingRecipeBuilder.cardPainting(iskallia.vault.init.ModItems.CARD, ModPigments.VOID_PIGMENT.get(), 1000L, null).build(pFinishedRecipeConsumer, WoldsVaults.id("card_painting/unfoil"));
         ItemStackChemicalToItemStackRecipeBuilder.painting(ItemStackIngredientCreator.INSTANCE.from(Blocks.STONE_BRICKS), PigmentStackIngredientCreator.INSTANCE.from(ModPigments.IDONA_RED, 5), iskallia.vault.init.ModBlocks.IDONA_BRICK.asItem().getDefaultInstance()).build(pFinishedRecipeConsumer, WoldsVaults.id("painting/idona_bricks"));
         ItemStackChemicalToItemStackRecipeBuilder.painting(ItemStackIngredientCreator.INSTANCE.from(Blocks.STONE_BRICKS), PigmentStackIngredientCreator.INSTANCE.from(ModPigments.WENDARR_YELLOW, 5), iskallia.vault.init.ModBlocks.WENDARR_BRICK.asItem().getDefaultInstance()).build(pFinishedRecipeConsumer, WoldsVaults.id("painting/wendarr_bricks"));
         ItemStackChemicalToItemStackRecipeBuilder.painting(ItemStackIngredientCreator.INSTANCE.from(Blocks.STONE_BRICKS), PigmentStackIngredientCreator.INSTANCE.from(ModPigments.VELARA_GREEN, 5), iskallia.vault.init.ModBlocks.VELARA_BRICK.asItem().getDefaultInstance()).build(pFinishedRecipeConsumer, WoldsVaults.id("painting/velara_bricks"));
@@ -1205,6 +1209,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 )
                 .energyRequired(FloatingLong.createConst(1000))
                 .build(pFinishedRecipeConsumer, WoldsVaults.id("lead_dye_base"));
+
+        PressurizedReactionRecipeBuilder.reaction(
+                        ItemStackIngredientCreator.INSTANCE.from(TagKey.create(ForgeRegistries.ITEMS.getRegistryKey(), ResourceLocation.withDefaultNamespace("coals"))),
+                        FluidStackIngredientCreator.INSTANCE.from(iskallia.vault.init.ModFluids.VOID_LIQUID.get(), 1000),
+                        GasStackIngredientCreator.INSTANCE.from(MekanismGases.URANIUM_OXIDE, 25),
+                        100,
+                        ModItems.CONCENTRATED_VOID.getDefaultInstance()
+                )
+                .energyRequired(FloatingLong.createConst(10000))
+                .build(pFinishedRecipeConsumer, WoldsVaults.id("concentrated_void"));
 
         for(DyeColor color : DyeColor.values()) {
             unobtanium(ModItems.COLORED_UNOBTANIUMS.get(color), ModBlocks.COLORED_UNOBTANIUMS.get(color), pFinishedRecipeConsumer);

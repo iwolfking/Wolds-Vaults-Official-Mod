@@ -63,6 +63,11 @@ public class ModPigments {
                           .color(0x9B59B6).getColor()
     );
 
+    public static final PigmentRegistryObject<Pigment> VOID_PIGMENT = PIGMENTS.register(
+            "void_pigment",
+            0x000000
+    );
+
     public static void register(IEventBus eventBus) {
         PIGMENTS.register(eventBus);
     }
