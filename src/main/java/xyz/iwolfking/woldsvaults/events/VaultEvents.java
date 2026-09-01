@@ -4,6 +4,7 @@ import dev.ftb.mods.ftbquests.quest.ServerQuestFile;
 import dev.ftb.mods.ftbquests.quest.TeamData;
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.data.key.ThemeKey;
+import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.VaultUtils;
@@ -26,6 +27,7 @@ import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.CompleteBountyTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.EnterVaultTask;
+import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.api.WoldFTBQuestsHelper;
 import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
 
 import java.util.List;
@@ -119,5 +121,16 @@ public class VaultEvents {
                 data.setProgress(task, 1L);
             }
         }
+    }
+
+    static {
+        CommonEvents.VAULT_LEVEL_UP.register(VaultEvents.class, data -> {
+            ServerPlayer player = data.getPlayer();
+            if(player.getServer() != null && data.getNewLevel() >= 75 && !DiscoveredRecipesData.get(player.getServer()).hasDiscovered(player, WoldsVaults.id("standard_trinket_pouch"))) {
+                DiscoveredRecipesData.get(player.getServer()).discoverRecipeAndBroadcast(WoldsVaults.id("standard_trinket_pouch"), player);
+            }
+
+            WoldFTBQuestsHelper.progressVaultLevelTasks(player, data.getNewLevel());
+        });
     }
 }
