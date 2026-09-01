@@ -53,11 +53,7 @@ public class BrutalBossesObjective extends ObeliskObjective {
 
     public static final SupplierKey<Objective> E_KEY = (SupplierKey)SupplierKey.of("brutal_bosses", Objective.class).with(Version.v1_12, BrutalBossesObjective::new);
     public static final FieldRegistry FIELDS = ObeliskObjective.FIELDS.merge(new FieldRegistry());
-    /**
-     * Hyper-vault mode: boss kills draw single rolls from the hyper_all_bad pool instead of the
-     * bb_* pools, and obelisks skip the listener-priority gate (the objective never joins
-     * listener HUD lists).
-     */
+
     public static final FieldKey<Boolean> NEGATIVE_POOL_ONLY = FieldKey.of("negative_pool_only", Boolean.class).with(Version.v1_12, Adapters.BOOLEAN, DISK.all()).register(FIELDS);
     private static final ResourceLocation NEGATIVE_POOL = HyperVaultObjective.CHAOS_POOL_ALL_BAD;
 
@@ -94,10 +90,6 @@ public class BrutalBossesObjective extends ObeliskObjective {
         return this.getOr(NEGATIVE_POOL_ONLY, false) ? NEGATIVE_POOL : VaultMod.id("bb_" + modName.toLowerCase());
     }
 
-    /**
-     * In hyper mode (NEGATIVE_POOL_ONLY) boss-kill modifiers count against the shared chaos
-     * budget and respect the per-modifier stack caps.
-     */
     private void addBossKillModifier(Vault vault, VaultModifier<?> mod, List<VaultModifier<?>> modifiersForMsg) {
         if (this.getOr(NEGATIVE_POOL_ONLY, false)
                 && (HyperModifierPolicy.isStackCapped(vault, mod)
@@ -105,7 +97,7 @@ public class BrutalBossesObjective extends ObeliskObjective {
             return;
         }
         modifiersForMsg.add(mod);
-        ((Modifiers) vault.get(Vault.MODIFIERS)).addModifier(mod, 1, true, (RandomSource) JavaRandom.ofNanoTime());
+        vault.get(Vault.MODIFIERS).addModifier(mod, 1, true, (RandomSource) JavaRandom.ofNanoTime());
     }
 
     @Override
@@ -127,7 +119,7 @@ public class BrutalBossesObjective extends ObeliskObjective {
                 data.setResult(InteractionResult.SUCCESS);
             } else if (this.hasObelisksLeft()) {
                 BlockPos pos = data.getPos();
-                if ((Boolean)data.getState().getValue(ObeliskBlock.FILLED)) {
+                if (data.getState().getValue(ObeliskBlock.FILLED)) {
                     data.setResult(InteractionResult.SUCCESS);
                 } else if (data.getState().getValue(ObeliskBlock.HALF) == DoubleBlockHalf.UPPER && world.getBlockState(pos = pos.below()).getBlock() != ModBlocks.OBELISK) {
                     data.setResult(InteractionResult.SUCCESS);
@@ -135,8 +127,8 @@ public class BrutalBossesObjective extends ObeliskObjective {
                         && (vault.get(Vault.LISTENERS)).getObjectivePriority(data.getPlayer().getUUID(), this) != 0) {
                     data.setResult(InteractionResult.SUCCESS);
                 } else {
-                    world.setBlock(pos, (BlockState)world.getBlockState(pos).setValue(ObeliskBlock.FILLED, true), 3);
-                    world.setBlock(pos.above(), (BlockState)world.getBlockState(pos.above()).setValue(ObeliskBlock.FILLED, true), 3);
+                    world.setBlock(pos, world.getBlockState(pos).setValue(ObeliskBlock.FILLED, true), 3);
+                    world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(ObeliskBlock.FILLED, true), 3);
                     this.onObeliskActivated(world, vault, pos);
                     data.setResult(InteractionResult.SUCCESS);
                 }
@@ -147,8 +139,8 @@ public class BrutalBossesObjective extends ObeliskObjective {
             PartialTile target = PartialTile.of(PartialBlockState.of(ModBlocks.PLACEHOLDER), PartialCompoundNbt.empty());
             target.getState().set(PlaceholderBlock.TYPE, PlaceholderBlock.Type.OBJECTIVE);
             if (target.isSubsetOf(PartialTile.of(data.getState()))) {
-                BlockState lower = (BlockState)((BlockState)ModBlocks.OBELISK.defaultBlockState().setValue(ObeliskBlock.HALF, DoubleBlockHalf.LOWER)).setValue(ObeliskBlock.FILLED, false);
-                BlockState upper = (BlockState)((BlockState)ModBlocks.OBELISK.defaultBlockState().setValue(ObeliskBlock.HALF, DoubleBlockHalf.UPPER)).setValue(ObeliskBlock.FILLED, false);
+                BlockState lower = ModBlocks.OBELISK.defaultBlockState().setValue(ObeliskBlock.HALF, DoubleBlockHalf.LOWER).setValue(ObeliskBlock.FILLED, false);
+                BlockState upper = (ModBlocks.OBELISK.defaultBlockState().setValue(ObeliskBlock.HALF, DoubleBlockHalf.UPPER)).setValue(ObeliskBlock.FILLED, false);
                 data.getWorld().setBlock(data.getPos(), lower, 3);
                 data.getWorld().setBlock(data.getPos().above(), upper, 3);
             }

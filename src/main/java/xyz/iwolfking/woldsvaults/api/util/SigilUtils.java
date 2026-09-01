@@ -34,12 +34,6 @@ public class SigilUtils {
 
     }
 
-    /**
-     * The vault's final difficulty expressed as a multiplier: 1.0 for a sigil-less vault, plus
-     * every difficulty source stacked on top of it. Only the crystal's sigil contributes today
-     * (its value comes from {@code sigils/definitions.json}), so a +3.0 sigil yields 4.0 — the
-     * 400% a player sees. A sigil id with no definition contributes nothing and is logged.
-     */
     public static float getDifficultyMultiplier(@Nullable String sigil) {
         if(sigil == null) {
             return 1.0F;

@@ -46,14 +46,7 @@ public class BrutalBossesCrystalObjective extends WoldCrystalObjective {
         this.objectiveProbability = objectiveProbability;
     }
 
-    /**
-     * Sigils scale the fight, not just its modifiers: the vault's final difficulty multiplier
-     * (1 + every difficulty source, so a +3.0 sigil reads as 400%) is square-rooted and applied
-     * to both the pillar count and each pillar's boss count, rounded down — 400% turns 4 pillars
-     * of 2 bosses into 8 pillars of 4. Pillars are capped at {@link #MAX_OBELISKS}; boss counts
-     * are not. The challenge stacks a sigil grants are added separately in
-     * {@link xyz.iwolfking.woldsvaults.api.util.SigilUtils#addStacksFromSigil}.
-     */
+
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();

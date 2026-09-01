@@ -18,6 +18,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import javax.annotation.Nullable;
@@ -36,11 +37,12 @@ public class ZealotCrystalObjective extends WoldCrystalObjective {
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = (vault.get(Vault.LEVEL)).get();
+        double difficultyScale = Math.sqrt(SigilUtils.getDifficultyMultiplier(sigil));
         vault.ifPresent(
                 Vault.OBJECTIVES,
                 objectives -> {
                     objectives.add(
-                            ZealotObjective.of(this.target.get(random), 0)
+                            ZealotObjective.of((int) (this.target.get(random) * difficultyScale), 0)
                                     .add(
                                             FindExitObjective.create(ClassicPortalLogic.EXIT)
                                                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ZEALOT"), "zealot", level, true))
