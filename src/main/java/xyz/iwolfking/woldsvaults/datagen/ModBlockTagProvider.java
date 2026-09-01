@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
+import xyz.iwolfking.woldsvaults.init.ModTags;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags() {
+
+        tag(ModTags.MINEABLE_WITH_SWORD).addOptionalTag(ModTags.CHIPPED_COBWEB.location());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.GRAVEYARD_LOOT_BLOCK)

@@ -11,6 +11,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import xyz.iwolfking.woldsvaults.init.ModTags;
 
 @Mixin(value = VaultSwordItem.class, remap = false)
 public abstract class MixinVaultSwordItem extends SwordItem implements VaultGearItem, DyeableLeatherItem {
@@ -38,6 +39,10 @@ public abstract class MixinVaultSwordItem extends SwordItem implements VaultGear
     @Overwrite
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         if(GearDataCache.of(stack).getState().equals(VaultGearState.IDENTIFIED)) {
+            if(state.getTags().anyMatch(blockTagKey -> blockTagKey.equals(ModTags.MINEABLE_WITH_SWORD))) {
+                return 15.0F;
+            }
+
             return super.getDestroySpeed(stack, state);
         }
 
