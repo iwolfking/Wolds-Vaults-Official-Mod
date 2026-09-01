@@ -16,4 +16,5 @@ public class ModTags {
     public static final TagKey<Item> STACKABLE_SEALS = TagKey.create(Registry.ITEM_REGISTRY, WoldsVaults.id("stackable_seals"));
     public static final TagKey<Block> MINEABLE_WITH_SWORD = TagKey.create(Registry.BLOCK_REGISTRY, ResourceLocation.fromNamespaceAndPath("fabric", "mineable/sword"));
     public static final TagKey<Block> CHIPPED_COBWEB = TagKey.create(Registry.BLOCK_REGISTRY, ResourceLocation.fromNamespaceAndPath("chipped", "cobweb"));
+    public static final TagKey<Block> MINEABLE_WITH_SHEARS = TagKey.create(Registry.BLOCK_REGISTRY, ResourceLocation.fromNamespaceAndPath("fabric", "mineable/shears"));
 }

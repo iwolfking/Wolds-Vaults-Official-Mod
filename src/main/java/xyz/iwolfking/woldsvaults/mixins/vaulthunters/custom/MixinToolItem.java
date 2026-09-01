@@ -28,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.blocks.LockedTreasureContainerBlock;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.api.lib.ExtendedToolType;
+import xyz.iwolfking.woldsvaults.init.ModTags;
 
 import java.util.function.Consumer;
 
@@ -88,6 +89,10 @@ public abstract class MixinToolItem extends TieredItem implements VaultGearItem,
         }
 
         if(data.get(ModGearAttributes.TREASURE_AFFINITY, VaultGearAttributeTypeMerger.anyTrue()) && state.is(xyz.iwolfking.woldsvaults.init.ModBlocks.LOCKED_TREASURE_CONTAINER_BLOCK)) {
+            cir.setReturnValue(true);
+        }
+
+        if(data.get(iskallia.vault.init.ModGearAttributes.REAPING, VaultGearAttributeTypeMerger.anyTrue()) && state.is(ModTags.MINEABLE_WITH_SHEARS)) {
             cir.setReturnValue(true);
         }
     }
