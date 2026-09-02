@@ -654,6 +654,7 @@ a17c88fc29d15a9e2727f0c385814214b15d6c9a assets/the_vault/models/item/modifiers/
 7c3c189282a0771c7deb96ceee7c04243cfbc3d3 assets/the_vault/models/item/modifiers/winter.json
 8e3814a3a14fc7b07d8e913bf0baf62ce0f0f5cd assets/the_vault/models/item/modifiers/witch_party.json
 aa6b3c51817c83d671a9722b6b4c05c00862e3af assets/the_vault/models/item/skills/arcane_strike.json
+889f57b30d1bcd444076e10460bfc61afd1b563c assets/the_vault/models/item/skills/blood_chakra.json
 52b5bdf96f05f26e5ca7cb84b9f3fc4aa5361733 assets/the_vault/models/item/skills/blood_rush.json
 f3bc01efa633831f4946bc424be1aca3ae5c1675 assets/the_vault/models/item/skills/colossus.json
 c8d02aba955c34ee4966c6b08b391e1725023fbd assets/the_vault/models/item/skills/execution_strike.json
@@ -661,6 +662,7 @@ c8d02aba955c34ee4966c6b08b391e1725023fbd assets/the_vault/models/item/skills/exe
 ce1ccf74c3d53c0c699cddda71d82dc84edd4204 assets/the_vault/models/item/skills/expunge.json
 3bb5e816f32fb2c98f60e95b23c3a3023eaff294 assets/the_vault/models/item/skills/fanged_strike.json
 55a68e60f9e8a52f34ef4cd86d5a155136ffd543 assets/the_vault/models/item/skills/healthy_elixir.json
+7a31d3a57d19538c3e4b5f562a8995fb0e77b291 assets/the_vault/models/item/skills/hex_breaker.json
 5ec5cd490ac3173d71d9a9e0d0f14d7868c84c9a assets/the_vault/models/item/skills/lunge.json
 045d692dc7498f9a8c527b1f577ad0b226477a1d assets/the_vault/models/item/skills/medic.json
 b6a31f03d23ef136b074b8c08f3b43bd8c264b9f assets/the_vault/models/item/skills/mind_meld.json

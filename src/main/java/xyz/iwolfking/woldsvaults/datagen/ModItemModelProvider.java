@@ -269,6 +269,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         skillScroll("momentum_engine");
         skillScroll("lunge");
         skillScroll("stack_master");
+        skillScroll("hex_breaker");
+        skillScroll("blood_chakra");
         skillScrollVanilla("voltaic_impact");
         skillScrollVanilla("blood_rush");
         skillScrollVanilla("executioner");
