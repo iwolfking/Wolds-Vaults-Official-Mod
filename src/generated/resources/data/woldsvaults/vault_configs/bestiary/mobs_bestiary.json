@@ -2,6 +2,102 @@
   "groupDescriptions": {},
   "entities": [
     {
+      "entityId": "ars_nouveau:wilden_guardian",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Arcane"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
+      "entityId": "ars_nouveau:vexing_weald_walker",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Arcane"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
+      "entityId": "ars_nouveau:flourishing_weald_walker",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Arcane"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
+      "entityId": "ars_nouveau:cascading_weald_walker",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Arcane"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
+      "entityId": "ars_nouveau:blazing_weald_walker",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Arcane"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
+      "entityId": "ars_nouveau:wilden_hunter",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Arcane"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
       "entityId": "woldsvaults:astral_stalker",
       "descriptionData": {
         "description": [
@@ -61,6 +157,22 @@
       },
       "themes": [
         "Astral"
+      ],
+      "minLevel": 30,
+      "drops": []
+    },
+    {
+      "entityId": "ars_nouveau:wilden_stalker",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Arcane"
       ],
       "minLevel": 30,
       "drops": []

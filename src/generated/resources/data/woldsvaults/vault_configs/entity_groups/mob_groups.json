@@ -14,6 +14,7 @@
       "dungeons_mobs:iceologer"
     ],
     "the_vault:horde": [
+      "ars_nouveau:wilden_stalker",
       "woldsvaults:loginar",
       "woldsvaults:hostile_turkey",
       "woldsvaults:hostile_chicken",
@@ -32,6 +33,7 @@
       "grimoireofgaia:deathword"
     ],
     "the_vault:assassin": [
+      "ars_nouveau:wilden_hunter",
       "woldsvaults:astral_stalker",
       "woldsvaults:singularity_creeper",
       "alexsmobs:cosmaw",
@@ -82,6 +84,11 @@
       "the_vault:vault_dood"
     ],
     "the_vault:tank": [
+      "ars_nouveau:wilden_guardian",
+      "ars_nouveau:vexing_weald_walker",
+      "ars_nouveau:flourishing_weald_walker",
+      "ars_nouveau:cascading_weald_walker",
+      "ars_nouveau:blazing_weald_walker",
       "woldsvaults:nebula_sentinel",
       "woldsvaults:star_devourer",
       "grimoireofgaia:incinerator",

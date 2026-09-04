@@ -21,6 +21,26 @@
       "1.0": "woldsvaults:sculk_rooms"
     },
     {
+      "id": "woldsvaults:mystical_forest_common_rooms",
+      "name": "Mystical Forest Common Rooms",
+      "1.0": "woldsvaults:mystical_forest_common_rooms"
+    },
+    {
+      "id": "woldsvaults:mystical_forest_tunnels",
+      "name": "Mystical Forest Tunnels",
+      "1.0": "woldsvaults:mystical_forest_tunnels"
+    },
+    {
+      "id": "woldsvaults:mystical_forest_starts",
+      "name": "Mystical Forest Starts",
+      "1.0": "woldsvaults:mystical_forest_starts"
+    },
+    {
+      "id": "woldsvaults:mystical_forest_rooms",
+      "name": "Mystical Forest Rooms",
+      "1.0": "woldsvaults:mystical_forest_rooms"
+    },
+    {
       "id": "woldsvaults:astral_common_rooms",
       "name": "Astral Common Rooms",
       "1.0": "woldsvaults:astral_common_rooms"

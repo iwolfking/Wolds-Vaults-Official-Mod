@@ -1,5 +1,246 @@
 {
   "series": {
+    "Arcane": {
+      "displayName": "Arcane",
+      "colour": 3112412,
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "More ",
+              "color": "white"
+            },
+            {
+              "text": "Wutodie ",
+              "color": "light_purple"
+            },
+            {
+              "text": ", ",
+              "color": "white"
+            },
+            {
+              "text": "Benitoite ",
+              "color": "blue"
+            },
+            {
+              "text": "and ",
+              "color": "white"
+            },
+            {
+              "text": "Alexandrite ",
+              "color": "green"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Hordes",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░░",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Wilden Stalker ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Assassins",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Wilden Hunter ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": "Tanks",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Weald Walkers ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 4",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 4",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 1",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "✸ ⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Dwellers",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░",
+              "color": "gray"
+            },
+            {
+              "text": "░░░",
+              "color": "$darkgray"
+            }
+          ]
+        }
+      ]
+    },
     "Astral": {
       "displayName": "Astral",
       "colour": 3112412,
@@ -367,6 +608,9 @@
     }
   },
   "augments": {
+    "Arcane": [
+      "woldsvaults:mystical_forest"
+    ],
     "Void": [
       "woldsvaults:sculk"
     ],

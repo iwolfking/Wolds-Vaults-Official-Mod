@@ -17,6 +17,210 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
 
     @Override
     protected void registerOverrides() {
+        add(com.hollingsworth.arsnouveau.common.entity.ModEntities.WILDEN_GUARDIAN.getRegistryName(), vaultMobBuilder -> {
+            vaultMobBuilder.entityGroup(VaultMod.id("tank"))
+                    .xpValue(140)
+                    .attributeWithLevels("minecraft:generic.max_health", levels -> {
+                        levels.addLevel(0, 50.0, 65.0, "set", 1.0, 0.07, 49)
+                                .addLevel(50, 70.0, 82.0, "set", 1.0, 0.09, 64)
+                                .addLevel(65, 85.0, 100.0, "set", 1.0, 0.09, 107)
+                                .addLevel(80, 100, 125.0, "set", 1.0, 0.09, 107)
+                                .addLevel(90, 130.0, 170.0, "set", 1.0, 0.09, 107);
+                    })
+                    .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
+                        levels.addLevel(0, 3.0, 3.0, "set", 1.0, 0.1, 50)
+                                .addLevel(65, 3.0, 4.0, "set", 1.0, 0.1, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
+                        levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 0.1, 0.15, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 0.15, 0.2, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_multiplier", levels -> {
+                        levels.addLevel(0, 1.2, 1.2, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 1.3, 1.3, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 1.4, 1.4, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeSimple("minecraft:generic.movement_speed", 1.05, 1.1, "multiply", 1.0, 0.0, 107)
+                    .attributeSimple("minecraft:generic.knockback_resistance", 0.95, 0.95, "set", 1.0, 0.0, 107)
+                    .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, 107)
+                    .bestiaryEntry(themes -> {
+                        themes.add("Arcane");
+                    }, 30, descriptions -> {
+                        descriptions.add(JsonDescription.simple("", "$text"));
+                    });
+        });
+
+        add(com.hollingsworth.arsnouveau.common.entity.ModEntities.ENTITY_VEXING_WEALD.getRegistryName(), vaultMobBuilder -> {
+            vaultMobBuilder.entityGroup(VaultMod.id("tank"))
+                    .xpValue(140)
+                    .attributeWithLevels("minecraft:generic.max_health", levels -> {
+                        levels.addLevel(0, 68.0, 82.0, "set", 1.0, 0.07, 49)
+                                .addLevel(50, 82.0, 104.0, "set", 1.0, 0.09, 64)
+                                .addLevel(65, 100.0, 140.0, "set", 1.0, 0.09, 107)
+                                .addLevel(80, 150, 190.0, "set", 1.0, 0.09, 107)
+                                .addLevel(90, 200.0, 240.0, "set", 1.0, 0.09, 107);
+                    })
+                    .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
+                        levels.addLevel(0, 4.0, 4.0, "set", 1.0, 0.1, 50)
+                                .addLevel(65, 4.0, 6.0, "set", 1.0, 0.1, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
+                        levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 0.1, 0.15, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 0.15, 0.2, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_multiplier", levels -> {
+                        levels.addLevel(0, 1.2, 1.2, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 1.3, 1.3, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 1.4, 1.4, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeSimple("minecraft:generic.movement_speed", 1.05, 1.1, "multiply", 1.0, 0.0, 107)
+                    .attributeSimple("minecraft:generic.knockback_resistance", 0.95, 0.95, "set", 1.0, 0.0, 107)
+                    .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, 107)
+                    .bestiaryEntry(themes -> {
+                        themes.add("Arcane");
+                    }, 30, descriptions -> {
+                        descriptions.add(JsonDescription.simple("", "$text"));
+                    });
+        });
+
+        add(com.hollingsworth.arsnouveau.common.entity.ModEntities.ENTITY_FLOURISHING_WEALD.getRegistryName(), vaultMobBuilder -> {
+            vaultMobBuilder.entityGroup(VaultMod.id("tank"))
+                    .xpValue(140)
+                    .attributeWithLevels("minecraft:generic.max_health", levels -> {
+                        levels.addLevel(0, 68.0, 82.0, "set", 1.0, 0.07, 49)
+                                .addLevel(50, 82.0, 104.0, "set", 1.0, 0.09, 64)
+                                .addLevel(65, 100.0, 140.0, "set", 1.0, 0.09, 107)
+                                .addLevel(80, 150, 190.0, "set", 1.0, 0.09, 107)
+                                .addLevel(90, 200.0, 240.0, "set", 1.0, 0.09, 107);
+                    })
+                    .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
+                        levels.addLevel(0, 4.0, 4.0, "set", 1.0, 0.1, 50)
+                                .addLevel(65, 4.0, 6.0, "set", 1.0, 0.1, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
+                        levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 0.1, 0.15, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 0.15, 0.2, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_multiplier", levels -> {
+                        levels.addLevel(0, 1.2, 1.2, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 1.3, 1.3, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 1.4, 1.4, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeSimple("minecraft:generic.movement_speed", 1.05, 1.1, "multiply", 1.0, 0.0, 107)
+                    .attributeSimple("minecraft:generic.knockback_resistance", 0.95, 0.95, "set", 1.0, 0.0, 107)
+                    .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, 107)
+                    .bestiaryEntry(themes -> {
+                        themes.add("Arcane");
+                    }, 30, descriptions -> {
+                        descriptions.add(JsonDescription.simple("", "$text"));
+                    });
+        });
+
+        add(com.hollingsworth.arsnouveau.common.entity.ModEntities.ENTITY_CASCADING_WEALD.getRegistryName(), vaultMobBuilder -> {
+            vaultMobBuilder.entityGroup(VaultMod.id("tank"))
+                    .xpValue(140)
+                    .attributeWithLevels("minecraft:generic.max_health", levels -> {
+                        levels.addLevel(0, 68.0, 82.0, "set", 1.0, 0.07, 49)
+                                .addLevel(50, 82.0, 104.0, "set", 1.0, 0.09, 64)
+                                .addLevel(65, 100.0, 140.0, "set", 1.0, 0.09, 107)
+                                .addLevel(80, 150, 190.0, "set", 1.0, 0.09, 107)
+                                .addLevel(90, 200.0, 240.0, "set", 1.0, 0.09, 107);
+                    })
+                    .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
+                        levels.addLevel(0, 4.0, 4.0, "set", 1.0, 0.1, 50)
+                                .addLevel(65, 4.0, 6.0, "set", 1.0, 0.1, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
+                        levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 0.1, 0.15, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 0.15, 0.2, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_multiplier", levels -> {
+                        levels.addLevel(0, 1.2, 1.2, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 1.3, 1.3, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 1.4, 1.4, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeSimple("minecraft:generic.movement_speed", 1.05, 1.1, "multiply", 1.0, 0.0, 107)
+                    .attributeSimple("minecraft:generic.knockback_resistance", 0.95, 0.95, "set", 1.0, 0.0, 107)
+                    .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, 107)
+                    .bestiaryEntry(themes -> {
+                        themes.add("Arcane");
+                    }, 30, descriptions -> {
+                        descriptions.add(JsonDescription.simple("", "$text"));
+                    });
+        });
+
+        add(com.hollingsworth.arsnouveau.common.entity.ModEntities.ENTITY_BLAZING_WEALD.getRegistryName(), vaultMobBuilder -> {
+            vaultMobBuilder.entityGroup(VaultMod.id("tank"))
+                    .xpValue(140)
+                    .attributeWithLevels("minecraft:generic.max_health", levels -> {
+                        levels.addLevel(0, 68.0, 82.0, "set", 1.0, 0.07, 49)
+                                .addLevel(50, 82.0, 104.0, "set", 1.0, 0.09, 64)
+                                .addLevel(65, 100.0, 140.0, "set", 1.0, 0.09, 107)
+                                .addLevel(80, 150, 190.0, "set", 1.0, 0.09, 107)
+                                .addLevel(90, 200.0, 240.0, "set", 1.0, 0.09, 107);
+                    })
+                    .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
+                        levels.addLevel(0, 4.0, 4.0, "set", 1.0, 0.1, 50)
+                                .addLevel(65, 4.0, 6.0, "set", 1.0, 0.1, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
+                        levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 0.1, 0.15, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 0.15, 0.2, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_multiplier", levels -> {
+                        levels.addLevel(0, 1.2, 1.2, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 1.3, 1.3, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 1.4, 1.4, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeSimple("minecraft:generic.movement_speed", 1.05, 1.1, "multiply", 1.0, 0.0, 107)
+                    .attributeSimple("minecraft:generic.knockback_resistance", 0.95, 0.95, "set", 1.0, 0.0, 107)
+                    .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, 107)
+                    .bestiaryEntry(themes -> {
+                        themes.add("Arcane");
+                    }, 30, descriptions -> {
+                        descriptions.add(JsonDescription.simple("", "$text"));
+                    });
+        });
+
+        add(com.hollingsworth.arsnouveau.common.entity.ModEntities.WILDEN_HUNTER.getRegistryName(), vaultMobBuilder -> {
+            vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
+                    .xpValue(90)
+                    .attributeWithLevels("minecraft:generic.max_health", levels -> {
+                        levels.addLevel(0, 55.0, 80.0, "set", 1.0, 0.07, 49)
+                                .addLevel(50, 65.0, 85.0, "set", 1.0, 0.07, 64)
+                                .addLevel(65, 70.0, 90.0, "set", 1.0, 0.07, 107)
+                                .addLevel(80, 75, 95.0, "set", 1.0, 0.07, 107)
+                                .addLevel(90, 95.0, 100.0, "set", 1.0, 0.07, 107);
+                    })
+                    .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
+                        levels.addLevel(0, 2.0, 2.5, "set", 1.0, 0.1, 50)
+                                .addLevel(65, 2.5, 3.0, "set", 1.0, 0.1, 107)
+                                .addLevel(90, 3, 4.0, "set", 1.0, 0.1, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
+                        levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 0.1, 0.15, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 0.15, 0.2, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_multiplier", levels -> {
+                        levels.addLevel(0, 1.5, 1.5, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 1.5, 1.5, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 1.5, 1.5, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeSimple("minecraft:generic.movement_speed", 1.05, 1.1, "multiply", 1.0, 0.0, 107)
+                    .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, 107)
+                    .bestiaryEntry(themes -> {
+                        themes.add("Arcane");
+                    }, 30, descriptions -> {
+                        descriptions.add(JsonDescription.simple("", "$text"));
+                    });
+        });
+
         add(ModEntities.ASTRAL_STALKER.getRegistryName(), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
                     .xpValue(90)
@@ -150,6 +354,39 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                         themes.add("Astral");
                     }, 30, descriptions -> {
                         descriptions.add(JsonDescription.simple("A Ravager influenced by the space warp! It's roar halts players and levitates them into space", "$text"));
+                    });
+        });
+
+        add(com.hollingsworth.arsnouveau.common.entity.ModEntities.WILDEN_STALKER.getRegistryName(), vaultMobBuilder -> {
+            vaultMobBuilder.entityGroup(VaultMod.id("horde"))
+                    .xpValue(60)
+                    .attributeWithLevels("minecraft:generic.max_health", levels -> {
+                        levels.addLevel(0, 30.0, 40.0, "set", 1.0, 0.07, 49)
+                                .addLevel(50, 39.0, 58.0, "set", 1.0, 0.09, 64)
+                                .addLevel(65, 40.0, 69.0, "set", 1.0, 0.09, 107)
+                                .addLevel(80, 44, 75.9, "set", 1.0, 0.09, 107)
+                                .addLevel(90, 42.0, 82.8, "set", 1.0, 0.09, 107);
+                    })
+                    .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
+                        levels.addLevel(0, 1.0, 3.0, "set", 1.0, 0.1, 50)
+                                .addLevel(65, 2.0, 3.0, "set", 1.0, 0.1, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
+                        levels.addLevel(0, 0.05, 0.1, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 0.1, 0.15, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 0.15, 0.2, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_multiplier", levels -> {
+                        levels.addLevel(0, 1.2, 1.2, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 1.3, 1.3, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 1.4, 1.4, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeSimple("minecraft:generic.movement_speed", 1.05, 1.1, "multiply", 1.0, 0.0, 107)
+                    .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, 107)
+                    .bestiaryEntry(themes -> {
+                        themes.add("Arcane");
+                    }, 30, descriptions -> {
+                        descriptions.add(JsonDescription.simple("", "$text"));
                     });
         });
 

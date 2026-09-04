@@ -457,6 +457,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         gemBlockRecipe("block_gem_wutodie", ModBlocks.WUTODIE, iskallia.vault.init.ModItems.WUTODIE_GEM, pFinishedRecipeConsumer);
 
+        ShapedRecipeBuilder.shaped(ModBlocks.INFUSED_DRIFTWOOD_PLANKS)
+                .define('X', ModItems.INFUSED_DRIFTWOOD)
+                .pattern("XX")
+                .pattern("XX")
+                .unlockedBy("has_infused_driftwood", has(ModItems.INFUSED_DRIFTWOOD))
+                .save(pFinishedRecipeConsumer);
+
+        ShapelessRecipeBuilder.shapeless(ModItems.INFUSED_DRIFTWOOD, 4)
+                .requires(ModBlocks.INFUSED_DRIFTWOOD_PLANKS, 1)
+                .unlockedBy("infused_driftwood_planks", has(ModBlocks.INFUSED_DRIFTWOOD_PLANKS))
+                .save(pFinishedRecipeConsumer, WoldsVaults.id("infused_driftwood_planks_uncrafting"));
+
         ShapedRecipeBuilder.shaped(ModItems.EXPERTISE_ORB_ITEM)
                 .define('X', ModItems.ARCANE_SHARD)
                 .define('O', iskallia.vault.init.ModItems.SKILL_ORB_FRAME)

@@ -1,6 +1,12 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:mystical_forest",
+      "name": "Mystical Forest",
+      "color": 3112412,
+      "1.0": "woldsvaults:mystical_forest"
+    },
+    {
       "id": "woldsvaults:sculk",
       "name": "Sculk",
       "color": 3112412,

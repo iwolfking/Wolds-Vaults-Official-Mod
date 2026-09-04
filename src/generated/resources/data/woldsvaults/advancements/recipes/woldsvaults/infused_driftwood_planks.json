@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:infused_driftwood_planks"
+    ]
+  },
+  "criteria": {
+    "has_infused_driftwood": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:infused_driftwood"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:infused_driftwood_planks"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_infused_driftwood",
+      "has_the_recipe"
+    ]
+  ]
+}

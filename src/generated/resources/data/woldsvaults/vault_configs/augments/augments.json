@@ -1,6 +1,9 @@
 {
   "dropChance": 0.2,
   "drops": {
+    "woldsvaults:mystical_forest": {
+      "the_vault:augment{theme:\"woldsvaults:mystical_forest\"}": 1
+    },
     "woldsvaults:sculk": {
       "the_vault:augment{theme:\"woldsvaults:sculk\"}": 1
     },

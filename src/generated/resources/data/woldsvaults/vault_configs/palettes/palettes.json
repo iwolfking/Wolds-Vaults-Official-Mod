@@ -1,14 +1,19 @@
 {
   "keys": [
     {
-      "id": "woldsvaults:universal_sculk",
-      "name": "Universal Sculk",
-      "1.0": "woldsvaults:universal_sculk"
+      "id": "woldsvaults:universal_mystical_forest",
+      "name": "Universal Mystical Forest",
+      "1.0": "woldsvaults:universal_mystical_forest"
     },
     {
       "id": "woldsvaults:universal_astral",
       "name": "Universal Astral",
       "1.0": "woldsvaults:universal_astral"
+    },
+    {
+      "id": "woldsvaults:universal_sculk",
+      "name": "Universal Sculk",
+      "1.0": "woldsvaults:universal_sculk"
     },
     {
       "id": "woldsvaults:universal_astral_red",
@@ -19,6 +24,16 @@
       "id": "woldsvaults:generic/ore_placeholder_astral",
       "name": "Generic Ore Placeholder Astral",
       "1.0": "woldsvaults:generic/ore_placeholder_astral"
+    },
+    {
+      "id": "woldsvaults:generic/ore_placeholder_magic",
+      "name": "Generic Ore Placeholder Magic",
+      "1.0": "woldsvaults:generic/ore_placeholder_magic"
+    },
+    {
+      "id": "woldsvaults:generic/spawners/ars_mobs",
+      "name": "Generic Spawners Ars Mobs",
+      "1.0": "woldsvaults:generic/spawners/ars_mobs"
     },
     {
       "id": "woldsvaults:generic/spawners/astral_mobs",
