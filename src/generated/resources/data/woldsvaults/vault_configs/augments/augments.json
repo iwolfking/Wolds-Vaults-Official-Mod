@@ -7,6 +7,9 @@
     "woldsvaults:sculk": {
       "the_vault:augment{theme:\"woldsvaults:sculk\"}": 1
     },
+    "woldsvaults:occult": {
+      "the_vault:augment{theme:\"woldsvaults:occult\"}": 1
+    },
     "woldsvaults:red_planet": {
       "the_vault:augment{theme:\"woldsvaults:red_planet\"}": 1
     },

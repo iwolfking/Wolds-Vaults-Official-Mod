@@ -605,6 +605,271 @@
           ]
         }
       ]
+    },
+    "Occult": {
+      "displayName": "Occult",
+      "colour": 3112412,
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "More Rare Gems",
+              "color": "$name"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Hordes",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░░",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Wild Afrit ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Assassins",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Wither Skeletons ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": " Piglins ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": "Tanks",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Piglin Brutes ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 4",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "✸ ⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Dwellers",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░",
+              "color": "$darkgray"
+            }
+          ]
+        }
+      ]
     }
   },
   "augments": {
@@ -617,6 +882,9 @@
     "Astral": [
       "woldsvaults:lunar",
       "woldsvaults:red_planet"
+    ],
+    "Occult": [
+      "woldsvaults:occult"
     ]
   }
 }

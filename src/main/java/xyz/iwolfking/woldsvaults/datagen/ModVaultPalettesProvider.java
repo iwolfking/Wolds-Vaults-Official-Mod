@@ -24,6 +24,144 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
 
     @Override
     protected void registerPalettes() {
+        add(WoldsVaults.id("universal_occult"), new ThemePaletteBuilder(), tb -> {
+            tb.placeholder(VaultMod.id("generic/ore_placeholder_nether"))
+                    .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
+                    .placeholder(ThemePaletteBuilder.Placeholder.ROOM_BASE)
+                    .placeholder(ThemePaletteBuilder.Placeholder.COMMON_ELITE_SPAWNERS)
+                    .placeholder(WoldsVaults.id("generic/spawners/occult_mobs"))
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_MAIN, replacementBlocks -> {
+                        replacementBlocks.put(ResourceLocation.parse("occultism:otherstone"), 5);
+                        replacementBlocks.put(ResourceLocation.parse("minecraft:nether_bricks"), 3);
+                        replacementBlocks.put(ResourceLocation.parse("chipped:blackstone_1"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, ResourceLocation.parse("occultism:otherstone_natural"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, ResourceLocation.parse("minecraft:cracked_nether_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, resourceLocationIntegerMap -> {
+                       resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:soul_sand_5"), 1);
+                       resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:soul_sand_7"), 3);
+                       resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:soul_sand_3"), 1);
+                    })
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:soul_soil"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:otherstone"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:blackstone"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SLAB, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:otherstone_slab"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:netherrack_7"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:netherrack_67"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:netherrack"), 6);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:netherrack_7"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:netherrack_67"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:netherrack_33"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:chalk_glyph_red"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:chalk_glyph_white"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:chalk_glyph_purple"), 1);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 14);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:spirit_torch"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:candle_white"), 3);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:wither_skeleton_skull"), 1);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 7);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_VINES, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:otherworld_leaves"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:nether_wart_block"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_HANGING_ACCENT, ResourceLocation.parse("minecraft:chain"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:otherstone"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:blackstone_7"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:blackstone_67"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_TERTIARY, ResourceLocation.parse("occultism:otherworld_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_DECORATION, ResourceLocation.parse("occultism:spirit_lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, ResourceLocation.parse("minecraft:weeping_vines_plant"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VINES, ResourceLocation.parse("minecraft:weeping_vines"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("occultism:otherworld_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("occultism:otherstone"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:soul_sand_5"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:soul_sand_7"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:soul_sand_3"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, ResourceLocation.parse("minecraft:nether_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.parse("occultism:otherstone_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR, ResourceLocation.parse("minecraft:stripped_crimson_hyphae"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR_ACCENT, ResourceLocation.parse("minecraft:crimson_planks"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, ResourceLocation.parse("occultism:otherworld_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, ResourceLocation.parse("minecraft:nether_brick_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_LIGHT, ResourceLocation.parse("occultism:spirit_lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, ResourceLocation.parse("minecraft:crimson_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FENCE_WOOD_SECONDARY, ResourceLocation.parse("minecraft:nether_brick_fence"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN, ResourceLocation.parse("occultism:otherstone"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT, ResourceLocation.parse("minecraft:polished_blackstone_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:soul_sand_5"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:soul_sand_7"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:soul_sand_3"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_ACCENT, RegionsUnexploredBlocks.DEAD_LOG.getId(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PILLAR, ResourceLocation.parse("occultism:otherworld_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS, ResourceLocation.parse("minecraft:nether_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STONE_STAIRS, ResourceLocation.parse("minecraft:polished_blackstone_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("minecraft:nether_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL, ResourceLocation.parse("minecraft:nether_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_SECONDARY, ResourceLocation.parse("minecraft:polished_blackstone_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_TERTIARY, ResourceLocation.parse("minecraft:red_nether_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB, ResourceLocation.parse("occultism:otherstone_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB_TERTIARY, ResourceLocation.parse("minecraft:nether_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LOG, ResourceLocation.parse("occultism:otherworld_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WOOD, ResourceLocation.parse("occultism:otherworld_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PLANKS, ResourceLocation.parse("minecraft:crimson_planks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LEAVES, ResourceLocation.parse("occultism:otherworld_leaves"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE, ResourceLocation.parse("minecraft:nether_brick_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE_GATE, ResourceLocation.parse("minecraft:crimson_fence_gate"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_TRAPDOOR, ResourceLocation.parse("minecraft:crimson_trapdoor"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_DOOR, ResourceLocation.parse("minecraft:crimson_door"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_WOOD, ResourceLocation.parse("minecraft:crimson_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LANTERN, ResourceLocation.parse("occultism:spirit_lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_CAMPFIRE, ResourceLocation.parse("occultism:spirit_campfire"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_BOOKSHELF, ResourceLocation.parse("minecraft:bookshelf"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_MAIN, ResourceLocation.parse("chipped:red_nether_bricks_1"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_ACCENT, ResourceLocation.parse("chipped:red_nether_bricks_3"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_SLAB, ResourceLocation.parse("minecraft:red_nether_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_STAIRS, ResourceLocation.parse("minecraft:red_nether_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.DECORATION_BRAZIER, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:spirit_fire"), 9);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:sacrificial_bowl"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.BRIDGE_SLAB, ResourceLocation.parse("occultism:otherstone_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CHAIN, ResourceLocation.parse("minecraft:chain"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_BOTTOM_LAYER, ResourceLocation.parse("minecraft:lava"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_TOP_LAYER, ResourceLocation.parse("minecraft:lava"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WATER, ResourceLocation.parse("minecraft:lava"), 1);
+        });
+
         add(WoldsVaults.id("universal_mystical_forest"), new ThemePaletteBuilder(), tb -> {
             tb.placeholder(WoldsVaults.id("generic/ore_placeholder_magic"))
                     .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
@@ -266,6 +404,7 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                     .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
                         resourceLocationIntegerMap.put(RegionsUnexploredBlocks.SCULK_GRASS_BLOCK.getId(), 1);
                     })
+
                     .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
                         resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 1);
                     })
@@ -745,6 +884,68 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                     failures.put(iskallia.vault.init.ModBlocks.VAULT_STONE.getRegistryName().toString(), 1);
                 });
             });
+        });
+
+        add(WoldsVaults.id("generic/spawners/occult_mobs"), new PaletteBuilder(), p -> {
+
+            p.leveled(leveledBuilder -> {
+                leveledBuilder.list(0, "weighted_target", "ispawner:spawner", entries -> {
+                    entries.put("ispawner:spawner{group: horde}", 50);
+                    entries.put("ispawner:spawner{group: assassin}", 20);
+                    entries.put("ispawner:spawner{group: tank}", 20);
+                    entries.put("ispawner:spawner{group: dwellers}", 10);
+                });
+            });
+
+            p.leveled(leveledBuilder -> {
+                leveledBuilder.weighted(0, "spawner", "ispawner:spawner{group:tank}", 1, entries -> {
+                    entries.put("minecraft:piglin_brute", 2);
+                });
+            });
+
+            p.leveled(leveledBuilder -> {
+                leveledBuilder.weighted(0, "spawner", "ispawner:spawner{group:horde}", 1, entries -> {
+                    entries.put("occultism:afrit_wild", 30);
+                });
+            });
+
+            p.leveled(leveledBuilder -> {
+                leveledBuilder.weighted(0, "spawner", "ispawner:spawner{group:assassin}", 1, entries -> {
+                    entries.put("the_vault:t1_wither_skeleton", 4);
+                    entries.put("the_vault:t2_wither_skeleton", 8);
+                    entries.put("the_vault:t3_wither_skeleton", 2);
+                    entries.put("the_vault:t3_piglin", 1);
+                });
+            });
+
+
+
+            p.leveled(leveledBuilder -> {
+                leveledBuilder.weighted(0, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter", 15);
+                });
+                leveledBuilder.weighted(20, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter", 15);
+                    entries.put("the_vault:vault_fighter_2", 15);
+                });
+                leveledBuilder.weighted(40, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter_1", 15);
+                    entries.put("the_vault:vault_fighter_2", 15);
+                });
+                leveledBuilder.weighted(60, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter_2", 15);
+                    entries.put("the_vault:vault_fighter_3", 15);
+                });
+                leveledBuilder.weighted(80, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter_3", 15);
+                    entries.put("the_vault:vault_fighter_4", 15);
+                });
+                leveledBuilder.weighted(100, "spawner", "ispawner:spawner{group:dwellers}", 1, entries -> {
+                    entries.put("the_vault:vault_fighter_4", 15);
+                });
+            });
+
+            p.reference("the_vault:generic/spawners/group_settings");
         });
 
         add(WoldsVaults.id("generic/spawners/ars_mobs"), new PaletteBuilder(), p -> {

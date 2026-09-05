@@ -16,6 +16,34 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
 
     @Override
     protected void registerThemes() {
+        add(WoldsVaults.id("occult"), t -> {
+            t.type("classic_vault")
+                    .starts(WoldsVaults.id("occult_starts").toString())
+                    .rooms(WoldsVaults.id("occult_rooms").toString())
+                    .tunnels(WoldsVaults.id("occult_tunnels").toString())
+                    .ambientLight(0.2f)
+                    .fogColor(12358351)
+                    .grassColor(8041299)
+                    .foliageColor(8041299)
+                    .waterColor(3112412)
+                    .waterFogColor(3112412)
+                    .themeColor(3112412)
+                    .particle("minecraft:ambient_entity_effect")
+                    .particleProbability(0.002f)
+                    .levelEntry("the_vault:default", 50)
+                    .themeWeight(5)
+                    .themeGroup("Occult")
+                    .themeLore("Occult", 3112412, themeLoreDescriptionBuilder -> {
+                        themeLoreDescriptionBuilder
+                                .perk("More Rare Gems", "$name")
+                                .horde(4, ThemeLoreDescriptionBuilder.mob("Wild Afrit", 2, 2, 2, "⚔"))
+                                .assassin(3, ThemeLoreDescriptionBuilder.mob("Wither Skeletons", 2, 2, 2, "⚔ \uD83C\uDFF9"), ThemeLoreDescriptionBuilder.mob("Piglins", 2, 2, 2, "⚔ \uD83C\uDFF9"))
+                                .tank(2, ThemeLoreDescriptionBuilder.mob("Piglin Brutes", 4, 3, 3, "✸ ⚔"))
+                                .dweller(2);
+
+                    });
+        });
+
         add(WoldsVaults.id("mystical_forest"), t -> {
             t.type("classic_vault")
                     .starts(WoldsVaults.id("mystical_forest_starts").toString())

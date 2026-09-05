@@ -118,6 +118,7 @@
     "mekanism.MixinTileEntityModificationStation",
     "mekanism.MixinVirtualCraftingOutputSlot",
     "modernfix.MixinModelBakeryHelpers",
+    "occultism.MixinAfritWildEntity",
     "occultism.MixinCraftRitual",
     "occultism.MixinFamiliarEventHandler",
     "occultism.MixinFamiliarRingItemCurio",

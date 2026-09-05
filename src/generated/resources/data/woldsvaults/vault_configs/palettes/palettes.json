@@ -1,6 +1,11 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:universal_occult",
+      "name": "Universal Occult",
+      "1.0": "woldsvaults:universal_occult"
+    },
+    {
       "id": "woldsvaults:universal_mystical_forest",
       "name": "Universal Mystical Forest",
       "1.0": "woldsvaults:universal_mystical_forest"
@@ -29,6 +34,11 @@
       "id": "woldsvaults:generic/ore_placeholder_magic",
       "name": "Generic Ore Placeholder Magic",
       "1.0": "woldsvaults:generic/ore_placeholder_magic"
+    },
+    {
+      "id": "woldsvaults:generic/spawners/occult_mobs",
+      "name": "Generic Spawners Occult Mobs",
+      "1.0": "woldsvaults:generic/spawners/occult_mobs"
     },
     {
       "id": "woldsvaults:generic/spawners/ars_mobs",

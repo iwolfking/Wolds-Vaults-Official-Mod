@@ -41,6 +41,26 @@
       "1.0": "woldsvaults:mystical_forest_rooms"
     },
     {
+      "id": "woldsvaults:occult_common_rooms",
+      "name": "Occult Common Rooms",
+      "1.0": "woldsvaults:occult_common_rooms"
+    },
+    {
+      "id": "woldsvaults:occult_tunnels",
+      "name": "Occult Tunnels",
+      "1.0": "woldsvaults:occult_tunnels"
+    },
+    {
+      "id": "woldsvaults:occult_starts",
+      "name": "Occult Starts",
+      "1.0": "woldsvaults:occult_starts"
+    },
+    {
+      "id": "woldsvaults:occult_rooms",
+      "name": "Occult Rooms",
+      "1.0": "woldsvaults:occult_rooms"
+    },
+    {
       "id": "woldsvaults:astral_common_rooms",
       "name": "Astral Common Rooms",
       "1.0": "woldsvaults:astral_common_rooms"
