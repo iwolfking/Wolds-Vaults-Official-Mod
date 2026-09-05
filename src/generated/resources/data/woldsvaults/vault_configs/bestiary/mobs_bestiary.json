@@ -178,6 +178,22 @@
       "drops": []
     },
     {
+      "entityId": "occultism:afrit_wild",
+      "descriptionData": {
+        "description": [
+          {
+            "text": "",
+            "color": "$text"
+          }
+        ]
+      },
+      "themes": [
+        "Occult"
+      ],
+      "minLevel": 50,
+      "drops": []
+    },
+    {
       "entityId": "woldsvaults:loginar",
       "descriptionData": {
         "description": [

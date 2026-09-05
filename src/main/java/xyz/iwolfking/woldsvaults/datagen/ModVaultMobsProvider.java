@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
+import com.github.klikli_dev.occultism.registry.OccultismEntities;
 import iskallia.vault.VaultMod;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
@@ -17,6 +18,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
 
     @Override
     protected void registerOverrides() {
+
         add(com.hollingsworth.arsnouveau.common.entity.ModEntities.WILDEN_GUARDIAN.getRegistryName(), vaultMobBuilder -> {
             vaultMobBuilder.entityGroup(VaultMod.id("tank"))
                     .xpValue(140)
@@ -386,6 +388,39 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                     .bestiaryEntry(themes -> {
                         themes.add("Arcane");
                     }, 30, descriptions -> {
+                        descriptions.add(JsonDescription.simple("", "$text"));
+                    });
+        });
+
+        add(OccultismEntities.AFRIT_WILD.getId(), vaultMobBuilder -> {
+            vaultMobBuilder.entityGroup(VaultMod.id("horde"))
+                    .xpValue(75)
+                    .attributeWithLevels("minecraft:generic.max_health", levels -> {
+                        levels.addLevel(0, 40.0, 50.0, "set", 1.0, 0.07, 49)
+                                .addLevel(50, 51.0, 70.0, "set", 1.0, 0.09, 64)
+                                .addLevel(65, 70.0, 90.0, "set", 1.0, 0.09, 107)
+                                .addLevel(80, 91, 105.0, "set", 1.0, 0.09, 107)
+                                .addLevel(90, 92.0, 125.0, "set", 1.0, 0.09, 107);
+                    })
+                    .attributeWithLevels("minecraft:generic.attack_damage", levels -> {
+                        levels.addLevel(0, 2.0, 2.0, "set", 1.0, 0.1, 50)
+                                .addLevel(65, 3.0, 3.0, "set", 1.0, 0.1, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_chance", levels -> {
+                        levels.addLevel(0, 0.15, 0.15, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 0.15, 0.15, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 0.25, 0.25, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeWithLevels("the_vault:generic.crit_multiplier", levels -> {
+                        levels.addLevel(0, 1.4, 1.4, "set", 1.0, 0.0, 49)
+                                .addLevel(50, 1.5, 1.5, "set", 1.0, 0.0, 84)
+                                .addLevel(85, 1.65, 1.65, "set", 1.0, 0.0, 107);
+                    })
+                    .attributeSimple("minecraft:generic.movement_speed", 1.05, 1.1, "multiply", 1.0, 0.0, 107)
+                    .attributeSimple("forge:swim_speed", 5.0, 5.0, "set", 1.0, 0.0, 107)
+                    .bestiaryEntry(themes -> {
+                        themes.add("Occult");
+                    }, 50, descriptions -> {
                         descriptions.add(JsonDescription.simple("", "$text"));
                     });
         });
