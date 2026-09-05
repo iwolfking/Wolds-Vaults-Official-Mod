@@ -21,19 +21,19 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .starts(WoldsVaults.id("occult_starts").toString())
                     .rooms(WoldsVaults.id("occult_rooms").toString())
                     .tunnels(WoldsVaults.id("occult_tunnels").toString())
-                    .ambientLight(0.2f)
-                    .fogColor(12358351)
-                    .grassColor(8041299)
-                    .foliageColor(8041299)
-                    .waterColor(3112412)
-                    .waterFogColor(3112412)
-                    .themeColor(3112412)
+                    .ambientLight(0.15f)
+                    .fogColor(0x2B0508)
+                    .grassColor(0x3B2023)
+                    .foliageColor(0x3B2023)
+                    .waterColor(0x4A0000)
+                    .waterFogColor(0x1F0000)
+                    .themeColor(0x9E0B0F)
                     .particle("minecraft:ambient_entity_effect")
                     .particleProbability(0.002f)
                     .levelEntry("the_vault:default", 50)
                     .themeWeight(5)
                     .themeGroup("Occult")
-                    .themeLore("Occult", 3112412, themeLoreDescriptionBuilder -> {
+                    .themeLore("Occult", 0x9E0B0F, themeLoreDescriptionBuilder -> {
                         themeLoreDescriptionBuilder
                                 .perk("More Rare Gems", "$name")
                                 .horde(4, ThemeLoreDescriptionBuilder.mob("Wild Afrit", 2, 2, 2, "⚔"))
@@ -49,32 +49,32 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .starts(WoldsVaults.id("mystical_forest_starts").toString())
                     .rooms(WoldsVaults.id("mystical_forest_rooms").toString())
                     .tunnels(WoldsVaults.id("mystical_forest_tunnels").toString())
-                    .ambientLight(0.2f)
-                    .fogColor(12358351)
-                    .grassColor(8041299)
-                    .foliageColor(8041299)
-                    .waterColor(3112412)
-                    .waterFogColor(3112412)
-                    .themeColor(3112412)
+                    .ambientLight(0.25f)
+                    .fogColor(0x112E27)
+                    .grassColor(0x2E8B57)
+                    .foliageColor(0x00FF7F)
+                    .waterColor(0x13383B)
+                    .waterFogColor(0x0A2022)
+                    .themeColor(0x50C878)
                     .particle("minecraft:ambient_entity_effect")
                     .particleProbability(0.002f)
                     .levelEntry("the_vault:default", 50)
                     .themeWeight(5)
                     .themeGroup("Arcane")
-                    .themeLore("Arcane", 3112412, themeLoreDescriptionBuilder -> {
+                    .themeLore("Arcane", 0x9370DB, themeLoreDescriptionBuilder -> { // Medium Purple Lore Title
                         themeLoreDescriptionBuilder
-                        .perk("More ", "white")
-                        .perk("Wutodie ", "light_purple")
-                        .perk(", ", "white")
-                        .perk("Benitoite ", "blue")
-                        .perk("and ", "white")
-                        .perk("Alexandrite ", "green")
-                        .horde(4, ThemeLoreDescriptionBuilder.mob("Wilden Stalker", 2, 2, 2, "⚔"))
-                        .assassin(3, ThemeLoreDescriptionBuilder.mob("Wilden Hunter", 2, 2, 2, "⚔ \uD83C\uDFF9"))
-                        .tank(2, ThemeLoreDescriptionBuilder.mob("Weald Walkers", 4, 4, 1, "✸ ⚔"))
-                        .dweller(1);
+                                .perk("More ", "white")
+                                .perk("Wutodie ", "light_purple")
+                                .perk(", ", "white")
+                                .perk("Benitoite ", "dark_aqua")
+                                .perk("and ", "white")
+                                .perk("Alexandrite ", "dark_green")
+                                .horde(4, ThemeLoreDescriptionBuilder.mob("Wilden Stalker", 2, 2, 2, "⚔"))
+                                .assassin(3, ThemeLoreDescriptionBuilder.mob("Wilden Hunter", 2, 2, 2, "⚔ \uD83C\uDFF9"))
+                                .tank(2, ThemeLoreDescriptionBuilder.mob("Weald Walkers", 4, 4, 1, "✸ ⚔"))
+                                .dweller(1);
 
-            });
+                    });
         });
 
         add(WoldsVaults.id("sculk"), t -> {

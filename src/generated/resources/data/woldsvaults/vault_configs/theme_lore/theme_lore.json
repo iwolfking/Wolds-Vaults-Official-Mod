@@ -2,7 +2,7 @@
   "series": {
     "Arcane": {
       "displayName": "Arcane",
-      "colour": 3112412,
+      "colour": 9662683,
       "description": [
         {
           "description": [
@@ -24,7 +24,7 @@
             },
             {
               "text": "Benitoite ",
-              "color": "blue"
+              "color": "dark_aqua"
             },
             {
               "text": "and ",
@@ -32,7 +32,7 @@
             },
             {
               "text": "Alexandrite ",
-              "color": "green"
+              "color": "dark_green"
             },
             {
               "text": "\n"
@@ -608,7 +608,7 @@
     },
     "Occult": {
       "displayName": "Occult",
-      "colour": 3112412,
+      "colour": 10357519,
       "description": [
         {
           "description": [

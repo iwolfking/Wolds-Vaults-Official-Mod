@@ -3,12 +3,12 @@
   "starts": "woldsvaults:mystical_forest_starts",
   "rooms": "woldsvaults:mystical_forest_rooms",
   "tunnels": "woldsvaults:mystical_forest_tunnels",
-  "ambient_light": 0.2,
-  "fog_color": 12358351,
-  "grass_color": 8041299,
-  "foliage_color": 8041299,
-  "water_color": 3112412,
-  "water_fog_color": 3112412,
+  "ambient_light": 0.25,
+  "fog_color": 1125927,
+  "grass_color": 3050327,
+  "foliage_color": 65407,
+  "water_color": 1259579,
+  "water_fog_color": 663586,
   "particle": "minecraft:ambient_entity_effect",
   "particle_probability": 0.002
 }
