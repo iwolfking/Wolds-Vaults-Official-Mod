@@ -413,6 +413,7 @@
     "vaulthunters.custom.MixinVaultSwordItem",
     "vaulthunters.custom.MixinVoidFluidBlock",
     "vaulthunters.custom.MixinWildWestChallengeManager",
+    "vaulthunters.custom.NecromancyAbilityMixin",
     "vaulthunters.custom.StackingGearAttributeTalentMixin",
     "vaulthunters.custom.artisan.MixinArtisanStationContainer",
     "vaulthunters.custom.artisan.MixinArtisanStationTileEntity",

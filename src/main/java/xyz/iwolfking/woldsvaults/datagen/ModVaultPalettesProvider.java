@@ -1,11 +1,14 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import appeng.core.definitions.AEBlocks;
+import cofh.thermal.core.init.TCoreFluids;
 import com.cursedcauldron.wildbackport.common.registry.WBBlocks;
 import iskallia.auxiliaryblocks.AuxiliaryBlocks;
 import iskallia.auxiliaryblocks.init.ModBlocks;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.PlaceholderBlock;
+import me.desht.pneumaticcraft.common.core.ModFluids;
+import mekanism.common.registries.MekanismFluids;
 import net.mcreator.buildingmod.init.DavebuildingmodModBlocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +27,526 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
 
     @Override
     protected void registerPalettes() {
+        add(WoldsVaults.id("universal_if"), new ThemePaletteBuilder(), tb -> {
+            tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
+                    .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
+                    .placeholder(ThemePaletteBuilder.Placeholder.ROOM_BASE)
+                    .placeholder(ThemePaletteBuilder.Placeholder.COMMON_ELITE_SPAWNERS)
+                    .placeholder(VaultMod.id("generic/spawners/cave_mobs"))
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_MAIN, replacementBlocks -> {
+                        replacementBlocks.put(ResourceLocation.parse("davebuildingmod:steel_plating"), 5);
+                        replacementBlocks.put(ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 3);
+                        replacementBlocks.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, ResourceLocation.parse("davebuildingmod:steel_seemless"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, ResourceLocation.parse("davebuildingmod:steel_tiles"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("mekanism:structural_glass"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_frame"), 2);
+                    })
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_plating"), 5);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SLAB, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:smooth_stone_slab"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:stripedblock"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:tungsten_carbite"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:cyan_carpet"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 18);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:server_rack"), 1);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 15);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION_SECONDARY, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_VINES, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_plating"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_seemless"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_HANGING_ACCENT, ResourceLocation.parse("minecraft:chain"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("mekanism:structural_glass"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:laboratory_vent"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 3);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_TERTIARY, ResourceLocation.parse("davebuildingmod:steel_seemless"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_DECORATION, ResourceLocation.parse("minecraft:sea_lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VINES, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("davebuildingmod:steel_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("davebuildingmod:steel_coloumn"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("mekanism:structural_glass"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_frame"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, ResourceLocation.parse("minecraft:polished_deepslate_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.parse("minecraft:polished_deepslate_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR, ResourceLocation.parse("davebuildingmod:steel_girder"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR_ACCENT, ResourceLocation.parse("davebuildingmod:steel_frame"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, ResourceLocation.parse("davebuildingmod:steel_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, ResourceLocation.parse("minecraft:iron_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_LIGHT, ResourceLocation.parse("minecraft:sea_lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, ResourceLocation.parse("davebuildingmod:steel_girder"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FENCE_WOOD_SECONDARY, ResourceLocation.parse("minecraft:iron_bars"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN, ResourceLocation.parse("davebuildingmod:steel_plating"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT, ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_seemless"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_ACCENT, ResourceLocation.parse("mekanism:structural_glass"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PILLAR, ResourceLocation.parse("davebuildingmod:steel_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS, ResourceLocation.parse("minecraft:polished_deepslate_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STONE_STAIRS, ResourceLocation.parse("minecraft:stone_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("minecraft:stone_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL, ResourceLocation.parse("minecraft:deepslate_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_SECONDARY, ResourceLocation.parse("minecraft:stone_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_TERTIARY, ResourceLocation.parse("minecraft:stone_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB, ResourceLocation.parse("minecraft:polished_deepslate_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB_TERTIARY, ResourceLocation.parse("minecraft:stone_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LOG, ResourceLocation.parse("davebuildingmod:steel_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WOOD, ResourceLocation.parse("davebuildingmod:steel_seemless"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PLANKS, ResourceLocation.parse("davebuildingmod:steel_plating"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LEAVES, ResourceLocation.parse("davebuildingmod:reinforced_glass"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE, ResourceLocation.parse("minecraft:iron_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE_GATE, ResourceLocation.parse("minecraft:iron_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_TRAPDOOR, ResourceLocation.parse("minecraft:iron_trapdoor"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_DOOR, ResourceLocation.parse("minecraft:iron_door"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_WOOD, ResourceLocation.parse("minecraft:polished_deepslate_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LANTERN, ResourceLocation.parse("minecraft:sea_lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_CAMPFIRE, ResourceLocation.parse("minecraft:soul_campfire"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_BOOKSHELF, ResourceLocation.parse("davebuildingmod:computer_terminal"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_MAIN, ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_ACCENT, ResourceLocation.parse("davebuildingmod:steel_frame"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_SLAB, ResourceLocation.parse("minecraft:polished_deepslate_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_STAIRS, ResourceLocation.parse("minecraft:polished_deepslate_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.DECORATION_BRAZIER, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:sea_lantern"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.BRIDGE_SLAB, ResourceLocation.parse("minecraft:polished_deepslate_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CHAIN, ResourceLocation.parse("minecraft:chain"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_BOTTOM_LAYER, MekanismFluids.SULFURIC_ACID.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_TOP_LAYER, MekanismFluids.SULFURIC_ACID.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WATER, MekanismFluids.SULFURIC_ACID.getRegistryName(), 1);
+        });
+
+        add(WoldsVaults.id("universal_mekanism"), new ThemePaletteBuilder(), tb -> {
+            tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
+                    .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
+                    .placeholder(ThemePaletteBuilder.Placeholder.ROOM_BASE)
+                    .placeholder(ThemePaletteBuilder.Placeholder.COMMON_ELITE_SPAWNERS)
+                    .placeholder(VaultMod.id("generic/spawners/cave_mobs"))
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_MAIN, replacementBlocks -> {
+                        replacementBlocks.put(ResourceLocation.parse("davebuildingmod:steel_plating"), 5);
+                        replacementBlocks.put(ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 3);
+                        replacementBlocks.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, ResourceLocation.parse("davebuildingmod:steel_seemless"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, ResourceLocation.parse("davebuildingmod:steel_tiles"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("mekanism:structural_glass"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_frame"), 2);
+                    })
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_plating"), 5);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SLAB, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:smooth_stone_slab"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:stripedblock"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:tungsten_carbite"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:cyan_carpet"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 18);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:server_rack"), 1);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 15);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION_SECONDARY, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_VINES, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_plating"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_seemless"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_HANGING_ACCENT, ResourceLocation.parse("minecraft:chain"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("mekanism:structural_glass"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:laboratory_vent"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 3);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_TERTIARY, ResourceLocation.parse("davebuildingmod:steel_seemless"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_DECORATION, ResourceLocation.parse("minecraft:sea_lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VINES, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("davebuildingmod:steel_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("davebuildingmod:steel_coloumn"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("mekanism:structural_glass"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_frame"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, ResourceLocation.parse("minecraft:polished_deepslate_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.parse("minecraft:polished_deepslate_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR, ResourceLocation.parse("davebuildingmod:steel_girder"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR_ACCENT, ResourceLocation.parse("davebuildingmod:steel_frame"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, ResourceLocation.parse("davebuildingmod:steel_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, ResourceLocation.parse("minecraft:iron_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_LIGHT, ResourceLocation.parse("minecraft:sea_lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, ResourceLocation.parse("davebuildingmod:steel_girder"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FENCE_WOOD_SECONDARY, ResourceLocation.parse("minecraft:iron_bars"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN, ResourceLocation.parse("davebuildingmod:steel_plating"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT, ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_tiles"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("davebuildingmod:steel_seemless"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_ACCENT, ResourceLocation.parse("mekanism:structural_glass"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PILLAR, ResourceLocation.parse("davebuildingmod:steel_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS, ResourceLocation.parse("minecraft:polished_deepslate_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STONE_STAIRS, ResourceLocation.parse("minecraft:stone_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("minecraft:stone_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL, ResourceLocation.parse("minecraft:deepslate_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_SECONDARY, ResourceLocation.parse("minecraft:stone_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_TERTIARY, ResourceLocation.parse("minecraft:stone_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB, ResourceLocation.parse("minecraft:polished_deepslate_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB_TERTIARY, ResourceLocation.parse("minecraft:stone_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LOG, ResourceLocation.parse("davebuildingmod:steel_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WOOD, ResourceLocation.parse("davebuildingmod:steel_seemless"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PLANKS, ResourceLocation.parse("davebuildingmod:steel_plating"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LEAVES, ResourceLocation.parse("davebuildingmod:reinforced_glass"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE, ResourceLocation.parse("minecraft:iron_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE_GATE, ResourceLocation.parse("minecraft:iron_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_TRAPDOOR, ResourceLocation.parse("minecraft:iron_trapdoor"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_DOOR, ResourceLocation.parse("minecraft:iron_door"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_WOOD, ResourceLocation.parse("minecraft:polished_deepslate_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LANTERN, ResourceLocation.parse("minecraft:sea_lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_CAMPFIRE, ResourceLocation.parse("minecraft:soul_campfire"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_BOOKSHELF, ResourceLocation.parse("davebuildingmod:computer_terminal"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_MAIN, ResourceLocation.parse("davebuildingmod:polished_steel_plating"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_ACCENT, ResourceLocation.parse("davebuildingmod:steel_frame"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_SLAB, ResourceLocation.parse("minecraft:polished_deepslate_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_STAIRS, ResourceLocation.parse("minecraft:polished_deepslate_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.DECORATION_BRAZIER, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:sea_lantern"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.BRIDGE_SLAB, ResourceLocation.parse("minecraft:polished_deepslate_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CHAIN, ResourceLocation.parse("minecraft:chain"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_BOTTOM_LAYER, MekanismFluids.SULFURIC_ACID.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_TOP_LAYER, MekanismFluids.SULFURIC_ACID.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WATER, MekanismFluids.SULFURIC_ACID.getRegistryName(), 1);
+        });
+
+        add(WoldsVaults.id("universal_pnc"), new ThemePaletteBuilder(), tb -> {
+            tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
+                    .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
+                    .placeholder(ThemePaletteBuilder.Placeholder.ROOM_BASE)
+                    .placeholder(ThemePaletteBuilder.Placeholder.COMMON_ELITE_SPAWNERS)
+                    .placeholder(VaultMod.id("generic/spawners/cave_mobs"))
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_MAIN, replacementBlocks -> {
+                        replacementBlocks.put(ResourceLocation.parse("pneumaticcraft:reinforced_stone"), 5);
+                        replacementBlocks.put(ResourceLocation.parse("pneumaticcraft:reinforced_bricks"), 3);
+                        replacementBlocks.put(ResourceLocation.parse("pneumaticcraft:reinforced_brick_tile"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, ResourceLocation.parse("pneumaticcraft:reinforced_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, ResourceLocation.parse("pneumaticcraft:reinforced_brick_tile"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_stone"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_bricks"), 2);
+                    })
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:reinforced_brick_tile"), 5);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:reinforced_stone"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_brick_tile"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SLAB, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:reinforced_stone_slab"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:plastic_brick_gray"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:plastic_brick_black"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:basalt"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:gray_carpet"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 18);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_brick_pillar"), 1);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 15);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION_SECONDARY, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_VINES, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:reinforced_stone"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_stone"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_HANGING_ACCENT, ResourceLocation.parse("minecraft:chain"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:reinforced_brick_pillar"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:plastic_brick_light_gray"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:reinforced_brick_tile"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_brick_tile"), 3);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_TERTIARY, ResourceLocation.parse("pneumaticcraft:compressed_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_DECORATION, ResourceLocation.parse("minecraft:lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VINES, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("pneumaticcraft:reinforced_brick_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("pneumaticcraft:compressed_brick_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:reinforced_brick_wall"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_brick_wall"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, ResourceLocation.parse("pneumaticcraft:reinforced_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.parse("pneumaticcraft:reinforced_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR, ResourceLocation.parse("pneumaticcraft:compressed_brick_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR_ACCENT, ResourceLocation.parse("pneumaticcraft:compressed_brick_wall"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, ResourceLocation.parse("pneumaticcraft:reinforced_brick_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, ResourceLocation.parse("pneumaticcraft:reinforced_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_LIGHT, ResourceLocation.parse("minecraft:lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, ResourceLocation.parse("pneumaticcraft:compressed_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FENCE_WOOD_SECONDARY, ResourceLocation.parse("pneumaticcraft:compressed_brick_wall"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN, ResourceLocation.parse("pneumaticcraft:reinforced_stone"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT, ResourceLocation.parse("pneumaticcraft:reinforced_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:reinforced_brick_tile"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_brick_tile"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_ACCENT, ResourceLocation.parse("pneumaticcraft:plastic_brick_gray"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PILLAR, ResourceLocation.parse("pneumaticcraft:reinforced_brick_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS, ResourceLocation.parse("pneumaticcraft:reinforced_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STONE_STAIRS, ResourceLocation.parse("pneumaticcraft:compressed_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("pneumaticcraft:compressed_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL, ResourceLocation.parse("pneumaticcraft:reinforced_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_SECONDARY, ResourceLocation.parse("pneumaticcraft:compressed_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_TERTIARY, ResourceLocation.parse("pneumaticcraft:compressed_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB, ResourceLocation.parse("pneumaticcraft:reinforced_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB_TERTIARY, ResourceLocation.parse("pneumaticcraft:compressed_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LOG, ResourceLocation.parse("pneumaticcraft:reinforced_brick_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WOOD, ResourceLocation.parse("pneumaticcraft:plastic_brick_black"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PLANKS, ResourceLocation.parse("pneumaticcraft:plastic_brick_gray"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LEAVES, ResourceLocation.parse("minecraft:spruce_leaves"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE, ResourceLocation.parse("pneumaticcraft:reinforced_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE_GATE, ResourceLocation.parse("minecraft:iron_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_TRAPDOOR, ResourceLocation.parse("minecraft:iron_trapdoor"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_DOOR, ResourceLocation.parse("minecraft:iron_door"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_WOOD, ResourceLocation.parse("pneumaticcraft:reinforced_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LANTERN, ResourceLocation.parse("minecraft:lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_CAMPFIRE, ResourceLocation.parse("minecraft:campfire"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_BOOKSHELF, ResourceLocation.parse("minecraft:bookshelf"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_MAIN, ResourceLocation.parse("pneumaticcraft:reinforced_stone"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_ACCENT, ResourceLocation.parse("pneumaticcraft:plastic_brick_gray"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_SLAB, ResourceLocation.parse("pneumaticcraft:reinforced_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_STAIRS, ResourceLocation.parse("pneumaticcraft:reinforced_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.DECORATION_BRAZIER, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:lantern"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.BRIDGE_SLAB, ResourceLocation.parse("pneumaticcraft:reinforced_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CHAIN, ResourceLocation.parse("minecraft:chain"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_BOTTOM_LAYER, ModFluids.OIL.getId(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_TOP_LAYER, ModFluids.OIL.getId(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WATER, ModFluids.OIL.getId(), 1);
+        });
+
+        add(WoldsVaults.id("universal_thermal"), new ThemePaletteBuilder(), tb -> {
+            tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
+                    .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
+                    .placeholder(ThemePaletteBuilder.Placeholder.ROOM_BASE)
+                    .placeholder(ThemePaletteBuilder.Placeholder.COMMON_ELITE_SPAWNERS)
+                    .placeholder(VaultMod.id("generic/spawners/cave_mobs"))
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_MAIN, replacementBlocks -> {
+                        replacementBlocks.put(ResourceLocation.parse("thermal:slag_bricks"), 5);
+                        replacementBlocks.put(ResourceLocation.parse("thermal:polished_slag"), 3);
+                        replacementBlocks.put(ResourceLocation.parse("thermal:cracked_slag_bricks"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, ResourceLocation.parse("thermal:polished_slag"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, ResourceLocation.parse("thermal:chiseled_slag"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:orange_rockwool"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:gray_rockwool"), 2);
+                    })
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:polished_slag"), 5);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:slag_bricks"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_blackstone"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SLAB, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_blackstone_slab"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:orange_rockwool"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:red_rockwool"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:basalt"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:orange_carpet"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 18);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:chiseled_slag"), 1);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 15);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION_SECONDARY, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_VINES, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:slag_bricks"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:gray_rockwool"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_HANGING_ACCENT, ResourceLocation.parse("minecraft:chain"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:chiseled_slag"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:orange_rockwool"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:polished_slag"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:cracked_slag_bricks"), 3);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_TERTIARY, ResourceLocation.parse("thermal:gray_rockwool"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_DECORATION, ResourceLocation.parse("minecraft:lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VINES, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("thermal:chiseled_slag"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("thermal:polished_slag"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:orange_rockwool"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:slag_bricks"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, ResourceLocation.parse("minecraft:polished_blackstone_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.parse("minecraft:polished_blackstone_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR, ResourceLocation.parse("thermal:chiseled_slag"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR_ACCENT, ResourceLocation.parse("thermal:polished_slag"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, ResourceLocation.parse("thermal:chiseled_slag"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, ResourceLocation.parse("minecraft:nether_brick_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_LIGHT, ResourceLocation.parse("minecraft:lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, ResourceLocation.parse("minecraft:nether_brick_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FENCE_WOOD_SECONDARY, ResourceLocation.parse("minecraft:nether_brick_fence"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN, ResourceLocation.parse("thermal:slag_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT, ResourceLocation.parse("thermal:polished_slag"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:polished_slag"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("thermal:cracked_slag_bricks"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_ACCENT, ResourceLocation.parse("thermal:orange_rockwool"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PILLAR, ResourceLocation.parse("thermal:chiseled_slag"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS, ResourceLocation.parse("minecraft:polished_blackstone_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STONE_STAIRS, ResourceLocation.parse("minecraft:polished_blackstone_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("minecraft:deepslate_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL, ResourceLocation.parse("minecraft:polished_blackstone_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_SECONDARY, ResourceLocation.parse("minecraft:polished_blackstone_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_TERTIARY, ResourceLocation.parse("minecraft:deepslate_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB, ResourceLocation.parse("minecraft:polished_blackstone_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB_TERTIARY, ResourceLocation.parse("minecraft:deepslate_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LOG, ResourceLocation.parse("thermal:chiseled_slag"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WOOD, ResourceLocation.parse("thermal:gray_rockwool"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PLANKS, ResourceLocation.parse("thermal:gray_rockwool"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LEAVES, ResourceLocation.parse("minecraft:spruce_leaves"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE, ResourceLocation.parse("minecraft:nether_brick_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE_GATE, ResourceLocation.parse("minecraft:nether_brick_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_TRAPDOOR, ResourceLocation.parse("minecraft:iron_trapdoor"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_DOOR, ResourceLocation.parse("minecraft:iron_door"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_WOOD, ResourceLocation.parse("minecraft:polished_blackstone_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LANTERN, ResourceLocation.parse("minecraft:lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_CAMPFIRE, ResourceLocation.parse("minecraft:campfire"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_BOOKSHELF, ResourceLocation.parse("minecraft:bookshelf"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_MAIN, ResourceLocation.parse("thermal:slag_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_ACCENT, ResourceLocation.parse("thermal:orange_rockwool"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_SLAB, ResourceLocation.parse("minecraft:polished_blackstone_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_STAIRS, ResourceLocation.parse("minecraft:polished_blackstone_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.DECORATION_BRAZIER, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:lantern"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.BRIDGE_SLAB, ResourceLocation.parse("minecraft:polished_blackstone_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CHAIN, ResourceLocation.parse("minecraft:chain"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_BOTTOM_LAYER, TCoreFluids.REFINED_FUEL_FLUID.get().getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_TOP_LAYER, TCoreFluids.REFINED_FUEL_FLUID.get().getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WATER, TCoreFluids.REFINED_FUEL_FLUID.get().getRegistryName(), 1);
+        });
+
         add(WoldsVaults.id("universal_immersiveengineering"), new ThemePaletteBuilder(), tb -> {
             tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
                     .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
