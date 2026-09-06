@@ -16,6 +16,9 @@
     "woldsvaults:occult": {
       "the_vault:augment{theme:\"woldsvaults:occult\"}": 1
     },
+    "woldsvaults:ie_factory": {
+      "the_vault:augment{theme:\"woldsvaults:ie_factory\"}": 1
+    },
     "woldsvaults:red_planet": {
       "the_vault:augment{theme:\"woldsvaults:red_planet\"}": 1
     },

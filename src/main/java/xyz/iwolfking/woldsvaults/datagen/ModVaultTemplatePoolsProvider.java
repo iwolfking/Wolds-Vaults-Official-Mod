@@ -17,6 +17,7 @@ public class ModVaultTemplatePoolsProvider extends AbstractTemplatePoolProvider 
         createStandardPoolsForTheme("occult", WoldsVaults.id("universal_occult"), VaultMod.id("generic/ore_placeholder_nether"));
         createStandardPoolsForTheme("botanic_temple", WoldsVaults.id("universal_botania"), VaultMod.id("generic/ore_placeholder"));
         createStandardPoolsForTheme("create_factory", WoldsVaults.id("universal_create"), VaultMod.id("generic/ore_placeholder"));
+        createStandardPoolsForTheme("ie_factory", WoldsVaults.id("universal_immersiveengineering"), VaultMod.id("generic/ore_placeholder"));
         createStandardPoolsForTheme("astral", WoldsVaults.id("universal_astral"), WoldsVaults.id("generic/ore_placeholder_astral"));
         createStandardPoolsForTheme("astral_red", WoldsVaults.id("universal_astral_red"), WoldsVaults.id("generic/ore_placeholder_astral"));
     }

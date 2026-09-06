@@ -1,6 +1,11 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:universal_immersiveengineering",
+      "name": "Universal Immersiveengineering",
+      "1.0": "woldsvaults:universal_immersiveengineering"
+    },
+    {
       "id": "woldsvaults:universal_create",
       "name": "Universal Create",
       "1.0": "woldsvaults:universal_create"

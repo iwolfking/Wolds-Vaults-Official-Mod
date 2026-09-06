@@ -1,6 +1,12 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:ie_factory",
+      "name": "Ie Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:ie_factory"
+    },
+    {
       "id": "woldsvaults:create_factory",
       "name": "Create Factory",
       "color": 14711391,

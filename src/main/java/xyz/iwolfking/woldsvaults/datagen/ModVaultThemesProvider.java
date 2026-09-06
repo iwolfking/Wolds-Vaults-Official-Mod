@@ -16,6 +16,25 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
 
     @Override
     protected void registerThemes() {
+        add(WoldsVaults.id("ie_factory"), t -> {
+            t.type("classic_vault")
+                    .starts(WoldsVaults.id("ie_factory_starts").toString())
+                    .rooms(WoldsVaults.id("ie_factory_rooms").toString())
+                    .tunnels(WoldsVaults.id("ie_factory_tunnels").toString())
+                    .ambientLight(0.35f)
+                    .fogColor(0x2B2625)
+                    .grassColor(0x4A5043)
+                    .foliageColor(0x3B4036)
+                    .waterColor(0x7F5A3C)
+                    .waterFogColor(0x3D2B1D)
+                    .themeColor(0xE07A5F)
+                    .particle("minecraft:smoke")
+                    .particleProbability(0.015F)
+                    .levelEntry("the_vault:default", 50)
+                    .themeWeight(5)
+                    .themeGroup("Industrial");
+        });
+
         add(WoldsVaults.id("create_factory"), t -> {
             t.type("classic_vault")
                     .starts(WoldsVaults.id("create_factory_starts").toString())

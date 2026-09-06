@@ -101,6 +101,26 @@
       "1.0": "woldsvaults:create_factory_rooms"
     },
     {
+      "id": "woldsvaults:ie_factory_common_rooms",
+      "name": "Ie Factory Common Rooms",
+      "1.0": "woldsvaults:ie_factory_common_rooms"
+    },
+    {
+      "id": "woldsvaults:ie_factory_tunnels",
+      "name": "Ie Factory Tunnels",
+      "1.0": "woldsvaults:ie_factory_tunnels"
+    },
+    {
+      "id": "woldsvaults:ie_factory_starts",
+      "name": "Ie Factory Starts",
+      "1.0": "woldsvaults:ie_factory_starts"
+    },
+    {
+      "id": "woldsvaults:ie_factory_rooms",
+      "name": "Ie Factory Rooms",
+      "1.0": "woldsvaults:ie_factory_rooms"
+    },
+    {
       "id": "woldsvaults:astral_common_rooms",
       "name": "Astral Common Rooms",
       "1.0": "woldsvaults:astral_common_rooms"

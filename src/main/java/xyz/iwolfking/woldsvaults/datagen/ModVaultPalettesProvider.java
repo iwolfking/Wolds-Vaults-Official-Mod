@@ -24,6 +24,136 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
 
     @Override
     protected void registerPalettes() {
+        add(WoldsVaults.id("universal_immersiveengineering"), new ThemePaletteBuilder(), tb -> {
+            tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
+                    .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
+                    .placeholder(ThemePaletteBuilder.Placeholder.ROOM_BASE)
+                    .placeholder(ThemePaletteBuilder.Placeholder.COMMON_ELITE_SPAWNERS)
+                    .placeholder(VaultMod.id("generic/spawners/cave_mobs"))
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_MAIN, replacementBlocks -> {
+                        replacementBlocks.put(ResourceLocation.parse("immersiveengineering:concrete"), 5);
+                        replacementBlocks.put(ResourceLocation.parse("immersiveengineering:concrete_tile"), 3);
+                        replacementBlocks.put(ResourceLocation.parse("immersiveengineering:hempcrete"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, ResourceLocation.parse("immersiveengineering:concrete_tile"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, ResourceLocation.parse("immersiveengineering:hempcrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:sheetmetal_steel"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:sheetmetal_iron"), 2);
+                    })
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:concrete_tile"), 5);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:concrete"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:slab_concrete"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SLAB, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:slab_concrete"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:sheetmetal_iron"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:sheetmetal_copper"), 6);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:basalt"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:gray_carpet"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 18);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:steel_scaffolding_standard"), 1);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 15);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION_SECONDARY, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_VINES, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:concrete"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:sheetmetal_steel"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_HANGING_ACCENT, ResourceLocation.parse("minecraft:chain"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:steel_scaffolding_standard"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:sheetmetal_steel"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:steel_slope"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:concrete_tile"), 3);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_TERTIARY, ResourceLocation.parse("immersiveengineering:sheetmetal_steel"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_DECORATION, ResourceLocation.parse("immersiveengineering:lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VINES, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("immersiveengineering:steel_post"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("immersiveengineering:concrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:steel_scaffolding_standard"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:sheetmetal_steel"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, ResourceLocation.parse("immersiveengineering:stairs_concrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.parse("immersiveengineering:slab_concrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR, ResourceLocation.parse("immersiveengineering:treated_post"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR_ACCENT, ResourceLocation.parse("immersiveengineering:steel_scaffolding_standard"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, ResourceLocation.parse("immersiveengineering:treated_post"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, ResourceLocation.parse("immersiveengineering:treated_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_LIGHT, ResourceLocation.parse("immersiveengineering:lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, ResourceLocation.parse("immersiveengineering:steel_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FENCE_WOOD_SECONDARY, ResourceLocation.parse("immersiveengineering:steel_fence"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN, ResourceLocation.parse("immersiveengineering:concrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT, ResourceLocation.parse("immersiveengineering:concrete_tile"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:concrete_tile"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:hempcrete"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_ACCENT, ResourceLocation.parse("immersiveengineering:sheetmetal_steel"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PILLAR, ResourceLocation.parse("immersiveengineering:steel_post"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS, ResourceLocation.parse("immersiveengineering:stairs_concrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STONE_STAIRS, ResourceLocation.parse("immersiveengineering:stairs_concrete_tile"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("immersiveengineering:stairs_hempcrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL, ResourceLocation.parse("immersiveengineering:steel_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_SECONDARY, ResourceLocation.parse("immersiveengineering:steel_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_TERTIARY, ResourceLocation.parse("immersiveengineering:treated_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB, ResourceLocation.parse("immersiveengineering:slab_concrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB_TERTIARY, ResourceLocation.parse("immersiveengineering:slab_concrete_tile"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LOG, ResourceLocation.parse("immersiveengineering:treated_post"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WOOD, ResourceLocation.parse("immersiveengineering:treated_wood_horizontal"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PLANKS, ResourceLocation.parse("immersiveengineering:treated_wood_horizontal"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LEAVES, ResourceLocation.parse("minecraft:spruce_leaves"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE, ResourceLocation.parse("immersiveengineering:treated_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE_GATE, ResourceLocation.parse("minecraft:spruce_fence_gate"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_TRAPDOOR, ResourceLocation.parse("minecraft:spruce_trapdoor"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_DOOR, ResourceLocation.parse("minecraft:spruce_door"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_WOOD, ResourceLocation.parse("immersiveengineering:stairs_treated_wood_horizontal"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LANTERN, ResourceLocation.parse("immersiveengineering:lantern"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_CAMPFIRE, ResourceLocation.parse("minecraft:campfire"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_BOOKSHELF, ResourceLocation.parse("minecraft:bookshelf"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_MAIN, ResourceLocation.parse("immersiveengineering:concrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_ACCENT, ResourceLocation.parse("immersiveengineering:sheetmetal_steel"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_SLAB, ResourceLocation.parse("immersiveengineering:slab_concrete"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_STAIRS, ResourceLocation.parse("immersiveengineering:stairs_concrete_tile"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.DECORATION_BRAZIER, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("immersiveengineering:lantern"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.BRIDGE_SLAB, ResourceLocation.parse("immersiveengineering:slab_treated_wood_horizontal"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CHAIN, ResourceLocation.parse("minecraft:chain"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_BOTTOM_LAYER, ModBlocks.LIGHT_BLUE_WATER.getId(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_TOP_LAYER, ModBlocks.LIGHT_BLUE_WATER.getId(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WATER, ModBlocks.LIGHT_BLUE_WATER.getId(), 1);
+        });
+
         add(WoldsVaults.id("universal_create"), new ThemePaletteBuilder(), tb -> {
             tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
                     .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
@@ -121,7 +251,7 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                     .replace(ThemePaletteBuilder.ThemeBlockType.POI_PILLAR, ResourceLocation.parse("create:scoria_pillar"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS, ResourceLocation.parse("create:cut_scoria_stairs"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.POI_STONE_STAIRS, ResourceLocation.parse("create:cut_scoria_brick_stairs"), 1)
-                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("create:scorchia_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("create:cut_scorchia_stairs"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL, ResourceLocation.parse("create:cut_scoria_wall"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_SECONDARY, ResourceLocation.parse("create:cut_scoria_brick_wall"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_TERTIARY, ResourceLocation.parse("create:cut_scorchia_wall"), 1)
