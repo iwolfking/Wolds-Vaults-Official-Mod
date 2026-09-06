@@ -81,6 +81,26 @@
       "1.0": "woldsvaults:botanic_temple_rooms"
     },
     {
+      "id": "woldsvaults:create_factory_common_rooms",
+      "name": "Create Factory Common Rooms",
+      "1.0": "woldsvaults:create_factory_common_rooms"
+    },
+    {
+      "id": "woldsvaults:create_factory_tunnels",
+      "name": "Create Factory Tunnels",
+      "1.0": "woldsvaults:create_factory_tunnels"
+    },
+    {
+      "id": "woldsvaults:create_factory_starts",
+      "name": "Create Factory Starts",
+      "1.0": "woldsvaults:create_factory_starts"
+    },
+    {
+      "id": "woldsvaults:create_factory_rooms",
+      "name": "Create Factory Rooms",
+      "1.0": "woldsvaults:create_factory_rooms"
+    },
+    {
       "id": "woldsvaults:astral_common_rooms",
       "name": "Astral Common Rooms",
       "1.0": "woldsvaults:astral_common_rooms"

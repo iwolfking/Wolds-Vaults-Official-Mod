@@ -1,6 +1,9 @@
 {
   "dropChance": 0.2,
   "drops": {
+    "woldsvaults:create_factory": {
+      "the_vault:augment{theme:\"woldsvaults:create_factory\"}": 1
+    },
     "woldsvaults:botanic_temple": {
       "the_vault:augment{theme:\"woldsvaults:botanic_temple\"}": 1
     },

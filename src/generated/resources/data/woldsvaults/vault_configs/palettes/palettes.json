@@ -1,6 +1,11 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:universal_create",
+      "name": "Universal Create",
+      "1.0": "woldsvaults:universal_create"
+    },
+    {
       "id": "woldsvaults:universal_botania",
       "name": "Universal Botania",
       "1.0": "woldsvaults:universal_botania"

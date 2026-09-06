@@ -876,6 +876,9 @@
     "Glimmergrove": [
       "woldsvaults:botanic_temple"
     ],
+    "Industrial": [
+      "woldsvaults:create_factory"
+    ],
     "Arcane": [
       "woldsvaults:mystical_forest"
     ],

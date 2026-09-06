@@ -1,6 +1,12 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:create_factory",
+      "name": "Create Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:create_factory"
+    },
+    {
       "id": "woldsvaults:botanic_temple",
       "name": "Botanic Temple",
       "color": 1096065,

@@ -1,8 +1,8 @@
 {
   "type": "classic_vault",
-  "starts": "woldsvaults:botania_starts",
-  "rooms": "woldsvaults:botania_rooms",
-  "tunnels": "woldsvaults:botania_tunnels",
+  "starts": "woldsvaults:botanic_temple_starts",
+  "rooms": "woldsvaults:botanic_temple_rooms",
+  "tunnels": "woldsvaults:botanic_temple_tunnels",
   "ambient_light": 0.25,
   "fog_color": 994843,
   "grass_color": 2009175,

@@ -24,6 +24,138 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
 
     @Override
     protected void registerPalettes() {
+        add(WoldsVaults.id("universal_create"), new ThemePaletteBuilder(), tb -> {
+            tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
+                    .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
+                    .placeholder(ThemePaletteBuilder.Placeholder.ROOM_BASE)
+                    .placeholder(ThemePaletteBuilder.Placeholder.COMMON_ELITE_SPAWNERS)
+                    .placeholder(VaultMod.id("generic/spawners/cave_mobs"))
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_MAIN, replacementBlocks -> {
+                        replacementBlocks.put(ResourceLocation.parse("create:cut_scorchia"), 5);
+                        replacementBlocks.put(ResourceLocation.parse("create:cut_scorchia_bricks"), 3);
+                        replacementBlocks.put(ResourceLocation.parse("create:scorchia"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, ResourceLocation.parse("create:cut_scorchia_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, ResourceLocation.parse("create:small_scoria_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:ornate_iron_window"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:industrial_iron_block"), 2);
+                    })
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:polished_cut_scorchia"), 5);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:cut_scorchia"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:layered_scorchia"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SLAB, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:cut_scoria_slab"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:industrial_iron_block"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:copper_shingle_slab"), 6);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:layered_scorchia"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:gray_carpet"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 18);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:brass_scaffolding"), 1);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 15);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION_SECONDARY, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_VINES, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:layered_scoria"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:industrial_iron_block"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_HANGING_ACCENT, ResourceLocation.parse("minecraft:chain"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:cogwheel"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:large_cogwheel"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:shaft"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:metal_girder"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:cut_scoria_bricks"), 3);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_TERTIARY, ResourceLocation.parse("create:industrial_iron_block"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_DECORATION, ResourceLocation.parse("create:rose_quartz_lamp"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VINES, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("create:scoria_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("create:scoria"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:metal_girder"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:industrial_iron_block"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, ResourceLocation.parse("create:cut_scoria_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.parse("create:cut_scoria_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR, ResourceLocation.parse("create:layered_scoria"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR_ACCENT, ResourceLocation.parse("create:fluid_pipe"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, ResourceLocation.parse("create:scoria_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, ResourceLocation.parse("create:andesite_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_LIGHT, ResourceLocation.parse("create:rose_quartz_lamp"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, ResourceLocation.parse("create:brass_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FENCE_WOOD_SECONDARY, ResourceLocation.parse("create:brass_bars"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN, ResourceLocation.parse("create:scoria"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT, ResourceLocation.parse("create:scorchia"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:cut_scoria"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:polished_deepslate"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:cut_granite"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_ACCENT, ResourceLocation.parse("create:industrial_iron_block"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PILLAR, ResourceLocation.parse("create:scoria_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS, ResourceLocation.parse("create:cut_scoria_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STONE_STAIRS, ResourceLocation.parse("create:cut_scoria_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("create:scorchia_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL, ResourceLocation.parse("create:cut_scoria_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_SECONDARY, ResourceLocation.parse("create:cut_scoria_brick_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_TERTIARY, ResourceLocation.parse("create:cut_scorchia_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB, ResourceLocation.parse("create:cut_scoria_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB_TERTIARY, ResourceLocation.parse("create:polished_cut_scorchia_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LOG, ResourceLocation.parse("create:scoria_pillar"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WOOD, ResourceLocation.parse("create:layered_scoria"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PLANKS, ResourceLocation.parse("create:cut_scoria"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LEAVES, ResourceLocation.parse("minecraft:spruce_leaves"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE, ResourceLocation.parse("create:andesite_bars"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE_GATE, ResourceLocation.parse("minecraft:dark_oak_fence_gate"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_TRAPDOOR, ResourceLocation.parse("createdeco:brass_trapdoor"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_DOOR, ResourceLocation.parse("create:brass_door"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_WOOD, ResourceLocation.parse("create:cut_scoria_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LANTERN, ResourceLocation.parse("create:rose_quartz_lamp"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_CAMPFIRE, ResourceLocation.parse("minecraft:campfire"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_BOOKSHELF, ResourceLocation.parse("minecraft:bookshelf"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_MAIN, ResourceLocation.parse("create:industrial_iron_block"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_ACCENT, ResourceLocation.parse("create:shadow_steel_casing"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_SLAB, ResourceLocation.parse("create:cut_scorchia_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_STAIRS, ResourceLocation.parse("create:cut_scorchia_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.DECORATION_BRAZIER, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:blaze_burner"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("create:lit_blaze_burner"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.BRIDGE_SLAB, ResourceLocation.parse("create:cut_scorchia_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CHAIN, ResourceLocation.parse("minecraft:chain"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_BOTTOM_LAYER, ModBlocks.LIGHT_BLUE_WATER.getId(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_TOP_LAYER, ModBlocks.LIGHT_BLUE_WATER.getId(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WATER, ModBlocks.LIGHT_BLUE_WATER.getId(), 1);
+        });
+
         add(WoldsVaults.id("universal_botania"), new ThemePaletteBuilder(), tb -> {
             tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
                     .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
