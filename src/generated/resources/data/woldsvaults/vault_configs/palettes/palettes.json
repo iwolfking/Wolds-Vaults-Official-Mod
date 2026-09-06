@@ -1,6 +1,11 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:universal_botania",
+      "name": "Universal Botania",
+      "1.0": "woldsvaults:universal_botania"
+    },
+    {
       "id": "woldsvaults:universal_occult",
       "name": "Universal Occult",
       "1.0": "woldsvaults:universal_occult"

@@ -1,6 +1,9 @@
 {
   "dropChance": 0.2,
   "drops": {
+    "woldsvaults:botanic_temple": {
+      "the_vault:augment{theme:\"woldsvaults:botanic_temple\"}": 1
+    },
     "woldsvaults:mystical_forest": {
       "the_vault:augment{theme:\"woldsvaults:mystical_forest\"}": 1
     },

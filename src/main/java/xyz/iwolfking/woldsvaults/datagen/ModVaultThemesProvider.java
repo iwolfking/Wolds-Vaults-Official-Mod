@@ -16,6 +16,25 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
 
     @Override
     protected void registerThemes() {
+        add(WoldsVaults.id("botanic_temple"), t -> {
+            t.type("classic_vault")
+                    .starts(WoldsVaults.id("botania_starts").toString())
+                    .rooms(WoldsVaults.id("botania_rooms").toString())
+                    .tunnels(WoldsVaults.id("botania_tunnels").toString())
+                    .ambientLight(0.25f)
+                    .fogColor(0x0F2E1B)
+                    .grassColor(0x1EA857)
+                    .foliageColor(0x19944C)
+                    .waterColor(0x00A896)
+                    .waterFogColor(0x004D43)
+                    .themeColor(0x10B981)
+                    .particle("minecraft:end_rod")
+                    .particleProbability(0.005f)
+                    .levelEntry("the_vault:default", 50)
+                    .themeWeight(5)
+                    .themeGroup("Glimmergrove");
+        });
+
         add(WoldsVaults.id("occult"), t -> {
             t.type("classic_vault")
                     .starts(WoldsVaults.id("occult_starts").toString())
@@ -61,7 +80,7 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .levelEntry("the_vault:default", 50)
                     .themeWeight(5)
                     .themeGroup("Arcane")
-                    .themeLore("Arcane", 0x9370DB, themeLoreDescriptionBuilder -> { // Medium Purple Lore Title
+                    .themeLore("Arcane", 0x9370DB, themeLoreDescriptionBuilder -> {
                         themeLoreDescriptionBuilder
                                 .perk("More ", "white")
                                 .perk("Wutodie ", "light_purple")

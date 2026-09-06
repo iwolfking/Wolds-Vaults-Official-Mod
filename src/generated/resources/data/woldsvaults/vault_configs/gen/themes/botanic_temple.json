@@ -1,0 +1,14 @@
+{
+  "type": "classic_vault",
+  "starts": "woldsvaults:botania_starts",
+  "rooms": "woldsvaults:botania_rooms",
+  "tunnels": "woldsvaults:botania_tunnels",
+  "ambient_light": 0.25,
+  "fog_color": 994843,
+  "grass_color": 2009175,
+  "foliage_color": 1676364,
+  "water_color": 43158,
+  "water_fog_color": 19779,
+  "particle": "minecraft:end_rod",
+  "particle_probability": 0.005
+}

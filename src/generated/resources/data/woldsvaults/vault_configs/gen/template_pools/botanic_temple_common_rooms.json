@@ -4,7 +4,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/bee1",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -13,7 +13,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/bee2",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -22,7 +22,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/bee3",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -31,7 +31,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/bee4",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -40,7 +40,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/cliffs1",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -49,7 +49,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/cliffs2",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -58,7 +58,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/cliffs3",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -67,7 +67,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/cliffs4",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -76,7 +76,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/glowstone_lakes1",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -85,7 +85,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/glowstone_lakes2",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -94,7 +94,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/glowstone_lakes3",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -103,7 +103,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/glowstone_lakes4",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -112,7 +112,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/lakes1",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -121,7 +121,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/lakes2",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -130,7 +130,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/lakes3",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -139,7 +139,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/lakes4",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -148,7 +148,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/mushroom_forest1",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -157,7 +157,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/mushroom_forest2",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -166,7 +166,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/mushroom_forest3",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -175,7 +175,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/mushroom_forest4",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -184,7 +184,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/mustard1",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -193,7 +193,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/mustard2",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -202,7 +202,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/mustard3",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -211,7 +211,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/mustard4",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -220,7 +220,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/pirate1",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -229,7 +229,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/pirate2",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -238,7 +238,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/pirate3",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -247,7 +247,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/pirate4",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -256,7 +256,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/rainbow_forest1",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -265,7 +265,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/rainbow_forest2",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -274,7 +274,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/rainbow_forest3",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -283,7 +283,7 @@
     "value": {
       "template": "the_vault:vault/rooms/common/rainbow_forest4",
       "palettes": [
-        "woldsvaults:universal_occult"
+        "woldsvaults:universal_botania"
       ]
     }
   },
@@ -292,8 +292,8 @@
     "value": {
       "template": "the_vault:vault/rooms/common/ore1",
       "palettes": [
-        "woldsvaults:universal_occult",
-        "the_vault:generic/ore_placeholder_nether"
+        "woldsvaults:universal_botania",
+        "the_vault:generic/ore_placeholder"
       ]
     }
   },
@@ -302,8 +302,8 @@
     "value": {
       "template": "the_vault:vault/rooms/common/ore2",
       "palettes": [
-        "woldsvaults:universal_occult",
-        "the_vault:generic/ore_placeholder_nether"
+        "woldsvaults:universal_botania",
+        "the_vault:generic/ore_placeholder"
       ]
     }
   },
@@ -312,8 +312,8 @@
     "value": {
       "template": "the_vault:vault/rooms/common/ore3",
       "palettes": [
-        "woldsvaults:universal_occult",
-        "the_vault:generic/ore_placeholder_nether"
+        "woldsvaults:universal_botania",
+        "the_vault:generic/ore_placeholder"
       ]
     }
   },
@@ -322,8 +322,8 @@
     "value": {
       "template": "the_vault:vault/rooms/common/ore4",
       "palettes": [
-        "woldsvaults:universal_occult",
-        "the_vault:generic/ore_placeholder_nether"
+        "woldsvaults:universal_botania",
+        "the_vault:generic/ore_placeholder"
       ]
     }
   }

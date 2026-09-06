@@ -24,6 +24,152 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
 
     @Override
     protected void registerPalettes() {
+        add(WoldsVaults.id("universal_botania"), new ThemePaletteBuilder(), tb -> {
+            tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
+                    .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
+                    .placeholder(ThemePaletteBuilder.Placeholder.ROOM_BASE)
+                    .placeholder(ThemePaletteBuilder.Placeholder.COMMON_ELITE_SPAWNERS)
+                    .placeholder(VaultMod.id("generic/spawners/lush_cave_mobs"))
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_MAIN, replacementBlocks -> {
+                        replacementBlocks.put(ResourceLocation.parse("botania:livingrock"), 5);
+                        replacementBlocks.put(ResourceLocation.parse("botania:mossy_livingrock_bricks"), 3);
+                        replacementBlocks.put(ResourceLocation.parse("botania:livingrock_bricks"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_SECONDARY, ResourceLocation.parse("botania:mossy_livingrock_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_TERTIARY, ResourceLocation.parse("botania:cracked_livingrock_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WALL_FLOURISH, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:glimmering_livingwood_log"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:livingwood_log"), 2);
+                    })
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:livingrock"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:livingrock_bricks"), 4);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:mossy_livingrock_bricks"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SLAB, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:livingrock_slab"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:livingwood_planks"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:mossy_livingwood_planks"), 6);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:shimmerrock"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:mossy_stone_bricks_1"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_CARPET, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:moss_carpet"), 3);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:vivid_grass"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 15);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:mana_flame"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:white_mystical_flower"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:cyan_mystical_flower"), 2);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 8);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_DECORATION_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:tiny_potato"), 1);
+                        resourceLocationIntegerMap.put(Blocks.AIR.getRegistryName(), 15);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_VINES, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_PLANT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:oak_leaves"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:glimmering_livingwood"), 4);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_HANGING_ACCENT, ResourceLocation.parse("minecraft:chain"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT, Blocks.AIR.getRegistryName(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:livingwood_log"), 2);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:livingrock_bricks"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_ACCENT_TERTIARY, ResourceLocation.parse("botania:stripped_livingwood_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_DECORATION, ResourceLocation.parse("botania:mana_quartz"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, ResourceLocation.parse("minecraft:cave_vines_plant"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VINES, ResourceLocation.parse("minecraft:cave_vines"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("botania:livingwood_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("botania:livingrock"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:glimmering_livingwood"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:pattern_framed_livingwood"), 2);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, ResourceLocation.parse("botania:livingrock_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.parse("botania:livingrock_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR, ResourceLocation.parse("botania:dreamwood_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_VARIANT_PILLAR_ACCENT, ResourceLocation.parse("botania:dreamwood_planks"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_BLOCK, ResourceLocation.parse("botania:livingwood_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_FENCE, ResourceLocation.parse("botania:livingwood_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_LIGHT, ResourceLocation.parse("botania:mana_quartz"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, ResourceLocation.parse("botania:dreamwood_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.FENCE_WOOD_SECONDARY, ResourceLocation.parse("botania:livingwood_fence"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN, ResourceLocation.parse("botania:livingrock"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT, ResourceLocation.parse("botania:mossy_livingrock_bricks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT_SECONDARY, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:prismarine_1"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:mossy_stone_bricks_3"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:granite_1"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_ACCENT, ResourceLocation.parse("botania:glimmering_livingwood"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PILLAR, ResourceLocation.parse("botania:livingwood_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS, ResourceLocation.parse("botania:livingrock_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STONE_STAIRS, ResourceLocation.parse("botania:livingrock_bricks_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_SECONDARY, ResourceLocation.parse("botania:livingwood_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL, ResourceLocation.parse("botania:livingrock_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_SECONDARY, ResourceLocation.parse("botania:livingrock_bricks_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WALL_TERTIARY, ResourceLocation.parse("botania:livingwood_wall"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB, ResourceLocation.parse("botania:livingrock_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_SLAB_TERTIARY, ResourceLocation.parse("botania:livingwood_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LOG, ResourceLocation.parse("botania:livingwood_log"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_WOOD, ResourceLocation.parse("botania:livingwood"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_PLANKS, ResourceLocation.parse("botania:livingwood_planks"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LEAVES, ResourceLocation.parse("minecraft:oak_leaves"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE, ResourceLocation.parse("botania:livingwood_fence"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_FENCE_GATE, ResourceLocation.parse("botania:livingwood_fence_gate"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_TRAPDOOR, ResourceLocation.parse("everycomp:mct/botania/livingwood_mystic_trapdoor"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_DOOR, ResourceLocation.parse("botania:livingwood_door"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_STAIRS_WOOD, ResourceLocation.parse("botania:livingwood_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_LANTERN, ResourceLocation.parse("botania:mana_quartz"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_CAMPFIRE, ResourceLocation.parse("minecraft:campfire"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.POI_BOOKSHELF, ResourceLocation.parse("minecraft:bookshelf"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_MAIN, ResourceLocation.parse("chipped:mossy_stone_bricks_1"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_ACCENT, ResourceLocation.parse("chipped:prismarine_3"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_SLAB, ResourceLocation.parse("minecraft:mossy_stone_brick_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.GOD_ALTAR_STAIRS, ResourceLocation.parse("minecraft:mossy_stone_brick_stairs"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.DECORATION_BRAZIER, resourceLocationIntegerMap -> {
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:white_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:orange_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:magenta_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:light_blue_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:yellow_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:lime_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:pink_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:gray_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:light_gray_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:cyan_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:blue_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:brown_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:green_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:red_floating_flower"), 1);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("botania:black_floating_flower"), 1);
+                    })
+                    .replace(ThemePaletteBuilder.ThemeBlockType.BRIDGE_SLAB, ResourceLocation.parse("botania:livingrock_slab"), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.CHAIN, ResourceLocation.parse("minecraft:chain"), 1)
+
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_BOTTOM_LAYER, ModBlocks.LIGHT_BLUE_WATER.getId(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.STARTING_ROOM_POOL_TOP_LAYER, ModBlocks.LIGHT_BLUE_WATER.getId(), 1)
+                    .replace(ThemePaletteBuilder.ThemeBlockType.WATER, ModBlocks.LIGHT_BLUE_WATER.getId(), 1);
+        });
+
         add(WoldsVaults.id("universal_occult"), new ThemePaletteBuilder(), tb -> {
             tb.placeholder(VaultMod.id("generic/ore_placeholder_nether"))
                     .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)

@@ -61,6 +61,26 @@
       "1.0": "woldsvaults:occult_rooms"
     },
     {
+      "id": "woldsvaults:botanic_temple_common_rooms",
+      "name": "Botanic Temple Common Rooms",
+      "1.0": "woldsvaults:botanic_temple_common_rooms"
+    },
+    {
+      "id": "woldsvaults:botanic_temple_tunnels",
+      "name": "Botanic Temple Tunnels",
+      "1.0": "woldsvaults:botanic_temple_tunnels"
+    },
+    {
+      "id": "woldsvaults:botanic_temple_starts",
+      "name": "Botanic Temple Starts",
+      "1.0": "woldsvaults:botanic_temple_starts"
+    },
+    {
+      "id": "woldsvaults:botanic_temple_rooms",
+      "name": "Botanic Temple Rooms",
+      "1.0": "woldsvaults:botanic_temple_rooms"
+    },
+    {
       "id": "woldsvaults:astral_common_rooms",
       "name": "Astral Common Rooms",
       "1.0": "woldsvaults:astral_common_rooms"

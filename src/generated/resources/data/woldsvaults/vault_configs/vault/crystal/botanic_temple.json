@@ -1,0 +1,15 @@
+{
+  "THEMES": {
+    "the_vault:default": [
+      {
+        "level": 50,
+        "pool": [
+          {
+            "value": "woldsvaults:botanic_temple",
+            "weight": 5
+          }
+        ]
+      }
+    ]
+  }
+}

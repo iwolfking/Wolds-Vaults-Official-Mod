@@ -1,6 +1,12 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:botanic_temple",
+      "name": "Botanic Temple",
+      "color": 1096065,
+      "1.0": "woldsvaults:botanic_temple"
+    },
+    {
       "id": "woldsvaults:occult",
       "name": "Occult",
       "color": 10357519,

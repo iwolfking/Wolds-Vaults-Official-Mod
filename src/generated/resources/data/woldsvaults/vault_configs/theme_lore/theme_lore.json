@@ -873,6 +873,9 @@
     }
   },
   "augments": {
+    "Glimmergrove": [
+      "woldsvaults:botanic_temple"
+    ],
     "Arcane": [
       "woldsvaults:mystical_forest"
     ],
