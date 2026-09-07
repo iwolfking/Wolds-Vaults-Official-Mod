@@ -257,6 +257,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         skillScrollAbility("colossus");
         skillScrollAbility("expunge");
         skillScrollAbility("wall_of_fangs");
+        skillScrollAbility("ultimate_shield");
         skillScroll("fanged_strike");
         skillScroll("execution_strike");
         skillScroll("arcane_strike");
