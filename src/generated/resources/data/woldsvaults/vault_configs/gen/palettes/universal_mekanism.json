@@ -24,53 +24,52 @@
       "type": "weighted_target",
       "target": "minecraft:stone",
       "output": {
-        "immersiveengineering:concrete": 5,
-        "immersiveengineering:concrete_tile": 3,
-        "immersiveengineering:hempcrete": 2
+        "davebuildingmod:polished_steel_plating": 2,
+        "davebuildingmod:steel_plating": 5
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cobblestone",
       "output": {
-        "immersiveengineering:concrete_tile": 1
+        "davebuildingmod:steel_seamless": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:gray_concrete",
       "output": {
-        "immersiveengineering:hempcrete": 1
+        "davebuildingmod:polished_steel_plating": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:purple_wool",
       "output": {
-        "immersiveengineering:sheetmetal_steel": 3,
-        "immersiveengineering:sheetmetal_iron": 2
+        "davebuildingmod:steel_frame": 2,
+        "mekanism:structural_glass": 3
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_bricks",
       "output": {
-        "immersiveengineering:concrete": 1
+        "davebuildingmod:steel_plating": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:mossy_stone_bricks",
       "output": {
-        "immersiveengineering:concrete_tile": 1
+        "davebuildingmod:polished_steel_plating": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:mossy_cobblestone",
       "output": {
-        "immersiveengineering:concrete_tile": 1,
-        "immersiveengineering:hempcrete": 1,
+        "davebuildingmod:polished_steel_plating": 1,
+        "davebuildingmod:steel_seamless": 1,
         "minecraft:polished_deepslate": 1
       }
     },
@@ -78,185 +77,184 @@
       "type": "weighted_target",
       "target": "minecraft:chiseled_stone_bricks",
       "output": {
-        "immersiveengineering:sheetmetal_steel": 1
+        "mekanism:structural_glass": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "create:andesite_pillar",
       "output": {
-        "immersiveengineering:sheetmetal_colored_light_gray": 1
+        "davebuildingmod:steel_block": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_brick_stairs",
       "output": {
-        "immersiveengineering:stairs_concrete": 1
+        "minecraft:polished_deepslate_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_stairs",
       "output": {
-        "immersiveengineering:stairs_concrete_tile": 1
+        "minecraft:stone_brick_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cobblestone_stairs",
       "output": {
-        "immersiveengineering:stairs_hempcrete": 1
+        "minecraft:stone_brick_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_brick_wall",
       "output": {
-        "immersiveengineering:steel_fence": 1
+        "minecraft:deepslate_brick_wall": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cobblestone_wall",
       "output": {
-        "immersiveengineering:steel_fence": 1
+        "minecraft:stone_brick_wall": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:mossy_cobblestone_wall",
       "output": {
-        "immersiveengineering:treated_fence": 1
+        "minecraft:stone_brick_wall": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_brick_slab",
       "output": {
-        "immersiveengineering:slab_concrete": 1
+        "minecraft:polished_deepslate_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_slab",
       "output": {
-        "immersiveengineering:slab_concrete_tile": 1
+        "minecraft:stone_brick_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_log",
       "output": {
-        "immersiveengineering:treated_post": 1
+        "davebuildingmod:steel_block": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_wood",
       "output": {
-        "immersiveengineering:treated_wood_horizontal": 1
+        "davebuildingmod:steel_seamless": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_leaves",
       "output": {
-        "minecraft:spruce_leaves": 1
+        "davebuildingmod:reinforced_glass": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_planks",
       "output": {
-        "immersiveengineering:treated_wood_horizontal": 1
+        "davebuildingmod:steel_plating": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_fence",
       "output": {
-        "immersiveengineering:treated_fence": 1
+        "minecraft:iron_bars": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_trapdoor",
       "output": {
-        "minecraft:spruce_trapdoor": 1
+        "minecraft:iron_trapdoor": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_stairs",
       "output": {
-        "immersiveengineering:stairs_treated_wood_horizontal": 1
+        "minecraft:polished_deepslate_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:lantern",
       "output": {
-        "immersiveengineering:lantern": 1
+        "architects_palette:algal_lamp": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:campfire",
       "output": {
-        "minecraft:campfire": 1
+        "minecraft:soul_campfire": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:bookshelf",
       "output": {
-        "minecraft:bookshelf": 1
+        "davebuildingmod:computer_terminal": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_fence_gate",
       "output": {
-        "minecraft:spruce_fence_gate": 1
+        "minecraft:iron_bars": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_door",
       "output": {
-        "minecraft:spruce_door": 1
+        "minecraft:iron_door": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:dirt",
       "output": {
-        "immersiveengineering:concrete_tile": 5,
-        "immersiveengineering:concrete": 3,
-        "immersiveengineering:slab_concrete": 2
+        "davebuildingmod:polished_steel_plating": 2,
+        "davebuildingmod:steel_plating": 5
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:spruce_slab",
       "output": {
-        "immersiveengineering:slab_concrete": 1
+        "minecraft:smooth_stone_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:coarse_dirt",
       "output": {
-        "immersiveengineering:sheetmetal_copper": 6,
-        "immersiveengineering:sheetmetal_iron": 6
+        "davebuildingmod:polished_steel_plating": 4,
+        "davebuildingmod:stripedblock": 2
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:grass_block",
       "output": {
-        "minecraft:basalt": 1,
+        "davebuildingmod:ballast": 1,
         "minecraft:polished_deepslate": 2
       }
     },
@@ -264,7 +262,7 @@
       "type": "weighted_target",
       "target": "minecraft:moss_carpet",
       "output": {
-        "minecraft:gray_carpet": 2,
+        "minecraft:cyan_carpet": 2,
         "minecraft:air": 18
       }
     },
@@ -272,7 +270,7 @@
       "type": "weighted_target",
       "target": "minecraft:grass",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 1,
+        "davebuildingmod:server_rack": 1,
         "minecraft:air": 15
       }
     },
@@ -336,23 +334,23 @@
       "type": "weighted_target",
       "target": "minecraft:spore_blossom",
       "output": {
-        "immersiveengineering:lantern": 1
+        "architects_palette:algal_lamp": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cyan_wool",
       "output": {
-        "immersiveengineering:concrete": 6,
-        "immersiveengineering:sheetmetal_steel": 4
+        "davebuildingmod:steel_seamless": 4,
+        "davebuildingmod:steel_plating": 6
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:pink_wool",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 4,
-        "immersiveengineering:sheetmetal_steel": 2,
+        "mekanism:structural_glass": 4,
+        "davebuildingmod:laboratory_vent": 2,
         "minecraft:air": 4
       }
     },
@@ -360,114 +358,113 @@
       "type": "weighted_target",
       "target": "minecraft:lime_wool",
       "output": {
-        "immersiveengineering:concrete_tile": 3,
-        "immersiveengineering:steel_slope": 3
+        "davebuildingmod:polished_steel_plating": 3
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:brown_wool",
       "output": {
-        "immersiveengineering:sheetmetal_steel": 1
+        "davebuildingmod:steel_seamless": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "quark:azalea_log",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 1
+        "davebuildingmod:steel_block": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "quark:azalea_planks",
       "output": {
-        "immersiveengineering:concrete": 1
+        "davebuildingmod:gray_steel_seamless": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "create:cut_veridium_wall",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 3,
-        "immersiveengineering:sheetmetal_steel": 1
+        "davebuildingmod:steel_frame": 1,
+        "mekanism:structural_glass": 3
       }
     },
     {
       "type": "weighted_target",
       "target": "quark:azalea_planks_stairs",
       "output": {
-        "immersiveengineering:stairs_concrete": 1
+        "minecraft:polished_deepslate_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cobblestone_slab",
       "output": {
-        "immersiveengineering:slab_concrete": 1
+        "minecraft:polished_deepslate_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "ecologics:azalea_log",
       "output": {
-        "immersiveengineering:treated_post": 1
+        "immersiveengineering:steel_fence": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "create:cut_crimsite_wall",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 1
+        "davebuildingmod:steel_frame": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:end_stone",
       "output": {
-        "immersiveengineering:sheetmetal_steel": 1
+        "davebuildingmod:steel_frame": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:end_stone_bricks",
       "output": {
-        "immersiveengineering:concrete": 1
+        "davebuildingmod:polished_steel_plating": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:end_stone_brick_stairs",
       "output": {
-        "immersiveengineering:stairs_concrete_tile": 1
+        "minecraft:polished_deepslate_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:end_stone_brick_slab",
       "output": {
-        "immersiveengineering:slab_concrete": 1
+        "minecraft:polished_deepslate_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:warped_fence",
       "output": {
-        "immersiveengineering:treated_fence": 1
+        "immersiveengineering:steel_fence": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:warped_wart_block",
       "output": {
-        "immersiveengineering:treated_wood_packaged": 1
+        "davebuildingmod:steel_block": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:shroomlight",
       "output": {
-        "immersiveengineering:lantern": 1
+        "architects_palette:redstone_cage_lantern": 1
       }
     },
     {
@@ -481,35 +478,35 @@
       "type": "weighted_target",
       "target": "minecraft:oak_slab",
       "output": {
-        "immersiveengineering:slab_treated_wood_horizontal": 1
+        "minecraft:polished_deepslate_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "decorative_blocks:brazier",
       "output": {
-        "immersiveengineering:lantern": 1
+        "davebuildingmod:melon_duck": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:water",
       "output": {
-        "auxiliaryblocks:light_blue_water": 1
+        "mekanism:sulfuric_acid": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cyan_stained_glass",
       "output": {
-        "auxiliaryblocks:light_blue_water": 1
+        "mekanism:sulfuric_acid": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:light_blue_stained_glass",
       "output": {
-        "auxiliaryblocks:light_blue_water": 1
+        "mekanism:sulfuric_acid": 1
       }
     },
     {
@@ -530,7 +527,7 @@
       "type": "weighted_target",
       "target": "ecologics:azalea_fence",
       "output": {
-        "immersiveengineering:steel_fence": 1
+        "minecraft:iron_bars": 1
       }
     }
   ],

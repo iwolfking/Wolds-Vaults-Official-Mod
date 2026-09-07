@@ -1,0 +1,15 @@
+{
+  "THEMES": {
+    "the_vault:default": [
+      {
+        "level": 50,
+        "pool": [
+          {
+            "value": "woldsvaults:mekanism_factory",
+            "weight": 5
+          }
+        ]
+      }
+    ]
+  }
+}

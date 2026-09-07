@@ -74,7 +74,6 @@
       "alexsmobs:frilled_shark",
       "alexsmobs:orca",
       "alexsmobs:guster",
-      "thermal:basalz",
       "thermal:blitz",
       "thermal:blizz",
       "grimoireofgaia:behender",
@@ -121,7 +120,8 @@
       "dungeons_mobs:leapleaf",
       "dungeons_mobs:drowned_necromancer",
       "grimoireofgaia:mummy",
-      "grimoireofgaia:wither_cow"
+      "grimoireofgaia:wither_cow",
+      "thermal:basalz"
     ],
     "the_vault:fighter": [
       "the_vault:vault_fighter_7",

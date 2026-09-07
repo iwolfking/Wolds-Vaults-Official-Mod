@@ -6443,7 +6443,7 @@
       {
         "NAME": "minecraft:generic.attack_damage",
         "MIN": 2,
-        "MAX": 3.5,
+        "MAX": 3,
         "OPERATOR": "set",
         "ROLL_CHANCE": 1,
         "SCALE_PER_LEVEL": 0.0,
@@ -6463,8 +6463,8 @@
         "LEVELS": [
           {
             "MIN_LEVEL": 0,
-            "MIN": 30,
-            "MAX": 60,
+            "MIN": 90,
+            "MAX": 120,
             "OPERATOR": "set",
             "ROLL_CHANCE": 1.0,
             "SCALE_PER_LEVEL": 0.09,
@@ -6472,8 +6472,8 @@
           },
           {
             "MIN_LEVEL": 35,
-            "MIN": 40,
-            "MAX": 65,
+            "MIN": 120,
+            "MAX": 200,
             "OPERATOR": "set",
             "ROLL_CHANCE": 1.0,
             "SCALE_PER_LEVEL": 0.09,
@@ -6481,8 +6481,8 @@
           },
           {
             "MIN_LEVEL": 65,
-            "MIN": 45,
-            "MAX": 85,
+            "MIN": 200,
+            "MAX": 250,
             "OPERATOR": "set",
             "ROLL_CHANCE": 1.0,
             "SCALE_PER_LEVEL": 0.09,

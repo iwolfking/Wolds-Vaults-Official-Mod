@@ -1,6 +1,30 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:if_factory",
+      "name": "If Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:if_factory"
+    },
+    {
+      "id": "woldsvaults:mekanism_factory",
+      "name": "Mekanism Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:mekanism_factory"
+    },
+    {
+      "id": "woldsvaults:pnc_factory",
+      "name": "Pnc Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:pnc_factory"
+    },
+    {
+      "id": "woldsvaults:thermal_factory",
+      "name": "Thermal Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:thermal_factory"
+    },
+    {
       "id": "woldsvaults:ie_factory",
       "name": "Ie Factory",
       "color": 14711391,

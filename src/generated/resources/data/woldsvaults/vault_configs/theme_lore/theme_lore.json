@@ -877,11 +877,17 @@
       "woldsvaults:botanic_temple"
     ],
     "Industrial": [
+      "woldsvaults:if_factory",
+      "woldsvaults:mekanism_factory",
+      "woldsvaults:thermal_factory",
       "woldsvaults:ie_factory",
       "woldsvaults:create_factory"
     ],
     "Arcane": [
       "woldsvaults:mystical_forest"
+    ],
+    "Plastic": [
+      "woldsvaults:pnc_factory"
     ],
     "Void": [
       "woldsvaults:sculk"

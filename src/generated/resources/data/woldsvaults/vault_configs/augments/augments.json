@@ -7,8 +7,14 @@
     "woldsvaults:botanic_temple": {
       "the_vault:augment{theme:\"woldsvaults:botanic_temple\"}": 1
     },
+    "woldsvaults:mekanism_factory": {
+      "the_vault:augment{theme:\"woldsvaults:mekanism_factory\"}": 1
+    },
     "woldsvaults:mystical_forest": {
       "the_vault:augment{theme:\"woldsvaults:mystical_forest\"}": 1
+    },
+    "woldsvaults:if_factory": {
+      "the_vault:augment{theme:\"woldsvaults:if_factory\"}": 1
     },
     "woldsvaults:sculk": {
       "the_vault:augment{theme:\"woldsvaults:sculk\"}": 1
@@ -16,11 +22,17 @@
     "woldsvaults:occult": {
       "the_vault:augment{theme:\"woldsvaults:occult\"}": 1
     },
+    "woldsvaults:thermal_factory": {
+      "the_vault:augment{theme:\"woldsvaults:thermal_factory\"}": 1
+    },
     "woldsvaults:ie_factory": {
       "the_vault:augment{theme:\"woldsvaults:ie_factory\"}": 1
     },
     "woldsvaults:red_planet": {
       "the_vault:augment{theme:\"woldsvaults:red_planet\"}": 1
+    },
+    "woldsvaults:pnc_factory": {
+      "the_vault:augment{theme:\"woldsvaults:pnc_factory\"}": 1
     },
     "woldsvaults:lunar": {
       "the_vault:augment{theme:\"woldsvaults:lunar\"}": 1

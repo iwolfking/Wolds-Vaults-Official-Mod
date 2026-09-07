@@ -106,7 +106,7 @@
       "type": "weighted_target",
       "target": "minecraft:cobblestone_stairs",
       "output": {
-        "create:scorchia_stairs": 1
+        "create:cut_scorchia_stairs": 1
       }
     },
     {
@@ -362,7 +362,7 @@
       "target": "minecraft:lime_wool",
       "output": {
         "create:cut_scoria_bricks": 3,
-        "create:metal_girder": 3
+        "immersiveengineering:steel_fence": 3
       }
     },
     {
@@ -391,7 +391,7 @@
       "target": "create:cut_veridium_wall",
       "output": {
         "create:industrial_iron_block": 1,
-        "create:metal_girder": 3
+        "immersiveengineering:steel_fence": 3
       }
     },
     {

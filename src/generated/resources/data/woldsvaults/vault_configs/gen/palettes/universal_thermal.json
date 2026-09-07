@@ -18,144 +18,144 @@
     },
     {
       "type": "reference",
-      "id": "the_vault:generic/spawners/cave_mobs"
+      "id": "woldsvaults:generic/spawners/thermal_theme_mobs"
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone",
       "output": {
-        "immersiveengineering:concrete": 5,
-        "immersiveengineering:concrete_tile": 3,
-        "immersiveengineering:hempcrete": 2
+        "thermal:cracked_slag_bricks": 2,
+        "thermal:polished_slag": 3,
+        "thermal:slag_bricks": 5
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cobblestone",
       "output": {
-        "immersiveengineering:concrete_tile": 1
+        "thermal:polished_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:gray_concrete",
       "output": {
-        "immersiveengineering:hempcrete": 1
+        "thermal:chiseled_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:purple_wool",
       "output": {
-        "immersiveengineering:sheetmetal_steel": 3,
-        "immersiveengineering:sheetmetal_iron": 2
+        "thermal:gray_rockwool": 2,
+        "thermal:orange_rockwool": 3
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_bricks",
       "output": {
-        "immersiveengineering:concrete": 1
+        "thermal:slag_bricks": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:mossy_stone_bricks",
       "output": {
-        "immersiveengineering:concrete_tile": 1
+        "thermal:polished_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:mossy_cobblestone",
       "output": {
-        "immersiveengineering:concrete_tile": 1,
-        "immersiveengineering:hempcrete": 1,
-        "minecraft:polished_deepslate": 1
+        "thermal:cracked_slag_bricks": 1,
+        "minecraft:polished_deepslate": 1,
+        "thermal:polished_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:chiseled_stone_bricks",
       "output": {
-        "immersiveengineering:sheetmetal_steel": 1
+        "thermal:orange_rockwool": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "create:andesite_pillar",
       "output": {
-        "immersiveengineering:sheetmetal_colored_light_gray": 1
+        "thermal:chiseled_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_brick_stairs",
       "output": {
-        "immersiveengineering:stairs_concrete": 1
+        "minecraft:polished_blackstone_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_stairs",
       "output": {
-        "immersiveengineering:stairs_concrete_tile": 1
+        "minecraft:polished_blackstone_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cobblestone_stairs",
       "output": {
-        "immersiveengineering:stairs_hempcrete": 1
+        "minecraft:deepslate_brick_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_brick_wall",
       "output": {
-        "immersiveengineering:steel_fence": 1
+        "minecraft:polished_blackstone_wall": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cobblestone_wall",
       "output": {
-        "immersiveengineering:steel_fence": 1
+        "minecraft:polished_blackstone_wall": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:mossy_cobblestone_wall",
       "output": {
-        "immersiveengineering:treated_fence": 1
+        "minecraft:deepslate_brick_wall": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_brick_slab",
       "output": {
-        "immersiveengineering:slab_concrete": 1
+        "minecraft:polished_blackstone_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:stone_slab",
       "output": {
-        "immersiveengineering:slab_concrete_tile": 1
+        "minecraft:deepslate_brick_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_log",
       "output": {
-        "immersiveengineering:treated_post": 1
+        "thermal:chiseled_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_wood",
       "output": {
-        "immersiveengineering:treated_wood_horizontal": 1
+        "thermal:gray_rockwool": 1
       }
     },
     {
@@ -169,35 +169,35 @@
       "type": "weighted_target",
       "target": "minecraft:oak_planks",
       "output": {
-        "immersiveengineering:treated_wood_horizontal": 1
+        "thermal:gray_rockwool": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_fence",
       "output": {
-        "immersiveengineering:treated_fence": 1
+        "minecraft:nether_brick_fence": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_trapdoor",
       "output": {
-        "minecraft:spruce_trapdoor": 1
+        "minecraft:iron_trapdoor": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_stairs",
       "output": {
-        "immersiveengineering:stairs_treated_wood_horizontal": 1
+        "minecraft:polished_blackstone_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:lantern",
       "output": {
-        "immersiveengineering:lantern": 1
+        "minecraft:lantern": 1
       }
     },
     {
@@ -218,38 +218,38 @@
       "type": "weighted_target",
       "target": "minecraft:oak_fence_gate",
       "output": {
-        "minecraft:spruce_fence_gate": 1
+        "minecraft:nether_brick_fence": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_door",
       "output": {
-        "minecraft:spruce_door": 1
+        "minecraft:iron_door": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:dirt",
       "output": {
-        "immersiveengineering:concrete_tile": 5,
-        "immersiveengineering:concrete": 3,
-        "immersiveengineering:slab_concrete": 2
+        "minecraft:polished_blackstone": 2,
+        "thermal:polished_slag": 5,
+        "thermal:slag_bricks": 3
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:spruce_slab",
       "output": {
-        "immersiveengineering:slab_concrete": 1
+        "minecraft:polished_blackstone_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:coarse_dirt",
       "output": {
-        "immersiveengineering:sheetmetal_copper": 6,
-        "immersiveengineering:sheetmetal_iron": 6
+        "thermal:red_rockwool": 2,
+        "thermal:orange_rockwool": 4
       }
     },
     {
@@ -264,7 +264,7 @@
       "type": "weighted_target",
       "target": "minecraft:moss_carpet",
       "output": {
-        "minecraft:gray_carpet": 2,
+        "minecraft:orange_carpet": 2,
         "minecraft:air": 18
       }
     },
@@ -272,7 +272,7 @@
       "type": "weighted_target",
       "target": "minecraft:grass",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 1,
+        "thermal:chiseled_slag": 1,
         "minecraft:air": 15
       }
     },
@@ -336,23 +336,23 @@
       "type": "weighted_target",
       "target": "minecraft:spore_blossom",
       "output": {
-        "immersiveengineering:lantern": 1
+        "minecraft:lantern": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cyan_wool",
       "output": {
-        "immersiveengineering:concrete": 6,
-        "immersiveengineering:sheetmetal_steel": 4
+        "thermal:gray_rockwool": 4,
+        "thermal:slag_bricks": 6
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:pink_wool",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 4,
-        "immersiveengineering:sheetmetal_steel": 2,
+        "thermal:orange_rockwool": 2,
+        "thermal:chiseled_slag": 4,
         "minecraft:air": 4
       }
     },
@@ -360,156 +360,156 @@
       "type": "weighted_target",
       "target": "minecraft:lime_wool",
       "output": {
-        "immersiveengineering:concrete_tile": 3,
-        "immersiveengineering:steel_slope": 3
+        "thermal:cracked_slag_bricks": 3,
+        "thermal:polished_slag": 3
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:brown_wool",
       "output": {
-        "immersiveengineering:sheetmetal_steel": 1
+        "thermal:gray_rockwool": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "quark:azalea_log",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 1
+        "thermal:chiseled_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "quark:azalea_planks",
       "output": {
-        "immersiveengineering:concrete": 1
+        "thermal:polished_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "create:cut_veridium_wall",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 3,
-        "immersiveengineering:sheetmetal_steel": 1
+        "thermal:orange_rockwool": 3,
+        "thermal:slag_bricks": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "quark:azalea_planks_stairs",
       "output": {
-        "immersiveengineering:stairs_concrete": 1
+        "minecraft:polished_blackstone_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cobblestone_slab",
       "output": {
-        "immersiveengineering:slab_concrete": 1
+        "minecraft:polished_blackstone_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "ecologics:azalea_log",
       "output": {
-        "immersiveengineering:treated_post": 1
+        "thermal:chiseled_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "create:cut_crimsite_wall",
       "output": {
-        "immersiveengineering:steel_scaffolding_standard": 1
+        "thermal:polished_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:end_stone",
       "output": {
-        "immersiveengineering:sheetmetal_steel": 1
+        "thermal:orange_rockwool": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:end_stone_bricks",
       "output": {
-        "immersiveengineering:concrete": 1
+        "thermal:slag_bricks": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:end_stone_brick_stairs",
       "output": {
-        "immersiveengineering:stairs_concrete_tile": 1
+        "minecraft:polished_blackstone_stairs": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:end_stone_brick_slab",
       "output": {
-        "immersiveengineering:slab_concrete": 1
+        "minecraft:polished_blackstone_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:warped_fence",
       "output": {
-        "immersiveengineering:treated_fence": 1
+        "minecraft:nether_brick_fence": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:warped_wart_block",
       "output": {
-        "immersiveengineering:treated_wood_packaged": 1
+        "thermal:chiseled_slag": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:shroomlight",
       "output": {
-        "immersiveengineering:lantern": 1
+        "minecraft:lantern": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "architects_palette:twisted_fence",
       "output": {
-        "immersiveengineering:steel_fence": 1
+        "minecraft:nether_brick_fence": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:oak_slab",
       "output": {
-        "immersiveengineering:slab_treated_wood_horizontal": 1
+        "minecraft:polished_blackstone_slab": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "decorative_blocks:brazier",
       "output": {
-        "immersiveengineering:lantern": 1
+        "minecraft:lantern": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:water",
       "output": {
-        "auxiliaryblocks:light_blue_water": 1
+        "auxiliaryblocks:orange_water": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:cyan_stained_glass",
       "output": {
-        "auxiliaryblocks:light_blue_water": 1
+        "auxiliaryblocks:orange_water": 1
       }
     },
     {
       "type": "weighted_target",
       "target": "minecraft:light_blue_stained_glass",
       "output": {
-        "auxiliaryblocks:light_blue_water": 1
+        "auxiliaryblocks:orange_water": 1
       }
     },
     {
@@ -530,7 +530,7 @@
       "type": "weighted_target",
       "target": "ecologics:azalea_fence",
       "output": {
-        "immersiveengineering:steel_fence": 1
+        "minecraft:nether_brick_fence": 1
       }
     }
   ],

@@ -71,7 +71,7 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .particleProbability(0.015F)
                     .levelEntry("the_vault:default", 50)
                     .themeWeight(5)
-                    .themeGroup("Industrial");
+                    .themeGroup("Plastic");
         });
 
         add(WoldsVaults.id("thermal_factory"), t -> {

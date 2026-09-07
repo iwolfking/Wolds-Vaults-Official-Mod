@@ -2359,24 +2359,24 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                                 .addLevel(65, 45, 85, "set", 1.0, 0.09, 107);
                     })
                     .bestiaryEntry(themes -> {
-                        themes.add("");
+                        themes.add("Thermal Factory");
                     }, 0, descriptions -> {
                         descriptions.add(JsonDescription.simple(""));
                     });
         });
 
         add(ResourceLocation.fromNamespaceAndPath("thermal", "basalz"), vaultMobBuilder -> {
-            vaultMobBuilder.entityGroup(VaultMod.id("assassin"))
-                    .xpValue(65)
-                    .attributeSimple("minecraft:generic.attack_damage", 2.0, 3.5, "set", 1.0, 0.0, 107)
+            vaultMobBuilder.entityGroup(VaultMod.id("tank"))
+                    .xpValue(100)
+                    .attributeSimple("minecraft:generic.attack_damage", 2.0, 3.0, "set", 1.0, 0.0, 107)
                     .attributeSimple("minecraft:generic.knockback_resistance", 0.15, 0.15, "set", 1.0, 0.0, 107)
                     .attributeWithLevels("minecraft:generic.max_health", levels -> {
-                        levels.addLevel(0, 30, 60, "set", 1.0, 0.09, 49)
-                                .addLevel(35, 40, 65, "set", 1.0, 0.09, 64)
-                                .addLevel(65, 45, 85, "set", 1.0, 0.09, 107);
+                        levels.addLevel(0, 90, 120, "set", 1.0, 0.09, 49)
+                                .addLevel(35, 120, 200, "set", 1.0, 0.09, 64)
+                                .addLevel(65, 200, 250, "set", 1.0, 0.09, 107);
                     })
                     .bestiaryEntry(themes -> {
-                        themes.add("");
+                        themes.add("Thermal Factory");
                     }, 0, descriptions -> {
                         descriptions.add(JsonDescription.simple(""));
                     });
@@ -2393,7 +2393,7 @@ public class ModVaultMobsProvider extends AbstractVaultMobsProvider {
                                 .addLevel(65, 45, 85, "set", 1.0, 0.09, 107);
                     })
                     .bestiaryEntry(themes -> {
-                        themes.add("");
+                        themes.add("Thermal Factory");
                     }, 0, descriptions -> {
                         descriptions.add(JsonDescription.simple(""));
                     });

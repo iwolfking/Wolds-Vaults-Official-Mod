@@ -1,6 +1,26 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:universal_if",
+      "name": "Universal If",
+      "1.0": "woldsvaults:universal_if"
+    },
+    {
+      "id": "woldsvaults:universal_mekanism",
+      "name": "Universal Mekanism",
+      "1.0": "woldsvaults:universal_mekanism"
+    },
+    {
+      "id": "woldsvaults:universal_pnc",
+      "name": "Universal Pnc",
+      "1.0": "woldsvaults:universal_pnc"
+    },
+    {
+      "id": "woldsvaults:universal_thermal",
+      "name": "Universal Thermal",
+      "1.0": "woldsvaults:universal_thermal"
+    },
+    {
       "id": "woldsvaults:universal_immersiveengineering",
       "name": "Universal Immersiveengineering",
       "1.0": "woldsvaults:universal_immersiveengineering"
@@ -49,6 +69,11 @@
       "id": "woldsvaults:generic/ore_placeholder_magic",
       "name": "Generic Ore Placeholder Magic",
       "1.0": "woldsvaults:generic/ore_placeholder_magic"
+    },
+    {
+      "id": "woldsvaults:generic/spawners/thermal_theme_mobs",
+      "name": "Generic Spawners Thermal Theme Mobs",
+      "1.0": "woldsvaults:generic/spawners/thermal_theme_mobs"
     },
     {
       "id": "woldsvaults:generic/spawners/occult_mobs",

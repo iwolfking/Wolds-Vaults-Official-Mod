@@ -1,5 +1,9 @@
 {
   "themes": [
+    "woldsvaults:if_factory",
+    "woldsvaults:mekanism_factory",
+    "woldsvaults:pnc_factory",
+    "woldsvaults:thermal_factory",
     "woldsvaults:ie_factory",
     "woldsvaults:create_factory",
     "woldsvaults:botanic_temple",
