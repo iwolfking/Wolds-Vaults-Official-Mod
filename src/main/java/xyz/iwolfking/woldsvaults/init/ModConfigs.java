@@ -56,6 +56,8 @@ public class ModConfigs {
 
     public static ImplicitDeckModifiersConfig IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig();
 
+    public static ThemeModifiersConfig THEME_MODIFIERS = new ThemeModifiersConfig();
+
     public static void register() {
         GEM_BOX = new GenericLootableConfig("gem_box").readConfig();
         SUPPLY_BOX = new GenericLootableConfig("supply_box").readConfig();
@@ -94,5 +96,6 @@ public class ModConfigs {
         ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
         IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
+        THEME_MODIFIERS = new ThemeModifiersConfig().readConfig();
     }
 }

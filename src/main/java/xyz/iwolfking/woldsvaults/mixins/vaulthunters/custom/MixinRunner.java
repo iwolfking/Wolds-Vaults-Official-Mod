@@ -75,11 +75,6 @@ public abstract class MixinRunner extends Listener {
         });
     }
 
-    /**
-     * CRATE_AWARD_EVENT is a server-global bus invoked twice (PRE/POST) for every crate awarded
-     * in ANY vault; without this guard each live Runner's handlers would inject a full roll
-     * into every crate on the server.
-     */
     @Unique
     private boolean isNotOwnCratePreAward(CrateAwardEvent.Data event) {
         return event.getPhase() != CrateAwardEvent.Phase.PRE
@@ -87,13 +82,6 @@ public abstract class MixinRunner extends Listener {
                 || !Objects.equals(event.getListener().get(Listener.ID), this.get(Listener.ID));
     }
 
-    /**
-     * The greed-tree crate bonus. In hyper vaults it rolls two passes: coins come from the
-     * unscaled base roll (their growth is the greedy-crate-tier multiplier), while non-coin
-     * greed items are re-rolled at the crate's accumulated quantity times the configured
-     * efficiency, so platinum/boxes/foci grow with deep runs the way one crate per vault
-     * never lets them.
-     */
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
         CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
@@ -154,10 +142,6 @@ public abstract class MixinRunner extends Listener {
         });
     }
 
-    /**
-     * Injects the score-gated hyper crate rewards. Failures are caught and logged because the
-     * VH event bus swallows handler exceptions silently.
-     */
     @Inject(method = "initServer", at = @At("TAIL"))
     private void addHyperScoreRewardsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
         CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
@@ -175,6 +159,11 @@ public abstract class MixinRunner extends Listener {
                 WoldsVaults.LOGGER.error("Hyper score-tier crate injection failed!", e);
             }
         });
+    }
+
+    @Inject(method = "initServer", at = @At("TAIL"))
+    private void addThemeModifiers(VirtualWorld world, Vault vault, CallbackInfo ci) {
+
     }
 
     @Inject(method = "lambda$initServer$3", at = @At("TAIL"))

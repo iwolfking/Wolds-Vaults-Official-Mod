@@ -220,6 +220,7 @@
     "vaulthunters.accessors.TemplateProcessorModifierPropertiesAccessor",
     "vaulthunters.accessors.TileCandidateAccessor",
     "vaulthunters.accessors.TrinketerExpertiseAccessor",
+    "vaulthunters.accessors.ValueCrystalThemeAccessor",
     "vaulthunters.accessors.VanillaAttributeTalentAccessor",
     "vaulthunters.accessors.VaultDifficultyAccessor",
     "vaulthunters.accessors.VaultGearCommonConfigAccessor",
