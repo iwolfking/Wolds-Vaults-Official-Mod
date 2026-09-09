@@ -17,6 +17,7 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
 public class ThemeModifiersConfig extends Config {
 
@@ -35,7 +36,7 @@ public class ThemeModifiersConfig extends Config {
     protected void reset() {
     }
 
-    public static Optional<ResourceLocation> getModifierPoolForInfusedTheme(ResourceLocation themeId, int level) {
+    public static Optional<ResourceLocation> getModifierPoolForInfusedTheme(ResourceLocation themeId) {
         if(ModConfigs.THEME_MODIFIERS.THEME_SPECIFIC_ENTRIES.containsKey(themeId)) {
             return Optional.ofNullable(ModConfigs.THEME_MODIFIERS.THEME_SPECIFIC_ENTRIES.get(themeId).modifierPool);
         }
@@ -50,6 +51,24 @@ public class ThemeModifiersConfig extends Config {
 
 
         return Optional.empty();
+    }
+
+    public static boolean shouldRandomlyInfuseVaultTheme(ResourceLocation themeId) {
+        Random random = new Random();
+        if(ModConfigs.THEME_MODIFIERS.THEME_SPECIFIC_ENTRIES.containsKey(themeId)) {
+            return random.nextFloat() <= ModConfigs.THEME_MODIFIERS.THEME_SPECIFIC_ENTRIES.get(themeId).infuseChance;
+        }
+
+        String themeGroup = ThemeHelper.getAugmentForTheme(themeId).orElse(null);
+
+        if(themeGroup != null) {
+            if(ModConfigs.THEME_MODIFIERS.THEME_GROUP_ENTRIES.containsKey(themeGroup)) {
+                return random.nextFloat() <= ModConfigs.THEME_MODIFIERS.THEME_GROUP_ENTRIES.get(themeGroup).infuseChance;
+            }
+        }
+
+        return false;
+
     }
 
     public static class ThemeModifierEntry {

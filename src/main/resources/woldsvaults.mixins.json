@@ -340,6 +340,7 @@
     "vaulthunters.custom.MixinModifierWorkbenchBlock",
     "vaulthunters.custom.MixinModModelDiscoveryGoals",
     "vaulthunters.custom.MixinNovaAbility",
+    "vaulthunters.custom.MixinNullCrystalTheme",
     "vaulthunters.custom.MixinObjectiveHudSettings",
     "vaulthunters.custom.MixinObjectiveTemplates",
     "vaulthunters.custom.MixinOverviewContainerElement",
