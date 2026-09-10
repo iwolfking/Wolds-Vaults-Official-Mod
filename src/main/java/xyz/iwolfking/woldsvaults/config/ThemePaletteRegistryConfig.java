@@ -473,6 +473,11 @@ public class ThemePaletteRegistryConfig extends Config {
                 paletteEntries.add(VaultMod.id("map/universal_nether_blackstone"));
             });
         }));
+        THEME_TO_PALETTE_MAP.put(ResourceLocation.fromNamespaceAndPath("skaia", "abandoned_lab"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
+            themePaletteMapEntry.addPalettes(paletteEntries -> {
+                paletteEntries.add(ResourceLocation.fromNamespaceAndPath("skaia", "universal_abandoned_lab"));
+            });
+        }));
     }
 
     public static class ThemePaletteMapEntry {
