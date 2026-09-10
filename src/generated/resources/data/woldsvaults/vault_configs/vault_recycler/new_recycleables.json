@@ -25,6 +25,32 @@
         "maxCount": 6,
         "chance": 1.0
       }
+    },
+    "the_vault:mod_box": {
+      "mainOutput": {
+        "stack": {
+          "item": "the_vault:knowledge_star_shard"
+        },
+        "minCount": 1,
+        "maxCount": 4,
+        "chance": 1.0
+      },
+      "extraOutput1": {
+        "stack": {
+          "item": "minecraft:air"
+        },
+        "minCount": 0,
+        "maxCount": 0,
+        "chance": 0.0
+      },
+      "extraOutput2": {
+        "stack": {
+          "item": "minecraft:air"
+        },
+        "minCount": 0,
+        "maxCount": 0,
+        "chance": 0.0
+      }
     }
   }
 }
