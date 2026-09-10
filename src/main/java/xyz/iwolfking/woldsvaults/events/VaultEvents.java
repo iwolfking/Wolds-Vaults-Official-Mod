@@ -29,7 +29,6 @@ import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.CompleteBountyTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.EnterVaultTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.api.WoldFTBQuestsHelper;
 import xyz.iwolfking.woldsvaults.objectives.CorruptedObjective;
-
 import java.util.List;
 
 @Mod.EventBusSubscriber(

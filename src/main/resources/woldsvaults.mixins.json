@@ -407,6 +407,7 @@
     "vaulthunters.custom.MixinVaultGearTooltipItem",
     "vaulthunters.custom.MixinVaultGlobeBlockEntity",
     "vaulthunters.custom.MixinVaultGrenade",
+    "vaulthunters.custom.MixinVaultGridLayout",
     "vaulthunters.custom.MixinVaultKickCommand",
     "vaulthunters.custom.MixinVaultMapOverlay",
     "vaulthunters.custom.MixinVaultMobsConfig",
