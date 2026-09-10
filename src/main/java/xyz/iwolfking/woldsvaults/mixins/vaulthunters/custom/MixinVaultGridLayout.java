@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import iskallia.vault.VaultMod;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.data.key.PaletteKey;
 import iskallia.vault.core.data.key.TemplateKey;
@@ -36,7 +35,7 @@ public abstract class MixinVaultGridLayout {
             at = @At(
                     value = "INVOKE",
                     target = "Liskallia/vault/core/world/template/PlacementSettings;addProcessors([Liskallia/vault/core/world/processor/Processor;)Liskallia/vault/core/world/template/PlacementSettings;"))
-    private <T> PlacementSettings injectVoidProcessorsToRoom(
+    private <T> PlacementSettings injectThemePalettesIntoRoom(
             PlacementSettings instance,
             Processor<T>[] processors,
             Operation<PlacementSettings> original, @Local(name = "entry") TemplateEntry entry, @Local(argsOnly = true) Vault vault, @Local(argsOnly = true) RegionPos regionPos
@@ -51,14 +50,17 @@ public abstract class MixinVaultGridLayout {
                 return original.call(instance, processors);
             }
 
+
             ThemePaletteRegistryConfig.ThemePaletteMapEntry themePaletteMapEntry = ModConfigs.THEME_PALETTE_REGISTRY.THEME_TO_PALETTE_MAP.getOrDefault(themeId, null);
+            if(themePaletteMapEntry == null) {
+                return original.call(instance, processors);
+            }
+
             if(VaultGenUtils.isInscriptionRoom(vault, regionPos) && !themePaletteMapEntry.affectsInscriptionRooms) {
                 return original.call(instance, processors);
             }
 
-            if(themePaletteMapEntry == null) {
-                return original.call(instance, processors);
-            }
+
 
             for(ResourceLocation paletteId : themePaletteMapEntry.FULL_PALETTE_ENTRIES) {
                 PaletteKey paletteKey = VaultRegistry.PALETTE.getKey(paletteId);
