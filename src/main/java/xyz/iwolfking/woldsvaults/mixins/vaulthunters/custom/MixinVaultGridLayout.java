@@ -10,20 +10,25 @@ import iskallia.vault.core.util.RegionPos;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.WorldManager;
+import iskallia.vault.core.world.data.tile.PartialBlockState;
+import iskallia.vault.core.world.data.tile.PartialTile;
 import iskallia.vault.core.world.generator.layout.VaultGridLayout;
 import iskallia.vault.core.world.processor.Palette;
 import iskallia.vault.core.world.processor.Processor;
 import iskallia.vault.core.world.processor.tile.ReferenceTileProcessor;
 import iskallia.vault.core.world.processor.tile.TileProcessor;
+import iskallia.vault.core.world.processor.tile.WeightedTileProcessor;
 import iskallia.vault.core.world.template.PlacementSettings;
 import iskallia.vault.core.world.template.data.TemplateEntry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.iwolfking.woldsvaults.api.util.VaultGenUtils;
 import xyz.iwolfking.woldsvaults.config.ThemePaletteRegistryConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +55,6 @@ public abstract class MixinVaultGridLayout {
                 return original.call(instance, processors);
             }
 
-
             ThemePaletteRegistryConfig.ThemePaletteMapEntry themePaletteMapEntry = ModConfigs.THEME_PALETTE_REGISTRY.THEME_TO_PALETTE_MAP.getOrDefault(themeId, null);
             if(themePaletteMapEntry == null) {
                 return original.call(instance, processors);
@@ -60,7 +64,9 @@ public abstract class MixinVaultGridLayout {
                 return original.call(instance, processors);
             }
 
-
+            if(key.getPath().contains("labyrinth")) {
+                return original.call(instance, processors);
+            }
 
             for(ResourceLocation paletteId : themePaletteMapEntry.FULL_PALETTE_ENTRIES) {
                 PaletteKey paletteKey = VaultRegistry.PALETTE.getKey(paletteId);
@@ -81,6 +87,13 @@ public abstract class MixinVaultGridLayout {
                                             && !id.toString().contains("treasure_door_placeholder");
                                 }
                             }
+                            else if(key.toString().contains("aquarium") && tileProcessor instanceof WeightedTileProcessor weightedTileProcessor && weightedTileProcessor.getPredicate().test(PartialTile.of(Blocks.WATER.defaultBlockState()))) {
+                                return false;
+                            }
+                            else if((key.toString().contains("cube") || key.toString().contains("memory")) && tileProcessor instanceof WeightedTileProcessor weightedTileProcessor && weightedTileProcessor.getPredicate().test(PartialTile.of(Blocks.LIME_WOOL.defaultBlockState()))) {
+                                return false;
+                            }
+
                             return true;
                         })
                         .toList();
