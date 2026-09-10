@@ -394,6 +394,7 @@
     "vaulthunters.custom.MixinVaultCacheInvalidator",
     "vaulthunters.custom.MixinVaultCharmItem",
     "vaulthunters.custom.MixinVaultChestConfig",
+    "vaulthunters.custom.MixinVaultCompassMode",
     "vaulthunters.custom.MixinVaultCrateBlock",
     "vaulthunters.custom.MixinVaultCrystalConfig",
     "vaulthunters.custom.MixinVaultCrystalItem",
