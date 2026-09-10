@@ -340,7 +340,6 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                     .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_LOWER, Blocks.AIR.getRegistryName(), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TALL_DECORATION_UPPER, Blocks.AIR.getRegistryName(), 1)
 
-                    // --- CEILINGS ---
                     .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VARIANT, resourceLocationIntegerMap -> {
                         resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_stone"), 7);
                         resourceLocationIntegerMap.put(ResourceLocation.parse("pneumaticcraft:compressed_bricks"), 3);
@@ -363,7 +362,6 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                     .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_PLANT, Blocks.AIR.getRegistryName(), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.CEILING_VINES, Blocks.AIR.getRegistryName(), 1)
 
-                    // --- TUNNELS & POSTS ---
                     .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("pneumaticcraft:compressed_brick_pillar"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("pneumaticcraft:reinforced_brick_pillar"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, resourceLocationIntegerMap -> {
@@ -381,7 +379,6 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                     .replace(ThemePaletteBuilder.ThemeBlockType.POST_VARIANT, ResourceLocation.parse("pneumaticcraft:compressed_brick_wall"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.FENCE_WOOD_SECONDARY, ResourceLocation.parse("pneumaticcraft:compressed_brick_wall"), 1)
 
-                    // --- POIS & ALTARS ---
                     .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN, ResourceLocation.parse("pneumaticcraft:compressed_stone"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT, ResourceLocation.parse("pneumaticcraft:compressed_bricks"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.POI_MAIN_ALT_SECONDARY, resourceLocationIntegerMap -> {

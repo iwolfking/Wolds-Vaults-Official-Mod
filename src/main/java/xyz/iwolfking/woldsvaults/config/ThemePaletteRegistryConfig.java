@@ -125,10 +125,16 @@ public class ThemePaletteRegistryConfig extends Config {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(VaultMod.id("universal_beach"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/oasis_coin_stack_placeholder"));
+            });
         }));
         THEME_TO_PALETTE_MAP.put(VaultMod.id("classic_vault_tropical"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(VaultMod.id("universal_tropical"));
+            });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/oasis_coin_stack_placeholder"));
             });
         }));
         THEME_TO_PALETTE_MAP.put(VaultMod.id("classic_vault_dark_cavern"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
@@ -240,20 +246,32 @@ public class ThemePaletteRegistryConfig extends Config {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(VaultMod.id("universal_shipwreck"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/oasis_coin_stack_placeholder"));
+            });
         }));
         THEME_TO_PALETTE_MAP.put(VaultMod.id("classic_vault_haunted"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(VaultMod.id("universal_haunted"));
+            });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/oasis_coin_stack_placeholder"));
             });
         }));
         THEME_TO_PALETTE_MAP.put(VaultMod.id("classic_vault_sea_floor"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(VaultMod.id("universal_sea_floor"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/oasis_coin_stack_placeholder"));
+            });
         }));
         THEME_TO_PALETTE_MAP.put(VaultMod.id("classic_vault_undersea"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(VaultMod.id("universal_undersea"));
+            });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/oasis_coin_stack_placeholder"));
             });
             themePaletteMapEntry.affectsInscriptionRooms = true;
         }));
@@ -339,36 +357,64 @@ public class ThemePaletteRegistryConfig extends Config {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(WoldsVaults.id("universal_if"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/wooden_chest_placeholder_ornate"));
+            });
+            themePaletteMapEntry.applyPostProcesorsToNormalRooms = true;
         }));
         THEME_TO_PALETTE_MAP.put(WoldsVaults.id("mekanism_factory"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(WoldsVaults.id("universal_mekanism"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/wooden_chest_placeholder_ornate"));
+            });
+            themePaletteMapEntry.applyPostProcesorsToNormalRooms = true;
         }));
         THEME_TO_PALETTE_MAP.put(WoldsVaults.id("pnc_factory"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(WoldsVaults.id("pnc_factory"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/wooden_chest_placeholder_ornate"));
+            });
+            themePaletteMapEntry.applyPostProcesorsToNormalRooms = true;
         }));
         THEME_TO_PALETTE_MAP.put(WoldsVaults.id("thermal_factory"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(WoldsVaults.id("universal_thermal"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/wooden_chest_placeholder_ornate"));
+            });
+            themePaletteMapEntry.applyPostProcesorsToNormalRooms = true;
         }));
         THEME_TO_PALETTE_MAP.put(WoldsVaults.id("ie_factory"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(WoldsVaults.id("universal_immersiveengineering"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/wooden_chest_placeholder_ornate"));
+            });
+            themePaletteMapEntry.applyPostProcesorsToNormalRooms = true;
         }));
         THEME_TO_PALETTE_MAP.put(WoldsVaults.id("create_factory"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(WoldsVaults.id("create_factory"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/wooden_chest_placeholder_ornate"));
+            });
+            themePaletteMapEntry.applyPostProcesorsToNormalRooms = true;
         }));
         THEME_TO_PALETTE_MAP.put(WoldsVaults.id("botanic_temple"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(WoldsVaults.id("universal_botania"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/wooden_chest_placeholder_living"));
+            });
+            themePaletteMapEntry.applyPostProcesorsToNormalRooms = true;
         }));
         THEME_TO_PALETTE_MAP.put(WoldsVaults.id("occult"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
@@ -379,6 +425,10 @@ public class ThemePaletteRegistryConfig extends Config {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(WoldsVaults.id("universal_mystical_forest"));
             });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/wooden_chest_placeholder_living"));
+            });
+            themePaletteMapEntry.applyPostProcesorsToNormalRooms = true;
         }));
         THEME_TO_PALETTE_MAP.put(WoldsVaults.id("sculk"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
@@ -398,6 +448,9 @@ public class ThemePaletteRegistryConfig extends Config {
         THEME_TO_PALETTE_MAP.put(VaultMod.id("map_beach_t0"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
             themePaletteMapEntry.addPalettes(paletteEntries -> {
                 paletteEntries.add(VaultMod.id("map/universal_beach"));
+            });
+            themePaletteMapEntry.addPostProcessors(paletteEntries -> {
+                paletteEntries.add(VaultMod.id("generic/oasis_coin_stack_placeholder"));
             });
         }));
         THEME_TO_PALETTE_MAP.put(VaultMod.id("map_desert_t0"), ThemePaletteMapEntry.create(themePaletteMapEntry -> {
@@ -431,6 +484,9 @@ public class ThemePaletteRegistryConfig extends Config {
 
         @Expose
         public boolean affectsInscriptionRooms = false;
+
+        @Expose
+        public boolean applyPostProcesorsToNormalRooms = false;
 
         public void addPalettes(Consumer<BasicListBuilder<ResourceLocation>> paletteEntriesConsumer) {
             BasicListBuilder<ResourceLocation> palettesBuilder = new BasicListBuilder<>();
