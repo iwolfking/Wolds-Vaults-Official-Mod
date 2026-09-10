@@ -63,7 +63,7 @@ public class InfusedCrystalTheme extends CrystalTheme {
                     });
                     vault.ifPresent(Vault.MODIFIERS, (modifiers -> {
                         int vaultLevel = vault.getOr(Vault.LEVEL, new VaultLevel()).get();
-                        Optional<ResourceLocation> modifierPool = ThemeModifiersConfig.getModifierPoolForInfusedTheme(id, vaultLevel);
+                        Optional<ResourceLocation> modifierPool = ThemeModifiersConfig.getModifierPoolForInfusedTheme(id);
                         modifierPool.ifPresent(resourceLocation -> {
                             List<VaultModifier<?>> modifiersFromPool = VaultModifierUtils.getModifiersFromPool(resourceLocation, vaultLevel);
                             modifiersFromPool.forEach(vaultModifier -> {
