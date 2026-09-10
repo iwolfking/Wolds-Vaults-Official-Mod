@@ -224,6 +224,8 @@ public class ModItems {
 
     public static CompanionRerollingItem COMPANION_REROLLER;
 
+    public static InfusedAugmentItem INFUSED_AUGMENT;
+
     public static BasicItem POGGING_SEED_BASE;
     public static BasicItem ECHOING_SEED_BASE;
 
@@ -403,6 +405,7 @@ public class ModItems {
         registry.register(GREEN_VAULT_ESSENCE);
         registry.register(LEAD_DYE_BASE);
         registry.register(CONCENTRATED_VOID);
+        registry.register(INFUSED_AUGMENT);
         COLORED_UNOBTANIUMS.forEach((s, bi) -> {
             registry.register(bi);
         });
@@ -578,6 +581,8 @@ public class ModItems {
         FILTER_NECKLACE = new FilterNecklaceItem(WoldsVaults.id("filter_necklace"), 9);
 
         COMPANION_REROLLER = new CompanionRerollingItem(WoldsVaults.id("companion_reroller"));
+
+        INFUSED_AUGMENT = new InfusedAugmentItem(ModCreativeTabs.WOLDS_VAULTS, WoldsVaults.id("infused_augment"));
 
         POGGING_SEED_BASE = new BasicItem(WoldsVaults.id("pogging_seed_base"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         ECHOING_SEED_BASE = new BasicItem(WoldsVaults.id("echoing_seed_base"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));

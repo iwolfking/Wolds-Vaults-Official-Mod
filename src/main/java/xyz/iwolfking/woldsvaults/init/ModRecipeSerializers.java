@@ -22,6 +22,7 @@ public class ModRecipeSerializers {
         if(ConditionalModUtils.isModPresent("ars_nouveau")) {
             registry.register(ArsRecipeSerializers.VAULT_GEAR_ENCHANTING_APPARATUS.setRegistryName(WoldsVaults.id("vault_gear_enchanting")));
             registry.register(ArsRecipeSerializers.VAULT_CATALYST_INFUSION.setRegistryName(WoldsVaults.id("vault_catalyst_infusion")));
+            registry.register(ArsRecipeSerializers.VAULT_AUGMENT_INFUSION.setRegistryName(WoldsVaults.id("vault_augment_infusion")));
         }
     }
 }

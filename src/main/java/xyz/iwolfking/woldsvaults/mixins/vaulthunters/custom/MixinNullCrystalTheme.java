@@ -21,7 +21,7 @@ public class MixinNullCrystalTheme {
         ModConfigs.VAULT_CRYSTAL.getRandomTheme(VaultMod.id("default"),  vault.get(Vault.LEVEL).get(), random).ifPresent(id -> {
             CrystalTheme child;
 
-            if (ThemeModifiersConfig.shouldRandomlyInfuseVaultTheme(id)) {
+            if (ThemeModifiersConfig.shouldRandomlyInfuseVaultTheme(id, vault.get(Vault.LEVEL).get())) {
                 child = new InfusedCrystalTheme(id);
             } else {
                 child = new ValueCrystalTheme(id);

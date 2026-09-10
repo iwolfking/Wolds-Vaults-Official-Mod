@@ -174,6 +174,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent("owned_crafting_table",
                 mcLoc("item/crafting_table"));
 
+        withExistingParent("infused_augment", VaultMod.id("item/augment"));
+
         spawnEgg(ModItems.BLUE_BLAZE_EGG);
         spawnEgg(ModItems.BOOGIEMAN_EGG);
         spawnEgg(ModItems.MONSTER_EYE_EGG);

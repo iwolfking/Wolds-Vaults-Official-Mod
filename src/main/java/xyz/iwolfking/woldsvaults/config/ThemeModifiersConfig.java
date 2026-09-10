@@ -53,17 +53,17 @@ public class ThemeModifiersConfig extends Config {
         return Optional.empty();
     }
 
-    public static boolean shouldRandomlyInfuseVaultTheme(ResourceLocation themeId) {
+    public static boolean shouldRandomlyInfuseVaultTheme(ResourceLocation themeId, int vaultLevel) {
         Random random = new Random();
         if(ModConfigs.THEME_MODIFIERS.THEME_SPECIFIC_ENTRIES.containsKey(themeId)) {
-            return random.nextFloat() <= ModConfigs.THEME_MODIFIERS.THEME_SPECIFIC_ENTRIES.get(themeId).infuseChance;
+            return random.nextFloat() <= ModConfigs.THEME_MODIFIERS.THEME_SPECIFIC_ENTRIES.get(themeId).getInfuseChance(vaultLevel);
         }
 
         String themeGroup = ThemeHelper.getAugmentForTheme(themeId).orElse(null);
 
         if(themeGroup != null) {
             if(ModConfigs.THEME_MODIFIERS.THEME_GROUP_ENTRIES.containsKey(themeGroup)) {
-                return random.nextFloat() <= ModConfigs.THEME_MODIFIERS.THEME_GROUP_ENTRIES.get(themeGroup).infuseChance;
+                return random.nextFloat() <= ModConfigs.THEME_MODIFIERS.THEME_GROUP_ENTRIES.get(themeGroup).getInfuseChance(vaultLevel);
             }
         }
 
@@ -77,19 +77,19 @@ public class ThemeModifiersConfig extends Config {
         private ResourceLocation modifierPool;
 
         @Expose
-        private float infuseChance;
+        private LevelEntryList<InfuseChanceEntry> infuseChance;
 
-        public ThemeModifierEntry(ResourceLocation modifierPoolId, float infuseChance) {
+        public ThemeModifierEntry(ResourceLocation modifierPoolId, LevelEntryList<InfuseChanceEntry> infuseChances) {
             this.modifierPool = modifierPoolId;
-            this.infuseChance = infuseChance;
+            this.infuseChance = infuseChances;
         }
 
         public ResourceLocation getModifierPool() {
             return this.modifierPool;
         }
 
-        public float getInfuseChance() {
-            return this.infuseChance;
+        public float getInfuseChance(int level) {
+            return this.infuseChance.getForLevel(level).orElse(new InfuseChanceEntry(0, 0F)).chance;
         }
     }
 
@@ -102,12 +102,12 @@ public class ThemeModifiersConfig extends Config {
         private ResourceLocation modifierPool;
 
         @Expose
-        private float infuseChance;
+        private LevelEntryList<InfuseChanceEntry> infuseChance;
 
-        public ThemeGroupModifierEntry(String themeId, ResourceLocation modifierPoolId, float infuseChance) {
+        public ThemeGroupModifierEntry(String themeId, ResourceLocation modifierPoolId, LevelEntryList<InfuseChanceEntry> infuseChances) {
             this.themeGroupId = themeId;
             this.modifierPool = modifierPoolId;
-            this.infuseChance = infuseChance;
+            this.infuseChance = infuseChances;
         }
 
         public String getThemeGroupId() {
@@ -118,8 +118,29 @@ public class ThemeModifiersConfig extends Config {
             return this.modifierPool;
         }
 
-        public float getInfuseChance() {
-            return this.infuseChance;
+        public float getInfuseChance(int level) {
+            return this.infuseChance.getForLevel(level).orElse(new InfuseChanceEntry(0, 0F)).chance;
+        }
+    }
+
+    public static class InfuseChanceEntry implements LevelEntryList.ILevelEntry {
+        @Expose
+        private int level;
+        @Expose
+        private float chance;
+
+        public InfuseChanceEntry(int level, float chance) {
+            this.level = level;
+            this.chance = chance;
+        }
+
+        @Override
+        public int getLevel() {
+            return this.level;
+        }
+
+        public float getChance() {
+            return this.chance;
         }
     }
 }

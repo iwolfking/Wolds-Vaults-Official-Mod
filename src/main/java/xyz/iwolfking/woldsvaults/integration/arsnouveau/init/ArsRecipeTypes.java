@@ -8,6 +8,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 public class ArsRecipeTypes {
     public static final RecipeType<EnchantingApparatusRecipe> VAULT_GEAR_APPARATUS_TYPE = new ModRecipeType<>();
     public static final RecipeType<EnchantingApparatusRecipe> CATALYST_APPARATUS_TYPE = new ModRecipeType<>();
+    public static final RecipeType<EnchantingApparatusRecipe> AUGMENT_INFUSION_APPARATUS_TYPE = new ModRecipeType<>();
 
     private static class ModRecipeType<T extends Recipe<?>> implements RecipeType<T> {
         public String toString() {

@@ -7,5 +7,6 @@ public class ArsAPIRegistration {
     public static void register() {
         ArsNouveauAPI.getInstance().getEnchantingRecipeTypes().add(ArsRecipeTypes.VAULT_GEAR_APPARATUS_TYPE);
         ArsNouveauAPI.getInstance().getEnchantingRecipeTypes().add(ArsRecipeTypes.CATALYST_APPARATUS_TYPE);
+        ArsNouveauAPI.getInstance().getEnchantingRecipeTypes().add(ArsRecipeTypes.AUGMENT_INFUSION_APPARATUS_TYPE);
     }
 }

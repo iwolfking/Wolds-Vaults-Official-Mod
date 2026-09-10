@@ -6,8 +6,11 @@ import com.github.klikli_dev.occultism.registry.OccultismItems;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.MysteryEggConfig;
 import iskallia.vault.config.MysteryHostileEggConfig;
+import iskallia.vault.core.Version;
 import iskallia.vault.core.card.CardEntry;
+import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.influence.VaultGod;
+import iskallia.vault.core.world.generator.theme.Theme;
 import iskallia.vault.item.AugmentItem;
 import me.dinnerbeef.compressium.Compressium;
 import mekanism.api.chemical.gas.GasStack;
@@ -45,6 +48,7 @@ import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.ApparatusRecipeBuilder;
+import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultAugmentInfusionRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultCatalystInfusionRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.botania.recipe.RunicAltarRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModGases;
@@ -1145,6 +1149,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_HOSTILE_EGG), new ItemStack(ModRitualDummyItems.SPAWN_EGG_INFUSION), spawnEggItem.getDefaultInstance()).duration(10).requires(iskallia.vault.init.ModItems.ETERNAL_SOUL).requires(iskallia.vault.init.ModItems.WUTODIC_MASS).requires(iskallia.vault.init.ModItems.MYSTICAL_POWDER).requires(ModItems.CHROMA_CORE).entityToSacrifice(entityType).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_" + entityType.getRegistryName().getPath() + "_spawn_egg"));
             }
         });
+
+        VaultAugmentInfusionRecipeBuilder.builder().addPedestalItem(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addPedestalItem(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addPedestalItem(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addPedestalItem(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addPedestalItem(iskallia.vault.init.ModItems.ETERNAL_SOUL).addPedestalItem(iskallia.vault.init.ModItems.ETERNAL_SOUL).addPedestalItem(iskallia.vault.init.ModItems.ETERNAL_SOUL).addPedestalItem(iskallia.vault.init.ModItems.ETERNAL_SOUL).manaCost(1000).save(pFinishedRecipeConsumer, WoldsVaults.id("augment_infusion"));
 
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "idona"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_IDONA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.IDONA_BRICK, 64)).duration(5).requires(Ingredient.of(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("idona_bricks"));
         RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(Blocks.STONE_BRICKS), new ItemStack(ModRitualDummyItems.CRAFT_VELARA_BRICKS), new ItemStack(iskallia.vault.init.ModBlocks.VELARA_BRICK, 64)).duration(5).requires(Ingredient.of(ModItems.GREEN_VAULT_ESSENCE)).requires(Ingredient.of(iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)).save(pFinishedRecipeConsumer, WoldsVaults.id("velara_bricks"));
