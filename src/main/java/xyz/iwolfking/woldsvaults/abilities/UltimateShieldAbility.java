@@ -50,6 +50,14 @@ public class UltimateShieldAbility extends ToggleManaAbility {
         return manaPerDamageScalar;
     }
 
+    public float getBaseManaDrainPerTick() {
+        return baseManaDrainPerTick;
+    }
+
+    public float getManaDrainRampPerSecond() {
+        return manaDrainRampPerSecond;
+    }
+
     private ToggleAbilityEffect getEffect() {
         return ModEffects.ULTIMATE_SHIELD;
     }

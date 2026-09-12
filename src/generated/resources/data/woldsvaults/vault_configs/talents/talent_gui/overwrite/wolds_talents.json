@@ -46,7 +46,7 @@
       "x": 564,
       "y": 160,
       "frameType": "RECTANGULAR",
-      "icon": "the_vault:gui/skills/hexbreaker"
+      "icon": "the_vault:gui/skills/hex_breaker"
     },
     "Depleted": {
       "x": -140,

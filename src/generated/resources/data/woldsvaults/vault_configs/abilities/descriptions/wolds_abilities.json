@@ -362,6 +362,56 @@
         "adjustedDuration"
       ]
     },
+    "UltimateShield_Base": {
+      "description": [
+        {
+          "text": "Envelop yourself in pure Arcane energy",
+          "color": "$text"
+        },
+        {
+          "text": " redirecting a percentage of incoming damage to your ",
+          "color": "$text"
+        },
+        {
+          "text": "Mana",
+          "color": "$manaCost"
+        },
+        {
+          "text": ".\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "This powerful barrier requires an increasing amount of ",
+          "color": "$text"
+        },
+        {
+          "text": "Mana",
+          "color": "$manaCost"
+        },
+        {
+          "text": " to maintain over time.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n● Toggle Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "percentageDamageAbsorbed",
+        "manaPerDamageScalar",
+        "baseManaDrainPerTick",
+        "manaDrainRampPerSecond",
+        "cooldown"
+      ],
+      "next": [
+        "percentageDamageAbsorbed",
+        "manaPerDamageScalar",
+        "baseManaDrainPerTick",
+        "manaDrainRampPerSecond",
+        "cooldown"
+      ]
+    },
     "Vein_Miner_Chain": {
       "description": [
         {

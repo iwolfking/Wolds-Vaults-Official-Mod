@@ -249,6 +249,29 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 next.add("manaCost");
             });
 
+            builder.addDescription("UltimateShield_Base", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Envelop yourself in pure Arcane energy"));
+                jsonElements.add(JsonDescription.simple(" redirecting a percentage of incoming damage to your "));
+                jsonElements.add(JsonDescription.simple("Mana", "$manaCost"));
+                jsonElements.add(JsonDescription.simple(".\n\n"));
+                jsonElements.add(JsonDescription.simple("This powerful barrier requires an increasing amount of "));
+                jsonElements.add(JsonDescription.simple("Mana", "$manaCost"));
+                jsonElements.add(JsonDescription.simple(" to maintain over time."));
+                jsonElements.add(toggleAbility());
+            }, current -> {
+                current.add("percentageDamageAbsorbed");
+                current.add("manaPerDamageScalar");
+                current.add("baseManaDrainPerTick");
+                current.add("manaDrainRampPerSecond");
+                current.add("cooldown");
+            }, next -> {
+                next.add("percentageDamageAbsorbed");
+                next.add("manaPerDamageScalar");
+                next.add("baseManaDrainPerTick");
+                next.add("manaDrainRampPerSecond");
+                next.add("cooldown");
+            });
+
             builder.addDescription("Vein_Miner_Chain", jsonElements -> {
                 jsonElements.add(JsonDescription.simple("Changes Vein Miner to mine blocks that are "));
                 jsonElements.add(JsonDescription.simple("further apart ", "$distance"));
@@ -283,6 +306,10 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
 
     public JsonObject castAbility() {
         return JsonDescription.simple("\n\n✴ Cast Ability", "$castType");
+    }
+
+    public JsonObject toggleAbility() {
+        return JsonDescription.simple("\n\n● Toggle Ability", "$castType");
     }
 
     public JsonObject holdAbility() {

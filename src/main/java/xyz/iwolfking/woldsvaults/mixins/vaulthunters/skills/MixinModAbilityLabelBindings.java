@@ -121,6 +121,20 @@ public abstract class MixinModAbilityLabelBindings {
                 ability -> AbilityLabelFormatters.integer((int) ability.getManaCost())
         ));
 
+        ModAbilityLabelBindings.register(UltimateShieldAbility.class, Map.of(
+                "percentageDamageAbsorbed",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getPercentageDamageAbsorbed()),
+                "manaPerDamageScalar",
+                ability -> AbilityLabelFormatters.decimal(ability.getManaPerDamageScalar()),
+                "baseManaDrainPerTick",
+                ability -> AbilityLabelFormatters.decimal(ability.getBaseManaDrainPerTick()),
+                "manaDrainRampPerSecond",
+                ability -> AbilityLabelFormatters.percentTwoDecimalPlaces(ability.getManaDrainRampPerSecond()),
+                "cooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
+
 
     }
 }
