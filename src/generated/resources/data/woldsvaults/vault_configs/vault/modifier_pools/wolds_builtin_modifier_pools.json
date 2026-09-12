@@ -5094,6 +5094,37 @@
           }
         ]
       }
+    ],
+    "woldsvaults:saltshade_theme_infusion": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 4,
+            "max": 4,
+            "pool": [
+              {
+                "value": "the_vault:coin_pile",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:coin_cascade",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:cardboard_boxes",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
     ]
   }
 }

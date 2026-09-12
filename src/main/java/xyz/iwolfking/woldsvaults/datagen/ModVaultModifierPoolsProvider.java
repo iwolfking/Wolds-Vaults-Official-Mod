@@ -1266,7 +1266,19 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                             entries.entry(1, 1, e -> addAllExceptBanned(e, BASIC_NEGATIVE, MEDIUM_NEGATIVE, OMEGA_NEGATIVE, MOB_ONHITS))
                     )
             );
+            b.pool(WoldsVaults.sId("saltshade_theme_infusion"), poolLevelBuilder -> {
+               poolLevelBuilder.level(0, entryListBuilder -> {
+                   entryListBuilder.entry(4, 4, poolValueListBuilder -> {
+                      poolValueListBuilder.add("the_vault:coin_pile", 1);
+                      poolValueListBuilder.add("the_vault:coin_cascade", 1);
+                   });
+                   entryListBuilder.entry(1, 1, poolValueListBuilder -> {
+                       poolValueListBuilder.add("woldsvaults:cardboard_boxes", 1);
+                   });
+               });
+            });
         });
+
 
         map.put("default_override", modifierPoolBuilder -> {
            modifierPoolBuilder.pool(VaultMod.id("default").toString(), poolLevelBuilder -> {

@@ -28,10 +28,13 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.api.util.WoldTexFX;
+import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.config.ThemeModifiersConfig;
 
 import java.util.List;
@@ -65,6 +68,7 @@ public class InfusedCrystalTheme extends CrystalTheme {
                         int vaultLevel = vault.getOr(Vault.LEVEL, new VaultLevel()).get();
                         Optional<ResourceLocation> modifierPool = ThemeModifiersConfig.getModifierPoolForInfusedTheme(id);
                         modifierPool.ifPresent(resourceLocation -> {
+                            modifiers.addModifier(VaultModifierRegistry.get(WoldsVaults.id("infused")), 1, true, ChunkRandom.ofNanoTime());
                             List<VaultModifier<?>> modifiersFromPool = VaultModifierUtils.getModifiersFromPool(resourceLocation, vaultLevel);
                             modifiersFromPool.forEach(vaultModifier -> {
                                 modifiers.addModifier(vaultModifier, 1, true, ChunkRandom.ofNanoTime());

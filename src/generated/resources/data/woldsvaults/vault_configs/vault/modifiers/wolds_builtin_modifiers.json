@@ -11,6 +11,16 @@
           "icon": "the_vault:gui/modifiers/rotten"
         }
       },
+      "woldsvaults:infused": {
+        "properties": {},
+        "display": {
+          "name": "Infused",
+          "color": "#e6fffe",
+          "description": "This vault is overflowing with powerful energy, special modifiers added!",
+          "descriptionFormatted": "This vault is overflowing with powerful energy, special modifiers added!",
+          "icon": "the_vault:gui/modifiers/more_catalyst"
+        }
+      },
       "woldsvaults:radar": {
         "properties": {},
         "display": {

@@ -149,6 +149,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.LEAD_DYE_BASE, "Lead Dye Base");
         add(ModItems.CONCENTRATED_VOID, "Concentrated Void");
         add(ModItems.INFUSED_AUGMENT, "Infused Augment");
+        add("message.woldsvaults.theme_infusion_message", "This vault is overflowing with powerful energy!");
         add("fix.woldsvaults.schematic_terminal_no_permission", "You do not have permission to place an Overworld Inscription here!");
         add("fluid.woldsvaults.molten_trinket", "Molten Trinket");
         add("block.woldsvaults.prismatic_glue", "Prismatic Glue");
