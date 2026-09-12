@@ -85,13 +85,13 @@ public class UltimateShieldAbility extends ToggleManaAbility {
             float elapsedSeconds = this.activeTicks / 20.0F;
             float currentTickCost = Math.min(
                     this.baseManaDrainPerTick + (elapsedSeconds * this.manaDrainRampPerSecond),
-                    this.maxManaDrainPerTick
+                    this.maxManaDrainPerTick * (Mana.getRegenPerSecond(player) / 20)
             );
 
             if (Mana.get(player) < currentTickCost) {
-                player.removeEffect(this.getEffect());
                 this.activeTicks = 0;
-                return Ability.TickResult.PASS;
+                player.removeEffect(this.getEffect());
+                return TickResult.PASS;
             }
 
             Mana.decrease(player, ManaAction.PLAYER_ACTION, currentTickCost);
@@ -125,8 +125,8 @@ public class UltimateShieldAbility extends ToggleManaAbility {
                 if (player.hasEffect(ability.getEffect())) {
                     float percentageDamageAbsorbed = Mth.clamp(ability.getPercentageDamageAbsorbed(), 0.0F, 1.0F);
 
-                    float damageToManaEfficiencyMultiplier = 0.5F; 
-                    float manaCostPerDamage = ability.getManaPerDamageScalar() * damageToManaEfficiencyMultiplier;
+                    float manaCostPerDamage = ability.getManaPerDamageScalar();
+                    float regenPerTick = Mana.getRegenPerSecond(player) / 20.0F;
 
                     manaCostPerDamage = Math.max(manaCostPerDamage, 1.0E-5F);
                     float manaUsed = Math.min(event.getAmount() * percentageDamageAbsorbed * manaCostPerDamage, Mana.get(player));
@@ -153,6 +153,7 @@ public class UltimateShieldAbility extends ToggleManaAbility {
     }
 
     protected void onEffectRemoved(ServerPlayer player) {
+        this.setActive(false);
     }
 
     @Override
@@ -204,12 +205,12 @@ public class UltimateShieldAbility extends ToggleManaAbility {
     @Override
     public Optional<JsonObject> writeJson() {
         return super.writeJson().map(json -> {
-            Adapters.FLOAT.writeJson(Float.valueOf(this.percentageDamageAbsorbed)).ifPresent(element -> json.add("percentageDamageAbsorbed", element));
-            Adapters.FLOAT.writeJson(Float.valueOf(this.manaPerDamageScalar)).ifPresent(element -> json.add("manaPerDamageScalar", element));
-            Adapters.FLOAT.writeJson(Float.valueOf(this.baseManaDrainPerTick)).ifPresent(element -> json.add("baseManaDrainPerTick", element));
-            Adapters.FLOAT.writeJson(Float.valueOf(this.manaDrainRampPerSecond)).ifPresent(element -> json.add("manaDrainRampPerSecond", element));
-            Adapters.FLOAT.writeJson(Float.valueOf(this.maxManaDrainPerTick)).ifPresent(element -> json.add("maxManaDrainPerTick", element));
-            Adapters.INT.writeJson(Integer.valueOf(this.activeTicks)).ifPresent(element -> json.add("activeTicks", element));
+            Adapters.FLOAT.writeJson(this.percentageDamageAbsorbed).ifPresent(element -> json.add("percentageDamageAbsorbed", element));
+            Adapters.FLOAT.writeJson(this.manaPerDamageScalar).ifPresent(element -> json.add("manaPerDamageScalar", element));
+            Adapters.FLOAT.writeJson(this.baseManaDrainPerTick).ifPresent(element -> json.add("baseManaDrainPerTick", element));
+            Adapters.FLOAT.writeJson(this.manaDrainRampPerSecond).ifPresent(element -> json.add("manaDrainRampPerSecond", element));
+            Adapters.FLOAT.writeJson(this.maxManaDrainPerTick).ifPresent(element -> json.add("maxManaDrainPerTick", element));
+            Adapters.INT.writeJson(this.activeTicks).ifPresent(element -> json.add("activeTicks", element));
             return json;
         });
     }
@@ -227,7 +228,7 @@ public class UltimateShieldAbility extends ToggleManaAbility {
 
     public static class UltimateShieldEffect extends ToggleAbilityEffect {
         public UltimateShieldEffect(int color, ResourceLocation resourceLocation) {
-            super(ManaShieldAbility.class, color, resourceLocation);
+            super(UltimateShieldAbility.class, color, resourceLocation);
         }
 
         @Override
