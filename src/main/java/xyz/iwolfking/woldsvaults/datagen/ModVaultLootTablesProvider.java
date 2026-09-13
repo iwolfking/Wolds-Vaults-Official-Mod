@@ -28,6 +28,19 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
     private static final int[] standardLevels = new int[]{0, 20, 50, 100};
     @Override
     public void registerLootTables() {
+        add(WoldsVaults.id("mob_gem_drops"), lootBuilder -> {
+            lootBuilder.entry(entryBuilder -> {
+                entryBuilder.pool(1, poolBuilder -> {
+                    poolBuilder.item(45, ModItems.LARIMAR_GEM.getRegistryName().toString(), 1, 1);
+                    poolBuilder.item(19, ModItems.BENITOITE_GEM.getRegistryName().toString(), 1, 1);
+                    poolBuilder.item(10, ModItems.PAINITE_GEM.getRegistryName().toString(), 1, 1);
+                    poolBuilder.item(10, ModItems.ALEXANDRITE_GEM.getRegistryName().toString(), 1, 1);
+                    poolBuilder.item(10, ModItems.WUTODIE_GEM.getRegistryName().toString(), 1, 1);
+                    poolBuilder.item(5, ModItems.BLACK_OPAL_GEM.getRegistryName().toString(), 1, 1);
+                    poolBuilder.item(1, ModItems.ECHO_GEM.getRegistryName().toString(), 1, 1);
+                });
+            });
+        });
         add(WoldsVaults.id("cosmic_chests"), lootBuilder -> {
             lootBuilder.entry(entryBuilder -> {
                entryBuilder.pool(1, poolBuilder -> {

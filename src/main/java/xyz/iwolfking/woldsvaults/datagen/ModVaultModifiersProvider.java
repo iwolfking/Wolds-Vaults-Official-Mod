@@ -127,6 +127,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             playerAttribute(modifierBuilder, VaultMod.id("drought"), EntityAttributeModifier.ModifierType.MANA_REGEN_ADDITIVE_PERCENTILE, -0.25F, "Drought", "#849dc8", "-25% Mana Regeneration", "-%d%% Mana Regeneration", VaultMod.id("gui/modifiers/draining"));
             playerAttribute(modifierBuilder, VaultMod.id("bingo_drained"), EntityAttributeModifier.ModifierType.MANA_REGEN_ADDITIVE_PERCENTILE, -0.15F, "Draining", "#849dc8", "-15% Mana Regeneration", "-%d%% Mana Regeneration", VaultMod.id("gui/modifiers/draining"));
             playerAttribute(modifierBuilder, VaultMod.id("healthy"), EntityAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE, 4F, "Healthy", "#FF5555", "+2 Hearts", "+%d Hit Points", VaultMod.id("gui/modifiers/regeneration"));
+            playerAttribute(modifierBuilder, WoldsVaults.id("scurvy"), EntityAttributeModifier.ModifierType.MAX_HEALTH_MULTIPLICATIVE_PERCENTILE, -0.25F, "Scurvy", "#FC7C5C", "-25% Max Health", "-%d Max Health", VaultMod.id("gui/modifiers/injured"));
 
             playerDurability(modifierBuilder, VaultMod.id("acidic"), 1.4F, "Acidic", "#7B7E7F", "+40% Durability Damage", "+%d%% Durability Damage", VaultMod.id("gui/modifiers/acidic"));
             playerDurability(modifierBuilder, VaultMod.id("corrosive"), 2.0F, "Corrosive", "#7B7E7F", "+100% Durability Damage", "+%d%% Durability Damage", VaultMod.id("gui/modifiers/corrosive"));
@@ -707,6 +708,8 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 resourceLocationIntegerMap.put(VaultMod.id("slowfalling"), 1);
             },"Cosmic", "#3ffbf4", "This vault is anti-grav! It seems some cosmic dust is littered around...", null, WoldsVaults.id("gui/modifiers/impossible"));
 
+            mobManaStealOnHit(modifierBuilder, WoldsVaults.id("mana_plunder"), 0.5F, 0.1F, true, "Mana Plunderers", "#4dffd2", "Mobs have a 50% chance to drain 10% of your mana on-hit", "Mobs have a 1/2 chance to drain 10 percent of your mana on-hit", VaultMod.id("gui/modifiers/impossible"));
+            mobAdditionalMagicDamageOnHit(modifierBuilder, WoldsVaults.id("arcane_foes"), 1.0F, 4.0F, false, "Arcane Foes", "#4dffd2", "Mobs deal 2 hearts of magic damage on-hit", "Mobs deal %d hearts of magic damage on-hit", VaultMod.id("gui/modifiers/impossible"));
             //1/1% versions of all modifiers, to be used for Vault Maps and replace SettableVaultModifiers
             artifactChance(modifierBuilder, WoldsVaults.id("artifact_chance"), 0.01F, "Artifact Chance", "#EBFF8D", "+1% Artifact Chance", "+%d%% Artifact Chance", VaultMod.id("gui/modifiers/more_artifact1"));
             catalystChance(modifierBuilder, WoldsVaults.id("catalyst_chance"), 0.01F, "Catalyst Fragment Chance", "#FC00E3", "+1% Catalyst Fragment Chance", "+%d%% Catalyst Fragment Chance", VaultMod.id("gui/modifiers/more_catalyst"));
@@ -862,6 +865,52 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
 
             createModifierDisplay(modifierEntryBuilder, name, color, description, formattedDescription, icon);
         }));
+    }
+
+    public static void mobAdditionalMagicDamageOnHit(
+            ModifierBuilder builder,
+            ResourceLocation modifierId,
+            float onHitApplyChance,
+            float amount,
+            boolean isPercentageOfAttack,
+            String name,
+            String color,
+            String description,
+            String formattedDescription,
+            ResourceLocation icon
+    ) {
+        builder.type(VaultMod.id("modifier_type/mob_additional_magic_damage_on_hit").toString(), (typeBuilder) -> {
+            typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
+                modifierEntryBuilder.property("onHitApplyChance", onHitApplyChance);
+                modifierEntryBuilder.property("amount", amount);
+                modifierEntryBuilder.property("isPercentageOfAttack", isPercentageOfAttack);
+
+                createModifierDisplay(modifierEntryBuilder, name, color, description, formattedDescription, icon);
+            });
+        });
+    }
+
+    public static void mobManaStealOnHit(
+            ModifierBuilder builder,
+            ResourceLocation modifierId,
+            float onHitApplyChance,
+            float amount,
+            boolean drainsPercentage,
+            String name,
+            String color,
+            String description,
+            String formattedDescription,
+            ResourceLocation icon
+    ) {
+        builder.type(VaultMod.id("modifier_type/mob_mana_steal_on_hit").toString(), (typeBuilder) -> {
+            typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
+                modifierEntryBuilder.property("onHitApplyChance", onHitApplyChance);
+                modifierEntryBuilder.property("amount", amount);
+                modifierEntryBuilder.property("drainsPercentage", drainsPercentage);
+
+                createModifierDisplay(modifierEntryBuilder, name, color, description, formattedDescription, icon);
+            });
+        });
     }
 
     public static void resourceLocation(ModifierBuilder builder, ResourceLocation modifierTypeId, ResourceLocation modifierId, ResourceLocation id, String name, String color, String description, String formattedDescription, ResourceLocation icon) {

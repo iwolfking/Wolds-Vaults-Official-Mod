@@ -1268,14 +1268,84 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
             );
             b.pool(WoldsVaults.sId("saltshade_theme_infusion"), poolLevelBuilder -> {
                poolLevelBuilder.level(0, entryListBuilder -> {
-                   entryListBuilder.entry(4, 4, poolValueListBuilder -> {
-                      poolValueListBuilder.add("the_vault:coin_pile", 1);
-                      poolValueListBuilder.add("the_vault:coin_cascade", 1);
+                   entryListBuilder.entry(6, 6, poolValueListBuilder -> {
+                      poolValueListBuilder.add("the_vault:coin_pile", 2);
+                      poolValueListBuilder.add("the_vault:coin_cascade", 3);
+                      poolValueListBuilder.add("the_vault:mob_increase", 1);
+                      poolValueListBuilder.add("the_vault:crate_tier", 2);
+                      poolValueListBuilder.add("the_vault:gilded", 2);
                    });
                    entryListBuilder.entry(1, 1, poolValueListBuilder -> {
-                       poolValueListBuilder.add("woldsvaults:cardboard_boxes", 1);
+                       poolValueListBuilder.add("the_vault:coin_chest_loot", 9);
+                       poolValueListBuilder.add("the_vault:bronze_nuke", 1);
+                       poolValueListBuilder.add("the_vault:challenge_fortune_small", 5);
+                       poolValueListBuilder.add("the_vault:coin_hunter", 5);
+                       poolValueListBuilder.add("the_vault:super_crate_tier", 3);
+                   });
+                   entryListBuilder.entry(3, 3, poolValueListBuilder -> {
+                       poolValueListBuilder.add("the_vault:rigged", 1);
+                       poolValueListBuilder.add("the_vault:enraged_mobs", 1);
+                       poolValueListBuilder.add("woldsvaults:bleeding_mobs", 1);
+                   });
+                   entryListBuilder.entry(1, 1, poolValueListBuilder -> {
+                       poolValueListBuilder.add("woldsvaults:scurvy", 1);
+                       poolValueListBuilder.add("woldsvaults:mana_plunder", 1);
                    });
                });
+            });
+            b.pool(WoldsVaults.sId("deepcrag_theme_infusion"), poolLevelBuilder -> {
+                poolLevelBuilder.level(0, entryListBuilder -> {
+                    entryListBuilder.entry(5, 5, poolValueListBuilder -> {
+                        poolValueListBuilder.add("the_vault:plentiful", 4);
+                        poolValueListBuilder.add("the_vault:super_plentiful", 1);
+                        poolValueListBuilder.add("the_vault:serendipitous", 1);
+                        poolValueListBuilder.add("the_vault:exorcising", 1);
+                        poolValueListBuilder.add("the_vault:orematic", 3);
+                    });
+                    entryListBuilder.entry(1, 1, poolValueListBuilder -> {
+                        poolValueListBuilder.add("woldsvaults:gem_mob_drops", 7);
+                        poolValueListBuilder.add("the_vault:challenge_fortune_small", 5);
+                        poolValueListBuilder.add("the_vault:omega_fortune_small", 2);
+                        poolValueListBuilder.add("the_vault:unhinged_mob_increase", 2);
+                        poolValueListBuilder.add("the_vault:champion_chance", 4);
+                    });
+                    entryListBuilder.entry(3, 3, poolValueListBuilder -> {
+                        poolValueListBuilder.add("the_vault:dark", 1);
+                        poolValueListBuilder.add("the_vault:stunning", 1);
+                        poolValueListBuilder.add("the_vault:hearty_mobs", 1);
+                    });
+                    entryListBuilder.entry(1, 1, poolValueListBuilder -> {
+                        poolValueListBuilder.add("the_vault:thiccening", 1);
+                        poolValueListBuilder.add("the_vault:curse", 1);
+                    });
+                });
+            });
+            b.pool(WoldsVaults.sId("bloodveil_theme_infusion"), poolLevelBuilder -> {
+                poolLevelBuilder.level(0, entryListBuilder -> {
+                    entryListBuilder.entry(7, 7, poolValueListBuilder -> {
+                        poolValueListBuilder.add("the_vault:plentiful", 3);
+                        poolValueListBuilder.add("the_vault:exorcising", 3);
+                        poolValueListBuilder.add("the_vault:champion_chance", 3);
+                    });
+                    entryListBuilder.entry(1, 1, poolValueListBuilder -> {
+                        poolValueListBuilder.add("the_vault:omega_cascade", 5);
+                        poolValueListBuilder.add("the_vault:unhinged_mob_increase", 2);
+                        poolValueListBuilder.add("the_vault:omega_bonus", 4);
+                        poolValueListBuilder.add("woldsvaults:double_xp", 2);
+                    });
+                    entryListBuilder.entry(3, 3, poolValueListBuilder -> {
+                        poolValueListBuilder.add("the_vault:bleeding_mobs", 3);
+                        poolValueListBuilder.add("the_vault:wither", 3);
+                        poolValueListBuilder.add("the_vault:curse", 1);
+                        poolValueListBuilder.add("woldsvaults:fleet_footed_mobs", 3);
+                    });
+                    entryListBuilder.entry(1, 1, poolValueListBuilder -> {
+                        poolValueListBuilder.add("the_vault:weak_heart", 1);
+                        poolValueListBuilder.add("woldsvaults:regenerating_mobs", 1);
+                        poolValueListBuilder.add("the_vault:fading", 1);
+                        poolValueListBuilder.add("the_vault:frenzy", 1);
+                    });
+                });
             });
         });
 
