@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.VaultGeneralConfig;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.CrateAwardEvent;
@@ -43,9 +44,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
+import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.api.util.LuckHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.CrateLootGeneratorAccessor;
@@ -209,6 +212,10 @@ public abstract class MixinRunner extends Listener {
                     }
                 }
             }
+
+            if(GameruleHelper.isEnabled(ModGameRules.ENABLE_ALL_ITEMS_IN_VAULTS, world)) {
+                ci.cancel();
+            }
         }
     }
 
@@ -223,6 +230,10 @@ public abstract class MixinRunner extends Listener {
                         ci.cancel();
                     }
                 }
+            }
+
+            if(GameruleHelper.isEnabled(ModGameRules.ENABLE_ALL_ITEMS_IN_VAULTS, world)) {
+                ci.cancel();
             }
         }
     }
