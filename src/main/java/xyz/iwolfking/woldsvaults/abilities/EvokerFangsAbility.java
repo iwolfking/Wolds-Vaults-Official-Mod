@@ -14,7 +14,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
+import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
 import xyz.iwolfking.woldsvaults.entities.projectiles.CustomFangEntity;
+import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 
 import java.util.Optional;
 
@@ -32,7 +34,12 @@ public class EvokerFangsAbility extends InstantManaAbility {
             ServerLevel level = (ServerLevel) player.level;
             double realRadius = AreaOfEffectHelper.adjustAreaOfEffect(player, this, (float) this.radius);
 
+            boolean hasRavenousEtching = WoldEtchingHelper.hasEtching(player, ModEtchingGearAttributes.RAVENOUS_FANGS);
+
             float playerAttackDamage = (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
+            if(hasRavenousEtching) {
+                playerAttackDamage *= 0.25F;
+            }
             float finalDamage = (playerAttackDamage * this.damageMultiplier) + baseDamage;
 
             int totalWaves = Math.max(1, this.waveCount);
@@ -45,7 +52,7 @@ public class EvokerFangsAbility extends InstantManaAbility {
                     int totalDelay = initialWaveOffset + (int) (d * 2);
 
                     DelayedExecutionHelper.schedule(level, totalDelay, () -> {
-                        spawnFangRing(player, level, currentDist, finalDamage);
+                        spawnFangRing(player, level, currentDist, finalDamage, hasRavenousEtching);
                     });
                 }
 
@@ -60,7 +67,7 @@ public class EvokerFangsAbility extends InstantManaAbility {
         }).orElse(Ability.ActionResult.fail());
     }
 
-    private void spawnFangRing(ServerPlayer player, ServerLevel level, double dist, float damage) {
+    private void spawnFangRing(ServerPlayer player, ServerLevel level, double dist, float damage, boolean hasRavenous) {
         int count = (int) (Math.PI * 2 * dist / 1.5);
         for (int i = 0; i < count; i++) {
             double angle = i * (Math.PI * 2 / count);
@@ -68,7 +75,12 @@ public class EvokerFangsAbility extends InstantManaAbility {
             double z = player.getZ() + Math.sin(angle) * dist;
             double y = player.getY();
 
-            CustomFangEntity fangs = new CustomFangEntity(level, x, y, z, player.getYRot(), player, damage, this.executeThreshold, 0, 0, false, false);
+            float executionThreshold = this.executeThreshold;
+            if(hasRavenous) {
+                executionThreshold *= 2;
+            }
+
+            CustomFangEntity fangs = new CustomFangEntity(level, x, y, z, player.getYRot(), player, damage, executionThreshold, 0, 0, false, false);
             level.addFreshEntity(fangs);
         }
     }

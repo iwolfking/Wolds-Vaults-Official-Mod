@@ -32,7 +32,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.EventPriority;
+import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 import java.util.Optional;
@@ -168,13 +170,18 @@ public class MomentumEngineTalent extends GearAttributeTalent {
                     );
         }
 
-        this.stacks = 0;
-        this.moveTickTracker = 0;
-        this.stationaryTracker = 0;
-        if (this.effect != null) {
-            player.removeEffect(this.effect);
+        if(!WoldEtchingHelper.hasEtching(player, ModEtchingGearAttributes.CONSERVATION_OF_MOMENTUM)) {
+            this.stacks = 0;
+            this.moveTickTracker = 0;
+            this.stationaryTracker = 0;
+            if (this.effect != null) {
+                player.removeEffect(this.effect);
+            }
+            this.refreshSnapshot(player);
         }
-        this.refreshSnapshot(player);
+        else {
+            this.stacks--;
+        }
     }
 
     @Override

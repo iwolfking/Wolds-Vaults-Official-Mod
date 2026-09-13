@@ -326,6 +326,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         etching(VaultMod.id("ingenium"));
         etching(VaultMod.id("pyramid_scheme"));
         etching(VaultMod.id("fireball_greedball"), "treasure");
+        etching(VaultMod.id("imploding_barrier"), "implode_mana_regen");
+        etching(VaultMod.id("ravenous_fangs"), "bloodfang");
+        etching(VaultMod.id("conservation_of_momentum"));
 
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
             for (int i = 0; i < v.size(); i ++) {

@@ -60,6 +60,7 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 etchingEntryBuilder.attribute(WoldsVaults.id("reverberation"), "ModEtching", WoldsVaults.id("reverberation"), tierBasicListBuilder -> {
                     tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(4, -1, 10, 1, new BooleanFlagGenerator.BooleanFlag(true)));
                 });
+                etchingEntryBuilder.minGreedTier(4);
             });
 
             builder.addEtching(WoldsVaults.id("purist_common"), "Purist of Normality",  "<#214E92>Purist<gray> counts <aqua>Common<gray> gear in addition to Scrappy", 2182802, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
@@ -96,8 +97,9 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                     stringBasicListBuilder.add("SWORD");
                 });
                 etchingEntryBuilder.attribute(WoldsVaults.id("additional_stacking_stacks"), "ModEtching", WoldsVaults.id("u_stacking_bonus"), tierBasicListBuilder -> {
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(4, -1, 10, 1, new IntegerAttributeGenerator.Range(25, 25, 1)));
-                }).minGreedTier(4);
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(9, 10, 10, 1, new IntegerAttributeGenerator.Range(5, 10, 1)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(11, -1, 10, 1, new IntegerAttributeGenerator.Range(10, 15, 1)));
+                }).minGreedTier(9);
             });
 
             builder.addEtching(WoldsVaults.id("prudent_chaos"), "Prudent Chaos",  "<#E87CAC>Prudent<gray> triggers a random <#FF7CAC>Brew<gray> effect when successful", 15236268, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
@@ -162,6 +164,36 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                     tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(7, 10, 10, 1, new IntegerAttributeGenerator.Range(5, 7, 1)));
                     tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new IntegerAttributeGenerator.Range(7, 9, 1)));
                 }).minGreedTier(0);
+            });
+
+            builder.addEtching(WoldsVaults.id("imploding_barrier"), "Imploding Barrier",  "While <#AF399E>Ultimate Shield<gray> is active, it has a <yellow>%dvalue<gray> chance to cast <aqua>Implode<gray> when hit", 3111119, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+                etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
+                    stringBasicListBuilder.add("Defensive");
+                });
+                etchingEntryBuilder.attribute(WoldsVaults.id("imploding_barrier"), "ModEtching", WoldsVaults.id("imploding_barrier_etching"), tierBasicListBuilder -> {
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, 5, 10, 1, new FloatAttributeGenerator.Range(0.03F, 0.07F, 1)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(5, 7, 10, 1, new FloatAttributeGenerator.Range(0.07F, 0.09F, 1)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(7, 10, 10, 1, new FloatAttributeGenerator.Range(0.1F, 0.12F, 1)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new FloatAttributeGenerator.Range(0.12F, 0.15F, 1)));
+                }).minGreedTier(0);
+            });
+
+            builder.addEtching(WoldsVaults.id("conservation_of_momentum"), "Conservation of Momentum",  "<#AF8550>Momentum Engine<gray> only loses one stack when attacking instead of all stacks", 11502928, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+                etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
+                    stringBasicListBuilder.add("Utility");
+                });
+                etchingEntryBuilder.attribute(WoldsVaults.id("conservation_of_momentum"), "ModEtching", WoldsVaults.id("conservation_of_momentum_etching"), tierBasicListBuilder -> {
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, -1, 10, 1, new BooleanFlagGenerator.BooleanFlag(true)));
+                }).minGreedTier(0);
+            });
+
+            builder.addEtching(WoldsVaults.id("ravenous_fangs"), "Ravenous Fangs",  "<#AF3E50>Wall of Fangs<gray> does 75% reduced damage, but execution threshold is doubled", 11484752, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+                etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
+                    stringBasicListBuilder.add("Offensive");
+                });
+                etchingEntryBuilder.attribute(WoldsVaults.id("ravenous_fangs"), "ModEtching", WoldsVaults.id("ravenous_fangs_etching"), tierBasicListBuilder -> {
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(8, -1, 10, 1, new BooleanFlagGenerator.BooleanFlag(true)));
+                }).minGreedTier(8);
             });
         });
     }

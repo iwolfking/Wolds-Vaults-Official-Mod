@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.abilities;
 import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.net.BitBuffer;
+import iskallia.vault.gear.etching.EtchingHelper;
 import iskallia.vault.init.ModSounds;
 import iskallia.vault.mana.Mana;
 import iskallia.vault.mana.ManaAction;
@@ -25,7 +26,11 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.abilities.flexible.FlexibleAbility;
+import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
+import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
+import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 import java.util.Optional;
 
@@ -134,7 +139,6 @@ public class UltimateShieldAbility extends ToggleManaAbility {
                     float percentageDamageAbsorbed = Mth.clamp(ability.getPercentageDamageAbsorbed(), 0.0F, 1.0F);
 
                     float manaCostPerDamage = ability.getManaPerDamageScalar();
-                    float regenPerTick = Mana.getRegenPerSecond(player) / 20.0F;
 
                     manaCostPerDamage = Math.max(manaCostPerDamage, 1.0E-5F);
                     float manaUsed = Math.min(event.getAmount() * percentageDamageAbsorbed * manaCostPerDamage, Mana.get(player));
@@ -147,6 +151,15 @@ public class UltimateShieldAbility extends ToggleManaAbility {
                         event.setCanceled(true);
                     } else {
                         event.setAmount(event.getAmount() - damageAbsorbed);
+                    }
+
+                    if(WoldEtchingHelper.hasEtching(player, ModEtchingGearAttributes.IMPLODING_BARRIER)) {
+                        EtchingHelper.getEtchings(player, ModEtchingGearAttributes.IMPLODING_BARRIER).stream().findFirst().ifPresent(implodeEtching -> {
+                            if(player.getRandom().nextFloat() <= implodeEtching.getValue()) {
+                                FlexibleAbility flexibleAbility = new FlexibleAbility();
+                                flexibleAbility.cast("Implode", player, event.getSource().getEntity());
+                            }
+                        });
                     }
 
                     float mana = Mana.decrease(player, ManaAction.PLAYER_ACTION, manaUsed);
