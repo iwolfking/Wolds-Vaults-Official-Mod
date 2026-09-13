@@ -8,8 +8,10 @@ import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.AugmentItem;
+import iskallia.vault.item.CompanionItem;
 import iskallia.vault.item.CompanionRelicItem;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -83,6 +85,22 @@ public class OccultismRecipeSerializers {
                         }
 
                         return ModConfigs.COMPANION_RELICS.createRelicStack(entry, ChunkRandom.ofNanoTime());
+                    }
+            ));
+
+    public static final RegistryObject<RecipeSerializer<?>> COMPANION_REVIVAL_RITUAL =
+            SERIALIZERS.register("companion_revival_ritual", () -> new DynamicResultRitualRecipe.Serializer(
+                    "poolId",
+                    OccultismRecipeSerializers.COMPANION_REVIVAL_RITUAL,
+                    (id, itemStack) -> {
+                        ItemStack resultingCompanionStack = itemStack.copy();
+                        if(resultingCompanionStack.getItem() instanceof CompanionItem) {
+                            if(CompanionItem.getCompanionHearts(resultingCompanionStack) <= 0) {
+                                CompanionItem.setCompanionHearts(resultingCompanionStack, 1);
+                            }
+                        }
+
+                        return resultingCompanionStack;
                     }
             ));
 }

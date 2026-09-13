@@ -24,6 +24,7 @@ public class ModRitualDummyItems {
     public static DummyTooltipItem RANDOM_GOD_THEME = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem GOD_MASTERY = new DummyTooltipItem(defaultProperties());
     public static DummyTooltipItem CREATE_RED_VAULT_ESSENCE = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem REVIVE_COMPANION = new DummyTooltipItem(defaultProperties());
 
     public static void registerItems(RegistryEvent.Register<Item> event) {
         register(event, WoldsVaults.id("ritual_dummy/craft_idona_bricks"), CRAFT_IDONA_BRICKS, "Convert Bricks - Idona", WoldsVaults.id("idona_bricks"),  "A way to craft Idona's lovely decorative bricks without vault delving!");
@@ -41,6 +42,7 @@ public class ModRitualDummyItems {
         register(event, WoldsVaults.id("ritual_dummy/random_god_theme"), RANDOM_GOD_THEME, "Random God Theme Augment", WoldsVaults.id("random_god_theme_augment"), "Make an offering to the Gods and they will grant you an Augment of their theme! (Offering type does not decide theme)");
         register(event, WoldsVaults.id("ritual_dummy/god_mastery"), GOD_MASTERY, "God Mastery", WoldsVaults.id("god_mastery"), "Make a truly impressive offering to the Vault Gods and they will gain an increased interest in you!");
         register(event, WoldsVaults.id("ritual_dummy/red_vault_essence"), CREATE_RED_VAULT_ESSENCE, "Create Red Vault Essence", WoldsVaults.id("create_red_essence"), "Make an offering to Idona and they will enchant your Vault Essence with their strength!");
+        register(event, WoldsVaults.id("ritual_dummy/companion_revival"), REVIVE_COMPANION, "Companion Revival", WoldsVaults.id("companion_revival"), "Make an offering to Velara and they will bring your friend back to life!");
     }
 
     private static void register(RegistryEvent.Register<Item> event, ResourceLocation id, Item item, String name, ResourceLocation ritualId, String ritualDescription) {
