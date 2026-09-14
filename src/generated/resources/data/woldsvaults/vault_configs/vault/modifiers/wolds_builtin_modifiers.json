@@ -1488,6 +1488,32 @@
           "icon": "the_vault:gui/modifiers/lucky"
         }
       },
+      "woldsvaults:exposed": {
+        "properties": {
+          "effect": "woldsvaults:shredded",
+          "effectAmplifier": 4
+        },
+        "display": {
+          "name": "Exposed",
+          "color": "#a8324c",
+          "description": "Your armor feels exposed... armor reduced by half",
+          "descriptionFormatted": "Your armor feels exposed... armor reduced by half",
+          "icon": "the_vault:gui/modifiers/impossible"
+        }
+      },
+      "woldsvaults:exposed_mini": {
+        "properties": {
+          "effect": "woldsvaults:shredded",
+          "effectAmplifier": 2
+        },
+        "display": {
+          "name": "Exposed",
+          "color": "#a8324c",
+          "description": "Your armor feels exposed... armor reduced by half",
+          "descriptionFormatted": "Your armor feels exposed... armor reduced by half",
+          "icon": "the_vault:gui/modifiers/impossible"
+        }
+      },
       "woldsvaults:lights_out": {
         "properties": {
           "effect": "wildbackport:darkness",
@@ -3916,6 +3942,23 @@
           "icon": "woldsvaults:gui/modifiers/impossible"
         }
       },
+      "woldsvaults:scorching_heat": {
+        "properties": {
+          "children": {
+            "the_vault:piercing": 1,
+            "the_vault:hunger_mini": 1,
+            "woldsvaults:exposed_mini": 1,
+            "the_vault:enervated": 1
+          }
+        },
+        "display": {
+          "name": "Scorching Heat",
+          "color": "#c28e27",
+          "description": "Healing is heavily reduced, you get hungry faster, and your armor isn't as effective!",
+          "descriptionFormatted": "Healing is heavily reduced, you get hungry faster, and your armor isn't as effective!",
+          "icon": "woldsvaults:gui/modifiers/impossible"
+        }
+      },
       "woldsvaults:combined_quant_and_rarity": {
         "properties": {
           "children": {
@@ -4074,6 +4117,22 @@
           "color": "#4dffd2",
           "description": "Mobs deal 2 hearts of magic damage on-hit",
           "descriptionFormatted": "Mobs deal %d hearts of magic damage on-hit",
+          "icon": "the_vault:gui/modifiers/impossible"
+        }
+      }
+    },
+    "the_vault:modifier_type/mob_additional_void_damage_on_hit": {
+      "woldsvaults:void_touch": {
+        "properties": {
+          "onHitApplyChance": 0.25,
+          "amount": 0.1,
+          "isPercentageOfAttack": true
+        },
+        "display": {
+          "name": "Void Touch",
+          "color": "#474243",
+          "description": "Mobs have a 25 percent chance to deal 1/10 of their damage as Void damage",
+          "descriptionFormatted": "Mobs have a 25 percent chance to deal 1/10 of their damage as Void damage",
           "icon": "the_vault:gui/modifiers/impossible"
         }
       }

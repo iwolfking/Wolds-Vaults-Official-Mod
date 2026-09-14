@@ -74,6 +74,7 @@ public class ThemeModifiersConfig extends Config {
         THEME_GROUP_ENTRIES.put("Astral", new ModifierPoolInfusionEntry(highChance, WoldsVaults.id("astral_infusion_modifiers")));
         THEME_GROUP_ENTRIES.put("Occult", new ModifierPoolInfusionEntry(highChance, WoldsVaults.id("occult_infusion_modifiers")));
         THEME_GROUP_ENTRIES.put("Arcane", new ModifierPoolInfusionEntry(highChance, WoldsVaults.id("arcane_infusion_modifiers")));
+        THEME_GROUP_ENTRIES.put("Mapped", new ModifierPoolInfusionEntry(highChance, WoldsVaults.id("mapped_infusion_modifiers")));
     }
 
     public static Optional<ResourceLocation> getModifierPoolForInfusedTheme(ResourceLocation themeId) {

@@ -140,6 +140,8 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             playerEffect(modifierBuilder, WoldsVaults.id("unlucky_aura"), MobEffects.UNLUCK.getRegistryName(), 2, "Jinxed", "#5032a8", "You aren't feeling very lucky...", "+%d Unluck", VaultMod.id("gui/modifiers/impossible"));
             playerEffect(modifierBuilder, WoldsVaults.id("doomed_aura"), MobEffects.UNLUCK.getRegistryName(), 6, "Doomed", "#5032a8", "It seems almost all the luck has been sucked out...", "+%d Unluck", VaultMod.id("gui/modifiers/impossible"));
             playerEffect(modifierBuilder, WoldsVaults.id("super_lucky"), MobEffects.LUCK.getRegistryName(), 4, "Four-Leaf Clover", "#b3ff20", "You're feeling super lucky!", "+%d Luck", VaultMod.id("gui/modifiers/lucky"));
+            playerEffect(modifierBuilder, WoldsVaults.id("exposed"), xyz.iwolfking.woldsvaults.init.ModEffects.SHREDDED.getRegistryName(), 4, "Exposed", "#a8324c", "Your armor feels exposed... armor reduced by half", null, VaultMod.id("gui/modifiers/impossible"));
+            playerEffect(modifierBuilder, WoldsVaults.id("exposed_mini"), xyz.iwolfking.woldsvaults.init.ModEffects.SHREDDED.getRegistryName(), 2, "Exposed", "#a8324c", "Your armor feels exposed... armor reduced by half", null, VaultMod.id("gui/modifiers/impossible"));
 
             poolReferenceWeight(modifierBuilder, WoldsVaults.id("challenge_fortune_small"), resourceLocationBasicListBuilder -> resourceLocationBasicListBuilder.add(VaultMod.id("vault/rooms/challenge_rooms")), 3.0, "Challenge Vein", "#FF4500", "3x Challenge Room Chance", null, VaultMod.id("gui/modifiers/challenge_fortune"));
             poolReferenceWeight(modifierBuilder, WoldsVaults.id("omega_fortune_small"), resourceLocationBasicListBuilder -> resourceLocationBasicListBuilder.add(VaultMod.id("vault/rooms/omega_rooms")), 4.0, "Omega Vein", "#6AFF00", "4x Omega Room Chance", null, VaultMod.id("gui/modifiers/omega_fortune"));
@@ -710,6 +712,14 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
 
             mobManaStealOnHit(modifierBuilder, WoldsVaults.id("mana_plunder"), 0.5F, 0.1F, true, "Mana Plunderers", "#4dffd2", "Mobs have a 50% chance to drain 10% of your mana on-hit", "Mobs have a 1/2 chance to drain 10 percent of your mana on-hit", VaultMod.id("gui/modifiers/impossible"));
             mobAdditionalMagicDamageOnHit(modifierBuilder, WoldsVaults.id("arcane_foes"), 1.0F, 4.0F, false, "Arcane Foes", "#4dffd2", "Mobs deal 2 hearts of magic damage on-hit", "Mobs deal %d hearts of magic damage on-hit", VaultMod.id("gui/modifiers/impossible"));
+            mobAdditionalVoidDamageOnHit(modifierBuilder, WoldsVaults.id("void_touch"), 0.25F, 0.1F, true, "Void Touch", "#474243", "Mobs have a 25 percent chance to deal 1/10 of their damage as Void damage", null, VaultMod.id("gui/modifiers/impossible"));
+            grouped(modifierBuilder, WoldsVaults.id("scorching_heat"), resourceLocationIntegerMap -> {
+                resourceLocationIntegerMap.put(VaultMod.id("enervated"), 1);
+                resourceLocationIntegerMap.put(VaultMod.id("hunger_mini"), 1);
+                resourceLocationIntegerMap.put(VaultMod.id("piercing"), 1);
+                resourceLocationIntegerMap.put(WoldsVaults.id("exposed_mini"), 1);
+            },"Scorching Heat", "#c28e27", "Healing is heavily reduced, you get hungry faster, and your armor isn't as effective!", null, WoldsVaults.id("gui/modifiers/impossible"));
+
             //1/1% versions of all modifiers, to be used for Vault Maps and replace SettableVaultModifiers
             artifactChance(modifierBuilder, WoldsVaults.id("artifact_chance"), 0.01F, "Artifact Chance", "#EBFF8D", "+1% Artifact Chance", "+%d%% Artifact Chance", VaultMod.id("gui/modifiers/more_artifact1"));
             catalystChance(modifierBuilder, WoldsVaults.id("catalyst_chance"), 0.01F, "Catalyst Fragment Chance", "#FC00E3", "+1% Catalyst Fragment Chance", "+%d%% Catalyst Fragment Chance", VaultMod.id("gui/modifiers/more_catalyst"));
@@ -880,6 +890,29 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             ResourceLocation icon
     ) {
         builder.type(VaultMod.id("modifier_type/mob_additional_magic_damage_on_hit").toString(), (typeBuilder) -> {
+            typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
+                modifierEntryBuilder.property("onHitApplyChance", onHitApplyChance);
+                modifierEntryBuilder.property("amount", amount);
+                modifierEntryBuilder.property("isPercentageOfAttack", isPercentageOfAttack);
+
+                createModifierDisplay(modifierEntryBuilder, name, color, description, formattedDescription, icon);
+            });
+        });
+    }
+
+    public static void mobAdditionalVoidDamageOnHit(
+            ModifierBuilder builder,
+            ResourceLocation modifierId,
+            float onHitApplyChance,
+            float amount,
+            boolean isPercentageOfAttack,
+            String name,
+            String color,
+            String description,
+            String formattedDescription,
+            ResourceLocation icon
+    ) {
+        builder.type(VaultMod.id("modifier_type/mob_additional_void_damage_on_hit").toString(), (typeBuilder) -> {
             typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
                 modifierEntryBuilder.property("onHitApplyChance", onHitApplyChance);
                 modifierEntryBuilder.property("amount", amount);

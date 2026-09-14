@@ -5482,6 +5482,10 @@
               {
                 "value": "the_vault:super_wooden_cascade",
                 "weight": 1
+              },
+              {
+                "value": "the_vault:sparkling",
+                "weight": 3
               }
             ]
           },
@@ -5491,29 +5495,29 @@
             "pool": [
               {
                 "value": "the_vault:omega_fortune_small",
-                "weight": 3
+                "weight": 5
               },
               {
-                "value": "woldsvaults:double_xp",
+                "value": "the_vault:living_hunter",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:prismatic",
                 "weight": 1
+              },
+              {
+                "value": "the_vault:hoard",
+                "weight": 5
               }
             ]
           },
           {
-            "min": 3,
-            "max": 3,
+            "min": 5,
+            "max": 5,
             "pool": [
               {
-                "value": "the_vault:bingo_ice_grenade_mob",
+                "value": "the_vault:challenge_stack",
                 "weight": 3
-              },
-              {
-                "value": "the_vault:bingo_ice_grenade_chest",
-                "weight": 3
-              },
-              {
-                "value": "the_vault:brutal_chunky_mobs",
-                "weight": 1
               },
               {
                 "value": "the_vault:weakened_powers",
@@ -5526,11 +5530,7 @@
             "max": 1,
             "pool": [
               {
-                "value": "the_vault:winter",
-                "weight": 1
-              },
-              {
-                "value": "woldsvaults:slippery_floors",
+                "value": "woldsvaults:arcane_foes",
                 "weight": 1
               }
             ]
@@ -5843,7 +5843,174 @@
                 "weight": 1
               },
               {
+                "value": "woldsvaults:void_touch",
+                "weight": 1
+              },
+              {
                 "value": "woldsvaults:doomed_aura",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:mapped_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 7,
+            "max": 7,
+            "pool": [
+              {
+                "value": "the_vault:random_positive",
+                "weight": 9
+              },
+              {
+                "value": "the_vault:incredible_chests",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:omega_bonus",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:omega_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:super_plentiful",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:hoard",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:treasure",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:omega_fortune_small",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:challenge_fortune_small",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 4,
+            "max": 4,
+            "pool": [
+              {
+                "value": "the_vault:ticking_clock",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:abusive_mobs",
+                "weight": 3
+              },
+              {
+                "value": "woldsvaults:regenerating_mobs",
+                "weight": 4
+              },
+              {
+                "value": "woldsvaults:resistant_mobs",
+                "weight": 4
+              },
+              {
+                "value": "woldsvaults:phantasmal_mobs",
+                "weight": 4
+              },
+              {
+                "value": "woldsvaults:fleet_footed_mobs",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:spicy_chili_speed",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:hearty_mobs",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:grievous_wounds",
+                "weight": 2
+              },
+              {
+                "value": "woldsvaults:arcane_foes",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:challenge_stack",
+                "weight": 7
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:ticking_clock",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:void_pools",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:chemical_bath",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:nullifying",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:time_bomb_spawn",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:creeping_doom",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:void_touch",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:doomed_aura",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:rage_cage",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:infernal_fury",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:scorching_heat",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:exposed",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:piercing",
                 "weight": 1
               }
             ]
@@ -5965,6 +6132,16 @@
                 "weight": 4
               }
             ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:scorching_heat",
+                "weight": 1
+              }
+            ]
           }
         ]
       }
@@ -5974,41 +6151,21 @@
         "level": 0,
         "entries": [
           {
-            "min": 4,
-            "max": 4,
+            "min": 5,
+            "max": 5,
             "pool": [
               {
-                "value": "the_vault:item_quantity",
+                "value": "the_vault:random_positive",
                 "weight": 1
               }
             ]
           },
           {
-            "min": 1,
-            "max": 1,
+            "min": 5,
+            "max": 10,
             "pool": [
               {
-                "value": "the_vault:omega_cascade",
-                "weight": 4
-              }
-            ]
-          },
-          {
-            "min": 4,
-            "max": 4,
-            "pool": [
-              {
-                "value": "the_vault:challenge_stack",
-                "weight": 4
-              }
-            ]
-          },
-          {
-            "min": 1,
-            "max": 1,
-            "pool": [
-              {
-                "value": "the_vault:champions_realm",
+                "value": "the_vault:random_negative",
                 "weight": 1
               }
             ]
@@ -6186,7 +6343,7 @@
         "entries": [
           {
             "min": 5,
-            "max": 10,
+            "max": 5,
             "pool": [
               {
                 "value": "the_vault:random_positive",
@@ -6196,10 +6353,54 @@
           },
           {
             "min": 5,
-            "max": 10,
+            "max": 5,
             "pool": [
               {
                 "value": "the_vault:random_negative",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 4,
+            "max": 4,
+            "pool": [
+              {
+                "value": "the_vault:wendarr_challenge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:idona_challenge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:velara_challenge",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:tenos_challenge",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:wendarr_favour",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:idona_dmg",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:velara_favour_1",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:tenos_favour",
                 "weight": 1
               }
             ]
@@ -6213,7 +6414,7 @@
         "entries": [
           {
             "min": 1,
-            "max": 1,
+            "max": 4,
             "pool": [
               {
                 "value": "the_vault:sparkling",
@@ -6239,11 +6440,71 @@
         "level": 0,
         "entries": [
           {
+            "min": 6,
+            "max": 6,
+            "pool": [
+              {
+                "value": "the_vault:coin_pile",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:coin_cascade",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:mob_increase",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:crate_tier",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:gilded",
+                "weight": 2
+              }
+            ]
+          },
+          {
             "min": 1,
             "max": 1,
             "pool": [
               {
-                "value": "the_vault:sparkling",
+                "value": "the_vault:coin_chest_loot",
+                "weight": 9
+              },
+              {
+                "value": "the_vault:bronze_nuke",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:challenge_fortune_small",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:coin_hunter",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:super_crate_tier",
+                "weight": 3
+              }
+            ]
+          },
+          {
+            "min": 3,
+            "max": 3,
+            "pool": [
+              {
+                "value": "the_vault:rigged",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:enraged_mobs",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:bleeding_mobs",
                 "weight": 1
               }
             ]
@@ -6253,7 +6514,11 @@
             "max": 1,
             "pool": [
               {
-                "value": "woldsvaults:water_breathing",
+                "value": "woldsvaults:scurvy",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:mana_plunder",
                 "weight": 1
               }
             ]
@@ -6320,6 +6585,10 @@
               {
                 "value": "the_vault:champion_chance",
                 "weight": 1
+              },
+              {
+                "value": "woldsvaults:arcane_foes",
+                "weight": 1
               }
             ]
           },
@@ -6334,6 +6603,10 @@
               {
                 "value": "the_vault:creeping_doom",
                 "weight": 1
+              },
+              {
+                "value": "woldsvaults:exposed",
+                "weight": 1
               }
             ]
           }
@@ -6345,8 +6618,8 @@
         "level": 0,
         "entries": [
           {
-            "min": 10,
-            "max": 10,
+            "min": 1,
+            "max": 1,
             "pool": [
               {
                 "value": "the_vault:unhinged",
@@ -6362,11 +6635,77 @@
         "level": 0,
         "entries": [
           {
-            "min": 10,
-            "max": 10,
+            "min": 5,
+            "max": 5,
             "pool": [
               {
-                "value": "the_vault:unhinged",
+                "value": "the_vault:living_cascade",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_living_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:living",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:wooden_cascade",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_wooden_cascade",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:omega_fortune_small",
+                "weight": 3
+              },
+              {
+                "value": "woldsvaults:double_xp",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 3,
+            "max": 3,
+            "pool": [
+              {
+                "value": "the_vault:poisonous",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:toxic",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:brutal_chunky_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:weakened_powers",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:fungal_infestation",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:fungal",
                 "weight": 1
               }
             ]
@@ -6379,11 +6718,21 @@
         "level": 0,
         "entries": [
           {
-            "min": 10,
+            "min": 5,
             "max": 10,
             "pool": [
               {
-                "value": "the_vault:unhinged",
+                "value": "the_vault:random_positive",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 5,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:random_negative",
                 "weight": 1
               }
             ]
@@ -6396,11 +6745,31 @@
         "level": 0,
         "entries": [
           {
-            "min": 10,
+            "min": 5,
+            "max": 5,
+            "pool": [
+              {
+                "value": "the_vault:random_positive",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 5,
             "max": 10,
             "pool": [
               {
-                "value": "the_vault:unhinged",
+                "value": "the_vault:random_negative",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:cardboard_boxes",
                 "weight": 1
               }
             ]
@@ -6413,11 +6782,11 @@
         "level": 0,
         "entries": [
           {
-            "min": 10,
-            "max": 10,
+            "min": 1,
+            "max": 1,
             "pool": [
               {
-                "value": "the_vault:unhinged",
+                "value": "woldsvaults:cosmic",
                 "weight": 1
               }
             ]
@@ -6430,11 +6799,85 @@
         "level": 0,
         "entries": [
           {
-            "min": 10,
-            "max": 10,
+            "min": 5,
+            "max": 5,
             "pool": [
               {
-                "value": "the_vault:unhinged",
+                "value": "the_vault:plentiful",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:super_plentiful",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:ornate",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:super_ornate_cascade",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:ornate_hunter",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:dungeon_doors",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:treasure_doors",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:vendoor_doors",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:incredible_chests",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 6,
+            "max": 6,
+            "pool": [
+              {
+                "value": "the_vault:weak_heart",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:harder_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:abusive_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:thiccening",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:bingo_fire_grenade_mob",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:scorching_heat",
                 "weight": 1
               }
             ]
@@ -6447,11 +6890,81 @@
         "level": 0,
         "entries": [
           {
-            "min": 10,
-            "max": 10,
+            "min": 6,
+            "max": 6,
             "pool": [
               {
-                "value": "the_vault:unhinged",
+                "value": "the_vault:item_quantity",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:item_rarity",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:living",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:lucky",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:disarming",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:kill_hunter",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:super_lucky",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:mildly_enchanted",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 6,
+            "max": 6,
+            "pool": [
+              {
+                "value": "the_vault:inert",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:bingo_drained",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:reduce_attack_damage",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:challenge_stack",
+                "weight": 2
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:arcane_foes",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:mob_levitate",
                 "weight": 1
               }
             ]
