@@ -11,8 +11,11 @@ import iskallia.vault.item.AugmentItem;
 import iskallia.vault.item.CompanionItem;
 import iskallia.vault.item.CompanionRelicItem;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -20,6 +23,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.CrystalDataUtils;
 import xyz.iwolfking.woldsvaults.integration.occultism.impl.VaultCrystalRitual;
 import xyz.iwolfking.woldsvaults.integration.occultism.lib.DynamicResultRitualRecipe;
+import xyz.iwolfking.woldsvaults.integration.occultism.util.OccultismEntityTagHelper;
 
 import java.time.LocalDate;
 import java.util.Random;
@@ -34,6 +38,22 @@ public class OccultismRecipeSerializers {
                     "theme",
                     OccultismRecipeSerializers.AUGMENT_RITUAL,
                     (resourceLocation, itemStack) -> AugmentItem.create(resourceLocation)
+            ));
+
+    public static final RegistryObject<RecipeSerializer<?>> SPAWN_EGG_RITUAL =
+            SERIALIZERS.register("spawn_egg_ritual", () -> new DynamicResultRitualRecipe.Serializer(
+                    "entity_to_sacrifice",
+                    OccultismRecipeSerializers.SPAWN_EGG_RITUAL,
+                    (resourceLocation, itemStack) -> {
+                        ResourceLocation entityId = OccultismEntityTagHelper.convertSacrificeTagToEntityId(resourceLocation);
+
+                        EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(entityId);
+                        if (entityType != null) {
+                            return new ItemStack(ForgeSpawnEggItem.fromEntityType(entityType));
+                        }
+
+                        return ItemStack.EMPTY;
+                    }
             ));
 
     public static final RegistryObject<RecipeSerializer<?>> AUGMENT_POOL_RITUAL =

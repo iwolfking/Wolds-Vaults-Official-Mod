@@ -5095,20 +5095,76 @@
         ]
       }
     ],
-    "woldsvaults:saltshade_theme_infusion": [
+    "woldsvaults:saltshade_infusion_modifiers": [
       {
         "level": 0,
         "entries": [
           {
-            "min": 4,
-            "max": 4,
+            "min": 6,
+            "max": 6,
             "pool": [
               {
                 "value": "the_vault:coin_pile",
-                "weight": 1
+                "weight": 2
               },
               {
                 "value": "the_vault:coin_cascade",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:mob_increase",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:crate_tier",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:gilded",
+                "weight": 2
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:coin_chest_loot",
+                "weight": 9
+              },
+              {
+                "value": "the_vault:bronze_nuke",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:challenge_fortune_small",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:coin_hunter",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:super_crate_tier",
+                "weight": 3
+              }
+            ]
+          },
+          {
+            "min": 3,
+            "max": 3,
+            "pool": [
+              {
+                "value": "the_vault:rigged",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:enraged_mobs",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:bleeding_mobs",
                 "weight": 1
               }
             ]
@@ -5118,7 +5174,1284 @@
             "max": 1,
             "pool": [
               {
-                "value": "woldsvaults:cardboard_boxes",
+                "value": "woldsvaults:scurvy",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:mana_plunder",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:deepcrag_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 5,
+            "max": 5,
+            "pool": [
+              {
+                "value": "the_vault:plentiful",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:super_plentiful",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:serendipitous",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:exorcising",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:orematic",
+                "weight": 3
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:gem_mob_drops",
+                "weight": 7
+              },
+              {
+                "value": "woldsvaults:challenge_fortune_small",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:omega_fortune_small",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:unhinged_mob_increase",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:champion_chance",
+                "weight": 4
+              }
+            ]
+          },
+          {
+            "min": 3,
+            "max": 3,
+            "pool": [
+              {
+                "value": "the_vault:dark",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:stunning",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:hearty_mobs",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:thiccening",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:curse",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:bloodveil_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 7,
+            "max": 7,
+            "pool": [
+              {
+                "value": "the_vault:plentiful",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:exorcising",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:champion_chance",
+                "weight": 3
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:omega_cascade",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:unhinged_mob_increase",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:omega_bonus",
+                "weight": 4
+              },
+              {
+                "value": "woldsvaults:double_xp",
+                "weight": 2
+              }
+            ]
+          },
+          {
+            "min": 3,
+            "max": 3,
+            "pool": [
+              {
+                "value": "the_vault:bleeding_mobs",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:wither",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:curse",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:brutal_mobs",
+                "weight": 3
+              },
+              {
+                "value": "woldsvaults:fleet_footed_mobs",
+                "weight": 3
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:weak_heart",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:regenerating_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:fading",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:frenzy",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:snowfell_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 6,
+            "max": 6,
+            "pool": [
+              {
+                "value": "the_vault:wooden_bonus",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:wooden_cascade",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:super_wooden_cascade",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:omega_fortune_small",
+                "weight": 3
+              },
+              {
+                "value": "woldsvaults:double_xp",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:super_extension",
+                "weight": 4
+              }
+            ]
+          },
+          {
+            "min": 3,
+            "max": 3,
+            "pool": [
+              {
+                "value": "the_vault:bingo_ice_grenade_mob",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:bingo_ice_grenade_chest",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:brutal_chunky_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:weakened_powers",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:winter",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:slippery_floors",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:glimmergrove_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 5,
+            "max": 5,
+            "pool": [
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_living_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:living",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:wooden_cascade",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_wooden_cascade",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:omega_fortune_small",
+                "weight": 3
+              },
+              {
+                "value": "woldsvaults:double_xp",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 3,
+            "max": 3,
+            "pool": [
+              {
+                "value": "the_vault:bingo_ice_grenade_mob",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:bingo_ice_grenade_chest",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:brutal_chunky_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:weakened_powers",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:winter",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:slippery_floors",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:sporegrove_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 5,
+            "max": 5,
+            "pool": [
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_living_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:living",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:wooden_cascade",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_wooden_cascade",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:omega_fortune_small",
+                "weight": 3
+              },
+              {
+                "value": "woldsvaults:double_xp",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 3,
+            "max": 3,
+            "pool": [
+              {
+                "value": "the_vault:poisonous",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:toxic",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:brutal_chunky_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:weakened_powers",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:fungal_infestation",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:fungal",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:nether_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 6,
+            "max": 6,
+            "pool": [
+              {
+                "value": "the_vault:ornate_cascade",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_ornate_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_living_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_plentiful",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:challenge_fortune",
+                "weight": 3
+              },
+              {
+                "value": "woldsvaults:challenge_fortune_small",
+                "weight": 3
+              },
+              {
+                "value": "woldsvaults:omega_fortune_small",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:soul_surge",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:abundant_souls",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:ornate_mob_drops",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:gilded_mob_drops",
+                "weight": 2
+              }
+            ]
+          },
+          {
+            "min": 4,
+            "max": 4,
+            "pool": [
+              {
+                "value": "the_vault:wither",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:brutal_mobs_combo",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:challenge_stack",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:bingo_fire_grenade_chest",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:raging",
+                "weight": 2
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:volcanic",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:spicy_chili_speed",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:abusive_mobs",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:void_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 6,
+            "max": 6,
+            "pool": [
+              {
+                "value": "the_vault:plentiful",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:super_plentiful",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:fortuitous",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:treasure",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:omega_fortune_small",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:soul_surge",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:abundant_souls",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:opulent_ores",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:perfect_ores",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 4,
+            "max": 4,
+            "pool": [
+              {
+                "value": "the_vault:wither",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:brutal_mobs_combo",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:challenge_stack",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:drained",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:voiding",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:grievous_wounds",
+                "weight": 2
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:ticking_clock",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:shulker",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:void_pools",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:mana_void",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:nullifying",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:doomed_aura",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:candoria_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 5,
+            "max": 5,
+            "pool": [
+              {
+                "value": "the_vault:item_quantity2",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:pristine",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:sparkling",
+                "weight": 2
+              }
+            ]
+          },
+          {
+            "min": 5,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:cake_layer",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:sweet_retro",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:sandsworn_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 6,
+            "max": 6,
+            "pool": [
+              {
+                "value": "the_vault:item_quantity2",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:fortuitous",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:gilded_cascade",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:gilded",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:xp_gain",
+                "weight": 2
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:speedy",
+                "weight": 6
+              },
+              {
+                "value": "the_vault:tailwind",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 4,
+            "max": 4,
+            "pool": [
+              {
+                "value": "the_vault:rigged",
+                "weight": 3
+              },
+              {
+                "value": "the_vault:brutal_mobs",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:challenge_stack",
+                "weight": 4
+              },
+              {
+                "value": "the_vault:drained",
+                "weight": 2
+              },
+              {
+                "value": "the_vault:grievous_wounds",
+                "weight": 4
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:plastic_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 4,
+            "max": 4,
+            "pool": [
+              {
+                "value": "the_vault:item_quantity",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:omega_cascade",
+                "weight": 4
+              }
+            ]
+          },
+          {
+            "min": 4,
+            "max": 4,
+            "pool": [
+              {
+                "value": "the_vault:challenge_stack",
+                "weight": 4
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:champions_realm",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:spooky_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 6,
+            "max": 6,
+            "pool": [
+              {
+                "value": "the_vault:item_quantity",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:item_rarity",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:haunted",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:more_souls",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:kill_hunter",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 3,
+            "max": 3,
+            "pool": [
+              {
+                "value": "woldsvaults:phantasmal_mobs",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:fleet_footed_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:weak_heart",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:haunting",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:haunted_mansion",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:ethereal_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:bubbling_trouble",
+                "weight": 1
+              },
+              {
+                "value": "woldsvaults:witch_party",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:chaos_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:chaos",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:pandoras_box",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:holidays_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 5,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:random_positive",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 5,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:random_negative",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:fleshpit_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 5,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:random_positive",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 5,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:random_negative",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:gods_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 5,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:random_positive",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 5,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:random_negative",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:underwater_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:sparkling",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:water_breathing",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:tropics_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:sparkling",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "woldsvaults:water_breathing",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:grimdark_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 5,
+            "max": 5,
+            "pool": [
+              {
+                "value": "the_vault:omega_bonus",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:omega_cascade",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:super_plentiful",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:treasure",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:hoard",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:super_crate_tier",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 5,
+            "max": 5,
+            "pool": [
+              {
+                "value": "the_vault:thiccening",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:void_pools",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:raging",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:champion_chance",
+                "weight": 1
+              }
+            ]
+          },
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:crit_mobs",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:creeping_doom",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:lostdepths_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 10,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:unhinged",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:barnyard_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 10,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:unhinged",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:harvest_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 10,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:unhinged",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:industrial_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 10,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:unhinged",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:astral_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 10,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:unhinged",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:occult_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 10,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:unhinged",
+                "weight": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:arcane_infusion_modifiers": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 10,
+            "max": 10,
+            "pool": [
+              {
+                "value": "the_vault:unhinged",
                 "weight": 1
               }
             ]

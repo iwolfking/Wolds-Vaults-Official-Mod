@@ -1231,6 +1231,20 @@
           "icon": "the_vault:gui/modifiers/regeneration"
         }
       },
+      "woldsvaults:scurvy": {
+        "properties": {
+          "type": "max_health_multiplicative_percentile",
+          "amount": -0.25,
+          "attributeStackingStrategy": "STACK"
+        },
+        "display": {
+          "name": "Scurvy",
+          "color": "#FC7C5C",
+          "description": "-25% Max Health",
+          "descriptionFormatted": "-%d Max Health",
+          "icon": "the_vault:gui/modifiers/injured"
+        }
+      },
       "woldsvaults:player_mana_increase": {
         "properties": {
           "type": "mana_regen_additive_percentile",
@@ -4029,6 +4043,38 @@
           "description": "Wooden, Gilded, Living, and Ornate chests have a 10% chance to contain Cosmic loot.",
           "descriptionFormatted": "Wooden, Gilded, Living, and Ornate chests have a %d%% chance to generate Cosmic loot.",
           "icon": "the_vault:gui/modifiers/bonus_coin"
+        }
+      }
+    },
+    "the_vault:modifier_type/mob_mana_steal_on_hit": {
+      "woldsvaults:mana_plunder": {
+        "properties": {
+          "onHitApplyChance": 0.5,
+          "amount": 0.1,
+          "drainsPercentage": true
+        },
+        "display": {
+          "name": "Mana Plunderers",
+          "color": "#4dffd2",
+          "description": "Mobs have a 50% chance to drain 10% of your mana on-hit",
+          "descriptionFormatted": "Mobs have a 1/2 chance to drain 10 percent of your mana on-hit",
+          "icon": "the_vault:gui/modifiers/impossible"
+        }
+      }
+    },
+    "the_vault:modifier_type/mob_additional_magic_damage_on_hit": {
+      "woldsvaults:arcane_foes": {
+        "properties": {
+          "onHitApplyChance": 1.0,
+          "amount": 4.0,
+          "isPercentageOfAttack": false
+        },
+        "display": {
+          "name": "Arcane Foes",
+          "color": "#4dffd2",
+          "description": "Mobs deal 2 hearts of magic damage on-hit",
+          "descriptionFormatted": "Mobs deal %d hearts of magic damage on-hit",
+          "icon": "the_vault:gui/modifiers/impossible"
         }
       }
     },

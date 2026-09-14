@@ -1,16 +1,16 @@
 {
-  "type": "occultism:ritual",
+  "type": "woldsvaults:spawn_egg_ritual",
+  "entity_to_sacrifice": "thermal:sacrifices/blizz",
+  "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
+  "duration": 10,
   "activation_item": {
     "item": "the_vault:mystery_hostile_egg"
   },
-  "pentacle_id": "occultism:velara",
-  "duration": 10,
-  "entity_to_sacrifice": {
-    "tag": "woldsvaults:sacrifices/blizz",
-    "display_name": "entity.thermal.blizz"
-  },
   "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/spawn_egg_infusion"
+  },
+  "result": {
     "item": "woldsvaults:ritual_dummy/spawn_egg_infusion"
   },
   "ingredients": [
@@ -26,8 +26,5 @@
     {
       "item": "woldsvaults:chroma_core"
     }
-  ],
-  "result": {
-    "item": "thermal:blizz_spawn_egg"
-  }
+  ]
 }

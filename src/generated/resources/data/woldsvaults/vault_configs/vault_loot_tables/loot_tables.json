@@ -1,6 +1,11 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:mob_gem_drops",
+      "name": "Mob Gem Drops",
+      "1.0": "woldsvaults:mob_gem_drops"
+    },
+    {
       "id": "woldsvaults:cosmic_chests",
       "name": "Cosmic Chests",
       "1.0": "woldsvaults:cosmic_chests"

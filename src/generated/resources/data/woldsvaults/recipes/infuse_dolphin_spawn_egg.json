@@ -1,33 +1,30 @@
 {
-  "type": "occultism:ritual",
+  "type": "woldsvaults:spawn_egg_ritual",
+  "entity_to_sacrifice": "minecraft:sacrifices/dolphin",
+  "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
+  "duration": 10,
   "activation_item": {
     "item": "the_vault:mystery_egg"
-  },
-  "pentacle_id": "occultism:velara",
-  "duration": 10,
-  "entity_to_sacrifice": {
-    "tag": "woldsvaults:sacrifices/dolphin",
-    "display_name": "entity.minecraft.dolphin"
   },
   "ritual_dummy": {
     "item": "woldsvaults:ritual_dummy/spawn_egg_infusion"
   },
+  "result": {
+    "item": "woldsvaults:ritual_dummy/spawn_egg_infusion"
+  },
   "ingredients": [
+    {
+      "item": "the_vault:dreamstone"
+    },
+    {
+      "item": "the_vault:dreamstone"
+    },
     {
       "item": "the_vault:eternal_soul"
     },
     {
       "item": "the_vault:wutodic_mass"
-    },
-    {
-      "item": "the_vault:dreamstone"
-    },
-    {
-      "item": "the_vault:dreamstone"
     }
-  ],
-  "result": {
-    "item": "minecraft:dolphin_spawn_egg"
-  }
+  ]
 }

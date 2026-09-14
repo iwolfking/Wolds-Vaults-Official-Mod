@@ -31,7 +31,7 @@ public class OccultismTagRegistry {
 
         TagKey<EntityType<?>> tagKey = TagKey.create(
                 Registry.ENTITY_TYPE_REGISTRY,
-                ResourceLocation.fromNamespaceAndPath(WoldsVaults.MOD_ID, "sacrifices/" + entityId.getPath())
+                ResourceLocation.fromNamespaceAndPath(entityId.getNamespace(), "sacrifices/" + entityId.getPath())
         );
 
         AUTO_ENTITY_TAGS.put(tagKey, entityType);

@@ -1139,7 +1139,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         iskallia.vault.init.ModConfigs.MYSTERY_EGG.POOL.forEach((productEntry, number) -> {
             if(productEntry.getItem() instanceof SpawnEggItem spawnEggItem) {
                 EntityType<?> entityType = spawnEggItem.getType(productEntry.getNBT());
-                RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_EGG), new ItemStack(ModRitualDummyItems.SPAWN_EGG_INFUSION), spawnEggItem.getDefaultInstance()).duration(10).requires(iskallia.vault.init.ModItems.ETERNAL_SOUL).requires(iskallia.vault.init.ModItems.WUTODIC_MASS).requires(iskallia.vault.init.ModItems.DREAMSTONE).requires(iskallia.vault.init.ModItems.DREAMSTONE).entityToSacrifice(entityType).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_" + entityType.getRegistryName().getPath() + "_spawn_egg"));
+                DynamicRitualRecipeBuilder.spawnEggInfusion(entityType.getRegistryName(), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_EGG), ModRitualDummyItems.SPAWN_EGG_INFUSION.getRegistryName()).duration(10).addIngredient(iskallia.vault.init.ModItems.DREAMSTONE).addIngredient(iskallia.vault.init.ModItems.DREAMSTONE).addIngredient(iskallia.vault.init.ModItems.ETERNAL_SOUL).addIngredient(iskallia.vault.init.ModItems.WUTODIC_MASS).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_" + entityType.getRegistryName().getPath() + "_spawn_egg"));
             }
         });
 
@@ -1147,7 +1147,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         iskallia.vault.init.ModConfigs.MYSTERY_HOSTILE_EGG.POOL.forEach((productEntry, number) -> {
             if(productEntry.getItem() instanceof SpawnEggItem spawnEggItem) {
                 EntityType<?> entityType = spawnEggItem.getType(productEntry.getNBT());
-                RitualRecipeBuilder.ritual(ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_HOSTILE_EGG), new ItemStack(ModRitualDummyItems.SPAWN_EGG_INFUSION), spawnEggItem.getDefaultInstance()).duration(10).requires(iskallia.vault.init.ModItems.ETERNAL_SOUL).requires(iskallia.vault.init.ModItems.WUTODIC_MASS).requires(iskallia.vault.init.ModItems.MYSTICAL_POWDER).requires(ModItems.CHROMA_CORE).entityToSacrifice(entityType).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_" + entityType.getRegistryName().getPath() + "_spawn_egg"));
+                DynamicRitualRecipeBuilder.spawnEggInfusion(entityType.getRegistryName(), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_HOSTILE_EGG), ModRitualDummyItems.SPAWN_EGG_INFUSION.getRegistryName()).duration(10).addIngredient(iskallia.vault.init.ModItems.ETERNAL_SOUL).addIngredient(iskallia.vault.init.ModItems.WUTODIC_MASS).addIngredient(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addIngredient(ModItems.CHROMA_CORE).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_" + entityType.getRegistryName().getPath() + "_spawn_egg"));
             }
         });
 

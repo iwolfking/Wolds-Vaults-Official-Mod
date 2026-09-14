@@ -2,13 +2,13 @@ package xyz.iwolfking.woldsvaults.integration.occultism;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import iskallia.vault.VaultMod;
 import iskallia.vault.init.ModItems;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.integration.occultism.init.OccultismRecipeSerializers;
 
 import javax.annotation.Nullable;
@@ -80,6 +80,13 @@ public class DynamicRitualRecipeBuilder {
         );
     }
 
+    public static DynamicRitualRecipeBuilder spawnEggInfusion(ResourceLocation entityTypeId, ResourceLocation pentacleId, ResourceLocation ritualType, Ingredient activationItem, ResourceLocation ritualDummy) {
+        return new DynamicRitualRecipeBuilder(
+                entityTypeId, pentacleId, ritualType, activationItem, ritualDummy,
+                "entity_to_sacrifice", ModRitualDummyItems.SPAWN_EGG_INFUSION.getRegistryName(), OccultismRecipeSerializers.SPAWN_EGG_RITUAL
+        );
+    }
+
     public DynamicRitualRecipeBuilder addIngredient(Item item) {
         this.ingredients.add(Ingredient.of(item));
         return this;
@@ -110,6 +117,7 @@ public class DynamicRitualRecipeBuilder {
         private final ResourceLocation ritualDummy;
         private final List<Ingredient> ingredients;
         private final int duration;
+
         
         private final String jsonKey;
         private final ResourceLocation resultItemRegistryName;
@@ -133,7 +141,14 @@ public class DynamicRitualRecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject json) {
-            json.addProperty(this.jsonKey, this.customId.toString());
+            if(this.jsonKey.equals("entity_to_sacrifice")) {
+                json.addProperty(this.jsonKey, OccultismTagRegistry.getOrCreateEntityTag(this.customId).location().toString());
+
+            }
+            else {
+                json.addProperty(this.jsonKey, this.customId.toString());
+            }
+
             json.addProperty("pentacle_id", this.pentacleId.toString());
             json.addProperty("ritual_type", this.ritualType.toString());
             json.addProperty("duration", this.duration);
@@ -141,7 +156,7 @@ public class DynamicRitualRecipeBuilder {
             json.add("activation_item", this.activationItem.toJson());
 
             JsonObject dummyObj = new JsonObject();
-            dummyObj.addProperty("item", this.ritualDummy.toString()); 
+            dummyObj.addProperty("item", this.ritualDummy.toString());
             json.add("ritual_dummy", dummyObj);
 
             JsonObject resultObj = new JsonObject();
