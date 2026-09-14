@@ -44,23 +44,37 @@ public class EvokerFangsAbility extends InstantManaAbility {
 
             int totalWaves = Math.max(1, this.waveCount);
 
-            for (int wave = 0; wave < totalWaves; wave++) {
-                int initialWaveOffset = wave * this.waveDelay;
+//            for (int wave = 0; wave < totalWaves; wave++) {
+//                int initialWaveOffset = wave * this.waveDelay;
+//
+//                for (double d = 1.0; d <= realRadius; d += 1.5) {
+//                    final double currentDist = d;
+//                    int totalDelay = initialWaveOffset + (int) (d * 2);
+//
+//                    DelayedExecutionHelper.schedule(level, totalDelay, () -> {
+//                        spawnFangRing(player, level, currentDist, finalDamage, hasRavenousEtching);
+//                    });
+//                }
+//
+//                DelayedExecutionHelper.schedule(level, initialWaveOffset, () -> {
+//                    level.playSound(null, player.getX(), player.getY(), player.getZ(),
+//                            SoundEvents.EVOKER_PREPARE_ATTACK, SoundSource.PLAYERS, 1.0F, 1.0F);
+//                });
+//            }
 
-                for (double d = 1.0; d <= realRadius; d += 1.5) {
-                    final double currentDist = d;
-                    int totalDelay = initialWaveOffset + (int) (d * 2);
+            for (double d = 1.0; d <= realRadius; d += 1.5) {
+                final double currentDist = d;
 
-                    DelayedExecutionHelper.schedule(level, totalDelay, () -> {
-                        spawnFangRing(player, level, currentDist, finalDamage, hasRavenousEtching);
-                    });
-                }
+                int delay = (int) (d * 2);
 
-                DelayedExecutionHelper.schedule(level, initialWaveOffset, () -> {
-                    level.playSound(null, player.getX(), player.getY(), player.getZ(),
-                            SoundEvents.EVOKER_PREPARE_ATTACK, SoundSource.PLAYERS, 1.0F, 1.0F);
+                DelayedExecutionHelper.schedule(level, delay, () -> {
+                    spawnFangRing(player, level, currentDist, finalDamage, hasRavenousEtching);
                 });
             }
+
+            level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                    SoundEvents.EVOKER_PREPARE_ATTACK, SoundSource.PLAYERS, 1.0F, 1.0F);
+
 
             this.putOnCooldown(context);
             return Ability.ActionResult.successCooldownImmediate();
