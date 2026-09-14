@@ -64,6 +64,7 @@ public class ModLanguageProvider extends LanguageProvider {
     public void ritual(Item dummyItem, String ritualTooltip, ResourceLocation ritualId, String ritualName) {
         add("ritual." + ritualId.getNamespace() + "." + ritualId.getPath() + ".started", ritualName + " initiated!");
         add("ritual." + ritualId.getNamespace() + "." + ritualId.getPath() + ".finished", ritualName + " completed!");
+        add("ritual." + ritualId.getNamespace() + "." + ritualId.getPath() + ".interrupted", ritualName + " interrupted!");
         add(dummyItem, "Ritual: " + ritualName);
         add("item." + dummyItem.getRegistryName().getNamespace() + ".ritual_dummy." + dummyItem.getRegistryName().getPath().replace("ritual_dummy/", "") + ".tooltip", ritualTooltip);
     }
@@ -88,6 +89,7 @@ public class ModLanguageProvider extends LanguageProvider {
             if(productEntry.getItem() instanceof SpawnEggItem spawnEggItem && spawnEggItem != Items.PIG_SPAWN_EGG) {
                 add("ritual." + WoldsVaults.MOD_ID + "." + "infuse_" + spawnEggItem.getType(productEntry.getNBT()).getRegistryName().getPath() + "_spawn_egg" + ".started", "Imbue Spawn Egg" + " initiated!");
                 add("ritual." + WoldsVaults.MOD_ID + "." + "infuse_" + spawnEggItem.getType(productEntry.getNBT()).getRegistryName().getPath() + "_spawn_egg" + ".finished", "Imbue Spawn Egg" + " completed!");
+                add("ritual." + WoldsVaults.MOD_ID + "." + "infuse_" + spawnEggItem.getType(productEntry.getNBT()).getRegistryName().getPath() + "_spawn_egg.interrupted", "Imbue Spawn Egg interrupted!");
             }
         });
 
