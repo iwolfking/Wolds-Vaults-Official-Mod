@@ -15,7 +15,7 @@ public class QuickeningEffect extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0x55FFFF);
         this.addAttributeModifier(
                 Attributes.MOVEMENT_SPEED,
-                "ac1ef94f-48b2-49f0-992e-f836772a2cb4",
+                "ea4f6958-8ab0-4a1e-910c-dcf7417ec18f",
                 0.10D,
                 AttributeModifier.Operation.MULTIPLY_TOTAL
         );

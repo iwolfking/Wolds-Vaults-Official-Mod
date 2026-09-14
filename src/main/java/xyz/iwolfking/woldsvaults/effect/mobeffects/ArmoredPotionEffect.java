@@ -11,7 +11,7 @@ public class ArmoredPotionEffect extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0x55FFFF);
         this.addAttributeModifier(
                 Attributes.ARMOR,
-                "ac1ef94f-48b2-49f0-992e-f836772a2cb4",
+                "81084968-9044-41fd-a06c-1b40116ffbfd",
                 0.10D,
                 AttributeModifier.Operation.MULTIPLY_TOTAL
         );
