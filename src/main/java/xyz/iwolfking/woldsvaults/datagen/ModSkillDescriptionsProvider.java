@@ -163,7 +163,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text(", "));
                 description.add(JsonDescription.text("10 seconds", "#7e1c80"));
                 description.add(JsonDescription.text("\n\n"));
-                TalentDescriptionsHelper.appendOverlevelDescription("Blood_Chakra", "add", "one additional max stack", "#48a188", description);
+                TalentDescriptionsHelper.appendOverlevelDescription("Blood_Chakra", "add", "one additional max stack", "#36ffa7", description);
             });
 
             builder.addDescription("Hexbreaker", description -> {
@@ -268,11 +268,11 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text("causing them to reduce all of your abilities "));
                 description.add(JsonDescription.text("cooldowns by a percentage of their maximum cooldown time"));
                 description.add(JsonDescription.text(".\n\n1 "));
-                description.add(JsonDescription.text("+2% reduced cooldown", "#cbe6fe"));
+                description.add(JsonDescription.text("+1% reduced cooldown", "#cbe6fe"));
                 description.add(JsonDescription.text("\n\n2 "));
-                description.add(JsonDescription.text("+3% reduced cooldown", "#cbe6fe"));
+                description.add(JsonDescription.text("+2% reduced cooldown", "#cbe6fe"));
                 description.add(JsonDescription.text("\n\n3 "));
-                description.add(JsonDescription.text("+4% reduced cooldown", "#cbe6fe"));
+                description.add(JsonDescription.text("+3% reduced cooldown", "#cbe6fe"));
                 description.add(JsonDescription.text("\n\n"));
                 TalentDescriptionsHelper.appendOverlevelDescription("Arcane Cascade", "add", "+0.5% reduced cooldown", "#cbe6fe", description);
             });

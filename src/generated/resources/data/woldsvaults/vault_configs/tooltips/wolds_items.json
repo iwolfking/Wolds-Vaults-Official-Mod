@@ -45,6 +45,10 @@
       "value": "Use with Vault Gear in the Artisan Station to unfreeze all frozen modifiers."
     },
     {
+      "item": "woldsvaults:inscribing_focus",
+      "value": "Use with Vault Map in the Artisan Station to increase tier by 1 and reforge."
+    },
+    {
       "item": "woldsvaults:stylish_focus",
       "value": "Use with Vault Tool in an anvil to add Stylish, causing it to rotate through all tool types visually."
     },
@@ -107,6 +111,10 @@
     {
       "item": "woldsvaults:crystal_seal_unhinged_scavingo",
       "value": "Use in the Crystal Workbench to set the objective to 'Unhinged Collector'"
+    },
+    {
+      "item": "woldsvaults:crystal_seal_alchemy",
+      "value": "Use in the Crystal Workbench to set the objective to 'Alchemy'"
     },
     {
       "item": "woldsvaults:capstone_vendoors",

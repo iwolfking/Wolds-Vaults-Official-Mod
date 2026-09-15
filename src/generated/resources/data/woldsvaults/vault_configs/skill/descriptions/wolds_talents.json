@@ -211,21 +211,21 @@
         "text": ".\n\n1 "
       },
       {
-        "text": "+2% reduced cooldown",
+        "text": "+1% reduced cooldown",
         "color": "#cbe6fe"
       },
       {
         "text": "\n\n2 "
       },
       {
-        "text": "+3% reduced cooldown",
+        "text": "+2% reduced cooldown",
         "color": "#cbe6fe"
       },
       {
         "text": "\n\n3 "
       },
       {
-        "text": "+4% reduced cooldown",
+        "text": "+3% reduced cooldown",
         "color": "#cbe6fe"
       },
       {
@@ -696,7 +696,7 @@
       },
       {
         "text": "one additional max stack",
-        "color": "#48a188"
+        "color": "#36ffa7"
       }
     ],
     "Healthy_Elixir": [
