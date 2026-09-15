@@ -33,7 +33,7 @@ public class InfusedThemeHelper {
         if (vaultOwnerId != null) {
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             if (server != null) {
-                if(GameruleHelper.isEnabled(ModGameRules.ENABLE_RANDOM_THEME_INFUSION, server.overworld())) {
+                if(!GameruleHelper.isEnabled(ModGameRules.ENABLE_RANDOM_THEME_INFUSION, server.overworld())) {
                     return false;
                 }
 
