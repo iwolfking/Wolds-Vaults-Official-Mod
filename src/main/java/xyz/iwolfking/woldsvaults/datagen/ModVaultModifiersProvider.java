@@ -725,39 +725,53 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             catalystChance(modifierBuilder, WoldsVaults.id("catalyst_chance"), 0.01F, "Catalyst Fragment Chance", "#FC00E3", "+1% Catalyst Fragment Chance", "+%d%% Catalyst Fragment Chance", VaultMod.id("gui/modifiers/more_catalyst"));
             trapChestChance(modifierBuilder, WoldsVaults.id("trap_chance"), 0.01F, "Trap Chance", "#D35B00", "+1% Trap Chance", "+%d%% Trap Chance", VaultMod.id("gui/modifiers/trapped"));
             soulShardChance(modifierBuilder, WoldsVaults.id("soul_shard_chance"), 0.01F, "Soul Shard Chance", "#6410A1", "+1% Soul Shard Chance", "+%d%% Soul Shard Chance", VaultMod.id("gui/modifiers/soul_shard_increase_pink"));
-            playerAttribute(modifierBuilder, WoldsVaults.id("player_mana_increase"), EntityAttributeModifier.ModifierType.MANA_REGEN_ADDITIVE_PERCENTILE, 0.01F, "Increased Mana Regeneration", "#849dc8", "+1% Mana Regeneration", "+%d%% Mana Regeneration", VaultMod.id("gui/modifiers/draining"));
-            playerAttribute(modifierBuilder, WoldsVaults.id("player_mana_decrease"), EntityAttributeModifier.ModifierType.MANA_REGEN_ADDITIVE_PERCENTILE, -0.01F, "Decreased Mana Regeneration", "#849dc8", "-1% Mana Regeneration", "-%d%% Mana Regeneration", VaultMod.id("gui/modifiers/draining"));
+
+            playerAttribute(modifierBuilder, WoldsVaults.id("player_mana_increase"), EntityAttributeModifier.ModifierType.MANA_REGEN_ADDITIVE_PERCENTILE, 0.01F, "Increased Mana Regeneration", "#849DC8", "+1% Mana Regeneration", "+%d%% Mana Regeneration", VaultMod.id("gui/modifiers/draining"));
+            playerAttribute(modifierBuilder, WoldsVaults.id("player_mana_decrease"), EntityAttributeModifier.ModifierType.MANA_REGEN_ADDITIVE_PERCENTILE, -0.01F, "Decreased Mana Regeneration", "#5572A1", "-1% Mana Regeneration", "-%d%% Mana Regeneration", VaultMod.id("gui/modifiers/draining"));
+
             playerAttribute(modifierBuilder, WoldsVaults.id("player_health_increase"), EntityAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE, 1, "Increased Health", "#FF5555", "+1 Health", "+%d Health", VaultMod.id("gui/modifiers/regeneration"));
-            playerAttribute(modifierBuilder, WoldsVaults.id("player_health_decrease"), EntityAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE, 1, "Decreased Health", "#FF5555", "-1 Health", "-%d Health", VaultMod.id("gui/modifiers/regeneration"));
-            playerAttribute(modifierBuilder, WoldsVaults.id("player_damage_increase"), EntityAttributeModifier.ModifierType.ATTACK_DAMAGE_ADDITIVE_PERCENTILE, 0.01F, "Increased Damage", "#FF5555", "+1% Increased Damage", "+%d%% Increased Damage", VaultMod.id("gui/modifiers/god_token_idona"));
-            playerAttribute(modifierBuilder, WoldsVaults.id("player_damage_decrease"), EntityAttributeModifier.ModifierType.ATTACK_DAMAGE_ADDITIVE_PERCENTILE, -0.01F, "Decreased Damage", "#FF5555", "-1% Decreased Damage", "-%d%% Decreased Damage", VaultMod.id("gui/modifiers/god_token_idona"));
-            playerAttribute(modifierBuilder, WoldsVaults.id("player_knockback_resistance_increase"), EntityAttributeModifier.ModifierType.KNOCKBACK_RESISTANCE_ADDITIVE, 0.01F, "Increased Knockback Resistance", "#849dc8", "+1% Increased Knockback Resistance", "+%d%% Increased Knockback Resistance", VaultMod.id("gui/modifiers/draining"));
-            playerAttribute(modifierBuilder, WoldsVaults.id("player_knockback_resistance_decrease"), EntityAttributeModifier.ModifierType.KNOCKBACK_RESISTANCE_ADDITIVE, -0.01F, "Decreased Knockback Resistance", "#849dc8", "-1% Decreased Knockback Resistance", "-%d%% Decreased Knockback Resistance", VaultMod.id("gui/modifiers/draining"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_health_increase"), EntityAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE_PERCENTILE, 0.01F, "Increased Mob Health", "#dc693c", "+1% Increased Mob Health", "+%d%% Increased Mob Health", VaultMod.id("gui/modifiers/destructive"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_health_decrease"), EntityAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE_PERCENTILE, -0.01F, "Decreased Mob Health", "#dc693c", "+1% Decreased Mob Health", "+%d%% Decreased Mob Health", VaultMod.id("gui/modifiers/destructive"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_damage_increase"), EntityAttributeModifier.ModifierType.ATTACK_DAMAGE_ADDITIVE_PERCENTILE, 0.01F, "Increased Mob Damage", "#dc693c", "+1% Increased Mob Damage", "+%d%% Increased Mob Damage", VaultMod.id("gui/modifiers/destructive"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_damage_decrease"), EntityAttributeModifier.ModifierType.ATTACK_DAMAGE_ADDITIVE_PERCENTILE, -0.01F, "Decreased Mob Damage", "#dc693c", "+1% Decreased Mob Damage", "+%d%% Decreased Mob Damage", VaultMod.id("gui/modifiers/destructive"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_speed_increase"), EntityAttributeModifier.ModifierType.SPEED_ADDITIVE_PERCENTILE, 0.01F, "Increased Mob Speed", "#dc693c", "+1% Increased Mob Speed", "+%d%% Increased Mob Speed", VaultMod.id("gui/modifiers/destructive"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_speed_decrease"), EntityAttributeModifier.ModifierType.SPEED_ADDITIVE_PERCENTILE, -0.01F, "Decreased Mob Speed", "#dc693c", "+1% Decreased Mob Speed", "+%d%% Decreased Mob Speed", VaultMod.id("gui/modifiers/destructive"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_crit_increase"), EntityAttributeModifier.ModifierType.CRIT_CHANCE_ADDITIVE, 0.01F, "Increased Mob Critical Chance", "#dc693c", "+1% Increased Mob Critical Chance", "+%d%% Increased Mob Critical Chance", VaultMod.id("gui/modifiers/destructive"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_crit_decrease"), EntityAttributeModifier.ModifierType.CRIT_CHANCE_ADDITIVE, -0.01F, "Decreased Mob Critical Chance", "#dc693c", "+1% Decreased Mob Critical Chance", "+%d%% Decreased Mob Critical Chance", VaultMod.id("gui/modifiers/destructive"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_kbr_increase"), EntityAttributeModifier.ModifierType.KNOCKBACK_RESISTANCE_ADDITIVE, 0.01F, "Increased Mob Knockback Resistance", "#dc693c", "+1% Increased Mob Knockback Resistance", "+%d%% Increased Mob Knockback Resistance", VaultMod.id("gui/modifiers/destructive"));
-            mobAttribute(modifierBuilder, WoldsVaults.id("mob_kbr_decrease"), EntityAttributeModifier.ModifierType.KNOCKBACK_RESISTANCE_ADDITIVE, -0.01F, "Decreased Mob Knockback Resistance", "#dc693c", "+1% Decreased Mob Knockback Resistance", "+%d%% Decreased Mob Knockback Resistance", VaultMod.id("gui/modifiers/destructive"));
-            itemQuantity(modifierBuilder, WoldsVaults.id("item_quantity"), 0.01F, "Item Quantity", "#ffcc73", "+1% Item Quantity", "+%d%% Item Quantity", VaultMod.id("gui/modifiers/item_quant_2"));
-            itemRarity(modifierBuilder, WoldsVaults.id("item_rarity"), 0.01F, "Item Rarity", "#ffcc73", "+1% Item Rarity", "+%d%% Item Rarity", VaultMod.id("gui/modifiers/item_quant_2"));
-            championChance(modifierBuilder, WoldsVaults.id("champion_chance"), 0.01F, "Champion Chance", "#5ece0c", "+1% Champion Chance", "+%d%% Champion Chance", VaultMod.id("gui/modifiers/champion_increase"));
-            lootWeight(modifierBuilder, WoldsVaults.id("ore_increase"), PlaceholderBlock.Type.ORE,0.01F, "More Ores", "#FF85FF", "+1% More Ores", "+%d%% More Ores", VaultMod.id("gui/modifiers/plentiful"));
-            lootWeight(modifierBuilder, WoldsVaults.id("ore_decrease"), PlaceholderBlock.Type.ORE,-0.01F, "Less Ores", "#FF85FF", "-1% More Ores", "-%d%% More Ores", VaultMod.id("gui/modifiers/plentiful"));
-            vaultTime(modifierBuilder, WoldsVaults.id("more_time"), 20, "More Time", "#2F86AE", "+1 Second of Vault Time", "+%d%% Second(s) of Vault Time", VaultMod.id("gui/modifiers/extended"));
-            vaultTime(modifierBuilder, WoldsVaults.id("less_time"), -20, "Less Time", "#2F86AE", "-1 Second of Vault Time", "-%d%% Second(s) of Vault Time", VaultMod.id("gui/modifiers/extended"));
+            playerAttribute(modifierBuilder, WoldsVaults.id("player_health_decrease"), EntityAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE, -1, "Decreased Health", "#A83232", "-1 Health", "-%d Health", VaultMod.id("gui/modifiers/regeneration"));
+
+            playerAttribute(modifierBuilder, WoldsVaults.id("player_damage_increase"), EntityAttributeModifier.ModifierType.ATTACK_DAMAGE_ADDITIVE_PERCENTILE, 0.01F, "Increased Damage", "#FFAA00", "+1% Increased Damage", "+%d%% Increased Damage", VaultMod.id("gui/modifiers/god_token_idona"));
+            playerAttribute(modifierBuilder, WoldsVaults.id("player_damage_decrease"), EntityAttributeModifier.ModifierType.ATTACK_DAMAGE_ADDITIVE_PERCENTILE, -0.01F, "Decreased Damage", "#A87000", "-1% Decreased Damage", "-%d%% Decreased Damage", VaultMod.id("gui/modifiers/god_token_idona"));
+
+            playerAttribute(modifierBuilder, WoldsVaults.id("player_knockback_resistance_increase"), EntityAttributeModifier.ModifierType.KNOCKBACK_RESISTANCE_ADDITIVE, 0.01F, "Increased Knockback Resistance", "#55FFFF", "+1% Increased Knockback Resistance", "+%d%% Increased Knockback Resistance", VaultMod.id("gui/modifiers/overpower"));
+            playerAttribute(modifierBuilder, WoldsVaults.id("player_knockback_resistance_decrease"), EntityAttributeModifier.ModifierType.KNOCKBACK_RESISTANCE_ADDITIVE, -0.01F, "Decreased Knockback Resistance", "#2B9999", "-1% Decreased Knockback Resistance", "-%d%% Decreased Knockback Resistance", VaultMod.id("gui/modifiers/overpower"));
+
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_health_increase"), EntityAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE_PERCENTILE, 0.01F, "Increased Mob Health", "#DC693C", "+1% Increased Mob Health", "+%d%% Increased Mob Health", VaultMod.id("gui/modifiers/chunky"));
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_health_decrease"), EntityAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE_PERCENTILE, -0.01F, "Decreased Mob Health", "#D4E157", "+1% Decreased Mob Health", "+%d%% Decreased Mob Health", VaultMod.id("gui/modifiers/chunky"));
+
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_damage_increase"), EntityAttributeModifier.ModifierType.ATTACK_DAMAGE_ADDITIVE_PERCENTILE, 0.01F, "Increased Mob Damage", "#DA6D5A", "+1% Increased Mob Damage", "+%d%% Increased Mob Damage", VaultMod.id("gui/modifiers/furious_mobs"));
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_damage_decrease"), EntityAttributeModifier.ModifierType.ATTACK_DAMAGE_ADDITIVE_PERCENTILE, -0.01F, "Decreased Mob Damage", "#8F4538", "+1% Decreased Mob Damage", "+%d%% Decreased Mob Damage", VaultMod.id("gui/modifiers/furious_mobs"));
+
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_speed_increase"), EntityAttributeModifier.ModifierType.SPEED_ADDITIVE_PERCENTILE, 0.01F, "Increased Mob Speed", "#F66868", "+1% Increased Mob Speed", "+%d%% Increased Mob Speed", VaultMod.id("gui/modifiers/rapid_mobs"));
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_speed_decrease"), EntityAttributeModifier.ModifierType.SPEED_ADDITIVE_PERCENTILE, -0.01F, "Decreased Mob Speed", "#E6FFFE", "+1% Decreased Mob Speed", "+%d%% Decreased Mob Speed", VaultMod.id("gui/modifiers/glued_mobs"));
+
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_crit_increase"), EntityAttributeModifier.ModifierType.CRIT_CHANCE_ADDITIVE, 0.01F, "Increased Mob Critical Chance", "#FF2222", "+1% Increased Mob Critical Chance", "+%d%% Increased Mob Critical Chance", VaultMod.id("gui/modifiers/destructive"));
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_crit_decrease"), EntityAttributeModifier.ModifierType.CRIT_CHANCE_ADDITIVE, -0.01F, "Decreased Mob Critical Chance", "#771111", "+1% Decreased Mob Critical Chance", "+%d%% Decreased Mob Critical Chance", VaultMod.id("gui/modifiers/destructive"));
+
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_kbr_increase"), EntityAttributeModifier.ModifierType.KNOCKBACK_RESISTANCE_ADDITIVE, 0.01F, "Increased Mob Knockback Resistance", "#A855A8", "+1% Increased Mob Knockback Resistance", "+%d%% Increased Mob Knockback Resistance", VaultMod.id("gui/modifiers/chaotic"));
+            mobAttribute(modifierBuilder, WoldsVaults.id("mob_kbr_decrease"), EntityAttributeModifier.ModifierType.KNOCKBACK_RESISTANCE_ADDITIVE, -0.01F, "Decreased Mob Knockback Resistance", "#552B55", "+1% Decreased Mob Knockback Resistance", "+%d%% Decreased Mob Knockback Resistance", VaultMod.id("gui/modifiers/chaotic"));
+
+            itemQuantity(modifierBuilder, WoldsVaults.id("item_quantity"), 0.01F, "Item Quantity", "#FFCC73", "+1% Item Quantity", "+%d%% Item Quantity", VaultMod.id("gui/modifiers/item_quant_2"));
+            itemRarity(modifierBuilder, WoldsVaults.id("item_rarity"), 0.01F, "Item Rarity", "#B3FF20", "+1% Item Rarity", "+%d%% Item Rarity", VaultMod.id("gui/modifiers/lucky"));
+            championChance(modifierBuilder, WoldsVaults.id("champion_chance"), 0.01F, "Champion Chance", "#5ECE0C", "+1% Champion Chance", "+%d%% Champion Chance", VaultMod.id("gui/modifiers/champion_domain"));
+
+            lootWeight(modifierBuilder, WoldsVaults.id("ore_increase"), PlaceholderBlock.Type.ORE, 0.01F, "More Ores", "#FF85FF", "+1% More Ores", "+%d%% More Ores", VaultMod.id("gui/modifiers/plentiful"));
+            lootWeight(modifierBuilder, WoldsVaults.id("ore_decrease"), PlaceholderBlock.Type.ORE, -0.01F, "Less Ores", "#995099", "-1% More Ores", "-%d%% More Ores", VaultMod.id("gui/modifiers/plentiful"));
+
+            vaultTime(modifierBuilder, WoldsVaults.id("more_time"), 20, "More Time", "#2F86AE", "+1 Second of Vault Time", "+%d Second(s) of Vault Time", VaultMod.id("gui/modifiers/extended"));
+            vaultTime(modifierBuilder, WoldsVaults.id("less_time"), -20, "Less Time", "#C43A3A", "-1 Second of Vault Time", "-%d Second(s) of Vault Time", VaultMod.id("gui/modifiers/extended"));
+
             grouped(modifierBuilder, WoldsVaults.id("combined_quant_and_rarity"), resourceLocationIntegerMap -> {
                 resourceLocationIntegerMap.put(WoldsVaults.id("item_quantity"), 1);
                 resourceLocationIntegerMap.put(WoldsVaults.id("item_rarity"), 1);
-            },"Item Quantity and Rarity", "#3ffbf4", "+1% Item Quantity and Rarity", "+%d%% Item Quantity and Rarity", WoldsVaults.id("gui/modifiers/impossible"));
+            }, "Item Quantity and Rarity", "#3FFBF4", "+1% Item Quantity and Rarity", "+%d%% Item Quantity and Rarity", VaultMod.id("gui/modifiers/treasure"));
+
             grouped(modifierBuilder, WoldsVaults.id("combined_mob_damage_and_health"), resourceLocationIntegerMap -> {
                 resourceLocationIntegerMap.put(WoldsVaults.id("mob_damage_increase"), 1);
                 resourceLocationIntegerMap.put(WoldsVaults.id("mob_health_increase"), 1);
-            },"Mob Health and Damage", "#3ffbf4", "+1% Mob Health and Damage", "+%d%% Mob Health and Damage", WoldsVaults.id("gui/modifiers/impossible"));
+            }, "Mob Health and Damage", "#FC7C5C", "+1% Mob Health and Damage", "+%d%% Mob Health and Damage", VaultMod.id("gui/modifiers/frenzy"));
             //the_vault:soul_cascade_X for gilded, living, ornate, and wooden, and coin piles
             //the_vault:tiny_mob_increase for mob spawn increase
             //the_vault:crate_quantity for crate quantity

@@ -736,7 +736,7 @@
         },
         "display": {
           "name": "Item Quantity",
-          "color": "#ffcc73",
+          "color": "#FFCC73",
           "description": "+1% Item Quantity",
           "descriptionFormatted": "+%d%% Item Quantity",
           "icon": "the_vault:gui/modifiers/item_quant_2"
@@ -774,10 +774,10 @@
         },
         "display": {
           "name": "Item Rarity",
-          "color": "#ffcc73",
+          "color": "#B3FF20",
           "description": "+1% Item Rarity",
           "descriptionFormatted": "+%d%% Item Rarity",
-          "icon": "the_vault:gui/modifiers/item_quant_2"
+          "icon": "the_vault:gui/modifiers/lucky"
         }
       }
     },
@@ -932,10 +932,10 @@
         },
         "display": {
           "name": "Increased Mob Health",
-          "color": "#dc693c",
+          "color": "#DC693C",
           "description": "+1% Increased Mob Health",
           "descriptionFormatted": "+%d%% Increased Mob Health",
-          "icon": "the_vault:gui/modifiers/destructive"
+          "icon": "the_vault:gui/modifiers/chunky"
         }
       },
       "woldsvaults:mob_health_decrease": {
@@ -946,10 +946,10 @@
         },
         "display": {
           "name": "Decreased Mob Health",
-          "color": "#dc693c",
+          "color": "#D4E157",
           "description": "+1% Decreased Mob Health",
           "descriptionFormatted": "+%d%% Decreased Mob Health",
-          "icon": "the_vault:gui/modifiers/destructive"
+          "icon": "the_vault:gui/modifiers/chunky"
         }
       },
       "woldsvaults:mob_damage_increase": {
@@ -960,10 +960,10 @@
         },
         "display": {
           "name": "Increased Mob Damage",
-          "color": "#dc693c",
+          "color": "#DA6D5A",
           "description": "+1% Increased Mob Damage",
           "descriptionFormatted": "+%d%% Increased Mob Damage",
-          "icon": "the_vault:gui/modifiers/destructive"
+          "icon": "the_vault:gui/modifiers/furious_mobs"
         }
       },
       "woldsvaults:mob_damage_decrease": {
@@ -974,10 +974,10 @@
         },
         "display": {
           "name": "Decreased Mob Damage",
-          "color": "#dc693c",
+          "color": "#8F4538",
           "description": "+1% Decreased Mob Damage",
           "descriptionFormatted": "+%d%% Decreased Mob Damage",
-          "icon": "the_vault:gui/modifiers/destructive"
+          "icon": "the_vault:gui/modifiers/furious_mobs"
         }
       },
       "woldsvaults:mob_speed_increase": {
@@ -988,10 +988,10 @@
         },
         "display": {
           "name": "Increased Mob Speed",
-          "color": "#dc693c",
+          "color": "#F66868",
           "description": "+1% Increased Mob Speed",
           "descriptionFormatted": "+%d%% Increased Mob Speed",
-          "icon": "the_vault:gui/modifiers/destructive"
+          "icon": "the_vault:gui/modifiers/rapid_mobs"
         }
       },
       "woldsvaults:mob_speed_decrease": {
@@ -1002,10 +1002,10 @@
         },
         "display": {
           "name": "Decreased Mob Speed",
-          "color": "#dc693c",
+          "color": "#E6FFFE",
           "description": "+1% Decreased Mob Speed",
           "descriptionFormatted": "+%d%% Decreased Mob Speed",
-          "icon": "the_vault:gui/modifiers/destructive"
+          "icon": "the_vault:gui/modifiers/glued_mobs"
         }
       },
       "woldsvaults:mob_crit_increase": {
@@ -1016,7 +1016,7 @@
         },
         "display": {
           "name": "Increased Mob Critical Chance",
-          "color": "#dc693c",
+          "color": "#FF2222",
           "description": "+1% Increased Mob Critical Chance",
           "descriptionFormatted": "+%d%% Increased Mob Critical Chance",
           "icon": "the_vault:gui/modifiers/destructive"
@@ -1030,7 +1030,7 @@
         },
         "display": {
           "name": "Decreased Mob Critical Chance",
-          "color": "#dc693c",
+          "color": "#771111",
           "description": "+1% Decreased Mob Critical Chance",
           "descriptionFormatted": "+%d%% Decreased Mob Critical Chance",
           "icon": "the_vault:gui/modifiers/destructive"
@@ -1044,10 +1044,10 @@
         },
         "display": {
           "name": "Increased Mob Knockback Resistance",
-          "color": "#dc693c",
+          "color": "#A855A8",
           "description": "+1% Increased Mob Knockback Resistance",
           "descriptionFormatted": "+%d%% Increased Mob Knockback Resistance",
-          "icon": "the_vault:gui/modifiers/destructive"
+          "icon": "the_vault:gui/modifiers/chaotic"
         }
       },
       "woldsvaults:mob_kbr_decrease": {
@@ -1058,10 +1058,10 @@
         },
         "display": {
           "name": "Decreased Mob Knockback Resistance",
-          "color": "#dc693c",
+          "color": "#552B55",
           "description": "+1% Decreased Mob Knockback Resistance",
           "descriptionFormatted": "+%d%% Decreased Mob Knockback Resistance",
-          "icon": "the_vault:gui/modifiers/destructive"
+          "icon": "the_vault:gui/modifiers/chaotic"
         }
       }
     },
@@ -1253,7 +1253,7 @@
         },
         "display": {
           "name": "Increased Mana Regeneration",
-          "color": "#849dc8",
+          "color": "#849DC8",
           "description": "+1% Mana Regeneration",
           "descriptionFormatted": "+%d%% Mana Regeneration",
           "icon": "the_vault:gui/modifiers/draining"
@@ -1267,7 +1267,7 @@
         },
         "display": {
           "name": "Decreased Mana Regeneration",
-          "color": "#849dc8",
+          "color": "#5572A1",
           "description": "-1% Mana Regeneration",
           "descriptionFormatted": "-%d%% Mana Regeneration",
           "icon": "the_vault:gui/modifiers/draining"
@@ -1290,12 +1290,12 @@
       "woldsvaults:player_health_decrease": {
         "properties": {
           "type": "max_health_additive",
-          "amount": 1.0,
+          "amount": -1.0,
           "attributeStackingStrategy": "STACK"
         },
         "display": {
           "name": "Decreased Health",
-          "color": "#FF5555",
+          "color": "#A83232",
           "description": "-1 Health",
           "descriptionFormatted": "-%d Health",
           "icon": "the_vault:gui/modifiers/regeneration"
@@ -1309,7 +1309,7 @@
         },
         "display": {
           "name": "Increased Damage",
-          "color": "#FF5555",
+          "color": "#FFAA00",
           "description": "+1% Increased Damage",
           "descriptionFormatted": "+%d%% Increased Damage",
           "icon": "the_vault:gui/modifiers/god_token_idona"
@@ -1323,7 +1323,7 @@
         },
         "display": {
           "name": "Decreased Damage",
-          "color": "#FF5555",
+          "color": "#A87000",
           "description": "-1% Decreased Damage",
           "descriptionFormatted": "-%d%% Decreased Damage",
           "icon": "the_vault:gui/modifiers/god_token_idona"
@@ -1337,10 +1337,10 @@
         },
         "display": {
           "name": "Increased Knockback Resistance",
-          "color": "#849dc8",
+          "color": "#55FFFF",
           "description": "+1% Increased Knockback Resistance",
           "descriptionFormatted": "+%d%% Increased Knockback Resistance",
-          "icon": "the_vault:gui/modifiers/draining"
+          "icon": "the_vault:gui/modifiers/overpower"
         }
       },
       "woldsvaults:player_knockback_resistance_decrease": {
@@ -1351,10 +1351,10 @@
         },
         "display": {
           "name": "Decreased Knockback Resistance",
-          "color": "#849dc8",
+          "color": "#2B9999",
           "description": "-1% Decreased Knockback Resistance",
           "descriptionFormatted": "-%d%% Decreased Knockback Resistance",
-          "icon": "the_vault:gui/modifiers/draining"
+          "icon": "the_vault:gui/modifiers/overpower"
         }
       }
     },
@@ -1797,7 +1797,7 @@
         },
         "display": {
           "name": "Less Ores",
-          "color": "#FF85FF",
+          "color": "#995099",
           "description": "-1% More Ores",
           "descriptionFormatted": "-%d%% More Ores",
           "icon": "the_vault:gui/modifiers/plentiful"
@@ -1958,10 +1958,10 @@
         },
         "display": {
           "name": "Champion Chance",
-          "color": "#5ece0c",
+          "color": "#5ECE0C",
           "description": "+1% Champion Chance",
           "descriptionFormatted": "+%d%% Champion Chance",
-          "icon": "the_vault:gui/modifiers/champion_increase"
+          "icon": "the_vault:gui/modifiers/champion_domain"
         }
       }
     },
@@ -3968,10 +3968,10 @@
         },
         "display": {
           "name": "Item Quantity and Rarity",
-          "color": "#3ffbf4",
+          "color": "#3FFBF4",
           "description": "+1% Item Quantity and Rarity",
           "descriptionFormatted": "+%d%% Item Quantity and Rarity",
-          "icon": "woldsvaults:gui/modifiers/impossible"
+          "icon": "the_vault:gui/modifiers/treasure"
         }
       },
       "woldsvaults:combined_mob_damage_and_health": {
@@ -3983,10 +3983,10 @@
         },
         "display": {
           "name": "Mob Health and Damage",
-          "color": "#3ffbf4",
+          "color": "#FC7C5C",
           "description": "+1% Mob Health and Damage",
           "descriptionFormatted": "+%d%% Mob Health and Damage",
-          "icon": "woldsvaults:gui/modifiers/impossible"
+          "icon": "the_vault:gui/modifiers/frenzy"
         }
       }
     },
@@ -4160,7 +4160,7 @@
           "name": "More Time",
           "color": "#2F86AE",
           "description": "+1 Second of Vault Time",
-          "descriptionFormatted": "+%d%% Second(s) of Vault Time",
+          "descriptionFormatted": "+%d Second(s) of Vault Time",
           "icon": "the_vault:gui/modifiers/extended"
         }
       },
@@ -4170,9 +4170,9 @@
         },
         "display": {
           "name": "Less Time",
-          "color": "#2F86AE",
+          "color": "#C43A3A",
           "description": "-1 Second of Vault Time",
-          "descriptionFormatted": "-%d%% Second(s) of Vault Time",
+          "descriptionFormatted": "-%d Second(s) of Vault Time",
           "icon": "the_vault:gui/modifiers/extended"
         }
       }

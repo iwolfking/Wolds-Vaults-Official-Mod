@@ -177,7 +177,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text("\n\n4 "));
                 description.add(JsonDescription.text("+100% Damage", "#f99b21"));
                 description.add(JsonDescription.text("\n\n"));
-                TalentDescriptionsHelper.appendOverlevelDescription("Hexbreaker", "add", "+15% Damage", "#f99b21", description);
+                TalentDescriptionsHelper.appendOverlevelDescription("Hexbreaker", "add", "+5% Damage", "#f99b21", description);
             });
 
             builder.addDescription("Ransack", description -> {
