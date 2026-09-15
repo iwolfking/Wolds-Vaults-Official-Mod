@@ -383,7 +383,6 @@
     "vaulthunters.custom.MixinToolForgeRecipe",
     "vaulthunters.custom.MixinToolItem",
     "vaulthunters.custom.MixinToolStationHelper",
-    "vaulthunters.custom.MixinTooltipEvents",
     "vaulthunters.custom.MixinTransmogTableBlock",
     "vaulthunters.custom.MixinTransmogTableContainer",
     "vaulthunters.custom.MixinTransmogTableScreen",
