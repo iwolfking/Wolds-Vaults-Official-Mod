@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 import iskallia.vault.init.ModEffects;
 import iskallia.vault.skill.ability.effect.NecromancyAbility;
 import iskallia.vault.util.calc.AreaOfEffectHelper;
+import iskallia.vault.util.calc.EffectDurationHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -65,7 +66,7 @@ public abstract class NecromancyAbilityMixin {
                         );
 
                         for (LivingEntity target : nearbyTargets) {
-                            NecromancyAbility.applyCurse(target, owner, kind, remainingDuration);
+                            NecromancyAbility.applyCurse(target, owner, kind, EffectDurationHelper.adjustEffectDurationFloor(owner, remainingDuration));
                         }
                     }
                 }
