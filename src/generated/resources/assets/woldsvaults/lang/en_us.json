@@ -674,7 +674,7 @@
   "item.woldsvaults.ritual_dummy.sacrifice_companion": "Ritual: Sacrifice Companion",
   "item.woldsvaults.ritual_dummy.sacrifice_companion.tooltip": "Sacrifice a Companion to Idona and he will reward you with a random Companion Relic!",
   "item.woldsvaults.ritual_dummy.spawn_egg_infusion": "Ritual: Imbue Spawn Egg",
-  "item.woldsvaults.ritual_dummy.spawn_egg_infusion.tooltip": "Imbue a Mystery Egg with life to transform it into a specific type of spawn egg!",
+  "item.woldsvaults.ritual_dummy.spawn_egg_infusion.tooltip": "Imbue a Mystery Egg with life to transform it into a specific type of spawn egg! Note: The sacrificial mob must be present when activating the ritual!",
   "item.woldsvaults.robot_spawn_egg": "Robot Spawn Egg",
   "item.woldsvaults.rotten_apple": "Rotten Apple",
   "item.woldsvaults.rotten_heart": "Rotten Heart",
