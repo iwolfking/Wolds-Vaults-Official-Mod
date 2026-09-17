@@ -61,7 +61,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             TalentDescriptionsHelper.appendOverlevelDescription("Cleave", builder, "add", "+1% Additional damage and +5% Additional Range", "#5ae09c");
             TalentDescriptionsHelper.appendOverlevelDescription("Prudent", builder, "add", "+4% Additional Chance", "#5ae09c");
             TalentDescriptionsHelper.appendOverlevelDescription("Ethereal", builder,"add", "+3% Additional Chance", "#5ae09c");
-            TalentDescriptionsHelper.appendOverlevelDescription("Quickening", builder, "add", "+10% Mana Refunded", "#19A6E4");
+            TalentDescriptionsHelper.appendOverlevelDescription("Quickening", builder, "add", "+10% Cooldown Refunded", "#19A6E4");
             TalentDescriptionsHelper.appendOverlevelDescription("Trap_Disarm", builder, "add", "+10% Trap Disarm Chance", "#4800FF");
             TalentDescriptionsHelper.appendOverlevelDescription("Executioner", builder, "add", "+5% Additional Damage", "#C23627");
             TalentDescriptionsHelper.appendOverlevelDescription("Blizzard", builder, "adds an additional level to the", "Frost Nova", "#2FE1FA");
