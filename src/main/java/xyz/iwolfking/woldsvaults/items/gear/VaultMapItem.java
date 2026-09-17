@@ -391,11 +391,16 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
             }
             else if(!mod.getAttribute().equals(ModGearAttributes.STATIC_PLACEHOLDER_MODIFIER) && vaultMod != null) {
                 VaultModifierStack stack = null;
-                if(vaultMod instanceof DecoratorAddModifier || mod.getValue() instanceof Integer || vaultMod instanceof PlayerAttributeModifier playerStatModifier && playerStatModifier.properties().getType().equals(PlayerAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE)) {
+                if(vaultMod instanceof DecoratorAddModifier || mod.getValue() instanceof Integer) {
                     stack = new VaultModifierStack(vaultMod, (Integer) mod.getValue());
                 }
                 else if(mod.getValue() instanceof Float floatValue) {
-                  stack = new VaultModifierStack(vaultMod, (int)(floatValue * 100));
+                    if(vaultMod instanceof PlayerAttributeModifier playerStatModifier && playerStatModifier.properties().getType().equals(PlayerAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE)) {
+                        stack = new VaultModifierStack(vaultMod, floatValue.intValue());
+                    }
+                    else {
+                        stack = new VaultModifierStack(vaultMod, (int)(floatValue * 100));
+                    }
                 }
 
                 if(stack != null && data.addModifierByCrafting(stack, true, true)) {
