@@ -6,10 +6,9 @@ import iskallia.vault.client.data.ClientGreedData;
 import iskallia.vault.config.VaultCrystalConfig;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.modifier.VaultModifierStack;
-import iskallia.vault.core.vault.modifier.modifier.DecoratorAddModifier;
-import iskallia.vault.core.vault.modifier.modifier.DecoratorCascadeModifier;
-import iskallia.vault.core.vault.modifier.modifier.GroupedModifier;
+import iskallia.vault.core.vault.modifier.modifier.*;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
+import iskallia.vault.core.vault.modifier.spi.EntityAttributeModifier;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.gear.VaultGearClassification;
 import iskallia.vault.gear.VaultGearHelper;
@@ -392,7 +391,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
             }
             else if(!mod.getAttribute().equals(ModGearAttributes.STATIC_PLACEHOLDER_MODIFIER) && vaultMod != null) {
                 VaultModifierStack stack = null;
-                if(vaultMod instanceof DecoratorAddModifier || mod.getValue() instanceof Integer) {
+                if(vaultMod instanceof DecoratorAddModifier || mod.getValue() instanceof Integer || vaultMod instanceof PlayerAttributeModifier playerStatModifier && playerStatModifier.properties().getType().equals(PlayerAttributeModifier.ModifierType.MAX_HEALTH_ADDITIVE)) {
                     stack = new VaultModifierStack(vaultMod, (Integer) mod.getValue());
                 }
                 else if(mod.getValue() instanceof Float floatValue) {
