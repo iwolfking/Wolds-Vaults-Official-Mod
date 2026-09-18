@@ -18,10 +18,7 @@ import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModGases;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModPigments;
-import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyIngredientTypeAttribute;
-import xyz.iwolfking.woldsvaults.integration.vaultfilters.AlchemyItemAttribute;
-import xyz.iwolfking.woldsvaults.integration.vaultfilters.CatalystItemAttribute;
-import xyz.iwolfking.woldsvaults.integration.vaultfilters.VaultDollCompletedAttribute;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.*;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import java.util.HashMap;
@@ -527,6 +524,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("the_vault.gear_modification.reforge_map_tier.description", "Increases tier of Vault Map");
         add("item.the_vault.companion", "Companion");
         add(new VaultDollCompletedAttribute(true), "is a completed Vault Doll", "is not a completed Vault Doll");
+        add(new CardDeckModifierAttribute(""), "has a \"%1$s\" card deck modifier", "doesn't have a \"%1$s\" card deck modifier");
         add("create.item_attributes.has_unusual", "has an unusual modifier");
         add("create.item_attributes.has_unusual.inverted", "doesn't have an unusual modifier");
         add("create.item_attributes.has_divine", "is Divine");

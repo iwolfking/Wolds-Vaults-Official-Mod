@@ -367,6 +367,8 @@
   "create.item_attributes.alchemy_item_attribute.inverted": "is not an Alchemy ingredient",
   "create.item_attributes.antique_name": "is a \"%1$s\" Antique",
   "create.item_attributes.antique_name.inverted": "isn't a \"%1$s\" Antique",
+  "create.item_attributes.card_deck_modifiers": "has a \"%1$s\" card deck modifier",
+  "create.item_attributes.card_deck_modifiers.inverted": "doesn't have a \"%1$s\" card deck modifier",
   "create.item_attributes.catalyst_item_attribute": "is an Alchemy catalyst",
   "create.item_attributes.catalyst_item_attribute.inverted": "is not an Alchemy catalyst",
   "create.item_attributes.etched_layout_tunnel": "is an Etched Vault Layout with a tunnel span of \"%1$s\"",
