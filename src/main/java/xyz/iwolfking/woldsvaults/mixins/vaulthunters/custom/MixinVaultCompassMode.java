@@ -24,6 +24,6 @@ public class MixinVaultCompassMode {
      */
     @Overwrite
     public int getRequirement(VaultDifficulty difficulty) {
-        return this.requirement;
+        return (Object)this == EXIT ? this.requirement : Math.max(1, (int)((double)this.requirement * 0.75F));
     }
 }
