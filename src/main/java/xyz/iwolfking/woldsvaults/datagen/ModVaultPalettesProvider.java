@@ -990,8 +990,8 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                         resourceLocationIntegerMap.put(ResourceLocation.parse("occultism:otherstone_slab"), 1);
                     })
                     .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_SECONDARY, resourceLocationIntegerMap -> {
-                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:netherrack_7"), 6);
-                        resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:netherrack_67"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:netherrack_7"), 6);
+                        resourceLocationIntegerMap.put(ResourceLocation.parse("chipped:netherrack_67"), 6);
                         resourceLocationIntegerMap.put(ResourceLocation.parse("minecraft:netherrack"), 6);
                     })
                     .replace(ThemePaletteBuilder.ThemeBlockType.FLOOR_TERTIRARY, resourceLocationIntegerMap -> {

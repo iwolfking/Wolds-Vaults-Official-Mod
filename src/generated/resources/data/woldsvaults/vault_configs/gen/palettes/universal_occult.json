@@ -249,9 +249,9 @@
       "type": "weighted_target",
       "target": "minecraft:coarse_dirt",
       "output": {
-        "minecraft:netherrack_67": 6,
-        "minecraft:netherrack": 6,
-        "minecraft:netherrack_7": 6
+        "chipped:netherrack_7": 6,
+        "chipped:netherrack_67": 6,
+        "minecraft:netherrack": 6
       }
     },
     {
