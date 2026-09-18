@@ -26,6 +26,32 @@
         "chance": 1.0
       }
     },
+    "the_vault:card_deck": {
+      "mainOutput": {
+        "stack": {
+          "item": "the_vault:gem_pog"
+        },
+        "minCount": 1,
+        "maxCount": 1,
+        "chance": 1.0
+      },
+      "extraOutput1": {
+        "stack": {
+          "item": "the_vault:gem_black_opal"
+        },
+        "minCount": 4,
+        "maxCount": 16,
+        "chance": 1.0
+      },
+      "extraOutput2": {
+        "stack": {
+          "item": "minecraft:air"
+        },
+        "minCount": 0,
+        "maxCount": 0,
+        "chance": 0.0
+      }
+    },
     "the_vault:mod_box": {
       "mainOutput": {
         "stack": {
