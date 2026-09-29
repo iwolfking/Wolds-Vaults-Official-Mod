@@ -40,6 +40,7 @@ public class WoldsVaultsConfig
 
         public final ForgeConfigSpec.ConfigValue<Boolean> enableMoteRecipes;
         public final ForgeConfigSpec.ConfigValue<Boolean> enableDebugMode;
+        public final ForgeConfigSpec.ConfigValue<Boolean> enableHyperVerboseLogging;
         public final ForgeConfigSpec.ConfigValue<Integer> crystalReinforcementMaxCapacityAdded;
         public final ForgeConfigSpec.ConfigValue<Boolean> disableWanderingWispSpawning;
         //public final ForgeConfigSpec.ConfigValue<Boolean> weaponsShouldntBeBetter;
@@ -58,6 +59,8 @@ public class WoldsVaultsConfig
             builder.push("Developer Settings");
             this.enableDebugMode= builder.comment("Don't recommend turning on unless asked, enables debug messages for development. (default: false)")
                     .define("enableDebugMode", false);
+            this.enableHyperVerboseLogging = builder.comment("Logs HYPER vault diagnostics: boss stats and fights, per-hit damage chains, cycle and modifier-policy traces. Errors are always logged. (default: false)")
+                    .define("enableHyperVerboseLogging", false);
             builder.pop();
         }
     }
