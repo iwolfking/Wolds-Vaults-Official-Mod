@@ -33,9 +33,13 @@ public class HyperObjectiveConfig extends Config {
 
     public static final double DEFAULT_SPAWN_SOFT_CAP_THRESHOLD = 2500.0;
     public static final double DEFAULT_SPAWN_SOFT_CAP_COEFFICIENT = 15.0;
+    public static final int DEFAULT_SPAWN_DENSITY_CAP = 1000;
+    public static final int DEFAULT_SPAWN_DENSITY_RADIUS = 48;
 
     @Expose private double spawnSoftCapThreshold;
     @Expose private double spawnSoftCapCoefficient;
+    @Expose private int spawnDensityCap;
+    @Expose private int spawnDensityRadius;
 
     @Expose private int chaosPerKill;
     @Expose private int chaosCap;
@@ -118,6 +122,7 @@ public class HyperObjectiveConfig extends Config {
         this.documentation.put("playerScaleBossHealth", "Extra boss max health per EXTRA runner (0.5 = duo x1.5, trio x2.0); excluded from the loot score");
         this.documentation.put("spawnSoftCapThreshold", "Summed +% Mob Spawns at which the hyper soft cap starts bending the curve (2500 = +2500%); below this the sum is used as-is. Non-positive falls back to the default");
         this.documentation.put("spawnSoftCapCoefficient", "Steepness of the sqrt branch past the threshold - lower clamps harder (15 gives 15*sqrt(x-2443.75)+2387.5). Non-positive falls back to the default");
+        this.documentation.put("spawnDensityCap/spawnDensityRadius", "A spawner burst only tops its surroundings up to this many living monsters within this many blocks; a full area spawns nothing. Non-positive falls back to the default");
         this.documentation.put("chaosPerKill", "Chaos modifiers dumped per boss kill (and once when the vault starts)");
         this.documentation.put("chaosCap", "Total chaos budget for the whole vault (dumps, ambient events and brutal kills all draw from it)");
         this.documentation.put("ambientPeriodTicks", "Ticks between ambient negative modifier pulls (one per runner per period)");
@@ -161,6 +166,8 @@ public class HyperObjectiveConfig extends Config {
 
         this.spawnSoftCapThreshold = DEFAULT_SPAWN_SOFT_CAP_THRESHOLD;
         this.spawnSoftCapCoefficient = DEFAULT_SPAWN_SOFT_CAP_COEFFICIENT;
+        this.spawnDensityCap = DEFAULT_SPAWN_DENSITY_CAP;
+        this.spawnDensityRadius = DEFAULT_SPAWN_DENSITY_RADIUS;
 
         this.chaosPerKill = 25;
         this.chaosCap = 350;
@@ -299,6 +306,18 @@ public class HyperObjectiveConfig extends Config {
 
     public double getSpawnSoftCapCoefficient() {
         return this.spawnSoftCapCoefficient > 0.0 ? this.spawnSoftCapCoefficient : DEFAULT_SPAWN_SOFT_CAP_COEFFICIENT;
+    }
+
+    /**
+     * Same absent-key fallback as the soft-cap getters: a pack hyper_objective.json written
+     * before the density cap existed deserializes these as 0.
+     */
+    public int getSpawnDensityCap() {
+        return this.spawnDensityCap > 0 ? this.spawnDensityCap : DEFAULT_SPAWN_DENSITY_CAP;
+    }
+
+    public int getSpawnDensityRadius() {
+        return this.spawnDensityRadius > 0 ? this.spawnDensityRadius : DEFAULT_SPAWN_DENSITY_RADIUS;
     }
 
     public int getChaosPerKill() {
