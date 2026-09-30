@@ -2170,7 +2170,7 @@
             {
               "filter": "the_vault:ornate_chest",
               "radius": 64.0,
-              "target": "coins",
+              "target": "ornate",
               "color": 16721408
             }
           ]

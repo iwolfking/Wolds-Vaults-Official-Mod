@@ -202,7 +202,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 hunterBuilder.entry(PartialBlockState.of(ModBlocks.COIN_PILE), 64, "coins", 16750592);
             } , "Coin Pile Hunter", "#FF9800", "Highlights Coin Piles in this Vault", null, VaultMod.id("gui/modifiers/wealthy"));
             hunter(modifierBuilder, VaultMod.id("ornate_hunter"), hunterBuilder -> {
-                hunterBuilder.entry(PartialBlockState.of(ModBlocks.ORNATE_CHEST), 64, "coins", 16721408);
+                hunterBuilder.entry(PartialBlockState.of(ModBlocks.ORNATE_CHEST), 64, "ornate", 16721408);
             } , "Ornate Hunter", "#FF2600", "Highlights Ornate Chests in this Vault", null, VaultMod.id("gui/modifiers/ornate"));
             hunter(modifierBuilder, VaultMod.id("gilded_hunter"), hunterBuilder -> {
                 hunterBuilder.entry(PartialBlockState.of(ModBlocks.GILDED_CHEST), 64, "gilded", 16776960);
