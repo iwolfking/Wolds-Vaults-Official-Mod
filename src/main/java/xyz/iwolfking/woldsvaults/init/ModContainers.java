@@ -9,6 +9,7 @@ import net.minecraftforge.event.RegistryEvent;
 import xyz.iwolfking.woldsvaults.blocks.containers.*;
 import xyz.iwolfking.woldsvaults.items.filter_necklace.menus.FilterNecklaceMenu;
 import xyz.iwolfking.woldsvaults.items.scavenger_pouch.menu.ScavengerPouchContainer;
+import xyz.iwolfking.woldsvaults.items.trinket_pouch.menu.PouchMenu;
 
 public class ModContainers {
 
@@ -20,6 +21,7 @@ public class ModContainers {
     public static MenuType<FilterNecklaceMenu> FILTER_NECKLACE_CONTAINER;
     public static MenuType<ScavengerPouchContainer> SCAVENGER_POUCH_CONTAINER;
     public static MenuType<TrinketFusionContainer> TRINKET_FUSION_CONTAINER;
+    public static MenuType<PouchMenu> TRINKET_POUCH_CONTAINER;
 
     public static void register(RegistryEvent.Register<MenuType<?>> event) {
         VAULT_SALVAGER_CONTAINER = IForgeMenuType.create((windowId, inventory, buffer) -> {
@@ -46,11 +48,12 @@ public class ModContainers {
         VAULT_INFUSER_CONTAINER = IForgeMenuType.create(VaultInfuserContainer::create);
         FILTER_NECKLACE_CONTAINER = IForgeMenuType.create(FilterNecklaceMenu::new);
         TRINKET_FUSION_CONTAINER = IForgeMenuType.create(TrinketFusionContainer::new);
+        TRINKET_POUCH_CONTAINER = IForgeMenuType.create(PouchMenu::client);
         SCAVENGER_POUCH_CONTAINER = IForgeMenuType.create((windowId, inventory, data) -> {
             int slot = data.readInt();
             return new ScavengerPouchContainer(windowId, inventory, slot);
         });
-        event.getRegistry().registerAll(new MenuType[]{VAULT_SALVAGER_CONTAINER.setRegistryName("vault_salvager_container"), AUGMENT_CRAFTING_TABLE_CONTAINER.setRegistryName("augment_crafting_table"), VAULT_INFUSER_CONTAINER.setRegistryName("vault_infuser"), MOD_BOX_WORKSTATION_CONTAINER.setRegistryName("mod_box_workstation"), WEAVING_STATION_CONTAINER.setRegistryName("weaving_station_container"), FILTER_NECKLACE_CONTAINER.setRegistryName("filter_necklace_container"), SCAVENGER_POUCH_CONTAINER.setRegistryName("scavenger_pouch_container"), TRINKET_FUSION_CONTAINER.setRegistryName("trinket_fusion_container")});
+        event.getRegistry().registerAll(new MenuType[]{VAULT_SALVAGER_CONTAINER.setRegistryName("vault_salvager_container"), AUGMENT_CRAFTING_TABLE_CONTAINER.setRegistryName("augment_crafting_table"), VAULT_INFUSER_CONTAINER.setRegistryName("vault_infuser"), MOD_BOX_WORKSTATION_CONTAINER.setRegistryName("mod_box_workstation"), WEAVING_STATION_CONTAINER.setRegistryName("weaving_station_container"), FILTER_NECKLACE_CONTAINER.setRegistryName("filter_necklace_container"), SCAVENGER_POUCH_CONTAINER.setRegistryName("scavenger_pouch_container"), TRINKET_FUSION_CONTAINER.setRegistryName("trinket_fusion_container"), TRINKET_POUCH_CONTAINER.setRegistryName("trinket_pouch")});
 
 
     }
