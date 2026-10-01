@@ -7,6 +7,7 @@ import iskallia.vault.core.Version;
 import iskallia.vault.core.data.key.PaletteKey;
 import iskallia.vault.core.data.key.TemplateKey;
 import iskallia.vault.core.util.RegionPos;
+import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.WorldManager;
@@ -24,6 +25,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultGenUtils;
 import xyz.iwolfking.woldsvaults.config.ThemePaletteRegistryConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
@@ -44,7 +47,7 @@ public abstract class MixinVaultGridLayout {
             PlacementSettings instance,
             Processor<T>[] processors,
             Operation<PlacementSettings> original, @Local(name = "entry") TemplateEntry entry, @Local(argsOnly = true) Vault vault, @Local(argsOnly = true) RegionPos regionPos
-            ) {
+    ) {
 
         TemplateKey templateKey = entry.getTemplate();
         ResourceLocation key = templateKey != null ? templateKey.getId() : null;
@@ -52,8 +55,8 @@ public abstract class MixinVaultGridLayout {
             return original.call(instance, processors);
         }
 
-        //Special Room exceptions
-        if(key.getPath().contains("labyrinth")) {
+        // Special Room exceptions
+        if (key.getPath().contains("labyrinth")) {
             return original.call(instance, processors);
         }
 
@@ -67,15 +70,15 @@ public abstract class MixinVaultGridLayout {
             return original.call(instance, processors);
         }
 
-        //Main Theme Palette Application
-        if(!themePaletteMapEntry.FULL_PALETTE_ENTRIES.isEmpty() && ModConfigs.THEME_PALETTE_REGISTRY.EXCLUDED_ROOM_POOLS.stream().noneMatch(s -> key.getPath().contains(s))) {
-            if(VaultGenUtils.isInscriptionRoom(vault, regionPos) && !themePaletteMapEntry.affectsInscriptionRooms) {
+        // Main Theme Palette Application
+        if (!themePaletteMapEntry.FULL_PALETTE_ENTRIES.isEmpty() && ModConfigs.THEME_PALETTE_REGISTRY.EXCLUDED_ROOM_POOLS.stream().noneMatch(s -> key.getPath().contains(s))) {
+            if (VaultGenUtils.isInscriptionRoom(vault, regionPos) && !themePaletteMapEntry.affectsInscriptionRooms) {
                 return original.call(instance, processors);
             }
 
-            for(ResourceLocation paletteId : themePaletteMapEntry.FULL_PALETTE_ENTRIES) {
+            for (ResourceLocation paletteId : themePaletteMapEntry.FULL_PALETTE_ENTRIES) {
                 PaletteKey paletteKey = VaultRegistry.PALETTE.getKey(paletteId);
-                if(paletteKey == null) {
+                if (paletteKey == null) {
                     continue;
                 }
 
@@ -96,33 +99,59 @@ public abstract class MixinVaultGridLayout {
                                             && !id.toString().contains("treasure_door_placeholder");
                                 }
                             }
-                            else if(key.toString().contains("aquarium") && tileProcessor instanceof WeightedTileProcessor weightedTileProcessor && weightedTileProcessor.getPredicate().test(PartialTile.of(Blocks.WATER.defaultBlockState()))) {
+                            else if (key.toString().contains("aquarium") && tileProcessor instanceof WeightedTileProcessor weightedTileProcessor && weightedTileProcessor.getPredicate().test(PartialTile.of(Blocks.WATER.defaultBlockState()))) {
                                 return false;
                             }
-                            else if((key.toString().contains("cube") || key.toString().contains("puzzle")) && tileProcessor instanceof WeightedTileProcessor weightedTileProcessor && weightedTileProcessor.getPredicate().test(PartialTile.of(Blocks.LIME_WOOL.defaultBlockState()))) {
+                            else if ((key.toString().contains("cube") || key.toString().contains("puzzle")) && tileProcessor instanceof WeightedTileProcessor weightedTileProcessor && weightedTileProcessor.getPredicate().test(PartialTile.of(Blocks.LIME_WOOL.defaultBlockState()))) {
                                 return false;
                             }
 
                             return true;
+                        })
+                        .map(tileProcessor -> {
+                            if (key.getPath().contains("mine") && tileProcessor instanceof ReferenceTileProcessor referenceTileProcessor) {
+                                Optional<ResourceLocation> paletteRefId = referenceTileProcessor.getPool().keySet().stream().findFirst();
+                                if (paletteRefId.isPresent()) {
+                                    ResourceLocation originalRefId = paletteRefId.get();
+                                    WoldsVaults.LOGGER.info(originalRefId.toString());
+                                    if (originalRefId.getPath().contains("ore_placeholder")) {
+                                        ResourceLocation mineRefId;
+                                        if(originalRefId.getPath().equals("generic/ore_placeholder")) {
+                                            mineRefId =  ResourceLocUtils.replace(originalRefId, "generic/ore_placeholder", "mine/ore_placeholder_alternate");
+                                        }
+                                        else {
+                                            mineRefId = ResourceLocUtils.replace(originalRefId, "generic/", "mine/");
+                                        }
+
+
+                                        if (VaultRegistry.PALETTE.getKey(mineRefId) != null) {
+                                            ReferenceTileProcessor mineProcessor = new ReferenceTileProcessor(new WeightedList<>());
+                                            mineProcessor.getPool().add(mineRefId, 1);
+                                            return mineProcessor;
+                                        }
+                                    }
+                                }
+                            }
+                            return tileProcessor;
                         })
                         .toList();
                 filteredThemeProcessors.forEach(instance::addProcessorAtBeginning);
             }
         }
 
-        //Palettes that should apply at the end of the processor list
-        if(!themePaletteMapEntry.POST_PROCESSING_PALETTES.isEmpty()) {
-            if(!themePaletteMapEntry.applyPostProcesorsToNormalRooms && ModConfigs.THEME_PALETTE_REGISTRY.EXCLUDED_ROOM_POOLS.stream().noneMatch(s -> key.getPath().contains(s))) {
+        // Palettes that should apply at the end of the processor list
+        if (!themePaletteMapEntry.POST_PROCESSING_PALETTES.isEmpty()) {
+            if (!themePaletteMapEntry.applyPostProcesorsToNormalRooms && ModConfigs.THEME_PALETTE_REGISTRY.EXCLUDED_ROOM_POOLS.stream().noneMatch(s -> key.getPath().contains(s))) {
                 return original.call(instance, processors);
             }
 
-            if(VaultGenUtils.isInscriptionRoom(vault, regionPos) && !themePaletteMapEntry.affectsInscriptionRooms) {
+            if (VaultGenUtils.isInscriptionRoom(vault, regionPos) && !themePaletteMapEntry.affectsInscriptionRooms) {
                 return original.call(instance, processors);
             }
 
-            for(ResourceLocation paletteId :  themePaletteMapEntry.POST_PROCESSING_PALETTES) {
+            for (ResourceLocation paletteId : themePaletteMapEntry.POST_PROCESSING_PALETTES) {
                 PaletteKey paletteKey = VaultRegistry.PALETTE.getKey(paletteId);
-                if(paletteKey == null) {
+                if (paletteKey == null) {
                     continue;
                 }
 

@@ -61,6 +61,11 @@
       "1.0": "woldsvaults:universal_astral_red"
     },
     {
+      "id": "the_vault:mine/ore_placeholder_astral",
+      "name": "Mine Ore Placeholder Astral",
+      "1.0": "the_vault:mine/ore_placeholder_astral"
+    },
+    {
       "id": "woldsvaults:generic/ore_placeholder_astral",
       "name": "Generic Ore Placeholder Astral",
       "1.0": "woldsvaults:generic/ore_placeholder_astral"
@@ -69,6 +74,11 @@
       "id": "woldsvaults:generic/ore_placeholder_magic",
       "name": "Generic Ore Placeholder Magic",
       "1.0": "woldsvaults:generic/ore_placeholder_magic"
+    },
+    {
+      "id": "the_vault:mine/ore_placeholder_magic",
+      "name": "Mine Ore Placeholder Magic",
+      "1.0": "the_vault:mine/ore_placeholder_magic"
     },
     {
       "id": "woldsvaults:generic/spawners/thermal_theme_mobs",

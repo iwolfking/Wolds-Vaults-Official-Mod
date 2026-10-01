@@ -1653,6 +1653,33 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                     .replace(ThemePaletteBuilder.ThemeBlockType.WATER, ModBlocks.GRAY_WATER.getId(), 1);
         });
 
+        add(VaultMod.id("mine/ore_placeholder_astral"), new PaletteBuilder(), p -> {
+            p.placeholder(PlaceholderBlock.Type.ORE, placeholderBuilder -> {
+                placeholderBuilder.probability(0, 0.01, successes -> {
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.PAINITE_ORE, "vault_stone"), 100);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.ALEXANDRITE_ORE, "vault_stone"), 40);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.WUTODIE_ORE, "vault_stone"), 200);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.BENITOITE_ORE, "vault_stone"), 120);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.LARIMAR_ORE, "vault_stone"), 300);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.BLACK_OPAL_ORE, "vault_stone"), 25);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.ECHO_ORE, "vault_stone"), 1);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.ISKALLIUM_ORE, "vault_stone"), 10);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.GORGINITE_ORE, "vault_stone"), 10);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.ASHIUM_ORE, "vault_stone"), 10);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.SPARKLETINE_ORE, "vault_stone"), 10);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.BOMIGNITE_ORE, "vault_stone"), 10);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.TUBIUM_ORE, "vault_stone"), 10);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.UPALINE_ORE, "vault_stone"), 10);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.XENIUM_ORE, "vault_stone"), 10);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.PETZANITE_ORE, "vault_stone"), 10);
+                }, failures -> {
+                    failures.put(DavebuildingmodModBlocks.STARS.getId().toString(), 3);
+                    failures.put(DavebuildingmodModBlocks.VANTA_BLACK.getId().toString(), 7);
+                });
+            });
+        });
+
+
         add(WoldsVaults.id("generic/ore_placeholder_astral"), new PaletteBuilder(), p -> {
             p.placeholder(PlaceholderBlock.Type.ORE, placeholderBuilder -> {
                placeholderBuilder.probability(0, 0.08, successes -> {
@@ -1801,6 +1828,31 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
                     failures.put(iskallia.vault.init.ModBlocks.VAULT_STONE.getRegistryName().toString(), 1);
                 });
                 placeholderBuilder.probability(40, 0.12, successes -> {
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.PAINITE_ORE, "vault_stone"), 100);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.ALEXANDRITE_ORE, "vault_stone"), 80);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.WUTODIE_ORE, "vault_stone"), 200);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.BENITOITE_ORE, "vault_stone"), 200);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.LARIMAR_ORE, "vault_stone"), 300);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.BLACK_OPAL_ORE, "vault_stone"), 25);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.ECHO_ORE, "vault_stone"), 1);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.ISKALLIUM_ORE, "vault_stone"), 5);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.GORGINITE_ORE, "vault_stone"), 5);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.ASHIUM_ORE, "vault_stone"), 5);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.SPARKLETINE_ORE, "vault_stone"), 5);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.BOMIGNITE_ORE, "vault_stone"), 5);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.TUBIUM_ORE, "vault_stone"), 5);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.UPALINE_ORE, "vault_stone"), 5);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.XENIUM_ORE, "vault_stone"), 5);
+                    successes.put(vaultOre(iskallia.vault.init.ModBlocks.PETZANITE_ORE, "vault_stone"), 5);
+                }, failures -> {
+                    failures.put(iskallia.vault.init.ModBlocks.VAULT_STONE.getRegistryName().toString(), 1);
+                });
+            });
+        });
+
+        add(VaultMod.id("mine/ore_placeholder_magic"), new PaletteBuilder(), p -> {
+            p.placeholder(PlaceholderBlock.Type.ORE, placeholderBuilder -> {
+                placeholderBuilder.probability(0, 0.01, successes -> {
                     successes.put(vaultOre(iskallia.vault.init.ModBlocks.PAINITE_ORE, "vault_stone"), 100);
                     successes.put(vaultOre(iskallia.vault.init.ModBlocks.ALEXANDRITE_ORE, "vault_stone"), 80);
                     successes.put(vaultOre(iskallia.vault.init.ModBlocks.WUTODIE_ORE, "vault_stone"), 200);
