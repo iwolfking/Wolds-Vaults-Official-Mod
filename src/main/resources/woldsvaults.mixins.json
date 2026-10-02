@@ -6,6 +6,7 @@
   "refmap": "woldsvaults.refmap.json",
   "plugin": "xyz.iwolfking.woldsvaults.mixins.plugins.WoldMixinPlugin",
   "mixins": [
+    "curios.MixinCurioInventoryWrapper",
     "DimensionDataStorageAccessor",
     "GameRulesBooleanValueAccessor",
     "LivingEntityAccessor",
@@ -174,6 +175,7 @@
     "vaulthunters.accessors.CastOnKillTalentAccessor",
     "vaulthunters.accessors.ClassicCircleCrystalLayoutAccessor",
     "vaulthunters.accessors.ClassicInfiniteCrystalLayoutAccessor",
+    "vaulthunters.accessors.ClassicListenersLogicAccessor",
     "vaulthunters.accessors.ClassicPolygonCrystalLayoutAccessor",
     "vaulthunters.accessors.ClassicSpiralCrystalLayoutAccessor",
     "vaulthunters.accessors.ClientEventsAccessor",
@@ -367,6 +369,8 @@
     "vaulthunters.custom.MixinRewardConfig",
     "vaulthunters.custom.MixinRoyaleDraftContainer",
     "vaulthunters.custom.MixinRoyalePresetConfig",
+    "vaulthunters.custom.MixinRoyaleInventorySnapshotData",
+    "vaulthunters.custom.MixinRoyaleDrafterControllerTileEntity",
     "vaulthunters.custom.MixinRunner",
     "vaulthunters.custom.MixinScavengerObjective",
     "vaulthunters.custom.MixinServerboundRoyaleSelectTrinketMessage",
@@ -539,6 +543,7 @@
     "vaultintegrations.MixinAltarConduitNode"
   ],
   "client": [
+    "vaulthunters.custom.MixinTommyTradeScreen",
     "AccessorParticleEngine",
     "MixinAnvilScreen",
     "MixinItemRenderer",

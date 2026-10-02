@@ -1,54 +1,29 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
-import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.VaultUtils;
-import iskallia.vault.gear.trinket.TrinketEffectRegistry;
-import iskallia.vault.integration.IntegrationCurios;
-import iskallia.vault.item.gear.TrinketItem;
-import iskallia.vault.item.gear.VaultUsesHelper;
 import iskallia.vault.network.message.ServerboundRoyaleSelectTrinketMessage;
-import net.minecraft.resources.ResourceLocation;
+import java.util.function.Supplier;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ServerboundRoyaleSelectTrinketMessageAccessor;
-
-import java.util.UUID;
-import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRoyale;
 
 @Mixin(value = ServerboundRoyaleSelectTrinketMessage.class, remap = false)
 public class MixinServerboundRoyaleSelectTrinketMessage {
-    @Shadow
-    @Final
-    private ResourceLocation trinket;
-
     /**
      * @author iwolfking
-     * @reason Fix only getting 1 trinket if you pick multiple of the same color.
+     * @reason Insert the chosen trinket into the Royale pouch once
      */
     @Overwrite
     public static void handle(ServerboundRoyaleSelectTrinketMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = (NetworkEvent.Context) contextSupplier.get();
+        NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
             if (player != null) {
-                ItemStack stack = TrinketItem.createBaseTrinket(TrinketEffectRegistry.getEffect(((ServerboundRoyaleSelectTrinketMessageAccessor)message).getTrinket()));
-                VaultUsesHelper.setUses(stack, 2);
-                VaultUtils.getVault(player.level).ifPresent((vault) -> VaultUsesHelper.addUsedVault(stack, (UUID) vault.get(Vault.ID)));
-                TrinketItem.getSlotIdentifier(stack).ifPresent((slot) -> {
-                    if(IntegrationCurios.getCurioItemStack(player, slot, 0).isEmpty()) {
-                        IntegrationCurios.setCurioItemStack(player, stack, slot, 0);
-                    }
-                    else {
-                        IntegrationCurios.setCurioItemStack(player, stack, slot, 1);
-                    }
-                });
+                ServerboundRoyaleSelectTrinketMessageAccessor reward = (ServerboundRoyaleSelectTrinketMessageAccessor) message;
+                PouchRoyale.select(player, reward.getTrinket(), reward.getEntityId(), null);
             }
-
         });
         context.setPacketHandled(true);
     }
