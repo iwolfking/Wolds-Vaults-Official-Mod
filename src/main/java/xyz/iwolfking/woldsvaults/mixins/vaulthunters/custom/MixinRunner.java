@@ -56,6 +56,7 @@ import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCrateRewards;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperLog;
 
 import java.util.Iterator;
 import java.util.List;
@@ -138,7 +139,7 @@ public abstract class MixinRunner extends Listener {
                             added++;
                         }
                     }
-                    WoldsVaults.LOGGER.info("Hyper greed bonus rolled at x{} quantity ({} non-coin stacks).",
+                    HyperLog.info("Hyper greed bonus rolled at x{} quantity ({} non-coin stacks).",
                             String.format("%.1f", 1.0F + hyperBonusQuantity), added);
                 }
             }
@@ -156,7 +157,7 @@ public abstract class MixinRunner extends Listener {
                 List<ItemStack> rewards = HyperCrateRewards.rollForVault(vault, greedTier, JavaRandom.ofNanoTime());
                 if (!rewards.isEmpty()) {
                     ((CrateLootGeneratorAccessor) event.getCrateLootGenerator()).getAdditionalItemsWolds().addAll(rewards);
-                    WoldsVaults.LOGGER.info("Injected {} hyper score-tier reward stacks into the completion crate.", rewards.size());
+                    HyperLog.info("Injected {} hyper score-tier reward stacks into the completion crate.", rewards.size());
                 }
             } catch (Exception e) {
                 WoldsVaults.LOGGER.error("Hyper score-tier crate injection failed!", e);

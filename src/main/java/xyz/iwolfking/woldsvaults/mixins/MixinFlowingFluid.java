@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperLog;
 
 /**
  * Hazard pools in Hyper vaults (Volcanic lava, Void Pools void liquid) are bare source blocks
@@ -43,7 +43,7 @@ public abstract class MixinFlowingFluid {
         ci.cancel();
         woldsVaults$hyperPoolFreezeCount++;
         if (woldsVaults$hyperPoolFreezeCount == 1 || woldsVaults$hyperPoolFreezeCount % 200 == 0) {
-            WoldsVaults.LOGGER.info("Froze a hazard-pool fluid tick at {} in a Hyper vault ({} frozen so far).",
+            HyperLog.info("Froze a hazard-pool fluid tick at {} in a Hyper vault ({} frozen so far).",
                     pos, woldsVaults$hyperPoolFreezeCount);
         }
     }

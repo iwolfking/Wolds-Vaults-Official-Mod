@@ -106,7 +106,7 @@ public final class HyperCrateRewards {
     private static void rollEtching(int greedTier, RandomSource random, List<ItemStack> out) {
         int tier = Math.max(1, greedTier);
         if (tier != greedTier) {
-            WoldsVaults.LOGGER.info("Etching reward rolled for a greed-tier-{} player; creating it at tier 1 instead.", greedTier);
+            HyperLog.info("Etching reward rolled for a greed-tier-{} player; creating it at tier 1 instead.", greedTier);
         }
         List<ResourceLocation> ids = new ArrayList<>(ModConfigs.ETCHINGS.getEtchingIds());
         if (ids.isEmpty()) {

@@ -27,6 +27,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperLog;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class HyperVaultEvents {
@@ -70,7 +71,7 @@ public final class HyperVaultEvents {
         }
         event.setResult(Event.Result.DENY);
         if (mob.addTag("woldsvaults_hyper_immortality_denied")) {
-            WoldsVaults.LOGGER.info("Denied Immortality on {} in a hyper vault (mob immortality is disabled here).",
+            HyperLog.info("Denied Immortality on {} in a hyper vault (mob immortality is disabled here).",
                     mob.getType().getRegistryName());
         }
     }
@@ -96,7 +97,7 @@ public final class HyperVaultEvents {
         if (castStealth) {
             player.displayClientMessage(new TextComponent("The Vault's radar reveals you — stealth has no effect!")
                     .withStyle(ChatFormatting.RED), true);
-            WoldsVaults.LOGGER.info("Radar denied {} on {}.", effect.getRegistryName(), player.getGameProfile().getName());
+            HyperLog.info("Radar denied {} on {}.", effect.getRegistryName(), player.getGameProfile().getName());
         }
     }
 
@@ -118,7 +119,7 @@ public final class HyperVaultEvents {
         if (stripped) {
             player.displayClientMessage(new TextComponent("The Vault's radar reveals you — stealth has no effect!")
                     .withStyle(ChatFormatting.RED), true);
-            WoldsVaults.LOGGER.info("Radar stripped an active stealth effect from {}.", player.getGameProfile().getName());
+            HyperLog.info("Radar stripped an active stealth effect from {}.", player.getGameProfile().getName());
         }
     }
 
@@ -152,7 +153,7 @@ public final class HyperVaultEvents {
         float multiplier = (float) HyperVaultObjective.cfg().getWaveBlastDamageMultiplier();
         float amount = event.getAmount() * multiplier;
         player.hurt(DamageSource.mobAttack(boss), amount);
-        WoldsVaults.LOGGER.info("Normalized a hyperboss ability hit on {} to physical: {} raw x{} = {} dealt (armor applies).",
+        HyperLog.info("Normalized a hyperboss ability hit on {} to physical: {} raw x{} = {} dealt (armor applies).",
                 player.getGameProfile().getName(), Math.round(event.getAmount()), multiplier, Math.round(amount));
     }
 
@@ -176,7 +177,7 @@ public final class HyperVaultEvents {
         event.getAffectedBlocks().removeIf(pos -> isPoolOrCasing(level, pos));
         int removed = before - event.getAffectedBlocks().size();
         if (removed > 0) {
-            WoldsVaults.LOGGER.info("Shielded {} pool block(s) from an explosion in a hyper vault.", removed);
+            HyperLog.info("Shielded {} pool block(s) from an explosion in a hyper vault.", removed);
         }
     }
 

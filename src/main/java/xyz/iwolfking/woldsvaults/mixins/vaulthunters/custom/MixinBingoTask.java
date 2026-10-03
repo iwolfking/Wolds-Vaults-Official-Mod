@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.objectives.BallisticBingoObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperLog;
 
 @Mixin(value = BingoTask.class, remap = false)
 public abstract class MixinBingoTask extends ConfiguredTask<ConfiguredTask.Config> implements LevelEntryList.ILevelEntry {
@@ -28,7 +28,7 @@ public abstract class MixinBingoTask extends ConfiguredTask<ConfiguredTask.Confi
     private void woldsVaults$skipLineRewardsInHyperVaults(TaskContext context, CallbackInfo ci) {
         Vault vault = context.getVault();
         if (vault != null && !vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()) {
-            WoldsVaults.LOGGER.info("Suppressed a bingo-line reward — Hyper lines award nothing.");
+            HyperLog.info("Suppressed a bingo-line reward — Hyper lines award nothing.");
             ci.cancel();
         }
     }

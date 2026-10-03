@@ -60,6 +60,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultCrystalObjective;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperLog;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
@@ -356,12 +357,12 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         for (VaultGearModifier<?> mod : mapData.getModifiers(affixType)) {
             if (data.getObjective() instanceof HyperVaultCrystalObjective
                     && WoldsVaults.id("cull").equals(mod.getModifierIdentifier())) {
-                WoldsVaults.LOGGER.info("Stripped the Cull map modifier from a Hyper crystal.");
+                HyperLog.info("Stripped the Cull map modifier from a Hyper crystal.");
                 continue;
             }
             if (data.getObjective() instanceof HyperVaultCrystalObjective
                     && HyperModifierPolicy.isBannedCastOnKill(mod.getModifierIdentifier())) {
-                WoldsVaults.LOGGER.info("Stripped the {} map modifier from a Hyper crystal - cast-on-kill effects are banned in Hyper.", mod.getModifierIdentifier());
+                HyperLog.info("Stripped the {} map modifier from a Hyper crystal - cast-on-kill effects are banned in Hyper.", mod.getModifierIdentifier());
                 continue;
             }
             VaultModifier<?> vaultMod = VaultModifierRegistry.get(mod.getModifierIdentifier());

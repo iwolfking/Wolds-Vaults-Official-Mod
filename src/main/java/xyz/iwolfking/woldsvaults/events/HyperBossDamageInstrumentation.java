@@ -21,9 +21,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.DamageMultiplierAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.PlayerDamageHelperAccessor;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperLog;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -31,10 +31,10 @@ import java.util.UUID;
 
 /**
  * Per-hit damage diagnostics for the hyperboss, kept for future balance forensics but fully
- * gated behind {@code enableDebugMode} (woldsvaults-common.toml): with it off — the shipped
- * default — every handler is a boolean check and normal gameplay logs nothing.
+ * gated behind {@code enableHyperVerboseLogging} (woldsvaults-common.toml): with it off — the
+ * shipped default — every handler is a boolean check and normal gameplay logs nothing.
  *
- * <p>With debug mode on, each hyperboss hit logs a hurt-event chain sampled at every priority
+ * <p>With verbose hyper logging on, each hyperboss hit logs a hurt-event chain sampled at every priority
  * band (attributing which band multiplied what — VH's own gear pipeline, the frenzy rework and
  * target-side effects all run in different bands), a full dump of the player's live
  * damage-multiplier registry, and a post-armor line. This is the tooling that decoded the
@@ -57,7 +57,7 @@ public final class HyperBossDamageInstrumentation {
     }
 
     private static boolean off() {
-        return !WoldsVaultsConfig.COMMON.enableDebugMode.get();
+        return !HyperLog.enabled();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -129,7 +129,7 @@ public final class HyperBossDamageInstrumentation {
             attackerInfo = attacker == null ? "none" : String.valueOf(attacker.getType().getRegistryName());
         }
 
-        WoldsVaults.LOGGER.info(
+        HyperLog.info(
                 "Hyperboss hurt chain: raw {} | xHIGH {} | xNORMAL {} | xLOW {} | xLOWEST {} -> final {} ({}% of max) | source={} attacker={} | boss {}/{}",
                 a == null ? "?" : String.format("%.1f", a[0]),
                 bandMultiplier(a, 0, 1), bandMultiplier(a, 1, 2), bandMultiplier(a, 2, 3),
@@ -173,7 +173,7 @@ public final class HyperBossDamageInstrumentation {
                         access.getTickTimeout() == Integer.MAX_VALUE ? "inf" : String.valueOf(access.getTickTimeout())));
             }
             MobEffectInstance vulnerable = boss.getEffect(ModEffects.VULNERABLE);
-            WoldsVaults.LOGGER.info(
+            HyperLog.info(
                     "  hit detail: charge={} fatalStrike={} (chance {} | +{}% dmg) | damageHelper x{} = (1+{}) x {} from:{} | rage {} (x{}/pt) | retribution {} (x{}/pt) | target vulnerableAmp={}",
                     String.format("%.2f", AttackScaleHelper.getLastAttackScale(player)),
                     CritHelper.getCrit(player),
@@ -218,7 +218,7 @@ public final class HyperBossDamageInstrumentation {
         }
         Float start = DAMAGE_PHASE_START.get();
         DAMAGE_PHASE_START.remove();
-        WoldsVaults.LOGGER.info("Hyperboss post-armor: {} -> {} (x{})",
+        HyperLog.info("Hyperboss post-armor: {} -> {} (x{})",
                 start == null ? "?" : String.format("%.1f", start),
                 String.format("%.1f", event.getAmount()),
                 start == null || start == 0.0F ? "?" : String.format("%.2f", event.getAmount() / start));

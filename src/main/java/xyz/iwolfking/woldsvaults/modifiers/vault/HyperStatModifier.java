@@ -17,8 +17,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperLog;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -68,7 +68,7 @@ public class HyperStatModifier extends VaultModifier<HyperStatModifier.Propertie
             }
             double compounding = Math.pow(this.properties.getStatFactor(), stacks) - 1.0D;
             if (compounding > MAX_COMPOUNDING) {
-                WoldsVaults.LOGGER.warn(
+                HyperLog.warn(
                         "HYPER overflow clamp: cycle {} stat multiplier x{} exceeds the float-safety ceiling x{} — clamped for {} (unclamped it overflows to Infinity and decays into the NaN-health bug).",
                         stacks, String.format("%.4g", compounding + 1.0D), String.format("%.1g", MAX_COMPOUNDING),
                         entity.getType().getRegistryName());

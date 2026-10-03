@@ -365,7 +365,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
         WorldZonesData.get(world.getServer()).getOrCreate(world.dimension()).remove(zoneId);
         objective.set(HyperVaultObjective.ZONE_ID, 0);
-        WoldsVaults.LOGGER.info("Removed the boss room's no-modify zone ({}).", zoneId);
+        HyperLog.info("Removed the boss room's no-modify zone ({}).", zoneId);
     }
 
     /**
@@ -383,7 +383,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
         spawns.forEach(Entity::discard);
         if (!spawns.isEmpty()) {
-            WoldsVaults.LOGGER.info("Discarded {} leftover hyperboss fight spawns.", spawns.size());
+            HyperLog.info("Discarded {} leftover hyperboss fight spawns.", spawns.size());
         }
     }
 
