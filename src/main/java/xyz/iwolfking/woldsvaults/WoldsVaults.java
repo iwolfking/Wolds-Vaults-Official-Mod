@@ -14,6 +14,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
@@ -61,6 +62,8 @@ import xyz.iwolfking.woldsvaults.api.data.recipes.CachedInfuserRecipeData;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
+import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchCapability;
+import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
 import xyz.iwolfking.woldsvaults.models.AdditionalModels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
@@ -83,6 +86,7 @@ public class WoldsVaults {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(PouchCapability::register);
 
         modEventBus.register(new ModRecipeSerializers());
 
@@ -94,6 +98,9 @@ public class WoldsVaults {
         MinecraftForge.EVENT_BUS.addGenericListener(Block.class, MissingMappingsEvents::onMissingMappings);
         MinecraftForge.EVENT_BUS.addGenericListener(Item.class, MissingMappingsEvents::onMissingMappingsItem);
         MinecraftForge.EVENT_BUS.addListener(RegisterCommandEventHandler::woldsvaults_registerCommandsEvent);
+        MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, PouchCapability::attach);
+        MinecraftForge.EVENT_BUS.addListener(PouchRuntime::tick);
+        MinecraftForge.EVENT_BUS.addListener(PouchRuntime::logout);
 
         if(ConditionalModUtils.isModPresent("occultism")) {
             OccultismRecipeSerializers.SERIALIZERS.register(modEventBus);

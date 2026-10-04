@@ -6,16 +6,21 @@ import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.entry.LevelEntryList;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.WorldManager;
 import iskallia.vault.core.vault.player.ClassicListenersLogic;
+import iskallia.vault.gear.trinket.TrinketEffect;
+import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.gear.VaultCharmItem;
 import iskallia.vault.item.gear.VaultNecklaceItem;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.expertise.type.TrinketerExpertise;
 import iskallia.vault.world.data.PlayerExpertisesData;
+import java.util.List;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -126,5 +131,19 @@ public class MixinClassicListenersLogic {
         }
 
         return original.call(instance, key);
+    }
+
+    @WrapOperation(method = "lambda$onJoin$19", at = @At(value = "INVOKE",
+            target = "Liskallia/vault/gear/trinket/TrinketHelper;getTrinkets(Lnet/minecraft/world/entity/LivingEntity;)Ljava/util/List;"))
+    private List<TrinketHelper.TrinketStack<TrinketEffect<?>>> skipPersonalTrinketUsesInRoyale(LivingEntity entity,
+            Operation<List<TrinketHelper.TrinketStack<TrinketEffect<?>>>> original, @Local(argsOnly = true) Vault vault) {
+        return VaultUtils.isRoyaleVault(vault) ? List.of() : original.call(entity);
+    }
+
+    @WrapOperation(method = "lambda$onJoin$19", at = @At(value = "INVOKE",
+            target = "Liskallia/vault/gear/trinket/TrinketHelper;getTrinkets(Lnet/minecraft/world/entity/LivingEntity;Ljava/lang/Class;)Ljava/util/List;"))
+    private <T extends TrinketEffect<?>> List<TrinketHelper.TrinketStack<T>> skipPersonalTimeBonusInRoyale(LivingEntity entity,
+            Class<T> effectClass, Operation<List<TrinketHelper.TrinketStack<T>>> original, @Local(argsOnly = true) Vault vault) {
+        return VaultUtils.isRoyaleVault(vault) ? List.of() : original.call(entity, effectClass);
     }
 }

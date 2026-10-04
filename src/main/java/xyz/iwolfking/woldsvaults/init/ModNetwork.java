@@ -13,6 +13,9 @@ import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage;
 import xyz.iwolfking.woldsvaults.network.message.ElixirParticleMessage;
 import xyz.iwolfking.woldsvaults.network.message.MagicMissileWarningMessage;
+import xyz.iwolfking.woldsvaults.network.packets.ClientboundTrinketPouchStatePacket;
+import xyz.iwolfking.woldsvaults.network.packets.ServerboundOpenTrinketPouchPacket;
+import xyz.iwolfking.woldsvaults.network.packets.ServerboundRenameTrinketPouchPresetPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSetTrinketSpeedCapPacket;
 import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
@@ -39,6 +42,9 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, MagicMissileWarningMessage.class, MagicMissileWarningMessage::encode, MagicMissileWarningMessage::decode, MagicMissileWarningMessage::handle);
         CHANNEL.registerMessage(id++, LuckyHitCooldownParticleMessage.class, LuckyHitCooldownParticleMessage::encode, LuckyHitCooldownParticleMessage::decode, LuckyHitCooldownParticleMessage::handle);
         CHANNEL.registerMessage(id++, ServerboundSetTrinketSpeedCapPacket.class, ServerboundSetTrinketSpeedCapPacket::encode, ServerboundSetTrinketSpeedCapPacket::decode, ServerboundSetTrinketSpeedCapPacket::handle);
+        CHANNEL.registerMessage(id++, ServerboundOpenTrinketPouchPacket.class, ServerboundOpenTrinketPouchPacket::encode, ServerboundOpenTrinketPouchPacket::decode, ServerboundOpenTrinketPouchPacket::handle);
+        CHANNEL.registerMessage(id++, ClientboundTrinketPouchStatePacket.class, ClientboundTrinketPouchStatePacket::encode, ClientboundTrinketPouchStatePacket::decode, ClientboundTrinketPouchStatePacket::handle);
+        CHANNEL.registerMessage(id++, ServerboundRenameTrinketPouchPresetPacket.class, ServerboundRenameTrinketPouchPresetPacket::encode, ServerboundRenameTrinketPouchPresetPacket::decode, ServerboundRenameTrinketPouchPresetPacket::handle);
     }
 
     public static <T> void sendToServer(T message) {

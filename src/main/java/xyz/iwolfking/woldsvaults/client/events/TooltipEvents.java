@@ -6,12 +6,15 @@ import iskallia.vault.item.gear.TrinketItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
+import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
 import xyz.iwolfking.woldsvaults.items.CombinedTrinketItem;
 
@@ -22,6 +25,18 @@ import java.util.Set;
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class TooltipEvents {
     private static boolean loggedInsertFallback = false;
+
+    @SubscribeEvent
+    public static void onTrinketPouchTooltip(ItemTooltipEvent event) {
+        if (!PouchHelper.isPouch(event.getItemStack())) {
+            return;
+        }
+        event.getToolTip().add(new TranslatableComponent("item.woldsvaults.trinket_pouch.open").withStyle(ChatFormatting.GRAY));
+        event.getToolTip().add((ModKeybinds.openTrinketPouch.isUnbound()
+                ? new TranslatableComponent("item.woldsvaults.trinket_pouch.unbound")
+                : new TranslatableComponent("item.woldsvaults.trinket_pouch.shortcut", ModKeybinds.openTrinketPouch.getTranslatedKeyMessage()))
+                .withStyle(ChatFormatting.DARK_GRAY));
+    }
 
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
