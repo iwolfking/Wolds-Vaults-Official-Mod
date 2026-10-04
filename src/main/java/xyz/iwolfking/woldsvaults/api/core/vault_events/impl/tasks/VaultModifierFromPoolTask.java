@@ -8,10 +8,10 @@ import iskallia.vault.init.ModConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperLog;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
         ResourceLocation poolId = this.modifierPoolId;
         if (HYPER_REDIRECTED_POOLS.contains(poolId)
                 && !vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()) {
-            WoldsVaults.LOGGER.info("Enchanted event redirected its {} modifier pull to the filtered hyper pool.", poolId);
+            HyperLog.info("Enchanted event redirected its {} modifier pull to the filtered hyper pool.", poolId);
             List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS
                     .getRandom(HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS, 0, JavaRandom.ofNanoTime());
             for (VaultModifier<?> modifier : modifiers) {
@@ -69,7 +69,7 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
                     .getRandom(poolId, 0, JavaRandom.ofNanoTime());
             for (VaultModifier<?> modifier : modifiers) {
                 if (HyperModifierPolicy.isBanned(modifier.getId().toString())) {
-                    WoldsVaults.LOGGER.info("Enchanted {} pull dropped {} — banned in Hyper vaults.", poolId, modifier.getId());
+                    HyperLog.info("Enchanted {} pull dropped {} — banned in Hyper vaults.", poolId, modifier.getId());
                     continue;
                 }
                 if (HyperModifierPolicy.isStackCapped(vault, modifier)) {

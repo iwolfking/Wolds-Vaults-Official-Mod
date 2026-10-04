@@ -77,7 +77,7 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
     private void pinCardJoinCounters() {
         objective.findMini(BingoObjective.class).ifPresent(bingo -> {
             if (bingo.getOr(BingoObjective.JOINED, 0) != 1) {
-                WoldsVaults.LOGGER.info("Re-pinned the bingo card's JOINED counter to 1 (hyper does its own player scaling).");
+                HyperLog.info("Re-pinned the bingo card's JOINED counter to 1 (hyper does its own player scaling).");
                 bingo.set(BingoObjective.JOINED, 1);
             }
         });

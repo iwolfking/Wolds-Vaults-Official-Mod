@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperLog;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 
 public class BallisticBingoObjective extends BingoObjective {
@@ -473,7 +473,7 @@ public class BallisticBingoObjective extends BingoObjective {
                 VaultModifier<?> mod = modIter.next();
                 if (!vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()
                         && HyperModifierPolicy.isBannedCastOnKill(mod.getId())) {
-                    WoldsVaults.LOGGER.info("Dropped the {} bingo task reward - cast-on-kill effects are banned in Hyper.", mod.getId());
+                    HyperLog.info("Dropped the {} bingo task reward - cast-on-kill effects are banned in Hyper.", mod.getId());
                     continue;
                 }
                 TextComponent suffix = (TextComponent) mod.getChatDisplayNameComponent(1);

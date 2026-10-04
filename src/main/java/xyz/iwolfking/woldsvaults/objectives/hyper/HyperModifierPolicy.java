@@ -184,7 +184,7 @@ public final class HyperModifierPolicy {
                 || VaultModifierUtils.getCountOfModifiers(vault, modifier.getId()) < cap) {
             return false;
         }
-        WoldsVaults.LOGGER.info("Skipped rolling another {} — capped at {} stack(s) in Hyper vaults.", modifier.getId(), cap);
+        HyperLog.info("Skipped rolling another {} — capped at {} stack(s) in Hyper vaults.", modifier.getId(), cap);
         return true;
     }
 }
