@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.events;
 
 import atomicstryker.infernalmobs.common.InfernalMobsCore;
 import cofh.core.init.CoreMobEffects;
+import com.mojang.math.Vector3f;
 import iskallia.vault.block.CoinPileBlock;
 import iskallia.vault.block.VaultChestBlock;
 import iskallia.vault.block.VaultOreBlock;
@@ -42,6 +43,7 @@ import iskallia.vault.world.data.PlayerTalentsData;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -60,6 +62,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -82,6 +85,7 @@ import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
+import xyz.iwolfking.woldsvaults.items.gear.VaultScepterItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
@@ -92,6 +96,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(
         modid = WoldsVaults.MOD_ID
@@ -109,41 +114,108 @@ public class LivingEntityEvents {
     @SubscribeEvent
     public static void onScepterHitSparkles(LivingHurtEvent event) {
         if (!(event.getSource().getEntity() instanceof ServerPlayer player)) return;
+        if (ActiveFlags.IS_AP_ATTACKING.isSet()) return;
 
         ItemStack heldItem = player.getMainHandItem();
         GearDataCache gearDataCache = GearDataCache.of(heldItem);
-        if(!gearDataCache.hasAttribute(ModGearAttributes.SCEPTER_SPARKLES)) {
+        if (!gearDataCache.hasAttribute(ModGearAttributes.SCEPTER_SPARKLES)) {
             return;
         }
+
+        LivingEntity victim = event.getEntityLiving();
+        Level level = player.getLevel();
+
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
         float playerAP = AbilityPowerHelper.getAbilityPower(player);
         float aoeBonus = AreaOfEffectHelper.getAreaOfEffectUnlimited(player);
         double radius = 3.5 * (1.0F + aoeBonus);
 
-        LivingEntity victim = event.getEntityLiving();
-        Level level = player.getLevel();
-
         AABB searchBox = victim.getBoundingBox().inflate(radius);
-        List<LivingEntity> nearbyTargets = level.getEntitiesOfClass(LivingEntity.class, searchBox, e ->
+        List<LivingEntity> nearbyTargets = serverLevel.getEntitiesOfClass(LivingEntity.class, searchBox, e ->
                 e != player && e != victim && e.isAlive() && !e.isAlliedTo(player)
         );
 
+        if (nearbyTargets.isEmpty()) return;
+
         float sparkleDamage = playerAP * 0.1F;
 
+        Vector3f startColor = new Vector3f(0.8F, 0.2F, 1.0F);
+        Vector3f endColor = new Vector3f(0.3F, 0.9F, 1.0F);
+
         for (LivingEntity target : nearbyTargets) {
-            WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> {
-                ActiveFlags.IS_AP_ATTACKING.push();
-                DamageSource sparkleSource = DamageSource.indirectMagic(player, player);
-                target.hurt(sparkleSource, sparkleDamage);
-                ActiveFlags.IS_AP_ATTACKING.pop();
+            Vec3 originPos = victim.position().add(0, victim.getBbHeight() * 0.5, 0);
+
+            spawnSparkleParticleLine(
+                    serverLevel,
+                    originPos,
+                    () -> target.position().add(0, target.getBbHeight() * 0.5, 0),
+                    startColor,
+                    endColor,
+                    8,
+                    1,
+                    () -> {
+                        if (target.isAlive()) {
+                            WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> {
+                                ActiveFlags.IS_AP_ATTACKING.push();
+                                try {
+                                    DamageSource sparkleSource = DamageSource.indirectMagic(player, player);
+                                    target.hurt(sparkleSource, sparkleDamage);
+                                } finally {
+                                    ActiveFlags.IS_AP_ATTACKING.pop();
+                                }
+                            });
+
+                            serverLevel.sendParticles(ParticleTypes.ENCHANT,
+                                    target.getX(), target.getY() + target.getBbHeight() / 2.0, target.getZ(),
+                                    12, 0.2, 0.2, 0.2, 0.4);
+                        }
+                    }
+            );
+        }
+    }
+
+
+    private static void spawnSparkleParticleLine(
+            ServerLevel level,
+            Vec3 from,
+            Supplier<Vec3> toSupplier,
+            Vector3f startColor,
+            Vector3f endColor,
+            int steps,
+            int ticksBetween,
+            Runnable onArrival
+    ) {
+        Vec3 mid = from.add(0, 0.5, 0);
+        Vec3 controlOffset = new Vec3(
+                (level.random.nextDouble() - 0.5) * 2.0,
+                1.0 + level.random.nextDouble(),
+                (level.random.nextDouble() - 0.5) * 2.0
+        );
+
+        for (int i = 0; i <= steps; i++) {
+            final int stepIndex = i;
+            double t = (double) stepIndex / steps;
+
+            DelayedExecutionHelper.schedule(level, stepIndex * ticksBetween, () -> {
+                Vec3 to = toSupplier.get();
+                Vec3 control = mid.add(controlOffset);
+
+                Vec3 pos = from.scale((1 - t) * (1 - t))
+                        .add(control.scale(2 * (1 - t) * t))
+                        .add(to.scale(t * t));
+
+                float r = (float) (startColor.x() + t * (endColor.x() - startColor.x()));
+                float g = (float) (startColor.y() + t * (endColor.y() - startColor.y()));
+                float b = (float) (startColor.z() + t * (endColor.z() - startColor.z()));
+                DustParticleOptions particle = new DustParticleOptions(new Vector3f(r, g, b), 1.2F);
+
+                level.sendParticles(particle, pos.x, pos.y, pos.z, 2, 0.05, 0.05, 0.05, 0.01);
+
+                if (stepIndex == steps && onArrival != null) {
+                    onArrival.run();
+                }
             });
-
-
-            if (level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.ENCHANT,
-                        target.getX(), target.getY() + target.getBbHeight() / 2.0, target.getZ(),
-                        15, 0.2, 0.2, 0.2, 0.5);
-            }
         }
     }
 
