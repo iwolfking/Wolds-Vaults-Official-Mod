@@ -371,6 +371,7 @@
     "vaulthunters.custom.MixinRoyalePresetConfig",
     "vaulthunters.custom.MixinRoyaleInventorySnapshotData",
     "vaulthunters.custom.MixinRoyaleDrafterControllerTileEntity",
+    "vaulthunters.custom.MixinRuneBossFight",
     "vaulthunters.custom.MixinRunner",
     "vaulthunters.custom.MixinScavengerObjective",
     "vaulthunters.custom.MixinServerboundRoyaleSelectTrinketMessage",
