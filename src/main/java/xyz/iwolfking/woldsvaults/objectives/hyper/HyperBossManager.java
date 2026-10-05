@@ -54,6 +54,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.api.util.ducks.DuckRuneBossFightFreeze;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.entities.projectiles.MagicMissileEntity;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
@@ -220,6 +221,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         pillar.getModifiers().setReviveAbility(null);
 
         objective.set(HyperVaultObjective.SCORE, 0);
+        objective.set(HyperVaultObjective.BOSS_KILLED, false);
         fights.add(pillar.createFight());
         objective.set(HyperVaultObjective.PHASE, Phase.FIGHT);
         objective.set(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.cfg().getWavePeriodTicks());
@@ -327,8 +329,9 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     }
 
     /**
-     * Drives the FIGHT phase. No pending fight counts as a kill — the machinery also completes
-     * that way if the boss entity vanishes on a reload edge, indistinguishable from a kill here.
+     * Drives the FIGHT phase. A finished fight advances the cycle only if the boss's death was
+     * recorded; any other ending re-arms the pillar at the same cycle. While the boss is
+     * unloaded (MixinRuneBossFight freezes the fight) nothing here ticks.
      */
     @Override
     public void tick() {
@@ -337,7 +340,15 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         }
         RuneBossFights fights = objective.get(HyperVaultObjective.FIGHTS);
         if (!fights.hasPendingFight()) {
-            escalation.onBossKilled();
+            if (objective.getOr(HyperVaultObjective.BOSS_KILLED, false)) {
+                escalation.onBossKilled();
+            } else {
+                WoldsVaults.LOGGER.error("Hyperboss fight ended without a recorded boss death; re-arming the pillar instead of advancing the cycle.");
+                escalation.onFightVanished();
+            }
+            return;
+        }
+        if (activeFight(fights) instanceof DuckRuneBossFightFreeze freeze && freeze.isBossUnloaded()) {
             return;
         }
 
