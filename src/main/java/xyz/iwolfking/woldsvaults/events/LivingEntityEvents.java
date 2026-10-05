@@ -14,6 +14,7 @@ import iskallia.vault.entity.VaultBoss;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.entity.champion.ChampionLogic;
+import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.entity.entity.elite.EliteDrownedEntity;
 import iskallia.vault.entity.entity.elite.EliteEndermanEntity;
 import iskallia.vault.entity.entity.elite.EliteHuskEntity;
@@ -133,7 +134,7 @@ public class LivingEntityEvents {
 
         AABB searchBox = victim.getBoundingBox().inflate(radius);
         List<LivingEntity> nearbyTargets = serverLevel.getEntitiesOfClass(LivingEntity.class, searchBox, e ->
-                e != player && e != victim && e.isAlive() && !e.isAlliedTo(player)
+                !(e instanceof Player) && e.isAlive() && !e.isAlliedTo(player) && !(e instanceof PetEntity)
         );
 
         if (nearbyTargets.isEmpty()) return;

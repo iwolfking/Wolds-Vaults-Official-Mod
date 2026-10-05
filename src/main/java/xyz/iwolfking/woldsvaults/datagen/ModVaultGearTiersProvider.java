@@ -73,6 +73,11 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_SPARKLES, "ModScepterType", "base_sparkles_type", List.of(), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, -1, 10, true);
                 });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.AP_SCALING_DAMAGE, "ModScepterType", "base_ap_scaling_damage", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 60, 10, 0.28F, 0.35F, 0.01F);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, 0.36, 0.45F, 0.01F);
+                    vaultGearModifierTiersBuilder.add(75, -1, 10, 0.45, 0.65F, 0.01F);
+                });
             });
             builder.add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER, "ModOnHitAddition", "mod_ability_power", List.of(), vaultGearModifierTiersBuilder -> {
