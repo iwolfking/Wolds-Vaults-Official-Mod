@@ -124,6 +124,8 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<ParticleTrailAttribute> PARTICLE_TRAIL =  attr("particle_trail", ParticleTrailAttribute.type(), ParticleTrailAttribute.generator(), ParticleTrailAttribute.reader(), ParticleTrailAttribute.comparator());
     public static final VaultGearAttribute<HeartFragmentOnLootAttribute> HEART_FRAGMENT_ON_LOOT =  woldsAttr("heart_fragment_on_loot", HeartFragmentOnLootAttribute.type(), HeartFragmentOnLootAttribute.generator(), HeartFragmentOnLootAttribute.reader(), HeartFragmentOnLootAttribute.comparator());
 
+    //Scepter Modifiers
+    public static final VaultGearAttribute<Boolean> SCEPTER_SPARKLES = woldsAttr("scepter_sparkles", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Sparkles", 8247956), VaultGearAttributeComparator.booleanComparator());
     //Deprecated
     @Deprecated
     public static final VaultGearAttribute<String> WEAPON_TYPE = attr("weapon_type", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.weaponTypeReader("Weapon Type", 888888, "Type: %s"));
@@ -203,6 +205,7 @@ public class ModGearAttributes {
                       registry.register(HEART_FRAGMENT_ON_LOOT);
                       registry.register(ADDITIONAL_STACKING_STACKS);
                       registry.register(RADIATION_IMMUNITY);
+                      registry.register(SCEPTER_SPARKLES);
        }
   
     public static void registerVanillaAssociations() {

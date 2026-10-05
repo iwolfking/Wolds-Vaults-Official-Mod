@@ -30,6 +30,81 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
 
     @Override
     public void registerConfigs() {
+        add("scepter", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DURABILITY, "BaseDurability", "base_durability", List.of("resilientFocusTarget"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 40, 10, 3425, 4225, 1);
+                    vaultGearModifierTiersBuilder.add(8, 70, 10, 4226, 5225, 1);
+                    vaultGearModifierTiersBuilder.add(25, -1, 10, 5226, 6325, 1);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, 6826, 8325, 1);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 8576, 10375, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.SOULBOUND, "BaseSoulbound", "base_soulbound", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.SOULBOUND, "BaseSoulbound", "base_no_soulbound", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 80, false);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.LIVING, "BaseLiving", "base_no_living", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 98, false);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.LIVING, "BaseLiving", "base_living", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 2, true);
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER, "BaseAbilityPower", "base_ability_power", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 15, 10, 9, 15, 1);
+                    vaultGearModifierTiersBuilder.add(10, 47, 10, 16, 24, 1);
+                    vaultGearModifierTiersBuilder.add(16, 57, 10, 24, 32, 1);
+                    vaultGearModifierTiersBuilder.add(25, 63, 10, 32, 42, 1);
+                    vaultGearModifierTiersBuilder.add(48, 82, 10, 42, 55, 1);
+                    vaultGearModifierTiersBuilder.add(58, -1, 10, 55, 70, 1);
+                    vaultGearModifierTiersBuilder.add(68, -1, 10, 70, 80, 1);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 80, 90, 1);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 90, 105, 1);
+                    vaultGearModifierTiersBuilder.add(95, -1, 10, 105, 110, 1);
+                    vaultGearModifierTiersBuilder.add(100, -1, 10, 110, 120, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED, "BaseAttackSpeed", "base_attack_speed", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, -2.4, -2.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, -2.3, -2.2, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_SPARKLES, "ModScepterType", "base_sparkles_type", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER, "ModOnHitAddition", "mod_ability_power", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 49, 10, 2, 6, 1);
+                    vaultGearModifierTiersBuilder.add(25, 74, 10, 7, 12, 1);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, 12, 17, 1);
+                    vaultGearModifierTiersBuilder.add(75, -1, 10, 17, 25, 1);
+                    vaultGearModifierTiersBuilder.add(100, -1, 10, 25, 30, 1);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 30, 40, 1);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 40, 65, 1);
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED, "ModAttackType", "mod_attack_speed_percent", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(65, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(96, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.26, 3, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.31, 0.35, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_RANGE, "ModAttackType", "mod_attack_range", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.1, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(20, -1, 10, 0.21, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(45, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(75, -1, 10, 0.41, 0.5, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.5, 0.65, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.66, 1.0, 0.01);
+                });
+            });
+        });
+
         addToAllOffhands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.LEECH);
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MANA_ADDITIVE);

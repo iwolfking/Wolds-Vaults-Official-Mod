@@ -60,6 +60,7 @@ public class ModItems {
     public static VaultLootSackItem LOOT_SACK;
     public static VaultRangItem RANG;
     public static VaultMapItem MAP;
+    public static VaultScepterItem SCEPTER;
     //public static VaultBowItem BOW;
 
     public static CombinedTrinketItem COMBINED_TRINKET;
@@ -262,6 +263,7 @@ public class ModItems {
         registry.register(CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD);
         registry.register(BATTLESTAFF);
         registry.register(TRIDENT);
+        registry.register(SCEPTER);
         registry.register(PLUSHIE);
         registry.register(LOOT_SACK);
         registry.register(GEM_BOX);
@@ -446,6 +448,7 @@ public class ModItems {
         LOOT_SACK = new VaultLootSackItem(VaultMod.id("loot_sack"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
         RANG = new VaultRangItem(VaultMod.id("rang"), new Item.Properties().stacksTo(1).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS));
         MAP = new VaultMapItem(VaultMod.id("map"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
+        SCEPTER = new VaultScepterItem(VaultMod.id("scepter"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
 
         GEM_BOX = new LootableItem(WoldsVaults.id("gem_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.GEM_BOX.POOL.getRandom(rand).generateItemStack()));
         SUPPLY_BOX = new LootableItem(WoldsVaults.id("supply_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.SUPPLY_BOX.POOL.getRandom(rand).generateItemStack()));

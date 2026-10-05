@@ -24,6 +24,7 @@ import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.event.ActiveFlagsCheck;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.gear.data.GearDataCache;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.etching.EtchingHelper;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -35,14 +36,13 @@ import iskallia.vault.skill.talent.type.JavelinConductTalent;
 import iskallia.vault.skill.tree.TalentTree;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
-import iskallia.vault.util.calc.EffectDurationHelper;
-import iskallia.vault.util.calc.PlayerStat;
-import iskallia.vault.util.calc.ThornsHelper;
+import iskallia.vault.util.calc.*;
 import iskallia.vault.util.damage.DamageUtil;
 import iskallia.vault.world.data.PlayerTalentsData;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -59,6 +59,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -87,6 +88,7 @@ import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.talent.special.DebuffDamageBonusTalent;
 import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
@@ -102,6 +104,47 @@ public class LivingEntityEvents {
 
     public static void init() {
          ANCHOR_SLAM_SOUND  = Registry.SOUND_EVENT.get(ResourceLocation.parse("bettercombat:anchor_slam"));
+    }
+
+    @SubscribeEvent
+    public static void onScepterHitSparkles(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof ServerPlayer player)) return;
+
+        ItemStack heldItem = player.getMainHandItem();
+        GearDataCache gearDataCache = GearDataCache.of(heldItem);
+        if(!gearDataCache.hasAttribute(ModGearAttributes.SCEPTER_SPARKLES)) {
+            return;
+        }
+
+        float playerAP = AbilityPowerHelper.getAbilityPower(player);
+        float aoeBonus = AreaOfEffectHelper.getAreaOfEffectUnlimited(player);
+        double radius = 3.5 * (1.0F + aoeBonus);
+
+        LivingEntity victim = event.getEntityLiving();
+        Level level = player.getLevel();
+
+        AABB searchBox = victim.getBoundingBox().inflate(radius);
+        List<LivingEntity> nearbyTargets = level.getEntitiesOfClass(LivingEntity.class, searchBox, e ->
+                e != player && e != victim && e.isAlive() && !e.isAlliedTo(player)
+        );
+
+        float sparkleDamage = playerAP * 0.1F;
+
+        for (LivingEntity target : nearbyTargets) {
+            WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> {
+                ActiveFlags.IS_AP_ATTACKING.push();
+                DamageSource sparkleSource = DamageSource.indirectMagic(player, player);
+                target.hurt(sparkleSource, sparkleDamage);
+                ActiveFlags.IS_AP_ATTACKING.pop();
+            });
+
+
+            if (level instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.ENCHANT,
+                        target.getX(), target.getY() + target.getBbHeight() / 2.0, target.getZ(),
+                        15, 0.2, 0.2, 0.2, 0.5);
+            }
+        }
     }
 
     @SubscribeEvent

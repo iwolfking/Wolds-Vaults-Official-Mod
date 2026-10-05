@@ -595,6 +595,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("block.woldsvaults.xl_backpack", "Beeg Backpack");
         add("item.the_vault.trident", "Vault Trident");
         add("item.the_vault.battlestaff", "Vault Battlestaff");
+        add(ModItems.SCEPTER, "Vault Scepter");
         add("item.the_vault.map", "Vault Map");
         add("item.woldsvaults.layout_manipulator", "Etched Vault Layout");
         add("effect.woldsvaults.reaving", "Reaved");
