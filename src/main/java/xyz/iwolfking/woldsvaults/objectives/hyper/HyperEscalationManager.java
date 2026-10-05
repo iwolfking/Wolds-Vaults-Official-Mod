@@ -125,14 +125,26 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
      * once it notices the entity is gone, which reopens the podium for arming).
      */
     public void onFightWiped() {
+        rearmPillar();
+        HyperVaultObjective.broadcast(vault,
+                "Everyone challenging the Hyperboss has fallen! The arena reopens — the pillar stands armed for another attempt.",
+                ChatFormatting.RED);
+    }
+
+    /** The fight ended without the boss dying: re-arm exactly as a wipe does. */
+    public void onFightVanished() {
+        rearmPillar();
+        HyperVaultObjective.broadcast(vault,
+                "The Hyperboss vanished! The arena reopens — the pillar stands armed for another attempt.",
+                ChatFormatting.RED);
+    }
+
+    private void rearmPillar() {
         restartDoorAnimation();
         respawnBossPillar();
         removeBossRoomZone();
         discardFightSpawns();
         objective.set(HyperVaultObjective.PHASE, Phase.ARMED);
-        HyperVaultObjective.broadcast(vault,
-                "Everyone challenging the Hyperboss has fallen! The arena reopens — the pillar stands armed for another attempt.",
-                ChatFormatting.RED);
     }
 
     /**
