@@ -112,7 +112,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.DECO_IDONA_ALTAR_BLOCK)
                 .add(ModBlocks.DECO_TENOS_ALTAR_BLOCK)
                 .add(ModBlocks.DECO_WENDARR_ALTAR_BLOCK)
-                .add(ModBlocks.DECO_VELARA_ALTAR_BLOCK);
+                .add(ModBlocks.DECO_VELARA_ALTAR_BLOCK)
+                .add(iskallia.auxiliaryblocks.init.ModBlocks.PURPLE_DIORITE.get());
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(ModBlocks.ISKALLIAN_LEAVES_BLOCK)
                 .add(ModBlocks.PRISMATIC_FIBER_BLOCK);
