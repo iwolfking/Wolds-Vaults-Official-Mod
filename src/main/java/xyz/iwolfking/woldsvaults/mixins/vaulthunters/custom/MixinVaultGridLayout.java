@@ -102,6 +102,9 @@ public abstract class MixinVaultGridLayout {
                             else if (key.toString().contains("aquarium") && tileProcessor instanceof WeightedTileProcessor weightedTileProcessor && weightedTileProcessor.getPredicate().test(PartialTile.of(Blocks.WATER.defaultBlockState()))) {
                                 return false;
                             }
+                            else if(key.toString().contains("dragon") && tileProcessor instanceof WeightedTileProcessor weightedTileProcessor && weightedTileProcessor.getPredicate().test(PartialTile.of(Blocks.PETRIFIED_OAK_SLAB.defaultBlockState()))) {
+                                return false;
+                            }
                             else if ((key.toString().contains("cube") || key.toString().contains("puzzle")) && tileProcessor instanceof WeightedTileProcessor weightedTileProcessor && weightedTileProcessor.getPredicate().test(PartialTile.of(Blocks.LIME_WOOL.defaultBlockState()))) {
                                 return false;
                             }
