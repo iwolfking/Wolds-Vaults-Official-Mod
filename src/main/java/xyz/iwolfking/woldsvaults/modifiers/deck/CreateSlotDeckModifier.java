@@ -31,6 +31,8 @@ import java.util.*;
 public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.Config> implements IPopulateOnApplyModifier, ISlotModifier, IRemovableSlotModifier {
     private List<CardPos> affectedSlots = new ArrayList<>();
     private int slotRoll;
+    private int shiftX = 0;
+    private int shiftY = 0;
 
     private static final int MAX_WIDTH = 8;
     private static final int MAX_HEIGHT = 5;
@@ -63,36 +65,89 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
     public void populateOnApply(CardDeck deck, RandomSource rand) {
         Map<CardPos, Card> internalCardsMap = ((CardDeckAccessor) deck).getCardsMap();
         if (internalCardsMap == null || internalCardsMap.isEmpty()) return;
+        for (int i = 0; i < slotRoll; ++i) {
+            applyOnce(deck, rand, internalCardsMap);
+        }
+    }
 
+    private void applyOnce(CardDeck deck, RandomSource rand, Map<CardPos, Card> cardPosMap){
         int baseMinX = Integer.MAX_VALUE;
         int baseMaxX = Integer.MIN_VALUE;
         int baseMinY = Integer.MAX_VALUE;
         int baseMaxY = Integer.MIN_VALUE;
 
-        for (CardPos pos : internalCardsMap.keySet()) {
+        for (CardPos pos : cardPosMap.keySet()) {
             baseMinX = Math.min(baseMinX, pos.x);
             baseMaxX = Math.max(baseMaxX, pos.x);
             baseMinY = Math.min(baseMinY, pos.y);
             baseMaxY = Math.max(baseMaxY, pos.y);
         }
 
-        for (int i = 0; i < slotRoll; ++i) {
-            List<CardPos> validCandidates = findValidAdjacentPositions(internalCardsMap.keySet(), baseMinX, baseMaxX, baseMinY, baseMaxY);
-            if (validCandidates.isEmpty()) {
-                break;
+        boolean canShiftX = baseMaxX - baseMinX < MAX_WIDTH;
+        boolean canShiftY = baseMaxY - baseMinY < MAX_HEIGHT;
+
+        List<CardPos> validCandidates = findValidAdjacentPositions(cardPosMap.keySet(), canShiftX, canShiftY);
+        if (validCandidates.isEmpty()) {
+            return;
+        }
+
+        CardPos templatePos = validCandidates.get(rand.nextInt(validCandidates.size()));
+
+        int neededShiftX = 0;
+        if (templatePos.x == -1) neededShiftX = 1;
+        if (templatePos.x == MAX_WIDTH + 1) neededShiftX = -1;
+
+        int neededShiftY = 0;
+        if (templatePos.y == -1) neededShiftY = 1;
+        if (templatePos.y == MAX_HEIGHT + 1) neededShiftY = -1;
+
+        if (neededShiftX != 0 || neededShiftY != 0) {
+            // this modifier is not in the modifier array at this point, it needs to be shifted separately
+            shiftSlotModifier(this, neededShiftX, neededShiftY);
+            shift(deck, neededShiftX, neededShiftY); // shift all slots and existing slot modifiers
+            templatePos.x += neededShiftX;
+            templatePos.y += neededShiftY;
+            shiftX += neededShiftX;
+            shiftY += neededShiftY;
+        }
+
+        CardPos chosenPos = new CardPos(templatePos.x, templatePos.y);
+        chosenPos.allowedGroups.add(config.groupName);
+
+        cardPosMap.put(chosenPos, null);
+        this.getAffectedSlots().add(chosenPos);
+
+    }
+
+    private void shift(CardDeck deck, int xShift, int yShift) {
+        Map<CardPos, Card> internalCardsMap = ((CardDeckAccessor) deck).getCardsMap();
+        Map<CardPos, Card> newCardsMap = new HashMap<>();
+
+        for (var entry : internalCardsMap.entrySet()) {
+            var newCardPos = new CardPos(entry.getKey().x + xShift, entry.getKey().y + yShift, entry.getKey().allowedGroups);
+            newCardsMap.put(newCardPos, entry.getValue());
+        }
+        internalCardsMap.clear();
+        internalCardsMap.putAll(newCardsMap);
+
+        for (var core : deck.getModifiers()) {
+            if (core instanceof ISlotModifier slotMod) {
+                shiftSlotModifier(slotMod, xShift, yShift);
             }
-
-            CardPos templatePos = validCandidates.get(rand.nextInt(validCandidates.size()));
-
-            CardPos chosenPos = new CardPos(templatePos.x, templatePos.y);
-            chosenPos.allowedGroups.add(config.groupName);
-
-            internalCardsMap.put(chosenPos, null);
-            this.getAffectedSlots().add(chosenPos);
         }
     }
 
-    private List<CardPos> findValidAdjacentPositions(Set<CardPos> existingSlots, int baseMinX, int baseMaxX, int baseMinY, int baseMaxY) {
+    private void shiftSlotModifier(ISlotModifier slotMod, int xShift, int yShift) {
+        List<CardPos> newSlots = new ArrayList<>();
+        for (var slot : slotMod.getAffectedSlots()) {
+            newSlots.add(new CardPos(slot.x + xShift, slot.y + yShift, slot.allowedGroups));
+        }
+        slotMod.getAffectedSlots().clear();
+        slotMod.getAffectedSlots().addAll(newSlots);
+    }
+
+
+    private List<CardPos> findValidAdjacentPositions(Set<CardPos> existingSlots, boolean canShiftX, boolean canShiftY) {
         Set<CardPos> candidates = new HashSet<>();
         int[] dx = {0, 0, -1, 1};
         int[] dy = {-1, 1, 0, 0};
@@ -108,7 +163,7 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
 
         List<CardPos> validCandidates = new ArrayList<>();
         for (CardPos candidate : candidates) {
-            if (isValidSlot(candidate)) {
+            if (isValidSlot(candidate, canShiftX, canShiftY)) {
                 validCandidates.add(candidate);
             }
         }
@@ -116,16 +171,35 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
         return validCandidates;
     }
 
-    private boolean isValidSlot(CardPos candidate) {
-        return candidate.x >= 0 && candidate.x <= MAX_WIDTH && candidate.y >= 0 && candidate.y <= MAX_HEIGHT;
+    private boolean isValidSlot(CardPos candidate, boolean canShiftX, boolean canShiftY) {
+        return     candidate.x >= (canShiftX ? -1 : 0) && candidate.x <= MAX_WIDTH + (canShiftX ? 1 : 0)
+                && candidate.y >= (canShiftY   ? -1 : 0) && candidate.y <= MAX_HEIGHT + (canShiftY ? 1 : 0);
     }
 
     @Override
     public void onRemove(CardDeck deck) {
+        if (shiftX != 0 || shiftY != 0) {
+            shift(deck, -shiftX, -shiftY);
+        }
+        this.shiftX = 0;
+        this.shiftY = 0;
+
         Map<CardPos, Card> internalCardsMap = ((CardDeckAccessor)deck).getCardsMap();;
         if (internalCardsMap != null) {
+            System.out.println("AFFECTED:");
+            for (CardPos p : affectedSlots) {
+                System.out.println("  [" + p.x + ", " + p.y + "]");
+            }
+
+            System.out.println("MAP:");
+            for (CardPos p : internalCardsMap.keySet()) {
+                System.out.println("  [" + p.x + ", " + p.y + "]");
+            }
             for (CardPos affected : this.affectedSlots) {
-                internalCardsMap.remove(affected);
+                var removed = internalCardsMap.remove(affected);
+                System.out.println(
+                        "REMOVE [" + affected.x + ", " + affected.y + "] = " + removed
+                );
             }
         }
         this.affectedSlots.clear();
@@ -135,7 +209,7 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
         MutableComponent comp = (new TextComponent("+")).append((new TextComponent(slotRoll + " additional ").append(new TextComponent(config.groupName.isEmpty() ? "" : config.groupName).withStyle(ChatFormatting.GOLD))));
 
-        comp.append(StringUtils.pluralise(" slot", slotRoll));
+        comp.append(StringUtils.pluralise("slot", slotRoll));
         if (Screen.hasShiftDown()) {
             IntRoll slotRoll = this.getConfig().getSlotRoll(this.getConfig().getSelectedRollId());
             comp.append(" (Slots: " + slotRoll.getMin() + " - " + slotRoll.getMax() + ")");
@@ -149,9 +223,11 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
         return false;
     }
 
-    //Prevent upgrading this core directly
     @Override
     public boolean isBetter(DeckModifier<?> other) {
+        if (other instanceof CreateSlotDeckModifier slotDeckModifier) {
+            return this.slotRoll > slotDeckModifier.slotRoll;
+        }
         return false;
     }
 
@@ -175,6 +251,8 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
 
                 nbt.put("affectedSlots", listTag);
                 Adapters.INT.writeNbt(this.slotRoll).ifPresent((tag) -> nbt.put("slotRoll", tag));
+                Adapters.INT.writeNbt(this.shiftX).ifPresent((tag) -> nbt.put("shiftX", tag));
+                Adapters.INT.writeNbt(this.shiftY).ifPresent((tag) -> nbt.put("shiftY", tag));
                 return nbt;
             }
         });
@@ -195,7 +273,9 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
             }
         }
 
-        this.slotRoll = Adapters.INT.readNbt(nbt.get("slotRoll")).orElse(((SlotDeckModifier.Config)this.getConfig()).slotRoll.get(JavaRandom.ofNanoTime()));
+        this.slotRoll = Adapters.INT.readNbt(nbt.get("slotRoll")).orElse(this.getConfig().slotRoll.get(JavaRandom.ofNanoTime()));
+        this.shiftX = Adapters.INT.readNbt(nbt.get("shiftX")).orElse(0);
+        this.shiftY = Adapters.INT.readNbt(nbt.get("shiftY")).orElse(0);
     }
 
     public Optional<JsonObject> writeJson() {
@@ -218,6 +298,8 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
                 }
 
                 Adapters.INT.writeJson(this.slotRoll).ifPresent((tag) -> json.add("slotRoll", tag));
+                Adapters.INT.writeJson(this.shiftX).ifPresent((tag) -> json.add("shiftX", tag));
+                Adapters.INT.writeJson(this.shiftY).ifPresent((tag) -> json.add("shiftY", tag));
                 return json;
             }
         });
@@ -237,7 +319,9 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
             }
         }
 
-        this.slotRoll = Adapters.INT.readJson(json.get("slotRoll")).orElse(((SlotDeckModifier.Config)this.getConfig()).slotRoll.get(JavaRandom.ofNanoTime()));
+        this.slotRoll = Adapters.INT.readJson(json.get("slotRoll")).orElse(this.getConfig().slotRoll.get(JavaRandom.ofNanoTime()));
+        this.shiftX = Adapters.INT.readJson(json.get("shiftX")).orElse(0);
+        this.shiftY = Adapters.INT.readJson(json.get("shiftY")).orElse(0);
     }
 
     public void writeBits(BitBuffer buffer) {
@@ -249,6 +333,8 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
         }
 
         Adapters.INT_SEGMENTED_7.writeBits(this.slotRoll, buffer);
+        Adapters.INT_SEGMENTED_7.writeBits(this.shiftX, buffer);
+        Adapters.INT_SEGMENTED_7.writeBits(this.shiftY, buffer);
     }
 
     public void readBits(BitBuffer buffer) {
@@ -260,7 +346,9 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
             CardPos.ADAPTER.readBits(buffer).ifPresent((pos) -> this.affectedSlots.add(pos));
         }
 
-        this.slotRoll = Adapters.INT_SEGMENTED_7.readBits(buffer).orElse(((SlotDeckModifier.Config)this.getConfig()).slotRoll.get(JavaRandom.ofNanoTime()));
+        this.slotRoll = Adapters.INT_SEGMENTED_7.readBits(buffer).orElse(this.getConfig().slotRoll.get(JavaRandom.ofNanoTime()));
+        this.shiftX = Adapters.INT_SEGMENTED_7.readBits(buffer).orElse(0);
+        this.shiftY = Adapters.INT_SEGMENTED_7.readBits(buffer).orElse(0);
     }
 
     public static class Config extends SlotDeckModifier.Config {
