@@ -147,7 +147,7 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
     }
 
 
-    private List<CardPos> findValidAdjacentPositions(Set<CardPos> existingSlots, boolean canShiftLeft, boolean canShiftUp) {
+    private List<CardPos> findValidAdjacentPositions(Set<CardPos> existingSlots, boolean canShiftX, boolean canShiftY) {
         Set<CardPos> candidates = new HashSet<>();
         int[] dx = {0, 0, -1, 1};
         int[] dy = {-1, 1, 0, 0};
@@ -163,7 +163,7 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
 
         List<CardPos> validCandidates = new ArrayList<>();
         for (CardPos candidate : candidates) {
-            if (isValidSlot(candidate, canShiftLeft, canShiftUp)) {
+            if (isValidSlot(candidate, canShiftX, canShiftY)) {
                 validCandidates.add(candidate);
             }
         }
@@ -173,7 +173,7 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
 
     private boolean isValidSlot(CardPos candidate, boolean canShiftX, boolean canShiftY) {
         return     candidate.x >= (canShiftX ? -1 : 0) && candidate.x <= MAX_WIDTH + (canShiftX ? 1 : 0)
-                && candidate.y >= (canShiftY   ? -1 : 0) && candidate.y <= MAX_HEIGHT + (canShiftX ? 1 : 0);
+                && candidate.y >= (canShiftY   ? -1 : 0) && candidate.y <= MAX_HEIGHT + (canShiftY ? 1 : 0);
     }
 
     @Override
