@@ -95,11 +95,11 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
 
         int neededShiftX = 0;
         if (templatePos.x == -1) neededShiftX = 1;
-        if (templatePos.x == MAX_WIDTH) neededShiftX = -1;
+        if (templatePos.x == MAX_WIDTH + 1) neededShiftX = -1;
 
         int neededShiftY = 0;
         if (templatePos.y == -1) neededShiftY = 1;
-        if (templatePos.y == MAX_HEIGHT) neededShiftY = -1;
+        if (templatePos.y == MAX_HEIGHT + 1) neededShiftY = -1;
 
         if (neededShiftX != 0 || neededShiftY != 0) {
             // this modifier is not in the modifier array at this point, it needs to be shifted separately
@@ -171,9 +171,9 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
         return validCandidates;
     }
 
-    private boolean isValidSlot(CardPos candidate, boolean canShiftLeft, boolean canShiftUp) {
-        return     candidate.x >= (canShiftLeft ? -1 : 0) && candidate.x <= MAX_WIDTH
-                && candidate.y >= (canShiftUp   ? -1 : 0) && candidate.y <= MAX_HEIGHT;
+    private boolean isValidSlot(CardPos candidate, boolean canShiftX, boolean canShiftY) {
+        return     candidate.x >= (canShiftX ? -1 : 0) && candidate.x <= MAX_WIDTH + (canShiftX ? 1 : 0)
+                && candidate.y >= (canShiftY   ? -1 : 0) && candidate.y <= MAX_HEIGHT + (canShiftX ? 1 : 0);
     }
 
     @Override
