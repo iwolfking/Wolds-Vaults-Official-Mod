@@ -15,6 +15,7 @@ import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.entity.champion.ChampionLogic;
 import iskallia.vault.entity.entity.PetEntity;
+import iskallia.vault.entity.entity.VaultFireball;
 import iskallia.vault.entity.entity.elite.EliteDrownedEntity;
 import iskallia.vault.entity.entity.elite.EliteEndermanEntity;
 import iskallia.vault.entity.entity.elite.EliteHuskEntity;
@@ -55,7 +56,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -72,6 +72,8 @@ import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
+import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
+import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
 import xyz.iwolfking.woldsvaults.api.util.*;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.api.data.HexEffects;
@@ -86,7 +88,6 @@ import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
-import xyz.iwolfking.woldsvaults.items.gear.VaultScepterItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
@@ -113,10 +114,17 @@ public class LivingEntityEvents {
     }
 
     @SubscribeEvent
-    public static void onFireElementAttack(LivingHurtEvent event) {
+    public static void onElementalAttack(LivingHurtEvent event) {
         if(WoldActiveFlags.FIRE_ELEMENT_ATTACK.isSet()) {
             if(event.getSource().getEntity() instanceof LivingEntity attacker) {
                 PercentBurnEffect.applyPercentBurn(event.getEntityLiving(), attacker, 200, event.getAmount());
+            }
+        }
+
+        //Handle special projectile cases
+        if(event.getSource().getEntity() instanceof VaultFireball fireball && fireball instanceof IWoldAbilityEnhancements woldAbilityEnhancements) {
+            if(woldAbilityEnhancements.getElementTypes().contains(ElementalType.FIRE)) {
+                PercentBurnEffect.applyPercentBurn(event.getEntityLiving(), fireball.getThrower(), 200, event.getAmount());
             }
         }
     }

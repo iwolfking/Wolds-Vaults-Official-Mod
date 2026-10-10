@@ -25,17 +25,20 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.lib.IStoredAbilityTier;
+import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
+import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
 import xyz.iwolfking.woldsvaults.api.util.AbilityHelper;
+import xyz.iwolfking.woldsvaults.api.util.ElementHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.PercentBurnEffect;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Mixin(value = VaultFireball.class, remap = false)
-public abstract class MixinVaultFireball extends AbstractArrow implements IStoredAbilityTier {
+public abstract class MixinVaultFireball extends AbstractArrow implements IWoldAbilityEnhancements {
     protected MixinVaultFireball(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -54,6 +57,11 @@ public abstract class MixinVaultFireball extends AbstractArrow implements IStore
 
     @Shadow
     public abstract VaultFireball.FireballType getFireballType();
+
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/entity/VaultFireball;explode(Lnet/minecraft/world/phys/Vec3;)V"), remap = true)
+    private void wrapWithElementalFlags(VaultFireball instance, Vec3 pos, Operation<Void> original) {
+        ElementHelper.runWithElements(getElementTypes(), () -> original.call(instance, pos));
+    }
 
     @Inject(method = "onHit", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/entity/VaultFireball;createBouncingFireball(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;I)Liskallia/vault/entity/entity/VaultFireball;", ordinal = 0, remap = false), remap = true)
     private void fireVolleyBouncesExplode(HitResult result, CallbackInfo ci) {
@@ -137,6 +145,9 @@ public abstract class MixinVaultFireball extends AbstractArrow implements IStore
     @Unique
     private int woldsvaults$tierLevel = -1;
 
+    @Unique
+    private List<ElementalType> elementalTypes = new ArrayList<>();
+
     @Override
     public void setTierLevel(int level) {
         woldsvaults$tierLevel = level;
@@ -145,5 +156,15 @@ public abstract class MixinVaultFireball extends AbstractArrow implements IStore
     @Override
     public int getTierLevel() {
         return woldsvaults$tierLevel;
+    }
+
+    @Override
+    public void setElementTypes(List<ElementalType> elementalTypes) {
+        this.elementalTypes = elementalTypes;
+    }
+
+    @Override
+    public List<ElementalType> getElementTypes() {
+        return elementalTypes;
     }
 }

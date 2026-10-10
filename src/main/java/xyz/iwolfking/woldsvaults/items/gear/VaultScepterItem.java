@@ -44,6 +44,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolAction;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
+import xyz.iwolfking.woldsvaults.api.util.ElementHelper;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.models.Scepters;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
@@ -189,18 +191,14 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
 
         int chargeTicks = getUseDuration(stack) - timeLeft;
         VaultGearData gearData = VaultGearData.read(stack);
+        List<ElementalType> elementalTypes = ElementHelper.getAllElementsFromGear(gearData);
 
         if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE)) {
             xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute invokeAttr = gearData.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE, VaultGearAttributeTypeMerger.firstNonNull());
             if (invokeAttr != null && chargeTicks >= invokeAttr.getChargeTicks()) {
-                if(gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.FIRE_ELEMENT)) {
-                    WoldActiveFlags.FIRE_ELEMENT_ATTACK.runWithFlag(() -> {
-                        invokeAttr.trigger(player);
-                    });
-                }
-                else {
+                ElementHelper.runWithElements(elementalTypes, () -> {
                     invokeAttr.trigger(player);
-                }
+                });
 
                 serverLevel.playSound(null, player.blockPosition(), SoundEvents.EVOKER_CAST_SPELL, SoundSource.PLAYERS, 1.0F, 1.2F);
                 return;
@@ -209,7 +207,7 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
 
         if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) {
             if (chargeTicks < 10) return;
-            executeBeamAttack(serverLevel, player);
+            executeBeamAttack(serverLevel, player, elementalTypes);
         }
     }
 
@@ -263,7 +261,7 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         }
     }
 
-    private void executeBeamAttack(ServerLevel level, ServerPlayer player) {
+    private void executeBeamAttack(ServerLevel level, ServerPlayer player, List<ElementalType> elementalTypes) {
         Vec3 start = player.getEyePosition();
         Vec3 look = player.getLookAngle();
 
@@ -282,7 +280,9 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         for (LivingEntity target : targets) {
             AABB targetBox = target.getBoundingBox().inflate(beamRadius);
             if (targetBox.clip(start, end).isPresent()) {
-                target.hurt(DamageSource.indirectMagic(player, player), playerAP * 0.65F);
+                ElementHelper.runWithElements(elementalTypes, () -> {
+                    target.hurt(DamageSource.indirectMagic(player, player), playerAP * 0.65F);
+                });
             }
         }
 
