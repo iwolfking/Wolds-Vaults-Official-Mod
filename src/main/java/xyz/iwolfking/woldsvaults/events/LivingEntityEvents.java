@@ -13,6 +13,8 @@ import iskallia.vault.entity.VaultBoss;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.entity.champion.ChampionLogic;
+import iskallia.vault.entity.champion.IChampionAffix;
+import iskallia.vault.entity.champion.PotionAuraAffix;
 import iskallia.vault.entity.entity.elite.EliteDrownedEntity;
 import iskallia.vault.entity.entity.elite.EliteEndermanEntity;
 import iskallia.vault.entity.entity.elite.EliteHuskEntity;
@@ -55,10 +57,12 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -87,6 +91,7 @@ import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.talent.special.DebuffDamageBonusTalent;
 import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
@@ -100,8 +105,41 @@ public class LivingEntityEvents {
 
     private static SoundEvent ANCHOR_SLAM_SOUND = null;
 
+    private static final TargetingConditions AURA_TARGETING = TargetingConditions.forCombat().range(64.0);
+
     public static void init() {
          ANCHOR_SLAM_SOUND  = Registry.SOUND_EVENT.get(ResourceLocation.parse("bettercombat:anchor_slam"));
+    }
+
+
+    @SubscribeEvent
+    public static void onChampionDeath(LivingDeathEvent event) {
+        LivingEntity entity = event.getEntityLiving();
+
+        if (entity.level.isClientSide() || !(entity instanceof ChampionLogic.IChampionLogicHolder holder)) {
+            return;
+        }
+
+        if (ChampionLogic.isChampion(entity)) {
+            ChampionLogic logic = holder.getChampionLogic();
+            if (logic == null) return;
+
+            for (IChampionAffix affix : logic.getAffixes()) {
+                if (affix instanceof PotionAuraAffix potionAura) {
+                    if (potionAura.getMobEffect() != null) {
+                        entity.level.getEntities(
+                                EntityTypeTest.forClass(LivingEntity.class),
+                                entity.getBoundingBox().inflate(potionAura.getRange() * 2),
+                                e -> e != entity && !(e instanceof Player)
+                        ).forEach(mob -> {
+                            if (mob.hasEffect(potionAura.getMobEffect())) {
+                                mob.removeEffect(potionAura.getMobEffect());
+                            }
+                        });
+                    }
+                }
+            }
+        }
     }
 
     @SubscribeEvent
