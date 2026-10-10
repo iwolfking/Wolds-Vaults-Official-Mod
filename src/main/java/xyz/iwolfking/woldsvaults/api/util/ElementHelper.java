@@ -62,44 +62,51 @@ public class ElementHelper {
     }
 
     public static void triggerLightningChain(LivingEntity target, LivingEntity attacker, Number damage) {
-        if (target.level instanceof ServerLevel serverLevel) {
-            float minimumDamage = 0.1F;
-            Pair<Float, Float> stunChanceAndDuration = Pair.of(0F, 0F);
-            if(attacker instanceof ServerPlayer serverPlayer) {
-                minimumDamage += LightningTalentHelper.getMinimumDamageBonus(serverPlayer);
-                stunChanceAndDuration = LightningTalentHelper.getStunChance(serverPlayer);
-            }
+        if (!(target.level instanceof ServerLevel serverLevel)) return;
 
-            int maxBounces = 6;
-            double bounceRange = 6.0D;
+        float minimumDamage = 0.1F;
+        Pair<Float, Float> stunChanceAndDuration = Pair.of(0F, 0F);
+        if (attacker instanceof ServerPlayer serverPlayer) {
+            minimumDamage += LightningTalentHelper.getMinimumDamageBonus(serverPlayer);
+            stunChanceAndDuration = LightningTalentHelper.getStunChance(serverPlayer);
+        }
 
-            LivingEntity currentSource = target;
-            Set<UUID> hitEntities = new HashSet<>();
-            hitEntities.add(attacker.getUUID());
-            hitEntities.add(target.getUUID());
+        int maxBounces = 4;
+        double bounceRange = 5.0D;
 
-            for (int i = 0; i < maxBounces; i++) {
-                float damageScaling = attacker.getRandom().nextFloat(minimumDamage, 1.5F);
-                float chainDamage = damage.floatValue() * damageScaling;
+        LivingEntity currentSource = target;
+        Set<UUID> hitEntities = new HashSet<>();
+        hitEntities.add(attacker.getUUID());
+        hitEntities.add(target.getUUID());
 
-                LivingEntity nextTarget = serverLevel.getEntitiesOfClass(
-                        LivingEntity.class,
-                        currentSource.getBoundingBox().inflate(bounceRange),
-                        entity -> entity != attacker && !hitEntities.contains(entity.getUUID()) && entity.isAlive()
-                ).stream().min(Comparator.comparingDouble(currentSource::distanceToSqr)).orElse(null);
+        for (int i = 0; i < maxBounces; i++) {
+            float damageScaling = attacker.getRandom().nextFloat(minimumDamage, 1.2F);
+            float chainDamage = damage.floatValue() * damageScaling;
 
-                if (nextTarget == null) break;
+            LivingEntity nextTarget = serverLevel.getEntitiesOfClass(
+                    LivingEntity.class,
+                    currentSource.getBoundingBox().inflate(bounceRange),
+                    entity -> entity != attacker && !hitEntities.contains(entity.getUUID()) && entity.isAlive()
+            ).stream().min(Comparator.comparingDouble(currentSource::distanceToSqr)).orElse(null);
 
-                spawnLightningBeam(serverLevel, currentSource.position().add(0, currentSource.getBbHeight() / 2, 0), nextTarget.position().add(0, nextTarget.getBbHeight() / 2, 0));
-                ActiveFlags.IS_AP_ATTACKING.push();
-                nextTarget.hurt(DamageSource.indirectMagic(currentSource, attacker), chainDamage);
-                if(attacker instanceof ServerPlayer serverPlayer) {
-                    LightningTalentHelper.tryToApplyStun(serverPlayer, currentSource, stunChanceAndDuration);
+            if (nextTarget == null) break;
+
+            spawnLightningBeam(serverLevel, currentSource.position().add(0, currentSource.getBbHeight() / 2, 0), nextTarget.position().add(0, nextTarget.getBbHeight() / 2, 0));
+
+            ActiveFlags.IS_AP_ATTACKING.push();
+            try {
+                DamageSource sparkleSource = DamageSource.indirectMagic(currentSource, attacker);
+                nextTarget.hurt(sparkleSource, chainDamage);
+
+                if (attacker instanceof ServerPlayer serverPlayer) {
+                    LightningTalentHelper.tryToApplyStun(serverPlayer, nextTarget, stunChanceAndDuration);
                 }
+            } finally {
                 ActiveFlags.IS_AP_ATTACKING.pop();
-                hitEntities.add(nextTarget.getUUID());
-                currentSource = nextTarget;
             }
+
+            hitEntities.add(nextTarget.getUUID());
+            currentSource = nextTarget;
         }
     }
 
