@@ -95,7 +95,6 @@ public class BrutalBossesRegistry {
         register("Quicksand", 10.0);
         register("Regen", 10.0);
         register("Sapper", 10.0);
-        register("Sprint", 10.0);
         register("Storm", 10.0);
         register("Vengeance", 10.0);
         register("Weakness", 10.0);
