@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.items.gear;
 
 import com.google.common.collect.Multimap;
+import com.mojang.math.Vector3f;
 import iskallia.vault.dynamodel.DynamicModel;
 import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.gear.VaultGearClassification;
@@ -19,6 +20,7 @@ import iskallia.vault.util.calc.AbilityPowerHelper;
 import iskallia.vault.util.calc.AreaOfEffectHelper;
 import iskallia.vault.world.data.DiscoveredModelsData;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -45,6 +47,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolAction;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
+import xyz.iwolfking.woldsvaults.api.util.ColorUtil;
 import xyz.iwolfking.woldsvaults.api.util.ElementHelper;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.models.Scepters;
@@ -271,6 +274,26 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
 
         Vec3 end = start.add(look.scale(range));
 
+        List<Integer> elementColors = new java.util.ArrayList<>();
+        for (ElementalType type : elementalTypes) {
+            elementColors.add(type.getColor());
+        }
+
+        int beamColor;
+        if (elementColors.isEmpty()) {
+            beamColor = 0xB266FF;
+        } else {
+            elementColors.add(0xB266FF);
+            beamColor = ColorUtil.mixColors(elementColors);
+        }
+
+        float red = ((beamColor >> 16) & 0xFF) / 255.0F;
+        float green = ((beamColor >> 8) & 0xFF) / 255.0F;
+        float blue = (beamColor & 0xFF) / 255.0F;
+
+        DustParticleOptions dustOptions =
+                new DustParticleOptions(new Vector3f(red, green, blue), 1.5F);
+
         AABB beamBox = player.getBoundingBox().expandTowards(look.scale(range)).inflate(beamRadius);
         List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, beamBox,
                 e -> !(e instanceof Player) && e.isAlive() && !e.isAlliedTo(player) && !(e instanceof PetEntity)
@@ -288,14 +311,15 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
 
         level.playSound(null, player.blockPosition(), SoundEvents.END_PORTAL_SPAWN, SoundSource.PLAYERS, 0.7F, 1.8F);
 
-        double step = 0.4;
+        double step = 0.25;
         for (double d = 0; d < range; d += step) {
             Vec3 point = start.add(look.scale(d));
-            level.sendParticles(ParticleTypes.END_ROD, point.x, point.y, point.z, 1, 0.02, 0.02, 0.02, 0.01);
-            level.sendParticles(ParticleTypes.ELECTRIC_SPARK, point.x, point.y, point.z, 2, 0.05, 0.05, 0.05, 0.02);
+
+            level.sendParticles(dustOptions, point.x, point.y, point.z, 2, 0.03, 0.03, 0.03, 0.0);
+
+            level.sendParticles(ParticleTypes.ELECTRIC_SPARK, point.x, point.y, point.z, 1, 0.08, 0.08, 0.08, 0.01);
         }
     }
-
     @Override
     public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected) {
         super.inventoryTick(stack, world, entity, itemSlot, isSelected);

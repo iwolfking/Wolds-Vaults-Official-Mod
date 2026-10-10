@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
 import com.mojang.datafixers.util.Pair;
+import com.mojang.math.Vector3f;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.util.calc.AbilityPowerHelper;
@@ -113,7 +114,7 @@ public class ElementHelper {
         while (currentDistance < distance) {
 
             level.sendParticles(
-                    new DustParticleOptions(new com.mojang.math.Vector3f(1.0F, 0.95F, 0.1F), 1.2F),
+                    new DustParticleOptions(new Vector3f(1.0F, 0.95F, 0.1F), 1.2F),
                     currentPos.x, currentPos.y, currentPos.z,
                     1,
                     0.1D, 0.1D, 0.1D,

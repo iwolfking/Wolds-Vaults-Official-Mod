@@ -82,6 +82,21 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_nova", List.of(), vaultGearModifierTiersBuilder -> {
                     addScepterInvoke(vaultGearModifierTiersBuilder, 0, -1, 80, "Nova_Base", 1, 10, 1, 10, 30, 10);
                 });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_implode", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, -1, 80, "Mana_Shield_Implode", 1, 10, 1, 10, 30, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_arcane_prism", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, -1, 80, "Arcane_Prism", 1, 10, 1, 10, 30, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_lightning_ball", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, -1, 80, "Chain_Lightning_Orbs", 1, 10, 1, 10, 30, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_charged_bolts", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, -1, 80, "Chain_Lightning_Charged_Bolts", 1, 10, 1, 10, 30, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_necromancy", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, -1, 80, "Necromancy_Base", 1, 10, 1, 10, 30, 10);
+                });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.AP_SCALING_DAMAGE, "ModScepterType", "base_ap_scaling_damage", List.of(), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, 60, 10, 0.28F, 0.35F, 0.01F);
                     vaultGearModifierTiersBuilder.add(50, -1, 10, 0.36, 0.45F, 0.01F);

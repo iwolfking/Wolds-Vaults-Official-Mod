@@ -20,11 +20,13 @@ public enum ElementalType {
     private final VaultGearAttribute<Boolean> attribute;
     private final WoldActiveFlags flag;
     private final TriConsumer<LivingEntity, LivingEntity, Number> method;
+    private final int color;
 
     ElementalType(VaultGearAttribute<Boolean> associatedGearAttribute, WoldActiveFlags associatedFlag, TriConsumer<LivingEntity, LivingEntity, Number> method) {
         this.attribute = associatedGearAttribute;
         this.flag = associatedFlag;
         this.method = method;
+        this.color = attribute.getReader().getRgbColor();
     }
 
     public VaultGearAttribute<Boolean> getAttribute() {
@@ -37,5 +39,9 @@ public enum ElementalType {
 
     public void applyEffect(LivingEntity target, LivingEntity attacker, Number effectValue) {
         this.method.accept(target, attacker, effectValue);
+    }
+
+    public int getColor() {
+        return this.color;
     }
 }
