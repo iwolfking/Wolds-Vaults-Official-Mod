@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.objectives.data.bosses.modifiers;
+package xyz.iwolfking.woldsvaults.integration.infernalmobs.modifiers;
 
 import atomicstryker.infernalmobs.common.MobModifier;
 import iskallia.vault.core.vault.Vault;

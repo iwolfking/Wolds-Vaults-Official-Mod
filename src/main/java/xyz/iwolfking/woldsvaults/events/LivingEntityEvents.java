@@ -111,6 +111,16 @@ public class LivingEntityEvents {
          ANCHOR_SLAM_SOUND  = Registry.SOUND_EVENT.get(ResourceLocation.parse("bettercombat:anchor_slam"));
     }
 
+    @SubscribeEvent
+    public static void reduceHealingFromHealBlock(LivingHealEvent event) {
+        if(event.getEntityLiving().hasEffect(ModEffects.HEALING_BLOCK)) {
+            MobEffectInstance effectInstance = event.getEntityLiving().getEffect(ModEffects.HEALING_BLOCK);
+            if(effectInstance != null) {
+                float reduction = (event.getEntityLiving().getEffect(ModEffects.HEALING_BLOCK).getAmplifier() + 1) * 0.1F;
+                event.setAmount(event.getAmount() * reduction);
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void onChampionDeath(LivingDeathEvent event) {

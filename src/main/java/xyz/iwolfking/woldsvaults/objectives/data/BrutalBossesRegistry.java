@@ -100,6 +100,15 @@ public class BrutalBossesRegistry {
         register("Weakness", 10.0);
         register("Webber", 10.0);
         register("Wither", 10.0);
+        register("Berserking", 10.0);
+        register("Surge", 10.0);
+        register("CorruptedAura", 10.0);
+        register("Exposer", 10.0);
+        register("Bloodthirsty", 10.0);
+        register("ManaBurn", 10.0);
+        register("Lifesteal", 10.0);
+        register("SizeShifting", 10.0);
+        register("Immortal", 10.0);
     }
 
 

@@ -32,6 +32,7 @@ public class ModEffects {
     public static final MobEffect BLITZ = new BlitzPotionEffect();
     public static final MobEffect BLEED_OVERRIDE = new BleedOverrideEffect();
     public static final MobEffect SHREDDED = new ShreddedEffect();
+    public static final MobEffect HEALING_BLOCK = new HealBlockEffect();
     public static final ThresholdEffect BATTLESTAFF_BLOCKING = new ThresholdEffect(0xceffff, WoldsVaults.id("battlestaff_blocking"));
     public static final ThresholdEffect MOMENTUM_ENGINE = new ThresholdEffect(0x99a63c, WoldsVaults.id("momentum_engine"));
     public static final ThresholdEffect BLOOD_CHAKRA = new ThresholdEffect(0xa83262, WoldsVaults.id("blood_chakra"));
@@ -59,6 +60,7 @@ public class ModEffects {
                                         , MOMENTUM_ENGINE
                                         , BLOOD_CHAKRA
                                         , ULTIMATE_SHIELD
+                                        , HEALING_BLOCK
                                         );
     }
 }
