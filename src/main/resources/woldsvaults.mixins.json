@@ -300,6 +300,7 @@
     "vaulthunters.custom.MixinDeckSocketAnvilRecipe",
     "vaulthunters.custom.MixinDownedPlayerManager",
     "vaulthunters.custom.MixinEffectCloudEntity",
+    "vaulthunters.custom.MixinEliteWitchEntity",
     "vaulthunters.custom.MixinEntityEvents",
     "vaulthunters.custom.MixinEtchingApplicationTableTileEntity",
     "vaulthunters.custom.MixinEtchingHelper",
