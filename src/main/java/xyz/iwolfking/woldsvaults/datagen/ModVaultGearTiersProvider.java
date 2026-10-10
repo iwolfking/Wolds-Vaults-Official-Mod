@@ -74,7 +74,13 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     vaultGearModifierTiersBuilder.add(0, -1, 10, true);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_BEAM, "ModScepterType", "base_beam_type", List.of(), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, -1, 70, true);
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_fireball", List.of(), vaultGearModifierTiersBuilder -> {
+                   addScepterInvoke(vaultGearModifierTiersBuilder, 0, -1, 80, "Fireball_Base", 1, 10, 1, 60, 100, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_nova", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, -1, 80, "Nova_Base", 1, 10, 1, 10, 30, 10);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.AP_SCALING_DAMAGE, "ModScepterType", "base_ap_scaling_damage", List.of(), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, 60, 10, 0.28F, 0.35F, 0.01F);

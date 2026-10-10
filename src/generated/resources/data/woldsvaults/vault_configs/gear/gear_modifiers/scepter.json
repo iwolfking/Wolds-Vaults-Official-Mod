@@ -274,7 +274,7 @@
         ]
       },
       {
-        "attribute": "the_vault:living",
+        "attribute": "woldsvaults:scepter_sparkles",
         "group": "ModScepterType",
         "identifier": "the_vault:base_sparkles_type",
         "tags": [],
@@ -285,6 +285,112 @@
             "weight": 10,
             "value": {
               "flag": true
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:scepter_beam",
+        "group": "ModScepterType",
+        "identifier": "the_vault:base_beam_type",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "flag": true
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:scepter_invoke",
+        "group": "ModScepterType",
+        "identifier": "the_vault:base_invoke_type_fireball",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 80,
+            "value": {
+              "abilityId": "Fireball_Base",
+              "level": {
+                "step": 1,
+                "min": 1,
+                "max": 10
+              },
+              "chargeTicks": {
+                "step": 10.0,
+                "min": 60.0,
+                "max": 100.0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:scepter_invoke",
+        "group": "ModScepterType",
+        "identifier": "the_vault:base_invoke_type_nova",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 80,
+            "value": {
+              "abilityId": "Nova_Base",
+              "level": {
+                "step": 1,
+                "min": 1,
+                "max": 10
+              },
+              "chargeTicks": {
+                "step": 10.0,
+                "min": 10.0,
+                "max": 30.0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ap_scaling_damage",
+        "group": "ModScepterType",
+        "identifier": "the_vault:base_ap_scaling_damage",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 60,
+            "weight": 10,
+            "value": {
+              "min": 0.28,
+              "max": 0.35,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.36,
+              "max": 0.44999998807907104,
+              "step": 0.009999999776482582
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.45,
+              "max": 0.6499999761581421,
+              "step": 0.009999999776482582
             }
           }
         ]

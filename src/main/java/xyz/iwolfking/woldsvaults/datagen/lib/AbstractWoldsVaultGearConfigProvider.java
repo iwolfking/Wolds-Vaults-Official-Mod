@@ -2,15 +2,14 @@ package xyz.iwolfking.woldsvaults.datagen.lib;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.entry.FloatRollRangeEntry;
+import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
-import iskallia.vault.gear.attribute.config.FloatAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.ability.BroodmotherWebAttribute;
-import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.MixinModConfigs;
+import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
 
 import java.util.List;
@@ -130,6 +129,22 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
         BroodmotherWebAttribute.Config config = new BroodmotherWebAttribute.Config(
                 new FloatRollRangeEntry(minChance, maxChance, stepChance),
                 new FloatRollRangeEntry(minDamage, maxDamage, stepDamage)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addScepterInvoke(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            String abilityId,
+            int minAbilityLevel, int maxAbilityLevel, int stepLevel,
+            float minCharge, float maxCharge, float stepCharge) {
+
+        ScepterInvokeAttribute.Config config = new ScepterInvokeAttribute.Config(
+                abilityId,
+                new IntRollRangeEntry(minAbilityLevel, maxAbilityLevel, stepLevel),
+                new FloatRollRangeEntry(minCharge, maxCharge, stepCharge)
         );
 
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);

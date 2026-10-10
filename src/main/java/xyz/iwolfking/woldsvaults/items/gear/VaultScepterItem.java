@@ -45,6 +45,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolAction;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.models.Scepters;
+import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -145,9 +146,17 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         return VaultGearHelper.getDisplayName(stack, super.getName(stack));
     }
 
+
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.BOW;
+    public @NotNull UseAnim getUseAnimation(ItemStack stack) {
+        VaultGearData gearData = VaultGearData.read(stack);
+        if (gearData.getState() == VaultGearState.IDENTIFIED) {
+            if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM) ||
+                    gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE)) {
+                return UseAnim.BOW;
+            }
+        }
+        return UseAnim.NONE;
     }
 
     @Override
@@ -158,11 +167,16 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-
         VaultGearData gearData = VaultGearData.read(stack);
-        if (gearData.getState() == VaultGearState.IDENTIFIED && gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) {
-            player.startUsingItem(hand);
-            return InteractionResultHolder.consume(stack);
+
+        if (gearData.getState() == VaultGearState.IDENTIFIED) {
+            boolean hasBeam = gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM);
+            boolean hasInvoke = gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE);
+
+            if (hasBeam || hasInvoke) {
+                player.startUsingItem(hand);
+                return InteractionResultHolder.consume(stack);
+            }
         }
 
         return VaultGearHelper.rightClick(world, player, hand, super.use(world, player, hand));
@@ -173,12 +187,71 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         if (!(entity instanceof ServerPlayer player) || !(level instanceof ServerLevel serverLevel)) return;
 
         int chargeTicks = getUseDuration(stack) - timeLeft;
-        if (chargeTicks < 10) return;
-
         VaultGearData gearData = VaultGearData.read(stack);
-        if (!gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) return;
 
-        executeBeamAttack(serverLevel, player);
+        if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE)) {
+            xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute invokeAttr = gearData.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE, VaultGearAttributeTypeMerger.firstNonNull());
+            if (invokeAttr != null && chargeTicks >= invokeAttr.getChargeTicks()) {
+                invokeAttr.trigger(player);
+                serverLevel.playSound(null, player.blockPosition(), SoundEvents.EVOKER_CAST_SPELL, SoundSource.PLAYERS, 1.0F, 1.2F);
+                return;
+            }
+        }
+
+        if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) {
+            if (chargeTicks < 10) return;
+            executeBeamAttack(serverLevel, player);
+        }
+    }
+
+    @Override
+    public void onUsingTick(ItemStack stack, LivingEntity entity, int count) {
+        if (!(entity instanceof ServerPlayer player)) return;
+
+        int chargeTicks = getUseDuration(stack) - count;
+        VaultGearData gearData = VaultGearData.read(stack);
+        if (gearData.getState() != VaultGearState.IDENTIFIED) return;
+
+        float targetTicks = 20.0F;
+        boolean hasValidCharge = false;
+
+        if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE)) {
+            ScepterInvokeAttribute invokeAttr = gearData.get(
+                    xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE,
+                    VaultGearAttributeTypeMerger.firstNonNull()
+            );
+            if (invokeAttr != null) {
+                targetTicks = invokeAttr.getChargeTicks();
+                hasValidCharge = true;
+            }
+        } else if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) {
+            hasValidCharge = true;
+        }
+
+        if (!hasValidCharge) return;
+
+        Level level = player.level;
+        if (!(level instanceof ServerLevel serverLevel)) return;
+
+        Vec3 look = player.getLookAngle();
+        Vec3 tipPos = player.getEyePosition().add(look.x * 0.7, -0.2, look.z * 0.7);
+
+        if (chargeTicks < targetTicks) {
+            serverLevel.sendParticles(ParticleTypes.ENCHANT,
+                    tipPos.x, tipPos.y, tipPos.z,
+                    2, 0.1, 0.1, 0.1, 0.05);
+        }
+        else if (chargeTicks == (int) targetTicks) {
+            level.playSound(null, player.blockPosition(), SoundEvents.NOTE_BLOCK_PLING, SoundSource.PLAYERS, 0.8F, 2.0F);
+            serverLevel.sendParticles(ParticleTypes.END_ROD,
+                    tipPos.x, tipPos.y, tipPos.z,
+                    8, 0.1, 0.1, 0.1, 0.08);
+        }
+        else if (chargeTicks % 10 == 0) {
+            serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                    tipPos.x, tipPos.y, tipPos.z,
+                    1, 0.05, 0.05, 0.05, 0.01);
+        }
     }
 
     private void executeBeamAttack(ServerLevel level, ServerPlayer player) {

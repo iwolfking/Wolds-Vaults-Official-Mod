@@ -7,6 +7,7 @@ import iskallia.vault.entity.entity.VaultFireball;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.etching.EtchingHelper;
 import iskallia.vault.skill.ability.effect.spi.AbstractFireballAbility;
+import iskallia.vault.skill.ability.effect.spi.core.InstantAbility;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,9 +20,14 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.lib.IStoredAbilityTier;
+import xyz.iwolfking.woldsvaults.api.util.AbilityHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.PercentBurnEffect;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
@@ -29,7 +35,7 @@ import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 import java.util.Random;
 
 @Mixin(value = VaultFireball.class, remap = false)
-public abstract class MixinVaultFireball extends AbstractArrow {
+public abstract class MixinVaultFireball extends AbstractArrow implements IStoredAbilityTier {
     protected MixinVaultFireball(EntityType<? extends AbstractArrow> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -45,6 +51,9 @@ public abstract class MixinVaultFireball extends AbstractArrow {
 
     @Shadow
     public abstract VaultFireball createBouncingFireball(Level level, LivingEntity thrower, int bounceCount);
+
+    @Shadow
+    public abstract VaultFireball.FireballType getFireballType();
 
     @Inject(method = "onHit", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/entity/VaultFireball;createBouncingFireball(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;I)Liskallia/vault/entity/entity/VaultFireball;", ordinal = 0, remap = false), remap = true)
     private void fireVolleyBouncesExplode(HitResult result, CallbackInfo ci) {
@@ -99,5 +108,42 @@ public abstract class MixinVaultFireball extends AbstractArrow {
         if(damageSource.getEntity() instanceof LivingEntity attacker) {
             PercentBurnEffect.applyPercentBurn(living, attacker,220, attackDamage);
         }
+    }
+
+    @Inject(method = "getDamage", at = @At("HEAD"), cancellable = true)
+    private void computeScepterFireballDamage(CallbackInfoReturnable<Float> cir) {
+        if (this.getOwner() instanceof ServerPlayer serverPlayer) {
+            if (getTierLevel() >= 0) {
+                InstantAbility ability = AbilityHelper.getAbilityRefFromConfig(this.getFireballType().getAbilityName(), getTierLevel()).orElse(null);
+                if(ability instanceof AbstractFireballAbility abstractFireballAbility) {
+                    cir.setReturnValue(abstractFireballAbility.getAbilityPower(serverPlayer));
+                }
+            }
+        }
+    }
+
+    @Inject(method = "getRadius", at = @At("HEAD"), cancellable = true)
+    private void computerScepterFireballRadius(CallbackInfoReturnable<Float> cir) {
+        if (this.getOwner() instanceof ServerPlayer) {
+            if (getTierLevel() >= 0) {
+                InstantAbility ability = AbilityHelper.getAbilityRefFromConfig(this.getFireballType().getAbilityName(), getTierLevel()).orElse(null);
+                if(ability instanceof AbstractFireballAbility abstractFireballAbility) {
+                    cir.setReturnValue(abstractFireballAbility.getRadius());
+                }
+            }
+        }
+    }
+
+    @Unique
+    private int woldsvaults$tierLevel = -1;
+
+    @Override
+    public void setTierLevel(int level) {
+        woldsvaults$tierLevel = level;
+    }
+
+    @Override
+    public int getTierLevel() {
+        return woldsvaults$tierLevel;
     }
 }

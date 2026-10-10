@@ -18,6 +18,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.UniqueEffectGearAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.HeartFragmentOnLootAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.ParticleTrailAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 
 import javax.annotation.Nullable;
 
@@ -127,6 +128,7 @@ public class ModGearAttributes {
     //Scepter Modifiers
     public static final VaultGearAttribute<Boolean> SCEPTER_SPARKLES = woldsAttr("scepter_sparkles", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Sparkles", 8247956), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> SCEPTER_BEAM = woldsAttr("scepter_beam", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Beam", 752051), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<ScepterInvokeAttribute> SCEPTER_INVOKE = woldsAttr("scepter_invoke", ScepterInvokeAttribute.type(), ScepterInvokeAttribute.generator(), ScepterInvokeAttribute.reader(), ScepterInvokeAttribute.comparator());
     //Deprecated
     @Deprecated
     public static final VaultGearAttribute<String> WEAPON_TYPE = attr("weapon_type", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.weaponTypeReader("Weapon Type", 888888, "Type: %s"));
@@ -208,6 +210,7 @@ public class ModGearAttributes {
                       registry.register(RADIATION_IMMUNITY);
                       registry.register(SCEPTER_SPARKLES);
                       registry.register(SCEPTER_BEAM);
+                      registry.register(SCEPTER_INVOKE);
        }
   
     public static void registerVanillaAssociations() {
