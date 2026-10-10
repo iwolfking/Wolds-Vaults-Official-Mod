@@ -129,6 +129,9 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Boolean> SCEPTER_SPARKLES = woldsAttr("scepter_sparkles", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Sparkles", 8247956), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> SCEPTER_BEAM = woldsAttr("scepter_beam", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Beam", 752051), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> FIRE_ELEMENT = woldsAttr("fire_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Fire Affinity", 16711680), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> ICE_ELEMENT = woldsAttr("ice_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Ice Affinity", 10079487), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> POISON_ELEMENT = woldsAttr("poison_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Poison Affinity", 65280), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> LIGHTNING_ELEMENT = woldsAttr("lightning_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Lightning Affinity", 16776960), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<ScepterInvokeAttribute> SCEPTER_INVOKE = woldsAttr("scepter_invoke", ScepterInvokeAttribute.type(), ScepterInvokeAttribute.generator(), ScepterInvokeAttribute.reader(), ScepterInvokeAttribute.comparator());
 
     //Deprecated
@@ -214,6 +217,9 @@ public class ModGearAttributes {
                       registry.register(SCEPTER_BEAM);
                       registry.register(SCEPTER_INVOKE);
                       registry.register(FIRE_ELEMENT);
+                      registry.register(ICE_ELEMENT);
+                      registry.register(POISON_ELEMENT);
+                      registry.register(LIGHTNING_ELEMENT);
        }
   
     public static void registerVanillaAssociations() {

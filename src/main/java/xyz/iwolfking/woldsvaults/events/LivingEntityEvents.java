@@ -56,6 +56,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -115,17 +116,14 @@ public class LivingEntityEvents {
 
     @SubscribeEvent
     public static void onElementalAttack(LivingHurtEvent event) {
-        if(WoldActiveFlags.FIRE_ELEMENT_ATTACK.isSet()) {
-            if(event.getSource().getEntity() instanceof LivingEntity attacker) {
-                PercentBurnEffect.applyPercentBurn(event.getEntityLiving(), attacker, 200, event.getAmount());
-            }
+        Entity attacker = event.getSource().getEntity();
+        if(attacker instanceof ServerPlayer player) {
+            ElementHelper.applyElementalEffects(event.getEntityLiving(), player, event.getAmount());
         }
 
         //Handle special projectile cases
-        if(event.getSource().getEntity() instanceof VaultFireball fireball && fireball instanceof IWoldAbilityEnhancements woldAbilityEnhancements) {
-            if(woldAbilityEnhancements.getElementTypes().contains(ElementalType.FIRE)) {
-                PercentBurnEffect.applyPercentBurn(event.getEntityLiving(), fireball.getThrower(), 200, event.getAmount());
-            }
+        if(attacker instanceof VaultFireball fireball && fireball instanceof IWoldAbilityEnhancements woldAbilityEnhancements) {
+            ElementHelper.applyElementalEffects(event.getEntityLiving(), fireball.getThrower(), event.getAmount(), woldAbilityEnhancements.getElementTypes(), true);
         }
     }
 
