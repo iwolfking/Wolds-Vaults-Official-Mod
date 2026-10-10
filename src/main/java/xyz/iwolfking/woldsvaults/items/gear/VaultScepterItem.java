@@ -44,6 +44,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolAction;
 import org.jetbrains.annotations.NotNull;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.models.Scepters;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 
@@ -192,7 +193,15 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE)) {
             xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute invokeAttr = gearData.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE, VaultGearAttributeTypeMerger.firstNonNull());
             if (invokeAttr != null && chargeTicks >= invokeAttr.getChargeTicks()) {
-                invokeAttr.trigger(player);
+                if(gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.FIRE_ELEMENT)) {
+                    WoldActiveFlags.FIRE_ELEMENT_ATTACK.runWithFlag(() -> {
+                        invokeAttr.trigger(player);
+                    });
+                }
+                else {
+                    invokeAttr.trigger(player);
+                }
+
                 serverLevel.playSound(null, player.blockPosition(), SoundEvents.EVOKER_CAST_SPELL, SoundSource.PLAYERS, 1.0F, 1.2F);
                 return;
             }

@@ -113,6 +113,15 @@ public class LivingEntityEvents {
     }
 
     @SubscribeEvent
+    public static void onFireElementAttack(LivingHurtEvent event) {
+        if(WoldActiveFlags.FIRE_ELEMENT_ATTACK.isSet()) {
+            if(event.getSource().getEntity() instanceof LivingEntity attacker) {
+                PercentBurnEffect.applyPercentBurn(event.getEntityLiving(), attacker, 200, event.getAmount());
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onScepterHitSparkles(LivingHurtEvent event) {
         if (!(event.getSource().getEntity() instanceof ServerPlayer player)) return;
         if (ActiveFlags.IS_AP_ATTACKING.isSet()) return;

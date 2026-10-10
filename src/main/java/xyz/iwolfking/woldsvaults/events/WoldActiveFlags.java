@@ -8,6 +8,7 @@ public enum WoldActiveFlags {
     IS_FANG_ATTACKING,
     IS_PROC_FANG_ATTACKING,
     IS_NO_KNOCKBACK_DAMAGE,
+    FIRE_ELEMENT_ATTACK,
     IS_AOE2_ATTACK;
 
     private final ThreadLocal<Integer> activeReferences = ThreadLocal.withInitial(() -> 0);
