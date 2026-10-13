@@ -351,6 +351,7 @@
     "vaulthunters.custom.MixinObjectiveHudSettings",
     "vaulthunters.custom.MixinObjectiveTemplates",
     "vaulthunters.custom.MixinOverviewContainerElement",
+    "vaulthunters.custom.MixinPetModelType",
     "vaulthunters.custom.MixinPlayerBlackMarketData",
     "vaulthunters.custom.MixinPlayerDamageHelper",
     "vaulthunters.custom.MixinPlayerGreedData",
