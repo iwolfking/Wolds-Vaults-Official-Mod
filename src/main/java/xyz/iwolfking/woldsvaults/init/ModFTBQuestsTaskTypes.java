@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.CompleteBountyTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.EnterVaultTask;
+import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.ResearchTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.VaultLevelTask;
 
 public class ModFTBQuestsTaskTypes {
@@ -16,11 +17,13 @@ public class ModFTBQuestsTaskTypes {
     public static TaskType ENTER_VAULT;
     //public static TaskType COMPLETE_VAULT;
     public static TaskType COMPLETE_BOUNTY;
+    public static TaskType RESEARCH;
 
     public static void init() {
         VAULT_LEVEL = TaskTypes.register(WoldsVaults.id("vault_level"), VaultLevelTask::new, () -> Icon.getIcon("the_vault:item/spicy_hearty_burger"));
         ENTER_VAULT = TaskTypes.register(WoldsVaults.id("enter_vault"), EnterVaultTask::new, () -> Icon.getIcon("the_vault:item/compass/vault_compass_00"));
         COMPLETE_BOUNTY = TaskTypes.register(WoldsVaults.id("complete_bounty"), CompleteBountyTask::new, () -> Icon.getIcon("the_vault:item/lost_bounty"));
+        RESEARCH = TaskTypes.register(WoldsVaults.id("research"), ResearchTask::new, () -> Icon.getIcon("the_vault:item/knowledge_star"));
     }
 
 }
