@@ -670,6 +670,10 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                      disabledInVaults().forEach(innerDesc::add);
                      innerDesc.add(JsonDescription.simple("Harness immense power with advanced tech, massive energy storage, and endgame gear. Build powerful reactors, upgrade your equipment beyond your limits!", "$text"));
                 }).forEach(jsonElements::add))
+                .addDescription("Just Dire Things", jsonElements -> modDesc("Just Dire Things", innerDesc -> {
+                            disabledInVaults().forEach(innerDesc::add);
+                            innerDesc.add(JsonDescription.simple("Just Dire Things is a collection of various cool items, blocks, and utilities."));
+                        }))
                 .build());
     }
 

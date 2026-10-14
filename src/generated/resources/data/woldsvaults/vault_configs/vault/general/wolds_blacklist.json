@@ -44,7 +44,16 @@
     "botania:loki_ring",
     "botania:king_key",
     "botania:infinite_fruit",
-    "botania:flugel_eye"
+    "botania:flugel_eye",
+    "justdirethings:blazejet_wand",
+    "justdirethings:voidshift_wand",
+    "justdirethings:eclipsegate_wand",
+    "justdirethings:creaturecatcher",
+    "justdirethings:polymorphic_wand",
+    "justdirethings:polymorphic_wand_v2",
+    "justdirethings:portalgun",
+    "justdirethings:portalgun_v2",
+    "justdirethings:time_wand"
   ],
   "BLOCK_BLACKLIST": [
     "draconicevolution:stabilized_spawner",
