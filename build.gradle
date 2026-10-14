@@ -390,7 +390,7 @@ dependencies {
 
     // local jij mods
 
-    implementation fg.deobf('local:vhroller:1.4.0')
+    implementation fg.deobf('local:vhroller:1.5.0')
     implementation fg.deobf('local:forgified-sgui:1.0.2')
     implementation fg.deobf('local:black_market_tweaks:1.8')
     implementation fg.deobf('local:vhapi:5.6.0')
@@ -402,8 +402,8 @@ dependencies {
     jarJar(group: 'eu.pb4', name: 'forgified-sgui', version: '[1.0.2,)') {
         jarJar.pin(it, '1.0.2')
     }
-    jarJar(group: 'me.justahuman', name: 'vhroller', version: '[1.4.0,)') {
-        jarJar.pin(it, '1.4.0')
+    jarJar(group: 'me.justahuman', name: 'vhroller', version: '[1.5.0,)') {
+        jarJar.pin(it, '1.5.0')
     }
     jarJar(group: 'dev.attackeight', name: 'black_market_tweaks', version: '[1.8,)') {
         jarJar.pin(it, '1.8')
