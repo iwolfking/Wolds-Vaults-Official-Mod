@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.vhapi.networking.VHAPISyncDescriptor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.client.servertransfer.ServerTransferState;
 
 @Restriction(
@@ -21,7 +22,7 @@ public class MixinVHAPISyncDescriptor {
     @Inject(method = "handle", at = @At("HEAD"), cancellable = true)
     private void disableVHAPISync(NetworkEvent.Context context, CallbackInfo ci){
         if (ServerTransferState.disableVHAPITemplateSync) {
-            WoldsVaults.LOGGER.info("VHAPI template sync disabled, skipping handle");
+            WoldLogger.debug("VHAPI template sync disabled, skipping handle");
             context.setPacketHandled(true);
             ServerTransferState.disableVHAPITemplateSync = false;
             ci.cancel();

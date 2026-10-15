@@ -43,6 +43,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
 import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.api.util.LuckHelper;
@@ -138,7 +139,7 @@ public abstract class MixinRunner extends Listener {
                             added++;
                         }
                     }
-                    WoldsVaults.LOGGER.info("Hyper greed bonus rolled at x{} quantity ({} non-coin stacks).",
+                    WoldLogger.debug("Hyper greed bonus rolled at x{} quantity ({} non-coin stacks).",
                             String.format("%.1f", 1.0F + hyperBonusQuantity), added);
                 }
             }
@@ -156,10 +157,10 @@ public abstract class MixinRunner extends Listener {
                 List<ItemStack> rewards = HyperCrateRewards.rollForVault(vault, greedTier, JavaRandom.ofNanoTime());
                 if (!rewards.isEmpty()) {
                     ((CrateLootGeneratorAccessor) event.getCrateLootGenerator()).getAdditionalItemsWolds().addAll(rewards);
-                    WoldsVaults.LOGGER.info("Injected {} hyper score-tier reward stacks into the completion crate.", rewards.size());
+                    WoldLogger.debug("Injected {} hyper score-tier reward stacks into the completion crate.", rewards.size());
                 }
             } catch (Exception e) {
-                WoldsVaults.LOGGER.error("Hyper score-tier crate injection failed!", e);
+                WoldLogger.error("Hyper score-tier crate injection failed!", e);
             }
         });
     }

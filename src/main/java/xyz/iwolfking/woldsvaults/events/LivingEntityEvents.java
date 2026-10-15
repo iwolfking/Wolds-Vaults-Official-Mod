@@ -71,6 +71,7 @@ import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.*;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.api.data.HexEffects;
@@ -343,9 +344,7 @@ public class LivingEntityEvents {
         if(event.getSource().getEntity() instanceof Player player) {
             float reavingDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.REAVING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
             if(reavingDamage != 0) {
-                if(WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
-                    WoldsVaults.LOGGER.debug("[WOLD'S VAULTS] Added " + (event.getEntityLiving().getMaxHealth() * reavingDamage) + " bonus reaving damage to attack.");
-                }
+                WoldLogger.debug("Added " + (event.getEntityLiving().getMaxHealth() * reavingDamage) + " bonus reaving damage to attack.");
                 event.getEntityLiving().addEffect(new MobEffectInstance(ModEffects.REAVING, Integer.MAX_VALUE, 0));
                 event.getEntityLiving().addEffect(new MobEffectInstance(iskallia.vault.init.ModEffects.NO_AI, 20, 0));
 
@@ -357,7 +356,7 @@ public class LivingEntityEvents {
                 });
 
                 if(ANCHOR_SLAM_SOUND == null) {
-                    WoldsVaults.LOGGER.debug("Anchor Slam Sound was null, Better Combat mod is missing.");
+                    WoldLogger.debug("Anchor Slam Sound was null, Better Combat mod is missing.");
                     return;
                 }
                 player.getLevel().playSound(null, event.getEntity(), ANCHOR_SLAM_SOUND, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -375,7 +374,7 @@ public class LivingEntityEvents {
         if (Float.isFinite(computed) || !HyperVaultEvents.isInHyperVault(target)) {
             return computed;
         }
-        WoldsVaults.LOGGER.error("HYPER NaN-guard: non-finite {} damage against {} replaced with {} (max health {}).",
+        WoldLogger.error("HYPER NaN-guard: non-finite {} damage against {} replaced with {} (max health {}).",
                 what, target.getType().getRegistryName(), fallback, target.getMaxHealth());
         return Float.isFinite(fallback) ? fallback : 0.0F;
     }
@@ -400,7 +399,7 @@ public class LivingEntityEvents {
             float executionDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.EXECUTION_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
             if(executionDamage != 0) {
                 if(WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
-                    WoldsVaults.LOGGER.debug("[WOLD'S VAULTS] Added " + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage) + " bonus execution damage to attack.");
+                    WoldLogger.debug("[WOLD'S VAULTS] Added " + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage) + " bonus execution damage to attack.");
                 }
 
                 if(event.getEntityLiving() instanceof TheVesselEntity) {
@@ -600,7 +599,7 @@ public class LivingEntityEvents {
                             return;
 
 //                        //[[DEBUG]]
-//                        WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Echo successfully re-procced.");
+//                        WoldLogger.info("[WOLD'S VAULTS] Echo successfully re-procced.");
 
                         // proc from echo/reverb
                         newDamage = event.getAmount() * oldInstance.getDecay();
@@ -631,7 +630,7 @@ public class LivingEntityEvents {
 
                             if(oDamage > 1.0F) {
 //                                //[[DEBUG]]
-//                                WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Reverberated {} damage.", oDamage);
+//                                WoldLogger.info("[WOLD'S VAULTS] Reverberated {} damage.", oDamage);
 
                                 WoldActiveFlags.IS_AOE2_ATTACK.maybeRunWithFlag(noCleave, () ->
                                     WoldActiveFlags.IS_UNLUCKY_ATTACK.runWithFlag(() ->
@@ -646,9 +645,9 @@ public class LivingEntityEvents {
                         target.addEffect(new EchoingEffectInstance(player, newDamage, newSource, newDuration, newDecay, noLuck, noCleave));
 
 //                        //[[DEBUG]]
-//                        WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Added a {} damage echo to attack.", newDamage);
-//                        WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Currently, {} damage is on top.", ((EchoingEffectInstance) target.getEffect(ModEffects.ECHOING)).getDamage());
-//                        WoldsVaults.LOGGER.info("[WOLD'S VAULTS] Decay at {}.", ((EchoingEffectInstance) target.getEffect(ModEffects.ECHOING)).getDecay());
+//                        WoldLogger.info("[WOLD'S VAULTS] Added a {} damage echo to attack.", newDamage);
+//                        WoldLogger.info("[WOLD'S VAULTS] Currently, {} damage is on top.", ((EchoingEffectInstance) target.getEffect(ModEffects.ECHOING)).getDamage());
+//                        WoldLogger.info("[WOLD'S VAULTS] Decay at {}.", ((EchoingEffectInstance) target.getEffect(ModEffects.ECHOING)).getDecay());
                     }
                 }
             }

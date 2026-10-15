@@ -16,6 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEventSystem;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
@@ -199,7 +200,7 @@ public class SurvivalObjectiveConfig extends Config {
             VaultEvent event = VaultEventSystem.getEventById(eventId);
 
             if(event == null) {
-                WoldsVaults.LOGGER.warn("Attempted to activate an invalid Vault Event id: {}", eventId);
+                WoldLogger.warn("Attempted to activate an invalid Vault Event id: {}", eventId);
                 return Optional.empty();
             }
 
@@ -234,7 +235,7 @@ public class SurvivalObjectiveConfig extends Config {
             VaultEvent event = VaultEventSystem.getEventById(eventId);
 
             if(event == null) {
-                WoldsVaults.LOGGER.warn("Attempted to activate an invalid Vault Event id: {}", eventId);
+                WoldLogger.warn("Attempted to activate an invalid Vault Event id: {}", eventId);
                 return Optional.empty();
             }
 

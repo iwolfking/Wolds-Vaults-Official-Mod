@@ -24,6 +24,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.CardDeckAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.deck.lib.IRemovableSlotModifier;
 import java.util.*;
@@ -186,18 +187,18 @@ public class CreateSlotDeckModifier extends DeckModifier<CreateSlotDeckModifier.
 
         Map<CardPos, Card> internalCardsMap = ((CardDeckAccessor)deck).getCardsMap();;
         if (internalCardsMap != null) {
-            System.out.println("AFFECTED:");
+            WoldLogger.debug("AFFECTED:");
             for (CardPos p : affectedSlots) {
-                System.out.println("  [" + p.x + ", " + p.y + "]");
+                WoldLogger.debug("  [" + p.x + ", " + p.y + "]");
             }
 
-            System.out.println("MAP:");
+            WoldLogger.debug("MAP:");
             for (CardPos p : internalCardsMap.keySet()) {
-                System.out.println("  [" + p.x + ", " + p.y + "]");
+                WoldLogger.debug("  [" + p.x + ", " + p.y + "]");
             }
             for (CardPos affected : this.affectedSlots) {
                 var removed = internalCardsMap.remove(affected);
-                System.out.println(
+                WoldLogger.debug(
                         "REMOVE [" + affected.x + ", " + affected.y + "] = " + removed
                 );
             }

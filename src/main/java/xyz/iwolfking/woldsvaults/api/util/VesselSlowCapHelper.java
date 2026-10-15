@@ -4,6 +4,7 @@ import iskallia.vault.entity.boss.TheVesselEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 public class VesselSlowCapHelper {
@@ -25,7 +26,7 @@ public class VesselSlowCapHelper {
             return speed;
         }
         if (WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
-            WoldsVaults.LOGGER.debug("[WOLD'S VAULTS] Capped Vessel {} slow: movement speed {} raised to {}.", vessel.getId(), speed, floor);
+            WoldLogger.debug("[WOLD'S VAULTS] Capped Vessel {} slow: movement speed {} raised to {}.", vessel.getId(), speed, floor);
         }
         return floor;
     }

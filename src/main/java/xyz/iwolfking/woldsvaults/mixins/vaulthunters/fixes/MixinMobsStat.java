@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = MobsStat.class, remap = false)
 public class MixinMobsStat {
@@ -39,7 +40,7 @@ public class MixinMobsStat {
             long now = System.currentTimeMillis();
             if (now - woldsVaults$lastOverflowWarn > 60000L) {
                 woldsVaults$lastOverflowWarn = now;
-                WoldsVaults.LOGGER.warn("Vault stat {} exceeded 32-bit float range (total {}, event amount {}); clamping to Float.MAX_VALUE", stat, total, amount);
+                WoldLogger.warn("Vault stat {} exceeded 32-bit float range (total {}, event amount {}); clamping to Float.MAX_VALUE", stat, total, amount);
             }
         }
         return (float) Math.min(sum, (double) Float.MAX_VALUE);

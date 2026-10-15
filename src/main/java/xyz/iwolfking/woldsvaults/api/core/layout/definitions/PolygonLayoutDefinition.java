@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.PolygonLayoutTooltip;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
@@ -79,7 +80,7 @@ public class PolygonLayoutDefinition implements LayoutDefinition {
         try {
             return PolygonLayoutTooltip.getTooltipImage(data);
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Failed to create polygon layout manipulator preview.", e);
+            WoldLogger.error("Failed to create polygon layout manipulator preview.", e);
             return Optional.empty();
         }
     }

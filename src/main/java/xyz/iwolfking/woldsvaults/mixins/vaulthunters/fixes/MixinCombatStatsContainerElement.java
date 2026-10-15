@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 import java.util.function.Function;
 
@@ -50,7 +51,7 @@ public class MixinCombatStatsContainerElement {
             }
         }
         if (nonFinite || total > Float.MAX_VALUE) {
-            WoldsVaults.LOGGER.warn("Vault end screen {} total exceeded 32-bit float range (nonFinite {}, double total {}); clamping display to Float.MAX_VALUE", statName, nonFinite, total);
+            WoldLogger.warn("Vault end screen {} total exceeded 32-bit float range (nonFinite {}, double total {}); clamping display to Float.MAX_VALUE", statName, nonFinite, total);
         }
         Object2FloatOpenHashMap<ResourceLocation> collapsed = new Object2FloatOpenHashMap<>();
         collapsed.put(ResourceLocation.tryParse("woldsvaults:damage_total"), (float) Math.min(total, (double) Float.MAX_VALUE));
@@ -68,7 +69,7 @@ public class MixinCombatStatsContainerElement {
         if (Float.isFinite(value)) {
             sanitized = value;
         } else {
-            WoldsVaults.LOGGER.warn("Vault end screen damage value was non-finite ({}); displaying the float maximum instead", value);
+            WoldLogger.warn("Vault end screen damage value was non-finite ({}); displaying the float maximum instead", value);
             sanitized = Float.MAX_VALUE;
         }
         return sanitized < 1.0e10F ? String.format("%.01f", sanitized) : String.format("%.3e", sanitized);

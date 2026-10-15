@@ -165,7 +165,7 @@ public class BowModel extends DynamicModel<BowModel> {
 //        modelJson = modelJson.replace("{{bow_pulling_1}}", textures.get("bow_pulling_model_1").toString());
 //        modelJson = modelJson.replace("{{bow_pulling_2}}", textures.get("bow_pulling_model_2").toString());
 //        System.out.println(modelJson);
-//        WoldsVaults.LOGGER.info(modelJson);
+//        WoldLogger.info(modelJson);
         return BlockModel.fromString(jsonPattern);
     }
 

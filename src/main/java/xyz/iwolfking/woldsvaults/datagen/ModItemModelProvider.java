@@ -17,6 +17,7 @@ import xyz.iwolfking.vhapi.api.registry.CustomCatalystModelRegistry;
 import xyz.iwolfking.vhapi.api.registry.CustomInscriptionModelRegistry;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
@@ -345,7 +346,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                 }
             }
         } catch (IllegalAccessException e) {
-            WoldsVaults.LOGGER.error("Failed to access ritual dummy fields via reflection", e);
+            WoldLogger.error("Failed to access ritual dummy fields via reflection", e);
         }
     }
 

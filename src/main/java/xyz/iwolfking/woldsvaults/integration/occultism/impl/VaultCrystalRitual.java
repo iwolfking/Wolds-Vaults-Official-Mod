@@ -21,7 +21,7 @@ public class VaultCrystalRitual {
     public static ItemStack invokeRitual(ResourceLocation type, ItemStack crystalStack) {
         ItemStack output = crystalStack.copy();
         if (output == ItemStack.EMPTY) { // do not modify the shared empty stack (idk how we get here)
-//            WoldsVaults.LOGGER.error("ItemStack.EMPTY for {} ritual", type);
+//            WoldLogger.error("ItemStack.EMPTY for {} ritual", type);
             return output;
         }
 

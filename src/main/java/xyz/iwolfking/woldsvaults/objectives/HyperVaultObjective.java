@@ -91,7 +91,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.EventPriority;
+import xyz.iwolfking.vhapi.api.util.MessageUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
@@ -351,7 +353,7 @@ public class HyperVaultObjective extends Objective {
         try {
             body.run();
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Hyper handler '{}' failed!", what, e);
+            WoldLogger.error("Hyper handler '{}' failed!", what, e);
         }
     }
 
@@ -366,13 +368,13 @@ public class HyperVaultObjective extends Objective {
         }
 
         if (vault.get(Vault.MODIFIERS).hasModifier(WoldsVaults.id("cull"))) {
-            WoldsVaults.LOGGER.error("Cull modifier is active on a Hyper vault and cannot be removed at runtime! "
+            WoldLogger.error("Cull modifier is active on a Hyper vault and cannot be removed at runtime! "
                     + "The map-application guard should have stripped it; the vault will be trivialized.");
         }
 
         if (this.getOr(CYCLE, 0) >= 3 && !vault.get(Vault.MODIFIERS).hasModifier(WoldsVaults.id("radar"))) {
             VaultModifierUtils.addModifier(vault, WoldsVaults.id("radar"), 1);
-            WoldsVaults.LOGGER.info("Re-added the Radar modifier to a cycle-{} hyper vault on load.", this.getOr(CYCLE, 0));
+            WoldLogger.debug("Re-added the Radar modifier to a cycle-{} hyper vault on load.", this.getOr(CYCLE, 0));
         }
 
         restoreOrSnapshotSettableValues(vault);
@@ -388,7 +390,7 @@ public class HyperVaultObjective extends Objective {
             if (back.getX() == 0 && back.getZ() == 0 && data.getTemplate() == null) {
                 TemplatePoolKey key = VaultRegistry.TEMPLATE_POOL.getKey(VaultMod.id("vault/rooms/special/boss"));
                 if (key == null) {
-                    WoldsVaults.LOGGER.error("Boss room template pool 'vault/rooms/special/boss' is missing; the Hyper vault has no arena!");
+                    WoldLogger.error("Boss room template pool 'vault/rooms/special/boss' is missing; the Hyper vault has no arena!");
                     return;
                 }
                 data.setTemplate(data.getLayout().getRoom(key.get(vault.get(Vault.VERSION)), vault, vault.get(Vault.VERSION), data.getRegion(), data.getRandom(), data.getSettings()));
@@ -410,7 +412,7 @@ public class HyperVaultObjective extends Objective {
                 return;
             }
             boolean mainHandEmpty = data.getPlayer().getMainHandItem().isEmpty();
-            WoldsVaults.LOGGER.info("Podium clicked while armed at {}: mainHandEmpty={}, sneaking={}.",
+            WoldLogger.debug("Podium clicked while armed at {}: mainHandEmpty={}, sneaking={}.",
                     data.getPos(), mainHandEmpty, data.getPlayer().isShiftKeyDown());
             if (!mainHandEmpty) {
                 return;
@@ -418,7 +420,7 @@ public class HyperVaultObjective extends Objective {
             try {
                 this.bossManager.armAndStartFight(data.getPos());
             } catch (Exception e) {
-                WoldsVaults.LOGGER.error("Arming the hyperboss fight failed!", e);
+                WoldLogger.error("Arming the hyperboss fight failed!", e);
                 return;
             }
             data.setResult(InteractionResult.SUCCESS);
@@ -566,7 +568,7 @@ public class HyperVaultObjective extends Objective {
             }
         }
         doomed.forEach(Entity::discard);
-        WoldsVaults.LOGGER.info("Hyper teardown: discarded {} hostile/projectile entities before vault close.", doomed.size());
+        WoldLogger.debug("Hyper teardown: discarded {} hostile/projectile entities before vault close.", doomed.size());
     }
 
     /** Counts down each personal victory transition and extracts its player alone at zero. */
@@ -596,10 +598,10 @@ public class HyperVaultObjective extends Objective {
                 if (listener instanceof Runner runner) {
                     completeAndExtract(world, vault, runner);
                 } else {
-                    WoldsVaults.LOGGER.info("Victory countdown ended for {}, but they already left the vault.", key);
+                    WoldLogger.debug("Victory countdown ended for {}, but they already left the vault.", key);
                 }
             } catch (Exception e) {
-                WoldsVaults.LOGGER.error("Hyper victory extraction failed for {}!", key, e);
+                WoldLogger.error("Hyper victory extraction failed for {}!", key, e);
             }
         }
         this.set(EXTRACTIONS, updated);
@@ -630,7 +632,7 @@ public class HyperVaultObjective extends Objective {
             if (mob.isAlive() && clampMovementSpeed(mob)) {
                 this.speedClampCount++;
                 if (this.speedClampCount == 1 || this.speedClampCount % 200 == 0) {
-                    WoldsVaults.LOGGER.info("Capped mob movement speed at +{}% ({} capped so far; latest: {}).",
+                    WoldLogger.debug("Capped mob movement speed at +{}% ({} capped so far; latest: {}).",
                             Math.round((cfg().getSpeedCapFactor() - 1.0) * 100.0), this.speedClampCount,
                             mob.getType().getRegistryName());
                 }
@@ -748,7 +750,7 @@ public class HyperVaultObjective extends Objective {
     private void ensureInfiniteLayout(Vault vault) {
         VaultGenerator generator = vault.get(Vault.WORLD).get(WorldManager.GENERATOR);
         if (!(generator instanceof GridGenerator grid)) {
-            WoldsVaults.LOGGER.warn("Hyper vault generator is {}; cannot force the infinite layout.",
+            WoldLogger.warn("Hyper vault generator is {}; cannot force the infinite layout.",
                     generator == null ? "null" : generator.getClass().getSimpleName());
             return;
         }
@@ -757,7 +759,7 @@ public class HyperVaultObjective extends Objective {
             return;
         }
         if (!(layout instanceof ClassicVaultLayout classic)) {
-            WoldsVaults.LOGGER.warn("Hyper vault rolled a {} layout; only classic layouts are converted to infinite, so this vault stays bounded.",
+            WoldLogger.warn("Hyper vault rolled a {} layout; only classic layouts are converted to infinite, so this vault stays bounded.",
                     layout.getClass().getSimpleName());
             return;
         }
@@ -768,7 +770,7 @@ public class HyperVaultObjective extends Objective {
         classic.ifPresent(ClassicVaultLayout.ROOM_POOL, pool -> converted.set(ClassicVaultLayout.ROOM_POOL, pool));
         classic.ifPresent(ClassicVaultLayout.TUNNEL_POOL, pool -> converted.set(ClassicVaultLayout.TUNNEL_POOL, pool));
         grid.set(GridGenerator.LAYOUT, converted);
-        WoldsVaults.LOGGER.info("Hyper vault layout {} converted to infinite (tunnel span {}).",
+        WoldLogger.debug("Hyper vault layout {} converted to infinite (tunnel span {}).",
                 layout.getClass().getSimpleName(), tunnelSpan);
     }
 
@@ -796,7 +798,7 @@ public class HyperVaultObjective extends Objective {
             }
         }
         if (restored > 0) {
-            WoldsVaults.LOGGER.info("Restored {} settable vault-modifier value(s) on Hyper vault load.", restored);
+            WoldLogger.debug("Restored {} settable vault-modifier value(s) on Hyper vault load.", restored);
         }
     }
 

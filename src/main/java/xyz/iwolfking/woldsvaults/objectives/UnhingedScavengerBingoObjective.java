@@ -16,6 +16,7 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ScavengerBingoObjectiveAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TileCandidateAccessor;
@@ -36,7 +37,7 @@ public class UnhingedScavengerBingoObjective extends ScavengerBingoObjective {
             candicateCtor = ctor;
 
         } catch (Throwable e) {
-            System.out.println(e);
+            WoldLogger.error(e.toString());
         }
 
     }
@@ -260,7 +261,7 @@ public class UnhingedScavengerBingoObjective extends ScavengerBingoObjective {
         try {
             return (TileCandidateAccessor) candicateCtor.newInstance(item, sourceType, icon, multiplier, color);
         } catch (Throwable e) {
-            System.out.println(e);
+            WoldLogger.error(e.toString());
         }
        return null;
     }

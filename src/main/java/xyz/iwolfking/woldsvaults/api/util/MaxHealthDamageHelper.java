@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 
 public class MaxHealthDamageHelper {
@@ -49,7 +50,7 @@ public class MaxHealthDamageHelper {
         float healthReduction = Math.max((entity.getMaxHealth() * maxHealthPercent), instance.getAmplifier() + 1);
 
         if (!Float.isFinite(healthReduction) && HyperVaultEvents.isInHyperVault(entity)) {
-            WoldsVaults.LOGGER.error("HYPER NaN-guard: skipped a non-finite Bleed tick on {} (max health {}).",
+            WoldLogger.error("HYPER NaN-guard: skipped a non-finite Bleed tick on {} (max health {}).",
                     entity.getType().getRegistryName(), entity.getMaxHealth());
             return;
         }
@@ -70,7 +71,7 @@ public class MaxHealthDamageHelper {
 
         float result = original + (target.getMaxHealth() * maxHealthPercent);
         if (!Float.isFinite(result) && HyperVaultEvents.isInHyperVault(target)) {
-            WoldsVaults.LOGGER.error("HYPER NaN-guard: non-finite reaving bonus against {} dropped (max health {}).",
+            WoldLogger.error("HYPER NaN-guard: non-finite reaving bonus against {} dropped (max health {}).",
                     target.getType().getRegistryName(), target.getMaxHealth());
             return Float.isFinite(original) ? original : 0.0F;
         }

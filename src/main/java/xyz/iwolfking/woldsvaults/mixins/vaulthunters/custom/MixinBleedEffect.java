@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VaultMobUtils;
 import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 
@@ -34,7 +35,7 @@ public class MixinBleedEffect {
                     float healthReduction = Math.max((entity.getMaxHealth() * maxHealthPercent), instance.getAmplifier() + 1);
 
                     if (!Float.isFinite(healthReduction) && HyperVaultEvents.isInHyperVault(entity)) {
-                        WoldsVaults.LOGGER.error("HYPER NaN-guard: skipped a non-finite Bleed tick on {} (max health {}).",
+                        WoldLogger.error("HYPER NaN-guard: skipped a non-finite Bleed tick on {} (max health {}).",
                                 entity.getType().getRegistryName(), entity.getMaxHealth());
                         return;
                     }

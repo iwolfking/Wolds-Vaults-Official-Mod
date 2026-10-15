@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
@@ -72,7 +73,7 @@ public final class HyperCrateRewards {
                     }
                     Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(entry.getItem()));
                     if (item == null || item == Items.AIR) {
-                        WoldsVaults.LOGGER.error("Hyper crate reward item {} is not registered — this roll is lost. Fix the id in hyper_objective.json.", entry.getItem());
+                        WoldLogger.error("Hyper crate reward item {} is not registered — this roll is lost. Fix the id in hyper_objective.json.", entry.getItem());
                         return;
                     }
                     int count = entry.getMin() == entry.getMax()
@@ -106,11 +107,11 @@ public final class HyperCrateRewards {
     private static void rollEtching(int greedTier, RandomSource random, List<ItemStack> out) {
         int tier = Math.max(1, greedTier);
         if (tier != greedTier) {
-            WoldsVaults.LOGGER.info("Etching reward rolled for a greed-tier-{} player; creating it at tier 1 instead.", greedTier);
+            WoldLogger.debug("Etching reward rolled for a greed-tier-{} player; creating it at tier 1 instead.", greedTier);
         }
         List<ResourceLocation> ids = new ArrayList<>(ModConfigs.ETCHINGS.getEtchingIds());
         if (ids.isEmpty()) {
-            WoldsVaults.LOGGER.error("The etching config is empty — the etching reward roll is lost.");
+            WoldLogger.error("The etching config is empty — the etching reward roll is lost.");
             return;
         }
         Random javaRandom = new Random(random.nextLong());
@@ -126,6 +127,6 @@ public final class HyperCrateRewards {
                 return;
             }
         }
-        WoldsVaults.LOGGER.error("No etching produced a modifier at greed tier {} — the etching reward roll is lost.", tier);
+        WoldLogger.error("No etching produced a modifier at greed tier {} — the etching reward roll is lost.", tier);
     }
 }

@@ -7,6 +7,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
 
 import java.util.function.Supplier;
@@ -46,13 +47,13 @@ public class ServerboundSetTrinketSpeedCapPacket {
             } else {
                 menu = player.containerMenu;
                 if (packet.slotIndex >= menu.slots.size()) {
-                    WoldsVaults.LOGGER.warn("Weighted Boots: speed cap packet from {} targets menu slot {} but the open menu only has {} slots, ignoring.", player.getGameProfile().getName(), packet.slotIndex, menu.slots.size());
+                    WoldLogger.warn("Weighted Boots: speed cap packet from {} targets menu slot {} but the open menu only has {} slots, ignoring.", player.getGameProfile().getName(), packet.slotIndex, menu.slots.size());
                     return;
                 }
                 stack = menu.getSlot(packet.slotIndex).getItem();
             }
             if (!SpeedLimitTrinketEffect.hasBootsEffect(stack) || !TrinketItem.isIdentified(stack)) {
-                WoldsVaults.LOGGER.warn("Weighted Boots: speed cap packet from {} targets slot {} which does not hold identified Weighted Boots, ignoring.", player.getGameProfile().getName(), packet.slotIndex);
+                WoldLogger.warn("Weighted Boots: speed cap packet from {} targets slot {} which does not hold identified Weighted Boots, ignoring.", player.getGameProfile().getName(), packet.slotIndex);
                 return;
             }
             SpeedLimitTrinketEffect.setCapPercent(stack, packet.capPercent);

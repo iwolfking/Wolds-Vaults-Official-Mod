@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckRuneBossFightFreeze;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
@@ -56,7 +57,7 @@ public class MixinRuneBossFight implements DuckRuneBossFightFreeze {
             UUID saved = hyper.get(0).getOr(HyperVaultObjective.BOSS_ID, null);
             if (saved != null) {
                 this.bossId = saved;
-                WoldsVaults.LOGGER.warn("Restored hyperboss id {} into the rune fight at {} after a reload.", saved, this.origin);
+                WoldLogger.debug("Restored hyperboss id {} into the rune fight at {} after a reload.", saved, this.origin);
             }
         }
         if (this.bossId == null) {
@@ -67,7 +68,7 @@ public class MixinRuneBossFight implements DuckRuneBossFightFreeze {
             this.woldsVaults$boss = boss;
             if (this.woldsVaults$bossUnloaded) {
                 this.woldsVaults$bossUnloaded = false;
-                WoldsVaults.LOGGER.info("Hyperboss at {} is loaded again; resuming the fight.", this.origin);
+                WoldLogger.debug("Hyperboss at {} is loaded again; resuming the fight.", this.origin);
             }
             return;
         }
@@ -77,7 +78,7 @@ public class MixinRuneBossFight implements DuckRuneBossFightFreeze {
         }
         if (!this.woldsVaults$bossUnloaded) {
             this.woldsVaults$bossUnloaded = true;
-            WoldsVaults.LOGGER.info("Hyperboss at {} is not loaded (removal reason: {}); freezing the fight until it loads again.", this.origin, reason);
+            WoldLogger.debug("Hyperboss at {} is not loaded (removal reason: {}); freezing the fight until it loads again.", this.origin, reason);
         }
         ci.cancel();
     }

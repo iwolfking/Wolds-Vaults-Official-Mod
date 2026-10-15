@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
@@ -55,7 +56,7 @@ public class TooltipEvents {
         tooltip.add(line);
         if (!loggedInsertFallback) {
             loggedInsertFallback = true;
-            WoldsVaults.LOGGER.warn("Weighted Boots: could not find the expected tooltip position, appended the speed limit line at the end instead.");
+            WoldLogger.warn("Weighted Boots: could not find the expected tooltip position, appended the speed limit line at the end instead.");
         }
     }
 

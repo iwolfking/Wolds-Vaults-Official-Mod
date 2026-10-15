@@ -25,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.VaultEvent;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
@@ -186,7 +187,6 @@ public class EnchantedElixirObjective extends ElixirObjective {
         VaultModifierUtils.getModifiersOfType(vault, EnchantedElixirPoolModifier.class).forEach(enchantedElixirPoolModifier -> {
             allowedTags.addAll(enchantedElixirPoolModifier.properties().getAllowedTags());
         });
-        WoldsVaults.LOGGER.info(allowedTags.toString());
 
         return allowedTags;
     }

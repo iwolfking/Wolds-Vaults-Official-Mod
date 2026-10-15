@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.data.PlayerGodMasteryData;
 
 import java.util.UUID;
@@ -53,7 +54,7 @@ public final class GodMasteryHelper {
      */
     public static int increaseMastery(ServerPlayer player) {
         int mastery = PlayerGodMasteryData.get(player.getLevel().getServer()).increaseMastery(player.getUUID());
-        WoldsVaults.LOGGER.info("{} consumed God's Mastery #{}: god reputation cap is now {}.",
+        WoldLogger.debug("{} consumed God's Mastery #{}: god reputation cap is now {}.",
                 player.getGameProfile().getName(), mastery, BASE_CAP + mastery);
         return BASE_CAP + mastery;
     }

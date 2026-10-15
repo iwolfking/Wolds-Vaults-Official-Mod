@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import xyz.iwolfking.woldsvaults.api.util.ref.Effect;
 
@@ -84,7 +85,7 @@ public class SpawnMobTask implements VaultEventTask {
         }
 
         if (spawned == null) {
-            WoldsVaults.LOGGER.debug("Failed to spawn mob after {} attempts at {} in {}", maxAttempts, pos, world.getLevel().dimension());
+            WoldLogger.debug("Failed to spawn mob after {} attempts at {} in {}", maxAttempts, pos, world.getLevel().dimension());
         }
 
         return spawned;

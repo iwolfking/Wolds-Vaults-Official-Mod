@@ -27,6 +27,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VaultGenUtils;
 import xyz.iwolfking.woldsvaults.config.ThemePaletteRegistryConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
@@ -116,7 +117,6 @@ public abstract class MixinVaultGridLayout {
                                 Optional<ResourceLocation> paletteRefId = referenceTileProcessor.getPool().keySet().stream().findFirst();
                                 if (paletteRefId.isPresent()) {
                                     ResourceLocation originalRefId = paletteRefId.get();
-                                    WoldsVaults.LOGGER.info(originalRefId.toString());
                                     if (originalRefId.getPath().contains("ore_placeholder")) {
                                         ResourceLocation mineRefId;
                                         if(originalRefId.getPath().equals("generic/ore_placeholder")) {

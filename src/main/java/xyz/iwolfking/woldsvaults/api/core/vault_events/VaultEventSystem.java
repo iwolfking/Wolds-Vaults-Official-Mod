@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.datagen.ModLanguageProvider;
 
@@ -26,7 +27,7 @@ public class VaultEventSystem {
             VAULT_EVENT_REGISTRY.get(id).triggerEvent(pos, player, vault);
         }
         else {
-            WoldsVaults.LOGGER.warn("Attempted to trigger event with ID {} but it doesn't exist!", id);
+            WoldLogger.warn("Attempted to trigger event with ID {} but it doesn't exist!", id);
         }
     }
 

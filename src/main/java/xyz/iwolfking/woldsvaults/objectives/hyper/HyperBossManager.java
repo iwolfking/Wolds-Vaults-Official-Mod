@@ -53,6 +53,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckRuneBossFightFreeze;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
@@ -189,12 +190,12 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     public void armAndStartFight(BlockPos pillarPos) {
         RuneBossFights fights = objective.get(HyperVaultObjective.FIGHTS);
         if (fights.hasFightAt(pillarPos)) {
-            WoldsVaults.LOGGER.warn("Podium at {} already has a scheduled/active fight; not re-arming.", pillarPos);
+            WoldLogger.warn("Podium at {} already has a scheduled/active fight; not re-arming.", pillarPos);
             return;
         }
         BlockEntity be = world.getBlockEntity(pillarPos);
         if (!(be instanceof BossRunePillarTileEntity pillar)) {
-            WoldsVaults.LOGGER.error("Hyper podium at {} has no BossRunePillarTileEntity — cannot start the fight (staying armed).", pillarPos);
+            WoldLogger.error("Hyper podium at {} has no BossRunePillarTileEntity — cannot start the fight (staying armed).", pillarPos);
             return;
         }
         rerollBoss(pillar);
@@ -211,7 +212,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         double healthPercent = (1.0 + INNATE_HEALTH_BONUS + escalation) * healthFactor
                 - 1.0 - INNATE_HEALTH_BONUS;
         if (healthFactor > 1.0) {
-            WoldsVaults.LOGGER.info("Hyperboss health inherits the vault's mob modifiers: x{}.",
+            WoldLogger.debug("Hyperboss health inherits the vault's mob modifiers: x{}.",
                     Math.round(healthFactor * 100.0) / 100.0);
         }
         BossRuneModifiers armed = new BossRuneModifiers(healthPercent, 0.0,
@@ -277,7 +278,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         CompoundTag tag = new CompoundTag();
         tag.put("blocks", blocks);
         objective.set(HyperVaultObjective.GATE_NBT, tag);
-        WoldsVaults.LOGGER.info("Snapshotted {} pristine blocks around the arena gates for per-cycle repair.", blocks.size());
+        WoldLogger.debug("Snapshotted {} pristine blocks around the arena gates for per-cycle repair.", blocks.size());
     }
 
     private void repairGateSurrounds(BlockPos pillarPos) {
@@ -301,7 +302,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             repaired++;
         }
         if (repaired > 0) {
-            WoldsVaults.LOGGER.info("Repaired {} destroyed blocks around the arena gates.", repaired);
+            WoldLogger.debug("Repaired {} destroyed blocks around the arena gates.", repaired);
         }
     }
 
@@ -320,10 +321,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             access.setZoneId(0);
             pillar.onLoad();
             zoneId = access.getZoneId();
-            WoldsVaults.LOGGER.info("Recreated the boss room protection zone ({}) for this fight.", zoneId);
+            WoldLogger.debug("Recreated the boss room protection zone ({}) for this fight.", zoneId);
         }
         if (zoneId <= 0) {
-            WoldsVaults.LOGGER.warn("Hyper fight at {} has no protection zone: the pillar config defines no zone box.", pillarPos);
+            WoldLogger.warn("Hyper fight at {} has no protection zone: the pillar config defines no zone box.", pillarPos);
         }
         objective.set(HyperVaultObjective.ZONE_ID, zoneId);
     }
@@ -343,7 +344,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             if (objective.getOr(HyperVaultObjective.BOSS_KILLED, false)) {
                 escalation.onBossKilled();
             } else {
-                WoldsVaults.LOGGER.error("Hyperboss fight ended without a recorded boss death; re-arming the pillar instead of advancing the cycle.");
+                WoldLogger.error("Hyperboss fight ended without a recorded boss death; re-arming the pillar instead of advancing the cycle.");
                 escalation.onFightVanished();
             }
             return;
@@ -473,7 +474,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     private void launchMissileVolley(LivingEntity boss, RuneBossFights fights) {
         List<ServerPlayer> targets = livingFighters(fights);
         if (targets.isEmpty()) {
-            WoldsVaults.LOGGER.info("Magic Missile volley fizzled — no living arena targets.");
+            WoldLogger.debug("Magic Missile volley fizzled — no living arena targets.");
             return;
         }
         RandomSource random = JavaRandom.ofNanoTime();
@@ -502,7 +503,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             world.addFreshEntity(missile);
         }
         world.playSound(null, boss.getX(), boss.getY(), boss.getZ(), SoundEvents.SHULKER_SHOOT, SoundSource.HOSTILE, 1.4F, 0.9F);
-        WoldsVaults.LOGGER.info("Hyperboss fired {} Magic Missiles ({} damage each).", count, Math.round(damage));
+        WoldLogger.debug("Hyperboss fired {} Magic Missiles ({} damage each).", count, Math.round(damage));
     }
 
     /** The fight roster filtered to players who are present, alive and not spectating. */
@@ -548,7 +549,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return false;
         }
         this.wipeGraceTicks = WIPE_GRACE_TICKS;
-        WoldsVaults.LOGGER.info(
+        WoldLogger.debug(
                 "Hyperboss fight wiped: no living fighter left in the arena for {} ticks. Discarding the boss and re-arming the pillar (cycle unchanged).",
                 WIPE_GRACE_TICKS);
         boss.discard();
@@ -597,7 +598,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         Collections.sort(names);
         String roster = String.join(", ", names);
         if (!roster.equals(this.lastRoster)) {
-            WoldsVaults.LOGGER.info("Hyperboss arena roster: [{}]", roster);
+            WoldLogger.debug("Hyperboss arena roster: [{}]", roster);
             this.lastRoster = roster;
         }
     }
@@ -618,7 +619,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         EntityType<?> type = ForgeRegistries.ENTITIES.getValue(id);
         Entity created = type == null ? null : type.create(world);
         if (!(created instanceof Mob mob)) {
-            WoldsVaults.LOGGER.error("Fight-add entity {} is missing or not a mob — skipping this add.", id);
+            WoldLogger.warn("Fight-add entity {} is missing or not a mob — skipping this add.", id);
             return;
         }
         double min = 6.0;
@@ -706,7 +707,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
     private void spawnBrutalWave(String reason) {
         BlockPos center = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
         if (center == null) {
-            WoldsVaults.LOGGER.warn("Hyper brutal wave ({}) skipped: no pillar position recorded.", reason);
+            WoldLogger.warn("Hyper brutal wave ({}) skipped: no pillar position recorded.", reason);
             return;
         }
         RandomSource random = JavaRandom.ofNanoTime();
@@ -719,7 +720,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             }
         }
         if (spawned < count) {
-            WoldsVaults.LOGGER.warn("Hyper brutal wave ({}): only {}/{} mobs found a valid spawn spot around {}.", reason, spawned, count, center);
+            WoldLogger.warn("Hyper brutal wave ({}): only {}/{} mobs found a valid spawn spot around {}.", reason, spawned, count, center);
         }
         if (spawned > 0) {
             HyperVaultObjective.broadcast(vault, "Brutal reinforcements have arrived!", ChatFormatting.RED);
@@ -737,13 +738,13 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         WeightedList<PartialEntity> pool =
                 ((BossRunePillarConfigAccessor) (Object) ((BossRunePillarAccessor) pillar).getConfig()).getBossPool();
         if (pool == null || pool.isEmpty()) {
-            WoldsVaults.LOGGER.warn("The boss pillar has no roster to reroll from; keeping {}.",
+            WoldLogger.warn("The boss pillar has no roster to reroll from; keeping {}.",
                     pillar.getBoss() == null ? "nothing" : pillar.getBoss().getId());
             return;
         }
         pool.getRandom(JavaRandom.ofNanoTime()).ifPresent(rolled -> {
             ((BossRunePillarAccessor) pillar).setBoss(rolled);
-            WoldsVaults.LOGGER.info("Hyperboss for this cycle: {}.", rolled.getId());
+            WoldLogger.debug("Hyperboss for this cycle: {}.", rolled.getId());
         });
     }
 
@@ -772,7 +773,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         if (followRange != null && followRange.getModifier(HYPER_FOLLOW_RANGE_UUID) == null) {
             followRange.addPermanentModifier(new AttributeModifier(HYPER_FOLLOW_RANGE_UUID,
                     "hyper_follow_range", FOLLOW_RANGE_BONUS, AttributeModifier.Operation.ADDITION));
-            WoldsVaults.LOGGER.info("Hyperboss follow range raised to {} — the arena corners are inside acquisition range now.",
+            WoldLogger.debug("Hyperboss follow range raised to {} — the arena corners are inside acquisition range now.",
                     Math.round(followRange.getValue()));
         }
         Modifiers vaultModifiers = vault.get(Vault.MODIFIERS);
@@ -791,12 +792,12 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             }
         }
         if (HyperVaultObjective.clampMovementSpeed(boss)) {
-            WoldsVaults.LOGGER.info("Hyperboss movement speed capped at +{}%.",
+            WoldLogger.debug("Hyperboss movement speed capped at +{}%.",
                     Math.round((HyperVaultObjective.cfg().getSpeedCapFactor() - 1.0) * 100.0));
         }
         boss.addEffect(new MobEffectInstance(ModEffects.REAVING, Integer.MAX_VALUE, 0, true, false));
         boss.setHealth(boss.getMaxHealth());
-        WoldsVaults.LOGGER.info(
+        WoldLogger.debug(
                 "Hyperboss stats: {} HP (vault health factor folded at arm), {} damage — {} non-health vault mob modifiers applied.",
                 Math.round(boss.getMaxHealth()),
                 damage == null ? "?" : Math.round(damage.getValue()), applied);
@@ -822,7 +823,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         health.addPermanentModifier(new AttributeModifier(MULTIPLAYER_HEALTH_UUID,
                 "hyper_multiplayer_health", bonus, AttributeModifier.Operation.MULTIPLY_TOTAL));
         boss.setHealth(boss.getMaxHealth());
-        WoldsVaults.LOGGER.info("Hyperboss max health x{} for {} runners (+{}% per extra player): {} HP.",
+        WoldLogger.debug("Hyperboss max health x{} for {} runners (+{}% per extra player): {} HP.",
                 1.0 + bonus, runners,
                 Math.round(HyperVaultObjective.cfg().getPlayerScaleBossHealth() * 100.0),
                 Math.round(boss.getMaxHealth()));
@@ -839,14 +840,14 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         }
         long frenzy = VaultModifierUtils.getCountOfModifiers(vault, ResourceLocation.parse("the_vault:frenzy"));
         long brew = VaultModifierUtils.getCountOfModifiers(vault, ResourceLocation.parse("the_vault:catastrophic_brew"));
-        WoldsVaults.LOGGER.info(
+        WoldLogger.debug(
                 "Damage-amplifier audit: {} Frenzy (+200% each) + {} Catastrophic Brew (+100% each) stacks -> all player damage x{} (additive per modifier in hyper).",
                 frenzy, brew, String.format("%.0f", (1.0 + 2.0 * frenzy) * (1.0 + 1.0 * brew)));
         for (Listener listener : vault.get(Vault.LISTENERS).getAll()) {
             listener.getPlayer().ifPresent(player -> {
                 var snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
                 var merger = VaultGearAttributeTypeMerger.floatSum();
-                WoldsVaults.LOGGER.info(
+                WoldLogger.debug(
                         "  {} gear: reaving={} execution={} apScaling={} thornsScaling={}",
                         player.getGameProfile().getName(),
                         snapshot.getAttributeValue(ModGearAttributes.REAVING_DAMAGE, merger),

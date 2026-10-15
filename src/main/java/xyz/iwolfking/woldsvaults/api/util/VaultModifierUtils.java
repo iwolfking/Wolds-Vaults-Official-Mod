@@ -19,6 +19,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 
 import java.util.Iterator;
@@ -37,7 +38,7 @@ public class VaultModifierUtils {
             vault.get(Vault.MODIFIERS).addModifier(vaultModifier, count, true, ChunkRandom.ofNanoTime());
         }
         else {
-            WoldsVaults.LOGGER.error("Vault modifier {} is not registered — addModifier({}) did nothing! Check the modifier defs.", modifier, count);
+            WoldLogger.error("Vault modifier {} is not registered — addModifier({}) did nothing! Check the modifier defs.", modifier, count);
         }
     }
 
@@ -128,7 +129,7 @@ public class VaultModifierUtils {
                 }
             }
             else {
-                WoldsVaults.LOGGER.error("Settable modifier " + id.toString() + " is missing, please make sure your vault_modifiers.json config is correct!!!");
+                WoldLogger.error("Settable modifier " + id.toString() + " is missing, please make sure your vault_modifiers.json config is correct!!!");
             }
         });
     }
