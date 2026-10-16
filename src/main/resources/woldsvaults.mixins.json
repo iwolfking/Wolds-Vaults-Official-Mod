@@ -107,6 +107,7 @@
     "integrateddynamics.MixinClientProxy",
     "integrateddynamics.MixinCraftingProcessOverrideCraftingTable",
     "ispawner.MixinSpawnerManager",
+    "jade.MixinOverlayRenderer",
     "jeienchantmentinfo.MixinJEIEnchantmentInfo",
     "jevh.MixinClientEvents",
     "jevh.MixinJEIRecipeProvider",
