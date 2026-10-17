@@ -25,6 +25,7 @@ public class ModRecipeTagProvider extends TagsProvider<RecipeSerializer<?>> {
         tag(AllTags.AllRecipeSerializerTags.AUTOMATION_IGNORE.tag).addOptional(OccultismRecipeSerializers.AUGMENT_RITUAL.getId());
         tag(AllTags.AllRecipeSerializerTags.AUTOMATION_IGNORE.tag).addOptional(OccultismRecipeSerializers.AUGMENT_POOL_RITUAL.getId());
         tag(AllTags.AllRecipeSerializerTags.AUTOMATION_IGNORE.tag).addOptional(OccultismRecipeSerializers.COMPANION_RITUAL.getId());
+        tag(AllTags.AllRecipeSerializerTags.AUTOMATION_IGNORE.tag).addOptional(OccultismRecipeSerializers.SPAWN_EGG_RITUAL.getId());
     }
 
     @Override
