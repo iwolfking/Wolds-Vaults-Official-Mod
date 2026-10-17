@@ -51,6 +51,7 @@ public class ModBlocks {
     public static final MonolithControllerBlock MONOLITH_CONTROLLER;
     public static final TrinketFusionBlock TRINKET_FUSION_BLOCK;
     public static final OwnedCraftingTableBlock OWNED_CRAFTING_TABLE_BLOCK;
+    public static final SuppressorBlock SUPPRESSOR_BLOCK;
 
     public static final BrewingAltar BREWING_ALTAR;
     public static final SurvivalObjectiveBlock SURVIVAL_OBJECTIVE_BLOCK;
@@ -94,6 +95,7 @@ public class ModBlocks {
     public static final BlockEntityType<DollDismantlingTileEntity> DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<CrateCrackerTileEntity> CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<OwnedCraftingTableTileEntity> OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<SuppressorTileEntity> SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE;
 
     //Workstations
     public static final AugmentCraftingTableBlock AUGMENT_CRAFTING_TABLE;
@@ -260,6 +262,7 @@ public class ModBlocks {
         BREWING_ALTAR = new BrewingAltar();
         SURVIVAL_OBJECTIVE_BLOCK = new SurvivalObjectiveBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
         OWNED_CRAFTING_TABLE_BLOCK = new OwnedCraftingTableBlock(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE));
+        SUPPRESSOR_BLOCK = new SuppressorBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK));
         WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
         WUTODIE_WALL = new VaultGemWallBlock(ModItems.WUTODIE_GEM);
         WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
@@ -299,6 +302,7 @@ public class ModBlocks {
         TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(TimeTrialTrophyBlockEntity::new, new Block[]{TIME_TRIAL_TROPHY_BLOCK}).build(null);
         TRINKET_FUSION_FORGE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(TrinketFusionForgeTileEntity::new, new Block[]{TRINKET_FUSION_BLOCK}).build(null);
         OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(OwnedCraftingTableTileEntity::new, new Block[]{OWNED_CRAFTING_TABLE_BLOCK}).build(null);
+        SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(SuppressorTileEntity::new, new Block[]{SUPPRESSOR_BLOCK}).build(null);
         for(DyeColor color : DyeColor.values()) {
             Block dyedUnobtanium = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL, color).strength(50F).requiresCorrectToolForDrops());
             COLORED_UNOBTANIUMS.put(color, dyedUnobtanium);
@@ -421,6 +425,7 @@ public class ModBlocks {
         registerBlock(event, TIME_TRIAL_TROPHY_BLOCK, WoldsVaults.id("time_trial_trophy"));
         registerBlock(event, OWNED_CRAFTING_TABLE_BLOCK, WoldsVaults.id("owned_crafting_table"));
         registerBlock(event, LOCKED_TREASURE_CONTAINER_BLOCK, WoldsVaults.id("locked_treasure_container"));
+        registerBlock(event, SUPPRESSOR_BLOCK, WoldsVaults.id("universal_suppressor"));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
         }));
@@ -515,6 +520,7 @@ public class ModBlocks {
         registerTileEntity(event, DECO_WENDARR_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_wendarr_altar_tile_entity"));
         registerTileEntity(event, DECO_IDONA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_idona_altar_tile_entity"));
         registerTileEntity(event, DECO_TENOS_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_tenos_altar_tile_entity"));
+        registerTileEntity(event, SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("universal_suppressor_tile_entity"));
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
@@ -571,6 +577,7 @@ public class ModBlocks {
         registerBlockItem(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.CONFIGURABLE_FLOATING_TEXT);
         registerBlockItem(event, TIME_TRIAL_TROPHY_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.TIME_TRIAL_TROPHY);
         registerBlockItem(event, LOCKED_TREASURE_CONTAINER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, SUPPRESSOR_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         }));

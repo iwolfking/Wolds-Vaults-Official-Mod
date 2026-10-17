@@ -693,6 +693,9 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             empty(modifierBuilder, WoldsVaults.id("radar"), "Radar", "#ff4545",
                     "Mob radar is online — Ghost Walk, Spirit Walk and Shadow Cloak cannot hide you", null,
                     WoldsVaults.id("gui/modifiers/radar"));
+            empty(modifierBuilder, WoldsVaults.id("dulled"), "Dulled", "#ff4545",
+                    "This vault cannot randomly have its Theme infused.", null,
+                    WoldsVaults.id("gui/modifiers/dulled"));
             modifierBuilder.type(WoldsVaults.id("modifier_type/hyper_escalation").toString(), (typeBuilder) -> typeBuilder.modifier(WoldsVaults.id("hyper").toString(), (modifierEntryBuilder) -> {
                 modifierEntryBuilder.property("statFactor", 0.0F);
                 modifierEntryBuilder.property("speedPerStack", 0.0F);
