@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModGases;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModPigments;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.*;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.etched_layout.*;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import java.util.HashMap;
@@ -635,6 +636,17 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.the_vault.companion", "Companion");
         add(new VaultDollCompletedAttribute(true), "is a completed Vault Doll", "is not a completed Vault Doll");
         add(new CardDeckModifierAttribute(""), "has a \"%1$s\" card deck modifier", "doesn't have a \"%1$s\" card deck modifier");
+        add(new EtchedLayoutCircleAttribute(1), "has a Circle layout with radius \"%1$s\"", "doesn't have a Circle layout with radius \"%1$s\"");
+        add(new EtchedLayoutPolygonAttribute(""), "has a Polygon layout with vertices \"%1$s\"", "doesn't have a Polygon layout with vertices \"%1$s\"");
+        add(new EtchedLayoutRingsAttribute(1), "has a Rings layout with radius \"%1$s\"", "doesn't have a Rings layout with radius \"%1$s\"");
+        add(new EtchedLayoutRingsIntervalAttribute(1), "has a Rings layout with interval \"%1$s\"", "doesn't have a Rings layout with interval \"%1$s\"");
+        add(new EtchedLayoutSpiralAttribute(1), "has a Spiral layout with interval \"%1$s\"", "doesn't have a Spiral layout with interval \"%1$s\"");
+        add(new EtchedLayoutTunnelHeightAttribute(1), "has a Tunnel layout with height \"%1$s\"", "doesn't have a Tunnel layout with height \"%1$s\"");
+        add(new EtchedLayoutTunnelIntervalAttribute(1), "has a Tunnel layout with interval \"%1$s\"", "doesn't have a Tunnel layout with interval \"%1$s\"");
+        add(new EtchedLayoutTunnelWidthAttribute(1), "has a Tunnel layout with width \"%1$s\"", "doesn't have a Tunnel layout with width \"%1$s\"");
+        add(new EtchedLayoutWaveAmplitudeAttribute(1), "has a Wave layout with amplitude \"%1$s\"", "doesn't have a Tunnel layout with amplitude \"%1$s\"");
+        add(new EtchedLayoutWaveLengthAttribute(1), "has a Wave layout with length \"%1$s\"", "doesn't have a Tunnel layout with length \"%1$s\"");
+        add(new EtchedLayoutWaveFrequencyAttribute(1.0), "has a Wave layout with frequency \"%1$s\"", "doesn't have a Tunnel layout with frequency \"%1$s\"");
         add("create.item_attributes.has_unusual", "has an unusual modifier");
         add("create.item_attributes.has_unusual.inverted", "doesn't have an unusual modifier");
         add("create.item_attributes.has_divine", "is Divine");

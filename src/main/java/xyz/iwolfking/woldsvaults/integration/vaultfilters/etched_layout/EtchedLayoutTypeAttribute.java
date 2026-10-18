@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.integration.vaultfilters;
+package xyz.iwolfking.woldsvaults.integration.vaultfilters.etched_layout;
 
 import iskallia.vault.util.StringUtils;
 import net.joseph.vaultfilters.attributes.abstracts.StringAttribute;
