@@ -83,6 +83,20 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         CompoundTag colossus = new CompoundTag();
         colossus.putString("Ability", "Colossus");
 
+        ShapedRecipeBuilder.shaped(ModBlocks.SUPPRESSOR_BLOCK)
+                .define('M', iskallia.vault.init.ModBlocks.DEMAGNETIZER_BLOCK)
+                .define('A', iskallia.vault.init.ModBlocks.ABILITY_SUPPRESSOR)
+                .define('E', iskallia.vault.init.ModBlocks.ENDER_ANCHOR)
+                .define('B', iskallia.vault.init.ModBlocks.DEBAGNETIZER)
+                .define('H', iskallia.vault.init.ModBlocks.DEHAMMERIZER)
+                .define('I', iskallia.vault.init.ModBlocks.CHROMATIC_IRON_BLOCK)
+                .define('X', iskallia.vault.init.ModItems.WUTODIC_SILVER_INGOT)
+                .pattern("XMX")
+                .pattern("BIH")
+                .pattern("AXE")
+                .unlockedBy("has_demagnetizer", has(iskallia.vault.init.ModBlocks.DEMAGNETIZER_BLOCK))
+                .save(pFinishedRecipeConsumer);
+
         ShapedRecipeBuilder.shaped(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK)
                 .define('O', iskallia.vault.init.ModItems.CHROMATIC_IRON_INGOT)
                 .define('V', iskallia.vault.init.ModItems.VAULT_ESSENCE)

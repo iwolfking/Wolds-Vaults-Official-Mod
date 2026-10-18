@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XMX",
+    "BIH",
+    "AXE"
+  ],
+  "key": {
+    "M": {
+      "item": "the_vault:demagnetizer"
+    },
+    "A": {
+      "item": "the_vault:ability_suppressor"
+    },
+    "E": {
+      "item": "the_vault:ender_anchor"
+    },
+    "B": {
+      "item": "the_vault:debagnetizer"
+    },
+    "H": {
+      "item": "the_vault:dehammerizer"
+    },
+    "I": {
+      "item": "the_vault:chromatic_iron_block"
+    },
+    "X": {
+      "item": "the_vault:wutodic_silver_ingot"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:universal_suppressor"
+  }
+}

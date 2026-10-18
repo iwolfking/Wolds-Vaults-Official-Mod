@@ -111,6 +111,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK, "Owned Crafting Table");
         add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
         add(ModBlocks.SURVIVAL_OBJECTIVE_BLOCK, "Survival Pylon");
+        add(ModBlocks.SUPPRESSOR_BLOCK, "Universal Suppressor");
         add(ModItems.CRYSTAL_SEAL_SURVIVOR, "Seal of the Survivor");
         add(ModItems.SCAVENGER_POUCH_ITEM, "Scavenger Pouch");
         add(ModItems.COMBINED_TRINKET, "Fusion Trinket");
