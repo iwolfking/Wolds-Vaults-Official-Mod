@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVaultGearConfigProvider {
-    private static final List<String> STANDARD_GEAR = List.of("axe", "battlestaff", "trident", "sword", "rang", "plushie", "wand", "chestplate", "leggings", "boots", "helmet", "focus", "loot_sack", "magnet", "shield", "unique");
+    private static final List<String> STANDARD_GEAR = List.of("axe", "battlestaff", "trident", "scepter", "sword", "rang", "plushie", "wand", "chestplate", "leggings", "boots", "helmet", "focus", "loot_sack", "magnet", "shield", "unique");
     private static final List<String> STANDARD_GEAR_NO_UNIQUE = List.of("axe", "battlestaff", "trident", "sword", "rang", "plushie", "wand", "chestplate", "leggings", "boots", "helmet", "focus", "loot_sack", "magnet", "shield");
-    private static final List<String> MAINHANDS = List.of("axe", "battlestaff", "trident", "sword", "rang");
-    private static final List<String> MAINHANDS_NO_AXE = List.of("battlestaff", "trident", "sword", "rang");
+    private static final List<String> MAINHANDS = List.of("axe", "battlestaff", "trident", "sword", "rang", "scepter");
+    private static final List<String> MAINHANDS_NO_AXE = List.of("battlestaff", "trident", "sword", "rang", "scepter");
     private static final List<String> OFFHANDS = List.of("plushie", "wand", "focus", "loot_sack", "shield", "magnet");
     private static final List<String> OFFHANDS_NO_SACK = List.of("plushie", "wand", "focus", "shield");
     private static final List<String> OFFHANDS_NO_PLUSHIE = List.of("loot_sack", "wand", "focus", "shield", "magnet");
