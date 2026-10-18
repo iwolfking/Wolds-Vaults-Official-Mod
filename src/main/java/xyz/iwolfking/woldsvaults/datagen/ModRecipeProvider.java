@@ -371,6 +371,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         'S', new NbtAwareRecipe.IngredientWithNBT(GodReputationItem.create(VaultGod.WENDARR))
                 ))));
 
+        ShapelessRecipeBuilder.shapeless(ModItems.INFUSION_PREVENTION, 1)
+                .requires(Items.CLAY_BALL)
+                .requires(Items.COPPER_INGOT)
+                .requires(iskallia.vault.init.ModItems.CARBON_NUGGET)
+                .requires(iskallia.vault.init.ModItems.WUTODIE_GEM)
+                .unlockedBy("has_copper_ingot", has(Items.COPPER_INGOT))
+                .save(pFinishedRecipeConsumer);
+
         ShapelessRecipeBuilder.shapeless(ModItems.PRISMATIC_FIBER, 9)
                 .requires(ModBlocks.PRISMATIC_FIBER_BLOCK)
                 .unlockedBy("has_prismatic_fiber_block", has(ModBlocks.PRISMATIC_FIBER_BLOCK))

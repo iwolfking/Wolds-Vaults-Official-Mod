@@ -584,6 +584,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.GEM_REAGENT_TUBIUM, "Gem Reagent: Tubium");
         add(ModItems.GEM_REAGENT_PETEZANITE, "Gem Reagent: Petezanite");
         add(ModItems.GEM_REAGENT_UPALINE, "Gem Reagent: Upaline");
+        add(ModItems.INFUSION_PREVENTION, "Crystal Duller");
         add("item.woldsvaults.idona_dagger", "Idonian Sacrificial Dagger");
         add("item.woldsvaults.velara_apple", "Velaran Emerald Apple");
         add("item.woldsvaults.wendarr_gem", "Wendarrian Focus Gem");
