@@ -12,6 +12,10 @@ import xyz.iwolfking.woldsvaults.blocks.tiles.SuppressorTileEntity;
 public class MixinDemagnetizerTileEntity {
     @Inject(method = "hasDemagnetizerAround", at = @At(value = "HEAD"), cancellable = true)
     private static void checkUniversalSuppressor(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+        if(entity.getLevel().dimension().getRegistryName().getNamespace().equals("the_vault")) {
+            cir.setReturnValue(false);
+        }
+
         if(SuppressorTileEntity.isSuppressionActiveAround(entity, SuppressorTileEntity.SuppressorType.MAGNET)) {
             cir.setReturnValue(true);
         }
