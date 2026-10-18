@@ -43,6 +43,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BingoObjectiveAccessor;
@@ -473,7 +474,7 @@ public class BallisticBingoObjective extends BingoObjective {
                 VaultModifier<?> mod = modIter.next();
                 if (!vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()
                         && HyperModifierPolicy.isBannedCastOnKill(mod.getId())) {
-                    WoldsVaults.LOGGER.info("Dropped the {} bingo task reward - cast-on-kill effects are banned in Hyper.", mod.getId());
+                    WoldLogger.debug("Dropped the {} bingo task reward - cast-on-kill effects are banned in Hyper.", mod.getId());
                     continue;
                 }
                 TextComponent suffix = (TextComponent) mod.getChatDisplayNameComponent(1);

@@ -21,6 +21,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -126,7 +127,7 @@ public class RetroSpawnVaultModifier extends VaultModifier<RetroSpawnVaultModifi
         }
 
         if (spawned == null) {
-            WoldsVaults.LOGGER.debug("Failed to spawn mob after {} attempts at {} in {}", maxAttempts, pos, world.getLevel().dimension());
+            WoldLogger.debug("Failed to spawn mob after {} attempts at {} in {}", maxAttempts, pos, world.getLevel().dimension());
         }
 
         return spawned;

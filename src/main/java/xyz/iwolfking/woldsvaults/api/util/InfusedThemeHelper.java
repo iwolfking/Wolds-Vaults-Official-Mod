@@ -6,11 +6,11 @@ import iskallia.vault.greed.GreedChallengeSlot;
 import iskallia.vault.greed.GreedTree;
 import iskallia.vault.world.VaultDifficulty;
 import iskallia.vault.world.data.PlayerGreedTreeData;
-import iskallia.vault.world.data.ServerVaults;
 import iskallia.vault.world.data.WorldSettings;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.server.ServerLifecycleHooks;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.theme.InfusedCrystalTheme;
 import xyz.iwolfking.woldsvaults.config.ThemeModifiersConfig;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
@@ -23,8 +23,9 @@ public class InfusedThemeHelper {
             return false;
         }
 
-
-
+        if(VaultModifierUtils.hasCountOfModifiers(vault, WoldsVaults.id("dulled"), 1)) {
+            return false;
+        }
 
         UUID vaultOwnerId = vault.get(Vault.OWNER);
         UUID vaultId = vault.get(Vault.ID);

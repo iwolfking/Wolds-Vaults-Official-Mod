@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 import java.util.Set;
@@ -29,7 +30,7 @@ public class MixinClientAdvancements {
     private static void cancelIfServerRefresh(Set<AdvancementInfo> info, CallbackInfo ci){
         if (WoldsVaultsConfig.CLIENT.serverTransferReloadSkip.get()) {
             if (advancements.size() == info.size()) {
-                WoldsVaults.LOGGER.info("JustEnoughAdvancements advancement refresh disabled, skipping update");
+                WoldLogger.debug("JustEnoughAdvancements advancement refresh disabled, skipping update");
                 ci.cancel();
             }
         }

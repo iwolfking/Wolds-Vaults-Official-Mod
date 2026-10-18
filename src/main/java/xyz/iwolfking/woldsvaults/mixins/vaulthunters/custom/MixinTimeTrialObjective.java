@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.struct.InjectorGroupInfo;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.TimeUtils;
 import xyz.iwolfking.woldsvaults.api.core.competition.TimeTrialCompetition;
 
@@ -83,7 +84,7 @@ public abstract class MixinTimeTrialObjective {
                                     objectiveName
                             );
                             
-                            WoldsVaults.LOGGER.info("Recorded time trial completion for {}: {} ticks on {}", 
+                            WoldLogger.debug("Recorded time trial completion for {}: {} ticks on {}",
                                 serverPlayer.getDisplayName().getString(), 
                                 completionTime, 
                                 objectiveName);

@@ -6,13 +6,9 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.network.message.LuckyHitCooldownParticleMessage;
+import xyz.iwolfking.woldsvaults.network.message.*;
 import xyz.iwolfking.woldsvaults.network.packets.OpenFloatingTextScreenPacket;
 import xyz.iwolfking.woldsvaults.network.packets.StopFlightMessage;
-import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
-import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage;
-import xyz.iwolfking.woldsvaults.network.message.ElixirParticleMessage;
-import xyz.iwolfking.woldsvaults.network.message.MagicMissileWarningMessage;
 import xyz.iwolfking.woldsvaults.network.packets.ClientboundTrinketPouchStatePacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundOpenTrinketPouchPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundRenameTrinketPouchPresetPacket;
@@ -45,6 +41,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ServerboundOpenTrinketPouchPacket.class, ServerboundOpenTrinketPouchPacket::encode, ServerboundOpenTrinketPouchPacket::decode, ServerboundOpenTrinketPouchPacket::handle);
         CHANNEL.registerMessage(id++, ClientboundTrinketPouchStatePacket.class, ClientboundTrinketPouchStatePacket::encode, ClientboundTrinketPouchStatePacket::decode, ClientboundTrinketPouchStatePacket::handle);
         CHANNEL.registerMessage(id++, ServerboundRenameTrinketPouchPresetPacket.class, ServerboundRenameTrinketPouchPresetPacket::encode, ServerboundRenameTrinketPouchPresetPacket::decode, ServerboundRenameTrinketPouchPresetPacket::handle);
+        CHANNEL.registerMessage(id++, SuppressorUpdateMessage.class, SuppressorUpdateMessage::encode, SuppressorUpdateMessage::decode, SuppressorUpdateMessage::handle);
     }
 
     public static <T> void sendToServer(T message) {

@@ -82,7 +82,7 @@ public abstract class MixinMagnetItem extends Item implements VaultGearItem, Cur
                         float range = data.get(ModGearAttributes.RANGE, VaultGearAttributeTypeMerger.floatSum());
                         float speed = data.get(ModGearAttributes.VELOCITY, VaultGearAttributeTypeMerger.floatSum());
                         List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(range), (entity) -> {
-                            return entity.distanceToSqr(player) <= range * range && !entity.getTags().contains("PreventMagnetMovement");
+                            return entity.distanceToSqr(player) <= range * range && !entity.getTags().contains("PreventMagnetMovement") && DemagnetizerTileEntity.hasDemagnetizerAround(entity);
                         });
                         List<ExperienceOrb> orbs = world.getEntitiesOfClass(ExperienceOrb.class, player.getBoundingBox().inflate(range), (entity) -> {
                             return entity.distanceToSqr(player) <= range * range  && !entity.getTags().contains("PreventMagnetMovement");

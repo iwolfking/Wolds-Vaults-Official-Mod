@@ -23,6 +23,7 @@ import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.integration.bettercombat.BetterCombatToggleHelper;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.client.screens.SpeedCapConfigScreen;
@@ -140,7 +141,7 @@ public class KeyInputEvents {
         }
         boolean creative = containerScreen instanceof CreativeModeInventoryScreen;
         if (creative && !(hovered.container instanceof Inventory)) {
-            WoldsVaults.LOGGER.warn("Weighted Boots: hovered creative slot is not backed by the player inventory, cannot open the speed config screen.");
+            WoldLogger.warn("Weighted Boots: hovered creative slot is not backed by the player inventory, cannot open the speed config screen.");
             return;
         }
         int slotIndex = creative ? hovered.getSlotIndex() : hovered.index;

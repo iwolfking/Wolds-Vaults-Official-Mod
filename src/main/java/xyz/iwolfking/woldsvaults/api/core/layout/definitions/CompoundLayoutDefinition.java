@@ -11,6 +11,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.CompoundLayoutTooltip;
@@ -148,7 +149,7 @@ public class CompoundLayoutDefinition implements LayoutDefinition {
         try {
             return CompoundLayoutTooltip.getTooltipImage(data, seed);
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Failed to create compound layout manipulator preview.", e);
+            WoldLogger.error("Failed to create compound layout manipulator preview.", e);
             return Optional.empty();
         }
     }

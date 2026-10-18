@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class DecoLodestoneStrings {
     public static WeightedList<Component> decoLodestoneMessages = new WeightedList<>();
@@ -93,7 +94,7 @@ public class DecoLodestoneStrings {
             }
         }
 
-        WoldsVaults.LOGGER.warn("Decorative Lodestone messages were empty!");
+        WoldLogger.warn("Decorative Lodestone messages were empty!");
         return (Component) Component.EMPTY;
     }
 }

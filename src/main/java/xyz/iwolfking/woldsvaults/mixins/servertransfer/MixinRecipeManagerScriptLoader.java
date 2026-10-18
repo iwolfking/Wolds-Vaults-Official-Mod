@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.client.servertransfer.ServerTransferState;
 
 @Restriction(
@@ -20,7 +21,7 @@ public class MixinRecipeManagerScriptLoader {
     @Inject(method = "updateState", at = @At("HEAD"), cancellable = true)
     private static void disableCraftTweaker(CallbackInfo ci){
         if (ServerTransferState.disableCraftTweaker) {
-            WoldsVaults.LOGGER.info("CraftTweaker recipe sync disabled, skipping updateState");
+            WoldLogger.debug("CraftTweaker recipe sync disabled, skipping updateState");
             ServerTransferState.disableCraftTweaker = false;
             ci.cancel();
         }

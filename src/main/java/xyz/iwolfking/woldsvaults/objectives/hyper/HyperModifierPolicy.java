@@ -4,6 +4,7 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
@@ -184,7 +185,7 @@ public final class HyperModifierPolicy {
                 || VaultModifierUtils.getCountOfModifiers(vault, modifier.getId()) < cap) {
             return false;
         }
-        WoldsVaults.LOGGER.info("Skipped rolling another {} — capped at {} stack(s) in Hyper vaults.", modifier.getId(), cap);
+        WoldLogger.debug("Skipped rolling another {} — capped at {} stack(s) in Hyper vaults.", modifier.getId(), cap);
         return true;
     }
 }

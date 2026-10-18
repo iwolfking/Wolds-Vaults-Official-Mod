@@ -24,6 +24,10 @@
     {
       "id": "woldsvaults:companion_ritual",
       "required": false
+    },
+    {
+      "id": "woldsvaults:spawn_egg_ritual",
+      "required": false
     }
   ]
 }

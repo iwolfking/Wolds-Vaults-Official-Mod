@@ -61,6 +61,7 @@ import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
 import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfo;
 import xyz.iwolfking.vhapi.integration.jevh.LabeledLootInfoRecipeCategory;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.init.*;
@@ -461,7 +462,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
                 } else if (reward instanceof Reward.StackReward stackReward) {
                     // the stack is visible in the tooltip, I won't bother with jei
                 } else {
-                    WoldsVaults.LOGGER.warn("[JEI] UNSUPPORTED GATEWAY REWARD " + reward.getClass());
+                    WoldLogger.error("[JEI] UNSUPPORTED GATEWAY REWARD " + reward.getClass());
                 }
             }
         }

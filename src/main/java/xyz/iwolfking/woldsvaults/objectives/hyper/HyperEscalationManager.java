@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
@@ -125,14 +126,26 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
      * once it notices the entity is gone, which reopens the podium for arming).
      */
     public void onFightWiped() {
+        rearmPillar();
+        HyperVaultObjective.broadcast(vault,
+                "Everyone challenging the Hyperboss has fallen! The arena reopens — the pillar stands armed for another attempt.",
+                ChatFormatting.RED);
+    }
+
+    /** The fight ended without the boss dying: re-arm exactly as a wipe does. */
+    public void onFightVanished() {
+        rearmPillar();
+        HyperVaultObjective.broadcast(vault,
+                "The Hyperboss vanished! The arena reopens — the pillar stands armed for another attempt.",
+                ChatFormatting.RED);
+    }
+
+    private void rearmPillar() {
         restartDoorAnimation();
         respawnBossPillar();
         removeBossRoomZone();
         discardFightSpawns();
         objective.set(HyperVaultObjective.PHASE, Phase.ARMED);
-        HyperVaultObjective.broadcast(vault,
-                "Everyone challenging the Hyperboss has fallen! The arena reopens — the pillar stands armed for another attempt.",
-                ChatFormatting.RED);
     }
 
     /**
@@ -184,7 +197,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         while (added < granted && emptyPulls < 2) {
             List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(HyperVaultObjective.CHAOS_POOL_MIXED, level, random);
             if (modifiers.isEmpty()) {
-                WoldsVaults.LOGGER.error("Chaos modifier pool {} is missing/empty!", HyperVaultObjective.CHAOS_POOL_MIXED);
+                WoldLogger.error("Chaos modifier pool {} is missing/empty!", HyperVaultObjective.CHAOS_POOL_MIXED);
                 emptyPulls++;
                 continue;
             }
@@ -202,7 +215,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
             }
         }
         if (added < granted) {
-            WoldsVaults.LOGGER.error("Chaos dump only added {}/{} modifiers — pool {} came up empty.", added, granted, HyperVaultObjective.CHAOS_POOL_MIXED);
+            WoldLogger.error("Chaos dump only added {}/{} modifiers — pool {} came up empty.", added, granted, HyperVaultObjective.CHAOS_POOL_MIXED);
         }
     }
 
@@ -267,7 +280,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
             }
             List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS, level, JavaRandom.ofNanoTime());
             if (modifiers.isEmpty()) {
-                WoldsVaults.LOGGER.error("Ambient pool {} is missing/empty — ambient Hyper modifiers cannot fire.", HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS);
+                WoldLogger.error("Ambient pool {} is missing/empty — ambient Hyper modifiers cannot fire.", HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS);
                 return;
             }
             for (VaultModifier<?> modifier : modifiers) {
@@ -288,7 +301,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         BlockPos pos = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
         CompoundTag saved = objective.getOr(HyperVaultObjective.PILLAR_NBT, null);
         if (pos == null || saved == null) {
-            WoldsVaults.LOGGER.error("No pillar snapshot recorded — the boss podium cannot respawn this cycle!");
+            WoldLogger.error("No pillar snapshot recorded — the boss podium cannot respawn this cycle!");
             return;
         }
         if (world.getBlockState(pos).getBlock() == ModBlocks.RUNE_PILLAR) {
@@ -300,7 +313,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
             pillar.load(saved);
             pillar.sendUpdates();
         } else {
-            WoldsVaults.LOGGER.error("Re-placed boss pillar at {} has no tile entity — arming next cycle will fail.", pos);
+            WoldLogger.error("Re-placed boss pillar at {} has no tile entity — arming next cycle will fail.", pos);
         }
     }
 
@@ -308,13 +321,13 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
     private void spawnExitPillar() {
         BlockPos center = objective.getOr(HyperVaultObjective.PILLAR_POS, null);
         if (center == null) {
-            WoldsVaults.LOGGER.error("No pillar position recorded — cannot place the Hyper exit pillar this cycle!");
+            WoldLogger.error("No pillar position recorded — cannot place the Hyper exit pillar this cycle!");
             return;
         }
         BlockPos spot = findExitSpot(center);
         if (spot == null) {
             spot = center.relative(Direction.NORTH, 3);
-            WoldsVaults.LOGGER.warn("No clear spot for the Hyper exit pillar around {}; force-placing at {}.", center, spot);
+            WoldLogger.warn("No clear spot for the Hyper exit pillar around {}; force-placing at {}.", center, spot);
         }
         placeObelisk(spot);
         objective.set(HyperVaultObjective.EXIT_POS, spot);
@@ -365,7 +378,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
         WorldZonesData.get(world.getServer()).getOrCreate(world.dimension()).remove(zoneId);
         objective.set(HyperVaultObjective.ZONE_ID, 0);
-        WoldsVaults.LOGGER.info("Removed the boss room's no-modify zone ({}).", zoneId);
+        WoldLogger.debug("Removed the boss room's no-modify zone ({}).", zoneId);
     }
 
     /**
@@ -383,7 +396,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         }
         spawns.forEach(Entity::discard);
         if (!spawns.isEmpty()) {
-            WoldsVaults.LOGGER.info("Discarded {} leftover hyperboss fight spawns.", spawns.size());
+            WoldLogger.debug("Discarded {} leftover hyperboss fight spawns.", spawns.size());
         }
     }
 
@@ -404,7 +417,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         if (world.getBlockState(pos).getBlock() == ModBlocks.OBELISK) {
             IZonedWorld.runWithBypass(world, true, () -> world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3));
         } else {
-            WoldsVaults.LOGGER.warn("Expected the Hyper exit pillar at {} but found {}; leaving it alone.", pos, world.getBlockState(pos));
+            WoldLogger.warn("Expected the Hyper exit pillar at {} but found {}; leaving it alone.", pos, world.getBlockState(pos));
         }
     }
 }

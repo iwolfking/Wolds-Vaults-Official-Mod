@@ -5,6 +5,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.TextComponent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.client.screens.widgets.IntSlider;
 import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
@@ -60,7 +61,7 @@ public class SpeedCapConfigScreen extends Screen {
         try {
             return Integer.parseInt(text);
         } catch (NumberFormatException e) {
-            WoldsVaults.LOGGER.warn("Weighted Boots: could not parse speed cap input '{}', treating as uncapped.", text);
+            WoldLogger.warn("Weighted Boots: could not parse speed cap input '{}', treating as uncapped.", text);
             return 0;
         }
     }

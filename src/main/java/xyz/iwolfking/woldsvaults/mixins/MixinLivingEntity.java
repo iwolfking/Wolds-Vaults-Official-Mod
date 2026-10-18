@@ -31,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VesselSlowCapHelper;
 import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
@@ -94,7 +95,7 @@ public abstract class MixinLivingEntity extends Entity {
         LivingEntity self = (LivingEntity) (Object) this;
         if (!HyperVaultEvents.isInHyperVault(self)) {
             if (this.addTag("woldsvaults_nonfinite_health_seen")) {
-                WoldsVaults.LOGGER.error(
+                WoldLogger.error(
                         "Non-finite health write ({}) on {} outside a hyper vault — left untouched (NaN guards are hyper-scoped).",
                         health, this.getType().getRegistryName());
             }
@@ -107,7 +108,7 @@ public abstract class MixinLivingEntity extends Entity {
         } else {
             sanitized = health > 0.0F ? Float.MAX_VALUE : 0.0F;
         }
-        WoldsVaults.LOGGER.error("HYPER NaN-guard: sanitized health write {} -> {} on {} (was {}, max {}).",
+        WoldLogger.error("HYPER NaN-guard: sanitized health write {} -> {} on {} (was {}, max {}).",
                 health, sanitized, this.getType().getRegistryName(), previous, self.getMaxHealth());
         return sanitized;
     }

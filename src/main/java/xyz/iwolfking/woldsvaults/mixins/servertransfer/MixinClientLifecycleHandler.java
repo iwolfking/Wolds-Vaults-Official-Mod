@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.client.servertransfer.ServerTransferState;
 
 @Restriction(
@@ -20,7 +21,7 @@ public class MixinClientLifecycleHandler {
     @Inject(method = "startJei", at = @At("HEAD"), cancellable = true)
     private void disableJEIStart(CallbackInfo ci){
         if (ServerTransferState.disableJEIRefresh) {
-            WoldsVaults.LOGGER.info("JEI refresh disabled, skipping startJei");
+            WoldLogger.debug("JEI refresh disabled, skipping startJei");
             ci.cancel();
         }
         ServerTransferState.disableJEIRefresh = false;
@@ -29,7 +30,7 @@ public class MixinClientLifecycleHandler {
     @Inject(method = "stopJei", at = @At("HEAD"), cancellable = true)
     private void disableJEIStop(CallbackInfo ci){
         if (ServerTransferState.disableJEIRefresh) {
-            WoldsVaults.LOGGER.info("JEI refresh disabled, skipping stopJei");
+            WoldLogger.debug("JEI refresh disabled, skipping stopJei");
             ci.cancel();
         }
     }

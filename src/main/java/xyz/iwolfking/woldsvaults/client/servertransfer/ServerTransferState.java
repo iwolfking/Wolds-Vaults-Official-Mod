@@ -6,6 +6,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 import java.util.regex.Pattern;
@@ -25,7 +26,7 @@ public class ServerTransferState {
             // Saving... => cross proxy (EU <=> US)
             // Connecting to <servername>...  => in proxy (EU <=> EU or US <=> US)
             if (event.getMessage() instanceof TextComponent tc && ("Saving your data before transfer...".equals(tc.getText()) || TRANSFER_PATTERN.matcher(tc.getText()).matches())) {
-                WoldsVaults.LOGGER.info("DETECTED SERVER TRANSFER");
+                WoldLogger.debug("DETECTED SERVER TRANSFER");
                 disableJEIRefresh = true;
                 disableVHAPITemplateSync = true;
                 disableCraftTweaker = true;

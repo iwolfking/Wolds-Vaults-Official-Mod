@@ -38,6 +38,7 @@ import xyz.iwolfking.vhapi.api.datagen.lib.WeightedLevelEntryListBuilder;
 import xyz.iwolfking.vhapi.api.datagen.lib.WeightedListBuilder;
 import xyz.iwolfking.vhapi.api.datagen.lib.modifiers.ModifierBuilder;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.EventTag;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.lib.EntityAttributeModifierSettable;
 
@@ -422,7 +423,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 }, "Armed Mobs (Spore Grenade)", "#33691E", "4% chance to spawn Spore Grenade on mob death", "Chance to spawn Spore Grenade on mob death", VaultMod.id("gui/modifiers/lightning_grenade"));
 
             } catch (Exception ignored) {
-                WoldsVaults.LOGGER.error("Error trying to create a Mob Death Bomb modifier, ignoring all modifiers of this type.");
+                WoldLogger.error("Error trying to create a Mob Death Bomb modifier, ignoring all modifiers of this type.");
             }
 
             infernalChance(modifierBuilder, VaultMod.id("raging"), EMPTY_ENTITY_PREDICATE, 0.03F,  3, "Raging", "#a996ca", "3% chance for mobs to spawn with Infernal modifiers", "Chance for mobs to spawn with Infernal modifiers", VaultMod.id("gui/modifiers/infernal"));
@@ -692,6 +693,9 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             empty(modifierBuilder, WoldsVaults.id("radar"), "Radar", "#ff4545",
                     "Mob radar is online — Ghost Walk, Spirit Walk and Shadow Cloak cannot hide you", null,
                     WoldsVaults.id("gui/modifiers/radar"));
+            empty(modifierBuilder, WoldsVaults.id("dulled"), "Dulled", "#ff4545",
+                    "This vault cannot randomly have its Theme infused.", null,
+                    WoldsVaults.id("gui/modifiers/dulled"));
             modifierBuilder.type(WoldsVaults.id("modifier_type/hyper_escalation").toString(), (typeBuilder) -> typeBuilder.modifier(WoldsVaults.id("hyper").toString(), (modifierEntryBuilder) -> {
                 modifierEntryBuilder.property("statFactor", 0.0F);
                 modifierEntryBuilder.property("speedPerStack", 0.0F);

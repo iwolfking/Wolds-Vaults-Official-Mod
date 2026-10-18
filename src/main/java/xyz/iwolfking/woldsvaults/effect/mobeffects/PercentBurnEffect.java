@@ -15,6 +15,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 
@@ -42,13 +43,13 @@ public class PercentBurnEffect extends MobEffect {
 
         CompoundTag data = target.getPersistentData();
         if (!data.contains(BURN_ATTACK_SNAPSHOT)) {
-            WoldsVaults.LOGGER.info("No burn snapshot");
+            WoldLogger.debug("No burn snapshot");
             return;
         }
 
         float attackSnapshot = data.getFloat(BURN_ATTACK_SNAPSHOT);
         if (attackSnapshot <= 0.0f) {
-            WoldsVaults.LOGGER.info("Snapshot of 0 damage");
+            WoldLogger.debug("Snapshot of 0 damage");
             return;
         }
 

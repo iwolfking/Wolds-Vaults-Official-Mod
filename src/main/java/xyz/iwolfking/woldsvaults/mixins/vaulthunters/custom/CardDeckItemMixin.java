@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 import iskallia.vault.core.card.Card;
 import iskallia.vault.core.card.CardDeck;
 import iskallia.vault.core.card.CardPos;
+import iskallia.vault.core.card.modifier.deck.SlotDeckModifier;
 import iskallia.vault.item.CardDeckItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -76,8 +77,16 @@ public class CardDeckItemMixin {
                                 arcaneSlotsCount++;
                                 rowComponent.append(new TextComponent("◆").withStyle(ChatFormatting.LIGHT_PURPLE));
                             } else {
+                                var slotColor = ChatFormatting.GOLD;
+                                List<SlotDeckModifier> slotModifiers = deck.getModifiersOfType(SlotDeckModifier.class);
+                                for (var modifier : slotModifiers) {
+                                    if (modifier.getAffectedSlots().contains(structuralMatch)) {
+                                        slotColor = ChatFormatting.YELLOW;
+                                        break;
+                                    }
+                                }
                                 normalSlotsCount++;
-                                rowComponent.append(new TextComponent("■").withStyle(ChatFormatting.GOLD));
+                                rowComponent.append(new TextComponent("■").withStyle(slotColor));
                             }
                         } else {
                             rowComponent.append(new TextComponent("□").withStyle(ChatFormatting.DARK_GRAY));

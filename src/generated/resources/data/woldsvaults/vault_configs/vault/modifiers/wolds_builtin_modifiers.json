@@ -30,6 +30,16 @@
           "descriptionFormatted": "Mob radar is online — Ghost Walk, Spirit Walk and Shadow Cloak cannot hide you",
           "icon": "woldsvaults:gui/modifiers/radar"
         }
+      },
+      "woldsvaults:dulled": {
+        "properties": {},
+        "display": {
+          "name": "Dulled",
+          "color": "#ff4545",
+          "description": "This vault cannot randomly have its Theme infused.",
+          "descriptionFormatted": "This vault cannot randomly have its Theme infused.",
+          "icon": "woldsvaults:gui/modifiers/dulled"
+        }
       }
     },
     "the_vault:modifier_type/difficulty_lock": {

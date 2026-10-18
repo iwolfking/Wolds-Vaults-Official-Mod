@@ -135,6 +135,7 @@ public class ModItems {
     public static BasicItem ALL_SEEING_EYE_CAPSTONE;
     public static BasicItem ENCHANTED_CAPSTONE;
     public static ConcealedChaosItem CONCEALED_CHAOS;
+    public static InfusionPreventionItem INFUSION_PREVENTION;
     public static BasicItem COMMUNITY_TOKEN;
     public static BasicItem RESEARCH_TOKEN;
 
@@ -408,6 +409,7 @@ public class ModItems {
         registry.register(LEAD_DYE_BASE);
         registry.register(CONCENTRATED_VOID);
         registry.register(INFUSED_AUGMENT);
+        registry.register(INFUSION_PREVENTION);
         COLORED_UNOBTANIUMS.forEach((s, bi) -> {
             registry.register(bi);
         });
@@ -611,5 +613,6 @@ public class ModItems {
         SCAVENGER_POUCH_ITEM = new ItemScavengerPouch(WoldsVaults.id("scavenger_pouch"));
         GREED_TREE_RESET_ITEM = new GreedTreeResetItem(WoldsVaults.id("greed_neuralizer"));
         CONCEALED_CHAOS = new ConcealedChaosItem(WoldsVaults.id("concealed_chaos"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        INFUSION_PREVENTION = new InfusionPreventionItem(WoldsVaults.id("crystal_duller"));
     }
 }

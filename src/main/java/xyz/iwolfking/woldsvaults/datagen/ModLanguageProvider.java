@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModGases;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModPigments;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.*;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.etched_layout.*;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import java.util.HashMap;
@@ -111,6 +112,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK, "Owned Crafting Table");
         add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
         add(ModBlocks.SURVIVAL_OBJECTIVE_BLOCK, "Survival Pylon");
+        add(ModBlocks.SUPPRESSOR_BLOCK, "Universal Suppressor");
         add(ModItems.CRYSTAL_SEAL_SURVIVOR, "Seal of the Survivor");
         add(ModItems.SCAVENGER_POUCH_ITEM, "Scavenger Pouch");
         add(ModItems.COMBINED_TRINKET, "Fusion Trinket");
@@ -164,6 +166,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModEffects.MOMENTUM_ENGINE, "Momentum Engine");
         add(ModEffects.BLEED_OVERRIDE, "Bleed");
         add(ModEffects.ULTIMATE_SHIELD, "Ultimate Shield");
+        add(ModEffects.HEALING_BLOCK, "Heal Reduction");
         add(iskallia.vault.init.ModEffects.TREASURE_SEEKER, "Treasure Seeker");
         add(iskallia.vault.init.ModEffects.BOUNTIFUL_HARVEST, "Bountiful Harvest");
         add("message.woldsvaults.filled_bottle_alchemy_archive", "You have all effects unlocked! Your %1$s has been refilled!");
@@ -363,8 +366,12 @@ public class ModLanguageProvider extends LanguageProvider {
         add("curios.identifier.green_trinket", "Green Trinket");
         add("curios.modifiers.trinket_pouch", "Pouch Modifiers");
         add("ftbquests.task.woldsvaults.vault_level", "Vault Level");
+        add("ftbquests.task.woldsvaults.vault_level.value", "Level Required");
         add("ftbquests.task.woldsvaults.enter_vault", "Enter Vault");
         add("ftbquests.task.woldsvaults.complete_bounty", "Complete Bounty");
+        add("ftbquests.task.woldsvaults.complete_bounty.value", "Bounty Type");
+        add("ftbquests.task.woldsvaults.research", "Unlock Research");
+        add("ftbquests.task.woldsvaults.research.research", "Research Name");
         add("item.scannable.vault_ores_module", "Scanner Module: Vault Ores");
         add("item.scannable.vault_chests_module", "Scanner Module: All Chests");
         add("item.scannable.vault_chests_module_living", "Scanner Module: Living Chests");
@@ -577,6 +584,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.GEM_REAGENT_TUBIUM, "Gem Reagent: Tubium");
         add(ModItems.GEM_REAGENT_PETEZANITE, "Gem Reagent: Petezanite");
         add(ModItems.GEM_REAGENT_UPALINE, "Gem Reagent: Upaline");
+        add(ModItems.INFUSION_PREVENTION, "Crystal Duller");
         add("item.woldsvaults.idona_dagger", "Idonian Sacrificial Dagger");
         add("item.woldsvaults.velara_apple", "Velaran Emerald Apple");
         add("item.woldsvaults.wendarr_gem", "Wendarrian Focus Gem");
@@ -630,6 +638,17 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.the_vault.companion", "Companion");
         add(new VaultDollCompletedAttribute(true), "is a completed Vault Doll", "is not a completed Vault Doll");
         add(new CardDeckModifierAttribute(""), "has a \"%1$s\" card deck modifier", "doesn't have a \"%1$s\" card deck modifier");
+        add(new EtchedLayoutCircleAttribute(1), "has a Circle layout with radius \"%1$s\"", "doesn't have a Circle layout with radius \"%1$s\"");
+        add(new EtchedLayoutPolygonAttribute(""), "has a Polygon layout with vertices \"%1$s\"", "doesn't have a Polygon layout with vertices \"%1$s\"");
+        add(new EtchedLayoutRingsAttribute(1), "has a Rings layout with radius \"%1$s\"", "doesn't have a Rings layout with radius \"%1$s\"");
+        add(new EtchedLayoutRingsIntervalAttribute(1), "has a Rings layout with interval \"%1$s\"", "doesn't have a Rings layout with interval \"%1$s\"");
+        add(new EtchedLayoutSpiralAttribute(1), "has a Spiral layout with interval \"%1$s\"", "doesn't have a Spiral layout with interval \"%1$s\"");
+        add(new EtchedLayoutTunnelHeightAttribute(1), "has a Tunnel layout with height \"%1$s\"", "doesn't have a Tunnel layout with height \"%1$s\"");
+        add(new EtchedLayoutTunnelIntervalAttribute(1), "has a Tunnel layout with interval \"%1$s\"", "doesn't have a Tunnel layout with interval \"%1$s\"");
+        add(new EtchedLayoutTunnelWidthAttribute(1), "has a Tunnel layout with width \"%1$s\"", "doesn't have a Tunnel layout with width \"%1$s\"");
+        add(new EtchedLayoutWaveAmplitudeAttribute(1), "has a Wave layout with amplitude \"%1$s\"", "doesn't have a Tunnel layout with amplitude \"%1$s\"");
+        add(new EtchedLayoutWaveLengthAttribute(1), "has a Wave layout with length \"%1$s\"", "doesn't have a Tunnel layout with length \"%1$s\"");
+        add(new EtchedLayoutWaveFrequencyAttribute(1.0), "has a Wave layout with frequency \"%1$s\"", "doesn't have a Tunnel layout with frequency \"%1$s\"");
         add("create.item_attributes.has_unusual", "has an unusual modifier");
         add("create.item_attributes.has_unusual.inverted", "doesn't have an unusual modifier");
         add("create.item_attributes.has_divine", "is Divine");

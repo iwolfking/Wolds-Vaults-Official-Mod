@@ -34,6 +34,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class HeartFragmentOnLootAttribute extends LootTriggerAttribute {
    private static final DecimalFormat FORMAT = new DecimalFormat("0.##");

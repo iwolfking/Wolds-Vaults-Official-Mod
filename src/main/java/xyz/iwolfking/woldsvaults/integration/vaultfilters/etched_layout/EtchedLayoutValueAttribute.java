@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.integration.vaultfilters;
+package xyz.iwolfking.woldsvaults.integration.vaultfilters.etched_layout;
 
 import net.joseph.vaultfilters.attributes.abstracts.IntAttribute;
 import net.minecraft.world.item.ItemStack;
