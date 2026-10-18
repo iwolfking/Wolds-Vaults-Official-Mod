@@ -124,13 +124,17 @@ public class LivingEntityEvents {
     @SubscribeEvent
     public static void onElementalAttack(LivingHurtEvent event) {
         Entity attacker = event.getSource().getEntity();
-        if(attacker instanceof ServerPlayer player) {
+        if (attacker instanceof ServerPlayer player) {
             ElementHelper.applyElementalEffects(event.getEntityLiving(), player, event.getAmount());
         }
 
         //Handle special projectile cases
-        if(attacker instanceof VaultFireball fireball && fireball instanceof IWoldAbilityEnhancements woldAbilityEnhancements) {
+        if (attacker instanceof VaultFireball fireball && fireball instanceof IWoldAbilityEnhancements woldAbilityEnhancements) {
             ElementHelper.applyElementalEffects(event.getEntityLiving(), fireball.getThrower(), event.getAmount(), woldAbilityEnhancements.getElementTypes(), true);
+        }
+    }
+
+    @SubscribeEvent
     public static void reduceHealingFromHealBlock(LivingHealEvent event) {
         if(event.getEntityLiving().hasEffect(ModEffects.HEALING_BLOCK)) {
             MobEffectInstance effectInstance = event.getEntityLiving().getEffect(ModEffects.HEALING_BLOCK);
@@ -246,6 +250,10 @@ public class LivingEntityEvents {
                     onArrival.run();
                 }
             });
+        }
+    }
+
+    @SubscribeEvent
     public static void onChampionDeath(LivingDeathEvent event) {
         LivingEntity entity = event.getEntityLiving();
 
