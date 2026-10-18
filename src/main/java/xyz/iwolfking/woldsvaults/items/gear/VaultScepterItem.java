@@ -209,7 +209,7 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         }
 
         if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) {
-            if (chargeTicks < 10) return;
+            if (chargeTicks < 40) return;
             executeBeamAttack(serverLevel, player, elementalTypes);
         }
     }
