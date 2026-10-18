@@ -1,0 +1,28 @@
+{
+  "itemRegistryName": "the_vault:scepter",
+  "MODEL_ROLLS": {
+    "SCRAPPY": [
+      "the_vault:gear/scepter/dull_scepter"
+    ],
+    "COMMON": [
+      "the_vault:gear/scepter/standard_scepter"
+    ],
+    "RARE": [
+      "the_vault:gear/scepter/bright_scepter",
+      "the_vault:gear/scepter/blazing_scepter"
+    ],
+    "EPIC": [
+      "the_vault:gear/scepter/arcane_scepter",
+      "the_vault:gear/scepter/life_scepter"
+    ],
+    "OMEGA": [
+      "the_vault:gear/scepter/verdant_scepter",
+      "the_vault:gear/scepter/dark_scepter"
+    ],
+    "MYTHIC": [
+      "the_vault:gear/scepter/mythic_scepter"
+    ],
+    "UNIQUE": [
+    ]
+  }
+}

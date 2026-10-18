@@ -2,25 +2,24 @@ package xyz.iwolfking.woldsvaults.datagen.lib;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.entry.FloatRollRangeEntry;
+import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
-import iskallia.vault.gear.attribute.config.FloatAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.ability.BroodmotherWebAttribute;
-import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.MixinModConfigs;
+import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVaultGearConfigProvider {
-    private static final List<String> STANDARD_GEAR = List.of("axe", "battlestaff", "trident", "sword", "rang", "plushie", "wand", "chestplate", "leggings", "boots", "helmet", "focus", "loot_sack", "magnet", "shield", "unique");
+    private static final List<String> STANDARD_GEAR = List.of("axe", "battlestaff", "trident", "scepter", "sword", "rang", "plushie", "wand", "chestplate", "leggings", "boots", "helmet", "focus", "loot_sack", "magnet", "shield", "unique");
     private static final List<String> STANDARD_GEAR_NO_UNIQUE = List.of("axe", "battlestaff", "trident", "sword", "rang", "plushie", "wand", "chestplate", "leggings", "boots", "helmet", "focus", "loot_sack", "magnet", "shield");
-    private static final List<String> MAINHANDS = List.of("axe", "battlestaff", "trident", "sword", "rang");
-    private static final List<String> MAINHANDS_NO_AXE = List.of("battlestaff", "trident", "sword", "rang");
+    private static final List<String> MAINHANDS = List.of("axe", "battlestaff", "trident", "sword", "rang", "scepter");
+    private static final List<String> MAINHANDS_NO_AXE = List.of("battlestaff", "trident", "sword", "rang", "scepter");
     private static final List<String> OFFHANDS = List.of("plushie", "wand", "focus", "loot_sack", "shield", "magnet");
     private static final List<String> OFFHANDS_NO_SACK = List.of("plushie", "wand", "focus", "shield");
     private static final List<String> OFFHANDS_NO_PLUSHIE = List.of("loot_sack", "wand", "focus", "shield", "magnet");
@@ -130,6 +129,22 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
         BroodmotherWebAttribute.Config config = new BroodmotherWebAttribute.Config(
                 new FloatRollRangeEntry(minChance, maxChance, stepChance),
                 new FloatRollRangeEntry(minDamage, maxDamage, stepDamage)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addScepterInvoke(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            String abilityId,
+            int minAbilityLevel, int maxAbilityLevel, int stepLevel,
+            float minCharge, float maxCharge, float stepCharge) {
+
+        ScepterInvokeAttribute.Config config = new ScepterInvokeAttribute.Config(
+                abilityId,
+                new IntRollRangeEntry(minAbilityLevel, maxAbilityLevel, stepLevel),
+                new FloatRollRangeEntry(minCharge, maxCharge, stepCharge)
         );
 
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);

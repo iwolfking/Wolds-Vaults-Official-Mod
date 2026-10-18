@@ -13,6 +13,7 @@ import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
 import iskallia.vault.init.ModItems;
+import iskallia.vault.world.VaultMode;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
@@ -30,6 +31,544 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
 
     @Override
     public void registerConfigs() {
+        add("scepter", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DURABILITY, "BaseDurability", "base_durability", List.of("resilientFocusTarget"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 40, 10, 3425, 4225, 1);
+                    vaultGearModifierTiersBuilder.add(8, 70, 10, 4226, 5225, 1);
+                    vaultGearModifierTiersBuilder.add(25, -1, 10, 5226, 6325, 1);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, 6826, 8325, 1);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 8576, 10375, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.SOULBOUND, "BaseSoulbound", "base_soulbound", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.SOULBOUND, "BaseSoulbound", "base_no_soulbound", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 80, false);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.LIVING, "BaseLiving", "base_no_living", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 98, false);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.LIVING, "BaseLiving", "base_living", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 2, true);
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER, "BaseAbilityPower", "base_ability_power", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 15, 10, 9, 15, 1);
+                    vaultGearModifierTiersBuilder.add(10, 47, 10, 16, 24, 1);
+                    vaultGearModifierTiersBuilder.add(16, 57, 10, 24, 32, 1);
+                    vaultGearModifierTiersBuilder.add(25, 63, 10, 32, 42, 1);
+                    vaultGearModifierTiersBuilder.add(48, 82, 10, 42, 55, 1);
+                    vaultGearModifierTiersBuilder.add(58, -1, 10, 55, 70, 1);
+                    vaultGearModifierTiersBuilder.add(68, -1, 10, 70, 80, 1);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 80, 90, 1);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 90, 105, 1);
+                    vaultGearModifierTiersBuilder.add(95, -1, 10, 105, 110, 1);
+                    vaultGearModifierTiersBuilder.add(100, -1, 10, 110, 120, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED, "BaseAttackSpeed", "base_attack_speed", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, -2.4, -2.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, -2.3, -2.2, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_SPARKLES, "ModScepterType", "base_sparkles_type", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_BEAM, "ModScepterType", "base_beam_type", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_fireball", List.of(), vaultGearModifierTiersBuilder -> {
+                   addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Fireball_Base", 1, 4, 1, 60, 100, 10);
+                   addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Fireball_Base", 3, 7, 1, 55, 95, 10);
+                   addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Fireball_Base", 5, 9, 1, 50, 90, 10);
+                   addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Fireball_Base", 6, 12, 1, 45, 85, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_nova", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Nova_Base", 1, 4, 1, 40, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Nova_Base", 3, 7, 1, 40, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Nova_Base", 5, 9, 1, 35, 75, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Nova_Base", 6, 12, 1, 35, 75, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_implode", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Mana_Shield_Implode", 1, 4, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Mana_Shield_Implode", 5, 8, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Mana_Shield_Implode", 8, 11, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Mana_Shield_Implode", 9, 16, 1, 50, 80, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_arcane_prism", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Arcane_Prism", 1, 4, 1, 60, 100, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Arcane_Prism", 3, 7, 1, 55, 95, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Arcane_Prism", 5, 9, 1, 50, 90, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Arcane_Prism", 6, 12, 1, 45, 85, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_lightning_ball", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Chain_Lightning_Orbs", 1, 4, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Chain_Lightning_Orbs", 5, 8, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Chain_Lightning_Orbs", 8, 11, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Chain_Lightning_Orbs", 9, 16, 1, 50, 80, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_charged_bolts", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Chain_Lightning_Charged_Bolts", 1, 4, 1, 40, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Chain_Lightning_Charged_Bolts", 5, 8, 1, 35, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Chain_Lightning_Charged_Bolts", 8, 11, 1, 30, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Chain_Lightning_Charged_Bolts", 9, 16, 1, 30, 65, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_necromancy", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Necromancy_Base", 1, 4, 1, 40, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Necromancy_Base", 5, 8, 1, 35, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Necromancy_Base", 8, 11, 1, 30, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Necromancy_Base", 9, 16, 1, 30, 65, 10);
+                });
+                //TODO: Rework this into "Magibash" implicit
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.AP_SCALING_DAMAGE, "ModScepterType", "base_ap_scaling_damage", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 60, 12, 0.28F, 0.35F, 0.01F);
+                    vaultGearModifierTiersBuilder.add(50, -1, 12, 0.36, 0.45F, 0.01F);
+                    vaultGearModifierTiersBuilder.add(75, -1, 12, 0.45, 0.65F, 0.01F);
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER, "ModOnHitAddition", "mod_ability_power", List.of("focusAbilityDamage"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 49, 10, 2, 6, 1);
+                    vaultGearModifierTiersBuilder.add(25, 74, 10, 7, 12, 1);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, 12, 17, 1);
+                    vaultGearModifierTiersBuilder.add(75, -1, 10, 17, 25, 1);
+                    vaultGearModifierTiersBuilder.add(100, -1, 10, 25, 30, 1);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 30, 40, 1);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 40, 65, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER_PERCENTILE, "ModOnHitAddition", "mod_ability_power_percent", List.of("focusAbilityDamage"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 86, 10, 0.04, 0.07, 0.01);
+                    vaultGearModifierTiersBuilder.add(42, -1, 10, 0.08, 0.12, 0.01);
+                    vaultGearModifierTiersBuilder.add(68, -1, 10, 0.13, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(87, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY, "ModSoulChance", "mod_soul_chance", List.of("focusSoulQuantity"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.1, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(28, -1, 10, 0.21, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(45, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(75, -1, 10, 0.41, 0.5, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.51, 0.7, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.71, 1.0, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.AREA_OF_EFFECT, "ModEffectRadius", "mod_effect_radius", List.of("focusEffectRadius"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.04, 0.08, 0.01);
+                    vaultGearModifierTiersBuilder.add(40, -1, 10, 0.09, 0.14, 0.01);
+                    vaultGearModifierTiersBuilder.add(63, -1, 10, 0.15, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(89, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.26, 0.34, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.35, 0.45, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.HEALING_EFFECTIVENESS, "ModHealth", "mod_healing_effect", List.of("focusHealingEff"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(22, -1, 10, 0.11, 0.18, 0.01);
+                    vaultGearModifierTiersBuilder.add(43, -1, 10, 0.19, 0.26, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.27, 0.35, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.36, 0.5, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.51, 0.7, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.COOLDOWN_REDUCTION, "ModCooldownReduction", "mod_cooldown_reduction", List.of("focusCooldown"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(22, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(43, -1, 10, 0.16, 0.22, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.23, 0.27, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.28, 0.34, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.35, 0.45, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_CHAMPION, "ModDamageChampion", "mod_damage_champion", List.of("focusDamageChampion"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_DUNGEON, "ModDamageDungeon", "mod_damage_dungeon", List.of("focusDamageDungeon"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_HORDE, "ModDamageHorde", "mod_damage_horde", List.of("focusDamageHorde"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_ASSASSIN, "ModDamageAssassin", "mod_damage_assassin", List.of("focusDamageAssassin"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_TANK, "ModDamageTank", "mod_damage_tank", List.of("focusDamageTank"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED, "ModAttackType", "mod_attack_speed_percent", List.of("focusAttackSpeed"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(65, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(96, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.26, 3, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.31, 0.35, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_RANGE, "ModAttackType", "mod_attack_range", List.of("focusAttackRange"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.1, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(20, -1, 10, 0.21, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(45, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(75, -1, 10, 0.41, 0.5, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.5, 0.65, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.66, 1.0, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, "ModManaRegen", "mod_mana_regen", List.of("focusManaRegen"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 54, 10, 0.1, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(23, 66, 10, 0.21, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(34, 80, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(46, -1, 10, 0.41, 0.5, 0.01);
+                    vaultGearModifierTiersBuilder.add(55, -1, 10, 0.51, 0.6, 0.01);
+                    vaultGearModifierTiersBuilder.add(67, -1, 10, 0.61, 0.7, 0.01);
+                    vaultGearModifierTiersBuilder.add(81, -1, 10, 0.71, 0.8, 0.01);
+                    vaultGearModifierTiersBuilder.add(92, -1, 10, 0.81, 0.9, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.91, 1.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 1.21, 1.45, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.ECHOING_CHANCE, "ModElementType", "mod_echoing_chance", List.of("focusEchoingChance"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(50, 85, 10, 0.03, 0.06, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ON_HIT_STUN, "ModElementType", "mod_stun_chance", List.of("focusStunChance"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(50, 85, 10, 0.03, 0.06, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.EFFECT_DURATION, "ModEffectDuration", "mod_effect_duration", List.of("focusEffectDuration"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 85, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(32, -1, 10, 0.11, 0.16, 0.01);
+                    vaultGearModifierTiersBuilder.add(52, -1, 10, 0.17, 0.22, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.23, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.55, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_COOLDOWN_SKIP_CHANCE, "ModAttackType", "mod_ability_cooldown_skip", List.of("focusAbilitySkip"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(20, 85, 10, 0.03, 0.06, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEXING_CHANCE, "ModAttackType", "mod_hexing_chance", List.of("focusHexingChance"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(20, 85, 10, 0.03, 0.06, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.FIRE_ELEMENT, "ModElementType", "mod_fire_element", List.of("focusElement"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.ICE_ELEMENT, "ModElementType", "mod_ice_element", List.of("focusElement"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.POISON_ELEMENT, "ModElementType", "mod_poison_element", List.of("focusElement"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.LIGHTNING_ELEMENT, "ModElementType", "mod_lightning_element", List.of("focusElement"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+            });
+        });
+        add("scepter_mythic", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DURABILITY, "BaseDurability", "base_durability", List.of("resilientFocusTarget"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 40, 10, 3425, 4225, 1);
+                    vaultGearModifierTiersBuilder.add(8, 70, 10, 4226, 5225, 1);
+                    vaultGearModifierTiersBuilder.add(25, -1, 10, 5226, 6325, 1);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, 6826, 8325, 1);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 8576, 10375, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.SOULBOUND, "BaseSoulbound", "base_soulbound", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.SOULBOUND, "BaseSoulbound", "base_no_soulbound", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 80, false);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.LIVING, "BaseLiving", "base_no_living", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 98, false);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.LIVING, "BaseLiving", "base_living", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 2, true);
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER, "BaseAbilityPower", "base_ability_power", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 15, 10, 9, 15, 1);
+                    vaultGearModifierTiersBuilder.add(10, 47, 10, 16, 24, 1);
+                    vaultGearModifierTiersBuilder.add(16, 57, 10, 24, 32, 1);
+                    vaultGearModifierTiersBuilder.add(25, 63, 10, 32, 42, 1);
+                    vaultGearModifierTiersBuilder.add(48, 82, 10, 42, 55, 1);
+                    vaultGearModifierTiersBuilder.add(58, -1, 10, 55, 70, 1);
+                    vaultGearModifierTiersBuilder.add(68, -1, 10, 70, 80, 1);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 80, 90, 1);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 90, 105, 1);
+                    vaultGearModifierTiersBuilder.add(95, -1, 10, 105, 110, 1);
+                    vaultGearModifierTiersBuilder.add(100, -1, 10, 110, 120, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED, "BaseAttackSpeed", "base_attack_speed", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, -2.4, -2.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, -2.3, -2.2, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_SPARKLES, "ModScepterType", "base_sparkles_type", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_BEAM, "ModScepterType", "base_beam_type", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_fireball", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Fireball_Base", 1, 4, 1, 60, 100, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Fireball_Base", 3, 7, 1, 55, 95, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Fireball_Base", 5, 9, 1, 50, 90, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Fireball_Base", 6, 12, 1, 45, 85, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_nova", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Nova_Base", 1, 4, 1, 40, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Nova_Base", 3, 7, 1, 40, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Nova_Base", 5, 9, 1, 35, 75, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Nova_Base", 6, 12, 1, 35, 75, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_implode", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Mana_Shield_Implode", 1, 4, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Mana_Shield_Implode", 5, 8, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Mana_Shield_Implode", 8, 11, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Mana_Shield_Implode", 9, 16, 1, 50, 80, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_arcane_prism", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Arcane_Prism", 1, 4, 1, 60, 100, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Arcane_Prism", 3, 7, 1, 55, 95, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Arcane_Prism", 5, 9, 1, 50, 90, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Arcane_Prism", 6, 12, 1, 45, 85, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_lightning_ball", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Chain_Lightning_Orbs", 1, 4, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Chain_Lightning_Orbs", 5, 8, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Chain_Lightning_Orbs", 8, 11, 1, 50, 80, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Chain_Lightning_Orbs", 9, 16, 1, 50, 80, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_charged_bolts", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Chain_Lightning_Charged_Bolts", 1, 4, 1, 40, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Chain_Lightning_Charged_Bolts", 5, 8, 1, 35, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Chain_Lightning_Charged_Bolts", 8, 11, 1, 30, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Chain_Lightning_Charged_Bolts", 9, 16, 1, 30, 65, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_necromancy", List.of(), vaultGearModifierTiersBuilder -> {
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 0, 30, 4, "Necromancy_Base", 1, 4, 1, 40, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 23, 56, 4, "Necromancy_Base", 5, 8, 1, 35, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Necromancy_Base", 8, 11, 1, 30, 70, 10);
+                    addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Necromancy_Base", 9, 16, 1, 30, 65, 10);
+                });
+                //TODO: Rework this into "Magibash" implicit
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.AP_SCALING_DAMAGE, "ModScepterType", "base_ap_scaling_damage", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 60, 12, 0.28F, 0.35F, 0.01F);
+                    vaultGearModifierTiersBuilder.add(50, -1, 12, 0.36, 0.45F, 0.01F);
+                    vaultGearModifierTiersBuilder.add(75, -1, 12, 0.45, 0.65F, 0.01F);
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER, "ModOnHitAddition", "mod_ability_power", List.of("focusAbilityDamage"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 49, 10, 2, 6, 1);
+                    vaultGearModifierTiersBuilder.add(25, 74, 10, 7, 12, 1);
+                    vaultGearModifierTiersBuilder.add(50, -1, 10, 12, 17, 1);
+                    vaultGearModifierTiersBuilder.add(75, -1, 10, 17, 25, 1);
+                    vaultGearModifierTiersBuilder.add(100, -1, 10, 25, 30, 1);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 30, 40, 1);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 40, 65, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER_PERCENTILE, "ModOnHitAddition", "mod_ability_power_percent", List.of("focusAbilityDamage"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 86, 10, 0.04, 0.07, 0.01);
+                    vaultGearModifierTiersBuilder.add(42, -1, 10, 0.08, 0.12, 0.01);
+                    vaultGearModifierTiersBuilder.add(68, -1, 10, 0.13, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(87, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY, "ModSoulChance", "mod_soul_chance", List.of("focusSoulQuantity"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.1, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(28, -1, 10, 0.21, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(45, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(75, -1, 10, 0.41, 0.5, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.51, 0.7, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.71, 1.0, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.AREA_OF_EFFECT, "ModEffectRadius", "mod_effect_radius", List.of("focusEffectRadius"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.04, 0.08, 0.01);
+                    vaultGearModifierTiersBuilder.add(40, -1, 10, 0.09, 0.14, 0.01);
+                    vaultGearModifierTiersBuilder.add(63, -1, 10, 0.15, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(89, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.26, 0.34, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.35, 0.45, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.HEALING_EFFECTIVENESS, "ModHealth", "mod_healing_effect", List.of("focusHealingEff"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(22, -1, 10, 0.11, 0.18, 0.01);
+                    vaultGearModifierTiersBuilder.add(43, -1, 10, 0.19, 0.26, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.27, 0.35, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.36, 0.5, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.51, 0.7, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.COOLDOWN_REDUCTION, "ModCooldownReduction", "mod_cooldown_reduction", List.of("focusCooldown"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(22, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(43, -1, 10, 0.16, 0.22, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.23, 0.27, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.28, 0.34, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.35, 0.45, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_CHAMPION, "ModDamageChampion", "mod_damage_champion", List.of("focusDamageChampion"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_DUNGEON, "ModDamageDungeon", "mod_damage_dungeon", List.of("focusDamageDungeon"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_HORDE, "ModDamageHorde", "mod_damage_horde", List.of("focusDamageHorde"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_ASSASSIN, "ModDamageAssassin", "mod_damage_assassin", List.of("focusDamageAssassin"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_TANK, "ModDamageTank", "mod_damage_tank", List.of("focusDamageTank"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(62, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(80, -1, 10, 0.26, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.5, 0.01);
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED, "ModAttackType", "mod_attack_speed_percent", List.of("focusAttackSpeed"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(65, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(96, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.26, 3, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.31, 0.35, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_RANGE, "ModAttackType", "mod_attack_range", List.of("focusAttackRange"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.1, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(20, -1, 10, 0.21, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(45, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(75, -1, 10, 0.41, 0.5, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.5, 0.65, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.66, 1.0, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, "ModManaRegen", "mod_mana_regen", List.of("focusManaRegen"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 54, 10, 0.1, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(23, 66, 10, 0.21, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(34, 80, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(46, -1, 10, 0.41, 0.5, 0.01);
+                    vaultGearModifierTiersBuilder.add(55, -1, 10, 0.51, 0.6, 0.01);
+                    vaultGearModifierTiersBuilder.add(67, -1, 10, 0.61, 0.7, 0.01);
+                    vaultGearModifierTiersBuilder.add(81, -1, 10, 0.71, 0.8, 0.01);
+                    vaultGearModifierTiersBuilder.add(92, -1, 10, 0.81, 0.9, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.91, 1.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 1.21, 1.45, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.ECHOING_CHANCE, "ModElementType", "mod_echoing_chance", List.of("focusEchoingChance"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(50, 85, 10, 0.03, 0.06, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ON_HIT_STUN, "ModElementType", "mod_stun_chance", List.of("focusStunChance"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(50, 85, 10, 0.03, 0.06, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.EFFECT_DURATION, "ModEffectDuration", "mod_effect_duration", List.of("focusEffectDuration"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, 85, 10, 0.05, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(32, -1, 10, 0.11, 0.16, 0.01);
+                    vaultGearModifierTiersBuilder.add(52, -1, 10, 0.17, 0.22, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.23, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.4, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.55, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_COOLDOWN_SKIP_CHANCE, "ModAttackType", "mod_ability_cooldown_skip", List.of("focusAbilitySkip"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(20, 85, 10, 0.03, 0.06, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEXING_CHANCE, "ModAttackType", "mod_hexing_chance", List.of("focusHexingChance"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(20, 85, 10, 0.03, 0.06, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
+                    vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.26, 0.3, 0.01);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.FIRE_ELEMENT, "ModElementType", "mod_fire_element", List.of("focusElement"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.ICE_ELEMENT, "ModElementType", "mod_ice_element", List.of("focusElement"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.POISON_ELEMENT, "ModElementType", "mod_poison_element", List.of("focusElement"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.LIGHTNING_ELEMENT, "ModElementType", "mod_lightning_element", List.of("focusElement"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, true);
+                });
+            });
+        });
         addToAllOffhands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.LEECH);
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.MANA_ADDITIVE);

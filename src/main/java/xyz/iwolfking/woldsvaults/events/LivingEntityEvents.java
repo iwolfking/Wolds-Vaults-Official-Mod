@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.events;
 
 import atomicstryker.infernalmobs.common.InfernalMobsCore;
 import cofh.core.init.CoreMobEffects;
+import com.mojang.math.Vector3f;
 import iskallia.vault.block.CoinPileBlock;
 import iskallia.vault.block.VaultChestBlock;
 import iskallia.vault.block.VaultOreBlock;
@@ -13,6 +14,8 @@ import iskallia.vault.entity.VaultBoss;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.entity.champion.ChampionLogic;
+import iskallia.vault.entity.entity.PetEntity;
+import iskallia.vault.entity.entity.VaultFireball;
 import iskallia.vault.entity.champion.IChampionAffix;
 import iskallia.vault.entity.champion.PotionAuraAffix;
 import iskallia.vault.entity.entity.elite.EliteDrownedEntity;
@@ -26,6 +29,7 @@ import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.event.ActiveFlagsCheck;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.gear.data.GearDataCache;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.etching.EtchingHelper;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -37,14 +41,14 @@ import iskallia.vault.skill.talent.type.JavelinConductTalent;
 import iskallia.vault.skill.tree.TalentTree;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
-import iskallia.vault.util.calc.EffectDurationHelper;
-import iskallia.vault.util.calc.PlayerStat;
-import iskallia.vault.util.calc.ThornsHelper;
+import iskallia.vault.util.calc.*;
 import iskallia.vault.util.damage.DamageUtil;
 import iskallia.vault.world.data.PlayerTalentsData;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -54,7 +58,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
@@ -62,6 +66,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.world.BlockEvent;
@@ -71,6 +77,8 @@ import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
+import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
+import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.*;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
@@ -96,6 +104,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(
         modid = WoldsVaults.MOD_ID
@@ -113,6 +122,15 @@ public class LivingEntityEvents {
     }
 
     @SubscribeEvent
+    public static void onElementalAttack(LivingHurtEvent event) {
+        Entity attacker = event.getSource().getEntity();
+        if(attacker instanceof ServerPlayer player) {
+            ElementHelper.applyElementalEffects(event.getEntityLiving(), player, event.getAmount());
+        }
+
+        //Handle special projectile cases
+        if(attacker instanceof VaultFireball fireball && fireball instanceof IWoldAbilityEnhancements woldAbilityEnhancements) {
+            ElementHelper.applyElementalEffects(event.getEntityLiving(), fireball.getThrower(), event.getAmount(), woldAbilityEnhancements.getElementTypes(), true);
     public static void reduceHealingFromHealBlock(LivingHealEvent event) {
         if(event.getEntityLiving().hasEffect(ModEffects.HEALING_BLOCK)) {
             MobEffectInstance effectInstance = event.getEntityLiving().getEffect(ModEffects.HEALING_BLOCK);
@@ -124,6 +142,110 @@ public class LivingEntityEvents {
     }
 
     @SubscribeEvent
+    public static void onScepterHitSparkles(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof ServerPlayer player)) return;
+        if (ActiveFlags.IS_AP_ATTACKING.isSet()) return;
+
+        ItemStack heldItem = player.getMainHandItem();
+        GearDataCache gearDataCache = GearDataCache.of(heldItem);
+        if (!gearDataCache.hasAttribute(ModGearAttributes.SCEPTER_SPARKLES)) {
+            return;
+        }
+
+        LivingEntity victim = event.getEntityLiving();
+        Level level = player.getLevel();
+
+        if (!(level instanceof ServerLevel serverLevel)) return;
+
+        float playerAP = AbilityPowerHelper.getAbilityPower(player);
+        float aoeBonus = AreaOfEffectHelper.getAreaOfEffectUnlimited(player);
+        double radius = 3.5 * (1.0F + aoeBonus);
+
+        AABB searchBox = victim.getBoundingBox().inflate(radius);
+        List<LivingEntity> nearbyTargets = serverLevel.getEntitiesOfClass(LivingEntity.class, searchBox, e ->
+                !(e instanceof Player) && e.isAlive() && !e.isAlliedTo(player) && !(e instanceof PetEntity)
+        );
+
+        if (nearbyTargets.isEmpty()) return;
+
+        float sparkleDamage = playerAP * 0.1F;
+
+        Vector3f startColor = new Vector3f(0.8F, 0.2F, 1.0F);
+        Vector3f endColor = new Vector3f(0.3F, 0.9F, 1.0F);
+
+        for (LivingEntity target : nearbyTargets) {
+            Vec3 originPos = victim.position().add(0, victim.getBbHeight() * 0.5, 0);
+
+            spawnSparkleParticleLine(
+                    serverLevel,
+                    originPos,
+                    () -> target.position().add(0, target.getBbHeight() * 0.5, 0),
+                    startColor,
+                    endColor,
+                    8,
+                    1,
+                    () -> {
+                        if (target.isAlive()) {
+                            WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> {
+                                ActiveFlags.IS_AP_ATTACKING.push();
+                                try {
+                                    DamageSource sparkleSource = DamageSource.indirectMagic(player, player);
+                                    target.hurt(sparkleSource, sparkleDamage);
+                                } finally {
+                                    ActiveFlags.IS_AP_ATTACKING.pop();
+                                }
+                            });
+
+                            serverLevel.sendParticles(ParticleTypes.ENCHANT,
+                                    target.getX(), target.getY() + target.getBbHeight() / 2.0, target.getZ(),
+                                    12, 0.2, 0.2, 0.2, 0.4);
+                        }
+                    }
+            );
+        }
+    }
+
+
+    private static void spawnSparkleParticleLine(
+            ServerLevel level,
+            Vec3 from,
+            Supplier<Vec3> toSupplier,
+            Vector3f startColor,
+            Vector3f endColor,
+            int steps,
+            int ticksBetween,
+            Runnable onArrival
+    ) {
+        Vec3 mid = from.add(0, 0.5, 0);
+        Vec3 controlOffset = new Vec3(
+                (level.random.nextDouble() - 0.5) * 2.0,
+                1.0 + level.random.nextDouble(),
+                (level.random.nextDouble() - 0.5) * 2.0
+        );
+
+        for (int i = 0; i <= steps; i++) {
+            final int stepIndex = i;
+            double t = (double) stepIndex / steps;
+
+            DelayedExecutionHelper.schedule(level, stepIndex * ticksBetween, () -> {
+                Vec3 to = toSupplier.get();
+                Vec3 control = mid.add(controlOffset);
+
+                Vec3 pos = from.scale((1 - t) * (1 - t))
+                        .add(control.scale(2 * (1 - t) * t))
+                        .add(to.scale(t * t));
+
+                float r = (float) (startColor.x() + t * (endColor.x() - startColor.x()));
+                float g = (float) (startColor.y() + t * (endColor.y() - startColor.y()));
+                float b = (float) (startColor.z() + t * (endColor.z() - startColor.z()));
+                DustParticleOptions particle = new DustParticleOptions(new Vector3f(r, g, b), 1.2F);
+
+                level.sendParticles(particle, pos.x, pos.y, pos.z, 2, 0.05, 0.05, 0.05, 0.01);
+
+                if (stepIndex == steps && onArrival != null) {
+                    onArrival.run();
+                }
+            });
     public static void onChampionDeath(LivingDeathEvent event) {
         LivingEntity entity = event.getEntityLiving();
 

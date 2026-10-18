@@ -195,6 +195,7 @@
     "vaulthunters.accessors.HighHealthGearAttributeTalentAccessor",
     "vaulthunters.accessors.HighManaGearAttributeTalentAccessor",
     "vaulthunters.accessors.InfuserExpertiseAccessor",
+    "vaulthunters.accessors.InstantAbilityAccessor",
     "vaulthunters.accessors.InventoryUtilItemAccessAccessor",
     "vaulthunters.accessors.LowHealthDamageTalentAccessor",
     "vaulthunters.accessors.LowHealthGearAttributeTalentAccessor",

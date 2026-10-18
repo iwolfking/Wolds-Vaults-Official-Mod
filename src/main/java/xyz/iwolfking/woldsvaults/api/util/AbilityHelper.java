@@ -1,11 +1,20 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.skill.ability.effect.spi.core.Ability;
+import iskallia.vault.skill.ability.effect.spi.core.InstantAbility;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.TieredSkill;
 import iskallia.vault.skill.tree.AbilityTree;
 import iskallia.vault.world.data.PlayerAbilitiesData;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
+import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class AbilityHelper {
@@ -35,6 +44,30 @@ public class AbilityHelper {
         }
 
         return 0;
+    }
+
+    public static Optional<InstantAbility> getAbilityRefFromConfig(String abilityId, int level) {
+        Optional<Skill> skillOpt = ModConfigs.ABILITIES.getAbilityById(abilityId);
+        if(skillOpt.isPresent()) {
+            Skill skill = skillOpt.get();
+            if (skill instanceof TieredSkill tieredSkill) {
+                if (tieredSkill.getChild(level) instanceof InstantAbility ability) {
+                    if(ability instanceof IWoldAbilityEnhancements storedAbilityTier) {
+                        List<ElementalType> elementalTypes = new ArrayList<>();
+                        storedAbilityTier.setTierLevel(level);
+                        for(ElementalType type : ElementalType.values()) {
+                            if(type.getFlag().isSet()) {
+                                elementalTypes.add(type);
+                            }
+                        }
+                        storedAbilityTier.setElementTypes(elementalTypes);
+                    }
+                    return Optional.of(ability);
+                }
+            }
+        }
+
+        return Optional.empty();
     }
 
     public static float getScaledByLevelDamageFalloff(float originalFalloff, ServerPlayer player, String abilityId) {

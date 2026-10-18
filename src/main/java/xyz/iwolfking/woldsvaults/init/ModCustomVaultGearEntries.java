@@ -16,6 +16,7 @@ public class ModCustomVaultGearEntries {
     public static final CustomVaultGearRegistryEntry LOOT_SACK = new CustomVaultGearRegistryEntry("loot_sack", "Loot Sack", ModItems.LOOT_SACK, LootSacks.REGISTRY, CustomVaultGearModelRollRaritiesConfig.LOOT_SACKS_MODEL_ROLLS);
     public static final CustomVaultGearRegistryEntry RANG = new CustomVaultGearRegistryEntry("rang", "Vaultarang", ModItems.RANG, Rangs.REGISTRY, CustomVaultGearModelRollRaritiesConfig.RANG_MODEL_ROLLS);
     public static final CustomVaultGearRegistryEntry MAP = new CustomVaultGearRegistryEntry("map", "Map", ModItems.MAP, Maps.REGISTRY, CustomVaultGearModelRollRaritiesConfig.MAP_MODEL_ROLLS);
+    public static final CustomVaultGearRegistryEntry SCEPTER = new CustomVaultGearRegistryEntry("scepter", "Scepter", ModItems.SCEPTER, Scepters.REGISTRY, CustomVaultGearModelRollRaritiesConfig.SCEPTER_MODEL_ROLLS);
     public static void registerGearEntries(RegistryEvent.Register<CustomVaultGearRegistryEntry> event) {
         event.getRegistry().register(TRIDENT);
         event.getRegistry().register(BATTLESTAFF);
@@ -23,8 +24,9 @@ public class ModCustomVaultGearEntries {
         event.getRegistry().register(PLUSHIE);
         event.getRegistry().register(RANG);
         event.getRegistry().register(MAP);
+        event.getRegistry().register(SCEPTER);
         if (ModList.get().isLoaded("vault_hunters_jewel_sorting")) {
-            SortableVaultItems.addGear(ModItems.BATTLESTAFF, ModItems.TRIDENT, ModItems.PLUSHIE, ModItems.LOOT_SACK, ModItems.RANG, ModItems.MAP);
+            SortableVaultItems.addGear(ModItems.BATTLESTAFF, ModItems.TRIDENT, ModItems.PLUSHIE, ModItems.LOOT_SACK, ModItems.RANG, ModItems.MAP, ModItems.SCEPTER);
         }
     }
 }
