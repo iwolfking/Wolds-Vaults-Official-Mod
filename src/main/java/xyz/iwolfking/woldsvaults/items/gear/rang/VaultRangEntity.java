@@ -53,6 +53,7 @@ import vazkii.quark.base.handler.QuarkSounds;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModSounds;
+import xyz.iwolfking.woldsvaults.integration.bettercombat.DualWieldSnapshotManager;
 import xyz.iwolfking.woldsvaults.items.gear.VaultRangItem;
 
 import javax.annotation.Nonnull;
@@ -489,8 +490,8 @@ public class VaultRangEntity extends Projectile {
 
         if (owner != null) {
             ItemStack prev = owner.getMainHandItem();
-            owner.setItemInHand(InteractionHand.MAIN_HAND, rang);
-            owner.getAttributes().addTransientAttributeModifiers(modifiers);
+            //owner.setItemInHand(InteractionHand.MAIN_HAND, rang);
+            //owner.getAttributes().addTransientAttributeModifiers(modifiers);
 
             int ticksSinceLastSwing = owner.attackStrengthTicker;
             owner.attackStrengthTicker = (int) (1.0D / owner.getAttributeValue(Attributes.ATTACK_SPEED) * 20.0D) + 1;
@@ -501,11 +502,20 @@ public class VaultRangEntity extends Projectile {
 
             if (owner instanceof Player player) {
                 this.hits++;
-                AttributeSnapshotHelper.getInstance().refreshSnapshot((ServerPlayer) player);
-                if (this.entityData.get(RETURNING) && this.hits > 1 && this.returningDamage > 0.0F) {
-                    hit.hurt(DamageSource.playerAttack(player), (float) (owner.getAttributeValue(Attributes.ATTACK_DAMAGE) * (1.0F + this.returningDamage)));
+
+                Runnable attack = () -> {
+                    if (this.entityData.get(RETURNING) && this.hits > 1 && this.returningDamage > 0.0F) {
+                        hit.hurt(DamageSource.playerAttack(player), (float) (owner.getAttributeValue(Attributes.ATTACK_DAMAGE) * (1.0F + this.returningDamage)));
+                    } else {
+                        player.attack(hit);
+                    }
+                };
+
+                if (owner instanceof ServerPlayer serverPlayer
+                        && this.slot == player.getInventory().getContainerSize() - 1) {
+                    DualWieldSnapshotManager.withOffhandSnapshot(serverPlayer, attack);
                 } else {
-                    player.attack(hit);
+                    attack.run();
                 }
             } else {
                 owner.doHurtTarget(hit);
@@ -524,9 +534,9 @@ public class VaultRangEntity extends Projectile {
                 }
             }
 
-            this.setStack(owner.getMainHandItem());
-            owner.setItemInHand(InteractionHand.MAIN_HAND, prev);
-            owner.getAttributes().addTransientAttributeModifiers(modifiers);
+            //this.setStack(owner.getMainHandItem());
+            //owner.setItemInHand(InteractionHand.MAIN_HAND, prev);
+            //owner.getAttributes().addTransientAttributeModifiers(modifiers);
         } else {
             AttributeSupplier.Builder mapBuilder = new AttributeSupplier.Builder();
             mapBuilder.add(Attributes.ATTACK_DAMAGE, 1);
