@@ -17,6 +17,8 @@ public class ModCustomVaultGearEntries {
     public static final CustomVaultGearRegistryEntry RANG = new CustomVaultGearRegistryEntry("rang", "Vaultarang", ModItems.RANG, Rangs.REGISTRY, CustomVaultGearModelRollRaritiesConfig.RANG_MODEL_ROLLS);
     public static final CustomVaultGearRegistryEntry MAP = new CustomVaultGearRegistryEntry("map", "Map", ModItems.MAP, Maps.REGISTRY, CustomVaultGearModelRollRaritiesConfig.MAP_MODEL_ROLLS);
     public static final CustomVaultGearRegistryEntry SCEPTER = new CustomVaultGearRegistryEntry("scepter", "Scepter", ModItems.SCEPTER, Scepters.REGISTRY, CustomVaultGearModelRollRaritiesConfig.SCEPTER_MODEL_ROLLS);
+    public static final CustomVaultGearRegistryEntry DAGGER_MAIN = new CustomVaultGearRegistryEntry("dagger", "Dagger (Main)", ModItems.DAGGER_MAIN, Daggers.REGISTRY, CustomVaultGearModelRollRaritiesConfig.DAGGER_MODEL_ROLLS);
+    public static final CustomVaultGearRegistryEntry DAGGER_SUB = new CustomVaultGearRegistryEntry("dagger_sub", "Dagger (Sub)", ModItems.DAGGER_SUB, Daggers.REGISTRY, CustomVaultGearModelRollRaritiesConfig.DAGGER_MODEL_ROLLS);
     public static void registerGearEntries(RegistryEvent.Register<CustomVaultGearRegistryEntry> event) {
         event.getRegistry().register(TRIDENT);
         event.getRegistry().register(BATTLESTAFF);
@@ -25,8 +27,10 @@ public class ModCustomVaultGearEntries {
         event.getRegistry().register(RANG);
         event.getRegistry().register(MAP);
         event.getRegistry().register(SCEPTER);
+        event.getRegistry().register(DAGGER_MAIN);
+        event.getRegistry().register(DAGGER_SUB);
         if (ModList.get().isLoaded("vault_hunters_jewel_sorting")) {
-            SortableVaultItems.addGear(ModItems.BATTLESTAFF, ModItems.TRIDENT, ModItems.PLUSHIE, ModItems.LOOT_SACK, ModItems.RANG, ModItems.MAP, ModItems.SCEPTER);
+            SortableVaultItems.addGear(ModItems.BATTLESTAFF, ModItems.TRIDENT, ModItems.PLUSHIE, ModItems.LOOT_SACK, ModItems.RANG, ModItems.MAP, ModItems.SCEPTER, ModItems.DAGGER_MAIN, ModItems.DAGGER_SUB);
         }
     }
 }

@@ -1,0 +1,42 @@
+{
+  "itemRegistryName": "the_vault:dagger_sub",
+  "MODEL_ROLLS": {
+    "SCRAPPY": [
+      "the_vault:gear/dagger/scrappy/backstabber",
+      "the_vault:gear/dagger/scrappy/basic_dagger",
+      "the_vault:gear/dagger/scrappy/dagger_chipped"
+    ],
+    "COMMON": [
+      "the_vault:gear/dagger/common/dagger_flawed",
+      "the_vault:gear/dagger/common/moon_dagger",
+      "the_vault:gear/dagger/common/pristine_blade",
+      "the_vault:gear/dagger/common/sheer_dagger",
+      "the_vault:gear/dagger/common/swift_striker",
+      "the_vault:gear/dagger/common/trusty_dagger"
+    ],
+    "RARE": [
+      "the_vault:gear/dagger/rare/chorus_slicer",
+      "the_vault:gear/dagger/rare/coral_blade",
+      "the_vault:gear/dagger/rare/dagger_flawless",
+      "the_vault:gear/dagger/rare/nameless_blade",
+      "the_vault:gear/dagger/rare/sickle",
+      "the_vault:gear/dagger/rare/spirit_knife"
+    ],
+    "EPIC": [
+      "the_vault:gear/dagger/epic/claws",
+      "the_vault:gear/dagger/epic/dagger_imperfect",
+      "the_vault:gear/dagger/epic/eternal_knife",
+      "the_vault:gear/dagger/epic/frost_knife",
+      "the_vault:gear/dagger/epic/survival_knife"
+    ],
+    "OMEGA": [
+      "the_vault:gear/dagger/omega/dagger_perfect",
+      "the_vault:gear/dagger/omega/just_a_fork",
+      "the_vault:gear/dagger/omega/nightmares_bite",
+      "the_vault:gear/dagger/omega/sponge_striker",
+      "the_vault:gear/dagger/omega/traitors_razor"
+    ],
+    "UNIQUE": [
+    ]
+  }
+}
