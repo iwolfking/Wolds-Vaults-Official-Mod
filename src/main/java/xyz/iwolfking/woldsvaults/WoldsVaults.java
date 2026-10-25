@@ -145,7 +145,7 @@ public class WoldsVaults {
         }
         ModNetwork.init();
         LivingEntityEvents.init();
-        RampageListenerFix.init();
+        event.enqueueWork(RampageListenerFix::init);
         new AdditionalModels();
         ModVaultFilterAttributes.initAttributes();
         ModGameRules.initialize();
