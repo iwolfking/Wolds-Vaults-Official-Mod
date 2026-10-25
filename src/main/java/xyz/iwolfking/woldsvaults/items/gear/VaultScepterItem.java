@@ -197,10 +197,15 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         List<ElementalType> elementalTypes = ElementHelper.getAllElementsFromGear(gearData);
 
         if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE)) {
-            xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute invokeAttr = gearData.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE, VaultGearAttributeTypeMerger.firstNonNull());
+            ScepterInvokeAttribute invokeAttr = gearData.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE, VaultGearAttributeTypeMerger.firstNonNull());
             if (invokeAttr != null && chargeTicks >= invokeAttr.getChargeTicks()) {
                 ElementHelper.runWithElements(elementalTypes, () -> {
                     invokeAttr.trigger(player);
+                    if (player.getLevel().dimension().location().getNamespace().equals("the_vault")) {
+                        if(player instanceof ServerPlayer) {
+                            stack.hurt(1, player.getRandom(), player);
+                        }
+                    }
                 });
 
                 serverLevel.playSound(null, player.blockPosition(), SoundEvents.EVOKER_CAST_SPELL, SoundSource.PLAYERS, 1.0F, 1.2F);
@@ -211,6 +216,11 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) {
             if (chargeTicks < 40) return;
             executeBeamAttack(serverLevel, player, elementalTypes);
+            if (player.getLevel().dimension().location().getNamespace().equals("the_vault")) {
+                if(player instanceof ServerPlayer) {
+                    stack.hurt(1, player.getRandom(), player);
+                }
+            }
         }
     }
 
