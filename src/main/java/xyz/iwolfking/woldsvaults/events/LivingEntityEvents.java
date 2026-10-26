@@ -28,6 +28,7 @@ import iskallia.vault.entity.entity.elite.EliteWitherSkeleton;
 import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.event.ActiveFlagsCheck;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.GearDataCache;
 import iskallia.vault.gear.data.VaultGearData;
@@ -57,6 +58,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -70,6 +72,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -77,6 +80,7 @@ import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
 import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
@@ -87,6 +91,7 @@ import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.BleedOverrideEffect;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.EchoingEffectInstance;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.PercentBurnEffect;
+import xyz.iwolfking.woldsvaults.effect.mobeffects.lib.ComboEffect;
 import xyz.iwolfking.woldsvaults.effect.trinkets.EffectOnHitTakenEffect;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
@@ -96,6 +101,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
+import xyz.iwolfking.woldsvaults.modifiers.gear.lib.ComboAttribute;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.talent.special.DebuffDamageBonusTalent;
 import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
@@ -119,6 +125,34 @@ public class LivingEntityEvents {
 
     public static void init() {
          ANCHOR_SLAM_SOUND  = Registry.SOUND_EVENT.get(ResourceLocation.parse("bettercombat:anchor_slam"));
+    }
+
+    @SubscribeEvent
+    public static void onPlayerAttack(AttackEntityEvent event) {
+        Player player = event.getPlayer();
+        if (!(event.getTarget() instanceof LivingEntity target)) return;
+        if (player.level.isClientSide()) return;
+
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
+
+        for (VaultGearAttribute<?> rawAttr : WoldConstants.ALL_COMBO_ATTRIBUTES.get()) {
+            VaultGearAttribute<ComboAttribute> comboAttr = (VaultGearAttribute<ComboAttribute>) rawAttr;
+
+            ComboAttribute comboAttributeInstance = snapshot.getAttributeValue(comboAttr, VaultGearAttributeTypeMerger.firstNonNull());
+
+            if(comboAttributeInstance == null) {
+                return;
+            }
+
+            MobEffect effect = comboAttributeInstance.getAssociatedEffect();
+            if (effect == null) {
+                continue;
+            }
+
+            if(effect instanceof ComboEffect comboEffect) {
+                comboEffect.increaseCombo(comboAttributeInstance, target, player);
+            }
+        }
     }
 
     @SubscribeEvent

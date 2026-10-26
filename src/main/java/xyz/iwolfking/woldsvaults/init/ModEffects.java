@@ -11,6 +11,7 @@ import xyz.iwolfking.woldsvaults.abilities.ColossusAbility;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
 import xyz.iwolfking.woldsvaults.abilities.UltimateShieldAbility;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.*;
+import xyz.iwolfking.woldsvaults.effect.mobeffects.lib.ComboEffect;
 import xyz.iwolfking.woldsvaults.integration.pehkui.CustomScaleTypes;
 
 public class ModEffects {
@@ -33,6 +34,7 @@ public class ModEffects {
     public static final MobEffect BLEED_OVERRIDE = new BleedOverrideEffect();
     public static final MobEffect SHREDDED = new ShreddedEffect();
     public static final MobEffect HEALING_BLOCK = new HealBlockEffect();
+    public static final ComboEffect MAGIC_BURST_COMBO = new ComboEffect(MobEffectCategory.NEUTRAL, 0xceffff, WoldsVaults.id("magic_burst_combo"));
     public static final ThresholdEffect BATTLESTAFF_BLOCKING = new ThresholdEffect(0xceffff, WoldsVaults.id("battlestaff_blocking"));
     public static final ThresholdEffect MOMENTUM_ENGINE = new ThresholdEffect(0x99a63c, WoldsVaults.id("momentum_engine"));
     public static final ThresholdEffect BLOOD_CHAKRA = new ThresholdEffect(0xa83262, WoldsVaults.id("blood_chakra"));
@@ -61,6 +63,7 @@ public class ModEffects {
                                         , BLOOD_CHAKRA
                                         , ULTIMATE_SHIELD
                                         , HEALING_BLOCK
+                                        , MAGIC_BURST_COMBO
                                         );
     }
 }

@@ -1,5 +1,35 @@
 {
   "modifierGroup": {
+    "IMPLICIT": [
+      {
+        "attribute": "woldsvaults:magic_burst_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_magic_burst_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "scaledAttribute": "minecraft:generic.attack_damage",
+              "damageMultiplier": {
+                "step": 0.1,
+                "min": 0.5,
+                "max": 1.0
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:magic_burst_combo",
+              "effectDuration": 160
+            }
+          }
+        ]
+      }
+    ],
     "UNUSUAL_PREFIX": [
       {
         "attribute": "the_vault:effect_cloud",

@@ -6,9 +6,11 @@ import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.custom.ability.BroodmotherWebAttribute;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Item;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.modifiers.gear.DamageBurstComboAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
 
@@ -145,6 +147,26 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
                 abilityId,
                 new IntRollRangeEntry(minAbilityLevel, maxAbilityLevel, stepLevel),
                 new FloatRollRangeEntry(minCharge, maxCharge, stepCharge)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addDamageBurstCombo(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            String associatedEffect,
+            int duration,
+            String attribute,
+            int minHits, int maxHits, int hitSteps,
+            float minDamage, float maxDamage, float damageStep) {
+
+        DamageBurstComboAttribute.Config config = new DamageBurstComboAttribute.Config(
+                new IntRollRangeEntry(minHits, maxHits, hitSteps),
+                associatedEffect,
+                duration,
+                attribute,
+                new FloatRollRangeEntry(minDamage, maxDamage, damageStep)
         );
 
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
