@@ -7,15 +7,22 @@ import iskallia.vault.config.entry.FloatRollRangeEntry;
 import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.event.ActiveFlags;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
+import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeType;
 import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.mana.ManaPlayer;
+import iskallia.vault.snapshot.AttributeSnapshot;
+import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.MiscUtils;
 import iskallia.vault.util.NetcodeUtils;
+import iskallia.vault.util.calc.*;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
@@ -25,9 +32,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.registries.ForgeRegistries;
+import xyz.iwolfking.woldsvaults.api.util.VaultGearAttributeHelper;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lib.ComboAttribute;
 
 import javax.annotation.Nonnull;
@@ -41,16 +47,16 @@ import java.util.Random;
 public class DamageBurstComboAttribute extends ComboAttribute {
     private static final DecimalFormat FORMAT = new DecimalFormat("0.##");
 
-    private final Attribute scaledAttribute;
+    private final VaultGearAttribute<?> scaledAttribute;
     private final float damageMultiplier;
 
-    public DamageBurstComboAttribute(int requiredHits, ResourceLocation associatedEffect, int effectDuration, Attribute scaledAttribute, float damageMultiplier) {
+    public DamageBurstComboAttribute(int requiredHits, ResourceLocation associatedEffect, int effectDuration, VaultGearAttribute<?> scaledAttribute, float damageMultiplier) {
         super(requiredHits, associatedEffect, effectDuration);
         this.scaledAttribute = scaledAttribute;
         this.damageMultiplier = damageMultiplier;
     }
 
-    public Attribute getScaledAttribute() {
+    public VaultGearAttribute<?> getScaledAttribute() {
         return this.scaledAttribute;
     }
 
@@ -59,36 +65,73 @@ public class DamageBurstComboAttribute extends ComboAttribute {
     }
 
     public float calculateBonusDamage(LivingEntity attacker) {
-        if (this.scaledAttribute == null || !attacker.getAttributes().hasAttribute(this.scaledAttribute)) {
+        if (this.scaledAttribute == null || !(attacker instanceof Player player)) {
             return 0.0F;
         }
-        double baseValue = attacker.getAttributeValue(this.scaledAttribute);
-        return (float) (baseValue * this.damageMultiplier);
+
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(attacker);
+
+        float statValue = 0.0F;
+        if (this.scaledAttribute.getRegistryName().equals(ModGearAttributes.ABILITY_POWER.getRegistryName())) {
+            statValue = AbilityPowerHelper.getAbilityPower(player);
+        }
+        else if (this.scaledAttribute.getRegistryName().equals(ModGearAttributes.THORNS_DAMAGE_FLAT.getRegistryName())) {
+            statValue = ThornsHelper.getAdditionalThornsFlatDamage(player);
+        }
+        else if (this.scaledAttribute.getRegistryName().equals(ModGearAttributes.HEALTH.getRegistryName())) {
+            statValue = attacker.getMaxHealth();
+        }
+        else if (this.scaledAttribute.getRegistryName().equals(ModGearAttributes.ITEM_QUANTITY.getRegistryName())) {
+            statValue = ItemQuantityHelper.getItemQuantity(attacker);
+        }
+        else if (this.scaledAttribute.getRegistryName().equals(ModGearAttributes.ITEM_RARITY.getRegistryName())) {
+            statValue = ItemRarityHelper.getItemRarity(attacker);
+        }
+        else if (this.scaledAttribute.getRegistryName().equals(ModGearAttributes.COPIOUSLY.getRegistryName())) {
+            statValue = CopiousHelper.getCopiousChance(attacker);
+        }
+        else if (this.scaledAttribute.getRegistryName().equals(ModGearAttributes.MANA_ADDITIVE_PERCENTILE.getRegistryName())) {
+            if(player instanceof ManaPlayer manaPlayer) {
+                statValue = manaPlayer.getManaMax();
+            }
+        }
+        else if (this.scaledAttribute.getRegistryName().equals(ModGearAttributes.MANA_ADDITIVE.getRegistryName())) {
+            if(player instanceof ManaPlayer manaPlayer) {
+                statValue = manaPlayer.getMana();
+            }
+        }
+        else {
+            statValue = VaultGearAttributeHelper.resolveSnapshotValue(snapshot, this.scaledAttribute);
+        }
+
+        return statValue * this.damageMultiplier;
     }
 
     public static VaultGearAttributeType<DamageBurstComboAttribute> type() {
         return VaultGearAttributeType.of(
                 (buf, attribute) -> {
                     attribute.writeToBuf(buf);
-                    buf.writeIdentifier(attribute.getScaledAttribute() == null ? ResourceLocation.parse("") : ForgeRegistries.ATTRIBUTES.getKey(attribute.getScaledAttribute()));
+                    ResourceLocation attrKey = attribute.getScaledAttribute() == null ? ResourceLocation.parse("") : attribute.getScaledAttribute().getRegistryName();
+                    buf.writeIdentifier(attrKey == null ? ResourceLocation.parse("") : attrKey);
                     buf.writeFloat(attribute.getDamageMultiplier());
                 },
                 buf -> {
                     BaseData base = readBaseFromBuf(buf);
                     ResourceLocation attrLoc = buf.readIdentifier();
-                    Attribute attr = attrLoc.toString().isEmpty() ? null : ForgeRegistries.ATTRIBUTES.getValue(attrLoc);
+                    VaultGearAttribute<?> attr = attrLoc.toString().isEmpty() ? null : VaultGearAttributeRegistry.getAttribute(attrLoc);
                     float mult = buf.readFloat();
                     return new DamageBurstComboAttribute(base.requiredHits, base.associatedEffect, base.effectDuration, attr, mult);
                 },
                 (buf, attribute) -> {
                     attribute.writeNetToBuf(buf);
-                    NetcodeUtils.writeIdentifier(buf, attribute.getScaledAttribute() == null ? ResourceLocation.parse("") : ForgeRegistries.ATTRIBUTES.getKey(attribute.getScaledAttribute()));
+                    ResourceLocation attrKey = attribute.getScaledAttribute() == null ? ResourceLocation.parse("") : attribute.getScaledAttribute().getRegistryName();
+                    NetcodeUtils.writeIdentifier(buf, attrKey == null ? ResourceLocation.parse("") : attrKey);
                     buf.writeFloat(attribute.getDamageMultiplier());
                 },
                 buf -> {
                     BaseData base = readBaseNetFromBuf(buf);
                     ResourceLocation attrLoc = NetcodeUtils.readIdentifier(buf);
-                    Attribute attr = attrLoc.toString().isEmpty() ? null : ForgeRegistries.ATTRIBUTES.getValue(attrLoc);
+                    VaultGearAttribute<?> attr = attrLoc.toString().isEmpty() ? null : VaultGearAttributeRegistry.getAttribute(attrLoc);
                     float mult = buf.readFloat();
                     return new DamageBurstComboAttribute(base.requiredHits, base.associatedEffect, base.effectDuration, attr, mult);
                 },
@@ -97,13 +140,13 @@ public class DamageBurstComboAttribute extends ComboAttribute {
                     CompoundTag compoundTag = (CompoundTag) tag;
                     BaseData base = readBaseFromNbt(compoundTag);
                     String attrLoc = compoundTag.getString("scaledAttribute");
-                    Attribute attr = attrLoc.isEmpty() ? null : ForgeRegistries.ATTRIBUTES.getValue(ResourceLocation.parse(attrLoc));
+                    VaultGearAttribute<?> attr = attrLoc.isEmpty() ? null : VaultGearAttributeRegistry.getAttribute(ResourceLocation.parse(attrLoc));
                     float mult = compoundTag.getFloat("damageMultiplier");
                     return new DamageBurstComboAttribute(base.requiredHits, base.associatedEffect, base.effectDuration, attr, mult);
                 },
                 attribute -> {
                     CompoundTag compoundTag = attribute.writeToNbt();
-                    ResourceLocation attrKey = ForgeRegistries.ATTRIBUTES.getKey(attribute.getScaledAttribute());
+                    ResourceLocation attrKey = attribute.getScaledAttribute() == null ? null : attribute.getScaledAttribute().getRegistryName();
                     compoundTag.putString("scaledAttribute", attrKey == null ? "" : attrKey.toString());
                     compoundTag.putFloat("damageMultiplier", attribute.getDamageMultiplier());
                     return compoundTag;
@@ -131,7 +174,9 @@ public class DamageBurstComboAttribute extends ComboAttribute {
                 ActiveFlags.IS_AOE_ATTACKING.push();
                 target.hurt(DamageSource.playerAttack(player), bonusDamage);
                 ActiveFlags.IS_AOE_ATTACKING.pop();
-                spawnComboParticles(target, this.getAssociatedEffect().getColor());
+                if (this.getAssociatedEffect() != null) {
+                    spawnComboParticles(target, this.getAssociatedEffect().getColor());
+                }
             }
         }
     }
@@ -153,6 +198,7 @@ public class DamageBurstComboAttribute extends ComboAttribute {
                 0.05D
         );
     }
+
     private static class ComparatorImpl extends VaultGearAttributeComparator<DamageBurstComboAttribute> {
         public Optional<DamageBurstComboAttribute> merge(DamageBurstComboAttribute thisValue, DamageBurstComboAttribute thatValue) {
             return Optional.of(
@@ -180,18 +226,25 @@ public class DamageBurstComboAttribute extends ComboAttribute {
 
     public static class Config extends ComboAttribute.Config {
         @Expose
-        private final String scaledAttribute;
+        private final ResourceLocation scaledAttribute;
         @Expose
         private final FloatRollRangeEntry damageMultiplier;
 
-        public Config(IntRollRangeEntry requiredHits, String associatedEffect, int effectDuration, String scaledAttribute, FloatRollRangeEntry damageMultiplier) {
+        public Config(IntRollRangeEntry requiredHits, ResourceLocation associatedEffect, int effectDuration, ResourceLocation scaledAttribute, FloatRollRangeEntry damageMultiplier) {
             super(requiredHits, associatedEffect, effectDuration);
             this.scaledAttribute = scaledAttribute;
             this.damageMultiplier = damageMultiplier;
         }
 
-        public Attribute getScaledAttribute() {
-            return ForgeRegistries.ATTRIBUTES.getValue(ResourceLocation.parse(this.scaledAttribute));
+        public VaultGearAttribute<?> getScaledAttribute() {
+            if (this.scaledAttribute == null) {
+                return null;
+            }
+            return VaultGearAttributeRegistry.getAttribute(this.scaledAttribute);
+        }
+
+        public ResourceLocation getScaledAttributeResource() {
+            return this.scaledAttribute;
         }
 
         public FloatRollRangeEntry getDamageMultiplier() {
@@ -218,8 +271,8 @@ public class DamageBurstComboAttribute extends ComboAttribute {
             MutableComponent range = this.getConfigRangeDisplay(reader, object);
             if (range == null) return null;
 
-            Attribute attr = object.getScaledAttribute();
-            String attrName = attr != null ? attr.getDescriptionId() : "damage";
+            ResourceLocation attrLoc = object.getScaledAttributeResource();
+            String attrName = attrLoc != null ? attrLoc.toString() : "stat";
 
             return new TextComponent("")
                 .withStyle(reader.getColoredTextStyle())
@@ -287,8 +340,8 @@ public class DamageBurstComboAttribute extends ComboAttribute {
             MutableComponent multDisplay = this.getValueDisplay(attribute);
             if (multDisplay == null) return null;
 
-            Attribute attr = attribute.getScaledAttribute();
-            String attrName = attr != null ? new TextComponent("").append(attr.getDescriptionId()).getString() : "damage";
+            VaultGearAttribute<?> attr = attribute.getScaledAttribute();
+            String attrName = attr != null ? attr.getRegistryName().toString() : "stat";
 
             return new TextComponent("")
                 .append(type.getAffixPrefixComponent(true))

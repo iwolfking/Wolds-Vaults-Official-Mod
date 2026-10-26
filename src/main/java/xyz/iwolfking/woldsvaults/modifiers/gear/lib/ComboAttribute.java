@@ -100,11 +100,11 @@ public abstract class ComboAttribute {
         @Expose
         private final IntRollRangeEntry requiredHits;
         @Expose
-        private final String associatedEffect;
+        private final ResourceLocation associatedEffect;
         @Expose
         private final int effectDuration;
 
-        public Config(IntRollRangeEntry requiredHits, String associatedEffect, int effectDuration) {
+        public Config(IntRollRangeEntry requiredHits, ResourceLocation associatedEffect, int effectDuration) {
             this.requiredHits = requiredHits;
             this.associatedEffect = associatedEffect;
             this.effectDuration = effectDuration;
@@ -115,7 +115,7 @@ public abstract class ComboAttribute {
         }
 
         public ResourceLocation getAssociatedEffectId() {
-            return this.associatedEffect.isEmpty() ? null : ResourceLocation.parse(this.associatedEffect);
+            return this.associatedEffect;
         }
 
         public int getEffectDuration() {

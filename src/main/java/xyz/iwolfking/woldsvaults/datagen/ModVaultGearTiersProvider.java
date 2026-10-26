@@ -36,7 +36,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
         add("battlestaff", builder -> {
            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.MAGIC_BURST_COMBO, "BaseCombo", "base_magic_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                  addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName().toString(), 160, Attributes.ATTACK_DAMAGE.getRegistryName().toString(), 4, 6, 1, 0.5F, 1.0F, 0.1F);
+                  addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 160, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.5F, 1.0F, 0.1F);
               });
            });
         });

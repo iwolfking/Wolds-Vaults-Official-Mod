@@ -12,7 +12,7 @@
             "maxLevel": -1,
             "weight": 100,
             "value": {
-              "scaledAttribute": "minecraft:generic.attack_damage",
+              "scaledAttribute": "the_vault:ability_power",
               "damageMultiplier": {
                 "step": 0.1,
                 "min": 0.5,

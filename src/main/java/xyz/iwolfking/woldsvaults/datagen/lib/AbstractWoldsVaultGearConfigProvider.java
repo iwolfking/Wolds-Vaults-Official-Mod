@@ -4,9 +4,10 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.config.entry.FloatRollRangeEntry;
 import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.custom.ability.BroodmotherWebAttribute;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -155,9 +156,9 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
     public static VaultGearModifierTiersBuilder addDamageBurstCombo(
             VaultGearModifierTiersBuilder builder,
             int minLevel, int maxLevel, int weight,
-            String associatedEffect,
+            ResourceLocation associatedEffect,
             int duration,
-            String attribute,
+            ResourceLocation attribute,
             int minHits, int maxHits, int hitSteps,
             float minDamage, float maxDamage, float damageStep) {
 
