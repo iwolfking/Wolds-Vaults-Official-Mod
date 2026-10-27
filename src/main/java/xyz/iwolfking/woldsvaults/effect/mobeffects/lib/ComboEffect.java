@@ -21,7 +21,7 @@ public class ComboEffect extends MobEffect {
     }
 
     public void increaseCombo(ComboAttribute comboAttributeInstance, LivingEntity target, Player player) {
-        int requiredHits = comboAttributeInstance.getRequiredHits();
+        int requiredHits = comboAttributeInstance.getRequiredHits() - 1;
         int duration = comboAttributeInstance.getEffectDuration();
 
         int currentAmplifier = 0;

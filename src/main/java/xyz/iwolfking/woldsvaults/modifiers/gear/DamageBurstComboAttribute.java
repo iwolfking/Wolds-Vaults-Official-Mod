@@ -271,18 +271,24 @@ public class DamageBurstComboAttribute extends ComboAttribute {
             MutableComponent range = this.getConfigRangeDisplay(reader, object);
             if (range == null) return null;
 
-            ResourceLocation attrLoc = object.getScaledAttributeResource();
-            String attrName = attrLoc != null ? attrLoc.toString() : "stat";
+            VaultGearAttribute<?> attr = object.getScaledAttribute();
+            String attrName = "stat";
+            if (attr != null && attr.getReader() != null) {
+                attrName = attr.getReader().getModifierName();
+            } else if (object.getScaledAttributeResource() != null) {
+                String path = object.getScaledAttributeResource().getPath();
+                attrName = path.substring(path.lastIndexOf('/') + 1).replace('_', ' ');
+            }
 
             return new TextComponent("")
-                .withStyle(reader.getColoredTextStyle())
-                .append("Every ")
-                .append(String.valueOf(object.getRequiredHits().getMin()))
-                .append(" hits, deals ")
-                .append(range.withStyle(reader.getColoredTextStyle()))
-                .append(" of your ")
-                .append(new TextComponent(attrName))
-                .append(" as bonus damage.");
+                    .withStyle(reader.getColoredTextStyle())
+                    .append("Every ")
+                    .append(String.valueOf(object.getRequiredHits().getMin()))
+                    .append(" hits, deals ")
+                    .append(range.withStyle(reader.getColoredTextStyle()))
+                    .append(" of your ")
+                    .append(new TextComponent(attrName).withStyle(attr.getReader().getColoredTextStyle()))
+                    .append(" as bonus damage.");
         }
 
         public DamageBurstComboAttribute generateRandomValue(DamageBurstComboAttribute.Config object, Random random) {
@@ -341,18 +347,26 @@ public class DamageBurstComboAttribute extends ComboAttribute {
             if (multDisplay == null) return null;
 
             VaultGearAttribute<?> attr = attribute.getScaledAttribute();
-            String attrName = attr != null ? attr.getRegistryName().toString() : "stat";
+            MutableComponent attrNameComponent;
+
+            if (attr != null && attr.getReader() != null) {
+                attrNameComponent = new TextComponent(attr.getReader().getModifierName()).withStyle(attr.getReader().getColoredTextStyle());
+            } else if (attr != null) {
+                attrNameComponent = new TextComponent(attr.getRegistryName().getPath().replace('_', ' '));
+            } else {
+                attrNameComponent = new TextComponent("stat");
+            }
 
             return new TextComponent("")
-                .append(type.getAffixPrefixComponent(true))
-                .append("Every ")
-                .append(new TextComponent(String.valueOf(attribute.getRequiredHits())).withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("uniqueHighlight"))))
-                .append(" hits, deal ")
-                .append(multDisplay.withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("uniqueHighlight"))))
-                .append(" of your ")
-                .append(attrName)
-                .append(" as bonus damage")
-                .setStyle(this.getColoredTextStyle());
+                    .append(type.getAffixPrefixComponent(true))
+                    .append("Every ")
+                    .append(new TextComponent(String.valueOf(attribute.getRequiredHits())).withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("uniqueHighlight"))))
+                    .append(" hits, deal ")
+                    .append(multDisplay.withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("uniqueHighlight"))))
+                    .append(" of your ")
+                    .append(attrNameComponent)
+                    .append(" as bonus damage")
+                    .setStyle(this.getColoredTextStyle());
         }
 
         @Nullable

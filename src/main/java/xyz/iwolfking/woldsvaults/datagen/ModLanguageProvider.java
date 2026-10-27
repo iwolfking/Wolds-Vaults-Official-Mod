@@ -167,6 +167,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModEffects.BLEED_OVERRIDE, "Bleed");
         add(ModEffects.ULTIMATE_SHIELD, "Ultimate Shield");
         add(ModEffects.HEALING_BLOCK, "Heal Reduction");
+        add(ModEffects.MAGIC_BURST_COMBO, "Combo: Magic Burst");
         add(iskallia.vault.init.ModEffects.TREASURE_SEEKER, "Treasure Seeker");
         add(iskallia.vault.init.ModEffects.BOUNTIFUL_HARVEST, "Bountiful Harvest");
         add("message.woldsvaults.filled_bottle_alchemy_archive", "You have all effects unlocked! Your %1$s has been refilled!");
