@@ -4,7 +4,6 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
-import iskallia.vault.gear.attribute.custom.effect.EffectTrialAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeType;
 import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
@@ -16,9 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.UniqueEffectGearAttribute;
-import xyz.iwolfking.woldsvaults.modifiers.gear.DamageBurstComboAttribute;
-import xyz.iwolfking.woldsvaults.modifiers.gear.HeartFragmentOnLootAttribute;
-import xyz.iwolfking.woldsvaults.modifiers.gear.ParticleTrailAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.*;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 
 import javax.annotation.Nullable;
@@ -125,7 +122,12 @@ public class ModGearAttributes {
 
     public static final VaultGearAttribute<ParticleTrailAttribute> PARTICLE_TRAIL =  attr("particle_trail", ParticleTrailAttribute.type(), ParticleTrailAttribute.generator(), ParticleTrailAttribute.reader(), ParticleTrailAttribute.comparator());
     public static final VaultGearAttribute<HeartFragmentOnLootAttribute> HEART_FRAGMENT_ON_LOOT =  woldsAttr("heart_fragment_on_loot", HeartFragmentOnLootAttribute.type(), HeartFragmentOnLootAttribute.generator(), HeartFragmentOnLootAttribute.reader(), HeartFragmentOnLootAttribute.comparator());
-    public static final VaultGearAttribute<DamageBurstComboAttribute> MAGIC_BURST_COMBO = woldsAttr("magic_burst_combo", DamageBurstComboAttribute.type(), DamageBurstComboAttribute.generator(), DamageBurstComboAttribute.reader(), DamageBurstComboAttribute.comparator());
+
+    public static final VaultGearAttribute<DamageBurstComboAttribute> DAMAGE_BURST_COMBO = woldsAttr("magic_burst_combo", DamageBurstComboAttribute.type(), DamageBurstComboAttribute.generator(), DamageBurstComboAttribute.reader(), DamageBurstComboAttribute.comparator());
+    public static final VaultGearAttribute<InvokeAbilityComboAttribute> INVOKE_ABILITY_COMBO = woldsAttr("ability_invoke_combo", InvokeAbilityComboAttribute.type(), InvokeAbilityComboAttribute.generator(), InvokeAbilityComboAttribute.reader(), InvokeAbilityComboAttribute.comparator());
+    public static final VaultGearAttribute<EffectComboAttribute> EFFECT_COMBO = woldsAttr("effect_combo", EffectComboAttribute.type(), EffectComboAttribute.generator(), EffectComboAttribute.reader(), EffectComboAttribute.comparator());
+    public static final VaultGearAttribute<HealthScalingComboAttribute> HEALTH_SCALING_COMBO = woldsAttr("health_scaling_combo", HealthScalingComboAttribute.type(), HealthScalingComboAttribute.generator(), HealthScalingComboAttribute.reader(), HealthScalingComboAttribute.comparator());
+
     //Scepter Modifiers
     public static final VaultGearAttribute<Boolean> SCEPTER_SPARKLES = woldsAttr("scepter_sparkles", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Sparkles", 8247956), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> SCEPTER_BEAM = woldsAttr("scepter_beam", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Beam", 752051), VaultGearAttributeComparator.booleanComparator());
@@ -221,7 +223,10 @@ public class ModGearAttributes {
                       registry.register(ICE_ELEMENT);
                       registry.register(POISON_ELEMENT);
                       registry.register(LIGHTNING_ELEMENT);
-                      registry.register(MAGIC_BURST_COMBO);
+                      registry.register(DAMAGE_BURST_COMBO);
+                      registry.register(INVOKE_ABILITY_COMBO);
+                      registry.register(EFFECT_COMBO);
+                      registry.register(HEALTH_SCALING_COMBO);
        }
   
     public static void registerVanillaAssociations() {

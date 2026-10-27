@@ -17,6 +17,7 @@ import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.mana.ManaAction;
 import iskallia.vault.mana.ManaPlayer;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
@@ -173,6 +174,11 @@ public class DamageBurstComboAttribute extends ComboAttribute {
             if (bonusDamage > 0) {
                 ActiveFlags.IS_AOE_ATTACKING.push();
                 target.hurt(DamageSource.playerAttack(player), bonusDamage);
+                if(damageBurst.getScaledAttribute().equals(ModGearAttributes.MANA_ADDITIVE)) {
+                    if(player instanceof ManaPlayer manaPlayer) {
+                        manaPlayer.decreaseMana(ManaAction.PLAYER_ACTION, manaPlayer.getManaMax() * 0.025F);
+                    }
+                }
                 ActiveFlags.IS_AOE_ATTACKING.pop();
                 if (this.getAssociatedEffect() != null) {
                     spawnComboParticles(target, this.getAssociatedEffect().getColor());

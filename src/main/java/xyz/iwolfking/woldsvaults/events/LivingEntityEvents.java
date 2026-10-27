@@ -141,7 +141,7 @@ public class LivingEntityEvents {
             ComboAttribute comboAttributeInstance = snapshot.getAttributeValue(comboAttr, VaultGearAttributeTypeMerger.firstNonNull());
 
             if(comboAttributeInstance == null) {
-                return;
+                continue;
             }
 
             MobEffect effect = comboAttributeInstance.getAssociatedEffect();

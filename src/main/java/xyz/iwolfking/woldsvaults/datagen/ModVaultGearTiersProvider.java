@@ -1,26 +1,18 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
-import iskallia.vault.config.TalentsConfig;
 import iskallia.vault.config.TalentsGUIConfig;
 import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.ability.AbilityFloatValueAttribute;
 import iskallia.vault.gear.attribute.ability.AbilityLevelAttribute;
-import iskallia.vault.gear.attribute.custom.effect.EffectCloudAttribute;
-import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
 import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
-import iskallia.vault.init.ModAttributes;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
 import iskallia.vault.init.ModItems;
-import iskallia.vault.world.VaultMode;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.data.gear.lib.UnusualModifierLib;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
@@ -35,9 +27,12 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
     public void registerConfigs() {
         add("battlestaff", builder -> {
            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
-              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.MAGIC_BURST_COMBO, "BaseCombo", "base_magic_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_magic_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 160, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.5F, 1.0F, 0.1F);
               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_frost_nova", List.of(), vaultGearModifierTiersBuilder -> {
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 160, "Nova_Slow", 4, 6, 1, 1, 3, 1);
+               });
            });
         });
         add("scepter", builder -> {
