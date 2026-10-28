@@ -335,11 +335,8 @@ public class LivingEntityEvents {
             }
         });
 
-        float dodgeChance = AttributeSnapshotHelper.getInstance().getSnapshot(entity).getAttributeValue(ModGearAttributes.DODGE_PERCENT, VaultGearAttributeTypeMerger.floatSum());
-        if(entity.hasEffect(ModEffects.SNEAKY_GETAWAY)) {
-            dodgeChance += SneakyGetawayAbility.SneakyGetawayEffect.getSneakyEtchingDodgeChance(entity);
-        }
-        boolean dodge = entity.getRandom().nextDouble() <= Math.min(LuckHelper.getLuckAffectedChance(dodgeChance, entity), 0.95);
+        float dodgeChance = WoldAttributeHelper.getDodgeChance(entity);
+        boolean dodge = entity.getRandom().nextDouble() <= Math.min(dodgeChance, WoldConstants.DODGE_PERCENT_CAP);
 
         event.setCanceled(dodge);
     }
@@ -433,11 +430,10 @@ public class LivingEntityEvents {
         }
 
         if(event.getSource().getEntity() instanceof Player player) {
-            float burnChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.BURNING_HIT_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+            float burnChance = WoldAttributeHelper.getBurningChance(player);
 
             if(burnChance != 0) {
-
-                if(random.nextFloat() < LuckHelper.getLuckAffectedChance(burnChance, player)) {
+                if(random.nextFloat() < burnChance) {
                     PercentBurnEffect.applyPercentBurn(event.getEntityLiving(), player, 200);
                 }
 
@@ -675,9 +671,9 @@ public class LivingEntityEvents {
         }
 
         if(event.getSource().getEntity() instanceof Player player) {
-            float hexingChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.HEXING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+            float hexingChance = WoldAttributeHelper.getEchoingChance(player);
             if(hexingChance != 0) {
-                if(player.level.random.nextFloat() <= LuckHelper.getLuckAffectedChance(hexingChance, player)) {
+                if(player.level.random.nextFloat() <= hexingChance) {
                     MobEffectInstance instance = HexEffects.HEX_EFFECTS.getRandom(player.getRandom());
                     if(instance == null){
                         return;
@@ -741,7 +737,7 @@ public class LivingEntityEvents {
                 }
             }
 
-            float echoingChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+            float echoingChance = WoldAttributeHelper.getEchoingChance(player);
             float echoingDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
             if(echoingChance != 0) {
                 //buff chances for echoing to re-proc itself
@@ -749,7 +745,7 @@ public class LivingEntityEvents {
                     echoingChance = (float) Math.sqrt(echoingChance);
 
                 //roll chance
-                if(player.level.random.nextFloat() <= LuckHelper.getLuckAffectedChance(echoingChance, player)) {
+                if(player.level.random.nextFloat() <= echoingChance) {
                     LivingEntity target = event.getEntityLiving();
 
                     float newDamage;
