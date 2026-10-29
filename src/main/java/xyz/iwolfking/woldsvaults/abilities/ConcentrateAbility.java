@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.math.Vector3f;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.net.BitBuffer;
+import iskallia.vault.effect.ThresholdEffect;
 import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.etching.EtchingGearAttributes;
@@ -31,6 +32,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AbilityHelper;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
+import xyz.iwolfking.woldsvaults.effect.mobeffects.lib.ComboEffect;
 import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
@@ -311,7 +313,7 @@ public class ConcentrateAbility extends InstantManaAbility {
     }
 
     private static boolean shouldIgnoreEffect(MobEffect effect) {
-        return effect.equals(ModEffects.REAVING) || effect.equals(ModEffects.ECHOING) || effect.equals(iskallia.vault.init.ModEffects.NOVA_DOT) || effect.equals(iskallia.vault.init.ModEffects.NO_AI) || effect.equals(iskallia.vault.init.ModEffects.GLACIAL_SHATTER);
+        return effect.equals(ModEffects.REAVING) || effect.equals(ModEffects.ECHOING) || effect.equals(iskallia.vault.init.ModEffects.NOVA_DOT) || effect.equals(iskallia.vault.init.ModEffects.NO_AI) || effect.equals(iskallia.vault.init.ModEffects.GLACIAL_SHATTER) || effect instanceof ComboEffect || effect instanceof ThresholdEffect;
     }
 
     @Override

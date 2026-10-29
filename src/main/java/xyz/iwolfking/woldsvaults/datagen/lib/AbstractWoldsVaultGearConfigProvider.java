@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.modifiers.gear.DamageBurstComboAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.InvokeAbilityComboAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
 
@@ -168,6 +169,26 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
                 duration,
                 attribute,
                 new FloatRollRangeEntry(minDamage, maxDamage, damageStep)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addInvokeComboAttribute(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            ResourceLocation associatedEffect,
+            int duration,
+            String ability,
+            int minHits, int maxHits, int hitSteps,
+            int minAbilityLevel, int maxAbilityLevel, int levelSteps) {
+
+        InvokeAbilityComboAttribute.Config config = new InvokeAbilityComboAttribute.Config(
+                new IntRollRangeEntry(minHits, maxHits, hitSteps),
+                associatedEffect,
+                duration,
+                ability,
+                new IntRollRangeEntry(minAbilityLevel, maxAbilityLevel, levelSteps)
         );
 
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
