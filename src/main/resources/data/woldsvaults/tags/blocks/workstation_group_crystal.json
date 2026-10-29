@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "the_vault:inscription_table",
+    "the_vault:catalyst_infusion_table",
+    "the_vault:augment_station",
+    "the_vault:crystal_workbench"
+  ]
+}

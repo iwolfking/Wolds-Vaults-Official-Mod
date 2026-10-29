@@ -16,6 +16,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModTags;
+import xyz.iwolfking.woldsvaults.workstation.WorkstationGroups;
 
 import java.util.List;
 import java.util.Map;
@@ -143,7 +144,26 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.COLORED_UNOBTANIUMS.values().toArray(new Block[]{}))
                 .add(ModBlocks.RAINBOW_UNOBTANIUM);
-       addCompressibleTags();
+        addCompressibleTags();
+        addWorkstationGroups();
+    }
+
+    private void addWorkstationGroups() {
+        tag(WorkstationGroups.CRYSTAL.tag)
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "inscription_table"))
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "catalyst_infusion_table"))
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "augment_station"))
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "crystal_workbench"));
+        tag(WorkstationGroups.FORGE.tag)
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "vault_forge"))
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "vault_artisan_station"))
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "etching_application_table"))
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "vault_enchanter"));
+        tag(WorkstationGroups.GEAR.tag)
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "tool_station"))
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "jewel_crafting_table"))
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "vault_jewel_application_station"))
+                .addOptional(ResourceLocation.fromNamespaceAndPath("the_vault", "vault_enchanter"));
     }
 
     private void addCompressibleTags() {

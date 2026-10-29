@@ -619,7 +619,9 @@
     "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
     "vaulthunters.fixes.MixinVoidStoneItem",
-    "vaulthunters.objectives.MixinClientCrystalData"
+    "vaulthunters.objectives.MixinClientCrystalData",
+    "client.MixinAbstractElementContainerScreen",
+    "client.MixinAbstractContainerScreenTabs"
   ],
   "injectors": {
     "defaultRequire": 1

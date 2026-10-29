@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "the_vault:tool_station",
+    "the_vault:jewel_crafting_table",
+    "the_vault:vault_jewel_application_station",
+    "the_vault:vault_enchanter"
+  ]
+}

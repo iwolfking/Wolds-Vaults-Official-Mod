@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.network.packets.StopFlightMessage;
 import xyz.iwolfking.woldsvaults.network.packets.ClientboundTrinketPouchStatePacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundOpenTrinketPouchPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundRenameTrinketPouchPresetPacket;
+import xyz.iwolfking.woldsvaults.network.packets.ServerboundSwitchWorkstationPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSetTrinketSpeedCapPacket;
 import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
@@ -42,6 +43,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ClientboundTrinketPouchStatePacket.class, ClientboundTrinketPouchStatePacket::encode, ClientboundTrinketPouchStatePacket::decode, ClientboundTrinketPouchStatePacket::handle);
         CHANNEL.registerMessage(id++, ServerboundRenameTrinketPouchPresetPacket.class, ServerboundRenameTrinketPouchPresetPacket::encode, ServerboundRenameTrinketPouchPresetPacket::decode, ServerboundRenameTrinketPouchPresetPacket::handle);
         CHANNEL.registerMessage(id++, SuppressorUpdateMessage.class, SuppressorUpdateMessage::encode, SuppressorUpdateMessage::decode, SuppressorUpdateMessage::handle);
+        CHANNEL.registerMessage(id++, ServerboundSwitchWorkstationPacket.class, ServerboundSwitchWorkstationPacket::encode, ServerboundSwitchWorkstationPacket::decode, ServerboundSwitchWorkstationPacket::handle);
     }
 
     public static <T> void sendToServer(T message) {
