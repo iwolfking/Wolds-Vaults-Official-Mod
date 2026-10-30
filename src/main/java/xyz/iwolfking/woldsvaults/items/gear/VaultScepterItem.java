@@ -49,7 +49,6 @@ import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
 import xyz.iwolfking.woldsvaults.api.util.ColorUtil;
 import xyz.iwolfking.woldsvaults.api.util.ElementHelper;
-import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.models.Scepters;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 
@@ -215,7 +214,7 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
 
         if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) {
             if (chargeTicks < 40) return;
-            executeBeamAttack(serverLevel, player, elementalTypes);
+            executeBeamAttack(serverLevel, player, elementalTypes, chargeTicks);
             if (player.getLevel().dimension().location().getNamespace().equals("the_vault")) {
                 if(player instanceof ServerPlayer) {
                     stack.hurt(1, player.getRandom(), player);
@@ -245,6 +244,7 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
                 hasValidCharge = true;
             }
         } else if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) {
+            targetTicks = 40.0F;
             hasValidCharge = true;
         }
 
@@ -267,6 +267,14 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
                     tipPos.x, tipPos.y, tipPos.z,
                     8, 0.1, 0.1, 0.1, 0.08);
         }
+        else if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)
+                && !gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE)
+                && chargeTicks == 120) {
+            level.playSound(null, player.blockPosition(), SoundEvents.NOTE_BLOCK_PLING, SoundSource.PLAYERS, 0.8F, 2.0F);
+            serverLevel.sendParticles(ParticleTypes.END_ROD,
+                    tipPos.x, tipPos.y, tipPos.z,
+                    8, 0.1, 0.1, 0.1, 0.08);
+        }
         else if (chargeTicks % 10 == 0) {
             serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK,
                     tipPos.x, tipPos.y, tipPos.z,
@@ -274,7 +282,8 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         }
     }
 
-    private void executeBeamAttack(ServerLevel level, ServerPlayer player, List<ElementalType> elementalTypes) {
+    private void executeBeamAttack(ServerLevel level, ServerPlayer player, List<ElementalType> elementalTypes, int chargeTicks) {
+        float damageMultiplier = 1.0F + (Math.min(Math.max(chargeTicks - 40, 0), 80) / 80.0F);
         Vec3 start = player.getEyePosition();
         Vec3 look = player.getLookAngle();
 
@@ -314,7 +323,7 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
             AABB targetBox = target.getBoundingBox().inflate(beamRadius);
             if (targetBox.clip(start, end).isPresent()) {
                 ElementHelper.runWithElements(elementalTypes, () -> {
-                    target.hurt(DamageSource.indirectMagic(player, player), playerAP * 0.65F);
+                    target.hurt(DamageSource.indirectMagic(player, player), playerAP * 0.65F * damageMultiplier);
                 });
             }
         }
