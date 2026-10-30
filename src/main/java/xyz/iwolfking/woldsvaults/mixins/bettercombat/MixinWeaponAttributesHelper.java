@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.config.WeaponTypesConfig;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
@@ -44,6 +45,9 @@ public abstract class MixinWeaponAttributesHelper {
     @Inject(method = "readFromNBT", at = @At("HEAD"), cancellable = true)
     private static void setWeaponTypeFromModifier(ItemStack itemStack, CallbackInfoReturnable<WeaponAttributes> cir) {
             ItemStackNBTWeaponAttributes attributedItemStack = (ItemStackNBTWeaponAttributes)((Object) itemStack);
+            if(itemStack == null) {
+                return;
+            }
 
             WeaponAttributes cachedAttributes = attributedItemStack.getWeaponAttributes();
             if (cachedAttributes != null) {
@@ -51,9 +55,13 @@ public abstract class MixinWeaponAttributesHelper {
                 return;
             }
 
+            if (WoldsVaultsConfig.CLIENT.weaponsShouldntBeBetter.get()) {
+                return;
+            }
+
             GearDataCache cache = GearDataCache.of(itemStack);
 
-            if(itemStack.getItem() instanceof VaultGearItem && cache.hasAttribute(ModGearAttributes.WEAPON_TYPE) && !WoldsVaultsConfig.CLIENT.weaponsShouldntBeBetter.get()) {
+            if(itemStack.getItem() instanceof VaultGearItem && cache.hasAttribute(ModGearAttributes.WEAPON_TYPE)) {
                 VaultGearData data = VaultGearData.read(itemStack);
 
                 String weaponTypeKey = data.getFirstValue(ModGearAttributes.WEAPON_TYPE).orElse(null);
@@ -61,7 +69,12 @@ public abstract class MixinWeaponAttributesHelper {
                     ResourceLocation itemId = Registry.ITEM.getKey(itemStack.getItem());
 
                     try {
-                        String attributeData = ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.get(weaponTypeKey).NBT;
+                        WeaponTypesConfig.Entry weaponTypeEntry = ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.get(weaponTypeKey);
+                        if (weaponTypeEntry == null) {
+                            return;
+                        }
+
+                        String attributeData = weaponTypeEntry.NBT;
                         StringReader json = new StringReader(attributeData);
                         AttributesContainer container = decode(json);
                         WeaponAttributes attributes = WeaponRegistry.resolveAttributes(itemId, container);

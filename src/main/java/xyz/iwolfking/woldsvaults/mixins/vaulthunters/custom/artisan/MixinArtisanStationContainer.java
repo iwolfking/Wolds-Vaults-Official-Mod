@@ -23,6 +23,7 @@ public abstract class MixinArtisanStationContainer {
         this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 18, 8, 20), VaultArtisanStationContainer.Tab.valueOf("MYTHICAL"), ModGearModifications.BLAZING_GEAR_MODIFICATION, VaultArtisanStationContainer.ButtonSide.RIGHT);
         this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 19, 150, 20), VaultArtisanStationContainer.Tab.valueOf("MYTHICAL"), ModGearModifications.FREEZE_ALL_GEAR_MODIFICATION, VaultArtisanStationContainer.ButtonSide.LEFT);
         this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 20, 150, 44), VaultArtisanStationContainer.Tab.valueOf("MYTHICAL"), ModGearModifications.MAP_TIER_MODIFICATION, VaultArtisanStationContainer.ButtonSide.LEFT);
+        this.addModSlot(new OverSizedTabSlot(this.tileEntity.getInventory(), 21, 80, 68), VaultArtisanStationContainer.Tab.valueOf("MYTHICAL"), ModGearModifications.WEAPON_TYPE_MODIFICATION, VaultArtisanStationContainer.ButtonSide.LEFT);
     }
 
     @Shadow protected abstract void addModSlot(OverSizedTabSlot slot, VaultArtisanStationContainer.Tab tab, GearModification modification, VaultArtisanStationContainer.ButtonSide side);

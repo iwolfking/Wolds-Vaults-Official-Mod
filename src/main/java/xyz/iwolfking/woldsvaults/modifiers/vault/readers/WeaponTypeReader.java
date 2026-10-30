@@ -5,7 +5,11 @@ import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TextColor;
+import xyz.iwolfking.woldsvaults.config.WeaponTypesConfig;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -23,8 +27,13 @@ public class WeaponTypeReader extends VaultGearModifierReader<String> {
 
     @Nonnull
     public MutableComponent getValueDisplay(String value) {
-        return new TextComponent("Unimplemented");
-        //return new TextComponent("Weapon Type: ").append(new TextComponent(value).withStyle(Style.EMPTY.withColor(ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.get(value).COLOR)));
+        TextComponent component = new TextComponent("Weapon Type: " + value);
+        WeaponTypesConfig.Entry entry = ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.get(value);
+
+        if (entry != null) {
+            component = (TextComponent) component.withStyle(Style.EMPTY.withColor(TextColor.fromRgb(entry.COLOR)));
+        }
+        return component;
     }
 
     @Override
