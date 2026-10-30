@@ -292,6 +292,7 @@
     "vaulthunters.custom.MixinCharmAnvilRecipe",
     "vaulthunters.custom.MixinCharmItem",
     "vaulthunters.custom.MixinClassicListenersLogic",
+    "vaulthunters.custom.MixinTempleChallengeManager",
     "vaulthunters.custom.MixinClassicLootLogic",
     "vaulthunters.custom.MixinCompanionEggHunt",
     "vaulthunters.custom.MixinCompanionItem",
