@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "the_vault:vault_forge",
-    "the_vault:vault_artisan_station",
-    "the_vault:etching_application_table",
-    "the_vault:vault_enchanter"
-  ]
-}
