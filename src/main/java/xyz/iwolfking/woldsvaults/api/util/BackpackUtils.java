@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackStorage;
+import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.deposit.DepositUpgradeWrapper;
+import net.p3pp3rf1y.sophisticatedcore.upgrades.UpgradeWrapperBase;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.ClientboundBackpackContentsRefreshPacket;
 
@@ -20,7 +22,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class BackpackUtils {
 
     public static ItemStack findBackpack(Player player) {
-        Optional<ItemStack> backpack = InventoryUtil.findAllItems(player).stream().map(InventoryUtil.ItemAccess::getStack).filter(itemStack -> !itemStack.isEmpty() && itemStack.getItem() instanceof BackpackItem && !isBackpackEmpty(itemStack)).findFirst();
+
+        Optional<ItemStack> backpack = InventoryUtil.findAllItems(player).stream().map(InventoryUtil.ItemAccess::getStack).filter(itemStack -> !itemStack.isEmpty() && itemStack.getItem() instanceof BackpackItem && hasUpgradeOfType(DepositUpgradeWrapper.class, itemStack) && !isBackpackEmpty(itemStack)).findFirst();
         return backpack.orElse(ItemStack.EMPTY);
     }
 
@@ -34,8 +37,14 @@ public class BackpackUtils {
         backpack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(w -> w.getContentsUuid().ifPresent(uuid -> ModNetwork.sendToClient(new ClientboundBackpackContentsRefreshPacket(uuid, BackpackStorage.get().getOrCreateBackpackContents(uuid)), player)));
     }
 
+    public static boolean hasUpgradeOfType(Class<? extends UpgradeWrapperBase<?, ?>> upgradeType, ItemStack stack) {
+        return stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+                .map(iBackpackWrapper -> !iBackpackWrapper.getUpgradeHandler().getWrappersThatImplement(upgradeType).isEmpty())
+                .orElse(false);
+    }
 
-    public static void refreshWrapper(net.minecraft.world.item.ItemStack stack, UUID uuid) {
+
+    public static void refreshWrapper(ItemStack stack, UUID uuid) {
         stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(wrapper -> {
             if (wrapper.getContentsUuid().map(uuid::equals).orElse(false)) {
                 wrapper.onContentsNbtUpdated();
