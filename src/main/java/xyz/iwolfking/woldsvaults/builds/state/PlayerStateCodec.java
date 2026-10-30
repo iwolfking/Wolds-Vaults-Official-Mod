@@ -450,12 +450,6 @@ public final class PlayerStateCodec {
         if (points != null) {
             Json.onlyKeys(points, "player.points", POINT_KEYS);
         }
-        unspent(tag, points, "skill", "unspentSkillPts", report);
-        unspent(tag, points, "expertise", "unspentExpertisePoints", report);
-        unspent(tag, points, "knowledge", "unspentKnowledgePts", report);
-        unspent(tag, points, "prestige", "unspentPrestigePoints", report);
-        unspent(tag, points, "archetype", "unspentArchetypePoints", report);
-        unspent(tag, points, "regret", "unspentRegretPoints", report);
         JsonObject spent = Json.optObject(playerJson, "spent", "player");
         if (spent != null) {
             Json.onlyKeys(spent, "player.spent", POINT_KEYS);
@@ -476,18 +470,44 @@ public final class PlayerStateCodec {
         spentTotal(tag, spent, "prestige", "totalSpentPrestigePoints", prestigeSpent);
         spentTotal(tag, spent, "archetype", "totalSpentArchetypePoints", tag.getInt("totalSpentArchetypePoints"));
         spentTotal(tag, spent, "regret", "totalSpentRegretPoints", tag.getInt("totalSpentRegretPoints"));
+        int earnedLevel = Math.min(plan.level, PlayerVaultStats.BASE_LEVEL_CAP);
+        unspent(tag, points, "skill", "unspentSkillPts",
+                earned(earnedLevel, tag.getInt("totalSpentSkillPoints"), "skill", report), report);
+        unspent(tag, points, "expertise", "unspentExpertisePoints",
+                earned(earnedLevel / PlayerVaultStats.VAULT_LEVELS_PER_EXPERTISE_POINT,
+                        tag.getInt("totalSpentExpertisePoints"), "expertise", report), report);
+        unspent(tag, points, "knowledge", "unspentKnowledgePts", 0, report);
+        unspent(tag, points, "prestige", "unspentPrestigePoints", 0, report);
+        unspent(tag, points, "archetype", "unspentArchetypePoints", 0, report);
+        unspent(tag, points, "regret", "unspentRegretPoints", 0, report);
         report.summary("Skill points spent on abilities and talents: " + skillSpent + " (vault level " + plan.level + ")");
         report.summary("Expertise points spent: " + expertiseSpent + "; prestige points spent: " + prestigeSpent
                 + "; knowledge spent: " + knowledgeSpent);
         return tag;
     }
 
-    private static void unspent(CompoundTag tag, @Nullable JsonObject points, String key, String nbtKey, BuildReport report) {
+    /**
+     * The unspent points a player of the build's level would hold: what leveling grants (capped at level 100, as in
+     * {@code PlayerVaultStats#addVaultExp}) minus what the build spends. A build that overspends is reported.
+     */
+    private static int earned(int granted, int spent, String key, BuildReport report) {
+        if (spent > granted) {
+            report.bypassed("player.points." + key + ": the build spends " + spent + " " + key + " points but leveling grants "
+                    + granted);
+            return 0;
+        }
+        return granted - spent;
+    }
+
+    private static void unspent(CompoundTag tag, @Nullable JsonObject points, String key, String nbtKey, int auto,
+                                BuildReport report) {
         JsonElement value = points == null ? null : points.get(key);
         if (value == null || (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()
                 && "auto".equals(value.getAsString()))) {
-            tag.putInt(nbtKey, 0);
-            if (value == null) {
+            tag.putInt(nbtKey, auto);
+            if (auto > 0) {
+                report.summary("Unspent " + key + " points: " + auto + " left over from leveling");
+            } else if (value == null) {
                 report.note("player.points." + key + ": not given; unspent " + key + " points set to 0");
             }
             return;
