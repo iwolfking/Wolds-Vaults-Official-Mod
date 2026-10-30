@@ -1,0 +1,41 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "the_vault:black_market",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:weaving_station",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_recycler",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_diffuser",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:vault_salvager",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:chromatic_steel_vault_infuser",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:chromatic_iron_vault_infuser",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:mod_box_workstation",
+      "required": false
+    },
+    {
+      "id": "the_vault:bounty_block",
+      "required": false
+    }
+  ]
+}

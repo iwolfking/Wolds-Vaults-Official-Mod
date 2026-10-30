@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "the_vault:companion_home",
+      "required": false
+    },
+    {
+      "id": "the_vault:companion_incubator",
+      "required": false
+    },
+    {
+      "id": "the_vault:companion_terrarium",
+      "required": false
+    }
+  ]
+}

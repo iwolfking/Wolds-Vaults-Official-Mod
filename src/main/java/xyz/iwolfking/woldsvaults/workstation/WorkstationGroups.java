@@ -5,7 +5,13 @@ public final class WorkstationGroups {
 
     public static final WorkstationGroup CRYSTAL = WorkstationGroup.register("crystal");
 
-    public static final WorkstationGroup FORGE = WorkstationGroup.register("forge");
-
     public static final WorkstationGroup GEAR = WorkstationGroup.register("gear");
+
+    public static final WorkstationGroup TOOL = WorkstationGroup.register("tool");
+
+    public static final WorkstationGroup CARD = WorkstationGroup.register("card");
+
+    public static final WorkstationGroup COMPANION = WorkstationGroup.register("companion");
+
+    public static final WorkstationGroup MISC = WorkstationGroup.register("misc");
 }
