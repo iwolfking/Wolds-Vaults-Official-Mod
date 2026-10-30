@@ -397,6 +397,7 @@ dependencies {
     implementation fg.deobf('local:vault_hunters_extra_commands:1.8.0')
     implementation fg.deobf('local:vault_hunters_extra_rules:2.1.1')
     implementation fg.deobf('local:ftb-essentials:1802.2.2-build.83')
+    implementation fg.deobf('local:bc_nbt_fix:1.0')
 //    implementation fg.deobf('local:serverportals:1.18.2-1.5')
 
     jarJar(group: 'eu.pb4', name: 'forgified-sgui', version: '[1.0.2,)') {
@@ -407,6 +408,9 @@ dependencies {
     }
     jarJar(group: 'dev.attackeight', name: 'black_market_tweaks', version: '[1.8,)') {
         jarJar.pin(it, '1.8')
+    }
+    jarJar(group: 'smartin', name: 'bc_nbt_fix', version: '[1.0,)') {
+        jarJar.pin(it, '1.0')
     }
     jarJar(group: 'lv.id.bonne', name: 'vault_hunters_extra_commands', version: '[1.8.0,)') {
         jarJar.pin(it, '1.8.0')

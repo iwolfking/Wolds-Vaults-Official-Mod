@@ -54,6 +54,7 @@ public class ModConfigs {
 
     public static VaultFruitConfig VAULT_FRUIT_CONFIG = new VaultFruitConfig();
 
+    public static WeaponTypesConfig WEAPON_TYPES = new WeaponTypesConfig();
     public static ImplicitDeckModifiersConfig IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig();
 
     public static ThemeModifiersConfig THEME_MODIFIERS = new ThemeModifiersConfig();
@@ -96,6 +97,7 @@ public class ModConfigs {
         TIME_TRIAL_COMPETITION = new TimeTrialCompetitionConfig().readConfig();
         ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
+        WEAPON_TYPES = new WeaponTypesConfig().readConfig();
         IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
         THEME_MODIFIERS = new ThemeModifiersConfig().readConfig();
         THEME_PALETTE_REGISTRY = new ThemePaletteRegistryConfig().readConfig();

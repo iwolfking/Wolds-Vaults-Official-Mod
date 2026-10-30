@@ -137,8 +137,6 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Boolean> LIGHTNING_ELEMENT = woldsAttr("lightning_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Lightning Affinity", 16776960), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<ScepterInvokeAttribute> SCEPTER_INVOKE = woldsAttr("scepter_invoke", ScepterInvokeAttribute.type(), ScepterInvokeAttribute.generator(), ScepterInvokeAttribute.reader(), ScepterInvokeAttribute.comparator());
 
-    //Deprecated
-    @Deprecated
     public static final VaultGearAttribute<String> WEAPON_TYPE = attr("weapon_type", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.weaponTypeReader("Weapon Type", 888888, "Type: %s"));
 
 
