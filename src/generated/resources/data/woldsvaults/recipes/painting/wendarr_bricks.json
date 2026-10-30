@@ -1,0 +1,15 @@
+{
+  "type": "mekanism:painting",
+  "itemInput": {
+    "ingredient": {
+      "item": "minecraft:stone_bricks"
+    }
+  },
+  "chemicalInput": {
+    "amount": 5,
+    "pigment": "woldsvaults:wendarr_yellow"
+  },
+  "output": {
+    "item": "the_vault:wendarr_brick"
+  }
+}

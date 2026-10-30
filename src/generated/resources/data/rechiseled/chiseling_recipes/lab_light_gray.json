@@ -1,0 +1,33 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "auxiliaryblocks:lab_blue"
+    },
+    {
+      "item": "auxiliaryblocks:lab_chrome"
+    },
+    {
+      "item": "auxiliaryblocks:lab_cyan"
+    },
+    {
+      "item": "auxiliaryblocks:lab_gray"
+    },
+    {
+      "item": "auxiliaryblocks:lab_dark_gray"
+    },
+    {
+      "item": "auxiliaryblocks:lab_light_metallic"
+    },
+    {
+      "item": "auxiliaryblocks:lab_metallic"
+    },
+    {
+      "item": "auxiliaryblocks:lab_red"
+    },
+    {
+      "item": "auxiliaryblocks:lab_yellow"
+    }
+  ],
+  "overwrite": false
+}

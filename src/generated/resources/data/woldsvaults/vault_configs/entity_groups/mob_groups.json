@@ -1,5 +1,8 @@
 {
   "groups": {
+    "the_vault:guardians": [
+      "minecraft:guardian"
+    ],
     "the_vault:illagers": [
       "dungeons_mobs:windcaller",
       "dungeons_mobs:royal_guard",
@@ -11,6 +14,8 @@
       "dungeons_mobs:iceologer"
     ],
     "the_vault:horde": [
+      "ars_nouveau:wilden_stalker",
+      "occultism:afrit_wild",
       "woldsvaults:loginar",
       "woldsvaults:hostile_turkey",
       "woldsvaults:hostile_chicken",
@@ -29,6 +34,7 @@
       "grimoireofgaia:deathword"
     ],
     "the_vault:assassin": [
+      "ars_nouveau:wilden_hunter",
       "woldsvaults:astral_stalker",
       "woldsvaults:singularity_creeper",
       "alexsmobs:cosmaw",
@@ -68,7 +74,6 @@
       "alexsmobs:frilled_shark",
       "alexsmobs:orca",
       "alexsmobs:guster",
-      "thermal:basalz",
       "thermal:blitz",
       "thermal:blizz",
       "grimoireofgaia:behender",
@@ -79,6 +84,11 @@
       "the_vault:vault_dood"
     ],
     "the_vault:tank": [
+      "ars_nouveau:wilden_guardian",
+      "ars_nouveau:vexing_weald_walker",
+      "ars_nouveau:flourishing_weald_walker",
+      "ars_nouveau:cascading_weald_walker",
+      "ars_nouveau:blazing_weald_walker",
       "woldsvaults:nebula_sentinel",
       "woldsvaults:star_devourer",
       "grimoireofgaia:incinerator",
@@ -110,15 +120,13 @@
       "dungeons_mobs:leapleaf",
       "dungeons_mobs:drowned_necromancer",
       "grimoireofgaia:mummy",
-      "grimoireofgaia:wither_cow"
+      "grimoireofgaia:wither_cow",
+      "thermal:basalz"
     ],
     "the_vault:fighter": [
       "the_vault:vault_fighter_7",
       "the_vault:vault_fighter_5",
       "the_vault:vault_fighter_6"
-    ],
-    "the_vault:guardian": [
-      "minecraft:guardian"
     ]
   }
 }

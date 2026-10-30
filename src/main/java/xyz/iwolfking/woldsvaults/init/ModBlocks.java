@@ -39,6 +39,10 @@ public class ModBlocks {
     public static final DecoObeliskBlock DECO_OBELISK_BLOCK;
     public static final DecoLodestoneBlock DECO_LODESTONE_BLOCK;
     public static final DecoMonolithBlock DECO_MONOLITH_BLOCK;
+    public static final DecoTenosAltarBlock DECO_TENOS_ALTAR_BLOCK;
+    public static final DecoIdonaAltarBlock DECO_IDONA_ALTAR_BLOCK;
+    public static final DecoWendarrAltarBlock DECO_WENDARR_ALTAR_BLOCK;
+    public static final DecoVelaraAltarBlock DECO_VELARA_ALTAR_BLOCK;
     public static final SurvivalMobBarrier SURVIVAL_MOB_BARRIER;
     public static final VaultInfuserBlock VAULT_INFUSER_BLOCK;
     public static final VaultInfuserBlock CHROMATIC_STEEL_INFUSER_BLOCK;
@@ -47,6 +51,7 @@ public class ModBlocks {
     public static final MonolithControllerBlock MONOLITH_CONTROLLER;
     public static final TrinketFusionBlock TRINKET_FUSION_BLOCK;
     public static final OwnedCraftingTableBlock OWNED_CRAFTING_TABLE_BLOCK;
+    public static final SuppressorBlock SUPPRESSOR_BLOCK;
 
     public static final BrewingAltar BREWING_ALTAR;
     public static final SurvivalObjectiveBlock SURVIVAL_OBJECTIVE_BLOCK;
@@ -80,12 +85,17 @@ public class ModBlocks {
     public static final BlockEntityType<DecoObeliskTileEntity> DECO_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<DecoLodestoneTileEntity> DECO_LODESTONE_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<DecoMonolithTileEntity> DECO_MONOLITH_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<DecoIdonaAltarTileEntity> DECO_IDONA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<DecoWendarrAltarTileEntity> DECO_WENDARR_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<DecoTenosAltarTileEntity> DECO_TENOS_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<DecoVelaraAltarTileEntity> DECO_VELARA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<SurvivalMobBarrierTileEntity> SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<BackpackBlockEntity> SOPHISTICATED_BACKPACK;
     public static final BlockEntityType<VaultInfuserTileEntity> VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<DollDismantlingTileEntity> DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<CrateCrackerTileEntity> CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<OwnedCraftingTableTileEntity> OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<SuppressorTileEntity> SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE;
 
     //Workstations
     public static final AugmentCraftingTableBlock AUGMENT_CRAFTING_TABLE;
@@ -200,6 +210,7 @@ public class ModBlocks {
 
     public static final ConfigurableFloatingTextBlock CONFIGURABLE_FLOATING_TEXT_BLOCK;
     public static final TimeTrialTrophyBlock TIME_TRIAL_TROPHY_BLOCK;
+    public static final LockedTreasureContainerBlock LOCKED_TREASURE_CONTAINER_BLOCK;
     public static final BlockEntityType<ConfigurableFloatingTextTileEntity> CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY;
     public static final BlockEntityType<TimeTrialTrophyBlockEntity> TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE;
 
@@ -223,6 +234,10 @@ public class ModBlocks {
         DECO_OBELISK_BLOCK = new DecoObeliskBlock();
         DECO_LODESTONE_BLOCK = new DecoLodestoneBlock();
         DECO_MONOLITH_BLOCK = new DecoMonolithBlock();
+        DECO_IDONA_ALTAR_BLOCK = new DecoIdonaAltarBlock();
+        DECO_VELARA_ALTAR_BLOCK = new DecoVelaraAltarBlock();
+        DECO_WENDARR_ALTAR_BLOCK = new DecoWendarrAltarBlock();
+        DECO_TENOS_ALTAR_BLOCK = new DecoTenosAltarBlock();
         SURVIVAL_MOB_BARRIER = new SurvivalMobBarrier();
         XL_BACKPACK = new BackpackBlock(12000);
         VAULT_INFUSER_BLOCK = new VaultInfuserBlock(1);
@@ -247,6 +262,7 @@ public class ModBlocks {
         BREWING_ALTAR = new BrewingAltar();
         SURVIVAL_OBJECTIVE_BLOCK = new SurvivalObjectiveBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
         OWNED_CRAFTING_TABLE_BLOCK = new OwnedCraftingTableBlock(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE));
+        SUPPRESSOR_BLOCK = new SuppressorBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK));
         WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
         WUTODIE_WALL = new VaultGemWallBlock(ModItems.WUTODIE_GEM);
         WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
@@ -255,6 +271,7 @@ public class ModBlocks {
         CRATE_CRACKER_BLOCK = new CrateCrackerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops(), CrateCrackerBlock.CRATE_CRACKER_SHAPE);
         CONFIGURABLE_FLOATING_TEXT_BLOCK = new ConfigurableFloatingTextBlock();
         TIME_TRIAL_TROPHY_BLOCK = new TimeTrialTrophyBlock(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK));
+        LOCKED_TREASURE_CONTAINER_BLOCK = new LockedTreasureContainerBlock();
         VAULT_SALVAGER_ENTITY = BlockEntityType.Builder.of(VaultSalvagerTileEntity::new, VAULT_SALVAGER_BLOCK).build(null);
         ISKALLIAN_LEAVES_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(IskallianLeavesTileEntity::new, ISKALLIAN_LEAVES_BLOCK).build(null);
         HELLISH_SAND_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(HellishSandTileEntity::new, HELLISH_SAND_BLOCK).build(null);
@@ -265,6 +282,10 @@ public class ModBlocks {
         DECO_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoObeliskTileEntity::new, DECO_OBELISK_BLOCK).build(null);
         DECO_LODESTONE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoLodestoneTileEntity::new, DECO_LODESTONE_BLOCK).build(null);
         DECO_MONOLITH_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoMonolithTileEntity::new, DECO_MONOLITH_BLOCK).build(null);
+        DECO_IDONA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoIdonaAltarTileEntity::new, DECO_IDONA_ALTAR_BLOCK).build(null);
+        DECO_WENDARR_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoWendarrAltarTileEntity::new, DECO_WENDARR_ALTAR_BLOCK).build(null);
+        DECO_VELARA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoVelaraAltarTileEntity::new, DECO_VELARA_ALTAR_BLOCK).build(null);
+        DECO_TENOS_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoTenosAltarTileEntity::new, DECO_TENOS_ALTAR_BLOCK).build(null);
         SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(SurvivalMobBarrierTileEntity::new, SURVIVAL_MOB_BARRIER).build(null);
         VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(VaultInfuserTileEntity::new, new Block[]{VAULT_INFUSER_BLOCK, CHROMATIC_STEEL_INFUSER_BLOCK}).build(null);
         SOPHISTICATED_BACKPACK = BlockEntityType.Builder.of(BackpackBlockEntity::new, new Block[]{XL_BACKPACK}).build(null);
@@ -281,6 +302,7 @@ public class ModBlocks {
         TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(TimeTrialTrophyBlockEntity::new, new Block[]{TIME_TRIAL_TROPHY_BLOCK}).build(null);
         TRINKET_FUSION_FORGE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(TrinketFusionForgeTileEntity::new, new Block[]{TRINKET_FUSION_BLOCK}).build(null);
         OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(OwnedCraftingTableTileEntity::new, new Block[]{OWNED_CRAFTING_TABLE_BLOCK}).build(null);
+        SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(SuppressorTileEntity::new, new Block[]{SUPPRESSOR_BLOCK}).build(null);
         for(DyeColor color : DyeColor.values()) {
             Block dyedUnobtanium = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL, color).strength(50F).requiresCorrectToolForDrops());
             COLORED_UNOBTANIUMS.put(color, dyedUnobtanium);
@@ -402,6 +424,8 @@ public class ModBlocks {
         registerBlock(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, WoldsVaults.id("configurable_floating_text"));
         registerBlock(event, TIME_TRIAL_TROPHY_BLOCK, WoldsVaults.id("time_trial_trophy"));
         registerBlock(event, OWNED_CRAFTING_TABLE_BLOCK, WoldsVaults.id("owned_crafting_table"));
+        registerBlock(event, LOCKED_TREASURE_CONTAINER_BLOCK, WoldsVaults.id("locked_treasure_container"));
+        registerBlock(event, SUPPRESSOR_BLOCK, WoldsVaults.id("universal_suppressor"));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
         }));
@@ -459,6 +483,11 @@ public class ModBlocks {
         registerBlock(event, WENDARR_JEWEL_BLOCK_SLAB, WoldsVaults.id("wendarr_jewel_block_slab"));
         registerBlock(event, WENDARR_JEWEL_BLOCK_STAIRS, WoldsVaults.id("wendarr_jewel_block_stairs"));
 
+        registerBlock(event, DECO_WENDARR_ALTAR_BLOCK, WoldsVaults.id("deco_god_altar_wendarr"));
+        registerBlock(event, DECO_VELARA_ALTAR_BLOCK, WoldsVaults.id("deco_god_altar_velara"));
+        registerBlock(event, DECO_IDONA_ALTAR_BLOCK, WoldsVaults.id("deco_god_altar_idona"));
+        registerBlock(event, DECO_TENOS_ALTAR_BLOCK, WoldsVaults.id("deco_god_altar_tenos"));
+
     }
 
     public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
@@ -487,6 +516,11 @@ public class ModBlocks {
         registerTileEntity(event, TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("time_trial_trophy_entity"));
         registerTileEntity(event, TRINKET_FUSION_FORGE_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("trinket_fusion_forge_tile_entity"));
         registerTileEntity(event, OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("owned_crafting_table_tile_entity"));
+        registerTileEntity(event, DECO_VELARA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_velara_altar_tile_entity"));
+        registerTileEntity(event, DECO_WENDARR_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_wendarr_altar_tile_entity"));
+        registerTileEntity(event, DECO_IDONA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_idona_altar_tile_entity"));
+        registerTileEntity(event, DECO_TENOS_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_tenos_altar_tile_entity"));
+        registerTileEntity(event, SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("universal_suppressor_tile_entity"));
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
@@ -542,6 +576,8 @@ public class ModBlocks {
         registerBlockItem(event, OWNED_CRAFTING_TABLE_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, CONFIGURABLE_FLOATING_TEXT_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.CONFIGURABLE_FLOATING_TEXT);
         registerBlockItem(event, TIME_TRIAL_TROPHY_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.TIME_TRIAL_TROPHY);
+        registerBlockItem(event, LOCKED_TREASURE_CONTAINER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, SUPPRESSOR_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         }));
@@ -597,6 +633,11 @@ public class ModBlocks {
         registerBlockItem(event, IDONA_LIGHT_SMOOTH_BRICKS_STAIRS, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
         registerBlockItem(event, IDONA_GEM_BLOCK_STAIRS, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
         registerBlockItem(event, IDONA_GEM_BLOCK_SLAB, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+
+        registerBlockItem(event, DECO_VELARA_ALTAR_BLOCK, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, DECO_IDONA_ALTAR_BLOCK, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, DECO_WENDARR_ALTAR_BLOCK, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
+        registerBlockItem(event, DECO_TENOS_ALTAR_BLOCK, 64, properties -> properties.tab(ModItems.VAULT_DECOR_GROUP));
     }
 
     public static void registerTileEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

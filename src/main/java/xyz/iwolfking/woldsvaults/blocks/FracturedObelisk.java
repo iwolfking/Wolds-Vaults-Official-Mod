@@ -109,7 +109,9 @@ public class FracturedObelisk extends Block implements EntityBlock {
 
                 ParticleEngine pe = Minecraft.getInstance().particleEngine;
                 Particle p = pe.createParticle(ModParticles.UBER_PYLON.get(), particleX, particleY, particleZ, 0, 0, 0);
-                p.setColor(1.0F, 0.0F, 0.0F);
+                if (p != null) {
+                    p.setColor(1.0F, 0.0F, 0.0F);
+                }
 
             }
         }

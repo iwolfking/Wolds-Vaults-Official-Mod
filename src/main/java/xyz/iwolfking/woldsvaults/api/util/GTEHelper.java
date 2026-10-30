@@ -18,6 +18,10 @@ public class GTEHelper {
     public static Gateway getRandomGate() {
         if(WEIGHTED_GATEWAY_LIST.isEmpty()) {
             for(Gateway gate : GatewayManager.INSTANCE.getValues()) {
+                if(gate.getId().getNamespace().equals("gateways")) {
+                    continue;
+                }
+
                 int weight = BASE_WEIGHT;
                 if(gate.getSize().equals(GatewayEntity.GatewaySize.SMALL)) {
                     weight += SMALL_WAVE_WEIGHT;

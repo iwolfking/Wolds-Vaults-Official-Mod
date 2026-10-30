@@ -1,0 +1,471 @@
+{
+  "pools": {
+    "woldsvaults:random": [
+      {
+        "level": 0,
+        "pool": [
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:coin_cascade",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 2,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 8.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:coin_pile",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 2,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 4.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:wooden_cascade",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 4,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 8.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:wooden",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 4,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 4.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:ornate_cascade",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 1,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 8.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:ornate",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 1,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 4.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:gilded_cascade",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 3,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 8.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:gilded",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 3,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 4.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:living_cascade",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 6,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 8.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:living",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 6,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 4.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:plentiful",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 5,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 8.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:serendipitous",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 9,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 8.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:more_mobs",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 9,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 8.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:sparkling",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 8,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 6.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:exorcising",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 8,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 4.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:hoard",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 9,
+                "type": "constant"
+              },
+              "isAncient": true,
+              "isGreed": false
+            },
+            "weight": 1.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "woldsvaults:cardboard_boxes",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 9,
+                "type": "constant"
+              },
+              "isAncient": true,
+              "isGreed": false
+            },
+            "weight": 1.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:treasure",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 9,
+                "type": "constant"
+              },
+              "isAncient": true,
+              "isGreed": false
+            },
+            "weight": 1.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:phoenix",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 9,
+                "type": "constant"
+              },
+              "isAncient": true,
+              "isGreed": false
+            },
+            "weight": 1.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:champion_chance",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 9,
+                "type": "constant"
+              },
+              "isAncient": true,
+              "isGreed": false
+            },
+            "weight": 1.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:omega_cascade",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 9,
+                "type": "constant"
+              },
+              "isAncient": true,
+              "isGreed": false
+            },
+            "weight": 1.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:omega_bonus",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 9,
+                "type": "constant"
+              },
+              "isAncient": true,
+              "isGreed": false
+            },
+            "weight": 1.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:coin_cascade",
+                "the_vault:coin_cascade",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 2,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 3.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:wooden_cascade",
+                "the_vault:wooden_cascade",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 4,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 3.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:ornate_cascade",
+                "the_vault:ornate_cascade",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 1,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 3.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:gilded_cascade",
+                "the_vault:gilded_cascade",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 3,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 3.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:living_cascade",
+                "the_vault:living_cascade",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 6,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 3.0
+          },
+          {
+            "value": {
+              "modifiers": [
+                "the_vault:plentiful",
+                "the_vault:plentiful",
+                "the_vault:companion_challenge",
+                "the_vault:companion_challenge"
+              ],
+              "model": {
+                "count": 5,
+                "type": "constant"
+              },
+              "isAncient": false,
+              "isGreed": false
+            },
+            "weight": 3.0
+          }
+        ]
+      }
+    ]
+  },
+  "relicChances": {},
+  "particleChances": {},
+  "ancientRelicChances": {},
+  "lootMinLevel": 50,
+  "ancientRelicMinLevel": 100,
+  "lootPoolWeights": []
+}

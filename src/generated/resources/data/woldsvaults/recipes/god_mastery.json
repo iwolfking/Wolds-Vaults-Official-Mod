@@ -1,0 +1,41 @@
+{
+  "type": "occultism:ritual",
+  "ritual_type": "occultism:craft",
+  "activation_item": {
+    "item": "woldsvaults:core_of_the_vault_gods"
+  },
+  "pentacle_id": "occultism:god_alignment",
+  "duration": 20,
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/god_mastery"
+  },
+  "ingredients": [
+    {
+      "item": "woldsvaults:omega_pog_block"
+    },
+    {
+      "item": "the_vault:sublime_vault_elixir"
+    },
+    {
+      "item": "the_vault:sublime_vault_substance"
+    },
+    {
+      "item": "the_vault:sublime_vault_vision"
+    },
+    {
+      "item": "the_vault:vault_iridium"
+    },
+    {
+      "item": "woldsvaults:echo_pog_block"
+    },
+    {
+      "item": "woldsvaults:omega_pog_block"
+    },
+    {
+      "item": "woldsvaults:omega_pog_block"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:gods_mastery"
+  }
+}

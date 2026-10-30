@@ -24,7 +24,6 @@ public class MixinToolForgeRecipe {
     private void addToolCapacityFromPrestige(List<OverSizedItemStack> consumed, ServerPlayer crafter, int vaultLevel, CallbackInfoReturnable<ItemStack> cir) {
         List<ToolCapacityPrestigePower> toolCapacityPrestigePowers = PrestigePowerHelper.getPrestigePowersOfType(crafter, ToolCapacityPrestigePower.class);
         if(toolCapacityPrestigePowers.isEmpty()) {
-            WoldsVaults.LOGGER.info("No tool power found");
             return;
         }
 

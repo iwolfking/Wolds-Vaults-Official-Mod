@@ -21,6 +21,7 @@ import top.theillusivec4.curios.common.network.server.sync.SPacketSyncStack;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRoyale;
 
 public class TrinketHelper {
     public static void unequipTrinketStack(LivingEntity entity, ItemStack stack, String slotKey, int slotIndex) {
@@ -42,6 +43,7 @@ public class TrinketHelper {
     }
 
     public static void clearCurios(Player entity) {
+        PouchRoyale.discardTemporary(entity);
         CuriosApi.getCuriosHelper()
                 .getCuriosHandler(entity)
                 .ifPresent(

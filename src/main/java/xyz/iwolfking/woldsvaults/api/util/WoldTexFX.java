@@ -70,6 +70,36 @@ public class WoldTexFX {
         }
     }
 
+    public static MutableComponent rainbowEffect(Style style, MutableComponent cmp) {
+        int cmpLength = TextComponentUtils.getLength(cmp);
+        if (cmpLength == 0) return cmp;
+
+        long time = System.currentTimeMillis();
+        float speed = 2000.0f;
+        float baseHue = (time % (long) speed) / speed;
+
+        CommandSourceStack stack = TextComponentUtils.createClientSourceStack();
+        MutableComponent result = new TextComponent("");
+
+        for (int i = 0; i < cmpLength; i++) {
+            float charHue = (baseHue + ((float) i / cmpLength)) % 1.0f;
+            int rgb = java.awt.Color.HSBtoRGB(charHue, 0.85f, 1.0f) & 0xFFFFFF;
+
+            MutableComponent charCmp = TextComponentUtils.substring(stack, cmp, i, i + 1);
+
+            Style charStyle = (style != null ? style : charCmp.getStyle()).withColor(net.minecraft.network.chat.TextColor.fromRgb(rgb));
+            TextComponentUtils.applyStyle(charCmp, charStyle);
+
+            result.append(charCmp);
+        }
+
+        return result;
+    }
+
+    public static MutableComponent rainbowEffect(MutableComponent cmp) {
+        return rainbowEffect(null, cmp);
+    }
+
 
     public static MutableComponent enclose(String prefix, MutableComponent cmp) {
         return enclose(prefix, "", null, cmp);
@@ -216,6 +246,28 @@ public class WoldTexFX {
                 return new TextComponent(text).setStyle(reader.getDisplay(instance, affixType).getStyle());
             else
                 return new TextComponent(text).setStyle(style);
+        }
+    }
+
+    // reader to add an animated rainbow effect
+    public static class Rainbow<T> extends FancyReader<T> {
+
+        public Rainbow(VaultGearModifierReader<T> reader) {
+            this(null, reader);
+        }
+
+        public Rainbow(Style style, VaultGearModifierReader<T> reader) {
+            super(reader);
+            this.style = style;
+        }
+
+        private final Style style;
+
+        @Override
+        public @Nullable MutableComponent getDisplay(VaultGearAttributeInstance<T> instance, VaultGearModifier.AffixType affixType) {
+            if (reader == null) return null;
+            MutableComponent display = reader.getDisplay(instance, affixType);
+            return display == null ? null : rainbowEffect(style, display);
         }
     }
 }

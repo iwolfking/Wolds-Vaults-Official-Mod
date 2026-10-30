@@ -1,0 +1,64 @@
+package xyz.iwolfking.woldsvaults.integration.occultism.init;
+
+import com.github.klikli_dev.occultism.Occultism;
+import com.github.klikli_dev.occultism.common.item.DummyTooltipItem;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.datagen.ModLanguageProvider;
+
+public class ModRitualDummyItems {
+    public static DummyTooltipItem CRAFT_IDONA_BRICKS = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem CRAFT_VELARA_BRICKS = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem CRAFT_TENOS_BRICKS = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem CRAFT_WENDARR_BRICKS = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem SACRIFICE_COMPANION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem SPAWN_EGG_INFUSION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem CRYSTAL_TIME_EXTENSION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem ANY_INSCRIPTION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem CHALLENGE_INSCRIPTION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem OMEGA_INSCRIPTION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem RESOURCE_INSCRIPTION = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem RANDOM_ZEALOT_VAULT = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem RANDOM_GOD_THEME = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem GOD_MASTERY = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem CREATE_RED_VAULT_ESSENCE = new DummyTooltipItem(defaultProperties());
+    public static DummyTooltipItem REVIVE_COMPANION = new DummyTooltipItem(defaultProperties());
+
+    public static void registerItems(RegistryEvent.Register<Item> event) {
+        register(event, WoldsVaults.id("ritual_dummy/craft_idona_bricks"), CRAFT_IDONA_BRICKS, "Convert Bricks - Idona", WoldsVaults.id("idona_bricks"),  "A way to craft Idona's lovely decorative bricks without vault delving!");
+        register(event, WoldsVaults.id("ritual_dummy/craft_velara_bricks"), CRAFT_VELARA_BRICKS, "Convert Bricks - Velara", WoldsVaults.id("velara_bricks"),  "A way to craft Velara's lovely decorative bricks without vault delving!");
+        register(event, WoldsVaults.id("ritual_dummy/craft_tenos_bricks"), CRAFT_TENOS_BRICKS, "Convert Bricks - Tenos", WoldsVaults.id("tenos_bricks"),  "A way to craft Tenos' lovely decorative bricks without vault delving!");
+        register(event, WoldsVaults.id("ritual_dummy/craft_wendarr_bricks"), CRAFT_WENDARR_BRICKS, "Convert Bricks - Wendarr", WoldsVaults.id("wendarr_bricks"),  "A way to craft Wendarr's lovely decorative bricks without vault delving!");
+        register(event, WoldsVaults.id("ritual_dummy/sacrifice_companion"), SACRIFICE_COMPANION, "Sacrifice Companion", WoldsVaults.id("companion_sacrifice"),  "Sacrifice a Companion to Idona and he will reward you with a random Companion Relic!");
+        register(event, WoldsVaults.id("ritual_dummy/spawn_egg_infusion"), SPAWN_EGG_INFUSION, "Imbue Spawn Egg", WoldsVaults.id("infuse_pig_spawn_egg"), "Imbue a Mystery Egg with life to transform it into a specific type of spawn egg! Note: The sacrificial mob must be present when activating the ritual!");
+        register(event, WoldsVaults.id("ritual_dummy/crystal_time_extension"), CRYSTAL_TIME_EXTENSION, "Wendarr Time Extension", WoldsVaults.id("wendarr_crystal_time_extension"), "Make an offering to Wendarr for them to bless your vault with Extended time... and a curse! After 7 Extended have been added this way, makes crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/any_inscription"), ANY_INSCRIPTION, "Tenos Any Inscription", WoldsVaults.id("tenos_any_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random room on to your Vault Crystal and add a random curse... moderate chance to make crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/challenge_inscription"), CHALLENGE_INSCRIPTION, "Tenos Challenge Inscription", WoldsVaults.id("tenos_challenge_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random Challenge room on to your Vault Crystal and add a random curse... high chance to make crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/omega_inscription"), OMEGA_INSCRIPTION, "Tenos Omega Inscription", WoldsVaults.id("tenos_omega_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random Omega room on to your Vault Crystal and add a random curse... very high chance to make crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/resource_inscription"), RESOURCE_INSCRIPTION, "Tenos Resource Inscription", WoldsVaults.id("tenos_omega_inscription"), "Make an offering to Tenos to inscribe the knowledge of a random Resource room on to your Vault Crystal and add a random curse... low chance to make crystal unmodifiable.");
+        register(event, WoldsVaults.id("ritual_dummy/random_zealot_vault"), RANDOM_ZEALOT_VAULT, "Zealot", WoldsVaults.id("random_zealot_vault"), "Make an offering to the Gods and they will bless and challenge your Vault Crystal. Crystal must be unmodified. (Any type/arrangement of God Offering item will work!)");
+        register(event, WoldsVaults.id("ritual_dummy/random_god_theme"), RANDOM_GOD_THEME, "Random God Theme Augment", WoldsVaults.id("random_god_theme_augment"), "Make an offering to the Gods and they will grant you an Augment of their theme! (Offering type does not decide theme)");
+        register(event, WoldsVaults.id("ritual_dummy/god_mastery"), GOD_MASTERY, "God Mastery", WoldsVaults.id("god_mastery"), "Make a truly impressive offering to the Vault Gods and they will gain an increased interest in you!");
+        register(event, WoldsVaults.id("ritual_dummy/red_vault_essence"), CREATE_RED_VAULT_ESSENCE, "Create Red Vault Essence", WoldsVaults.id("create_red_essence"), "Make an offering to Idona and they will enchant your Vault Essence with their strength!");
+        register(event, WoldsVaults.id("ritual_dummy/companion_revival"), REVIVE_COMPANION, "Companion Revival", WoldsVaults.id("companion_revival"), "Make an offering to Velara and they will bring your friend back to life!");
+    }
+
+    private static void register(RegistryEvent.Register<Item> event, ResourceLocation id, Item item, String name, ResourceLocation ritualId, String ritualDescription) {
+        event.getRegistry().register(item.setRegistryName(id));
+        registerRitualLangWithDummy(item, ritualDescription, ritualId, name);
+    }
+
+    public static void registerRitualLangWithDummy(Item dummyItem, String ritualTooltip, ResourceLocation ritualId, String ritualName) {
+        ModLanguageProvider.register("ritual." + ritualId.getNamespace() + "." + ritualId.getPath() + ".started", ritualName + " initiated!");
+        ModLanguageProvider.register("ritual." + ritualId.getNamespace() + "." + ritualId.getPath() + ".finished", ritualName + " completed!");
+        ModLanguageProvider.register(dummyItem, "Ritual: " + ritualName);
+        ModLanguageProvider.register("item." + dummyItem.getRegistryName().getNamespace() + ".ritual_dummy." + dummyItem.getRegistryName().getPath().replace("ritual_dummy/", "") + ".tooltip", ritualTooltip);
+    }
+
+    public static Item.Properties defaultProperties() {
+        return (new Item.Properties()).tab(Occultism.ITEM_GROUP);
+    }
+
+}

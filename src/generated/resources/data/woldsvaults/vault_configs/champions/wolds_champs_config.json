@@ -3,7 +3,8 @@
   "entityChampionChance": {
     "{id:\"woldsvaults:purple_ghost\"}": 1.0,
     "{id:\"dungeons_mobs:quick_growing_vine\"}": -10.0,
-    "{id:\"dungeons_mobs:poison_quill_vine\"}": -10.0
+    "{id:\"dungeons_mobs:poison_quill_vine\"}": -10.0,
+    "{id:\"the_vault:skeleton_gladiator\"}": -10.0
   },
   "defaultAttributeOverrides": [],
   "entityAttributeOverrides": {

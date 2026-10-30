@@ -17,6 +17,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.flexible.FlexibleAbility;
 import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
@@ -67,6 +68,7 @@ public class ExpungeAbility extends InstantManaAbility {
                                     cloudEntity.setRadius(AreaOfEffectHelper.adjustAreaOfEffect(playerEntity, null, cloudEntity.getRadius() * this.getRadiusMultiplier()));
                                     cloudEntity.setOwner(playerEntity);
                                     cloudEntity.setDuration(EffectDurationHelper.adjustEffectDurationFloor(playerEntity, cloudEntity.getDuration() * this.getDurationMultiplier()));
+                                    cloudEntity.refreshDimensions();
                                     playerEntity.getLevel().addFreshEntity(cloudEntity);
                                 }
                             })
@@ -81,9 +83,10 @@ public class ExpungeAbility extends InstantManaAbility {
                                 if (effect != null) {
                                     EffectCloudEntity cloudEntity = new EffectCloudEntity(playerEntity.getLevel(), playerEntity.getX(), playerEntity.getY(), playerEntity.getZ());
                                     cloud.apply(cloudEntity);
-                                    cloudEntity.setRadius(AreaOfEffectHelper.adjustAreaOfEffect(playerEntity, null, cloudEntity.getRadius()));
+                                    cloudEntity.setRadius(AreaOfEffectHelper.adjustAreaOfEffect(playerEntity, null, cloudEntity.getRadius() * this.getRadiusMultiplier()));
                                     cloudEntity.setOwner(playerEntity);
                                     cloudEntity.setDuration(EffectDurationHelper.adjustEffectDurationFloor(playerEntity, cloudEntity.getDuration()));
+                                    cloudEntity.refreshDimensions();
                                     playerEntity.getLevel().addFreshEntity(cloudEntity);
                                 }
                             })

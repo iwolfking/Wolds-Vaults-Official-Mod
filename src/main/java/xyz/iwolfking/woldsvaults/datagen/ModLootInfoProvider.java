@@ -5,13 +5,9 @@ import iskallia.vault.config.LegacyLootTablesConfig;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import org.lwjgl.system.CallbackI;
 import xyz.iwolfking.vhapi.api.datagen.AbstractLootInfoProvider;
-import xyz.iwolfking.vhapi.api.datagen.AbstractTooltipProvider;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
-import xyz.iwolfking.vhapi.mixin.accessors.LegacyLootTablesConfigAccessor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.init.ModItems;
 
 public class ModLootInfoProvider extends AbstractLootInfoProvider {
     protected ModLootInfoProvider(DataGenerator generator) {
@@ -64,6 +60,17 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
             completionCrate("corrupted", builder);
             completionCrate("alchemy", builder);
 
+            //New treasure chests
+            genericSingleton("Treasure Chest Velara", VaultMod.id("treasure_chest_velara"), 50, builder);
+            genericSingleton("Treasure Chest Tenos", VaultMod.id("treasure_chest_tenos"), 50, builder);
+            genericSingleton("Treasure Chest Wendarr", VaultMod.id("treasure_chest_wendarr"), 50, builder);
+            genericSingleton("Treasure Chest Idona", VaultMod.id("treasure_chest_idona"), 50, builder);
+            genericSingleton("Treasure Chest Velara Map", VaultMod.id("treasure_chest_velara_map"), 100, builder);
+            genericSingleton("Treasure Chest Tenos Map", VaultMod.id("treasure_chest_tenos_map"), 100, builder);
+            genericSingleton("Treasure Chest Wendarr Map", VaultMod.id("treasure_chest_wendarr_map"), 100, builder);
+            genericSingleton("Treasure Chest Idona Map", VaultMod.id("treasure_chest_idona_map"), 100, builder);
+            genericSingleton("Trove Sand", WoldsVaults.id("trove_sand"), 0, builder);
+            genericSingleton("Trove Sand Map", WoldsVaults.id("trove_sand_map"), 100, builder);
         });
 
         add("vanilla_completion_overrides", builder -> {
@@ -93,6 +100,12 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
             });
             builder.lootInfo(VaultMod.id("treasure_pillar"), "Treasure Pillar", map -> {
                 map.put(VaultMod.id("treasure_pillar"), 0);
+            });
+            builder.lootInfo(VaultMod.id("completion_crate_chaos"), "Completion Crate (Chaos)", map -> {
+                map.put(WoldsVaults.id("chaos_crate_0"), 0);
+                map.put(WoldsVaults.id("chaos_crate_20"), 20);
+                map.put(WoldsVaults.id("chaos_crate_50"), 50);
+                map.put(WoldsVaults.id("chaos_crate_100"), 100);
             });
         });
     }

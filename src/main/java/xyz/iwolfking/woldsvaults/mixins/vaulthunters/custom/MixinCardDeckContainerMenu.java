@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.DeckContainerWrapperAccessor;
+import xyz.iwolfking.woldsvaults.modifiers.deck.ImplicitDeckModifier;
 import xyz.iwolfking.woldsvaults.modifiers.deck.NitwitDeckModifier;
 
 @Mixin(value = CardDeckContainerMenu.DeckSlot.class, remap = false)
@@ -46,7 +47,7 @@ public abstract class MixinCardDeckContainerMenu extends Slot {
             }
 
             for(DeckModifier<?> mod : deck.getModifiers()) {
-                if(mod instanceof NitwitDeckModifier) {
+                if(mod instanceof NitwitDeckModifier || (mod instanceof ImplicitDeckModifier implicitDeckModifier && implicitDeckModifier.getModifier() instanceof NitwitDeckModifier)) {
                     if(stack.getItem() instanceof CardItem) {
                         cir.setReturnValue(!CardItem.getCard(stack).getGroups().contains("Arcane") && isActive);
                     }

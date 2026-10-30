@@ -29,6 +29,7 @@ public class ModConfigs {
     public static CorruptedObjectiveConfig CORRUPTED_OBJECTIVE;
     public static AlchemyObjectiveConfig ALCHEMY_OBJECTIVE;
     public static SurvivalObjectiveConfig SURVIVAL_OBJECTIVE;
+    public static HyperObjectiveConfig HYPER_OBJECTIVE;
 
     public static AugmentRecipesConfig AUGMENT_RECIPES;
     public static ModBoxRecipesConfig MOD_BOX_RECIPES_CONFIG;
@@ -54,6 +55,10 @@ public class ModConfigs {
     public static VaultFruitConfig VAULT_FRUIT_CONFIG = new VaultFruitConfig();
 
     public static WeaponTypesConfig WEAPON_TYPES = new WeaponTypesConfig();
+    public static ImplicitDeckModifiersConfig IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig();
+
+    public static ThemeModifiersConfig THEME_MODIFIERS = new ThemeModifiersConfig();
+    public static ThemePaletteRegistryConfig THEME_PALETTE_REGISTRY = new ThemePaletteRegistryConfig();
 
     public static void register() {
         GEM_BOX = new GenericLootableConfig("gem_box").readConfig();
@@ -73,6 +78,7 @@ public class ModConfigs {
         CORRUPTED_OBJECTIVE = new CorruptedObjectiveConfig().readConfig();
         ALCHEMY_OBJECTIVE = new AlchemyObjectiveConfig().readConfig();
         SURVIVAL_OBJECTIVE = new SurvivalObjectiveConfig().readConfig();
+        HYPER_OBJECTIVE = new HyperObjectiveConfig().readConfig();
         AUGMENT_RECIPES = new AugmentRecipesConfig().readConfig();
         MOD_BOX_RECIPES_CONFIG = new ModBoxRecipesConfig().readConfig();
         CUSTOM_RECYCLER_CONFIG = new CustomVaultRecyclerConfig().readConfig();
@@ -92,5 +98,8 @@ public class ModConfigs {
         ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
         WEAPON_TYPES = new WeaponTypesConfig().readConfig();
+        IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
+        THEME_MODIFIERS = new ThemeModifiersConfig().readConfig();
+        THEME_PALETTE_REGISTRY = new ThemePaletteRegistryConfig().readConfig();
     }
 }

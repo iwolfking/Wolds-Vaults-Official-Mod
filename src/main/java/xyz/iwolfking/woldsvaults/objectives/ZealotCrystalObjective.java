@@ -6,10 +6,7 @@ import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.objective.AwardCrateObjective;
-import iskallia.vault.core.vault.objective.BailObjective;
-import iskallia.vault.core.vault.objective.DeathObjective;
-import iskallia.vault.core.vault.objective.Objectives;
+import iskallia.vault.core.vault.objective.*;
 import iskallia.vault.core.world.roll.IntRoll;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
@@ -21,6 +18,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import javax.annotation.Nullable;
@@ -39,12 +37,22 @@ public class ZealotCrystalObjective extends WoldCrystalObjective {
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = (vault.get(Vault.LEVEL)).get();
-        vault.ifPresent(Vault.OBJECTIVES, objectives -> {
-            objectives.add(ZealotObjective.of(this.target.get(random), 0).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ZEALOT"), "zealot", level, true)));
-            objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
-            objectives.add(DeathObjective.create(true));
-            objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
-        });
+        double difficultyScale = Math.sqrt(SigilUtils.getDifficultyMultiplier(sigil));
+        vault.ifPresent(
+                Vault.OBJECTIVES,
+                objectives -> {
+                    objectives.add(
+                            ZealotObjective.of((int) (this.target.get(random) * difficultyScale), 0)
+                                    .add(
+                                            FindExitObjective.create(ClassicPortalLogic.EXIT)
+                                                    .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ZEALOT"), "zealot", level, true))
+                                    )
+                    );
+                    objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
+                    objectives.add(DeathObjective.create(true));
+                    objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
+                }
+        );
     }
 
     @Override

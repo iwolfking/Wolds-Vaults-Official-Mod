@@ -1,12 +1,12 @@
 package xyz.iwolfking.woldsvaults.integration.ftbquests.tasks;
 
 import dev.ftb.mods.ftblibrary.config.ConfigGroup;
-import dev.ftb.mods.ftblibrary.ui.Button;
+
 import dev.ftb.mods.ftbquests.quest.Quest;
 import dev.ftb.mods.ftbquests.quest.TeamData;
 import dev.ftb.mods.ftbquests.quest.task.Task;
 import dev.ftb.mods.ftbquests.quest.task.TaskType;
-import dev.ftb.mods.ftbquests.quest.task.XPTask;
+import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -92,18 +92,19 @@ public class VaultLevelTask extends Task implements ISingleIntValueTask {
     }
 
     @Override
-    public void onButtonClicked(Button button, boolean canClick) {
-    }
-
-    @Override
     public void submitTask(TeamData teamData, ServerPlayer player, ItemStack craftedItem) {
-        int add = Math.toIntExact(Math.min(value - teamData.getProgress(this), Integer.MAX_VALUE));
-
-        if (add <= 0) {
+        if(player == null || teamData.isCompleted(this)) {
             return;
         }
 
-        teamData.addProgress(this, add);
+        int currentVaultLevel = PlayerVaultStatsData.get(player.getLevel()).getVaultStats(player).getVaultLevel();
+
+        if (currentVaultLevel >= value) {
+            long progressToAdd = value - teamData.getProgress(this);
+            if (progressToAdd > 0) {
+                teamData.addProgress(this, progressToAdd);
+            }
+        }
     }
 
     @Override

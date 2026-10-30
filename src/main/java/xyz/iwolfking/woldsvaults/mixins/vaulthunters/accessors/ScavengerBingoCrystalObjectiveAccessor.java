@@ -18,4 +18,13 @@ public interface ScavengerBingoCrystalObjectiveAccessor {
 
     @Accessor("modifierPool")
     void setModifierPool(ResourceLocation pool);
+
+    @Accessor
+    float getObjectiveProbability();
+
+    @Accessor
+    int getWidth();
+
+    @Accessor
+    int getHeight();
 }

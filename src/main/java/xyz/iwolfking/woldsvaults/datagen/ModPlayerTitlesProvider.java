@@ -159,6 +159,7 @@ public class ModPlayerTitlesProvider extends AbstractPlayerTitlesProvider {
         addPrefix("dazzling_prefix", "Dazzling ", "#FFFACD", 2,new VaultLevelDiscovery(85));
         addPrefix("silken_prefix", "Silken ", "#F5F5DC", 2, new ThemeCustomisationDiscovery("Sporegrove"));
         addPrefix("moonlit_prefix", "Moonlit ", "#E0FFFF", 2, new ThemeCustomisationDiscovery("Spooky"));
+        addPrefix("princess_prefix", "Princess ", "#EBDEF0", 2, new VaultLevelDiscovery(15));
 
 
         addSuffix("first_flame_suffix", " of the First Flame", "#E74C3C", 2, new ArtifactCustomisationDiscovery(1));

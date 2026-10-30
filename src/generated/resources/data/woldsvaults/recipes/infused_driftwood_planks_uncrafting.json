@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:infused_driftwood_planks"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:infused_driftwood",
+    "count": 4
+  }
+}

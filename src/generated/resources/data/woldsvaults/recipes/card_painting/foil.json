@@ -1,0 +1,15 @@
+{
+  "type": "woldsvaults:card_painting",
+  "itemInput": {
+    "ingredient": {
+      "item": "the_vault:card"
+    }
+  },
+  "chemicalInput": {
+    "amount": 500,
+    "pigment": "woldsvaults:foil_pigment"
+  },
+  "output": {
+    "item": "the_vault:card"
+  }
+}

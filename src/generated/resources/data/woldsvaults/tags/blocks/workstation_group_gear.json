@@ -1,0 +1,37 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "the_vault:vault_forge",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_anvil",
+      "required": false
+    },
+    {
+      "id": "the_vault:etching_application_table",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_enchanter",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_recycler",
+      "required": false
+    },
+    {
+      "id": "the_vault:unique_wardrobe",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:vault_salvager",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_artisan_station",
+      "required": false
+    }
+  ]
+}

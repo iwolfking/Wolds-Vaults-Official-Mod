@@ -1,10 +1,16 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.sigil.SigilDefinitionsConfig;
 import iskallia.vault.core.vault.Modifiers;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.init.ModConfigs;
 import net.minecraft.resources.ResourceLocation;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SigilUtils {
@@ -27,6 +33,21 @@ public class SigilUtils {
         }
 
 
+    }
+
+    public static float getDifficultyMultiplier(@Nullable String sigil) {
+        if(sigil == null) {
+            return 1.0F;
+        }
+
+        Optional<SigilDefinitionsConfig.SigilDefinition> definition = ModConfigs.SIGIL_DEFINITIONS.get(sigil.toLowerCase());
+
+        if(definition.isEmpty()) {
+            WoldLogger.warn("Sigil '{}' has no entry in sigils/definitions.json, counting its difficulty as 0", sigil);
+            return 1.0F;
+        }
+
+        return 1.0F + definition.get().getDifficulty();
     }
 
     public static int getStackCountForSigil(String sigil) {

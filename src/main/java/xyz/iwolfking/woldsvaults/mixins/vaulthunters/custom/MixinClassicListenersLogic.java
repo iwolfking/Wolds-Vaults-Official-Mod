@@ -6,22 +6,28 @@ import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.entry.LevelEntryList;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.WorldManager;
 import iskallia.vault.core.vault.player.ClassicListenersLogic;
+import iskallia.vault.gear.trinket.TrinketEffect;
+import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.gear.VaultCharmItem;
 import iskallia.vault.item.gear.VaultNecklaceItem;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.expertise.type.TrinketerExpertise;
 import iskallia.vault.world.data.PlayerExpertisesData;
+import java.util.List;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.util.Optional;
 import java.util.Set;
@@ -77,6 +83,20 @@ public class MixinClassicListenersLogic {
         if(key.equals("scaling_ballistic_bingo")) {
             cir.setReturnValue("Ballistic Bingo");
         }
+        if(key.equals("scaling_scavenger_bingo")) {
+            cir.setReturnValue("Collector");
+        }
+    }
+
+    @WrapOperation(method = "lambda$shouldAddFree$31", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourceLocation;equals(Ljava/lang/Object;)Z", ordinal = 0))
+    private static boolean combinedTrinketCountsAsTrinket(ResourceLocation instance, Object pOther, Operation<Boolean> original) {
+        if(pOther instanceof ResourceLocation stackId) {
+            if(stackId.equals(ModItems.COMBINED_TRINKET.getRegistryName()) && instance.equals(iskallia.vault.init.ModItems.TRINKET.getRegistryName())) {
+                return true;
+            }
+        }
+
+        return original.call(instance, pOther);
     }
 
     @WrapOperation(method = {"printJoinMessage", "lambda$initServer$1"/*leave*/}, at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/ClassicListenersLogic;getVaultObjective(Ljava/lang/String;)Ljava/lang/String;"))
@@ -111,5 +131,19 @@ public class MixinClassicListenersLogic {
         }
 
         return original.call(instance, key);
+    }
+
+    @WrapOperation(method = "lambda$onJoin$19", at = @At(value = "INVOKE",
+            target = "Liskallia/vault/gear/trinket/TrinketHelper;getTrinkets(Lnet/minecraft/world/entity/LivingEntity;)Ljava/util/List;"))
+    private List<TrinketHelper.TrinketStack<TrinketEffect<?>>> skipPersonalTrinketUsesInRoyale(LivingEntity entity,
+            Operation<List<TrinketHelper.TrinketStack<TrinketEffect<?>>>> original, @Local(argsOnly = true) Vault vault) {
+        return VaultUtils.isRoyaleVault(vault) ? List.of() : original.call(entity);
+    }
+
+    @WrapOperation(method = "lambda$onJoin$19", at = @At(value = "INVOKE",
+            target = "Liskallia/vault/gear/trinket/TrinketHelper;getTrinkets(Lnet/minecraft/world/entity/LivingEntity;Ljava/lang/Class;)Ljava/util/List;"))
+    private <T extends TrinketEffect<?>> List<TrinketHelper.TrinketStack<T>> skipPersonalTimeBonusInRoyale(LivingEntity entity,
+            Class<T> effectClass, Operation<List<TrinketHelper.TrinketStack<T>>> original, @Local(argsOnly = true) Vault vault) {
+        return VaultUtils.isRoyaleVault(vault) ? List.of() : original.call(entity, effectClass);
     }
 }

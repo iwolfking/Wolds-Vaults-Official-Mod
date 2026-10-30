@@ -1,0 +1,300 @@
+{
+  "modifierGroup": {
+    "UNUSUAL_PREFIX": [
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModDurability",
+        "identifier": "the_vault:corrosive",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:corrosive"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModDurability",
+        "identifier": "the_vault:extra_reinforced",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:extra_reinforced"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModMiningSpeed",
+        "identifier": "the_vault:tired",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:tired"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:leech",
+        "group": "ModLeech",
+        "identifier": "the_vault:mod_leech_unusual",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 50,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "min": 0.01,
+              "max": 0.02,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 75,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "min": 0.02,
+              "max": 0.03,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 90,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "min": 0.03,
+              "max": 0.035,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModGods",
+        "identifier": "the_vault:blessed",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:blessed"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModFrenzy",
+        "identifier": "the_vault:frenzy",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:kill_frostnova"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModJump",
+        "identifier": "the_vault:jumpy_deluxe",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:jumpy_deluxe"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModMobDeath",
+        "identifier": "the_vault:kill_nova",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:kill_nova"
+            }
+          }
+        ]
+      }
+    ],
+    "UNUSUAL_SUFFIX": [
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModMobCrit",
+        "identifier": "the_vault:no_crit_mobs",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:no_crit_mobs"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModHunters",
+        "identifier": "the_vault:door_hunter",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:door_hunter"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModRetro",
+        "identifier": "the_vault:sweet_retro",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:sweet_retro"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModUnique",
+        "identifier": "the_vault:hunger",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:kill_frostnova"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModUnique",
+        "identifier": "the_vault:haunted_mansion",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:haunted_mansion"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModMobDeath",
+        "identifier": "the_vault:kill_frostnova",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:kill_frostnova"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:static_modifier",
+        "group": "ModUnique",
+        "identifier": "the_vault:backwards",
+        "tags": [
+          "noLegendary"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "the_vault:backwards"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

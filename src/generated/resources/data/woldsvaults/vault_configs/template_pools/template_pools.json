@@ -21,6 +21,186 @@
       "1.0": "woldsvaults:sculk_rooms"
     },
     {
+      "id": "woldsvaults:mystical_forest_common_rooms",
+      "name": "Mystical Forest Common Rooms",
+      "1.0": "woldsvaults:mystical_forest_common_rooms"
+    },
+    {
+      "id": "woldsvaults:mystical_forest_tunnels",
+      "name": "Mystical Forest Tunnels",
+      "1.0": "woldsvaults:mystical_forest_tunnels"
+    },
+    {
+      "id": "woldsvaults:mystical_forest_starts",
+      "name": "Mystical Forest Starts",
+      "1.0": "woldsvaults:mystical_forest_starts"
+    },
+    {
+      "id": "woldsvaults:mystical_forest_rooms",
+      "name": "Mystical Forest Rooms",
+      "1.0": "woldsvaults:mystical_forest_rooms"
+    },
+    {
+      "id": "woldsvaults:occult_common_rooms",
+      "name": "Occult Common Rooms",
+      "1.0": "woldsvaults:occult_common_rooms"
+    },
+    {
+      "id": "woldsvaults:occult_tunnels",
+      "name": "Occult Tunnels",
+      "1.0": "woldsvaults:occult_tunnels"
+    },
+    {
+      "id": "woldsvaults:occult_starts",
+      "name": "Occult Starts",
+      "1.0": "woldsvaults:occult_starts"
+    },
+    {
+      "id": "woldsvaults:occult_rooms",
+      "name": "Occult Rooms",
+      "1.0": "woldsvaults:occult_rooms"
+    },
+    {
+      "id": "woldsvaults:botanic_temple_common_rooms",
+      "name": "Botanic Temple Common Rooms",
+      "1.0": "woldsvaults:botanic_temple_common_rooms"
+    },
+    {
+      "id": "woldsvaults:botanic_temple_tunnels",
+      "name": "Botanic Temple Tunnels",
+      "1.0": "woldsvaults:botanic_temple_tunnels"
+    },
+    {
+      "id": "woldsvaults:botanic_temple_starts",
+      "name": "Botanic Temple Starts",
+      "1.0": "woldsvaults:botanic_temple_starts"
+    },
+    {
+      "id": "woldsvaults:botanic_temple_rooms",
+      "name": "Botanic Temple Rooms",
+      "1.0": "woldsvaults:botanic_temple_rooms"
+    },
+    {
+      "id": "woldsvaults:create_factory_common_rooms",
+      "name": "Create Factory Common Rooms",
+      "1.0": "woldsvaults:create_factory_common_rooms"
+    },
+    {
+      "id": "woldsvaults:create_factory_tunnels",
+      "name": "Create Factory Tunnels",
+      "1.0": "woldsvaults:create_factory_tunnels"
+    },
+    {
+      "id": "woldsvaults:create_factory_starts",
+      "name": "Create Factory Starts",
+      "1.0": "woldsvaults:create_factory_starts"
+    },
+    {
+      "id": "woldsvaults:create_factory_rooms",
+      "name": "Create Factory Rooms",
+      "1.0": "woldsvaults:create_factory_rooms"
+    },
+    {
+      "id": "woldsvaults:ie_factory_common_rooms",
+      "name": "Ie Factory Common Rooms",
+      "1.0": "woldsvaults:ie_factory_common_rooms"
+    },
+    {
+      "id": "woldsvaults:ie_factory_tunnels",
+      "name": "Ie Factory Tunnels",
+      "1.0": "woldsvaults:ie_factory_tunnels"
+    },
+    {
+      "id": "woldsvaults:ie_factory_starts",
+      "name": "Ie Factory Starts",
+      "1.0": "woldsvaults:ie_factory_starts"
+    },
+    {
+      "id": "woldsvaults:ie_factory_rooms",
+      "name": "Ie Factory Rooms",
+      "1.0": "woldsvaults:ie_factory_rooms"
+    },
+    {
+      "id": "woldsvaults:thermal_factory_common_rooms",
+      "name": "Thermal Factory Common Rooms",
+      "1.0": "woldsvaults:thermal_factory_common_rooms"
+    },
+    {
+      "id": "woldsvaults:thermal_factory_tunnels",
+      "name": "Thermal Factory Tunnels",
+      "1.0": "woldsvaults:thermal_factory_tunnels"
+    },
+    {
+      "id": "woldsvaults:thermal_factory_starts",
+      "name": "Thermal Factory Starts",
+      "1.0": "woldsvaults:thermal_factory_starts"
+    },
+    {
+      "id": "woldsvaults:thermal_factory_rooms",
+      "name": "Thermal Factory Rooms",
+      "1.0": "woldsvaults:thermal_factory_rooms"
+    },
+    {
+      "id": "woldsvaults:pnc_factory_common_rooms",
+      "name": "Pnc Factory Common Rooms",
+      "1.0": "woldsvaults:pnc_factory_common_rooms"
+    },
+    {
+      "id": "woldsvaults:pnc_factory_tunnels",
+      "name": "Pnc Factory Tunnels",
+      "1.0": "woldsvaults:pnc_factory_tunnels"
+    },
+    {
+      "id": "woldsvaults:pnc_factory_starts",
+      "name": "Pnc Factory Starts",
+      "1.0": "woldsvaults:pnc_factory_starts"
+    },
+    {
+      "id": "woldsvaults:pnc_factory_rooms",
+      "name": "Pnc Factory Rooms",
+      "1.0": "woldsvaults:pnc_factory_rooms"
+    },
+    {
+      "id": "woldsvaults:mekanism_factory_common_rooms",
+      "name": "Mekanism Factory Common Rooms",
+      "1.0": "woldsvaults:mekanism_factory_common_rooms"
+    },
+    {
+      "id": "woldsvaults:mekanism_factory_tunnels",
+      "name": "Mekanism Factory Tunnels",
+      "1.0": "woldsvaults:mekanism_factory_tunnels"
+    },
+    {
+      "id": "woldsvaults:mekanism_factory_starts",
+      "name": "Mekanism Factory Starts",
+      "1.0": "woldsvaults:mekanism_factory_starts"
+    },
+    {
+      "id": "woldsvaults:mekanism_factory_rooms",
+      "name": "Mekanism Factory Rooms",
+      "1.0": "woldsvaults:mekanism_factory_rooms"
+    },
+    {
+      "id": "woldsvaults:if_factory_common_rooms",
+      "name": "If Factory Common Rooms",
+      "1.0": "woldsvaults:if_factory_common_rooms"
+    },
+    {
+      "id": "woldsvaults:if_factory_tunnels",
+      "name": "If Factory Tunnels",
+      "1.0": "woldsvaults:if_factory_tunnels"
+    },
+    {
+      "id": "woldsvaults:if_factory_starts",
+      "name": "If Factory Starts",
+      "1.0": "woldsvaults:if_factory_starts"
+    },
+    {
+      "id": "woldsvaults:if_factory_rooms",
+      "name": "If Factory Rooms",
+      "1.0": "woldsvaults:if_factory_rooms"
+    },
+    {
       "id": "woldsvaults:astral_common_rooms",
       "name": "Astral Common Rooms",
       "1.0": "woldsvaults:astral_common_rooms"

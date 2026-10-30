@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
@@ -15,7 +16,7 @@ import xyz.iwolfking.woldsvaults.init.ModItems;
 public class MissingMappingsEvents {
     @SubscribeEvent
     public static void onMissingMappings(RegistryEvent.MissingMappings<Block> event) {
-        WoldsVaults.LOGGER.info("Running remapping event for blocks");
+        WoldLogger.debug("Running remapping event for blocks");
             event.getMappings("kubejs").forEach(mapping -> {
                 remapUnobtaniumBlock(mapping);
                 if(mapping.key.equals(ResourceLocation.fromNamespaceAndPath("kubejs", "rainbow_unobtanium_block"))) {
@@ -97,7 +98,7 @@ public class MissingMappingsEvents {
 
     @SubscribeEvent
     public static void onMissingMappingsItem(RegistryEvent.MissingMappings<Item> event) {
-        WoldsVaults.LOGGER.info("Running remapping event for items");
+        WoldLogger.debug("Running remapping event for items");
         event.getMappings("kubejs").forEach(mapping -> {
             if(mapping.key.equals(ResourceLocation.fromNamespaceAndPath("kubejs", "rainbow_unobtanium_block"))) {
                 mapping.remap(ModBlocks.RAINBOW_UNOBTANIUM.asItem());

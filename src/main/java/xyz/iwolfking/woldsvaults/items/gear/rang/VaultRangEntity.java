@@ -1,7 +1,9 @@
 package xyz.iwolfking.woldsvaults.items.gear.rang;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import iskallia.vault.entity.entity.FloatingItemEntity;
+import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.core.BlockPos;
@@ -52,6 +54,7 @@ import vazkii.quark.base.handler.QuarkSounds;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModSounds;
+import xyz.iwolfking.woldsvaults.integration.bettercombat.DualWieldSnapshotManager;
 import xyz.iwolfking.woldsvaults.items.gear.VaultRangItem;
 
 import javax.annotation.Nonnull;
@@ -344,7 +347,7 @@ public class VaultRangEntity extends Projectile {
         double nearestDistance = Double.MAX_VALUE;
 
         for (LivingEntity candidate : this.level.getEntitiesOfClass(LivingEntity.class, searchBox)) {
-            if (!candidate.isAlive() || candidate.isSpectator() || candidate instanceof Player) {
+            if (!candidate.isAlive() || candidate.isSpectator() || candidate instanceof Player || candidate instanceof PetEntity) {
                 continue;
             }
             if (candidate == thrower || candidate == lastHit) {
@@ -487,34 +490,83 @@ public class VaultRangEntity extends Projectile {
         boolean clanked = false;
 
         if (owner != null) {
-            ItemStack prev = owner.getMainHandItem();
-            owner.setItemInHand(InteractionHand.MAIN_HAND, rang);
-            owner.getAttributes().addTransientAttributeModifiers(modifiers);
-
-            int ticksSinceLastSwing = owner.attackStrengthTicker;
-            owner.attackStrengthTicker = (int) (1.0D / owner.getAttributeValue(Attributes.ATTACK_SPEED) * 20.0D) + 1;
-
-            float prevHealth = hit instanceof LivingEntity le ? le.getHealth() : 0.0F;
-
             VaultRangLogic.setActiveRang(this);
+            int ticksSinceLastSwing = owner.attackStrengthTicker;
+            try {
+                if (owner instanceof Player player) {
+                    this.hits++;
 
-            if (owner instanceof Player player) {
-                this.hits++;
-                AttributeSnapshotHelper.getInstance().refreshSnapshot((ServerPlayer) player);
-                if (this.entityData.get(RETURNING) && this.hits > 1 && this.returningDamage > 0.0F) {
-                    hit.hurt(DamageSource.playerAttack(player), (float) (owner.getAttributeValue(Attributes.ATTACK_DAMAGE) * (1.0F + this.returningDamage)));
+                    boolean offhandThrow = owner instanceof ServerPlayer
+                            && this.slot == player.getInventory().getContainerSize() - 1;
+
+                    ItemStack mainHand = owner.getMainHandItem();
+                    Multimap<Attribute, AttributeModifier> mainHandModifiers = mainHand.getAttributeModifiers(EquipmentSlot.MAINHAND);
+                    Multimap<Attribute, AttributeModifier> rangModifiers = this.getStack().getAttributeModifiers(EquipmentSlot.MAINHAND);
+
+                    Multimap<Attribute, AttributeModifier> mainHandDamageModifiers = ArrayListMultimap.create();
+                    mainHandDamageModifiers.putAll(Attributes.ATTACK_DAMAGE, mainHandModifiers.get(Attributes.ATTACK_DAMAGE));
+
+                    Multimap<Attribute, AttributeModifier> rangDamageModifiers = ArrayListMultimap.create();
+                    for (AttributeModifier modifier : rangModifiers.get(Attributes.ATTACK_DAMAGE)) {
+                        rangDamageModifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(
+                                UUID.randomUUID(),
+                                modifier.getName(),
+                                modifier.getAmount(),
+                                modifier.getOperation()
+                        ));
+                    }
+
+                    Runnable attack = () -> {
+                        int previousTicker = owner.attackStrengthTicker;
+
+                        try {
+                            owner.attackStrengthTicker = 1000;
+
+                            if (this.entityData.get(RETURNING) && this.hits > 1 && this.returningDamage > 0.0F) {
+                                hit.hurt(DamageSource.playerAttack(player), (float) (owner.getAttributeValue(Attributes.ATTACK_DAMAGE) * (1.0F + this.returningDamage)));
+                            } else {
+                                if (offhandThrow && hit instanceof LivingEntity living) {
+                                    living.invulnerableTime = 0;
+                                }
+
+                                player.attack(hit);
+                            }
+                        } finally {
+                            owner.attackStrengthTicker = previousTicker;
+                        }
+                    };
+
+                    if (offhandThrow) {
+                        if (!mainHandDamageModifiers.isEmpty()) {
+                            owner.getAttributes().removeAttributeModifiers(mainHandDamageModifiers);
+                        }
+                        if (!rangDamageModifiers.isEmpty()) {
+                            owner.getAttributes().addTransientAttributeModifiers(rangDamageModifiers);
+                        }
+                    }
+
+                    try {
+                        if (offhandThrow) {
+                            DualWieldSnapshotManager.withOffhandSnapshot((ServerPlayer) player, attack);
+                        } else {
+                            attack.run();
+                        }
+                    } finally {
+                        if (offhandThrow) {
+                            if (!rangDamageModifiers.isEmpty()) {
+                                owner.getAttributes().removeAttributeModifiers(rangDamageModifiers);
+                            }
+                            if (!mainHandDamageModifiers.isEmpty()) {
+                                owner.getAttributes().addTransientAttributeModifiers(mainHandDamageModifiers);
+                            }
+                        }
+                    }
                 } else {
-                    player.attack(hit);
+                    owner.doHurtTarget(hit);
                 }
-            } else {
-                owner.doHurtTarget(hit);
+            } finally {
+                VaultRangLogic.setActiveRang(null);
             }
-
-            if (hit instanceof LivingEntity le && le.getHealth() == prevHealth && hit.getType() != TARGET_DUMMY) {
-                clanked = true;
-            }
-
-            VaultRangLogic.setActiveRang(null);
 
             owner.attackStrengthTicker = ticksSinceLastSwing;
             if (this.getLevel().dimension().location().getNamespace().equals("the_vault")) {
@@ -523,9 +575,6 @@ public class VaultRangEntity extends Projectile {
                 }
             }
 
-            this.setStack(owner.getMainHandItem());
-            owner.setItemInHand(InteractionHand.MAIN_HAND, prev);
-            owner.getAttributes().addTransientAttributeModifiers(modifiers);
         } else {
             AttributeSupplier.Builder mapBuilder = new AttributeSupplier.Builder();
             mapBuilder.add(Attributes.ATTACK_DAMAGE, 1);
@@ -636,6 +685,7 @@ public class VaultRangEntity extends Projectile {
         this.noPhysics = true;
 
         List<ItemEntity> items = this.level.getEntitiesOfClass(ItemEntity.class, this.getBoundingBox().inflate(2));
+        items.removeIf(itemEntity -> itemEntity.getTags().contains("fake_item") || itemEntity.getTags().contains("PreventMagnetMovement"));
         List<ExperienceOrb> xp = this.level.getEntitiesOfClass(ExperienceOrb.class, this.getBoundingBox().inflate(2));
 
         Vec3 ourPos = this.position();
@@ -669,6 +719,9 @@ public class VaultRangEntity extends Projectile {
                     int placeholderSlot = this.findInFlightPlaceholderSlot(inventory);
                     if (placeholderSlot >= 0) {
                         inventory.setItem(placeholderSlot, stack);
+                        if(stack.getItem() instanceof VaultRangItem rangItem) {
+                            rangItem.addCooldown(stack, player);
+                        }
                     }
                 }
 
@@ -751,6 +804,10 @@ public class VaultRangEntity extends Projectile {
 
     @Override
     protected boolean canAddPassenger(@Nonnull Entity passenger) {
+        if (passenger.getTags().contains("fake_item") || passenger.getTags().contains("PreventMagnetMovement")) {
+            return false;
+        }
+
         return super.canAddPassenger(passenger) || passenger instanceof ItemEntity || passenger instanceof ExperienceOrb;
     }
 

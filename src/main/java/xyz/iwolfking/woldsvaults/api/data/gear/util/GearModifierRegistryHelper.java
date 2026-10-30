@@ -8,6 +8,7 @@ import iskallia.vault.gear.attribute.config.IntegerAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.effect.EffectCloudAttribute;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ModifierGearTierAccessor;
 
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class GearModifierRegistryHelper {
     }
 
     private static void logInvalidModifierTier() {
-        WoldsVaults.LOGGER.warn(INVALID_MODIFIER_TIER);
+        WoldLogger.warn(INVALID_MODIFIER_TIER);
     }
 
 }

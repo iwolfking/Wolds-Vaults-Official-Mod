@@ -85,9 +85,6 @@ public class GroupSynergyDeckModifier extends DeckModifier<GroupSynergyDeckModif
         return false;
     }
 
-    /* ------------------------------
-       CONFIG CLASS
-       ------------------------------ */
     public static class Config extends DeckModifier.Config {
 
         private List<String> synergyGroups;

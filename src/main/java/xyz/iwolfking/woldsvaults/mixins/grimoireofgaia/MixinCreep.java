@@ -29,8 +29,5 @@ public abstract class MixinCreep extends AbstractGaiaEntity implements Powerable
 
     @Redirect(method = "explodeCreep", at = @At(value = "INVOKE", target = "Lgaia/entity/Creep;spawnLingeringCloud(Ljava/util/List;)V"))
     private void fixLingeringCloud(Creep instance, List<MobEffectInstance> list) {
-        ArrayList<MobEffectInstance> effects = new ArrayList<>(list);
-        effects.removeIf(mobEffectInstance -> !mobEffectInstance.getEffect().getRegistryName().getNamespace().equals("minecraft"));
-        this.spawnLingeringCloud(effects);
     }
 }

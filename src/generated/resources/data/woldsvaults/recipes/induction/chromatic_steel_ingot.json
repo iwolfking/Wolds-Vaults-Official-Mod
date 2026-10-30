@@ -1,0 +1,18 @@
+{
+  "type": "thermal:smelter",
+  "ingredients": [
+    {
+      "item": "the_vault:chromatic_iron_ingot"
+    },
+    {
+      "item": "the_vault:carbon",
+      "count": 2
+    }
+  ],
+  "result": [
+    {
+      "item": "the_vault:chromatic_steel_ingot"
+    }
+  ],
+  "energy": 6400
+}

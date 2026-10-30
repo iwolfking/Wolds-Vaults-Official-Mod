@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.modifiers.deck;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import iskallia.vault.client.gui.screen.CardDeckScreen;
 import iskallia.vault.core.card.Card;
 import iskallia.vault.core.card.CardDeck;
 import iskallia.vault.core.card.CardPos;
@@ -25,14 +24,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.modifiers.deck.lib.IRemovableSlotModifier;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class CreateGroupSlotDeckModifier extends DeckModifier<CreateGroupSlotDeckModifier.Config> implements IPopulateOnApplyModifier, ISlotModifier {
+public class CreateGroupSlotDeckModifier extends DeckModifier<CreateGroupSlotDeckModifier.Config> implements IPopulateOnApplyModifier, ISlotModifier, IRemovableSlotModifier {
     private List<CardPos> affectedSlots = new ArrayList<>();
     private int slotRoll;
 
@@ -201,6 +200,17 @@ public class CreateGroupSlotDeckModifier extends DeckModifier<CreateGroupSlotDec
         }
 
         this.slotRoll = Adapters.INT_SEGMENTED_7.readBits(buffer).orElse(((SlotDeckModifier.Config)this.getConfig()).slotRoll.get(JavaRandom.ofNanoTime()));
+    }
+
+    @Override
+    public void onRemove(CardDeck deck) {
+        this.affectedSlots.forEach(cardPos -> {
+            deck.getSlots().forEach(deckSlot -> {
+                if(deckSlot.equals(cardPos)) {
+                    deckSlot.allowedGroups.clear();
+                }
+            });
+        });
     }
 
 

@@ -58,7 +58,7 @@ public class MobBuffTrapEffect extends VaultChestEffect {
       }
 
       if (!mobs.isEmpty()) {
-         world.playSound(null, chestPos, SoundEvents.WOLF_HOWL, SoundSource.HOSTILE, 1.0F, 0.5F);
+         world.playSound(null, chestPos, SoundEvents.WOLF_HOWL, SoundSource.HOSTILE, 0.25F, 0.5F);
       }
    }
 }

@@ -25,8 +25,8 @@ public abstract class MixinModAbilityLabelBindings {
                 ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks()),
                 "manaCost",
                 ability -> AbilityLabelFormatters.integer((int) ability.getManaCost()),
-                "duration",
-                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks())
+                "adjustedDuration",
+                ability -> AbilityLabelFormatters.ticks(ability.getUnmodifiedDurationTicks())
 
         ));
         ModAbilityLabelBindings.register(SneakyGetawayAbility.class, Map.of(
@@ -38,8 +38,8 @@ public abstract class MixinModAbilityLabelBindings {
                 ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks()),
                 "manaCost",
                 ability -> AbilityLabelFormatters.integer((int) ability.getManaCost()),
-                "duration",
-                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks())
+                "adjustedDuration",
+                ability -> AbilityLabelFormatters.ticks(ability.getUnmodifiedDurationTicks())
 
         ));
         ModAbilityLabelBindings.register(VeinMinerChainAbility.class, Map.of(
@@ -84,6 +84,56 @@ public abstract class MixinModAbilityLabelBindings {
                 "manaCost",
                 ability -> AbilityLabelFormatters.integer((int) ability.getManaCost())
         ));
+
+        ModAbilityLabelBindings.register(EvokerFangsAbility.class, Map.of(
+                "radius",
+                ability -> AbilityLabelFormatters.decimal(ability.getRadius()),
+                "adjustedRadius",
+                ability -> AbilityLabelFormatters.decimal(ability.getRadius()),
+                "baseDamage",
+                ability -> AbilityLabelFormatters.decimal(ability.getBaseDamage()),
+                "damageMultiplier",
+                ability -> AbilityLabelFormatters.percentTwoDecimalPlaces(ability.getDamageMultiplier()),
+                "executeThreshold",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getExecuteThreshold()),
+                "cooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks()),
+                "manaCost",
+                ability -> AbilityLabelFormatters.integer((int) ability.getManaCost())
+        ));
+
+        ModAbilityLabelBindings.register(EvokerFangsMawAbility.class, Map.of(
+                "radius",
+                ability -> AbilityLabelFormatters.decimal(ability.getRadius()),
+                "adjustedRadius",
+                ability -> AbilityLabelFormatters.decimal(ability.getRadius()),
+                "baseDamage",
+                ability -> AbilityLabelFormatters.decimal(ability.getBaseDamage()),
+                "damageMultiplier",
+                ability -> AbilityLabelFormatters.percentTwoDecimalPlaces(ability.getDamageMultiplier()),
+                "effectAmplifier",
+                ability -> AbilityLabelFormatters.integer(ability.getEffectAmplifier()),
+                "heartFragmentChance",
+                ability -> AbilityLabelFormatters.percentTwoDecimalPlaces(ability.getHeartFragmentChance()),
+                "cooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks()),
+                "manaCost",
+                ability -> AbilityLabelFormatters.integer((int) ability.getManaCost())
+        ));
+
+        ModAbilityLabelBindings.register(UltimateShieldAbility.class, Map.of(
+                "percentageDamageAbsorbed",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getPercentageDamageAbsorbed()),
+                "manaPerDamageScalar",
+                ability -> AbilityLabelFormatters.decimal(ability.getManaPerDamageScalar()),
+                "baseManaDrainPerTick",
+                ability -> AbilityLabelFormatters.decimal(ability.getBaseManaDrainPerTick()),
+                "manaDrainRampPerSecond",
+                ability -> AbilityLabelFormatters.percentTwoDecimalPlaces(ability.getManaDrainRampPerSecond()),
+                "cooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
 
 
     }

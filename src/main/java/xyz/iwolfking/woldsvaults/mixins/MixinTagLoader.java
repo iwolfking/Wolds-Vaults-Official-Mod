@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 
 import java.util.HashSet;
@@ -44,7 +45,7 @@ public class MixinTagLoader {
             try {
                 allItems.addAll(ThemeBlockRetriever.getBlocksForTheme(theme.getId()));
             } catch (Exception e) {
-                WoldsVaults.LOGGER.error(e.toString());
+                WoldLogger.error(e.toString());
             }
         }
 

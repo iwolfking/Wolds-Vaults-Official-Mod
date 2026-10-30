@@ -22,6 +22,9 @@ public class ModChampionsProvider extends AbstractChampionProvider {
                 attributeOverrideBasicListBuilder.add(new ChampionsConfig.AttributeOverride("minecraft:generic.max_health", 5.0, "multiply"));
                 attributeOverrideBasicListBuilder.add(new ChampionsConfig.AttributeOverride("minecraft:generic.attack_damage", 2.0, "multiply"));
             });
+
+            builder.addChampionChance(EntityPredicate.of("the_vault:skeleton_gladiator", false).orElse(EntityPredicate.FALSE), -10.0F);
+
         });
     }
 }

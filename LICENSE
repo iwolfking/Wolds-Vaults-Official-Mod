@@ -6,3 +6,8 @@ This program is free software: you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+In addition, the BMO model and textures listed below are under All Rights Reserved license, only to be used inside this project without any further permission from the creator, QiyanaMark:
+assets/woldsvaults/animations/bmo.animation.json
+assets/woldsvaults/geo/companion/bmo.geo.json
+assets/woldsvaults/textures/entity/bmo.png

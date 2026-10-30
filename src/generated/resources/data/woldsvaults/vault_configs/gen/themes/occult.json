@@ -1,0 +1,14 @@
+{
+  "type": "classic_vault",
+  "starts": "woldsvaults:occult_starts",
+  "rooms": "woldsvaults:occult_rooms",
+  "tunnels": "woldsvaults:occult_tunnels",
+  "ambient_light": 0.15,
+  "fog_color": 2819336,
+  "grass_color": 3874851,
+  "foliage_color": 3874851,
+  "water_color": 4849664,
+  "water_fog_color": 2031616,
+  "particle": "minecraft:ambient_entity_effect",
+  "particle_probability": 0.002
+}

@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.core.vault.influence.VaultGod;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
@@ -162,6 +163,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         simpleBlock(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK,
                 models().getExistingFile(mcLoc("block/crafting_table")));
+
+        decoGodAltar(ModBlocks.DECO_IDONA_ALTAR_BLOCK, VaultGod.IDONA);
+        decoGodAltar(ModBlocks.DECO_TENOS_ALTAR_BLOCK, VaultGod.TENOS);
+        decoGodAltar(ModBlocks.DECO_WENDARR_ALTAR_BLOCK, VaultGod.WENDARR);
+        decoGodAltar(ModBlocks.DECO_VELARA_ALTAR_BLOCK, VaultGod.VELARA);
     }
 
     private void slabBlockWithItem(SlabBlock block, ResourceLocation texture) {
@@ -295,6 +301,25 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 vbb.partialState().modelForState().modelFile(existingModel).rotationY(270).build());
 
         itemModels().withExistingParent("augment_crafting_table", modLoc("block/augment_crafting_table"));
+    }
+
+    private void decoGodAltar(Block variant, VaultGod god) {
+        VariantBlockStateBuilder vbb = this.getVariantBuilder(variant);
+        ModelFile existingModel = models().getExistingFile(VaultMod.id("block/god_altar/" + god.getName().toLowerCase()));
+
+        vbb.setModels(vbb.partialState().with(AugmentCraftingTableBlock.FACING, Direction.SOUTH),
+                vbb.partialState().modelForState().modelFile(existingModel).build());
+
+        vbb.setModels(vbb.partialState().with(AugmentCraftingTableBlock.FACING, Direction.WEST),
+                vbb.partialState().modelForState().modelFile(existingModel).rotationY(90).build());
+
+        vbb.setModels(vbb.partialState().with(AugmentCraftingTableBlock.FACING, Direction.NORTH),
+                vbb.partialState().modelForState().modelFile(existingModel).rotationY(180).build());
+
+        vbb.setModels(vbb.partialState().with(AugmentCraftingTableBlock.FACING, Direction.EAST),
+                vbb.partialState().modelForState().modelFile(existingModel).rotationY(270).build());
+
+        itemModels().withExistingParent("deco_god_altar_" + god.getName().toLowerCase(), VaultMod.id("block/god_altar/" + god.getName().toLowerCase()));
     }
 
 

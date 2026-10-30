@@ -1,0 +1,30 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "auxiliaryblocks:blue_crystal"
+    },
+    {
+      "item": "auxiliaryblocks:green_crystal"
+    },
+    {
+      "item": "auxiliaryblocks:indigo_crystal"
+    },
+    {
+      "item": "auxiliaryblocks:orange_crystal"
+    },
+    {
+      "item": "auxiliaryblocks:red_crystal"
+    },
+    {
+      "item": "auxiliaryblocks:violet_crystal"
+    },
+    {
+      "item": "auxiliaryblocks:white_crystal"
+    },
+    {
+      "item": "auxiliaryblocks:yellow_crystal"
+    }
+  ],
+  "overwrite": false
+}

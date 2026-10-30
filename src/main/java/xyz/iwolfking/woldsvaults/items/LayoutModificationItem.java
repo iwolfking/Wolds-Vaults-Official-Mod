@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
@@ -163,8 +164,8 @@ public class LayoutModificationItem extends Item
         if (tag.contains(TAG_LAYOUT)) return;
 
         if(!ModConfigs.ETCHED_VAULT_LAYOUT.ETCHED_VAULT_LAYOUTS.containsKey(pool)) {
-            WoldsVaults.LOGGER.warn("Attempted to roll an Etched Vault Layout but pool {} was invalid, please report this to the developer!", pool);
-            WoldsVaults.LOGGER.warn(tag.toString());
+            WoldLogger.error("Attempted to roll an Etched Vault Layout but pool {} was invalid, please report this to the developer!", pool);
+            WoldLogger.error(tag.toString());
             rollLayoutFromLevel("default", level, stack);
             return;
         }

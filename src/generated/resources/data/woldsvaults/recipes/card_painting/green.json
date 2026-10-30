@@ -1,0 +1,16 @@
+{
+  "type": "woldsvaults:card_painting",
+  "itemInput": {
+    "ingredient": {
+      "item": "the_vault:card"
+    }
+  },
+  "chemicalInput": {
+    "amount": 350,
+    "pigment": "woldsvaults:card_paint_green"
+  },
+  "output": {
+    "item": "the_vault:card"
+  },
+  "targetColor": "GREEN"
+}

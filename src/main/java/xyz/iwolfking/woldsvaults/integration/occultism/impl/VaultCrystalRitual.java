@@ -1,0 +1,79 @@
+package xyz.iwolfking.woldsvaults.integration.occultism.impl;
+
+import iskallia.vault.VaultMod;
+import iskallia.vault.core.vault.influence.VaultGod;
+import iskallia.vault.item.crystal.CrystalData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.CrystalDataUtils;
+
+import java.util.Random;
+
+public class VaultCrystalRitual {
+    public static final ResourceLocation EXTENDED = WoldsVaults.id("time_extension");
+    public static final ResourceLocation RANDOM_CHALLENGE_INSCRIPTION = WoldsVaults.id("random_challenge_inscription");
+    public static final ResourceLocation RANDOM_OMEGA_INSCRIPTION = WoldsVaults.id("random_omega_inscription");
+    public static final ResourceLocation RANDOM_ANY_INSCRIPTION = WoldsVaults.id("random_any_inscription");
+    public static final ResourceLocation RANDOM_RESOURCE_INSCRIPTION = WoldsVaults.id("random_resource_inscription");
+    public static final ResourceLocation RANDOM_ZEALOT_VAULT = WoldsVaults.id("create_zealot_crystal");
+
+    public static ItemStack invokeRitual(ResourceLocation type, ItemStack crystalStack) {
+        ItemStack output = crystalStack.copy();
+        if (output == ItemStack.EMPTY) { // do not modify the shared empty stack (idk how we get here)
+//            WoldLogger.error("ItemStack.EMPTY for {} ritual", type);
+            return output;
+        }
+
+        CrystalData.run(output, data -> {
+            if (type.equals(EXTENDED)) {
+                timeExtensionRitual(data);
+            } else if (type.equals(RANDOM_CHALLENGE_INSCRIPTION)) {
+                randomInscription(data, output, WoldsVaults.id("challenge_rooms"), 0.5F);
+            } else if (type.equals(RANDOM_OMEGA_INSCRIPTION)) {
+                randomInscription(data, output, WoldsVaults.id("omega_rooms"), 0.75F);
+            } else if (type.equals(RANDOM_ANY_INSCRIPTION)) {
+                randomInscription(data, output, WoldsVaults.id("all_rooms"), 0.15F);
+            } else if (type.equals(RANDOM_RESOURCE_INSCRIPTION)) {
+                randomInscription(data, output, WoldsVaults.id("resource_rooms"), 0.1F);
+            }
+            else if (type.equals(RANDOM_ZEALOT_VAULT)) {
+                zealot(data, output);
+            }
+        });
+
+        return output;
+    }
+
+    private static void timeExtensionRitual(CrystalData data) {
+        CrystalDataUtils.addModifier(VaultMod.id("extended"), data, 1);
+        CrystalDataUtils.addModifierFromPool(WoldsVaults.id("wendarr_curses"), data, 0, 1);
+        if (CrystalDataUtils.hasCountOfModifiers(VaultMod.id("extended"), data, 7)) {
+            data.getProperties().setUnmodifiable(true);
+        }
+    }
+
+    private static void randomInscription(CrystalData data, ItemStack crystalStack, ResourceLocation poolId, float breakChance) {
+        Random random = new Random();
+        CrystalDataUtils.addInscriptionFromPool(poolId, data, crystalStack, 0);
+        CrystalDataUtils.addModifierFromPool(WoldsVaults.id("tenos_curses"), data, 0,1);
+        if(random.nextFloat() <= breakChance) {
+            data.getProperties().setUnmodifiable(true);
+        }
+    }
+
+    private static void zealot(CrystalData data, ItemStack output) {
+        Random random = new Random();
+        for(int i = 0; i < 5; i++) {
+            CrystalDataUtils.addInscriptionFromPool(WoldsVaults.id("omega_rooms"), data, output, 0);
+            CrystalDataUtils.addInscriptionFromPool(WoldsVaults.id("challenge_rooms"), data, output, 0);
+        }
+
+        VaultGod god = VaultGod.values()[random.nextInt(0, VaultGod.values().length)];
+        CrystalDataUtils.applyGodCharacteristics(god, data);
+
+        CrystalDataUtils.addModifierFromPool(WoldsVaults.id("god_challenges"), data, 0, 7);
+        CrystalDataUtils.addModifierFromPool(WoldsVaults.id("god_bonuses"), data, 0, 7);
+        data.getProperties().setUnmodifiable(true);
+    }
+}

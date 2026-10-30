@@ -1,49 +1,174 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.VaultGeneralConfig;
+import iskallia.vault.core.Version;
 import iskallia.vault.core.event.CommonEvents;
+import iskallia.vault.core.event.common.CrateAwardEvent;
 import iskallia.vault.core.event.common.FruitEatenEvent;
+import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultLevel;
+import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
+import iskallia.vault.core.vault.objective.AwardCrateObjective;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
+import iskallia.vault.core.world.loot.generator.LootTableGenerator;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.init.ModItems;
 import iskallia.vault.skill.base.LearnableSkill;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.ExpertiseTree;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.InventoryUtil;
-import iskallia.vault.util.calc.PlayerStat;
 import iskallia.vault.world.data.PlayerExpertisesData;
+import iskallia.vault.world.data.PlayerGreedTreeData;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
+import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
+import xyz.iwolfking.woldsvaults.api.util.LuckHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldVaultUtils;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.CrateLootGeneratorAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.RemoveBlacklistModifier;
+import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCrateRewards;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.Random;
 
 @Mixin(value = Runner.class, remap = false)
 public abstract class MixinRunner extends Listener {
+
+    @Inject(method = "initServer", at = @At("TAIL"))
+    private void scaleSomeEventsWithLuck(VirtualWorld world, Vault vault, CallbackInfo ci) {
+        CommonEvents.CHEST_CATALYST_GENERATION.register(this, event -> {
+            event.setProbability(LuckHelper.getLuckAffectedChance((float) event.getProbability(), event.getPlayer()));
+        });
+        CommonEvents.CHEST_TRAP_GENERATION.register(this, event -> {
+            event.setProbability(LuckHelper.getLuckAffectedChanceInverse((float) event.getProbability(), event.getPlayer()));
+        });
+        CommonEvents.SOUL_SHARD_CHANCE.register(this, event -> {
+            event.setChance(LuckHelper.getLuckAffectedChance(event.getChance(), event.getKiller()));
+        });
+    }
+
+    @Unique
+    private boolean isNotOwnCratePreAward(CrateAwardEvent.Data event) {
+        return event.getPhase() != CrateAwardEvent.Phase.PRE
+                || event.getListener() == null
+                || !Objects.equals(event.getListener().get(Listener.ID), this.get(Listener.ID));
+    }
+
+    @Inject(method = "initServer", at = @At("TAIL"))
+    private void addGreedCoinsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
+        CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
+            if(isNotOwnCratePreAward(event)) {
+                return;
+            }
+            int greedTier = PlayerGreedTreeData.get(event.getPlayer().getLevel()).getGreedTier(event.getPlayer().getUUID());
+            if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) >= 100 && greedTier > 0 && !VaultUtils.isRoyaleVault(vault) && !VaultUtils.isBrazierVault(vault) && !VaultUtils.isCakeVault(vault) && !VaultUtils.isSpecialVault(vault)) {
+                ResourceLocation lootTableKey = WoldsVaults.id("greed_crate_bonus_scavenger");
+
+                if(!VaultRegistry.LOOT_TABLE.contains(lootTableKey)) {
+                    return;
+                }
+
+                float hyperBonusQuantity = HyperVaultObjective.get(vault)
+                        .map(objective -> objective.getOr(AwardCrateObjective.ITEM_QUANTITY, 0.0F))
+                        .orElse(-1.0F) * HyperVaultObjective.cfg().getGreedBonusTierEfficiency();
+                boolean hyper = hyperBonusQuantity >= 0.0F;
+
+                LootTableGenerator generator =
+                        new LootTableGenerator(Version.latest(), VaultRegistry.LOOT_TABLE.getKey(lootTableKey), 0F);
+                generator.generate(ChunkRandom.ofNanoTime());
+
+                Iterator<ItemStack> rewardIterator = generator.getItems();
+                long greedyCrateTiers = VaultModifierUtils.getCountOfModifiers(vault, WoldsVaults.id("greedy_crate_tier"));
+                while (rewardIterator.hasNext()) {
+                    ItemStack reward = rewardIterator.next();
+                    if(reward.getItem().equals(ModItems.GREED_COIN)) {
+                        int count = reward.getCount() + (greedTier - 1);
+                        if(greedyCrateTiers > 0) {
+                            count = Math.round(count * (1.0F
+                                    + HyperVaultObjective.cfg().getGreedyCoinBonusPerStack() * greedyCrateTiers));
+                        }
+                        reward.setCount(count);
+                    } else if (hyper) {
+                        continue;
+                    }
+                    ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
+                }
+
+                if (hyper) {
+                    LootTableGenerator boosted = new LootTableGenerator(
+                            Version.latest(), VaultRegistry.LOOT_TABLE.getKey(lootTableKey), hyperBonusQuantity);
+                    boosted.generate(ChunkRandom.ofNanoTime());
+                    Iterator<ItemStack> boostedIterator = boosted.getItems();
+                    int added = 0;
+                    while (boostedIterator.hasNext()) {
+                        ItemStack reward = boostedIterator.next();
+                        if (!reward.getItem().equals(ModItems.GREED_COIN)) {
+                            ((CrateLootGeneratorAccessor)event.getCrateLootGenerator()).getAdditionalItemsWolds().add(reward);
+                            added++;
+                        }
+                    }
+                    WoldLogger.debug("Hyper greed bonus rolled at x{} quantity ({} non-coin stacks).",
+                            String.format("%.1f", 1.0F + hyperBonusQuantity), added);
+                }
+            }
+        });
+    }
+
+    @Inject(method = "initServer", at = @At("TAIL"))
+    private void addHyperScoreRewardsToCrate(VirtualWorld world, Vault vault, CallbackInfo ci) {
+        CommonEvents.CRATE_AWARD_EVENT.register(this, event -> {
+            if(isNotOwnCratePreAward(event)) {
+                return;
+            }
+            try {
+                int greedTier = PlayerGreedTreeData.get(event.getPlayer().getLevel()).getGreedTier(event.getPlayer().getUUID());
+                List<ItemStack> rewards = HyperCrateRewards.rollForVault(vault, greedTier, JavaRandom.ofNanoTime());
+                if (!rewards.isEmpty()) {
+                    ((CrateLootGeneratorAccessor) event.getCrateLootGenerator()).getAdditionalItemsWolds().addAll(rewards);
+                    WoldLogger.debug("Injected {} hyper score-tier reward stacks into the completion crate.", rewards.size());
+                }
+            } catch (Exception e) {
+                WoldLogger.error("Hyper score-tier crate injection failed!", e);
+            }
+        });
+    }
+
+    @Inject(method = "initServer", at = @At("TAIL"))
+    private void addThemeModifiers(VirtualWorld world, Vault vault, CallbackInfo ci) {
+
+    }
 
     @Inject(method = "lambda$initServer$3", at = @At("TAIL"))
     private void handleFruitRotting(VirtualWorld world, Vault vault, FruitEatenEvent.Data data, CallbackInfo ci) {
@@ -88,6 +213,10 @@ public abstract class MixinRunner extends Listener {
                     }
                 }
             }
+
+            if(GameruleHelper.isEnabled(ModGameRules.ENABLE_ALL_ITEMS_IN_VAULTS, world)) {
+                ci.cancel();
+            }
         }
     }
 
@@ -102,6 +231,10 @@ public abstract class MixinRunner extends Listener {
                         ci.cancel();
                     }
                 }
+            }
+
+            if(GameruleHelper.isEnabled(ModGameRules.ENABLE_ALL_ITEMS_IN_VAULTS, world)) {
+                ci.cancel();
             }
         }
     }

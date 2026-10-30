@@ -77,7 +77,7 @@ public class LayoutModificationRecipe extends VanillaAnvilRecipe {
         }
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public void onRegisterJEI(IRecipeRegistration registry) {
         List<CrystalWorkbenchRecipe> recipes = new ArrayList<>();
 

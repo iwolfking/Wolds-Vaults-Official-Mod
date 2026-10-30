@@ -55,53 +55,53 @@ public class ParticleTrailAttribute {
     public float getSpeed() { return speed; }
 
 
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player;
-
-        if (player.level.isClientSide || !(player instanceof ServerPlayer sp))
-            return;
-
-        if (!sp.isOnGround() || sp.isFallFlying()) return;
-
-        NonNullList<ItemStack> armor = sp.getInventory().armor;
-
-        ParticleTrailAttribute strongest = null;
-
-        // Find highest intensity particle attribute
-        for (ItemStack stack : armor) {
-            if (stack.getItem() instanceof VaultGearItem) {
-                VaultGearData data = VaultGearData.read(stack);
-
-                if (data.hasAttribute(ModGearAttributes.PARTICLE_TRAIL)) {
-                    Optional<ParticleTrailAttribute> inst = data.getFirstValue(ModGearAttributes.PARTICLE_TRAIL);
-                    if (inst.isPresent()) {
-                        ParticleTrailAttribute attr = inst.get();
-                        if (strongest == null || attr.count > strongest.count)
-                            strongest = attr;
-                    }
-                }
-            }
-        }
-
-        if (strongest == null) return;
-
-        ParticleOptions particle = (ParticleOptions) ForgeRegistries.PARTICLE_TYPES.getValue(strongest.getParticleId());
-        if (particle == null) return;
-
-        ServerLevel level = sp.getLevel();
-        double x = player.getX();
-        double y = player.getY() + 0.1;
-        double z = player.getZ();
-
-        level.sendParticles(
-                particle,
-                x, y, z,
-                strongest.getCount(),
-                0.15, 0.01, 0.15,
-                strongest.getSpeed()
-        );
-    }
+//    @SubscribeEvent
+//    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+//        Player player = event.player;
+//
+//        if (player.level.isClientSide || !(player instanceof ServerPlayer sp))
+//            return;
+//
+//        if (!sp.isOnGround() || sp.isFallFlying()) return;
+//
+//        NonNullList<ItemStack> armor = sp.getInventory().armor;
+//
+//        ParticleTrailAttribute strongest = null;
+//
+//        // Find highest intensity particle attribute
+//        for (ItemStack stack : armor) {
+//            if (stack.getItem() instanceof VaultGearItem) {
+//                VaultGearData data = VaultGearData.read(stack);
+//
+//                if (data.hasAttribute(ModGearAttributes.PARTICLE_TRAIL)) {
+//                    Optional<ParticleTrailAttribute> inst = data.getFirstValue(ModGearAttributes.PARTICLE_TRAIL);
+//                    if (inst.isPresent()) {
+//                        ParticleTrailAttribute attr = inst.get();
+//                        if (strongest == null || attr.count > strongest.count)
+//                            strongest = attr;
+//                    }
+//                }
+//            }
+//        }
+//
+//        if (strongest == null) return;
+//
+//        ParticleOptions particle = (ParticleOptions) ForgeRegistries.PARTICLE_TYPES.getValue(strongest.getParticleId());
+//        if (particle == null) return;
+//
+//        ServerLevel level = sp.getLevel();
+//        double x = player.getX();
+//        double y = player.getY() + 0.1;
+//        double z = player.getZ();
+//
+//        level.sendParticles(
+//                particle,
+//                x, y, z,
+//                strongest.getCount(),
+//                0.15, 0.01, 0.15,
+//                strongest.getSpeed()
+//        );
+//    }
 
 
     public static VaultGearAttributeType<ParticleTrailAttribute> type() {

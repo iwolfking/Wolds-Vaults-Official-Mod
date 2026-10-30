@@ -113,7 +113,7 @@ public class MixinWildSpawnerTileEntity extends BaseSpawnerTileEntity {
                     }
 
                     if(objective.equals("haunted_braziers") || hasSpooky ) {
-                        this.spawnerGroup = ModConfigs.WILD_SPAWNER.spawnerGroups.get(3);
+                        this.spawnerGroup = ModConfigs.WILD_SPAWNER.spawnerGroups.get(2);
                     } else {
                         this.spawnerGroup = sg;
                     }

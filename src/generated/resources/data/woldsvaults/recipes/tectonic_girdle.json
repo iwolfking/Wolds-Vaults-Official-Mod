@@ -1,0 +1,27 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:knockback_belt"
+  },
+  "mana": 2500,
+  "ingredients": [
+    {
+      "item": "woldsvaults:prismatic_fiber"
+    },
+    {
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "item": "minecraft:leather"
+    },
+    {
+      "item": "botania:rune_fire"
+    },
+    {
+      "item": "botania:rune_earth"
+    },
+    {
+      "item": "the_vault:trinket_scrap"
+    }
+  ]
+}

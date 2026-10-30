@@ -82,7 +82,7 @@ public abstract class MixinMagnetItem extends Item implements VaultGearItem, Cur
                         float range = data.get(ModGearAttributes.RANGE, VaultGearAttributeTypeMerger.floatSum());
                         float speed = data.get(ModGearAttributes.VELOCITY, VaultGearAttributeTypeMerger.floatSum());
                         List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(range), (entity) -> {
-                            return entity.distanceToSqr(player) <= range * range && !entity.getTags().contains("PreventMagnetMovement");
+                            return entity.distanceToSqr(player) <= range * range && !entity.getTags().contains("PreventMagnetMovement") && DemagnetizerTileEntity.hasDemagnetizerAround(entity);
                         });
                         List<ExperienceOrb> orbs = world.getEntitiesOfClass(ExperienceOrb.class, player.getBoundingBox().inflate(range), (entity) -> {
                             return entity.distanceToSqr(player) <= range * range  && !entity.getTags().contains("PreventMagnetMovement");
@@ -118,7 +118,7 @@ public abstract class MixinMagnetItem extends Item implements VaultGearItem, Cur
 
             Level var5 = player.level;
             if (var5 instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles((SimpleParticleType) ModParticles.ENDER_ANCHOR.get(), entity.position().x, entity.position().y + (double)0.25F, entity.position().z, 1, (double)0.0F, (double)0.0F, (double)0.0F, (double)0.0F);
+                serverLevel.sendParticles(ModParticles.ENDER_ANCHOR.get(), entity.position().x, entity.position().y + (double)0.25F, entity.position().z, 1, (double)0.0F, (double)0.0F, (double)0.0F, (double)0.0F);
             }
 
             entity.teleportTo(player.position().x, player.position().y, player.position().z);

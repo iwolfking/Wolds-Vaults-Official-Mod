@@ -1,9 +1,49 @@
 {
   "keys": [
     {
-      "id": "woldsvaults:universal_sculk",
-      "name": "Universal Sculk",
-      "1.0": "woldsvaults:universal_sculk"
+      "id": "woldsvaults:universal_if",
+      "name": "Universal If",
+      "1.0": "woldsvaults:universal_if"
+    },
+    {
+      "id": "woldsvaults:universal_mekanism",
+      "name": "Universal Mekanism",
+      "1.0": "woldsvaults:universal_mekanism"
+    },
+    {
+      "id": "woldsvaults:universal_pnc",
+      "name": "Universal Pnc",
+      "1.0": "woldsvaults:universal_pnc"
+    },
+    {
+      "id": "woldsvaults:universal_thermal",
+      "name": "Universal Thermal",
+      "1.0": "woldsvaults:universal_thermal"
+    },
+    {
+      "id": "woldsvaults:universal_immersiveengineering",
+      "name": "Universal Immersiveengineering",
+      "1.0": "woldsvaults:universal_immersiveengineering"
+    },
+    {
+      "id": "woldsvaults:universal_create",
+      "name": "Universal Create",
+      "1.0": "woldsvaults:universal_create"
+    },
+    {
+      "id": "woldsvaults:universal_botania",
+      "name": "Universal Botania",
+      "1.0": "woldsvaults:universal_botania"
+    },
+    {
+      "id": "woldsvaults:universal_occult",
+      "name": "Universal Occult",
+      "1.0": "woldsvaults:universal_occult"
+    },
+    {
+      "id": "woldsvaults:universal_mystical_forest",
+      "name": "Universal Mystical Forest",
+      "1.0": "woldsvaults:universal_mystical_forest"
     },
     {
       "id": "woldsvaults:universal_astral",
@@ -11,14 +51,49 @@
       "1.0": "woldsvaults:universal_astral"
     },
     {
+      "id": "woldsvaults:universal_sculk",
+      "name": "Universal Sculk",
+      "1.0": "woldsvaults:universal_sculk"
+    },
+    {
       "id": "woldsvaults:universal_astral_red",
       "name": "Universal Astral Red",
       "1.0": "woldsvaults:universal_astral_red"
     },
     {
+      "id": "the_vault:mine/ore_placeholder_astral",
+      "name": "Mine Ore Placeholder Astral",
+      "1.0": "the_vault:mine/ore_placeholder_astral"
+    },
+    {
       "id": "woldsvaults:generic/ore_placeholder_astral",
       "name": "Generic Ore Placeholder Astral",
       "1.0": "woldsvaults:generic/ore_placeholder_astral"
+    },
+    {
+      "id": "woldsvaults:generic/ore_placeholder_magic",
+      "name": "Generic Ore Placeholder Magic",
+      "1.0": "woldsvaults:generic/ore_placeholder_magic"
+    },
+    {
+      "id": "the_vault:mine/ore_placeholder_magic",
+      "name": "Mine Ore Placeholder Magic",
+      "1.0": "the_vault:mine/ore_placeholder_magic"
+    },
+    {
+      "id": "woldsvaults:generic/spawners/thermal_theme_mobs",
+      "name": "Generic Spawners Thermal Theme Mobs",
+      "1.0": "woldsvaults:generic/spawners/thermal_theme_mobs"
+    },
+    {
+      "id": "woldsvaults:generic/spawners/occult_mobs",
+      "name": "Generic Spawners Occult Mobs",
+      "1.0": "woldsvaults:generic/spawners/occult_mobs"
+    },
+    {
+      "id": "woldsvaults:generic/spawners/ars_mobs",
+      "name": "Generic Spawners Ars Mobs",
+      "1.0": "woldsvaults:generic/spawners/ars_mobs"
     },
     {
       "id": "woldsvaults:generic/spawners/astral_mobs",

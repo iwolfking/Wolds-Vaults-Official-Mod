@@ -1,0 +1,24 @@
+{
+  "type": "woldsvaults:vault_catalyst_infusion",
+  "pool_id": "the_vault:craft_random_positive",
+  "infusion_action": "roll_pool",
+  "size_offset": -2,
+  "sourceCost": 2000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "the_vault:extraordinary_larimar"
+      }
+    },
+    {
+      "item": {
+        "item": "the_vault:mystical_powder"
+      }
+    },
+    {
+      "item": {
+        "item": "the_vault:wild_focus"
+      }
+    }
+  ]
+}

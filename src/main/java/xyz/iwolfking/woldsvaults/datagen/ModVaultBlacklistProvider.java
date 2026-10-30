@@ -65,6 +65,16 @@ public class ModVaultBlacklistProvider extends AbstractVaultBlacklistProvider {
            builder.blacklist("botania:king_key");
            builder.blacklist("botania:infinite_fruit");
            builder.blacklist("botania:flugel_eye");
+
+           builder.blacklistItem("justdirethings:blazejet_wand");
+           builder.blacklistItem("justdirethings:voidshift_wand");
+           builder.blacklistItem("justdirethings:eclipsegate_wand");
+           builder.blacklistItem("justdirethings:creaturecatcher");
+           builder.blacklistItem("justdirethings:polymorphic_wand");
+           builder.blacklistItem("justdirethings:polymorphic_wand_v2");
+           builder.blacklistItem("justdirethings:portalgun");
+           builder.blacklistItem("justdirethings:portalgun_v2");
+           builder.blacklistItem("justdirethings:time_wand");
         });
     }
 }

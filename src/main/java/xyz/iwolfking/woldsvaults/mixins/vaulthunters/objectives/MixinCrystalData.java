@@ -5,6 +5,7 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.core.data.adapter.basic.TypeSupplierAdapter;
 import iskallia.vault.core.data.serializable.ISerializable;
 import iskallia.vault.core.vault.modifier.VaultModifierStack;
+import iskallia.vault.core.vault.modifier.modifier.ChanceCatalystModifier;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.CrystalEntry;
 import iskallia.vault.item.crystal.layout.CrystalLayout;
@@ -19,7 +20,9 @@ import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicRingsCrystalLayout;
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicTunnelCrystalLayout;
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicWaveCrystalLayout;
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicWaveLayout;
+import xyz.iwolfking.woldsvaults.api.core.theme.InfusedCrystalTheme;
 import xyz.iwolfking.woldsvaults.models.crystal.UnhingedCrystalModel;
+import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.ChanceCatalystModifierSettable;
 
 @Mixin(value = CrystalData.class, remap = false)
 public abstract class MixinCrystalData extends CrystalEntry implements ISerializable<CompoundTag, JsonObject>
@@ -34,11 +37,15 @@ public abstract class MixinCrystalData extends CrystalEntry implements ISerializ
     @Shadow
     public static TypeSupplierAdapter<CrystalLayout> LAYOUT;
 
+    @Shadow
+    public static TypeSupplierAdapter<CrystalTheme> THEME;
+
     static {
         MODEL.register("unhinged", UnhingedCrystalModel.class, UnhingedCrystalModel::new);
         LAYOUT.register("tunnels", ClassicTunnelCrystalLayout.class, ClassicTunnelCrystalLayout::new);
         LAYOUT.register("rings", ClassicRingsCrystalLayout.class, ClassicRingsCrystalLayout::new);
         LAYOUT.register("wave", ClassicWaveCrystalLayout.class, ClassicWaveCrystalLayout::new);
+        THEME.register("infused_theme", InfusedCrystalTheme.class, InfusedCrystalTheme::new);
     }
 
     /**
@@ -56,10 +63,7 @@ public abstract class MixinCrystalData extends CrystalEntry implements ISerializ
                 }
             }
 
-            if(modStack.getModifierId().equals(VaultMod.id("prismatic"))) {
-                hasCatalystDenyingModifier = false;
-            }
-            else if(modStack.getModifierId().equals(VaultMod.id("sparkling"))) {
+            if(modStack.getModifier() instanceof ChanceCatalystModifier || modStack.getModifier() instanceof ChanceCatalystModifierSettable) {
                 hasCatalystDenyingModifier = false;
             }
         }

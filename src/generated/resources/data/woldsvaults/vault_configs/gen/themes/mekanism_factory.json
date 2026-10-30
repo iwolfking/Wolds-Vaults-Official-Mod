@@ -1,0 +1,14 @@
+{
+  "type": "classic_vault",
+  "starts": "woldsvaults:mekanism_factory_starts",
+  "rooms": "woldsvaults:mekanism_factory_rooms",
+  "tunnels": "woldsvaults:mekanism_factory_tunnels",
+  "ambient_light": 0.35,
+  "fog_color": 2827813,
+  "grass_color": 4870211,
+  "foliage_color": 3883062,
+  "water_color": 8346172,
+  "water_fog_color": 4008733,
+  "particle": "minecraft:smoke",
+  "particle_probability": 0.015
+}

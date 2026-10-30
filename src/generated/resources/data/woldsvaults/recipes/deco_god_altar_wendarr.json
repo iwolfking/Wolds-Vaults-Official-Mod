@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GHG",
+    "CSC",
+    "BBB"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:clock"
+    },
+    "H": {
+      "item": "the_vault:gilded_block_chiseled"
+    },
+    "G": {
+      "item": "woldsvaults:chromatic_gold_block"
+    },
+    "B": {
+      "item": "the_vault:polished_vault_stone"
+    },
+    "C": {
+      "item": "minecraft:yellow_candle"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:deco_god_altar_wendarr"
+  }
+}

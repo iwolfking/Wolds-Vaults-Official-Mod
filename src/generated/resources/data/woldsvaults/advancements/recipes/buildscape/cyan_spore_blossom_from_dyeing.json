@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:cyan_spore_blossom_from_dyeing"
+    ]
+  },
+  "criteria": {
+    "has_any_variant": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:spore_blossom"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:cyan_spore_blossom_from_dyeing"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_any_variant",
+      "has_the_recipe"
+    ]
+  ]
+}

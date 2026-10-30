@@ -2,25 +2,22 @@ package xyz.iwolfking.woldsvaults.blocks;
 
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.BarrierBlock;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import java.util.Random;
-
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,8 +25,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.blocks.containers.FloatingTextEditScreen;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ConfigurableFloatingTextTileEntity;
+import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.network.packets.OpenFloatingTextScreenPacket;
 
-public class ConfigurableFloatingTextBlock extends BarrierBlock implements EntityBlock {
+public class ConfigurableFloatingTextBlock extends Block implements EntityBlock {
 
     public ConfigurableFloatingTextBlock() {
         super(Properties.of(Material.BARRIER).strength(4.0F, 3.6E8F).noDrops().noOcclusion().noCollission());
@@ -39,19 +38,6 @@ public class ConfigurableFloatingTextBlock extends BarrierBlock implements Entit
     @Nullable
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new ConfigurableFloatingTextTileEntity(pos, state);
-    }
-
-    @Override
-    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
-        BlockEntity tile = worldIn.getBlockEntity(pos);
-        if (tile instanceof ConfigurableFloatingTextTileEntity) {
-            Minecraft minecraft = Minecraft.getInstance();
-            LocalPlayer player = minecraft.player;
-            ClientLevel world = minecraft.level;
-            if (player != null && world != null && player.isCreative()) {
-                world.addParticle(new BlockParticleOption(ParticleTypes.BLOCK_MARKER, stateIn), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0.0, 0.0, 0.0);
-            }
-        }
     }
 
     @Override
@@ -85,21 +71,15 @@ public class ConfigurableFloatingTextBlock extends BarrierBlock implements Entit
 
 
     @Override
-    public InteractionResult use(
-            BlockState state,
-            Level level,
-            BlockPos pos,
-            Player player,
-            InteractionHand hand,
-            BlockHitResult hit
-    ) {
-        if (level.isClientSide) {
-            BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof ConfigurableFloatingTextTileEntity tile) {
-                openConfigurableFloatingTextEditScreen(tile);
-            }
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            ModNetwork.CHANNEL.send(
+                    net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> serverPlayer),
+                    new OpenFloatingTextScreenPacket(pos)
+            );
         }
-        return InteractionResult.SUCCESS;
+
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -107,6 +87,22 @@ public class ConfigurableFloatingTextBlock extends BarrierBlock implements Entit
         Minecraft.getInstance().setScreen(
             new FloatingTextEditScreen(tile)
         );
+    }
+
+    // stuff from BarrierBlock
+    @Override
+    public boolean propagatesSkylightDown(BlockState pState, BlockGetter pReader, BlockPos pPos) {
+        return true;
+    }
+
+    @Override
+    public RenderShape getRenderShape(BlockState pState) {
+        return RenderShape.INVISIBLE;
+    }
+
+    @Override
+    public float getShadeBrightness(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        return 1.0F;
     }
 
 }

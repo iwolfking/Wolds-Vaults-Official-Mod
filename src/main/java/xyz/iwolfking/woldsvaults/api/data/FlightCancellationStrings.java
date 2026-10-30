@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class FlightCancellationStrings {
     public static WeightedList<Component> flightCancellationStrings = new WeightedList<>();
@@ -26,7 +27,7 @@ public class FlightCancellationStrings {
 
         }
 
-        WoldsVaults.LOGGER.warn("Flight Cancellation messages were empty!");
+        WoldLogger.warn("Flight Cancellation messages were empty!");
         return (Component) Component.EMPTY;
     }
 }

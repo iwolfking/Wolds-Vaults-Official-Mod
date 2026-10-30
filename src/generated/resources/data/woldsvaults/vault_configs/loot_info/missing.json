@@ -9,10 +9,35 @@
         }
       }
     },
+    "the_vault:completion_crate_chaos": {
+      "display": "Completion Crate (Chaos)",
+      "lootTableKeys": {
+        "woldsvaults:chaos_crate_50": {
+          "level": 50
+        },
+        "woldsvaults:chaos_crate_0": {
+          "level": 0
+        },
+        "woldsvaults:chaos_crate_20": {
+          "level": 20
+        },
+        "woldsvaults:chaos_crate_100": {
+          "level": 100
+        }
+      }
+    },
     "the_vault:cardboard_box": {
       "display": "Cardboard Box",
       "lootTableKeys": {
         "the_vault:cardboard_box": {
+          "level": 0
+        }
+      }
+    },
+    "the_vault:dungeon_mobs": {
+      "display": "Dungeon Mobs",
+      "lootTableKeys": {
+        "the_vault:dungeon_mobs": {
           "level": 0
         }
       }
@@ -29,14 +54,6 @@
       "display": "Treasure Pillar",
       "lootTableKeys": {
         "the_vault:treasure_pillar": {
-          "level": 0
-        }
-      }
-    },
-    "the_vault:dungeon_mobs": {
-      "display": "Dungeon Mobs",
-      "lootTableKeys": {
-        "the_vault:dungeon_mobs": {
           "level": 0
         }
       }

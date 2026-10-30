@@ -9,6 +9,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.level.block.Rotation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.SpiralLayoutTooltip;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
@@ -78,7 +79,7 @@ public class SpiralLayoutDefinition implements LayoutDefinition {
         try { // don't crash
             return SpiralLayoutTooltip.getTooltipImage(data);
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Failed to create spiral layout manipulator preview.", e);
+            WoldLogger.error("Failed to create spiral layout manipulator preview.", e);
             return Optional.empty();
         }
     }

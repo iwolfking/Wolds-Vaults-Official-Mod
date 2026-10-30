@@ -1,7 +1,7 @@
 {
   "MODELS": [
     {
-      "id": "the_vault:gear/jewel/treasure",
+      "id": "the_vault:gear/jewel/breaching",
       "displayName": "Shatterering Jewel",
       "discoverOnRoll": true,
       "allowTransmogrification": true

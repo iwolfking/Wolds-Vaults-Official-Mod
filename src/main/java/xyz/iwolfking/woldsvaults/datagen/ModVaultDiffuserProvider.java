@@ -49,6 +49,13 @@ public class ModVaultDiffuserProvider extends AbstractVaultDiffuserProvider {
                     .add(ModBlocks.CHROMATIC_GOLD_BLOCK.getRegistryName(), 936)
                     .add(ModBlocks.SILVER_SCRAP_BLOCK.getRegistryName(), 54)
                     .add(ModBlocks.VAULT_PLATING_BLOCK.getRegistryName(), 36)
+                    .add(ModItems.GREEN_VAULT_ESSENCE.getRegistryName(), 100)
+                    .add(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE.getRegistryName(), 100)
+                    .add(ModItems.BLUE_VAULT_ESSENCE.getRegistryName(), 355)
+                    .add(ModItems.YELLOW_VAULT_ESSENCE.getRegistryName(), 203)
+                    .add(iskallia.vault.init.ModItems.MEMORY_POWDER.getRegistryName(), 256)
+                    .add(iskallia.vault.init.ModItems.MEMORY_SHARD.getRegistryName(), 2304)
+                    .add(iskallia.vault.init.ModItems.MEMORY_CRYSTAL.getRegistryName(), 20736)
                     .add(ModBlocks.CARBON_BLOCK.getRegistryName(), 162);
                     ModCompressibleBlocks.getRegisteredBlocks().forEach(((compressibleBlock, suppliers) -> {
                         compressed(compressibleBlock.name(), compressibleBlock.name(), compressibleBlock.getNestedDepth(), builder);

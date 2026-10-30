@@ -18,6 +18,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearModifierHelperAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -238,6 +241,91 @@ public class WoldGearModifierHelper {
         } else {
             return GearModification.Result.errorInternal();
         }
+    }
+
+    public static GearModification.Result reforgeModifiersForNewLevelForced(ItemStack stack, int newLevel, Random random, boolean takeRepairSlot) {
+        VaultGearData data = VaultGearData.read(stack);
+        if (data.getUsedRepairSlots() >= data.getRepairSlots() && takeRepairSlot) {
+            return GearModification.Result.makeActionError("no_repair_slots");
+        } else {
+            newLevel = Math.min(100, newLevel);
+            if (newLevel <= data.getItemLevel()) {
+                return GearModification.Result.errorUnmodifiable();
+            } else {
+                VaultGearTierConfig cfg = VaultGearTierConfig.getConfig(stack).orElse(null);
+                if (cfg == null) {
+                    return GearModification.Result.errorUnmodifiable();
+                } else {
+                    data.setItemLevel(newLevel);
+                    if (takeRepairSlot) {
+                        data.setUsedRepairSlots(data.getUsedRepairSlots() + 1);
+                    }
+
+                    if(data.isImbued()) {
+                        return GearModification.Result.errorUnmodifiable();
+                    }
+
+                    VaultGearModifierHelperAccessor.callReforgeBaseAttributesForNewLevel(data, cfg, newLevel, random);
+                    VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.IMPLICIT, newLevel, random);
+                    VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.PREFIX, newLevel, random);
+                    VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.SUFFIX, newLevel, random);
+                    data.write(stack);
+                    return GearModification.Result.makeSuccess();
+                }
+            }
+        }
+    }
+
+    public static GearModification.Result reforgeAllModifiers(ItemStack stack, Random random, int level, boolean takeRepairSlot) {
+        VaultGearData data = VaultGearData.read(stack);
+        if (data.getUsedRepairSlots() >= data.getRepairSlots() && takeRepairSlot) {
+            return GearModification.Result.makeActionError("no_repair_slots");
+        } else {
+            VaultGearTierConfig cfg = VaultGearTierConfig.getConfig(stack).orElse(null);
+            if (cfg == null) {
+                return GearModification.Result.errorUnmodifiable();
+            } else {
+                if (takeRepairSlot) {
+                    data.setUsedRepairSlots(data.getUsedRepairSlots() + 1);
+                }
+
+                if(data.isImbued()) {
+                    return GearModification.Result.errorUnmodifiable();
+                }
+
+                VaultGearModifierHelperAccessor.callReforgeBaseAttributesForNewLevel(data, cfg, level, random);
+                VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.IMPLICIT, level, random);
+                VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.PREFIX, level, random);
+                VaultGearModifierHelperAccessor.callReforgeModifiersOfTypeForNewLevel(data, cfg, VaultGearModifier.AffixType.SUFFIX, level, random);
+                data.write(stack);
+                return GearModification.Result.makeSuccess();
+            }
+        }
+    }
+
+    public static GearModification.Result increaseMapTier(ItemStack stack) {
+        if(!(stack.getItem() instanceof VaultMapItem)) {
+            return GearModification.Result.makeActionError("no_modifiers");
+        }
+
+        VaultGearData data = VaultGearData.read(stack);
+
+        if(!data.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.MAP_TIER)) {
+            return GearModification.Result.makeActionError("no_modifiers");
+        }
+
+        int mapTier = data.getFirstValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.MAP_TIER).orElse(0);
+
+        if(mapTier == WoldConstants.MAX_MAP_TIER) {
+            return GearModification.Result.makeActionError("max_map_tier");
+        }
+
+        Random random = new Random();
+
+        data.createOrReplaceAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.MAP_TIER, mapTier + 1);
+        data.write(stack);
+        reforgeAllModifiers(stack, random, 100,false);
+        return GearModification.Result.makeSuccess();
     }
 
 }

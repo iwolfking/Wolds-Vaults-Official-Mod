@@ -27,6 +27,7 @@ import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
 import xyz.iwolfking.woldsvaults.events.vault.WoldCommonEvents;
@@ -84,7 +85,7 @@ public class BrewingAltarTileEntity extends BlockEntity {
         if (pTag.get("Catalyst") instanceof CompoundTag t) {
             catalyst = ItemStack.of(t);
         } else {
-            WoldsVaults.LOGGER.error("Catalyst Tag is not of type CompoundTag in BrewingAltarTileEntity. Bad things are happening");
+            WoldLogger.error("Catalyst Tag is not of type CompoundTag in BrewingAltarTileEntity. Bad things are happening");
         }
 
     }

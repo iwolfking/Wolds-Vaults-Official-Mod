@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.CircleLayoutTooltip;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
@@ -72,7 +73,7 @@ public class CircleLayoutDefinition implements LayoutDefinition {
         try {
             return CircleLayoutTooltip.getTooltipImage(data);
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Failed to create circle layout manipulator preview.", e);
+            WoldLogger.error("Failed to create circle layout manipulator preview.", e);
             return Optional.empty();
         }
     }

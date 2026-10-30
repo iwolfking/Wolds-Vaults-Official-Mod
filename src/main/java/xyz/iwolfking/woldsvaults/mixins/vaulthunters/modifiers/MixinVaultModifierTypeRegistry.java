@@ -49,5 +49,10 @@ public class MixinVaultModifierTypeRegistry {
         MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/brazier_pool_modification"), VaultModifierType.of(BrazierPoolsModifier.class, BrazierPoolsModifier.Properties.class, BrazierPoolsModifier::new));
         MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/enchanted_elixir_tags"), VaultModifierType.of(EnchantedElixirPoolModifier.class, EnchantedElixirPoolModifier.Properties.class, EnchantedElixirPoolModifier::new));
         MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/enchanted_elixir_event_count"), VaultModifierType.of(EnchantedElixirEventAmountModifier.class, EnchantedElixirEventAmountModifier.Properties.class, EnchantedElixirEventAmountModifier::new));
+        MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/overpower"), VaultModifierType.of(OverpowerModifier.class, OverpowerModifier.Properties.class, OverpowerModifier::new));
+        MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/hyper_escalation"), VaultModifierType.of(HyperStatModifier.class, HyperStatModifier.Properties.class, HyperStatModifier::new));
+        MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/mob_additional_magic_damage_on_hit"), VaultModifierType.of(MobAdditionalMagicDamageOnHitModifier.class, MobAdditionalMagicDamageOnHitModifier.Properties.class, MobAdditionalMagicDamageOnHitModifier::new));
+        MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/mob_additional_void_damage_on_hit"), VaultModifierType.of(MobAdditionalVoidDamageOnHitModifier.class, MobAdditionalVoidDamageOnHitModifier.Properties.class, MobAdditionalVoidDamageOnHitModifier::new));
+        MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/mob_mana_steal_on_hit"), VaultModifierType.of(MobManaStealOnHitModifier.class, MobManaStealOnHitModifier.Properties.class, MobManaStealOnHitModifier::new));
     }
 }

@@ -18,13 +18,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 /// aida - allow taunt to target vault bosses, but not teleport them
-@Mixin(value = TauntAbility.class)
+@Mixin(value = TauntAbility.class, remap = false)
 public class MixinTauntAbility {
 
     /// aida - make harold targetable with taunt
     @Redirect(method = "lambda$doAction$1",
               at = @At(value = "INVOKE",
-                       target = "Lnet/minecraft/world/entity/ai/targeting/TargetingConditions;selector(Ljava/util/function/Predicate;)Lnet/minecraft/world/entity/ai/targeting/TargetingConditions;"))
+                       target = "Lnet/minecraft/world/entity/ai/targeting/TargetingConditions;selector(Ljava/util/function/Predicate;)Lnet/minecraft/world/entity/ai/targeting/TargetingConditions;", remap = true))
     private TargetingConditions doTargetHarold(TargetingConditions conditions, Predicate<LivingEntity> x) {
         return conditions.selector(NEW_MONSTER_PREDICATE);
     }
@@ -38,7 +38,7 @@ public class MixinTauntAbility {
     /// aida - make harold and the vessel un-teleportable by taunt
     @WrapOperation(method = "lambda$doAction$1",
             at = @At(value = "INVOKE",
-                     target = "Lnet/minecraft/world/entity/Mob;setPos(DDD)V"))
+                     target = "Lnet/minecraft/world/entity/Mob;setPos(DDD)V", remap = true))
     private void dontYoinkBosses(Mob mob, double x, double y, double z, Operation<Void> original) {
         if(!(mob instanceof TheVesselEntity || mob instanceof VaultBoss))
             original.call(mob, x, y, z);

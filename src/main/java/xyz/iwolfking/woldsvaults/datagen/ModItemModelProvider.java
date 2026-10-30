@@ -1,8 +1,9 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import com.github.klikli_dev.occultism.Occultism;
+import com.github.klikli_dev.occultism.common.item.DummyTooltipItem;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.ResearchesGUIConfig;
-import iskallia.vault.gear.trinket.TrinketEffectRegistry;
 import iskallia.vault.init.ModConfigs;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.data.DataGenerator;
@@ -16,10 +17,14 @@ import xyz.iwolfking.vhapi.api.registry.CustomCatalystModelRegistry;
 import xyz.iwolfking.vhapi.api.registry.CustomInscriptionModelRegistry;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.integration.arsnouveau.init.ArsSpawnEggItems;
+import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.Field;
 
 
 public class ModItemModelProvider extends ItemModelProvider {
@@ -31,6 +36,10 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        simpleItem(ModItems.CORE_OF_THE_VAULT_GODS);
+        simpleItem(ModItems.INFUSION_PREVENTION);
+        simpleItem(ModItems.GODS_MASTERY);
+        simpleItem(ModItems.GREEDY_TICKET);
         simpleItem(ModItems.WEAPON_TYPE_FOCUS);
         simpleItem(ModItems.ARCANE_ESSENCE);
         simpleItem(ModItems.ARCANE_SHARD);
@@ -58,6 +67,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CRYSTAL_SEAL_TITAN);
         simpleItem(ModItems.CRYSTAL_SEAL_ALCHEMY);
         simpleItem(ModItems.CRYSTAL_SEAL_SURVIVOR);
+        simpleItem(ModItems.CRYSTAL_SEAL_UNHINGED_SCAVINGO);
         simpleItem(ModItems.CRYSTAL_SEAL_UNHINGED);
         simpleItem(ModItems.ECCENTRIC_FOCUS);
         simpleItem(ModItems.ENIGMA_EGG);
@@ -95,6 +105,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.PRISMATIC_GLUE_BUCKET);
         simpleItem(ModItems.MOLTEN_TRINKET_BUCKET);
         simpleItem(ModItems.MOB_BINDING_STONE);
+        simpleItem(ModItems.GREED_TREE_RESET_ITEM);
+        simpleItem(ModItems.EXQUISITE_BOX);
         getBuilder(ModItems.RESEARCH_TOKEN.getRegistryName().getPath())
                 .parent(new ModelFile.UncheckedModelFile(
                         ResourceLocation.parse("builtin/entity")
@@ -152,17 +164,26 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.POGGING_SEED_BASE);
         simpleItem(ModItems.ECHOING_SEED_BASE);
         simpleItem(ModItems.UNINFUSED_TERRASTEEL_INGOT);
+        simpleItem(ModItems.CONCEALED_CHAOS);
+        simpleItem(ModItems.YELLOW_VAULT_ESSENCE);
+        simpleItem(ModItems.BLUE_VAULT_ESSENCE);
+        simpleItem(ModItems.GREEN_VAULT_ESSENCE);
+        simpleItem(ModItems.LEAD_DYE_BASE);
+        simpleItem(ModItems.CONCENTRATED_VOID);
+        simpleItem(ModItems.INSCRIBING_FOCUS);
         //simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         withExistingParent("owned_crafting_table",
                 mcLoc("item/crafting_table"));
+
+        withExistingParent("infused_augment", VaultMod.id("item/augment"));
 
         spawnEgg(ModItems.BLUE_BLAZE_EGG);
         spawnEgg(ModItems.BOOGIEMAN_EGG);
         spawnEgg(ModItems.MONSTER_EYE_EGG);
         spawnEgg(ModItems.ROBOT_EGG);
         spawnEgg(ModItems.WOLD_EGG);
-        spawnEgg(ModItems.DRYGMY_SPAWN_EGG);
+        spawnEgg(ArsSpawnEggItems.DRYGMY_SPAWN_EGG);
 
         charm("idona_token");
         charm("tenos_token");
@@ -237,8 +258,29 @@ public class ModItemModelProvider extends ItemModelProvider {
         vaultModifier(VaultMod.id("ghost_town"), "ghost_city");
         vaultModifier(VaultMod.id("vexation"), "vexation");
 
-        skillScroll("colossus");
-        skillScroll("expunge");
+        skillScrollAbility("colossus");
+        skillScrollAbility("expunge");
+        skillScrollAbility("wall_of_fangs");
+        skillScrollAbility("ultimate_shield");
+        skillScroll("fanged_strike");
+        skillScroll("execution_strike");
+        skillScroll("arcane_strike");
+        skillScroll("medic");
+        skillScroll("ransack");
+        skillScroll("potent_elixir");
+        skillScroll("healthy_elixir");
+        skillScroll("supply_crates");
+        skillScroll("mind_meld");
+        skillScroll("momentum_engine");
+        skillScroll("lunge");
+        skillScroll("stack_master");
+        skillScroll("hex_breaker");
+        skillScroll("blood_chakra");
+        skillScrollVanilla("voltaic_impact");
+        skillScrollVanilla("blood_rush");
+        skillScrollVanilla("executioner");
+        skillScrollVanilla("trap_disarm");
+
 
         deckCore(WoldsVaults.id("void_deck_core"));
         deckCore(WoldsVaults.id("tool_deck_core"));
@@ -256,13 +298,15 @@ public class ModItemModelProvider extends ItemModelProvider {
         deckCore(WoldsVaults.id("arcane_deck_core"));
         deckCore(WoldsVaults.id("premium_deck_core"));
         deckCore(WoldsVaults.id("sparkling_deck_core"));
+        deckCore(WoldsVaults.id("construction_deck_core"));
+        deckCore(WoldsVaults.id("archive_deck_core"));
 
         ModConfigs.RESEARCHES_GUI = new ResearchesGUIConfig().readConfig();
         ModConfigs.RESEARCHES_GUI.getStyles().forEach((name, s) -> {
             researchToken(ModConfigs.RESEARCHES_GUI.getStyles().get(name).icon);
         });
 
-        CustomInscriptionModelRegistry.getModelMap().forEach(this::vaultInscription);
+        CustomInscriptionModelRegistry.getModelMap().forEach(this::allInscription);
         CustomCatalystModelRegistry.getModelMap().forEach(this::vaultCatalyst);
 
         ModItems.COLORED_UNOBTANIUMS.forEach(((dyeColor, basicItem) -> {
@@ -282,7 +326,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         etching(VaultMod.id("reaving_hemmorage"));
         etching(VaultMod.id("divinity"), "divine");
         etching(VaultMod.id("ingenium"));
+        etching(VaultMod.id("pyramid_scheme"));
         etching(VaultMod.id("fireball_greedball"), "treasure");
+        etching(VaultMod.id("imploding_barrier"), "implode_mana_regen");
+        etching(VaultMod.id("ravenous_fangs"), "bloodfang");
+        etching(VaultMod.id("conservation_of_momentum"));
 
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
             for (int i = 0; i < v.size(); i ++) {
@@ -291,8 +339,21 @@ public class ModItemModelProvider extends ItemModelProvider {
             }
         });
 
+        try {
+            for (Field field : ModRitualDummyItems.class.getDeclaredFields()) {
+                if (field.getType() == DummyTooltipItem.class) {
+                    DummyTooltipItem item = (DummyTooltipItem) field.get(null);
+                    ritualDummy(item);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            WoldLogger.error("Failed to access ritual dummy fields via reflection", e);
+        }
     }
 
+    private ItemModelBuilder ritualDummy(Item item) {
+        return withExistingParent("item/" + item.getRegistryName().getPath(), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "ritual_dummy"));
+    }
 
     private ItemModelBuilder simpleItem(Item item) {
         return withExistingParent(item.getRegistryName().getPath(),
@@ -306,11 +367,25 @@ public class ModItemModelProvider extends ItemModelProvider {
                 WoldsVaults.id("item/" + item.getRegistryName().getPath())).texture("layer1", VaultMod.id("item/shuffle_seal_overlay"));
     }
 
-    public ItemModelBuilder skillScroll(String skillId) {
+    public ItemModelBuilder skillScrollAbility(String skillId) {
         return getBuilder(VaultMod.id("item/skills/" + skillId).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
                         WoldsVaults.id("gui/abilities/" + skillId));
+    }
+
+    public ItemModelBuilder skillScroll(String skillId) {
+        return getBuilder(VaultMod.id("item/skills/" + skillId).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        WoldsVaults.id("gui/skills/" + skillId));
+    }
+
+    public ItemModelBuilder skillScrollVanilla(String skillId) {
+        return getBuilder(VaultMod.id("item/skills/" + skillId).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("gui/skills/" + skillId));
     }
 
     public ItemModelBuilder researchToken(ResourceLocation icon) {
@@ -361,8 +436,20 @@ public class ModItemModelProvider extends ItemModelProvider {
                         VaultMod.id("item/inscription/" + modelNumber));
     }
 
+    private void allInscription(int modelNumber, String modelNameOverride) {
+        vaultInscription(modelNumber, modelNameOverride);
+        vaultSuperInscription(modelNumber, modelNameOverride);
+    }
+
     private ItemModelBuilder vaultInscription(int modelNumber, String modelNameOverride) {
         return getBuilder(VaultMod.id("item/inscription/" + modelNumber).toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0",
+                        VaultMod.id("item/inscription/" + modelNameOverride));
+    }
+
+    private ItemModelBuilder vaultSuperInscription(int modelNumber, String modelNameOverride) {
+        return getBuilder(VaultMod.id("item/inscription/super/" + modelNumber).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0",
                         VaultMod.id("item/inscription/" + modelNameOverride));

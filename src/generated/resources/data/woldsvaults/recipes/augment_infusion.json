@@ -1,0 +1,46 @@
+{
+  "type": "woldsvaults:vault_augment_infusion",
+  "sourceCost": 1000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "the_vault:mystical_powder"
+      }
+    },
+    {
+      "item": {
+        "item": "the_vault:mystical_powder"
+      }
+    },
+    {
+      "item": {
+        "item": "the_vault:mystical_powder"
+      }
+    },
+    {
+      "item": {
+        "item": "the_vault:mystical_powder"
+      }
+    },
+    {
+      "item": {
+        "item": "the_vault:eternal_soul"
+      }
+    },
+    {
+      "item": {
+        "item": "the_vault:eternal_soul"
+      }
+    },
+    {
+      "item": {
+        "item": "the_vault:eternal_soul"
+      }
+    },
+    {
+      "item": {
+        "item": "the_vault:eternal_soul"
+      }
+    }
+  ]
+}

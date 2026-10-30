@@ -3,6 +3,8 @@ package xyz.iwolfking.woldsvaults.objectives;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.DivineAltarBlock;
 import iskallia.vault.block.entity.ScavengerAltarTileEntity;
+import iskallia.vault.container.oversized.OverSizedInventory;
+import iskallia.vault.container.oversized.OverSizedItemStack;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.data.adapter.basic.EnumAdapter;
@@ -25,9 +27,11 @@ import iskallia.vault.item.KeystoneItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.config.UnhingedScavengerConfig;
+import xyz.iwolfking.woldsvaults.items.ItemScavengerPouch;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -99,6 +103,58 @@ public class UnhingedScavengerObjective extends ScavengerObjective {
 
                     }
                 }
+            }
+        });
+
+        CommonEvents.SCAVENGER_ALTAR_CONSUME.register(this, data -> {
+            if (!(data.getTile() instanceof ScavengerAltarTileEntity entity)) return;
+            if (!(entity.getHeldItem().getItem() instanceof ItemScavengerPouch)) return;
+            ItemStack pouch = entity.getHeldItem();
+            OverSizedInventory inv = ItemScavengerPouch.getInventory(pouch);
+
+            List<ScavengerGoal> goals = this.get(GOALS)
+                    .get(entity.getItemPlacedBy());
+
+            boolean changed = false;
+
+            for(int i = 0; i < inv.getOverSizedContents().size(); i++) {
+                OverSizedItemStack os = inv.getOverSizedContents().get(i);
+                if (os.isEmpty()) continue;
+
+                ItemStack temp = os.overSizedStack().copy();
+
+                if (!temp.hasTag()) {
+                    continue;
+                }
+
+                if(!temp.getTag().contains("VaultId")) {
+                    continue;
+                }
+
+                Listener listener = vault.get(Vault.LISTENERS).get(entity.getItemPlacedBy());
+
+
+
+                if(!temp.getTag().getString("VaultId").equals(vault.get(Vault.ID).toString())) {
+                    if(!listener.getPlayer().map(ServerPlayer::isCreative).orElse(false)) {
+                        continue;
+                    }
+                }
+
+                int before = temp.getCount();
+                for (ScavengerGoal goal : goals) {
+                    goal.consume(temp);
+                }
+
+                int consumed = before - temp.getCount();
+                if (consumed > 0) {
+                    ItemScavengerPouch.getInventory(pouch).removeItem(i, consumed);
+                    changed = true;
+                }
+            }
+
+            if (changed) {
+                ItemScavengerPouch.getInventory(pouch).save();
             }
         });
 

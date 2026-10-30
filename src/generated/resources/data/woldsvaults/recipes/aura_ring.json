@@ -1,0 +1,30 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:aura_ring"
+  },
+  "mana": 10000,
+  "ingredients": [
+    {
+      "item": "woldsvaults:chroma_core"
+    },
+    {
+      "item": "woldsvaults:chroma_core"
+    },
+    {
+      "item": "woldsvaults:chroma_core"
+    },
+    {
+      "item": "woldsvaults:chroma_core"
+    },
+    {
+      "item": "botania:rune_mana"
+    },
+    {
+      "item": "botania:manasteel_block"
+    },
+    {
+      "item": "the_vault:trinket_scrap"
+    }
+  ]
+}

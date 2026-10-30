@@ -31,10 +31,8 @@ import xyz.iwolfking.woldsvaults.api.lib.IRottenFruit;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 import java.util.List;
-import java.util.Random;
 
 public class PoltergeistPlum extends ItemVaultFruit implements IRottenFruit {
-    private static final Random rand = new Random();
     public PoltergeistPlum(ResourceLocation id) {
         super(id, 4800);
     }
@@ -48,7 +46,7 @@ public class PoltergeistPlum extends ItemVaultFruit implements IRottenFruit {
             timeText = String.format("%d minutes", minutes);
         }
 
-        MutableComponent cmp = (new TextComponent("Adds ")).withStyle(ChatFormatting.GRAY).append((new TextComponent(timeText)).withStyle(ChatFormatting.GREEN)).append(" to the Vault timer, ").append(new TextComponent("30 seconds ").withStyle(ChatFormatting.GREEN)).append(new TextComponent(" if one has been consumed already.").withStyle(ChatFormatting.GRAY));
+        MutableComponent cmp = (new TextComponent("Adds ")).withStyle(ChatFormatting.GRAY).append((new TextComponent(timeText)).withStyle(ChatFormatting.GREEN)).append(" to the Vault timer, ").append(new TextComponent("30 seconds").withStyle(ChatFormatting.GREEN)).append(new TextComponent(" if one has been consumed already.").withStyle(ChatFormatting.GRAY));
         tooltip.add(TextComponent.EMPTY);
         tooltip.add((new TextComponent("Adds")).withStyle(ChatFormatting.GRAY).append((new TextComponent(" 1x Vexation")).withStyle(ChatFormatting.RED)).append(new TextComponent(" to the Vault.").withStyle(ChatFormatting.GRAY)));
         tooltip.add(cmp);

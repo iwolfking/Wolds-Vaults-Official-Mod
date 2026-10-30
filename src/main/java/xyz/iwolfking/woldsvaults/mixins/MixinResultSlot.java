@@ -7,6 +7,7 @@ import iskallia.vault.item.VaultDollItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -26,6 +27,10 @@ public abstract class MixinResultSlot{
     @Inject(method = "mayPickup", at = @At("HEAD"), cancellable = true)
     public void mayPickup(Player player, CallbackInfoReturnable<Boolean> cir) {
         Slot thisSlot = (Slot)(Object)this;
+
+        if(!(thisSlot instanceof ResultSlot)) {
+            return;
+        }
 
         ItemStack pStack = this.getItem();
         if(pStack.getItem() instanceof VaultDollItem && !GameruleHelper.isEnabled(ModGameRules.ENABLE_VAULT_DOLLS, player.getLevel())) {

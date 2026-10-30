@@ -49,8 +49,8 @@ public class DominanceDeckModifier extends DeckModifier<DominanceDeckModifier.Co
         MutableComponent comp = (new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_" + config.mode.toString().toLowerCase(), String.format("%.1f%%", this.getModifierValue() * 100), new TranslatableComponent("deck.woldsvaults.dominance_deck_modifier_exclusion", String.join(", ", this.config.excludedGroups))));
         if (Screen.hasShiftDown()) {
             DecimalFormat df = new DecimalFormat("#.##");
-            String var10001 = df.format((double)(((DominanceDeckModifier.Config)this.getConfig()).modifierRoll.getMin() * 100.0F));
-            comp.append(" (" + var10001 + "%-" + df.format((double)(((DominanceDeckModifier.Config)this.getConfig()).modifierRoll.getMax() * 100.0F)) + "%)");
+            String var10001 = df.format(((Config)this.getConfig()).modifierRoll.getMin() * 100.0F);
+            comp.append(" (" + var10001 + "%-" + df.format(((Config)this.getConfig()).modifierRoll.getMax() * 100.0F) + "%)");
         }
         tooltip.add(comp);
         super.addText(tooltip, minIndex, flag, time);

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:universal_suppressor"
+    ]
+  },
+  "criteria": {
+    "has_demagnetizer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:demagnetizer"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:universal_suppressor"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_demagnetizer",
+      "has_the_recipe"
+    ]
+  ]
+}

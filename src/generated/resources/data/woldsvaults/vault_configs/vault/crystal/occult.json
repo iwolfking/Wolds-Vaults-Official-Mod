@@ -1,0 +1,15 @@
+{
+  "THEMES": {
+    "the_vault:default": [
+      {
+        "level": 50,
+        "pool": [
+          {
+            "value": "woldsvaults:occult",
+            "weight": 5
+          }
+        ]
+      }
+    ]
+  }
+}

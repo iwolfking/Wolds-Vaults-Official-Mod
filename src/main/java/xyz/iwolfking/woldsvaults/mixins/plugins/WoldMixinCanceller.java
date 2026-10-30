@@ -41,6 +41,11 @@ public class WoldMixinCanceller implements MixinCanceller {
             return true;
         }
 
+        //Cancel the vault's mixin, Wold's reimplements a tweaked version.
+        if(s.equals("iskallia.vault.mixin.MixinPiglinAi")) {
+            return true;
+        }
+
         if(s.equals("com.dog.serverportals.mixin.ServerGamePacketListenerImplMixin")) {
             return true;
         }

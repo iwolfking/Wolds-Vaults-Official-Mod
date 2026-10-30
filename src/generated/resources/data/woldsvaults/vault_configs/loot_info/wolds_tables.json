@@ -1,40 +1,6 @@
 {
   "excludeFromTooltip": [],
   "info": {
-    "the_vault:completion_crate_unhinged_scavenger": {
-      "display": "Completion Crate Unhinged Scavenger",
-      "lootTableKeys": {
-        "the_vault:base_crate_cursed_2_50": {
-          "level": 50
-        },
-        "the_vault:base_crate_cursed_0": {
-          "level": 0
-        },
-        "the_vault:base_crate_cursed_20": {
-          "level": 20
-        },
-        "the_vault:base_crate_cursed_2_100": {
-          "level": 100
-        }
-      }
-    },
-    "the_vault:completion_crate_ballistic_bingo": {
-      "display": "Completion Crate Ballistic Bingo",
-      "lootTableKeys": {
-        "the_vault:base_crate_cursed_100": {
-          "level": 100
-        },
-        "the_vault:base_crate_0": {
-          "level": 0
-        },
-        "the_vault:base_crate_cursed_20": {
-          "level": 20
-        },
-        "the_vault:base_crate_cursed_50": {
-          "level": 50
-        }
-      }
-    },
     "the_vault:dungeon_pedestal": {
       "display": "Dungeon Pedestal",
       "lootTableKeys": {
@@ -43,14 +9,6 @@
         },
         "the_vault:dungeon_pedestal_lvl75": {
           "level": 75
-        }
-      }
-    },
-    "the_vault:survival_gear_cache": {
-      "display": "Survival Gear Cache",
-      "lootTableKeys": {
-        "the_vault:survival_gear_cache": {
-          "level": 0
         }
       }
     },
@@ -87,20 +45,6 @@
         }
       }
     },
-    "the_vault:completion_crate_ballistic_bingo_full": {
-      "display": "Completion Crate Ballistic Bingo Full",
-      "lootTableKeys": {
-        "the_vault:base_crate_0": {
-          "level": 0
-        },
-        "the_vault:base_crate_cursed_20": {
-          "level": 20
-        },
-        "the_vault:bingo_bonus_cursed": {
-          "level": 100
-        }
-      }
-    },
     "the_vault:hellish_sand": {
       "display": "Hellish Sand",
       "lootTableKeys": {
@@ -113,6 +57,159 @@
       "display": "Treasure Chest (Map)",
       "lootTableKeys": {
         "the_vault:treasure_chest_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:treasure_chest_tenos": {
+      "display": "Treasure Chest Tenos",
+      "lootTableKeys": {
+        "the_vault:treasure_chest_tenos": {
+          "level": 50
+        }
+      }
+    },
+    "the_vault:treasure_chest_idona_map": {
+      "display": "Treasure Chest Idona Map",
+      "lootTableKeys": {
+        "the_vault:treasure_chest_idona_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:trove_sand": {
+      "display": "Trove Sand",
+      "lootTableKeys": {
+        "woldsvaults:trove_sand": {
+          "level": 0
+        }
+      }
+    },
+    "the_vault:trove_sand_map": {
+      "display": "Trove Sand Map",
+      "lootTableKeys": {
+        "woldsvaults:trove_sand_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:treasure_chest_tenos_map": {
+      "display": "Treasure Chest Tenos Map",
+      "lootTableKeys": {
+        "the_vault:treasure_chest_tenos_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:living_chest_map": {
+      "display": "Living Chest (Map)",
+      "lootTableKeys": {
+        "the_vault:living_chest_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:treasure_chest_wendarr_map": {
+      "display": "Treasure Chest Wendarr Map",
+      "lootTableKeys": {
+        "the_vault:treasure_chest_wendarr_map": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:completion_crate_enchanted_elixir": {
+      "display": "Completion Crate Enchanted Elixir",
+      "lootTableKeys": {
+        "the_vault:base_crate_cursed_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_cursed_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        },
+        "the_vault:base_crate_cursed_50": {
+          "level": 50
+        }
+      }
+    },
+    "the_vault:treasure_chest_idona": {
+      "display": "Treasure Chest Idona",
+      "lootTableKeys": {
+        "the_vault:treasure_chest_idona": {
+          "level": 50
+        }
+      }
+    },
+    "the_vault:time_trial_reward_crate": {
+      "display": "Time Trial Reward Crate",
+      "lootTableKeys": {
+        "the_vault:time_trial_reward_crate": {
+          "level": 0
+        }
+      }
+    },
+    "the_vault:completion_crate_unhinged_scavenger": {
+      "display": "Completion Crate Unhinged Scavenger",
+      "lootTableKeys": {
+        "the_vault:base_crate_cursed_2_50": {
+          "level": 50
+        },
+        "the_vault:base_crate_cursed_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        },
+        "the_vault:base_crate_cursed_2_100": {
+          "level": 100
+        }
+      }
+    },
+    "the_vault:completion_crate_ballistic_bingo": {
+      "display": "Completion Crate Ballistic Bingo",
+      "lootTableKeys": {
+        "the_vault:base_crate_cursed_100": {
+          "level": 100
+        },
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        },
+        "the_vault:base_crate_cursed_50": {
+          "level": 50
+        }
+      }
+    },
+    "the_vault:treasure_chest_velara": {
+      "display": "Treasure Chest Velara",
+      "lootTableKeys": {
+        "the_vault:treasure_chest_velara": {
+          "level": 50
+        }
+      }
+    },
+    "the_vault:survival_gear_cache": {
+      "display": "Survival Gear Cache",
+      "lootTableKeys": {
+        "the_vault:survival_gear_cache": {
+          "level": 0
+        }
+      }
+    },
+    "the_vault:completion_crate_ballistic_bingo_full": {
+      "display": "Completion Crate Ballistic Bingo Full",
+      "lootTableKeys": {
+        "the_vault:base_crate_0": {
+          "level": 0
+        },
+        "the_vault:base_crate_cursed_20": {
+          "level": 20
+        },
+        "the_vault:bingo_bonus_cursed": {
           "level": 100
         }
       }
@@ -183,11 +280,11 @@
         }
       }
     },
-    "the_vault:living_chest_map": {
-      "display": "Living Chest (Map)",
+    "the_vault:treasure_chest_wendarr": {
+      "display": "Treasure Chest Wendarr",
       "lootTableKeys": {
-        "the_vault:living_chest_map": {
-          "level": 100
+        "the_vault:treasure_chest_wendarr": {
+          "level": 50
         }
       }
     },
@@ -224,28 +321,11 @@
         }
       }
     },
-    "the_vault:completion_crate_enchanted_elixir": {
-      "display": "Completion Crate Enchanted Elixir",
+    "the_vault:treasure_chest_velara_map": {
+      "display": "Treasure Chest Velara Map",
       "lootTableKeys": {
-        "the_vault:base_crate_cursed_100": {
+        "the_vault:treasure_chest_velara_map": {
           "level": 100
-        },
-        "the_vault:base_crate_cursed_0": {
-          "level": 0
-        },
-        "the_vault:base_crate_cursed_20": {
-          "level": 20
-        },
-        "the_vault:base_crate_cursed_50": {
-          "level": 50
-        }
-      }
-    },
-    "the_vault:time_trial_reward_crate": {
-      "display": "Time Trial Reward Crate",
-      "lootTableKeys": {
-        "the_vault:time_trial_reward_crate": {
-          "level": 0
         }
       }
     },

@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.layout.impl.ClassicRingsCrystalLayout;
 import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.RingsLayoutTooltip;
@@ -78,7 +79,7 @@ public class RingsLayoutDefinition implements LayoutDefinition {
         try {
             return RingsLayoutTooltip.getTooltipImage(data);
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Failed to create rings layout manipulator preview.", e);
+            WoldLogger.error("Failed to create rings layout manipulator preview.", e);
             return Optional.empty();
         }
     }

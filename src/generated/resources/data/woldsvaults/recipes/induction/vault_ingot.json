@@ -1,0 +1,20 @@
+{
+  "type": "thermal:smelter",
+  "ingredients": [
+    {
+      "item": "the_vault:chromatic_iron_ingot"
+    },
+    {
+      "item": "the_vault:chromatic_steel_ingot"
+    },
+    {
+      "item": "woldsvaults:chromatic_gold_ingot"
+    }
+  ],
+  "result": [
+    {
+      "item": "the_vault:vault_ingot"
+    }
+  ],
+  "energy": 4800
+}

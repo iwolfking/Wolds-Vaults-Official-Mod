@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.mixins;
 import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.client.data.ClientPrestigePowersData;
 import iskallia.vault.core.vault.ClientVaults;
+import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.prestige.TreasureHunterPrestigePower;
 import iskallia.vault.world.data.PlayerPrestigePowersData;
@@ -15,7 +16,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -24,8 +27,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.api.util.VesselSlowCapHelper;
+import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.prestige.ReachPrestigePower;
 
@@ -72,6 +80,39 @@ public abstract class MixinLivingEntity extends Entity {
     @Nullable
     public abstract MobEffectInstance getEffect(MobEffect pEffect);
 
+    /**
+     * Hyper-scoped NaN firewall (the vault-wraith health bug): any non-finite health write on
+     * an entity inside a hyper vault is sanitized to a finite value and logged with enough
+     * context to identify the injector. Outside hyper vaults the write passes through
+     * untouched (logged once per entity), so non-hyper behavior cannot change. The finiteness
+     * check is first, so the hot path costs one comparison.
+     */
+    @ModifyVariable(method = "setHealth", at = @At("HEAD"), argsOnly = true)
+    private float woldsVaults$sanitizeNonFiniteHealth(float health) {
+        if (Float.isFinite(health) || this.level.isClientSide) {
+            return health;
+        }
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (!HyperVaultEvents.isInHyperVault(self)) {
+            if (this.addTag("woldsvaults_nonfinite_health_seen")) {
+                WoldLogger.error(
+                        "Non-finite health write ({}) on {} outside a hyper vault — left untouched (NaN guards are hyper-scoped).",
+                        health, this.getType().getRegistryName());
+            }
+            return health;
+        }
+        float previous = self.getHealth();
+        float sanitized;
+        if (Float.isNaN(health)) {
+            sanitized = Float.isFinite(previous) && previous > 0.0F ? previous : 1.0F;
+        } else {
+            sanitized = health > 0.0F ? Float.MAX_VALUE : 0.0F;
+        }
+        WoldLogger.error("HYPER NaN-guard: sanitized health write {} -> {} on {} (was {}, max {}).",
+                health, sanitized, this.getType().getRegistryName(), previous, self.getMaxHealth());
+        return sanitized;
+    }
+
     // Prestige
     @Inject(method = "getAttributeValue", at = @At("HEAD"), cancellable = true)
     public void getAttributeValue(Attribute attribute, CallbackInfoReturnable<Double> cir) {
@@ -85,6 +126,16 @@ public abstract class MixinLivingEntity extends Entity {
                     double increase =  PlayerPrestigePowersData.get((ServerLevel) this.level).getPowers(player).getAll(ReachPrestigePower.class, Skill::isUnlocked).stream().mapToDouble(ReachPrestigePower::getReachIncrease).sum();
                     cir.setReturnValue(Math.min(this.getAttributes().getValue(attribute), 7.0F + increase));
                 }
+            }
+        }
+    }
+
+    @Inject(method = "getAttributeValue", at = @At("RETURN"), cancellable = true)
+    private void woldsVaults$capVesselSlow(Attribute attribute, CallbackInfoReturnable<Double> cir) {
+        if (attribute == Attributes.MOVEMENT_SPEED && (Object) this instanceof TheVesselEntity vessel) {
+            AttributeInstance instance = vessel.getAttribute(Attributes.MOVEMENT_SPEED);
+            if (instance != null) {
+                cir.setReturnValue(VesselSlowCapHelper.capSlow(vessel, cir.getReturnValue(), instance));
             }
         }
     }

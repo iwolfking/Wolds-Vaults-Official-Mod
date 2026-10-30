@@ -285,6 +285,11 @@ public class SurvivalObjective extends Objective {
 
     public void adjustWave(Vault vault, int amount) {
         int currentWave = this.get(WAVE_INDEX);
+
+        if(currentWave == 0 && amount < 0) {
+            return;
+        }
+
         this.set(WAVE_INDEX, Math.min(currentWave + amount, this.get(WAVE_GROUPS).size() - 1));
         if(currentWave != this.get(WAVE_INDEX)) {
             WoldVaultUtils.sendMessageToAllRunners(vault, new TranslatableComponent("vault_objective.woldsvaults.survival_wave_increment", StringUtils.convertToTitleCase(this.get(WAVE_GROUPS).get(this.get(WAVE_INDEX)))));

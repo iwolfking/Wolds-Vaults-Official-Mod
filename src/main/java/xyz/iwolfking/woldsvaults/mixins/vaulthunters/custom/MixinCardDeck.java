@@ -1,32 +1,44 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
-import iskallia.vault.core.card.Card;
-import iskallia.vault.core.card.CardDeck;
-import iskallia.vault.core.card.CardPos;
+import com.google.gson.JsonObject;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import iskallia.vault.core.card.*;
 import iskallia.vault.core.card.modifier.deck.DeckModifier;
+import iskallia.vault.core.data.serializable.ISerializable;
+import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.TooltipFlag;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.lib.ICardDeckCache;
 import xyz.iwolfking.woldsvaults.modifiers.deck.EmptySlotDeckModifier;
+import xyz.iwolfking.woldsvaults.modifiers.deck.ImplicitDeckModifier;
+import xyz.iwolfking.woldsvaults.modifiers.deck.lib.IMultiplicativeDeckModifier;
+import xyz.iwolfking.woldsvaults.modifiers.deck.lib.IRemovableSlotModifier;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Mixin(value = CardDeck.class, remap = false)
-public abstract class MixinCardDeck implements ICardDeckCache {
+public abstract class MixinCardDeck implements ICardDeckCache, ISerializable<CompoundTag, JsonObject> {
 
     @Shadow
     @Final
     private List<DeckModifier<?>> modifiers;
+
+    @Shadow
+    public abstract List<VaultGearAttributeInstance<?>> getSnapshotAttributes();
+
+    @Shadow
+    @Final
+    private Map<CardPos, Card> cards;
+    @Shadow
+    private int socketCount;
     @Unique private int wv$emptySlots = -1;
     @Unique private int wv$filledSlots = -1;
     @Unique private String wv$dominantGroup = null;
@@ -132,6 +144,17 @@ public abstract class MixinCardDeck implements ICardDeckCache {
         }
     }
 
+    @Inject(method = "removeModifiersMatching", at = @At("HEAD"))
+    private void callRemovalMethod(Predicate<DeckModifier<?>> predicate, CallbackInfo ci) {
+        this.modifiers.forEach(deckModifier -> {
+            if(predicate.test(deckModifier)) {
+                if(deckModifier instanceof IRemovableSlotModifier removableSlotModifier) {
+                    removableSlotModifier.onRemove((CardDeck)(Object)this);
+                }
+            }
+        });
+    }
+
 
     /**
      * @author iwolfking
@@ -147,18 +170,33 @@ public abstract class MixinCardDeck implements ICardDeckCache {
         }
 
         float value = 1.0F;
+        float mult = 1.0F;
 
         for (DeckModifier<?> modifier : this.modifiers) {
-            if(modifier instanceof EmptySlotDeckModifier emptySlotDeckModifier) {
+            DeckModifier<?> modToProcess = modifier instanceof ImplicitDeckModifier implicitDeckModifier ? implicitDeckModifier.getModifier() : modifier;
+            if(modToProcess instanceof EmptySlotDeckModifier emptySlotDeckModifier) {
                 wv$recomputeSlotCache();
-                value += emptySlotDeckModifier.getModifierValue(card, pos, (CardDeck)(Object)this);
+                value += (emptySlotDeckModifier.getModifierValue(card, pos, (CardDeck)(Object)this) - 1.0F);
+            }
+            else if(modToProcess instanceof IMultiplicativeDeckModifier multiplicativeDeckModifier) {
+                mult *= multiplicativeDeckModifier.getMultiplierValue(card, pos, (CardDeck)(Object)this);
             }
             else {
-                float modValue = modifier.getModifierValue(card, pos, (CardDeck)(Object)this);
+                float modValue = modToProcess.getModifierValue(card, pos, (CardDeck)(Object)this);
                 value += (modValue - 1.0F);
             }
         }
 
-        return value;
+        return value * mult;
+    }
+
+    @WrapOperation(method = "addText", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
+    public int modifyImplicitModifierSocketCount(List<DeckModifier<?>> instance, Operation<Integer> original) {
+        int implicitCount = Math.toIntExact(instance.stream().filter(deckModifier -> deckModifier instanceof ImplicitDeckModifier).count());
+        if(implicitCount > 0) {
+            return original.call(instance) - implicitCount;
+        }
+
+        return original.call(instance);
     }
 }

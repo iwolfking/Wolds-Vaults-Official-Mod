@@ -12,7 +12,7 @@
         {
           "attribute": "woldsvaults:concentrate_drain",
           "group": "ModEtching",
-          "identifier": "woldsvaults:concenrate_drain_etching",
+          "identifier": "woldsvaults:concentrate_drain_etching",
           "tags": [],
           "tiers": [
             {
@@ -162,7 +162,7 @@
       "name": "Reverberating Echo",
       "description": "<#691337>Echoing<gray> deals damage on subsequent applications instead of over time",
       "color": 6886199,
-      "minGreedTier": 0,
+      "minGreedTier": 4,
       "typeGroups": [
         "Offensive"
       ],
@@ -245,11 +245,11 @@
     },
     "woldsvaults:ingenium": {
       "name": "Ingenium",
-      "description": "<yellow>+1<gray> to all <aqua>Talent<gray> levels",
+      "description": "<yellow>Increases<gray> all <aqua>Talent<gray> levels",
       "color": 6084886,
-      "minGreedTier": 0,
+      "minGreedTier": 6,
       "typeGroups": [
-        "Defensive"
+        "WAND"
       ],
       "attributes": [
         {
@@ -259,12 +259,61 @@
           "tags": [],
           "tiers": [
             {
-              "minGreedTier": 0,
+              "minGreedTier": 6,
+              "maxGreedTier": 9,
+              "weight": 10,
+              "value": {
+                "talentKey": "all_talents",
+                "levelChange": 2
+              }
+            },
+            {
+              "minGreedTier": 10,
               "maxGreedTier": -1,
               "weight": 10,
               "value": {
                 "talentKey": "all_talents",
-                "levelChange": 1
+                "levelChange": 3
+              }
+            }
+          ]
+        }
+      ],
+      "affixType": "IMPLICIT"
+    },
+    "woldsvaults:pyramid_scheme": {
+      "name": "Pyramid Scheme",
+      "description": "Increases max stacking talent stacks by 25",
+      "color": 13338188,
+      "minGreedTier": 9,
+      "typeGroups": [
+        "SWORD"
+      ],
+      "attributes": [
+        {
+          "attribute": "woldsvaults:additional_stacking_stacks",
+          "group": "ModEtching",
+          "identifier": "woldsvaults:u_stacking_bonus",
+          "tags": [],
+          "tiers": [
+            {
+              "minGreedTier": 9,
+              "maxGreedTier": 10,
+              "weight": 10,
+              "value": {
+                "min": 5,
+                "max": 10,
+                "step": 1
+              }
+            },
+            {
+              "minGreedTier": 11,
+              "maxGreedTier": -1,
+              "weight": 10,
+              "value": {
+                "min": 10,
+                "max": 15,
+                "step": 1
               }
             }
           ]
@@ -543,6 +592,122 @@
                 "min": 7,
                 "max": 9,
                 "step": 1
+              }
+            }
+          ]
+        }
+      ],
+      "affixType": "IMPLICIT"
+    },
+    "woldsvaults:imploding_barrier": {
+      "name": "Imploding Barrier",
+      "description": "While <#AF399E>Ultimate Shield<gray> is active, it has a <yellow>%dvalue<gray> chance to cast <aqua>Implode<gray> when hit",
+      "color": 3111119,
+      "minGreedTier": 0,
+      "typeGroups": [
+        "Defensive"
+      ],
+      "attributes": [
+        {
+          "attribute": "woldsvaults:imploding_barrier",
+          "group": "ModEtching",
+          "identifier": "woldsvaults:imploding_barrier_etching",
+          "tags": [],
+          "tiers": [
+            {
+              "minGreedTier": 0,
+              "maxGreedTier": 5,
+              "weight": 10,
+              "value": {
+                "min": 0.03,
+                "max": 0.07,
+                "step": 1.0
+              }
+            },
+            {
+              "minGreedTier": 5,
+              "maxGreedTier": 7,
+              "weight": 10,
+              "value": {
+                "min": 0.07,
+                "max": 0.09,
+                "step": 1.0
+              }
+            },
+            {
+              "minGreedTier": 7,
+              "maxGreedTier": 10,
+              "weight": 10,
+              "value": {
+                "min": 0.1,
+                "max": 0.12,
+                "step": 1.0
+              }
+            },
+            {
+              "minGreedTier": 10,
+              "maxGreedTier": -1,
+              "weight": 10,
+              "value": {
+                "min": 0.12,
+                "max": 0.15,
+                "step": 1.0
+              }
+            }
+          ]
+        }
+      ],
+      "affixType": "IMPLICIT"
+    },
+    "woldsvaults:conservation_of_momentum": {
+      "name": "Conservation of Momentum",
+      "description": "<#AF8550>Momentum Engine<gray> only loses one stack when attacking instead of all stacks",
+      "color": 11502928,
+      "minGreedTier": 0,
+      "typeGroups": [
+        "Utility"
+      ],
+      "attributes": [
+        {
+          "attribute": "woldsvaults:conservation_of_momentum",
+          "group": "ModEtching",
+          "identifier": "woldsvaults:conservation_of_momentum_etching",
+          "tags": [],
+          "tiers": [
+            {
+              "minGreedTier": 0,
+              "maxGreedTier": -1,
+              "weight": 10,
+              "value": {
+                "flag": true
+              }
+            }
+          ]
+        }
+      ],
+      "affixType": "IMPLICIT"
+    },
+    "woldsvaults:ravenous_fangs": {
+      "name": "Ravenous Fangs",
+      "description": "<#AF3E50>Wall of Fangs<gray> does 75% reduced damage, but execution threshold is doubled",
+      "color": 11484752,
+      "minGreedTier": 8,
+      "typeGroups": [
+        "Offensive"
+      ],
+      "attributes": [
+        {
+          "attribute": "woldsvaults:ravenous_fangs",
+          "group": "ModEtching",
+          "identifier": "woldsvaults:ravenous_fangs_etching",
+          "tags": [],
+          "tiers": [
+            {
+              "minGreedTier": 8,
+              "maxGreedTier": -1,
+              "weight": 10,
+              "value": {
+                "flag": true
               }
             }
           ]

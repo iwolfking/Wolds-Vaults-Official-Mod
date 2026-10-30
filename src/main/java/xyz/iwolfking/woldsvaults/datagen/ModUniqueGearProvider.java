@@ -22,7 +22,8 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .base("the_vault:base_durability")
                 .implicit("the_vault:trident_damage_low",
                         "the_vault:trident_loyalty_zeus",
-                        "the_vault:trident_channeling")
+                        "the_vault:trident_channeling",
+                        "the_vault:base_attack_speed_axe")
                 .prefix("the_vault:channeling_chance_zeus")
                 .prefix("the_vault:second_judgement_zeus")
                 .prefix("the_vault:windup_time_zeus")
@@ -40,7 +41,8 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .model("woldsvaults:gear/trident/fork")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:trident_damage",
-                        "the_vault:trident_loyalty")
+                        "the_vault:trident_loyalty",
+                        "the_vault:base_attack_speed_axe")
                 .prefix("the_vault:mod_hit_hearts_fork")
                 .prefix("the_vault:mod_tank_damage_fork")
                 .prefix("the_vault:mod_soul_quantity_fork")
@@ -125,7 +127,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
         ));
 
         consumer.accept(entry("woldsvaults:shattering_jewel", new UniqueGearBuilder("Shatterering Jewel", ModItems.JEWEL)
-                .model("the_vault:gear/jewel/treasure")
+                .model("the_vault:gear/jewel/breaching")
                 .implicit("the_vault:u_jewel_size_stella")
                 .prefix("the_vault:breaching_jewel")
                 .dropLocation("Gateways")
@@ -209,7 +211,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .model("the_vault:magnets/treasure_magnet")
                 .base("the_vault:base_magnet_durability")
                 .implicit("the_vault:u_base_magnet_range", "the_vault:base_endergized")
-                .prefix("the_vault:u_treasure_magnet_item_rarity", "the_vault:u_treasure_magnet_item_quantity")
+                .prefix("the_vault:u_treasure_magnet_item_rarity", "the_vault:u_treasure_magnet_item_quantity", "the_vault:u_lucky_lucky_tm")
                 .suffix("the_vault:u_treasure_magnet_health", "the_vault:u_treasure_magnet_mana")
                 .dropLocation("Treasure Pedestal")
                 .description("This powerful Magnet gives you much greater ", "$text")
@@ -230,7 +232,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .base("the_vault:base_magnet_durability")
                 .implicit("the_vault:u_base_magnet_range", "the_vault:base_endergized")
                 .prefix("the_vault:u_bloody_magnet_increase", "the_vault:u_bloody_magnet_leech")
-                .suffix("the_vault:u_bloody_magnet_trap_disarm", "the_vault:u_bloody_magnet_mana_regen")
+                .suffix("the_vault:u_bloody_magnet_trap_disarm", "the_vault:u_bloody_magnet_mana_regen", "the_vault:u_cursed_unlucky")
                 .dropLocation("Dungeon Pedestal")
                 .description("This deadly Magnet gives you hit harder and leech life back on hit ", "$text")
                 .description("with the downside of lowering your ", "$text")
@@ -298,7 +300,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .model("the_vault:gear/sword/everflame")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
-                .prefix("the_vault:mod_attack_damage", "the_vault:mod_everflame_fireball")
+                .prefix("the_vault:base_ap", "the_vault:mod_everflame_fireball")
                 .suffix("the_vault:mod_area_of_effect", "the_vault:unique_everflame_modification")
                 .dropLocation("Vendoors")
                 .description("This flaming Sword gives you the ability to shoot TWO fireballs!", "$text")

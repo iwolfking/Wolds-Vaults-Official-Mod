@@ -1,0 +1,36 @@
+{
+  "type": "woldsvaults:companion_revival_ritual",
+  "poolId": "woldsvaults:companion_revival",
+  "pentacle_id": "occultism:velara",
+  "ritual_type": "occultism:craft",
+  "duration": 10,
+  "activation_item": {
+    "item": "the_vault:companion"
+  },
+  "ritual_dummy": {
+    "item": "woldsvaults:ritual_dummy/companion_revival"
+  },
+  "result": {
+    "item": "the_vault:companion"
+  },
+  "ingredients": [
+    {
+      "item": "the_vault:infused_eternal_soul"
+    },
+    {
+      "item": "woldsvaults:green_vault_essence"
+    },
+    {
+      "item": "woldsvaults:green_vault_essence"
+    },
+    {
+      "item": "woldsvaults:green_vault_essence"
+    },
+    {
+      "item": "woldsvaults:green_vault_essence"
+    },
+    {
+      "item": "woldsvaults:green_vault_essence"
+    }
+  ]
+}

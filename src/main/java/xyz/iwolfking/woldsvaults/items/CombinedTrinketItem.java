@@ -34,7 +34,6 @@ import xyz.iwolfking.woldsvaults.client.renderers.CombinedTrinketRenderer;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -97,11 +96,23 @@ public class CombinedTrinketItem extends TrinketItem implements IManualModelLoad
                 .map(VaultGearAttributeInstance::getValue).collect(Collectors.toUnmodifiableList());
     }
 
+    /**
+     * Returns the stored effects that this item is responsible for driving itself, which is every
+     * effect except the first. {@link TrinketItem}'s curio lifecycle resolves a single effect
+     * through {@code TrinketItem.getTrinket}, which always yields the first stored effect, so the
+     * first one is already handled by the {@code super} call in each lifecycle method and must not
+     * be applied again here.
+     */
+    private static List<TrinketEffect<?>> getSupplementalTrinkets(ItemStack stack) {
+        List<TrinketEffect<?>> effects = getTrinkets(stack);
+        return effects.isEmpty() ? effects : effects.subList(1, effects.size());
+    }
+
     @Override
     public void curioTick(SlotContext ctx, ItemStack stack) {
         if (!isIdentified(stack)) return;
 
-        for (TrinketEffect<?> effect : getTrinkets(stack)) {
+        for (TrinketEffect<?> effect : getSupplementalTrinkets(stack)) {
             if (effect.getRegistryName() == null) continue;
 
             if (!ChallengeCurseHelper.isTrinketDisabled(
@@ -117,7 +128,7 @@ public class CombinedTrinketItem extends TrinketItem implements IManualModelLoad
 
     @Override
     public void onEquip(SlotContext ctx, ItemStack prev, ItemStack stack) {
-        for (TrinketEffect<?> effect : getTrinkets(stack)) {
+        for (TrinketEffect<?> effect : getSupplementalTrinkets(stack)) {
             effect.onEquip(ctx.entity(), stack);
         }
         super.onEquip(ctx, prev, stack);
@@ -126,7 +137,7 @@ public class CombinedTrinketItem extends TrinketItem implements IManualModelLoad
     @Override
     public void onUnequip(String identifier, int index, LivingEntity livingEntity, ItemStack stack) {
         super.onUnequip(identifier, index, livingEntity, stack);
-        getTrinkets(stack).forEach(trinketEffect -> {
+        getSupplementalTrinkets(stack).forEach(trinketEffect -> {
             trinketEffect.onUnEquip(livingEntity, stack);
         });
     }

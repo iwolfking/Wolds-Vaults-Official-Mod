@@ -1,7 +1,11 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.item.VaultDollItem;
+import iskallia.vault.util.InventoryUtil;
+import iskallia.vault.world.data.DollLootData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
@@ -20,6 +24,8 @@ import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.blocks.tiles.DollDismantlingTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
+import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
+import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 
 /**
  * This mixin allows to block Vault Doll placement on ground if enabled in config.
@@ -67,5 +73,14 @@ public class MixinVaultDollItem
             cir.setReturnValue(InteractionResult.FAIL);
         }
 
+    }
+
+    @WrapOperation(method = "lambda$addPercentageOfLoot$18", at = @At(value = "INVOKE", target = "Liskallia/vault/world/data/DollLootData;addLoot(Lnet/minecraft/world/item/ItemStack;)V"))
+    private static void dontAddInvalidItemsToVaultDolls(DollLootData instance, ItemStack lootStack, Operation<Void> original) {
+        if(InventoryUtil.doesRotten(lootStack) || lootStack.getItem() instanceof AlchemyIngredientItem || lootStack.getItem() instanceof CatalystItem) {
+            return;
+        }
+
+        original.call(instance, lootStack);
     }
 }

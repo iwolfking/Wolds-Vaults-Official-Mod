@@ -1,7 +1,12 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import iskallia.vault.block.entity.EtchingApplicationTableTileEntity;
 import iskallia.vault.gear.VaultGearRarity;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
+import iskallia.vault.gear.attribute.VaultGearModifier;
+import iskallia.vault.gear.data.VaultGearData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -13,8 +18,28 @@ public class MixinEtchingApplicationTableTileEntity {
         return false;
     }
 
+    @Redirect(method = "updateResult", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/VaultGearData;isModifiable()Z"))
+    private boolean allowEtchingUnmodifiable(VaultGearData instance) {
+        return true;
+    }
+
     @Redirect(method = "getCompatibility", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/VaultGearRarity;equals(Ljava/lang/Object;)Z"))
     private boolean allowEtchingUniquesCompat(VaultGearRarity instance, Object o) {
         return false;
+    }
+
+    @Redirect(method = "getCompatibility", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/VaultGearData;isModifiable()Z"))
+    private boolean allowEtchingUnmodifiableCompat(VaultGearData instance) {
+        return true;
+    }
+
+    @WrapOperation(method = "updateResult", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/VaultGearData;createOrReplaceAttributeValue(Liskallia/vault/gear/attribute/VaultGearAttribute;Ljava/lang/Object;)Ljava/lang/Object;"))
+    private Object ignoreUnmodifiable(VaultGearData instance, VaultGearAttribute vaultGearAttribute, Object o, Operation<Object> original) {
+        return instance.createOrReplaceAttributeValue(vaultGearAttribute, o, true);
+    }
+
+    @WrapOperation(method = "lambda$updateResult$1", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/VaultGearData;addModifier(Liskallia/vault/gear/attribute/VaultGearModifier$AffixType;Liskallia/vault/gear/attribute/VaultGearModifier;)Z"))
+    private static boolean ignoreUnmodifiableWhyIGottaDoThis(VaultGearData instance, VaultGearModifier.AffixType type, VaultGearModifier<?> modifier, Operation<Boolean> original) {
+        return instance.addModifier(type, modifier, true);
     }
 }

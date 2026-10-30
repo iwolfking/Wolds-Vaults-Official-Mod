@@ -1,0 +1,15 @@
+{
+  "type": "thermal:centrifuge",
+  "ingredient": {
+    "item": "the_vault:key_upaline"
+  },
+  "result": [
+    {
+      "item": "the_vault:blank_key"
+    },
+    {
+      "item": "the_vault:cluster_upaline"
+    }
+  ],
+  "energy": 1000
+}

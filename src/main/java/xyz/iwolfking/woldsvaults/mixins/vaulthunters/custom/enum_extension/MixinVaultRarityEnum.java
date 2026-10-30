@@ -17,7 +17,7 @@ public class MixinVaultRarityEnum {
 
 
 
-    private static final VaultGearRarity MYTHIC = enumExpansion$addVariant("MYTHIC", TextColor.fromRgb(15597727), 7, 6, 6, 6, 6, 6, 6, 6, 0);
+    private static final VaultGearRarity MYTHIC = enumExpansion$addVariant("MYTHIC", TextColor.fromRgb(12000284), 7, 6, 6, 6, 6, 6, 6, 6, 0);
 
 
     @Invoker("<init>")

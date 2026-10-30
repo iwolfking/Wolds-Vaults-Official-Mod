@@ -39,6 +39,7 @@ public class ModTooltipsProvider extends AbstractTooltipProvider {
                     .addTooltipEntry(ModItems.ECCENTRIC_FOCUS.getRegistryName(), "Use with Vault Gear in the Artisan Station to add an unusual modifier.")
                     .addTooltipEntry(ModItems.SUSPENSION_FOCUS.getRegistryName(), "Use with Vault Gear in the Artisan Station to freeze a Legendary, Greater, Corrupted, or Unusual modifier.")
                     .addTooltipEntry(ModItems.BLAZING_FOCUS.getRegistryName(), "Use with Vault Gear in the Artisan Station to unfreeze all frozen modifiers.")
+                    .addTooltipEntry(ModItems.INSCRIBING_FOCUS.getRegistryName(), "Use with Vault Map in the Artisan Station to increase tier by 1 and reforge.")
                     .addTooltipEntry(ModItems.STYLISH_FOCUS.getRegistryName(), "Use with Vault Tool in an anvil to add Stylish, causing it to rotate through all tool types visually.")
                     .addTooltipEntry(ModItems.CRYSTAL_REINFORCEMENT.getRegistryName(), "Use with Vault Tool in an anvil to add 10 capacity.")
                     .addTooltipEntry(ModItems.RESONATING_REINFORCEMENT.getRegistryName(), "Use with Vault Tool in an anvil to add 10 capacity. (can be used a limited number of times)")
@@ -54,6 +55,8 @@ public class ModTooltipsProvider extends AbstractTooltipProvider {
                     .addTooltipEntry(ModItems.CRYSTAL_SEAL_SPIRITS.getRegistryName(), "Use in the Crystal Workbench to set the objective to 'Haunted Braziers'")
                     .addTooltipEntry(ModItems.CRYSTAL_SEAL_CORRUPT.getRegistryName(), "Use in the Crystal Workbench to set the objective to 'Corrupted'")
                     .addTooltipEntry(ModItems.CRYSTAL_SEAL_SURVIVOR.getRegistryName(), "Use in the Crystal Workbench to set the objective to 'Survival'")
+                    .addTooltipEntry(ModItems.CRYSTAL_SEAL_UNHINGED_SCAVINGO.getRegistryName(), "Use in the Crystal Workbench to set the objective to 'Unhinged Collector'")
+                    .addTooltipEntry(ModItems.CRYSTAL_SEAL_ALCHEMY.getRegistryName(), "Use in the Crystal Workbench to set the objective to 'Alchemy'")
                     .addTooltipEntry(ModItems.VENDOOR_CAPSTONE.getRegistryName(), "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Vendoor Hunter' modifier.")
                     .addTooltipEntry(ModItems.ENCHANTED_CAPSTONE.getRegistryName(), "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Enchanted' modifier.")
                     .addTooltipEntry(ModItems.FRENZY_CAPSTONE.getRegistryName(), "Use in the Crystal Workbench as a capstone, making the crystal unmodifiable and adding the 'Frenzy' curse.")
@@ -73,8 +76,10 @@ public class ModTooltipsProvider extends AbstractTooltipProvider {
                     .addTooltipEntry(ModItems.WOLD_STAR_CHUNK.getRegistryName(), "An extremely rare item used in crafting a Wold Star.")
                     .addTooltipEntry(ModItems.WOLD_STAR.getRegistryName(), "Used in crafting Creative items.")
                     .addTooltipEntry(ModItems.SMASHED_VAULT_GEM.getRegistryName(), "Obtained when a vault ore would normally drop nothing.")
+                    .addTooltipEntry(ModItems.GREED_TREE_RESET_ITEM.getRegistryName(), "Use to reset your Greed Tree unlocks!")
                     .addTooltipEntry(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK.getRegistryName(), "Use with <aqua>Integrated Dynamics's<yellow> Crafting Interface<white> when you want to utilize research locked recipes!")
-                    .addTooltipEntry(ModBlocks.TRINKET_FUSION_BLOCK.getRegistryName(), "Combines <light_purple>Trinkets into <gold>Fusion Trinkets<gray> using the power of <light_purple>Prismatic Glue");
+                    .addTooltipEntry(ModBlocks.TRINKET_FUSION_BLOCK.getRegistryName(), "Combines <light_purple>Trinkets into <gold>Fusion Trinkets<gray> using the power of <light_purple>Prismatic Glue")
+                    .addTooltipEntry(ModItems.CONCEALED_CHAOS.getRegistryName(), "Use in the <aqua>Crystal Workbench<gray> to add random modifiers to your <yellow>Vault Crystal<gray>, has a chance to backfire! Consumes 50 capacity.");
         });
     }
 }

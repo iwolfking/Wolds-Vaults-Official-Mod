@@ -1,0 +1,42 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "auxiliaryblocks:blue_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:green_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:yellow_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:pink_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:orange_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:purple_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:smooth_blue_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:smooth_gray_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:smooth_green_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:smooth_orange_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:smooth_pink_pastel"
+    },
+    {
+      "item": "auxiliaryblocks:smooth_purple_pastel"
+    }
+  ],
+  "overwrite": false
+}

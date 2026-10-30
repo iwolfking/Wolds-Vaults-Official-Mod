@@ -1,0 +1,79 @@
+{
+  "type": "modonomicon:dense",
+  "pattern": [
+    [
+      "____WSW____",
+      "___WNINW___",
+      "__WZRRRZW__",
+      "_W_RRRRR_W_",
+      "W____R____W",
+      "S_GGG0PPP_S",
+      "W___WWW___W",
+      "_W___W___W_",
+      "__W__W__W__",
+      "___W___W___",
+      "____WSW____"
+    ],
+    [
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*",
+      "+*+*+*+*+*+",
+      "*+*+*+*+*+*"
+    ]
+  ],
+  "mapping": {
+    "0": {
+      "type": "modonomicon:block",
+      "block": "occultism:golden_sacrificial_bowl"
+    },
+    "P": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_purple"
+    },
+    "R": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_red"
+    },
+    "S": {
+      "type": "modonomicon:block",
+      "block": "occultism:spirit_attuned_crystal"
+    },
+    "G": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_gold"
+    },
+    "W": {
+      "type": "modonomicon:block",
+      "block": "occultism:chalk_glyph_white"
+    },
+    "I": {
+      "type": "modonomicon:block",
+      "block": "woldsvaults:deco_god_altar_idona"
+    },
+    "*": {
+      "type": "modonomicon:display",
+      "display": "occultism:otherstone"
+    },
+    "Z": {
+      "type": "modonomicon:block",
+      "block": "minecraft:skeleton_skull",
+      "display": "occultism:skeleton_skull_dummy"
+    },
+    "+": {
+      "type": "modonomicon:display",
+      "display": "minecraft:stone"
+    },
+    "N": {
+      "type": "modonomicon:block",
+      "block": "minecraft:wither_skeleton_skull",
+      "display": "occultism:wither_skeleton_skull_dummy"
+    }
+  }
+}

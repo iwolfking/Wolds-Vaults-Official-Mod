@@ -8,6 +8,7 @@ import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.AntiqueStampCollectorBook;
+import iskallia.vault.item.CoinPouchItem;
 import iskallia.vault.item.CompassItem;
 import iskallia.vault.item.ItemShardPouch;
 import iskallia.vault.recipe.anvil.AnvilContext;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import xyz.iwolfking.woldsvaults.items.filter_necklace.FilterNecklaceItem;
+import xyz.iwolfking.woldsvaults.items.rings.AngelRingItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,7 @@ public class SoulboundEnchantmentRecipe extends VanillaAnvilRecipe {
     public void onRegisterJEI(IRecipeRegistration registry) {
         IVanillaRecipeFactory factory = registry.getVanillaRecipeFactory();
 
-        List<ItemStack> inputs = List.of(new ItemStack(ModItems.SHARD_POUCH), new ItemStack(ModItems.VAULT_COMPASS), new ItemStack(ModItems.ANTIQUE_COLLECTOR_BOOK), new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.FILTER_NECKLACE));
+        List<ItemStack> inputs = List.of(new ItemStack(ModItems.SHARD_POUCH), new ItemStack(ModItems.VAULT_COMPASS), new ItemStack(ModItems.ANTIQUE_COLLECTOR_BOOK), new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.FILTER_NECKLACE), new ItemStack(xyz.iwolfking.woldsvaults.init.ModItems.PRISMATIC_ANGEL_RING), new ItemStack(ModItems.COIN_POUCH));
         List<ItemStack> outputs = new ArrayList<>();
         ItemStack secondary = JewelItem.create((vaultGearData -> {
             vaultGearData.setRarity(VaultGearRarity.SCRAPPY);
@@ -71,6 +73,6 @@ public class SoulboundEnchantmentRecipe extends VanillaAnvilRecipe {
     }
 
     public boolean isValidItem(Item item) {
-        return item instanceof ItemShardPouch || item instanceof CompassItem || item instanceof AntiqueStampCollectorBook || item instanceof FilterNecklaceItem;
+        return item instanceof ItemShardPouch || item instanceof CompassItem || item instanceof AntiqueStampCollectorBook || item instanceof FilterNecklaceItem || item instanceof AngelRingItem || item instanceof CoinPouchItem;
     }
 }

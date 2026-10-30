@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "infuseDuration": 40,
+  "inputCount": 25,
+  "ingredient": {
+    "item": "the_vault:greed_coin"
+  },
+  "catalyst": {
+    "item": "the_vault:neuralizer"
+  },
+  "result": {
+    "item": "woldsvaults:greed_neuralizer"
+  }
+}

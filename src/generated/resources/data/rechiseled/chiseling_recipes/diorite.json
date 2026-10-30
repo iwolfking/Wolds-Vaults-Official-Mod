@@ -1,0 +1,12 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "auxiliaryblocks:dark_purple_diorite"
+    },
+    {
+      "item": "auxiliaryblocks:purple_diorite"
+    }
+  ],
+  "overwrite": false
+}

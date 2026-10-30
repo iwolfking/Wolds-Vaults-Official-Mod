@@ -1,0 +1,21 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "auxiliaryblocks:concrete_vent"
+    },
+    {
+      "item": "auxiliaryblocks:nailed_reinforced_concrete"
+    },
+    {
+      "item": "auxiliaryblocks:plated_concrete"
+    },
+    {
+      "item": "auxiliaryblocks:reinforced_concrete"
+    },
+    {
+      "item": "minecraft:gray_concrete"
+    }
+  ],
+  "overwrite": false
+}

@@ -8,13 +8,38 @@ import iskallia.vault.init.ModConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.core.vault_events.lib.VaultEventTask;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class VaultModifierFromPoolTask implements VaultEventTask {
+
+    /**
+     * Hyper vaults curate their negative modifiers (no CDR drains, no ethereal, no fading...).
+     * Enchanted events on the crystal would otherwise pull from these raw pools and smuggle
+     * every banned modifier back in; in a hyper vault the pull is redirected to the filtered
+     * union of exactly these pools. The hyper stack caps hold on the redirected path too — a
+     * capped roll simply fizzles, matching every other hyper add path.
+     */
+    private static final Set<ResourceLocation> HYPER_REDIRECTED_POOLS = Set.of(
+            VaultMod.id("basic_negative"), VaultMod.id("medium_negative"), VaultMod.id("omega_negative"));
+
+    /**
+     * The remaining negative enchanted pools, which keep their own flavor in hyper vaults
+     * (no redirect) but roll with the hyper policy applied per pick — a banned or over-cap
+     * modifier fizzles instead of landing. curses notably carries mana_leak (whose cap is
+     * cycle-gated) plus several banned ids, and chaos_enchanted carries inert; without this
+     * filter an enchanted crystal defeats both the ban list and the stack caps.
+     */
+    private static final Set<ResourceLocation> HYPER_FILTERED_POOLS = Set.of(
+            VaultMod.id("curses"), VaultMod.id("chaos_enchanted"), VaultMod.id("mob_onhits"));
 
     private final ResourceLocation modifierPoolId;
 
@@ -25,6 +50,36 @@ public class VaultModifierFromPoolTask implements VaultEventTask {
 
     @Override
     public void performTask(Supplier<BlockPos> pos, ServerPlayer player, Vault vault) {
-        VaultModifierUtils.addModifierFromPool(vault, modifierPoolId);
+        ResourceLocation poolId = this.modifierPoolId;
+        if (HYPER_REDIRECTED_POOLS.contains(poolId)
+                && !vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()) {
+            WoldLogger.debug("Enchanted event redirected its {} modifier pull to the filtered hyper pool.", poolId);
+            List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS
+                    .getRandom(HyperVaultObjective.CHAOS_POOL_TIMER_EVENTS, 0, JavaRandom.ofNanoTime());
+            for (VaultModifier<?> modifier : modifiers) {
+                if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
+                    continue;
+                }
+                VaultModifierUtils.addModifier(vault, modifier.getId(), 1);
+            }
+            return;
+        }
+        if (HYPER_FILTERED_POOLS.contains(poolId)
+                && !vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty()) {
+            List<VaultModifier<?>> modifiers = ModConfigs.VAULT_MODIFIER_POOLS
+                    .getRandom(poolId, 0, JavaRandom.ofNanoTime());
+            for (VaultModifier<?> modifier : modifiers) {
+                if (HyperModifierPolicy.isBanned(modifier.getId().toString())) {
+                    WoldLogger.debug("Enchanted {} pull dropped {} — banned in Hyper vaults.", poolId, modifier.getId());
+                    continue;
+                }
+                if (HyperModifierPolicy.isStackCapped(vault, modifier)) {
+                    continue;
+                }
+                VaultModifierUtils.addModifier(vault, modifier.getId(), 1);
+            }
+            return;
+        }
+        VaultModifierUtils.addModifierFromPool(vault, poolId);
     }
 }

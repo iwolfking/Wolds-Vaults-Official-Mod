@@ -1,0 +1,24 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "botania:holy_cloak"
+  },
+  "mana": 5000,
+  "ingredients": [
+    {
+      "item": "woldsvaults:prismatic_fiber"
+    },
+    {
+      "item": "botania:life_essence"
+    },
+    {
+      "item": "the_vault:mystical_powder"
+    },
+    {
+      "item": "the_vault:phoenix_dust"
+    },
+    {
+      "item": "the_vault:trinket_scrap"
+    }
+  ]
+}

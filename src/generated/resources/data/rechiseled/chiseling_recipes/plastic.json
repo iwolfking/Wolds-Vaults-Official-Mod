@@ -1,0 +1,33 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "auxiliaryblocks:cyan_plastic"
+    },
+    {
+      "item": "auxiliaryblocks:dark_gray_plastic"
+    },
+    {
+      "item": "auxiliaryblocks:green_plastic"
+    },
+    {
+      "item": "auxiliaryblocks:red_plastic"
+    },
+    {
+      "item": "auxiliaryblocks:orange_plastic"
+    },
+    {
+      "item": "auxiliaryblocks:purple_plastic"
+    },
+    {
+      "item": "auxiliaryblocks:blue_plastic"
+    },
+    {
+      "item": "auxiliaryblocks:light_gray_plastic"
+    },
+    {
+      "item": "auxiliaryblocks:dark_gray_plastic"
+    }
+  ],
+  "overwrite": false
+}

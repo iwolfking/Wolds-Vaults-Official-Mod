@@ -18,7 +18,7 @@ public class ModAbilityStylesProvider extends AbstractAbilityGUIStylesProvider {
     public void registerConfigs() {
         ModConfigs.ABILITIES_GUI = new AbilitiesGUIConfig().readConfig();
         add("wolds_abilities", builder -> {
-            displayToRightOf("Rampage", "Colossus", builder, styleBuilder -> {
+            displayToRightOf("Necromancy", "Colossus", builder, styleBuilder -> {
                 styleBuilder.specialization("Colossus_Base", WoldsVaults.id("gui/abilities/colossus"));
                 styleBuilder.specialization("Sneaky_Getaway", WoldsVaults.id("gui/abilities/sneaky_getaway"));
             });

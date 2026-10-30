@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C  ",
+    "CCC",
+    "  C"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:red_carpet"
+    }
+  },
+  "result": {
+    "item": "the_vault:blood_splatter_4",
+    "count": 4
+  }
+}

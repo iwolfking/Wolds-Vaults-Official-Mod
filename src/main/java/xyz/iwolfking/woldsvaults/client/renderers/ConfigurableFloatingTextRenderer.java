@@ -1,18 +1,19 @@
 package xyz.iwolfking.woldsvaults.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.level.block.Blocks;
-import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ConfigurableFloatingTextTileEntity;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.util.List;
 
@@ -62,16 +63,18 @@ public class ConfigurableFloatingTextRenderer implements BlockEntityRenderer<Con
             font.drawInBatch(text, x, y, line.color, false,
                     poseStack.last().pose(), buffer, false, 0, light);
         }
+        poseStack.popPose();
 
-        // Render barrier only if player is in creative
-        if (mc.player != null && mc.player.isCreative()) {
-            BlockRenderDispatcher blockRenderer = mc.getBlockRenderer();
-            poseStack.pushPose();
-            poseStack.translate(-0.5, -1.7, -0.5); // Align barrier to block position
-            blockRenderer.renderSingleBlock(Blocks.BARRIER.defaultBlockState(), poseStack, buffer, light, overlay);
-            poseStack.popPose();
+        // Render border
+        if (mc.player != null && mc.player.getMainHandItem().getItem() == ModItems.CONFIGURABLE_FLOATING_TEXT) {
+            double position = ((mc.player.tickCount * 20 + (int)(partialTicks * 20.0F)) % 2000) / 2000.0;
+            int red = (int)(Math.cos(position * Math.PI * 2.0) * 127.0 + 128.0);
+            int green = (int)(Math.cos((position + 0.3333333333333333) * Math.PI * 2.0) * 127.0 + 128.0);
+            int blue = (int)(Math.cos((position + 0.6666666666666666) * Math.PI * 2.0) * 127.0 + 128.0);
+
+            VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.lines());
+            LevelRenderer.renderLineBox(poseStack, vertexconsumer, 0.1, 0.1, 0.1, 0.9, 0.9, 0.9, red, green, blue, 1.0F, red, green, blue);
         }
 
-        poseStack.popPose();
     }
 }

@@ -32,23 +32,24 @@ public abstract class MixinInventoryUtil {
 
         List<ItemStack> trueMissing = new ArrayList<>();
 
+        List<InventoryUtil.ItemAccess> itemAccesses = findAllItems(playerInventory.player);
+
+        if(itemAccesses == null) {
+            return;
+        }
+
         for(ItemStack stack : missing) {
             if(CoinDefinition.getCoinDefinition(stack.getItem()).isEmpty()) {
                 trueMissing.add(stack);
                 continue;
             }
 
-            List<InventoryUtil.ItemAccess> itemAccesses = findAllItems(playerInventory.player);
-
-            if(itemAccesses == null) {
-                return;
-            }
-
-            if(CoinDefinition.hasEnoughCurrency(itemAccesses, stack)) {
-                cir.setReturnValue(trueMissing);
-                return;
+            if(!CoinDefinition.hasEnoughCurrency(itemAccesses, stack)) {
+                trueMissing.add(stack);
             }
         }
+
+        cir.setReturnValue(trueMissing);
     }
 
     @Shadow

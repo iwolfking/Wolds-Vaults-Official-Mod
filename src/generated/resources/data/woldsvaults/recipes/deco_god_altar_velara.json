@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GHG",
+    "CSC",
+    "BBB"
+  ],
+  "key": {
+    "S": {
+      "item": "buildscape:blue_spore_blossom"
+    },
+    "H": {
+      "item": "the_vault:vault_moss"
+    },
+    "G": {
+      "item": "the_vault:extraordinary_alexandrite"
+    },
+    "B": {
+      "item": "the_vault:polished_vault_stone"
+    },
+    "C": {
+      "item": "minecraft:lime_candle"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:deco_god_altar_velara"
+  }
+}

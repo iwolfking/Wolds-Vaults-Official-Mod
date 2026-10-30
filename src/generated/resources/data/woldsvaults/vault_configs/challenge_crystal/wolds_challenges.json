@@ -135,6 +135,7 @@
     "ballistic_bingo_blackout": {
       "objective": {
         "objective_probability": 0.25,
+        "sealCount": 2,
         "blackout": true,
         "type": "ballistic_bingo"
       },
@@ -242,7 +243,7 @@
     "big_bad_brew": {
       "objective": {
         "objective_probability": 0.5,
-        "required_progress": 5.0,
+        "required_progress": 10.0,
         "type": "alchemy"
       },
       "layout": {
@@ -349,6 +350,10 @@
           {
             "modifier": "woldsvaults:infernal_fury",
             "count": 1
+          },
+          {
+            "modifier": "woldsvaults:rage_cage",
+            "count": 1
           }
         ],
         "random_modifiers": false,
@@ -363,7 +368,7 @@
     "survival_of_the_fittest": {
       "objective": {
         "objective_probability": 0.5,
-        "target": 45,
+        "target": 30,
         "waveGroups": [
           "t1",
           "t1_t2",
@@ -371,7 +376,10 @@
           "t2_t3",
           "t3",
           "t3_t4",
-          "t4"
+          "t4",
+          "t5",
+          "t6",
+          "t7"
         ],
         "type": "survival"
       },

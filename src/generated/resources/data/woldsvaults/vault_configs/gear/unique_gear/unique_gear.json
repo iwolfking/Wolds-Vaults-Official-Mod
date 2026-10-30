@@ -16,7 +16,8 @@
         "IMPLICIT": [
           "the_vault:trident_damage_low",
           "the_vault:trident_loyalty_zeus",
-          "the_vault:trident_channeling"
+          "the_vault:trident_channeling",
+          "the_vault:base_attack_speed_axe"
         ],
         "PREFIX": [
           "the_vault:channeling_chance_zeus",
@@ -46,7 +47,8 @@
         ],
         "IMPLICIT": [
           "the_vault:trident_damage",
-          "the_vault:trident_loyalty"
+          "the_vault:trident_loyalty",
+          "the_vault:base_attack_speed_axe"
         ],
         "PREFIX": [
           "the_vault:mod_hit_hearts_fork",
@@ -189,7 +191,7 @@
       "item": "the_vault:jewel",
       "models": [
         {
-          "value": "the_vault:gear/jewel/treasure",
+          "value": "the_vault:gear/jewel/breaching",
           "weight": 1
         }
       ],
@@ -323,7 +325,8 @@
         ],
         "PREFIX": [
           "the_vault:u_treasure_magnet_item_rarity",
-          "the_vault:u_treasure_magnet_item_quantity"
+          "the_vault:u_treasure_magnet_item_quantity",
+          "the_vault:u_lucky_lucky_tm"
         ],
         "SUFFIX": [
           "the_vault:u_treasure_magnet_health",
@@ -356,7 +359,8 @@
         ],
         "SUFFIX": [
           "the_vault:u_bloody_magnet_trap_disarm",
-          "the_vault:u_bloody_magnet_mana_regen"
+          "the_vault:u_bloody_magnet_mana_regen",
+          "the_vault:u_cursed_unlucky"
         ]
       },
       "modifierTags": [],
@@ -495,7 +499,7 @@
           "the_vault:base_attack_speed"
         ],
         "PREFIX": [
-          "the_vault:mod_attack_damage",
+          "the_vault:base_ap",
           "the_vault:mod_everflame_fireball"
         ],
         "SUFFIX": [

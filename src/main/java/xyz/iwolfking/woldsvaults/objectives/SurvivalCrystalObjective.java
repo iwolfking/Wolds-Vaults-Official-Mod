@@ -15,6 +15,7 @@ import iskallia.vault.item.crystal.CrystalData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import java.util.ArrayList;
@@ -42,13 +43,14 @@ public class SurvivalCrystalObjective extends WoldCrystalObjective {
         return Optional.of(0x334324);
     }
 
+    //TODO: Sigil pull from harder wave groups -- need to add to Survival Objective config
     @Override
     public void configure(Vault vault, RandomSource random, String sigil) {
         int level = vault.get(Vault.LEVEL).get();
-
+        double difficultyScale = Math.sqrt(SigilUtils.getDifficultyMultiplier(sigil));
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
 
-            objectives.add(SurvivalObjective.of(this.objectiveProbability, target, waveGroups)
+            objectives.add(SurvivalObjective.of(this.objectiveProbability, (int) (target * difficultyScale), waveGroups)
                     .add(FindExitObjective.create(ClassicPortalLogic.EXIT))
                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("SURVIVAL"), "survival", level, true)));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));

@@ -37,8 +37,6 @@ public class NitwitDeckModifier extends DeckModifier<NitwitDeckModifier.Config> 
         return 1.0F + this.getModifierValue();
     }
 
-
-
     public void addText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time) {
         super.addText(tooltip, minIndex, flag, time);
         MutableComponent comp = (new TextComponent("+")).withStyle(ChatFormatting.GRAY).append((new TextComponent(String.format(Locale.ROOT, "%.1f%% ", this.getModifierValue() * 100.0F))).withStyle(ChatFormatting.WHITE)).append((new TranslatableComponent("deck.woldsvaults.nitwit_modifier")).withStyle(ChatFormatting.GRAY));

@@ -4,7 +4,6 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
-import iskallia.vault.gear.attribute.custom.effect.EffectTrialAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeType;
 import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
@@ -16,7 +15,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.UniqueEffectGearAttribute;
-import xyz.iwolfking.woldsvaults.modifiers.gear.ParticleTrailAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.*;
+import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 
 import javax.annotation.Nullable;
 
@@ -34,7 +34,7 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Float> ECHOING_CHANCE = attr("echoing_chance", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Echoing Chance", 6886199), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> ECHOING_DAMAGE = attr("echoing_damage", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Increased Echoing Damage", 6886199), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> DODGE_PERCENT = attr("dodge_percent", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Dodge Chance", 10389562), VaultGearAttributeComparator.floatComparator());
-    public static final VaultGearAttribute<Integer> SOUL_LEECH_FLAT = attr("soul_leech_flat", VaultGearAttributeType.intType(), (ConfigurableAttributeGenerator<Integer, ?>)ModGearAttributeGenerators.intRange(), (VaultGearModifierReader<Integer>)ModGearAttributeReaders.addedIntReader("Soul Leech", 10952853), (VaultGearAttributeComparator<Integer>)VaultGearAttributeComparator.intComparator());
+    public static final VaultGearAttribute<Integer> SOUL_LEECH_FLAT = attr("soul_leech_flat", VaultGearAttributeType.intType(), (ConfigurableAttributeGenerator<Integer, ?>)ModGearAttributeGenerators.intRange(), (VaultGearModifierReader<Integer>)ModGearAttributeReaders.addedIntReader("Soul Leech", 10952853), VaultGearAttributeComparator.intComparator());
     public static final VaultGearAttribute<Integer> TRIDENT_LOYALTY = attr("trident_loyalty", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Loyalty", 3114911), VaultGearAttributeComparator.intComparator());
     public static final VaultGearAttribute<Integer> TRIDENT_RIPTIDE = attr("trident_riptide", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Riptide", 9514005), VaultGearAttributeComparator.intComparator());
     public static final VaultGearAttribute<Float> TRIDENT_WINDUP = attr("trident_wind_up_percent", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Windup Time Reduction", 12925717), VaultGearAttributeComparator.floatComparator());
@@ -53,6 +53,7 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Float> INCREASED_EFFECT_CLOUD_CHANCE = attr("effect_cloud_chance_additive", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Effect Cloud Chance", 3109217), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> SECOND_JUDGEMENT = attr("second_judgement", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Second Judgement", 3085471), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Float> BURNING_HIT_CHANCE = attr("burning_hit_chance", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Burning Hit Chance", 12976128), VaultGearAttributeComparator.floatComparator());
+    public static final VaultGearAttribute<Integer> ADDITIONAL_STACKING_STACKS = woldsAttr("additional_stacking_stacks", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Additional Max Stacks", 5125226), VaultGearAttributeComparator.intComparator());
 
     public static final VaultGearAttribute<Boolean> IMPLODING_JAVELIN = attr("javelin_implode", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Imploding Javelin", 3085471), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> DRIPPING_LAVA = attr("dripping_lava", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Dripping Lava", 12976128), VaultGearAttributeComparator.booleanComparator());
@@ -64,6 +65,10 @@ public class ModGearAttributes {
     //Unique Jewel Modifiers
     public static final VaultGearAttribute<Boolean> BREACHING = woldsAttr("breaching", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Breaching", 10031431), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> TREASURE_AFFINITY = attr("treasure_affinity", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Treasure Affinity", 16749824), VaultGearAttributeComparator.booleanComparator());
+
+
+    //Mod Integration Attributes
+    public static final VaultGearAttribute<Boolean> RADIATION_IMMUNITY = woldsAttr("radiation_immunity", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Radiation Immunity", 5539999), VaultGearAttributeComparator.booleanComparator());
 
 
     //Map Modifiers
@@ -116,6 +121,21 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Float> INSCRIPTION = attr("inscription", VaultGearAttributeType.floatType(), (ConfigurableAttributeGenerator<Float, ?>)ModGearAttributeGenerators.floatRange(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.inscriptionReader("Guaranteed Special Rooms", 8833629, "%s"), VaultGearAttributeComparator.floatComparator());
 
     public static final VaultGearAttribute<ParticleTrailAttribute> PARTICLE_TRAIL =  attr("particle_trail", ParticleTrailAttribute.type(), ParticleTrailAttribute.generator(), ParticleTrailAttribute.reader(), ParticleTrailAttribute.comparator());
+    public static final VaultGearAttribute<HeartFragmentOnLootAttribute> HEART_FRAGMENT_ON_LOOT =  woldsAttr("heart_fragment_on_loot", HeartFragmentOnLootAttribute.type(), HeartFragmentOnLootAttribute.generator(), HeartFragmentOnLootAttribute.reader(), HeartFragmentOnLootAttribute.comparator());
+
+    public static final VaultGearAttribute<DamageBurstComboAttribute> DAMAGE_BURST_COMBO = woldsAttr("magic_burst_combo", DamageBurstComboAttribute.type(), DamageBurstComboAttribute.generator(), DamageBurstComboAttribute.reader(), DamageBurstComboAttribute.comparator());
+    public static final VaultGearAttribute<InvokeAbilityComboAttribute> INVOKE_ABILITY_COMBO = woldsAttr("ability_invoke_combo", InvokeAbilityComboAttribute.type(), InvokeAbilityComboAttribute.generator(), InvokeAbilityComboAttribute.reader(), InvokeAbilityComboAttribute.comparator());
+    public static final VaultGearAttribute<EffectComboAttribute> EFFECT_COMBO = woldsAttr("effect_combo", EffectComboAttribute.type(), EffectComboAttribute.generator(), EffectComboAttribute.reader(), EffectComboAttribute.comparator());
+    public static final VaultGearAttribute<HealthScalingComboAttribute> HEALTH_SCALING_COMBO = woldsAttr("health_scaling_combo", HealthScalingComboAttribute.type(), HealthScalingComboAttribute.generator(), HealthScalingComboAttribute.reader(), HealthScalingComboAttribute.comparator());
+
+    //Scepter Modifiers
+    public static final VaultGearAttribute<Boolean> SCEPTER_SPARKLES = woldsAttr("scepter_sparkles", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Sparkles", 8247956), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> SCEPTER_BEAM = woldsAttr("scepter_beam", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Beam", 752051), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> FIRE_ELEMENT = woldsAttr("fire_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Fire Affinity", 16711680), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> ICE_ELEMENT = woldsAttr("ice_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Ice Affinity", 10079487), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> POISON_ELEMENT = woldsAttr("poison_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Poison Affinity", 65280), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> LIGHTNING_ELEMENT = woldsAttr("lightning_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Lightning Affinity", 16776960), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<ScepterInvokeAttribute> SCEPTER_INVOKE = woldsAttr("scepter_invoke", ScepterInvokeAttribute.type(), ScepterInvokeAttribute.generator(), ScepterInvokeAttribute.reader(), ScepterInvokeAttribute.comparator());
 
     public static final VaultGearAttribute<String> WEAPON_TYPE = attr("weapon_type", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.weaponTypeReader("Weapon Type", 888888, "Type: %s"));
 
@@ -191,6 +211,20 @@ public class ModGearAttributes {
                       registry.register(BURNING_HIT_CHANCE);
                       registry.register(DRIPPING_LAVA);
                       registry.register(RICOCHET);
+                      registry.register(HEART_FRAGMENT_ON_LOOT);
+                      registry.register(ADDITIONAL_STACKING_STACKS);
+                      registry.register(RADIATION_IMMUNITY);
+                      registry.register(SCEPTER_SPARKLES);
+                      registry.register(SCEPTER_BEAM);
+                      registry.register(SCEPTER_INVOKE);
+                      registry.register(FIRE_ELEMENT);
+                      registry.register(ICE_ELEMENT);
+                      registry.register(POISON_ELEMENT);
+                      registry.register(LIGHTNING_ELEMENT);
+                      registry.register(DAMAGE_BURST_COMBO);
+                      registry.register(INVOKE_ABILITY_COMBO);
+                      registry.register(EFFECT_COMBO);
+                      registry.register(HEALTH_SCALING_COMBO);
        }
   
     public static void registerVanillaAssociations() {

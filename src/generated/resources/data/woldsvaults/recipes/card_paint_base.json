@@ -1,0 +1,12 @@
+{
+  "type": "mekanism:pigment_extracting",
+  "input": {
+    "ingredient": {
+      "item": "woldsvaults:lead_dye_base"
+    }
+  },
+  "output": {
+    "pigment": "woldsvaults:card_paint_base",
+    "amount": 250
+  }
+}

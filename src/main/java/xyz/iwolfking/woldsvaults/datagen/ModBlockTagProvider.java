@@ -1,19 +1,21 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import me.dinnerbeef.compressium.Compressium;
+import net.mcreator.buildingmod.init.DavebuildingmodModBlocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
+import xyz.iwolfking.woldsvaults.init.ModTags;
+import xyz.iwolfking.woldsvaults.workstation.WorkstationGroups;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags() {
+
+        tag(ModTags.MINEABLE_WITH_SWORD).addOptionalTag(ModTags.CHIPPED_COBWEB.location());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.GRAVEYARD_LOOT_BLOCK)
@@ -58,6 +62,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.TIME_TRIAL_TROPHY_BLOCK)
                 .add(ModBlocks.TRINKET_FUSION_BLOCK)
                 .add(iskallia.vault.init.ModBlocks.CRYSTAL_BLOCK)
+                .add(DavebuildingmodModBlocks.VANTA_BLACK.get())
+                .add(DavebuildingmodModBlocks.STARS.get())
 
                 .add(ModBlocks.TENOS_BRICKS_SLAB)
                 .add(ModBlocks.TENOS_BRICK_CHISELED_SLAB)
@@ -102,7 +108,13 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.IDONA_DARK_SMOOTH_BRICKS_STAIRS)
                 .add(ModBlocks.IDONA_LIGHT_SMOOTH_BRICKS_STAIRS)
                 .add(ModBlocks.IDONA_GEM_BLOCK_STAIRS)
-                .add(ModBlocks.IDONA_GEM_BLOCK_SLAB);
+                .add(ModBlocks.IDONA_GEM_BLOCK_SLAB)
+                .add(ModBlocks.DECO_IDONA_ALTAR_BLOCK)
+                .add(ModBlocks.DECO_TENOS_ALTAR_BLOCK)
+                .add(ModBlocks.DECO_WENDARR_ALTAR_BLOCK)
+                .add(ModBlocks.DECO_VELARA_ALTAR_BLOCK)
+                .add(ModBlocks.SUPPRESSOR_BLOCK)
+                .add(iskallia.auxiliaryblocks.init.ModBlocks.PURPLE_DIORITE.get());
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(ModBlocks.ISKALLIAN_LEAVES_BLOCK)
                 .add(ModBlocks.PRISMATIC_FIBER_BLOCK);
@@ -131,7 +143,60 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.COLORED_UNOBTANIUMS.values().toArray(new Block[]{}))
                 .add(ModBlocks.RAINBOW_UNOBTANIUM);
-       addCompressibleTags();
+        addCompressibleTags();
+        addWorkstationGroups();
+    }
+
+    private void addWorkstationGroups() {
+        tag(WorkstationGroups.CRYSTAL.tag)
+                .addOptional(iskallia.vault.init.ModBlocks.INSCRIPTION_TABLE.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.AUGMENT_STATION.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.CRYSTAL_WORKBENCH.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VOID_CRUCIBLE.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.BOUNTY_BLOCK.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.CATALYST_INFUSION_TABLE.getRegistryName());
+        tag(WorkstationGroups.GEAR.tag)
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_FORGE.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_ANVIL.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.ETCHING_APPLICATION_TABLE.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_ENCHANTER.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_RECYCLER.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.UNIQUE_WARDROBE.getRegistryName())
+                .addOptional(ModBlocks.VAULT_SALVAGER_BLOCK.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_ARTISAN_STATION.getRegistryName());
+        tag(WorkstationGroups.TOOL.tag)
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_ENCHANTER.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.TOOL_STATION.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.JEWEL_CRAFTING_TABLE.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_JEWEL_APPLICATION_STATION.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_ENCHANTER.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.UNBOXING_STATION.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_ANVIL.getRegistryName());
+        tag(WorkstationGroups.CARD.tag)
+                .addOptional(iskallia.vault.init.ModBlocks.DECK_CRAFTING_STATION.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.CARD_BINDER.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_RECYCLER.getRegistryName())
+                .addOptional(ModBlocks.VAULT_SALVAGER_BLOCK.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.UNBOXING_STATION.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.CARD_ESSENCE_EXTRACTOR.getRegistryName());
+        tag(WorkstationGroups.COMPANION.tag)
+                .addOptional(iskallia.vault.init.ModBlocks.COMPANION_HOME.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.COMPANION_INCUBATOR.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.COMPANION_TERRARIUM.getRegistryName());
+        tag(WorkstationGroups.MISC.tag)
+                .addOptional(iskallia.vault.init.ModBlocks.BLACK_MARKET.getRegistryName())
+                .addOptional(ModBlocks.WEAVING_STATION.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_RECYCLER.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.VAULT_DIFFUSER.getRegistryName())
+                .addOptional(ModBlocks.VAULT_SALVAGER_BLOCK.getRegistryName())
+                .addOptional(ModBlocks.CHROMATIC_STEEL_INFUSER_BLOCK.getRegistryName())
+                .addOptional(ModBlocks.VAULT_INFUSER_BLOCK.getRegistryName())
+                .addOptional(ModBlocks.MOD_BOX_WORKSTATION.getRegistryName())
+                .addOptional(iskallia.vault.init.ModBlocks.BOUNTY_BLOCK.getRegistryName());
+
+
+
+
     }
 
     private void addCompressibleTags() {

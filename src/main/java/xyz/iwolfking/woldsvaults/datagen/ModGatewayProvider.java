@@ -31,7 +31,7 @@ public class ModGatewayProvider extends AbstractGatewayProvider {
                                 .modifier("generic.knockback_resistance", AttributeOperation.ADDITION, 0.5)
                                 .modifier("generic.movement_speed", AttributeOperation.MULTIPLY_TOTAL, 0.05)
                                 .modifier("generic.armor", AttributeOperation.ADDITION, 20)
-                                .reward("woldsvaults:gateway_rare", 1, "Rare Rewards")
+                                .reward("woldsvaults:gateway_greed_coins", 1, "Greed Coins")
                                 .setupTime(40)
                                 .maxWaveTime(900);
                     })
@@ -44,7 +44,7 @@ public class ModGatewayProvider extends AbstractGatewayProvider {
                                 .modifier("generic.max_health", AttributeOperation.MULTIPLY_TOTAL, 1.25)
                                 .modifier("generic.knockback_resistance", AttributeOperation.ADDITION, 0.5)
                                 .modifier("generic.armor", AttributeOperation.ADDITION, 20)
-                                .reward("woldsvaults:gateway_rare", 1, "Rare Rewards")
+                                .reward("woldsvaults:gateway_greed_coins", 1, "Greed Coins")
                                 .setupTime(40)
                                 .maxWaveTime(900);
                     })
@@ -61,7 +61,7 @@ public class ModGatewayProvider extends AbstractGatewayProvider {
                                 .modifier("generic.max_health", AttributeOperation.MULTIPLY_TOTAL, 1.25)
                                 .modifier("generic.knockback_resistance", AttributeOperation.ADDITION, 0.5)
                                 .modifier("generic.armor", AttributeOperation.ADDITION, 40)
-                                .reward("woldsvaults:gateway_rare", 1, "Rare Rewards")
+                                .reward("woldsvaults:gateway_greed_coins", 1, "Greed Coins")
                                 .setupTime(80)
                                 .maxWaveTime(1200);
                     });

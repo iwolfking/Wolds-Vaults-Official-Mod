@@ -58,8 +58,8 @@ public class TimeTrialCompetitionConfig extends Config {
         OBJECTIVE_ENTRIES.put("monolith", new MonolithCrystalObjective());
         OBJECTIVE_ENTRIES.put("haunted_braziers", new HauntedBraziersCrystalObjective());
         OBJECTIVE_ENTRIES.put("bingo", new BingoCrystalObjective());
-        OBJECTIVE_ENTRIES.put("ballistic_bingo", new BallisticBingoCrystalObjective());
-        OBJECTIVE_ENTRIES.put("brutal_bosses", new BallisticBingoCrystalObjective());
+        OBJECTIVE_ENTRIES.put("ballistic_bingo", new ScalingBallisticBingoCrystalObjective());
+        OBJECTIVE_ENTRIES.put("brutal_bosses", new BrutalBossesCrystalObjective());
         OBJECTIVE_ENTRIES.put("zealot", new ZealotCrystalObjective());
         OBJECTIVE_ENTRIES.put("alchemy", new AlchemyCrystalObjective());
         OBJECTIVE_ENTRIES.put("scavenger", new ScavengerCrystalObjective());

@@ -1,0 +1,15 @@
+{
+  "type": "thermal:centrifuge",
+  "ingredient": {
+    "item": "the_vault:key_sparkletine"
+  },
+  "result": [
+    {
+      "item": "the_vault:blank_key"
+    },
+    {
+      "item": "the_vault:cluster_sparkletine"
+    }
+  ],
+  "energy": 1000
+}

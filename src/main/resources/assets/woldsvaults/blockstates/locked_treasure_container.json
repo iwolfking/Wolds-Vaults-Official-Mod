@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "the_vault:block/treasure_container" }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "woldsvaults:gui/skills/supply_crates"
+  }
+}

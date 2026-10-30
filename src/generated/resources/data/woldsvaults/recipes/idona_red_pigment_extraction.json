@@ -1,0 +1,12 @@
+{
+  "type": "mekanism:pigment_extracting",
+  "input": {
+    "ingredient": {
+      "item": "the_vault:red_vault_essence"
+    }
+  },
+  "output": {
+    "pigment": "woldsvaults:idona_red",
+    "amount": 125
+  }
+}

@@ -61,8 +61,8 @@ public class MixinCorruptGearModification {
                     data.addModifier(VaultGearModifier.AffixType.IMPLICIT, new VaultGearModifier<String>(ModGearAttributes.OBJECTIVE, "corrupted"));
                     data.addModifier(VaultGearModifier.AffixType.IMPLICIT, new VaultGearModifier<String>(ModGearAttributes.THEME_POOL, "the_vault:corrupted"));
                     data.createOrReplaceAttributeValue(ModGearAttributes.DIVINE, false);
-                    data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_CORRUPTED, true);
                     data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.GEAR_MODEL, Maps.CORRUPTED_MAP.getId());
+                    data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_CORRUPTED, true);
                     data.write(stack);
                     return GearModification.Result.makeSuccess();
             }

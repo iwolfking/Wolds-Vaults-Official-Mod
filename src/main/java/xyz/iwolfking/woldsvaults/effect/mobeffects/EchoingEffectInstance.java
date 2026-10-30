@@ -13,6 +13,8 @@ public class EchoingEffectInstance extends MobEffectInstance {
     float damage;
     DamageSource source;
     float decay;
+    boolean noLuckyhit;
+    boolean noCleave;
 
     public Player getAttacker() {
         return this.attacker;
@@ -33,18 +35,20 @@ public class EchoingEffectInstance extends MobEffectInstance {
     }
 
     public EchoingEffectInstance(EchoingEffectInstance echo, int duration) {
-        this(echo.attacker, echo.damage, echo.source, duration, echo.decay);
+        this(echo.attacker, echo.damage, echo.source, duration, echo.decay, echo.noLuckyhit, echo.noCleave);
     }
     public EchoingEffectInstance(EchoingEffectInstance echo) {
-        this(echo.attacker, echo.damage, echo.source, echo.getDuration(), echo.decay);
+        this(echo.attacker, echo.damage, echo.source, echo.getDuration(), echo.decay, echo.noLuckyhit, echo.noCleave);
         this.doDecay();
     }
-    public EchoingEffectInstance(Player attacker, float damage, DamageSource source, int pDuration, float decay) {
+    public EchoingEffectInstance(Player attacker, float damage, DamageSource source, int pDuration, float decay, boolean noLuckyhit, boolean noCleave) {
         super(ModEffects.ECHOING, pDuration);
         this.attacker = attacker;
         this.damage = damage;
         this.source = source;
         this.decay = decay;
+        this.noLuckyhit = noLuckyhit;
+        this.noCleave = noCleave;
     }
 
     public void doDecay() {
@@ -57,6 +61,8 @@ public class EchoingEffectInstance extends MobEffectInstance {
         this.damage = echo.damage;
         this.source = echo.source;
         this.decay = echo.decay;
+        this.noLuckyhit = echo.noLuckyhit;
+        this.noCleave = echo.noCleave;
     }
 
     private void tickDownDuration() {

@@ -10,6 +10,7 @@ import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.tree.AbilityTree;
+import iskallia.vault.util.calc.EffectDurationHelper;
 import iskallia.vault.world.data.PlayerAbilitiesData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -42,10 +43,17 @@ public class ColossusAbility extends InstantManaAbility {
     }
     public ColossusAbility() {
     }
-    public int getDurationTicks() {
+
+    public int getDurationTicks(LivingEntity entity) {
+        return EffectDurationHelper.adjustEffectDurationFloor(entity, this.getUnmodifiedDurationTicks());
+    }
+
+    public int getUnmodifiedDurationTicks() {
         return this.durationTicks;
     }
+
     public float getSize() { return this.size;}
+
     public float getAdditionalResistance() {return this.additionalResistance;}
     @Override
     protected ActionResult doAction(SkillContext context) {
@@ -53,7 +61,7 @@ public class ColossusAbility extends InstantManaAbility {
             if (player.hasEffect(ModEffects.COLOSSUS)) {
                 return ActionResult.fail();
             } else {
-                int duration = this.getDurationTicks();
+                int duration = this.getDurationTicks(player);
                 MobEffectInstance newEffect = new MobEffectInstance(ModEffects.COLOSSUS, duration, 0, false, false, true);
                 player.addEffect(newEffect);
                 return ActionResult.successCooldownDeferred();

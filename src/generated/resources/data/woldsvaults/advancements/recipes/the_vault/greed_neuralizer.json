@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:greed_neuralizer"
+    ]
+  },
+  "criteria": {
+    "has_greed_coin": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "the_vault:greed_coin"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:greed_neuralizer"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_greed_coin",
+      "has_the_recipe"
+    ]
+  ]
+}

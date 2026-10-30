@@ -19,6 +19,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.blocks.LockedTreasureContainerBlock;
+
+import static xyz.iwolfking.woldsvaults.init.ModBlocks.LOCKED_TREASURE_CONTAINER_BLOCK;
 
 @Mixin(BlockBehaviour.BlockStateBase.class)
 public abstract class MixinBlockStateBase extends StateHolder<Block, BlockState> {
@@ -45,7 +48,8 @@ public abstract class MixinBlockStateBase extends StateHolder<Block, BlockState>
 
         if(this.getBlock() instanceof TreasureContainerBlock) {
             if (level.getBlockEntity(pos) instanceof TreasureContainerTileEntity treasureContainerTile) {
-                if (treasureContainerTile.getBlockState().getBlock().equals(ModBlocks.TREASURE_CONTAINER) ) {
+                var block = treasureContainerTile.getBlockState().getBlock();
+                if (block.equals(ModBlocks.TREASURE_CONTAINER) || (block.equals(LOCKED_TREASURE_CONTAINER_BLOCK) && treasureContainerTile.getBlockState().getOptionalValue(LockedTreasureContainerBlock.UNLOCKED).orElse(false)) ) {
                     cir.setReturnValue(40.0F);
                 }
             }

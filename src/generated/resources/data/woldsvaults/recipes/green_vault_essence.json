@@ -1,0 +1,15 @@
+{
+  "type": "botania:runic_altar",
+  "output": {
+    "item": "woldsvaults:green_vault_essence"
+  },
+  "mana": 500,
+  "ingredients": [
+    {
+      "item": "woldsvaults:vault_essence_block"
+    },
+    {
+      "item": "the_vault:vault_moss"
+    }
+  ]
+}

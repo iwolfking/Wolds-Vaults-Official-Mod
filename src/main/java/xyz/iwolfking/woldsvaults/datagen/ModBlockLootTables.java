@@ -77,6 +77,7 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         dropSelf(ModBlocks.TIME_TRIAL_TROPHY_BLOCK);
         dropSelf(ModBlocks.TRINKET_FUSION_BLOCK);
         dropSelf(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK);
+        dropSelf(ModBlocks.SUPPRESSOR_BLOCK);
         dropOther(ModBlocks.NULLITE_ORE, ModItems.NULLITE_FRAGMENT);
         add(ModBlocks.GRAVEYARD_LOOT_BLOCK, noDrop());
         add(ModBlocks.GATEWAY_CHANNELING_BLOCK, noDrop());
@@ -98,6 +99,7 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         add(ModBlocks.OMEGA_VENDOR_PEDESTAL, noDrop());
         add(ModBlocks.SPOOKY_VENDOR_PEDESTAL, noDrop());
         add(ModBlocks.CARD_VENDOR_PEDESTAL, noDrop());
+        add(ModBlocks.LOCKED_TREASURE_CONTAINER_BLOCK, noDrop());
         add(ModBlocks.XL_BACKPACK, LootTable.lootTable().withPool(LootPool.lootPool().name("main").setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(ModItems.XL_BACKPACK))).apply(new CopyBackpackDataFunction.Builder()));
         dropWhenSilkTouch(ModBlocks.ISKALLIAN_LEAVES_BLOCK);
         dropWhenSilkTouch(ModBlocks.HELLISH_SAND_BLOCK);
@@ -158,6 +160,11 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         dropSelf(ModBlocks.IDONA_DARK_SMOOTH_BRICKS_STAIRS);
         dropSelf(ModBlocks.IDONA_LIGHT_SMOOTH_BRICKS_STAIRS);
         dropSelf(ModBlocks.IDONA_GEM_BLOCK_STAIRS);
+
+        dropSelf(ModBlocks.DECO_IDONA_ALTAR_BLOCK);
+        dropSelf(ModBlocks.DECO_VELARA_ALTAR_BLOCK);
+        dropSelf(ModBlocks.DECO_WENDARR_ALTAR_BLOCK);
+        dropSelf(ModBlocks.DECO_TENOS_ALTAR_BLOCK);
 
     }
 

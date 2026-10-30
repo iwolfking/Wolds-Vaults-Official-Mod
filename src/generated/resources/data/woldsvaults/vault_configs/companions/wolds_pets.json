@@ -1,0 +1,18 @@
+{
+  "maxLevel": 0,
+  "expMultiplier": 0.0,
+  "completionXpShare": 1.0,
+  "hatchingTime": 20,
+  "cooldownRange": [
+    20,
+    40
+  ],
+  "cooldownMultiplier": 1.0,
+  "levels": [],
+  "temporalModifierDurations": [],
+  "relicRemovalCost": 256,
+  "PET_WEIGHTS": {
+    "bmo": 1.0
+  },
+  "SERIES_WEIGHTS": {}
+}

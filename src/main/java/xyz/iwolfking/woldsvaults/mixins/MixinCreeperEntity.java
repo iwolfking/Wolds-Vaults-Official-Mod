@@ -33,8 +33,5 @@ public abstract class MixinCreeperEntity extends Monster implements PowerableMob
 
     @Redirect(method = "spawnLingeringCloud", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/AreaEffectCloud;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)V"))
     private void preventLingeringForBlacklistedEffects(AreaEffectCloud instance, MobEffectInstance pEffectInstance) {
-        if(pEffectInstance.getEffect().getRegistryName() != null && pEffectInstance.getEffect().getRegistryName().getNamespace().equals("minecraft")) {
-            instance.addEffect(pEffectInstance);
-        }
     }
 }

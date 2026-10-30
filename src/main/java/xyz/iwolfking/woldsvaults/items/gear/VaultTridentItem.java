@@ -197,6 +197,10 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
             }
         }
 
+        if(stack.isDamageableItem() && stack.getDamageValue() >= stack.getMaxDamage()) {
+            return;
+        }
+
         if (entity instanceof Player player) {
             float percentDecrease = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_WINDUP, VaultGearAttributeTypeMerger.floatSum());
             int i = this.getUseDuration(stack) - duration;

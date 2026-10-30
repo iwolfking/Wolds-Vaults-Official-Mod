@@ -11,8 +11,32 @@
         ],
         "objective": {
           "objective_probability": 0.25,
-          "sealCount": 0,
-          "type": "scaling_ballistic_bingo"
+          "sealCount": 1,
+          "blackout": false,
+          "type": "ballistic_bingo"
+        },
+        "modifiers": {
+          "list": [],
+          "random_modifiers": true,
+          "clarity": false,
+          "type": "default"
+        }
+      }
+    ],
+    "woldsvaults:crystal_seal_unhinged_scavingo": [
+      {
+        "level": 0,
+        "input": [
+          "the_vault:vault_crystal"
+        ],
+        "objective": {
+          "objective_probability": 0.25,
+          "sealCount": 1,
+          "type": "unhinged_scavenger_bingo"
+        },
+        "theme": {
+          "id": "the_vault:classic_vault_chaos",
+          "type": "value"
         },
         "modifiers": {
           "list": [],
@@ -58,8 +82,9 @@
         ],
         "objective": {
           "objective_probability": 0.25,
-          "sealCount": 0,
-          "type": "scaling_ballistic_bingo"
+          "sealCount": 1,
+          "blackout": false,
+          "type": "ballistic_bingo"
         },
         "modifiers": {
           "list": [

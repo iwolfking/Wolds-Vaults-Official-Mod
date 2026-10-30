@@ -2,9 +2,10 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractTalentProvider;
+import xyz.iwolfking.vhapi.api.datagen.AbstractTalentStyleProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
-public class ModTalentsProvider extends AbstractTalentProvider {
+public class ModTalentsProvider extends AbstractTalentStyleProvider {
     protected ModTalentsProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
     }

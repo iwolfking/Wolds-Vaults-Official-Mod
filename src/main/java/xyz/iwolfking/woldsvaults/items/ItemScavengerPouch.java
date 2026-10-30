@@ -47,6 +47,8 @@ import xyz.iwolfking.woldsvaults.items.scavenger_pouch.provider.ScavengerPouchPr
 
 public class ItemScavengerPouch extends Item {
 
+    private static List<Item> ACTIVE_SCAVENGER_ITEMS = new ArrayList<>();
+
     public ItemScavengerPouch(ResourceLocation id) {
         super(new Properties().stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS));
         this.setRegistryName(id);
@@ -176,11 +178,15 @@ public class ItemScavengerPouch extends Item {
     }
 
     private static List<Item> getActiveScavengerItems() {
-        return ForgeRegistries.ITEMS.getValues().stream()
-            .filter(item -> item instanceof BasicScavengerItem)
-            .sorted(Comparator.comparing(ForgeRegistryEntry::getRegistryName))
-            .map(Item.class::cast)
-            .toList();
+        if(ACTIVE_SCAVENGER_ITEMS.isEmpty()) {
+            ACTIVE_SCAVENGER_ITEMS.addAll(ForgeRegistries.ITEMS.getValues().stream()
+                    .filter(item -> item instanceof BasicScavengerItem)
+                    .sorted(Comparator.comparing(ForgeRegistryEntry::getRegistryName))
+                    .map(Item.class::cast)
+                    .toList());
+        }
+
+        return ACTIVE_SCAVENGER_ITEMS;
     }
 
     private static OptionalInt findSlot(List<Item> items, Item item) {

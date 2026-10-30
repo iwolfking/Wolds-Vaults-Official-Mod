@@ -1,0 +1,19 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "woldsvaults:vault_essence_block"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "the_vault:memory_powder"
+      }
+    }
+  ],
+  "output": {
+    "item": "woldsvaults:blue_vault_essence"
+  },
+  "sourceCost": 500
+}

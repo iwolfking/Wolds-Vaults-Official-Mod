@@ -4,6 +4,7 @@ import xyz.iwolfking.vhapi.api.LoaderRegistry;
 import xyz.iwolfking.vhapi.api.events.VHAPIProcessorsEvent;
 import xyz.iwolfking.vhapi.api.loaders.box.WeightedProductEntryConfigLoader;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.core.EtchedLayoutConfigLoader;
+import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.core.ImplicitDeckModifiersConfigLoader;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.objectives.enchanted_elixir.EnchantedElixirEventLoader;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.recipes.AugmentRecipesLoader;
 import xyz.iwolfking.woldsvaults.integration.vhapi.VHAPIModules;
@@ -21,6 +22,7 @@ public class WoldDataLoaders {
     public static final WeightedProductEntryConfigLoader ENIGMA_EGG_LOADER;
     public static final AugmentRecipesLoader AUGMENT_RECIPES_LOADER;
     public static final EtchedLayoutConfigLoader ETCHED_LAYOUT_CONFIG_LOADER;
+    public static final ImplicitDeckModifiersConfigLoader IMPLICIT_DECK_MODIFIERS_CONFIG_LOADER;
 
     static {
         AUGMENT_BOX_LOADER = new WeightedProductEntryConfigLoader(() -> {
@@ -56,6 +58,7 @@ public class WoldDataLoaders {
         }, "enigma_egg");
         AUGMENT_RECIPES_LOADER = new AugmentRecipesLoader();
         ETCHED_LAYOUT_CONFIG_LOADER = new EtchedLayoutConfigLoader();
+        IMPLICIT_DECK_MODIFIERS_CONFIG_LOADER = new ImplicitDeckModifiersConfigLoader();
     }
 
 
@@ -71,6 +74,7 @@ public class WoldDataLoaders {
         LoaderRegistry.addConfigProcessor(ENIGMA_EGG_LOADER);
         LoaderRegistry.addConfigProcessor(AUGMENT_RECIPES_LOADER);
         LoaderRegistry.addConfigProcessor(ETCHED_LAYOUT_CONFIG_LOADER);
+        LoaderRegistry.addConfigProcessor(IMPLICIT_DECK_MODIFIERS_CONFIG_LOADER);
         VHAPIModules.init();
     }
 

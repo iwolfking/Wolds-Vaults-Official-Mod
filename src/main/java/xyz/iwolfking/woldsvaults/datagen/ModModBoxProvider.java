@@ -1,23 +1,17 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import blusunrize.immersiveengineering.api.EnumMetals;
-import blusunrize.immersiveengineering.api.tool.conveyor.IConveyorType;
 import blusunrize.immersiveengineering.common.blocks.wooden.TreatedWoodStyles;
 import blusunrize.immersiveengineering.common.register.IEBlocks;
-import blusunrize.immersiveengineering.common.register.IEItems;
 import com.buuz135.functionalstorage.FunctionalStorage;
 import com.buuz135.functionalstorage.item.StorageUpgradeItem;
 import com.buuz135.industrial.module.*;
-import com.progwml6.ironchest.common.block.IronChestsBlocks;
-import com.progwml6.ironchest.common.item.IronChestsItems;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.tom.storagemod.StorageMod;
-import ironfurnaces.IronFurnaces;
+import gaia.entity.prop.Chest;
 import ironfurnaces.init.Registration;
 import irongenerators.init.IrongeneratorsModBlocks;
-import mcjty.rftoolsstorage.RFToolsStorage;
-import mcjty.rftoolsstorage.modules.craftingmanager.CraftingManagerModule;
 import mcjty.rftoolsstorage.modules.modularstorage.ModularStorageModule;
 import mcjty.rftoolsstorage.modules.scanner.StorageScannerModule;
 import me.desht.pneumaticcraft.common.core.ModBlocks;
@@ -26,16 +20,15 @@ import mekanism.common.registries.MekanismBlocks;
 import mekanism.common.registries.MekanismItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.integrateddynamics.RegistryEntries;
 import org.cyclops.integratedtunnels.part.PartTypes;
 import shadows.hostilenetworks.Hostile;
 import sonar.fluxnetworks.register.RegistryBlocks;
 import sonar.fluxnetworks.register.RegistryItems;
+import tech.thatgravyboat.ironchests.IronChests;
+import tech.thatgravyboat.ironchests.common.registry.custom.ChestTypeRegistry;
 import xyz.iwolfking.vhapi.api.datagen.boxes.AbstractModBoxProvider;
-import xyz.iwolfking.vhapi.api.loaders.box.MappedWeightedProductEntryConfigLoader;
-import xyz.iwolfking.vhapi.api.loaders.box.lib.MappedWeightedProductEntryConfig;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModModBoxProvider extends AbstractModBoxProvider {
@@ -134,12 +127,12 @@ public class ModModBoxProvider extends AbstractModBoxProvider {
 
         add("iron_mods", builder -> {
             builder.addModBox("Oops, All Iron Mods", productEntryListBuilder -> {
-                productEntryListBuilder.add(IronChestsBlocks.COPPER_CHEST.get().asItem(), 1, 1, null, 75);
-                productEntryListBuilder.add(IronChestsBlocks.IRON_CHEST.get().asItem(), 1, 1, null, 50);
-                productEntryListBuilder.add(IronChestsBlocks.GOLD_CHEST.get().asItem(), 1, 1, null, 25);
-                productEntryListBuilder.add(IronChestsBlocks.DIAMOND_CHEST.get().asItem(), 1, 1, null, 10);
-                productEntryListBuilder.add(IronChestsBlocks.CRYSTAL_CHEST.get().asItem(), 1, 1, null, 10);
-                productEntryListBuilder.add(IronChestsBlocks.OBSIDIAN_CHEST.get().asItem(), 1, 1, null, 5);
+                productEntryListBuilder.add(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath(IronChests.MODID, "copper_chest")).asItem(), 1, 1, null, 75);
+                productEntryListBuilder.add(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath(IronChests.MODID, "iron_chest")).asItem(), 1, 1, null, 50);
+                productEntryListBuilder.add(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath(IronChests.MODID, "gold_chest")).asItem(), 1, 1, null, 25);
+                productEntryListBuilder.add(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath(IronChests.MODID, "diamond_chest")).asItem(), 1, 1, null, 10);
+                productEntryListBuilder.add(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath(IronChests.MODID, "crystal_chest")).asItem(), 1, 1, null, 10);
+                productEntryListBuilder.add(ForgeRegistries.BLOCKS.getValue(ResourceLocation.fromNamespaceAndPath(IronChests.MODID, "obsidian_chest")).asItem(), 1, 1, null, 5);
                 productEntryListBuilder.add(Registration.IRON_FURNACE.get().asItem(), 1, 1, null, 25);
                 productEntryListBuilder.add(Registration.GOLD_FURNACE.get().asItem(), 1, 1, null, 15);
                 productEntryListBuilder.add(Registration.DIAMOND_FURNACE.get().asItem(), 1, 1, null, 5);

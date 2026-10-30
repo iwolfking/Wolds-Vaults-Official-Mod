@@ -9,6 +9,11 @@
       "Concentrate_Base",
       "Levitate",
       "Vein_Miner_Chain"
+    ],
+    "ULTIMATE": [
+      "Fangs_Base",
+      "Fangs_Maw",
+      "Ultimate_Shield"
     ]
   }
 }

@@ -1,0 +1,17 @@
+{
+  "type": "mekanism:dissolution",
+  "itemInput": {
+    "ingredient": {
+      "item": "mekanism:crystal_lead"
+    }
+  },
+  "gasInput": {
+    "amount": 100,
+    "gas": "mekanism:hydrofluoric_acid"
+  },
+  "output": {
+    "gas": "woldsvaults:lead_gas",
+    "amount": 1000,
+    "chemicalType": "gas"
+  }
+}

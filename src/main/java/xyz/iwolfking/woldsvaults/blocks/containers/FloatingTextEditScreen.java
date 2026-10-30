@@ -55,6 +55,7 @@ public class FloatingTextEditScreen extends Screen {
 
 
             EditBox box = new EditBox(font, startX, y, 150, 18, TextComponent.EMPTY);
+            box.setMaxLength(128);
             box.setValue(line.text);
             box.setResponder(v -> line.text = v);
             addRenderableWidget(box);

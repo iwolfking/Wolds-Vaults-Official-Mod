@@ -30,12 +30,14 @@ public class MixinDamageImmunityTrinket {
                     if(antiImmunityModifierList.contains(event.getPotionEffect().getEffect().getRegistryName())) {
                         event.setResult(Event.Result.ALLOW);
                         ci.cancel();
+                        return;
                     }
                 }
             }
 
 
-            if(WoldEtchingHelper.hasEtching(player, ModEtchingGearAttributes.DIVINITY)) {
+            if(WoldEtchingHelper.hasEtching(player, ModEtchingGearAttributes.
+                    DIVINITY)) {
                 if (!event.getPotionEffect().getEffect().isBeneficial()
                         && event.getPotionEffect().getEffect() != iskallia.vault.init.ModEffects.TIMER_ACCELERATION) {
                     if (event.getPotionEffect().getEffect().getRegistryName() != null

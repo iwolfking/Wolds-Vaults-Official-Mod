@@ -32,14 +32,14 @@
         "size",
         "cooldown",
         "manaCost",
-        "duration"
+        "adjustedDuration"
       ],
       "next": [
         "additionalResistance",
         "size",
         "cooldown",
         "manaCost",
-        "duration"
+        "adjustedDuration"
       ]
     },
     "Concentrate_Base": {
@@ -142,6 +142,172 @@
         "manaCost"
       ]
     },
+    "Fangs_Base": {
+      "description": [
+        {
+          "text": "Summons a ring of Fangs in a ",
+          "color": "$text"
+        },
+        {
+          "text": "radius ",
+          "color": "$radius"
+        },
+        {
+          "text": "around you dealing damage plus a portion of your ",
+          "color": "$text"
+        },
+        {
+          "text": "Attack Damage",
+          "color": "$damage"
+        },
+        {
+          "text": ".\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "If a target is below a certain percentage of their ",
+          "color": "$text"
+        },
+        {
+          "text": "health",
+          "color": "green"
+        },
+        {
+          "text": ", they will be ",
+          "color": "$text"
+        },
+        {
+          "text": "executed ",
+          "color": "red"
+        },
+        {
+          "text": "and drop a  ",
+          "color": "$text"
+        },
+        {
+          "text": "Heart Fragment",
+          "color": "green"
+        },
+        {
+          "text": ".",
+          "color": "$text"
+        },
+        {
+          "text": "\n\nApplies On-Hit effects.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "adjustedRadius",
+        "damageMultiplier",
+        "baseDamage",
+        "executeThreshold",
+        "cooldown",
+        "manaCost"
+      ],
+      "next": [
+        "adjustedRadius",
+        "damageMultiplier",
+        "baseDamage",
+        "executeThreshold",
+        "cooldown",
+        "manaCost"
+      ]
+    },
+    "Fangs_Maw": {
+      "description": [
+        {
+          "text": "Summons a line of Fangs in front of you",
+          "color": "$text"
+        },
+        {
+          "text": " dealing damage plus a portion of your ",
+          "color": "$text"
+        },
+        {
+          "text": "Attack Damage",
+          "color": "$damage"
+        },
+        {
+          "text": ", pulling any target hit towards you.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Depending on the distance the target was pulled from, they will have ",
+          "color": "$text"
+        },
+        {
+          "text": "Slowness",
+          "color": "#78329F"
+        },
+        {
+          "text": ",",
+          "color": "$text"
+        },
+        {
+          "text": " Weakness",
+          "color": "#783269"
+        },
+        {
+          "text": ", ",
+          "color": "$text"
+        },
+        {
+          "text": "and ",
+          "color": "$text"
+        },
+        {
+          "text": "Vulnerability ",
+          "color": "#B13269"
+        },
+        {
+          "text": "applied to them.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Chance to drop a ",
+          "color": "$text"
+        },
+        {
+          "text": "Heart Fragment",
+          "color": "green"
+        },
+        {
+          "text": " per mob hit.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\nApplies On-Hit effects.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "adjustedRadius",
+        "damageMultiplier",
+        "baseDamage",
+        "heartFragmentChance",
+        "effectAmplifier",
+        "cooldown",
+        "manaCost"
+      ],
+      "next": [
+        "adjustedRadius",
+        "damageMultiplier",
+        "baseDamage",
+        "heartFragmentChance",
+        "effectAmplifier",
+        "cooldown",
+        "manaCost"
+      ]
+    },
     "Levitate": {
       "description": [
         {
@@ -186,14 +352,64 @@
         "size",
         "cooldown",
         "manaCost",
-        "duration"
+        "adjustedDuration"
       ],
       "next": [
         "speed",
         "size",
         "cooldown",
         "manaCost",
-        "duration"
+        "adjustedDuration"
+      ]
+    },
+    "UltimateShield_Base": {
+      "description": [
+        {
+          "text": "Envelop yourself in pure Arcane energy",
+          "color": "$text"
+        },
+        {
+          "text": " redirecting a percentage of incoming damage to your ",
+          "color": "$text"
+        },
+        {
+          "text": "Mana",
+          "color": "$manaCost"
+        },
+        {
+          "text": ".\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "This powerful barrier requires an increasing amount of ",
+          "color": "$text"
+        },
+        {
+          "text": "Mana",
+          "color": "$manaCost"
+        },
+        {
+          "text": " to maintain over time.",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n● Toggle Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "percentageDamageAbsorbed",
+        "manaPerDamageScalar",
+        "baseManaDrainPerTick",
+        "manaDrainRampPerSecond",
+        "cooldown"
+      ],
+      "next": [
+        "percentageDamageAbsorbed",
+        "manaPerDamageScalar",
+        "baseManaDrainPerTick",
+        "manaDrainRampPerSecond",
+        "cooldown"
       ]
     },
     "Vein_Miner_Chain": {

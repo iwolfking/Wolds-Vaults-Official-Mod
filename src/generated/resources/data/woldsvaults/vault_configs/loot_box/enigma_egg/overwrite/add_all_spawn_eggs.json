@@ -674,6 +674,46 @@
     },
     {
       "value": {
+        "id": "cagerium:ender_dragon_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "cagerium:iron_golem_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "cagerium:wither_spawn_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "cloudstorage:spawn_egg_badloon",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "cloudstorage:spawn_egg_bloviator",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "ecologics:camel_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
@@ -874,6 +914,230 @@
     },
     {
       "value": {
+        "id": "occultism:spawn_egg/afrit",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/afrit_wild",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/djinni",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_bat",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_beaver",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_beholder",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_blacksmith",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_chimera",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_cthulhu",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_deer",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_devil",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_dragon",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_fairy",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_goat",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_greedy",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_guardian",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_headless",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_mummy",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_parrot",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/familiar_shub_niggurath",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/foliot",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/marid",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/otherworld_bird",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/possessed_enderman",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/possessed_endermite",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/possessed_skeleton",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/wild_hunt_skeleton",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "occultism:spawn_egg/wild_hunt_wither_skeleton",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "quark:crab_spawn_egg",
         "amountMin": 1,
         "amountMax": 1
@@ -978,7 +1242,23 @@
     },
     {
       "value": {
+        "id": "the_vault:blood_horde_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "the_vault:blood_silverfish_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:blood_skeleton_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -1026,6 +1306,14 @@
     },
     {
       "value": {
+        "id": "the_vault:cave_skeleton_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "the_vault:crab_egg",
         "amountMin": 1,
         "amountMax": 1
@@ -1035,6 +1323,14 @@
     {
       "value": {
         "id": "the_vault:craftenstein_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:creeper_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -1107,6 +1403,14 @@
     {
       "value": {
         "id": "the_vault:deep_dark_zombie_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:drowned_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -1250,6 +1554,14 @@
     },
     {
       "value": {
+        "id": "the_vault:enderman_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "the_vault:grimwick_egg",
         "amountMin": 1,
         "amountMax": 1
@@ -1259,6 +1571,14 @@
     {
       "value": {
         "id": "the_vault:grinch_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:husk_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -1298,7 +1618,55 @@
     },
     {
       "value": {
+        "id": "the_vault:miner_zombie_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:mummy_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:mushroom_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "the_vault:overgrown_tank_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:overgrown_woodman_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:overgrown_zombie_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:piglin_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -1338,6 +1706,30 @@
     },
     {
       "value": {
+        "id": "the_vault:plastic_horde_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:plastic_skeleton_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:plastic_slime_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "the_vault:plastic_tank_egg",
         "amountMin": 1,
         "amountMax": 1
@@ -1347,6 +1739,14 @@
     {
       "value": {
         "id": "the_vault:plastic_villager_tank_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:plastic_zombie_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -1386,6 +1786,22 @@
     },
     {
       "value": {
+        "id": "the_vault:skeleton_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:skeleton_pirate_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "the_vault:smolcap_egg",
         "amountMin": 1,
         "amountMax": 1
@@ -1395,6 +1811,14 @@
     {
       "value": {
         "id": "the_vault:spirit_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:stray_egg",
         "amountMin": 1,
         "amountMax": 1
       },
@@ -2290,6 +2714,14 @@
     },
     {
       "value": {
+        "id": "the_vault:vault_fighter_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "the_vault:vault_green_gummy_soldier_egg",
         "amountMin": 1,
         "amountMax": 1
@@ -2354,7 +2786,31 @@
     },
     {
       "value": {
+        "id": "the_vault:winterwalker_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:wither_skeleton_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
         "id": "the_vault:yeti_egg",
+        "amountMin": 1,
+        "amountMax": 1
+      },
+      "weight": 1
+    },
+    {
+      "value": {
+        "id": "the_vault:zombie_egg",
         "amountMin": 1,
         "amountMax": 1
       },

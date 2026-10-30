@@ -1,0 +1,27 @@
+{
+  "type": "rechiseled:chiseling",
+  "entries": [
+    {
+      "item": "auxiliaryblocks:asphalt_caution"
+    },
+    {
+      "item": "auxiliaryblocks:asphalt_line_center"
+    },
+    {
+      "item": "auxiliaryblocks:asphalt_line_edge"
+    },
+    {
+      "item": "auxiliaryblocks:dark_asphalt"
+    },
+    {
+      "item": "auxiliaryblocks:dark_asphalt_caution"
+    },
+    {
+      "item": "auxiliaryblocks:dark_asphalt_line_center"
+    },
+    {
+      "item": "auxiliaryblocks:dark_asphalt_line_edge"
+    }
+  ],
+  "overwrite": false
+}

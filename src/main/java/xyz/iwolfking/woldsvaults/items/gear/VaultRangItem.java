@@ -17,6 +17,7 @@ import iskallia.vault.item.BasicItem;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.SidedHelper;
+import iskallia.vault.util.damage.AttackScaleHelper;
 import iskallia.vault.world.data.DiscoveredModelsData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
@@ -53,7 +54,9 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 import vazkii.quark.base.handler.QuarkSounds;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.data.enchantments.AllowedEnchantmentsData;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangEntity;
 import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangLogic;
 import xyz.iwolfking.woldsvaults.models.Rangs;
@@ -84,7 +87,29 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
         return isInFlight(stack) ? stack.getTag().getUUID(TAG_RANG_FLIGHT_ID) : null;
     }
 
-    public static void clearInFlight(ItemStack stack) {
+    public void addCooldown(ItemStack stack, Player player) {
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
+        Double attackSpeed = snapshot.getAttributeValue(ModGearAttributes.ATTACK_SPEED, VaultGearAttributeTypeMerger.doubleSum());
+        Double attackSpeedMult = snapshot.getAttributeValue(ModGearAttributes.ATTACK_SPEED_PERCENT, VaultGearAttributeTypeMerger.doubleSum());
+
+        if (!player.getAbilities().instabuild) {
+            double trueAttackSpeed = 4.0 + attackSpeed;
+            trueAttackSpeed += trueAttackSpeed * attackSpeedMult;
+
+            double currentSpeed = Math.max(0.1, trueAttackSpeed);
+
+            double baseCooldown = 20.0;
+
+            int cooldown = (int) Math.round(baseCooldown / currentSpeed);
+            cooldown = Math.max(0, cooldown);
+
+            if(cooldown > 0) {
+                player.getCooldowns().addCooldown(this, cooldown);
+            }
+        }
+    }
+
+    public static void clearInFlight(ItemStack stack, Player player) {
         if (stack.hasTag()) {
             stack.getTag().remove(TAG_RANG_FLIGHT_ID);
         }
@@ -103,7 +128,7 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
             VaultRangEntity rang = findInFlightEntity(stack, serverLevel);
             if (rang != null) rang.discard();
         }
-        clearInFlight(stack);
+        clearInFlight(stack, player);
     }
 
     @SubscribeEvent
@@ -132,13 +157,14 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
 
-        if(handIn.equals(InteractionHand.OFF_HAND)) {
-            return InteractionResultHolder.fail(itemstack);
-        }
+//        if(handIn.equals(InteractionHand.OFF_HAND)) {
+//            return InteractionResultHolder.fail(itemstack);
+//        }
 
         if (isInFlight(itemstack)) {
             return InteractionResultHolder.fail(itemstack);
         }
+
         if(VaultGearHelper.rightClick(worldIn, playerIn, handIn, super.use(worldIn, playerIn, handIn)).getResult().equals(InteractionResult.FAIL)) {
             return InteractionResultHolder.fail(itemstack);
         }
@@ -146,6 +172,10 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
         VaultGearData data = VaultGearData.read(itemstack);
         if(data.getItemLevel() > SidedHelper.getVaultLevel(playerIn)) {
             return new InteractionResultHolder<>(InteractionResult.FAIL, itemstack);
+        }
+
+        if(itemstack.isDamageableItem() && itemstack.getDamageValue() >= itemstack.getMaxDamage()) {
+            return InteractionResultHolder.fail(itemstack);
         }
 
         float velocity = data.getFirstValue(ModGearAttributes.VELOCITY).orElse(1F);
@@ -225,7 +255,7 @@ public class VaultRangItem extends BasicItem implements VaultGearItem, DyeableLe
             if (isInFlight(stack) && world instanceof ServerLevel serverLevel) {
                 VaultRangEntity rang = findInFlightEntity(stack, serverLevel);
                 if (rang == null || !rang.isAlive()) {
-                    clearInFlight(stack);
+                    clearInFlight(stack, player);
                 }
             }
             this.vaultGearTick(stack, player);

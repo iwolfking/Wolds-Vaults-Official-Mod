@@ -1,6 +1,60 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:if_factory",
+      "name": "If Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:if_factory"
+    },
+    {
+      "id": "woldsvaults:mekanism_factory",
+      "name": "Mekanism Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:mekanism_factory"
+    },
+    {
+      "id": "woldsvaults:pnc_factory",
+      "name": "Pnc Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:pnc_factory"
+    },
+    {
+      "id": "woldsvaults:thermal_factory",
+      "name": "Thermal Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:thermal_factory"
+    },
+    {
+      "id": "woldsvaults:ie_factory",
+      "name": "Ie Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:ie_factory"
+    },
+    {
+      "id": "woldsvaults:create_factory",
+      "name": "Create Factory",
+      "color": 14711391,
+      "1.0": "woldsvaults:create_factory"
+    },
+    {
+      "id": "woldsvaults:botanic_temple",
+      "name": "Botanic Temple",
+      "color": 1096065,
+      "1.0": "woldsvaults:botanic_temple"
+    },
+    {
+      "id": "woldsvaults:occult",
+      "name": "Occult",
+      "color": 10357519,
+      "1.0": "woldsvaults:occult"
+    },
+    {
+      "id": "woldsvaults:mystical_forest",
+      "name": "Mystical Forest",
+      "color": 5294200,
+      "1.0": "woldsvaults:mystical_forest"
+    },
+    {
       "id": "woldsvaults:sculk",
       "name": "Sculk",
       "color": 3112412,

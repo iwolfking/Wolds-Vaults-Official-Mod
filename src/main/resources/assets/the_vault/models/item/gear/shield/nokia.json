@@ -1,0 +1,144 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench, by SoulRacer65",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "the_vault:item/gear/shield/nokia_3310",
+		"particle": "the_vault:item/gear/shield/nokia_3310"
+	},
+	"elements": [
+		{
+			"name": "shield_top_small",
+			"from": [2.5, 27.75, 5],
+			"to": [13.5, 29.75, 10],
+			"faces": {
+				"north": {"uv": [1.25, 1.25, 4, 1.75], "texture": "#0"},
+				"east": {"uv": [0, 1.25, 1.25, 1.75], "texture": "#0"},
+				"south": {"uv": [5.25, 1.25, 8, 1.75], "texture": "#0"},
+				"west": {"uv": [4, 1.25, 5.25, 1.75], "texture": "#0"},
+				"up": {"uv": [4, 1.25, 1.25, 0], "texture": "#0"}
+			}
+		},
+		{
+			"name": "shield_top_medium",
+			"from": [1.51, 24.75, 5],
+			"to": [14.51, 27.75, 10],
+			"faces": {
+				"north": {"uv": [1.25, 3, 4.5, 3.75], "texture": "#0"},
+				"east": {"uv": [0, 3, 1.25, 3.75], "texture": "#0"},
+				"south": {"uv": [5.75, 3, 9, 3.75], "texture": "#0"},
+				"west": {"uv": [4.5, 3, 5.75, 3.75], "texture": "#0"},
+				"up": {"uv": [4.5, 3, 1.25, 1.75], "texture": "#0"}
+			}
+		},
+		{
+			"name": "shield_main",
+			"from": [0.5, 2.75, 5],
+			"to": [15.5, 24.75, 10],
+			"faces": {
+				"north": {"uv": [1.25, 5, 5, 10.5], "texture": "#0"},
+				"east": {"uv": [0, 5, 1.25, 10.5], "texture": "#0"},
+				"south": {"uv": [6.25, 5, 10, 10.5], "texture": "#0"},
+				"west": {"uv": [5, 5, 6.25, 10.5], "texture": "#0"},
+				"up": {"uv": [5, 5, 1.25, 3.75], "texture": "#0"},
+				"down": {"uv": [8.75, 3.75, 5, 5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "shiel_bottom_medium",
+			"from": [1.5, -2.25, 5],
+			"to": [14.5, 2.75, 10],
+			"faces": {
+				"north": {"uv": [1.25, 11.75, 4.5, 13], "texture": "#0"},
+				"east": {"uv": [0, 11.75, 1.25, 13], "texture": "#0"},
+				"south": {"uv": [5.75, 11.75, 9, 13], "texture": "#0"},
+				"west": {"uv": [4.5, 11.75, 5.75, 13], "texture": "#0"},
+				"down": {"uv": [7.75, 10.5, 4.5, 11.75], "texture": "#0"}
+			}
+		},
+		{
+			"name": "shield_bottom_small",
+			"from": [2.5, -5.25, 5],
+			"to": [13.5, -2.25, 10],
+			"faces": {
+				"north": {"uv": [1.25, 14.25, 4, 15], "texture": "#0"},
+				"east": {"uv": [0, 14.25, 1.25, 15], "texture": "#0"},
+				"south": {"uv": [5.25, 14.25, 8, 15], "texture": "#0"},
+				"west": {"uv": [4, 14.25, 5.25, 15], "texture": "#0"},
+				"down": {"uv": [6.75, 13, 4, 14.25], "texture": "#0"}
+			}
+		},
+		{
+			"name": "handle",
+			"from": [7.13, 11.75, 10],
+			"to": [9.13, 17.75, 16],
+			"faces": {
+				"north": {"uv": [14, 1.5, 13.5, 3], "texture": "#0"},
+				"east": {"uv": [15.5, 1.5, 14, 3], "texture": "#0"},
+				"south": {"uv": [16, 1.5, 15.5, 3], "texture": "#0"},
+				"west": {"uv": [13.5, 1.5, 12, 3], "texture": "#0"},
+				"up": {"uv": [13.5, 1.5, 14, 0], "texture": "#0"},
+				"down": {"uv": [14, 0, 14.5, 1.5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "buttons",
+			"from": [1.5, -3.25, 4.75],
+			"to": [14.5, 11.75, 4.75],
+			"faces": {
+				"north": {"uv": [11, 11.5, 14.25, 15.25], "texture": "#0"}
+			}
+		},
+		{
+			"name": "side_button",
+			"from": [0.3, 2.75, 6],
+			"to": [0.3, 8.75, 8],
+			"faces": {
+				"north": {"uv": [12.25, 9.75, 12.25, 11.25], "texture": "#0"},
+				"east": {"uv": [11.75, 9.75, 12.25, 11.25], "texture": "#0"},
+				"south": {"uv": [12.75, 9.75, 12.75, 11.25], "texture": "#0"},
+				"west": {"uv": [12.25, 9.75, 12.75, 11.25], "texture": "#0"},
+				"up": {"uv": [12.25, 9.75, 12.25, 9.25], "texture": "#0"},
+				"down": {"uv": [12.25, 9.25, 12.25, 9.75], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, -90, 0],
+			"translation": [4.5, -8, 4.25],
+			"scale": [0.9, 0.9, 0.9]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -90, 0],
+			"translation": [4.5, -8, 4.25],
+			"scale": [0.9, 0.9, 0.9]
+		},
+		"firstperson_righthand": {
+			"translation": [-2, -5, 3.5],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_lefthand": {
+			"translation": [-2, -5, 3.5],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"ground": {
+			"rotation": [45, 45, 0],
+			"translation": [0, 4, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [-6, 148, 19],
+			"translation": [-0.75, -2, -5.5],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"head": {
+			"rotation": [115, -72, 69],
+			"translation": [-8.25, -6.25, -7.25],
+			"scale": [0.35, 0.35, 0.35]
+		},
+		"fixed": {
+			"translation": [0, -3.75, -1]
+		}
+	}
+}

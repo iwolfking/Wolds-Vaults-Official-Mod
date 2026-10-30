@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:clay_ball"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "the_vault:carbon_nugget"
+    },
+    {
+      "item": "the_vault:gem_wutodie"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:crystal_duller"
+  }
+}

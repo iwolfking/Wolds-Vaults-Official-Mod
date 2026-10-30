@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "woldsvaults:crystal_seal_unhinged_scavingo",
+    "woldsvaults:crystal_seal_doomsayer",
+    "the_vault:crystal_seal_collector",
+    "the_vault:crystal_seal_prophet"
+  ]
+}

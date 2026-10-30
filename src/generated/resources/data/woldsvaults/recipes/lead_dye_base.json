@@ -1,0 +1,21 @@
+{
+  "type": "mekanism:reaction",
+  "itemInput": {
+    "ingredient": {
+      "item": "mekanism:substrate"
+    }
+  },
+  "fluidInput": {
+    "amount": 50,
+    "fluid": "mekanism:ethene"
+  },
+  "gasInput": {
+    "amount": 100,
+    "gas": "woldsvaults:lead_gas"
+  },
+  "energyRequired": 1000,
+  "duration": 100,
+  "itemOutput": {
+    "item": "woldsvaults:lead_dye_base"
+  }
+}
