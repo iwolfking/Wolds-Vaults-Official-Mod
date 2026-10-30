@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.client.WorkstationScreenTabs;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +23,16 @@ public abstract class MixinAbstractElementContainerScreen<C extends AbstractCont
 
     @Inject(method = "init", at = @At("TAIL"))
     private void woldsvaults$addWorkstationTabs(CallbackInfo ci) {
-        woldsvaults$tabButtons.clear();
-        List<Button> created = WorkstationScreenTabs.createTabs((AbstractContainerScreen<?>) (Object) this);
-        woldsvaults$tabButtons.addAll(created);
-        WorkstationScreenTabs.registerButtons((AbstractContainerScreen<?>) (Object) this, created);
-        for (Button btn : woldsvaults$tabButtons) {
-            ((Screen) (Object) this).renderables.add(btn);
+        if(WoldsVaultsConfig.CLIENT.showWorkstationTabs.get()) {
+            woldsvaults$tabButtons.clear();
+            List<Button> created = WorkstationScreenTabs.createTabs((AbstractContainerScreen<?>) (Object) this);
+            woldsvaults$tabButtons.addAll(created);
+            WorkstationScreenTabs.registerButtons((AbstractContainerScreen<?>) (Object) this, created);
+            for (Button btn : woldsvaults$tabButtons) {
+                ((Screen) (Object) this).renderables.add(btn);
+            }
         }
+
     }
 
 }
