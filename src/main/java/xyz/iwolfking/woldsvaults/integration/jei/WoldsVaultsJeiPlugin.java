@@ -46,6 +46,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -114,6 +115,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<LabeledLootInfo> USEFUL_FILTER_ITEMS = RecipeType.create(WoldsVaults.MOD_ID, "useful_filter_items", LabeledLootInfo.class);
     public static final RecipeType<LabeledLootInfo> GATEWAY_REWARDS = RecipeType.create(WoldsVaults.MOD_ID, "gateway_rewards", LabeledLootInfo.class);
     public static final RecipeType<LabeledLootInfo> GREED_VAULT_ALTAR = RecipeType.create(WoldsVaults.MOD_ID, "greed_vault_altar", LabeledLootInfo.class);
+    public static final RecipeType<LabeledLootInfo> PIGLIN_BARTERING = RecipeType.create(WoldsVaults.MOD_ID, "piglin_bartering", LabeledLootInfo.class);
 
 
     public WoldsVaultsJeiPlugin() {}
@@ -163,6 +165,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(AllItems.ATTRIBUTE_FILTER.get()), USEFUL_FILTER_ITEMS);
         registration.addRecipeCatalyst(new ItemStack(ModItems.UNIDENTIFIED_GATEWAY_PEARL), GATEWAY_REWARDS);
         registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModBlocks.VAULT_ALTAR), GREED_VAULT_ALTAR);
+        registration.addRecipeCatalyst(new ItemStack(Items.GOLD_INGOT), PIGLIN_BARTERING);
 
         registration.addRecipeCatalyst(
                 new ItemStack(ModBlocks.TRINKET_FUSION_BLOCK),
@@ -215,6 +218,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, USEFUL_FILTER_ITEMS, AllItems.ATTRIBUTE_FILTER.get(), new TextComponent("Useful Filter Items")));
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, GATEWAY_REWARDS, ModItems.UNIDENTIFIED_GATEWAY_PEARL, new TextComponent("Gateway Rewards")));
         registration.addRecipeCategories(makeLabeledIngredientPoolCategory(guiHelper, GREED_VAULT_ALTAR, iskallia.vault.init.ModBlocks.VAULT_ALTAR, new TextComponent("Greed Vault Altar")));
+        registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, PIGLIN_BARTERING, Items.GOLD_INGOT, new TextComponent("Piglin Bartering")));
 
         if(ConditionalModUtils.isModPresent("cagerium")) {
             registration.addRecipeCategories(makeLabeledIngredientPoolCategory(guiHelper, CageriumJEIProvider.CAGERIUM_EGG_SUPPORT, Cagerium.CAGE.get(), new TextComponent("Cagerium Egg Support")));
@@ -283,6 +287,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(USEFUL_FILTER_ITEMS, getUsefulFilterItems());
         registration.addRecipes(GATEWAY_REWARDS, getGatewayRewards());
         registration.addRecipes(GREED_VAULT_ALTAR, getGreedVaultAltarIngredients());
+        registration.addRecipes(PIGLIN_BARTERING, getPiglinBartering());
 
         //Add Wold capstones to VHAPI's Capstone recipe registry
         CapstoneRecipeRegistry.register(registration, ModItems.ALL_SEEING_EYE_CAPSTONE, VaultMod.id("all_seeing_eye"));
@@ -515,6 +520,48 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         });
         lootInfo.forEach((i, n) -> toReturn.addAll(n));
         return toReturn;
+    }
+
+    public static List<LabeledLootInfo> getPiglinBartering() {
+        List<ItemStack> drops = new ArrayList<>();
+
+        drops.add(new ItemStack(Items.BOOK));
+        drops.add(new ItemStack(Items.IRON_BOOTS));
+        ItemStack fireResistancePotion = new ItemStack(Items.POTION);
+        fireResistancePotion.getOrCreateTag().putString("Potion", "minecraft:fire_resistance");
+        drops.add(fireResistancePotion);
+        ItemStack splashFireResistancePotion = new ItemStack(Items.SPLASH_POTION);
+        splashFireResistancePotion.getOrCreateTag().putString("Potion", "minecraft:fire_resistance");
+        drops.add(splashFireResistancePotion);
+        ItemStack waterPotion = new ItemStack(Items.POTION);
+        waterPotion.getOrCreateTag().putString("Potion", "minecraft:water");
+        drops.add(waterPotion);
+
+        addItemStack(drops, Items.IRON_NUGGET, 36);
+        addItemStack(drops, Items.ENDER_PEARL, 4);
+        addItemStack(drops, Items.STRING, 9);
+        addItemStack(drops, Items.QUARTZ, 12);
+        drops.add(new ItemStack(Items.OBSIDIAN));
+        addItemStack(drops, Items.CRYING_OBSIDIAN, 3);
+        drops.add(new ItemStack(Items.FIRE_CHARGE));
+        addItemStack(drops, Items.LEATHER, 4);
+        addItemStack(drops, Items.SOUL_SAND, 8);
+        addItemStack(drops, Items.NETHER_BRICK, 8);
+        addItemStack(drops, Items.SPECTRAL_ARROW, 12);
+        addItemStack(drops, Items.GRAVEL, 16);
+        addItemStack(drops, Items.BLACKSTONE, 16);
+
+        List<LabeledLootInfo> lootInfo = new ArrayList<>();
+        if (!drops.isEmpty()) {
+            lootInfo.add(LabeledLootInfo.of(drops, new TextComponent("Piglin Bartering"), null));
+        }
+        return lootInfo;
+    }
+
+    private static void addItemStack(List<ItemStack> drops, Item item, int count) {
+        ItemStack stack = new ItemStack(item);
+        stack.setCount(count);
+        drops.add(stack);
     }
 
     public static <V> ItemStack generateVaultGear(VaultGearItem item, VaultGearRarity rarity, @Nullable VaultGearAttribute<V> attribute, @Nullable V value, int level) {
