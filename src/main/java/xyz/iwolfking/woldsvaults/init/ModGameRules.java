@@ -30,7 +30,7 @@ public class ModGameRules {
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_FULL_RESEARCH_TEAM_SYNC;
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_ALL_ITEMS_IN_VAULTS;
     public static GameRules.Key<GameRules.BooleanValue> ENABLE_RANDOM_THEME_INFUSION;
-
+    public static GameRules.Key<GameRules.BooleanValue> ENABLE_VAULT_FAIL_ON_PLAYER_DEATH;
     public static void initialize() {
         ALLOW_FLIGHT_IN_VAULTS = GameRules.register("enableFlightInVaults", GameRules.Category.PLAYER, booleanRule(false));
         ALLOW_BREAKING_SPAWNERS_IN_VAULT = GameRules.register("enableSpawnerBreakingInVaults", GameRules.Category.PLAYER, booleanRule(false));
@@ -50,7 +50,7 @@ public class ModGameRules {
         ENABLE_FULL_RESEARCH_TEAM_SYNC = GameRules.register("enableFullResearchTeamSync", GameRules.Category.PLAYER, booleanRule(false));
         ENABLE_ALL_ITEMS_IN_VAULTS = GameRules.register("enableAllItemsInVaults", GameRules.Category.PLAYER, booleanRule(false));
         ENABLE_RANDOM_THEME_INFUSION = GameRules.register("enableRandomThemeInfusion", GameRules.Category.PLAYER, booleanRule(true));
-    }
+        ENABLE_VAULT_FAIL_ON_PLAYER_DEATH = GameRules.register("enableVaultFailOnPlayerDeath", GameRules.Category.PLAYER, booleanRule(false));    }
 
 
     public static GameRules.Type<GameRules.BooleanValue> booleanRule(boolean defaultValue) {

@@ -49,10 +49,8 @@ public class MixinCrystalWorkbenchScreen extends AbstractElementContainerScreen<
     @Override
     public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
         super.render(poseStack, mouseX, mouseY, partialTick);
-        CrystalWorkbenchScreen screen = (CrystalWorkbenchScreen) (Object) this;
-        CrystalWorkbenchContainer container = screen.getMenu();
 
-        ItemStack crystalStack = container.getEntity().getOutput().getItem(0);
+        ItemStack crystalStack = this.getMenu().getSlot(36).getItem();
         if(crystalStack.isEmpty()) {
             return;
         }
@@ -63,21 +61,21 @@ public class MixinCrystalWorkbenchScreen extends AbstractElementContainerScreen<
         }
 
 
-        ItemStack ingredientStack = this.getMenu().getEntity().getUniqueIngredients().getItem(5);
+        ItemStack ingredientStack = this.getMenu().getSlot(102).getItem();
         if(ingredientStack.getItem() instanceof IVaultCrystalModifier vaultCrystalModifier) {
-            ItemStack capstoneStack = this.getMenu().getEntity().getUniqueIngredients().getItem(2);
+            ItemStack capstoneStack = this.getMenu().getSlot(99).getItem();
             if(!capstoneStack.isEmpty() && !ingredientStack.isEmpty()) {
                 woldsVaults$renderCursedSlot(getGuiLeft() + 147, getGuiTop() + 33, poseStack);
                 return;
             }
 
             if(vaultCrystalModifier.hasApplied(crystalStack)) {
-                ItemStack sealStack = this.getMenu().getEntity().getUniqueIngredients().getItem(0);
+                ItemStack sealStack = this.getMenu().getSlot(97).getItem();
                 if(!sealStack.isEmpty() && ingredientStack.getItem() instanceof VaultMapItem) {
                     woldsVaults$renderCursedSlot(getGuiLeft() + 172, getGuiTop() + 19, poseStack);
                 }
 
-                ItemStack augmentStack = this.getMenu().getEntity().getUniqueIngredients().getItem(1);
+                ItemStack augmentStack = this.getMenu().getSlot(98).getItem();
                 if(augmentStack.getItem() instanceof AugmentItem && ingredientStack.getItem() instanceof VaultMapItem) {
                     woldsVaults$renderCursedSlot(getGuiLeft() + 197, getGuiTop() + 33, poseStack);
                 }
