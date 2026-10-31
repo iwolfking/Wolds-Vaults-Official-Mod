@@ -513,6 +513,7 @@
     "vaulthunters.fixes.MixinRoyaleObjective",
     "vaulthunters.fixes.MixinRunePillarRenderer",
     "vaulthunters.fixes.MixinScheduledModifiers",
+    "vaulthunters.fixes.MixinSpiritEntity",
     "vaulthunters.fixes.MixinSpiritExtractorTileEntity",
     "vaulthunters.fixes.MixinStatisticsElementContainerScreenData",
     "vaulthunters.fixes.MixinTauntAbility",
