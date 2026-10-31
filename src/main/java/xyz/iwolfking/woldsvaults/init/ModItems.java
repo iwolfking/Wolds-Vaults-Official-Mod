@@ -28,6 +28,7 @@ import xyz.iwolfking.woldsvaults.items.filter_necklace.FilterNecklaceItem;
 import xyz.iwolfking.woldsvaults.items.fruits.HastyPomegranteItem;
 import xyz.iwolfking.woldsvaults.items.fruits.PoltergeistPlum;
 import xyz.iwolfking.woldsvaults.items.fruits.WisdomFruitItem;
+import xyz.iwolfking.woldsvaults.items.WeaponTypeSettingItem;
 import xyz.iwolfking.woldsvaults.items.gear.*;
 import xyz.iwolfking.woldsvaults.items.rings.*;
 
@@ -127,6 +128,7 @@ public class ModItems {
 
     public static final BasicItem ECCENTRIC_FOCUS;
     public static final BasicItem WEAPON_TYPE_FOCUS;
+    public static final WeaponTypeSettingItem WEAPON_TYPE_SETTER;
     public static final BasicItem BLAZING_FOCUS;
     public static final BasicItem SUSPENSION_FOCUS;
     public static final BasicItem INSCRIBING_FOCUS;
@@ -357,6 +359,7 @@ public class ModItems {
         registry.register(MAP);
         registry.register(LAYOUT_MANIPULATOR);
         registry.register(WEAPON_TYPE_FOCUS);
+        registry.register(WEAPON_TYPE_SETTER);
         registry.register(GREEDY_VAULT_ROCK);
         registry.register(POGOMINIUM_INGOT);
         registry.register(INFUSED_DRIFTWOOD);
@@ -510,6 +513,7 @@ public class ModItems {
         CHISELING_FOCUS = new ToolModifierNullifyingItem(WoldsVaults.id("chiseling_focus"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS));
         ECCENTRIC_FOCUS = new BasicItem(WoldsVaults.id("eccentric_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         WEAPON_TYPE_FOCUS = new BasicItem(WoldsVaults.id("accoutre_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
+        WEAPON_TYPE_SETTER = new WeaponTypeSettingItem(WoldsVaults.id("weapon_type_setter"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         BLAZING_FOCUS = new BasicItem(WoldsVaults.id("blazing_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         SUSPENSION_FOCUS = new BasicItem(WoldsVaults.id("suspension_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         INSCRIBING_FOCUS = new BasicItem(WoldsVaults.id("inscribing_focus"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));

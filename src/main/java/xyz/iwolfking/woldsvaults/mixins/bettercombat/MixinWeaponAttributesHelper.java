@@ -8,15 +8,12 @@ import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.bettercombat.api.AttributesContainer;
 import net.bettercombat.api.WeaponAttributes;
 import net.bettercombat.api.WeaponAttributesHelper;
-import net.bettercombat.client.collision.TargetFinder;
 import net.bettercombat.logic.ItemStackNBTWeaponAttributes;
 import net.bettercombat.logic.WeaponRegistry;
 import net.minecraft.core.Registry;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -49,13 +46,13 @@ public abstract class MixinWeaponAttributesHelper {
                 return;
             }
 
-            WeaponAttributes cachedAttributes = attributedItemStack.getWeaponAttributes();
-            if (cachedAttributes != null) {
-                cir.setReturnValue(cachedAttributes);
+            if (WoldsVaultsConfig.CLIENT.weaponsShouldntBeBetter.get()) {
                 return;
             }
 
-            if (WoldsVaultsConfig.CLIENT.weaponsShouldntBeBetter.get()) {
+            WeaponAttributes cachedAttributes = attributedItemStack.getWeaponAttributes();
+            if (cachedAttributes != null) {
+                cir.setReturnValue(cachedAttributes);
                 return;
             }
 

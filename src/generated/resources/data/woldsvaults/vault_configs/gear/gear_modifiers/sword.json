@@ -1,5 +1,61 @@
 {
   "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type_cutlass",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 15,
+            "value": {
+              "value": "Cutlass"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type_rapier",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 15,
+            "value": {
+              "value": "Rapier"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type_sword",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 70,
+            "value": {
+              "value": "Sword"
+            }
+          }
+        ]
+      }
+    ],
     "UNUSUAL_PREFIX": [
       {
         "attribute": "the_vault:effect_cloud",

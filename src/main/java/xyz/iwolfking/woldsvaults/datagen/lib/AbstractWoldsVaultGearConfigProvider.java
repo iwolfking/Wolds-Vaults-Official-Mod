@@ -11,7 +11,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.modifiers.gear.DamageBurstComboAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.EffectComboAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.HealthScalingComboAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.InvokeAbilityComboAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
@@ -189,6 +192,48 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
                 duration,
                 ability,
                 new IntRollRangeEntry(minAbilityLevel, maxAbilityLevel, levelSteps)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addEffectCombo(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            ResourceLocation associatedEffect,
+            int duration,
+            ResourceLocation effectId,
+            int minHits, int maxHits, int hitSteps,
+            int minAmplifier, int maxAmplifier, int amplifierSteps,
+            int minEffectDuration, int maxEffectDuration, int durationSteps) {
+
+        EffectComboAttribute.Config config = new EffectComboAttribute.Config(
+                new IntRollRangeEntry(minHits, maxHits, hitSteps),
+                associatedEffect,
+                duration,
+                effectId,
+                new IntRollRangeEntry(minAmplifier, maxAmplifier, amplifierSteps),
+                new IntRollRangeEntry(minEffectDuration, maxEffectDuration, durationSteps)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addHealthScalingCombo(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            ResourceLocation associatedEffect,
+            int duration,
+            HealthScalingComboAttribute.DamageType scalingType,
+            int minHits, int maxHits, int hitSteps,
+            float minMultiplier, float maxMultiplier, float multiplierStep) {
+
+        HealthScalingComboAttribute.Config config = new HealthScalingComboAttribute.Config(
+                new IntRollRangeEntry(minHits, maxHits, hitSteps),
+                associatedEffect,
+                duration,
+                scalingType,
+                new FloatRollRangeEntry(minMultiplier, maxMultiplier, multiplierStep)
         );
 
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);

@@ -181,6 +181,18 @@ public class MixinGiveLootCommand {
         );
 
         builder.then(
+                Commands.literal("weapon_type_setter")
+                        .then(
+                                Commands.argument("weaponType", StringArgumentType.word())
+                                        .suggests((ctx, sb) -> {
+                                            xyz.iwolfking.woldsvaults.init.ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.keySet().forEach(sb::suggest);
+                                            return sb.buildFuture();
+                                        })
+                                        .executes(this::woldsVaults$giveWeaponTypeSetter)
+                        )
+        );
+
+        builder.then(
                 Commands.literal("catalyst")
                         .then(
                                 Commands.argument("pool", ResourceLocationArgument.id())
@@ -388,6 +400,14 @@ public class MixinGiveLootCommand {
         ServerPlayer player = (context.getSource()).getPlayerOrException();
         ItemStack chiselingFocus =  ToolModifierNullifyingItem.create(StringArgumentType.getString(context, "modifier"));
         woldsvaults$giveStack(player, chiselingFocus);
+        return 1;
+    }
+
+    @Unique
+    private int woldsVaults$giveWeaponTypeSetter(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = (context.getSource()).getPlayerOrException();
+        ItemStack weaponTypeSetter = WeaponTypeSettingItem.create(StringArgumentType.getString(context, "weaponType"));
+        woldsvaults$giveStack(player, weaponTypeSetter);
         return 1;
     }
 

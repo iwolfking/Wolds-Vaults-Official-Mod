@@ -1,5 +1,119 @@
 {
   "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type_staff",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "Staff"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type_halberd",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 5,
+            "value": {
+              "value": "Halberd"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type_battlestaff",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 85,
+            "value": {
+              "value": "Battlestaff"
+            }
+          }
+        ]
+      }
+    ],
+    "IMPLICIT": [
+      {
+        "attribute": "woldsvaults:magic_burst_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_magic_burst_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "scaledAttribute": "the_vault:ability_power",
+              "damageMultiplier": {
+                "step": 0.1,
+                "min": 0.5,
+                "max": 1.0
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:magic_burst_combo",
+              "effectDuration": 160
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:ability_invoke_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_invoke_frost_nova",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "abilityId": "Nova_Slow",
+              "level": {
+                "step": 1,
+                "min": 1,
+                "max": 3
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:chilling_combo",
+              "effectDuration": 160
+            }
+          }
+        ]
+      }
+    ],
     "CORRUPTED_IMPLICIT": [
       {
         "attribute": "the_vault:phoenix",

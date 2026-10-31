@@ -902,6 +902,24 @@
             }
           }
         ]
+      },
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "value": "Wand"
+            }
+          }
+        ]
       }
     ],
     "PREFIX": [

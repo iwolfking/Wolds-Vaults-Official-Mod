@@ -34,7 +34,7 @@ public class WeaponTypesConfig extends Config {
         public List<String> ALLOWED_TYPES;
 
         public String displayAllowedTypes() {
-            return "Allowed On: " + String.join(",", ALLOWED_TYPES);
+            return "Allowed On: " + String.join(", ", ALLOWED_TYPES);
         }
 
 
