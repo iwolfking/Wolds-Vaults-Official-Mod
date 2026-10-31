@@ -22,7 +22,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class BackpackUtils {
 
     public static ItemStack findBackpack(Player player) {
-
         Optional<ItemStack> backpack = InventoryUtil.findAllItems(player).stream().map(InventoryUtil.ItemAccess::getStack).filter(itemStack -> !itemStack.isEmpty() && itemStack.getItem() instanceof BackpackItem && hasUpgradeOfType(DepositUpgradeWrapper.class, itemStack) && !isBackpackEmpty(itemStack)).findFirst();
         return backpack.orElse(ItemStack.EMPTY);
     }

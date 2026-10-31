@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.util.BackpackUtils;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
-import xyz.iwolfking.woldsvaults.network.packets.ServerboundDepositBackpackToRSGridPacket;
+import xyz.iwolfking.woldsvaults.integration.refinedstorage.packet.ServerboundDepositBackpackToRSGridPacket;
 
 @Mixin(GridScreen.class)
 public abstract class MixinRSGridScreen {
@@ -38,7 +38,7 @@ public abstract class MixinRSGridScreen {
             protected String getTooltip() {
                 ItemStack backpack = BackpackUtils.findBackpack(Minecraft.getInstance().player);
                 if (backpack.isEmpty()) {
-                    return "Deposit Backpack\nNo backpack found";
+                    return "Deposit Backpack\nNo valid backpack found to deposit";
                 }
                 return "Deposit Backpack\n" + backpack.getHoverName().getString();
             }

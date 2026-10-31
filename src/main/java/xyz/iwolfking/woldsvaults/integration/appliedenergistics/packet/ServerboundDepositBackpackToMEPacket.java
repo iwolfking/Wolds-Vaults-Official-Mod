@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.network.packets;
+package xyz.iwolfking.woldsvaults.integration.appliedenergistics.packet;
 
 import appeng.menu.me.common.MEStorageMenu;
 import java.util.function.Supplier;

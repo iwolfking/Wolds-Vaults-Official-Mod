@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.client.gui.ae2.DepositBackpackButton;
+import xyz.iwolfking.woldsvaults.integration.appliedenergistics.client.DepositBackpackButton;
 import xyz.iwolfking.woldsvaults.mixins.ae2.accessors.AccessorAEBaseScreen;
 
 @Mixin(value = MEStorageScreen.class, remap = false)

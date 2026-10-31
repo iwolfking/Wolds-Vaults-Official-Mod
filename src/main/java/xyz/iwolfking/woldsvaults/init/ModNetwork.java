@@ -13,9 +13,9 @@ import xyz.iwolfking.woldsvaults.network.packets.ClientboundTrinketPouchStatePac
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundOpenTrinketPouchPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundRenameTrinketPouchPresetPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSwitchWorkstationPacket;
-import xyz.iwolfking.woldsvaults.network.packets.ServerboundDepositBackpackToMEPacket;
+import xyz.iwolfking.woldsvaults.integration.appliedenergistics.packet.ServerboundDepositBackpackToMEPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ClientboundBackpackContentsRefreshPacket;
-import xyz.iwolfking.woldsvaults.network.packets.ServerboundDepositBackpackToRSGridPacket;
+import xyz.iwolfking.woldsvaults.integration.refinedstorage.packet.ServerboundDepositBackpackToRSGridPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSetTrinketSpeedCapPacket;
 import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;

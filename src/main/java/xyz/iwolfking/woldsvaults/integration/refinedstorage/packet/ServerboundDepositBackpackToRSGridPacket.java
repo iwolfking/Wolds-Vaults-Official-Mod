@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.network.packets;
+package xyz.iwolfking.woldsvaults.integration.refinedstorage.packet;
 
 import com.refinedmods.refinedstorage.api.network.grid.IGrid;
 import com.refinedmods.refinedstorage.container.GridContainerMenu;

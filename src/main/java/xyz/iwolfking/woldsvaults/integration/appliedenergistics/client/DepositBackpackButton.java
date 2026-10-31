@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.client.gui.ae2;
+package xyz.iwolfking.woldsvaults.integration.appliedenergistics.client;
 
 import appeng.client.gui.Icon;
 import appeng.client.gui.widgets.IconButton;
@@ -9,10 +9,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems;
+import net.minecraft.world.level.block.Blocks;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.util.BackpackUtils;
-import xyz.iwolfking.woldsvaults.network.packets.ServerboundDepositBackpackToMEPacket;
+import xyz.iwolfking.woldsvaults.integration.appliedenergistics.packet.ServerboundDepositBackpackToMEPacket;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class DepositBackpackButton extends IconButton {
 
     protected Item getItemOverlay() {
         ItemStack backpack = findTargetBackpack();
-        return backpack.isEmpty() ? ModItems.BACKPACK.get() : backpack.getItem();
+        return backpack.isEmpty() ? Blocks.BARRIER.asItem() : backpack.getItem();
     }
 
     public List<Component> getTooltipMessage() {
@@ -35,7 +35,7 @@ public class DepositBackpackButton extends IconButton {
         if (backpack.isEmpty()) {
             return List.of(
                     new TextComponent("Deposit Backpack"),
-                    new TextComponent("No backpack found in your curios or inventory").withStyle(ChatFormatting.GRAY)
+                    new TextComponent("No valid backpack found to deposit").withStyle(ChatFormatting.GRAY)
             );
         }
         return List.of(
