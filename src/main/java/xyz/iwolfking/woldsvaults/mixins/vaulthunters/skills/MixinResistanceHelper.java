@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.ColossusAbility;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
+import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.LightningFiend;
 
 import java.util.function.Consumer;
 
@@ -20,11 +21,12 @@ public class MixinResistanceHelper {
 
     @WrapOperation(method = "getResistance", at = @At(value = "INVOKE", target = "Liskallia/vault/util/calc/AttributeLimitHelper;getResistanceLimit(Lnet/minecraft/world/entity/LivingEntity;)F"))
     private static float colossusTitanEtchingResistanceIncrease(LivingEntity entity, Operation<Float> original) {
+        float limit = original.call(entity) + LightningFiend.resistanceCapBonus(entity);
         if(entity.hasEffect(ModEffects.COLOSSUS)) {
-            return Math.min(original.call(entity) + ColossusAbility.ColossusEffect.getColossusResistanceCapIncrease(entity), 0.95F);
+            limit += ColossusAbility.ColossusEffect.getColossusResistanceCapIncrease(entity);
         }
 
-        return original.call(entity);
+        return Math.min(limit, 0.95F);
     }
 
     @WrapOperation(method = "getResistanceUnlimited",

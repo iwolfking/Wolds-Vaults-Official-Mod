@@ -119,6 +119,9 @@ public abstract class MixinThrownTrident extends AbstractArrow implements Thrown
             float f1 = 1.0F;
             float throwDamage = entity1 instanceof LivingEntity owner ? woldsVaults$throwAttackDamage(owner) : woldsVaults$ownerlessDamage(f.floatValue());
             float strikeDamage = throwDamage * (entity1 instanceof LivingEntity owner ? LightningFiend.channelingMultiplier(owner) : 1.0F);
+            if (entity1 instanceof ServerPlayer player && entity instanceof LivingEntity living) {
+                LightningFiend.onThrowHit(player, living);
+            }
             if (this.level instanceof ServerLevel && VaultTridentItem.isVaultTridentChanneling(this.tridentItem)) {
                 if (piercing && entity1 instanceof ServerPlayer player && entity instanceof LivingEntity living) {
                     LightningFiend.strike(player, living, strikeDamage);

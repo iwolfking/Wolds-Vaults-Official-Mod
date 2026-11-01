@@ -58,7 +58,6 @@ public final class ClientLightningForm {
     private static int sinceLash;
     private static int rodCooldownTicks;
     private static int sinceRod;
-    private static int thunderMinTicks;
     private static boolean useWasDown;
     private static boolean pickWasDown;
     private static int markId = -1;
@@ -72,7 +71,7 @@ public final class ClientLightningForm {
     private ClientLightningForm() {
     }
 
-    public static void start(int ticks, int dashCooldownTicks, int lashCooldown, int rodCooldown, int thunderMin) {
+    public static void start(int ticks, int dashCooldownTicks, int lashCooldown, int rodCooldown) {
         formTicks = ticks;
         remaining = ticks;
         cooldownTicks = dashCooldownTicks;
@@ -81,7 +80,6 @@ public final class ClientLightningForm {
         sinceLash = lashCooldown;
         rodCooldownTicks = rodCooldown;
         sinceRod = rodCooldown;
-        thunderMinTicks = thunderMin;
         markId = -1;
         Options options = Minecraft.getInstance().options;
         KeyMapping[] keys = keys(options);
@@ -137,10 +135,6 @@ public final class ClientLightningForm {
 
     static float rodCooldown(float partialTick) {
         return cooldown(sinceRod, rodCooldownTicks, partialTick);
-    }
-
-    static float thunderCooldown(float partialTick) {
-        return cooldown(formTicks - remaining, thunderMinTicks, partialTick);
     }
 
     private static float cooldown(int since, int ticks, float partialTick) {
@@ -220,7 +214,7 @@ public final class ClientLightningForm {
             if (useDown && !useWasDown && sinceRod >= rodCooldownTicks) {
                 ability(mc, LightningAbilityMessage.LIGHTNING_ROD);
             }
-            if (pickDown && !pickWasDown && path == null && formTicks - remaining >= thunderMinTicks) {
+            if (pickDown && !pickWasDown && path == null) {
                 ability(mc, LightningAbilityMessage.THUNDERSTRIKE);
             }
         }

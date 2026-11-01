@@ -7,20 +7,18 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-/** Tells a player they became lightning (Lightning Fiend 6-piece): for how long, and the cooldowns of its dashes and clicks, and how long before Thunderstrike opens. */
+/** Tells a player they became lightning (Lightning Fiend 6-piece): for how long, and the cooldowns of its dashes and clicks. */
 public class LightningFormMessage {
     private final int ticks;
     private final int dashCooldownTicks;
     private final int lashCooldownTicks;
     private final int rodCooldownTicks;
-    private final int thunderMinTicks;
 
-    public LightningFormMessage(int ticks, int dashCooldownTicks, int lashCooldownTicks, int rodCooldownTicks, int thunderMinTicks) {
+    public LightningFormMessage(int ticks, int dashCooldownTicks, int lashCooldownTicks, int rodCooldownTicks) {
         this.ticks = ticks;
         this.dashCooldownTicks = dashCooldownTicks;
         this.lashCooldownTicks = lashCooldownTicks;
         this.rodCooldownTicks = rodCooldownTicks;
-        this.thunderMinTicks = thunderMinTicks;
     }
 
     public static void encode(LightningFormMessage message, FriendlyByteBuf buffer) {
@@ -28,17 +26,16 @@ public class LightningFormMessage {
         buffer.writeVarInt(message.dashCooldownTicks);
         buffer.writeVarInt(message.lashCooldownTicks);
         buffer.writeVarInt(message.rodCooldownTicks);
-        buffer.writeVarInt(message.thunderMinTicks);
     }
 
     public static LightningFormMessage decode(FriendlyByteBuf buffer) {
-        return new LightningFormMessage(buffer.readVarInt(), buffer.readVarInt(), buffer.readVarInt(), buffer.readVarInt(), buffer.readVarInt());
+        return new LightningFormMessage(buffer.readVarInt(), buffer.readVarInt(), buffer.readVarInt(), buffer.readVarInt());
     }
 
     public static void handle(LightningFormMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm.start(message.ticks, message.dashCooldownTicks, message.lashCooldownTicks, message.rodCooldownTicks, message.thunderMinTicks)));
+                () -> () -> xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm.start(message.ticks, message.dashCooldownTicks, message.lashCooldownTicks, message.rodCooldownTicks)));
         context.setPacketHandled(true);
     }
 }

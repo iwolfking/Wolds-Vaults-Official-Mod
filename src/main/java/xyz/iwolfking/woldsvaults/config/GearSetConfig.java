@@ -98,9 +98,17 @@ public class GearSetConfig extends PackAuthoredConfig {
         @Expose public Float rodOvershoot;
         @Expose public Float rodDamageMultiplier;
         @Expose public Integer rodCooldownTicks;
-        @Expose public Float thunderDamagePerSecond;
-        @Expose public Float thunderRadius;
-        @Expose public Integer thunderMinFormTicks;
+        @Expose public Float thunderBaseDamage;
+        @Expose public Float thunderMaxMultiplier;
+        @Expose public Float thunderBaseRadius;
+        @Expose public Float thunderMaxRadius;
+        @Expose public Float chargeMax;
+        @Expose public Float chargePerThrowHit;
+        @Expose public Float chargePerArcLash;
+        @Expose public Float chargePerDash;
+        @Expose public Float chargePerRod;
+        @Expose public Float chargeBossMultiplier;
+        @Expose public Float formResistanceCapBonus;
 
         /** Fills every key the pack file left out from the built-in tuning, logging each one. */
         private void fillMissing(Lightning defaults) {
@@ -156,7 +164,7 @@ public class GearSetConfig extends PackAuthoredConfig {
         this.documentation.put("sets", "Set id -> name, colours, pieces (unique ids from unique_gear) and tiers. A piece counts while it sits in the player's attribute snapshot (worn in its intended slot, not broken, not above the player's level). Each unique counts once.");
         this.documentation.put("tiers", "pieces = pieces needed; text = the tooltip line; grants = gear attributes added to the wearer's snapshot while the tier is active (values in the attribute's own units, 1.0 = 100%)");
         this.documentation.put("riptide", "Shared riptide tuning: hover friction is the extra per-tick horizontal speed multiplier during the hover, vertical damping the per-tick vertical one; the shock cone spans shockConeAhead blocks ahead of the player to shockConeBehind blocks behind, widening to shockConeRadius; contactInflate grows the box that finds dash contacts by that many blocks per side; a dash that hits a wall ends only once its horizontal speed is below stallSpeed blocks per tick, and never in its first launchGraceTicks ticks");
-        this.documentation.put("lightning", "Shared lightning tuning: chainRange = how far a channeling strike jumps to the next enemy; throwing a trident with the lightning dash grant turns the thrower into lightning for formDurationTicks, during which each tap of a movement key sends them dashDistance blocks that way as a bolt of lightning, taking dashTravelTicks, striking enemies within dashWidth of the path, then waiting dashCooldownTicks after reappearing before the next dash. Left click is Arc Lash: arcLashBolts spinning lightning bolts thrown out evenly across arcLashConeAngle degrees either side of the look, flying arcLashSpeed blocks a tick for up to arcLashRange, striking each enemy they pass through (once per throw) for arcLashDamage of the thrower's attack damage at the throw and calling a channeling strike (vanilla lightning) down on it for arcLashStrikeDamage of a channeling strike's damage, once per arcLashCooldownTicks. Right click is Lightning Rod: marks the enemy aimed at within rodRange (once per rodCooldownTicks); a dash within rodLockAngle degrees of the target locks on, running through it and on for rodOvershoot of a dash, and strikes it for rodDamageMultiplier of the dash damage. Middle click is Thunderstrike: ends the form with a giant bolt on the player striking every enemy within thunderRadius (across) for the thrower's attack damage times thunderDamagePerSecond per second of form left, once the form has lasted thunderMinFormTicks");
+        this.documentation.put("lightning", "Shared lightning tuning: chainRange = how far a channeling strike jumps to the next enemy; throwing a trident with the lightning dash grant turns the thrower into lightning for formDurationTicks, during which each tap of a movement key sends them dashDistance blocks that way as a bolt of lightning, taking dashTravelTicks, striking enemies within dashWidth of the path, then waiting dashCooldownTicks after reappearing before the next dash. Left click is Arc Lash: arcLashBolts spinning lightning bolts thrown out evenly across arcLashConeAngle degrees either side of the look, flying arcLashSpeed blocks a tick for up to arcLashRange, striking each enemy they pass through (once per throw) for arcLashDamage of the thrower's attack damage at the throw and calling a channeling strike (vanilla lightning) down on it for arcLashStrikeDamage of a channeling strike's damage, once per arcLashCooldownTicks. Right click is Lightning Rod: marks the enemy aimed at within rodRange (once per rodCooldownTicks); a dash within rodLockAngle degrees of the target locks on, running through it and on for rodOvershoot of a dash, and strikes it for rodDamageMultiplier of the dash damage. Middle click is Thunderstrike: ends the form with a giant bolt on the player striking every enemy within a radius growing from thunderBaseRadius to thunderMaxRadius (across) with charge, for thunderBaseDamage of the thrower's attack damage times 1 + (thunderMaxMultiplier - 1) x (charge / chargeMax)^2. Charge builds while lightning: chargePerThrowHit per enemy the throw hits, chargePerArcLash per Arc Lash contact, chargePerDash per enemy a dash strikes (chargePerRod on the Lightning Rod's mark), times chargeBossMultiplier on a boss (the the_vault:bosses group), up to chargeMax. The form raises the resistance cap by formResistanceCapBonus (never past 95%)");
 
         this.riptide = new Riptide();
         this.riptide.hoverHorizontalFriction = 0.8F;
@@ -188,9 +196,17 @@ public class GearSetConfig extends PackAuthoredConfig {
         this.lightning.rodOvershoot = 0.5F;
         this.lightning.rodDamageMultiplier = 1.5F;
         this.lightning.rodCooldownTicks = 10;
-        this.lightning.thunderDamagePerSecond = 1.0F;
-        this.lightning.thunderRadius = 10.0F;
-        this.lightning.thunderMinFormTicks = 60;
+        this.lightning.thunderBaseDamage = 5.0F;
+        this.lightning.thunderMaxMultiplier = 30.0F;
+        this.lightning.thunderBaseRadius = 3.0F;
+        this.lightning.thunderMaxRadius = 7.0F;
+        this.lightning.chargeMax = 500.0F;
+        this.lightning.chargePerThrowHit = 5.0F;
+        this.lightning.chargePerArcLash = 5.0F;
+        this.lightning.chargePerDash = 10.0F;
+        this.lightning.chargePerRod = 15.0F;
+        this.lightning.chargeBossMultiplier = 3.0F;
+        this.lightning.formResistanceCapBonus = 0.1F;
 
         GearSet tidebreaker = new GearSet();
         tidebreaker.name = "Tidebreaker";
@@ -219,12 +235,12 @@ public class GearSetConfig extends PackAuthoredConfig {
                 "woldsvaults:lightning_fiend_crown", "woldsvaults:lightning_fiend_mantle", "woldsvaults:lightning_fiend_legguards",
                 "woldsvaults:lightning_fiend_talons", "woldsvaults:lightning_fiend_orb", "woldsvaults:lightning_fiend_pure_lightning");
         lightningFiend.tiers = List.of(
-                tier(2, "Channeling strikes deal 50% more damage and chain to 2 more enemies within 6 blocks.",
-                        grant("woldsvaults:channeling_damage_more", new JsonPrimitive(0.5F)),
+                tier(2, "Channeling strikes deal 100% more damage and chain to 2 more enemies within 3 blocks.",
+                        grant("woldsvaults:channeling_damage_more", new JsonPrimitive(1.0F)),
                         grant("woldsvaults:channeling_chain", new JsonPrimitive(2))),
                 tier(4, "Your thrown trident pierces up to 3 enemies and calls a channeling strike down on each one it passes through.",
                         grant("woldsvaults:thrown_trident_pierce", new JsonPrimitive(3))),
-                tier(6, "Throwing your trident turns you into lightning for 10 seconds: tap a movement key, jump or sneak to dash 7 blocks that way, striking every enemy in your path for 10% of a channeling strike's damage (0.5 second cooldown between dashes). Left click throws a fan of spinning lightning bolts that strike everything they pass through and call lightning down on it; right click marks one as a lightning rod your dashes lock on to; middle click ends the form with a giant lightning strike around you, stronger the more time you have left.",
+                tier(6, "Throwing your trident turns you into lightning for 10 seconds. During lightning form, using movement keys causes you to dash through enemies for 10% channeling damage, and left clicking releases a fan of arc lightning outwards. You can also mark a single enemy with a lightning rod for increased damage by right clicking them, and middle click (pick block) releases a devastating thunderbolt attack centered on you, dealing more damage the more lightning strikes you land while in lightning form.",
                         grant("woldsvaults:lightning_dash", new JsonPrimitive(0.1F))));
 
         this.sets = new LinkedHashMap<>();

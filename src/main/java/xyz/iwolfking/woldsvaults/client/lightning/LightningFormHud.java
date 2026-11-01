@@ -22,7 +22,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
  * While the player is lightning (Lightning Fiend 6-piece) the hotbar and the held item's name give way to the form's
  * own bar, in the hotbar's place: Arc Lash in the left slot, Thunderstrike in the middle and Lightning Rod in the
  * right, each with its key (and the lash and rod a cooldown veil like an item's), the lash's and rod's names (the
- * rod's target once it has one) and the time the form has left, which is also the Thunderstrike's power.
+ * rod's target once it has one) and the time the form has left.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class LightningFormHud {
@@ -66,7 +66,7 @@ public final class LightningFormHud {
         GuiComponent.fill(pose, left + 22, top + 20, right - 22, top + 21, 0xFF0D2C4A);
 
         slot(mc, pose, left, top, ARC_LASH, ClientLightningForm.lashCooldown(partialTick), mc.options.keyAttack);
-        slot(mc, pose, middle - 11, top, THUNDERSTRIKE, ClientLightningForm.thunderCooldown(partialTick), mc.options.keyPickItem);
+        slot(mc, pose, middle - 11, top, THUNDERSTRIKE, 0.0F, mc.options.keyPickItem);
         slot(mc, pose, right - 22, top, LIGHTNING_ROD, ClientLightningForm.rodCooldown(partialTick), mc.options.keyUse);
 
         Font font = mc.font;

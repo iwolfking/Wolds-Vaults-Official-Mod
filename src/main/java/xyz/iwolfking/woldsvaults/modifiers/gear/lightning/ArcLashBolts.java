@@ -106,6 +106,7 @@ public final class ArcLashBolts {
             if (!bolt.struck.contains(mob.getId()) && (box.contains(a) || box.clip(a, b).isPresent())) {
                 bolt.struck.add(mob.getId());
                 LightningFiend.hit(bolt.owner, mob, bolt.damage);
+                LightningFiend.onArcLashContact(bolt.owner, mob);
                 if (bolt.strikeDamage > 0.0F) {
                     LightningFiend.strike(bolt.owner, mob, bolt.strikeDamage);
                 }

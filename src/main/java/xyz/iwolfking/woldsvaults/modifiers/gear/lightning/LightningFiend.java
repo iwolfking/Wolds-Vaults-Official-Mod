@@ -1,8 +1,10 @@
 package xyz.iwolfking.woldsvaults.modifiers.gear.lightning;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.entity.entity.EternalEntity;
 import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import net.minecraft.core.particles.ParticleTypes;
@@ -74,8 +76,8 @@ public final class LightningFiend {
     private static final Map<UUID, Form> FORMS = new HashMap<>();
 
     private static final class Form {
-        long startTick;
         long endTick;
+        float charge;
         float attackDamage;
         float damage;
         long readyTick;
@@ -174,12 +176,52 @@ public final class LightningFiend {
         }
         GearSetConfig.Lightning tuning = config.getLightning();
         Form form = FORMS.computeIfAbsent(player.getUUID(), id -> new Form());
-        form.startTick = player.server.getTickCount();
-        form.endTick = form.startTick + tuning.formDurationTicks;
+        form.endTick = player.server.getTickCount() + tuning.formDurationTicks;
+        form.charge = 0.0F;
         form.attackDamage = attackDamage(player);
         form.damage = form.attackDamage * channelingMultiplier(player) * multiplier;
-        ModNetwork.sendToClient(new LightningFormMessage(tuning.formDurationTicks, tuning.dashCooldownTicks, tuning.arcLashCooldownTicks, tuning.rodCooldownTicks, tuning.thunderMinFormTicks), player);
+        ModNetwork.sendToClient(new LightningFormMessage(tuning.formDurationTicks, tuning.dashCooldownTicks, tuning.arcLashCooldownTicks, tuning.rodCooldownTicks), player);
         visualBolt(player.getLevel(), player.position());
+    }
+
+    /**
+     * Thunderstrike charge for a lightning hit on {@code target}: {@code amount}, times chargeBossMultiplier on a boss
+     * (the the_vault:bosses entity group), up to chargeMax. Nothing outside the form.
+     */
+    public static void addCharge(ServerPlayer player, LivingEntity target, float amount) {
+        Form form = FORMS.get(player.getUUID());
+        GearSetConfig config = GearSetHelper.config();
+        if (form == null || config == null || amount <= 0.0F) {
+            return;
+        }
+        GearSetConfig.Lightning tuning = config.getLightning();
+        float boss = ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("bosses"), target) ? tuning.chargeBossMultiplier : 1.0F;
+        form.charge = Math.min(tuning.chargeMax, form.charge + amount * boss);
+    }
+
+    /** Charge for the throw's hit on {@code target} (chargePerThrowHit). */
+    public static void onThrowHit(ServerPlayer player, LivingEntity target) {
+        GearSetConfig config = GearSetHelper.config();
+        if (config != null) {
+            addCharge(player, target, config.getLightning().chargePerThrowHit);
+        }
+    }
+
+    /** Charge for an Arc Lash bolt's contact with {@code target} (chargePerArcLash). */
+    public static void onArcLashContact(ServerPlayer player, LivingEntity target) {
+        GearSetConfig config = GearSetHelper.config();
+        if (config != null) {
+            addCharge(player, target, config.getLightning().chargePerArcLash);
+        }
+    }
+
+    /** The form's resistance cap bonus for {@code entity} (formResistanceCapBonus while lightning, else 0). */
+    public static float resistanceCapBonus(LivingEntity entity) {
+        GearSetConfig config = GearSetHelper.config();
+        if (config == null || !(entity instanceof ServerPlayer player) || !inForm(player)) {
+            return 0.0F;
+        }
+        return config.getLightning().formResistanceCapBonus;
     }
 
     public static boolean inForm(ServerPlayer player) {
@@ -289,7 +331,12 @@ public final class LightningFiend {
             for (int i = 0; i < points.size() - 1; i++) {
                 if (distanceToSegment(center, points.get(i).add(body), points.get(i + 1).add(body)) <= travel.width + mob.getBbWidth() * 0.5) {
                     travel.struck.add(mob.getId());
-                    hit(player, mob, mob.getId() == form.markId ? form.damage * travel.markMultiplier : form.damage);
+                    boolean marked = mob.getId() == form.markId;
+                    hit(player, mob, marked ? form.damage * travel.markMultiplier : form.damage);
+                    GearSetConfig config = GearSetHelper.config();
+                    if (config != null) {
+                        addCharge(player, mob, marked ? config.getLightning().chargePerRod : config.getLightning().chargePerDash);
+                    }
                     player.getLevel().sendParticles(ParticleTypes.ELECTRIC_SPARK, center.x, center.y, center.z, 15, mob.getBbWidth() * 0.5, mob.getBbHeight() * 0.5, mob.getBbWidth() * 0.5, 0.5);
                     break;
                 }
@@ -350,9 +397,9 @@ public final class LightningFiend {
     }
 
     /**
-     * Thunderstrike (middle click): spends the rest of the form on one giant bolt down onto the player, striking every
-     * enemy within thunderRadius (across) for the throw's attack damage times thunderDamagePerSecond for each second of
-     * form left, so it hits hardest the sooner it's used, but only once the form has lasted thunderMinFormTicks.
+     * Thunderstrike (middle click): spends the form's charge on one giant bolt down onto the player, striking every
+     * enemy within a radius growing linearly from thunderBaseRadius to thunderMaxRadius with charge, for
+     * thunderBaseDamage of the throw's attack damage times 1 + (thunderMaxMultiplier - 1) x (charge / chargeMax)^2.
      * Ends the form.
      */
     public static void thunderstrike(ServerPlayer player) {
@@ -363,11 +410,9 @@ public final class LightningFiend {
             return;
         }
         GearSetConfig.Lightning tuning = config.getLightning();
-        if (now - form.startTick < tuning.thunderMinFormTicks) {
-            return;
-        }
-        float damage = form.attackDamage * tuning.thunderDamagePerSecond * (form.endTick - now) / 20.0F;
-        float radius = tuning.thunderRadius;
+        float filled = tuning.chargeMax > 0.0F ? form.charge / tuning.chargeMax : 0.0F;
+        float damage = form.attackDamage * tuning.thunderBaseDamage * (1.0F + (tuning.thunderMaxMultiplier - 1.0F) * filled * filled);
+        float radius = tuning.thunderBaseRadius + (tuning.thunderMaxRadius - tuning.thunderBaseRadius) * filled;
         ServerLevel level = player.getLevel();
         Vec3 at = player.position();
         for (Mob mob : enemies(player, new AABB(at, at).inflate(radius, radius * 0.5, radius))) {
@@ -393,7 +438,7 @@ public final class LightningFiend {
         }
         FORMS.remove(player.getUUID());
         if (notify) {
-            ModNetwork.sendToClient(new LightningFormMessage(0, 0, 0, 0, 0), player);
+            ModNetwork.sendToClient(new LightningFormMessage(0, 0, 0, 0), player);
         }
     }
 
