@@ -276,7 +276,7 @@
             "value": {
               "effectId": "minecraft:wither",
               "amplifier": {
-                "step": 0,
+                "step": 1,
                 "min": 4,
                 "max": 6
               },

@@ -156,19 +156,19 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                    addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.08F, 0.09F, 0.01F);
                });
                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_bleed_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 1, 1, 0, 80, 80, 0);
-                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 2, 2, 0, 100, 100, 0);
-                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 3, 3, 0, 120, 120, 0);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 1, 1, 1, 80, 80, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 2, 2, 1, 100, 100, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 3, 3, 1, 120, 120, 10);
                });
                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_poison_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 1, 3, 0, 80, 100, 10);
-                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 3, 5, 0, 100, 120, 10);
-                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 5, 8, 0, 120, 160, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 1, 3, 1, 80, 100, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 3, 5, 1, 100, 120, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 5, 8, 1, 120, 160, 10);
                });
                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_wither_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 1, 2, 0, 80, 100, 10);
-                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 2, 3, 0, 100, 120, 10);
-                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 3, 4, 0, 120, 160, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 1, 2, 1, 80, 100, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 2, 3, 1, 100, 120, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 3, 4, 1, 120, 160, 10);
                });
                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_frost_nova", List.of(), vaultGearModifierTiersBuilder -> {
                    addInvokeComboAttribute(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 1, 3, 1);
@@ -217,7 +217,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 7, 10, 1, 120, 160, 10);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_wither_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                    addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 4, 6, 0, 120, 160, 10);
+                    addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 4, 6, 1, 120, 160, 10);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_frost_nova", List.of(), vaultGearModifierTiersBuilder -> {
                     addInvokeComboAttribute(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 5, 6, 1);

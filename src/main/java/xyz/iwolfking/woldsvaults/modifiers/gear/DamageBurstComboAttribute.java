@@ -102,7 +102,13 @@ public class DamageBurstComboAttribute extends ComboAttribute {
             }
         }
         else {
-            statValue = VaultGearAttributeHelper.resolveSnapshotValue(snapshot, this.scaledAttribute);
+            Number value = VaultGearAttributeHelper.resolveSnapshotValue(snapshot, this.scaledAttribute);
+            if(value instanceof Float) {
+                statValue = value.floatValue();
+            }
+            else if(value instanceof Double) {
+                statValue = (float) value.doubleValue();
+            }
         }
 
         return statValue * this.damageMultiplier;

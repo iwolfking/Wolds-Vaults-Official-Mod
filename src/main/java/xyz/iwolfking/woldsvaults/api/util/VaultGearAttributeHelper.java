@@ -25,10 +25,15 @@ public class VaultGearAttributeHelper {
                 .toList();
     }
 
-    public static <T> float resolveSnapshotValue(AttributeSnapshot snapshot, VaultGearAttribute<T> attribute) {
+    public static <T> Number resolveSnapshotValue(AttributeSnapshot snapshot, VaultGearAttribute<T> attribute) {
         Object value = snapshot.getAttributeValue(attribute, (VaultGearAttributeTypeMerger<T, Object>) (Object) VaultGearAttributeTypeMerger.floatSum());
         if (value instanceof Number num) {
-            return num.floatValue();
+            if(num instanceof Float) {
+                return num.floatValue();
+            }
+            else if(num instanceof Double) {
+                return num.doubleValue();
+            }
         }
         return 0.0F;
     }
