@@ -717,6 +717,7 @@
     "vaulthunters.custom.MixinGreedTraderScreenAchievements",
     "vaulthunters.custom.MixinItemVaultFruitClient",
     "vaulthunters.custom.MixinListenerChampionHud",
+    "vaulthunters.custom.MixinModKeybinds",
     "vaulthunters.custom.MixinPickupNotifierModule",
     "vaulthunters.custom.MixinPlayerDamageOverlay",
     "vaulthunters.custom.MixinPrestigePowerWidget",

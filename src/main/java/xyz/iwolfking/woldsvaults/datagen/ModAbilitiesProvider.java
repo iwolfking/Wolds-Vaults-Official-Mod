@@ -4,6 +4,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import xyz.iwolfking.vhapi.api.datagen.AbstractAbilityProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.abilities.WoldsAbilityGroups;
 import xyz.iwolfking.woldsvaults.abilities.block.LifeBlockAbility;
 import xyz.iwolfking.woldsvaults.abilities.block.ManaBlockAbility;
 
@@ -19,7 +20,7 @@ public class ModAbilitiesProvider extends AbstractAbilityProvider {
 
     @Override
     public void registerConfigs() {
-        add("life_block", builder -> builder.addSpecializedAbility("Life_Block", "Life Block", BLOCK_RAMP_TIERS, 0, 1, 2, i -> {
+        add("life_block", builder -> builder.addSpecializedAbility(WoldsAbilityGroups.LIFE_BLOCK, "Life Block", BLOCK_RAMP_TIERS, 0, 1, 2, i -> {
             if (i == 0) {
                 return createTieredSkill("Life_Block_Base", "Life Block", 0, 1, BLOCK_RAMP_TIERS, BLOCK_TIERS, tier -> {
                     float block = blockMultiplier(tier);
