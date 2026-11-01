@@ -304,8 +304,8 @@ dependencies {
     compileOnly fg.deobf("curse.maven:decorative-blocks-362528:3965454")
     compileOnly fg.deobf("curse.maven:jei-enchantment-info-392748:3751434")
     compileOnly fg.deobf("curse.maven:easy-piglins-419372:3751378")
-    implementation fg.deobf("curse.maven:balm-531761:4442615")
-    implementation fg.deobf("curse.maven:trashslot-235577:4412854")
+    compileOnly fg.deobf("curse.maven:balm-531761:4442615")
+    compileOnly fg.deobf("curse.maven:trashslot-235577:4412854")
 
     // deps needed for runtime debug
     runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382") // quark

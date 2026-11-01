@@ -16,6 +16,8 @@ import net.minecraft.world.effect.MobEffects;
 import xyz.iwolfking.woldsvaults.api.data.gear.lib.UnusualModifierLib;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.modifiers.gear.HealthScalingComboAttribute;
+
 import java.util.List;
 
 public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvider {
@@ -129,14 +131,55 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             });
            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_magic_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                  addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 160, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.5F, 1.0F, 0.1F);
+                  addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.25F, 0.5F, 0.01F);
+                  addDamageBurstCombo(vaultGearModifierTiersBuilder, 50, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.51F, 0.65F, 0.01F);
+                  addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.65F, 1.0F, 0.01F);
               });
-               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_magic_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 160, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.5F, 1.0F, 0.1F);
+              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_physical_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.2F, 0.35F, 0.01F);
+                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 50, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.36F, 0.5F, 0.01F);
+                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.51F, 0.75F, 0.01F);
+              });
+              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_mana_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 0.25F, 0.5F, 0.01F);
+                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 0.51F, 1.0F, 0.01F);
+                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 1.0F, 1.5F, 0.01F);
+              });
+              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_current_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.05F, 0.07F, 0.01F);
+                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.08F, 0.1F, 0.01F);
+                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.11F, 0.15F, 0.01F);
+              });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_max_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.03F, 0.05F, 0.01F);
+                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.06F, 0.07F, 0.01F);
+                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.08F, 0.09F, 0.01F);
                });
-              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_frost_nova", List.of(), vaultGearModifierTiersBuilder -> {
-                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 160, "Nova_Slow", 4, 6, 1, 1, 3, 1);
-              });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_bleed_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 1, 1, 0, 80, 80, 0);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 2, 2, 0, 100, 100, 0);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 3, 3, 0, 120, 120, 0);
+               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_poison_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 1, 3, 0, 80, 100, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 3, 5, 0, 100, 120, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 5, 8, 0, 120, 160, 10);
+               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_wither_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 1, 2, 0, 80, 100, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 2, 3, 0, 100, 120, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 3, 4, 0, 120, 160, 10);
+               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_frost_nova", List.of(), vaultGearModifierTiersBuilder -> {
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 1, 3, 1);
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 3, 4, 1);
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 4, 5, 1);
+               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_expunge", List.of(), vaultGearModifierTiersBuilder -> {
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.DIFFUSE_COMBO.getRegistryName(), 80, "Expunge_Base", 4, 6, 1, 1, 2, 1);
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.DIFFUSE_COMBO.getRegistryName(), 80, "Expunge_Base", 4, 6, 1, 2, 3, 1);
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.DIFFUSE_COMBO.getRegistryName(), 80, "Expunge_Base", 4, 6, 1, 4, 4, 1);
+               });
            });
         });
         add("battlestaff_mythic", builder -> {
@@ -153,10 +196,34 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             });
             builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_magic_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 160, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.5F, 1.0F, 0.1F);
+                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.8F, 1.25F, 0.01F);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_physical_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.76F, 1.0F, 0.01F);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_mana_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 1.51F, 2.0F, 0.01F);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_current_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.13F, 0.18F, 0.01F);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_max_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.09F, 0.1F, 0.01F);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_bleed_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 4, 5, 1, 120, 160, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_poison_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 7, 10, 1, 120, 160, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_wither_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 4, 6, 0, 120, 160, 10);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_frost_nova", List.of(), vaultGearModifierTiersBuilder -> {
-                    addInvokeComboAttribute(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 160, "Nova_Slow", 4, 6, 1, 1, 3, 1);
+                    addInvokeComboAttribute(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 5, 6, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_expunge", List.of(), vaultGearModifierTiersBuilder -> {
+                    addInvokeComboAttribute(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.DIFFUSE_COMBO.getRegistryName(), 80, "Expunge_Base", 4, 6, 1, 5, 6, 1);
                 });
             });
         });
