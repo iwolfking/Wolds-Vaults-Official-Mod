@@ -251,11 +251,8 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Necromancy_Base", 8, 11, 1, 30, 70, 10);
                     addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Necromancy_Base", 9, 16, 1, 30, 65, 10);
                 });
-                //TODO: Rework this into "Magibash" implicit
-                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.AP_SCALING_DAMAGE, "ModScepterType", "base_ap_scaling_damage", List.of(), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, 60, 12, 0.28F, 0.35F, 0.01F);
-                    vaultGearModifierTiersBuilder.add(50, -1, 12, 0.36, 0.45F, 0.01F);
-                    vaultGearModifierTiersBuilder.add(75, -1, 12, 0.45, 0.65F, 0.01F);
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_MAGIBASH, "ModScepterType", "base_magibash_type", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
                 });
             });
             builder.add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
@@ -522,11 +519,8 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Necromancy_Base", 8, 11, 1, 30, 70, 10);
                     addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Necromancy_Base", 9, 16, 1, 30, 65, 10);
                 });
-                //TODO: Rework this into "Magibash" implicit
-                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.AP_SCALING_DAMAGE, "ModScepterType", "base_ap_scaling_damage", List.of(), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, 60, 12, 0.28F, 0.35F, 0.01F);
-                    vaultGearModifierTiersBuilder.add(50, -1, 12, 0.36, 0.45F, 0.01F);
-                    vaultGearModifierTiersBuilder.add(75, -1, 12, 0.45, 0.65F, 0.01F);
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_MAGIBASH, "ModScepterType", "base_magibash_type", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, -1, 100, "Wand");

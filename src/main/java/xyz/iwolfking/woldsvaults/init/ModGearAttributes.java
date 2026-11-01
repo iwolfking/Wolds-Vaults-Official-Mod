@@ -131,6 +131,7 @@ public class ModGearAttributes {
     //Scepter Modifiers
     public static final VaultGearAttribute<Boolean> SCEPTER_SPARKLES = woldsAttr("scepter_sparkles", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Sparkles", 8247956), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> SCEPTER_BEAM = woldsAttr("scepter_beam", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Beam", 752051), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> SCEPTER_MAGIBASH = woldsAttr("scepter_magibash", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Magibash", 14799103), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> FIRE_ELEMENT = woldsAttr("fire_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Fire Affinity", 16711680), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> ICE_ELEMENT = woldsAttr("ice_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Ice Affinity", 10079487), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> POISON_ELEMENT = woldsAttr("poison_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Poison Affinity", 65280), VaultGearAttributeComparator.booleanComparator());
@@ -216,6 +217,7 @@ public class ModGearAttributes {
                       registry.register(RADIATION_IMMUNITY);
                       registry.register(SCEPTER_SPARKLES);
                       registry.register(SCEPTER_BEAM);
+                      registry.register(SCEPTER_MAGIBASH);
                       registry.register(SCEPTER_INVOKE);
                       registry.register(FIRE_ELEMENT);
                       registry.register(ICE_ELEMENT);

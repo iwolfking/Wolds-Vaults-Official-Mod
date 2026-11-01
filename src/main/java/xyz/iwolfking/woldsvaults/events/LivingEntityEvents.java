@@ -660,6 +660,64 @@ public class LivingEntityEvents {
     }
 
     @SubscribeEvent
+    public static void magibash(LivingHurtEvent event) {
+        if (!WoldEventHelper.isNormalAttack()) {
+            return;
+        }
+
+        if (ActiveFlags.IS_AP_ATTACKING.isSet()) {
+            return;
+        }
+
+        if (event.getSource().isProjectile()) {
+            return;
+        }
+
+        if (!(event.getSource().getEntity() instanceof ServerPlayer player)) {
+            return;
+        }
+
+        ItemStack heldItem = player.getMainHandItem();
+        if (!(heldItem.getItem() instanceof VaultGearItem)) {
+            return;
+        }
+
+        GearDataCache gearDataCache = GearDataCache.of(heldItem);
+        if (!gearDataCache.hasAttribute(ModGearAttributes.SCEPTER_MAGIBASH)) {
+            return;
+        }
+
+        VaultGearData gearData = VaultGearData.read(heldItem.copy());
+        if (gearData == null) {
+            return;
+        }
+
+        LivingEntity victim = event.getEntityLiving();
+        if (victim == player) {
+            return;
+        }
+
+        float playerAP = AbilityPowerHelper.getAbilityPower(player);
+        float magibashDamage = playerAP * 0.5F;
+
+        List<ElementalType> elementalTypes = ElementHelper.getAllElementsFromGear(gearData);
+
+        WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> {
+            ActiveFlags.IS_AP_ATTACKING.push();
+            try {
+                ElementHelper.runWithElements(elementalTypes, () -> {
+                    if (victim.isAlive()) {
+                        DamageSource bashSource = DamageSource.indirectMagic(player, player);
+                        victim.hurt(bashSource, magibashDamage);
+                    }
+                });
+            } finally {
+                ActiveFlags.IS_AP_ATTACKING.pop();
+            }
+        });
+    }
+
+    @SubscribeEvent
     public static void hexingHit(LivingHurtEvent event) {
         //Prevent an entity from being reaved more than once or applying to non-melee strikes.
         if(!WoldEventHelper.isNormalAttack()) {
