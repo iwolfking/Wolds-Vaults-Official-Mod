@@ -560,6 +560,11 @@
     "vaulthunters.skills.MixinSkill",
     "vaulthunters.skills.modifications.MixinAbstractVeinMinerAbility",
     "vaulthunters.skills.modifications.MixinFireballAbility",
+    "vaulthunters.skills.modifications.MixinArcanePrismAbility",
+    "vaulthunters.skills.modifications.MixinNecromancyAbility",
+    "vaulthunters.skills.modifications.MixinNecromancyBolt",
+    "vaulthunters.skills.modifications.MixinChargedBoltsAbility",
+    "vaulthunters.skills.modifications.MixinLightningOrbsAbility",
     "vaulthunters.skills.modifications.MixinIceBoltChunkAbility",
     "vaultintegrations.MixinAltarConduitNode"
   ],
