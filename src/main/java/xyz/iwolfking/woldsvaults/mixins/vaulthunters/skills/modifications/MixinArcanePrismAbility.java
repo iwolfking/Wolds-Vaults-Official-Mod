@@ -24,7 +24,7 @@ public class MixinArcanePrismAbility implements IWoldAbilityEnhancements {
     @Unique
     private static List<ElementalType> woldsVaults$elementalTypes = new ArrayList<>();
 
-    @WrapOperation(method = "lambda$pulse$6", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
+    @WrapOperation(method = "lambda$pulse$6", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), remap = true)
     private static boolean woldsVaults$wrapElementalFlags(LivingEntity instance, DamageSource source, float amount, Operation<Boolean> original) {
         boolean[] result = new boolean[]{false};
         ElementHelper.runWithElements(woldsVaults$elementalTypes, () -> result[0] = original.call(instance, source, amount));

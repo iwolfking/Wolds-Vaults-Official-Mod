@@ -35,7 +35,7 @@ public class MixinNecromancyBolt {
         }
     }
 
-    @Inject(method = "onHit", at = @At("HEAD"))
+    @Inject(method = "onHit", at = @At("HEAD"), remap = true)
     private void woldsVaults$applyElement(HitResult result, CallbackInfo ci) {
         if (result instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof LivingEntity target && woldsVaults$shooter != null && NecromancyAbility.isValidTarget(woldsVaults$shooter, target)) {
             ElementHelper.runWithElements(woldsVaults$elementalTypes, () -> ElementHelper.applyElementalEffects(target, woldsVaults$shooter, 1.0));
