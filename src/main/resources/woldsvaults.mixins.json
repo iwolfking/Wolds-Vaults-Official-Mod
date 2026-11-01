@@ -727,6 +727,7 @@
     "vaulthunters.custom.MixinVaultEndScreen",
     "vaulthunters.custom.MixinVaultForgeScreen",
     "vaulthunters.custom.MixinVaultNecklaceItemRenderer",
+    "vaulthunters.fixes.MixinAbilityWidgetSelectable",
     "vaulthunters.fixes.MixinCatalystItemRenderer",
     "vaulthunters.fixes.MixinClientLocale",
     "vaulthunters.fixes.MixinCombatStatsContainerElement",
