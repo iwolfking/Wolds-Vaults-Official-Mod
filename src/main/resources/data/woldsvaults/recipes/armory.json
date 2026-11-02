@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "BWB",
-    "BPB",
-    "BWB"
+    "ABA",
+    "ACA",
+    "ABA"
   ],
   "key": {
+    "A": {
+      "item": "the_vault:chromatic_steel_block"
+    },
     "B": {
-      "item": "the_vault:black_chromatic_steel_block"
+      "item": "sophisticatedstorage:iron_chest"
     },
-    "W": {
-      "item": "the_vault:wardrobe"
-    },
-    "P": {
+    "C": {
       "item": "the_vault:echo_pog"
     }
   },
