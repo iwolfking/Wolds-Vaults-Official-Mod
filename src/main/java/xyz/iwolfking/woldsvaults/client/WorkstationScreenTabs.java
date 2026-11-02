@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -14,7 +15,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSwitchWorkstationPacket;
-import xyz.iwolfking.woldsvaults.workstation.WorkstationTabs;
+import xyz.iwolfking.woldsvaults.api.core.workstation.WorkstationTabs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,31 @@ public class WorkstationScreenTabs {
         return null;
     }
 
+    private static BlockPos findNearestWorkstation(Minecraft mc, BlockPos around) {
+        if (mc == null || mc.level == null || around == null) {
+            return null;
+        }
+        BlockPos nearest = null;
+        double best = Double.MAX_VALUE;
+        for (int dx = -WorkstationTabs.NEARBY_RANGE; dx <= WorkstationTabs.NEARBY_RANGE; dx++) {
+            for (int dy = -WorkstationTabs.NEARBY_RANGE; dy <= WorkstationTabs.NEARBY_RANGE; dy++) {
+                for (int dz = -WorkstationTabs.NEARBY_RANGE; dz <= WorkstationTabs.NEARBY_RANGE; dz++) {
+                    BlockPos pos = around.offset(dx, dy, dz);
+                    try {
+                        if (WorkstationTabs.isWorkstation(mc.level.getBlockState(pos))) {
+                            double d = pos.distSqr(around);
+                            if (nearest == null || d < best) {
+                                best = d;
+                                nearest = pos.immutable();
+                            }
+                        }
+                    } catch (Exception ignored) {}
+                }
+            }
+        }
+        return nearest;
+    }
+
     public static List<Button> createTabs(AbstractContainerScreen<?> screen) {
         List<Button> buttons = new ArrayList<>();
         Minecraft mc = Minecraft.getInstance();
@@ -84,7 +110,11 @@ public class WorkstationScreenTabs {
             }
         }
         if (center == null) {
-            center = mc.player.blockPosition();
+            return buttons;
+        }
+
+        if (center == null) {
+            return buttons;
         }
 
         List<BlockPos> tabs = WorkstationTabs.detect(mc.level, center);
@@ -137,6 +167,15 @@ public class WorkstationScreenTabs {
                         stack = st.getBlock().getCloneItemStack(st, null, mc.level, finalPos, mc.player);
                     }
                     mc.getItemRenderer().renderAndDecorateItem(stack, this.x + 5, this.y + 5);
+
+                    if (isHoveredOrFocused()) {
+                        try {
+                            BlockState hovState = mc.level.getBlockState(finalPos);
+                            Component hovName = hovState.getBlock().getName();
+                            mc.font.drawShadow(poseStack, hovName, this.x, this.y - 10, 0xFFFFFF);
+                        } catch (Exception ignored) {}
+                    }
+
                     int border = isHoveredOrFocused() ? 0xFFFFFFFF : 0xFF222222;
                     GuiComponent.fill(poseStack, this.x, this.y, this.x + this.width, this.y + 1, border);
                     GuiComponent.fill(poseStack, this.x, this.y + this.height - 1, this.x + this.width, this.y + this.height, border);

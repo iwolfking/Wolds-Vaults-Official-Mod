@@ -9,13 +9,12 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModTags;
-import xyz.iwolfking.woldsvaults.workstation.WorkstationGroups;
+import xyz.iwolfking.woldsvaults.api.core.workstation.WorkstationGroups;
 
 import java.util.List;
 import java.util.Map;
@@ -176,9 +175,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .addOptional(iskallia.vault.init.ModBlocks.DECK_CRAFTING_STATION.getRegistryName())
                 .addOptional(iskallia.vault.init.ModBlocks.CARD_BINDER.getRegistryName())
                 .addOptional(iskallia.vault.init.ModBlocks.VAULT_RECYCLER.getRegistryName())
-                .addOptional(ModBlocks.VAULT_SALVAGER_BLOCK.getRegistryName())
-                .addOptional(iskallia.vault.init.ModBlocks.UNBOXING_STATION.getRegistryName())
-                .addOptional(iskallia.vault.init.ModBlocks.CARD_ESSENCE_EXTRACTOR.getRegistryName());
+                .addOptional(ModBlocks.VAULT_SALVAGER_BLOCK.getRegistryName());
         tag(WorkstationGroups.COMPANION.tag)
                 .addOptional(iskallia.vault.init.ModBlocks.COMPANION_HOME.getRegistryName())
                 .addOptional(iskallia.vault.init.ModBlocks.COMPANION_INCUBATOR.getRegistryName())
