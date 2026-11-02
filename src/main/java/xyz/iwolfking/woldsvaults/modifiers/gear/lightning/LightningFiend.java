@@ -40,6 +40,7 @@ import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.modifiers.gear.riptide.RiptideDerivedHits;
 import xyz.iwolfking.woldsvaults.network.message.LightningArcFxMessage;
+import xyz.iwolfking.woldsvaults.network.message.LightningChargeMessage;
 import xyz.iwolfking.woldsvaults.network.message.LightningDashFxMessage;
 import xyz.iwolfking.woldsvaults.network.message.LightningFormMessage;
 import xyz.iwolfking.woldsvaults.network.message.LightningMarkMessage;
@@ -78,6 +79,7 @@ public final class LightningFiend {
     private static final class Form {
         long endTick;
         float charge;
+        boolean chargeDirty;
         float attackDamage;
         float damage;
         long readyTick;
@@ -178,6 +180,7 @@ public final class LightningFiend {
         Form form = FORMS.computeIfAbsent(player.getUUID(), id -> new Form());
         form.endTick = player.server.getTickCount() + tuning.formDurationTicks;
         form.charge = 0.0F;
+        form.chargeDirty = true;
         form.attackDamage = attackDamage(player);
         form.damage = form.attackDamage * channelingMultiplier(player) * multiplier;
         ModNetwork.sendToClient(new LightningFormMessage(tuning.formDurationTicks, tuning.dashCooldownTicks, tuning.arcLashCooldownTicks, tuning.rodCooldownTicks), player);
@@ -196,7 +199,9 @@ public final class LightningFiend {
         }
         GearSetConfig.Lightning tuning = config.getLightning();
         float boss = ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("bosses"), target) ? tuning.chargeBossMultiplier : 1.0F;
-        form.charge = Math.min(tuning.chargeMax, form.charge + amount * boss);
+        float charge = Math.min(tuning.chargeMax, form.charge + amount * boss);
+        form.chargeDirty |= charge != form.charge;
+        form.charge = charge;
     }
 
     /** Charge for the throw's hit on {@code target} (chargePerThrowHit). */
@@ -551,8 +556,10 @@ public final class LightningFiend {
         }
         if (form.travel != null) {
             travelTick(player, form);
+            sendCharge(player, form);
             return;
         }
+        sendCharge(player, form);
         if (player.server.getTickCount() >= form.endTick) {
             endForm(player, form, true);
             return;
@@ -560,6 +567,16 @@ public final class LightningFiend {
         if (player.tickCount % 2 == 0) {
             player.getLevel().sendParticles(ParticleTypes.ELECTRIC_SPARK, player.getX(), player.getY() + player.getBbHeight() * 0.5, player.getZ(), 6, 0.35, 0.8, 0.35, 0.15);
         }
+    }
+
+    private static void sendCharge(ServerPlayer player, Form form) {
+        GearSetConfig config = GearSetHelper.config();
+        if (!form.chargeDirty || config == null) {
+            return;
+        }
+        form.chargeDirty = false;
+        GearSetConfig.Lightning tuning = config.getLightning();
+        ModNetwork.sendToClient(new LightningChargeMessage(form.charge, tuning.chargeMax, tuning.thunderMaxMultiplier), player);
     }
 
     @SubscribeEvent

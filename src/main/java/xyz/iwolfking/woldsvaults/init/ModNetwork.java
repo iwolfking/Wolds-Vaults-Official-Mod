@@ -62,6 +62,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, LightningMarkMessage.class, LightningMarkMessage::encode, LightningMarkMessage::decode, LightningMarkMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, LightningStrikeFxMessage.class, LightningStrikeFxMessage::encode, LightningStrikeFxMessage::decode, LightningStrikeFxMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, LightningLashFxMessage.class, LightningLashFxMessage::encode, LightningLashFxMessage::decode, LightningLashFxMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, LightningChargeMessage.class, LightningChargeMessage::encode, LightningChargeMessage::decode, LightningChargeMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public static <T> void sendToServer(T message) {

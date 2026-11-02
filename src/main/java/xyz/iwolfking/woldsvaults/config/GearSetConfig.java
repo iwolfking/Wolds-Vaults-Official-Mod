@@ -235,7 +235,7 @@ public class GearSetConfig extends PackAuthoredConfig {
                 "woldsvaults:lightning_fiend_crown", "woldsvaults:lightning_fiend_mantle", "woldsvaults:lightning_fiend_legguards",
                 "woldsvaults:lightning_fiend_talons", "woldsvaults:lightning_fiend_orb", "woldsvaults:lightning_fiend_pure_lightning");
         lightningFiend.tiers = List.of(
-                tier(2, "Channeling strikes deal 100% more damage and chain to 2 more enemies within 3 blocks.",
+                tier(2, "Channeling strikes deal 100% more damage and chain to 2 more enemies within 6 blocks.",
                         grant("woldsvaults:channeling_damage_more", new JsonPrimitive(1.0F)),
                         grant("woldsvaults:channeling_chain", new JsonPrimitive(2))),
                 tier(4, "Your thrown trident pierces up to 3 enemies and calls a channeling strike down on each one it passes through.",

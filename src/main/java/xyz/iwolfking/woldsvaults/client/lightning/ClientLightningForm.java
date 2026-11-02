@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -61,6 +62,9 @@ public final class ClientLightningForm {
     private static boolean useWasDown;
     private static boolean pickWasDown;
     private static int markId = -1;
+    private static float charge;
+    private static float chargeMax;
+    private static float maxMultiplier = 1.0F;
 
     private static List<Vec3> path;
     private static Level travelLevel;
@@ -81,6 +85,7 @@ public final class ClientLightningForm {
         rodCooldownTicks = rodCooldown;
         sinceRod = rodCooldown;
         markId = -1;
+        charge = 0.0F;
         Options options = Minecraft.getInstance().options;
         KeyMapping[] keys = keys(options);
         for (int i = 0; i < keys.length; i++) {
@@ -110,6 +115,23 @@ public final class ClientLightningForm {
         if (entityId >= 0) {
             sinceRod = 0;
         }
+    }
+
+    /** The server's Thunderstrike charge for this player, its cap, and the strike's multiplier at full charge. */
+    public static void charge(float value, float max, float multiplier) {
+        charge = value;
+        chargeMax = max;
+        maxMultiplier = multiplier;
+    }
+
+    static float chargeFilled() {
+        return chargeMax <= 0.0F ? 0.0F : Mth.clamp(charge / chargeMax, 0.0F, 1.0F);
+    }
+
+    /** Thunderstrike's multiplier at the current charge, 1 + (max - 1) x filled^2. */
+    static float thunderMultiplier() {
+        float filled = chargeFilled();
+        return 1.0F + (maxMultiplier - 1.0F) * filled * filled;
     }
 
     public static boolean isTravelling() {
