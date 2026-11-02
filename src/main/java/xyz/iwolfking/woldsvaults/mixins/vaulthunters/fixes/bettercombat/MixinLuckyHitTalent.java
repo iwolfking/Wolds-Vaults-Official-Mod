@@ -13,12 +13,12 @@ import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 @Mixin(value = LuckyHitTalent.class, remap = false)
 public class MixinLuckyHitTalent {
     /**
-     * The lucky hit attack-scale gate. Fang hits are not swings, so they always pass; every other hit passes
+     * The lucky hit attack-scale gate. Fang hits and derived set hits are not swings, so they always pass; every other hit passes
      * from half charge, which is what the earlier constant change to the gate did.
      */
     @WrapOperation(method = "doLuckyHit", at = @At(value = "INVOKE", target = "Liskallia/vault/util/damage/AttackScaleHelper;getLastAttackScale(Lnet/minecraft/world/entity/player/Player;)F"))
     private static float woldsvaults$luckyHitAttackScale(Player player, Operation<Float> original) {
-        if (WoldActiveFlags.IS_FANG_ATTACKING.isSet()) {
+        if (WoldActiveFlags.IS_FANG_ATTACKING.isSet() || WoldActiveFlags.IS_DERIVED_ATTACKING.isSet()) {
             return 1.0F;
         }
         float scale = original.call(player);
@@ -26,12 +26,12 @@ public class MixinLuckyHitTalent {
     }
 
     /**
-     * The lucky hit crit gate (a crit swing never lucky-hits). Fang hits are not swings, so the crit state of
+     * The lucky hit crit gate (a crit swing never lucky-hits). Fang hits and derived set hits are not swings, so the crit state of
      * the player's last swing does not block them.
      */
     @WrapOperation(method = "doLuckyHit", at = @At(value = "INVOKE", target = "Liskallia/vault/util/damage/CritHelper;getCrit(Lnet/minecraft/world/entity/player/Player;)Z"))
     private static boolean woldsvaults$luckyHitCritGate(Player player, Operation<Boolean> original) {
-        if (WoldActiveFlags.IS_FANG_ATTACKING.isSet()) {
+        if (WoldActiveFlags.IS_FANG_ATTACKING.isSet() || WoldActiveFlags.IS_DERIVED_ATTACKING.isSet()) {
             return false;
         }
         return original.call(player);

@@ -51,6 +51,17 @@ public final class GodTreeTheme {
 
     public static final int SPACE_BACKGROUND = 0xFF060309;
 
+    public static final int IDOL_CELL = 64;
+    public static final int IDOL_LEVELS = 11;
+
+    public static final ResourceLocation TRANSFER_SLOTS = WoldsVaults.id("textures/gui/gods/transfer_slots.png");
+    public static final int SLOT_CELL = 30;
+    public static final int SLOT_RING_RADIUS = 13;
+    public static final int SLOT_COLUMN_LOCKED = 0;
+    public static final int SLOT_COLUMN_EMPTY = 1;
+    public static final int SLOT_COLUMN_ASSIGNED = 2;
+    public static final int SLOT_COLUMN_DORMANT = 3;
+
     private GodTreeTheme() {
     }
 
@@ -60,6 +71,10 @@ public final class GodTreeTheme {
 
     public static ResourceLocation starSheet(VaultGod god) {
         return WoldsVaults.id("textures/gui/gods/stars_" + god.getName().toLowerCase(java.util.Locale.ROOT) + ".png");
+    }
+
+    public static ResourceLocation idolSheet(VaultGod god) {
+        return WoldsVaults.id("textures/gui/gods/idols/" + god.getName().toLowerCase(java.util.Locale.ROOT) + ".png");
     }
 
     /** The grey star sheet, for a transfer-slot star dormant under the active god. */
@@ -104,6 +119,18 @@ public final class GodTreeTheme {
             case TENOS -> 0xFF0E2C3A;
             case WENDARR -> 0xFF3A2C10;
         };
+    }
+
+    public static int masteryAccent(VaultGod god) {
+        return god == VaultGod.IDONA ? 0xFFE0182D : accent(god);
+    }
+
+    public static int masteryAccentDim(VaultGod god) {
+        return god == VaultGod.IDONA ? 0xFF7A0E1E : accentDim(god);
+    }
+
+    public static int masteryAccentDeep(VaultGod god) {
+        return god == VaultGod.IDONA ? 0xFF3A0810 : accentDeep(god);
     }
 
     public static int pointsColor(VaultGod god) {

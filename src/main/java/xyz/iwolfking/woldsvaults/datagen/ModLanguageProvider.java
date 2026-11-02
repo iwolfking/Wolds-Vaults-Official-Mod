@@ -233,6 +233,11 @@ public class ModLanguageProvider extends LanguageProvider {
         add("message.woldsvaults.god_level_up", "Your alignment with %1$s has reached level %2$s.");
         add("message.woldsvaults.stirrings_dormant", "The gods are silent. Equip a god charm and reach god level %1$s with that god to awaken their ultimate.");
         add("message.woldsvaults.ultimate_locked", "%1$s has not granted this power. Equip their charm and reach god level %2$s.");
+        add("message.woldsvaults.block_already_up", "Your block is still up. Lift it before casting again.");
+        add("message.woldsvaults.life_block.progress", "Life Block: %1$s / %2$s healing");
+        add("message.woldsvaults.life_block.lifted", "Life Block lifted in %1$s. Buffs last %2$s.");
+        add("message.woldsvaults.mana_block.progress", "Mana Block: %1$s / %2$s mana");
+        add("message.woldsvaults.mana_block.lifted", "Mana Block lifted in %1$s. Buffs last %2$s.");
         add("message.woldsvaults.eyes_of_god_outside_vault", "Eyes of God only sees inside a vault.");
         add("message.woldsvaults.eyes_of_god_revealed", "Revealed %s rooms.");
         add("command.woldsvaults.prevent_back_into_vault", "You cannot return into The Vault!");
@@ -609,6 +614,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("entity.woldsvaults.haturkin", "Haturkin");
         add("entity.woldsvaults.magic_missile", "Magic Missile");
         add("death.attack.woldsvaults.magic_missile", "%1$s was blown apart by %2$s's Magic Missile");
+        add("death.attack.woldsvaults.life_bond", "%1$s was torn apart by %2$s's Life Bond");
         add("item.woldsvaults.wold_spawn_egg", "Wold Spawn Egg");
         add("item.woldsvaults.boogieman_spawn_egg", "Boogieman Spawn Egg");
         add("item.woldsvaults.monster_eye_spawn_egg", "Monster Eye Spawn Egg");
@@ -789,6 +795,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("key.the_vault.quickselect.necromancy", "Select and use ability: Necromancy");
         add("key.the_vault.quickselect.fangs", "Select and use ability: Fangs");
         add("key.the_vault.quickselect.stirrings_of_power", "Select and use ability: Stirrings of Power");
+        add("key.the_vault.quickselect.life_block", "Select and use ability: Life Block");
         add("key.the_vault.quickselect.ultimate_shield", "Select and use ability: Ultimate Shield");
         add("woldsvaults.subtitle.saferspaces_proc", "Safer Spaces activated!");
         add("the_vault.gear_modification.tab.mythical", "Mythical");

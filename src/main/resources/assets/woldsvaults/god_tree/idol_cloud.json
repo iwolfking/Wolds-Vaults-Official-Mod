@@ -1,0 +1,83 @@
+{
+  "format": "woldsvaults-god-idol-cloud",
+  "version": 1,
+  "units": {
+    "px": "pixels of the 256 px idol the cloud was painted on",
+    "resolution": "square cloud pixels across the idol, unless smooth",
+    "godPhase": "seconds each god's cloud runs ahead of the one before",
+    "speed": "noise cells per second",
+    "rate": "cycles per second",
+    "angle": "degrees",
+    "rise": "px per second",
+    "openings": "slot centres and radii in px; the slots are drawn at these centres",
+    "levelStart": "share of the cloud shown at god level 0; levelStep is added per level, up to 1"
+  },
+  "render": {
+    "resolution": 128,
+    "frameRate": 30,
+    "smooth": false,
+    "godPhase": 1.7
+  },
+  "openings": [
+    {
+      "x": 104,
+      "y": 167.5,
+      "r": 21.5
+    },
+    {
+      "x": 152,
+      "y": 167.5,
+      "r": 21.5
+    },
+    {
+      "x": 128,
+      "y": 213.5,
+      "r": 21.5
+    }
+  ],
+  "cloud": {
+    "opacity": 1.1,
+    "levelStart": 0,
+    "levelStep": 0.1,
+    "clearScale": 1,
+    "clearSoftness": 2
+  },
+  "warp": {
+    "enabled": true,
+    "strength": 8,
+    "scale": 20,
+    "speed": 0.4,
+    "detail": 3
+  },
+  "swirl": {
+    "enabled": true,
+    "angle": 18,
+    "rate": 0.22,
+    "reach": 34
+  },
+  "breathe": {
+    "enabled": true,
+    "amount": 0.06,
+    "rate": 0.35
+  },
+  "flicker": {
+    "enabled": true,
+    "amount": 0.5,
+    "scale": 10,
+    "speed": 0.8
+  },
+  "wisps": {
+    "enabled": true,
+    "amount": 1.1,
+    "spread": 0.3,
+    "scale": 8,
+    "rise": 16,
+    "threshold": 0.5
+  },
+  "colour": {
+    "brightness": 1.15,
+    "highlights": 0.45,
+    "toneSteps": 0,
+    "alphaSteps": 0
+  }
+}

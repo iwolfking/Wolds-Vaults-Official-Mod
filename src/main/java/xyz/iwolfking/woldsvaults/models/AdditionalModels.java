@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.vhapi.VHAPI;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.models.armor.layers.HeatwaveArmorLayers;
+import xyz.iwolfking.woldsvaults.models.armor.layers.LightningFiendArmorLayers;
 import xyz.iwolfking.woldsvaults.models.armor.layers.TidebreakerArmorLayers;
 import xyz.iwolfking.woldsvaults.models.armor.layers.PastaArmorLayers;
 import xyz.iwolfking.woldsvaults.models.armor.layers.PlagueArmorLayers;
@@ -21,6 +22,7 @@ import xyz.iwolfking.woldsvaults.models.armor.layers.PlagueArmorLayers;
 public class AdditionalModels {
     public static final HandHeldModel LEVIATHAN_AXE;
     public static final ArmorModel TIDEBREAKER;
+    public static final ArmorModel LIGHTNING_FIEND;
     public static final PlainItemModel BLOODSEEKING_MAGNET;
     public static final PlainItemModel OTHERWORLDLY_MAGNET;
     public static final PlainItemModel HEART_MAGNET;
@@ -115,6 +117,14 @@ public class AdditionalModels {
         TIDEBREAKER = new ArmorModel(VaultMod.id("gear/armor/tidebreaker"), "Tidebreaker")
                 .properties(new DynamicModelProperties())
                 .usingLayers(new TidebreakerArmorLayers())
+                .addSlot(EquipmentSlot.HEAD)
+                .addSlot(EquipmentSlot.CHEST)
+                .addSlot(EquipmentSlot.LEGS)
+                .addSlot(EquipmentSlot.FEET);
+
+        LIGHTNING_FIEND = new ArmorModel(VaultMod.id("gear/armor/lightning_fiend"), "Lightning Fiend")
+                .properties(new DynamicModelProperties())
+                .usingLayers(new LightningFiendArmorLayers())
                 .addSlot(EquipmentSlot.HEAD)
                 .addSlot(EquipmentSlot.CHEST)
                 .addSlot(EquipmentSlot.LEGS)

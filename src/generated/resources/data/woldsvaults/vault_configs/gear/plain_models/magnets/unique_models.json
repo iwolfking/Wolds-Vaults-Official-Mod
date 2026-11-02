@@ -29,6 +29,12 @@
       "displayName": "Hurricane",
       "discoverOnRoll": true,
       "allowTransmogrification": true
+    },
+    {
+      "id": "woldsvaults:gear/magnet/pure_lightning",
+      "displayName": "Pure Lightning",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
     }
   ]
 }

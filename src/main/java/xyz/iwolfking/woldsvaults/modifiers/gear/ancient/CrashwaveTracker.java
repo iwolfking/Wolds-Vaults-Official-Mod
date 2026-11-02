@@ -5,7 +5,6 @@ import iskallia.vault.entity.entity.EternalEntity;
 import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
-import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.EntityHelper;
@@ -18,6 +17,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
@@ -46,7 +46,7 @@ public class CrashwaveTracker {
     private static final Map<UUID, Vec3> lastPosition = new HashMap<>();
     private static final Map<UUID, Integer> nextAllowedTick = new HashMap<>();
     private static final float REFERENCE_SPEED = 6.0F;
-    private static final float TRIDENT_DAMAGE_MULTIPLIER = 2.0F;
+    private static final float ATTACK_DAMAGE_MULTIPLIER = 2.0F;
     private static final int RETRIGGER_COOLDOWN_TICKS = 10;
     private static final double MIN_LOOKAHEAD = 0.9;
     private static final double LOOKAHEAD_FACTOR = 1.3;
@@ -140,8 +140,8 @@ public class CrashwaveTracker {
      */
     private static void triggerCrashwave(ServerPlayer player, ItemStack trident, int baseRadius, float impactSpeed, Vec3 impact) {
         float speedRatio = impactSpeed / REFERENCE_SPEED;
-        double tridentDamage = VaultGearData.read(trident).get(iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE, VaultGearAttributeTypeMerger.doubleSum());
-        float damage = (float) (TRIDENT_DAMAGE_MULTIPLIER * tridentDamage * Math.sqrt(speedRatio));
+        double attackDamage = player.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        float damage = (float) (ATTACK_DAMAGE_MULTIPLIER * attackDamage * Math.sqrt(speedRatio));
         float radius = (float) (baseRadius * Math.cbrt(speedRatio));
 
         List<LivingEntity> targets = EntityHelper.getNearby(player.level, player.blockPosition(), radius, LivingEntity.class);

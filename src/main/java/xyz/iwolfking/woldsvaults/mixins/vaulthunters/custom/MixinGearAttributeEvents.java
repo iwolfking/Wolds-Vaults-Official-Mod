@@ -113,6 +113,16 @@ public class MixinGearAttributeEvents {
             ci.cancel();
     }
 
+    /**
+     * @author PoorMansPhysicist
+     * @reason Lightning Fiend set hits carry no on-hit procs; the shocking hit roll skips the thorns flag they ride on
+     */
+    @Inject(method = "triggerKnockbackAttack", at = @At("HEAD"), cancellable = true)
+    private static void skipLightningFiendShockingHits(LivingHurtEvent event, CallbackInfo ci) {
+        if(WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet())
+            ci.cancel();
+    }
+
 
     /**
      * @author aida

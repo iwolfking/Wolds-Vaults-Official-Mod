@@ -107,6 +107,12 @@ public class AncientUniqueHelper {
         woldsUnique("tidebreaker_greaves", "Ancient Tidebreaker's Greaves");
         woldsUnique("tidebreaker_tideripper", "Ancient Tideripper");
         woldsUnique("tidebreaker_hurricane", "Ancient Hurricane");
+        woldsUnique("lightning_fiend_crown", "Ancient Lightning Fiend's Crown");
+        woldsUnique("lightning_fiend_mantle", "Ancient Lightning Fiend's Mantle");
+        woldsUnique("lightning_fiend_legguards", "Ancient Lightning Fiend's Legguards");
+        woldsUnique("lightning_fiend_talons", "Ancient Lightning Fiend's Talons");
+        woldsUnique("lightning_fiend_orb", "Ancient Lightning Orb");
+        woldsUnique("lightning_fiend_pure_lightning", "Ancient Pure Lightning");
     }
 
     private AncientUniqueHelper() {

@@ -55,8 +55,9 @@ public class ArmoryGodPanRegion extends GodTreePanRegion {
         float minY = Float.MAX_VALUE;
         float maxY = -Float.MAX_VALUE;
         boolean any = false;
+        boolean anySaved = this.nodeWidgets.values().stream().anyMatch(GodNodeWidget::isUnlocked);
         for (GodNodeWidget widget : this.nodeWidgets.values()) {
-            if (!widget.isUnlocked()) {
+            if (anySaved && !widget.isUnlocked()) {
                 continue;
             }
             float x = widget.x + widget.getWidth() / 2.0F;
@@ -68,7 +69,7 @@ public class ArmoryGodPanRegion extends GodTreePanRegion {
             any = true;
         }
         if (!any) {
-            return this.getCenter();
+            return new Vec2(0.0F, 0.0F);
         }
         return new Vec2((minX + maxX) / -2.0F, (minY + maxY) / -2.0F);
     }

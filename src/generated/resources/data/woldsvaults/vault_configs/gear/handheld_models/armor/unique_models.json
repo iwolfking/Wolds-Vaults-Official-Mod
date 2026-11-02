@@ -29,6 +29,30 @@
       "displayName": "Tidebreaker's Greaves",
       "discoverOnRoll": true,
       "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/lightning_fiend/helmet",
+      "displayName": "Lightning Fiend's Crown",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/lightning_fiend/chestplate",
+      "displayName": "Lightning Fiend's Mantle",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/lightning_fiend/leggings",
+      "displayName": "Lightning Fiend's Legguards",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/lightning_fiend/boots",
+      "displayName": "Lightning Fiend's Talons",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
     }
   ]
 }

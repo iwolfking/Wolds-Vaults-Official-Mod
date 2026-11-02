@@ -58,7 +58,11 @@
       "the_vault:gear/armor/tidebreaker/helmet",
       "the_vault:gear/armor/tidebreaker/chestplate",
       "the_vault:gear/armor/tidebreaker/leggings",
-      "the_vault:gear/armor/tidebreaker/boots"
+      "the_vault:gear/armor/tidebreaker/boots",
+      "the_vault:gear/armor/lightning_fiend/helmet",
+      "the_vault:gear/armor/lightning_fiend/chestplate",
+      "the_vault:gear/armor/lightning_fiend/leggings",
+      "the_vault:gear/armor/lightning_fiend/boots"
     ],
     "SPECIAL": [],
     "CHAOTIC": [],
@@ -99,7 +103,8 @@
       "the_vault:magnets/heart_magnet",
       "the_vault:magnets/treasure_magnet",
       "the_vault:magnets/bloody_magnet",
-      "woldsvaults:gear/magnet/hurricane"
+      "woldsvaults:gear/magnet/hurricane",
+      "woldsvaults:gear/magnet/pure_lightning"
     ],
     "SPECIAL": [],
     "CHAOTIC": [],
@@ -114,7 +119,8 @@
     "UNIQUE": [
       "woldsvaults:gear/trident/ocean_current",
       "woldsvaults:gear/trident/fork",
-      "woldsvaults:gear/trident/tideripper"
+      "woldsvaults:gear/trident/tideripper",
+      "woldsvaults:gear/trident/lightning_orb"
     ],
     "SPECIAL": [],
     "CHAOTIC": [],

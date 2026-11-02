@@ -7,6 +7,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
+import xyz.iwolfking.woldsvaults.abilities.block.LifeBlockAbility;
+import xyz.iwolfking.woldsvaults.abilities.block.ManaBlockAbility;
 import xyz.iwolfking.woldsvaults.gods.ultimates.BulletTimeAbility;
 import xyz.iwolfking.woldsvaults.gods.ultimates.CopeDeGraceAbility;
 import xyz.iwolfking.woldsvaults.gods.ultimates.EyesOfGodAbility;
@@ -188,6 +190,40 @@ public abstract class MixinModAbilityLabelBindings {
                 ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks()),
                 "ultimateCooldown",
                 ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
+        ModAbilityLabelBindings.register(LifeBlockAbility.class, Map.of(
+                "blockSize",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getBlockMultiplier()) + " Health",
+                "absorptionShield",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAbsorption()) + " Health",
+                "transfusion",
+                ability -> "+" + AbilityLabelFormatters.percentTwoDecimalPlaces(ability.getTransfusionPerStack())
+                        + " per heal for " + AbilityLabelFormatters.ticks(ability.getTransfusionStackTicks())
+                        + ", up to " + ability.getTransfusionMaxStacks(),
+                "lifeBond",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getLifeBond()) + " to attacker",
+                "buffDuration",
+                ability -> AbilityLabelFormatters.ticks(ability.getMinBuffTicks()) + " - "
+                        + AbilityLabelFormatters.ticks(ability.getMaxBuffTicks()),
+                "fastClear",
+                ability -> AbilityLabelFormatters.ticks(ability.getFastClearTicks())
+        ));
+
+        ModAbilityLabelBindings.register(ManaBlockAbility.class, Map.of(
+                "blockSize",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getBlockMultiplier()) + " Mana",
+                "manaShield",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getManaShield()) + " of damage",
+                "manaRegenShare",
+                ability -> AbilityLabelFormatters.percentTwoDecimalPlaces(ability.getManaRegen()) + " max mana/s",
+                "surgingMana",
+                ability -> "+" + AbilityLabelFormatters.percentRounded(ability.getSurgingAoe()) + " area",
+                "buffDuration",
+                ability -> AbilityLabelFormatters.ticks(ability.getMinBuffTicks()) + " - "
+                        + AbilityLabelFormatters.ticks(ability.getMaxBuffTicks()),
+                "fastClear",
+                ability -> AbilityLabelFormatters.ticks(ability.getFastClearTicks())
         ));
     }
 }

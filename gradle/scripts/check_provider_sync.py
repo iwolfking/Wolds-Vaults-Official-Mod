@@ -32,6 +32,7 @@ CALL = re.compile(r'^\s*(\w+)\(tree, "([\w]+)", (-?\d+), (-?\d+)\);$')
 GROUP_CALL = re.compile(r'^\s*(\w+)\(tree\);$')
 EDGE = re.compile(r'^\s*tree\.edge\("([\w]+)", "([\w]+)"\);$')
 LABEL = re.compile(r'^\s*tree\.label\("([^"]*)", (-?\d+), (-?\d+)\);$')
+SIZE = re.compile(r'^\s*tree\.size\("([\w]+)", (\d+)\);$')
 ICON_PATH = "the_vault:textures/gui/greed/nodes/{}.png"
 GODS = ("idona", "wendarr", "velara", "tenos")
 DEFAULT_COST = 1
@@ -113,6 +114,11 @@ def build(god, methods):
             match = LABEL.match(line)
             if match:
                 labels.append({"text": match.group(1), "x": int(match.group(2)), "y": int(match.group(3))})
+                continue
+            match = SIZE.match(line)
+            if match:
+                # GodTreeBuilder.size adds the size to a star already declared, after its icon
+                styles[match.group(1)]["size"] = int(match.group(2))
 
     replay(methods[god])
     return {"nodes": nodes, "edges": edges, "labels": labels}, {"styles": styles}

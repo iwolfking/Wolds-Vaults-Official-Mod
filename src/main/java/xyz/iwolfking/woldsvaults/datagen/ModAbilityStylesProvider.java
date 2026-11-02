@@ -52,6 +52,11 @@ public class ModAbilityStylesProvider extends AbstractAbilityGUIStylesProvider {
         ultimateSpecializations.put(UltimateIds.EYES_OF_GOD, WoldsVaults.id("gui/abilities/eyes_of_god"));
         ultimateSpecializations.put(UltimateIds.BULLET_TIME, WoldsVaults.id("gui/abilities/bullet_time"));
         addOrdered("god_ultimates", UltimateIds.STIRRINGS_OF_POWER, 70, 265, ultimateSpecializations);
+
+        Map<String, ResourceLocation> blockSpecializations = new LinkedHashMap<>();
+        blockSpecializations.put("Life_Block_Base", WoldsVaults.id("gui/abilities/life_block"));
+        blockSpecializations.put("Mana_Block", WoldsVaults.id("gui/abilities/mana_block"));
+        addOrdered("life_block", "Life_Block", 105, 265, blockSpecializations);
     }
 
     /**

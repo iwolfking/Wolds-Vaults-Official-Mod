@@ -102,6 +102,10 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Float> RIPTIDE_BOOST_DAMAGE_REDUCTION = woldsAttr("riptide_boost_damage_reduction", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Damage Reduction while Riptiding", 2141770));
     public static final VaultGearAttribute<Float> RIPTIDE_BOLT = woldsAttr("riptide_bolt", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Riptide Lightning Damage", 2141770));
     public static final VaultGearAttribute<Float> RIPTIDE_BOLT_CHILLED = woldsAttr("riptide_bolt_chilled", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Riptide Lightning Damage vs Chilled", 2141770));
+    public static final VaultGearAttribute<Float> CHANNELING_DAMAGE_MORE = woldsAttr("channeling_damage_more", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("More Channeling Damage", 7327743));
+    public static final VaultGearAttribute<Integer> CHANNELING_CHAIN = woldsAttr("channeling_chain", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Channeling Chains", 7327743));
+    public static final VaultGearAttribute<Integer> THROWN_TRIDENT_PIERCE = woldsAttr("thrown_trident_pierce", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Thrown Trident Pierces", 7327743));
+    public static final VaultGearAttribute<Float> LIGHTNING_DASH = woldsAttr("lightning_dash", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Lightning Dash Damage", 7327743));
     public static final VaultGearAttribute<Boolean> RADIATION_IMMUNITY = woldsAttr("radiation_immunity", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Radiation Immunity", 5539999), VaultGearAttributeComparator.booleanComparator());
 
 
@@ -280,6 +284,10 @@ public class ModGearAttributes {
                       registry.register(RIPTIDE_BOOST_DAMAGE_REDUCTION);
                       registry.register(RIPTIDE_BOLT);
                       registry.register(RIPTIDE_BOLT_CHILLED);
+                      registry.register(CHANNELING_DAMAGE_MORE);
+                      registry.register(CHANNELING_CHAIN);
+                      registry.register(THROWN_TRIDENT_PIERCE);
+                      registry.register(LIGHTNING_DASH);
        }
   
     public static void registerVanillaAssociations() {

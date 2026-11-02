@@ -14,12 +14,12 @@ import java.util.Map;
 
 /**
  * Where one god's nodes are drawn - {@code config/the_vault/gods/god_tree_<god>_gui_styles.json}:
- * position, frame type and icon per node id, as the base mod's {@link SkillStyle}.
+ * position, frame type and icon per node id, as the base mod's {@link SkillStyle}, plus an optional size.
  */
 public class GodTreeGuiStylesConfig extends PackAuthoredConfig {
     private String god;
 
-    @Expose private Map<String, SkillStyle> styles;
+    @Expose private Map<String, GodNodeStyle> styles;
 
     public GodTreeGuiStylesConfig(String god) {
         this.god = god;
@@ -61,7 +61,7 @@ public class GodTreeGuiStylesConfig extends PackAuthoredConfig {
         this.styles = defaults.styles;
     }
 
-    public Map<String, SkillStyle> getStyles() {
+    public Map<String, GodNodeStyle> getStyles() {
         return this.styles == null ? Collections.emptyMap() : this.styles;
     }
 }

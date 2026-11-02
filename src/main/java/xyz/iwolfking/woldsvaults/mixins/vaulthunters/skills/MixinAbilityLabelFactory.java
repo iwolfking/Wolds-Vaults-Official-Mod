@@ -110,6 +110,42 @@ public abstract class MixinAbilityLabelFactory {
                 context -> label("\n Vault Second Length: ",binding(context.config(), "timerStretch"),"duration")
         );
         FACTORY_MAP.put(
+                "blockSize",
+                context -> label("\n Block: ",binding(context.config(), "blockSize"),"healthPoints")
+        );
+        FACTORY_MAP.put(
+                "absorptionShield",
+                context -> label("\n Absorption Shield: ",binding(context.config(), "absorptionShield"),"absorb")
+        );
+        FACTORY_MAP.put(
+                "transfusion",
+                context -> label("\n Transfusion: ",binding(context.config(), "transfusion"),"damage")
+        );
+        FACTORY_MAP.put(
+                "lifeBond",
+                context -> label("\n Life Bond: ",binding(context.config(), "lifeBond"),"thornsDamage")
+        );
+        FACTORY_MAP.put(
+                "manaShield",
+                context -> label("\n Mana Shield: ",binding(context.config(), "manaShield"),"manaPerDamage")
+        );
+        FACTORY_MAP.put(
+                "manaRegenShare",
+                context -> label("\n Mana Regen: ",binding(context.config(), "manaRegenShare"),"manaCost")
+        );
+        FACTORY_MAP.put(
+                "surgingMana",
+                context -> label("\n Surging Mana: ",binding(context.config(), "surgingMana"),"areaOfEffect")
+        );
+        FACTORY_MAP.put(
+                "buffDuration",
+                context -> label("\n Buff Duration: ",binding(context.config(), "buffDuration"),"duration")
+        );
+        FACTORY_MAP.put(
+                "fastClear",
+                context -> label("\n Full Duration If Lifted In: ",binding(context.config(), "fastClear"),"duration")
+        );
+        FACTORY_MAP.put(
                 "percentageDamageAbsorbed",
                 context -> label("\n Percentage Damage Absorbed: ",binding(context.config(), "percentageDamageAbsorbed"),"absorb")
         );

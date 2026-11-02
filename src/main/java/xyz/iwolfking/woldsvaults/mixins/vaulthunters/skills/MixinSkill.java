@@ -7,6 +7,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
+import xyz.iwolfking.woldsvaults.abilities.block.LifeBlockAbility;
+import xyz.iwolfking.woldsvaults.abilities.block.ManaBlockAbility;
 import xyz.iwolfking.woldsvaults.expertises.*;
 import xyz.iwolfking.woldsvaults.gods.ultimates.*;
 import xyz.iwolfking.woldsvaults.prestige.*;
@@ -50,6 +52,8 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("fangs", EvokerFangsAbility.class, EvokerFangsAbility::new);
         this.register("fangs_maw", EvokerFangsMawAbility.class, EvokerFangsMawAbility::new);
         this.register("meteor_storm", MeteorStormAbility.class, MeteorStormAbility::new);
+        this.register("life_block", LifeBlockAbility.class, LifeBlockAbility::new);
+        this.register("mana_block", ManaBlockAbility.class, ManaBlockAbility::new);
         this.register("ultimate_shield", UltimateShieldAbility.class, UltimateShieldAbility::new);
 
         this.register("stirrings_of_power", StirringsOfPowerAbility.class, StirringsOfPowerAbility::new);

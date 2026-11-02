@@ -14,14 +14,16 @@
         "woldsvaults:aurora_scissors",
         "woldsvaults:young_kitsune",
         "woldsvaults:bamboo_fightstick",
-        "woldsvaults:tidebreaker_tideripper"
+        "woldsvaults:tidebreaker_tideripper",
+        "woldsvaults:lightning_fiend_orb"
       ],
       "MAGNET": [
         "woldsvaults:aural_magnet",
         "woldsvaults:chonknet",
         "woldsvaults:treasure_magnet",
         "woldsvaults:bloodseeking_magnet",
-        "woldsvaults:tidebreaker_hurricane"
+        "woldsvaults:tidebreaker_hurricane",
+        "woldsvaults:lightning_fiend_pure_lightning"
       ],
       "OFFHAND": [
         "woldsvaults:pocket_penguin",
@@ -44,16 +46,20 @@
       ],
       "FEET": [
         "woldsvaults:plague_steppers",
-        "woldsvaults:tidebreaker_greaves"
+        "woldsvaults:tidebreaker_greaves",
+        "woldsvaults:lightning_fiend_talons"
       ],
       "HEAD": [
-        "woldsvaults:tidebreaker_reign"
+        "woldsvaults:tidebreaker_reign",
+        "woldsvaults:lightning_fiend_crown"
       ],
       "CHEST": [
-        "woldsvaults:tidebreaker_heart"
+        "woldsvaults:tidebreaker_heart",
+        "woldsvaults:lightning_fiend_mantle"
       ],
       "LEGS": [
-        "woldsvaults:tidebreaker_leggings"
+        "woldsvaults:tidebreaker_leggings",
+        "woldsvaults:lightning_fiend_legguards"
       ]
     }
   },
@@ -939,6 +945,132 @@
         ]
       },
       "uniqueId": "woldsvaults:tidebreaker_hurricane"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Fiend's Crown",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. Horns and a crown of living lightning.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_crown"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Fiend's Mantle",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. The storm crackles across your shoulders and down to your claws.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_mantle"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Fiend's Legguards",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. Girded with a belt of thunder.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_legguards"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Fiend's Talons",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. Every step leaves a spark behind.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_talons"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Orb",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. A storm held in the palm. Throw it, and follow.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_orb"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Pure Lightning",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. No metal at all, just lightning bent into shape.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_pure_lightning"
     }
   ]
 }

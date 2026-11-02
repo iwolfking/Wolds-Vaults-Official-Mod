@@ -72,6 +72,18 @@ public final class GodTreeBuilder {
         return this;
     }
 
+    public GodTreeBuilder size(String id, int size) {
+        JsonObject style = this.styles.get(id);
+        if (style == null) {
+            throw new IllegalStateException("God tree size for undeclared node " + id + " in " + this.god + "'s tree");
+        }
+        if (size <= 0) {
+            throw new IllegalStateException("God tree node " + id + " has a size of " + size);
+        }
+        style.addProperty("size", size);
+        return this;
+    }
+
     public GodTreeBuilder label(String text, int x, int y) {
         JsonObject label = new JsonObject();
         label.addProperty("text", text);

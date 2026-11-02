@@ -17,6 +17,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import iskallia.vault.config.entry.SkillStyle;
+import xyz.iwolfking.woldsvaults.config.gods.GodNodeStyle;
 import xyz.iwolfking.woldsvaults.gods.node.GodNode;
 
 import javax.annotation.Nonnull;
@@ -40,20 +41,24 @@ public class GodNodeWidget extends AbstractWidget {
     private boolean selected;
 
     public GodNodeWidget(GodNode node, SkillStyle style, VaultGod god, boolean unlocked, boolean available) {
-        super(style.x - sizeFor(node) / 2, style.y - sizeFor(node) / 2,
-                sizeFor(node), sizeFor(node), new TextComponent(node.name()));
+        super(style.x - sizeFor(node, style) / 2, style.y - sizeFor(node, style) / 2,
+                sizeFor(node, style), sizeFor(node, style), new TextComponent(node.name()));
         this.node = node;
         this.style = style;
         this.god = god;
         this.unlocked = unlocked;
         this.available = available;
-        this.nodeSize = sizeFor(node);
-        this.iconSize = iconSizeFor(node);
+        this.nodeSize = sizeFor(node, style);
+        this.iconSize = Math.round(iconSizeFor(node) * (float) this.nodeSize / defaultSizeFor(node));
         this.twinklePhase = node.id().hashCode() & 0xFF;
         this.selected = false;
     }
 
-    private static int sizeFor(GodNode node) {
+    private static int sizeFor(GodNode node, SkillStyle style) {
+        return style instanceof GodNodeStyle sized && sized.size > 0 ? sized.size : defaultSizeFor(node);
+    }
+
+    private static int defaultSizeFor(GodNode node) {
         return switch (node.type()) {
             case MAJOR -> 44;
             case MINOR -> 30;
@@ -96,6 +101,17 @@ public class GodNodeWidget extends AbstractWidget {
         this.selected = false;
     }
 
+    public int effectSeed() {
+        return this.node.id().hashCode() * 0x9E3779B9;
+    }
+
+    public float effectBrightness() {
+        if (this.unlocked) {
+            return this.selected ? 1.0F : 0.75F;
+        }
+        return this.selected ? 0.5F : 0.25F;
+    }
+
     @Override
     public boolean isMouseOver(double mouseX, double mouseY) {
         double cx = this.x + this.width / 2.0D;
@@ -110,7 +126,6 @@ public class GodNodeWidget extends AbstractWidget {
                              int containerMouseX, int containerMouseY, float pTicks, List<Runnable> postContainerRender) {
         boolean hovered = this.isMouseOver(containerMouseX, containerMouseY);
         this.renderFrame(renderStack, hovered, pTicks);
-        this.renderIcon(renderStack);
         if (hovered) {
             this.renderTooltip(renderStack, screenMouseX, screenMouseY, postContainerRender);
         }
@@ -147,7 +162,7 @@ public class GodNodeWidget extends AbstractWidget {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    private void renderIcon(PoseStack renderStack) {
+    public void renderIcon(PoseStack renderStack) {
         ResourceLocation icon = this.style.icon;
         if (icon == null || this.iconSize <= 0) {
             return;

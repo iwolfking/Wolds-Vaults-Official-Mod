@@ -418,6 +418,81 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 next.add("ultimateCooldown");
             });
         });
+
+        add("life_block", builder -> {
+            builder.addDescription("Life_Block_Base", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Seal your wounds behind a "));
+                jsonElements.add(JsonDescription.simple("Life Block ", "$health"));
+                jsonElements.add(JsonDescription.simple("worth a share of your max health. While it stands, all "));
+                jsonElements.add(JsonDescription.simple("healing ", "$heal"));
+                jsonElements.add(JsonDescription.simple("goes into lifting the block instead of healing you.\n\n"));
+                jsonElements.add(JsonDescription.simple("Lifting it grants an "));
+                jsonElements.add(JsonDescription.simple("absorption shield", "$absorb"));
+                jsonElements.add(JsonDescription.simple(", "));
+                jsonElements.add(JsonDescription.simple("Transfusion", "$damage"));
+                jsonElements.add(JsonDescription.simple(", a stacking damage boost every time you heal, and "));
+                jsonElements.add(JsonDescription.simple("Life Bond", "$thornsDamage"));
+                jsonElements.add(JsonDescription.simple(", which passes part of the damage you take to your attacker.\n\n"));
+                jsonElements.add(JsonDescription.simple("A bigger block makes the buffs stronger, and lifting it faster makes them last "));
+                jsonElements.add(JsonDescription.simple("longer", "$duration"));
+                jsonElements.add(JsonDescription.simple("."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("blockSize");
+                current.add("absorptionShield");
+                current.add("transfusion");
+                current.add("lifeBond");
+                current.add("buffDuration");
+                current.add("fastClear");
+                current.add("cooldown");
+                current.add("manaCost");
+            }, next -> {
+                next.add("blockSize");
+                next.add("absorptionShield");
+                next.add("transfusion");
+                next.add("lifeBond");
+                next.add("buffDuration");
+                next.add("fastClear");
+                next.add("cooldown");
+                next.add("manaCost");
+            });
+            builder.addDescription("Mana_Block", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Seal your mana behind a "));
+                jsonElements.add(JsonDescription.simple("Mana Block ", "$manaCost"));
+                jsonElements.add(JsonDescription.simple("worth a share of your max mana. While it stands, all "));
+                jsonElements.add(JsonDescription.simple("mana regeneration ", "$manaCost"));
+                jsonElements.add(JsonDescription.simple("goes into lifting the block instead of refilling your mana.\n\n"));
+                jsonElements.add(JsonDescription.simple("Lifting it grants "));
+                jsonElements.add(JsonDescription.simple("Mana Shield", "$manaPerDamage"));
+                jsonElements.add(JsonDescription.simple(", which takes part of the damage you take from your mana instead, extra "));
+                jsonElements.add(JsonDescription.simple("mana regeneration", "$manaCost"));
+                jsonElements.add(JsonDescription.simple(", and "));
+                jsonElements.add(JsonDescription.simple("Surging Mana", "$areaOfEffect"));
+                jsonElements.add(JsonDescription.simple(", increasing your area of effect.\n\n"));
+                jsonElements.add(JsonDescription.simple("A bigger block makes the buffs stronger, and lifting it faster makes them last "));
+                jsonElements.add(JsonDescription.simple("longer", "$duration"));
+                jsonElements.add(JsonDescription.simple("."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("blockSize");
+                current.add("manaShield");
+                current.add("manaRegenShare");
+                current.add("surgingMana");
+                current.add("buffDuration");
+                current.add("fastClear");
+                current.add("cooldown");
+                current.add("manaCost");
+            }, next -> {
+                next.add("blockSize");
+                next.add("manaShield");
+                next.add("manaRegenShare");
+                next.add("surgingMana");
+                next.add("buffDuration");
+                next.add("fastClear");
+                next.add("cooldown");
+                next.add("manaCost");
+            });
+        });
     }
 
     public JsonObject castAbility() {

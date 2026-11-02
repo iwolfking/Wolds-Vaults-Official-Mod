@@ -147,7 +147,8 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
     }
 
     public void selectTab(GodScreenTab tab) {
-        if (selectedTab == tab) {
+        boolean reopened = selectedTab == tab;
+        if (reopened && tab.isOverview()) {
             return;
         }
         selectedTab = tab;
@@ -155,9 +156,12 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         this.panRegion.closePopup();
         VaultGod god = tab.god();
         if (god != null) {
-            viewedGod = god;
-            this.dialog.setGod(god);
-            this.panRegion.setGod(god);
+            if (!reopened) {
+                viewedGod = god;
+                this.dialog.setGod(god);
+                this.panRegion.setGod(god);
+            }
+            this.panRegion.resetView();
         }
         this.rememberTab(selectedTab, viewedGod);
     }
@@ -225,6 +229,9 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         InputConstants.Key key = InputConstants.getKey(keyCode, scanCode);
         if (keyCode == 256 || Minecraft.getInstance().options.keyInventory.isActiveAndMatches(key)) {
             this.onClose();
+            return true;
+        }
+        if (!selectedTab.isOverview() && this.panRegion.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
         }
         return super.keyPressed(keyCode, scanCode, modifiers);

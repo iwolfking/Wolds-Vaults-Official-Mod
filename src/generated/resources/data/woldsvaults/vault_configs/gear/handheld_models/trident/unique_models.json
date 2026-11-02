@@ -17,6 +17,12 @@
       "displayName": "Tideripper",
       "discoverOnRoll": true,
       "allowTransmogrification": true
+    },
+    {
+      "id": "woldsvaults:gear/trident/lightning_orb",
+      "displayName": "Lightning Orb",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
     }
   ]
 }

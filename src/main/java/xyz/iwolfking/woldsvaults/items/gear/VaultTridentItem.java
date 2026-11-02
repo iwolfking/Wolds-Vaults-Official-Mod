@@ -62,6 +62,8 @@ import xyz.iwolfking.woldsvaults.integration.bettertridents.BetterThrownTrident;
 import xyz.iwolfking.woldsvaults.api.data.enchantments.AllowedEnchantmentsData;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.models.Tridents;
+import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.LightningFiend;
+import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.ThrownTridentAttackDamage;
 import xyz.iwolfking.woldsvaults.modifiers.gear.riptide.RiptideDash;
 
 import javax.annotation.Nonnull;
@@ -79,7 +81,6 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         setRegistryName(id);
     }
 
-
     @Nullable
     public ResourceLocation getRandomModel(ItemStack stack, Random random, @Nullable Player player, @Nullable DiscoveredModelsData discoveredModelsData) {
         VaultGearData gearData = VaultGearData.read(stack);
@@ -92,18 +93,15 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         return Tridents.REGISTRY.get(key);
     }
 
-
     @Nullable
     public EquipmentSlot getIntendedSlot(ItemStack stack) {
         return EquipmentSlot.MAINHAND;
     }
 
-
     @NotNull
     public VaultGearClassification getClassification(ItemStack stack) {
         return VaultGearClassification.AXE;
     }
-
 
     @Nonnull @SuppressWarnings({"deprecation","removal"})
     public ProficiencyType getCraftingProficiencyType(ItemStack stack) {
@@ -186,7 +184,6 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         return VaultGearHelper.getDisplayName(stack, super.getName(stack));
     }
 
-
     @Override
     public int getUseDuration(ItemStack stack) {
         return 72000;
@@ -194,6 +191,9 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
 
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int duration) {
+        if (entity instanceof Player player && LightningFiend.isLightning(player)) {
+            return;
+        }
         VaultGearData data = VaultGearData.read(stack);
         if(entity instanceof Player player) {
             if(data.getItemLevel() > SidedHelper.getVaultLevel(player)) {
@@ -222,12 +222,16 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
                             else
                                 throwntrident = new ThrownTrident(level, player, stack);
                             throwntrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F + j * 0.5F, 1.0F);
+                            ((ThrownTridentAttackDamage) throwntrident).woldsVaults$setThrowAttackDamage(LightningFiend.attackDamage(player));
                             if (player.getAbilities().instabuild) {
                                 throwntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                             }
 
                             level.addFreshEntity(throwntrident);
                             level.playSound(null, throwntrident, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                            if (player instanceof ServerPlayer serverPlayer) {
+                                LightningFiend.onThrow(serverPlayer);
+                            }
                             if (!player.getAbilities().instabuild) {
                                 player.getInventory().removeItem(stack);
                             }
@@ -275,12 +279,13 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         }
     }
 
-
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        if (LightningFiend.isLightning(player)) {
+            return InteractionResultHolder.fail(player.getItemInHand(hand));
+        }
         return VaultGearHelper.rightClick(world, player, hand, super.use(world, player, hand));
     }
-
 
     @Override
     public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected) {
@@ -290,7 +295,6 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         }
 
     }
-
 
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
@@ -346,5 +350,4 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
     }
 
 }
-
 

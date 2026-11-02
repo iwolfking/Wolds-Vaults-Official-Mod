@@ -967,6 +967,191 @@
       },
       "modifierTags": [],
       "weight": 1
+    },
+    "woldsvaults:lightning_fiend_crown": {
+      "name": "Lightning Fiend's Crown",
+      "item": "the_vault:helmet",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/lightning_fiend/helmet",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:base_ap"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_damage_increase",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_mana_regen",
+          "the_vault:mod_cooldown_reduction",
+          "the_vault:set_effect_duration"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:lightning_fiend_mantle": {
+      "name": "Lightning Fiend's Mantle",
+      "item": "the_vault:chestplate",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/lightning_fiend/chestplate",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:u_base_crit_hit"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_nova_level",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:set_effect_duration",
+          "the_vault:set_healing_efficiency",
+          "the_vault:mod_cooldown_reduction"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:lightning_fiend_legguards": {
+      "name": "Lightning Fiend's Legguards",
+      "item": "the_vault:leggings",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/lightning_fiend/leggings",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:u_base_crit_hit"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_damage_increase",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:set_effect_duration",
+          "the_vault:mod_cooldown_reduction",
+          "the_vault:set_healing_efficiency"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:lightning_fiend_talons": {
+      "name": "Lightning Fiend's Talons",
+      "item": "the_vault:boots",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/lightning_fiend/boots",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:base_movement"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_health",
+          "the_vault:mod_damage_increase"
+        ],
+        "SUFFIX": [
+          "the_vault:set_effect_duration",
+          "the_vault:mod_mana_regen",
+          "the_vault:mod_cooldown_reduction"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:lightning_fiend_orb": {
+      "name": "Lightning Orb",
+      "item": "the_vault:trident",
+      "models": [
+        {
+          "value": "woldsvaults:gear/trident/lightning_orb",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:trident_damage",
+          "the_vault:trident_loyalty_zeus",
+          "the_vault:trident_channeling",
+          "the_vault:base_attack_speed_axe"
+        ],
+        "PREFIX": [
+          "the_vault:channeling_chance_zeus",
+          "the_vault:second_judgement_zeus",
+          "the_vault:windup_time_zeus"
+        ],
+        "SUFFIX": [
+          "the_vault:shocking_hit_zeus"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:lightning_fiend_pure_lightning": {
+      "name": "Pure Lightning",
+      "item": "the_vault:magnet",
+      "models": [
+        {
+          "value": "woldsvaults:gear/magnet/pure_lightning",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_magnet_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:u_base_magnet_range",
+          "the_vault:u_base_magnet_velocity",
+          "the_vault:base_endergized"
+        ],
+        "PREFIX": [
+          "the_vault:set_movement_speed",
+          "the_vault:mod_cooldown_reduction"
+        ],
+        "SUFFIX": [
+          "the_vault:unique_area_of_effect",
+          "the_vault:u_knockback_resistance"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
     }
   },
   "pools": {
@@ -1071,6 +1256,24 @@
     },
     "woldsvaults:tidebreaker_hurricane": {
       "woldsvaults:tidebreaker_hurricane": 1
+    },
+    "woldsvaults:lightning_fiend_crown": {
+      "woldsvaults:lightning_fiend_crown": 1
+    },
+    "woldsvaults:lightning_fiend_mantle": {
+      "woldsvaults:lightning_fiend_mantle": 1
+    },
+    "woldsvaults:lightning_fiend_legguards": {
+      "woldsvaults:lightning_fiend_legguards": 1
+    },
+    "woldsvaults:lightning_fiend_talons": {
+      "woldsvaults:lightning_fiend_talons": 1
+    },
+    "woldsvaults:lightning_fiend_orb": {
+      "woldsvaults:lightning_fiend_orb": 1
+    },
+    "woldsvaults:lightning_fiend_pure_lightning": {
+      "woldsvaults:lightning_fiend_pure_lightning": 1
     },
     "the_vault:crafted": {
       "woldsvaults:ocean_current": 1,
