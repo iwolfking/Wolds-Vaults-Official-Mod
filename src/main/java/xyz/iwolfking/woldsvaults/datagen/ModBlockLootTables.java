@@ -36,6 +36,10 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
+import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlock;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -52,6 +56,8 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
     private static final LootItemCondition.Builder HAS_SILK_TOUCH = MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))));
 
     protected void addTables() {
+        add(ArmoryRegistry.ARMORY, this::dropLowerHalf);
+        add(ArmoryRegistry.CREATIVE_ARMORY, this::dropLowerHalf);
         dropSelf(ModBlocks.EXTRACTOR_ASSEMBLER_BLOCK);
         dropSelf(ModBlocks.EXTRACTOR_FORGE_BLOCK);
         dropSelf(ModBlocks.VAULT_FABRICATOR_BLOCK);
@@ -174,6 +180,13 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         dropSelf(ModBlocks.DECO_WENDARR_ALTAR_BLOCK);
         dropSelf(ModBlocks.DECO_TENOS_ALTAR_BLOCK);
 
+    }
+
+    protected LootTable.Builder dropLowerHalf(Block block) {
+        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                .add(LootItem.lootTableItem(block).when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                        .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(ArmoryBlock.HALF, DoubleBlockHalf.LOWER))))
+                .when(ExplosionCondition.survivesExplosion()));
     }
 
     protected LootTable.Builder noDrop() {
