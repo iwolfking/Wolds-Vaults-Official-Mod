@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "the_vault:inscription_table",
+      "required": false
+    },
+    {
+      "id": "the_vault:augment_station",
+      "required": false
+    },
+    {
+      "id": "the_vault:crystal_workbench",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_charm_controller",
+      "required": false
+    },
+    {
+      "id": "the_vault:bounty_block",
+      "required": false
+    },
+    {
+      "id": "the_vault:catalyst_infusion_table",
+      "required": false
+    }
+  ]
+}

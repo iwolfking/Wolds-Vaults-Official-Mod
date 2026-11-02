@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "the_vault:deck_station",
+      "required": false
+    },
+    {
+      "id": "the_vault:card_binder",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_recycler",
+      "required": false
+    },
+    {
+      "id": "woldsvaults:vault_salvager",
+      "required": false
+    },
+    {
+      "id": "the_vault:unboxing_station",
+      "required": false
+    },
+    {
+      "id": "the_vault:card_essence_extractor",
+      "required": false
+    }
+  ]
+}

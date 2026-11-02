@@ -74,6 +74,7 @@ public class ModConfigs {
 
     public static VaultFruitConfig VAULT_FRUIT_CONFIG = new VaultFruitConfig();
 
+    public static WeaponTypesConfig WEAPON_TYPES = new WeaponTypesConfig();
     public static ImplicitDeckModifiersConfig IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig();
 
     public static GodLevelsConfig GOD_LEVELS;
@@ -131,6 +132,7 @@ public class ModConfigs {
         TIME_TRIAL_COMPETITION = new TimeTrialCompetitionConfig().readConfig();
         ETCHED_VAULT_LAYOUT = new EtchedVaultLayoutConfig().readConfig();
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
+        WEAPON_TYPES = new WeaponTypesConfig().readConfig();
         IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
         registerGreedProgression();
         registerGodTrees();

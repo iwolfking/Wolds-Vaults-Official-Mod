@@ -309,6 +309,26 @@
         ]
       }
     ],
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "ModWeaponType",
+        "identifier": "the_vault:weapon_type_spear",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 20,
+            "value": {
+              "value": "Spear"
+            }
+          }
+        ]
+      }
+    ],
     "IMPLICIT": [
       {
         "attribute": "the_vault:attack_damage",

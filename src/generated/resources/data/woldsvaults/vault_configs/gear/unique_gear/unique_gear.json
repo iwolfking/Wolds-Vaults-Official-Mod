@@ -43,7 +43,8 @@
       ],
       "modifierIdentifiers": {
         "BASE_ATTRIBUTE": [
-          "the_vault:base_durability"
+          "the_vault:base_durability",
+          "the_vault:weapon_type_spear"
         ],
         "IMPLICIT": [
           "the_vault:trident_damage",
@@ -378,7 +379,8 @@
       ],
       "modifierIdentifiers": {
         "BASE_ATTRIBUTE": [
-          "the_vault:base_durability"
+          "the_vault:base_durability",
+          "the_vault:weapon_type_double_axe"
         ],
         "IMPLICIT": [
           "the_vault:u_leviathan_attack_damage",
@@ -403,7 +405,8 @@
       ],
       "modifierIdentifiers": {
         "BASE_ATTRIBUTE": [
-          "the_vault:base_durability"
+          "the_vault:base_durability",
+          "the_vault:weapon_type_double_axe"
         ],
         "IMPLICIT": [
           "the_vault:u_leviathan_attack_damage",
@@ -551,7 +554,8 @@
       ],
       "modifierIdentifiers": {
         "BASE_ATTRIBUTE": [
-          "the_vault:base_durability"
+          "the_vault:base_durability",
+          "the_vault:weapon_type_claymore"
         ],
         "IMPLICIT": [
           "the_vault:base_attack_damage",
@@ -580,6 +584,7 @@
       ],
       "modifierIdentifiers": {
         "BASE_ATTRIBUTE": [
+          "the_vault:weapon_type_katana",
           "the_vault:base_durability"
         ],
         "IMPLICIT": [
@@ -637,6 +642,7 @@
       ],
       "modifierIdentifiers": {
         "BASE_ATTRIBUTE": [
+          "the_vault:weapon_type_rapier",
           "the_vault:base_durability"
         ],
         "IMPLICIT": [
@@ -688,6 +694,7 @@
       ],
       "modifierIdentifiers": {
         "BASE_ATTRIBUTE": [
+          "the_vault:weapon_type_staff",
           "the_vault:base_durability"
         ],
         "IMPLICIT": [

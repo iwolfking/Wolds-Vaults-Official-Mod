@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
-import iskallia.vault.config.TalentsConfig;
 import iskallia.vault.config.TalentsGUIConfig;
 import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
@@ -14,10 +13,11 @@ import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
 import iskallia.vault.init.ModItems;
-import iskallia.vault.world.VaultMode;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import iskallia.vault.config.TalentsConfig;
+import iskallia.vault.world.VaultMode;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.data.gear.lib.UnusualModifierLib;
@@ -25,6 +25,8 @@ import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsVaultGearConfigProvide
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.modifiers.gear.special.ImplodingJavelinModification;
 import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
+import xyz.iwolfking.woldsvaults.modifiers.gear.HealthScalingComboAttribute;
+
 import java.util.List;
 
 public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvider {
@@ -34,6 +36,198 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
 
     @Override
     public void registerConfigs() {
+        add("trident", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_anchor", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 80, "Trident");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_hammer", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, "Spear");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_mace", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, "Lance");
+                });
+            });
+        });
+        add("trident_mythic", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_anchor", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 80, "Trident");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_hammer", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, "Spear");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_mace", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, "Lance");
+                });
+            });
+        });
+        add("axe", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_anchor", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Anchor");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_hammer", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Hammer");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_mace", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Mace");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_pickaxe", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Pickaxe");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_axe", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 80, "Axe");
+                });
+            });
+        });
+        add("axe_mythic", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_anchor", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Anchor");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_hammer", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Hammer");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_mace", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Mace");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_pickaxe", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Pickaxe");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_axe", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 80, "Axe");
+                });
+            });
+        });
+        add("sword", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_cutlass", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 15, "Cutlass");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_rapier", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 15, "Rapier");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_sword", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 70, "Sword");
+                });
+            });
+        });
+        add("sword_mythic", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_cutlass", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 15, "Cutlass");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_rapier", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 15, "Rapier");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_sword", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 70, "Sword");
+                });
+            });
+        });
+        add("battlestaff", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_staff", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, "Staff");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_halberd", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Halberd");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_battlestaff", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 85, "Battlestaff");
+                });
+            });
+           builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
+              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_magic_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                  addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.25F, 0.5F, 0.01F);
+                  addDamageBurstCombo(vaultGearModifierTiersBuilder, 50, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.51F, 0.65F, 0.01F);
+                  addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.65F, 1.0F, 0.01F);
+              });
+              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_physical_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.2F, 0.35F, 0.01F);
+                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 50, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.36F, 0.5F, 0.01F);
+                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.51F, 0.75F, 0.01F);
+              });
+              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.GRAVITY_COMBO, "BaseCombo", "base_gravity_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                  addGravityCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 5.0F, 5.0F, 0.5F);
+                  addGravityCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 5.0F, 5.0F, 0.5F);
+                  addGravityCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 5.0F, 5.0F, 0.5F);
+              });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_max_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.03F, 0.05F, 0.01F);
+                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.06F, 0.07F, 0.01F);
+                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.08F, 0.09F, 0.01F);
+               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_bleed_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 1, 1, 1, 80, 80, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 2, 2, 1, 100, 100, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 3, 3, 1, 120, 120, 10);
+               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_poison_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 1, 3, 1, 80, 100, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 3, 5, 1, 100, 120, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 5, 8, 1, 120, 160, 10);
+               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_wither_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                   addEffectCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 1, 2, 1, 80, 100, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 2, 3, 1, 100, 120, 10);
+                   addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 3, 4, 1, 120, 160, 10);
+               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_frost_nova", List.of(), vaultGearModifierTiersBuilder -> {
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 1, 3, 1);
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 3, 4, 1);
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 4, 5, 1);
+               });
+               vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_expunge", List.of(), vaultGearModifierTiersBuilder -> {
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.DIFFUSE_COMBO.getRegistryName(), 80, "Expunge_Base", 4, 6, 1, 1, 2, 1);
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.DIFFUSE_COMBO.getRegistryName(), 80, "Expunge_Base", 4, 6, 1, 2, 3, 1);
+                   addInvokeComboAttribute(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.DIFFUSE_COMBO.getRegistryName(), 80, "Expunge_Base", 4, 6, 1, 4, 4, 1);
+               });
+           });
+        });
+        add("battlestaff_mythic", builder -> {
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_staff", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, "Staff");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_halberd", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 5, "Halberd");
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_battlestaff", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 85, "Battlestaff");
+                });
+            });
+            builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_magic_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.MAGIC_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ABILITY_POWER.getRegistryName(), 4, 6, 1, 0.8F, 1.25F, 0.01F);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_physical_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.76F, 1.0F, 0.01F);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.GRAVITY_COMBO, "BaseCombo", "base_gravity_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addGravityCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 6.0F, 6.0F, 0.5F);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_max_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.09F, 0.1F, 0.01F);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_bleed_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.BLEED_EFFECT_COMBO.getRegistryName(), 80, ModEffects.BLEED.getRegistryName(),  4, 6, 1, 4, 5, 1, 120, 160, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_poison_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.POISON_EFFECT_COMBO.getRegistryName(), 80, MobEffects.POISON.getRegistryName(),  4, 6, 1, 7, 10, 1, 120, 160, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EFFECT_COMBO, "BaseCombo", "base_wither_effect_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addEffectCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.WITHER_EFFECT_COMBO.getRegistryName(), 80, MobEffects.WITHER.getRegistryName(),  4, 6, 1, 4, 6, 1, 120, 160, 10);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_frost_nova", List.of(), vaultGearModifierTiersBuilder -> {
+                    addInvokeComboAttribute(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.CHILLING_COMBO.getRegistryName(), 80, "Nova_Slow", 4, 6, 1, 5, 6, 1);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.INVOKE_ABILITY_COMBO, "BaseCombo", "base_invoke_expunge", List.of(), vaultGearModifierTiersBuilder -> {
+                    addInvokeComboAttribute(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.DIFFUSE_COMBO.getRegistryName(), 80, "Expunge_Base", 4, 6, 1, 5, 6, 1);
+                });
+            });
+        });
         add("scepter", builder -> {
             builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DURABILITY, "BaseDurability", "base_durability", List.of("resilientFocusTarget"), vaultGearModifierTiersBuilder -> {
@@ -54,6 +248,9 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.LIVING, "BaseLiving", "base_living", List.of(), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, -1, 2, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 100, "Wand");
                 });
             });
             builder.add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
@@ -122,11 +319,8 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     addScepterInvoke(vaultGearModifierTiersBuilder, 54, 90, 4, "Necromancy_Base", 8, 11, 1, 30, 70, 10);
                     addScepterInvoke(vaultGearModifierTiersBuilder, 89, -1, 4, "Necromancy_Base", 9, 16, 1, 30, 65, 10);
                 });
-                //TODO: Rework this into "Magibash" implicit
-                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.AP_SCALING_DAMAGE, "ModScepterType", "base_ap_scaling_damage", List.of(), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, 60, 12, 0.28F, 0.35F, 0.01F);
-                    vaultGearModifierTiersBuilder.add(50, -1, 12, 0.36, 0.45F, 0.01F);
-                    vaultGearModifierTiersBuilder.add(75, -1, 12, 0.45, 0.65F, 0.01F);
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_MAGIBASH, "ModScepterType", "base_magibash_type", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 20, true);
                 });
             });
             builder.add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
@@ -351,9 +545,11 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_INVOKE, "ModScepterType", "base_invoke_type_necromancy", List.of(), vaultGearModifierTiersBuilder -> {
                     addScepterInvoke(vaultGearModifierTiersBuilder, 0, -1, 4, "Necromancy_Base", 16, 30, 1, 30, 65, 10);
                 });
-                //TODO: Rework this into "Magibash" implicit
-                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.AP_SCALING_DAMAGE, "ModScepterType", "base_ap_scaling_damage", List.of(), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, -1, 24, 0.5, 0.8, 0.01);
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.SCEPTER_MAGIBASH, "ModScepterType", "base_magibash_type", List.of(), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 24, true);
+                });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 100, "Wand");
                 });
             });
             builder.add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
@@ -660,6 +856,11 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             });
         });
         add("unique", builder -> {
+            builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "ModWeaponType", "weapon_type_spear", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                   addString(vaultGearModifierTiersBuilder, 0, -1, 20, "Spear");
+                });
+            });
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE, "BaseDamage", "trident_damage_low", List.of(), vaultGearModifierTiersBuilder -> {
@@ -1000,7 +1201,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
         });
 
         add("dagger", builder -> {
-            builder.key(VaultMod.id("dagger_main")).add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+            builder.key(VaultMod.id("dagger")).add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DURABILITY, "BaseDurability", "base_durability",   List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0,  40, 10, 1800, 2600, 1);
@@ -1025,9 +1226,12 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         .addModifier(iskallia.vault.init.ModGearAttributes.LIVING,     "BaseLiving",     "base_no_living",    List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0,-1,98,false);
                         });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_dagger", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, "Dagger");
+                });
             });
 
-            builder.key(VaultMod.id("dagger_main")).add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT,        vaultGearAttributeGroupBuilder -> {
+            builder.key(VaultMod.id("dagger")).add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT,        vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE, "BaseAttackDamage", "base_attack_damage", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0,   15, 10, 5,  8,  1);
@@ -1056,7 +1260,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
             });
 
-            builder.key(VaultMod.id("dagger_main")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX,          vaultGearAttributeGroupBuilder -> {
+            builder.key(VaultMod.id("dagger")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX,          vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY,    "ModSoulChance",     "mod_soul_chance",     List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0,   70, 10, 0.20, 0.40, 0.01);
@@ -1131,7 +1335,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
             });
 
-            builder.key(VaultMod.id("dagger_main")).add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX,          vaultGearAttributeGroupBuilder -> {
+            builder.key(VaultMod.id("dagger")).add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX,          vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DURABILITY,           "ModDurability",     "mod_durability",     List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(11,  -1, 10, 500,  900,  1);
@@ -1231,7 +1435,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
         });
 
         add("dagger_mythic", builder -> {
-            builder.key(VaultMod.id("dagger_main_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
+            builder.key(VaultMod.id("dagger_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DURABILITY, "BaseDurability", "base_durability",   List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(100, -1, 10, 6201, 8000, 1);
@@ -1252,9 +1456,12 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         .addModifier(                    ModGearAttributes.DIVINE,     "BaseDivine",     "base_no_divine",    List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(100,-1,96,false);
                         });
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.WEAPON_TYPE, "BaseWeaponType", "base_weapon_type_dagger", List.of("weaponType"), vaultGearModifierTiersBuilder -> {
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, "Dagger");
+                });
             });
 
-            builder.key(VaultMod.id("dagger_main_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
+            builder.key(VaultMod.id("dagger_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE, "BaseAttackDamage", "base_attack_damage", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(100, -1, 10, 60, 75, 1);
@@ -1269,7 +1476,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
             });
 
-            builder.key(VaultMod.id("dagger_main_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
+            builder.key(VaultMod.id("dagger_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY,    "ModSoulChance",     "mod_soul_chance",     List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(100, -1, 10, 1.50, 2.00, 0.01);
@@ -1320,7 +1527,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
             });
 
-            builder.key(VaultMod.id("dagger_main_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX, vaultGearAttributeGroupBuilder -> {
+            builder.key(VaultMod.id("dagger_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DURABILITY,           "ModDurability",     "mod_durability",     List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(100, -1, 10, 4200, 5000,  1);

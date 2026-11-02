@@ -4,7 +4,6 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
 import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
-import iskallia.vault.gear.attribute.custom.effect.EffectTrialAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeType;
 import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
@@ -21,6 +20,7 @@ import xyz.iwolfking.woldsvaults.modifiers.gear.HeartFragmentOnLootAttribute;
 import iskallia.vault.gear.reader.FloatValueModifierReader;
 import iskallia.vault.gear.reader.IntegerValueModifierReader;
 import xyz.iwolfking.woldsvaults.modifiers.gear.ParticleTrailAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.*;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.unique.SteelInfernoAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.unique.StormTrackingAttribute;
@@ -155,16 +155,22 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<ParticleTrailAttribute> PARTICLE_TRAIL =  attr("particle_trail", ParticleTrailAttribute.type(), ParticleTrailAttribute.generator(), ParticleTrailAttribute.reader(), ParticleTrailAttribute.comparator());
     public static final VaultGearAttribute<HeartFragmentOnLootAttribute> HEART_FRAGMENT_ON_LOOT =  woldsAttr("heart_fragment_on_loot", HeartFragmentOnLootAttribute.type(), HeartFragmentOnLootAttribute.generator(), HeartFragmentOnLootAttribute.reader(), HeartFragmentOnLootAttribute.comparator());
 
+    public static final VaultGearAttribute<DamageBurstComboAttribute> DAMAGE_BURST_COMBO = woldsAttr("magic_burst_combo", DamageBurstComboAttribute.type(), DamageBurstComboAttribute.generator(), DamageBurstComboAttribute.reader(), DamageBurstComboAttribute.comparator());
+    public static final VaultGearAttribute<InvokeAbilityComboAttribute> INVOKE_ABILITY_COMBO = woldsAttr("ability_invoke_combo", InvokeAbilityComboAttribute.type(), InvokeAbilityComboAttribute.generator(), InvokeAbilityComboAttribute.reader(), InvokeAbilityComboAttribute.comparator());
+    public static final VaultGearAttribute<EffectComboAttribute> EFFECT_COMBO = woldsAttr("effect_combo", EffectComboAttribute.type(), EffectComboAttribute.generator(), EffectComboAttribute.reader(), EffectComboAttribute.comparator());
+    public static final VaultGearAttribute<HealthScalingComboAttribute> HEALTH_SCALING_COMBO = woldsAttr("health_scaling_combo", HealthScalingComboAttribute.type(), HealthScalingComboAttribute.generator(), HealthScalingComboAttribute.reader(), HealthScalingComboAttribute.comparator());
+    public static final VaultGearAttribute<GravityComboAttribute> GRAVITY_COMBO = woldsAttr("gravity_combo", GravityComboAttribute.type(), GravityComboAttribute.generator(), GravityComboAttribute.reader(), GravityComboAttribute.comparator());
+
     //Scepter Modifiers
     public static final VaultGearAttribute<Boolean> SCEPTER_SPARKLES = woldsAttr("scepter_sparkles", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), new MythicTierFlagReader("Sparkles", 8247956), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> SCEPTER_BEAM = woldsAttr("scepter_beam", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), new MythicTierFlagReader("Beam", 752051), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Boolean> SCEPTER_MAGIBASH = woldsAttr("scepter_magibash", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), new MythicTierFlagReader("Magibash", 14799103), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> FIRE_ELEMENT = woldsAttr("fire_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Fire Affinity", 16711680), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> ICE_ELEMENT = woldsAttr("ice_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Ice Affinity", 10079487), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> POISON_ELEMENT = woldsAttr("poison_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Poison Affinity", 65280), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> LIGHTNING_ELEMENT = woldsAttr("lightning_element", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Lightning Affinity", 16776960), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<ScepterInvokeAttribute> SCEPTER_INVOKE = woldsAttr("scepter_invoke", ScepterInvokeAttribute.type(), ScepterInvokeAttribute.generator(), ScepterInvokeAttribute.reader(), ScepterInvokeAttribute.comparator());
 
-    @Deprecated
     public static final VaultGearAttribute<String> WEAPON_TYPE = attr("weapon_type", VaultGearAttributeType.stringType(), xyz.iwolfking.woldsvaults.init.ModGearAttributeGenerators.stringValue(), xyz.iwolfking.woldsvaults.init.ModGearAttributeReaders.weaponTypeReader("Weapon Type", 888888, "Type: %s"));
 
 
@@ -272,6 +278,7 @@ public class ModGearAttributes {
                       registry.register(RADIATION_IMMUNITY);
                       registry.register(SCEPTER_SPARKLES);
                       registry.register(SCEPTER_BEAM);
+                      registry.register(SCEPTER_MAGIBASH);
                       registry.register(SCEPTER_INVOKE);
                       registry.register(FIRE_ELEMENT);
                       registry.register(ICE_ELEMENT);
@@ -288,6 +295,11 @@ public class ModGearAttributes {
                       registry.register(CHANNELING_CHAIN);
                       registry.register(THROWN_TRIDENT_PIERCE);
                       registry.register(LIGHTNING_DASH);
+                      registry.register(DAMAGE_BURST_COMBO);
+                      registry.register(INVOKE_ABILITY_COMBO);
+                      registry.register(EFFECT_COMBO);
+                      registry.register(HEALTH_SCALING_COMBO);
+                      registry.register(GRAVITY_COMBO);
        }
   
     public static void registerVanillaAssociations() {
