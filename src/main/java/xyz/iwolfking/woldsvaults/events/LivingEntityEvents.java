@@ -108,6 +108,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lib.ComboAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.MagibashHits;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.talent.special.DebuffDamageBonusTalent;
 import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
@@ -626,24 +627,9 @@ public class LivingEntityEvents {
             return;
         }
 
-        float playerAP = AbilityPowerHelper.getAbilityPower(player);
-        float magibashDamage = playerAP * 0.5F;
-
-        List<ElementalType> elementalTypes = ElementHelper.getAllElementsFromGear(gearData);
-
-        WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> {
-            ActiveFlags.IS_AP_ATTACKING.push();
-            try {
-                ElementHelper.runWithElements(elementalTypes, () -> {
-                    if (victim.isAlive()) {
-                        DamageSource bashSource = DamageSource.indirectMagic(player, player);
-                        victim.hurt(bashSource, magibashDamage);
-                    }
-                });
-            } finally {
-                ActiveFlags.IS_AP_ATTACKING.pop();
-            }
-        });
+        float coefficient = gearData.getRarity().equals(VaultGearRarity.valueOf("MYTHIC")) ? MagibashHits.MYTHIC_AP_COEFFICIENT : MagibashHits.AP_COEFFICIENT;
+        float magibashDamage = AbilityPowerHelper.getAbilityPower(player) * coefficient;
+        MagibashHits.queue(player, victim, magibashDamage, ElementHelper.getAllElementsFromGear(gearData));
     }
 
     @SubscribeEvent
