@@ -43,6 +43,7 @@ import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.api.core.competition.PlayerRewardStorage;
+import xyz.iwolfking.woldsvaults.integration.ftbquests.VaultPointsReward;
 import xyz.iwolfking.woldsvaults.api.lib.ExtendedToolType;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.events.*;
@@ -154,6 +155,9 @@ public class WoldsVaults {
         DelayedExecutionHelper.init();
         ModVaultEvents.init();
         ModPetModels.register();
+        if (LoadingModList.get().getModFileById("ftbquests") != null) {
+            event.enqueueWork(VaultPointsReward::register);
+        }
         BETTER_COMBAT_PRESENT = LoadingModList.get().getModFileById("bettercombat") != null;
         if(ConditionalModUtils.isModPresent("mekanism")) {
             ModModuleToVaultGearModifications.init();
