@@ -51,7 +51,6 @@ import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
 import xyz.iwolfking.woldsvaults.api.util.ColorUtil;
 import xyz.iwolfking.woldsvaults.api.util.ElementHelper;
-import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.models.Scepters;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 
@@ -63,6 +62,7 @@ import java.util.Random;
 
 public class VaultScepterItem extends SwordItem implements VaultGearItem, DyeableLeatherItem {
     public static final int BEAM_CHARGE_TICKS = 40;
+    public static final int BEAM_OVERCHARGE_TICKS = 120;
 
     public VaultScepterItem(ResourceLocation id, Properties builder) {
         super(VaultGearToolTier.INSTANCE, 0, -2.4F, builder);
@@ -232,7 +232,7 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
 
         if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)) {
             if (chargeTicks < BEAM_CHARGE_TICKS) return;
-            executeBeamAttack(serverLevel, player, elementalTypes, gearData.getRarity().equals(VaultGearRarity.valueOf("MYTHIC")) ? 1.3F : 0.65F);
+            executeBeamAttack(serverLevel, player, elementalTypes, gearData.getRarity().equals(VaultGearRarity.valueOf("MYTHIC")) ? 1.3F : 0.65F, chargeTicks);
             if (player.getLevel().dimension().location().getNamespace().equals("the_vault")) {
                 if(player instanceof ServerPlayer) {
                     stack.hurt(1, player.getRandom(), player);
@@ -285,6 +285,14 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
                     tipPos.x, tipPos.y, tipPos.z,
                     8, 0.1, 0.1, 0.1, 0.08);
         }
+        else if (gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_BEAM)
+                && !gearData.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.SCEPTER_INVOKE)
+                && chargeTicks == BEAM_OVERCHARGE_TICKS) {
+            level.playSound(null, player.blockPosition(), SoundEvents.NOTE_BLOCK_PLING, SoundSource.PLAYERS, 0.8F, 2.0F);
+            serverLevel.sendParticles(ParticleTypes.END_ROD,
+                    tipPos.x, tipPos.y, tipPos.z,
+                    8, 0.1, 0.1, 0.1, 0.08);
+        }
         else if (chargeTicks % 10 == 0) {
             serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK,
                     tipPos.x, tipPos.y, tipPos.z,
@@ -292,7 +300,8 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
         }
     }
 
-    private void executeBeamAttack(ServerLevel level, ServerPlayer player, List<ElementalType> elementalTypes, float apScaling) {
+    private void executeBeamAttack(ServerLevel level, ServerPlayer player, List<ElementalType> elementalTypes, float apScaling, int chargeTicks) {
+        float damageMultiplier = 1.0F + (Math.min(Math.max(chargeTicks - BEAM_CHARGE_TICKS, 0), BEAM_OVERCHARGE_TICKS - BEAM_CHARGE_TICKS) / (float) (BEAM_OVERCHARGE_TICKS - BEAM_CHARGE_TICKS));
         Vec3 start = player.getEyePosition();
         Vec3 look = player.getLookAngle();
 
@@ -335,7 +344,7 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
                     ActiveFlags.IS_AP_ATTACKING.push();
                     try {
                         xyz.iwolfking.woldsvaults.events.WoldActiveFlags.IS_SCEPTER_CAST_ATTACKING.runWithFlag(() ->
-                                target.hurt(DamageSource.indirectMagic(player, player), playerAP * apScaling));
+                                target.hurt(DamageSource.indirectMagic(player, player), playerAP * apScaling * damageMultiplier));
                     } finally {
                         ActiveFlags.IS_AP_ATTACKING.pop();
                     }

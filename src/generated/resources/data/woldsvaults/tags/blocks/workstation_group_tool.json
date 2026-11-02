@@ -1,0 +1,33 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "the_vault:vault_enchanter",
+      "required": false
+    },
+    {
+      "id": "the_vault:tool_station",
+      "required": false
+    },
+    {
+      "id": "the_vault:jewel_crafting_table",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_jewel_application_station",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_enchanter",
+      "required": false
+    },
+    {
+      "id": "the_vault:unboxing_station",
+      "required": false
+    },
+    {
+      "id": "the_vault:vault_anvil",
+      "required": false
+    }
+  ]
+}

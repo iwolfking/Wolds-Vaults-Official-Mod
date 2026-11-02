@@ -4,11 +4,18 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.config.entry.FloatRollRangeEntry;
 import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.custom.ability.BroodmotherWebAttribute;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.modifiers.gear.DamageBurstComboAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.EffectComboAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.HealthScalingComboAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.InvokeAbilityComboAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.unique.SteelInfernoAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.unique.StormTrackingAttribute;
@@ -166,11 +173,93 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
     }
 
+    public static VaultGearModifierTiersBuilder addDamageBurstCombo(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            ResourceLocation associatedEffect,
+            int duration,
+            ResourceLocation attribute,
+            int minHits, int maxHits, int hitSteps,
+            float minDamage, float maxDamage, float damageStep) {
+
+        DamageBurstComboAttribute.Config config = new DamageBurstComboAttribute.Config(
+                new IntRollRangeEntry(minHits, maxHits, hitSteps),
+                associatedEffect,
+                duration,
+                attribute,
+                new FloatRollRangeEntry(minDamage, maxDamage, damageStep)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
     public static VaultGearModifierTiersBuilder addStormTracking(
             VaultGearModifierTiersBuilder builder,
             int minLevel, int maxLevel, int weight,
             String abilityKey, float speed) {
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, new StormTrackingAttribute.Config(true, abilityKey, speed)), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addInvokeComboAttribute(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            ResourceLocation associatedEffect,
+            int duration,
+            String ability,
+            int minHits, int maxHits, int hitSteps,
+            int minAbilityLevel, int maxAbilityLevel, int levelSteps) {
+
+        InvokeAbilityComboAttribute.Config config = new InvokeAbilityComboAttribute.Config(
+                new IntRollRangeEntry(minHits, maxHits, hitSteps),
+                associatedEffect,
+                duration,
+                ability,
+                new IntRollRangeEntry(minAbilityLevel, maxAbilityLevel, levelSteps)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addEffectCombo(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            ResourceLocation associatedEffect,
+            int duration,
+            ResourceLocation effectId,
+            int minHits, int maxHits, int hitSteps,
+            int minAmplifier, int maxAmplifier, int amplifierSteps,
+            int minEffectDuration, int maxEffectDuration, int durationSteps) {
+
+        EffectComboAttribute.Config config = new EffectComboAttribute.Config(
+                new IntRollRangeEntry(minHits, maxHits, hitSteps),
+                associatedEffect,
+                duration,
+                effectId,
+                new IntRollRangeEntry(minAmplifier, maxAmplifier, amplifierSteps),
+                new IntRollRangeEntry(minEffectDuration, maxEffectDuration, durationSteps)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addHealthScalingCombo(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            ResourceLocation associatedEffect,
+            int duration,
+            HealthScalingComboAttribute.DamageType scalingType,
+            int minHits, int maxHits, int hitSteps,
+            float minMultiplier, float maxMultiplier, float multiplierStep) {
+
+        HealthScalingComboAttribute.Config config = new HealthScalingComboAttribute.Config(
+                new IntRollRangeEntry(minHits, maxHits, hitSteps),
+                associatedEffect,
+                duration,
+                scalingType,
+                new FloatRollRangeEntry(minMultiplier, maxMultiplier, multiplierStep)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
     }
 
     public static VaultGearModifierTiersBuilder addString(

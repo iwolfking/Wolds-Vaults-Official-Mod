@@ -22,6 +22,10 @@ import xyz.iwolfking.woldsvaults.network.message.RampageCdmMessage;
 import xyz.iwolfking.woldsvaults.network.packets.ClientboundTrinketPouchStatePacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundOpenTrinketPouchPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundRenameTrinketPouchPresetPacket;
+import xyz.iwolfking.woldsvaults.network.packets.ServerboundSwitchWorkstationPacket;
+import xyz.iwolfking.woldsvaults.integration.appliedenergistics.packet.ServerboundDepositBackpackToMEPacket;
+import xyz.iwolfking.woldsvaults.network.packets.ClientboundBackpackContentsRefreshPacket;
+import xyz.iwolfking.woldsvaults.integration.refinedstorage.packet.ServerboundDepositBackpackToRSGridPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSetTrinketSpeedCapPacket;
 import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
@@ -67,6 +71,10 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, LightningStrikeFxMessage.class, LightningStrikeFxMessage::encode, LightningStrikeFxMessage::decode, LightningStrikeFxMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, LightningLashFxMessage.class, LightningLashFxMessage::encode, LightningLashFxMessage::decode, LightningLashFxMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, LightningChargeMessage.class, LightningChargeMessage::encode, LightningChargeMessage::decode, LightningChargeMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, ServerboundSwitchWorkstationPacket.class, ServerboundSwitchWorkstationPacket::encode, ServerboundSwitchWorkstationPacket::decode, ServerboundSwitchWorkstationPacket::handle);
+        CHANNEL.registerMessage(id++, ServerboundDepositBackpackToMEPacket.class, ServerboundDepositBackpackToMEPacket::encode, ServerboundDepositBackpackToMEPacket::decode, ServerboundDepositBackpackToMEPacket::handle);
+        CHANNEL.registerMessage(id++, ClientboundBackpackContentsRefreshPacket.class, ClientboundBackpackContentsRefreshPacket::encode, ClientboundBackpackContentsRefreshPacket::decode, ClientboundBackpackContentsRefreshPacket::handle);
+        CHANNEL.registerMessage(id++, ServerboundDepositBackpackToRSGridPacket.class, ServerboundDepositBackpackToRSGridPacket::encode, ServerboundDepositBackpackToRSGridPacket::decode, ServerboundDepositBackpackToRSGridPacket::handle);
     }
 
     public static <T> void sendToServer(T message) {

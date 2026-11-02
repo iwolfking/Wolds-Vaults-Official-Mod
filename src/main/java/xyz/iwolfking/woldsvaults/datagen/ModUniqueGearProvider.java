@@ -40,6 +40,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
         consumer.accept(entry("woldsvaults:fork_of_the_glutton", new UniqueGearBuilder("Fork of the Glutton", xyz.iwolfking.woldsvaults.init.ModItems.TRIDENT)
                 .model("woldsvaults:gear/trident/fork")
                 .base("the_vault:base_durability")
+                .base("the_vault:weapon_type_spear")
                 .implicit("the_vault:trident_damage",
                         "the_vault:trident_loyalty",
                         "the_vault:base_attack_speed_axe")
@@ -248,6 +249,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
         consumer.accept(entry("woldsvaults:leviathan", new UniqueGearBuilder("Leviathan", ModItems.AXE)
                 .model("the_vault:gear/axe/leviathan")
                 .base("the_vault:base_durability")
+                .base("the_vault:weapon_type_double_axe")
                 .implicit("the_vault:u_leviathan_attack_damage", "the_vault:u_leviathan_attack_speed")
                 .prefix("the_vault:u_leviathan_reaving_damage")
                 .dropLocation("Bounty Reward")
@@ -261,6 +263,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
         consumer.accept(entry("woldsvaults:zombie_horse_axe", new UniqueGearBuilder("Zombie Horse Axe", ModItems.AXE)
                 .model("the_vault:gear/axe/zombie_horse")
                 .base("the_vault:base_durability")
+                .base("the_vault:weapon_type_double_axe")
                 .implicit("the_vault:u_leviathan_attack_damage", "the_vault:base_attack_speed_axe")
                 .prefix("the_vault:u_movement_horse", "the_vault:mod_attack_range")
                 .suffix("the_vault:mod_poison_cloud_zombie_horse")
@@ -326,6 +329,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
         consumer.accept(entry("woldsvaults:mineral_greatsword", new UniqueGearBuilder("Mineral Greatsword", ModItems.SWORD)
                 .model("the_vault:gear/sword/mineral_greatsword")
                 .base("the_vault:base_durability")
+                .base("the_vault:weapon_type_claymore")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed_greatsword")
                 .prefix("the_vault:mod_attack_damage_mineral_greatsword")
                 .suffix("the_vault:mineral_greatsword_stun", "the_vault:mod_attack_range")
@@ -339,6 +343,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
 
         consumer.accept(entry("woldsvaults:grass_sword", new UniqueGearBuilder("Grass Sword", ModItems.SWORD)
                 .model("the_vault:gear/sword/grass_blade")
+                .base("the_vault:weapon_type_katana")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
                 .prefix("the_vault:base_thorns_damage_flat_sword", "the_vault:u_grass_sword_healing_eff")
@@ -365,6 +370,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
 
         consumer.accept(entry("woldsvaults:young_kitsune", new UniqueGearBuilder("Young Kitsune Blade", ModItems.SWORD)
                 .model("the_vault:gear/sword/young_kitsune")
+                .base("the_vault:weapon_type_rapier")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage", "the_vault:base_attack_speed")
                 .prefix("the_vault:mod_execution_young_kitsune")
@@ -389,6 +395,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
 
         consumer.accept(entry("woldsvaults:bamboo_fightstick", new UniqueGearBuilder("Bamboo Fightstick", xyz.iwolfking.woldsvaults.init.ModItems.BATTLESTAFF)
                 .model("the_vault:gear/battlestaff/bamboo_fightstick")
+                .base("the_vault:weapon_type_staff")
                 .base("the_vault:base_durability")
                 .implicit("the_vault:base_attack_damage_battlestaff_stick", "the_vault:base_lucky_hit_battlestaff_stick", "the_vault:base_attack_speed_battlestaff_stick", "the_vault:base_attack_range_battlestaff_stick")
                 .prefix("the_vault:u_bamboo_lucky_hit_percentile")

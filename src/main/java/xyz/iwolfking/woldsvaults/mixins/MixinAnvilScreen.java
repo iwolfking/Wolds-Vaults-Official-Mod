@@ -3,26 +3,49 @@ package xyz.iwolfking.woldsvaults.mixins;
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
+import xyz.iwolfking.woldsvaults.client.WorkstationScreenTabs;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AnvilMenu;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Mixin(AnvilScreen.class)
 public class MixinAnvilScreen extends ItemCombinerScreen<AnvilMenu> {
+    @Unique
+    private final List<Button> woldsvaults$tabButtons = new ArrayList<>();
     public MixinAnvilScreen(AnvilMenu pMenu, Inventory pPlayerInventory, Component pTitle,
                             ResourceLocation pMenuResource) {
         super(pMenu, pPlayerInventory, pTitle, pMenuResource);
+    }
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void woldsvaults$addWorkstationTabs(CallbackInfo ci) {
+        if (WoldsVaultsConfig.CLIENT.showWorkstationTabs.get()) {
+            woldsvaults$tabButtons.clear();
+            List<Button> created = WorkstationScreenTabs.createTabs((AbstractContainerScreen<?>) (Object) this);
+            woldsvaults$tabButtons.addAll(created);
+            WorkstationScreenTabs.registerButtons((AbstractContainerScreen<?>) (Object) this, created);
+            for (Button btn : woldsvaults$tabButtons) {
+                ((Screen) (Object) this).renderables.add(btn);
+            }
+        }
     }
 
     @Inject(method = "renderLabels", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/AnvilMenu;getCost()I"))

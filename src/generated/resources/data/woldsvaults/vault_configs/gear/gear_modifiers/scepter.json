@@ -124,6 +124,24 @@
             }
           }
         ]
+      },
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "value": "Wand"
+            }
+          }
+        ]
       }
     ],
     "IMPLICIT": [
@@ -866,39 +884,17 @@
         ]
       },
       {
-        "attribute": "the_vault:ap_scaling_damage",
+        "attribute": "woldsvaults:scepter_magibash",
         "group": "ModScepterType",
-        "identifier": "the_vault:base_ap_scaling_damage",
+        "identifier": "the_vault:base_magibash_type",
         "tags": [],
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 60,
-            "weight": 12,
-            "value": {
-              "min": 0.28,
-              "max": 0.35,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 50,
             "maxLevel": -1,
-            "weight": 12,
+            "weight": 20,
             "value": {
-              "min": 0.36,
-              "max": 0.44999998807907104,
-              "step": 0.009999999776482582
-            }
-          },
-          {
-            "minLevel": 75,
-            "maxLevel": -1,
-            "weight": 12,
-            "value": {
-              "min": 0.45,
-              "max": 0.6499999761581421,
-              "step": 0.009999999776482582
+              "flag": true
             }
           }
         ]

@@ -1,5 +1,358 @@
 {
   "modifierGroup": {
+    "BASE_ATTRIBUTES": [
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type_staff",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "value": "Staff"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type_halberd",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 5,
+            "value": {
+              "value": "Halberd"
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:weapon_type",
+        "group": "BaseWeaponType",
+        "identifier": "the_vault:base_weapon_type_battlestaff",
+        "tags": [
+          "weaponType"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 85,
+            "value": {
+              "value": "Battlestaff"
+            }
+          }
+        ]
+      }
+    ],
+    "IMPLICIT": [
+      {
+        "attribute": "woldsvaults:magic_burst_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_magic_burst_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "scaledAttribute": "the_vault:ability_power",
+              "damageMultiplier": {
+                "step": 0.01,
+                "min": 0.8,
+                "max": 1.25
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:magic_burst_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:magic_burst_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_physical_burst_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "scaledAttribute": "the_vault:attack_damage",
+              "damageMultiplier": {
+                "step": 0.01,
+                "min": 0.76,
+                "max": 1.0
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:damage_burst_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:magic_burst_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_mana_burst_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 40,
+            "value": {
+              "scaledAttribute": "the_vault:mana_additive",
+              "damageMultiplier": {
+                "step": 0.01,
+                "min": 1.51,
+                "max": 2.0
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:mana_burst_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:health_scaling_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_current_health_burst_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 40,
+            "value": {
+              "scalingType": "CURRENT_HEALTH",
+              "healthMultiplier": {
+                "step": 0.01,
+                "min": 0.13,
+                "max": 0.18
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:health_burst_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:health_scaling_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_max_health_burst_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 40,
+            "value": {
+              "scalingType": "MAX_HEALTH",
+              "healthMultiplier": {
+                "step": 0.01,
+                "min": 0.09,
+                "max": 0.1
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:health_burst_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:effect_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_bleed_effect_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 40,
+            "value": {
+              "effectId": "the_vault:bleed",
+              "amplifier": {
+                "step": 1,
+                "min": 4,
+                "max": 5
+              },
+              "duration": {
+                "step": 10,
+                "min": 120,
+                "max": 160
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:bleed_effect_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:effect_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_poison_effect_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 40,
+            "value": {
+              "effectId": "minecraft:poison",
+              "amplifier": {
+                "step": 1,
+                "min": 7,
+                "max": 10
+              },
+              "duration": {
+                "step": 10,
+                "min": 120,
+                "max": 160
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:poison_effect_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:effect_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_wither_effect_combo",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 40,
+            "value": {
+              "effectId": "minecraft:wither",
+              "amplifier": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "duration": {
+                "step": 10,
+                "min": 120,
+                "max": 160
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:wither_effect_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:ability_invoke_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_invoke_frost_nova",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 40,
+            "value": {
+              "abilityId": "Nova_Slow",
+              "level": {
+                "step": 1,
+                "min": 5,
+                "max": 6
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:chilling_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "woldsvaults:ability_invoke_combo",
+        "group": "BaseCombo",
+        "identifier": "the_vault:base_invoke_expunge",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 40,
+            "value": {
+              "abilityId": "Expunge_Base",
+              "level": {
+                "step": 1,
+                "min": 5,
+                "max": 6
+              },
+              "requiredHits": {
+                "step": 1,
+                "min": 4,
+                "max": 6
+              },
+              "associatedEffect": "woldsvaults:diffuse_combo",
+              "effectDuration": 80
+            }
+          }
+        ]
+      }
+    ],
     "CORRUPTED_IMPLICIT": [
       {
         "attribute": "the_vault:phoenix",

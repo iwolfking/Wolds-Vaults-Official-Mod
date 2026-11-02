@@ -26,8 +26,10 @@ import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.event.ActiveFlagsCheck;
 import iskallia.vault.gear.VaultGearRarity;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.GearDataCache;
+import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.etching.EtchingHelper;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.trinket.TrinketHelper;
@@ -59,6 +61,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -74,6 +77,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -81,6 +85,7 @@ import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
 import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
@@ -91,6 +96,7 @@ import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.BleedOverrideEffect;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.EchoingEffectInstance;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.PercentBurnEffect;
+import xyz.iwolfking.woldsvaults.effect.mobeffects.lib.ComboEffect;
 import xyz.iwolfking.woldsvaults.effect.trinkets.EffectOnHitTakenEffect;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
@@ -101,6 +107,7 @@ import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
+import xyz.iwolfking.woldsvaults.modifiers.gear.lib.ComboAttribute;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.talent.special.DebuffDamageBonusTalent;
 import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
@@ -136,6 +143,34 @@ public class LivingEntityEvents {
                 data.setValue(Math.min(data.getValue(), 1.0F));
             }
         }, Integer.MIN_VALUE);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerAttack(AttackEntityEvent event) {
+        Player player = event.getPlayer();
+        if (!(event.getTarget() instanceof LivingEntity target)) return;
+        if (player.level.isClientSide()) return;
+
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
+
+        for (VaultGearAttribute<?> rawAttr : WoldConstants.ALL_COMBO_ATTRIBUTES.get()) {
+            VaultGearAttribute<ComboAttribute> comboAttr = (VaultGearAttribute<ComboAttribute>) rawAttr;
+
+            ComboAttribute comboAttributeInstance = snapshot.getAttributeValue(comboAttr, VaultGearAttributeTypeMerger.firstNonNull());
+
+            if(comboAttributeInstance == null) {
+                continue;
+            }
+
+            MobEffect effect = comboAttributeInstance.getAssociatedEffect();
+            if (effect == null) {
+                continue;
+            }
+
+            if(effect instanceof ComboEffect comboEffect) {
+                comboEffect.increaseCombo(comboAttributeInstance, target, player);
+            }
+        }
     }
 
     @SubscribeEvent
@@ -424,11 +459,10 @@ public class LivingEntityEvents {
         }
 
         if(event.getSource().getEntity() instanceof Player player) {
-            float burnChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.BURNING_HIT_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+            float burnChance = WoldAttributeHelper.getBurningChance(player);
 
             if(burnChance != 0) {
-
-                if(random.nextFloat() < LuckHelper.getLuckAffectedChance(burnChance, player)) {
+                if(random.nextFloat() < burnChance) {
                     PercentBurnEffect.applyPercentBurn(event.getEntityLiving(), player, 200);
                 }
 
@@ -555,6 +589,64 @@ public class LivingEntityEvents {
     }
 
     @SubscribeEvent
+    public static void magibash(LivingHurtEvent event) {
+        if (!WoldEventHelper.isNormalAttack()) {
+            return;
+        }
+
+        if (ActiveFlags.IS_AP_ATTACKING.isSet()) {
+            return;
+        }
+
+        if (event.getSource().isProjectile()) {
+            return;
+        }
+
+        if (!(event.getSource().getEntity() instanceof ServerPlayer player)) {
+            return;
+        }
+
+        ItemStack heldItem = player.getMainHandItem();
+        if (!(heldItem.getItem() instanceof VaultGearItem)) {
+            return;
+        }
+
+        GearDataCache gearDataCache = GearDataCache.of(heldItem);
+        if (!gearDataCache.hasAttribute(ModGearAttributes.SCEPTER_MAGIBASH)) {
+            return;
+        }
+
+        VaultGearData gearData = VaultGearData.read(heldItem.copy());
+        if (gearData == null) {
+            return;
+        }
+
+        LivingEntity victim = event.getEntityLiving();
+        if (victim == player) {
+            return;
+        }
+
+        float playerAP = AbilityPowerHelper.getAbilityPower(player);
+        float magibashDamage = playerAP * 0.5F;
+
+        List<ElementalType> elementalTypes = ElementHelper.getAllElementsFromGear(gearData);
+
+        WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> {
+            ActiveFlags.IS_AP_ATTACKING.push();
+            try {
+                ElementHelper.runWithElements(elementalTypes, () -> {
+                    if (victim.isAlive()) {
+                        DamageSource bashSource = DamageSource.indirectMagic(player, player);
+                        victim.hurt(bashSource, magibashDamage);
+                    }
+                });
+            } finally {
+                ActiveFlags.IS_AP_ATTACKING.pop();
+            }
+        });
+    }
+
+    @SubscribeEvent
     public static void hexingHit(LivingHurtEvent event) {
         if(!WoldEventHelper.isNormalAttack()) {
             return;
@@ -565,9 +657,9 @@ public class LivingEntityEvents {
         }
 
         if(event.getSource().getEntity() instanceof Player player) {
-            float hexingChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.HEXING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+            float hexingChance = WoldAttributeHelper.getEchoingChance(player);
             if(hexingChance != 0) {
-                if(player.level.random.nextFloat() <= LuckHelper.getLuckAffectedChance(hexingChance, player)) {
+                if(player.level.random.nextFloat() <= hexingChance) {
                     MobEffectInstance instance = HexEffects.HEX_EFFECTS.getRandom(player.getRandom());
                     if(instance == null){
                         return;
@@ -623,7 +715,7 @@ public class LivingEntityEvents {
                 }
             }
 
-            float echoingChance = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+            float echoingChance = WoldAttributeHelper.getEchoingChance(player);
             float echoingDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
             if(echoingChance != 0) {
                 if (WoldActiveFlags.IS_ECHOING_ATTACKING.isSet())
