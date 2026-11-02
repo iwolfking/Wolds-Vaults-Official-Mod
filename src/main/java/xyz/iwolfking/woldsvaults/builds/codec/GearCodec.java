@@ -15,6 +15,7 @@ import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
+import iskallia.vault.gear.attribute.config.WeightedListAttributeGenerator;
 import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.data.UsesGearData;
 import iskallia.vault.gear.data.VaultGearData;
@@ -38,6 +39,7 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.AttributeGearData
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -277,6 +279,9 @@ public final class GearCodec {
         if (json.has("value") || json.has("snbt")) {
             modifier = withValue(modifier, json, path);
             checkEtchingValue(modifier, etchingTiers(entry, modifier, tier), id, tier, path, report);
+        } else if (modifier.getAttribute().getGenerator() instanceof WeightedListAttributeGenerator<?>) {
+            throw new BuildException(path + ": etching " + id + " picks one entry from a pool (an ability for Lucky Reset); give "
+                    + "'value' so the build gets the entry it was made for instead of a random one");
         } else {
             report.fallback(path + ": no etching value given; rolled " + readable(modifier) + " at greed tier " + tier);
         }
@@ -322,6 +327,19 @@ public final class GearCodec {
         ConfigurableAttributeGenerator<T, C> generator = (ConfigurableAttributeGenerator<T, C>) attribute.getGenerator();
         List<C> configs = new ArrayList<>();
         tiers.forEach(tier -> configs.add((C) tier.getModifierConfiguration()));
+        if (generator instanceof WeightedListAttributeGenerator<?>) {
+            Set<Object> pool = new LinkedHashSet<>();
+            for (C config : configs) {
+                if (config instanceof WeightedListAttributeGenerator.Config<?> listConfig && listConfig.strings != null) {
+                    pool.addAll(listConfig.strings.keySet());
+                }
+            }
+            if (!pool.contains(modifier.getValue())) {
+                throw new BuildException(path + ".value: etching " + id + " picks from " + pool + " at greed tier " + greedTier
+                        + ", not " + readable(modifier));
+            }
+            return;
+        }
         Optional<T> min = generator == null ? Optional.empty() : generator.getMinimumValue(configs);
         Optional<T> max = generator == null ? Optional.empty() : generator.getMaximumValue(configs);
         if (min.isEmpty() || max.isEmpty()) {
