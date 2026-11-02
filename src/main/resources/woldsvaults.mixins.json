@@ -505,6 +505,7 @@
     "vaulthunters.custom.enum_extension.MixinVaultRarityEnum",
     "vaulthunters.custom.etching.MixinAbstractFireballAbility",
     "vaulthunters.custom.etching.MixinBottleItem",
+    "vaulthunters.custom.etching.MixinEtchingHelper",
     "vaulthunters.custom.etching.MixinPuristTalent",
     "vaulthunters.custom.recycler.MixinVaultCatalystItem",
     "vaulthunters.custom.recycler.MixinVaultGearItem",

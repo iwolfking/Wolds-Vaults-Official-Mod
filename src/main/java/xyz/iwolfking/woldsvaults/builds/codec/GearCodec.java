@@ -5,6 +5,7 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import iskallia.vault.config.UniqueGearConfig;
+import iskallia.vault.config.gear.EtchingTierConfig;
 import iskallia.vault.config.gear.VaultEtchingConfig;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.VaultGearRarity;
@@ -13,6 +14,8 @@ import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.attribute.VaultGearModifier;
+import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
+import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.data.UsesGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -36,6 +39,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -225,9 +229,13 @@ public final class GearCodec {
     }
 
     /**
-     * Etches a built item the way the etching anvil does (WoldGearModifierHelper.addEtching): the item becomes UNIQUE
-     * rarity, carries the etching id and the etching's modifier as an implicit, and is renamed. The modifier is rolled
-     * from the etching config at {@code greed_tier}; a given {@code value} replaces the rolled one.
+     * Etches a built item the way the Etching Application Table does, which Wold's lets etch unique and sealed gear
+     * (MixinEtchingApplicationTableTileEntity): the item becomes UNIQUE rarity, carries the etching id and the
+     * etching's modifier as an implicit, and is renamed. The modifier is rolled from the etching config at
+     * {@code greed_tier}; a given {@code value} replaces the rolled one. Every etching the table could not produce is
+     * an error: an already etched item, a gear type outside the etching's groups, a greed tier below the etching's
+     * minimum, an etching modifier already listed on the item, or a value outside what the etching rolls at that greed
+     * tier.
      */
     private static void applyEtching(ItemStack stack, JsonObject json, String path, BuildReport report) {
         Json.onlyKeys(json, path, Set.of("id", "value", "snbt", "greed_tier"));
@@ -239,12 +247,19 @@ public final class GearCodec {
         if (!(stack.getItem() instanceof VaultGearItem gearItem)) {
             throw new BuildException(path + ": only vault gear can be etched");
         }
+        VaultGearData data = VaultGearData.read(stack);
+        if (hasAttribute(data, ModGearAttributes.ETCHING)) {
+            throw new BuildException(path + ": the item already lists an etching attribute; an item holds one etching");
+        }
         List<String> groups = entry.getTypeGroups();
         if (!groups.isEmpty() && groups.stream().noneMatch(group -> ModConfigs.ETCHINGS.getGroup(group).contains(gearItem.getGearType(stack)))) {
-            report.bypassed(path + ": etching " + id + " may not go on " + gearItem.getGearType(stack) + " (allowed groups " + groups + ")");
+            throw new BuildException(path + ": etching " + id + " may not go on " + gearItem.getGearType(stack) + " (allowed groups " + groups + ")");
         }
         Integer greedTier = Json.optInt(json, "greed_tier", path);
         int tier = greedTier == null ? Math.max(entry.getMinGreedTier(), 0) : greedTier;
+        if (tier < entry.getMinGreedTier()) {
+            throw new BuildException(path + ".greed_tier: etching " + id + " first drops at greed tier " + entry.getMinGreedTier() + ", not " + tier);
+        }
         ItemStack etchingStack = EtchingItem.create(id, entry, RANDOM, tier).orElseThrow(
                 () -> new BuildException(path + ": etching " + id + " has no modifier at greed tier " + tier));
         List<VaultGearModifier<?>> rolled = VaultGearData.read(etchingStack).getModifiers(VaultGearModifier.AffixType.IMPLICIT);
@@ -252,14 +267,16 @@ public final class GearCodec {
             throw new BuildException(path + ": etching " + id + " rolled " + rolled.size() + " modifiers; expected one");
         }
         VaultGearModifier<?> modifier = rolled.get(0);
+        ResourceLocation etchingModifier = modifier.getModifierIdentifier();
+        if (etchingModifier != null && data.getModifiers(etchingModifier).findAny().isPresent()) {
+            throw new BuildException(path + ": the item already lists modifier " + etchingModifier + ", which etching " + id
+                    + " adds; leave it out of the item and let the etching add it");
+        }
         if (json.has("value") || json.has("snbt")) {
             modifier = withValue(modifier, json, path);
+            checkEtchingValue(modifier, etchingTiers(entry, modifier, tier), id, tier, path, report);
         } else {
             report.fallback(path + ": no etching value given; rolled " + readable(modifier) + " at greed tier " + tier);
-        }
-        VaultGearData data = VaultGearData.read(stack);
-        if (data.getRarity() == VaultGearRarity.UNIQUE) {
-            report.bypassed(path + ": the etching anvil refuses unique gear; etched " + id + " onto a unique anyway");
         }
         data.setRarity(VaultGearRarity.UNIQUE);
         data.createOrReplaceAttributeValue(ModGearAttributes.ETCHING, id, true);
@@ -273,6 +290,66 @@ public final class GearCodec {
             return String.valueOf(modifier.getAttribute().getType().serialize(modifier.getValue()));
         } catch (RuntimeException e) {
             return String.valueOf(modifier.getValue());
+        }
+    }
+
+    private static List<EtchingTierConfig.EtchingModifierTier<?>> etchingTiers(VaultEtchingConfig.EtchingEntry entry,
+                                                                            VaultGearModifier<?> modifier, int greedTier) {
+        List<EtchingTierConfig.EtchingModifierTier<?>> tiers = new ArrayList<>();
+        for (EtchingTierConfig.EtchingModifierTierGroup group : entry.getAttributes()) {
+            if (group.getAttribute().equals(modifier.getAttribute().getRegistryName())
+                    && Objects.equals(group.getIdentifier(), modifier.getModifierIdentifier())) {
+                tiers.addAll(group.getModifiersForGreedTier(greedTier));
+            }
+        }
+        return tiers;
+    }
+
+    /**
+     * Rejects an etching value outside the range the etching's tiers roll at {@code greedTier}. A value whose attribute
+     * has no ordering (talent levels, ability values) must match the range when the range is a single value; a spread
+     * range of such a value, or a generator that reports no range, cannot be checked and is reported as a fallback.
+     */
+    @SuppressWarnings("unchecked")
+    private static <T, C> void checkEtchingValue(VaultGearModifier<T> modifier, List<EtchingTierConfig.EtchingModifierTier<?>> tiers,
+                                                 ResourceLocation id, int greedTier, String path, BuildReport report) {
+        VaultGearAttribute<T> attribute = modifier.getAttribute();
+        if (tiers.isEmpty()) {
+            throw new BuildException(path + ": etching " + id + " has no " + attribute.getRegistryName() + " tier at greed tier " + greedTier);
+        }
+        ConfigurableAttributeGenerator<T, C> generator = (ConfigurableAttributeGenerator<T, C>) attribute.getGenerator();
+        List<C> configs = new ArrayList<>();
+        tiers.forEach(tier -> configs.add((C) tier.getModifierConfiguration()));
+        Optional<T> min = generator == null ? Optional.empty() : generator.getMinimumValue(configs);
+        Optional<T> max = generator == null ? Optional.empty() : generator.getMaximumValue(configs);
+        if (min.isEmpty() || max.isEmpty()) {
+            report.fallback(path + ": etching " + id + " reports no value range for " + attribute.getRegistryName()
+                    + "; the given value " + readable(modifier) + " was not range-checked");
+            return;
+        }
+        T value = modifier.getValue();
+        VaultGearAttributeComparator<T> comparator = attribute.getAttributeComparator();
+        boolean inRange;
+        if (comparator != null) {
+            inRange = comparator.compare(value, min.get()) >= 0 && comparator.compare(value, max.get()) <= 0;
+        } else if (serialized(attribute, min.get()).equals(serialized(attribute, max.get()))) {
+            inRange = serialized(attribute, value).equals(serialized(attribute, min.get()));
+        } else {
+            report.fallback(path + ": " + attribute.getRegistryName() + " values have no ordering; the given value "
+                    + readable(modifier) + " was not range-checked against etching " + id);
+            return;
+        }
+        if (!inRange) {
+            throw new BuildException(path + ".value: etching " + id + " rolls " + serialized(attribute, min.get()) + " to "
+                    + serialized(attribute, max.get()) + " at greed tier " + greedTier + ", not " + readable(modifier));
+        }
+    }
+
+    private static <T> String serialized(VaultGearAttribute<T> attribute, T value) {
+        try {
+            return String.valueOf(attribute.getType().serialize(value));
+        } catch (RuntimeException e) {
+            return String.valueOf(value);
         }
     }
 
