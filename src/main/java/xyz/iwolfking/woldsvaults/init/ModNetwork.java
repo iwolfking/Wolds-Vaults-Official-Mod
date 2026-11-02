@@ -56,6 +56,8 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, SuppressorUpdateMessage.class, SuppressorUpdateMessage::encode, SuppressorUpdateMessage::decode, SuppressorUpdateMessage::handle);
         CHANNEL.registerMessage(id++, RiptideFxMessage.class, RiptideFxMessage::encode, RiptideFxMessage::decode, RiptideFxMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         id = ArmoryNetwork.register(CHANNEL, id);
+        CHANNEL.registerMessage(id++, BossDpsSnapshotMessage.class, BossDpsSnapshotMessage::encode, BossDpsSnapshotMessage::decode, BossDpsSnapshotMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, ServerboundResetBossDpsMessage.class, ServerboundResetBossDpsMessage::encode, ServerboundResetBossDpsMessage::decode, ServerboundResetBossDpsMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static <T> void sendToServer(T message) {

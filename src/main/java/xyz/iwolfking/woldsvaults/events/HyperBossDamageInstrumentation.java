@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import iskallia.vault.world.data.ServerVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.api.util.DamageNumberFormat;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.DamageMultiplierAccessor;
@@ -124,9 +125,9 @@ public final class HyperBossDamageInstrumentation {
         if (attacker instanceof Player player) {
             AttributeInstance attack = player.getAttribute(Attributes.ATTACK_DAMAGE);
             MobEffectInstance strength = player.getEffect(MobEffects.DAMAGE_BOOST);
-            attackerInfo = String.format("player %s [attackDamageAttr=%.1f, strengthAmp=%s, mainHand=%s]",
+            attackerInfo = String.format("player %s [attackDamageAttr=%s, strengthAmp=%s, mainHand=%s]",
                     player.getGameProfile().getName(),
-                    attack == null ? -1.0 : attack.getValue(),
+                    attack == null ? "?" : DamageNumberFormat.format(attack.getValue()),
                     strength == null ? "none" : strength.getAmplifier(),
                     player.getMainHandItem().isEmpty() ? "empty" : player.getMainHandItem().getItem().getRegistryName());
         } else {
@@ -135,14 +136,14 @@ public final class HyperBossDamageInstrumentation {
 
         WoldsVaults.LOGGER.info(
                 "Hyperboss hurt chain: raw {} | xHIGH {} | xNORMAL {} | xLOW {} | xLOWEST {} -> final {} ({}% of max) | mastery x{} | source={} attacker={} | boss {}/{}",
-                a == null ? "?" : String.format("%.1f", a[0]),
+                a == null ? "?" : DamageNumberFormat.format(a[0]),
                 bandMultiplier(a, 0, 1), bandMultiplier(a, 1, 2), bandMultiplier(a, 2, 3),
                 a == null || Float.isNaN(a[3]) || a[3] == 0.0F ? "?" : String.format("%.2f", finalAmount / a[3]),
-                String.format("%.1f", finalAmount),
+                DamageNumberFormat.format(finalAmount),
                 String.format("%.4f", 100.0F * finalAmount / boss.getMaxHealth()),
                 String.format("%.2f", TrialMastery.getMultiplier(ServerVaults.get(boss.level).orElse(null))),
                 event.getSource().getMsgId(), attackerInfo,
-                String.format("%.0f", boss.getHealth()), String.format("%.0f", boss.getMaxHealth()));
+                DamageNumberFormat.format(boss.getHealth()), DamageNumberFormat.format(boss.getMaxHealth()));
         if (attacker instanceof ServerPlayer serverPlayer) {
             logHitDetail(serverPlayer, boss);
         }
@@ -178,7 +179,7 @@ public final class HyperBossDamageInstrumentation {
                         access.getTickTimeout() == Integer.MAX_VALUE ? "inf" : String.valueOf(access.getTickTimeout())));
             }
             MobEffectInstance vulnerable = boss.getEffect(ModEffects.VULNERABLE);
-            WoldLogger.debug(
+            WoldsVaults.LOGGER.info(
                     "  hit detail: charge={} fatalStrike={} (chance {} | +{}% dmg) | damageHelper x{} = (1+{}) x {} from:{} | rage {} (x{}/pt) | retribution {} (x{}/pt) | target vulnerableAmp={}",
                     String.format("%.2f", AttackScaleHelper.getLastAttackScale(player)),
                     CritHelper.getCrit(player),
@@ -223,9 +224,9 @@ public final class HyperBossDamageInstrumentation {
         }
         Float start = DAMAGE_PHASE_START.get();
         DAMAGE_PHASE_START.remove();
-        WoldLogger.debug("Hyperboss post-armor: {} -> {} (x{})",
-                start == null ? "?" : String.format("%.1f", start),
-                String.format("%.1f", event.getAmount()),
+        WoldsVaults.LOGGER.info("Hyperboss post-armor: {} -> {} (x{})",
+                start == null ? "?" : DamageNumberFormat.format(start),
+                DamageNumberFormat.format(event.getAmount()),
                 start == null || start == 0.0F ? "?" : String.format("%.2f", event.getAmount() / start));
     }
 }
